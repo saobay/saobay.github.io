@@ -1,0 +1,546 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hệ Thống Khảo Thị Thông Minh - Kết Nối Tri Thức</title>
+  <script src="https://unpkg.com/html-docx-js/dist/html-docx.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  
+  <style>
+    :root{
+      --ink:#12304a;--muted:#607487;--line:#d9e4eb;--paper:#f7fafb;
+      --white:#fff;--teal:#087f83;--teal-dark:#075d66;--gold:#e7b34a;
+      --shadow:0 10px 25px rgba(19,54,72,.08);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;padding:15px;color:var(--ink);background:var(--paper);font-family:"Segoe UI",Roboto,sans-serif;font-size:14px}
+    .card{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:20px;box-shadow:var(--shadow);max-width:1100px;margin:0 auto}
+    .card-title{margin:0 0 15px;color:var(--teal-dark);font-size:1.2rem;font-weight:700;display:flex;align-items:center;gap:8px;border-bottom:2px solid #eef8f7;padding-bottom:10px}
+    .form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:15px}
+    .form-group{display:flex;flex-direction:column;gap:5px}
+    .form-group.full{grid-column:1 / -1}
+    label{font-weight:600;color:var(--ink);font-size:0.85rem}
+    input,select,textarea{padding:9px 12px;border:1px solid var(--line);border-radius:6px;font-family:inherit;font-size:0.9rem;color:var(--ink);background:#fcfdfe}
+    input:focus,select:focus,textarea:focus{outline:none;border-color:var(--teal);background:#fff}
+    textarea{resize:vertical;min-height:75px}
+    .matrix-config-box{background:#f8fafc;border:1px solid var(--line);border-radius:8px;padding:12px;margin-bottom:15px}
+    .matrix-config-title{font-weight:700;font-size:0.85rem;color:var(--teal-dark);margin-bottom:8px}
+    .ratio-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+    .workflow-container{margin-top:15px;border-top:2px dashed var(--line);padding-top:15px}
+    .workflow-title{font-weight:700;color:var(--teal-dark);margin-bottom:12px}
+    .steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+    .step-card{background:#f8fafc;border:1px solid var(--line);border-radius:8px;padding:14px;display:flex;flex-direction:column;justify-content:space-between;gap:10px}
+    .step-header{font-weight:700;font-size:0.9rem;color:var(--teal-dark);display:flex;align-items:center;gap:6px}
+    .step-header span{background:var(--teal);color:#fff;width:22px;height:22px;border-radius:50%;display:inline-grid;place-items:center;font-size:0.75rem}
+    .step-desc{font-size:0.8rem;color:var(--muted);line-height:1.4}
+    .btn-step{width:100%;padding:10px;border:none;border-radius:6px;color:#fff;font-weight:600;font-size:0.85rem;cursor:pointer;transition:all 0.2s}
+    .btn-step-1{background:linear-gradient(135deg, #087f83, #075d66)}
+    .btn-step-2{background:linear-gradient(135deg, #2563eb, #1d4ed8)}
+    .btn-step:hover{opacity:0.92}
+    .import-section{margin-top:20px;background:#f0f4f8;padding:15px;border-radius:8px;border:1px solid var(--line)}
+    .btn-export{padding:10px 15px;border:none;border-radius:6px;color:#fff;font-weight:600;cursor:pointer;margin-right:8px;margin-top:8px}
+    .btn-word{background:#059669}
+    .btn-excel{background:#2563eb}
+    .ai-links{display:flex;gap:10px;margin-top:15px;justify-content:center}
+    .btn-ai{padding:8px 16px;border-radius:6px;text-decoration:none;font-weight:600;font-size:0.82rem;color:#fff}
+    .btn-chatgpt{background:#10a37f}
+    .btn-gemini{background:#1a73e8}
+    .log-box{margin-top:15px;padding:10px 14px;background:#1e293b;color:#f8fafc;border-radius:6px;font-family:monospace;font-size:0.82rem;display:none}
+    .log-box.active{display:block}
+    .log-time{color:var(--gold);margin-right:8px}
+    .status-badge{display:inline-block;padding:3px 8px;border-radius:4px;font-size:0.75rem;font-weight:600;background:#e2e8f0;color:#475569;margin-bottom:5px}
+    .status-badge.active{background:#dcfce7;color:#166534}
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <div class="card-title">📌 Thiết Lập Ma Trận & Biên Soạn Đề Kiểm Tra Sách Kết Nối Tri Thức</div>
+  
+  <form id="examForm">
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="monHoc">Môn học</label>
+        <select id="monHoc">
+          <option value="Toán" selected>Toán</option>
+          <option value="Vật lí">Vật lí</option>
+          <option value="Hóa học">Hóa học</option>
+          <option value="Sinh học">Sinh học</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="khoiLop">Khối lớp</label>
+        <select id="khoiLop">
+          <option value="10" selected>Lớp 10</option>
+          <option value="11">Lớp 11</option>
+          <option value="12">Lớp 12</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="loaiDe">Loại bài kiểm tra</label>
+        <select id="loaiDe">
+          <option value="Giữa kỳ I" selected>Giữa kỳ I</option>
+          <option value="Cuối kỳ I">Cuối kỳ I</option>
+          <option value="Giữa kỳ II">Giữa kỳ II</option>
+          <option value="Cuối kỳ II">Cuối kỳ II</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="thoiGian">Thời gian làm bài</label>
+        <select id="thoiGian">
+          <option value="45 phút">45 phút</option>
+          <option value="90 phút" selected>90 phút</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="matrix-config-box">
+      <div class="matrix-config-title">⚙️ Định hướng tỷ lệ phân bổ nhận thức chung (Gợi ý cho AI cân đối)</div>
+      <div class="ratio-grid">
+        <div class="form-group">
+          <label for="tyLeNB">Nhận biết (%)</label>
+          <input type="text" id="tyLeNB" value="40%" placeholder="Ví dụ: 40%">
+        </div>
+        <div class="form-group">
+          <label for="tyLeTH">Thông hiểu (%)</label>
+          <input type="text" id="tyLeTH" value="30%" placeholder="Ví dụ: 30%">
+        </div>
+        <div class="form-group">
+          <label for="tyLeVD">Vận dụng (%)</label>
+          <input type="text" id="tyLeVD" value="20%" placeholder="Ví dụ: 20%">
+        </div>
+        <div class="form-group">
+          <label for="tyLeVDC">Vận dụng cao (%)</label>
+          <input type="text" id="tyLeVDC" value="10%" placeholder="Ví dụ: 10%">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group full">
+      <label for="phamVi">Phạm vi nội dung kiểm tra & Yêu cầu đặc thù (Sách Kết nối tri thức)</label>
+      <textarea id="phamVi">Kiểm tra từ Chương I đến hết Chương II. AI tự động phân tích cấu trúc chương trình, nội dung trọng tâm và phân bổ số lượng câu hỏi, thời gian sao cho toàn diện, thực tế nhất.</textarea>
+    </div>
+  </form>
+
+  <div class="workflow-container">
+    <div class="workflow-title">🔄 Quy Trình Liên Mạch (Bước 1 ➔ Bước 2)</div>
+    
+    <div class="steps-grid">
+      <div class="step-card">
+        <div>
+          <div class="step-header"><span>1</span> AI Phân Tích & Lập Ma Trận</div>
+          <div class="step-desc">AI tự phân tích chương trình SGK, định lượng số câu theo định dạng khối không sợ lỗi.</div>
+        </div>
+        <div>
+          <button type="button" class="btn-step btn-step-1" onclick="generateMatrixPrompt()">📋 Lấy Prompt Bước 1</button>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div>
+          <div id="matrixStatus" class="status-badge">⚠️ Chưa có Ma trận trong bộ nhớ</div>
+          <div class="step-header"><span>2</span> Tạo Đề Thi Bám Sát Ma Trận Bước 1</div>
+          <div class="step-desc">Tự động nạp cấu trúc ma trận chuẩn hóa sang để sinh đề thi hoàn chỉnh.</div>
+        </div>
+        <div>
+          <button type="button" class="btn-step btn-step-2" onclick="generateExamPrompt()">📋 Lấy Prompt Bước 2</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="import-section">
+    <label for="jsonInput" style="font-weight:700; color:var(--teal-dark);">📥 Dán nội dung cấu trúc từ AI vào đây (Hỗ trợ Định dạng Khối Text):</label>
+    <textarea id="jsonInput" placeholder="Dán kết quả từ ChatGPT/Gemini vào đây. Hệ thống tự động bóc tách an toàn tuyệt đối..."></textarea>
+    
+    <button type="button" class="btn-export btn-word" onclick="exportToWord()">📄 Xuất ra File Word (.docx)</button>
+    <button type="button" class="btn-export btn-excel" onclick="exportToExcel()">📊 Xuất ra File Excel (.xlsx)</button>
+  </div>
+
+  <div class="ai-links">
+    <a href="https://chatgpt.com/" target="_blank" class="btn-ai btn-chatgpt">🚀 Mở ChatGPT</a>
+    <a href="https://gemini.google.com/" target="_blank" class="btn-ai btn-gemini">✨ Mở Gemini</a>
+  </div>
+
+  <div id="logBox" class="log-box"></div>
+</div>
+
+<script>
+  window.onload = function() {
+    const cached = localStorage.getItem('savedMatrixDataBlock');
+    if(cached) {
+      document.getElementById('matrixStatus').className = "status-badge active";
+      document.getElementById('matrixStatus').innerText = "✅ Đã lưu Ma trận từ Bước 1";
+    }
+  };
+
+  function getFormData() {
+    return {
+      mon: document.getElementById('monHoc').value,
+      khoi: document.getElementById('khoiLop').value,
+      loai: document.getElementById('loaiDe').value,
+      thoiGian: document.getElementById('thoiGian').value,
+      phamVi: document.getElementById('phamVi').value.trim(),
+      nb: document.getElementById('tyLeNB').value,
+      th: document.getElementById('tyLeTH').value,
+      vd: document.getElementById('tyLeVD').value,
+      vdc: document.getElementById('tyLeVDC').value
+    };
+  }
+
+  // Bước 1: Prompt được tối ưu hóa đầy đủ chi tiết từng bài học theo chuẩn khảo thị
+  function generateMatrixPrompt() {
+    const d = getFormData();
+    const promptText = `[VAI TRÒ: CHUYÊN GIA KHẢO THÍ CAO CẤP - SÁCH KẾT NỐI TRI THỨC]
+Hãy lập một **Ma trận đề kiểm tra và Bản đặc tả chi tiết** hoàn chỉnh, đầy đủ tất cả các chương/bài trong phạm vi: "${d.phamVi}" cho môn ${d.mon} Lớp ${d.khoi}, thời gian làm bài ${d.thoiGian}, loại ${d.loai}.
+Định hướng tỷ lệ nhận thức chung: Nhận biết ${d.nb}, Thông hiểu ${d.th}, Vận dụng ${d.vd}, Vận dụng cao ${d.vdc}.
+
+YÊU CẦU BẮT BUỘC: 
+- Không được gộp chung sơ sài hoặc bỏ sót nội dung. 
+- Phải liệt kê chi tiết từng chương, từng bài học/đơn vị kiến thức cụ thể.
+- Phải cung cấp đầy đủ định lượng số câu hỏi, thời gian cho từng mức độ (Nhận biết, Thông hiểu, Vận dụng, Vận dụng cao) và mô tả hành vi cần đạt chi tiết cho từng mức độ giống ma trận chuẩn của trường chuyên nghiệp.
+
+QUY ĐỊNH ĐỊNH DẠNG ĐẦU RA (DÙNG TAG BLOCK AN TOÀN TUYỆT ĐỐI, KHÔNG DÙNG JSON):
+
+===MATRIX_START===
+TITLE: MA TRẬN & BẢN ĐẶC TẢ ĐỀ KIỂM TRA ${d.loai.toUpperCase()} MÔN ${d.mon.toUpperCase()} - LỚP ${d.khoi} (SÁCH KẾT NỐI TRI THỨC)
+
+UNIT_START
+TT: 1
+CHUDE: Tên chương (Ví dụ: Chương I. Mệnh đề và tập hợp)
+DONVI: Tên đơn vị kiến thức/Bài cụ thể (Ví dụ: Mệnh đề, Tập hợp và các phép toán)
+NB_SL: 2 | NB_TG: 4
+TH_SL: 2 | TH_TG: 6
+VD_SL: 1 | VD_TG: 5
+VDC_SL: 0 | VDC_TG: 0
+TONG_SL: 5 | TONG_TG: 15
+CHI_TIET_NB: - Nhận biết: Nêu rõ các yêu cầu cần đạt về lý thuyết cơ bản...
+CHI_TIET_TH: - Thông hiểu: Nêu rõ các yêu cầu hiểu và áp dụng trực tiếp...
+CHI_TIET_VD: - Vận dụng: Nêu rõ các bài toán tính toán hoặc thực tiễn cấp độ vận dụng...
+CHI_TIET_VDC: - Vận dụng cao: Nêu rõ các bài toán tư duy nâng cao, cực trị, tham số...
+UNIT_END
+
+(Tiếp tục lặp lại khối UNIT_START ... UNIT_END cho đầy đủ tất cả các bài còn lại trong chương trình để khớp hoàn toàn với thời lượng ${d.thoiGian}).
+===MATRIX_END===`;
+
+    navigator.clipboard.writeText(promptText).then(() => {
+      showLog("Đã cập nhật Prompt Bước 1 chi tiết bám sát mẫu chuẩn. Hãy dán vào AI!");
+    });
+  }
+
+  // Bước 2: Nạp dữ liệu khối text sang sinh đề thi
+  function generateExamPrompt() {
+    const d = getFormData();
+    const rawText = document.getElementById('jsonInput').value.trim();
+    
+    let matrixContext = "Bám sát phạm vi: " + d.phamVi;
+    if (rawText) {
+      try {
+        const parsed = parseBlockText(rawText);
+        if (parsed.units && parsed.units.length > 0) {
+          localStorage.setItem('savedMatrixDataBlock', rawText);
+          matrixContext = rawText;
+        }
+      } catch(e) {
+        const cached = localStorage.getItem('savedMatrixDataBlock');
+        if(cached) matrixContext = cached;
+      }
+    } else {
+      const cached = localStorage.getItem('savedMatrixDataBlock');
+      if(cached) matrixContext = cached;
+    }
+
+    const promptText = `[VAI TRÒ: GIÁO VIÊN RA ĐỀ THI CHUYÊN NGHIỆP - SÁCH KẾT NỐI TRI THỨC]
+Dựa hoàn toàn vào CẤU TRÚC MA TRẬN VÀ BẢN ĐẶC TẢ CHI TIẾT SAU ĐÂY, hãy biên soạn chính xác 01 Đề kiểm tra ${d.loai} môn ${d.mon} Lớp ${d.khoi} (${d.thoiGian}):
+${matrixContext}
+
+QUY ĐỊNH ĐỊNH DẠNG ĐẦU RA CHO ĐỀ THI:
+Sử dụng cấu trúc Block Text để không bị lỗi ký hiệu toán học:
+
+===EXAM_START===
+TITLE: ĐỀ KIỂM TRA ${d.loai.toUpperCase()} MÔN ${d.mon.toUpperCase()} - LỚP ${d.khoi} (SÁCH KẾT NỐI TRI THỨC)
+QUESTION_START
+ID: 1
+TYPE: TN
+CONTENT: Nội dung câu hỏi chứa công thức $x^2 + 1 = 0$...
+OPTION: A. $x = 1$
+OPTION: B. $x = -1$
+OPTION: C. $x = \pm 1$
+OPTION: D. Vô nghiệm
+ANSWER: D
+EXPLANATION: Lời giải chi tiết...
+QUESTION_END
+===EXAM_END===`;
+
+    navigator.clipboard.writeText(promptText).then(() => {
+      showLog("Đã sao chép Prompt Bước 2! Gửi sang AI để sinh đề thi hoàn chỉnh.");
+    });
+  }
+
+  function showLog(msg) {
+    const logBox = document.getElementById('logBox');
+    const now = new Date().toLocaleTimeString('vi-VN');
+    logBox.className = "log-box active";
+    logBox.innerHTML = `<span class="log-time">[${now}]</span> ✅ <strong>${msg}</strong>`;
+  }
+
+  // Hàm phân tích khối Ma Trận chuẩn Block Text (Không bao giờ lỗi cú pháp)
+  function parseBlockText(text) {
+    let result = { matrixTitle: "BẢNG MA TRẬN & BẢN ĐẶC TẢ", units: [] };
+    let titleMatch = text.match(/TITLE:\s*(.*)/i);
+    if (titleMatch) {
+      result.matrixTitle = titleMatch[1].trim();
+    }
+
+    let unitBlocks = text.split(/UNIT_START/i);
+    unitBlocks.shift();
+
+    unitBlocks.forEach(block => {
+      let getField = (fieldName) => {
+        let regex = new RegExp(fieldName + ':\\s*(.*)', 'i');
+        let match = block.match(regex);
+        return match ? match[1].trim() : '';
+      };
+
+      let unit = {
+        tt: parseInt(getField('TT')) || 1,
+        chuDe: getField('CHUDE'),
+        donViKienThuc: getField('DONVI'),
+        nhanBiet_SoCH: parseInt(getField('NB_SL')) || 0,
+        nhanBiet_ThoiGian: parseInt(getField('NB_TG')) || 0,
+        thongHieu_SoCH: parseInt(getField('TH_SL')) || 0,
+        thongHieu_ThoiGian: parseInt(getField('TH_TG')) || 0,
+        vanDung_SoCH: parseInt(getField('VD_SL')) || 0,
+        vanDung_ThoiGian: parseInt(getField('VD_TG')) || 0,
+        vanDungCao_SoCH: parseInt(getField('VDC_SL')) || 0,
+        vanDungCao_ThoiGian: parseInt(getField('VDC_TG')) || 0,
+        tongSoCH: parseInt(getField('TONG_SL')) || 0,
+        tongThoiGian: parseInt(getField('TONG_TG')) || 0,
+        chiTietNhanBiet: getField('CHI_TIET_NB'),
+        chiTietThongHieu: getField('CHI_TIET_TH'),
+        chiTietVanDung: getField('CHI_TIET_VD'),
+        chiTietVanDungCao: getField('CHI_TIET_VDC')
+      };
+      result.units.push(unit);
+    });
+
+    return result;
+  }
+
+  // Hàm phân tích Đề Thi chuẩn Block Text
+  function parseExamBlockText(text) {
+    let result = { examTitle: "ĐỀ KIỂM TRA CHẤT LƯỢNG", questions: [] };
+    let titleMatch = text.match(/TITLE:\s*(.*)/i);
+    if (titleMatch) {
+      result.examTitle = titleMatch[1].trim();
+    }
+
+    let qBlocks = text.split(/QUESTION_START/i);
+    qBlocks.shift();
+
+    qBlocks.forEach(block => {
+      let getField = (fieldName) => {
+        let regex = new RegExp(fieldName + ':\\s*(.*)', 'i');
+        let match = block.match(regex);
+        return match ? match[1].trim() : '';
+      };
+
+      let options = [];
+      let optRegex = /OPTION:\s*(.*)/gi;
+      let match;
+      while ((match = optRegex.exec(block)) !== null) {
+        options.push(match[1].trim());
+      }
+
+      let q = {
+        id: parseInt(getField('ID')) || 1,
+        type: getField('TYPE') || 'TN',
+        content: getField('CONTENT'),
+        options: options,
+        answer: getField('ANSWER'),
+        explanation: getField('EXPLANATION')
+      };
+      result.questions.push(q);
+    });
+
+    return result;
+  }
+
+  function escapeHtml(text) {
+    if (!text) return '';
+    return String(text)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
+
+  // Xuất file Word thông minh
+  function exportToWord() {
+    try {
+      const rawText = document.getElementById('jsonInput').value.trim();
+      if (!rawText) {
+        alert("Vui lòng dán dữ liệu từ AI vào ô trống trước khi xuất file!");
+        return;
+      }
+      
+      let data;
+      let isExam = rawText.includes("QUESTION_START") || rawText.includes("examTitle");
+
+      if (rawText.startsWith("{")) {
+        data = JSON.parse(rawText);
+        isExam = data.examTitle || data.questions;
+      } else {
+        if (rawText.includes("UNIT_START") || rawText.includes("MATRIX_START")) {
+          data = parseBlockText(rawText);
+          isExam = false;
+        } else if (rawText.includes("QUESTION_START") || rawText.includes("EXAM_START")) {
+          data = parseExamBlockText(rawText);
+          isExam = true;
+        } else {
+          throw new Error("Không nhận diện được định dạng dữ liệu. Hãy đảm bảo bạn copy đúng khối văn bản từ AI.");
+        }
+      }
+      
+      let html = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+      <head><meta charset='utf-8'></head>
+      <body style="font-family:'Times New Roman',serif; font-size:13pt; line-height: 1.3;">`;
+
+      if (!isExam) {
+        if(data.units) {
+          localStorage.setItem('savedMatrixDataBlock', rawText);
+          document.getElementById('matrixStatus').className = "status-badge active";
+          document.getElementById('matrixStatus').innerText = "✅ Đã lưu Ma trận từ Bước 1";
+        }
+
+        html += `<h2 style="text-align:center;">${escapeHtml(data.matrixTitle || "BẢNG MA TRẬN & BẢN ĐẶC TẢ ĐỀ KIỂM TRA")}</h2>`;
+        html += `<br><h3>1. BẢNG MA TRẬN TỔNG HỢP</h3>`;
+        html += `<table border="1" style="border-collapse:collapse; width:100%; font-size:9.5pt; text-align:center;">
+          <tr style="background:#f2f2f2;">
+            <th rowspan="2">TT</th>
+            <th rowspan="2">Chủ đề</th>
+            <th rowspan="2">Đơn vị kiến thức</th>
+            <th colspan="2">Nhận biết</th>
+            <th colspan="2">Thông hiểu</th>
+            <th colspan="2">Vận dụng</th>
+            <th colspan="2">Vận dụng cao</th>
+            <th rowspan="2">Tổng số CH</th>
+            <th rowspan="2">Tổng TG (phút)</th>
+          </tr>
+          <tr style="background:#f2f2f2;">
+            <th>SL</th><th>TG</th><th>SL</th><th>TG</th><th>SL</th><th>TG</th><th>SL</th><th>TG</th>
+          </tr>`;
+        
+        if(data.units) {
+          data.units.forEach(u => {
+            html += `<tr>
+              <td>${u.tt || ''}</td>
+              <td style="text-align:left;"><b>${escapeHtml(u.chuDe)}</b></td>
+              <td style="text-align:left;">${escapeHtml(u.donViKienThuc)}</td>
+              <td>${u.nhanBiet_SoCH || 0}</td><td>${u.nhanBiet_ThoiGian || 0}</td>
+              <td>${u.thongHieu_SoCH || 0}</td><td>${u.thongHieu_ThoiGian || 0}</td>
+              <td>${u.vanDung_SoCH || 0}</td><td>${u.vanDung_ThoiGian || 0}</td>
+              <td>${u.vanDungCao_SoCH || 0}</td><td>${u.vanDungCao_ThoiGian || 0}</td>
+              <td><b>${u.tongSoCH || 0}</b></td><td><b>${u.tongThoiGian || 0}</b></td>
+            </tr>`;
+          });
+        }
+        html += `</table>`;
+
+        if(data.units) {
+          html += `<br><h3>2. BẢNG ĐẶC TẢ KỸ THUẬT CHI TIẾT</h3>`;
+          data.units.forEach((u, idx) => {
+            html += `<p><b>${idx + 1}. ${escapeHtml(u.donViKienThuc)} (${escapeHtml(u.chuDe)})</b></p>`;
+            if(u.chiTietNhanBiet) html += `<p style="margin-left:15px;">- <i>Nhận biết: ${escapeHtml(u.chiTietNhanBiet)}</i></p>`;
+            if(u.chiTietThongHieu) html += `<p style="margin-left:15px;">- <i>Thông hiểu: ${escapeHtml(u.chiTietThongHieu)}</i></p>`;
+            if(u.chiTietVanDung) html += `<p style="margin-left:15px;">- <i>Vận dụng: ${escapeHtml(u.chiTietVanDung)}</i></p>`;
+            if(u.chiTietVanDungCao) html += `<p style="margin-left:15px;">- <i>Vận dụng cao: ${escapeHtml(u.chiTietVanDungCao)}</i></p>`;
+          });
+        }
+
+      } else {
+        html += `<h2 style="text-align:center;">${escapeHtml(data.examTitle || "ĐỀ KIỂM TRA CHẤT LƯỢNG")}</h2>`;
+        html += `<h3>PHẦN I. TRẮC NGHIỆM KHÁCH QUAN</h3>`;
+        
+        if(data.questions) {
+          data.questions.filter(q => q.type === 'TN' || !q.type).forEach(q => {
+            html += `<p><b>Câu ${q.id}:</b> ${escapeHtml(q.content)}</p>`;
+            if(q.options) {
+              q.options.forEach(opt => { 
+                html += `<p style="margin-left:20px;">${escapeHtml(opt)}</p>`; 
+              });
+            }
+          });
+          
+          const tlList = data.questions.filter(q => q.type === 'TL');
+          if(tlList.length > 0) {
+            html += `<br><h3>PHẦN II. TỰ LUẬN</h3>`;
+            tlList.forEach(q => {
+              html += `<p><b>Bài ${q.id}:</b> ${escapeHtml(q.content)}</p>`;
+            });
+          }
+
+          html += `<br><h2 style="text-align:center;">HƯỚNG DẪN CHẤM & LỜI GIẢI CHI TIẾT</h2>`;
+          data.questions.forEach(q => {
+            if(q.answer) {
+              html += `<p><b>Câu ${q.id}:</b> Đáp án đúng: <b>${escapeHtml(q.answer)}</b></p>`;
+            }
+            if(q.explanation) {
+              html += `<p style="color:navy; margin-left:15px;"><i>Lời giải chi tiết: ${escapeHtml(q.explanation)}</i></p>`;
+            }
+          });
+        }
+      }
+
+      html += `</body></html>`;
+      let blob = htmlDocx.asBlob(html);
+      saveAs(blob, "TaiLieu_KhaoThi_KNTT.docx");
+      showLog("Xuất file Word thành công không lỗi ký tự!");
+    } catch (e) {
+      alert("Lỗi xử lý: " + e.message);
+    }
+  }
+
+  // Xuất file Excel
+  function exportToExcel() {
+    try {
+      const rawText = document.getElementById('jsonInput').value.trim();
+      let data;
+      if (rawText.startsWith("{")) {
+        data = JSON.parse(rawText);
+      } else if (rawText.includes("UNIT_START")) {
+        data = parseBlockText(rawText);
+      } else {
+        data = parseExamBlockText(rawText);
+      }
+      
+      let wsData = [];
+      if (data.units) {
+        wsData = [["TT", "Chủ đề", "Đơn vị kiến thức", "NB (SL)", "NB (TG)", "TH (SL)", "TH (TG)", "VD (SL)", "VD (TG)", "VDC (SL)", "VDC (TG)", "Tổng SL", "Tổng TG"]];
+        data.units.forEach(u => {
+          wsData.push([u.tt, u.chuDe, u.donViKienThuc, u.nhanBiet_SoCH, u.nhanBiet_ThoiGian, u.thongHieu_SoCH, u.thongHieu_ThoiGian, u.vanDung_SoCH, u.vanDung_ThoiGian, u.vanDungCao_SoCH, u.vanDungCao_ThoiGian, u.tongSoCH, u.tongThoiGian]);
+        });
+      } else if (data.questions) {
+        wsData = [["ID", "Loại", "Nội Dung", "Đáp Án", "Lời Giải"]];
+        data.questions.forEach(q => {
+          wsData.push([q.id, q.type || "TN", q.content, q.answer, q.explanation]);
+        });
+      }
+
+      const wb = XLSX.utils.book_new();
+      const ws = XLSX.utils.aoa_to_sheet(wsData);
+      XLSX.utils.book_append_sheet(wb, ws, "DuLieuKhaoThi");
+      XLSX.writeFile(wb, "Du_Lieu_KhaoThi.xlsx");
+      showLog("Xuất file Excel thành công!");
+    } catch (e) {
+      alert("Không thể xuất Excel do dữ liệu chưa đúng cấu trúc.");
+    }
+  }
+</script>
+
+</body>
+</html>
