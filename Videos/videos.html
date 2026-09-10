@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MKV Video Player</title>
+    <style>
+        /* Thiết lập giao diện chiếm toàn bộ khung hiển thị */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Giữ nguyên tỉ lệ video, không bị méo hình */
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Thẻ video với các thuộc tính điều khiển chuẩn -->
+    <video controls autoplay playsinline>
+        <!-- Trỏ trực tiếp tới file mkv nằm cùng thư mục videos/ -->
+        <source src="lichbaogiang.mkv" type="video/webm">
+        <source src="lichbaogiang.mkv" type="video/mp4">
+        <!-- Trình duyệt sẽ tự động nhận diện nếu hỗ trợ container mkv -->
+        <source src="lichbaogiang.mkv" type="video/x-matroska">
+        Trình duyệt của bạn không hỗ trợ thẻ video.
+    </video>
+
+</body>
+</html>
