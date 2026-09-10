@@ -68,6 +68,18 @@
           <option value="Vật lí">Vật lí</option>
           <option value="Hóa học">Hóa học</option>
           <option value="Sinh học">Sinh học</option>
+          <option value="Tin học">Tin học</option>
+          <option value="Ngữ Văn">Ngữ Văn</option>
+          <option value="Lịch sử">Lịch sử</option>
+          <option value="Địa lí">Địa lí</option>
+          <option value="Ngoại ngữ 1">Ngoại ngữ 1</option>
+          <option value="Công nghệ">Công nghệ</option>
+          <option value="GDQP-AN">GDQP-AN</option>
+          <option value="GDCD">GDCD</option>
+          <option value="Giáo dục thể chất">Giáo dục thể chất</option>
+          <option value="Hoạt động trải nghiệm, hướng nghiệp">Hoạt động trải nghiệm, hướng nghiệp</option>
+          <option value="Nội dung giáo dục của địa phương">Nội dung giáo dục của địa phương</option>
+          <option value="Giáo dục kinh tế và pháp luật">Giáo dục kinh tế và pháp luật</option>
         </select>
       </div>
 
@@ -100,23 +112,63 @@
     </div>
 
     <div class="matrix-config-box">
-      <div class="matrix-config-title">⚙️ Định hướng tỷ lệ phân bổ nhận thức chung (Gợi ý cho AI cân đối)</div>
+      <div class="matrix-config-title">⚙️ Cấu Trúc Số Lượng Câu Hỏi & Thang Điểm Chi Tiết Theo Dạng</div>
+      <div class="form-grid" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 10px;">
+        <div class="form-group">
+          <label for="numTN">Số câu 4 phương án</label>
+          <input type="number" id="numTN" value="12" min="0">
+        </div>
+        <div class="form-group">
+          <label for="numDS">Số câu Đúng/Sai</label>
+          <input type="number" id="numDS" value="4" min="0">
+        </div>
+        <div class="form-group">
+          <label for="numTLN">Số câu Trả lời ngắn</label>
+          <input type="number" id="numTLN" value="6" min="0">
+        </div>
+        <div class="form-group">
+          <label for="numTL">Số câu Tự luận</label>
+          <input type="number" id="numTL" value="2" min="0">
+        </div>
+      </div>
+      <div class="form-grid" style="grid-template-columns: repeat(4, 1fr);">
+        <div class="form-group">
+          <label for="scoreTN">Điểm / câu 4 PA</label>
+          <input type="text" id="scoreTN" value="0.25">
+        </div>
+        <div class="form-group">
+          <label for="scoreDS">Điểm / câu Đúng/Sai</label>
+          <input type="text" id="scoreDS" value="1.0">
+        </div>
+        <div class="form-group">
+          <label for="scoreTLN">Điểm / câu Trả lời ngắn</label>
+          <input type="text" id="scoreTLN" value="0.5">
+        </div>
+        <div class="form-group">
+          <label for="scoreTL">Điểm / câu Tự luận</label>
+          <input type="text" id="scoreTL" value="2.0">
+        </div>
+      </div>
+    </div>
+
+    <div class="matrix-config-box">
+      <div class="matrix-config-title">📊 Định hướng tỷ lệ phân bổ nhận thức chung</div>
       <div class="ratio-grid">
         <div class="form-group">
           <label for="tyLeNB">Nhận biết (%)</label>
-          <input type="text" id="tyLeNB" value="40%" placeholder="Ví dụ: 40%">
+          <input type="text" id="tyLeNB" value="40%">
         </div>
         <div class="form-group">
           <label for="tyLeTH">Thông hiểu (%)</label>
-          <input type="text" id="tyLeTH" value="30%" placeholder="Ví dụ: 30%">
+          <input type="text" id="tyLeTH" value="30%">
         </div>
         <div class="form-group">
           <label for="tyLeVD">Vận dụng (%)</label>
-          <input type="text" id="tyLeVD" value="20%" placeholder="Ví dụ: 20%">
+          <input type="text" id="tyLeVD" value="20%">
         </div>
         <div class="form-group">
           <label for="tyLeVDC">Vận dụng cao (%)</label>
-          <input type="text" id="tyLeVDC" value="10%" placeholder="Ví dụ: 10%">
+          <input type="text" id="tyLeVDC" value="10%">
         </div>
       </div>
     </div>
@@ -134,7 +186,7 @@
       <div class="step-card">
         <div>
           <div class="step-header"><span>1</span> AI Phân Tích & Lập Ma Trận</div>
-          <div class="step-desc">AI tự phân tích chương trình SGK, định lượng số câu theo định dạng khối không sợ lỗi.</div>
+          <div class="step-desc">AI định lượng chính xác số lượng từng dạng câu hỏi và thang điểm yêu cầu.</div>
         </div>
         <div>
           <button type="button" class="btn-step btn-step-1" onclick="generateMatrixPrompt()">📋 Lấy Prompt Bước 1</button>
@@ -189,51 +241,57 @@
       nb: document.getElementById('tyLeNB').value,
       th: document.getElementById('tyLeTH').value,
       vd: document.getElementById('tyLeVD').value,
-      vdc: document.getElementById('tyLeVDC').value
+      vdc: document.getElementById('tyLeVDC').value,
+      numTN: document.getElementById('numTN').value,
+      numDS: document.getElementById('numDS').value,
+      numTLN: document.getElementById('numTLN').value,
+      numTL: document.getElementById('numTL').value,
+      scoreTN: document.getElementById('scoreTN').value,
+      scoreDS: document.getElementById('scoreDS').value,
+      scoreTLN: document.getElementById('scoreTLN').value,
+      scoreTL: document.getElementById('scoreTL').value
     };
   }
 
-  // Bước 1: Prompt được tối ưu hóa đầy đủ chi tiết từng bài học theo chuẩn khảo thị
   function generateMatrixPrompt() {
     const d = getFormData();
     const promptText = `[VAI TRÒ: CHUYÊN GIA KHẢO THÍ CAO CẤP - SÁCH KẾT NỐI TRI THỨC]
-Hãy lập một **Ma trận đề kiểm tra và Bản đặc tả chi tiết** hoàn chỉnh, đầy đủ tất cả các chương/bài trong phạm vi: "${d.phamVi}" cho môn ${d.mon} Lớp ${d.khoi}, thời gian làm bài ${d.thoiGian}, loại ${d.loai}.
-Định hướng tỷ lệ nhận thức chung: Nhận biết ${d.nb}, Thông hiểu ${d.th}, Vận dụng ${d.vd}, Vận dụng cao ${d.vdc}.
+Hãy lập một **Ma trận đề kiểm tra và Bản đặc tả chi tiết** cho môn ${d.mon} Lớp ${d.khoi}, phạm vi: "${d.phamVi}", thời gian ${d.thoiGian}, loại ${d.loai}.
 
-YÊU CẦU BẮT BUỘC: 
-- Không được gộp chung sơ sài hoặc bỏ sót nội dung. 
-- Phải liệt kê chi tiết từng chương, từng bài học/đơn vị kiến thức cụ thể.
-- Phải cung cấp đầy đủ định lượng số câu hỏi, thời gian cho từng mức độ (Nhận biết, Thông hiểu, Vận dụng, Vận dụng cao) và mô tả hành vi cần đạt chi tiết cho từng mức độ giống ma trận chuẩn của trường chuyên nghiệp.
+CẤU TRÚC SỐ LƯỢNG VÀ THANG ĐIỂM BẮT BUỘC:
+- Phần 1 (Trắc nghiệm 4 phương án): ${d.numTN} câu (Thang điểm: ${d.scoreTN} điểm/câu)
+- Phần 2 (Đúng/Sai): ${d.numDS} câu (Thang điểm: ${d.scoreDS} điểm/câu)
+- Phần 3 (Trả lời ngắn): ${d.numTLN} câu (Thang điểm: ${d.scoreTLN} điểm/câu)
+- Phần 4 (Tự luận): ${d.numTL} câu (Thang điểm: ${d.scoreTL} điểm/câu)
+- Tỷ lệ nhận thức chung: Nhận biết ${d.nb}, Thông hiểu ${d.th}, Vận dụng ${d.vd}, Vận dụng cao ${d.vdc}.
 
-QUY ĐỊNH ĐỊNH DẠNG ĐẦU RA (DÙNG TAG BLOCK AN TOÀN TUYỆT ĐỐI, KHÔNG DÙNG JSON):
+YÊU CẦU: Phân chia chi tiết số câu theo các dạng này vào từng đơn vị kiến thức/chương.
 
+QUY ĐỊNH ĐỊNH DẠNG ĐẦU RA (DÙNG TAG BLOCK, KHÔNG DÙNG JSON):
 ===MATRIX_START===
-TITLE: MA TRẬN & BẢN ĐẶC TẢ ĐỀ KIỂM TRA ${d.loai.toUpperCase()} MÔN ${d.mon.toUpperCase()} - LỚP ${d.khoi} (SÁCH KẾT NỐI TRI THỨC)
+TITLE: MA TRẬN & BẢN ĐẶC TẢ ĐỀ KIỂM TRA ${d.loai.toUpperCase()} MÔN ${d.mon.toUpperCase()} - LỚP ${d.khoi}
 
 UNIT_START
 TT: 1
-CHUDE: Tên chương (Ví dụ: Chương I. Mệnh đề và tập hợp)
-DONVI: Tên đơn vị kiến thức/Bài cụ thể (Ví dụ: Mệnh đề, Tập hợp và các phép toán)
+CHUDE: Tên chương...
+DONVI: Đơn vị kiến thức cụ thể...
 NB_SL: 2 | NB_TG: 4
 TH_SL: 2 | TH_TG: 6
 VD_SL: 1 | VD_TG: 5
 VDC_SL: 0 | VDC_TG: 0
 TONG_SL: 5 | TONG_TG: 15
-CHI_TIET_NB: - Nhận biết: Nêu rõ các yêu cầu cần đạt về lý thuyết cơ bản...
-CHI_TIET_TH: - Thông hiểu: Nêu rõ các yêu cầu hiểu và áp dụng trực tiếp...
-CHI_TIET_VD: - Vận dụng: Nêu rõ các bài toán tính toán hoặc thực tiễn cấp độ vận dụng...
-CHI_TIET_VDC: - Vận dụng cao: Nêu rõ các bài toán tư duy nâng cao, cực trị, tham số...
+CHI_TIET_NB: Mô tả hành vi nhận biết...
+CHI_TIET_TH: Mô tả hành vi thông hiểu...
+CHI_TIET_VD: Mô tả hành vi vận dụng...
+CHI_TIET_VDC: Mô tả hành vi vận dụng cao...
 UNIT_END
-
-(Tiếp tục lặp lại khối UNIT_START ... UNIT_END cho đầy đủ tất cả các bài còn lại trong chương trình để khớp hoàn toàn với thời lượng ${d.thoiGian}).
 ===MATRIX_END===`;
 
     navigator.clipboard.writeText(promptText).then(() => {
-      showLog("Đã cập nhật Prompt Bước 1 chi tiết bám sát mẫu chuẩn. Hãy dán vào AI!");
+      showLog("Đã sao chép Prompt Bước 1 kèm cấu trúc số lượng và thang điểm. Hãy dán vào AI!");
     });
   }
 
-  // Bước 2: Nạp dữ liệu khối text sang sinh đề thi
   function generateExamPrompt() {
     const d = getFormData();
     const rawText = document.getElementById('jsonInput').value.trim();
@@ -259,19 +317,23 @@ UNIT_END
 Dựa hoàn toàn vào CẤU TRÚC MA TRẬN VÀ BẢN ĐẶC TẢ CHI TIẾT SAU ĐÂY, hãy biên soạn chính xác 01 Đề kiểm tra ${d.loai} môn ${d.mon} Lớp ${d.khoi} (${d.thoiGian}):
 ${matrixContext}
 
-QUY ĐỊNH ĐỊNH DẠNG ĐẦU RA CHO ĐỀ THI:
-Sử dụng cấu trúc Block Text để không bị lỗi ký hiệu toán học:
+CẤU TRÚC ĐỀ THI YÊU CẦU:
+- Phần I (Trắc nghiệm 4 phương án): ${d.numTN} câu (${d.scoreTN}đ/câu)
+- Phần II (Đúng/Sai): ${d.numDS} câu (${d.scoreDS}đ/câu - mỗi câu gồm 4 ý a, b, c, d)
+- Phần III (Trả lời ngắn): ${d.numTLN} câu (${d.scoreTLN}đ/câu)
+- Phần IV (Tự luận): ${d.numTL} câu (${d.scoreTL}đ/câu)
 
+QUY ĐỊNH ĐỊNH DẠNG ĐẦU RA CHO ĐỀ THI (Dùng Block Text):
 ===EXAM_START===
-TITLE: ĐỀ KIỂM TRA ${d.loai.toUpperCase()} MÔN ${d.mon.toUpperCase()} - LỚP ${d.khoi} (SÁCH KẾT NỐI TRI THỨC)
+TITLE: ĐỀ KIỂM TRA ${d.loai.toUpperCase()} MÔN ${d.mon.toUpperCase()} - LỚP ${d.khoi}
 QUESTION_START
 ID: 1
 TYPE: TN
-CONTENT: Nội dung câu hỏi chứa công thức $x^2 + 1 = 0$...
-OPTION: A. $x = 1$
-OPTION: B. $x = -1$
-OPTION: C. $x = \pm 1$
-OPTION: D. Vô nghiệm
+CONTENT: Nội dung câu hỏi...
+OPTION: A. ...
+OPTION: B. ...
+OPTION: C. ...
+OPTION: D. ...
 ANSWER: D
 EXPLANATION: Lời giải chi tiết...
 QUESTION_END
@@ -289,7 +351,6 @@ QUESTION_END
     logBox.innerHTML = `<span class="log-time">[${now}]</span> ✅ <strong>${msg}</strong>`;
   }
 
-  // Hàm phân tích khối Ma Trận chuẩn Block Text (Không bao giờ lỗi cú pháp)
   function parseBlockText(text) {
     let result = { matrixTitle: "BẢNG MA TRẬN & BẢN ĐẶC TẢ", units: [] };
     let titleMatch = text.match(/TITLE:\s*(.*)/i);
@@ -332,7 +393,6 @@ QUESTION_END
     return result;
   }
 
-  // Hàm phân tích Đề Thi chuẩn Block Text
   function parseExamBlockText(text) {
     let result = { examTitle: "ĐỀ KIỂM TRA CHẤT LƯỢNG", questions: [] };
     let titleMatch = text.match(/TITLE:\s*(.*)/i);
@@ -379,7 +439,6 @@ QUESTION_END
       .replace(/>/g, '&gt;');
   }
 
-  // Xuất file Word thông minh
   function exportToWord() {
     try {
       const rawText = document.getElementById('jsonInput').value.trim();
@@ -402,7 +461,7 @@ QUESTION_END
           data = parseExamBlockText(rawText);
           isExam = true;
         } else {
-          throw new Error("Không nhận diện được định dạng dữ liệu. Hãy đảm bảo bạn copy đúng khối văn bản từ AI.");
+          throw new Error("Không nhận diện được định dạng dữ liệu.");
         }
       }
       
@@ -464,48 +523,62 @@ QUESTION_END
 
       } else {
         html += `<h2 style="text-align:center;">${escapeHtml(data.examTitle || "ĐỀ KIỂM TRA CHẤT LƯỢNG")}</h2>`;
-        html += `<h3>PHẦN I. TRẮC NGHIỆM KHÁCH QUAN</h3>`;
         
-        if(data.questions) {
-          data.questions.filter(q => q.type === 'TN' || !q.type).forEach(q => {
+        const tnList = data.questions.filter(q => q.type === 'TN' || !q.type);
+        if(tnList.length > 0) {
+          html += `<h3>PHẦN I. TRẮC NGHIỆM NHIỀU LỰA CHỌN</h3>`;
+          tnList.forEach(q => {
             html += `<p><b>Câu ${q.id}:</b> ${escapeHtml(q.content)}</p>`;
             if(q.options) {
-              q.options.forEach(opt => { 
-                html += `<p style="margin-left:20px;">${escapeHtml(opt)}</p>`; 
-              });
-            }
-          });
-          
-          const tlList = data.questions.filter(q => q.type === 'TL');
-          if(tlList.length > 0) {
-            html += `<br><h3>PHẦN II. TỰ LUẬN</h3>`;
-            tlList.forEach(q => {
-              html += `<p><b>Bài ${q.id}:</b> ${escapeHtml(q.content)}</p>`;
-            });
-          }
-
-          html += `<br><h2 style="text-align:center;">HƯỚNG DẪN CHẤM & LỜI GIẢI CHI TIẾT</h2>`;
-          data.questions.forEach(q => {
-            if(q.answer) {
-              html += `<p><b>Câu ${q.id}:</b> Đáp án đúng: <b>${escapeHtml(q.answer)}</b></p>`;
-            }
-            if(q.explanation) {
-              html += `<p style="color:navy; margin-left:15px;"><i>Lời giải chi tiết: ${escapeHtml(q.explanation)}</i></p>`;
+              q.options.forEach(opt => { html += `<p style="margin-left:20px;">${escapeHtml(opt)}</p>`; });
             }
           });
         }
+
+        const dsList = data.questions.filter(q => q.type === 'DS');
+        if(dsList.length > 0) {
+          html += `<br><h3>PHẦN II. TRẮC NGHIỆM ĐÚNG / SAI</h3>`;
+          dsList.forEach(q => {
+            html += `<p><b>Câu ${q.id}:</b> ${escapeHtml(q.content)}</p>`;
+          });
+        }
+
+        const tlnList = data.questions.filter(q => q.type === 'TLN');
+        if(tlnList.length > 0) {
+          html += `<br><h3>PHẦN III. TRẮC NGHIỆM TRẢ LỜI NGẮN</h3>`;
+          tlnList.forEach(q => {
+            html += `<p><b>Câu ${q.id}:</b> ${escapeHtml(q.content)}</p>`;
+          });
+        }
+          
+        const tlList = data.questions.filter(q => q.type === 'TL');
+        if(tlList.length > 0) {
+          html += `<br><h3>PHẦN IV. TỰ LUẬN</h3>`;
+          tlList.forEach(q => {
+            html += `<p><b>Bài ${q.id}:</b> ${escapeHtml(q.content)}</p>`;
+          });
+        }
+
+        html += `<br><h2 style="text-align:center;">HƯỚNG DẪN CHẤM & LỜI GIẢI CHI TIẾT</h2>`;
+        data.questions.forEach(q => {
+          if(q.answer) {
+            html += `<p><b>Câu ${q.id} (${q.type || 'TN'}):</b> Đáp án: <b>${escapeHtml(q.answer)}</b></p>`;
+          }
+          if(q.explanation) {
+            html += `<p style="color:navy; margin-left:15px;"><i>Lời giải chi tiết: ${escapeHtml(q.explanation)}</i></p>`;
+          }
+        });
       }
 
       html += `</body></html>`;
       let blob = htmlDocx.asBlob(html);
       saveAs(blob, "TaiLieu_KhaoThi_KNTT.docx");
-      showLog("Xuất file Word thành công không lỗi ký tự!");
+      showLog("Xuất file Word thành công!");
     } catch (e) {
       alert("Lỗi xử lý: " + e.message);
     }
   }
 
-  // Xuất file Excel
   function exportToExcel() {
     try {
       const rawText = document.getElementById('jsonInput').value.trim();
