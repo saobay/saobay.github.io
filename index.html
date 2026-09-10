@@ -47,7 +47,7 @@
     .frame-wrap{background:var(--white);border:1px solid var(--line);border-radius:8px;box-shadow:var(--shadow);overflow:hidden}
     iframe{display:block;width:100%;height:min(850px,calc(100vh - 280px));min-height:600px;border:0}
     
-    /* Giao diện châm ngôn chào mừng - CHIỀU CAO GẤP ĐÔI (MIN-HEIGHT: 240PX) */
+    /* Giao diện châm ngôn chào mừng - Chiều cao min-height: 240px */
     .welcome-screen{
       display:flex;
       flex-direction:column;
@@ -71,7 +71,7 @@
     }
     .welcome-sub{color:var(--muted);font-size:0.88rem}
 
-    /* Hướng dẫn AI */
+    /* Hướng dẫn AI chi tiết cho cả Điện thoại & Máy tính */
     .ai-guide-box{
       margin-top:12px;
       padding:12px 16px;
@@ -81,10 +81,12 @@
       border-radius:8px;
       color:var(--ink);
       font-size:0.86rem;
-      line-height:1.4;
+      line-height:1.5;
       box-shadow: 0 2px 8px rgba(0,0,0,0.03);
     }
     .ai-guide-box strong{color:#9e6a00}
+    .ai-guide-box ul{margin:6px 0 0 18px;padding:0}
+    .ai-guide-box li{margin-bottom:3px}
 
     @media(max-width:620px){
       .site-header{min-height:85px;padding:12px 15px}.brand-mark{flex-basis:40px;height:40px;font-size:17px}.brand p{font-size:.72rem}.toolbar{padding:6px 10px;gap:4px}.menu summary{padding:8px 12px;font-size:.85rem}
@@ -92,7 +94,7 @@
       .content-heading{align-items:start;flex-direction:column;gap:2px}
       iframe{height:700px;min-height:500px}
       .welcome-screen{padding:20px 12px;min-height:180px}
-      .ai-guide-box{font-size:0.8rem;padding:10px}
+      .ai-guide-box{font-size:0.82rem;padding:10px 12px}
     }
   </style>
 </head>
@@ -128,7 +130,6 @@
     </div>
 
     <section class="frame-wrap" aria-label="Khu vực nội dung công cụ">
-      <!-- Khung chào mừng đã tăng chiều cao -->
       <div id="welcome-container" class="welcome-screen">
         <div class="welcome-quote" id="quote-display"></div>
         <div class="welcome-sub">Chúc Quý Thầy/Cô một ngày làm việc hiệu quả và tràn đầy niềm vui!</div>
@@ -137,9 +138,14 @@
       <iframe id="content-frame" title="Nội dung công cụ" src="" style="display:none;"></iframe>
     </section>
 
-    <!-- Khung hướng dẫn người dùng ngay bên dưới -->
+    <!-- Khung hướng dẫn người dùng cập nhật chi tiết cách dùng trên điện thoại -->
     <div id="ai-guide" class="ai-guide-box">
-      <strong>💡 Hướng dẫn sử dụng công cụ AI:</strong> Chọn chức năng trên menu ➔ Nhập dữ liệu và nhấn nút <em>"Copy Prompt"</em> ➔ Hệ thống mở trang <strong>ChatGPT / Gemini</strong> ➔ Quý Thầy/Cô dán (Ctrl + V) vào ô chat và bấm Enter để nhận kết quả.
+      <strong>💡 Hướng dẫn sử dụng các công cụ AI:</strong>
+      <ul>
+        <li><strong>Bước 1:</strong> Chọn công cụ trên menu ➔ Nhập thông tin ➔ Bấm nút <strong>"Copy Prompt"</strong> (câu lệnh đã tự động lưu vào bộ nhớ tạm).</li>
+        <li><strong>Bước 2:</strong> Mở ứng dụng <strong>ChatGPT / Gemini</strong> (hoặc trình duyệt đã đăng nhập tài khoản) trên điện thoại / máy tính của thầy/cô.</li>
+        <li><strong>Bước 3:</strong> <strong>Dán (Paste)</strong> câu lệnh vừa copy vào khung chat và bấm <strong>Gửi (Enter)</strong> để AI tạo kết quả.</li>
+      </ul>
     </div>
   </main>
 
