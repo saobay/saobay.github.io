@@ -8,55 +8,282 @@
   <style>
     :root{--ink:#12304a;--muted:#607487;--line:#d9e4eb;--paper:#f7fafb;--white:#fff;--teal:#087f83;--teal-dark:#075d66;--gold:#e7b34a;--shadow:0 14px 35px rgba(19,54,72,.1)}
     *{box-sizing:border-box}html,body{margin:0;min-height:100%}body{color:var(--ink);background:var(--paper);font-family:"Trebuchet MS","Segoe UI",sans-serif}
-    .site-header{min-height:118px;display:flex;align-items:center;padding:20px clamp(20px,5vw,76px);color:#fff;background:linear-gradient(110deg,rgba(3,55,74,.98),rgba(8,127,131,.88)),radial-gradient(circle at 82% 15%,rgba(231,179,74,.55),transparent 32%);border-bottom:4px solid var(--gold)}
-    .brand{display:flex;align-items:center;gap:16px;max-width:100%}.brand-mark{display:grid;place-items:center;flex:0 0 58px;height:58px;border:2px solid rgba(255,255,255,.7);border-radius:50%;color:var(--gold);font-size:25px;font-weight:900}.brand h1{margin:0;font-size:clamp(1.15rem,2.5vw,1.8rem);letter-spacing:.02em}.brand p{margin:5px 0 0;color:#cce5e6;font-size:.86rem}
-    .toolbar{position:relative;z-index:2;display:flex;flex-wrap:wrap;gap:8px;padding:10px clamp(20px,5vw,76px);background:var(--white);border-bottom:1px solid var(--line);box-shadow:0 4px 14px rgba(18,48,74,.06)}
-    .menu{position:relative}.menu summary{list-style:none;cursor:pointer;user-select:none;display:flex;align-items:center;gap:8px;padding:10px 14px;color:var(--ink);border:1px solid transparent;border-radius:6px;font-size:.92rem;font-weight:700}.menu summary::-webkit-details-marker{display:none}.menu summary::after{content:"⌄";color:var(--teal);font-size:1rem}.menu[open] summary,.menu summary:hover{background:#eaf5f4;border-color:#c5e3e0;color:var(--teal-dark)}
-    .menu-items{position:absolute;top:calc(100% + 6px);left:0;min-width:265px;padding:6px;background:var(--white);border:1px solid var(--line);border-radius:6px;box-shadow:var(--shadow)}.menu-items button{width:100%;display:block;padding:11px 12px;border:0;border-radius:4px;color:var(--ink);background:transparent;text-align:left;cursor:pointer;font:inherit;font-size:.88rem}.menu-items button:hover,.menu-items button[aria-current=page]{color:var(--teal-dark);background:#eef8f7}
-    main{width:min(1440px,100%);margin:0 auto;padding:18px clamp(14px,3vw,34px) 30px}.content-heading{display:flex;justify-content:space-between;align-items:end;gap:16px;margin-bottom:12px}.content-heading h2{margin:0;font-size:clamp(1rem,2vw,1.3rem)}.content-heading p{margin:4px 0 0;color:var(--muted);font-size:.84rem}.status{color:var(--teal);font-size:.8rem;font-weight:700;white-space:nowrap}.frame-wrap{min-height:calc(100vh - 245px);overflow:hidden;background:var(--white);border:1px solid var(--line);border-radius:8px;box-shadow:var(--shadow)}iframe{display:block;width:100%;height:min(900px,calc(100vh - 245px));min-height:650px;border:0}
-    @media(max-width:620px){.site-header{min-height:96px;padding:16px 18px}.brand-mark{flex-basis:44px;height:44px;font-size:19px}.brand p{font-size:.76rem}.toolbar{padding:8px 12px;gap:4px}.menu summary{padding:9px 10px;font-size:.8rem}.menu-items{position:fixed;left:12px;right:12px;min-width:0}.content-heading{align-items:start;flex-direction:column;gap:4px}iframe{height:900px;min-height:900px}}
+    
+    .site-header{min-height:95px;display:flex;align-items:center;padding:15px clamp(20px,5vw,76px);color:#fff;background:linear-gradient(110deg,rgba(3,55,74,.98),rgba(8,127,131,.88)),radial-gradient(circle at 82% 15%,rgba(231,179,74,.55),transparent 32%);border-bottom:4px solid var(--gold)}
+    .brand{display:flex;align-items:center;gap:16px;max-width:100%}.brand-mark{display:grid;place-items:center;flex:0 0 50px;height:50px;border:2px solid rgba(255,255,255,.7);border-radius:50%;color:var(--gold);font-size:22px;font-weight:900}.brand h1{margin:0;font-size:clamp(1.1rem,2.2vw,1.6rem);letter-spacing:.02em}.brand p{margin:3px 0 0;color:#cce5e6;font-size:.82rem}
+    
+    /* Toolbar & Nút Menu */
+    .toolbar{position:relative;z-index:100;display:flex;flex-wrap:wrap;gap:8px;padding:8px clamp(20px,5vw,76px);background:var(--white);border-bottom:1px solid var(--line);box-shadow:0 4px 14px rgba(18,48,74,.06)}
+    .menu{position:relative}
+    
+    .menu summary{
+      list-style:none;
+      cursor:pointer;
+      user-select:none;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 18px;
+      color:#fff;
+      background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
+      border:1px solid var(--teal-dark);
+      border-radius:8px;
+      font-size:.95rem;
+      font-weight:700;
+      box-shadow: 0 2px 6px rgba(8, 127, 131, 0.25);
+      transition: all 0.2s ease;
+    }
+    .menu summary::-webkit-details-marker{display:none}
+    .menu summary::before{content:"☰";font-size:1.1rem}
+    .menu summary::after{content:"▼";color:var(--gold);font-size:0.75rem;margin-left:4px;transition: transform 0.2s ease}
+    .menu[open] summary::after{transform: rotate(180deg)}
+    .menu summary:hover{background: linear-gradient(135deg, var(--teal-dark) 0%, #04434a 100%);box-shadow: 0 4px 10px rgba(8, 127, 131, 0.35)}
+    
+    .menu-items{position:absolute;top:calc(100% + 6px);left:0;min-width:270px;padding:6px;background:var(--white);border:1px solid var(--line);border-radius:8px;box-shadow:var(--shadow);z-index:999}.menu-items button{width:100%;display:block;padding:11px 12px;border:0;border-radius:6px;color:var(--ink);background:transparent;text-align:left;cursor:pointer;font:inherit;font-size:.88rem;font-weight:600}.menu-items button:hover,.menu-items button[aria-current=page]{color:var(--teal-dark);background:#eef8f7}
+    
+    main{width:min(1440px,100%);margin:0 auto;padding:14px clamp(12px,3vw,30px) 25px}
+    .content-heading{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:12px}.content-heading h2{margin:0;font-size:clamp(1rem,1.8vw,1.25rem)}.content-heading p{margin:3px 0 0;color:var(--muted);font-size:.82rem}.status{color:var(--teal);font-size:.8rem;font-weight:700;white-space:nowrap}
+    
+    .frame-wrap{background:var(--white);border:1px solid var(--line);border-radius:8px;box-shadow:var(--shadow);overflow:hidden}
+    iframe{display:block;width:100%;height:min(850px,calc(100vh - 280px));min-height:600px;border:0}
+    
+    /* Giao diện châm ngôn chào mừng - CHIỀU CAO GẤP ĐÔI (MIN-HEIGHT: 240PX) */
+    .welcome-screen{
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+      padding:35px 25px;
+      min-height:240px;
+      background:linear-gradient(135deg, #f7fafb 0%, #eaf5f4 100%);
+      border-bottom: 1px dashed var(--line);
+    }
+    .welcome-quote{
+      font-size:clamp(1.15rem, 2.2vw, 1.45rem);
+      color:var(--teal-dark);
+      font-style:italic;
+      line-height:1.6;
+      max-width:850px;
+      margin-bottom:12px;
+      white-space:pre-line;
+      font-weight:700;
+    }
+    .welcome-sub{color:var(--muted);font-size:0.88rem}
+
+    /* Hướng dẫn AI */
+    .ai-guide-box{
+      margin-top:12px;
+      padding:12px 16px;
+      background:#fffbe8;
+      border:1px solid #f2e3a1;
+      border-left:5px solid var(--gold);
+      border-radius:8px;
+      color:var(--ink);
+      font-size:0.86rem;
+      line-height:1.4;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    }
+    .ai-guide-box strong{color:#9e6a00}
+
+    @media(max-width:620px){
+      .site-header{min-height:85px;padding:12px 15px}.brand-mark{flex-basis:40px;height:40px;font-size:17px}.brand p{font-size:.72rem}.toolbar{padding:6px 10px;gap:4px}.menu summary{padding:8px 12px;font-size:.85rem}
+      .menu-items{position:fixed;top:auto;left:10px;right:10px;width:calc(100% - 20px);min-width:0;max-height:75vh;overflow-y:auto;z-index:99999}
+      .content-heading{align-items:start;flex-direction:column;gap:2px}
+      iframe{height:700px;min-height:500px}
+      .welcome-screen{padding:20px 12px;min-height:180px}
+      .ai-guide-box{font-size:0.8rem;padding:10px}
+    }
   </style>
 </head>
 <body>
-  <header class="site-header"><div class="brand"><div class="brand-mark" aria-hidden="true">SB</div><div><h1>TRƯỜNG THPT SÀO BÁY</h1><p>CỔNG CÔNG CỤ HỖ TRỢ GIÁO VIÊN</p></div></div></header>
+  <header class="site-header">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">SB</div>
+      <div>
+        <h1>TRƯỜNG THPT SÀO BÁY</h1>
+        <p>CỔNG CÔNG CỤ HỖ TRỢ GIÁO VIÊN</p>
+      </div>
+    </div>
+  </header>
   
   <nav class="toolbar" aria-label="Thanh công cụ chính">
     <details class="menu">
       <summary>Công tác chủ nhiệm</summary>
       <div class="menu-items">
-        <button type="button" data-page="ctcn/tkb.html" aria-current="page">Tạo thời khóa biểu lớp</button>
+        <button type="button" data-page="ctcn/tkb.html">Tạo thời khóa biểu lớp</button>
         <button type="button" data-page="ctcn/poster.html">Soạn poster họp phụ huynh (AI)</button>
-        <!-- THÊM NÚT MỚI TẠI ĐÂY -->
         <button type="button" data-page="ctcn/logo.html">Tạo Logo - Huy hiệu lớp (AI)</button>
       </div>
     </details>
   </nav>
 
-  <main><div class="content-heading"><div><h2 id="page-title">Tạo thời khóa biểu lớp</h2><p id="page-description">Đọc dữ liệu từ Excel và điền trực tiếp vào ảnh nền.</p></div><span class="status">Đang hoạt động</span></div><section class="frame-wrap" aria-label="Khu vực nội dung công cụ"><iframe id="content-frame" title="Nội dung công cụ" src="ctcn/tkb.html"></iframe></section></main>
+  <main>
+    <div class="content-heading">
+      <div>
+        <h2 id="page-title">Chào mừng Quý Thầy/Cô</h2>
+        <p id="page-description">Vui lòng chọn công cụ làm việc trên thanh menu phía trên.</p>
+      </div>
+      <span class="status">Sẵn sàng</span>
+    </div>
+
+    <section class="frame-wrap" aria-label="Khu vực nội dung công cụ">
+      <!-- Khung chào mừng đã tăng chiều cao -->
+      <div id="welcome-container" class="welcome-screen">
+        <div class="welcome-quote" id="quote-display"></div>
+        <div class="welcome-sub">Chúc Quý Thầy/Cô một ngày làm việc hiệu quả và tràn đầy niềm vui!</div>
+      </div>
+      
+      <iframe id="content-frame" title="Nội dung công cụ" src="" style="display:none;"></iframe>
+    </section>
+
+    <!-- Khung hướng dẫn người dùng ngay bên dưới -->
+    <div id="ai-guide" class="ai-guide-box">
+      <strong>💡 Hướng dẫn sử dụng công cụ AI:</strong> Chọn chức năng trên menu ➔ Nhập dữ liệu và nhấn nút <em>"Copy Prompt"</em> ➔ Hệ thống mở trang <strong>ChatGPT / Gemini</strong> ➔ Quý Thầy/Cô dán (Ctrl + V) vào ô chat và bấm Enter để nhận kết quả.
+    </div>
+  </main>
 
   <script>
     const frame = document.getElementById("content-frame");
+    const welcomeContainer = document.getElementById("welcome-container");
+    const quoteDisplay = document.getElementById("quote-display");
     const title = document.getElementById("page-title");
     const description = document.getElementById("page-description");
     
-    // THÊM CẤU HÌNH VÀO MAP "labels" TẠI ĐÂY
+    // Danh sách câu chào mừng
+    const quotes = [
+      "“Người thầy vĩ đại là người biết cách truyền cảm hứng\nđể học trò tự tìm ra chân lý.”",
+      "“Dạy học là thắp lên ngọn lửa,\nkhông phải là đổ đầy một chiếc bình.”",
+      "“Trao quyền tự chủ - Khơi nguồn sáng tạo\nDẫn lối thành công.”",
+      "“Hạnh phúc của người thầy là thấy học trò\ntự bước đi trên đôi chân của chính mình.”",
+      "“Không chỉ truyền đạt kiến thức,\nmà còn đánh thức khát vọng tự học.”",
+      "“Người thầy mở lối tư duy,\nnuôi dưỡng cảm xúc và dẫn dắt bằng niềm tin.”",
+      "“Giáo dục là vũ khí mạnh nhất\nmà bạn có thể dùng để thay đổi thế giới.”",
+      "“Nghệ thuật dạy học là nghệ thuật\ngiúp ai đó khám phá ra điều gì đó.”",
+      "“Một người thầy tốt giống như ngọn nến,\nđốt cháy chính mình để soi sáng đường cho người khác.”",
+      "“Trẻ em như búp trên cành,\nbiết ăn ngủ, biết học hành là ngoan.”",
+      "“Học, học nữa, học mãi.”",
+      "“Tiên học lễ, hậu học văn.”",
+      "“Hiền tài là nguyên khí của quốc gia.”",
+      "“Muốn sang thì bắc cầu kiều,\nMuốn con hay chữ thì yêu lấy thầy.”",
+      "“Dưới ánh mặt trời không có nghề nào\ncao quý hơn nghề dạy học.”",
+      "“Nghề giáo là nghề cao quý nhất\ntrong các nghề cao quý.”",
+      "“Một chữ cũng là thầy,\nnửa chữ cũng là thầy.”",
+      "“Thầy cô là người lái đò thầm lặng,\nđưa bao thế hệ học trò cập bến tri thức.”",
+      "“Mỗi đứa trẻ là một hạt giống,\nthầy cô là người gieo mầm và chăm sóc.”",
+      "“Giáo dục không phải là việc đổ đầy một cái thùng,\nmà là thắp sáng một ngọn lửa.”",
+      "“Người thầy trung bình chỉ biết nói,\nNgười thầy giỏi biết giải thích,\nNgười thầy xuất chúng biết minh họa,\nNgười thầy vĩ đại biết cách truyền cảm hứng.”",
+      "“Sự gương mẫu của người thầy\nlà tia sáng dẫn đường cho học sinh.”",
+      "“Dạy học là đặt vết tích của một người\nvào sự phát triển của một người khác.”",
+      "“Tri thức là sức mạnh.”",
+      "“Đầu tư cho kiến thức\nlà khoản đầu tư mang lại lợi nhuận cao nhất.”",
+      "“Học tập là hạt giống của kiến thức,\nkiến thức là hạt giống của hạnh phúc.”",
+      "“Đường đời là chiếc thang không có nấc chót,\nhọc tập là quyển sách không có trang cuối cùng.”",
+      "“Giáo dục là làm cho con người tìm thấy chính mình.”",
+      "“Mục tiêu của giáo dục không chỉ là kiến thức,\nmà còn là hành động.”",
+      "“Thầy cô hạnh phúc sẽ thay đổi thế giới.”",
+      "“Lớp học hạnh phúc, học sinh tích cực.”",
+      "“Yêu thương và tôn trọng là chìa khóa của giáo dục.”",
+      "“Mỗi ngày đến trường là một ngày vui.”",
+      "“Học để biết, học để làm,\nhọc để chung sống, học để tự khẳng định mình.”",
+      "“Không có học sinh dốt,\nchỉ có phương pháp chưa phù hợp.”",
+      "“Kiên nhẫn là đức tính quan trọng nhất của người thầy.”",
+      "“Lắng nghe học sinh là cách tốt nhất để thấu hiểu.”",
+      "“Khen ngợi công khai, góp ý riêng tư.”",
+      "“Nụ cười của thầy cô là động lực của học trò.”",
+      "“Dạy học bằng cả trái tim.”",
+      "“Sáng tạo là nhịp đập của giáo dục hiện đại.”",
+      "“Công nghệ là cánh tay nối dài của người thầy.”",
+      "“Chuyển đổi số - Cánh cửa mở ra tương lai.”",
+      "“Kết nối tri thức, kiến tạo tương lai.”",
+      "“Học thầy không tày học bạn.”",
+      "“Đi một ngày đàng, học một sàng khôn.”",
+      "“Luyện mãi thành tài, miệt mài tất giỏi.”",
+      "“Có công mài sắt, có ngày nên kim.”",
+      "“Ngọc bất trác bất thành khí,\nNhân bất học bất tri lý.”",
+      "“Học ăn, học nói, học gói, học mở.”",
+      "“Trọng thầy mới được làm thầy.”",
+      "“Uống nước nhớ nguồn,\nĂn quả nhớ kẻ trồng cây.”",
+      "“Dạy con từ thuở còn thơ.”",
+      "“Giáo dục là chìa khóa mở cánh cửa tự do.”",
+      "“Thất bại là mẹ thành công.”",
+      "“Đừng xấu hổ khi không biết,\nchỉ xấu hổ khi không học.”",
+      "“Học vấn có những chùm rễ đắng cay\nnhưng hoa quả lại ngọt ngào.”",
+      "“Bộ lông làm đẹp con công,\nhọc vấn làm đẹp con người.”",
+      "“Nhà trường là ngôi nhà thứ hai của học sinh.”",
+      "“Thầy cô là cha mẹ thứ hai của học trò.”",
+      "“Kỷ luật là sức mạnh của tập thể.”",
+      "“Đoàn kết, đoàn kết, đại đoàn kết.\nThành công, thành công, đại thành công.”",
+      "“Vì lợi ích mười năm thì phải trồng cây,\nvì lợi ích trăm năm thì phải trồng người.”",
+      "“Non sông Việt Nam có trở nên tươi đẹp hay không...\nchính là nhờ một phần lớn ở công học tập của các em.”",
+      "“Dạy tốt - Học tốt.”",
+      "“Tất cả vì học sinh thân yêu.”",
+      "“Dân chủ - Kỷ cương - Tình thương - Trách nhiệm.”",
+      "“Mỗi thầy cô giáo là một tấm gương đạo đức,\ntự học và sáng tạo.”",
+      "“Xây dựng trường học thân thiện,\nhọc sinh tích cực.”",
+      "“Đổi mới căn bản, toàn diện giáo dục và đào tạo.”",
+      "“Thực học, thực nghiệp.”",
+      "“Học đi đôi với hành.”",
+      "“Lý thuyết màu xám, còn cây đời mãi mãi xanh tươi.”",
+      "“Giáo dục là nghệ thuật biến những điều phức tạp\nthành đơn giản.”",
+      "“Người thầy giỏi là người biết khơi gợi\nsự tò mò của học sinh.”",
+      "“Hãy để học sinh được sai,\nvì sai lầm là cơ hội để học hỏi.”",
+      "“Đừng so sánh học sinh này với học sinh khác,\nhãy so sánh sự tiến bộ của chính em ấy.”",
+      "“Mỗi học sinh là một cá thể độc nhất vô nhị.”",
+      "“Tôn trọng sự khác biệt.”",
+      "“Giáo dục hòa nhập - Không ai bị bỏ lại phía sau.”",
+      "“Yêu nghề, mến trẻ.”",
+      "“Tâm huyết, trách nhiệm, sáng tạo.”",
+      "“Nâng niu từng ước mơ nhỏ.”",
+      "“Chắp cánh cho những khát vọng bay cao.”",
+      "“Thầy cô là người truyền lửa.”",
+      "“Học sinh là trung tâm.”",
+      "“Chất lượng giáo dục là danh dự của nhà trường.”",
+      "“Lương sư hưng quốc.”",
+      "“Quốc gia hưng vong, thất phu hữu trách.”",
+      "“Học để làm người.”",
+      "“Rèn đức, luyện tài.”",
+      "“Trí tuệ, nhân cách, nghị lực.”",
+      "“Sống, chiến đấu, lao động và học tập\ntheo gương Bác Hồ vĩ đại.”",
+      "“Học tập suốt đời.”",
+      "“Sách là ngọn đèn sáng bất diệt của trí tuệ con người.”",
+      "“Thư viện là kho tàng tri thức.”",
+      "“Đọc sách là nuôi dưỡng tâm hồn.”",
+      "“Văn hóa đọc là nền tảng của tự học.”",
+      "“Tri thức làm thay đổi vận mệnh.”",
+      "“Giáo dục là con đường ngắn nhất để thoát nghèo.”"
+    ];
+
+    // Châm ngôn ngẫu nhiên khi vào trang
+    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+    quoteDisplay.textContent = randomQuote;
+
+    // Cấu hình nhãn các trang
     const labels = new Map([
       ["ctcn/tkb.html", ["Tạo thời khóa biểu lớp", "Đọc dữ liệu từ Excel và điền trực tiếp vào ảnh nền."]],
       ["ctcn/poster.html", ["Nhập thông tin tạo Poster họp phụ huynh THPT", "Điền các dữ liệu cá nhân hóa để tạo câu lệnh chuẩn xác cho AI."]],
       ["ctcn/logo.html", ["Tạo Logo - Huy hiệu Lớp", "Nhập thông tin cá nhân hóa để tạo prompt thiết kế Logo lớp bằng AI."]]
     ]);
 
+    // Xử lý khi chọn chức năng
     document.querySelectorAll("[data-page]").forEach((button) => button.addEventListener("click", () => {
       const page = button.dataset.page;
       const [heading, text] = labels.get(page) || ["Công cụ", ""];
+      
+      // Ẩn màn hình chào mừng, hiện iframe
+      welcomeContainer.style.display = "none";
+      frame.style.display = "block";
+      
       frame.src = page;
       title.textContent = heading;
       description.textContent = text;
+      
       document.querySelectorAll("[data-page]").forEach((item) => item.removeAttribute("aria-current"));
       button.setAttribute("aria-current", "page");
       button.closest("details").open = false;
     }));
 
+    // Đóng menu khi bấm ra ngoài
     document.addEventListener("click", (event) => {
       document.querySelectorAll("details.menu").forEach((menu) => {
         if (!menu.contains(event.target)) menu.open = false;
