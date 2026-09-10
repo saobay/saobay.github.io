@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Soạn prompt tạo Logo Lớp</title>
+  <style>
+    :root{--ink:#12304a;--muted:#607487;--line:#d9e4eb;--paper:#f7fafb;--teal:#075d66}
+    *{box-sizing:border-box}body{margin:0;padding:20px;background:var(--paper);color:var(--ink);font-family:"Segoe UI",Tahoma,sans-serif}
+    .form-container{max-width:800px;margin:0 auto;padding:25px;background:#fff;border:1px solid var(--line);border-radius:8px;box-shadow:0 4px 14px rgba(18,48,74,.06)}
+    h1{margin:0 0 20px;padding-bottom:10px;border-bottom:2px solid #eaf5f4;color:var(--teal);font-size:1.2rem}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.full{grid-column:1/-1}label{display:block;margin-bottom:5px;font-weight:600;font-size:.88rem}input,select,textarea{width:100%;padding:10px;border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--ink);font:inherit;font-size:.9rem}input:focus,select:focus,textarea:focus{outline:none;border-color:#087f83;box-shadow:0 0 0 3px rgba(8,127,131,.1)}textarea{height:130px;resize:vertical}.hint{display:block;margin-top:5px;color:var(--muted);font-size:.76rem}.actions{display:flex;gap:12px;margin-top:20px;padding-top:15px;border-top:1px solid var(--line)}button{flex:1;padding:12px 18px;border:0;border-radius:6px;color:#fff;font:inherit;font-weight:700;cursor:pointer}button:hover{opacity:.9}.btn-chatgpt{background:#10a37f}.btn-gemini{background:#1a73e8}
+    .toast{position:fixed;bottom:20px;right:20px;background:#12304a;color:#fff;padding:12px 20px;border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,.15);font-size:.9rem;opacity:0;transition:opacity .3s ease;pointer-events:none;z-index:1000}.toast.show{opacity:1}
+    @media(max-width:600px){body{padding:12px}.form-container{padding:18px}.grid{grid-template-columns:1fr}.full{grid-column:auto}.actions{flex-direction:column}}
+  </style>
+</head>
+<body>
+  <main class="form-container">
+    <h1>Thông tin thiết kế Logo (Huy hiệu) Lớp</h1>
+    <div class="grid">
+      <div>
+        <label for="school">Tên trường</label>
+        <input id="school" value="TRƯỜNG THPT SÀO BÁY">
+      </div>
+      <div>
+        <label for="className">Tên lớp</label>
+        <input id="className" value="10A1">
+      </div>
+      <div class="full">
+        <label for="teacher">Giáo viên chủ nhiệm</label>
+        <input id="teacher" value="NGUYỄN THỊ HUYỀN" placeholder="Ví dụ: NGUYỄN THỊ HUYỀN">
+      </div>
+      <div class="full">
+        <label for="slogan">Khẩu hiệu / Ribbon</label>
+        <input id="slogan" value="HỌC TẬP – ĐOÀN KẾT – TỰ TIN – SÁNG TẠO">
+      </div>
+      <div class="full">
+        <label for="template">Phong cách thiết kế (Mẫu)</label>
+        <select id="template">
+          <option value="1">Mẫu 1 - Vector Academic (Chuyên nghiệp, sắc nét, xanh-vàng-lá)</option>
+          <option value="2">Mẫu 2 - Watercolor (Nghệ thuật, pastel nhẹ nhàng)</option>
+          <option value="3">Mẫu 3 - 3D Mascot (Cú mèo thông thái, cao cấp)</option>
+          <option value="4">Mẫu 4 - Chalkboard (Bảng đen phấn trắng, cá tính)</option>
+          <option value="5">Mẫu 5 - Paper Cut (Cắt giấy 3D, navy-teal-coral)</option>
+          <option value="6">Mẫu 6 - Sticker 3D (Viền die-cut, bóng nhẹ, trẻ trung)</option>
+        </select>
+        <span class="hint">Mẫu được chọn sẽ tự động kết hợp với các thông tin trên để tạo prompt chuẩn gửi cho AI.</span>
+      </div>
+    </div>
+    <div class="actions">
+      <button type="button" class="btn-chatgpt" data-ai="chatgpt">Mở ChatGPT & Copy Prompt</button>
+      <button type="button" class="btn-gemini" data-ai="gemini">Mở Gemini & Copy Prompt</button>
+    </div>
+  </main>
+  
+  <div id="toast" class="toast">Đã copy prompt! Hãy nhấn Ctrl + V để dán vào khung chat AI.</div>
+
+  <script>
+    function value(id){return document.getElementById(id).value.trim()}
+    
+    // Các hàm tạo prompt tương ứng với 6 mẫu đã cung cấp
+    const templates = {
+      "1": (s, c, t, sl) => `Tạo logo huy hiệu tròn "${s.toUpperCase()} – LỚP ${c.toUpperCase()}", phong cách Modern Educational Vector, trung tâm chữ ${c.toUpperCase()} lớn màu xanh–vàng–xanh lá, xung quanh có sách mở, bút chì, quả địa cầu, ngôi sao. Ribbon: "${sl.toUpperCase()}". Dưới cùng: "GVCN: ${t.toUpperCase()}". Nền trắng, sắc nét, chuyên nghiệp, 1:1.`,
+      
+      "2": (s, c, t, sl) => `Tạo logo LỚP ${c.toUpperCase()} – ${s.toUpperCase()}, phong cách watercolor pastel nghệ thuật, huy hiệu tròn, chữ ${c.toUpperCase()} lớn ở trung tâm, kết hợp sách, bút, hoa lá, màu xanh–tím–cam nhẹ nhàng. Khẩu hiệu "${sl}". Dưới ghi "GVCN: ${t}", tinh tế, trẻ trung, 1:1.`,
+      
+      "3": (s, c, t, sl) => `Tạo logo tròn ${s.toUpperCase()} – LỚP ${c.toUpperCase()}, phong cách 3D mascot cao cấp, trung tâm có cú mèo thông thái đeo kính cầm sách và bút, chữ ${c.toUpperCase()} lớn phía dưới; trang trí quả địa cầu, sách, ngôi sao, biểu tượng khoa học. Ribbon "${sl.toUpperCase()}", dưới ghi "GVCN: ${t.toUpperCase()}", 1:1.`,
+      
+      "4": (s, c, t, sl) => `Tạo logo LỚP ${c.toUpperCase()} – ${s.toUpperCase()} dạng chalkboard badge, nền bảng đen, nét phấn trắng–xanh–vàng–đỏ, chữ ${c.toUpperCase()} lớn, xung quanh có sách, bóng đèn, bút chì, thước và công thức hình học. Khẩu hiệu "${sl.toUpperCase()}", dưới ghi "GVCN: ${t.toUpperCase()}", cá tính, hiện đại, 1:1.`,
+      
+      "5": (s, c, t, sl) => `Tạo logo huy hiệu ${s.toUpperCase()} – LỚP ${c.toUpperCase()}, phong cách layered paper-cut 3D, màu navy–teal–coral–vàng kem, chữ ${c.toUpperCase()} lớn trung tâm, bao quanh bởi sách, bút, máy bay giấy, balô và lá nguyệt quế. Ribbon "${sl.toUpperCase()}", dưới ghi "GVCN: ${t.toUpperCase()}", premium school badge, 1:1.`,
+      
+      "6": (s, c, t, sl) => `Tạo logo LỚP ${c.toUpperCase()} – ${s.toUpperCase()} phong cách premium 3D sticker, chữ ${c.toUpperCase()} cực lớn, bóng nhẹ, màu xanh–vàng–đỏ–xanh lá; trang trí sách, balô, bút chì, ngôi sao, máy bay giấy và biểu tượng khoa học. Khẩu hiệu "${sl.toUpperCase()}", "GVCN: ${t.toUpperCase()}", nền trắng, viền die-cut, 1:1.`
+    };
+
+    function createPrompt() {
+      const s = value("school");
+      const c = value("className");
+      const t = value("teacher");
+      const sl = value("slogan");
+      const templateType = value("template");
+      
+      // Gọi hàm tương ứng với template được chọn để sinh ra nội dung prompt
+      return templates[templateType](s, c, t, sl);
+    }
+    
+    function showToast() {
+      const toast = document.getElementById("toast");
+      toast.classList.add("show");
+      setTimeout(() => { toast.classList.remove("show"); }, 3000);
+    }
+
+    document.querySelectorAll("[data-ai]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const promptText = createPrompt();
+        navigator.clipboard.writeText(promptText).then(() => {
+          showToast();
+          const targetAI = button.dataset.ai;
+          const url = targetAI === "chatgpt" ? "https://chatgpt.com/" : "https://gemini.google.com/app";
+          setTimeout(() => { window.open(url, "_blank", "noopener,noreferrer"); }, 400);
+        }).catch(err => {
+          alert("Không thể tự động copy. Vui lòng thử lại hoặc cấp quyền Clipboard cho trình duyệt!");
+        });
+      });
+    });
+  </script>
+</body>
+</html>

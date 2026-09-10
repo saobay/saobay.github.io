@@ -26,6 +26,8 @@
       <div class="menu-items">
         <button type="button" data-page="ctcn/tkb.html" aria-current="page">Tạo thời khóa biểu lớp</button>
         <button type="button" data-page="ctcn/poster.html">Soạn poster họp phụ huynh (AI)</button>
+        <!-- THÊM NÚT MỚI TẠI ĐÂY -->
+        <button type="button" data-page="ctcn/logo.html">Tạo Logo - Huy hiệu lớp (AI)</button>
       </div>
     </details>
   </nav>
@@ -36,14 +38,17 @@
     const frame = document.getElementById("content-frame");
     const title = document.getElementById("page-title");
     const description = document.getElementById("page-description");
+    
+    // THÊM CẤU HÌNH VÀO MAP "labels" TẠI ĐÂY
     const labels = new Map([
       ["ctcn/tkb.html", ["Tạo thời khóa biểu lớp", "Đọc dữ liệu từ Excel và điền trực tiếp vào ảnh nền."]],
-      ["ctcn/poster.html", ["Nhập thông tin tạo Poster họp phụ huynh THPT", "Điền các dữ liệu cá nhân hóa để tạo câu lệnh chuẩn xác cho AI."]]
+      ["ctcn/poster.html", ["Nhập thông tin tạo Poster họp phụ huynh THPT", "Điền các dữ liệu cá nhân hóa để tạo câu lệnh chuẩn xác cho AI."]],
+      ["ctcn/logo.html", ["Tạo Logo - Huy hiệu Lớp", "Nhập thông tin cá nhân hóa để tạo prompt thiết kế Logo lớp bằng AI."]]
     ]);
 
     document.querySelectorAll("[data-page]").forEach((button) => button.addEventListener("click", () => {
       const page = button.dataset.page;
-      const [heading, text] = labels.get(page);
+      const [heading, text] = labels.get(page) || ["Công cụ", ""];
       frame.src = page;
       title.textContent = heading;
       description.textContent = text;
