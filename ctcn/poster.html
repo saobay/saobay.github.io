@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Soạn poster họp phụ huynh</title>
+  <style>
+    :root{--ink:#12304a;--muted:#607487;--line:#d9e4eb;--paper:#f7fafb;--teal:#075d66}
+    *{box-sizing:border-box}body{margin:0;padding:20px;background:var(--paper);color:var(--ink);font-family:"Segoe UI",Tahoma,sans-serif}
+    .form-container{max-width:800px;margin:0 auto;padding:25px;background:#fff;border:1px solid var(--line);border-radius:8px;box-shadow:0 4px 14px rgba(18,48,74,.06)}
+    h1{margin:0 0 20px;padding-bottom:10px;border-bottom:2px solid #eaf5f4;color:var(--teal);font-size:1.2rem}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.full{grid-column:1/-1}label{display:block;margin-bottom:5px;font-weight:600;font-size:.88rem}input,select,textarea{width:100%;padding:10px;border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--ink);font:inherit;font-size:.9rem}input:focus,select:focus,textarea:focus{outline:none;border-color:#087f83;box-shadow:0 0 0 3px rgba(8,127,131,.1)}textarea{height:130px;resize:vertical}.hint{display:block;margin-top:5px;color:var(--muted);font-size:.76rem}.actions{display:flex;gap:12px;margin-top:20px;padding-top:15px;border-top:1px solid var(--line)}button{flex:1;padding:12px 18px;border:0;border-radius:6px;color:#fff;font:inherit;font-weight:700;cursor:pointer}button:hover{opacity:.9}.btn-chatgpt{background:#10a37f}.btn-gemini{background:#1a73e8}
+    .toast{position:fixed;bottom:20px;right:20px;background:#12304a;color:#fff;padding:12px 20px;border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,.15);font-size:.9rem;opacity:0;transition:opacity .3s ease;pointer-events:none;z-index:1000}.toast.show{opacity:1}
+    @media(max-width:600px){body{padding:12px}.form-container{padding:18px}.grid{grid-template-columns:1fr}.full{grid-column:auto}.actions{flex-direction:column}}
+  </style>
+</head>
+<body>
+  <main class="form-container">
+    <h1>Thông tin chi tiết buổi họp phụ huynh</h1>
+    <div class="grid">
+      <div><label for="school">Tên trường</label><input id="school" value="THPT Sào Báy"></div>
+      <div><label for="className">Tên lớp</label><input id="className" value="12A1" placeholder="Ví dụ: 12A1"></div>
+      <div class="full"><label for="titleText">Tiêu đề poster</label><input id="titleText" value="HỌP PHỤ HUYNH ĐẦU NĂM" placeholder="Ví dụ: PHỤ HUYNH CUỐI NĂM"></div>
+      <div class="full"><label for="template">Mẫu thiết kế</label><select id="template"><option value="1">Mẫu 1 - Hiện đại, thân thiện</option><option value="2">Mẫu 2 - Professional Education</option><option value="3">Mẫu 3 - Trang trọng, nổi bật</option><option value="4">Mẫu 4 - Tối giản, thanh lịch</option><option value="5">Mẫu 5 - Lễ hội giáo dục nhiều màu</option><option value="6">Mẫu 6 - Gradient tươi sáng</option><option value="7">Mẫu 7 - Minh họa vui nhộn</option><option value="8">Mẫu 8 - Vườn cổ tích mầm non</option><option value="9">Mẫu 9 - Bảng màu cầu vồng tiểu học</option><option value="10">Mẫu 10 - Vũ trụ khám phá</option><option value="11">Mẫu 11 - Thành phố đồ chơi</option></select><span class="hint">Mẫu được chọn sẽ tự động lưu vào bộ nhớ tạm khi bạn bấm nút chuyển AI.</span></div>
+      <div><label for="teacher">Giáo viên chủ nhiệm</label><input id="teacher" placeholder="Họ và tên giáo viên"></div>
+      <div><label for="time">Thời gian</label><input id="time" value="08:00 Chủ Nhật, ngày ..." placeholder="Ví dụ: 08:00 - 25/08/2026"></div>
+      <div class="full"><label for="location">Địa điểm</label><input id="location" value="Phòng học lớp 12A1 - Trường THPT Sào Báy - xã Hợp Kim"><span class="hint">Tự cập nhật theo tên lớp; giáo viên vẫn có thể chỉnh lại.</span></div>
+      <div class="full"><label for="content">Nội dung cuộc họp</label><textarea id="content">- Đánh giá sơ bộ tình hình đầu năm của lớp
+- Thông qua kế hoạch năm học và mục tiêu trọng tâm
+- Phổ biến quy chế thi cử và định hướng nghề nghiệp, tuyển sinh
+- Trao đổi phương pháp phối hợp giữa Gia đình và Nhà trường
+- Giải đáp thắc mắc của Quý phụ huynh</textarea></div>
+    </div>
+    <div class="actions">
+      <button type="button" class="btn-chatgpt" data-ai="chatgpt">Mở ChatGPT & Copy Nội Dung</button>
+      <button type="button" class="btn-gemini" data-ai="gemini">Mở Gemini & Copy Nội Dung</button>
+    </div>
+  </main>
+  
+  <div id="toast" class="toast">Đã copy nội dung! Hãy nhấn Ctrl + V để dán vào khung chat.</div>
+
+  <script>
+    function value(id){return document.getElementById(id).value.trim()}
+    const templates={
+      "1":"Phong cách hiện đại, thân thiện với phụ huynh và học sinh. Bố cục thoáng, hình khối mềm, màu xanh teal, trắng và vàng ấm, cảm giác tích cực.",
+      "2":"Phong cách Professional Education Poster, trưởng thành, tối giản, chuyên nghiệp. Màu chủ đạo xanh navy đậm, trắng, xám nhạt, điểm nhấn vàng đồng.",
+      "3":"Phong cách trang trọng, nổi bật như thông báo chính thức của nhà trường. Bố cục cân đối, typography rõ ràng, xanh navy, trắng và đỏ đô làm điểm nhấn.",
+      "4":"Phong cách tối giản, thanh lịch, nhiều khoảng trắng, typography cao cấp, bố cục dọc rõ ràng, xanh sage, trắng và vàng champagne.",
+      "5":"Phong cách lễ hội giáo dục rực rỡ, tươi vui và giàu năng lượng. Dùng bảng màu xanh dương, xanh lá, vàng, cam và hồng san hô; các mảng màu hình học, huy hiệu và chi tiết trang trí học đường nhưng vẫn giữ chữ rõ ràng, chuyên nghiệp.",
+      "6":"Phong cách poster hiện đại nhiều màu với nền gradient xanh dương - tím - hồng - cam, các dải màu mềm và điểm nhấn phát sáng nhẹ. Bố cục trẻ trung, bắt mắt, tương phản cao, dễ đọc trên điện thoại.",
+      "7":"Phong cách minh họa giáo dục vui nhộn, gần gũi với gia đình và học sinh. Dùng màu vàng, xanh da trời, xanh lá, cam và đỏ san hô; thêm hình minh họa sách, bút, ngôi sao hoặc bảng lớp, bố cục sinh động nhưng không làm rối nội dung.",
+      "8":"Phong cách mầm non như một khu vườn cổ tích đáng yêu, sặc sỡ và ấm áp. Dùng màu pastel pha màu tươi: hồng, vàng, xanh mint, xanh da trời và cam. Trang trí bằng mây, cầu vồng, hoa, ngôi sao, thú nhỏ và hình khối bo tròn; chữ tiêu đề thật lớn, vui tươi, dễ đọc, không để hình minh họa che nội dung.",
+      "9":"Phong cách tiểu học năng động, nhiều màu và thân thiện. Dùng các mảng màu đỏ, vàng, xanh dương, xanh lá và tím; thêm minh họa bút chì, sách vở, cặp sách, bảng đen, ngôi sao và huy hiệu. Bố cục như một bảng thông báo lớp học vui nhộn, chữ tiếng Việt rõ ràng, cân đối và dễ đọc.",
+      "10":"Phong cách vũ trụ khám phá dành cho học sinh nhỏ tuổi, sinh động và giàu trí tưởng tượng. Nền xanh đậm pha tím, điểm màu vàng, cam, xanh cyan và hồng; trang trí tên lửa, hành tinh, ngôi sao và phi hành gia hoạt hình. Giữ khu vực thông tin sáng, tương phản cao, chữ lớn và dễ đọc.",
+      "11":"Phong cách thành phố đồ chơi nhiều màu dành cho mầm non và tiểu học. Dùng màu đỏ, vàng, xanh lá, xanh dương và cam với các tòa nhà, xe buýt trường học, cờ màu và hình khối vui nhộn. Tổng thể tươi sáng, thân thiện, giàu năng lượng nhưng bố cục thông tin vẫn rõ ràng, không bị rối."
+    };
+    function updateLocation(){document.getElementById("location").value=`Phòng học lớp ${value("className")||"..."} - Trường THPT Sào Báy - xã Hợp Kim`}
+    function createPrompt(){return `Tạo một poster thông báo ${value("titleText")||"HỌP PHỤ HUYNH ĐẦU NĂM"} dành cho học sinh Trung học phổ thông, tỷ lệ dọc 4:5. ${templates[value("template")]||templates["1"]}\nKhông tự ý thay đổi, viết sai hoặc bỏ sót nội dung tiếng Việt dưới đây. Hãy trình bày chữ rõ ràng, đúng dấu và dễ đọc.\nDưới đây là thông tin chi tiết cần điền vào poster:\n- Tiêu đề: ${value("titleText")}\n- Trường: ${value("school")}\n- Lớp: ${value("className")}\n- Giáo viên chủ nhiệm: ${value("teacher")}\n- Thời gian: ${value("time")}\n- Địa điểm: ${value("location")}\n- Nội dung cuộc họp:\n${value("content")}`}
+    
+    function showToast() {
+      const toast = document.getElementById("toast");
+      toast.classList.add("show");
+      setTimeout(() => { toast.classList.remove("show"); }, 3000);
+    }
+
+    document.getElementById("className").addEventListener("input",updateLocation);
+    
+    document.querySelectorAll("[data-ai]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const promptText = createPrompt();
+        navigator.clipboard.writeText(promptText).then(() => {
+          showToast();
+          const targetAI = button.dataset.ai;
+          const url = targetAI === "chatgpt" ? "https://chatgpt.com/" : "https://gemini.google.com/app";
+          setTimeout(() => { window.open(url, "_blank", "noopener,noreferrer"); }, 400);
+        }).catch(err => {
+          alert("Không thể tự động copy. Vui lòng thử lại!");
+        });
+      });
+    });
+  </script>
+</body>
+</html>

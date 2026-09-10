@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Tạo Thời Khóa Biểu 1536x1024</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* =========================================================
+   ẢNH TKB GỐC
+   KÍCH THƯỚC CHÍNH XÁC: 1536 x 1024
+   ========================================================= */
+
+#tkbContainer {
+    width: 1536px;
+    height: 1024px;
+
+    position: relative;
+
+    background-image: url("../anhnen/1.jpg");
+    background-size: 1536px 1024px;
+    background-repeat: no-repeat;
+    background-position: 0 0;
+
+    flex-shrink: 0;
+}
+
+
+/* =========================================================
+   TÊN TRƯỜNG
+   ========================================================= */
+
+#schoolText {
+    position: absolute;
+
+    left: 35px;
+    top: 35px;
+
+    width: 400px;
+
+    font-size: 17px;
+    line-height: 1.25;
+
+    font-weight: 800;
+
+    color: #173b87;
+
+    text-align: left;
+}
+
+
+/* =========================================================
+   LỚP
+   ========================================================= */
+
+#classText {
+    position: absolute;
+
+    left: 790px;
+    top: 110px;
+
+    width: 150px;
+
+    text-align: center;
+
+    font-size: 38px;
+
+    line-height: 1;
+
+    font-weight: 900;
+
+    color: #173b87;
+}
+
+
+/* =========================================================
+   NĂM HỌC (Ẩn đi)
+   ========================================================= */
+
+#yearText {
+    display: none;
+}
+
+
+/* =========================================================
+   TUẦN VÀ NGÀY THÁNG
+   ========================================================= */
+
+#weekText {
+    position: absolute;
+
+    left: 468px;
+    top: 172px;
+
+    width: 600px;
+
+    text-align: center;
+
+    font-size: 20px;
+
+    font-weight: 900;
+
+    color: #173b87;
+}
+
+
+/* =========================================================
+   LỚP CHỨA CÁC MÔN HỌC
+   ========================================================= */
+
+#cells {
+    position: absolute;
+
+    left: 290px;
+    top: 310px;
+
+    width: 1228px;
+    height: 505px;
+}
+
+
+/* =========================================================
+   TỪNG Ô MÔN HỌC
+   ========================================================= */
+
+.subjectCell {
+
+    position: absolute;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    padding: 3px 5px;
+
+    font-size: 18px;
+
+    line-height: 1.1;
+
+    font-weight: 800;
+
+    color: #102a72;
+
+    overflow: hidden;
+
+    word-break: break-word;
+}
+
+</style>
+</head>
+
+
+<body class="bg-slate-900 text-white min-h-screen p-4">
+
+<div class="max-w-7xl mx-auto">
+
+    <div class="text-center mb-5">
+
+        <h1 class="text-2xl font-black text-sky-400">
+
+            TẠO THỜI KHÓA BIỂU 1536 × 1024
+
+        </h1>
+
+        <p class="text-slate-400 text-sm mt-1">
+
+            Đọc dữ liệu từ Excel và điền trực tiếp vào ảnh nền
+
+        </p>
+
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-5">
+
+        <div class="bg-slate-800
+                    border border-slate-700
+                    rounded-2xl
+                    p-4
+                    shadow-xl
+                    h-fit">
+
+            <h2 class="text-lg font-bold text-sky-300 mb-4">
+
+                TÙY CHỈNH
+
+            </h2>
+
+            <label class="block text-xs font-bold mb-1">
+
+                CHỌN ẢNH NỀN
+
+            </label>
+
+            <!-- ĐÃ ĐỔI TỪ INPUT FILE THÀNH SELECT CHỌN DANH SÁCH ẢNH -->
+            <select
+                id="bgSelect"
+                onchange="changeBackground()"
+                class="w-full
+                       bg-slate-900
+                       border border-slate-700
+                       rounded-xl
+                       px-3 py-2
+                       text-xs
+                       font-bold
+                       mb-4"
+            >
+                <option value="1.jpg">Mẫu 1 (1.jpg)</option>
+                <option value="2.jpg">Mẫu 2 (2.jpg)</option>
+                <option value="3.jpg">Mẫu 3 (3.jpg)</option>
+                <option value="4.jpg">Mẫu 4 (4.jpg)</option>
+                <option value="5.jpg">Mẫu 5 (5.jpg)</option>
+                <option value="6.jpg">Mẫu 6 (6.jpg)</option>
+                <option value="7.jpg">Mẫu 7 (7.jpg)</option>
+                <option value="8.jpg">Mẫu 8 (8.jpg)</option>
+                <option value="9.jpg">Mẫu 9 (9.jpg)</option>
+            </select>
+
+            <label class="block text-xs font-bold mb-1">
+
+                TÊN TRƯỜNG
+
+            </label>
+
+            <input
+                id="inputSchool"
+                type="text"
+                value="TRƯỜNG THPT SÀO BÁY"
+                oninput="renderTKB()"
+                class="w-full
+                       bg-slate-900
+                       border border-slate-700
+                       rounded-xl
+                       px-3 py-2
+                       text-xs
+                       font-bold
+                       mb-4"
+            >
+
+            <label class="block text-xs font-bold mb-1">
+
+                FILE EXCEL TKB
+
+            </label>
+
+            <input
+                id="fileInput"
+                type="file"
+                accept=".xls,.xlsx"
+                onchange="handleFile(event)"
+                class="w-full text-xs mb-4"
+            >
+
+            <label class="block text-xs font-bold mb-1">
+
+                CHỌN LỚP
+
+            </label>
+
+            <select
+                id="selectClass"
+                onchange="renderTKB()"
+                class="w-full
+                       bg-slate-900
+                       border border-slate-700
+                       rounded-xl
+                       px-3 py-2
+                       text-xs
+                       font-bold
+                       mb-4"
+            >
+
+                <option value="">
+                    -- Chưa tải Excel --
+                </option>
+
+            </select>
+
+            <div class="grid grid-cols-2 gap-2">
+
+                <div>
+
+                    <label class="block text-xs font-bold mb-1">
+
+                        TUẦN
+
+                    </label>
+
+                    <input
+                        id="inputWeek"
+                        type="number"
+                        min="1"
+                        max="52"
+                        value="1"
+                        onchange="onWeekChange()"
+                        class="w-full
+                               bg-slate-900
+                               border border-slate-700
+                               rounded-xl
+                               px-3 py-2
+                               text-xs
+                               font-bold"
+                    >
+
+                </div>
+
+                <div>
+
+                    <label class="block text-xs font-bold mb-1">
+
+                        NGÀY BẮT ĐẦU (THỨ 2)
+
+                    </label>
+
+                    <input
+                        id="inputDate"
+                        type="text"
+                        value="07/09/2026"
+                        onchange="renderTKB()"
+                        class="w-full
+                               bg-slate-900
+                               border border-slate-700
+                               rounded-xl
+                               px-3 py-2
+                               text-xs
+                               font-bold"
+                    >
+
+                </div>
+
+            </div>
+
+            <label class="block text-xs font-bold mb-1 mt-4">
+
+                NĂM HỌC
+
+            </label>
+
+            <input
+                id="inputYear"
+                type="text"
+                value="2026 - 2027"
+                oninput="renderTKB()"
+                class="w-full
+                       bg-slate-900
+                       border border-slate-700
+                       rounded-xl
+                       px-3 py-2
+                       text-xs
+                       font-bold"
+            >
+
+            <button
+                onclick="downloadImage()"
+                class="w-full
+                       mt-5
+                       bg-sky-500
+                       hover:bg-sky-400
+                       text-slate-950
+                       font-extrabold
+                       py-3
+                       rounded-xl"
+            >
+
+                TẢI ẢNH TKB 1536 × 1024
+
+            </button>
+
+        </div>
+
+        <div
+            class="lg:col-span-3
+                   overflow-auto
+                   bg-slate-950
+                   p-4
+                   rounded-2xl
+                   border border-slate-800"
+        >
+
+            <div
+                style="
+                    transform:scale(0.60);
+                    transform-origin:top left;
+                    width:922px;
+                    height:615px;
+                "
+            >
+
+                <div id="tkbContainer">
+
+                    <div id="schoolText">
+
+                        SỞ GD&ĐT PHÚ THỌ<br>
+
+                        TRƯỜNG THPT SÀO BÁY
+
+                    </div>
+
+                    <div id="classText"></div>
+
+                    <div id="yearText"></div>
+
+                    <div id="weekText"></div>
+
+                    <div id="cells"></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+let parsedData = {};
+
+const days = [
+    "Thứ 2",
+    "Thứ 3",
+    "Thứ 4",
+    "Thứ 5",
+    "Thứ 6",
+    "Thứ 7"
+];
+
+const baseStartDate = new Date(2026, 8, 7);
+
+const colLeft = [
+    0,
+    222,
+    438,
+    642,
+    837,
+    1038
+];
+
+const colWidth = [
+    222,
+    216,
+    204,
+    195,
+    201,
+    190
+];
+
+const rowTop = [
+    0,
+    60,
+    122,
+    184,
+    246,
+    310,
+    371,
+    437
+];
+
+const rowHeight = [
+    60,
+    62,
+    62,
+    62,
+    64,
+    61,
+    66,
+    68
+];
+
+/* HÀM THAY ĐỔI ẢNH NỀN TỪ DANH SÁCH */
+function changeBackground() {
+    const selectedVal = document.getElementById("bgSelect").value;
+    document.getElementById("tkbContainer").style.backgroundImage = `url("../anhnen/${selectedVal}")`;
+}
+
+function updateHeader() {
+    const school = document.getElementById("inputSchool").value.trim() || "TRƯỜNG THPT SÀO BÁY";
+    const startDateStr = document.getElementById("inputDate").value.trim();
+    const className = document.getElementById("selectClass").value || "";
+    const weekNum = document.getElementById("inputWeek").value.trim() || "1";
+
+    document.getElementById("schoolText").innerHTML = "SỞ GD&ĐT PHÚ THỌ<br>" + escapeHtml(school);
+    document.getElementById("classText").textContent = className;
+
+    let dateRangeText = startDateStr;
+    if (startDateStr) {
+        const parts = startDateStr.split("/");
+        if (parts.length === 3) {
+            const day = parseInt(parts[0], 10);
+            const month = parseInt(parts[1], 10) - 1;
+            const year = parseInt(parts[2], 10);
+            
+            const startDate = new Date(year, month, day);
+            if (!isNaN(startDate.getTime())) {
+                const endDate = new Date(startDate);
+                endDate.setDate(startDate.getDate() + 5);
+
+                const endDayStr = String(endDate.getDate()).padStart(2, "0");
+                const endMonthStr = String(endDate.getMonth() + 1).padStart(2, "0");
+                const endYearStr = endDate.getFullYear();
+
+                dateRangeText = `${startDateStr} - ${endDayStr}/${endMonthStr}/${endYearStr}`;
+            }
+        }
+    }
+
+    document.getElementById("weekText").textContent = `Tuần ${weekNum} (Từ ngày ${dateRangeText})`;
+}
+
+function escapeHtml(text) {
+    return text.replace(/[&<>"']/g, function(match) {
+        return {
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#039;"
+        }[match];
+    });
+}
+
+function handleFile(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const workbook = XLSX.read(new Uint8Array(e.target.result), { type: "array" });
+            let sheetName = workbook.SheetNames.find(function(name) {
+                return /toan\s*truong/i.test(name);
+            }) || workbook.SheetNames[0];
+            const sheet = workbook.Sheets[sheetName];
+            const data = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: "", raw: false });
+            parseTKBData(data);
+        } catch(error) {
+            alert("Không đọc được file Excel:\n" + error.message);
+        }
+    };
+    reader.readAsArrayBuffer(file);
+}
+
+function clean(value) {
+    return String(value ?? "").replace(/\s+/g, " ").trim();
+}
+
+function normalizeDay(value) {
+    const s = clean(value).toLowerCase().replace(/\s/g, "");
+    if (s.includes("thứ2") || s.includes("thu2")) return "Thứ 2";
+    if (s.includes("thứ3") || s.includes("thu3")) return "Thứ 3";
+    if (s.includes("thứ4") || s.includes("thu4")) return "Thứ 4";
+    if (s.includes("thứ5") || s.includes("thu5")) return "Thứ 5";
+    if (s.includes("thứ6") || s.includes("thu6")) return "Thứ 6";
+    if (s.includes("thứ7") || s.includes("thu7")) return "Thứ 7";
+    return null;
+}
+
+function normalizeSession(value) {
+    const s = clean(value).toLowerCase();
+    if (s.includes("chiều") || s.includes("chieu")) return "Chiều";
+    if (s.includes("sáng") || s.includes("sang")) return "Sáng";
+    return null;
+}
+
+function isClassName(value) {
+    const s = clean(value);
+    return /^(6|7|8|9|10|11|12)[a-zA-Z][a-zA-Z0-9._-]*$/i.test(s);
+}
+
+function parseTKBData(data) {
+    parsedData = {};
+    let headerIdx = -1;
+    for (let r = 0; r < data.length; r++) {
+        const row = data[r] || [];
+        const count = row.filter(isClassName).length;
+        if (count >= 2) {
+            headerIdx = r;
+            break;
+        }
+    }
+    if (headerIdx < 0) {
+        alert("Không tìm thấy dòng tên lớp trong Excel.");
+        return;
+    }
+
+    const header = data[headerIdx];
+    const classCols = [];
+    for (let c = 0; c < header.length; c++) {
+        const className = clean(header[c]);
+        if (isClassName(className)) {
+            classCols.push({ col: c, name: className });
+            parsedData[className] = { "Sáng": {}, "Chiều": {} };
+        }
+    }
+
+    let currentDay = null;
+    let currentSession = "Sáng";
+
+    for (let r = headerIdx + 1; r < data.length; r++) {
+        const row = data[r] || [];
+        for (let c = 0; c < Math.min(3, row.length); c++) {
+            const day = normalizeDay(row[c]);
+            if (day) {
+                currentDay = day;
+                break;
+            }
+        }
+
+        const rowText = row.map(clean).join(" ");
+        const session = normalizeSession(rowText);
+        if (session) currentSession = session;
+        if (!currentDay) continue;
+
+        let tiet = null;
+        const possibleValues = [row[1], row[0]];
+        for (const value of possibleValues) {
+            const number = parseInt(clean(value), 10);
+            if (Number.isInteger(number)) {
+                tiet = number;
+                break;
+            }
+        }
+
+        if (tiet === null) {
+            for (let c = 0; c < Math.min(4, row.length); c++) {
+                const number = parseInt(clean(row[c]), 10);
+                if (Number.isInteger(number) && number >= 1 && number <= 5) {
+                    tiet = number;
+                    break;
+                }
+            }
+        }
+
+        if (!tiet) continue;
+
+        for (const item of classCols) {
+            let subject = clean(row[item.col]);
+            if (subject === "-" || subject === "0") {
+                subject = "";
+            }
+            if (!parsedData[item.name][currentSession][currentDay]) {
+                parsedData[item.name][currentSession][currentDay] = {};
+            }
+            parsedData[item.name][currentSession][currentDay][tiet] = subject;
+        }
+    }
+
+    const selectClass = document.getElementById("selectClass");
+    selectClass.innerHTML = "";
+    const classes = Object.keys(parsedData).sort(function(a,b) {
+        return a.localeCompare(b, "vi", { numeric: true });
+    });
+
+    classes.forEach(function(className) {
+        const option = document.createElement("option");
+        option.value = className;
+        option.textContent = "Lớp " + className;
+        selectClass.appendChild(option);
+    });
+
+    if (selectClass.options.length) {
+        selectClass.selectedIndex = 0;
+    }
+
+    renderTKB();
+}
+
+function onWeekChange() {
+    const week = Math.max(1, parseInt(document.getElementById("inputWeek").value) || 1);
+    const date = new Date(baseStartDate);
+    date.setDate(date.getDate() + (week - 1) * 7);
+
+    document.getElementById("inputDate").value =
+        String(date.getDate()).padStart(2, "0") + "/" +
+        String(date.getMonth() + 1).padStart(2, "0") + "/" +
+        date.getFullYear();
+
+    renderTKB();
+}
+
+function renderTKB() {
+    updateHeader();
+    const className = document.getElementById("selectClass").value;
+    const cells = document.getElementById("cells");
+    cells.innerHTML = "";
+
+    if (!className || !parsedData[className]) {
+        return;
+    }
+
+    const sessions = [
+        ["Sáng", 1], ["Sáng", 2], ["Sáng", 3], ["Sáng", 4], ["Sáng", 5],
+        ["Chiều", 1], ["Chiều", 2], ["Chiều", 3]
+    ];
+
+    sessions.forEach(function(info, rowIndex) {
+        const session = info[0];
+        const tiet = info[1];
+
+        days.forEach(function(day, colIndex) {
+            const subject = parsedData[className][session][day]?.[tiet] || "";
+            if (!subject) return;
+
+            const cell = document.createElement("div");
+            cell.className = "subjectCell";
+            cell.style.left = colLeft[colIndex] + "px";
+            cell.style.top = rowTop[rowIndex] + "px";
+            cell.style.width = colWidth[colIndex] + "px";
+            cell.style.height = rowHeight[rowIndex] + "px";
+            cell.textContent = subject;
+
+            cells.appendChild(cell);
+        });
+    });
+}
+
+async function downloadImage() {
+    const container = document.getElementById("tkbContainer");
+    try {
+        const canvas = await html2canvas(container, {
+            width: 1536,
+            height: 1024,
+            scale: 1,
+            useCORS: true,
+            backgroundColor: null,
+            logging: false
+        });
+
+        const className = document.getElementById("selectClass").value || "TKB";
+        const link = document.createElement("a");
+        link.download = "TKB_Lop_" + className + "_1536x1024.png";
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+    } catch(error) {
+        alert("Không thể xuất ảnh:\n" + error.message);
+    }
+}
+
+renderTKB();
+
+</script>
+
+</body>
+</html>

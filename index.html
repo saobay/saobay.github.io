@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Cổng công cụ hỗ trợ giáo viên trường THPT Sào Bảy">
+  <title>Cổng công cụ trường THPT Sào Bảy</title>
+  <style>
+    :root{--ink:#12304a;--muted:#607487;--line:#d9e4eb;--paper:#f7fafb;--white:#fff;--teal:#087f83;--teal-dark:#075d66;--gold:#e7b34a;--shadow:0 14px 35px rgba(19,54,72,.1)}
+    *{box-sizing:border-box}html,body{margin:0;min-height:100%}body{color:var(--ink);background:var(--paper);font-family:"Trebuchet MS","Segoe UI",sans-serif}
+    .site-header{min-height:118px;display:flex;align-items:center;padding:20px clamp(20px,5vw,76px);color:#fff;background:linear-gradient(110deg,rgba(3,55,74,.98),rgba(8,127,131,.88)),radial-gradient(circle at 82% 15%,rgba(231,179,74,.55),transparent 32%);border-bottom:4px solid var(--gold)}
+    .brand{display:flex;align-items:center;gap:16px;max-width:100%}.brand-mark{display:grid;place-items:center;flex:0 0 58px;height:58px;border:2px solid rgba(255,255,255,.7);border-radius:50%;color:var(--gold);font-size:25px;font-weight:900}.brand h1{margin:0;font-size:clamp(1.15rem,2.5vw,1.8rem);letter-spacing:.02em}.brand p{margin:5px 0 0;color:#cce5e6;font-size:.86rem}
+    .toolbar{position:relative;z-index:2;display:flex;flex-wrap:wrap;gap:8px;padding:10px clamp(20px,5vw,76px);background:var(--white);border-bottom:1px solid var(--line);box-shadow:0 4px 14px rgba(18,48,74,.06)}
+    .menu{position:relative}.menu summary{list-style:none;cursor:pointer;user-select:none;display:flex;align-items:center;gap:8px;padding:10px 14px;color:var(--ink);border:1px solid transparent;border-radius:6px;font-size:.92rem;font-weight:700}.menu summary::-webkit-details-marker{display:none}.menu summary::after{content:"⌄";color:var(--teal);font-size:1rem}.menu[open] summary,.menu summary:hover{background:#eaf5f4;border-color:#c5e3e0;color:var(--teal-dark)}
+    .menu-items{position:absolute;top:calc(100% + 6px);left:0;min-width:265px;padding:6px;background:var(--white);border:1px solid var(--line);border-radius:6px;box-shadow:var(--shadow)}.menu-items button{width:100%;display:block;padding:11px 12px;border:0;border-radius:4px;color:var(--ink);background:transparent;text-align:left;cursor:pointer;font:inherit;font-size:.88rem}.menu-items button:hover,.menu-items button[aria-current=page]{color:var(--teal-dark);background:#eef8f7}
+    main{width:min(1440px,100%);margin:0 auto;padding:18px clamp(14px,3vw,34px) 30px}.content-heading{display:flex;justify-content:space-between;align-items:end;gap:16px;margin-bottom:12px}.content-heading h2{margin:0;font-size:clamp(1rem,2vw,1.3rem)}.content-heading p{margin:4px 0 0;color:var(--muted);font-size:.84rem}.status{color:var(--teal);font-size:.8rem;font-weight:700;white-space:nowrap}.frame-wrap{min-height:calc(100vh - 245px);overflow:hidden;background:var(--white);border:1px solid var(--line);border-radius:8px;box-shadow:var(--shadow)}iframe{display:block;width:100%;height:min(900px,calc(100vh - 245px));min-height:650px;border:0}
+    @media(max-width:620px){.site-header{min-height:96px;padding:16px 18px}.brand-mark{flex-basis:44px;height:44px;font-size:19px}.brand p{font-size:.76rem}.toolbar{padding:8px 12px;gap:4px}.menu summary{padding:9px 10px;font-size:.8rem}.menu-items{position:fixed;left:12px;right:12px;min-width:0}.content-heading{align-items:start;flex-direction:column;gap:4px}iframe{height:900px;min-height:900px}}
+  </style>
+</head>
+<body>
+  <header class="site-header"><div class="brand"><div class="brand-mark" aria-hidden="true">SB</div><div><h1>TRƯỜNG THPT SÀO BÁY</h1><p>CỔNG CÔNG CỤ HỖ TRỢ GIÁO VIÊN</p></div></div></header>
+  
+  <nav class="toolbar" aria-label="Thanh công cụ chính">
+    <details class="menu">
+      <summary>Công tác chủ nhiệm</summary>
+      <div class="menu-items">
+        <button type="button" data-page="ctcn/tkb.html" aria-current="page">Tạo thời khóa biểu lớp</button>
+        <button type="button" data-page="ctcn/poster.html">Soạn poster họp phụ huynh (AI)</button>
+      </div>
+    </details>
+  </nav>
+
+  <main><div class="content-heading"><div><h2 id="page-title">Tạo thời khóa biểu lớp</h2><p id="page-description">Đọc dữ liệu từ Excel và điền trực tiếp vào ảnh nền.</p></div><span class="status">Đang hoạt động</span></div><section class="frame-wrap" aria-label="Khu vực nội dung công cụ"><iframe id="content-frame" title="Nội dung công cụ" src="ctcn/tkb.html"></iframe></section></main>
+
+  <script>
+    const frame = document.getElementById("content-frame");
+    const title = document.getElementById("page-title");
+    const description = document.getElementById("page-description");
+    const labels = new Map([
+      ["ctcn/tkb.html", ["Tạo thời khóa biểu lớp", "Đọc dữ liệu từ Excel và điền trực tiếp vào ảnh nền."]],
+      ["ctcn/poster.html", ["Nhập thông tin tạo Poster họp phụ huynh THPT", "Điền các dữ liệu cá nhân hóa để tạo câu lệnh chuẩn xác cho AI."]]
+    ]);
+
+    document.querySelectorAll("[data-page]").forEach((button) => button.addEventListener("click", () => {
+      const page = button.dataset.page;
+      const [heading, text] = labels.get(page);
+      frame.src = page;
+      title.textContent = heading;
+      description.textContent = text;
+      document.querySelectorAll("[data-page]").forEach((item) => item.removeAttribute("aria-current"));
+      button.setAttribute("aria-current", "page");
+      button.closest("details").open = false;
+    }));
+
+    document.addEventListener("click", (event) => {
+      document.querySelectorAll("details.menu").forEach((menu) => {
+        if (!menu.contains(event.target)) menu.open = false;
+      });
+    });
+  </script>
+</body>
+</html>
