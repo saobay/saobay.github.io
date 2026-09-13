@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>20 Prompt Chỉnh Sửa Ảnh AI</title>
+  <style>
+    :root {
+      --ink: #12304a;
+      --muted: #607487;
+      --line: #d9e4eb;
+      --paper: #f7fafb;
+      --white: #fff;
+      --teal: #087f83;
+      --teal-dark: #075d66;
+      --gold: #e7b34a;
+      --shadow: 0 14px 35px rgba(19,54,72,.1);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 20px;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+    }
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .header-title {
+      text-align: center;
+      color: var(--teal-dark);
+      margin-bottom: 20px;
+    }
+    .header-title h1 {
+      margin: 0;
+      font-size: clamp(1.5rem, 2.5vw, 2rem);
+    }
+    .header-title p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    /* Toast Notification */
+    #toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #0d9488;
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      z-index: 9999;
+      display: none;
+      max-width: 350px;
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    .wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    /* Khối chứa ảnh mẫu được tinh chỉnh lại độ rộng vừa vặn */
+    .image-preview-col {
+      flex: 0 0 380px;
+      background: #032539;
+      border-radius: 12px;
+      padding: 15px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      border: 2px solid var(--gold);
+    }
+    .image-preview-col h3 {
+      color: var(--gold);
+      margin-top: 0;
+      font-size: 1.1rem;
+    }
+    
+    /* Khung hiển thị ảnh không bị tràn viền, căn chỉnh đúng tỷ lệ */
+    .img-crop-container {
+      width: 100%;
+      height: 650px;
+      overflow: hidden;
+      border-radius: 8px;
+      position: relative;
+      background: #032539;
+    }
+    .image-preview-col img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain; /* Giữ nguyên toàn bộ chi tiết ảnh, không bị cắt xén hay méo hình */
+      display: block;
+    }
+
+    /* Cột danh sách 3 nút bấm Prompt */
+    .buttons-grid-col {
+      flex: 1;
+      min-width: 320px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .prompt-btn {
+      background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
+      color: #fff;
+      border: 1px solid var(--teal-dark);
+      border-radius: 8px;
+      padding: 10px 10px;
+      text-align: left;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.82rem;
+      box-shadow: 0 2px 6px rgba(8, 127, 131, 0.25);
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .prompt-btn span.num {
+      background: var(--gold);
+      color: #12304a;
+      padding: 2px 5px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 900;
+    }
+    .prompt-btn:hover {
+      background: linear-gradient(135deg, var(--teal-dark) 0%, #04434a 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(8, 127, 131, 0.4);
+    }
+  </style>
+</head>
+<body>
+
+  <div id="toast"></div>
+
+  <div class="container">
+    <div class="header-title">
+      <h1>20 PROMPT DÙNG CHO CHỈNH SỬA ẢNH AI</h1>
+      <p>Chọn nhanh câu lệnh tiếng Anh chuẩn xác, tự động sao chép vào bộ nhớ tạm để sử dụng ngay.</p>
+    </div>
+
+    <div class="wrapper">
+      <!-- Cột hiển thị ảnh mẫu -->
+      <div class="image-preview-col">
+        <h3>Bản Đồ 20 Tiện Ích Prompt</h3>
+        <p style="color: #cce5e6; font-size: 0.82rem; margin-bottom: 10px;">Bấm vào các nút bên cạnh để copy prompt tương ứng số thứ tự.</p>
+        <div class="img-crop-container">
+          <img src="anhnen.jpg" alt="20 Prompt Chỉnh Sửa Ảnh AI">
+        </div>
+      </div>
+
+      <!-- Cột danh sách 20 nút bấm (chia 3 cột gọn gàng) -->
+      <div class="buttons-grid-col" id="prompt-container"></div>
+    </div>
+  </div>
+
+  <script>
+    const prompts = [
+      { id: 1, name: "Xóa nền", text: "Remove the entire background and create a true transparent PNG background. Keep only the main subject with clean, precise edges, including fine hair, fabric, and small details. Do not leave any white, gray, checkerboard, colored background, halo, or leftover objects behind the subject." },
+      { id: 2, name: "Làm nét", text: "Enhance this image with natural sharpness, balanced lighting, reduced noise, improved detail, and realistic color. Preserve the original subject, facial features, textures, and composition. Avoid oversharpening, plastic-looking skin, or artificial details." },
+      { id: 3, name: "Thay nền", text: "Replace only the background with [MÔ TẢ BỐI CẢNH]. Keep the subject completely unchanged, including face, pose, clothing, product details, and proportions. Match perspective, lighting direction, shadows, color temperature, and depth of field naturally." },
+      { id: 4, name: "Chỉnh màu", text: "Improve the overall color grading of this image: adjust white balance, exposure, contrast, brightness, saturation, and skin tones for a polished, vibrant, professional result. Keep all colors realistic and avoid oversaturation." },
+      { id: 5, name: "Xóa vật thể", text: "Remove only [VẬT THỂ/NGƯỜI CẦN XÓA] from the image. Reconstruct the hidden background naturally with matching texture, lighting, perspective, and shadows. Leave no editing marks, blur patches, duplicated patterns, or distortions." },
+      { id: 6, name: "Thêm chữ lên ảnh", text: "Add the exact text: ‘[NỘI DUNG CHỮ]’. Use a bold, modern, highly legible font that supports Vietnamese. Place it at [VỊ TRÍ], with balanced spacing, strong contrast, and clear visual hierarchy. Do not alter the subject or add any extra text." },
+      { id: 7, name: "Đổi màu vật thể", text: "Change only the color of [VẬT THỂ] to [MÀU MỚI]. Preserve its original shape, material, texture, highlights, reflections, shadows, logo, label, and all surrounding elements. The result must look physically realistic." },
+      { id: 8, name: "Đổi tỷ lệ ảnh", text: "Resize and recompose this image to [KÍCH THƯỚC hoặc TỶ LỆ, ví dụ: 4:5]. Maintain maximum image quality and preserve the main subject without distortion. Extend or crop the background naturally when necessary; keep important details inside safe margins." },
+      { id: 9, name: "Thêm bóng đổ", text: "Add a realistic contact shadow beneath and around the subject. Match the existing light direction, light intensity, surface texture, perspective, and scene depth. Keep the shadow soft and physically believable." },
+      { id: 10, name: "Đổi phong cách", text: "Transform this image into a [CINEMATIC / ANIME / 3D RENDER / OIL PAINTING / ILLUSTRATION] style. Preserve the main subject’s identity, face, pose, proportions, composition, and recognizable details. Do not add unrelated objects or change the subject’s defining features." },
+      { id: 11, name: "Làm mờ hậu cảnh", text: "Create a natural professional lens blur in the background only. Keep the main subject perfectly sharp and in focus, with realistic depth of field, clean edges, and smooth bokeh. Do not blur any important subject details." },
+      { id: 12, name: "Phục chế ảnh cũ", text: "Restore this old or damaged photo by repairing scratches, stains, fading, tears, noise, and color loss. Preserve the original face, expression, clothing, composition, and historical character. Do not modernize, redesign, or alter the person’s identity." },
+      { id: 13, name: "Retouch da tự nhiên", text: "Retouch the skin subtly and naturally. Reduce temporary blemishes and uneven tone while preserving pores, skin texture, facial structure, expression, age characteristics, and natural color. Avoid plastic skin, excessive smoothing, or face reshaping." },
+      { id: 14, name: "Thêm phản chiếu", text: "Add a realistic reflection of the subject on [BỀ MẶT: kính, nước, sàn bóng…]. Match the correct angle, perspective, brightness, distortion, surface texture, and lighting. Keep the reflection physically believable and not overly strong." },
+      { id: 15, name: "Ghép hai ảnh", text: "Combine the provided images into one seamless, realistic composition. Match subject scale, perspective, light direction, shadows, color grading, depth of field, and edge quality. Preserve the identity and important details from each source image. Make it look like a single original photograph." },
+      { id: 16, name: "Đưa vào mockup", text: "Place the provided product into a realistic [MÔ TẢ BỐI CẢNH MOCKUP]. Preserve the product’s exact shape, proportions, packaging, colors, label, logo, and text. Use accurate scale, perspective, natural lighting, contact shadows, and realistic reflections. Do not add, remove, or distort packaging details." },
+      { id: 17, name: "Nâng độ phân giải", text: "Upscale this image to high resolution while preserving the original composition and details. Improve edge clarity, textures, and fine details naturally. Avoid blur, jagged edges, oversharperning, artificial patterns, or distorted facial and product details." },
+      { id: 18, name: "Ánh sáng điện ảnh", text: "Add cinematic lighting while keeping the subject natural and recognizable. Use [ÁNH SÁNG MONG MUỐN: warm sunset / soft studio / dramatic rim light…], with realistic highlights, shadows, depth, and color grading. Do not alter the subject’s face, clothing, or product details." },
+      { id: 19, name: "Chuyển Line Art", text: "Convert this image into a clean black-and-white line art illustration. Preserve the original proportions, facial features, object details, contours, and composition. Use precise, elegant linework with no gray background, no color, no extra objects, and no distorted details." },
+      { id: 20, name: "Thay trang phục", text: "Replace only the clothing with [MÔ TẢ TRANG PHỤC MỚI]. Keep the person’s face, hairstyle, age, body proportions, pose, hands, expression, and identity exactly unchanged. Ensure realistic fabric, fit, folds, lighting, and shadows that match the scene." }
+    ];
+
+    const container = document.getElementById("prompt-container");
+    const toast = document.getElementById("toast");
+
+    function showToast(message) {
+      toast.innerHTML = message;
+      toast.style.display = "block";
+      setTimeout(() => {
+        toast.style.display = "none";
+      }, 4500);
+    }
+
+    prompts.forEach(item => {
+      const btn = document.createElement("button");
+      btn.className = "prompt-btn";
+      const formattedNum = item.id < 10 ? "0" + item.id : item.id;
+      btn.innerHTML = `<span class="num">${formattedNum}</span> ${item.name}`;
+      
+      btn.addEventListener("click", () => {
+        navigator.clipboard.writeText(item.text).then(() => {
+          showToast(`✅ <b>Đã copy Prompt ${formattedNum}: ${item.name}!</b><br>👉 Mở <b>ChatGPT</b> hoặc <b>Gemini</b>, dán (Ctrl+V) kèm theo bức ảnh cần sửa để sử dụng.`);
+        }).catch(err => {
+          showToast("❌ Lỗi khi copy prompt!");
+        });
+      });
+
+      container.appendChild(btn);
+    });
+  </script>
+</body>
+</html>
