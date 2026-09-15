@@ -5,54 +5,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thư viện tải xuống</title>
     <style>
-        :root{--ink:#12304a;--muted:#607487;--line:#d9e4eb;--paper:#f7fafb;--white:#fff;--teal:#087f83;--teal-dark:#075d66;--gold:#e7b34a;--shadow:0 14px 35px rgba(19,54,72,.1)}
+        :root{--ink:#12304a;--muted:#607487;--line:#d9e4eb;--paper:#f7fafb;--white:#fff;--teal:#087f83;--teal-dark:#075d66;--gold:#b2820d;--gold-bg:#fdf6e2;--shadow:0 14px 35px rgba(19,54,72,.1)}
         *{box-sizing:border-box}
         body{margin:0;padding:20px;color:var(--ink);background:var(--paper);font-family:"Trebuchet MS","Segoe UI",sans-serif}
         .container{max-width:900px;margin:0 auto}
         h2{margin-top:0;color:var(--teal-dark);font-size:1.4rem;border-bottom:2px solid var(--line);padding-bottom:10px}
-        .download-list{display:flex;flex-direction:column;gap:12px;margin-top:20px}
+        
+        /* Phân chia hạng mục */
+        .category-section{margin-top:25px}
+        .category-title{font-size:1.1rem;color:var(--teal-dark);font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+        
+        .sub-category{margin-left:15px;margin-top:15px;margin-bottom:10px;font-size:0.95rem;color:var(--ink);font-weight:600;display:flex;align-items:center;gap:6px}
+
+        .download-list{display:flex;flex-direction:column;gap:12px}
         .download-item{display:flex;justify-content:space-between;align-items:center;background:var(--white);padding:15px 20px;border:1px solid var(--line);border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,0.02);transition:all 0.2s ease}
         .download-item:hover{border-color:var(--teal);box-shadow:var(--shadow)}
         .file-info{display:flex;align-items:center;gap:15px}
-        .file-icon{width:40px;height:40px;display:grid;place-items:center;background:#eef8f7;color:var(--teal);border-radius:8px;font-weight:bold;font-size:1.1rem}
+        
+        .file-icon{width:40px;height:40px;display:grid;place-items:center;background:#eef8f7;color:var(--teal);border-radius:8px;font-weight:bold;font-size:0.9rem}
+        .file-icon.rar{background:var(--gold-bg); color:var(--gold);}
+        .file-icon.doc{background:#e8f0fe; color:#1a73e8;}
+
         .file-name{font-weight:700;font-size:1rem;color:var(--ink);margin:0 0 3px}
         .file-desc{margin:0;font-size:0.82rem;color:var(--muted)}
-        .download-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--teal);color:var(--white);border-radius:6px;text-decoration:none;font-weight:600;font-size:0.9rem;transition:background 0.2s}
+        .download-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--teal);color:var(--white);border-radius:6px;text-decoration:none;font-weight:600;font-size:0.9rem;transition:background 0.2s;white-space:nowrap}
         .download-btn:hover{background:var(--teal-dark)}
     </style>
 </head>
 <body>
     <div class="container">
         <h2>📂 Thư viện tài nguyên & Tệp tải xuống</h2>
-        <p style="color: var(--muted); font-size: 0.9rem;">Danh sách các biểu mẫu, phần mềm và tài liệu hỗ trợ thầy cô tải về sử dụng trực tiếp.</p>
+        <p style="color: var(--muted); font-size: 0.9rem;">Danh sách các phần mềm, biểu mẫu và tài liệu hỗ trợ thầy cô và học sinh tải về sử dụng trực tiếp.</p>
         
-        <div class="download-list">
-            <!-- Mục tải file 1 -->
-            <div class="download-item">
-                <div class="file-info">
-                    <div class="file-icon">ZIP</div>
-                    <div>
-                        <p class="file-name">Công cụ chuyển TKB nhà trường về chuẩn CSDL (TKB_V4.0.rar)</p>
-                        <p class="file-desc">Tổng hợp các mẫu kế hoạch bài dạy và báo cáo chuẩn.</p>
+        <!-- HẠNG MỤC 1: PHẦN MỀM & TIỆN ÍCH -->
+        <div class="category-section">
+            <div class="category-title">⚙️ Phần mềm & Tiện ích nhà trường</div>
+            <div class="download-list">
+                <div class="download-item">
+                    <div class="file-info">
+                        <div class="file-icon rar">RAR</div>
+                        <div>
+                            <p class="file-name">Công cụ chuyển TKB nhà trường về chuẩn CSDL (TKB_V4.0.rar)</p>
+                            <p class="file-desc">Phần mềm chuyển đổi TKB về dạng CSDL dùng cho hệ thống.</p>
+                        </div>
                     </div>
+                    <a href="https://drive.google.com/file/d/1MAbgEML6ncvER4bpvKzhcbKVLKBK5ote/view?usp=sharing" class="download-btn" target="_blank">🌐 Mở Google Drive</a>
                 </div>
-                <!-- Đã xóa 'download' và thêm target="_blank" để mở web Google Drive ở tab mới -->
-                <a href="https://drive.google.com/file/d/1MAbgEML6ncvER4bpvKzhcbKVLKBK5ote/view?usp=sharing" class="download-btn" target="_blank">🌐 Mở Google Drive</a>
-            </div>
-
-            <!-- Mục tải file 2 -->
-            <div class="download-item">
-                <div class="file-info">
-                    <div class="file-icon" style="background:#fdf6e2; color:#b2820d;">RAR</div>
-                    <div>
-                        <p class="file-name">Công cụ chuyển TKB nhà trường về chuẩn CSDL (TKB_V4.0.rar)</p>
-                        <p class="file-desc">Phần mềm chuyển đổi TKB về dạng CSDL</p>
-                    </div>
-                </div>
-                <!-- Đã xóa 'download' và thêm target="_blank" để mở web Google Drive ở tab mới -->
-                <a href="https://drive.google.com/file/d/1MAbgEML6ncvER4bpvKzhcbKVLKBK5ote/view?usp=sharing" class="download-btn" target="_blank">🌐 Mở Google Drive</a>
             </div>
         </div>
+
+        <!-- HẠNG MỤC 2: TÀI LIỆU HỌC TẬP -->
+        <div class="category-section">
+            <div class="category-title">📚 Tài liệu học tập & Ôn thi</div>
+            
+            <!-- Phân chia theo khối lớp -->
+            <div class="sub-category">📌 Khối lớp 12</div>
+            <div class="download-list">
+                <div class="download-item">
+                    <div class="file-info">
+                        <div class="file-icon doc">DOC</div>
+                        <div>
+                            <p class="file-name">Đề tham khảo Học sinh giỏi (HSG) năm học 2026-2027</p>
+                            <p class="file-desc">Bộ đề thi chuẩn cấu trúc ôn luyện HSG lớp 12 năm học 2026/2027.</p>
+                        </div>
+                    </div>
+                    <!-- Thay đổi link Google Drive của đề tham khảo HSG vào đây -->
+                    <a href="https://drive.google.com/drive/folders/1FOGiCCmEm0bUXQSJtc0wZN2VOtU1S6rX" class="download-btn" target="_blank">🌐 Mở Google Drive</a>
+                </div>
+            </div>
+        </div>
+
     </div>
 </body>
 </html>
