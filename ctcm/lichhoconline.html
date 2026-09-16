@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Link Học Online Toàn Trường - THPT Sào Báy</title>
+    <title>Phòng Học Trực Tuyến Toàn Trường - THPT Sào Báy</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- SheetJS (xlsx) để đọc file Excel trực tiếp trên trình duyệt -->
+    <!-- SheetJS (xlsx) để đọc tệp Excel trực tiếp trên trình duyệt -->
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <style>
         body {
@@ -18,15 +18,10 @@
         .header-section {
             background: linear-gradient(135deg, #1e3c72, #2a5298);
             color: white;
-            padding: 2rem 0;
-            margin-bottom: 2rem;
-            border-radius: 0 0 1.5rem 1.5rem;
+            padding: 1.5rem 0;
+            margin-bottom: 1.5rem;
+            border-radius: 0 0 1.2rem 1.2rem;
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-        .card {
-            border: none;
-            box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.05);
-            border-radius: 1rem;
         }
         .nav-pills .nav-link {
             font-weight: 600;
@@ -34,44 +29,68 @@
             border-radius: 0.5rem;
             padding: 0.5rem 1.2rem;
             transition: all 0.2s;
-        }
-        .nav-pills .nav-link.active {
-            background-color: #2a5298;
-            color: white;
-            box-shadow: 0 4px 6px rgba(42, 82, 152, 0.3);
-        }
-        .table-tkb th {
-            background-color: #1e3c72 !important;
-            color: white;
-            text-align: center;
-            vertical-align: middle;
-            font-size: 0.85rem;
-            white-space: nowrap;
-            padding: 12px 8px;
-        }
-        .table-tkb td {
-            vertical-align: middle;
-            text-align: center;
-            font-size: 0.85rem;
-            padding: 10px 8px;
-        }
-        .online-cell {
             cursor: pointer;
-            transition: all 0.2s ease-in-out;
-            font-weight: 500;
-            background-color: #ffffff;
-            border: 1px solid #dee2e6;
-            border-radius: 6px;
-            padding: 8px;
-            margin: 2px;
-            display: block;
         }
-        .online-cell:hover {
-            background-color: #cfe2ff !important;
-            color: #084298;
+        .room-card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 0.3rem 0.8rem rgba(0, 0, 0, 0.06);
+            transition: all 0.25s ease-in-out;
+            background: white;
+            overflow: hidden;
+            border-top: 4px solid #2a5298;
+            height: 100%;
+        }
+        .room-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0.6rem 1.2rem rgba(42, 82, 152, 0.15);
             border-color: #0d6efd;
-            transform: scale(1.02);
-            box-shadow: 0 2px 5px rgba(13, 110, 253, 0.2);
+        }
+        .room-header {
+            background: #f8f9fa;
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #1e3c72;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .room-body {
+            padding: 15px;
+        }
+        .current-subject {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #d9534f;
+            margin-bottom: 6px;
+            min-height: 28px;
+        }
+        .teacher-name {
+            font-size: 0.82rem;
+            color: #555;
+            margin-bottom: 10px;
+            min-height: 22px;
+        }
+        .room-info {
+            font-size: 0.82rem;
+            color: #6c757d;
+            margin-bottom: 8px;
+        }
+        .btn-enter-room {
+            width: 100%;
+            font-weight: 600;
+            border-radius: 8px;
+            padding: 8px;
+            background: linear-gradient(135deg, #2a5298, #1e3c72);
+            border: none;
+            color: white;
+            transition: opacity 0.2s;
+        }
+        .btn-enter-room:hover {
+            opacity: 0.9;
+            color: white;
         }
         .loading-overlay {
             display: none;
@@ -86,118 +105,134 @@
 </head>
 <body>
 
-    <!-- Hiệu ứng khi đang tải dữ liệu -->
+    <!-- Màn hình chờ tải dữ liệu -->
     <div id="loading" class="loading-overlay">
         <div class="text-center">
             <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;"></div>
-            <h5 class="mt-3 text-primary fw-bold" id="loadingText">Đang tải thời khóa biểu...</h5>
+            <h5 class="mt-3 text-primary fw-bold" id="loadingText">Đang tải dữ liệu thời khóa biểu...</h5>
         </div>
     </div>
 
     <!-- Header -->
     <div class="header-section text-center">
         <div class="container">
-            <h2><i class="fas fa-video me-2"></i> HỆ THỐNG HỌC ONLINE TOÀN TRƯỜNG</h2>
-            <p class="lead mb-0">Trường THPT Sào Báy - Lịch học trực tuyến theo Lớp</p>
-            <a href="index.html" class="btn btn-outline-light btn-sm mt-3"><i class="fas fa-arrow-left me-1"></i> Quay lại Chuyên môn</a>
+            <h3><i class="fas fa-chalkboard-teacher me-2"></i> SƠ ĐỒ PHÒNG HỌC TRỰC TUYẾN TOÀN TRƯỜNG</h3>
+            <p class="lead mb-0 text-white-50" style="font-size: 0.95rem;">Học sinh có mặt sẵn trong phòng học của lớp - Giáo viên chủ động vào phòng theo tiết học</p>
         </div>
     </div>
 
     <div class="container mb-5">
         
-        <!-- THANH CHỌN KHỐI LỚP & LỚP -->
-        <div class="card p-4 mb-4 bg-white">
+        <!-- THANH ĐIỀU KHIỂN & BỘ LỌC -->
+        <div class="card p-4 mb-4 bg-white shadow-sm border-0 rounded-4">
             <div class="row align-items-center g-3">
-                <div class="col-md-5">
-                    <label class="form-label fw-bold text-primary mb-2"><i class="fas fa-layer-group me-1"></i> Chọn Khối Lớp:</label>
-                    <ul class="nav nav-pills gap-2" id="khoiTabs" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button class="btn btn-primary active shadow-sm" id="btn-10" onclick="chuyenKhoi('10')">Khối 10</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="btn btn-outline-primary" id="btn-11" onclick="chuyenKhoi('11')">Khối 11</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="btn btn-outline-primary" id="btn-12" onclick="chuyenKhoi('12')">Khối 12</button>
-                        </li>
+                <!-- Chọn Khối -->
+                <div class="col-md-4">
+                    <label class="form-label fw-bold text-primary mb-2 small text-uppercase"><i class="fas fa-layer-group me-1"></i> Khối Lớp:</label>
+                    <ul class="nav nav-pills gap-1" id="khoiTabs" role="tablist">
+                        <li class="nav-item"><button class="btn btn-primary btn-sm shadow-sm" id="btn-10" onclick="chuyenKhoi('10')">Khối 10</button></li>
+                        <li class="nav-item"><button class="btn btn-outline-primary btn-sm" id="btn-11" onclick="chuyenKhoi('11')">Khối 11</button></li>
+                        <li class="nav-item"><button class="btn btn-outline-primary btn-sm" id="btn-12" onclick="chuyenKhoi('12')">Khối 12</button></li>
                     </ul>
                 </div>
-                <div class="col-md-4">
-                    <label class="form-label fw-bold text-primary mb-2"><i class="fas fa-school me-1"></i> Chọn Lớp:</label>
-                    <select id="selectLop" class="form-select fw-bold text-primary" onchange="hienThiTKBTheoLop()">
-                        <!-- Các lớp sẽ tự động nạp vào đây -->
+
+                <!-- Chọn Thứ thủ công hoặc Auto -->
+                <div class="col-md-3">
+                    <label class="form-label fw-bold text-primary mb-2 small text-uppercase" for="selectThu"><i class="fas fa-calendar-day me-1"></i> Chọn Thứ:</label>
+                    <select id="selectThu" class="form-select form-select-sm fw-bold text-dark" onchange="hienThiSoDoPhongHoc()">
+                        <option value="auto">⚡ Tự động (Theo thực tế)</option>
+                        <option value="2">Thứ 2</option>
+                        <option value="3">Thứ 3</option>
+                        <option value="4">Thứ 4</option>
+                        <option value="5">Thứ 5</option>
+                        <option value="6">Thứ 6</option>
+                        <option value="7">Thứ 7</option>
                     </select>
                 </div>
-                <div class="col-md-3 text-end d-flex align-items-end">
-                    <button class="btn btn-success w-100 fw-bold shadow-sm py-2" onclick="taiFileKhoi(currentKhoi)">
-                        <i class="fas fa-sync-alt me-1"></i> Đồng bộ lại
-                    </button>
+
+                <!-- Chọn Buổi -->
+                <div class="col-md-2">
+                    <label class="form-label fw-bold text-primary mb-2 small text-uppercase" for="selectBuoi"><i class="fas fa-sun me-1"></i> Buổi:</label>
+                    <select id="selectBuoi" class="form-select form-select-sm fw-bold text-dark" onchange="hienThiSoDoPhongHoc()">
+                        <option value="auto">⚡ Tự động</option>
+                        <option value="SANG">Sáng</option>
+                        <option value="CHIEU">Chiều</option>
+                    </select>
+                </div>
+
+                <!-- Chọn Tiết -->
+                <div class="col-md-3">
+                    <label class="form-label fw-bold text-primary mb-2 small text-uppercase" for="selectTiet"><i class="fas fa-clock me-1"></i> Tiết học:</label>
+                    <select id="selectTiet" class="form-select form-select-sm fw-bold text-dark" onchange="hienThiSoDoPhongHoc()">
+                        <option value="auto">⚡ Tự động</option>
+                        <option value="1">Tiết 1</option>
+                        <option value="2">Tiết 2</option>
+                        <option value="3">Tiết 3</option>
+                        <option value="4">Tiết 4</option>
+                        <option value="5">Tiết 5</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Dòng hiển thị trạng thái thời gian đang tra cứu -->
+            <div class="row mt-3 pt-3 border-top">
+                <div class="col-12 d-flex justify-content-between align-items-center">
+                    <span class="small text-muted"><i class="fas fa-info-circle text-primary me-1"></i> Hệ thống đang hiển thị thời khóa biểu cho:</span>
+                    <span id="txtThoiGian" class="badge bg-primary px-3 py-2 fs-6 shadow-sm">-</span>
                 </div>
             </div>
         </div>
 
-        <!-- Hướng dẫn ngắn gọn -->
-        <div class="alert alert-info shadow-sm d-flex align-items-center" role="alert">
-            <i class="fas fa-info-circle fa-2x me-3 text-info"></i>
-            <div>
-                <strong>Hướng dẫn:</strong> Chọn khối và chọn lớp tương ứng, sau đó **bấm trực tiếp vào tên môn học** trong bảng để mở phòng học trực tuyến (Google Meet/Zoom).
-            </div>
+        <!-- SƠ ĐỒ LƯỚI PHÒNG HỌC (8 LỚP MỖI KHỐI) -->
+        <div class="row g-4" id="danhSachPhongHoc">
+            <!-- Render tự động -->
         </div>
 
-        <!-- Vùng hiển thị TKB -->
-        <div class="card p-3">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h5 class="text-secondary m-0 fw-bold" id="tieuDeBang"><i class="fas fa-table me-2"></i>THỜI KHÓA BIỂU</h5>
-                <span class="badge bg-success px-3 py-2" id="badgeTrangThai">Đang kết nối...</span>
-            </div>
-            <div class="table-responsive" style="max-height: 650px; overflow-y: auto;">
-                <table class="table table-bordered table-striped table-hover table-tkb" id="bangTKB">
-                    <thead>
-                        <tr>
-                            <th style="width: 60px;">STT</th>
-                            <th style="width: 100px;">Buổi học</th>
-                            <th style="width: 80px;">Tiết học</th>
-                            <th>Thứ 2</th>
-                            <th>Thứ 3</th>
-                            <th>Thứ 4</th>
-                            <th>Thứ 5</th>
-                            <th>Thứ 6</th>
-                            <th>Thứ 7</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tkbBody"></tbody>
-                </table>
-            </div>
-        </div>
     </div>
 
     <!-- Footer -->
-    <footer class="text-center py-4 text-muted border-top">
-        <small>&copy; 2026 Trường THPT Sào Báy - Phần mềm Quản lý Chuyên môn & Học trực tuyến.</small>
+    <footer class="text-center py-4 text-muted border-top bg-white">
+        <small>&copy; 2026 Trường THPT Sào Báy - Hệ thống Quản lý Phòng học Trực tuyến.</small>
     </footer>
 
-    <!-- Script xử lý file Excel chuẩn cấu trúc mẫu -->
     <script>
         let excelWorkbooks = {};
         let currentKhoi = "10";
 
-        const linkMonHocMap = {
-            "Toán": "https://meet.google.com/abc-toan-saobay",
-            "Ngữ Văn": "https://meet.google.com/def-van-saobay",
-            "Ngữ văn": "https://meet.google.com/def-van-saobay",
-            "Tiếng Anh": "https://meet.google.com/ghi-anh-saobay",
-            "Vật lí": "https://meet.google.com/jkl-ly-saobay",
-            "Hóa học": "https://meet.google.com/mno-hoa-saobay",
-            "Sinh học": "https://meet.google.com/pqr-sinh-saobay",
-            "Lịch sử": "https://meet.google.com/stu-su-saobay",
-            "Địa lí": "https://meet.google.com/vwx-dia-saobay",
-            "Tin học": "https://meet.google.com/yzx-tin-saobay",
-            "Công nghệ": "https://meet.google.com/abc-congnghe-saobay",
-            "GDTC": "#",
-            "Giáo dục thể chất": "#",
-            "GDQP-AN": "#",
-            "HĐTN,HN (SHDC)": "https://meet.google.com/shdc-saobay",
-            "HĐTN,HN (SHL)": "https://meet.google.com/shl-saobay"
+        // ==========================================
+        // ĐIỀN LINK 24 PHÒNG HỌC TRỰC TUYẾN TẠI ĐÂY
+        // (Bạn có thể thay đổi link Google Meet/Zoom tương ứng cho từng lớp)
+        // ==========================================
+        const linkPhongCuaLop = {
+            // Khối 10
+            "10A1": "https://meet.google.com/abc-defg-hij",
+            "10A2": "https://meet.google.com/abc-defg-hij",
+            "10A3": "https://meet.google.com/abc-defg-hij",
+            "10A4": "https://meet.google.com/abc-defg-hij",
+            "10A5": "https://meet.google.com/abc-defg-hij",
+            "10A6": "https://meet.google.com/abc-defg-hij",
+            "10A7": "https://meet.google.com/abc-defg-hij",
+            "10A8": "https://meet.google.com/abc-defg-hij",
+            
+            // Khối 11
+            "11A1": "https://meet.google.com/abc-defg-hij",
+            "11A2": "https://meet.google.com/abc-defg-hij",
+            "11A3": "https://meet.google.com/abc-defg-hij",
+            "11A4": "https://meet.google.com/abc-defg-hij",
+            "11A5": "https://meet.google.com/abc-defg-hij",
+            "11A6": "https://meet.google.com/abc-defg-hij",
+            "11A7": "https://meet.google.com/abc-defg-hij",
+            "11A8": "https://meet.google.com/abc-defg-hij",
+
+            // Khối 12
+            "12A1": "https://meet.google.com/abc-defg-hij",
+            "12A2": "https://meet.google.com/abc-defg-hij",
+            "12A3": "https://meet.google.com/abc-defg-hij",
+            "12A4": "https://meet.google.com/abc-defg-hij",
+            "12A5": "https://meet.google.com/abc-defg-hij",
+            "12A6": "https://meet.google.com/abc-defg-hij",
+            "12A7": "https://meet.google.com/abc-defg-hij",
+            "12A8": "https://meet.google.com/abc-defg-hij"
         };
 
         const fileTheoKhoi = {
@@ -206,20 +241,36 @@
             "12": "MẪU TKB KHỐI 12.xlsx"
         };
 
+        // Hàm chuẩn hóa chuỗi (bỏ dấu, viết thường)
+        function chuanHoa(str) {
+            if (!str) return "";
+            return String(str)
+                .trim()
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .replace(/đ/g, "d")
+                .replace(/Đ/g, "D");
+        }
+
         async function chuyenKhoi(khoi) {
             currentKhoi = khoi;
             ['10', '11', '12'].forEach(k => {
                 let btn = document.getElementById(`btn-${k}`);
                 if (btn) {
-                    btn.className = (k === khoi) ? "btn btn-primary active shadow-sm" : "btn btn-outline-primary";
+                    btn.className = (k === khoi) ? "btn btn-primary btn-sm shadow-sm" : "btn btn-outline-primary btn-sm";
                 }
             });
-            await taiFileKhoi(khoi);
+            if (!excelWorkbooks[khoi]) {
+                await taiFileKhoi(khoi);
+            } else {
+                hienThiSoDoPhongHoc();
+            }
         }
 
         async function taiFileKhoi(khoi) {
             let fileName = fileTheoKhoi[khoi];
-            document.getElementById('loadingText').innerText = `Đang tải ${fileName}...`;
+            document.getElementById('loadingText').innerText = `Đang tải tệp TKB Khối ${khoi}...`;
             document.getElementById('loading').style.display = 'flex';
 
             try {
@@ -230,117 +281,130 @@
                 const workbook = XLSX.read(arrayBuffer, { type: 'array' });
                 excelWorkbooks[khoi] = workbook;
 
-                // Lấy danh sách các lớp từ cột 'Lớp' trong sheet 'ThoiKhoaBieu'
-                capNhatDanhSachLop(workbook);
-
                 document.getElementById('loading').style.display = 'none';
-                document.getElementById('badgeTrangThai').className = "badge bg-success px-3 py-2";
-                document.getElementById('badgeTrangThai').innerText = "Đã kết nối: " + fileName;
+                hienThiSoDoPhongHoc();
             } catch (err) {
                 document.getElementById('loading').style.display = 'none';
-                alert(`Lỗi tải tệp ${fileName}: ` + err.message);
-                document.getElementById('badgeTrangThai').className = "badge bg-danger px-3 py-2";
-                document.getElementById('badgeTrangThai').innerText = "Lỗi kết nối tệp";
+                console.warn("Không tải được file Excel:", err);
+                excelWorkbooks[khoi] = null;
+                hienThiSoDoPhongHoc();
             }
         }
 
-        function capNhatDanhSachLop(workbook) {
-            const sheet = workbook.Sheets['ThoiKhoaBieu'];
-            const data = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-            
-            let danhSachLop = [];
-            // Duyệt từ dòng 1 để tìm các lớp độc lập ở cột thứ 2 (index 1)
-            for (let i = 1; i < data.length; i++) {
-                let lop = data[i][1];
-                if (lop && !danhSachLop.includes(lop)) {
-                    danhSachLop.push(lop);
-                }
-            }
-
-            let selectLop = document.getElementById('selectLop');
-            selectLop.innerHTML = "";
-            danhSachLop.forEach(lop => {
-                let opt = document.createElement('option');
-                opt.value = lop;
-                opt.innerText = `Lớp ${lop}`;
-                selectLop.appendChild(opt);
-            });
-
-            hienThiTKBTheoLop();
-        }
-
-        function hienThiTKBTheoLop() {
-            let workbook = excelWorkbooks[currentKhoi];
-            if (!workbook) return;
-
-            let selectedLop = document.getElementById('selectLop').value;
-            if (!selectedLop) return;
-
-            document.getElementById('tieuDeBang').innerHTML = `<i class="fas fa-table me-2"></i>THỜI KHÓA BIỂU LỚP ${selectedLop} (KHỐI ${currentKhoi})`;
-
-            const sheet = workbook.Sheets['ThoiKhoaBieu'];
-            const data = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-
-            let bodyHTML = "";
-            let stt = 1;
-
-            // Cấu trúc cột theo file mẫu: 
-            // 0: #, 1: Lớp, 2: Mã buổi học (SANG/CHIEU), 3: Tiết học (1,2,3,4,5)
-            // 4: Thứ 2 (Môn), 5: (GV), 6: Thứ 3 (Môn), 7: (GV), 8: Thứ 4 (Môn), 9: (GV), 10: Thứ 5 (Môn), 11: (GV), 12: Thứ 6 (Môn), 13: (GV), 14: Thứ 7 (Môn), 15: (GV)
-
-            let rowsCuaLop = data.filter(row => row[1] === selectedLop);
-
-            // Nhóm theo buổi (SANG, CHIEU)
-            let buoiHocList = [
-                { ma: "SANG", ten: "Sáng" },
-                { ma: "CHIEU", ten: "Chiều" }
+        function hienThiSoDoPhongHoc() {
+            let danhSachLop = [
+                `${currentKhoi}A1`, `${currentKhoi}A2`, `${currentKhoi}A3`, `${currentKhoi}A4`,
+                `${currentKhoi}A5`, `${currentKhoi}A6`, `${currentKhoi}A7`, `${currentKhoi}A8`
             ];
 
-            buoiHocList.forEach(buoi => {
-                let tietCuaBuoi = rowsCuaLop.filter(row => String(row[2]).trim().toUpperCase() === buoi.ma);
-                if (tietCuaBuoi.length === 0) return;
-
-                tietCuaBuoi.forEach((row, idx) => {
-                    let tietHoc = row[3];
-                    bodyHTML += "<tr>";
-                    
-                    // Chỉ hiển thị rowspan cho cột STT và Buổi học ở tiết đầu tiên của buổi
-                    if (idx === 0) {
-                        bodyHTML += `<td rowspan="${tietCuaBuoi.length}" class="fw-bold align-middle bg-light">${stt++}</td>`;
-                        bodyHTML += `<td rowspan="${tietCuaBuoi.length}" class="fw-bold align-middle bg-light text-primary">${buoi.ten}</td>`;
-                    }
-
-                    bodyHTML += `<td class="fw-bold text-secondary">Tiết ${tietHoc}</td>`;
-
-                    // Các cột Thứ 2 đến Thứ 7 (Cột Môn học nằm ở các index: 4, 6, 8, 10, 12, 14)
-                    let colIndicesMon = [4, 6, 8, 10, 12, 14];
-                    colIndicesMon.forEach(colIdx => {
-                        let monHoc = row[colIdx];
-                        if (monHoc && String(monHoc).trim() !== "" && String(monHoc) !== "undefined" && String(monHoc) !== "NaN") {
-                            let cleanMon = String(monHoc).trim();
-                            bodyHTML += `<td><span class="online-cell text-primary" onclick="moPhongHoc('${selectedLop}', '${cleanMon}', 'Tiết ${tietHoc}')" title="Bấm để vào học trực tuyến">${cleanMon}</span></td>`;
-                        } else {
-                            bodyHTML += `<td class="text-muted">-</td>`;
-                        }
-                    });
-
-                    bodyHTML += "</tr>";
-                });
-            });
-
-            document.getElementById('tkbBody').innerHTML = bodyHTML || `<tr><td colspan="9" class="text-center py-4 text-muted">Không có dữ liệu thời khóa biểu cho lớp này.</td></tr>`;
-        }
-
-        function moPhongHoc(lop, monHoc, tiet) {
-            let linkHoc = linkMonHocMap[monHoc] || `https://meet.google.com/lookup/saobay-${lop.toLowerCase()}`;
+            let d = new Date();
+            let realDay = d.getDay(); // 0: Chủ nhật, 1: Thứ 2, ... 6: Thứ 7
+            if (realDay === 0) realDay = 2; // Mặc định Chủ nhật thành Thứ 2
+            let realHour = d.getHours();
+            let realBuoi = realHour >= 12 ? "CHIEU" : "SANG";
             
-            if (linkHoc === "#") {
-                alert(`Môn [${monHoc}] của lớp [${lop}] (${tiet}) học trực tiếp tại trường, không dùng phòng online!`);
-                return;
+            // Tính tiết auto theo khung giờ thực tế
+            let realTiet = 1;
+            if (realBuoi === "SANG") {
+                if (realHour >= 9 && realHour < 10) realTiet = 2;
+                else if (realHour >= 10 && realHour < 11) realTiet = 3;
+                else if (realHour >= 11) realTiet = 4;
+            } else {
+                if (realHour >= 14 && realHour < 15) realTiet = 2;
+                else if (realHour >= 15 && realHour < 16) realTiet = 3;
+                else if (realHour >= 16) realTiet = 4;
             }
 
-            if (confirm(`Vào phòng học trực tuyến:\n• Lớp: ${lop}\n• Môn: ${monHoc}\n• Thời gian: ${tiet}`)) {
-                window.open(linkHoc, '_blank');
+            // Lấy giá trị từ các ô chọn thủ công hoặc auto
+            let valThu = document.getElementById('selectThu').value;
+            let valBuoi = document.getElementById('selectBuoi').value;
+            let valTiet = document.getElementById('selectTiet').value;
+
+            let selectedDay = (valThu === "auto") ? realDay : parseInt(valThu);
+            let selectedBuoi = (valBuoi === "auto") ? realBuoi : valBuoi;
+            let selectedTiet = (valTiet === "auto") ? realTiet : parseInt(valTiet);
+
+            let tenThuStr = `Thứ ${selectedDay}`;
+            let tenBuoiStr = selectedBuoi === "SANG" ? "Sáng" : "Chiều";
+
+            document.getElementById('txtThoiGian').innerText = `${tenThuStr} - Buổi ${tenBuoiStr} - Tiết ${selectedTiet} (Khối ${currentKhoi})`;
+
+            let workbook = excelWorkbooks[currentKhoi];
+            let dataRows = [];
+            if (workbook) {
+                const sheetName = workbook.SheetNames.find(name => chuanHoa(name).includes('tkb') || chuanHoa(name).includes('thoikhoabieu')) || workbook.SheetNames[0];
+                const sheet = workbook.Sheets[sheetName];
+                dataRows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+            }
+
+            // Mapping cột thứ dựa trên cấu trúc tệp Excel (Thứ 2 = col 4, Thứ 3 = col 6, ...)
+            let colMap = { 2: 4, 3: 6, 4: 8, 5: 10, 6: 12, 7: 14 };
+            let colIndex = colMap[selectedDay] || 4;
+
+            let html = "";
+            danhSachLop.forEach(lop => {
+                let monHoc = "Trống tiết";
+                let giaoVien = "Chưa phân công";
+
+                if (workbook && dataRows.length > 0) {
+                    try {
+                        for (let i = 2; i < dataRows.length; i++) {
+                            let row = dataRows[i];
+                            if (!row) continue;
+
+                            let colLop = String(row[1] || "").trim();
+                            let colBuoi = String(row[2] || "").trim().toUpperCase();
+                            let colTiet = String(row[3] || "").trim();
+
+                            if (colLop === lop && colBuoi === selectedBuoi && parseInt(colTiet) === selectedTiet) {
+                                let rawMon = row[colIndex];
+                                let rawGV = row[colIndex + 1];
+
+                                if (rawMon && String(rawMon).trim() !== "" && String(rawMon) !== "undefined") {
+                                    monHoc = String(rawMon).trim();
+                                }
+                                if (rawGV && String(rawGV).trim() !== "" && String(rawGV) !== "undefined") {
+                                    giaoVien = String(rawGV).trim();
+                                    if (giaoVien.includes("(")) {
+                                        giaoVien = giaoVien.split("(")[0].trim();
+                                    }
+                                }
+                                break;
+                            }
+                        }
+                    } catch (e) {
+                        console.error("Lỗi xử lý TKB lớp:", lop, e);
+                    }
+                }
+
+                html += `
+                    <div class="col-md-3 col-sm-6">
+                        <div class="room-card">
+                            <div class="room-header">
+                                <span><i class="fas fa-door-open me-2 text-primary"></i> Lớp ${lop}</span>
+                                <span class="badge bg-success small">Trực tuyến</span>
+                            </div>
+                            <div class="room-body">
+                                <div class="room-info mb-1"><i class="fas fa-clock me-1"></i> ${tenBuoiStr} - Tiết ${selectedTiet}</div>
+                                <div class="text-muted small mb-0">Môn học:</div>
+                                <div class="current-subject text-truncate" title="${monHoc}">${monHoc}</div>
+                                <div class="teacher-name text-truncate" title="${giaoVien}"><i class="fas fa-user-tie me-1 text-secondary"></i> GV: ${giaoVien}</div>
+                                <button class="btn btn-enter-room shadow-sm mt-1" onclick="vaoPhong('${lop}')">
+                                    <i class="fas fa-video me-1"></i> Vào phòng học
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            document.getElementById('danhSachPhongHoc').innerHTML = html;
+        }
+
+        function vaoPhong(lop) {
+            let link = linkPhongCuaLop[lop] || "https://meet.google.com/abc-defg-hij";
+            if (confirm(`Xác nhận vào phòng học trực tuyến của Lớp ${lop}?`)) {
+                window.open(link, '_blank');
             }
         }
 
