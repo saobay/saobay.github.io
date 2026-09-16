@@ -11,11 +11,9 @@
         .container{max-width:900px;margin:0 auto}
         h2{margin-top:0;color:var(--teal-dark);font-size:1.4rem;border-bottom:2px solid var(--line);padding-bottom:10px}
         
-        /* Phân chia hạng mục */
         .category-section{margin-top:25px}
         .category-title{font-size:1.1rem;color:var(--teal-dark);font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
-        
-        .sub-category{margin-left:15px;margin-top:15px;margin-bottom:10px;font-size:0.95rem;color:var(--ink);font-weight:600;display:flex;align-items:center;gap:6px}
+        .sub-category{margin-left:15px;margin-top:15px;margin-bottom:10px;font-size:0.95rem;color:var(--ink);font-weight:600}
 
         .download-list{display:flex;flex-direction:column;gap:12px}
         .download-item{display:flex;justify-content:space-between;align-items:center;background:var(--white);padding:15px 20px;border:1px solid var(--line);border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,0.02);transition:all 0.2s ease}
@@ -30,9 +28,13 @@
         .file-name{font-weight:700;font-size:1rem;color:var(--ink);margin:0 0 3px}
         .file-desc{margin:0;font-size:0.82rem;color:var(--muted)}
         
-        /* Nút Tải xuống */
         .download-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--teal);color:var(--white);border-radius:6px;text-decoration:none;font-weight:600;font-size:0.9rem;transition:background 0.2s;white-space:nowrap}
         .download-btn:hover{background:var(--teal-dark)}
+
+        @media(max-width:620px){
+          .download-item{flex-direction:column;align-items:flex-start;gap:10px}
+          .download-btn{width:100%;justify-content:center}
+        }
     </style>
 </head>
 <body>
@@ -44,7 +46,6 @@
         <div class="category-section">
             <div class="category-title">⚙️ Phần mềm & Tiện ích nhà trường</div>
             <div class="download-list">
-                <!-- Công cụ TKB (Dùng link direct download Google Drive) -->
                 <div class="download-item">
                     <div class="file-info">
                         <div class="file-icon rar">RAR</div>
@@ -53,10 +54,10 @@
                             <p class="file-desc">Phần mềm chuyển đổi TKB về dạng CSDL dùng cho hệ thống.</p>
                         </div>
                     </div>
-                    <a href="https://drive.google.com/uc?export=download&id=1MAbgEML6ncvER4bpvKzhcbKVLKBK5ote" class="download-btn">📥 Tải xuống</a>
+                    <!-- Dùng link export download trực tiếp để tải ngay tại trang -->
+                    <a href="https://drive.google.com/uc?export=download&id=1MAbgEML6ncvER4bpvKzhcbKVLKBK5ote" class="download-btn" download>📥 Tải xuống</a>
                 </div>
 
-                <!-- Công cụ hỗ trợ Word -->
                 <div class="download-item">
                     <div class="file-info">
                         <div class="file-icon bat">BAT</div>
@@ -65,7 +66,7 @@
                             <p class="file-desc">Tệp cài đặt tự động tích hợp tiện ích soạn thảo và xử lý văn bản Word.</p>
                         </div>
                     </div>
-                    <a href="https://drive.google.com/uc?export=download&id=1zCKdPO1xHVOlp9NeJ9EFIEDeE-PF80Fb" class="download-btn">📥 Tải xuống</a>
+                    <a href="https://drive.google.com/uc?export=download&id=1zCKdPO1xHVOlp9NeJ9EFIEDeE-PF80Fb" class="download-btn" download>📥 Tải xuống</a>
                 </div>
             </div>
         </div>
@@ -73,7 +74,6 @@
         <!-- HẠNG MỤC 2: TÀI LIỆU HỌC TẬP -->
         <div class="category-section">
             <div class="category-title">📚 Tài liệu học tập & Ôn thi</div>
-            
             <div class="sub-category">📌 Khối lớp 12</div>
             <div class="download-list">
                 <div class="download-item">
@@ -84,12 +84,11 @@
                             <p class="file-desc">Bộ đề thi chuẩn cấu trúc ôn luyện HSG lớp 12 năm học 2026/2027.</p>
                         </div>
                     </div>
-                    <!-- Đối với dạng thư mục, dùng link mở trực tiếp hoặc tải nguyên thư mục -->
-                    <a href="https://drive.google.com/drive/folders/1FOGiCCmEm0bUXQSJtc0wZN2VOtU1S6rX" class="download-btn" target="_blank">🌐 Mở thư mục Drive</a>
+                    <!-- Riêng thư mục (folder) thì bắt buộc phải mở mới để xem danh sách, các file lẻ bên trên sẽ tải trực tiếp -->
+                    <a href="https://drive.google.com/drive/folders/1FOGiCCmEm0bUXQSJtc0wZN2VOtU1S6rX?usp=sharing" class="download-btn" target="_blank">🌐 Mở thư mục Drive</a>
                 </div>
             </div>
         </div>
-
     </div>
 </body>
 </html>
