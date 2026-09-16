@@ -16,7 +16,7 @@
     .toolbar{position:relative;z-index:100;display:flex;flex-wrap:wrap;gap:10px;padding:8px clamp(20px,5vw,76px);background:var(--white);border-bottom:1px solid var(--line);box-shadow:0 4px 14px rgba(18,48,74,.06)}
     .menu{position:relative}
     
-    .menu summary{
+    .menu summary, .toolbar-btn{
       list-style:none;
       cursor:pointer;
       user-select:none;
@@ -32,12 +32,14 @@
       font-weight:700;
       box-shadow: 0 2px 6px rgba(8, 127, 131, 0.25);
       transition: all 0.2s ease;
+      font-family: inherit;
+      text-decoration: none;
     }
     .menu summary::-webkit-details-marker{display:none}
-    .menu summary::before{content:"☰";font-size:1.1rem}
+    .menu summary::before, .toolbar-btn::before{content:"☰";font-size:1.1rem}
     .menu summary::after{content:"▼";color:var(--gold);font-size:0.75rem;margin-left:4px;transition: transform 0.2s ease}
     .menu[open] summary::after{transform: rotate(180deg)}
-    .menu summary:hover{background: linear-gradient(135deg, var(--teal-dark) 0%, #04434a 100%);box-shadow: 0 4px 10px rgba(8, 127, 131, 0.35)}
+    .menu summary:hover, .toolbar-btn:hover{background: linear-gradient(135deg, var(--teal-dark) 0%, #04434a 100%);box-shadow: 0 4px 10px rgba(8, 127, 131, 0.35)}
     
     .menu-items{position:absolute;top:calc(100% + 6px);left:0;min-width:270px;padding:6px;background:var(--white);border:1px solid var(--line);border-radius:8px;box-shadow:var(--shadow);z-index:999}.menu-items button{width:100%;display:block;padding:11px 12px;border:0;border-radius:6px;color:var(--ink);background:transparent;text-align:left;cursor:pointer;font:inherit;font-size:.88rem;font-weight:600}.menu-items button:hover,.menu-items button[aria-current=page]{color:var(--teal-dark);background:#eef8f7}
     
@@ -89,7 +91,7 @@
     .ai-guide-box li{margin-bottom:3px}
 
     @media(max-width:620px){
-      .site-header{min-height:85px;padding:12px 15px}.brand-mark{flex-basis:40px;height:40px;font-size:17px}.brand p{font-size:.72rem}.toolbar{padding:6px 10px;gap:6px}.menu summary{padding:8px 12px;font-size:.85rem}
+      .site-header{min-height:85px;padding:12px 15px}.brand-mark{flex-basis:40px;height:40px;font-size:17px}.brand p{font-size:.72rem}.toolbar{padding:6px 10px;gap:6px}.menu summary, .toolbar-btn{padding:8px 12px;font-size:.85rem}
       .menu-items{position:fixed;top:auto;left:10px;right:10px;width:calc(100% - 20px);min-width:0;max-height:75vh;overflow-y:auto;z-index:99999}
       .content-heading{align-items:start;flex-direction:column;gap:2px}
       iframe{height:700px;min-height:500px}
@@ -128,12 +130,11 @@
       </div>
     </details>
 
-    <!-- Menu 3: Prompt AI tiện ích khác (Mới thêm) -->
+    <!-- Menu 3: Prompt AI tiện ích khác -->
     <details class="menu">
       <summary>Prompt AI tiện ích khác</summary>
       <div class="menu-items">
         <button type="button" data-page="promt_ai/sua_anh.html">Prompt Sửa ảnh AI</button>
-        <!-- Thêm các tiện ích Prompt AI khác ở đây nếu cần -->
       </div>
     </details>
 
@@ -145,13 +146,8 @@
       </div>
     </details>
 
-    <!-- Menu 5: Downloads -->
-    <details class="menu">
-      <summary>Downloads</summary>
-      <div class="menu-items">
-        <button type="button" data-page="Downloads/downloads.html">Tải xuống tài liệu & biểu mẫu</button>
-      </div>
-    </details>
+    <!-- Menu 5: Downloads (Đã sửa thành nút bấm trực tiếp hiện iframe) -->
+    <button type="button" class="toolbar-btn" data-page="Downloads/downloads.html">Downloads</button>
   </nav>
 
   <main>
@@ -318,7 +314,10 @@
       
       document.querySelectorAll("[data-page]").forEach((item) => item.removeAttribute("aria-current"));
       button.setAttribute("aria-current", "page");
-      button.closest("details").open = false;
+      
+      // Đóng các menu xổ xuống khác nếu đang mở
+      const parentMenu = button.closest("details");
+      if (parentMenu) parentMenu.open = false;
     }));
 
     document.addEventListener("click", (event) => {
