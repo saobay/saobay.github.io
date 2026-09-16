@@ -6,7 +6,7 @@
   <meta name="description" content="Cổng công cụ hỗ trợ giáo viên trường THPT Sào Bảy">
   <title>Cổng công cụ trường THPT Sào Bảy</title>
   <style>
-    :root{--ink:#12304a;--muted:#607487;--line:#d9e4eb;--paper:#f7fafb;--white:#fff;--teal:#087f83;--teal-dark:#075d66;--gold:#e7b34a;--shadow:0 14px 35px rgba(19,54,72,.1)}
+    :root{--ink:#12304a;--muted:#607487;--line:#d9e4eb;--paper:#f7fafb;--white:#fff;--teal:#087f83;--teal-dark:#075d66;--gold:#e7b34a;--gold-bg:#fdf6e2;--shadow:0 14px 35px rgba(19,54,72,.1)}
     *{box-sizing:border-box}html,body{margin:0;min-height:100%}body{color:var(--ink);background:var(--paper);font-family:"Trebuchet MS","Segoe UI",sans-serif}
     
     .site-header{min-height:95px;display:flex;align-items:center;padding:15px clamp(20px,5vw,76px);color:#fff;background:linear-gradient(110deg,rgba(3,55,74,.98),rgba(8,127,131,.88)),radial-gradient(circle at 82% 15%,rgba(231,179,74,.55),transparent 32%);border-bottom:4px solid var(--gold)}
@@ -46,7 +46,7 @@
     main{width:min(1440px,100%);margin:0 auto;padding:14px clamp(12px,3vw,30px) 25px}
     .content-heading{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:12px}.content-heading h2{margin:0;font-size:clamp(1rem,1.8vw,1.25rem)}.content-heading p{margin:3px 0 0;color:var(--muted);font-size:.82rem}.status{color:var(--teal);font-size:.8rem;font-weight:700;white-space:nowrap}
     
-    .frame-wrap{background:var(--white);border:1px solid var(--line);border-radius:8px;box-shadow:var(--shadow);overflow:hidden}
+    .frame-wrap{background:var(--white);border:1px solid var(--line);border-radius:8px;box-shadow:var(--shadow);overflow:hidden;padding:20px;}
     iframe{display:block;width:100%;height:min(850px,calc(100vh - 280px));min-height:600px;border:0}
     
     /* Giao diện châm ngôn chào mừng */
@@ -60,6 +60,7 @@
       min-height:240px;
       background:linear-gradient(135deg, #f7fafb 0%, #eaf5f4 100%);
       border-bottom: 1px dashed var(--line);
+      border-radius: 8px;
     }
     .welcome-quote{
       font-size:clamp(1.15rem, 2.2vw, 1.45rem);
@@ -72,6 +73,24 @@
       font-weight:700;
     }
     .welcome-sub{color:var(--muted);font-size:0.88rem}
+
+    /* Giao diện Thư viện Tải xuống trực tiếp */
+    .downloads-section { display: none; }
+    .category-section{margin-top:15px}
+    .category-title{font-size:1.05rem;color:var(--teal-dark);font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+    .sub-category{margin-left:10px;margin-top:12px;margin-bottom:8px;font-size:0.92rem;color:var(--ink);font-weight:600}
+    .download-list{display:flex;flex-direction:column;gap:10px}
+    .download-item{display:flex;justify-content:space-between;align-items:center;background:var(--paper);padding:12px 16px;border:1px solid var(--line);border-radius:8px;transition:all 0.2s ease}
+    .download-item:hover{border-color:var(--teal);box-shadow:0 2px 8px rgba(0,0,0,0.03)}
+    .file-info{display:flex;align-items:center;gap:12px}
+    .file-icon{width:36px;height:36px;display:grid;place-items:center;background:#eef8f7;color:var(--teal);border-radius:6px;font-weight:bold;font-size:0.8rem}
+    .file-icon.rar{background:var(--gold-bg); color:var(--gold);}
+    .file-icon.doc{background:#e8f0fe; color:#1a73e8;}
+    .file-icon.bat{background:#e1f5fe; color:#0288d1;}
+    .file-name{font-weight:700;font-size:0.95rem;color:var(--ink);margin:0 0 2px}
+    .file-desc{margin:0;font-size:0.78rem;color:var(--muted)}
+    .download-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:var(--teal);color:var(--white);border-radius:6px;text-decoration:none;font-weight:600;font-size:0.85rem;transition:background 0.2s;white-space:nowrap}
+    .download-btn:hover{background:var(--teal-dark)}
 
     /* Hướng dẫn AI chi tiết */
     .ai-guide-box{
@@ -97,6 +116,8 @@
       iframe{height:700px;min-height:500px}
       .welcome-screen{padding:20px 12px;min-height:180px}
       .ai-guide-box{font-size:0.82rem;padding:10px 12px}
+      .download-item{flex-direction:column;align-items:flex-start;gap:10px}
+      .download-btn{width:100%;justify-content:center}
     }
   </style>
 </head>
@@ -112,7 +133,6 @@
   </header>
   
   <nav class="toolbar" aria-label="Thanh công cụ chính">
-    <!-- Menu 1: Công tác chủ nhiệm -->
     <details class="menu">
       <summary>Công tác chủ nhiệm</summary>
       <div class="menu-items">
@@ -122,7 +142,6 @@
       </div>
     </details>
 
-    <!-- Menu 2: Công tác chuyên môn -->
     <details class="menu">
       <summary>Công tác chuyên môn</summary>
       <div class="menu-items">
@@ -130,7 +149,6 @@
       </div>
     </details>
 
-    <!-- Menu 3: Prompt AI tiện ích khác -->
     <details class="menu">
       <summary>Prompt AI tiện ích khác</summary>
       <div class="menu-items">
@@ -138,7 +156,6 @@
       </div>
     </details>
 
-    <!-- Menu 4: Videos -->
     <details class="menu">
       <summary>Thư viện Videos</summary>
       <div class="menu-items">
@@ -146,8 +163,8 @@
       </div>
     </details>
 
-    <!-- Menu 5: Downloads (Đã sửa thành nút bấm trực tiếp hiện iframe) -->
-    <button type="button" class="toolbar-btn" data-page="Downloads/downloads.html">Downloads</button>
+    <!-- Nút Downloads trực tiếp không qua iframe -->
+    <button type="button" class="toolbar-btn" data-type="downloads">Downloads</button>
   </nav>
 
   <main>
@@ -156,15 +173,64 @@
         <h2 id="page-title">Chào mừng Quý Thầy/Cô</h2>
         <p id="page-description">Vui lòng chọn công cụ làm việc trên thanh menu phía trên.</p>
       </div>
-      <span class="status">Sẵn sàng</span>
+      <span class="status" id="page-status">Sẵn sàng</span>
     </div>
 
     <section class="frame-wrap" aria-label="Khu vực nội dung công cụ">
+      <!-- Màn hình chào mừng -->
       <div id="welcome-container" class="welcome-screen">
         <div class="welcome-quote" id="quote-display"></div>
         <div class="welcome-sub">Chúc Quý Thầy/Cô một ngày làm việc hiệu quả và tràn đầy niềm vui!</div>
       </div>
       
+      <!-- Khung chứa nội dung Downloads tích hợp trực tiếp -->
+      <div id="downloads-container" class="downloads-section">
+        <div class="category-section" style="margin-top:0;">
+          <div class="category-title">⚙️ Phần mềm & Tiện ích nhà trường</div>
+          <div class="download-list">
+            <div class="download-item">
+              <div class="file-info">
+                <div class="file-icon rar">RAR</div>
+                <div>
+                  <p class="file-name">Công cụ chuyển TKB nhà trường về chuẩn CSDL (TKB_V4.0.rar)</p>
+                  <p class="file-desc">Phần mềm chuyển đổi TKB về dạng CSDL dùng cho hệ thống.</p>
+                </div>
+              </div>
+              <a href="https://drive.google.com/uc?export=download&id=1MAbgEML6ncvER4bpvKzhcbKVLKBK5ote" class="download-btn">📥 Tải xuống</a>
+            </div>
+
+            <div class="download-item">
+              <div class="file-info">
+                <div class="file-icon bat">BAT</div>
+                <div>
+                  <p class="file-name">Công cụ hỗ trợ Word - Add-in SaoBay (Cong_cu_word.bat)</p>
+                  <p class="file-desc">Tệp cài đặt tự động tích hợp tiện ích soạn thảo và xử lý văn bản Word.</p>
+                </div>
+              </div>
+              <a href="https://drive.google.com/uc?export=download&id=1zCKdPO1xHVOlp9NeJ9EFIEDeE-PF80Fb" class="download-btn">📥 Tải xuống</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="category-section">
+          <div class="category-title">📚 Tài liệu học tập & Ôn thi</div>
+          <div class="sub-category">📌 Khối lớp 12</div>
+          <div class="download-list">
+            <div class="download-item">
+              <div class="file-info">
+                <div class="file-icon doc">DOC</div>
+                <div>
+                  <p class="file-name">Đề tham khảo Học sinh giỏi (HSG) năm học 2026-2027</p>
+                  <p class="file-desc">Bộ đề thi chuẩn cấu trúc ôn luyện HSG lớp 12 năm học 2026/2027.</p>
+                </div>
+              </div>
+              <a href="https://drive.google.com/drive/folders/1FOGiCCmEm0bUXQSJtc0wZN2VOtU1S6rX" class="download-btn" target="_blank">🌐 Mở thư mục Drive</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Khung iframe cho các chức năng khác -->
       <iframe id="content-frame" title="Nội dung công cụ" src="" style="display:none;"></iframe>
     </section>
 
@@ -181,9 +247,11 @@
   <script>
     const frame = document.getElementById("content-frame");
     const welcomeContainer = document.getElementById("welcome-container");
+    const downloadsContainer = document.getElementById("downloads-container");
     const quoteDisplay = document.getElementById("quote-display");
     const title = document.getElementById("page-title");
     const description = document.getElementById("page-description");
+    const statusSpan = document.getElementById("page-status");
     
     const quotes = [
       "“Người thầy vĩ đại là người biết cách truyền cảm hứng\nđể học trò tự tìm ra chân lý.”",
@@ -194,102 +262,10 @@
       "“Người thầy mở lối tư duy,\nnuôi dưỡng cảm xúc và dẫn dắt bằng niềm tin.”",
       "“Giáo dục là vũ khí mạnh nhất\nmà bạn có thể dùng để thay đổi thế giới.”",
       "“Nghệ thuật dạy học là nghệ thuật\ngiúp ai đó khám phá ra điều gì đó.”",
-      "“Một người thầy tốt giống như ngọn nến,\nđốt cháy chính mình để soi sáng đường cho người khác.”",
-      "“Trẻ em như búp trên cành,\nbiết ăn ngủ, biết học hành là ngoan.”",
-      "“Học, học nữa, học mãi.”",
-      "“Tiên học lễ, hậu học văn.”",
-      "“Hiền tài là nguyên khí của quốc gia.”",
-      "“Muốn sang thì bắc cầu kiều,\nMuốn con hay chữ thì yêu lấy thầy.”",
-      "“Dưới ánh mặt trời không có nghề nào\ncao quý hơn nghề dạy học.”",
-      "“Nghề giáo là nghề cao quý nhất\ntrong các nghề cao quý.”",
-      "“Một chữ cũng là thầy,\nnửa chữ cũng là thầy.”",
-      "“Thầy cô là người lái đò thầm lặng,\nđưa bao thế hệ học trò cập bến tri thức.”",
-      "“Mỗi đứa trẻ là một hạt giống,\nthầy cô là người gieo mầm và chăm sóc.”",
-      "“Giáo dục không phải là việc đổ đầy một cái thùng,\nmà là thắp sáng một ngọn lửa.”",
-      "“Người thầy trung bình chỉ biết nói,\nNgười thầy giỏi biết giải thích,\nNgười thầy xuất chúng biết minh họa,\nNgười thầy vĩ đại biết cách truyền cảm hứng.”",
-      "“Sự gương mẫu của người thầy\nlà tia sáng dẫn đường cho học sinh.”",
-      "“Dạy học là đặt vết tích của một người\nvào sự phát triển của một người khác.”",
-      "“Tri thức là sức mạnh.”",
-      "“Đầu tư cho kiến thức\nlà khoản đầu tư mang lại lợi nhuận cao nhất.”",
-      "“Học tập là hạt giống của kiến thức,\nkiến thức là hạt giống của hạnh phúc.”",
-      "“Đường đời là chiếc thang không có nấc chót,\nhọc tập là quyển sách không có trang cuối cùng.”",
-      "“Giáo dục là làm cho con người tìm thấy chính mình.”",
-      "“Mục tiêu của giáo dục không chỉ là kiến thức,\nmà còn là hành động.”",
-      "“Thầy cô hạnh phúc sẽ thay đổi thế giới.”",
-      "“Lớp học hạnh phúc, học sinh tích cực.”",
-      "“Yêu thương và tôn trọng là chìa khóa của giáo dục.”",
-      "“Mỗi ngày đến trường là một ngày vui.”",
-      "“Học để biết, học để làm,\nhọc để chung sống, học để tự khẳng định mình.”",
-      "“Không có học sinh dốt,\nchỉ có phương pháp chưa phù hợp.”",
-      "“Kiên nhẫn là đức tính quan trọng nhất của người thầy.”",
-      "“Lắng nghe học sinh là cách tốt nhất để thấu hiểu.”",
-      "“Khen ngợi công khai, góp ý riêng tư.”",
-      "“Nụ cười của thầy cô là động lực của học trò.”",
-      "“Dạy học bằng cả trái tim.”",
-      "“Sáng tạo là nhịp đập của giáo dục hiện đại.”",
-      "“Công nghệ là cánh tay nối dài của người thầy.”",
-      "“Chuyển đổi số - Cánh cửa mở ra tương lai.”",
-      "“Kết nối tri thức, kiến tạo tương lai.”",
-      "“Học thầy không tày học bạn.”",
-      "“Đi một ngày đàng, học một sàng khôn.”",
-      "“Luyện mãi thành tài, miệt mài tất giỏi.”",
-      "“Có công mài sắt, có ngày nên kim.”",
-      "“Ngọc bất trác bất thành khí,\nNhân bất học bất tri lý.”",
-      "“Học ăn, học nói, học gói, học mở.”",
-      "“Trọng thầy mới được làm thầy.”",
-      "“Uống nước nhớ nguồn,\nĂn quả nhớ kẻ trồng cây.”",
-      "“Dạy con từ thuở còn thơ.”",
-      "“Giáo dục là chìa khóa mở cánh cửa tự do.”",
-      "“Thất bại là mẹ thành công.”",
-      "“Đừng xấu hổ khi không biết,\nchỉ xấu hổ khi không học.”",
-      "“Học vấn có những chùm rễ đắng cay\nnhưng hoa quả lại ngọt ngào.”",
-      "“Bộ lông làm đẹp con công,\nhọc vấn làm đẹp con người.”",
-      "“Nhà trường là ngôi nhà thứ hai của học sinh.”",
-      "“Thầy cô là cha mẹ thứ hai của học trò.”",
-      "“Kỷ luật là sức mạnh của tập thể.”",
-      "“Đoàn kết, đoàn kết, đại đoàn kết.\nThành công, thành công, đại thành công.”",
-      "“Vì lợi ích mười năm thì phải trồng cây,\nvì lợi ích trăm năm thì phải trồng người.”",
-      "“Non sông Việt Nam có trở nên tươi đẹp hay không...\nchính là nhờ một phần lớn ở công học tập của các em.”",
-      "“Dạy tốt - Học tốt.”",
-      "“Tất cả vì học sinh thân yêu.”",
-      "“Dân chủ - Kỷ cương - Tình thương - Trách nhiệm.”",
-      "“Mỗi thầy cô giáo là một tấm gương đạo đức,\ntự học và sáng tạo.”",
-      "“Xây dựng trường học thân thiện,\nhọc sinh tích cực.”",
-      "“Đổi mới căn bản, toàn diện giáo dục và đào tạo.”",
-      "“Thực học, thực nghiệp.”",
-      "“Học đi đôi với hành.”",
-      "“Lý thuyết màu xám, còn cây đời mãi mãi xanh tươi.”",
-      "“Giáo dục là nghệ thuật biến những điều phức tạp\nthành đơn giản.”",
-      "“Người thầy giỏi là người biết khơi gợi\nsự tò mò của học sinh.”",
-      "“Hãy để học sinh được sai,\nvì sai lầm là cơ hội để học hỏi.”",
-      "“Đừng so sánh học sinh này với học sinh khác,\nhãy so sánh sự tiến bộ của chính em ấy.”",
-      "“Mỗi học sinh là một cá thể độc nhất vô nhị.”",
-      "“Tôn trọng sự khác biệt.”",
-      "“Giáo dục hòa nhập - Không ai bị bỏ lại phía sau.”",
-      "“Yêu nghề, mến trẻ.”",
-      "“Tâm huyết, trách nhiệm, sáng tạo.”",
-      "“Nâng niu từng ước mơ nhỏ.”",
-      "“Chắp cánh cho những khát vọng bay cao.”",
-      "“Thầy cô là người truyền lửa.”",
-      "“Học sinh là trung tâm.”",
-      "“Chất lượng giáo dục là danh dự của nhà trường.”",
-      "“Lương sư hưng quốc.”",
-      "“Quốc gia hưng vong, thất phu hữu trách.”",
-      "“Học để làm người.”",
-      "“Rèn đức, luyện tài.”",
-      "“Trí tuệ, nhân cách, nghị lực.”",
-      "“Sống, chiến đấu, lao động và học tập\ntheo gương Bác Hồ vĩ đại.”",
-      "“Học tập suốt đời.”",
-      "“Sách là ngọn đèn sáng bất diệt của trí tuệ con người.”",
-      "“Thư viện là kho tàng tri thức.”",
-      "“Đọc sách là nuôi dưỡng tâm hồn.”",
-      "“Văn hóa đọc là nền tảng của tự học.”",
-      "“Tri thức làm thay đổi vận mệnh.”",
-      "“Giáo dục là con đường ngắn nhất để thoát nghèo.”"
+      "“Một người thầy tốt giống như ngọn nến,\nđốt cháy chính mình để soi sáng đường cho người khác.”"
     ];
 
-    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-    quoteDisplay.textContent = randomQuote;
+    quoteDisplay.textContent = quotes[Math.floor(Math.random() * quotes.length)];
 
     const labels = new Map([
       ["ctcn/tkb.html", ["Tạo thời khóa biểu lớp", "Đọc dữ liệu từ Excel và điền trực tiếp vào ảnh nền."]],
@@ -297,28 +273,46 @@
       ["ctcn/logo.html", ["Tạo Logo - Huy hiệu Lớp", "Nhập thông tin cá nhân hóa để tạo prompt thiết kế Logo lớp bằng AI."]],
       ["ctcm/matran_de.html", ["Xây dựng Ma trận, Đề kiểm tra & Đáp án", "Thiết lập thông số để tự động tạo Prompt liên hoàn 4 bước cho AI."]],
       ["promt_ai/sua_anh.html", ["Prompt Sửa ảnh AI", "Tạo và tinh chỉnh câu lệnh để hướng dẫn AI chỉnh sửa hình ảnh theo ý muốn."]],
-      ["Video/lichbaogiang.html", ["Video hướng dẫn", "Xem video hướng dẫn chi tiết các thao tác thực hiện."]],
-      ["Downloads/downloads.html", ["Thư viện Tải xuống", "Tải các tệp dữ liệu, biểu mẫu và phần mềm hỗ trợ."]]
+      ["Video/lichbaogiang.html", ["Video hướng dẫn", "Xem video hướng dẫn chi tiết các thao tác thực hiện."]]
     ]);
 
+    // Xử lý khi bấm các menu thông thường (dùng iframe)
     document.querySelectorAll("[data-page]").forEach((button) => button.addEventListener("click", () => {
       const page = button.dataset.page;
       const [heading, text] = labels.get(page) || ["Công cụ", ""];
       
       welcomeContainer.style.display = "none";
+      downloadsContainer.style.display = "none";
       frame.style.display = "block";
+      statusSpan.textContent = "Sẵn sàng";
       
       frame.src = page;
       title.textContent = heading;
       description.textContent = text;
       
-      document.querySelectorAll("[data-page]").forEach((item) => item.removeAttribute("aria-current"));
+      document.querySelectorAll("[data-page], [data-type]").forEach((item) => item.removeAttribute("aria-current"));
       button.setAttribute("aria-current", "page");
       
-      // Đóng các menu xổ xuống khác nếu đang mở
       const parentMenu = button.closest("details");
       if (parentMenu) parentMenu.open = false;
     }));
+
+    // Xử lý khi bấm nút Downloads trên thanh công cụ
+    const downloadBtnNav = document.querySelector("[data-type='downloads']");
+    if (downloadBtnNav) {
+      downloadBtnNav.addEventListener("click", () => {
+        welcomeContainer.style.display = "none";
+        frame.style.display = "none";
+        downloadsContainer.style.display = "block";
+        statusSpan.textContent = "Sẵn sàng";
+        
+        title.textContent = "Thư viện Tải xuống";
+        description.textContent = "Tải các tệp dữ liệu, biểu mẫu và phần mềm hỗ trợ trực tiếp.";
+        
+        document.querySelectorAll("[data-page], [data-type]").forEach((item) => item.removeAttribute("aria-current"));
+        downloadBtnNav.setAttribute("aria-current", "page");
+      });
+    }
 
     document.addEventListener("click", (event) => {
       document.querySelectorAll("details.menu").forEach((menu) => {
