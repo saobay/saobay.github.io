@@ -39,7 +39,7 @@
             <i class="fa-solid fa-chalkboard-user text-2xl text-amber-400"></i>
             <div>
                 <h1 class="font-bold text-lg">Không Gian Biên Tập & Đẩy Bài Giảng</h1>
-                <p class="text-xs text-blue-200">Tích hợp Google NotebookLM & GitHub Server Proxy | THPT Sào Báy</p>
+                <p class="text-xs text-blue-200">Tích hợp Google NotebookLM & GitHub | THPT Sào Báy</p>
             </div>
         </div>
         
@@ -111,7 +111,7 @@
                     </div>
                 </div>
                 <span class="text-[11px] bg-blue-800 text-blue-200 px-3 py-1 rounded-full border border-blue-700">
-                    <i class="fa-solid fa-bolt text-amber-400 mr-1"></i> Sẵn sàng đẩy bài trực tiếp (GAS Server Proxy)
+                    <i class="fa-solid fa-bolt text-amber-400 mr-1"></i> Sẵn sàng đẩy bài (Git & Drive)
                 </span>
             </div>
 
@@ -268,8 +268,6 @@
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec";
         const ROOT_FOLDER_ID = "1PLibCtGMm_0oA6auh2CDeAl97uodJBB-";
-        
-        // ĐÃ LOẠI BỎ HOÀN TOÀN GITHUB_CONFIG CHỨA TOKEN THÔ TẠI CLIENT ĐỂ BẢO MẬT TUYỆT ĐỐI.
         
         let currentSelectedFolderId = ""; 
         let currentSelectedFolderName = "Gốc (Root Sào Báy)";
@@ -545,55 +543,7 @@
             }
         }
 
-        // HÀM HỖ TRỢ CHUYỂN ĐỔI VÀ XỬ LÝ ẢNH BASE64 TRONG NỘI DUNG TỰ ĐỘNG
-        async function processImagesInContent(content) {
-            let parser = new DOMParser();
-            let doc = parser.parseFromString(content, 'text/html');
-            let imgs = doc.querySelectorAll('img');
-            
-            for (let img of imgs) {
-                let src = img.getAttribute('src');
-                if (src && src.startsWith('blob:')) {
-                    try {
-                        let res = await fetch(src);
-                        let blob = await res.blob();
-                        let base64 = await new Promise((resolve) => {
-                            let reader = new FileReader();
-                            reader.onloadend = () => resolve(reader.result);
-                            reader.readAsDataURL(blob);
-                        });
-                        img.setAttribute('src', base64);
-                    } catch (e) {
-                        console.warn("Không thể chuyển đổi ảnh blob:", e);
-                    }
-                }
-            }
-            return doc.body.innerHTML;
-        }
-
-        // HÀM MỚI: Đẩy file thông qua Google Apps Script Server Proxy (An toàn tuyệt đối, ẩn hoàn toàn Token)
-        async function pushFileToGitHub(filePath, fileContent, commitMessage) {
-            let payload = {
-                type: 'PUSH_TO_GITHUB',
-                filePath: filePath,
-                content: fileContent,
-                commitMessage: commitMessage
-            };
-
-            let res = await fetch(API_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                body: JSON.stringify(payload)
-            });
-            
-            let result = await parseSafeResponse(res);
-            if (result.status !== 'success') {
-                throw new Error(result.message || "Lỗi đẩy file qua Google Apps Script Server Proxy");
-            }
-            return result.data;
-        }
-
-        // CƠ CHẾ LƯU VÀ PHÁT THÔNG BÁO - ĐÃ ĐỒNG BỘ QUA GAS SERVER PROXY
+        // CƠ CHẾ LƯU VÀ PHÁT THÔNG BÁO - ĐÃ BỎ LƯU VÀO SAOBAY_CACHE_FILES (TRÁNH LỖI CACHE ẢO)
         async function handleFormSubmit(e) {
             e.preventDefault();
             let isEdit = document.getElementById('edit-mode-flag').value === 'EDIT';
@@ -608,90 +558,47 @@
 
             let btn = document.getElementById('submit-btn');
             btn.disabled = true;
-            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Đang đẩy bài an toàn qua Google Server...`;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Đang xử lý ảnh & Đẩy bài...`;
 
             let rawTitle = document.getElementById('item-title').value.trim();
-            let rawContentVal = document.getElementById('item-content').value;
-
-            // Tự động quét và chuẩn hóa ảnh base64 nếu có
-            let contentVal = await processImagesInContent(rawContentVal);
+            let contentVal = document.getElementById('item-content').value;
 
             let fileSubType = (itemType === 'KNOWLEDGE') ? 'Lý thuyết' : 'Bài tập';
-            let formattedTitle = rawTitle.includes('_') ? rawTitle : `${rawTitle}_${fileSubType}_none`;
+            let formattedTitle = `${rawTitle}_${fileSubType}_none`;
 
-            // Tự động tạo cấu trúc file HTML tiêu chuẩn
-            let htmlDocument = `<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${formattedTitle}</title>
-    <script src="https://cdn.tailwindcss.com"><\/script>
-    <script>
-        window.MathJax = {
-            tex: { inlineMath: [['$', '$'], ['\\\\(', '\\\\)']], displayMath: [['$$', '$$']] },
-            svg: { fontCache: 'global' }
-        };
-    <\/script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"><\/script>
-    <style>
-        body { font-family: sans-serif; padding: 20px; color: #1e293b; max-width: 1000px; margin: 0 auto; line-height: 1.6; }
-        img { max-width: 100%; height: auto; display: block; margin: 10px 0; border-radius: 8px; }
-    </style>
-</head>
-<body>
-    <header class="mb-6 border-b pb-4">
-        <h1 class="text-2xl font-bold text-blue-900">${formattedTitle}</h1>
-        <p class="text-xs text-slate-500 mt-1">Tác giả: ${currentUser.name} | Thư mục: ${currentSelectedFolderName}</p>
-    </header>
-    <main>
-        ${contentVal}
-    </main>
-</body>
-</html>`;
-
-            // Định dạng tên file sạch dùng cho đường dẫn GitHub
-            let safeFileName = formattedTitle.toLowerCase()
-                .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-                .replace(/[^a-z0-9_-]/g, '_') + '.html';
-            let gitFilePath = `lessons/${safeFileName}`;
+            let payload = {
+                type: 'SAVE_LESSON_CONTENT',
+                actionType: isEdit ? 'EDIT_CONTENT' : 'CREATE_CONTENT',
+                itemId: document.getElementById('editing-item-id').value,
+                author: currentUser.name,
+                folderId: currentSelectedFolderId, 
+                folderName: currentSelectedFolderName,
+                title: formattedTitle,
+                contentType: itemType,
+                content: contentVal
+            };
 
             try {
-                // 1. Đẩy file thông qua Google Apps Script Proxy an toàn
-                await pushFileToGitHub(gitFilePath, htmlDocument, `Upload lesson: ${formattedTitle} by ${currentUser.name}`);
-
-                // 2. Đồng bộ siêu dữ liệu về hệ thống Google Sheets / App
-                let payload = {
-                    type: 'SAVE_LESSON_CONTENT',
-                    actionType: isEdit ? 'EDIT_CONTENT' : 'CREATE_CONTENT',
-                    itemId: document.getElementById('editing-item-id').value,
-                    author: currentUser.name,
-                    folderId: currentSelectedFolderId, 
-                    folderName: currentSelectedFolderName,
-                    title: formattedTitle,
-                    contentType: itemType,
-                    content: contentVal,
-                    githubPath: gitFilePath
-                };
-
                 let res = await fetch(API_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify(payload)
                 });
-                await parseSafeResponse(res);
+                let result = await parseSafeResponse(res);
                 
-                currentUser.score += pointsEarned;
-                localStorage.setItem('user_score', currentUser.score);
-                document.getElementById('user-total-score').innerText = currentUser.score;
+                if(result.status === 'success') {
+                    currentUser.score += pointsEarned;
+                    localStorage.setItem('user_score', currentUser.score);
+                    document.getElementById('user-total-score').innerText = currentUser.score;
 
-                // PHÁT TÍN HIỆU REALTIME CHO CÁC THẺ TRÌNH DUYỆT ĐANG MỞ
-                notifyChannel.postMessage({ action: 'REFRESH_LESSON_LIST' });
+                    // PHÁT TÍN HIỆU REALTIME CHO CÁC THẺ TRÌNH DUYỆT ĐANG MỞ
+                    notifyChannel.postMessage({ action: 'REFRESH_LESSON_LIST' });
 
-                alert(`Đã đẩy bài thành công an toàn lên GitHub qua Server Proxy tại đường dẫn:\n${gitFilePath}`);
-                resetFormToCreate();
+                    alert(`Lưu thành công! Bài "${formattedTitle}" đã được đẩy trực tiếp lên Server/GitHub. Mọi người dùng sẽ cập nhật dữ liệu chính xác!`);
+                    resetFormToCreate();
+                } else alert('Lỗi từ Server: ' + result.message);
             } catch (err) {
-                alert('Lỗi khi đẩy lên GitHub/Server: ' + err.message);
+                alert('Lỗi kết nối API: ' + err.message);
             } finally {
                 btn.disabled = false;
                 btn.innerHTML = `<i class="fa-solid fa-cloud-arrow-up mr-2"></i> Lưu & Đẩy Lên GitHub / Drive`;

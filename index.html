@@ -41,13 +41,11 @@
                 </div>
             </div>
 
-            <!-- ĐƯỜNG DẪN TỚI KHU VỰC GIÁO VIÊN -->
             <a id="btn-teacher-space" href="teacher/teacher-hub.html" title="Trang Giáo Viên" class="hidden bg-emerald-600 hover:bg-emerald-500 text-white text-xs p-2 md:px-3 md:py-2 rounded-lg font-bold transition flex items-center shadow">
                 <i class="fa-solid fa-chalkboard-user"></i>
                 <span class="hidden md:inline ml-1.5">Giáo Viên</span>
             </a>
 
-            <!-- ĐƯỜNG DẪN TỚI TÀI KHOẢN -->
             <a href="used/used.html" title="Tài Khoản / Đổi MK" class="bg-blue-800 hover:bg-blue-700 text-white text-xs p-2 md:px-3 md:py-2 rounded-lg font-medium transition flex items-center border border-blue-700">
                 <i class="fa-solid fa-key"></i>
                 <span class="hidden md:inline ml-1.5">Tài Khoản</span>
@@ -146,7 +144,7 @@
 
     </main>
 
-    <!-- SCRIPT TẢI BÀI VÀ XỬ LÝ DỮ LIỆU ĐỒNG BỘ -->
+    <!-- SCRIPT CHÍNH TẢI BÀI HIỆU NĂNG CAO -->
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec";
         
@@ -155,7 +153,6 @@
         let driveFiles = [];
         let currentMode = 'theory';
 
-        // Lắng nghe tín hiệu cập nhật từ các tab/trang khác (Realtime Broadcast)
         const notifyChannel = new BroadcastChannel('saobay_notifications');
         notifyChannel.onmessage = (e) => {
             if (e.data && e.data.action === 'REFRESH_LESSON_LIST') {
@@ -170,6 +167,8 @@
             }
 
             renderUserHeaderUI();
+
+            // TẢI TRỰC TIẾP DỮ LIỆU TỪ SERVER (ĐẢM BẢO CHÍNH XÁC VÀ ĐỒNG BỘ 100% GIỮA MỌI THIẾT BỊ)
             syncSystemData(false);
         }
 
@@ -189,21 +188,18 @@
                 renderTreeDirectory();
                 if(forceNotify) alert('Đã cập nhật danh mục kiến thức mới nhất từ Server!');
             } catch (err) {
-                console.log('Lỗi tải dữ liệu từ Server:', err);
+                console.log('Lỗi tải dữ liệu từ Server');
             } finally {
                 if(icon) icon.classList.remove('fa-spin');
             }
         }
 
-        // Tách nhãn, đuôi file và lấy tên tiêu đề sạch
         function parseFileName(fileName) {
             let raw = fileName || 'Bài chưa tên';
             let status = 'none';
             let verifier = 'Chưa kiểm duyệt';
-
-            // Phân loại nội dung theo đuôi file
-            let isPractice = /_Bài\s*tập|_Kiểm\s*tra/i.test(raw);
-            let isTheory = /_Lý\s*thuyết/i.test(raw) || !isPractice;
+            let isTheory = raw.includes('_Lý thuyết');
+            let isPractice = raw.includes('_Bài tập') || raw.includes('_Kiểm tra');
 
             if (raw.includes('_none')) {
                 status = 'none';
@@ -213,11 +209,10 @@
                 verifier = match ? match[0].replace(/_/, '') : 'Giáo viên';
             }
 
-            // Làm sạch tiêu đề để hiển thị lên UI
             let cleanTitle = raw.replace(/_Lý\s*thuyết|_Bài\s*tập|_Kiểm\s*tra|_none|_id\d+|_gv\w+/gi, '').trim();
 
             return {
-                cleanTitle: cleanTitle || raw,
+                cleanTitle: cleanTitle,
                 status: status,
                 verifier: verifier,
                 isTheory: isTheory,
@@ -230,7 +225,7 @@
             container.innerHTML = '';
 
             if (!driveFolders || driveFolders.length === 0) {
-                container.innerHTML = `<div class="text-center py-8 text-slate-400"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Đang tải cây danh mục...</div>`;
+                container.innerHTML = `<div class="text-center py-8 text-slate-400">Đang tải cây danh mục...</div>`;
                 return;
             }
 
@@ -242,11 +237,10 @@
 
                 let filesInFolder = driveFiles.filter(f => (f.FolderID === folderId || f.folderId === folderId));
                 
-                // Lọc danh sách bài hát/bài học theo đúng Tab người dùng đang chọn
                 let matchedFiles = filesInFolder.map(f => ({ ...f, meta: parseFileName(f.Title || f.title || f.name) }))
                 .filter(f => {
                     if (currentMode === 'theory') {
-                        return f.meta.isTheory;
+                        return f.meta.isTheory || (!f.meta.isPractice && currentMode === 'theory');
                     } else {
                         return f.meta.isPractice;
                     }
@@ -275,7 +269,7 @@
                                     <span class="truncate text-xs font-medium">${file.meta.cleanTitle}</span>
                                 </div>
                                 <span class="text-[9px] px-1.5 py-0.5 rounded font-bold shrink-0 ${file.meta.status === 'approved' ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-600'}">
-                                    ${file.meta.status === 'approved' ? 'Đã duyệt' : 'Chưa duyệt'}
+                                    ${file.meta.status === 'approved' ? 'Đã duyệt' : 'Chưa kiểm duyệt'}
                                 </span>
                             </div>
                         `;
@@ -285,7 +279,7 @@
                 }
             });
 
-            container.innerHTML = html || `<div class="text-center py-8 text-slate-400">Chưa có nội dung phù hợp cho mục này.</div>`;
+            container.innerHTML = html || `<div class="text-center py-8 text-slate-400">Chưa có bài học phù hợp.</div>`;
         }
 
         async function selectItemDetail(fileId, elementNode) {
@@ -317,7 +311,7 @@
             let containerEl = document.getElementById(targetContainerId);
             containerEl.innerHTML = `<p class="text-slate-400 italic"><i class="fa-solid fa-spinner fa-spin mr-2"></i> Đang tải bài học...</p>`;
 
-            // Ưu tiên 1: Tải trực tiếp từ GitHub
+            // Ưu tiên 1: Tải trực tiếp từ GitHub nếu có link GitUrl
             let gitUrl = rawFile.GitUrl || rawFile.gitUrl;
             if (gitUrl) {
                 try {
@@ -329,12 +323,10 @@
                         if (window.MathJax) MathJax.typesetPromise();
                         return;
                     }
-                } catch(e) {
-                    console.log('Không thể lấy từ GitHub, chuyển sang dùng dữ liệu lưu sẵn');
-                }
+                } catch(e) {}
             }
 
-            // Ưu tiên 2: Sử dụng trường Content lưu sẵn trong Sheet
+            // Ưu tiên 2: Sử dụng trường Content có sẵn từ Sheet / Drive
             containerEl.innerHTML = rawFile.Content || rawFile.content || '<p class="text-slate-400 italic">Nội dung bài học chưa có sẵn.</p>';
             if (window.MathJax) MathJax.typesetPromise();
         }
@@ -344,7 +336,7 @@
             if (!badge) return;
             if (meta.status === 'approved') {
                 badge.className = 'bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2.5 py-0.5 rounded-full';
-                badge.innerHTML = `<i class="fa-solid fa-circle-check mr-1"></i> Đã duyệt bởi: ${meta.verifier}`;
+                badge.innerHTML = `<i class="fa-solid fa-circle-check mr-1"></i> Đã kiểm duyệt bởi: ${meta.verifier}`;
             } else {
                 badge.className = 'bg-slate-200 text-slate-600 text-[10px] font-bold px-2.5 py-0.5 rounded-full';
                 badge.innerHTML = `<i class="fa-solid fa-clock mr-1"></i> Chưa kiểm duyệt`;
@@ -353,27 +345,15 @@
 
         function switchMode(mode) {
             if (mode === 'practice' && !currentUser) {
-                if (confirm("Bạn cần đăng nhập để làm bài tập và tích điểm! Đến trang đăng nhập ngay?")) {
+                if (confirm("Bạn cần đăng nhập để làm bài tập và tích điểm! Chuyển tới đăng nhập?")) {
                     window.location.href = "used/used.html";
                 }
                 return;
             }
 
             currentMode = mode;
-            
-            // Đổi tiêu đề Cây Kiến Thức
-            document.getElementById('tree-title-heading').innerHTML = (mode === 'theory') 
-                ? `<i class="fa-solid fa-folder-tree text-blue-600 mr-2"></i> Cây Kiến Thức Lý Thuyết`
-                : `<i class="fa-solid fa-folder-tree text-emerald-600 mr-2"></i> Danh Sách Bài Tập & Đề Thi`;
-
-            // Style nút Chuyển Tab
-            document.getElementById('tab-theory').className = (mode === 'theory') 
-                ? "flex-1 sm:flex-initial px-4 py-2 rounded-lg text-xs md:text-sm font-bold transition flex items-center justify-center bg-blue-600 text-white shadow" 
-                : "flex-1 sm:flex-initial px-4 py-2 rounded-lg text-xs md:text-sm font-bold transition flex items-center justify-center bg-slate-100 text-slate-600 hover:bg-slate-200";
-            
-            document.getElementById('tab-practice').className = (mode === 'practice') 
-                ? "flex-1 sm:flex-initial px-4 py-2 rounded-lg text-xs md:text-sm font-bold transition flex items-center justify-center bg-emerald-600 text-white shadow" 
-                : "flex-1 sm:flex-initial px-4 py-2 rounded-lg text-xs md:text-sm font-bold transition flex items-center justify-center bg-slate-100 text-slate-600 hover:bg-slate-200";
+            document.getElementById('tab-theory').className = (mode === 'theory') ? "flex-1 sm:flex-initial px-4 py-2 rounded-lg text-xs md:text-sm font-bold transition flex items-center justify-center bg-blue-600 text-white shadow" : "flex-1 sm:flex-initial px-4 py-2 rounded-lg text-xs md:text-sm font-bold transition flex items-center justify-center bg-slate-100 text-slate-600 hover:bg-slate-200";
+            document.getElementById('tab-practice').className = (mode === 'practice') ? "flex-1 sm:flex-initial px-4 py-2 rounded-lg text-xs md:text-sm font-bold transition flex items-center justify-center bg-emerald-600 text-white shadow" : "flex-1 sm:flex-initial px-4 py-2 rounded-lg text-xs md:text-sm font-bold transition flex items-center justify-center bg-slate-100 text-slate-600 hover:bg-slate-200";
             
             resetView();
             renderTreeDirectory();
@@ -433,7 +413,7 @@
 
         function handleAuthAction() {
             if (currentUser && currentUser.id) {
-                if (confirm("Bạn có chắc chắn muốn đăng xuất khỏi hệ thống?")) {
+                if (confirm("Bạn có chắc chắn muốn đăng xuất?")) {
                     localStorage.removeItem('saobay_user');
                     currentUser = null;
                     renderUserHeaderUI();
