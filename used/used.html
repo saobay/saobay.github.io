@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ thống Xác thực & Quản lý - Sào Báy Portal</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen flex items-center justify-center p-4">
+
+    <div class="max-w-md w-full bg-white rounded-2xl shadow-xl overflow-hidden p-8">
+        <!-- Header Logo / Tiêu đề -->
+        <div class="text-center mb-6">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-indigo-100 text-indigo-600 rounded-full mb-3 shadow-inner">
+                <i class="fa-solid fa-shield-halved text-2xl"></i>
+            </div>
+            <h1 class="text-2xl font-bold text-gray-800">Sào Báy Portal</h1>
+            <p id="portal-subtitle" class="text-sm text-gray-500 mt-1">Hệ thống Quản lý & Xác thực Thông minh</p>
+        </div>
+
+        <!-- FORM ĐĂNG NHẬP (Mặc định hiển thị khi chưa đăng nhập) -->
+        <form id="login-form" onsubmit="handleIndependentLogin(event)" class="space-y-4">
+            <div>
+                <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Mã định danh / Tên đăng nhập</label>
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400"><i class="fa-solid fa-user"></i></span>
+                    <input type="text" id="login-username" required placeholder="Nhập mã giáo viên hoặc tên học sinh" class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
+                </div>
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Mật khẩu</label>
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400"><i class="fa-solid fa-lock"></i></span>
+                    <input type="password" id="login-password" required placeholder="••••••••" class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
+                </div>
+                <p class="text-xs text-gray-400 mt-1">Mặc định: <span class="font-mono text-gray-600">12345678</span> (nếu chưa đổi mật khẩu riêng)</p>
+            </div>
+            <button type="submit" id="login-btn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 rounded-xl shadow-lg shadow-indigo-200 transition duration-200 flex items-center justify-center space-x-2">
+                <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                <span>Đăng Nhập Hệ Thống</span>
+            </button>
+        </form>
+
+        <!-- FORM ĐỔI MẬT KHẨU (Chỉ hiện khi đã đăng nhập và yêu cầu đổi mật khẩu) -->
+        <form id="changepass-form" onsubmit="handleIndependentChangePassword(event)" class="space-y-4 hidden">
+            <!-- Hiển thị thông tin tài khoản đang đăng nhập -->
+            <div class="bg-indigo-50 border border-indigo-200 p-3 rounded-xl text-xs text-indigo-900 flex items-center justify-between">
+                <div>
+                    <span class="block font-semibold text-gray-500 uppercase text-[10px]">Tài khoản đang đổi mật khẩu:</span>
+                    <span id="current-user-display" class="font-bold text-indigo-700 text-sm">--</span>
+                </div>
+                <button type="button" onclick="handleLogout()" class="text-red-600 hover:text-red-800 text-xs font-medium underline">Đăng xuất</button>
+            </div>
+
+            <div class="bg-amber-50 border border-amber-200 p-3 rounded-xl text-xs text-amber-800">
+                <i class="fa-solid fa-circle-info mr-1"></i> Sau khi đổi, mật khẩu mặc định <span class="font-mono font-bold">12345678</span> sẽ bị vô hiệu hóa hoàn toàn cho tài khoản này.
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Mật khẩu mới</label>
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400"><i class="fa-solid fa-key"></i></span>
+                    <input type="password" id="new-pass-input" required placeholder="Nhập mật khẩu mới an toàn hơn" class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
+                </div>
+            </div>
+            <button type="submit" id="changepass-btn" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-3 rounded-xl shadow-lg shadow-emerald-200 transition duration-200 flex items-center justify-center space-x-2">
+                <i class="fa-solid fa-floppy-disk"></i>
+                <span>Lưu Mật Khẩu Lên GitHub</span>
+            </button>
+        </form>
+
+        <!-- Footer Quay lại -->
+        <div class="mt-6 text-center border-t border-gray-100 pt-4">
+            <a href="../index.html" class="text-xs text-gray-500 hover:text-indigo-600 transition flex items-center justify-center space-x-1">
+                <i class="fa-solid fa-house"></i>
+                <span>Quay lại trang chủ Sào Báy</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- SCRIPT LOGIC XỬ LÝ -->
+    <script>
+        // Cấu hình GitHub Repository tích hợp Token có quyền repo
+        const GITHUB_CONFIG = {
+            owner: "saobay",
+            repo: "saobay.github.io",
+            branch: "main",
+            path: "used/used.is",
+            token: "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" 
+        };
+
+        let masterDatabase = {
+            assignments: [],
+            students: {},
+            passwords: { 'admin': 'Dung2207@' }
+        };
+
+        // Tải dữ liệu masterDatabase từ file used.is trên GitHub
+        async function loadMasterDatabase() {
+            try {
+                let res = await fetch('used.is?' + new Date().getTime());
+                if (res.ok) {
+                    let textData = await res.text();
+                    try {
+                        masterDatabase = JSON.parse(textData);
+                    } catch(e) {
+                        masterDatabase = JSON.parse(decodeURIComponent(escape(atob(textData))));
+                    }
+                }
+            } catch (err) {
+                console.warn('Không tải được file used.is trực tiếp.', err);
+            }
+        }
+
+        // Kiểm tra trạng thái khi tải trang
+        window.addEventListener('DOMContentLoaded', async () => {
+            await loadMasterDatabase();
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            let currentUser = JSON.parse(localStorage.getItem('saobay_user'));
+
+            // Chỉ hiển thị form đổi mật khẩu khi có tham số URL yêu cầu và người dùng đã đăng nhập thực tế
+            if (urlParams.get('tab') === 'changepass' && currentUser) {
+                showChangePassView(currentUser);
+            } else {
+                showLoginView();
+            }
+        });
+
+        function showLoginView() {
+            document.getElementById('login-form').classList.remove('hidden');
+            document.getElementById('changepass-form').classList.add('hidden');
+            document.getElementById('portal-subtitle').innerText = "Hệ thống Quản lý & Xác thực Thông minh";
+        }
+
+        function showChangePassView(user) {
+            document.getElementById('login-form').classList.add('hidden');
+            document.getElementById('changepass-form').classList.remove('hidden');
+            document.getElementById('portal-subtitle').innerText = "Cập nhật mật khẩu tài khoản cá nhân";
+            document.getElementById('current-user-display').innerText = `${user.name} (ID: ${user.id})`;
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('saobay_user');
+            showLoginView();
+            window.location.href = 'used.html';
+        }
+
+        // HÀM ĐĂNG NHẬP ĐỘC LẬP
+        async function handleIndependentLogin(e) {
+            e.preventDefault();
+            let username = document.getElementById('login-username').value.trim();
+            let password = document.getElementById('login-password').value.trim();
+
+            if(username === 'admin' && password === 'Dung2207@') {
+                let adminObj = { id: 'admin', name: 'Thầy Bùi Văn Dũng (Admin)', role: 'admin' };
+                localStorage.setItem('saobay_user', JSON.stringify(adminObj));
+                window.location.href = '../index.html?tab=admin';
+                return;
+            }
+
+            await loadMasterDatabase();
+
+            let matchedId = username;
+            let foundRole = '';
+            let foundName = '';
+            let foundClass = '';
+
+            // Tìm kiếm giáo viên
+            if (masterDatabase.assignments && Array.isArray(masterDatabase.assignments)) {
+                for(let item of masterDatabase.assignments) {
+                    if(item.teachers) {
+                        let parts = item.teachers.split(',');
+                        for(let p of parts) {
+                            p = p.trim();
+                            let match = p.match(/^(.*?)\s*\((\d+)\)$/);
+                            if(match) {
+                                let tName = match[1].trim();
+                                let tId = match[2].trim();
+                                if(username === tId || username.toLowerCase() === tName.toLowerCase()) {
+                                    matchedId = tId;
+                                    foundName = tName;
+                                    foundRole = 'teacher';
+                                    break;
+                                }
+                            } else if(username.toLowerCase() === p.toLowerCase()) {
+                                matchedId = p;
+                                foundName = p;
+                                foundRole = 'teacher';
+                                break;
+                            }
+                        }
+                    }
+                    if(foundRole) break;
+                }
+            }
+
+            // Tìm kiếm học sinh
+            if(!foundRole && masterDatabase.students) {
+                for(let cls in masterDatabase.students) {
+                    let listHS = masterDatabase.students[cls];
+                    let s = listHS.find(hs => hs.id === username || hs.name.toLowerCase() === username.toLowerCase());
+                    if(s) {
+                        matchedId = s.id;
+                        foundName = s.name;
+                        foundClass = cls;
+                        foundRole = 'student';
+                        break;
+                    }
+                }
+            }
+
+            if(!foundRole) {
+                alert('Không tìm thấy tài khoản trong hệ thống Sào Báy!');
+                return;
+            }
+
+            let savedPassMap = masterDatabase.passwords || {};
+            let customPass = savedPassMap[matchedId];
+
+            let isValid = false;
+            if(customPass !== undefined) {
+                if(password === customPass) isValid = true;
+            } else {
+                if(password === "12345678") isValid = true;
+            }
+
+            if(isValid) {
+                let userSession = { id: matchedId, name: foundName, role: foundRole, className: foundClass };
+                localStorage.setItem('saobay_user', JSON.stringify(userSession));
+
+                if(foundRole === 'teacher') {
+                    localStorage.setItem('used_is_data', JSON.stringify(masterDatabase.assignments));
+                    window.location.href = '../index.html?tab=teacher-dash';
+                } else {
+                    let flatStudents = [];
+                    for(let c in masterDatabase.students) {
+                        masterDatabase.students[c].forEach(hs => flatStudents.push({ ...hs, className: c }));
+                    }
+                    localStorage.setItem('saobay_students_db', JSON.stringify(flatStudents));
+                    window.location.href = '../index.html?tab=student-dash';
+                }
+            } else {
+                alert('Mật khẩu không chính xác!');
+            }
+        }
+
+        // HÀM ĐỔI MẬT KHẨU VÀ GHI TRỰC TIẾP LÊN GITHUB API
+        async function handleIndependentChangePassword(e) {
+            e.preventDefault();
+            const newPass = document.getElementById('new-pass-input').value.trim();
+            let currentUser = JSON.parse(localStorage.getItem('saobay_user'));
+            let btn = document.getElementById('changepass-btn');
+
+            if(!currentUser) {
+                alert('Phiên đăng nhập đã hết hạn! Vui lòng đăng nhập lại.');
+                showLoginView();
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Đang ghi file trực tiếp lên GitHub...`;
+
+            try {
+                if(!masterDatabase.passwords) masterDatabase.passwords = { 'admin': 'Dung2207@' };
+                masterDatabase.passwords[currentUser.id] = newPass;
+
+                let apiUrl = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${GITHUB_CONFIG.path}?ref=${GITHUB_CONFIG.branch}`;
+                
+                // 1. Lấy thông tin SHA hiện tại của file trên GitHub
+                let getRes = await fetch(apiUrl, {
+                    headers: {
+                        "Authorization": `Bearer ${GITHUB_CONFIG.token}`,
+                        "Accept": "application/vnd.github+json"
+                    }
+                });
+
+                let fileSha = "";
+                if(getRes.ok) {
+                    let fileData = await getRes.json();
+                    fileSha = fileData.sha;
+                } else {
+                    let errJson = await getRes.json();
+                    throw new Error(errJson.message || "Không thể đọc thông tin file trên GitHub.");
+                }
+
+                // 2. Mã hóa dữ liệu JSON sang Base64 chuẩn UTF-8
+                let jsonString = JSON.stringify(masterDatabase, null, 2);
+                let base64Content = btoa(unescape(encodeURIComponent(jsonString)));
+
+                // 3. Gửi yêu cầu PUT cập nhật file
+                let putRes = await fetch(apiUrl, {
+                    method: "PUT",
+                    headers: {
+                        "Authorization": `Bearer ${GITHUB_CONFIG.token}`,
+                        "Accept": "application/vnd.github+json",
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        message: `Update password via Sào Báy Portal for user: ${currentUser.name} (${currentUser.id})`,
+                        content: base64Content,
+                        sha: fileSha,
+                        branch: GITHUB_CONFIG.branch
+                    })
+                });
+
+                if(putRes.ok) {
+                    alert('Đổi mật khẩu thành công! File used.is trên GitHub đã được cập nhật tức thi.');
+                    window.location.href = '../index.html';
+                } else {
+                    let errJson = await putRes.json();
+                    throw new Error(errJson.message || "Không thể ghi file lên GitHub.");
+                }
+
+            } catch(err) {
+                alert('Lỗi cập nhật GitHub: ' + err.message);
+                btn.disabled = false;
+                btn.innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Lưu Mật Khẩu Lên GitHub`;
+            }
+        }
+    </script>
+</body>
+</html>

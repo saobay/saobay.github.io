@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Thống Học Tập & Ngân Hàng Đề Thi - THPT Sào Báy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        window.MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        .tree-node-content:hover { background-color: #f1f5f9; }
+        .selected-node { background-color: #e0f2fe !important; border-left: 4px solid #0284c7; }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col" onload="initMainPage()">
+
+    <!-- HEADER SYSTEM -->
+    <header class="bg-blue-900 text-white shadow-lg px-3 md:px-6 py-2.5 md:py-4 flex items-center justify-between sticky top-0 z-40">
+        <div class="flex items-center space-x-2 md:space-x-3 cursor-pointer shrink-0" onclick="resetView()">
+            <i class="fa-solid fa-school text-xl md:text-3xl text-amber-400"></i>
+            <div>
+                <h1 class="font-bold text-sm md:text-xl uppercase tracking-wide">THPT Sào Báy</h1>
+                <p class="text-[9px] md:text-xs text-blue-200 hidden sm:block">Cổng Học Tập & Ngân Hàng Đề Thi Trực Tuyến</p>
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-1.5 md:space-x-3">
+            <div id="user-info-card" class="hidden bg-blue-800 border border-blue-700 px-2 py-1 md:px-3 md:py-1.5 rounded-lg flex items-center space-x-2">
+                <div class="text-right">
+                    <p id="user-name-display" class="text-[11px] md:text-xs font-bold text-amber-300 truncate max-w-[80px] sm:max-w-[120px]">Đang tải...</p>
+                    <p id="user-role-badge" class="text-[9px] uppercase font-semibold text-emerald-300">Học sinh</p>
+                </div>
+                <div class="bg-amber-400 text-blue-900 font-black text-[10px] md:text-xs px-1.5 py-0.5 md:px-2 md:py-1 rounded shadow">
+                    <span id="user-score-display">0</span>đ
+                </div>
+            </div>
+
+            <!-- ĐƯỜNG DẪN TỚI KHU VỰC GIÁO VIÊN -->
+            <a id="btn-teacher-space" href="teacher/teacher-hub.html" title="Trang Giáo Viên" class="hidden bg-emerald-600 hover:bg-emerald-500 text-white text-xs p-2 md:px-3 md:py-2 rounded-lg font-bold transition flex items-center shadow">
+                <i class="fa-solid fa-chalkboard-user"></i>
+                <span class="hidden md:inline ml-1.5">Giáo Viên</span>
+            </a>
+
+            <!-- ĐƯỜNG DẪN TỚI TÀI KHOẢN -->
+            <a href="used/used.html" title="Tài Khoản / Đổi MK" class="bg-blue-800 hover:bg-blue-700 text-white text-xs p-2 md:px-3 md:py-2 rounded-lg font-medium transition flex items-center border border-blue-700">
+                <i class="fa-solid fa-key"></i>
+                <span class="hidden md:inline ml-1.5">Tài Khoản</span>
+            </a>
+
+            <button id="btn-auth" onclick="handleAuthAction()" class="bg-rose-600 hover:bg-rose-500 text-white text-xs px-2.5 py-1.5 md:px-3.5 md:py-2 rounded-lg font-bold transition flex items-center shadow">
+                <i class="fa-solid fa-right-to-bracket mr-1"></i>
+                <span id="auth-btn-text">Đăng Nhập</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-2 md:p-6 space-y-4">
+        
+        <!-- THANH CHUYỂN TAB CÂY KIẾN THỨC -->
+        <div class="bg-white rounded-xl p-2 border border-slate-200 shadow-sm flex items-center justify-between">
+            <div class="flex space-x-2 w-full sm:w-auto">
+                <button id="tab-theory" onclick="switchMode('theory')" class="flex-1 sm:flex-initial px-4 py-2 rounded-lg text-xs md:text-sm font-bold transition flex items-center justify-center bg-blue-600 text-white shadow">
+                    <i class="fa-solid fa-book-bookmark mr-2"></i> Học Lý Thuyết
+                </button>
+                <button id="tab-practice" onclick="switchMode('practice')" class="flex-1 sm:flex-initial px-4 py-2 rounded-lg text-xs md:text-sm font-bold transition flex items-center justify-center bg-slate-100 text-slate-600 hover:bg-slate-200">
+                    <i class="fa-solid fa-pen-to-square mr-2"></i> Làm Bài Tập & Đề Thi
+                </button>
+            </div>
+            <div id="sync-status-badge" class="hidden sm:flex text-xs text-slate-500 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200 font-medium items-center">
+                <i class="fa-solid fa-bolt text-amber-500 mr-1.5"></i> Kết nối trực tiếp Realtime từ GitHub & Drive
+            </div>
+        </div>
+
+        <!-- CÂY THƯ MỤC VÀ HIỂN THỊ NỘI DUNG -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6">
+            
+            <!-- CÂY THƯ MỤC BÀI HỌC CỘT TRÁI -->
+            <div class="lg:col-span-4 bg-white rounded-2xl border border-slate-200 shadow-sm p-3 md:p-4 flex flex-col h-[480px] md:h-[650px]">
+                <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-3">
+                    <h3 id="tree-title-heading" class="font-extrabold text-slate-800 text-sm md:text-base flex items-center">
+                        <i class="fa-solid fa-folder-tree text-blue-600 mr-2"></i> Cây Kiến Thức Lý Thuyết
+                    </h3>
+                    <button onclick="syncSystemData(true)" class="text-xs text-blue-600 hover:underline flex items-center font-semibold">
+                        <i class="fa-solid fa-rotate mr-1" id="sync-icon"></i> Tải lại
+                    </button>
+                </div>
+
+                <div class="mb-3 relative">
+                    <input type="text" id="tree-search-input" oninput="filterTreeNodes()" placeholder="Tìm nhanh bài học..." class="w-full text-xs bg-slate-50 border border-slate-200 rounded-lg pl-8 pr-3 py-2 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+                    <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2.5 text-slate-400 text-xs"></i>
+                </div>
+
+                <div id="tree-directory-container" class="flex-1 overflow-y-auto space-y-2 text-xs pr-1">
+                    <!-- Tải dữ liệu danh mục tại đây -->
+                </div>
+            </div>
+
+            <!-- NỘI DUNG HIỂN THỊ CỘT PHẢI -->
+            <div class="lg:col-span-8 bg-white rounded-2xl border border-slate-200 shadow-sm p-4 md:p-6 flex flex-col h-[520px] md:h-[650px] overflow-y-auto relative" id="content-display-area">
+                
+                <div id="empty-state" class="m-auto text-center space-y-3 py-8">
+                    <div class="w-16 h-16 md:w-20 md:h-20 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center mx-auto text-2xl md:text-3xl shadow-inner">
+                        <i class="fa-solid fa-book-open-reader"></i>
+                    </div>
+                    <h4 class="font-bold text-slate-700 text-base md:text-lg">Chưa chọn bài học</h4>
+                    <p class="text-xs text-slate-400 max-w-sm mx-auto">Vui lòng chọn bài học từ danh mục bên trái để hiển thị nội dung.</p>
+                </div>
+
+                <!-- KHU VỰC HIỂN THỊ LÝ THUYẾT -->
+                <div id="lesson-detail-view" class="hidden space-y-4">
+                    <div class="border-b pb-4">
+                        <div class="flex flex-wrap items-center gap-2 mb-2">
+                            <span class="bg-blue-100 text-blue-800 text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full">Lý thuyết</span>
+                            <span id="lesson-verify-badge" class="text-[10px] font-bold px-2.5 py-0.5 rounded-full"></span>
+                        </div>
+                        <h2 id="lesson-title-display" class="text-xl md:text-2xl font-extrabold text-slate-900 leading-snug"></h2>
+                        <p id="lesson-meta-info" class="text-xs text-slate-400 mt-1"></p>
+                    </div>
+                    <div id="lesson-body-content" class="text-sm text-slate-700 leading-relaxed space-y-3 pt-2 min-h-[200px]"></div>
+                </div>
+
+                <!-- KHU VỰC HIỂN THỊ BÀI TẬP / ĐỀ THI -->
+                <div id="exam-detail-view" class="hidden space-y-6">
+                    <div class="border-b pb-4 flex items-center justify-between">
+                        <div>
+                            <div class="flex items-center space-x-2 mb-1">
+                                <span class="bg-emerald-100 text-emerald-800 text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full">Bài Tập / Đề Thi</span>
+                                <span id="exam-verify-badge" class="text-[10px] font-bold px-2.5 py-0.5 rounded-full"></span>
+                            </div>
+                            <h2 id="exam-title-display" class="text-lg md:text-xl font-extrabold text-slate-900"></h2>
+                        </div>
+                        <button onclick="alert('Đã nộp bài làm thành công!')" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-4 py-2 rounded-xl shadow">Nộp Bài</button>
+                    </div>
+                    <div id="exam-questions-list" class="space-y-6 pb-12 min-h-[200px]"></div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- SCRIPT TẢI BÀI VÀ XỬ LÝ DỮ LIỆU ĐỒNG BỘ -->
+    <script>
+        const API_URL = "https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec";
+        
+        let currentUser = null;
+        let driveFolders = [];
+        let driveFiles = [];
+        let currentMode = 'theory';
+
+        // Lắng nghe tín hiệu cập nhật từ các tab/trang khác (Realtime Broadcast)
+        const notifyChannel = new BroadcastChannel('saobay_notifications');
+        notifyChannel.onmessage = (e) => {
+            if (e.data && e.data.action === 'REFRESH_LESSON_LIST') {
+                syncSystemData(false);
+            }
+        };
+
+        function initMainPage() {
+            let sessionData = localStorage.getItem('saobay_user');
+            if (sessionData) {
+                try { currentUser = JSON.parse(sessionData); } catch (e) { currentUser = null; }
+            }
+
+            renderUserHeaderUI();
+            syncSystemData(false);
+        }
+
+        async function syncSystemData(forceNotify) {
+            let icon = document.getElementById('sync-icon');
+            if(icon) icon.classList.add('fa-spin');
+
+            try {
+                let [folderRes, fileRes] = await Promise.all([
+                    fetch(`${API_URL}?type=ThuMuc`),
+                    fetch(`${API_URL}?type=BaiHoc`)
+                ]);
+
+                driveFolders = await folderRes.json();
+                driveFiles = await fileRes.json();
+
+                renderTreeDirectory();
+                if(forceNotify) alert('Đã cập nhật danh mục kiến thức mới nhất từ Server!');
+            } catch (err) {
+                console.log('Lỗi tải dữ liệu từ Server:', err);
+            } finally {
+                if(icon) icon.classList.remove('fa-spin');
+            }
+        }
+
+        // Tách nhãn, đuôi file và lấy tên tiêu đề sạch
+        function parseFileName(fileName) {
+            let raw = fileName || 'Bài chưa tên';
+            let status = 'none';
+            let verifier = 'Chưa kiểm duyệt';
+
+            // Phân loại nội dung theo đuôi file
+            let isPractice = /_Bài\s*tập|_Kiểm\s*tra/i.test(raw);
+            let isTheory = /_Lý\s*thuyết/i.test(raw) || !isPractice;
+
+            if (raw.includes('_none')) {
+                status = 'none';
+            } else if (/_id\d+|_gv\w+/i.test(raw)) {
+                status = 'approved';
+                let match = raw.match(/_id\d+|_gv\w+/i);
+                verifier = match ? match[0].replace(/_/, '') : 'Giáo viên';
+            }
+
+            // Làm sạch tiêu đề để hiển thị lên UI
+            let cleanTitle = raw.replace(/_Lý\s*thuyết|_Bài\s*tập|_Kiểm\s*tra|_none|_id\d+|_gv\w+/gi, '').trim();
+
+            return {
+                cleanTitle: cleanTitle || raw,
+                status: status,
+                verifier: verifier,
+                isTheory: isTheory,
+                isPractice: isPractice
+            };
+        }
+
+        function renderTreeDirectory() {
+            const container = document.getElementById('tree-directory-container');
+            container.innerHTML = '';
+
+            if (!driveFolders || driveFolders.length === 0) {
+                container.innerHTML = `<div class="text-center py-8 text-slate-400"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Đang tải cây danh mục...</div>`;
+                return;
+            }
+
+            let html = '';
+
+            driveFolders.forEach(folder => {
+                let folderId = folder.FolderID || folder.id;
+                let folderName = folder.FolderName || folder.name;
+
+                let filesInFolder = driveFiles.filter(f => (f.FolderID === folderId || f.folderId === folderId));
+                
+                // Lọc danh sách bài hát/bài học theo đúng Tab người dùng đang chọn
+                let matchedFiles = filesInFolder.map(f => ({ ...f, meta: parseFileName(f.Title || f.title || f.name) }))
+                .filter(f => {
+                    if (currentMode === 'theory') {
+                        return f.meta.isTheory;
+                    } else {
+                        return f.meta.isPractice;
+                    }
+                });
+
+                if (matchedFiles.length > 0) {
+                    html += `
+                        <div class="tree-subject-group mb-2">
+                            <div onclick="toggleTreeNode(this)" class="tree-node-content flex items-center justify-between p-2 rounded-lg cursor-pointer font-bold text-slate-800 hover:bg-slate-100">
+                                <div class="flex items-center space-x-2 truncate">
+                                    <i class="fa-solid fa-angle-right text-slate-400 transition-transform duration-200"></i>
+                                    <i class="fa-solid fa-folder-open text-amber-500"></i>
+                                    <span class="truncate text-xs">${folderName}</span>
+                                </div>
+                                <span class="text-[10px] bg-slate-100 px-2 py-0.5 rounded-full text-slate-500 shrink-0">${matchedFiles.length} bài</span>
+                            </div>
+                            <div class="tree-children hidden pl-4 space-y-1 mt-1">
+                    `;
+
+                    matchedFiles.forEach(file => {
+                        let fileId = file.ItemID || file.id;
+                        html += `
+                            <div onclick="selectItemDetail('${fileId}', this)" class="tree-item-node tree-node-content p-1.5 rounded flex items-center justify-between cursor-pointer text-slate-600 hover:text-blue-600">
+                                <div class="flex items-center space-x-2 truncate pr-2">
+                                    <i class="fa-regular ${currentMode === 'practice' ? 'fa-file-pen text-emerald-600' : 'fa-file-lines text-blue-500'}"></i>
+                                    <span class="truncate text-xs font-medium">${file.meta.cleanTitle}</span>
+                                </div>
+                                <span class="text-[9px] px-1.5 py-0.5 rounded font-bold shrink-0 ${file.meta.status === 'approved' ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-600'}">
+                                    ${file.meta.status === 'approved' ? 'Đã duyệt' : 'Chưa duyệt'}
+                                </span>
+                            </div>
+                        `;
+                    });
+
+                    html += `</div></div>`;
+                }
+            });
+
+            container.innerHTML = html || `<div class="text-center py-8 text-slate-400">Chưa có nội dung phù hợp cho mục này.</div>`;
+        }
+
+        async function selectItemDetail(fileId, elementNode) {
+            document.querySelectorAll('.tree-item-node').forEach(el => el.classList.remove('selected-node'));
+            if (elementNode) elementNode.classList.add('selected-node');
+
+            let rawFile = driveFiles.find(f => (f.ItemID || f.id) == fileId);
+            if (!rawFile) return;
+
+            let meta = parseFileName(rawFile.Title || rawFile.title || rawFile.name);
+            document.getElementById('empty-state').classList.add('hidden');
+
+            let targetContainerId = (currentMode === 'practice') ? 'exam-questions-list' : 'lesson-body-content';
+            let targetViewId = (currentMode === 'practice') ? 'exam-detail-view' : 'lesson-detail-view';
+            let otherViewId = (currentMode === 'practice') ? 'lesson-detail-view' : 'exam-detail-view';
+
+            document.getElementById(otherViewId).classList.add('hidden');
+            document.getElementById(targetViewId).classList.remove('hidden');
+
+            if (currentMode === 'practice') {
+                document.getElementById('exam-title-display').innerText = meta.cleanTitle;
+                updateVerifyBadge('exam-verify-badge', meta);
+            } else {
+                document.getElementById('lesson-title-display').innerText = meta.cleanTitle;
+                document.getElementById('lesson-meta-info').innerHTML = `<i class="fa-solid fa-folder mr-1"></i> Thư mục: <strong>${rawFile.FolderName || 'Gốc'}</strong>`;
+                updateVerifyBadge('lesson-verify-badge', meta);
+            }
+
+            let containerEl = document.getElementById(targetContainerId);
+            containerEl.innerHTML = `<p class="text-slate-400 italic"><i class="fa-solid fa-spinner fa-spin mr-2"></i> Đang tải bài học...</p>`;
+
+            // Ưu tiên 1: Tải trực tiếp từ GitHub
+            let gitUrl = rawFile.GitUrl || rawFile.gitUrl;
+            if (gitUrl) {
+                try {
+                    let rawGitUrl = gitUrl.replace("github.com", "raw.githubusercontent.com").replace("/blob/", "/");
+                    let gitRes = await fetch(rawGitUrl);
+                    if (gitRes.ok) {
+                        let htmlCode = await gitRes.text();
+                        containerEl.innerHTML = htmlCode;
+                        if (window.MathJax) MathJax.typesetPromise();
+                        return;
+                    }
+                } catch(e) {
+                    console.log('Không thể lấy từ GitHub, chuyển sang dùng dữ liệu lưu sẵn');
+                }
+            }
+
+            // Ưu tiên 2: Sử dụng trường Content lưu sẵn trong Sheet
+            containerEl.innerHTML = rawFile.Content || rawFile.content || '<p class="text-slate-400 italic">Nội dung bài học chưa có sẵn.</p>';
+            if (window.MathJax) MathJax.typesetPromise();
+        }
+
+        function updateVerifyBadge(badgeId, meta) {
+            const badge = document.getElementById(badgeId);
+            if (!badge) return;
+            if (meta.status === 'approved') {
+                badge.className = 'bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2.5 py-0.5 rounded-full';
+                badge.innerHTML = `<i class="fa-solid fa-circle-check mr-1"></i> Đã duyệt bởi: ${meta.verifier}`;
+            } else {
+                badge.className = 'bg-slate-200 text-slate-600 text-[10px] font-bold px-2.5 py-0.5 rounded-full';
+                badge.innerHTML = `<i class="fa-solid fa-clock mr-1"></i> Chưa kiểm duyệt`;
+            }
+        }
+
+        function switchMode(mode) {
+            if (mode === 'practice' && !currentUser) {
+                if (confirm("Bạn cần đăng nhập để làm bài tập và tích điểm! Đến trang đăng nhập ngay?")) {
+                    window.location.href = "used/used.html";
+                }
+                return;
+            }
+
+            currentMode = mode;
+            
+            // Đổi tiêu đề Cây Kiến Thức
+            document.getElementById('tree-title-heading').innerHTML = (mode === 'theory') 
+                ? `<i class="fa-solid fa-folder-tree text-blue-600 mr-2"></i> Cây Kiến Thức Lý Thuyết`
+                : `<i class="fa-solid fa-folder-tree text-emerald-600 mr-2"></i> Danh Sách Bài Tập & Đề Thi`;
+
+            // Style nút Chuyển Tab
+            document.getElementById('tab-theory').className = (mode === 'theory') 
+                ? "flex-1 sm:flex-initial px-4 py-2 rounded-lg text-xs md:text-sm font-bold transition flex items-center justify-center bg-blue-600 text-white shadow" 
+                : "flex-1 sm:flex-initial px-4 py-2 rounded-lg text-xs md:text-sm font-bold transition flex items-center justify-center bg-slate-100 text-slate-600 hover:bg-slate-200";
+            
+            document.getElementById('tab-practice').className = (mode === 'practice') 
+                ? "flex-1 sm:flex-initial px-4 py-2 rounded-lg text-xs md:text-sm font-bold transition flex items-center justify-center bg-emerald-600 text-white shadow" 
+                : "flex-1 sm:flex-initial px-4 py-2 rounded-lg text-xs md:text-sm font-bold transition flex items-center justify-center bg-slate-100 text-slate-600 hover:bg-slate-200";
+            
+            resetView();
+            renderTreeDirectory();
+        }
+
+        function toggleTreeNode(element) {
+            const children = element.nextElementSibling;
+            const arrow = element.querySelector('.fa-angle-right');
+            if (children) {
+                children.classList.toggle('hidden');
+                if (arrow) arrow.classList.toggle('rotate-90');
+            }
+        }
+
+        function filterTreeNodes() {
+            const query = document.getElementById('tree-search-input').value.toLowerCase().trim();
+            const nodes = document.querySelectorAll('.tree-item-node');
+
+            nodes.forEach(node => {
+                const text = node.innerText.toLowerCase();
+                if (text.includes(query)) {
+                    node.style.display = 'flex';
+                    let parent = node.parentElement;
+                    while (parent && !parent.id.includes('tree-directory-container')) {
+                        if (parent.classList.contains('hidden')) parent.classList.remove('hidden');
+                        parent = parent.parentElement;
+                    }
+                } else {
+                    node.style.display = query === '' ? 'flex' : 'none';
+                }
+            });
+        }
+
+        function resetView() {
+            document.getElementById('empty-state').classList.remove('hidden');
+            document.getElementById('lesson-detail-view').classList.add('hidden');
+            document.getElementById('exam-detail-view').classList.add('hidden');
+        }
+
+        function renderUserHeaderUI() {
+            const userCard = document.getElementById('user-info-card');
+            const teacherBtn = document.getElementById('btn-teacher-space');
+            const authBtnText = document.getElementById('auth-btn-text');
+
+            if (currentUser && currentUser.id) {
+                userCard?.classList.remove('hidden');
+                document.getElementById('user-name-display').innerText = currentUser.name || 'Người dùng';
+                document.getElementById('user-score-display').innerText = currentUser.score || 0;
+                if (currentUser.role === 'teacher' || currentUser.role === 'admin') teacherBtn?.classList.remove('hidden');
+                if (authBtnText) authBtnText.innerText = "Đăng Xuất";
+            } else {
+                userCard?.classList.add('hidden');
+                teacherBtn?.classList.add('hidden');
+                if (authBtnText) authBtnText.innerText = "Đăng Nhập";
+            }
+        }
+
+        function handleAuthAction() {
+            if (currentUser && currentUser.id) {
+                if (confirm("Bạn có chắc chắn muốn đăng xuất khỏi hệ thống?")) {
+                    localStorage.removeItem('saobay_user');
+                    currentUser = null;
+                    renderUserHeaderUI();
+                    switchMode('theory');
+                }
+            } else {
+                window.location.href = "used/used.html";
+            }
+        }
+    </script>
+</body>
+</html>

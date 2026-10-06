@@ -1,0 +1,242 @@
+// Cấu hình GitHub & Google Drive
+var GITHUB_TOKEN = 'LẤY_TỪ_CONFIG'; // Bạn cập nhật Token của bạn tại đây nếu không dùng Config
+var REPO_OWNER = 'Thaydungdaytoan';
+var REPO_NAME = 'Baigiang3D';
+var FOLDER_ID = '1Qx0e11PrmSpx54p-m_cIs9G-H7U2aRst'; 
+
+function doGet(e) {
+  return handleRequest(e);
+}
+
+function doPost(e) {
+  return handleRequest(e);
+}
+
+function handleRequest(e) {
+  try {
+    var action = e.parameter.action;
+    var data = e.postData ? JSON.parse(e.postData.contents) : e.parameter;
+
+    if (action === "readAllFiles") {
+      return responseJSON(readAllFiles());
+    } else if (action === "saveContent") {
+      return responseJSON(saveContent(data));
+    } else if (action === "deleteFile") {
+      return responseJSON(deleteFile(data.fileId));
+    }
+
+    return responseJSON({ status: "error", message: "Action không hợp lệ: " + action });
+  } catch (err) {
+    return responseJSON({ status: "error", message: err.toString() });
+  }
+}
+
+function responseJSON(obj) {
+  return ContentService.createTextOutput(JSON.stringify(obj))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+// 1. Hàm lưu/Cập nhật Bài học (Đăng file lên GitHub tại thư mục data_web và sao lưu vào Drive)
+function saveContent(data) {
+  try {
+    var title = data.title || "Bai_hoc_moi";
+    var content = data.content || "";
+    var folderNameInput = data.folderName || "Chung";
+
+    // Chuẩn hóa tên file sạch
+    var cleanFileName = title.toLowerCase()
+      .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+      .replace(/đ/g, "d").replace(/Đ/g, "d")
+      .replace(/[^a-z0-9]/g, "_")
+      .replace(/_+/g, "_")
+      .replace(/^_+|_+$/g, "") + ".html";
+
+    // CỐ ĐỊNH LƯU VÀO THƯ MỤC data_web TRÊN GITHUB
+    var gitFilePath = "data_web/" + cleanFileName;
+
+    // --- A. LƯU BÀI VIẾT LÊN GITHUB ---
+    var token = getGithubToken();
+    var gitUrl = "https://api.github.com/repos/" + REPO_OWNER + "/" + REPO_NAME + "/contents/" + gitFilePath;
+    
+    // Kiểm tra xem file đã tồn tại trên GitHub chưa để lấy sha (cập nhật)
+    var sha = "";
+    var getRes = UrlFetchApp.fetch(gitUrl, {
+      method: "get",
+      headers: {
+        "Authorization": "Bearer " + token,
+        "Accept": "application/vnd.github.v3+json"
+      },
+      muteHttpExceptions: true
+    });
+
+    if (getRes.getResponseCode() === 200) {
+      var existingFile = JSON.parse(getRes.getContentText());
+      sha = existingFile.sha;
+    }
+
+    // Đẩy file lên GitHub
+    var payload = {
+      message: "Cập nhật bài học: " + title,
+      content: Utilities.base64Encode(content, Utilities.Charset.UTF-8)
+    };
+    if (sha) payload.sha = sha;
+
+    var putRes = UrlFetchApp.fetch(gitUrl, {
+      method: "put",
+      headers: {
+        "Authorization": "Bearer " + token,
+        "Accept": "application/vnd.github.v3+json",
+        "Content-Type": "application/json"
+      },
+      payload: JSON.stringify(payload),
+      muteHttpExceptions: true
+    });
+
+    var putResult = JSON.parse(putRes.getContentText());
+    if (putRes.getResponseCode() !== 200 && putRes.getResponseCode() !== 201) {
+      throw new Error("Lỗi đẩy file lên GitHub: " + (putResult.message || putRes.getContentText()));
+    }
+
+    var githubRawUrl = "https://raw.githubusercontent.com/" + REPO_OWNER + "/" + REPO_NAME + "/main/" + gitFilePath;
+
+    // --- B. QUẢN LÝ DỮ LIỆU BÀI HỌC VÀ LƯU VÀO DRIVE ---
+    var driveFolder = DriveApp.getFolderById(FOLDER_ID);
+    
+    // 1. Tìm hoặc tạo file data.json chứa danh sách bài học
+    var jsonFile;
+    var jsonFiles = driveFolder.getFilesByName("data.json");
+    var listData = [];
+
+    if (jsonFiles.hasNext()) {
+      jsonFile = jsonFiles.next();
+      try {
+        listData = JSON.parse(jsonFile.getContentText());
+      } catch (e) {
+        listData = [];
+      }
+    }
+
+    // 2. Tìm hoặc tạo file HTML sao lưu trong Drive
+    var htmlFile;
+    var driveFiles = driveFolder.getFilesByName(cleanFileName);
+    if (driveFiles.hasNext()) {
+      htmlFile = driveFiles.next();
+      htmlFile.setContent(content);
+    } else {
+      htmlFile = driveFolder.createFile(cleanFileName, content, MimeType.HTML);
+    }
+
+    // 3. Cập nhật thông tin vào danh sách JSON
+    var existingIndex = listData.findIndex(function(item) {
+      return item.id === htmlFile.getId() || item.fileName === cleanFileName;
+    });
+
+    var record = {
+      id: htmlFile.getId(),
+      title: title,
+      folderName: folderNameInput,
+      fileName: cleanFileName,
+      GitUrl: githubRawUrl,
+      updatedAt: new Date().toISOString()
+    };
+
+    if (existingIndex >= 0) {
+      listData[existingIndex] = record;
+    } else {
+      listData.unshift(record);
+    }
+
+    // Lưu lại file data.json vào Drive
+    if (jsonFile) {
+      jsonFile.setContent(JSON.stringify(listData, null, 2));
+    } else {
+      driveFolder.createFile("data.json", JSON.stringify(listData, null, 2), MimeType.PLAIN_TEXT);
+    }
+
+    return {
+      status: "success",
+      message: "Đã lưu thành công bài học vào thư mục data_web!",
+      data: record
+    };
+
+  } catch (err) {
+    return { status: "error", message: err.toString() };
+  }
+}
+
+// 2. Hàm đọc danh sách bài học từ Drive
+function readAllFiles() {
+  try {
+    var driveFolder = DriveApp.getFolderById(FOLDER_ID);
+    var jsonFiles = driveFolder.getFilesByName("data.json");
+    if (jsonFiles.hasNext()) {
+      var jsonContent = jsonFiles.next().getContentText();
+      return { status: "success", data: JSON.parse(jsonContent) };
+    }
+    return { status: "success", data: [] };
+  } catch (err) {
+    return { status: "error", message: err.toString() };
+  }
+}
+
+// 3. Hàm xóa bài học
+function deleteFile(fileId) {
+  try {
+    var driveFolder = DriveApp.getFolderById(FOLDER_ID);
+    var jsonFiles = driveFolder.getFilesByName("data.json");
+    if (jsonFiles.hasNext()) {
+      var jsonFile = jsonFiles.next();
+      var listData = JSON.parse(jsonFile.getContentText());
+      
+      var targetItem = listData.find(function(item) { return item.id === fileId; });
+      if (targetItem) {
+        // Xóa file trên GitHub
+        try {
+          var token = getGithubToken();
+          var gitFilePath = "data_web/" + targetItem.fileName;
+          var gitUrl = "https://api.github.com/repos/" + REPO_OWNER + "/" + REPO_NAME + "/contents/" + gitFilePath;
+          
+          var getRes = UrlFetchApp.fetch(gitUrl, {
+            method: "get",
+            headers: { "Authorization": "Bearer " + token },
+            muteHttpExceptions: true
+          });
+
+          if (getRes.getResponseCode() === 200) {
+            var fileInfo = JSON.parse(getRes.getContentText());
+            UrlFetchApp.fetch(gitUrl, {
+              method: "delete",
+              headers: { "Authorization": "Bearer " + token, "Content-Type": "application/json" },
+              payload: JSON.stringify({
+                message: "Xóa bài học: " + targetItem.title,
+                sha: fileInfo.sha
+              }),
+              muteHttpExceptions: true
+            });
+          }
+        } catch (e) {}
+
+        // Xóa file HTML khỏi Drive
+        try {
+          DriveApp.getFileById(fileId).setTrashed(true);
+        } catch(e) {}
+      }
+
+      // Cập nhật lại data.json
+      listData = listData.filter(function(item) { return item.id !== fileId; });
+      jsonFile.setContent(JSON.stringify(listData, null, 2));
+    }
+    return { status: "success", message: "Đã xóa bài học thành công." };
+  } catch (err) {
+    return { status: "error", message: err.toString() };
+  }
+}
+
+// Lấy Token GitHub
+function getGithubToken() {
+  if (typeof GITHUB_TOKEN !== 'undefined' && GITHUB_TOKEN && GITHUB_TOKEN !== 'LẤY_TỪ_CONFIG') {
+    return GITHUB_TOKEN;
+  }
+  var props = PropertiesService.getScriptProperties();
+  return props.getProperty("GITHUB_TOKEN");
+}
