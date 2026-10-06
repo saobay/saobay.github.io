@@ -668,5 +668,139 @@
             alert('Đã cập nhật quy tắc điểm số hệ thống!');
         }
     </script>
+<script>
+    document.getElementById('item-content').value += sample;
+    renderMathPreview();
+
+
+async function handleFileUpload(event) {
+    let file = event.target.files[0];
+    if (!file) return;
+
+    let fileName = file.name;
+    let ext = fileName.split('.').pop().toLowerCase();
+
+    if (!document.getElementById('item-title').value.trim()) {
+        document.getElementById('item-title').value = fileName.substring(0, fileName.lastIndexOf('.')) || fileName;
+    }
+
+    if (ext === 'docx') {
+        let reader = new FileReader();
+        reader.onload = async function(e) {
+            let arrayBuffer = e.target.result;
+            try {
+                let result = await mammoth.convertToHtml({ arrayBuffer: arrayBuffer });
+                document.getElementById('item-content').value = result.value;
+                renderMathPreview();
+                alert('Đã đọc và chuyển đổi file Word thành công!');
+            } catch (err) {
+                alert('Lỗi đọc file Word: ' + err.message);
+            }
+        };
+        reader.readAsArrayBuffer(file);
+    } else {
+        let reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('item-content').value = e.target.result;
+            renderMathPreview();
+            alert('Đã tải nội dung file thành công!');
+        };
+        reader.readAsText(file);
+    }
+}
+
+async function handleFormSubmit(event) {
+    event.preventDefault();
+
+    let title = document.getElementById('item-title').value.trim();
+    let content = document.getElementById('item-content').value.trim();
+    let type = document.getElementById('item-type').value;
+
+    if (!title || !content) {
+        alert('Vui lòng nhập đầy đủ tiêu đề và nội dung bài giảng!');
+        return;
+    }
+
+    let submitBtn = document.getElementById('submit-btn');
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Đang xử lý & Đẩy lên...';
+
+    let payload = {
+        type: 'PUSH_LESSON_ITEM',
+        folderId: currentSelectedFolderId,
+        folderName: currentSelectedFolderName,
+        itemType: type,
+        title: title,
+        content: content,
+        user: currentUser.name,
+        userId: currentUser.id
+    };
+
+    try {
+        let res = await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(payload)
+        });
+        let result = await parseSafeResponse(res);
+
+        if (result.status === 'success') {
+            alert('Đã đẩy bài giảng thành công lên hệ thống GitHub & Drive!');
+            
+            let earnedPoints = 100;
+            if (type === 'EXAM_LONG') earnedPoints = scoreConfig.examLong;
+            if (type === 'EXAM_SHORT') earnedPoints = scoreConfig.examShort;
+            
+            currentUser.score += earnedPoints;
+            localStorage.setItem('user_score', currentUser.score);
+            document.getElementById('user-total-score').innerText = currentUser.score;
+
+            notifyChannel.postMessage({ type: 'NEW_CONTENT_PUSHED', title: title });
+
+            resetFormToCreate();
+        } else {
+            alert('Lỗi từ hệ thống: ' + (result.message || 'Không xác định'));
+        }
+    } catch (err) {
+        alert('Lỗi kết nối máy chủ: ' + err.message);
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up mr-2"></i> Lưu & Đẩy Lên GitHub / Drive';
+    }
+}
+
+function resetFormToCreate() {
+    document.getElementById('edit-mode-flag').value = 'CREATE';
+    document.getElementById('editing-item-id').value = '';
+    document.getElementById('item-title').value = '';
+    document.getElementById('item-content').value = '';
+    document.getElementById('word-file-input').value = '';
+    document.getElementById('drive-url-input').value = '';
+    document.getElementById('cancel-edit-btn').classList.add('hidden');
+    updateScorePreview();
+    renderMathPreview();
+}
+
+function openAdminSettingsModal() {
+    document.getElementById('cfg-score-knowledge').value = scoreConfig.knowledge;
+    document.getElementById('cfg-score-exam-long').value = scoreConfig.examLong;
+    document.getElementById('cfg-score-exam-short').value = scoreConfig.examShort;
+    document.getElementById('admin-settings-modal').classList.remove('hidden');
+}
+
+function closeAdminSettingsModal() {
+    document.getElementById('admin-settings-modal').classList.add('hidden');
+}
+
+function saveAdminSettings() {
+    scoreConfig.knowledge = parseInt(document.getElementById('cfg-score-knowledge').value) || 100;
+    scoreConfig.examLong = parseInt(document.getElementById('cfg-score-exam-long').value) || 50;
+    scoreConfig.examShort = parseInt(document.getElementById('cfg-score-exam-short').value) || 20;
+    
+    closeAdminSettingsModal();
+    updateScorePreview();
+    alert('Đã lưu cấu hình điểm thưởng thành công!');
+}
+</script>    
 </body>
 </html>
