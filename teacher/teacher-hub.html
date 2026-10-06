@@ -90,7 +90,7 @@
                     <span><i class="fa-solid fa-folder-open text-amber-300 mr-2"></i>Thư Mục Gốc</span>
                 </div>
                 <div id="dynamic-folder-list" class="space-y-1">
-                    <span class="text-slate-400 text-xs italic">Đang tải nhanh danh mục từ Git...</span>
+                    <span class="text-slate-400 text-xs italic">Đang tải danh mục...</span>
                 </div>
             </div>
         </aside>
@@ -269,9 +269,6 @@
         const API_URL = "https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec";
         const ROOT_FOLDER_ID = "1PLibCtGMm_0oA6auh2CDeAl97uodJBB-";
         
-        // Link file cấu trúc thư mục tĩnh đặt sẵn trên Git (hoặc tự động tạo)
-        const GIT_FOLDERS_JSON_URL = "../folders.json"; // Hoặc đường dẫn tuyệt đối trên GitHub Pages
-        
         let currentSelectedFolderId = ""; 
         let currentSelectedFolderName = "Gốc (Root Sào Báy)";
 
@@ -295,93 +292,61 @@
                 document.getElementById('admin-settings-btn')?.classList.remove('hidden');
             }
 
-            // 1. Tải danh mục siêu nhanh trực tiếp từ Git (hoặc Local Storage Cache nếu có)
+            // Tải danh mục thư mục tự động thông minh
             loadFolderTreeFromGit();
-
-            // 2. Kích hoạt API đồng bộ ngầm giữa Git và Drive phía sau
-            syncFoldersInBackground();
 
             updateScorePreview();
             renderMathPreview(); 
         }
 
-        // HÀM 1: TẢI DANH SÁCH THƯ MỤC TRỰC TIẾP TỪ GIT (CỰC KỲ NHANH)
+        // HÀM TẢI DANH MỤC THÔNG MINH (TỰ ĐỘNG BỎ QUA FILE TĨNH NẾU CHẠY TRỰC TIẾP TỪ Ổ CỨNG)
         async function loadFolderTreeFromGit() {
             let container = document.getElementById('dynamic-folder-list');
-            
-            // Ưu tiên đọc từ Cache local tạm thời để hiện lập tức không giật hình
-            let cachedFolders = localStorage.getItem('saobay_git_folders_cache');
-            if (cachedFolders) {
+            container.innerHTML = '<span class="text-slate-400 text-xs italic">Đang tải danh mục thư mục...</span>';
+
+            let folders = [];
+
+            // Nếu không chạy từ giao thức file:///, thử tải từ file JSON tĩnh trước
+            if (window.location.protocol !== 'file:') {
                 try {
-                    let folders = JSON.parse(cachedFolders);
-                    renderFolderTreeUI(folders);
-                } catch(e) {}
-            }
-
-            try {
-                let res = await fetch(GIT_FOLDERS_JSON_URL + "?t=" + new Date().getTime());
-                if (!res.ok) throw new Error("Không tìm thấy file cấu trúc trên Git");
-                let rawFolders = await res.json();
-                
-                if (Array.isArray(rawFolders) && rawFolders.length > 0) {
-                    let folders = rawFolders.map(f => ({
-                        id: String(f.FolderID || f.folderId || f.id || '').trim(),
-                        name: String(f.FolderName || f.folderName || f.name || 'Thư mục').trim(),
-                        parentId: String(f.ParentID || f.parentId || f.ParentId || '').trim()
-                    }));
-                    
-                    // Lưu lại vào cache trình duyệt
-                    localStorage.setItem('saobay_git_folders_cache', JSON.stringify(folders));
-                    renderFolderTreeUI(folders);
-                }
-            } catch (err) {
-                console.warn("Không tải được từ Git trực tiếp, chuyển sang tải qua Apps Script API dự phòng...", err);
-                loadFolderTreeDataFromAPI();
-            }
-        }
-
-        // HÀM 2: ĐỒNG BỘ NGẦM (BACKGROUND SYNC) GIỮA GIT VÀ DRIVE
-        async function syncFoldersInBackground() {
-            try {
-                // Gọi ngầm Apps Script kiểm tra thay đổi thư mục từ Drive, cập nhật mới nhất
-                let res = await fetch(`${API_URL}?type=ThuMuc&sync=background`);
-                let rawFolders = await parseSafeResponse(res);
-                if (Array.isArray(rawFolders) && rawFolders.length > 0) {
-                    let folders = rawFolders.map(f => ({
-                        id: String(f.FolderID || f.folderId || f.id || '').trim(),
-                        name: String(f.FolderName || f.folderName || f.name || 'Thư mục').trim(),
-                        parentId: String(f.ParentID || f.parentId || f.ParentId || '').trim()
-                    }));
-                    
-                    // So sánh cache cũ và mới, nếu có thay đổi thì update lại UI nhẹ nhàng
-                    let oldCache = localStorage.getItem('saobay_git_folders_cache');
-                    let newCacheStr = JSON.stringify(folders);
-                    if (oldCache !== newCacheStr) {
-                        localStorage.setItem('saobay_git_folders_cache', newCacheStr);
-                        renderFolderTreeUI(folders);
-                        console.log("Đã đồng bộ ngầm thư mục thành công!");
+                    let res = await fetch("../folders.json?t=" + new Date().getTime());
+                    if (res.ok) {
+                        let raw = await res.json();
+                        if (Array.isArray(raw)) {
+                            folders = raw.map(f => ({
+                                id: String(f.FolderID || f.folderId || f.id || '').trim(),
+                                name: String(f.FolderName || f.folderName || f.name || 'Thư mục').trim(),
+                                parentId: String(f.ParentID || f.parentId || f.ParentId || '').trim()
+                            }));
+                        }
                     }
+                } catch (e) {
+                    console.log("Không đọc được file JSON tĩnh, chuyển sang API...");
                 }
-            } catch (e) {
-                console.log("Đồng bộ ngầm bị hoãn hoặc không có mạng.");
             }
-        }
 
-        // Fallback API nếu file git chưa tạo sẵn
-        async function loadFolderTreeDataFromAPI() {
-            let container = document.getElementById('dynamic-folder-list');
-            try {
-                let res = await fetch(`${API_URL}?type=ThuMuc`);
-                let rawFolders = await parseSafeResponse(res);
-                let folders = rawFolders.map(f => ({
-                    id: String(f.FolderID || f.folderId || f.id || '').trim(),
-                    name: String(f.FolderName || f.folderName || f.name || 'Thư mục').trim(),
-                    parentId: String(f.ParentID || f.parentId || f.ParentId || '').trim()
-                }));
-                localStorage.setItem('saobay_git_folders_cache', JSON.stringify(folders));
+            // Nếu danh sách trống (do chạy từ ổ cứng hoặc lỗi file tĩnh), gọi trực tiếp Google Apps Script API
+            if (folders.length === 0) {
+                try {
+                    let resApi = await fetch(`${API_URL}?type=ThuMuc`);
+                    let rawApi = await parseSafeResponse(resApi);
+                    if (Array.isArray(rawApi) && rawApi.length > 0) {
+                        folders = rawApi.map(f => ({
+                            id: String(f.FolderID || f.folderId || f.id || '').trim(),
+                            name: String(f.FolderName || f.folderName || f.name || 'Thư mục').trim(),
+                            parentId: String(f.ParentID || f.parentId || f.ParentId || '').trim()
+                        }));
+                    }
+                } catch (err) {
+                    console.error("Lỗi tải từ API:", err);
+                }
+            }
+
+            // Render ra giao diện
+            if (folders.length > 0) {
                 renderFolderTreeUI(folders);
-            } catch (err) {
-                container.innerHTML = '<span class="text-rose-500 text-xs">Lỗi kết nối danh mục thư mục.</span>';
+            } else {
+                container.innerHTML = '<span class="text-rose-500 text-xs">Không tìm thấy thư mục nào.</span>';
             }
         }
 
