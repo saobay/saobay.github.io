@@ -8,8 +8,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
         window.MathJax = {
-            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
-            svg: { fontCache: 'global' }
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+            }
         };
     </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -248,7 +254,23 @@
             }
             return s
                 .replace(/\//g, ' ❯ ')
-                .replace(/unit(\d+)/gi, 'Unit $1');
+                .replace(/unit(\d+)/gi, 'Unit $1')
+                .replace(/chuong\s*(\d+)/gi, 'Chương $1');
+        }
+
+        function cleanInnerFolderName(folderId) {
+            let s = formatFolderDisplayName(folderId);
+            s = s
+                .replace(/^THPT\s*❯\s*/gi, '')
+                .replace(/^THCS\s*❯\s*/gi, '')
+                .replace(/^Khối\s*lớp\s*(?:10|11|12)\s*❯\s*/gi, '')
+                .replace(/^Tiếng\s*Anh\s*6\s*❯\s*/gi, '')
+                .replace(/chuong\s*(\d+)/gi, 'Chương $1')
+                .trim();
+            if (!s || /^Khối\s*lớp\s*(?:10|11|12)$/i.test(s)) {
+                return 'Tài liệu chung';
+            }
+            return s;
         }
 
         async function syncSystemData(forceNotify) {
@@ -274,6 +296,7 @@
                                     if (p === 'backup' || p.startsWith('backup/') ||
                                         p === 'teacher' || p.startsWith('teacher/') ||
                                         p === 'used' || p.startsWith('used/') ||
+                                        p === 'tienganh6' || p.startsWith('tienganh6/') ||
                                         p === '.git' || p.startsWith('.git/')) return;
                                     
                                     gitFoldersMap[p] = {
@@ -294,7 +317,7 @@
                                 if (item.type === 'blob' && item.path.endsWith('.html')) {
                                     let p = item.path;
                                     if (p === 'index.html' || p === 'kiemtratrungtkb.html') return;
-                                    if (p.startsWith('backup/') || p.startsWith('teacher/') || p.startsWith('used/') || p.startsWith('.git/')) return;
+                                    if (p.startsWith('backup/') || p.startsWith('teacher/') || p.startsWith('used/') || p.startsWith('tienganh6/') || p.startsWith('.git/')) return;
 
                                     let lastSlash = p.lastIndexOf('/');
                                     let folderPath = lastSlash === -1 ? 'data' : p.substring(0, lastSlash);
@@ -342,6 +365,7 @@
                         dFolders.forEach(df => {
                             let fid = df.FolderID || df.id || df.path;
                             if (fid && !gitFoldersMap[fid]) {
+                                if (fid === 'tienganh6' || fid.startsWith('tienganh6/')) return;
                                 gitFoldersMap[fid] = {
                                     FolderID: fid,
                                     FolderName: df.FolderName || df.name || formatFolderDisplayName(fid),
@@ -351,7 +375,10 @@
                         });
                     }
                     if (Array.isArray(dFiles)) {
-                        driveDataFiles = dFiles;
+                        driveDataFiles = dFiles.filter(df => {
+                            let p = df.filePath || df.GitUrl || '';
+                            return !p.startsWith('tienganh6/') && !p.includes('/tienganh6/');
+                        });
                     }
                 } catch (driveErr) {
                     console.log("Server Google Proxy chưa nạp thêm bài mới, dùng dữ liệu Git.");
@@ -480,22 +507,18 @@
             // Phân loại các thư mục vào 2 CẤP CHÍNH: THCS và THPT
             let thcsFolders = [];
             let thptFolders = [];
-            let assignedFolders = new Set();
 
             driveFolders.forEach(f => {
                 let p = f.path || f.FolderID || f.id || '';
                 if (!p || p === 'data') return;
                 if (/THCS|tienganh6/i.test(p)) {
                     thcsFolders.push(f);
-                    assignedFolders.add(p);
                 } else {
-                    // Tất cả các khối lớp 10, 11, 12 và môn THPT gom vào nhánh THPT
                     thptFolders.push(f);
-                    assignedFolders.add(p);
                 }
             });
 
-            // Hàm render một nhóm thư mục môn học / chương
+            // Hàm render một nhóm thư mục môn học / chương / unit
             function renderFolderSubjectGroup(folder) {
                 let folderId = folder.FolderID || folder.id || folder.path;
                 let filesInFolder = driveFiles.filter(f => (f.FolderID === folderId || f.folderId === folderId));
@@ -504,8 +527,7 @@
 
                 if (matchedFiles.length === 0) return '';
 
-                let displayFolderName = formatFolderDisplayName(folderId)
-                    .replace(/^(?:THCS|THPT|Khối\s*lớp\s*10|Khối\s*lớp\s*11|Khối\s*lớp\s*12)\s*❯\s*/gi, '');
+                let displayFolderName = cleanInnerFolderName(folderId);
 
                 let lessonsHtml = matchedFiles.map(file => {
                     let fileId = file.ItemID || file.id;
@@ -539,16 +561,62 @@
                 `;
             }
 
-            // 1. XÂY DỰNG NHÁNH THCS
+            // 1. XÂY DỰNG NHÁNH THCS (GOM TẤT CẢ UNIT VÀO TRONG THƯ MỤC TIẾNG ANH 6, MẶC ĐỊNH ĐỀU ĐÓNG)
+            let thcsSubjectsMap = {};
+            thcsFolders.forEach(folder => {
+                let p = folder.path || folder.FolderID || folder.id || '';
+                let subj = 'Tiếng Anh 6';
+                if (/tienganh6|Tiếng\s*Anh\s*6/i.test(p)) {
+                    subj = 'Tiếng Anh 6';
+                } else {
+                    let parts = p.replace(/^data\//i, '').split('/').filter(Boolean);
+                    if (parts.length >= 2 && /^THCS$/i.test(parts[0])) {
+                        subj = parts[1];
+                    }
+                }
+                if (!thcsSubjectsMap[subj]) thcsSubjectsMap[subj] = [];
+                thcsSubjectsMap[subj].push(folder);
+            });
+
+            if (Object.keys(thcsSubjectsMap).length === 0 && thcsFolders.length > 0) {
+                thcsSubjectsMap['Tiếng Anh 6'] = thcsFolders;
+            }
+
             let thcsHtml = '';
             let totalLessonsTHCS = 0;
-            thcsFolders.forEach(folder => {
-                let folderId = folder.FolderID || folder.id || folder.path;
-                let filesInFolder = driveFiles.filter(f => (f.FolderID === folderId || f.folderId === folderId));
-                let matched = filesInFolder.map(f => ({ ...f, meta: parseFileName(f.Title || f.title || f.name || f.rawFileName) }))
-                    .filter(f => currentMode === 'theory' ? f.meta.isTheory : f.meta.isPractice);
-                totalLessonsTHCS += matched.length;
-                thcsHtml += renderFolderSubjectGroup(folder);
+
+            Object.entries(thcsSubjectsMap).forEach(([subjectName, folders]) => {
+                let subjectSubHtml = '';
+                let totalLessonsInSubject = 0;
+
+                folders.forEach(folder => {
+                    let folderId = folder.FolderID || folder.id || folder.path;
+                    let filesInFolder = driveFiles.filter(f => (f.FolderID === folderId || f.folderId === folderId));
+                    let matched = filesInFolder.map(f => ({ ...f, meta: parseFileName(f.Title || f.title || f.name || f.rawFileName) }))
+                        .filter(f => currentMode === 'theory' ? f.meta.isTheory : f.meta.isPractice);
+                    totalLessonsInSubject += matched.length;
+                    subjectSubHtml += renderFolderSubjectGroup(folder);
+                });
+
+                totalLessonsTHCS += totalLessonsInSubject;
+
+                if (totalLessonsInSubject > 0) {
+                    thcsHtml += `
+                        <div class="thcs-subject-block mb-1.5 bg-slate-50 border border-slate-200/90 rounded-xl p-1.5 shadow-xs">
+                            <div onclick="toggleTreeNode(this)" class="flex items-center justify-between p-1.5 cursor-pointer font-bold text-slate-800 hover:text-indigo-700 rounded-lg hover:bg-white transition">
+                                <div class="flex items-center space-x-2 truncate">
+                                    <i class="fa-solid fa-angle-right text-slate-400 text-[10px] transition-transform duration-200"></i>
+                                    <i class="fa-solid fa-book-bookmark text-indigo-600 text-xs"></i>
+                                    <span class="text-xs uppercase tracking-wide font-extrabold">${subjectName}</span>
+                                </div>
+                                <span class="text-[9px] font-bold bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded-full shrink-0">${totalLessonsInSubject} bài</span>
+                            </div>
+                            <div class="tree-children hidden pl-2 space-y-1 mt-1 border-l-2 border-indigo-200 ml-2">
+                                ${subjectSubHtml}
+                            </div>
+                        </div>
+                    `;
+                }
             });
 
             // 2. XÂY DỰNG NHÁNH THPT (CHỨA LỚP 10, LỚP 11, LỚP 12)
@@ -649,7 +717,7 @@
                         </div>
                         <span class="text-[10px] font-bold bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded-full shrink-0">${totalLessonsTHCS} bài</span>
                     </div>
-                    <div class="tree-children hidden space-y-1 mt-2 pl-1 border-l-2 border-indigo-200 ml-2">
+                    <div class="tree-children hidden space-y-1.5 mt-2 pl-1 border-l-2 border-indigo-200 ml-2">
                         ${thcsHtml || '<div class="text-slate-400 text-[11px] italic py-2 pl-2">Chưa có bài học trong mục này.</div>'}
                     </div>
                 </div>
@@ -664,7 +732,7 @@
                         </div>
                         <span class="text-[10px] font-bold bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full shrink-0">${totalLessonsTHPT} bài</span>
                     </div>
-                    <div class="tree-children hidden space-y-2 mt-2 pl-1 border-l-2 border-blue-200 ml-2">
+                    <div class="tree-children hidden space-y-1.5 mt-2 pl-1 border-l-2 border-blue-200 ml-2">
                         ${thptHtml || '<div class="text-slate-400 text-[11px] italic py-2 pl-2">Chưa có bài học trong mục này.</div>'}
                     </div>
                 </div>
@@ -868,13 +936,14 @@
 
                 if (doc.body) {
                     bodyHtml = doc.body.innerHTML;
+                    // Chỉ lấy các thẻ script nằm trong body (các kịch bản tương tác bài tập), bỏ qua head
+                    let scriptTags = doc.body.querySelectorAll('script');
+                    scriptTags.forEach(sc => {
+                        if (sc.src && (sc.src.includes('tailwindcss') || sc.src.includes('mathjax'))) return;
+                        if (sc.textContent && (sc.textContent.includes('MathJax') || sc.textContent.includes('mathjax'))) return;
+                        scriptsToExecute.push({ src: sc.src, code: sc.textContent });
+                    });
                 }
-
-                let scriptTags = doc.querySelectorAll('script');
-                scriptTags.forEach(sc => {
-                    if (sc.src && (sc.src.includes('tailwindcss') || sc.src.includes('mathjax'))) return;
-                    scriptsToExecute.push({ src: sc.src, code: sc.textContent });
-                });
             } else if (htmlCode.includes('<style')) {
                 let rawStyles = '';
                 htmlCode = htmlCode.replace(/<style[^>]*>([\s\S]*?)<\/style>/gi, (m, css) => {
@@ -907,8 +976,39 @@
                 }
             });
 
-            if (window.MathJax && window.MathJax.typesetPromise) {
-                window.MathJax.typesetPromise([containerEl]).catch(e => console.log('MathJax:', e));
+            // Render công thức toán học MathJax
+            renderMathInTarget(containerEl);
+            setTimeout(() => renderMathInTarget(containerEl), 150);
+            setTimeout(() => renderMathInTarget(containerEl), 400);
+        }
+
+        function renderMathInTarget(targetEl) {
+            if (!targetEl || !window.MathJax) return;
+            try {
+                if (window.MathJax.startup && window.MathJax.startup.promise) {
+                    window.MathJax.startup.promise.then(() => {
+                        try {
+                            if (window.MathJax.typesetClear) window.MathJax.typesetClear([targetEl]);
+                            if (window.MathJax.typesetPromise) {
+                                window.MathJax.typesetPromise([targetEl]).catch(err => {
+                                    if (window.MathJax.typeset) window.MathJax.typeset([targetEl]);
+                                });
+                            } else if (window.MathJax.typeset) {
+                                window.MathJax.typeset([targetEl]);
+                            }
+                        } catch(e) {}
+                    }).catch(e => console.log('MathJax startup wait error:', e));
+                } else if (window.MathJax.typesetPromise) {
+                    if (window.MathJax.typesetClear) window.MathJax.typesetClear([targetEl]);
+                    window.MathJax.typesetPromise([targetEl]).catch(err => {
+                        if (window.MathJax.typeset) window.MathJax.typeset([targetEl]);
+                    });
+                } else if (window.MathJax.typeset) {
+                    if (window.MathJax.typesetClear) window.MathJax.typesetClear([targetEl]);
+                    window.MathJax.typeset([targetEl]);
+                }
+            } catch(e) {
+                console.log('MathJax typeset error:', e);
             }
         }
 

@@ -500,6 +500,7 @@
                                 if (p === 'backup' || p.startsWith('backup/')) return false;
                                 if (p === 'teacher' || p.startsWith('teacher/')) return false;
                                 if (p === 'used' || p.startsWith('used/')) return false;
+                                if (p === 'tienganh6' || p.startsWith('tienganh6/')) return false;
                                 if (p === '.git' || p.startsWith('.git/')) return false;
                                 return true;
                             })
@@ -980,6 +981,7 @@
                 let scriptTags = parsedDoc.querySelectorAll('script');
                 scriptTags.forEach(sc => {
                     if (sc.src && (sc.src.includes('tailwindcss') || sc.src.includes('mathjax'))) return;
+                    if (sc.textContent && (sc.textContent.includes('MathJax') || sc.textContent.includes('mathjax'))) return;
                     let s = document.createElement('script');
                     if (sc.src) s.src = sc.src;
                     else s.textContent = sc.textContent;
@@ -990,8 +992,17 @@
             }
 
             // MathJax render công thức
-            if (window.MathJax && window.MathJax.typesetPromise) {
-                window.MathJax.typesetPromise([previewBox]).catch(e => console.log('MathJax typeset:', e));
+            if (window.MathJax) {
+                try {
+                    if (window.MathJax.typesetClear) window.MathJax.typesetClear([previewBox]);
+                    if (window.MathJax.typesetPromise) {
+                        window.MathJax.typesetPromise([previewBox]).catch(e => {
+                            if (window.MathJax.typeset) window.MathJax.typeset([previewBox]);
+                        });
+                    } else if (window.MathJax.typeset) {
+                        window.MathJax.typeset([previewBox]);
+                    }
+                } catch(eMj) {}
             }
         }
 
@@ -1180,7 +1191,11 @@
     <script src="https://cdn.tailwindcss.com"><\/script>
     <script>
         window.MathJax = {
-            tex: { inlineMath: [['$', '$'], ['\\\\(', '\\\\)']], displayMath: [['$$', '$$']] },
+            tex: {
+                inlineMath: [['$', '$'], ['\\\\(', '\\\\)']],
+                displayMath: [['$$', '$$'], ['\\\\[', '\\\\]']],
+                processEscapes: true
+            },
             svg: { fontCache: 'global' }
         };
     <\/script>
