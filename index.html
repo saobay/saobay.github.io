@@ -14,8 +14,19 @@
     </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
+        html, body {
+            width: 100% !important;
+            max-width: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
         .tree-node-content:hover { background-color: #f1f5f9; }
         .selected-node { background-color: #e0f2fe !important; border-left: 4px solid #0284c7; }
+        .lesson-native-rendered {
+            width: 100% !important;
+            max-width: 100% !important;
+            margin: 0 !important;
+        }
         .lesson-native-rendered h1:not([class]) { font-size: 1.5rem; font-weight: 800; color: #1e3a8a; margin-top: 1rem; margin-bottom: 0.5rem; }
         .lesson-native-rendered h2:not([class]) { font-size: 1.25rem; font-weight: 700; color: #1e40af; margin-top: 0.75rem; margin-bottom: 0.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.25rem; }
         .lesson-native-rendered h3:not([class]) { font-size: 1.1rem; font-weight: 700; color: #1e293b; margin-top: 0.5rem; margin-bottom: 0.25rem; }
@@ -89,8 +100,8 @@
         <!-- CÂY THƯ MỤC VÀ HIỂN THỊ NỘI DUNG -->
         <div class="flex flex-col lg:flex-row gap-4 relative min-h-[650px] items-start">
             
-            <!-- CÂY THƯ MỤC BÀI HỌC CỘT TRÁI (TỰ ĐỘNG THU GỌN KHI CHỌN BÀI ĐỌC) -->
-            <div id="sidebar-tree-wrapper" class="w-full lg:w-[350px] shrink-0 bg-white rounded-2xl border border-slate-200 shadow-sm p-3 md:p-4 flex flex-col h-[520px] lg:h-[720px] transition-all duration-300 relative overflow-hidden">
+            <!-- CÂY THƯ MỤC BÀI HỌC CỘT TRÁI (TỰ DO THU GỌN KHI CẦN ĐỌC TOÀN MÀN HÌNH) -->
+            <div id="sidebar-tree-wrapper" class="w-full lg:w-[320px] shrink-0 bg-white rounded-2xl border border-slate-200 shadow-sm p-3 md:p-4 flex flex-col h-[520px] lg:h-[720px] transition-all duration-300 relative overflow-hidden">
                 
                 <!-- GIAO DIỆN KHI MỞ RỘNG (MẶC ĐỊNH) -->
                 <div id="sidebar-expanded-content" class="flex flex-col h-full space-y-3">
@@ -102,7 +113,7 @@
                             <button onclick="syncSystemData(true)" title="Tải lại từ Git" class="text-xs text-blue-600 hover:bg-blue-50 p-1.5 rounded-lg transition">
                                 <i class="fa-solid fa-rotate" id="sync-icon"></i>
                             </button>
-                            <button onclick="toggleTreeSidebar(false)" title="Thu nhỏ danh mục" class="text-xs text-slate-500 hover:text-slate-800 hover:bg-slate-100 p-1.5 rounded-lg transition">
+                            <button onclick="toggleTreeSidebar(false)" title="Thu nhỏ danh mục để đọc bài rộng hơn" class="text-xs text-slate-500 hover:text-slate-800 hover:bg-slate-100 p-1.5 rounded-lg transition">
                                 <i class="fa-solid fa-angles-left"></i>
                             </button>
                         </div>
@@ -119,11 +130,11 @@
                 </div>
 
                 <!-- GIAO DIỆN KHI THU GỌN (DẤU BA GẠCH NGANG) -->
-                <div id="sidebar-collapsed-content" class="hidden flex-col items-center justify-start h-full py-2 space-y-4 w-full">
+                <div id="sidebar-collapsed-content" class="hidden flex-col items-center justify-start h-full py-2 space-y-3 w-full">
                     <button onclick="toggleTreeSidebar(true)" title="Mở danh mục bài học" class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white flex items-center justify-center text-base font-bold shadow-sm transition">
                         <i class="fa-solid fa-bars"></i>
                     </button>
-                    <div class="[writing-mode:vertical-lr] text-[11px] font-extrabold text-slate-400 tracking-widest uppercase select-none cursor-pointer mt-4" onclick="toggleTreeSidebar(true)">
+                    <div class="hidden lg:flex [writing-mode:vertical-lr] text-[11px] font-extrabold text-slate-400 tracking-widest uppercase select-none cursor-pointer mt-4" onclick="toggleTreeSidebar(true)">
                         <i class="fa-solid fa-folder-open mb-2 text-amber-500 [writing-mode:horizontal-tb]"></i> DANH MỤC
                     </div>
                 </div>
@@ -428,24 +439,30 @@
 
             if (isSidebarCollapsed) {
                 // Thu gọn thành thanh biểu tượng 3 gạch ngang
-                wrapper.classList.remove('lg:w-[350px]', 'p-3', 'md:p-4');
-                wrapper.classList.add('lg:w-16', 'p-1', 'items-center');
+                wrapper.classList.remove('lg:w-[320px]', 'p-3', 'md:p-4', 'h-[520px]');
+                wrapper.classList.add('lg:w-16', 'h-auto', 'lg:h-[720px]', 'p-2', 'items-center');
                 if (expContent) expContent.classList.add('hidden');
                 if (colContent) {
                     colContent.classList.remove('hidden');
                     colContent.classList.add('flex');
                 }
-                if (floatBar) floatBar.classList.remove('hidden');
+                if (floatBar) {
+                    floatBar.classList.remove('hidden');
+                    floatBar.classList.add('flex');
+                }
             } else {
                 // Mở rộng danh mục đầy đủ
-                wrapper.classList.remove('lg:w-16', 'p-1', 'items-center');
-                wrapper.classList.add('lg:w-[350px]', 'p-3', 'md:p-4');
+                wrapper.classList.remove('lg:w-16', 'h-auto', 'items-center', 'p-2');
+                wrapper.classList.add('lg:w-[320px]', 'h-[520px]', 'lg:h-[720px]', 'p-3', 'md:p-4');
                 if (expContent) expContent.classList.remove('hidden');
                 if (colContent) {
                     colContent.classList.add('hidden');
                     colContent.classList.remove('flex');
                 }
-                if (floatBar) floatBar.classList.add('hidden');
+                if (floatBar) {
+                    floatBar.classList.add('hidden');
+                    floatBar.classList.remove('flex');
+                }
             }
         }
 
@@ -582,7 +599,38 @@
             container.innerHTML = html || `<div class="text-center py-8 text-slate-400 text-xs">Chưa có bài nào trong mục này trên Git.</div>`;
         }
 
+        // HÀM CHUYÊN BIỆT SCOPE CSS: CÔ LẬP PHẠM VI STYLE CỦA BÀI HỌC, CHỐNG CO RÚT TOÀN TRANG
+        function scopeLessonCss(rawCss) {
+            if (!rawCss) return '';
+            let css = rawCss.replace(/<\/?style[^>]*>/gi, '');
+            
+            // 1. Chuyển đổi triệt để các selector cấp trang (body, html, :root) thành container bài học
+            css = css.replace(/(^|[\s,;{}])body([\s,{])/gi, '$1.lesson-native-rendered$2');
+            css = css.replace(/(^|[\s,;{}])html([\s,{])/gi, '$1.lesson-native-rendered$2');
+            css = css.replace(/(^|[\s,;{}])\:root([\s,{])/gi, '$1.lesson-native-rendered$2');
+
+            // 2. Loại bỏ max-width cố định để nội dung bài học trải rộng tự nhiên
+            css = css.replace(/max-width\s*:\s*\d+px/gi, 'max-width: 100%');
+
+            // 3. Tiền tố hóa mọi selector con để không bao giờ rò rỉ ra ngoài trang chính
+            css = css.replace(/([^\r\n,{}]+)(,(?=[^{}]*\{)|\s*\{)/g, (match, selector, suffix) => {
+                let trimmed = selector.trim();
+                if (!trimmed || trimmed.startsWith('@') || trimmed.startsWith('from') || trimmed.startsWith('to') || /^\d+%/.test(trimmed)) {
+                    return match;
+                }
+                if (trimmed.startsWith('.lesson-native-rendered')) {
+                    return match;
+                }
+                return '.lesson-native-rendered ' + trimmed + suffix;
+            });
+
+            return `<style>\n.lesson-native-rendered { width: 100% !important; max-width: 100% !important; margin: 0 !important; }\n${css}\n</style>`;
+        }
+
         async function selectItemDetail(fileId, elementNode) {
+            // Đảm bảo trang web luôn giữ nguyên độ rộng 100%, không bị co lại
+            document.body.removeAttribute('style');
+
             document.querySelectorAll('.tree-item-node').forEach(el => el.classList.remove('selected-node'));
             if (elementNode) elementNode.classList.add('selected-node');
 
@@ -608,8 +656,11 @@
                 updateVerifyBadge('lesson-verify-badge', meta);
             }
 
-            // TỰ ĐỘNG THU NHỎ CÂY DANH MỤC THÀNH DẤU BA GẠCH NGANG ĐỂ DÀNH TRỌN DIỆN TÍCH CHO NGƯỜI ĐỌC
-            toggleTreeSidebar(false);
+            // Tự động cuộn êm xuống vùng đọc bài trên điện thoại
+            if (window.innerWidth < 1024) {
+                let cEl = document.getElementById(targetContainerId);
+                if (cEl) cEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
 
             let containerEl = document.getElementById(targetContainerId);
             containerEl.innerHTML = `<p class="text-slate-400 italic text-xs"><i class="fa-solid fa-spinner fa-spin mr-2"></i> Đang nạp nội dung bài từ Git...</p>`;
@@ -723,7 +774,8 @@
                 let doc = parser.parseFromString(htmlCode, 'text/html');
                 
                 let styleTags = doc.querySelectorAll('style');
-                stylesHtml = Array.from(styleTags).map(s => s.outerHTML).join('\n');
+                let rawStyles = Array.from(styleTags).map(s => s.innerHTML).join('\n');
+                stylesHtml = scopeLessonCss(rawStyles);
 
                 if (doc.body) {
                     bodyHtml = doc.body.innerHTML;
@@ -734,10 +786,18 @@
                     if (sc.src && (sc.src.includes('tailwindcss') || sc.src.includes('mathjax'))) return;
                     scriptsToExecute.push({ src: sc.src, code: sc.textContent });
                 });
+            } else if (htmlCode.includes('<style')) {
+                let rawStyles = '';
+                htmlCode = htmlCode.replace(/<style[^>]*>([\s\S]*?)<\/style>/gi, (m, css) => {
+                    rawStyles += '\n' + css;
+                    return '';
+                });
+                stylesHtml = scopeLessonCss(rawStyles);
+                bodyHtml = htmlCode;
             }
 
             containerEl.innerHTML = `
-                <div class="lesson-native-rendered space-y-4">
+                <div class="lesson-native-rendered w-full space-y-4">
                     ${stylesHtml}
                     ${bodyHtml}
                 </div>
@@ -823,6 +883,7 @@
         }
 
         function resetView() {
+            document.body.removeAttribute('style');
             document.getElementById('empty-state').classList.remove('hidden');
             document.getElementById('lesson-detail-view').classList.add('hidden');
             document.getElementById('exam-detail-view').classList.add('hidden');
