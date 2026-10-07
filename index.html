@@ -68,6 +68,11 @@
                 </div>
             </div>
 
+            <a id="btn-admin-space" href="used/used.html?tab=admin" title="Quản Trị Tài Khoản & Mật Khẩu" class="hidden bg-indigo-600 hover:bg-indigo-500 text-white text-xs p-2 md:px-3 md:py-2 rounded-lg font-bold transition flex items-center shadow">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span class="hidden md:inline ml-1.5">Quản Trị</span>
+            </a>
+
             <a id="btn-teacher-space" href="teacher/teacher-hub.html" title="Trang Giáo Viên" class="hidden bg-emerald-600 hover:bg-emerald-500 text-white text-xs p-2 md:px-3 md:py-2 rounded-lg font-bold transition flex items-center shadow">
                 <i class="fa-solid fa-chalkboard-user"></i>
                 <span class="hidden md:inline ml-1.5">Giáo Viên</span>
@@ -223,6 +228,12 @@
             let sessionData = localStorage.getItem('saobay_user');
             if (sessionData) {
                 try { currentUser = JSON.parse(sessionData); } catch (e) { currentUser = null; }
+            }
+
+            if (currentUser && currentUser.mustChangePassword) {
+                alert("Tài khoản của bạn đang dùng mật khẩu mặc định 12345678. Bạn bắt buộc phải đổi mật khẩu mới để tiếp tục!");
+                window.location.href = "used/used.html?force=true";
+                return;
             }
 
             renderUserHeaderUI();
@@ -1080,17 +1091,37 @@
 
         function renderUserHeaderUI() {
             const userCard = document.getElementById('user-info-card');
+            const adminBtn = document.getElementById('btn-admin-space');
             const teacherBtn = document.getElementById('btn-teacher-space');
             const authBtnText = document.getElementById('auth-btn-text');
+            const roleBadge = document.getElementById('user-role-badge');
 
             if (currentUser && currentUser.id) {
                 userCard?.classList.remove('hidden');
                 document.getElementById('user-name-display').innerText = currentUser.name || 'Người dùng';
                 document.getElementById('user-score-display').innerText = currentUser.score || 0;
-                if (currentUser.role === 'teacher' || currentUser.role === 'admin') teacherBtn?.classList.remove('hidden');
+
+                if (roleBadge) {
+                    if (currentUser.role === 'admin') roleBadge.innerText = 'Quản trị viên';
+                    else if (currentUser.role === 'teacher') roleBadge.innerText = 'Giáo viên';
+                    else roleBadge.innerText = currentUser.className ? `Lớp ${currentUser.className}` : 'Học sinh';
+                }
+
+                if (currentUser.role === 'admin') {
+                    adminBtn?.classList.remove('hidden');
+                    teacherBtn?.classList.remove('hidden');
+                } else if (currentUser.role === 'teacher') {
+                    adminBtn?.classList.add('hidden');
+                    teacherBtn?.classList.remove('hidden');
+                } else {
+                    adminBtn?.classList.add('hidden');
+                    teacherBtn?.classList.add('hidden');
+                }
+
                 if (authBtnText) authBtnText.innerText = "Đăng Xuất";
             } else {
                 userCard?.classList.add('hidden');
+                adminBtn?.classList.add('hidden');
                 teacherBtn?.classList.add('hidden');
                 if (authBtnText) authBtnText.innerText = "Đăng Nhập";
             }

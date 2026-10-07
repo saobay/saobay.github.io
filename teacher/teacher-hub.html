@@ -64,8 +64,12 @@
                 </div>
             </div>
 
+            <a id="admin-accounts-btn" href="../used/used.html?tab=admin" title="Quản trị tài khoản & mật khẩu" class="hidden bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs px-3 py-2 rounded-lg transition flex items-center shadow">
+                <i class="fa-solid fa-users-gear mr-1"></i> Quản Lý Tài Khoản
+            </a>
+
             <button id="admin-settings-btn" onclick="openAdminSettingsModal()" class="hidden bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold text-xs px-3 py-2 rounded-lg transition flex items-center">
-                <i class="fa-solid fa-gear mr-1"></i> Admin
+                <i class="fa-solid fa-gear mr-1"></i> Cấu Hình
             </button>
 
             <a href="../index.html" class="bg-blue-800 hover:bg-blue-700 text-white text-xs px-3 py-2 rounded-lg font-medium transition flex items-center">
@@ -225,6 +229,10 @@
                             </button>
                         </div>
                     </div>
+                    <p class="text-[11px] text-emerald-800 bg-emerald-50/90 border border-emerald-200 px-3 py-1.5 rounded-lg font-medium flex items-center">
+                        <i class="fa-solid fa-circle-check text-emerald-600 mr-1.5 text-xs"></i>
+                        <span>Prompt đã tối ưu: ép NotebookLM xuất trọn vẹn <strong>mã HTML nguyên bản</strong> vào file Word (.docx) để khi tải về nạp vào web giữ nguyên 100% giao diện đẹp mắt và công thức Toán MathJax!</span>
+                    </p>
                 </div>
 
                 <!-- FORM ĐIỀU HÀNH & BIÊN TẬP -->
@@ -457,11 +465,18 @@
         }
 
         function initTeacherHub() {
+            if (currentUser.mustChangePassword) {
+                alert("Tài khoản của bạn đang dùng mật khẩu mặc định 12345678. Bạn bắt buộc phải đổi mật khẩu mới để tiếp tục!");
+                window.location.href = "../used/used.html?force=true";
+                return;
+            }
+
             document.getElementById('user-display-name').innerText = currentUser.name;
             document.getElementById('user-total-score').innerText = currentUser.score;
 
             if (currentUser.role === 'admin') {
                 document.getElementById('admin-settings-btn')?.classList.remove('hidden');
+                document.getElementById('admin-accounts-btn')?.classList.remove('hidden');
             }
 
             // Chọn mặc định thư mục data
@@ -1053,9 +1068,31 @@
             let promptText = "";
 
             if (type === 'KNOWLEDGE') {
-                promptText = `Hãy đóng vai giáo viên biên soạn tài liệu Môn: ${subject} - Lớp: ${grade}. Chủ đề/Bài học: "${lesson}". Yêu cầu: Dựa theo các quy tắc trong file Quy ước soạn Bài kiến thức, hãy xuất ra mã HTML chuẩn, giữ nguyên các công thức Toán MathJax (dạng $...$ hoặc $$...$$) và các mã hình ảnh minh họa.`;
+                promptText = `Hãy đóng vai giáo viên biên soạn bài học Môn: ${subject} - Lớp: ${grade}. Chủ đề/Bài học: "${lesson}".
+
+QUY TẮC BẮT BUỘC (ĐỂ XUẤT RA FILE WORD NGUYÊN BẢN MÃ HTML):
+1. MỤC ĐÍCH: Dữ liệu này sẽ được tải xuống dưới dạng tệp Word (.docx) từ NotebookLM để nạp trực tiếp vào hệ thống Sào Báy Portal. Vì vậy, bạn BẮT BUỘC phải xuất TOÀN BỘ nội dung dưới dạng MÃ NGUỒN HTML NGUYÊN BẢN (RAW HTML CODE). TUYỆT ĐỐI KHÔNG chuyển đổi thành văn bản rich-text thông thường của Word.
+2. CẤU TRÚC GIAO DIỆN HTML:
+   - Bao bọc toàn bộ nội dung trong thẻ <div class="bai-giang-container space-y-4 font-sans text-slate-800">.
+   - Thiết kế hiện đại bằng Tailwind CSS: Tiêu đề lớn có khung nền đẹp (bg-blue-900 text-white rounded-xl p-4 shadow), các phần I, II, III đóng khung card trắng (bg-white p-4 rounded-xl border border-slate-200 shadow-sm mb-3), bảng biểu kẻ khung viền rõ ràng.
+3. CÔNG THỨC TOÁN HỌC (MATHJAX):
+   - Mọi ký hiệu và công thức toán học BẮT BUỘC phải giữ nguyên 100% cú pháp TeX/LaTeX kẹp trong dấu $...$ (công thức trên dòng) hoặc $$...$$ (công thức trên dòng riêng).
+   - Ví dụ: $P(x): "x + 1 > 5"$, $\\overline{P}$, $P \\Rightarrow Q$, $\\forall x \\in X, P(x)$, $$x = \\frac{-b \\pm \\sqrt{\\Delta}}{2a}$$.
+   - TUYỆT ĐỐI KHÔNG đổi sang ký tự Unicode hoặc Equation của Word làm mất công thức.
+4. ĐẦU RA YÊU CẦU:
+   - Chỉ xuất DUY NHẤT chuỗi mã nguồn HTML nguyên bản. Giữ nguyên 100% các thẻ HTML để khi lưu ghi chú hoặc tải file Word (.docx) về, file Word sẽ mang trọn vẹn mã HTML giúp hệ thống nạp hiển thị hoàn hảo.`;
             } else {
-                promptText = `Hãy biên soạn Đề thi/Bài tập Môn: ${subject} - Lớp: ${grade}. Nội dung/Chủ đề: "${lesson}". Yêu cầu: Xuất ra mã HTML theo đúng các cú pháp chuẩn <4LT>, <Câu X>, <ĐA Câu X>, <LG Câu X>.`;
+                promptText = `Hãy biên soạn Đề thi/Bài tập Môn: ${subject} - Lớp: ${grade}. Nội dung/Chủ đề: "${lesson}".
+
+QUY TẮC BẮT BUỘC (ĐỂ XUẤT RA FILE WORD NGUYÊN BẢN MÃ HTML):
+1. MỤC ĐÍCH: Dữ liệu này sẽ được tải xuống dưới dạng tệp Word (.docx) từ NotebookLM để nạp vào hệ thống Sào Báy Portal. Bạn BẮT BUỘC phải xuất TOÀN BỘ nội dung dưới dạng MÃ NGUỒN HTML NGUYÊN BẢN (RAW HTML CODE). TUYỆT ĐỐI KHÔNG đổi thành văn bản Word thường.
+2. CẤU TRÚC ĐỀ THI:
+   - Bao bọc trong mã HTML chuẩn có Tailwind CSS, tuân thủ các cú pháp nhận diện: <4LT>, <Câu 1>, <Câu 2>,...
+   - Mỗi câu gồm nội dung câu hỏi, 4 phương án A, B, C, D (dùng cú pháp <ĐA Câu X>), và lời giải chi tiết (<LG Câu X>).
+3. CÔNG THỨC TOÁN HỌC (MATHJAX):
+   - Giữ nguyên 100% công thức Toán dạng TeX/LaTeX kẹp trong $...$ hoặc $$...$$. Tuyệt đối không làm biến dạng ký hiệu toán.
+4. ĐẦU RA YÊU CẦU:
+   - Chỉ xuất DUY NHẤT chuỗi mã nguồn HTML nguyên bản. Giữ nguyên 100% các thẻ HTML để khi lưu ghi chú hoặc tải file Word (.docx) về, file Word vẫn lưu giữ nguyên vẹn mã HTML để Sào Báy Portal nạp hiển thị hoàn hảo.`;
             }
 
             if(!document.getElementById('item-title').value.trim()){

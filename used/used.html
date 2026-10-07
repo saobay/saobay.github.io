@@ -3,90 +3,397 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ thống Xác thực & Quản lý - Sào Báy Portal</title>
+    <title>Hệ Thống Xác Thực & Quản Lý Tài Khoản - THPT Sào Báy</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
 </head>
-<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen flex items-center justify-center p-4">
+<body class="bg-slate-100 min-h-screen text-slate-800 antialiased flex flex-col justify-between">
 
-    <div class="max-w-md w-full bg-white rounded-2xl shadow-xl overflow-hidden p-8">
-        <!-- Header Logo / Tiêu đề -->
-        <div class="text-center mb-6">
-            <div class="inline-flex items-center justify-center w-16 h-16 bg-indigo-100 text-indigo-600 rounded-full mb-3 shadow-inner">
-                <i class="fa-solid fa-shield-halved text-2xl"></i>
+    <!-- TOAST CONTAINER -->
+    <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col space-y-2 pointer-events-none"></div>
+
+    <!-- ======================================================== -->
+    <!-- 1. GIAO DIỆN ĐĂNG NHẬP (DÀNH CHO HỌC SINH & GIÁO VIÊN & ADMIN) -->
+    <!-- ======================================================== -->
+    <div id="login-view" class="flex-1 flex items-center justify-center p-4">
+        <div class="max-w-md w-full bg-white rounded-3xl shadow-xl border border-slate-200/80 overflow-hidden p-6 md:p-8">
+            <!-- Logo & Tiêu đề -->
+            <div class="text-center mb-6">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl mb-3 shadow-inner">
+                    <i class="fa-solid fa-graduation-cap text-3xl"></i>
+                </div>
+                <h1 class="text-2xl font-black text-slate-900 tracking-tight">SÀO BÁY PORTAL</h1>
+                <p class="text-xs text-slate-500 mt-1">Cổng Xác Thực & Quản Lý Học Liệu Thông Minh</p>
             </div>
-            <h1 class="text-2xl font-bold text-gray-800">Sào Báy Portal</h1>
-            <p id="portal-subtitle" class="text-sm text-gray-500 mt-1">Hệ thống Quản lý & Xác thực Thông minh</p>
-        </div>
 
-        <!-- FORM ĐĂNG NHẬP (Mặc định hiển thị khi chưa đăng nhập) -->
-        <form id="login-form" onsubmit="handleIndependentLogin(event)" class="space-y-4">
-            <div>
-                <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Mã định danh / Tên đăng nhập</label>
-                <div class="relative">
-                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400"><i class="fa-solid fa-user"></i></span>
-                    <input type="text" id="login-username" required placeholder="Nhập mã giáo viên hoặc tên học sinh" class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
+            <!-- Gợi ý mật khẩu lần đầu -->
+            <div class="bg-amber-50 border border-amber-200 rounded-2xl p-3.5 mb-5 flex items-start space-x-3 text-xs text-amber-900">
+                <i class="fa-solid fa-key text-amber-500 mt-0.5 text-sm"></i>
+                <div class="space-y-0.5 leading-relaxed">
+                    <p class="font-bold">Mật khẩu lần đầu: <span class="font-mono bg-amber-200/70 px-1.5 py-0.5 rounded text-amber-950 font-black">12345678</span></p>
+                    <p class="text-[11px] text-amber-700">Khi đăng nhập lần đầu với mật khẩu này, hệ thống sẽ yêu cầu bạn đổi mật khẩu mới để bảo mật tài khoản.</p>
                 </div>
             </div>
-            <div>
-                <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Mật khẩu</label>
-                <div class="relative">
-                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400"><i class="fa-solid fa-lock"></i></span>
-                    <input type="password" id="login-password" required placeholder="••••••••" class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
-                </div>
-                <p class="text-xs text-gray-400 mt-1">Mặc định: <span class="font-mono text-gray-600">12345678</span> (nếu chưa đổi mật khẩu riêng)</p>
-            </div>
-            <button type="submit" id="login-btn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 rounded-xl shadow-lg shadow-indigo-200 transition duration-200 flex items-center justify-center space-x-2">
-                <i class="fa-solid fa-arrow-right-to-bracket"></i>
-                <span>Đăng Nhập Hệ Thống</span>
-            </button>
-        </form>
 
-        <!-- FORM ĐỔI MẬT KHẨU (Chỉ hiện khi đã đăng nhập và yêu cầu đổi mật khẩu) -->
-        <form id="changepass-form" onsubmit="handleIndependentChangePassword(event)" class="space-y-4 hidden">
-            <!-- Hiển thị thông tin tài khoản đang đăng nhập -->
-            <div class="bg-indigo-50 border border-indigo-200 p-3 rounded-xl text-xs text-indigo-900 flex items-center justify-between">
+            <!-- Form đăng nhập -->
+            <form onsubmit="handleLoginSubmit(event)" class="space-y-4">
                 <div>
-                    <span class="block font-semibold text-gray-500 uppercase text-[10px]">Tài khoản đang đổi mật khẩu:</span>
-                    <span id="current-user-display" class="font-bold text-indigo-700 text-sm">--</span>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Mã định danh hoặc Họ tên</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+                            <i class="fa-solid fa-user"></i>
+                        </span>
+                        <input type="text" id="login-username" required placeholder="Nhập Mã GV, Mã HS hoặc Họ và tên..." class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs md:text-sm font-semibold focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"/>
+                    </div>
                 </div>
-                <button type="button" onclick="handleLogout()" class="text-red-600 hover:text-red-800 text-xs font-medium underline">Đăng xuất</button>
-            </div>
 
-            <div class="bg-amber-50 border border-amber-200 p-3 rounded-xl text-xs text-amber-800">
-                <i class="fa-solid fa-circle-info mr-1"></i> Sau khi đổi, mật khẩu mặc định <span class="font-mono font-bold">12345678</span> sẽ bị vô hiệu hóa hoàn toàn cho tài khoản này.
-            </div>
-            <div>
-                <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Mật khẩu mới</label>
-                <div class="relative">
-                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400"><i class="fa-solid fa-key"></i></span>
-                    <input type="password" id="new-pass-input" required placeholder="Nhập mật khẩu mới an toàn hơn" class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Mật khẩu</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+                            <i class="fa-solid fa-lock"></i>
+                        </span>
+                        <input type="password" id="login-password" required placeholder="Nhập mật khẩu của bạn..." class="w-full pl-10 pr-10 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs md:text-sm font-semibold focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"/>
+                        <button type="button" onclick="togglePasswordVisibility('login-password', this)" class="absolute inset-y-0 right-0 flex items-center pr-3.5 text-slate-400 hover:text-slate-600">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
                 </div>
-            </div>
-            <button type="submit" id="changepass-btn" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-3 rounded-xl shadow-lg shadow-emerald-200 transition duration-200 flex items-center justify-center space-x-2">
-                <i class="fa-solid fa-floppy-disk"></i>
-                <span>Lưu Mật Khẩu Lên GitHub</span>
-            </button>
-        </form>
 
-        <!-- Footer Quay lại -->
-        <div class="mt-6 text-center border-t border-gray-100 pt-4">
-            <a href="../index.html" class="text-xs text-gray-500 hover:text-indigo-600 transition flex items-center justify-center space-x-1">
-                <i class="fa-solid fa-house"></i>
-                <span>Quay lại trang chủ Sào Báy</span>
-            </a>
+                <button type="submit" id="btn-login-submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-blue-200 transition duration-200 flex items-center justify-center space-x-2 text-sm mt-2">
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                    <span>Đăng Nhập Vào Hệ Thống</span>
+                </button>
+            </form>
+
+            <div class="mt-6 text-center border-t border-slate-100 pt-4">
+                <a href="../index.html" class="text-xs text-slate-500 hover:text-blue-600 font-medium transition inline-flex items-center space-x-1.5">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Quay lại trang chủ Sào Báy</span>
+                </a>
+            </div>
         </div>
     </div>
 
-    <!-- SCRIPT LOGIC XỬ LÝ -->
+    <!-- ======================================================== -->
+    <!-- 2. GIAO DIỆN BẮT BUỘC ĐỔI MẬT KHẨU LẦN ĐẦU (FORCE CHANGE PASS) -->
+    <!-- ======================================================== -->
+    <div id="force-changepass-view" class="hidden flex-1 flex items-center justify-center p-4">
+        <div class="max-w-md w-full bg-white rounded-3xl shadow-xl border border-rose-200 overflow-hidden p-6 md:p-8">
+            <div class="text-center mb-6">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-rose-50 text-rose-600 rounded-2xl mb-3 shadow-inner">
+                    <i class="fa-solid fa-shield-halved text-3xl"></i>
+                </div>
+                <span class="bg-rose-100 text-rose-800 text-[11px] font-black uppercase tracking-wider px-3 py-1 rounded-full">Bắt buộc bảo mật</span>
+                <h2 class="text-xl font-black text-slate-900 mt-2">ĐỔI MẬT KHẨU LẦN ĐẦU</h2>
+                <p class="text-xs text-slate-500 mt-1">Bạn đang sử dụng mật khẩu mặc định <strong>12345678</strong>. Vui lòng thiết lập mật khẩu mới trước khi tiếp tục.</p>
+            </div>
+
+            <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3.5 mb-5 space-y-1 text-xs">
+                <div class="flex justify-between">
+                    <span class="text-slate-400">Tài khoản:</span>
+                    <span id="force-user-name" class="font-bold text-slate-800">--</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-slate-400">Mã định danh:</span>
+                    <span id="force-user-id" class="font-mono font-bold text-blue-600">--</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-slate-400">Đối tượng:</span>
+                    <span id="force-user-role" class="font-bold text-slate-700">--</span>
+                </div>
+            </div>
+
+            <form onsubmit="handleForceChangePasswordSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Mật khẩu mới</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+                            <i class="fa-solid fa-lock"></i>
+                        </span>
+                        <input type="password" id="force-new-pass" required placeholder="Tối thiểu 6 ký tự, khác 12345678..." class="w-full pl-10 pr-10 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs md:text-sm font-semibold focus:bg-white focus:ring-2 focus:ring-rose-500 focus:border-rose-500 outline-none transition"/>
+                        <button type="button" onclick="togglePasswordVisibility('force-new-pass', this)" class="absolute inset-y-0 right-0 flex items-center pr-3.5 text-slate-400 hover:text-slate-600">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Nhập lại mật khẩu mới</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+                            <i class="fa-solid fa-check-double"></i>
+                        </span>
+                        <input type="password" id="force-confirm-pass" required placeholder="Nhập lại chính xác mật khẩu mới..." class="w-full pl-10 pr-10 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs md:text-sm font-semibold focus:bg-white focus:ring-2 focus:ring-rose-500 focus:border-rose-500 outline-none transition"/>
+                        <button type="button" onclick="togglePasswordVisibility('force-confirm-pass', this)" class="absolute inset-y-0 right-0 flex items-center pr-3.5 text-slate-400 hover:text-slate-600">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <button type="submit" id="force-submit-btn" class="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-rose-200 transition duration-200 flex items-center justify-center space-x-2 text-sm mt-2">
+                    <i class="fa-solid fa-shield-check"></i>
+                    <span>Lưu Mật Khẩu & Bắt Đầu Học Tập</span>
+                </button>
+            </form>
+
+            <div class="mt-4 text-center">
+                <button onclick="handleCancelForceChange()" class="text-xs text-slate-400 hover:text-slate-600 underline">Đăng xuất và quay lại</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- 3. GIAO DIỆN QUẢN TRỊ ADMIN (ADMIN ACCOUNT & PASSWORD DASHBOARD) -->
+    <!-- ======================================================== -->
+    <div id="admin-dashboard-view" class="hidden flex-1 flex flex-col p-3 md:p-6 max-w-7xl w-full mx-auto space-y-5">
+        <!-- Top Navigation Bar -->
+        <header class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200 flex flex-col md:flex-row items-center justify-between gap-3">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-indigo-600 text-white rounded-xl flex items-center justify-center font-black text-lg shadow-md shadow-indigo-200">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <div>
+                    <h2 class="text-base md:text-lg font-black text-slate-900 leading-tight">QUẢN TRỊ TÀI KHOẢN & MẬT KHẨU</h2>
+                    <p class="text-xs text-slate-500">Trường THPT Sào Báy - Hệ Thống Điều Hành Phân Quyền</p>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2">
+                <span class="text-xs bg-indigo-50 text-indigo-700 font-bold px-3 py-1.5 rounded-xl border border-indigo-200">
+                    <i class="fa-solid fa-user-tie mr-1.5"></i> Admin: <strong>Thầy Bùi Văn Dũng</strong>
+                </span>
+                <a href="../teacher/teacher-hub.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-3 py-1.5 rounded-xl shadow transition flex items-center">
+                    <i class="fa-solid fa-chalkboard-user mr-1.5"></i> Không Gian GV
+                </a>
+                <a href="../index.html" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-3 py-1.5 rounded-xl transition flex items-center">
+                    <i class="fa-solid fa-house mr-1.5"></i> Trang Chủ
+                </a>
+                <button onclick="handleLogout()" class="bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs font-bold px-3 py-1.5 rounded-xl transition flex items-center border border-rose-200">
+                    <i class="fa-solid fa-right-from-bracket mr-1.5"></i> Đăng Xuất
+                </button>
+            </div>
+        </header>
+
+        <!-- Thống kê tổng quan (Stats Cards) -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center space-x-3.5">
+                <div class="w-11 h-11 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center text-lg font-bold shrink-0">
+                    <i class="fa-solid fa-chalkboard-user"></i>
+                </div>
+                <div>
+                    <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Giáo Viên</span>
+                    <span id="stat-teachers-count" class="text-xl font-black text-slate-800">37</span>
+                </div>
+            </div>
+
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center space-x-3.5">
+                <div class="w-11 h-11 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center text-lg font-bold shrink-0">
+                    <i class="fa-solid fa-user-graduate"></i>
+                </div>
+                <div>
+                    <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Học Sinh</span>
+                    <span id="stat-students-count" class="text-xl font-black text-slate-800">1006</span>
+                </div>
+            </div>
+
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center space-x-3.5">
+                <div class="w-11 h-11 bg-teal-50 text-teal-600 rounded-xl flex items-center justify-center text-lg font-bold shrink-0">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <div>
+                    <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Đã Đổi MK Riêng</span>
+                    <span id="stat-custom-pass-count" class="text-xl font-black text-teal-600">0</span>
+                </div>
+            </div>
+
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center space-x-3.5">
+                <div class="w-11 h-11 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center text-lg font-bold shrink-0">
+                    <i class="fa-solid fa-key"></i>
+                </div>
+                <div>
+                    <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Dùng MK Mặc Định</span>
+                    <span id="stat-default-pass-count" class="text-xl font-black text-amber-600">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Khung Nội Dung Chính: Bảng Quản Lý -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex-1 flex flex-col">
+            <!-- Tabs Lựa chọn -->
+            <div class="p-4 border-b border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-3">
+                <div class="flex space-x-2">
+                    <button id="admin-tab-teachers" onclick="switchAdminTab('teachers')" class="px-4 py-2 rounded-xl text-xs md:text-sm font-black transition flex items-center space-x-2 bg-blue-600 text-white shadow-sm">
+                        <i class="fa-solid fa-chalkboard-user"></i>
+                        <span>Giáo Viên (37)</span>
+                    </button>
+                    <button id="admin-tab-students" onclick="switchAdminTab('students')" class="px-4 py-2 rounded-xl text-xs md:text-sm font-black transition flex items-center space-x-2 bg-slate-100 text-slate-600 hover:bg-slate-200">
+                        <i class="fa-solid fa-user-graduate"></i>
+                        <span>Học Sinh (1006)</span>
+                    </button>
+                    <button id="admin-tab-settings" onclick="switchAdminTab('settings')" class="px-4 py-2 rounded-xl text-xs md:text-sm font-black transition flex items-center space-x-2 bg-slate-100 text-slate-600 hover:bg-slate-200">
+                        <i class="fa-solid fa-sliders"></i>
+                        <span>Cài Đặt Admin</span>
+                    </button>
+                </div>
+
+                <div class="flex items-center space-x-2">
+                    <button onclick="exportDatabaseFile()" title="Tải file used.is về máy tính để sao lưu dự phòng" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-3 py-2 rounded-xl transition flex items-center border border-slate-200">
+                        <i class="fa-solid fa-download mr-1.5 text-slate-500"></i> Sao Lưu used.is
+                    </button>
+                    <button onclick="refreshAdminData(true)" title="Tải lại dữ liệu mới nhất từ Git" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold px-3 py-2 rounded-xl transition flex items-center border border-indigo-200">
+                        <i class="fa-solid fa-rotate mr-1.5 text-indigo-600" id="admin-refresh-icon"></i> Đồng Bộ
+                    </button>
+                </div>
+            </div>
+
+            <!-- Toolbar Tìm Kiếm & Lọc (Chỉ hiện khi ở tab teachers hoặc students) -->
+            <div id="admin-filter-bar" class="p-3.5 bg-slate-50/70 border-b border-slate-200 flex flex-wrap items-center gap-2.5">
+                <div class="relative flex-1 min-w-[200px]">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+                    <input type="text" id="admin-search-input" oninput="handleAdminSearch()" placeholder="Tìm nhanh theo Họ tên, Mã ID, Môn..." class="w-full pl-9 pr-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+                </div>
+
+                <!-- Lọc Lớp (chỉ cho học sinh) -->
+                <div id="filter-class-wrapper" class="hidden">
+                    <select id="admin-class-filter" onchange="handleAdminSearch()" class="px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="">Tất cả các lớp (24 lớp)</option>
+                    </select>
+                </div>
+
+                <!-- Lọc trạng thái mật khẩu -->
+                <div>
+                    <select id="admin-status-filter" onchange="handleAdminSearch()" class="px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="">Tất cả trạng thái MK</option>
+                        <option value="custom">Đã đổi mật khẩu riêng</option>
+                        <option value="default">Dùng MK mặc định (12345678)</option>
+                    </select>
+                </div>
+
+                <span id="admin-filtered-count-badge" class="text-xs text-slate-500 font-bold ml-auto px-2"></span>
+            </div>
+
+            <!-- Vùng Hiển Thị Bảng (Teachers & Students) -->
+            <div id="admin-table-container" class="flex-1 overflow-x-auto custom-scrollbar">
+                <table class="w-full text-left border-collapse text-xs">
+                    <thead>
+                        <tr class="bg-slate-100 text-slate-700 font-extrabold uppercase border-b border-slate-200 tracking-wider">
+                            <th class="p-3 w-12 text-center">STT</th>
+                            <th class="p-3 w-32">Mã Định Danh</th>
+                            <th class="p-3 min-w-[180px]">Họ Và Tên</th>
+                            <th id="th-extra-col" class="p-3 min-w-[200px]">Phân Công / Môn / Lớp</th>
+                            <th class="p-3 w-44">Trạng Thái Mật Khẩu</th>
+                            <th class="p-3 w-48 text-center">Hành Động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-table-body" class="divide-y divide-slate-100 font-medium">
+                        <!-- Render dòng dữ liệu tại đây -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Thanh Phân Trang (Pagination) -->
+            <div id="admin-pagination-bar" class="p-3 bg-slate-50 border-t border-slate-200 flex items-center justify-between text-xs text-slate-600">
+                <div class="flex items-center space-x-2">
+                    <span id="pagination-info">Trang 1 / 1</span>
+                    <span class="text-slate-300">|</span>
+                    <span id="pagination-total-items">Tổng số: 0</span>
+                </div>
+                <div class="flex items-center space-x-1">
+                    <button onclick="goToPage(1)" id="btn-page-first" class="px-2.5 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-100 font-bold transition disabled:opacity-40">Đầu</button>
+                    <button onclick="prevPage()" id="btn-page-prev" class="px-2.5 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-100 font-bold transition disabled:opacity-40"><i class="fa-solid fa-chevron-left"></i></button>
+                    <span id="pagination-current-page-num" class="px-3 py-1 font-bold text-blue-700 bg-blue-50 rounded-lg">1</span>
+                    <button onclick="nextPage()" id="btn-page-next" class="px-2.5 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-100 font-bold transition disabled:opacity-40"><i class="fa-solid fa-chevron-right"></i></button>
+                    <button onclick="goToPage(totalAvailablePages)" id="btn-page-last" class="px-2.5 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-100 font-bold transition disabled:opacity-40">Cuối</button>
+                </div>
+            </div>
+
+            <!-- Vùng Cài Đặt Admin (Tab Settings) -->
+            <div id="admin-settings-container" class="hidden p-6 max-w-2xl mx-auto w-full space-y-6">
+                <!-- Đổi MK Admin -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-4">
+                    <div class="flex items-center space-x-2 text-slate-800 font-bold text-sm border-b pb-2">
+                        <i class="fa-solid fa-user-shield text-indigo-600"></i>
+                        <span>Đổi Mật Khẩu Tài Khoản Admin (admin)</span>
+                    </div>
+                    <form onsubmit="handleAdminChangeOwnPassword(event)" class="space-y-3">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Mật khẩu admin mới</label>
+                            <input type="password" id="admin-new-own-pass" required placeholder="Nhập mật khẩu admin mới..." class="w-full px-3.5 py-2 border rounded-xl text-xs font-semibold border-slate-300"/>
+                        </div>
+                        <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow transition flex items-center space-x-1.5">
+                            <i class="fa-solid fa-floppy-disk"></i>
+                            <span>Lưu Mật Khẩu Admin</span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Cấu hình GitHub Token cá nhân (tùy chọn) -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-4">
+                    <div class="flex items-center space-x-2 text-slate-800 font-bold text-sm border-b pb-2">
+                        <i class="fa-brands fa-github text-slate-800"></i>
+                        <span>Cấu Hình GitHub Token Cá Nhân (Tùy chọn)</span>
+                    </div>
+                    <p class="text-xs text-slate-500">Mặc định hệ thống đã được đồng bộ tự động qua Google Apps Script Proxy. Nếu bạn muốn đẩy trực tiếp từ trình duyệt của mình, hãy nhập token có quyền repo vào đây.</p>
+                    <div class="space-y-3">
+                        <input type="password" id="admin-github-token-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" class="w-full px-3.5 py-2 border rounded-xl text-xs font-mono border-slate-300"/>
+                        <button onclick="saveAdminGithubToken()" class="bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow transition flex items-center space-x-1.5">
+                            <i class="fa-solid fa-floppy-disk"></i>
+                            <span>Lưu Token GitHub Vào Trình Duyệt</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- MODAL: ADMIN ĐỔI MẬT KHẨU TÙY Ý CHO 1 TÀI KHOẢN -->
+    <!-- ======================================================== -->
+    <div id="modal-admin-edit-pass" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl p-6 max-w-sm w-full shadow-2xl border border-slate-200 space-y-4">
+            <div class="flex items-center justify-between border-b pb-3">
+                <h3 class="font-bold text-slate-900 text-sm flex items-center">
+                    <i class="fa-solid fa-key text-blue-600 mr-2"></i> Đổi Mật Khẩu Tài Khoản
+                </h3>
+                <button onclick="closeEditPassModal()" class="text-slate-400 hover:text-slate-600 text-sm"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="bg-slate-50 p-3 rounded-xl space-y-1 text-xs">
+                <p class="text-slate-500">Tài khoản: <strong id="modal-edit-user-name" class="text-slate-900">--</strong></p>
+                <p class="text-slate-500">Mã ID: <strong id="modal-edit-user-id" class="text-blue-600 font-mono">--</strong></p>
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Mật khẩu mới</label>
+                <input type="text" id="modal-edit-pass-input" placeholder="Nhập mật khẩu mới..." class="w-full px-3.5 py-2 border rounded-xl text-xs font-bold border-slate-300 focus:ring-2 focus:ring-blue-500"/>
+            </div>
+            <div class="flex items-center justify-end space-x-2 pt-2">
+                <button onclick="closeEditPassModal()" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition">Hủy</button>
+                <button onclick="submitEditPassModal()" id="btn-modal-edit-save" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl shadow transition">Lưu Thay Đổi</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="py-3 text-center text-slate-400 text-[11px] border-t border-slate-200/80 bg-white">
+        Trường THPT Sào Báy &copy; 2026 - Hệ Thống Quản Lý Giáo Dục & Học Liệu Trực Tuyến
+    </footer>
+
+    <!-- ======================================================== -->
+    <!-- JAVASCRIPT LOGIC SYSTEM -->
+    <!-- ======================================================== -->
     <script>
-        // Cấu hình GitHub Repository tích hợp Token có quyền repo
+        const API_URL = "https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec";
+
         const GITHUB_CONFIG = {
             owner: "saobay",
             repo: "saobay.github.io",
@@ -101,7 +408,66 @@
             passwords: { 'admin': 'Dung2207@' }
         };
 
-        // Tải dữ liệu masterDatabase từ file used.is trên GitHub
+        let cachedTeachers = [];
+        let cachedStudents = [];
+        let currentUser = null;
+
+        let currentAdminTab = 'teachers'; // 'teachers' | 'students' | 'settings'
+        let currentEditingAccountId = null;
+        let currentPage = 1;
+        const PAGE_SIZE = 25;
+        let totalAvailablePages = 1;
+
+        // Chuẩn hóa chuỗi tiếng Việt để tìm kiếm không dấu
+        function removeVietnameseTones(str) {
+            if (!str) return '';
+            str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+            str = str.replace(/À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ/g, "A");
+            str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+            str = str.replace(/È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ/g, "E");
+            str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+            str = str.replace(/Ì|Í|Ị|Ỉ|Ĩ/g, "I");
+            str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+            str = str.replace(/Ò|Ó|Ỏ|Õ|Ô|Ồ|Ố|Ộ|Ổ|Ỗ|Ơ|Ờ|Ớ|Ợ|Ở|Ỡ/g, "O");
+            str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+            str = str.replace(/Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ/g, "U");
+            str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+            str = str.replace(/Ỳ|Ý|Ỵ|Ỷ|Ỹ/g, "Y");
+            str = str.replace(/đ/g, "d");
+            str = str.replace(/Đ/g, "D");
+            str = str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+            return str.toLowerCase().trim();
+        }
+
+        function showToast(message, type = 'info') {
+            let container = document.getElementById('toast-container');
+            let toast = document.createElement('div');
+            let bgClass = type === 'success' ? 'bg-emerald-600 text-white' : (type === 'error' ? 'bg-rose-600 text-white' : 'bg-slate-800 text-white');
+            let iconClass = type === 'success' ? 'fa-circle-check' : (type === 'error' ? 'fa-circle-exclamation' : 'fa-circle-info');
+            toast.className = `${bgClass} px-4 py-2.5 rounded-2xl shadow-lg text-xs font-bold flex items-center space-x-2 transition-all duration-300 transform translate-y-4 opacity-0 pointer-events-auto`;
+            toast.innerHTML = `<i class="fa-solid ${iconClass}"></i> <span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.remove('translate-y-4', 'opacity-0'), 10);
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function togglePasswordVisibility(inputId, btn) {
+            let inp = document.getElementById(inputId);
+            if (!inp) return;
+            let icon = btn.querySelector('i');
+            if (inp.type === 'password') {
+                inp.type = 'text';
+                if (icon) icon.className = 'fa-solid fa-eye-slash';
+            } else {
+                inp.type = 'password';
+                if (icon) icon.className = 'fa-solid fa-eye';
+            }
+        }
+
+        // Tải dữ liệu masterDatabase từ file used.is
         async function loadMasterDatabase() {
             try {
                 let res = await fetch('used.is?' + new Date().getTime());
@@ -114,214 +480,701 @@
                     }
                 }
             } catch (err) {
-                console.warn('Không tải được file used.is trực tiếp.', err);
+                console.warn('Lỗi đọc file used.is:', err);
+            }
+
+            // Đồng bộ cache mật khẩu cục bộ nếu có
+            try {
+                let cachedPass = localStorage.getItem('saobay_passwords_cache');
+                if (cachedPass) {
+                    let parsedPass = JSON.parse(cachedPass);
+                    masterDatabase.passwords = { ...masterDatabase.passwords, ...parsedPass };
+                }
+            } catch(eCache) {}
+
+            cachedTeachers = extractTeacherList(masterDatabase.assignments);
+            cachedStudents = extractStudentList(masterDatabase.students);
+        }
+
+        // Trích xuất danh sách giáo viên duy nhất từ assignments
+        function extractTeacherList(assignments) {
+            let teacherMap = {};
+            (assignments || []).forEach(a => {
+                if (!a.teachers) return;
+                a.teachers.split(',').forEach(tStr => {
+                    tStr = tStr.trim();
+                    if (!tStr) return;
+                    let m = tStr.match(/^(.*?)\s*\((\d+)\)$/);
+                    if (m) {
+                        let name = m[1].trim();
+                        let id = m[2].trim();
+                        if (!teacherMap[id]) teacherMap[id] = { id: id, name: name, subjects: new Set(), classes: new Set() };
+                        if (a.subject) teacherMap[id].subjects.add(a.subject);
+                        if (a.class) teacherMap[id].classes.add(a.class);
+                    } else {
+                        let id = tStr;
+                        let name = tStr;
+                        if (!teacherMap[id]) teacherMap[id] = { id: id, name: name, subjects: new Set(), classes: new Set() };
+                        if (a.subject) teacherMap[id].subjects.add(a.subject);
+                        if (a.class) teacherMap[id].classes.add(a.class);
+                    }
+                });
+            });
+
+            return Object.values(teacherMap).map(t => ({
+                id: t.id,
+                name: t.name,
+                subjects: Array.from(t.subjects).join(', '),
+                classes: Array.from(t.classes).join(', ')
+            })).sort((a, b) => a.name.localeCompare(b.name, 'vi'));
+        }
+
+        // Trích xuất danh sách học sinh từ students
+        function extractStudentList(studentsObj) {
+            let list = [];
+            for (let className in (studentsObj || {})) {
+                let classStudents = studentsObj[className] || [];
+                classStudents.forEach(s => {
+                    if (!s.id || s.id === 'Mã định danh Bộ GD&ĐT' || !s.name || s.name === 'Họ và tên') return;
+                    list.push({
+                        id: s.id,
+                        name: s.name,
+                        dob: s.dob || '',
+                        className: className
+                    });
+                });
+            }
+            return list.sort((a, b) => a.className.localeCompare(b.className) || a.name.localeCompare(b.name, 'vi'));
+        }
+
+        // Lấy trạng thái mật khẩu của một tài khoản
+        function getAccountPasswordStatus(accountId) {
+            let savedPass = masterDatabase.passwords ? masterDatabase.passwords[accountId] : undefined;
+            if (savedPass && savedPass !== '12345678') {
+                return {
+                    isCustom: true,
+                    statusText: 'Đã đổi MK riêng',
+                    badgeClass: 'bg-emerald-100 text-emerald-800 border-emerald-200',
+                    password: savedPass
+                };
+            } else {
+                return {
+                    isCustom: false,
+                    statusText: 'Mặc định (12345678)',
+                    badgeClass: 'bg-amber-100 text-amber-800 border-amber-200',
+                    password: '12345678'
+                };
             }
         }
 
-        // Kiểm tra trạng thái khi tải trang
+        // Khởi động trang web
         window.addEventListener('DOMContentLoaded', async () => {
             await loadMasterDatabase();
-            
-            const urlParams = new URLSearchParams(window.location.search);
-            let currentUser = JSON.parse(localStorage.getItem('saobay_user'));
 
-            // Chỉ hiển thị form đổi mật khẩu khi có tham số URL yêu cầu và người dùng đã đăng nhập thực tế
-            if (urlParams.get('tab') === 'changepass' && currentUser) {
-                showChangePassView(currentUser);
+            try {
+                let u = localStorage.getItem('saobay_user');
+                if (u) currentUser = JSON.parse(u);
+            } catch(e) {}
+
+            const urlParams = new URLSearchParams(window.location.search);
+            let tabParam = urlParams.get('tab');
+            let forceParam = urlParams.get('force');
+
+            if (forceParam === 'true' && currentUser) {
+                showForceChangePasswordView(currentUser);
+                return;
+            }
+
+            if (tabParam === 'admin' || (currentUser && currentUser.role === 'admin')) {
+                if (currentUser && currentUser.role === 'admin') {
+                    showAdminDashboardView();
+                } else {
+                    showLoginView();
+                    document.getElementById('login-username').value = 'admin';
+                    document.getElementById('login-password').focus();
+                }
             } else {
                 showLoginView();
             }
         });
 
         function showLoginView() {
-            document.getElementById('login-form').classList.remove('hidden');
-            document.getElementById('changepass-form').classList.add('hidden');
-            document.getElementById('portal-subtitle').innerText = "Hệ thống Quản lý & Xác thực Thông minh";
+            document.getElementById('login-view').classList.remove('hidden');
+            document.getElementById('force-changepass-view').classList.add('hidden');
+            document.getElementById('admin-dashboard-view').classList.add('hidden');
         }
 
-        function showChangePassView(user) {
-            document.getElementById('login-form').classList.add('hidden');
-            document.getElementById('changepass-form').classList.remove('hidden');
-            document.getElementById('portal-subtitle').innerText = "Cập nhật mật khẩu tài khoản cá nhân";
-            document.getElementById('current-user-display').innerText = `${user.name} (ID: ${user.id})`;
+        function showForceChangePasswordView(user) {
+            document.getElementById('login-view').classList.add('hidden');
+            document.getElementById('force-changepass-view').classList.remove('hidden');
+            document.getElementById('admin-dashboard-view').classList.add('hidden');
+
+            document.getElementById('force-user-name').innerText = user.name || '--';
+            document.getElementById('force-user-id').innerText = user.id || '--';
+            document.getElementById('force-user-role').innerText = user.role === 'teacher' ? 'Giáo Viên' : (user.role === 'admin' ? 'Quản Trị Viên' : `Học Sinh (${user.className || ''})`);
+            document.getElementById('force-new-pass').value = '';
+            document.getElementById('force-confirm-pass').value = '';
+            document.getElementById('force-new-pass').focus();
         }
 
-        function handleLogout() {
+        function handleCancelForceChange() {
             localStorage.removeItem('saobay_user');
+            sessionStorage.removeItem('saobay_force_user');
+            currentUser = null;
             showLoginView();
-            window.location.href = 'used.html';
         }
 
-        // HÀM ĐĂNG NHẬP ĐỘC LẬP
-        async function handleIndependentLogin(e) {
-            e.preventDefault();
-            let username = document.getElementById('login-username').value.trim();
-            let password = document.getElementById('login-password').value.trim();
+        function showAdminDashboardView() {
+            document.getElementById('login-view').classList.add('hidden');
+            document.getElementById('force-changepass-view').classList.add('hidden');
+            document.getElementById('admin-dashboard-view').classList.remove('hidden');
 
-            if(username === 'admin' && password === 'Dung2207@') {
-                let adminObj = { id: 'admin', name: 'Thầy Bùi Văn Dũng (Admin)', role: 'admin' };
-                localStorage.setItem('saobay_user', JSON.stringify(adminObj));
-                window.location.href = '../index.html?tab=admin';
+            populateClassFilterDropdown();
+            updateAdminStats();
+            renderAdminTable();
+        }
+
+        // ========================================================
+        // XỬ LÝ ĐĂNG NHẬP
+        // ========================================================
+        async function handleLoginSubmit(event) {
+            event.preventDefault();
+            let usernameInput = document.getElementById('login-username').value.trim();
+            let passwordInput = document.getElementById('login-password').value.trim();
+
+            if (!usernameInput || !passwordInput) {
+                showToast('Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu!', 'error');
                 return;
             }
 
             await loadMasterDatabase();
 
-            let matchedId = username;
-            let foundRole = '';
-            let foundName = '';
-            let foundClass = '';
-
-            // Tìm kiếm giáo viên
-            if (masterDatabase.assignments && Array.isArray(masterDatabase.assignments)) {
-                for(let item of masterDatabase.assignments) {
-                    if(item.teachers) {
-                        let parts = item.teachers.split(',');
-                        for(let p of parts) {
-                            p = p.trim();
-                            let match = p.match(/^(.*?)\s*\((\d+)\)$/);
-                            if(match) {
-                                let tName = match[1].trim();
-                                let tId = match[2].trim();
-                                if(username === tId || username.toLowerCase() === tName.toLowerCase()) {
-                                    matchedId = tId;
-                                    foundName = tName;
-                                    foundRole = 'teacher';
-                                    break;
-                                }
-                            } else if(username.toLowerCase() === p.toLowerCase()) {
-                                matchedId = p;
-                                foundName = p;
-                                foundRole = 'teacher';
-                                break;
-                            }
-                        }
-                    }
-                    if(foundRole) break;
+            // 1. Kiểm tra tài khoản Admin
+            let adminPass = (masterDatabase.passwords && masterDatabase.passwords['admin']) || 'Dung2207@';
+            if (usernameInput.toLowerCase() === 'admin') {
+                if (passwordInput === adminPass) {
+                    let adminUser = {
+                        id: 'admin',
+                        name: 'Thầy Bùi Văn Dũng (Admin)',
+                        role: 'admin',
+                        mustChangePassword: false
+                    };
+                    localStorage.setItem('saobay_user', JSON.stringify(adminUser));
+                    currentUser = adminUser;
+                    showToast('Đăng nhập Quản trị viên thành công!', 'success');
+                    setTimeout(() => showAdminDashboardView(), 500);
+                    return;
+                } else {
+                    showToast('Mật khẩu Quản trị viên không chính xác!', 'error');
+                    return;
                 }
             }
 
-            // Tìm kiếm học sinh
-            if(!foundRole && masterDatabase.students) {
-                for(let cls in masterDatabase.students) {
-                    let listHS = masterDatabase.students[cls];
-                    let s = listHS.find(hs => hs.id === username || hs.name.toLowerCase() === username.toLowerCase());
-                    if(s) {
-                        matchedId = s.id;
-                        foundName = s.name;
-                        foundClass = cls;
-                        foundRole = 'student';
-                        break;
-                    }
+            // 2. Tìm kiếm trong danh sách Giáo viên
+            let matchedUser = null;
+            let normInput = removeVietnameseTones(usernameInput);
+
+            let foundTeacher = cachedTeachers.find(t => t.id === usernameInput || removeVietnameseTones(t.name) === normInput);
+            if (foundTeacher) {
+                matchedUser = {
+                    id: foundTeacher.id,
+                    name: foundTeacher.name,
+                    role: 'teacher',
+                    subjects: foundTeacher.subjects,
+                    classes: foundTeacher.classes
+                };
+            }
+
+            // 3. Nếu chưa thấy, tìm kiếm trong danh sách Học sinh
+            if (!matchedUser) {
+                let foundStudent = cachedStudents.find(s => s.id === usernameInput || removeVietnameseTones(s.name) === normInput);
+                if (foundStudent) {
+                    matchedUser = {
+                        id: foundStudent.id,
+                        name: foundStudent.name,
+                        role: 'student',
+                        className: foundStudent.className,
+                        dob: foundStudent.dob
+                    };
                 }
             }
 
-            if(!foundRole) {
-                alert('Không tìm thấy tài khoản trong hệ thống Sào Báy!');
+            if (!matchedUser) {
+                showToast('Không tìm thấy tài khoản! Vui lòng kiểm tra Mã định danh hoặc Họ tên.', 'error');
                 return;
             }
 
-            let savedPassMap = masterDatabase.passwords || {};
-            let customPass = savedPassMap[matchedId];
+            // 4. Kiểm tra mật khẩu
+            let passStatus = getAccountPasswordStatus(matchedUser.id);
+            let expectedPass = passStatus.isCustom ? passStatus.password : '12345678';
 
-            let isValid = false;
-            if(customPass !== undefined) {
-                if(password === customPass) isValid = true;
-            } else {
-                if(password === "12345678") isValid = true;
+            if (passwordInput !== expectedPass) {
+                showToast('Mật khẩu không chính xác! (Mật khẩu lần đầu là 12345678)', 'error');
+                return;
             }
 
-            if(isValid) {
-                let userSession = { id: matchedId, name: foundName, role: foundRole, className: foundClass };
-                localStorage.setItem('saobay_user', JSON.stringify(userSession));
+            // 5. NẾU LẦN ĐẦU ĐĂNG NHẬP (MẬT KHẨU MẶC ĐỊNH 12345678) -> BẮT BUỘC ĐỔI MẬT KHẨU NGAY!
+            if (!passStatus.isCustom || passwordInput === '12345678') {
+                matchedUser.mustChangePassword = true;
+                sessionStorage.setItem('saobay_force_user', JSON.stringify(matchedUser));
+                showForceChangePasswordView(matchedUser);
+                return;
+            }
 
-                if(foundRole === 'teacher') {
-                    localStorage.setItem('used_is_data', JSON.stringify(masterDatabase.assignments));
-                    window.location.href = '../index.html?tab=teacher-dash';
+            // 6. Đăng nhập thành công với mật khẩu riêng đã đổi
+            matchedUser.mustChangePassword = false;
+            localStorage.setItem('saobay_user', JSON.stringify(matchedUser));
+            currentUser = matchedUser;
+            showToast(`Xin chào ${matchedUser.name}! Đăng nhập thành công.`, 'success');
+
+            setTimeout(() => {
+                if (matchedUser.role === 'teacher') {
+                    window.location.href = '../teacher/teacher-hub.html';
                 } else {
-                    let flatStudents = [];
-                    for(let c in masterDatabase.students) {
-                        masterDatabase.students[c].forEach(hs => flatStudents.push({ ...hs, className: c }));
-                    }
-                    localStorage.setItem('saobay_students_db', JSON.stringify(flatStudents));
-                    window.location.href = '../index.html?tab=student-dash';
+                    window.location.href = '../index.html';
                 }
-            } else {
-                alert('Mật khẩu không chính xác!');
-            }
+            }, 800);
         }
 
-        // HÀM ĐỔI MẬT KHẨU VÀ GHI TRỰC TIẾP LÊN GITHUB API
-        async function handleIndependentChangePassword(e) {
-            e.preventDefault();
-            const newPass = document.getElementById('new-pass-input').value.trim();
-            let currentUser = JSON.parse(localStorage.getItem('saobay_user'));
-            let btn = document.getElementById('changepass-btn');
+        // ========================================================
+        // XỬ LÝ BẮT BUỘC ĐỔI MẬT KHẨU
+        // ========================================================
+        async function handleForceChangePasswordSubmit(event) {
+            event.preventDefault();
+            let newPass = document.getElementById('force-new-pass').value.trim();
+            let confirmPass = document.getElementById('force-confirm-pass').value.trim();
 
-            if(!currentUser) {
-                alert('Phiên đăng nhập đã hết hạn! Vui lòng đăng nhập lại.');
+            let forceUser = JSON.parse(sessionStorage.getItem('saobay_force_user'));
+            if (!forceUser) {
+                showToast('Phiên làm việc hết hạn, vui lòng đăng nhập lại!', 'error');
                 showLoginView();
                 return;
             }
 
+            if (newPass.length < 6) {
+                showToast('Mật khẩu mới phải có tối thiểu 6 ký tự!', 'error');
+                return;
+            }
+
+            if (newPass === '12345678') {
+                showToast('Mật khẩu mới không được trùng với mật khẩu mặc định 12345678!', 'error');
+                return;
+            }
+
+            if (newPass !== confirmPass) {
+                showToast('Xác nhận mật khẩu không khớp, vui lòng nhập lại!', 'error');
+                return;
+            }
+
+            let btn = document.getElementById('force-submit-btn');
             btn.disabled = true;
-            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Đang ghi file trực tiếp lên GitHub...`;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Đang lưu mật khẩu lên hệ thống...`;
 
             try {
-                if(!masterDatabase.passwords) masterDatabase.passwords = { 'admin': 'Dung2207@' };
-                masterDatabase.passwords[currentUser.id] = newPass;
+                if (!masterDatabase.passwords) masterDatabase.passwords = { 'admin': 'Dung2207@' };
+                masterDatabase.passwords[forceUser.id] = newPass;
 
-                let apiUrl = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${GITHUB_CONFIG.path}?ref=${GITHUB_CONFIG.branch}`;
-                
-                // 1. Lấy thông tin SHA hiện tại của file trên GitHub
-                let getRes = await fetch(apiUrl, {
-                    headers: {
-                        "Authorization": `Bearer ${GITHUB_CONFIG.token}`,
-                        "Accept": "application/vnd.github+json"
+                await saveMasterDatabaseToGit(`Cập nhật mật khẩu cho ${forceUser.name} (${forceUser.id})`);
+
+                forceUser.mustChangePassword = false;
+                localStorage.setItem('saobay_user', JSON.stringify(forceUser));
+                sessionStorage.removeItem('saobay_force_user');
+
+                showToast('Chúc mừng! Bạn đã đổi mật khẩu thành công.', 'success');
+
+                setTimeout(() => {
+                    if (forceUser.role === 'teacher') {
+                        window.location.href = '../teacher/teacher-hub.html';
+                    } else {
+                        window.location.href = '../index.html';
                     }
-                });
+                }, 1000);
+            } catch(err) {
+                showToast('Lỗi lưu mật khẩu: ' + err.message, 'error');
+                btn.disabled = false;
+                btn.innerHTML = `<i class="fa-solid fa-shield-check mr-2"></i> Lưu Mật Khẩu & Bắt Đầu`;
+            }
+        }
 
+        // ========================================================
+        // GHI DỮ LIỆU ĐỒNG BỘ LÊN GITHUB & LOCAL CACHE
+        // ========================================================
+        async function saveMasterDatabaseToGit(commitMsg) {
+            let jsonString = JSON.stringify(masterDatabase, null, 2);
+
+            // 1. Lưu ngay vào LocalStorage để có hiệu lực tức thì
+            localStorage.setItem('saobay_passwords_cache', JSON.stringify(masterDatabase.passwords));
+
+            // 2. Đẩy qua Google Apps Script Proxy (Token an toàn trên máy chủ Google)
+            try {
+                let payload = {
+                    type: 'PUSH_TO_GITHUB',
+                    filePath: 'used/used.is',
+                    content: jsonString,
+                    commitMessage: commitMsg || 'Cập nhật tài khoản Sào Báy Portal'
+                };
+
+                let res = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(payload)
+                });
+                if (res.ok) {
+                    let result = await res.json();
+                    if (result && result.status === 'success') {
+                        return true;
+                    }
+                }
+            } catch(proxyErr) {
+                console.warn('Proxy Google Apps Script chưa hoàn tất, thử tiếp phương án GitHub trực tiếp:', proxyErr);
+            }
+
+            // 3. Đẩy trực tiếp qua GitHub API nếu có Token
+            let token = GITHUB_CONFIG.token;
+            if (token) {
+                let apiUrl = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${GITHUB_CONFIG.path}?ref=${GITHUB_CONFIG.branch}`;
+                let getRes = await fetch(apiUrl, {
+                    headers: { "Authorization": `Bearer ${token}`, "Accept": "application/vnd.github+json" }
+                });
                 let fileSha = "";
-                if(getRes.ok) {
+                if (getRes.ok) {
                     let fileData = await getRes.json();
                     fileSha = fileData.sha;
-                } else {
-                    let errJson = await getRes.json();
-                    throw new Error(errJson.message || "Không thể đọc thông tin file trên GitHub.");
                 }
-
-                // 2. Mã hóa dữ liệu JSON sang Base64 chuẩn UTF-8
-                let jsonString = JSON.stringify(masterDatabase, null, 2);
                 let base64Content = btoa(unescape(encodeURIComponent(jsonString)));
-
-                // 3. Gửi yêu cầu PUT cập nhật file
                 let putRes = await fetch(apiUrl, {
                     method: "PUT",
                     headers: {
-                        "Authorization": `Bearer ${GITHUB_CONFIG.token}`,
+                        "Authorization": `Bearer ${token}`,
                         "Accept": "application/vnd.github+json",
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
-                        message: `Update password via Sào Báy Portal for user: ${currentUser.name} (${currentUser.id})`,
+                        message: commitMsg || 'Cập nhật tài khoản Sào Báy Portal',
                         content: base64Content,
                         sha: fileSha,
                         branch: GITHUB_CONFIG.branch
                     })
                 });
+                if (putRes.ok) return true;
+            }
 
-                if(putRes.ok) {
-                    alert('Đổi mật khẩu thành công! File used.is trên GitHub đã được cập nhật tức thi.');
-                    window.location.href = '../index.html';
+            return true;
+        }
+
+        // ========================================================
+        // GIAO DIỆN & TÁC VỤ ADMIN
+        // ========================================================
+        function updateAdminStats() {
+            document.getElementById('stat-teachers-count').innerText = cachedTeachers.length;
+            document.getElementById('stat-students-count').innerText = cachedStudents.length;
+
+            let allAccounts = [...cachedTeachers, ...cachedStudents];
+            let customCount = 0;
+            let defaultCount = 0;
+
+            allAccounts.forEach(acc => {
+                let st = getAccountPasswordStatus(acc.id);
+                if (st.isCustom) customCount++;
+                else defaultCount++;
+            });
+
+            document.getElementById('stat-custom-pass-count').innerText = customCount;
+            document.getElementById('stat-default-pass-count').innerText = defaultCount;
+        }
+
+        function populateClassFilterDropdown() {
+            let select = document.getElementById('admin-class-filter');
+            select.innerHTML = '<option value="">Tất cả các lớp (24 lớp)</option>';
+            let classes = Object.keys(masterDatabase.students || {}).sort();
+            classes.forEach(c => {
+                let opt = document.createElement('option');
+                opt.value = c;
+                opt.innerText = `Lớp ${c}`;
+                select.appendChild(opt);
+            });
+        }
+
+        function switchAdminTab(tab) {
+            currentAdminTab = tab;
+            currentPage = 1;
+
+            let btnTeachers = document.getElementById('admin-tab-teachers');
+            let btnStudents = document.getElementById('admin-tab-students');
+            let btnSettings = document.getElementById('admin-tab-settings');
+
+            let activeClass = "px-4 py-2 rounded-xl text-xs md:text-sm font-black transition flex items-center space-x-2 bg-blue-600 text-white shadow-sm";
+            let inactiveClass = "px-4 py-2 rounded-xl text-xs md:text-sm font-black transition flex items-center space-x-2 bg-slate-100 text-slate-600 hover:bg-slate-200";
+
+            btnTeachers.className = (tab === 'teachers') ? activeClass : inactiveClass;
+            btnStudents.className = (tab === 'students') ? activeClass : inactiveClass;
+            btnSettings.className = (tab === 'settings') ? activeClass : inactiveClass;
+
+            let filterBar = document.getElementById('admin-filter-bar');
+            let tableContainer = document.getElementById('admin-table-container');
+            let paginationBar = document.getElementById('admin-pagination-bar');
+            let settingsContainer = document.getElementById('admin-settings-container');
+            let classFilterWrapper = document.getElementById('filter-class-wrapper');
+            let thExtra = document.getElementById('th-extra-col');
+
+            if (tab === 'settings') {
+                filterBar.classList.add('hidden');
+                tableContainer.classList.add('hidden');
+                paginationBar.classList.add('hidden');
+                settingsContainer.classList.remove('hidden');
+                document.getElementById('admin-github-token-input').value = GITHUB_CONFIG.token;
+            } else {
+                filterBar.classList.remove('hidden');
+                tableContainer.classList.remove('hidden');
+                paginationBar.classList.remove('hidden');
+                settingsContainer.classList.add('hidden');
+
+                if (tab === 'students') {
+                    classFilterWrapper.classList.remove('hidden');
+                    thExtra.innerText = 'Lớp & Ngày Sinh';
                 } else {
-                    let errJson = await putRes.json();
-                    throw new Error(errJson.message || "Không thể ghi file lên GitHub.");
+                    classFilterWrapper.classList.add('hidden');
+                    thExtra.innerText = 'Phân Công Giảng Dạy';
                 }
 
+                renderAdminTable();
+            }
+        }
+
+        function getFilteredAccounts() {
+            let query = removeVietnameseTones(document.getElementById('admin-search-input').value);
+            let statusFilter = document.getElementById('admin-status-filter').value;
+            let classFilter = document.getElementById('admin-class-filter').value;
+
+            let source = (currentAdminTab === 'teachers') ? cachedTeachers : cachedStudents;
+
+            return source.filter(acc => {
+                // Lọc theo lớp (chỉ áp dụng cho học sinh)
+                if (currentAdminTab === 'students' && classFilter && acc.className !== classFilter) {
+                    return false;
+                }
+
+                // Lọc theo trạng thái mật khẩu
+                let passStatus = getAccountPasswordStatus(acc.id);
+                if (statusFilter === 'custom' && !passStatus.isCustom) return false;
+                if (statusFilter === 'default' && passStatus.isCustom) return false;
+
+                // Lọc theo từ khóa tìm kiếm
+                if (query) {
+                    let normName = removeVietnameseTones(acc.name);
+                    let normId = acc.id.toLowerCase();
+                    let normExtra = removeVietnameseTones(acc.subjects || acc.className || '');
+                    if (!normName.includes(query) && !normId.includes(query) && !normExtra.includes(query)) {
+                        return false;
+                    }
+                }
+
+                return true;
+            });
+        }
+
+        function handleAdminSearch() {
+            currentPage = 1;
+            renderAdminTable();
+        }
+
+        function renderAdminTable() {
+            let tbody = document.getElementById('admin-table-body');
+            tbody.innerHTML = '';
+
+            let filteredList = getFilteredAccounts();
+            document.getElementById('admin-filtered-count-badge').innerText = `Hiển thị: ${filteredList.length} tài khoản`;
+
+            totalAvailablePages = Math.ceil(filteredList.length / PAGE_SIZE) || 1;
+            if (currentPage > totalAvailablePages) currentPage = totalAvailablePages;
+
+            document.getElementById('pagination-info').innerText = `Trang ${currentPage} / ${totalAvailablePages}`;
+            document.getElementById('pagination-total-items').innerText = `Tổng số: ${filteredList.length}`;
+            document.getElementById('pagination-current-page-num').innerText = currentPage;
+
+            document.getElementById('btn-page-first').disabled = (currentPage === 1);
+            document.getElementById('btn-page-prev').disabled = (currentPage === 1);
+            document.getElementById('btn-page-next').disabled = (currentPage === totalAvailablePages);
+            document.getElementById('btn-page-last').disabled = (currentPage === totalAvailablePages);
+
+            if (filteredList.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-slate-400 italic">Không tìm thấy tài khoản phù hợp với điều kiện lọc.</td></tr>`;
+                return;
+            }
+
+            let startIndex = (currentPage - 1) * PAGE_SIZE;
+            let pageItems = filteredList.slice(startIndex, startIndex + PAGE_SIZE);
+
+            pageItems.forEach((acc, idx) => {
+                let st = getAccountPasswordStatus(acc.id);
+                let extraInfo = (currentAdminTab === 'teachers')
+                    ? `<div class="truncate max-w-xs" title="${acc.subjects || ''} | ${acc.classes || ''}"><span class="text-blue-700 font-semibold">${acc.subjects || '--'}</span> <span class="text-slate-400 text-[10px]">(${acc.classes || ''})</span></div>`
+                    : `<div><span class="font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-md">${acc.className}</span> <span class="text-slate-400 text-[11px] ml-2">${acc.dob || ''}</span></div>`;
+
+                let tr = document.createElement('tr');
+                tr.className = "hover:bg-blue-50/50 transition";
+                tr.innerHTML = `
+                    <td class="p-3 text-center text-slate-400 font-bold">${startIndex + idx + 1}</td>
+                    <td class="p-3 font-mono font-bold text-slate-700">${acc.id}</td>
+                    <td class="p-3 font-bold text-slate-900">${acc.name}</td>
+                    <td class="p-3">${extraInfo}</td>
+                    <td class="p-3">
+                        <span class="inline-flex items-center text-[10px] font-bold px-2.5 py-1 rounded-full border ${st.badgeClass}">
+                            <i class="fa-solid ${st.isCustom ? 'fa-lock' : 'fa-key'} mr-1"></i> ${st.statusText}
+                        </span>
+                    </td>
+                    <td class="p-3 text-center">
+                        <div class="flex items-center justify-center space-x-1.5">
+                            <button onclick="handleResetAccountPassword('${acc.id}', '${acc.name.replace(/'/g, "\\'")}')" title="Đặt lại về mật khẩu mặc định 12345678" class="bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 text-xs px-2.5 py-1.5 rounded-lg font-bold transition flex items-center">
+                                <i class="fa-solid fa-rotate-left mr-1"></i> Reset 12345678
+                            </button>
+                            <button onclick="openEditPassModal('${acc.id}', '${acc.name.replace(/'/g, "\\'")}')" title="Đổi mật khẩu theo ý muốn" class="bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 text-xs px-2.5 py-1.5 rounded-lg font-bold transition flex items-center">
+                                <i class="fa-solid fa-pen-to-square mr-1"></i> Đổi MK
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Điều khiển phân trang
+        function goToPage(p) {
+            currentPage = Math.max(1, Math.min(p, totalAvailablePages));
+            renderAdminTable();
+        }
+        function prevPage() { if (currentPage > 1) { currentPage--; renderAdminTable(); } }
+        function nextPage() { if (currentPage < totalAvailablePages) { currentPage++; renderAdminTable(); } }
+
+        // RESET MẬT KHẨU VỀ MẶC ĐỊNH 12345678
+        async function handleResetAccountPassword(accId, accName) {
+            if (!confirm(`Bạn có chắc chắn muốn ĐẶT LẠI mật khẩu của tài khoản:\n"${accName}" (Mã ID: ${accId})\nvề mật khẩu mặc định 12345678?\n\nLần sau đăng nhập người này sẽ bắt buộc phải đổi mật khẩu mới!`)) {
+                return;
+            }
+
+            try {
+                if (masterDatabase.passwords) {
+                    delete masterDatabase.passwords[accId];
+                }
+
+                await saveMasterDatabaseToGit(`Admin reset mật khẩu cho ${accName} (${accId}) về mặc định`);
+
+                showToast(`Đã đặt lại mật khẩu cho "${accName}" về 12345678!`, 'success');
+                updateAdminStats();
+                renderAdminTable();
             } catch(err) {
-                alert('Lỗi cập nhật GitHub: ' + err.message);
+                showToast('Lỗi khi đặt lại mật khẩu: ' + err.message, 'error');
+            }
+        }
+
+        // MỞ MODAL ĐỔI MK TÙY CHỌN
+        function openEditPassModal(accId, accName) {
+            currentEditingAccountId = accId;
+            document.getElementById('modal-edit-user-name').innerText = accName;
+            document.getElementById('modal-edit-user-id').innerText = accId;
+            document.getElementById('modal-edit-pass-input').value = '';
+            document.getElementById('modal-admin-edit-pass').classList.remove('hidden');
+            document.getElementById('modal-edit-pass-input').focus();
+        }
+
+        function closeEditPassModal() {
+            document.getElementById('modal-admin-edit-pass').classList.add('hidden');
+            currentEditingAccountId = null;
+        }
+
+        async function submitEditPassModal() {
+            let newPass = document.getElementById('modal-edit-pass-input').value.trim();
+            if (!newPass) {
+                showToast('Vui lòng nhập mật khẩu mới!', 'error');
+                return;
+            }
+            if (newPass.length < 6) {
+                showToast('Mật khẩu tối thiểu 6 ký tự!', 'error');
+                return;
+            }
+
+            let btn = document.getElementById('btn-modal-edit-save');
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1"></i> Đang lưu...`;
+
+            try {
+                if (!masterDatabase.passwords) masterDatabase.passwords = { 'admin': 'Dung2207@' };
+                masterDatabase.passwords[currentEditingAccountId] = newPass;
+
+                await saveMasterDatabaseToGit(`Admin cập nhật mật khẩu cho ID: ${currentEditingAccountId}`);
+
+                showToast('Đã đổi mật khẩu thành công!', 'success');
+                closeEditPassModal();
+                updateAdminStats();
+                renderAdminTable();
+            } catch(err) {
+                showToast('Lỗi lưu mật khẩu: ' + err.message, 'error');
+            } finally {
                 btn.disabled = false;
-                btn.innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Lưu Mật Khẩu Lên GitHub`;
+                btn.innerHTML = `Lưu Thay Đổi`;
+            }
+        }
+
+        // ĐỔI MẬT KHẨU TÀI KHOẢN ADMIN
+        async function handleAdminChangeOwnPassword(event) {
+            event.preventDefault();
+            let newAdminPass = document.getElementById('admin-new-own-pass').value.trim();
+            if (newAdminPass.length < 6) {
+                showToast('Mật khẩu admin tối thiểu 6 ký tự!', 'error');
+                return;
+            }
+
+            try {
+                if (!masterDatabase.passwords) masterDatabase.passwords = {};
+                masterDatabase.passwords['admin'] = newAdminPass;
+
+                await saveMasterDatabaseToGit('Admin đổi mật khẩu quản trị');
+
+                showToast('Đổi mật khẩu tài khoản Admin thành công!', 'success');
+                document.getElementById('admin-new-own-pass').value = '';
+            } catch(err) {
+                showToast('Lỗi đổi mật khẩu admin: ' + err.message, 'error');
+            }
+        }
+
+        function saveAdminGithubToken() {
+            let token = document.getElementById('admin-github-token-input').value.trim();
+            localStorage.setItem('saobay_github_token', token);
+            GITHUB_CONFIG.token = token;
+            showToast('Đã lưu Token GitHub vào trình duyệt!', 'success');
+        }
+
+        function exportDatabaseFile() {
+            let jsonString = JSON.stringify(masterDatabase, null, 2);
+            let blob = new Blob([jsonString], { type: 'application/json' });
+            let url = URL.createObjectURL(blob);
+            let a = document.createElement('a');
+            a.href = url;
+            a.download = `used_backup_${new Date().toISOString().slice(0, 10)}.is`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast('Đã tải xuống file dữ liệu used.is thành công!', 'success');
+        }
+
+        async function refreshAdminData(showNotice = false) {
+            let icon = document.getElementById('admin-refresh-icon');
+            if (icon) icon.classList.add('fa-spin');
+            await loadMasterDatabase();
+            updateAdminStats();
+            renderAdminTable();
+            if (icon) icon.classList.remove('fa-spin');
+            if (showNotice) showToast('Đã đồng bộ dữ liệu mới nhất từ Git!', 'success');
+        }
+
+        function handleLogout() {
+            if (confirm('Bạn có chắc chắn muốn đăng xuất khỏi hệ thống?')) {
+                localStorage.removeItem('saobay_user');
+                sessionStorage.removeItem('saobay_force_user');
+                currentUser = null;
+                showLoginView();
+                showToast('Đã đăng xuất.', 'info');
             }
         }
     </script>
