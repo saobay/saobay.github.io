@@ -36,6 +36,43 @@
         .preview-rendered-body table:not([class]) th, .preview-rendered-body table:not([class]) td { border: 1px solid #cbd5e1; padding: 0.5rem 0.75rem; text-align: left; }
         .preview-rendered-body table:not([class]) th { background-color: #f1f5f9; font-weight: 700; }
         .preview-rendered-body img { max-width: 100%; height: auto; border-radius: 0.5rem; margin: 0.5rem 0; }
+
+        /* Style cho badge công thức toán có thể click sửa trực quan */
+        .math-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 2px 7px;
+            margin: 1px 3px;
+            border-radius: 6px;
+            background-color: #f8fafc;
+            border: 1px solid #cbd5e1;
+            cursor: pointer;
+            user-select: none;
+            vertical-align: middle;
+            transition: all 0.2s ease;
+        }
+        .math-badge:hover {
+            background-color: #eef2ff;
+            border-color: #6366f1;
+            box-shadow: 0 1px 4px rgba(99, 102, 241, 0.25);
+        }
+        .math-badge-display {
+            display: block;
+            margin: 10px auto;
+            width: fit-content;
+            text-align: center;
+            padding: 4px 12px;
+        }
+        .math-badge .math-edit-icon {
+            font-size: 10px;
+            color: #6366f1;
+            margin-left: 5px;
+            opacity: 0.6;
+        }
+        .math-badge:hover .math-edit-icon {
+            opacity: 1;
+            transform: scale(1.1);
+        }
     </style>
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col" onload="initTeacherHub()">
@@ -278,25 +315,73 @@
                         </div>
                     </div>
 
-                    <!-- LƯU TRỮ NỘI DUNG ẨN (KHÔNG HIỂN THỊ KHUNG CODE RA GIAO DIỆN) -->
-                    <textarea id="item-content" class="hidden"></textarea>
-
-                    <!-- KHUNG XEM TRƯỚC TRỰC QUAN (KHÔNG DÙNG IFRAME - HIỂN THỊ ĐẸP NHƯ WEB THẬT) -->
-                    <div class="flex-1 flex flex-col min-h-[420px]">
-                        <div class="flex items-center justify-between mb-2">
-                            <label class="block text-xs font-bold text-emerald-800 uppercase flex items-center">
-                                <i class="fa-solid fa-circle-check text-emerald-600 mr-1.5"></i> Khung Xem Trước Trực Quan (Giao Diện Web Thật)
-                            </label>
-                            <span class="text-[10px] text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200 font-bold">
-                                Hiển thị tức thì
-                            </span>
-                        </div>
-                        <div id="preview-container" class="w-full flex-1 min-h-[420px] p-4 md:p-6 bg-white border-2 border-emerald-300 rounded-2xl shadow-sm overflow-y-auto space-y-4">
-                            <div class="text-center py-16 text-slate-400 space-y-3">
-                                <i class="fa-solid fa-file-lines text-4xl text-slate-300"></i>
-                                <p class="text-sm font-semibold text-slate-600">Khung xem trước bài học</p>
-                                <p class="text-xs text-slate-400 max-w-md mx-auto">Vui lòng chọn file Word (.docx) hoặc file HTML để hiển thị bài học đẹp mắt như trang web thật tại đây.</p>
+                    <!-- KHU VỰC BIÊN TẬP & XEM TRƯỚC TRỰC QUAN (WYSIWYG LIVE EDITOR) -->
+                    <div class="flex-1 flex flex-col min-h-[460px] space-y-2">
+                        <!-- THANH CÔNG CỤ SOẠN THẢO TRỰC QUAN -->
+                        <div class="bg-gradient-to-r from-slate-100 to-slate-50 p-2.5 rounded-xl border border-slate-200 flex flex-wrap items-center justify-between gap-2 shadow-xs">
+                            <!-- Nhóm chế độ xem / chỉnh sửa -->
+                            <div class="flex items-center space-x-1.5">
+                                <button type="button" id="mode-btn-visual" onclick="setEditorMode('visual')" class="bg-emerald-600 text-white font-bold text-xs px-3 py-1.5 rounded-lg shadow-sm transition flex items-center" title="Click vào câu chữ trên màn hình để gõ sửa trực tiếp">
+                                    <i class="fa-solid fa-pen mr-1.5"></i> Sửa Trực Tiếp (WYSIWYG)
+                                </button>
+                                <button type="button" id="mode-btn-student" onclick="setEditorMode('student')" class="bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 font-bold text-xs px-3 py-1.5 rounded-lg transition flex items-center" title="Xem trước và thử làm bài như học sinh thật">
+                                    <i class="fa-solid fa-eye mr-1.5 text-blue-600"></i> Xem Dạng Học Sinh
+                                </button>
+                                <button type="button" id="mode-btn-code" onclick="setEditorMode('code')" class="bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 font-bold text-xs px-3 py-1.5 rounded-lg transition flex items-center" title="Xem và sửa mã HTML thô nếu muốn">
+                                    <i class="fa-solid fa-code mr-1.5 text-slate-600"></i> Mã HTML
+                                </button>
                             </div>
+
+                            <!-- Nhóm công cụ định dạng & Công thức Toán -->
+                            <div id="visual-format-toolbar" class="flex flex-wrap items-center space-x-1.5">
+                                <div class="flex items-center bg-white border border-slate-300 rounded-lg p-0.5 shadow-xs">
+                                    <button type="button" onclick="formatText('bold')" class="p-1 px-2 text-slate-700 hover:bg-slate-100 rounded text-xs font-bold" title="In đậm (Ctrl+B)"><b>B</b></button>
+                                    <button type="button" onclick="formatText('italic')" class="p-1 px-2 text-slate-700 hover:bg-slate-100 rounded text-xs italic font-bold" title="In nghiêng (Ctrl+I)"><i>I</i></button>
+                                    <button type="button" onclick="formatText('underline')" class="p-1 px-2 text-slate-700 hover:bg-slate-100 rounded text-xs underline font-bold" title="Gạch chân (Ctrl+U)"><u>U</u></button>
+                                    <button type="button" onclick="formatText('insertUnorderedList')" class="p-1 px-2 text-slate-700 hover:bg-slate-100 rounded text-xs" title="Danh sách chấm tròn"><i class="fa-solid fa-list-ul"></i></button>
+                                    <button type="button" onclick="formatText('insertOrderedList')" class="p-1 px-2 text-slate-700 hover:bg-slate-100 rounded text-xs" title="Danh sách đánh số"><i class="fa-solid fa-list-ol"></i></button>
+                                </div>
+
+                                <!-- NÚT MỞ / CHÈN CÔNG THỨC TOÁN HỌC MATHJAX -->
+                                <button type="button" onclick="openMathFormulaModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs px-3 py-1.5 rounded-lg shadow-sm transition flex items-center" title="Chèn công thức toán mới hoặc sửa công thức toán TeX/MathJax">
+                                    <i class="fa-solid fa-square-root-variable mr-1.5 text-amber-300"></i> Công Thức Toán
+                                </button>
+
+                                <!-- Nút Làm mới & Typeset lại MathJax -->
+                                <button type="button" onclick="refreshVisualMathJax()" class="bg-slate-200 hover:bg-slate-300 text-slate-800 text-xs font-bold px-2.5 py-1.5 rounded-lg transition flex items-center" title="Làm mới hiển thị MathJax và cập nhật văn bản">
+                                    <i class="fa-solid fa-rotate mr-1"></i> Làm mới công thức
+                                </button>
+                            </div>
+
+                            <!-- Đèn báo trạng thái -->
+                            <div class="text-[11px] font-semibold text-slate-500 flex items-center ml-auto">
+                                <span id="editor-status-indicator" class="inline-flex items-center text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-md">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse mr-1.5"></span>
+                                    <span>Gõ sửa trực tiếp trên màn hình</span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Khung Chỉnh sửa Trực Quan (WYSIWYG) & Khung Code HTML -->
+                        <div id="preview-wrapper" class="relative flex-1 flex flex-col">
+                            <div id="preview-container" 
+                                 contenteditable="true"
+                                 spellcheck="false"
+                                 oninput="onVisualContentChange()"
+                                 class="w-full flex-1 min-h-[440px] p-4 md:p-6 bg-white border-2 border-emerald-400 rounded-2xl shadow-sm overflow-y-auto space-y-4 focus:outline-none focus:ring-2 focus:ring-emerald-400">
+                                <div class="text-center py-16 text-slate-400 space-y-3" contenteditable="false">
+                                    <i class="fa-solid fa-file-lines text-4xl text-slate-300"></i>
+                                    <p class="text-sm font-semibold text-slate-600">Khung soạn thảo & xem trước bài học</p>
+                                    <p class="text-xs text-slate-400 max-w-md mx-auto">Vui lòng tải file Word (.docx), bấm <b>"Dán từ NotebookLM"</b> hoặc gõ trực tiếp nội dung tại đây để bắt đầu bài học.</p>
+                                </div>
+                            </div>
+
+                            <!-- Khung chỉnh sửa mã HTML thô (Ẩn mặc định, hiện khi bấm nút "Mã HTML") -->
+                            <textarea id="item-content" 
+                                      oninput="onRawHtmlChange()"
+                                      spellcheck="false"
+                                      placeholder="Mã HTML nguồn của bài học..."
+                                      class="hidden w-full flex-1 min-h-[440px] p-4 font-mono text-xs text-emerald-300 bg-slate-900 border-2 border-slate-700 rounded-2xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 leading-relaxed"></textarea>
                         </div>
                     </div>
 
@@ -649,6 +734,144 @@
                     <button type="button" onclick="closeExamGuidelineModal()" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-lg text-xs transition">Đóng</button>
                     <button type="button" onclick="copyExamGuidelineFull()" class="px-4 py-2 bg-indigo-700 hover:bg-indigo-800 text-white font-bold rounded-lg text-xs shadow transition flex items-center">
                         <i class="fa-solid fa-copy mr-1.5"></i> Sao Chép Toàn Bộ Quy Ước
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL SOẠN THẢO & SỬA CÔNG THỨC TOÁN HỌC (MATHJAX / LATEX) -->
+    <div id="math-formula-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 md:p-6">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full flex flex-col max-h-[92vh] border border-slate-200 overflow-hidden">
+            <!-- Header Modal -->
+            <div class="bg-gradient-to-r from-indigo-900 to-indigo-800 text-white px-5 py-4 flex items-center justify-between">
+                <div class="flex items-center space-x-2.5">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-700/80 flex items-center justify-center border border-indigo-500">
+                        <i class="fa-solid fa-square-root-variable text-amber-300 text-base"></i>
+                    </div>
+                    <div>
+                        <h3 id="math-modal-title" class="font-extrabold text-sm md:text-base">Soạn Thảo & Sửa Công Thức Toán Học</h3>
+                        <p class="text-[11px] text-indigo-200">Chuẩn MathJax TeX/LaTeX tương thích hoàn hảo Sào Báy Portal</p>
+                    </div>
+                </div>
+                <button type="button" onclick="closeMathFormulaModal()" class="text-indigo-200 hover:text-white p-1 rounded-lg transition">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <!-- Body Modal -->
+            <div class="p-5 overflow-y-auto space-y-4 flex-1">
+                <!-- Chọn kiểu hiển thị -->
+                <div class="flex items-center space-x-6 text-xs bg-indigo-50/70 p-2.5 rounded-xl border border-indigo-200">
+                    <span class="font-bold text-indigo-900">Kiểu hiển thị:</span>
+                    <label class="flex items-center space-x-1.5 cursor-pointer font-medium text-slate-700">
+                        <input type="radio" name="math-display-type" id="math-type-inline" value="inline" checked onchange="updateMathModalPreview()">
+                        <span>Trong dòng (<code class="text-indigo-700 font-bold">$...$</code>)</span>
+                    </label>
+                    <label class="flex items-center space-x-1.5 cursor-pointer font-medium text-slate-700">
+                        <input type="radio" name="math-display-type" id="math-type-display" value="display" onchange="updateMathModalPreview()">
+                        <span>Dòng riêng / Căn giữa (<code class="text-indigo-700 font-bold">$$...$$</code>)</span>
+                    </label>
+                </div>
+
+                <!-- Bàn phím ký hiệu toán học nhanh (Một chạm để chèn) -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5 flex items-center">
+                        <i class="fa-solid fa-keyboard mr-1.5 text-indigo-600"></i> Bàn Phím Ký Hiệu Toán Học Nhanh (Bấm để chèn):
+                    </label>
+                    <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200 space-y-2">
+                        <!-- Nhóm 1: Cơ bản -->
+                        <div class="flex flex-wrap items-center gap-1.5">
+                            <span class="text-[10px] font-bold text-slate-500 uppercase w-14">Cơ bản:</span>
+                            <button type="button" onclick="insertLatexSymbol('\\frac{a}{b}')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-serif font-bold transition shadow-xs" title="Phân số">\frac{a}{b}</button>
+                            <button type="button" onclick="insertLatexSymbol('\\sqrt{x}')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-serif font-bold transition shadow-xs" title="Căn bậc hai">\sqrt{x}</button>
+                            <button type="button" onclick="insertLatexSymbol('\\sqrt[n]{x}')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-serif font-bold transition shadow-xs" title="Căn bậc n">\sqrt[n]{x}</button>
+                            <button type="button" onclick="insertLatexSymbol('^{2}')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-serif font-bold transition shadow-xs" title="Lũy thừa / Số mũ">x²</button>
+                            <button type="button" onclick="insertLatexSymbol('_{1}')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-serif font-bold transition shadow-xs" title="Chỉ số dưới">x₁</button>
+                            <button type="button" onclick="insertLatexSymbol('\\pm ')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-bold transition shadow-xs">±</button>
+                            <button type="button" onclick="insertLatexSymbol('\\cdot ')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-bold transition shadow-xs">·</button>
+                            <button type="button" onclick="insertLatexSymbol('\\times ')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-bold transition shadow-xs">×</button>
+                        </div>
+
+                        <!-- Nhóm 2: Giải tích & Giới hạn -->
+                        <div class="flex flex-wrap items-center gap-1.5">
+                            <span class="text-[10px] font-bold text-slate-500 uppercase w-14">Giải tích:</span>
+                            <button type="button" onclick="insertLatexSymbol('\\int_{a}^{b} f(x) dx')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-serif font-bold transition shadow-xs">∫ tích phân</button>
+                            <button type="button" onclick="insertLatexSymbol('\\lim_{x \\to x_0}')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-serif font-bold transition shadow-xs">lim</button>
+                            <button type="button" onclick="insertLatexSymbol('\\sum_{i=1}^{n}')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-serif font-bold transition shadow-xs">∑ tổng</button>
+                            <button type="button" onclick="insertLatexSymbol('\\infty')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-bold transition shadow-xs">∞</button>
+                            <button type="button" onclick="insertLatexSymbol('f\'(x)')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-bold transition shadow-xs">f'(x)</button>
+                        </div>
+
+                        <!-- Nhóm 3: Hình học & Vector -->
+                        <div class="flex flex-wrap items-center gap-1.5">
+                            <span class="text-[10px] font-bold text-slate-500 uppercase w-14">Hình học:</span>
+                            <button type="button" onclick="insertLatexSymbol('\\vec{a}')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-serif font-bold transition shadow-xs">\vec{a}</button>
+                            <button type="button" onclick="insertLatexSymbol('\\overrightarrow{AB}')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-serif font-bold transition shadow-xs">\vec{AB}</button>
+                            <button type="button" onclick="insertLatexSymbol('\\widehat{ABC}')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-serif font-bold transition shadow-xs">Góc</button>
+                            <button type="button" onclick="insertLatexSymbol('\\Delta ')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-bold transition shadow-xs">Δ</button>
+                            <button type="button" onclick="insertLatexSymbol('\\parallel ')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-bold transition shadow-xs">∥ song song</button>
+                            <button type="button" onclick="insertLatexSymbol('\\perp ')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-bold transition shadow-xs">⊥ vuông góc</button>
+                            <button type="button" onclick="insertLatexSymbol('^\\circ')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-bold transition shadow-xs">°</button>
+                        </div>
+
+                        <!-- Nhóm 4: Quan hệ & Tập hợp -->
+                        <div class="flex flex-wrap items-center gap-1.5">
+                            <span class="text-[10px] font-bold text-slate-500 uppercase w-14">Logic/Tập:</span>
+                            <button type="button" onclick="insertLatexSymbol('\\in ')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-bold transition shadow-xs">∈</button>
+                            <button type="button" onclick="insertLatexSymbol('\\notin ')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-bold transition shadow-xs">∉</button>
+                            <button type="button" onclick="insertLatexSymbol('\\subset ')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-bold transition shadow-xs">⊂</button>
+                            <button type="button" onclick="insertLatexSymbol('\\cup ')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-bold transition shadow-xs">∪</button>
+                            <button type="button" onclick="insertLatexSymbol('\\cap ')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-bold transition shadow-xs">∩</button>
+                            <button type="button" onclick="insertLatexSymbol('\\emptyset ')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-bold transition shadow-xs">∅</button>
+                            <button type="button" onclick="insertLatexSymbol('\\forall ')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-bold transition shadow-xs">∀</button>
+                            <button type="button" onclick="insertLatexSymbol('\\exists ')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-bold transition shadow-xs">∃</button>
+                            <button type="button" onclick="insertLatexSymbol('\\le ')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-bold transition shadow-xs">≤</button>
+                            <button type="button" onclick="insertLatexSymbol('\\ge ')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-bold transition shadow-xs">≥</button>
+                            <button type="button" onclick="insertLatexSymbol('\\ne ')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-bold transition shadow-xs">≠</button>
+                            <button type="button" onclick="insertLatexSymbol('\\approx ')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-bold transition shadow-xs">≈</button>
+                            <button type="button" onclick="insertLatexSymbol('\\Rightarrow ')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-bold transition shadow-xs">⇒</button>
+                            <button type="button" onclick="insertLatexSymbol('\\Leftrightarrow ')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-bold transition shadow-xs">⇔</button>
+                            <button type="button" onclick="insertLatexSymbol('\\pi ')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-bold transition shadow-xs">π</button>
+                            <button type="button" onclick="insertLatexSymbol('\\alpha ')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-bold transition shadow-xs">α</button>
+                        </div>
+
+                        <!-- Nhóm 5: Hệ phương trình & Ma trận -->
+                        <div class="flex flex-wrap items-center gap-1.5">
+                            <span class="text-[10px] font-bold text-slate-500 uppercase w-14">Cấu trúc:</span>
+                            <button type="button" onclick="insertLatexSymbol('\\begin{cases} x + y = 1 \\\\ x - y = 0 \\end{cases}')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-serif font-bold transition shadow-xs">Hệ PT</button>
+                            <button type="button" onclick="insertLatexSymbol('\\left[ \\begin{array}{l} x = 1 \\\\ x = 2 \\end{array} \\right.')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-serif font-bold transition shadow-xs">Ngoặc vuông [</button>
+                            <button type="button" onclick="insertLatexSymbol('\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-serif font-bold transition shadow-xs">Ma trận</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ô nhập TeX / LaTeX -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Mã Nguồn TeX / LaTeX:</label>
+                    <textarea id="math-latex-input" rows="3" oninput="updateMathModalPreview()" class="w-full p-3 font-mono text-xs border rounded-xl border-slate-300 focus:ring-2 focus:ring-indigo-500 bg-slate-50 text-slate-900 leading-relaxed" placeholder="Ví dụ: x = \frac{-b \pm \sqrt{\Delta}}{2a}"></textarea>
+                </div>
+
+                <!-- Live Preview MathJax -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1 flex items-center">
+                        <i class="fa-solid fa-eye mr-1.5 text-emerald-600"></i> Xem Trước Trực Quan Tức Thì:
+                    </label>
+                    <div id="math-modal-preview-box" class="w-full min-h-[70px] p-4 bg-white border-2 border-indigo-200 rounded-xl flex items-center justify-center text-slate-900 shadow-inner">
+                        <span class="text-slate-400 italic text-xs">Chưa có công thức...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Modal -->
+            <div class="bg-slate-100 border-t border-slate-200 px-5 py-3 flex items-center justify-between">
+                <button type="button" id="math-delete-btn" onclick="deleteCurrentMathBadge()" class="hidden text-rose-600 hover:text-rose-800 text-xs font-bold flex items-center">
+                    <i class="fa-solid fa-trash-can mr-1.5"></i> Xóa công thức này
+                </button>
+                <div class="ml-auto flex items-center space-x-2">
+                    <button type="button" onclick="closeMathFormulaModal()" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-lg text-xs transition">Hủy</button>
+                    <button type="button" id="math-apply-btn" onclick="applyMathFormula()" class="px-5 py-2 bg-indigo-700 hover:bg-indigo-800 text-white font-bold rounded-lg text-xs shadow-md transition flex items-center">
+                        <i class="fa-solid fa-check mr-1.5"></i> Cập Nhật Công Thức
                     </button>
                 </div>
             </div>
@@ -1184,7 +1407,418 @@
             return str;
         }
 
-        // KHUNG XEM TRƯỚC TRỰC QUAN (KHÔNG DÙNG IFRAME - NATIVE DOM PREVIEW)
+        // ========================================================
+        // KHUNG SOẠN THẢO TRỰC QUAN (WYSIWYG) & QUẢN LÝ CÔNG THỨC TOÁN
+        // ========================================================
+        let currentEditingMathBadge = null;
+        let visualChangeTimer = null;
+        let mathModalTimer = null;
+
+        // Chuyển đổi giữa 3 chế độ: Trực quan (visual), Học sinh (student), Mã HTML (code)
+        function setEditorMode(mode) {
+            let previewBox = document.getElementById('preview-container');
+            let itemContent = document.getElementById('item-content');
+            let formatToolbar = document.getElementById('visual-format-toolbar');
+            let statusEl = document.getElementById('editor-status-indicator');
+
+            let btnVisual = document.getElementById('mode-btn-visual');
+            let btnStudent = document.getElementById('mode-btn-student');
+            let btnCode = document.getElementById('mode-btn-code');
+
+            [btnVisual, btnStudent, btnCode].forEach(btn => {
+                if (btn) btn.className = "bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 font-bold text-xs px-3 py-1.5 rounded-lg transition flex items-center";
+            });
+
+            if (mode === 'visual') {
+                btnVisual.className = "bg-emerald-600 text-white font-bold text-xs px-3 py-1.5 rounded-lg shadow-sm transition flex items-center";
+                previewBox.classList.remove('hidden');
+                itemContent.classList.add('hidden');
+                previewBox.contentEditable = "true";
+                previewBox.classList.add('border-emerald-400', 'focus:ring-2', 'focus:ring-emerald-400');
+                previewBox.classList.remove('border-slate-300');
+                if (formatToolbar) formatToolbar.classList.remove('hidden');
+                if (statusEl) {
+                    statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse mr-1.5"></span><span>Gõ sửa trực tiếp trên màn hình</span>`;
+                    statusEl.className = "inline-flex items-center text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-md";
+                }
+            } else if (mode === 'student') {
+                btnStudent.className = "bg-blue-600 text-white font-bold text-xs px-3 py-1.5 rounded-lg shadow-sm transition flex items-center";
+                previewBox.classList.remove('hidden');
+                itemContent.classList.add('hidden');
+                previewBox.contentEditable = "false";
+                previewBox.classList.remove('border-emerald-400', 'focus:ring-2', 'focus:ring-emerald-400');
+                previewBox.classList.add('border-slate-300');
+                if (formatToolbar) formatToolbar.classList.add('hidden');
+                if (statusEl) {
+                    statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-blue-500 mr-1.5"></span><span>Xem trước (Học sinh làm thử)</span>`;
+                    statusEl.className = "inline-flex items-center text-blue-700 bg-blue-50 border border-blue-200 px-2.5 py-1 rounded-md";
+                }
+            } else if (mode === 'code') {
+                syncVisualToItemContent();
+                btnCode.className = "bg-slate-800 text-white font-bold text-xs px-3 py-1.5 rounded-lg shadow-sm transition flex items-center";
+                previewBox.classList.add('hidden');
+                itemContent.classList.remove('hidden');
+                if (formatToolbar) formatToolbar.classList.add('hidden');
+                if (statusEl) {
+                    statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-500 mr-1.5"></span><span>Biên tập mã HTML thô</span>`;
+                    statusEl.className = "inline-flex items-center text-amber-700 bg-amber-50 border border-amber-200 px-2.5 py-1 rounded-md";
+                }
+            }
+        }
+
+        // Định dạng văn bản nhanh bằng execCommand
+        function formatText(command, value = null) {
+            document.execCommand(command, false, value);
+            syncVisualToItemContent();
+        }
+
+        // Lắng nghe khi người dùng gõ sửa trên giao diện trực quan
+        function onVisualContentChange() {
+            clearTimeout(visualChangeTimer);
+            visualChangeTimer = setTimeout(() => {
+                syncVisualToItemContent();
+            }, 300);
+        }
+
+        // Lắng nghe khi người dùng sửa trong textarea HTML thô
+        function onRawHtmlChange() {
+            clearTimeout(window._rawHtmlTimer);
+            window._rawHtmlTimer = setTimeout(() => {
+                let raw = document.getElementById('item-content').value;
+                let previewBox = document.getElementById('preview-container');
+                if (previewBox && raw) {
+                    previewBox.innerHTML = raw;
+                    wrapMathInBadges(previewBox);
+                    if (window.MathJax && window.MathJax.typesetPromise) {
+                        window.MathJax.typesetPromise([previewBox]).catch(e => {});
+                    }
+                }
+            }, 500);
+        }
+
+        // Đồng bộ từ giao diện trực quan về textarea ẩn (loại bỏ thẻ rác, khôi phục TeX nguyên bản)
+        function syncVisualToItemContent() {
+            let previewBox = document.getElementById('preview-container');
+            let itemContent = document.getElementById('item-content');
+            if (!previewBox || !itemContent) return;
+
+            // Nếu chỉ là nội dung placeholder rỗng
+            if (previewBox.querySelector('.fa-file-lines') && !previewBox.querySelector('.bai-giang-container, .question-card, h1, h2, h3, p:not(.max-w-md)')) {
+                return;
+            }
+
+            let cleanHtml = getCleanHtmlFromVisual(previewBox);
+            itemContent.value = cleanHtml;
+        }
+
+        // Hàm khôi phục mã HTML sạch: Chuyển badge công thức toán về $...$ hoặc $$...$$
+        function getCleanHtmlFromVisual(container) {
+            if (!container) return '';
+            let clone = container.cloneNode(true);
+
+            clone.querySelectorAll('.math-badge').forEach(badge => {
+                let latex = badge.getAttribute('data-latex') || '';
+                let isDisplay = badge.getAttribute('data-display') === 'true';
+                let delimiter = isDisplay ? '$$' : '$';
+                let textNode = document.createTextNode(`${delimiter}${latex}${delimiter}`);
+                badge.replaceWith(textNode);
+            });
+
+            clone.querySelectorAll('mjx-container, script[type*="mathjax"], style[id*="MJX"]').forEach(el => el.remove());
+            clone.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
+
+            return clone.innerHTML;
+        }
+
+        // Bọc các công thức toán $...$ và $$...$$ thành thẻ badge tương tác có thể click sửa
+        function wrapMathInBadges(container) {
+            if (!container) return;
+
+            let walker = document.createTreeWalker(
+                container,
+                NodeFilter.SHOW_TEXT,
+                {
+                    acceptNode: function(node) {
+                        let parent = node.parentElement;
+                        if (!parent) return NodeFilter.FILTER_REJECT;
+                        let tag = parent.tagName.toLowerCase();
+                        if (['script', 'style', 'textarea', 'pre', 'code'].includes(tag)) {
+                            return NodeFilter.FILTER_REJECT;
+                        }
+                        if (parent.closest('.math-badge')) {
+                            return NodeFilter.FILTER_REJECT;
+                        }
+                        if (node.nodeValue && node.nodeValue.includes('$')) {
+                            return NodeFilter.FILTER_ACCEPT;
+                        }
+                        return NodeFilter.FILTER_SKIP;
+                    }
+                }
+            );
+
+            let nodesToProcess = [];
+            while (walker.nextNode()) {
+                nodesToProcess.push(walker.currentNode);
+            }
+
+            nodesToProcess.forEach(textNode => {
+                let text = textNode.nodeValue;
+                if (!text || !text.includes('$')) return;
+
+                let regex = /\$\$([\s\S]+?)\$\$|\$([^\$\n]+?)\$/g;
+                if (!regex.test(text)) return;
+                regex.lastIndex = 0;
+
+                let fragment = document.createDocumentFragment();
+                let lastIdx = 0;
+                let match;
+
+                while ((match = regex.exec(text)) !== null) {
+                    if (match.index > lastIdx) {
+                        fragment.appendChild(document.createTextNode(text.substring(lastIdx, match.index)));
+                    }
+
+                    let isDisplay = !!match[1];
+                    let latex = (isDisplay ? match[1] : match[2]).trim();
+
+                    let badge = document.createElement('span');
+                    badge.className = isDisplay 
+                        ? 'math-badge math-badge-display block my-2 mx-auto text-center' 
+                        : 'math-badge inline-flex items-center';
+                    badge.setAttribute('contenteditable', 'false');
+                    badge.setAttribute('data-latex', latex);
+                    badge.setAttribute('data-display', isDisplay ? 'true' : 'false');
+                    badge.setAttribute('title', 'Bấm vào để sửa công thức toán này');
+                    badge.onclick = function(e) { openMathFormulaModalForElement(badge, e); };
+
+                    let targetSpan = document.createElement('span');
+                    targetSpan.className = 'math-render-target';
+                    targetSpan.textContent = isDisplay ? `$$${latex}$$` : `$${latex}$`;
+                    badge.appendChild(targetSpan);
+
+                    let editIcon = document.createElement('i');
+                    editIcon.className = 'fa-solid fa-pen-to-square math-edit-icon';
+                    badge.appendChild(editIcon);
+
+                    fragment.appendChild(badge);
+                    lastIdx = regex.lastIndex;
+                }
+
+                if (lastIdx < text.length) {
+                    fragment.appendChild(document.createTextNode(text.substring(lastIdx)));
+                }
+
+                if (textNode.parentNode) {
+                    textNode.parentNode.replaceChild(fragment, textNode);
+                }
+            });
+
+            container.querySelectorAll('.math-badge').forEach(badge => {
+                badge.onclick = function(e) { openMathFormulaModalForElement(badge, e); };
+            });
+        }
+
+        // ========================================================
+        // MODAL BIÊN SOẠN & SỬA CÔNG THỨC TOÁN (MATHJAX)
+        // ========================================================
+        function openMathFormulaModal(initialLatex) {
+            currentEditingMathBadge = null;
+            let latex = initialLatex || '';
+
+            if (!latex) {
+                let selection = window.getSelection();
+                if (selection && selection.toString().trim()) {
+                    latex = selection.toString().trim().replace(/^\$+|\$+$/g, '');
+                }
+            }
+
+            document.getElementById('math-modal-title').innerText = 'Chèn Công Thức Toán Học Mới';
+            document.getElementById('math-latex-input').value = latex || '\\frac{a}{b}';
+            document.getElementById('math-type-inline').checked = true;
+            document.getElementById('math-delete-btn').classList.add('hidden');
+            document.getElementById('math-apply-btn').innerHTML = '<i class="fa-solid fa-plus mr-1.5"></i> Chèn Vào Bài Học';
+
+            updateMathModalPreview();
+            document.getElementById('math-formula-modal').classList.remove('hidden');
+        }
+
+        function openMathFormulaModalForElement(badgeEl, event) {
+            if (event) {
+                event.stopPropagation();
+                event.preventDefault();
+            }
+            currentEditingMathBadge = badgeEl;
+            let latex = badgeEl.getAttribute('data-latex') || '';
+            let isDisplay = badgeEl.getAttribute('data-display') === 'true';
+
+            document.getElementById('math-modal-title').innerText = 'Chỉnh Sửa Công Thức Toán Học';
+            document.getElementById('math-latex-input').value = latex;
+            if (isDisplay) {
+                document.getElementById('math-type-display').checked = true;
+            } else {
+                document.getElementById('math-type-inline').checked = true;
+            }
+            document.getElementById('math-delete-btn').classList.remove('hidden');
+            document.getElementById('math-apply-btn').innerHTML = '<i class="fa-solid fa-check mr-1.5"></i> Cập Nhật Công Thức';
+
+            updateMathModalPreview();
+            document.getElementById('math-formula-modal').classList.remove('hidden');
+        }
+
+        function closeMathFormulaModal() {
+            document.getElementById('math-formula-modal').classList.add('hidden');
+            currentEditingMathBadge = null;
+        }
+
+        function insertLatexSymbol(code) {
+            let input = document.getElementById('math-latex-input');
+            if (!input) return;
+            let start = input.selectionStart || 0;
+            let end = input.selectionEnd || 0;
+            let val = input.value;
+            input.value = val.substring(0, start) + code + val.substring(end);
+            input.selectionStart = input.selectionEnd = start + code.length;
+            input.focus();
+            updateMathModalPreview();
+        }
+
+        function updateMathModalPreview() {
+            clearTimeout(mathModalTimer);
+            mathModalTimer = setTimeout(() => {
+                let latex = (document.getElementById('math-latex-input').value || '').trim();
+                let isDisplay = document.getElementById('math-type-display').checked;
+                let pBox = document.getElementById('math-modal-preview-box');
+                if (!pBox) return;
+
+                if (!latex) {
+                    pBox.innerHTML = '<span class="text-slate-400 italic text-xs">Chưa có công thức...</span>';
+                    return;
+                }
+
+                pBox.innerHTML = isDisplay ? `$$${latex}$$` : `$${latex}$`;
+                if (window.MathJax) {
+                    try {
+                        if (window.MathJax.typesetClear) window.MathJax.typesetClear([pBox]);
+                        if (window.MathJax.typesetPromise) {
+                            window.MathJax.typesetPromise([pBox]).catch(err => {
+                                pBox.innerHTML = `<span class="text-rose-600 text-xs font-semibold">⚠️ Lỗi cú pháp: ${err.message}</span>`;
+                            });
+                        } else if (window.MathJax.typeset) {
+                            window.MathJax.typeset([pBox]);
+                        }
+                    } catch(e) {
+                        pBox.innerHTML = `<span class="text-rose-600 text-xs font-semibold">⚠️ Lỗi TeX: ${e.message}</span>`;
+                    }
+                }
+            }, 120);
+        }
+
+        function applyMathFormula() {
+            let latex = document.getElementById('math-latex-input').value.trim();
+            if (!latex) {
+                alert('Vui lòng nhập mã công thức LaTeX!');
+                return;
+            }
+            let isDisplay = document.getElementById('math-type-display').checked;
+
+            if (currentEditingMathBadge) {
+                currentEditingMathBadge.setAttribute('data-latex', latex);
+                currentEditingMathBadge.setAttribute('data-display', isDisplay ? 'true' : 'false');
+                currentEditingMathBadge.className = isDisplay 
+                    ? 'math-badge math-badge-display block my-2 mx-auto text-center' 
+                    : 'math-badge inline-flex items-center';
+
+                let targetSpan = currentEditingMathBadge.querySelector('.math-render-target');
+                if (!targetSpan) {
+                    targetSpan = document.createElement('span');
+                    targetSpan.className = 'math-render-target';
+                    currentEditingMathBadge.prepend(targetSpan);
+                }
+                targetSpan.innerHTML = isDisplay ? `$$${latex}$$` : `$${latex}$`;
+
+                if (window.MathJax) {
+                    try {
+                        if (window.MathJax.typesetClear) window.MathJax.typesetClear([currentEditingMathBadge]);
+                        if (window.MathJax.typesetPromise) window.MathJax.typesetPromise([currentEditingMathBadge]);
+                        else if (window.MathJax.typeset) window.MathJax.typeset([currentEditingMathBadge]);
+                    } catch(e) {}
+                }
+                showToast('Đã cập nhật công thức toán!', 'success');
+            } else {
+                let badge = document.createElement('span');
+                badge.className = isDisplay 
+                    ? 'math-badge math-badge-display block my-2 mx-auto text-center' 
+                    : 'math-badge inline-flex items-center';
+                badge.setAttribute('contenteditable', 'false');
+                badge.setAttribute('data-latex', latex);
+                badge.setAttribute('data-display', isDisplay ? 'true' : 'false');
+                badge.setAttribute('title', 'Bấm vào để sửa công thức toán này');
+                badge.onclick = function(e) { openMathFormulaModalForElement(badge, e); };
+
+                let targetSpan = document.createElement('span');
+                targetSpan.className = 'math-render-target';
+                targetSpan.innerHTML = isDisplay ? `$$${latex}$$` : `$${latex}$`;
+                badge.appendChild(targetSpan);
+
+                let editIcon = document.createElement('i');
+                editIcon.className = 'fa-solid fa-pen-to-square math-edit-icon';
+                badge.appendChild(editIcon);
+
+                let previewBox = document.getElementById('preview-container');
+                insertNodeAtCursor(badge, previewBox);
+
+                if (window.MathJax) {
+                    try {
+                        if (window.MathJax.typesetPromise) window.MathJax.typesetPromise([badge]);
+                        else if (window.MathJax.typeset) window.MathJax.typeset([badge]);
+                    } catch(e) {}
+                }
+                showToast('Đã chèn công thức toán vào bài!', 'success');
+            }
+
+            syncVisualToItemContent();
+            closeMathFormulaModal();
+        }
+
+        function deleteCurrentMathBadge() {
+            if (currentEditingMathBadge) {
+                if (confirm('Bạn có chắc muốn xóa công thức toán này khỏi bài?')) {
+                    currentEditingMathBadge.remove();
+                    syncVisualToItemContent();
+                    closeMathFormulaModal();
+                    showToast('Đã xóa công thức toán!', 'info');
+                }
+            }
+        }
+
+        function insertNodeAtCursor(node, fallbackContainer) {
+            let sel = window.getSelection();
+            if (sel && sel.rangeCount > 0) {
+                let range = sel.getRangeAt(0);
+                if (fallbackContainer && fallbackContainer.contains(range.commonAncestorContainer)) {
+                    range.deleteContents();
+                    range.insertNode(node);
+                    range.setStartAfter(node);
+                    range.setEndAfter(node);
+                    sel.removeAllRanges();
+                    sel.addRange(range);
+                    return;
+                }
+            }
+            if (fallbackContainer) {
+                fallbackContainer.appendChild(node);
+            }
+        }
+
+        function refreshVisualMathJax() {
+            syncVisualToItemContent();
+            renderMathPreview();
+            showToast('Đã làm mới công thức toán và nội dung!', 'success');
+        }
+
+        // ========================================================
+        // KHUNG XEM TRƯỚC TRỰC QUAN & RENDER NỘI DUNG
+        // ========================================================
         function renderMathPreview() {
             let rawContent = document.getElementById('item-content').value;
             let previewBox = document.getElementById('preview-container');
@@ -1192,10 +1826,10 @@
 
             if (!rawContent || !rawContent.trim()) {
                 previewBox.innerHTML = `
-                    <div class="text-center py-16 text-slate-400 space-y-3">
+                    <div class="text-center py-16 text-slate-400 space-y-3" contenteditable="false">
                         <i class="fa-solid fa-file-lines text-4xl text-slate-300"></i>
-                        <p class="text-sm font-semibold text-slate-600">Khung xem trước bài học</p>
-                        <p class="text-xs text-slate-400 max-w-md mx-auto">Vui lòng tải file Word (.docx) hoặc bấm nút <b>"Dán từ NotebookLM"</b> để hiển thị bài học đẹp mắt như trang web thật tại đây.</p>
+                        <p class="text-sm font-semibold text-slate-600">Khung soạn thảo & xem trước bài học</p>
+                        <p class="text-xs text-slate-400 max-w-md mx-auto">Vui lòng tải file Word (.docx), bấm nút <b>"Dán từ NotebookLM"</b> hoặc gõ trực tiếp nội dung tại đây để bắt đầu bài học.</p>
                     </div>
                 `;
                 return;
@@ -1204,7 +1838,6 @@
             let cleaned = cleanAndDecodeHtml(rawContent);
             document.getElementById('item-content').value = cleaned;
 
-            // Bóc tách CSS <style> và phần thân nếu có
             let stylesHtml = '';
             let bodyHtml = cleaned;
 
@@ -1226,6 +1859,9 @@
                     ${bodyHtml}
                 </div>
             `;
+
+            // Bọc các công thức toán học thành badge có thể click sửa trực tiếp
+            wrapMathInBadges(previewBox);
 
             // Thực thi scripts bài tập nếu có
             try {
@@ -1257,6 +1893,9 @@
                     }
                 } catch(eMj) {}
             }
+
+            // Đồng bộ sạch sẽ
+            syncVisualToItemContent();
         }
 
         async function pasteFromClipboard() {
@@ -1298,6 +1937,9 @@
             }
         }
 
+        // ========================================================
+        // TẠO PROMPT TỐI ƯU SIÊU GỌN CHO NOTEBOOKLM
+        // ========================================================
         function generateAndCopyPrompt(type) {
             let subject = document.getElementById('prompt-subject').value.trim() || "Toán";
             let grade = document.getElementById('prompt-grade').value || "12";
@@ -1306,50 +1948,18 @@
             let promptText = "";
 
             if (type === 'KNOWLEDGE') {
-                promptText = `Hãy đóng vai giáo viên biên soạn bài học Môn: ${subject} - Lớp: ${grade}. Chủ đề/Bài học: "${lesson}".
-
-QUY TẮC BẮT BUỘC (ĐỂ XUẤT RA FILE WORD NGUYÊN BẢN MÃ HTML):
-1. MỤC ĐÍCH: Dữ liệu này sẽ được tải xuống dưới dạng tệp Word (.docx) từ NotebookLM để nạp trực tiếp vào hệ thống Sào Báy Portal. Vì vậy, bạn BẮT BUỘC phải xuất TOÀN BỘ nội dung dưới dạng MÃ NGUỒN HTML NGUYÊN BẢN (RAW HTML CODE). TUYỆT ĐỐI KHÔNG chuyển đổi thành văn bản rich-text thông thường của Word.
-2. CẤU TRÚC GIAO DIỆN HTML:
-   - Bao bọc toàn bộ nội dung trong thẻ <div class="bai-giang-container space-y-4 font-sans text-slate-800">.
-   - Thiết kế hiện đại bằng Tailwind CSS: Tiêu đề lớn có khung nền đẹp (bg-blue-900 text-white rounded-xl p-4 shadow), các phần I, II, III đóng khung card trắng (bg-white p-4 rounded-xl border border-slate-200 shadow-sm mb-3), bảng biểu kẻ khung viền rõ ràng.
-3. CÔNG THỨC TOÁN HỌC (MATHJAX):
-   - Mọi ký hiệu và công thức toán học BẮT BUỘC phải giữ nguyên 100% cú pháp TeX/LaTeX kẹp trong dấu $...$ (công thức trên dòng) hoặc $$...$$ (công thức trên dòng riêng).
-   - Ví dụ: $P(x): "x + 1 > 5"$, $\\overline{P}$, $P \\Rightarrow Q$, $\\forall x \\in X, P(x)$, $$x = \\frac{-b \\pm \\sqrt{\\Delta}}{2a}$$.
-   - TUYỆT ĐỐI KHÔNG đổi sang ký tự Unicode hoặc Equation của Word làm mất công thức.
-4. ĐẦU RA YÊU CẦU:
-   - Chỉ xuất DUY NHẤT chuỗi mã nguồn HTML nguyên bản. Giữ nguyên 100% các thẻ HTML để khi lưu ghi chú hoặc tải file Word (.docx) về, file Word sẽ mang trọn vẹn mã HTML giúp hệ thống nạp hiển thị hoàn hảo.`;
+                promptText = `Xuất DUY NHẤT chuỗi mã HTML (raw code) bài học Môn: ${subject} - Lớp: ${grade}. Chủ đề: "${lesson}".
+YÊU CẦU:
+1. Bọc trong <div class="bai-giang-container space-y-4 font-sans text-slate-800">. Thiết kế Tailwind CSS đẹp mắt, các mục I, II, III đóng khung card trắng (bg-white p-4 rounded-xl border border-slate-200 shadow-sm mb-3).
+2. Công thức Toán: Mọi ký hiệu toán bắt buộc kẹp trong $...$ hoặc $$...$$. Tuyệt đối không đổi sang Equation Word/Unicode.
+3. Chỉ xuất thuần mã HTML nguyên bản, không văn bản thừa.`;
             } else {
-                promptText = `Hãy đóng vai chuyên gia biên soạn đề thi theo định hướng đánh giá năng lực của Bộ GD&ĐT cho Môn: ${subject} - Lớp: ${grade}. Chủ đề/Bài học: "${lesson}".
-
-QUY TẮC BẮT BUỘC ĐỂ XUẤT RA FILE WORD NGUYÊN BẢN MÃ HTML (THEO QUY ƯỚC SÀO BÁY PORTAL):
-1. MỤC ĐÍCH: Dữ liệu này sẽ được tải xuống dưới dạng tệp Word (.docx) từ NotebookLM để nạp vào hệ thống Sào Báy Portal. Bạn BẮT BUỘC phải xuất TOÀN BỘ nội dung dưới dạng MÃ NGUỒN HTML NGUYÊN BẢN (RAW HTML CODE). TUYỆT ĐỐI KHÔNG đổi thành văn bản Word thường.
-2. CÁC DẠNG BÀI TẬP PHONG PHÚ:
-   Hãy xây dựng bộ câu hỏi đa dạng theo đúng Quy tắc soạn đề của hệ thống Sào Báy Portal:
-   - Dạng 1: Trắc nghiệm 4 lựa chọn (data-type="mcq_4"): Chọn 1 trong 4 đáp án A, B, C, D qua <input type="radio">. Thuộc tính: data-answer="A|B|C|D".
-   - Dạng 2: Trắc nghiệm Đúng / Sai theo chuẩn 2025 Bộ GD&ĐT (data-type="true_false"): Gồm 1 ngữ cảnh và 4 ý a, b, c, d với 2 cột chọn Đúng/Sai. Thuộc tính: data-answer="a:T|b:F|c:T|d:F". Chấm lũy tiến: Đúng 1 ý = 0.1đ, 2 ý = 0.25đ, 3 ý = 0.5đ, 4 ý = 1.0đ.
-   - Dạng 3: Trắc nghiệm Trả lời ngắn (data-type="short_answer"): Học sinh giải ra kết quả và nhập vào ô <input type="text" class="short-answer-input">. Thuộc tính: data-answer="kết_quả".
-   - Dạng 4: Điền từ / Điền khuyết (data-type="fill_blank"): Đoạn văn có các ô trống [1], [2] dạng <input data-blank="1"> kèm khung từ gợi ý (Word Bank). Thuộc tính: data-answer="1:từ1|2:từ2".
-   - Dạng 5: Nối cột tương ứng (data-type="matching"): Nối cột A (1, 2, 3, 4) với cột B (A, B, C, D) qua <select data-match="1">. Thuộc tính: data-answer="1-C|2-A|3-D|4-B".
-   - Dạng 6: Sắp xếp theo thứ tự (data-type="ordering"): Sắp xếp các bước thí nghiệm hoặc sự kiện logic. Thuộc tính: data-answer="2-4-1-3".
-   - Dạng 7: Tự luận có Barem chấm điểm chi tiết (data-type="essay"): Có vùng làm bài cho học sinh và Bảng Barem phân chia điểm chi tiết từng ý trong phần lời giải.
-3. PHÂN BỔ 4 MỨC ĐỘ NHẬN THỨC THEO CHUẨN MA TRẬN:
-   Mỗi câu hỏi BẮT BUỘC có thuộc tính data-level và nhãn hiển thị trực quan:
-   - [NB] Nhận biết: <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-100 text-blue-700 border border-blue-200 mr-2">[NB] Nhận biết</span> (data-level="NB")
-   - [TH] Thông hiểu: <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700 border border-emerald-200 mr-2">[TH] Thông hiểu</span> (data-level="TH")
-   - [VD] Vận dụng: <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-800 border border-amber-200 mr-2">[VD] Vận dụng</span> (data-level="VD")
-   - [VDC] Vận dụng cao: <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-rose-100 text-rose-700 border border-rose-200 mr-2">[VDC] Vận dụng cao</span> (data-level="VDC")
-4. METADATA VÀ NÚT BẤM TƯƠNG TÁC CHO TỪNG CÂU HỎI:
-   Mỗi câu hỏi phải là 1 khối độc lập:
-   <div class="question-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm mb-5" data-question-id="q1" data-type="..." data-level="..." data-topic="${lesson}" data-points="..." data-answer="...">.
-   Mỗi câu có nút bấm:
-   - <button type="button" onclick="checkSingleQuestion('q1')" class="btn-check bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-4 py-2 rounded-xl shadow-sm transition">Kiểm tra đáp án</button>
-   - <button type="button" onclick="toggleSolution('q1')" class="btn-toggle-sol text-xs font-bold text-slate-600 hover:text-blue-600">Xem lời giải chi tiết</button>
-   - Khối Lời giải chi tiết: <div id="solution-q1" class="solution-box hidden mt-3 p-4 bg-slate-50 border border-slate-200 rounded-xl text-xs md:text-sm text-slate-700 leading-relaxed">...</div>
-5. CÔNG THỨC TOÁN HỌC (MATHJAX):
-   - Mọi ký hiệu toán học BẮT BUỘC giữ nguyên 100% cú pháp TeX/LaTeX trong $...$ hoặc $$...$$. Tuyệt đối không làm biến dạng ký hiệu toán.
-6. ĐẦU RA YÊU CẦU:
-   - Chỉ xuất DUY NHẤT chuỗi mã nguồn HTML nguyên bản. Giữ nguyên 100% các thẻ HTML để khi lưu ghi chú hoặc tải file Word (.docx) về, file Word vẫn lưu giữ nguyên vẹn mã HTML để Sào Báy Portal nạp hiển thị hoàn hảo.`;
+                promptText = `Xuất DUY NHẤT mã HTML (raw code) Đề thi chuẩn đánh giá năng lực Môn: ${subject} - Lớp: ${grade}. Bài: "${lesson}".
+YÊU CẦU:
+1. Đa dạng 7 dạng bài: Trắc nghiệm 4 lựa chọn (mcq_4: <input type="radio">, data-answer="A|B|C|D"), Đúng/Sai 4 ý (true_false: data-answer="a:T|b:F|c:T|d:F"), Trả lời ngắn (short_answer), Điền khuyết (fill_blank), Nối cột (matching), Sắp xếp (ordering), Tự luận (essay kèm barem).
+2. Mỗi câu là 1 block: <div class="question-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm mb-5" data-question-id="q1" data-type="..." data-level="NB|TH|VD|VDC" data-answer="...">. Có huy hiệu mức độ [NB]/[TH]/[VD]/[VDC], nút check đáp án và lời giải chi tiết.
+3. Công thức Toán: Giữ nguyên 100% cú pháp TeX trong $...$ hoặc $$...$$.
+4. Chỉ xuất thuần mã HTML nguyên bản, không văn bản thừa.`;
             }
 
             if(!document.getElementById('item-title').value.trim()){
@@ -1443,6 +2053,9 @@ QUY TẮC BẮT BUỘC ĐỂ XUẤT RA FILE WORD NGUYÊN BẢN MÃ HTML (THEO QU
 
         async function handleFormSubmit(event) {
             event.preventDefault();
+
+            // Đảm bảo đồng bộ dữ liệu sạch mới nhất từ khung soạn thảo trực quan
+            syncVisualToItemContent();
 
             let rawTitle = document.getElementById('item-title').value.trim();
             let contentVal = document.getElementById('item-content').value.trim();
@@ -1879,33 +2492,12 @@ QUY TẮC BẮT BUỘC ĐỂ XUẤT RA FILE WORD NGUYÊN BẢN MÃ HTML (THEO QU
         // ========================================================
         // QUẢN LÝ MODAL QUY TẮC SOẠN ĐỀ & BỘ MÁY CHẤM ĐIỂM TƯƠNG TÁC
         // ========================================================
-        const MASTER_PROMPT_TEMPLATE = `Hãy đóng vai chuyên gia biên soạn đề thi theo định hướng đánh giá năng lực của Bộ GD&ĐT cho Môn: [TÊN MÔN] - Lớp: [LỚP]. 
-Chủ đề bài học: "[TÊN CHỦ ĐỀ HOẶC NỘI DUNG]".
-
-QUY TẮC BẮT BUỘC ĐỂ XUẤT RA FILE WORD MANG NGUYÊN BẢN MÃ HTML (THEO QUY ƯỚC SÀO BÁY PORTAL):
-1. MỤC ĐÍCH: Dữ liệu này sẽ được tải xuống dưới dạng tệp Word (.docx) từ NotebookLM để nạp trực tiếp vào hệ thống Sào Báy Portal. Vì vậy, bạn BẮT BUỘC phải xuất TOÀN BỘ nội dung dưới dạng MÃ NGUỒN HTML NGUYÊN BẢN (RAW HTML CODE). TUYỆT ĐỐI KHÔNG xuất văn bản thường.
-2. CẤU TRÚC ĐỀ THI ĐA DẠNG:
-   Hãy tạo bộ câu hỏi phong phú bao gồm các dạng bài tập theo đúng Quy tắc soạn đề chuẩn Sào Báy:
-   - Dạng 1: Trắc nghiệm 4 lựa chọn (data-type="mcq_4"): Gồm 4 phương án A, B, C, D (radio), data-answer="A|B|C|D".
-   - Dạng 2: Trắc nghiệm Đúng / Sai 4 ý a,b,c,d theo chuẩn 2025 (data-type="true_false"): Gồm 1 ngữ cảnh và 4 ý a, b, c, d với 2 cột Đúng/Sai, data-answer="a:T|b:F|c:T|d:F".
-   - Dạng 3: Trắc nghiệm Trả lời ngắn (data-type="short_answer"): Có ô input nhập kết quả số/từ ngắn, data-answer="đáp_số".
-   - Dạng 4: Điền từ / Điền khuyết (data-type="fill_blank"): Đoạn văn có các ô khuyết [1], [2] kèm Word Bank, data-answer="1:từ1|2:từ2".
-   - Dạng 5: Nối cột tương ứng (data-type="matching"): Nối cột A với cột B, data-answer="1-C|2-A|3-D|4-B".
-   - Dạng 6: Sắp xếp theo thứ tự (data-type="ordering"): Sắp xếp logic quy trình/sự kiện, data-answer="2-4-1-3".
-   - Dạng 7: Tự luận có Barem chấm điểm chi tiết (data-type="essay"): Có vùng làm bài cho học sinh và Bảng Barem phân chia điểm chi tiết từng ý.
-3. PHÂN BỔ 4 MỨC ĐỘ NHẬN THỨC THEO CHUẨN MA TRẬN:
-   Mỗi câu hỏi BẮT BUỘC có thuộc tính data-level và nhãn hiển thị trực quan:
-   - [NB] Nhận biết (bg-blue-100 text-blue-700)
-   - [TH] Thông hiểu (bg-emerald-100 text-emerald-700)
-   - [VD] Vận dụng (bg-amber-100 text-amber-800)
-   - [VDC] Vận dụng cao (bg-rose-100 text-rose-700)
-4. METADATA TRÊN TỪNG CÂU HỎI:
-   Mỗi câu hỏi phải là một khối: <div class="question-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm mb-5" data-question-id="q1" data-type="..." data-level="..." data-topic="..." data-points="..." data-answer="...">.
-   Có nút "Kiểm tra đáp án" onclick="checkSingleQuestion('q1')" và nút "Xem lời giải chi tiết" onclick="toggleSolution('q1')" kèm khối giải thích <div id="solution-q1" class="solution-box hidden mt-3 p-4 bg-slate-50 border border-slate-200 rounded-xl text-xs md:text-sm text-slate-700 leading-relaxed">...</div>.
-5. CÔNG THỨC TOÁN HỌC (MATHJAX):
-   Giữ nguyên 100% cú pháp TeX/LaTeX trong $...$ hoặc $$...$$. Tuyệt đối không làm mất ký hiệu toán.
-6. ĐẦU RA YÊU CẦU:
-   Chỉ xuất DUY NHẤT chuỗi mã nguồn HTML nguyên bản từ thẻ <div class="exam-container ..."> đến hết.`;
+        const MASTER_PROMPT_TEMPLATE = `Xuất DUY NHẤT mã HTML (raw code) Đề thi chuẩn đánh giá năng lực Môn: [TÊN MÔN] - Lớp: [LỚP]. Chủ đề: "[TÊN CHỦ ĐỀ]".
+YÊU CẦU:
+1. Đa dạng 7 dạng bài: Trắc nghiệm 4 lựa chọn (mcq_4: <input type="radio">, data-answer="A|B|C|D"), Đúng/Sai 4 ý (true_false: data-answer="a:T|b:F|c:T|d:F"), Trả lời ngắn (short_answer), Điền khuyết (fill_blank), Nối cột (matching), Sắp xếp (ordering), Tự luận (essay kèm barem).
+2. Mỗi câu là 1 block: <div class="question-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm mb-5" data-question-id="q1" data-type="..." data-level="NB|TH|VD|VDC" data-answer="...">. Có huy hiệu mức độ [NB]/[TH]/[VD]/[VDC], nút check đáp án và lời giải chi tiết.
+3. Công thức Toán: Giữ nguyên 100% cú pháp TeX trong $...$ hoặc $$...$$.
+4. Chỉ xuất thuần mã HTML nguyên bản, không văn bản thừa.`;
 
         function openExamGuidelineModal() {
             let area = document.getElementById('master-prompt-textarea');

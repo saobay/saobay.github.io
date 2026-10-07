@@ -280,6 +280,11 @@
                     </select>
                 </div>
 
+                <!-- Nút đặt lại bộ lọc -->
+                <button type="button" onclick="resetAdminFilters()" title="Xóa toàn bộ bộ lọc và ô tìm kiếm" class="px-3 py-2 bg-white hover:bg-slate-100 text-slate-600 rounded-xl border border-slate-200 text-xs font-bold transition flex items-center shadow-xs">
+                    <i class="fa-solid fa-filter-circle-xmark mr-1.5 text-slate-400"></i> Xóa Bộ Lọc
+                </button>
+
                 <span id="admin-filtered-count-badge" class="text-xs text-slate-500 font-bold ml-auto px-2"></span>
             </div>
 
@@ -899,6 +904,14 @@
             currentAdminTab = tab;
             currentPage = 1;
 
+            // Tự động làm mới các ô lọc khi đổi danh sách để luôn hiển thị đầy đủ, không bị kẹt bộ lọc cũ
+            let searchInp = document.getElementById('admin-search-input');
+            let statusInp = document.getElementById('admin-status-filter');
+            let classInp = document.getElementById('admin-class-filter');
+            if (searchInp) searchInp.value = '';
+            if (statusInp) statusInp.value = '';
+            if (classInp) classInp.value = '';
+
             let btnTeachers = document.getElementById('admin-tab-teachers');
             let btnStudents = document.getElementById('admin-tab-students');
             let btnSettings = document.getElementById('admin-tab-settings');
@@ -906,9 +919,9 @@
             let activeClass = "px-4 py-2 rounded-xl text-xs md:text-sm font-black transition flex items-center space-x-2 bg-blue-600 text-white shadow-sm";
             let inactiveClass = "px-4 py-2 rounded-xl text-xs md:text-sm font-black transition flex items-center space-x-2 bg-slate-100 text-slate-600 hover:bg-slate-200";
 
-            btnTeachers.className = (tab === 'teachers') ? activeClass : inactiveClass;
-            btnStudents.className = (tab === 'students') ? activeClass : inactiveClass;
-            btnSettings.className = (tab === 'settings') ? activeClass : inactiveClass;
+            if (btnTeachers) btnTeachers.className = (tab === 'teachers') ? activeClass : inactiveClass;
+            if (btnStudents) btnStudents.className = (tab === 'students') ? activeClass : inactiveClass;
+            if (btnSettings) btnSettings.className = (tab === 'settings') ? activeClass : inactiveClass;
 
             let filterBar = document.getElementById('admin-filter-bar');
             let tableContainer = document.getElementById('admin-table-container');
@@ -918,59 +931,85 @@
             let thExtra = document.getElementById('th-extra-col');
 
             if (tab === 'settings') {
-                filterBar.classList.add('hidden');
-                tableContainer.classList.add('hidden');
-                paginationBar.classList.add('hidden');
-                settingsContainer.classList.remove('hidden');
-                document.getElementById('admin-github-token-input').value = GITHUB_CONFIG.token;
+                if (filterBar) filterBar.classList.add('hidden');
+                if (tableContainer) tableContainer.classList.add('hidden');
+                if (paginationBar) paginationBar.classList.add('hidden');
+                if (settingsContainer) settingsContainer.classList.remove('hidden');
+                let tokenInp = document.getElementById('admin-github-token-input');
+                if (tokenInp) tokenInp.value = GITHUB_CONFIG.token;
             } else {
-                filterBar.classList.remove('hidden');
-                tableContainer.classList.remove('hidden');
-                paginationBar.classList.remove('hidden');
-                settingsContainer.classList.add('hidden');
+                if (filterBar) filterBar.classList.remove('hidden');
+                if (tableContainer) tableContainer.classList.remove('hidden');
+                if (paginationBar) paginationBar.classList.remove('hidden');
+                if (settingsContainer) settingsContainer.classList.add('hidden');
 
                 if (tab === 'students') {
-                    classFilterWrapper.classList.remove('hidden');
-                    thExtra.innerText = 'Lớp & Ngày Sinh';
+                    if (classFilterWrapper) classFilterWrapper.classList.remove('hidden');
+                    if (thExtra) thExtra.innerText = 'Lớp & Ngày Sinh';
                 } else {
-                    classFilterWrapper.classList.add('hidden');
-                    thExtra.innerText = 'Phân Công Giảng Dạy';
+                    if (classFilterWrapper) classFilterWrapper.classList.add('hidden');
+                    if (thExtra) thExtra.innerText = 'Phân Công Giảng Dạy';
                 }
 
                 renderAdminTable();
             }
         }
 
+        function resetAdminFilters() {
+            let searchInp = document.getElementById('admin-search-input');
+            let statusInp = document.getElementById('admin-status-filter');
+            let classInp = document.getElementById('admin-class-filter');
+            if (searchInp) searchInp.value = '';
+            if (statusInp) statusInp.value = '';
+            if (classInp) classInp.value = '';
+            currentPage = 1;
+            renderAdminTable();
+        }
+
         function getFilteredAccounts() {
-            let query = removeVietnameseTones(document.getElementById('admin-search-input').value);
-            let statusFilter = document.getElementById('admin-status-filter').value;
-            let classFilter = document.getElementById('admin-class-filter').value;
+            try {
+                let searchEl = document.getElementById('admin-search-input');
+                let statusEl = document.getElementById('admin-status-filter');
+                let classEl = document.getElementById('admin-class-filter');
 
-            let source = (currentAdminTab === 'teachers') ? cachedTeachers : cachedStudents;
+                let query = searchEl ? removeVietnameseTones(searchEl.value) : '';
+                let statusFilter = statusEl ? statusEl.value : '';
+                let classFilter = classEl ? classEl.value : '';
 
-            return source.filter(acc => {
-                // Lọc theo lớp (chỉ áp dụng cho học sinh)
-                if (currentAdminTab === 'students' && classFilter && acc.className !== classFilter) {
-                    return false;
-                }
+                let source = (currentAdminTab === 'teachers') ? (cachedTeachers || []) : (cachedStudents || []);
 
-                // Lọc theo trạng thái mật khẩu
-                let passStatus = getAccountPasswordStatus(acc.id);
-                if (statusFilter === 'custom' && !passStatus.isCustom) return false;
-                if (statusFilter === 'default' && passStatus.isCustom) return false;
+                return source.filter(acc => {
+                    if (!acc) return false;
 
-                // Lọc theo từ khóa tìm kiếm
-                if (query) {
-                    let normName = removeVietnameseTones(acc.name);
-                    let normId = acc.id.toLowerCase();
-                    let normExtra = removeVietnameseTones(acc.subjects || acc.className || '');
-                    if (!normName.includes(query) && !normId.includes(query) && !normExtra.includes(query)) {
-                        return false;
+                    // Lọc theo lớp (chỉ áp dụng cho học sinh)
+                    if (currentAdminTab === 'students' && classFilter) {
+                        let accClass = String(acc.className || '').trim();
+                        if (accClass !== classFilter.trim()) {
+                            return false;
+                        }
                     }
-                }
 
-                return true;
-            });
+                    // Lọc theo trạng thái mật khẩu
+                    let passStatus = getAccountPasswordStatus(acc.id);
+                    if (statusFilter === 'custom' && !passStatus.isCustom) return false;
+                    if (statusFilter === 'default' && passStatus.isCustom) return false;
+
+                    // Lọc theo từ khóa tìm kiếm
+                    if (query) {
+                        let normName = removeVietnameseTones(String(acc.name || ''));
+                        let normId = String(acc.id || '').toLowerCase();
+                        let normExtra = removeVietnameseTones(String(acc.subjects || acc.className || acc.classes || ''));
+                        if (!normName.includes(query) && !normId.includes(query) && !normExtra.includes(query)) {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                });
+            } catch(err) {
+                console.error("Lỗi khi lọc tài khoản:", err);
+                return (currentAdminTab === 'teachers') ? (cachedTeachers || []) : (cachedStudents || []);
+            }
         }
 
         function handleAdminSearch() {
@@ -979,63 +1018,89 @@
         }
 
         function renderAdminTable() {
-            let tbody = document.getElementById('admin-table-body');
-            tbody.innerHTML = '';
+            try {
+                let tbody = document.getElementById('admin-table-body');
+                if (!tbody) return;
+                tbody.innerHTML = '';
 
-            let filteredList = getFilteredAccounts();
-            document.getElementById('admin-filtered-count-badge').innerText = `Hiển thị: ${filteredList.length} tài khoản`;
+                let filteredList = getFilteredAccounts();
+                let totalSourceCount = (currentAdminTab === 'teachers') ? cachedTeachers.length : cachedStudents.length;
+                let badge = document.getElementById('admin-filtered-count-badge');
+                if (badge) badge.innerText = `Hiển thị: ${filteredList.length} / ${totalSourceCount} tài khoản`;
 
-            totalAvailablePages = Math.ceil(filteredList.length / PAGE_SIZE) || 1;
-            if (currentPage > totalAvailablePages) currentPage = totalAvailablePages;
+                totalAvailablePages = Math.ceil(filteredList.length / PAGE_SIZE) || 1;
+                if (currentPage > totalAvailablePages) currentPage = totalAvailablePages;
 
-            document.getElementById('pagination-info').innerText = `Trang ${currentPage} / ${totalAvailablePages}`;
-            document.getElementById('pagination-total-items').innerText = `Tổng số: ${filteredList.length}`;
-            document.getElementById('pagination-current-page-num').innerText = currentPage;
+                let pInfo = document.getElementById('pagination-info');
+                if (pInfo) pInfo.innerText = `Trang ${currentPage} / ${totalAvailablePages}`;
+                let pTotal = document.getElementById('pagination-total-items');
+                if (pTotal) pTotal.innerText = `Tổng số: ${filteredList.length}`;
+                let pCurr = document.getElementById('pagination-current-page-num');
+                if (pCurr) pCurr.innerText = currentPage;
 
-            document.getElementById('btn-page-first').disabled = (currentPage === 1);
-            document.getElementById('btn-page-prev').disabled = (currentPage === 1);
-            document.getElementById('btn-page-next').disabled = (currentPage === totalAvailablePages);
-            document.getElementById('btn-page-last').disabled = (currentPage === totalAvailablePages);
+                let bFirst = document.getElementById('btn-page-first');
+                if (bFirst) bFirst.disabled = (currentPage === 1);
+                let bPrev = document.getElementById('btn-page-prev');
+                if (bPrev) bPrev.disabled = (currentPage === 1);
+                let bNext = document.getElementById('btn-page-next');
+                if (bNext) bNext.disabled = (currentPage === totalAvailablePages);
+                let bLast = document.getElementById('btn-page-last');
+                if (bLast) bLast.disabled = (currentPage === totalAvailablePages);
 
-            if (filteredList.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-slate-400 italic">Không tìm thấy tài khoản phù hợp với điều kiện lọc.</td></tr>`;
-                return;
+                if (filteredList.length === 0) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="6" class="p-8 text-center text-slate-400 italic">
+                                <i class="fa-solid fa-filter-circle-xmark text-2xl text-slate-300 block mb-2"></i>
+                                Không tìm thấy tài khoản nào khớp với điều kiện lọc.
+                                <div class="mt-2">
+                                    <button type="button" onclick="resetAdminFilters()" class="px-3 py-1.5 bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200 rounded-lg text-xs font-bold transition not-italic">
+                                        <i class="fa-solid fa-rotate-left mr-1"></i> Xóa Bộ Lọc Để Xem Toàn Bộ
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+
+                let startIndex = (currentPage - 1) * PAGE_SIZE;
+                let pageItems = filteredList.slice(startIndex, startIndex + PAGE_SIZE);
+
+                pageItems.forEach((acc, idx) => {
+                    let st = getAccountPasswordStatus(acc.id);
+                    let extraInfo = (currentAdminTab === 'teachers')
+                        ? `<div class="truncate max-w-xs" title="${acc.subjects || ''} | ${acc.classes || ''}"><span class="text-blue-700 font-semibold">${acc.subjects || '--'}</span> <span class="text-slate-400 text-[10px]">(${acc.classes || ''})</span></div>`
+                        : `<div><span class="font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-md">${acc.className}</span> <span class="text-slate-400 text-[11px] ml-2">${acc.dob || ''}</span></div>`;
+
+                    let tr = document.createElement('tr');
+                    tr.className = "hover:bg-blue-50/50 transition border-b border-slate-100";
+                    tr.innerHTML = `
+                        <td class="p-3 text-center text-slate-400 font-bold">${startIndex + idx + 1}</td>
+                        <td class="p-3 font-mono font-bold text-slate-700">${acc.id}</td>
+                        <td class="p-3 font-bold text-slate-900">${acc.name}</td>
+                        <td class="p-3">${extraInfo}</td>
+                        <td class="p-3">
+                            <span class="inline-flex items-center text-[10px] font-bold px-2.5 py-1 rounded-full border ${st.badgeClass}">
+                                <i class="fa-solid ${st.isCustom ? 'fa-lock' : 'fa-key'} mr-1"></i> ${st.statusText}
+                            </span>
+                        </td>
+                        <td class="p-3 text-center">
+                            <div class="flex items-center justify-center space-x-1.5">
+                                <button type="button" onclick="handleResetAccountPassword('${acc.id}')" title="Đặt lại về mật khẩu mặc định 12345678" class="bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 text-xs px-2.5 py-1.5 rounded-lg font-bold transition flex items-center">
+                                    <i class="fa-solid fa-rotate-left mr-1"></i> Reset 12345678
+                                </button>
+                                <button type="button" onclick="openEditPassModal('${acc.id}')" title="Đổi mật khẩu theo ý muốn" class="bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 text-xs px-2.5 py-1.5 rounded-lg font-bold transition flex items-center">
+                                    <i class="fa-solid fa-pen-to-square mr-1"></i> Đổi MK
+                                </button>
+                            </div>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch(err) {
+                console.error("Lỗi khi render bảng Admin:", err);
             }
-
-            let startIndex = (currentPage - 1) * PAGE_SIZE;
-            let pageItems = filteredList.slice(startIndex, startIndex + PAGE_SIZE);
-
-            pageItems.forEach((acc, idx) => {
-                let st = getAccountPasswordStatus(acc.id);
-                let extraInfo = (currentAdminTab === 'teachers')
-                    ? `<div class="truncate max-w-xs" title="${acc.subjects || ''} | ${acc.classes || ''}"><span class="text-blue-700 font-semibold">${acc.subjects || '--'}</span> <span class="text-slate-400 text-[10px]">(${acc.classes || ''})</span></div>`
-                    : `<div><span class="font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-md">${acc.className}</span> <span class="text-slate-400 text-[11px] ml-2">${acc.dob || ''}</span></div>`;
-
-                let tr = document.createElement('tr');
-                tr.className = "hover:bg-blue-50/50 transition";
-                tr.innerHTML = `
-                    <td class="p-3 text-center text-slate-400 font-bold">${startIndex + idx + 1}</td>
-                    <td class="p-3 font-mono font-bold text-slate-700">${acc.id}</td>
-                    <td class="p-3 font-bold text-slate-900">${acc.name}</td>
-                    <td class="p-3">${extraInfo}</td>
-                    <td class="p-3">
-                        <span class="inline-flex items-center text-[10px] font-bold px-2.5 py-1 rounded-full border ${st.badgeClass}">
-                            <i class="fa-solid ${st.isCustom ? 'fa-lock' : 'fa-key'} mr-1"></i> ${st.statusText}
-                        </span>
-                    </td>
-                    <td class="p-3 text-center">
-                        <div class="flex items-center justify-center space-x-1.5">
-                            <button onclick="handleResetAccountPassword('${acc.id}', '${acc.name.replace(/'/g, "\\'")}')" title="Đặt lại về mật khẩu mặc định 12345678" class="bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 text-xs px-2.5 py-1.5 rounded-lg font-bold transition flex items-center">
-                                <i class="fa-solid fa-rotate-left mr-1"></i> Reset 12345678
-                            </button>
-                            <button onclick="openEditPassModal('${acc.id}', '${acc.name.replace(/'/g, "\\'")}')" title="Đổi mật khẩu theo ý muốn" class="bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 text-xs px-2.5 py-1.5 rounded-lg font-bold transition flex items-center">
-                                <i class="fa-solid fa-pen-to-square mr-1"></i> Đổi MK
-                            </button>
-                        </div>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
         }
 
         // Điều khiển phân trang
@@ -1047,7 +1112,11 @@
         function nextPage() { if (currentPage < totalAvailablePages) { currentPage++; renderAdminTable(); } }
 
         // RESET MẬT KHẨU VỀ MẶC ĐỊNH 12345678
-        async function handleResetAccountPassword(accId, accName) {
+        async function handleResetAccountPassword(accId) {
+            let all = [...cachedTeachers, ...cachedStudents];
+            let acc = all.find(a => String(a.id) === String(accId));
+            let accName = acc ? acc.name : accId;
+
             if (!confirm(`Bạn có chắc chắn muốn ĐẶT LẠI mật khẩu của tài khoản:\n"${accName}" (Mã ID: ${accId})\nvề mật khẩu mặc định 12345678?\n\nLần sau đăng nhập người này sẽ bắt buộc phải đổi mật khẩu mới!`)) {
                 return;
             }
@@ -1068,7 +1137,11 @@
         }
 
         // MỞ MODAL ĐỔI MK TÙY CHỌN
-        function openEditPassModal(accId, accName) {
+        function openEditPassModal(accId) {
+            let all = [...cachedTeachers, ...cachedStudents];
+            let acc = all.find(a => String(a.id) === String(accId));
+            let accName = acc ? acc.name : accId;
+
             currentEditingAccountId = accId;
             document.getElementById('modal-edit-user-name').innerText = accName;
             document.getElementById('modal-edit-user-id').innerText = accId;
