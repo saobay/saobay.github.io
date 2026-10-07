@@ -16,6 +16,16 @@
     <style>
         .tree-node-content:hover { background-color: #f1f5f9; }
         .selected-node { background-color: #e0f2fe !important; border-left: 4px solid #0284c7; }
+        .lesson-native-rendered h1:not([class]) { font-size: 1.5rem; font-weight: 800; color: #1e3a8a; margin-top: 1rem; margin-bottom: 0.5rem; }
+        .lesson-native-rendered h2:not([class]) { font-size: 1.25rem; font-weight: 700; color: #1e40af; margin-top: 0.75rem; margin-bottom: 0.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.25rem; }
+        .lesson-native-rendered h3:not([class]) { font-size: 1.1rem; font-weight: 700; color: #1e293b; margin-top: 0.5rem; margin-bottom: 0.25rem; }
+        .lesson-native-rendered p:not([class]) { margin-bottom: 0.5rem; line-height: 1.6; color: #334155; }
+        .lesson-native-rendered ul:not([class]) { list-style-type: disc; margin-left: 1.5rem; margin-bottom: 0.5rem; }
+        .lesson-native-rendered ol:not([class]) { list-style-type: decimal; margin-left: 1.5rem; margin-bottom: 0.5rem; }
+        .lesson-native-rendered table:not([class]) { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
+        .lesson-native-rendered table:not([class]) th, .lesson-native-rendered table:not([class]) td { border: 1px solid #cbd5e1; padding: 0.5rem 0.75rem; text-align: left; }
+        .lesson-native-rendered table:not([class]) th { background-color: #f1f5f9; font-weight: 700; }
+        .lesson-native-rendered img { max-width: 100%; height: auto; border-radius: 0.5rem; margin: 0.5rem 0; }
     </style>
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col" onload="initMainPage()">
@@ -462,48 +472,84 @@
             let containerEl = document.getElementById(targetContainerId);
             containerEl.innerHTML = `<p class="text-slate-400 italic"><i class="fa-solid fa-spinner fa-spin mr-2"></i> Đang nạp nội dung bài từ Git...</p>`;
 
-            // Trường hợp 1: Có đường dẫn tệp trực tiếp trong repository (ví dụ tienganh6/unit1/test1.html)
-            if (rawFile.filePath) {
-                let encodedPath = encodeURI(rawFile.filePath);
-                containerEl.innerHTML = `
-                    <div class="w-full flex-1 flex flex-col min-h-[520px]">
-                        <div class="flex justify-end mb-2">
-                            <a href="${encodedPath}" target="_blank" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg border border-slate-300 font-semibold flex items-center shadow-sm">
-                                <i class="fa-solid fa-arrow-up-right-from-square mr-1.5 text-blue-600"></i> Mở toàn màn hình
-                            </a>
-                        </div>
-                        <iframe src="${encodedPath}" class="w-full flex-1 min-h-[540px] border border-slate-200 rounded-xl shadow-inner bg-white" frameborder="0"></iframe>
-                    </div>
-                `;
-                return;
-            }
+            // NẠP NỘI DUNG TRỰC TIẾP VÀO TRANG (KHÔNG DÙNG IFRAME ĐỂ GIỮ NGUYÊN LIÊN KẾT DOM)
+            let htmlCode = '';
+            let fetchUrl = rawFile.filePath || rawFile.GitUrl || rawFile.gitUrl;
 
-            // Trường hợp 2: Có GitUrl (đường dẫn raw GitHub)
-            let gitUrl = rawFile.GitUrl || rawFile.gitUrl;
-            if (gitUrl) {
+            if (fetchUrl) {
                 try {
-                    let rawGitUrl = gitUrl.replace("github.com", "raw.githubusercontent.com").replace("/blob/", "/");
-                    let gitRes = await fetch(rawGitUrl);
-                    if (gitRes.ok) {
-                        let htmlCode = await gitRes.text();
-                        if (htmlCode.includes('<html') || htmlCode.includes('<!DOCTYPE') || htmlCode.includes('<script')) {
-                            let frame = document.createElement('iframe');
-                            frame.className = "w-full min-h-[540px] border border-slate-200 rounded-xl shadow-inner bg-white";
-                            containerEl.innerHTML = '';
-                            containerEl.appendChild(frame);
-                            frame.srcdoc = htmlCode;
-                        } else {
-                            containerEl.innerHTML = htmlCode;
-                            if (window.MathJax) MathJax.typesetPromise();
-                        }
-                        return;
+                    let directUrl = fetchUrl.includes('http')
+                        ? fetchUrl.replace("github.com", "raw.githubusercontent.com").replace("/blob/", "/")
+                        : encodeURI(fetchUrl);
+                    let res = await fetch(directUrl);
+                    if (res.ok) {
+                        htmlCode = await res.text();
                     }
                 } catch(e) {}
             }
 
-            // Trường hợp 3: Nội dung từ Drive/Sheet
-            containerEl.innerHTML = rawFile.Content || rawFile.content || '<p class="text-slate-400 italic">Nội dung bài học chưa có sẵn.</p>';
-            if (window.MathJax) MathJax.typesetPromise();
+            if (!htmlCode) {
+                htmlCode = rawFile.Content || rawFile.content || '<p class="text-slate-400 italic">Nội dung bài học chưa có sẵn.</p>';
+            }
+
+            // Giải mã HTML nếu bị escape entities
+            if (htmlCode.includes('&lt;') || htmlCode.includes('&gt;')) {
+                let txt = document.createElement('textarea');
+                txt.innerHTML = htmlCode;
+                htmlCode = txt.value;
+            }
+
+            // Bóc tách nội dung nếu là file HTML đầy đủ
+            let stylesHtml = '';
+            let bodyHtml = htmlCode;
+            let scriptsToExecute = [];
+
+            if (htmlCode.includes('<html') || htmlCode.includes('<!DOCTYPE') || htmlCode.includes('<body')) {
+                let parser = new DOMParser();
+                let doc = parser.parseFromString(htmlCode, 'text/html');
+                
+                // Lấy styles
+                let styleTags = doc.querySelectorAll('style');
+                stylesHtml = Array.from(styleTags).map(s => s.outerHTML).join('\n');
+
+                // Lấy body content
+                if (doc.body) {
+                    bodyHtml = doc.body.innerHTML;
+                }
+
+                // Lấy scripts tương tác (trắc nghiệm, audio)
+                let scriptTags = doc.querySelectorAll('script');
+                scriptTags.forEach(sc => {
+                    if (sc.src && (sc.src.includes('tailwindcss') || sc.src.includes('mathjax'))) return;
+                    scriptsToExecute.push({ src: sc.src, code: sc.textContent });
+                });
+            }
+
+            containerEl.innerHTML = `
+                <div class="lesson-native-rendered space-y-4">
+                    ${stylesHtml}
+                    ${bodyHtml}
+                </div>
+            `;
+
+            // Thực thi các script bài tập / trắc nghiệm (nếu có)
+            scriptsToExecute.forEach(scObj => {
+                try {
+                    let s = document.createElement('script');
+                    if (scObj.src) {
+                        s.src = scObj.src;
+                    } else {
+                        s.textContent = scObj.code;
+                    }
+                    containerEl.appendChild(s);
+                } catch(errSc) {
+                    console.log('Script execution note:', errSc);
+                }
+            });
+
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                window.MathJax.typesetPromise([containerEl]).catch(e => console.log('MathJax:', e));
+            }
         }
 
         function updateVerifyBadge(badgeId, meta) {
