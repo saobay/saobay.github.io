@@ -243,6 +243,8 @@
                 s = s.replace(/^tienganh6/i, 'THCS ❯ Tiếng Anh 6');
             } else if (/^thcs/i.test(s)) {
                 s = s.replace(/^thcs\//i, 'THCS ❯ ');
+            } else if (/^thpt/i.test(s)) {
+                s = s.replace(/^thpt\//i, 'THPT ❯ ');
             }
             return s
                 .replace(/\//g, ' ❯ ')
@@ -475,128 +477,200 @@
                 return;
             }
 
-            // PHÂN CẤP CHUẨN: THCS CÙNG CẤP VỚI KHỐI 10, KHỐI 11, KHỐI 12
-            const GRADE_LEVELS = [
-                {
-                    key: 'THCS',
-                    title: 'Cấp THCS (Lớp 6 - 9)',
-                    icon: 'fa-school',
-                    color: 'text-indigo-600',
-                    badge: 'bg-indigo-100 text-indigo-800',
-                    match: (f) => /THCS|tienganh6/i.test(f.path || f.FolderID || '')
-                },
+            // Phân loại các thư mục vào 2 CẤP CHÍNH: THCS và THPT
+            let thcsFolders = [];
+            let thptFolders = [];
+            let assignedFolders = new Set();
+
+            driveFolders.forEach(f => {
+                let p = f.path || f.FolderID || f.id || '';
+                if (!p || p === 'data') return;
+                if (/THCS|tienganh6/i.test(p)) {
+                    thcsFolders.push(f);
+                    assignedFolders.add(p);
+                } else {
+                    // Tất cả các khối lớp 10, 11, 12 và môn THPT gom vào nhánh THPT
+                    thptFolders.push(f);
+                    assignedFolders.add(p);
+                }
+            });
+
+            // Hàm render một nhóm thư mục môn học / chương
+            function renderFolderSubjectGroup(folder) {
+                let folderId = folder.FolderID || folder.id || folder.path;
+                let filesInFolder = driveFiles.filter(f => (f.FolderID === folderId || f.folderId === folderId));
+                let matchedFiles = filesInFolder.map(f => ({ ...f, meta: parseFileName(f.Title || f.title || f.name || f.rawFileName) }))
+                    .filter(f => currentMode === 'theory' ? f.meta.isTheory : f.meta.isPractice);
+
+                if (matchedFiles.length === 0) return '';
+
+                let displayFolderName = formatFolderDisplayName(folderId)
+                    .replace(/^(?:THCS|THPT|Khối\s*lớp\s*10|Khối\s*lớp\s*11|Khối\s*lớp\s*12)\s*❯\s*/gi, '');
+
+                let lessonsHtml = matchedFiles.map(file => {
+                    let fileId = file.ItemID || file.id;
+                    return `
+                        <div onclick="selectItemDetail('${fileId}', this)" class="tree-item-node tree-node-content p-1.5 rounded-lg flex items-center justify-between cursor-pointer text-slate-600 hover:text-blue-700 hover:bg-blue-50/70 transition">
+                            <div class="flex items-center space-x-2 truncate pr-1">
+                                <i class="fa-regular ${currentMode === 'practice' ? 'fa-file-pen text-emerald-600' : 'fa-file-lines text-blue-500'} text-xs"></i>
+                                <span class="truncate text-xs font-medium">${file.meta.cleanTitle}</span>
+                            </div>
+                            <span class="text-[9px] px-1.5 py-0.5 rounded font-bold shrink-0 ${file.meta.status === 'approved' ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-600'}">
+                                ${file.meta.status === 'approved' ? 'Đã duyệt' : 'Chưa duyệt'}
+                            </span>
+                        </div>
+                    `;
+                }).join('');
+
+                return `
+                    <div class="tree-subject-group mb-1.5">
+                        <div onclick="toggleTreeNode(this)" class="tree-node-content flex items-center justify-between p-1.5 rounded-lg cursor-pointer font-bold text-slate-700 hover:bg-slate-100 transition text-[11px]">
+                            <div class="flex items-center space-x-1.5 truncate">
+                                <i class="fa-solid fa-angle-right text-slate-400 text-[10px] transition-transform duration-200"></i>
+                                <i class="fa-solid fa-folder text-amber-500"></i>
+                                <span class="truncate">${displayFolderName || 'Bài học'}</span>
+                            </div>
+                            <span class="text-[9px] bg-slate-100 px-1.5 py-0.5 rounded text-slate-500 shrink-0 font-bold">${matchedFiles.length} bài</span>
+                        </div>
+                        <div class="tree-children hidden pl-3 space-y-1 mt-1 border-l-2 border-slate-200 ml-2">
+                            ${lessonsHtml}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // 1. XÂY DỰNG NHÁNH THCS
+            let thcsHtml = '';
+            let totalLessonsTHCS = 0;
+            thcsFolders.forEach(folder => {
+                let folderId = folder.FolderID || folder.id || folder.path;
+                let filesInFolder = driveFiles.filter(f => (f.FolderID === folderId || f.folderId === folderId));
+                let matched = filesInFolder.map(f => ({ ...f, meta: parseFileName(f.Title || f.title || f.name || f.rawFileName) }))
+                    .filter(f => currentMode === 'theory' ? f.meta.isTheory : f.meta.isPractice);
+                totalLessonsTHCS += matched.length;
+                thcsHtml += renderFolderSubjectGroup(folder);
+            });
+
+            // 2. XÂY DỰNG NHÁNH THPT (CHỨA LỚP 10, LỚP 11, LỚP 12)
+            const THPT_GRADES = [
                 {
                     key: 'K10',
                     title: 'Khối Lớp 10',
-                    icon: 'fa-graduation-cap',
-                    color: 'text-blue-600',
+                    icon: 'fa-graduation-cap text-blue-600',
                     badge: 'bg-blue-100 text-blue-800',
-                    match: (f) => /khối\s*lớp\s*10|khoi\s*lop\s*10|k10|toán\s*10|toan\s*10/i.test(f.path || f.FolderID || '') && !/THCS/i.test(f.path || f.FolderID || '')
+                    match: (p) => /Khối\s*lớp\s*10|k10|toán\s*10/i.test(p)
                 },
                 {
                     key: 'K11',
                     title: 'Khối Lớp 11',
-                    icon: 'fa-graduation-cap',
-                    color: 'text-emerald-600',
+                    icon: 'fa-graduation-cap text-emerald-600',
                     badge: 'bg-emerald-100 text-emerald-800',
-                    match: (f) => /khối\s*lớp\s*11|khoi\s*lop\s*11|k11/i.test(f.path || f.FolderID || '') && !/THCS/i.test(f.path || f.FolderID || '')
+                    match: (p) => /Khối\s*lớp\s*11|k11/i.test(p)
                 },
                 {
                     key: 'K12',
                     title: 'Khối Lớp 12',
-                    icon: 'fa-graduation-cap',
-                    color: 'text-purple-600',
+                    icon: 'fa-graduation-cap text-purple-600',
                     badge: 'bg-purple-100 text-purple-800',
-                    match: (f) => /khối\s*lớp\s*12|khoi\s*lop\s*12|k12/i.test(f.path || f.FolderID || '') && !/THCS/i.test(f.path || f.FolderID || '')
-                },
-                {
-                    key: 'KHAC',
-                    title: 'Học Liệu Khác',
-                    icon: 'fa-folder-open',
-                    color: 'text-slate-600',
-                    badge: 'bg-slate-100 text-slate-800',
-                    match: () => true
+                    match: (p) => /Khối\s*lớp\s*12|k12/i.test(p)
                 }
             ];
 
-            let html = '';
-            let assignedFolderIds = new Set();
+            let thptHtml = '';
+            let totalLessonsTHPT = 0;
+            let assignedTHPTFolders = new Set();
 
-            GRADE_LEVELS.forEach(grade => {
-                let foldersInGrade = driveFolders.filter(f => {
-                    let fid = f.path || f.FolderID || f.id || '';
-                    if (assignedFolderIds.has(fid)) return false;
-                    let matches = grade.match(f);
-                    if (matches) assignedFolderIds.add(fid);
-                    return matches;
+            THPT_GRADES.forEach(grade => {
+                let foldersInGrade = thptFolders.filter(f => {
+                    let p = f.path || f.FolderID || f.id || '';
+                    if (assignedTHPTFolders.has(p)) return false;
+                    let m = grade.match(p);
+                    if (m) assignedTHPTFolders.add(p);
+                    return m;
                 });
 
-                let gradeHtml = '';
+                let gradeSubHtml = '';
                 let totalLessonsInGrade = 0;
 
                 foldersInGrade.forEach(folder => {
                     let folderId = folder.FolderID || folder.id || folder.path;
                     let filesInFolder = driveFiles.filter(f => (f.FolderID === folderId || f.folderId === folderId));
-                    let matchedFiles = filesInFolder.map(f => ({ ...f, meta: parseFileName(f.Title || f.title || f.name || f.rawFileName) }))
-                    .filter(f => currentMode === 'theory' ? f.meta.isTheory : f.meta.isPractice);
-
-                    if (matchedFiles.length > 0) {
-                        totalLessonsInGrade += matchedFiles.length;
-                        let displayFolderName = formatFolderDisplayName(folderId)
-                            .replace(/^(?:THCS\s*❯\s*|Khối\s*lớp\s*10\s*❯\s*|Khối\s*lớp\s*11\s*❯\s*|Khối\s*lớp\s*12\s*❯\s*)/i, '');
-
-                        gradeHtml += `
-                            <div class="tree-subject-group mb-1.5 pl-2 border-l-2 border-slate-200">
-                                <div onclick="toggleTreeNode(this)" class="tree-node-content flex items-center justify-between p-1.5 rounded-lg cursor-pointer font-bold text-slate-700 hover:bg-slate-100 transition text-[11px]">
-                                    <div class="flex items-center space-x-1.5 truncate">
-                                        <i class="fa-solid fa-angle-right text-slate-400 text-[10px] transition-transform duration-200"></i>
-                                        <i class="fa-solid fa-folder text-amber-500"></i>
-                                        <span class="truncate">${displayFolderName || 'Bài học'}</span>
-                                    </div>
-                                    <span class="text-[9px] bg-slate-100 px-1.5 py-0.5 rounded text-slate-500 shrink-0">${matchedFiles.length} bài</span>
-                                </div>
-                                <div class="tree-children hidden pl-3 space-y-1 mt-1">
-                        `;
-
-                        matchedFiles.forEach(file => {
-                            let fileId = file.ItemID || file.id;
-                            gradeHtml += `
-                                <div onclick="selectItemDetail('${fileId}', this)" class="tree-item-node tree-node-content p-1.5 rounded-lg flex items-center justify-between cursor-pointer text-slate-600 hover:text-blue-700 hover:bg-blue-50/60 transition">
-                                    <div class="flex items-center space-x-2 truncate pr-2">
-                                        <i class="fa-regular ${currentMode === 'practice' ? 'fa-file-pen text-emerald-600' : 'fa-file-lines text-blue-500'}"></i>
-                                        <span class="truncate text-xs font-medium">${file.meta.cleanTitle}</span>
-                                    </div>
-                                    <span class="text-[9px] px-1.5 py-0.5 rounded font-bold shrink-0 ${file.meta.status === 'approved' ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-600'}">
-                                        ${file.meta.status === 'approved' ? 'Đã duyệt' : 'Chưa duyệt'}
-                                    </span>
-                                </div>
-                            `;
-                        });
-
-                        gradeHtml += `</div></div>`;
-                    }
+                    let matched = filesInFolder.map(f => ({ ...f, meta: parseFileName(f.Title || f.title || f.name || f.rawFileName) }))
+                        .filter(f => currentMode === 'theory' ? f.meta.isTheory : f.meta.isPractice);
+                    totalLessonsInGrade += matched.length;
+                    gradeSubHtml += renderFolderSubjectGroup(folder);
                 });
 
+                totalLessonsTHPT += totalLessonsInGrade;
+
                 if (totalLessonsInGrade > 0) {
-                    html += `
-                        <div class="grade-level-block mb-2.5 bg-slate-50/80 border border-slate-200 rounded-xl p-2 shadow-sm">
-                            <div onclick="toggleTreeNode(this)" class="grade-heading flex items-center justify-between p-1 cursor-pointer font-black text-slate-900 hover:text-blue-700">
+                    thptHtml += `
+                        <div class="grade-sub-block mb-1.5 bg-slate-50 border border-slate-200/90 rounded-xl p-1.5 shadow-xs">
+                            <div onclick="toggleTreeNode(this)" class="flex items-center justify-between p-1.5 cursor-pointer font-bold text-slate-800 hover:text-blue-700 rounded-lg hover:bg-white transition">
                                 <div class="flex items-center space-x-2 truncate">
-                                    <i class="fa-solid fa-angle-down text-slate-500 text-xs transition-transform duration-200"></i>
-                                    <i class="fa-solid ${grade.icon} ${grade.color} text-sm"></i>
-                                    <span class="text-xs uppercase tracking-wide">${grade.title}</span>
+                                    <i class="fa-solid fa-angle-right text-slate-400 text-[10px] transition-transform duration-200"></i>
+                                    <i class="fa-solid ${grade.icon} text-xs"></i>
+                                    <span class="text-xs uppercase tracking-wide font-extrabold">${grade.title}</span>
                                 </div>
-                                <span class="text-[10px] font-bold ${grade.badge} px-2 py-0.5 rounded-full shrink-0">${totalLessonsInGrade} bài</span>
+                                <span class="text-[9px] font-bold ${grade.badge} px-2 py-0.5 rounded-full shrink-0">${totalLessonsInGrade} bài</span>
                             </div>
-                            <div class="tree-children space-y-1 mt-2">
-                                ${gradeHtml}
+                            <div class="tree-children hidden pl-2 space-y-1 mt-1 border-l-2 border-slate-200 ml-2">
+                                ${gradeSubHtml}
                             </div>
                         </div>
                     `;
                 }
             });
 
-            container.innerHTML = html || `<div class="text-center py-8 text-slate-400 text-xs">Chưa có bài nào trong mục này trên Git.</div>`;
+            // Các mục THPT khác nếu có
+            let remainingTHPTFolders = thptFolders.filter(f => !assignedTHPTFolders.has(f.path || f.FolderID || f.id));
+            if (remainingTHPTFolders.length > 0) {
+                remainingTHPTFolders.forEach(folder => {
+                    let folderId = folder.FolderID || folder.id || folder.path;
+                    let filesInFolder = driveFiles.filter(f => (f.FolderID === folderId || f.folderId === folderId));
+                    let matched = filesInFolder.map(f => ({ ...f, meta: parseFileName(f.Title || f.title || f.name || f.rawFileName) }))
+                        .filter(f => currentMode === 'theory' ? f.meta.isTheory : f.meta.isPractice);
+                    if (matched.length > 0) {
+                        totalLessonsTHPT += matched.length;
+                        thptHtml += renderFolderSubjectGroup(folder);
+                    }
+                });
+            }
+
+            // GIAO DIỆN CHỈ HIỆN 2 THƯ MỤC CHÍNH: THCS & THPT (MẶC ĐỊNH ĐỀU ĐÓNG)
+            let html = `
+                <!-- 1. THƯ MỤC CHÍNH: CẤP THCS -->
+                <div class="main-category-block mb-2.5 bg-white border border-slate-200 rounded-2xl p-2 shadow-sm">
+                    <div onclick="toggleTreeNode(this)" class="category-heading flex items-center justify-between p-1.5 cursor-pointer font-black text-slate-900 hover:text-indigo-700 transition">
+                        <div class="flex items-center space-x-2 truncate">
+                            <i class="fa-solid fa-angle-right text-slate-400 text-xs transition-transform duration-200"></i>
+                            <i class="fa-solid fa-school text-indigo-600 text-sm"></i>
+                            <span class="text-xs uppercase tracking-wider font-extrabold">Cấp THCS</span>
+                        </div>
+                        <span class="text-[10px] font-bold bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded-full shrink-0">${totalLessonsTHCS} bài</span>
+                    </div>
+                    <div class="tree-children hidden space-y-1 mt-2 pl-1 border-l-2 border-indigo-200 ml-2">
+                        ${thcsHtml || '<div class="text-slate-400 text-[11px] italic py-2 pl-2">Chưa có bài học trong mục này.</div>'}
+                    </div>
+                </div>
+
+                <!-- 2. THƯ MỤC CHÍNH: CẤP THPT (CHỨA LỚP 10, LỚP 11, LỚP 12) -->
+                <div class="main-category-block mb-2.5 bg-white border border-slate-200 rounded-2xl p-2 shadow-sm">
+                    <div onclick="toggleTreeNode(this)" class="category-heading flex items-center justify-between p-1.5 cursor-pointer font-black text-slate-900 hover:text-blue-700 transition">
+                        <div class="flex items-center space-x-2 truncate">
+                            <i class="fa-solid fa-angle-right text-slate-400 text-xs transition-transform duration-200"></i>
+                            <i class="fa-solid fa-graduation-cap text-blue-600 text-sm"></i>
+                            <span class="text-xs uppercase tracking-wider font-extrabold">Cấp THPT</span>
+                        </div>
+                        <span class="text-[10px] font-bold bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full shrink-0">${totalLessonsTHPT} bài</span>
+                    </div>
+                    <div class="tree-children hidden space-y-2 mt-2 pl-1 border-l-2 border-blue-200 ml-2">
+                        ${thptHtml || '<div class="text-slate-400 text-[11px] italic py-2 pl-2">Chưa có bài học trong mục này.</div>'}
+                    </div>
+                </div>
+            `;
+
+            container.innerHTML = html;
         }
 
         // HÀM CHUYÊN BIỆT SCOPE CSS: CÔ LẬP PHẠM VI STYLE CỦA BÀI HỌC, CHỐNG CO RÚT TOÀN TRANG
@@ -656,6 +730,9 @@
                 updateVerifyBadge('lesson-verify-badge', meta);
             }
 
+            // KHI BẤM CHỌN 1 BÀI HỌC: CÂY KIẾN THỨC TỰ ĐỘNG THU GỌN VÀO MÉP BÊN TRÁI THÀNH 1 HÀNG DỌC ĐỂ DÀNH TRỌN KHÔNG GIAN ĐỌC
+            toggleTreeSidebar(false);
+
             // Tự động cuộn êm xuống vùng đọc bài trên điện thoại
             if (window.innerWidth < 1024) {
                 let cEl = document.getElementById(targetContainerId);
@@ -668,22 +745,34 @@
             // NẠP NỘI DUNG VỚI CƠ CHẾ 4 TẦNG DỰ PHÒNG CHUẨN XÁC 100%
             let htmlCode = '';
             let p = rawFile.filePath || '';
-            let rawGitUrl = rawFile.GitUrl || (p ? `https://raw.githubusercontent.com/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/${GITHUB_CONFIG.branch}/${encodeURI(p)}` : '');
+            let possiblePaths = [p];
+            if (p.includes('data/Khối lớp 10')) possiblePaths.push(p.replace('data/Khối lớp 10', 'data/THPT/Khối lớp 10'));
+            if (p.includes('data/THPT/Khối lớp 10')) possiblePaths.push(p.replace('data/THPT/Khối lớp 10', 'data/Khối lớp 10'));
+            if (p.includes('data/Khối lớp 11')) possiblePaths.push(p.replace('data/Khối lớp 11', 'data/THPT/Khối lớp 11'));
+            if (p.includes('data/THPT/Khối lớp 11')) possiblePaths.push(p.replace('data/THPT/Khối lớp 11', 'data/Khối lớp 11'));
+            if (p.includes('data/Khối lớp 12')) possiblePaths.push(p.replace('data/Khối lớp 12', 'data/THPT/Khối lớp 12'));
+            if (p.includes('data/THPT/Khối lớp 12')) possiblePaths.push(p.replace('data/THPT/Khối lớp 12', 'data/Khối lớp 12'));
 
             // 1. Kiểm tra cache phiên làm việc nếu bài vừa được đẩy
-            let cached = localStorage.getItem('lesson_cache_' + p) || sessionStorage.getItem('lesson_cache_' + p);
-            if (cached) {
-                htmlCode = cached;
+            for (let testPath of possiblePaths) {
+                let cached = localStorage.getItem('lesson_cache_' + testPath) || sessionStorage.getItem('lesson_cache_' + testPath);
+                if (cached) {
+                    htmlCode = cached;
+                    break;
+                }
             }
 
             // 2. Thử nạp từ URL tương đối nội bộ (nếu chạy local hoặc GitHub Pages đã deploy)
-            if (!htmlCode && p) {
-                try {
-                    let localRes = await fetch(encodeURI(p));
-                    if (localRes.ok) {
-                        htmlCode = await localRes.text();
-                    }
-                } catch(eLocal) {}
+            if (!htmlCode) {
+                for (let testPath of possiblePaths) {
+                    try {
+                        let localRes = await fetch(encodeURI(testPath));
+                        if (localRes.ok) {
+                            htmlCode = await localRes.text();
+                            break;
+                        }
+                    } catch(eLocal) {}
+                }
             }
 
             // 3. Nạp từ GitHub Raw CDN với cache-buster

@@ -586,7 +586,7 @@
 
             gitFolderMap = nodeMap;
 
-            function buildNodeHtml(node) {
+            function buildNodeHtml(node, depth = 0) {
                 let hasChildren = node.children && node.children.length > 0;
                 let isSelected = currentSelectedFolderId === node.path;
                 let safeName = node.name.replace(/'/g, "\\'");
@@ -597,12 +597,20 @@
 
                 let childrenHtml = '';
                 if (hasChildren) {
-                    childrenHtml = node.children.map(child => buildNodeHtml(child)).join('');
+                    childrenHtml = node.children.map(child => buildNodeHtml(child, depth + 1)).join('');
                 }
 
                 let activeClass = isSelected 
                     ? "bg-blue-600 text-white font-bold shadow-md scale-[1.01]" 
                     : "text-slate-700 hover:bg-slate-100 font-medium";
+
+                // QUY TẮC: Mặc định chỉ mở thư mục gốc data (để hiện 2 thư mục chính THCS và THPT).
+                // Mọi thư mục con bên trong mặc định ĐỀU ĐÓNG (hidden), chỉ mở khi người dùng click vào.
+                let isExpandedByDefault = (node.path === 'data');
+                let chevronClass = isExpandedByDefault ? "fa-solid fa-chevron-down text-[10px]" : "fa-solid fa-chevron-right text-[10px]";
+                let childrenContainerClass = isExpandedByDefault 
+                    ? "folder-children pl-3 border-l-2 border-slate-200 ml-2 mt-0.5 space-y-0.5" 
+                    : "folder-children hidden pl-3 border-l-2 border-slate-200 ml-2 mt-0.5 space-y-0.5";
 
                 return `
                     <div class="folder-node-wrapper my-0.5">
@@ -612,7 +620,7 @@
                             <div class="flex items-center space-x-1.5 truncate pr-1">
                                 ${hasChildren ? `
                                     <button type="button" onclick="event.stopPropagation(); toggleFolderExpand(this)" class="p-1 text-slate-400 hover:text-blue-600 transition" title="Mở/Đóng nhánh">
-                                        <i class="fa-solid fa-chevron-down text-[10px]"></i>
+                                        <i class="${chevronClass}"></i>
                                     </button>
                                 ` : `<span class="w-4 inline-block"></span>`}
                                 <i class="fa-solid ${hasChildren ? 'fa-folder-tree text-blue-500' : 'fa-folder text-amber-500'}"></i>
@@ -620,7 +628,7 @@
                             </div>
                             ${hasChildren ? `<span class="text-[9px] bg-slate-200/80 text-slate-600 px-1.5 py-0.2 rounded-full font-bold">${node.children.length}</span>` : ''}
                         </div>
-                        ${hasChildren ? `<div class="folder-children pl-3 border-l-2 border-slate-200 ml-2 mt-0.5 space-y-0.5">${childrenHtml}</div>` : ''}
+                        ${hasChildren ? `<div class="${childrenContainerClass}">${childrenHtml}</div>` : ''}
                     </div>
                 `;
             }
@@ -659,6 +667,19 @@
                 <i class="fa-solid fa-folder-open mr-2 text-amber-400"></i> ${name}
                 <span class="text-xs text-blue-200 font-normal ml-2 tracking-normal">[${displayPath}]</span>
             `;
+
+            // Tự động mở nhánh con khi người dùng click chọn thư mục cha
+            if (element) {
+                let wrapper = element.closest('.folder-node-wrapper');
+                if (wrapper) {
+                    let sub = wrapper.querySelector('.folder-children');
+                    let icon = wrapper.querySelector('button i');
+                    if (sub && sub.classList.contains('hidden')) {
+                        sub.classList.remove('hidden');
+                        if (icon) icon.className = "fa-solid fa-chevron-down text-[10px]";
+                    }
+                }
+            }
 
             let delBtn = document.getElementById('delete-folder-btn');
             if (!path || path === 'data' || path === 'root') {
