@@ -1139,6 +1139,154 @@
                 window.location.href = "used/used.html";
             }
         }
+
+        // ========================================================
+        // BỘ ENGINE TƯƠNG TÁC LÀM BÀI TRẮC NGHIỆM CHO HỌC SINH (7 DẠNG BÀI THEO QUY TẮC SOẠN ĐỀ)
+        // ========================================================
+        const studentCompletedQuestions = new Set();
+
+        function toggleSolution(qid, forceOpen = null) {
+            let sol = document.getElementById('solution-' + qid);
+            if (!sol) {
+                let card = document.querySelector(`.question-card[data-question-id="${qid}"]`);
+                if (card) sol = card.querySelector('.solution-box');
+            }
+            if (sol) {
+                if (forceOpen === true) sol.classList.remove('hidden');
+                else if (forceOpen === false) sol.classList.add('hidden');
+                else sol.classList.toggle('hidden');
+
+                if (!sol.classList.contains('hidden') && window.MathJax && window.MathJax.typesetPromise) {
+                    window.MathJax.typesetPromise([sol]).catch(e => {});
+                }
+            }
+        }
+
+        function checkSingleQuestion(qid) {
+            let card = document.querySelector(`.question-card[data-question-id="${qid}"]`);
+            if (!card) {
+                card = document.getElementById('card_' + qid) || document.getElementById(qid);
+            }
+            if (!card) return;
+
+            let type = card.getAttribute('data-type') || 'mcq_4';
+            let ans = (card.getAttribute('data-answer') || '').trim();
+            let maxPoints = parseFloat(card.getAttribute('data-points')) || 0.25;
+            let earnedPoints = 0;
+            let isCorrect = false;
+
+            if (type === 'mcq_4' || type === 'mc') {
+                let sel = card.querySelector(`input[name="${qid}"]:checked`) || card.querySelector(`input[type="radio"]:checked`);
+                if (!sel) {
+                    alert('Vui lòng chọn 1 phương án trước khi kiểm tra!');
+                    return;
+                }
+                isCorrect = (sel.value.toUpperCase() === ans.toUpperCase());
+                earnedPoints = isCorrect ? maxPoints : 0;
+            }
+            else if (type === 'true_false') {
+                let parts = ans.split('|').map(p => p.trim());
+                let correctCount = 0;
+                let hasUnanswered = false;
+
+                parts.forEach(p => {
+                    let [subKey, expected] = p.split(':');
+                    let sel = card.querySelector(`input[name="${qid}_${subKey}"]:checked`);
+                    if (!sel) hasUnanswered = true;
+                    else if (sel.value.toUpperCase() === expected.toUpperCase()) correctCount++;
+                });
+
+                if (hasUnanswered) {
+                    alert('Vui lòng chọn đủ Đúng/Sai cho cả 4 ý khẳng định!');
+                    return;
+                }
+
+                // Quy chế Bộ GD&ĐT 2025
+                if (correctCount === 4) earnedPoints = maxPoints;
+                else if (correctCount === 3) earnedPoints = maxPoints * 0.5;
+                else if (correctCount === 2) earnedPoints = maxPoints * 0.25;
+                else if (correctCount === 1) earnedPoints = maxPoints * 0.1;
+                else earnedPoints = 0;
+
+                isCorrect = (correctCount === 4);
+            }
+            else if (type === 'short_answer') {
+                let inputEl = card.querySelector('.short-answer-input') || card.querySelector('input[type="text"]');
+                if (!inputEl || !inputEl.value.trim()) {
+                    alert('Vui lòng nhập kết quả trước khi kiểm tra!');
+                    return;
+                }
+                let userVal = inputEl.value.trim().toLowerCase().replace(/\s+/g, '').replace(',', '.');
+                let accepted = ans.toLowerCase().split('|').map(s => s.trim().replace(/\s+/g, '').replace(',', '.'));
+                isCorrect = accepted.includes(userVal);
+                earnedPoints = isCorrect ? maxPoints : 0;
+            }
+            else if (type === 'fill_blank') {
+                let parts = ans.split('|').map(p => p.trim());
+                let correctCount = 0;
+                parts.forEach(p => {
+                    let [idx, expVal] = p.split(':');
+                    let input = card.querySelector(`input[data-blank="${idx}"]`);
+                    if (input && input.value.trim().toLowerCase() === expVal.trim().toLowerCase()) {
+                        correctCount++;
+                        input.className = "blank-input inline-block w-28 px-2 py-1 mx-1 text-center font-bold text-emerald-800 bg-emerald-50 border border-emerald-500 rounded-lg shadow-inner";
+                    } else if (input) {
+                        input.className = "blank-input inline-block w-28 px-2 py-1 mx-1 text-center font-bold text-rose-800 bg-rose-50 border border-rose-500 rounded-lg shadow-inner";
+                    }
+                });
+                isCorrect = (correctCount === parts.length);
+                earnedPoints = (correctCount / (parts.length || 1)) * maxPoints;
+            }
+            else if (type === 'matching') {
+                let pairs = ans.split('|').map(p => p.trim().toUpperCase());
+                let correctCount = 0;
+                pairs.forEach(pair => {
+                    let [left, right] = pair.split('-');
+                    let sel = card.querySelector(`select[data-match="${left}"]`);
+                    if (sel && sel.value.toUpperCase() === right) correctCount++;
+                });
+                isCorrect = (correctCount === pairs.length);
+                earnedPoints = (correctCount / (pairs.length || 1)) * maxPoints;
+            }
+            else if (type === 'ordering') {
+                let inputEl = card.querySelector('input[type="text"]');
+                if (!inputEl || !inputEl.value.trim()) {
+                    alert('Vui lòng nhập thứ tự các bước trước khi kiểm tra!');
+                    return;
+                }
+                let userVal = inputEl.value.trim().replace(/\s+/g, '').replace(/[\rightarrow,>]/g, '-').toUpperCase();
+                let expected = ans.trim().replace(/\s+/g, '').toUpperCase();
+                isCorrect = (userVal === expected);
+                earnedPoints = isCorrect ? maxPoints : 0;
+            }
+            else if (type === 'essay') {
+                toggleSolution(qid, true);
+                return;
+            }
+
+            // Phản hồi giao diện
+            card.classList.remove('border-slate-200', 'border-emerald-500', 'border-rose-500', 'bg-emerald-50/20', 'bg-rose-50/20');
+            if (isCorrect) {
+                card.classList.add('border-emerald-500', 'bg-emerald-50/20');
+                
+                // Cộng điểm tích lũy cho học sinh nếu chưa từng làm câu này trong phiên
+                if (currentUser && !studentCompletedQuestions.has(qid)) {
+                    studentCompletedQuestions.add(qid);
+                    let bonusPoints = Math.round(earnedPoints * 10) || 5;
+                    currentUser.score = (parseInt(currentUser.score) || 0) + bonusPoints;
+                    localStorage.setItem('saobay_user', JSON.stringify(currentUser));
+                    let scoreDisplay = document.getElementById('user-score-display');
+                    if (scoreDisplay) scoreDisplay.innerText = currentUser.score;
+                    alert(`✓ CHÍNH XÁC! Bạn được cộng +${bonusPoints} điểm tích lũy vào tài khoản.`);
+                } else {
+                    alert(`✓ CHÍNH XÁC! Điểm đạt được: ${earnedPoints.toFixed(2)}/${maxPoints} điểm.`);
+                }
+            } else {
+                card.classList.add('border-rose-500', 'bg-rose-50/20');
+                alert(`✗ CHƯA CHÍNH XÁC! Điểm đạt: ${earnedPoints.toFixed(2)}/${maxPoints} điểm. Hãy bấm "Xem lời giải chi tiết" để xem hướng dẫn giải.`);
+            }
+            toggleSolution(qid, true);
+        }
     </script>
 </body>
 </html>

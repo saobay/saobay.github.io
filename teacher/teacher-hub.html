@@ -221,9 +221,14 @@
                         </div>
 
                         <div class="flex items-center justify-between bg-indigo-50/70 p-2 rounded-lg border border-indigo-200">
-                            <a href="https://docs.google.com/document/d/1L9x_n0fxCEfGGRjF7SkkvjhljAFLH692W2Gdyxjn9V0/export?format=docx" target="_blank" class="text-indigo-700 font-bold text-xs hover:underline flex items-center">
-                                <i class="fa-solid fa-file-word mr-1 text-indigo-600"></i> Quy Ước Đề Thi
-                            </a>
+                            <div class="flex items-center space-x-1.5">
+                                <a href="https://docs.google.com/document/d/1L9x_n0fxCEfGGRjF7SkkvjhljAFLH692W2Gdyxjn9V0/export?format=docx" target="_blank" class="text-indigo-700 font-bold text-xs hover:underline flex items-center" title="Tải file Word quy ước từ Google Drive">
+                                    <i class="fa-solid fa-file-word mr-1 text-indigo-600"></i> Docs
+                                </a>
+                                <button type="button" onclick="openExamGuidelineModal()" class="text-indigo-700 hover:text-indigo-900 font-bold text-xs flex items-center bg-indigo-100 hover:bg-indigo-200 px-2 py-1 rounded-md transition shadow-xs" title="Xem chi tiết các dạng bài & ma trận đề">
+                                    <i class="fa-solid fa-book-open mr-1 text-indigo-600"></i> Quy Ước Đề
+                                </button>
+                            </div>
                             <button type="button" onclick="generateAndCopyPrompt('EXAM')" class="bg-indigo-700 hover:bg-indigo-800 text-white text-xs px-3 py-1.5 rounded-lg font-bold shadow transition flex items-center">
                                 <i class="fa-solid fa-copy mr-1"></i> Copy Prompt Đề Thi
                             </button>
@@ -413,6 +418,239 @@
             <div class="pt-3 border-t flex justify-end space-x-2">
                 <button onclick="closeAdminSettingsModal()" class="px-4 py-2 bg-slate-100 text-slate-600 font-bold rounded-lg text-xs">Hủy</button>
                 <button onclick="saveAdminSettings()" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold rounded-lg text-xs shadow">Lưu Cấu Hình</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL QUY TẮC SOẠN ĐỀ & KHUNG MA TRẬN NOTEBOOKLM -->
+    <div id="exam-guideline-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 md:p-6">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-4xl w-full flex flex-col max-h-[92vh] border border-slate-200 overflow-hidden">
+            <!-- Header Modal -->
+            <div class="bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white px-5 py-3.5 flex items-center justify-between shadow">
+                <div class="flex items-center space-x-2.5">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/30 flex items-center justify-center text-amber-300 font-bold border border-indigo-400/30">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-extrabold text-sm md:text-base leading-tight">Quy Tắc Soạn Đề & Khung Ma Trận Chuẩn Sào Báy Portal</h3>
+                        <p class="text-[11px] text-blue-200">Chuẩn hóa cấu trúc HTML, 4 mức độ nhận thức & 7 dạng bài tập tương tác</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <button type="button" onclick="copyExamGuidelineFull()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs px-3 py-1.5 rounded-lg font-bold shadow transition flex items-center">
+                        <i class="fa-solid fa-copy mr-1.5"></i> Sao Chép Toàn Bộ Quy Ước
+                    </button>
+                    <button type="button" onclick="closeExamGuidelineModal()" class="text-slate-300 hover:text-white p-1 text-lg">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tabs điều hướng trong Modal -->
+            <div class="bg-slate-100 border-b border-slate-200 px-5 pt-2 flex space-x-2 overflow-x-auto text-xs font-bold">
+                <button type="button" id="guideline-tab-btn-1" onclick="switchGuidelineTab(1)" class="px-4 py-2 border-b-2 border-blue-600 text-blue-800 bg-white rounded-t-lg transition flex items-center">
+                    <i class="fa-solid fa-cubes-stacked mr-1.5 text-blue-600"></i> 1. 7 Dạng Bài Tập & Code HTML
+                </button>
+                <button type="button" id="guideline-tab-btn-2" onclick="switchGuidelineTab(2)" class="px-4 py-2 border-b-2 border-transparent text-slate-600 hover:text-blue-700 rounded-t-lg transition flex items-center">
+                    <i class="fa-solid fa-layer-group mr-1.5 text-emerald-600"></i> 2. 4 Mức Độ & Khung Ma Trận
+                </button>
+                <button type="button" id="guideline-tab-btn-3" onclick="switchGuidelineTab(3)" class="px-4 py-2 border-b-2 border-transparent text-slate-600 hover:text-blue-700 rounded-t-lg transition flex items-center">
+                    <i class="fa-solid fa-wand-magic-sparkles mr-1.5 text-indigo-600"></i> 3. Prompt Master NotebookLM
+                </button>
+            </div>
+
+            <!-- Nội dung các Tab -->
+            <div class="flex-1 overflow-y-auto p-5 space-y-4 text-xs text-slate-700 leading-relaxed bg-slate-50/50">
+                <!-- TAB 1: 7 DẠNG BÀI TẬP -->
+                <div id="guideline-tab-content-1" class="space-y-4">
+                    <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl">
+                        <p class="font-bold text-blue-900 text-xs mb-1"><i class="fa-solid fa-circle-info mr-1"></i> Nguyên tắc Metadata bắt buộc trên từng câu hỏi:</p>
+                        <p class="text-slate-700 text-[11px]">Mỗi câu hỏi được bọc trong thẻ <code>&lt;div class="question-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm mb-5" data-question-id="q1" data-type="..." data-level="..." data-topic="..." data-points="..." data-answer="..."&gt;</code>. Cấu trúc này giúp web tự động chấm điểm và cho phép hệ thống bóc tách câu hỏi theo ma trận sau này.</p>
+                    </div>
+
+                    <!-- Dạng 1 -->
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold text-slate-900 text-xs"><i class="fa-solid fa-1 mr-1 text-blue-600"></i> Dạng 1: Trắc nghiệm 4 lựa chọn (MCQ 4 Choices)</span>
+                            <span class="font-mono text-[10px] bg-slate-100 px-2 py-0.5 rounded text-blue-800 font-bold">data-type="mcq_4"</span>
+                        </div>
+                        <p class="text-slate-600 text-[11px]">- Thí sinh chọn 1 trong 4 phương án A, B, C, D qua thẻ <code>&lt;input type="radio" name="q1" value="A"&gt;</code>.<br>- Thuộc tính đáp án: <code>data-answer="A"</code> (hoặc B, C, D). Điểm thường là <code>0.25</code>.</p>
+                    </div>
+
+                    <!-- Dạng 2 -->
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold text-slate-900 text-xs"><i class="fa-solid fa-2 mr-1 text-emerald-600"></i> Dạng 2: Trắc nghiệm Đúng / Sai (Cấu trúc mới 2025 Bộ GD&ĐT)</span>
+                            <span class="font-mono text-[10px] bg-slate-100 px-2 py-0.5 rounded text-emerald-800 font-bold">data-type="true_false"</span>
+                        </div>
+                        <p class="text-slate-600 text-[11px]">- Mỗi câu gồm 1 ngữ cảnh và 4 ý khẳng định $a, b, c, d$. Thí sinh chọn Đúng (T) hoặc Sai (F) cho từng ý.<br>- Quy chế chấm lũy tiến Bộ GD&ĐT: Đúng 1 ý = 0.1đ | Đúng 2 ý = 0.25đ | Đúng 3 ý = 0.5đ | Đúng 4 ý = 1.0đ.<br>- Thuộc tính đáp án: <code>data-answer="a:T|b:F|c:T|d:F"</code>.</p>
+                    </div>
+
+                    <!-- Dạng 3 -->
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold text-slate-900 text-xs"><i class="fa-solid fa-3 mr-1 text-amber-600"></i> Dạng 3: Trắc nghiệm Trả lời ngắn (Short Answer - Chuẩn 2025)</span>
+                            <span class="font-mono text-[10px] bg-slate-100 px-2 py-0.5 rounded text-amber-800 font-bold">data-type="short_answer"</span>
+                        </div>
+                        <p class="text-slate-600 text-[11px]">- Thí sinh giải ra đáp số và tự nhập kết quả vào ô <code>&lt;input type="text" class="short-answer-input"&gt;</code>.<br>- Thuộc tính đáp án: <code>data-answer="24"</code> hoặc cho phép biến thể <code>data-answer="12.5|12,5"</code>. Thường 0.5 điểm/câu.</p>
+                    </div>
+
+                    <!-- Dạng 4 -->
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold text-slate-900 text-xs"><i class="fa-solid fa-4 mr-1 text-purple-600"></i> Dạng 4: Điền từ / Điền khuyết vào đoạn văn (Fill in Blanks)</span>
+                            <span class="font-mono text-[10px] bg-slate-100 px-2 py-0.5 rounded text-purple-800 font-bold">data-type="fill_blank"</span>
+                        </div>
+                        <p class="text-slate-600 text-[11px]">- Dùng nhiều trong Ngoại ngữ, Văn học, Sinh học... Các ô khuyết đánh số [1], [2] dạng <code>&lt;input data-blank="1"&gt;</code>.<br>- Thuộc tính đáp án: <code>data-answer="1:uniform|2:excited|3:science"</code>.</p>
+                    </div>
+
+                    <!-- Dạng 5 -->
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold text-slate-900 text-xs"><i class="fa-solid fa-5 mr-1 text-cyan-600"></i> Dạng 5: Nối cột / Ghép đôi tương ứng (Matching)</span>
+                            <span class="font-mono text-[10px] bg-slate-100 px-2 py-0.5 rounded text-cyan-800 font-bold">data-type="matching"</span>
+                        </div>
+                        <p class="text-slate-600 text-[11px]">- Cột A (1, 2, 3, 4) và Cột B (A, B, C, D). Chọn ghép cặp qua menu <code>&lt;select data-match="1"&gt;</code>.<br>- Thuộc tính đáp án: <code>data-answer="1-C|2-A|3-D|4-B"</code>.</p>
+                    </div>
+
+                    <!-- Dạng 6 -->
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold text-slate-900 text-xs"><i class="fa-solid fa-6 mr-1 text-teal-600"></i> Dạng 6: Sắp xếp theo thứ tự logic (Ordering / Sequence)</span>
+                            <span class="font-mono text-[10px] bg-slate-100 px-2 py-0.5 rounded text-teal-800 font-bold">data-type="ordering"</span>
+                        </div>
+                        <p class="text-slate-600 text-[11px]">- Sắp xếp các bước thực nghiệm, các sự kiện lịch sử, quy trình sinh học...<br>- Thuộc tính đáp án: <code>data-answer="2-4-1-3"</code>.</p>
+                    </div>
+
+                    <!-- Dạng 7 -->
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold text-slate-900 text-xs"><i class="fa-solid fa-7 mr-1 text-rose-600"></i> Dạng 7: Tự luận có Barem chấm điểm chi tiết (Essay with Rubric)</span>
+                            <span class="font-mono text-[10px] bg-slate-100 px-2 py-0.5 rounded text-rose-800 font-bold">data-type="essay"</span>
+                        </div>
+                        <p class="text-slate-600 text-[11px]">- Câu hỏi tự luận lớn, có vùng nháp cho học sinh và Bảng Barem phân chia điểm từng ý trong khối Lời giải chi tiết.<br>- Thuộc tính đáp án: <code>data-answer="essay_rubric"</code>.</p>
+                    </div>
+                </div>
+
+                <!-- TAB 2: 4 MỨC ĐỘ & MA TRẬN -->
+                <div id="guideline-tab-content-2" class="hidden space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl space-y-1">
+                            <div class="flex items-center justify-between">
+                                <span class="font-bold text-blue-900 text-xs">[NB] Nhận Biết</span>
+                                <span class="bg-blue-200 text-blue-800 text-[10px] font-bold px-2 py-0.5 rounded">Tỷ lệ ~40%</span>
+                            </div>
+                            <p class="text-[11px] text-slate-600">Nhắc lại định nghĩa, công thức, nhận diện khái niệm, đồ thị cơ bản. Thường dùng trong MCQ 4 lựa chọn.</p>
+                            <code class="text-[10px] text-blue-700 bg-white px-2 py-0.5 rounded block border border-blue-200">data-level="NB" | class="... bg-blue-100 text-blue-700"</code>
+                        </div>
+
+                        <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl space-y-1">
+                            <div class="flex items-center justify-between">
+                                <span class="font-bold text-emerald-900 text-xs">[TH] Thông Hiểu</span>
+                                <span class="bg-emerald-200 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded">Tỷ lệ ~30%</span>
+                            </div>
+                            <p class="text-[11px] text-slate-600">Hiểu bản chất, phân biệt các đại lượng, áp dụng trực tiếp 1 công thức đơn giản; ý a, b của câu Đúng/Sai.</p>
+                            <code class="text-[10px] text-emerald-700 bg-white px-2 py-0.5 rounded block border border-emerald-200">data-level="TH" | class="... bg-emerald-100 text-emerald-700"</code>
+                        </div>
+
+                        <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl space-y-1">
+                            <div class="flex items-center justify-between">
+                                <span class="font-bold text-amber-900 text-xs">[VD] Vận Dụng</span>
+                                <span class="bg-amber-200 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded">Tỷ lệ ~20%</span>
+                            </div>
+                            <p class="text-[11px] text-slate-600">Liên kết 2-3 kiến thức, giải bài toán thực tế mức độ vừa phải; ý c, d của Đúng/Sai hoặc Trả lời ngắn.</p>
+                            <code class="text-[10px] text-amber-700 bg-white px-2 py-0.5 rounded block border border-amber-200">data-level="VD" | class="... bg-amber-100 text-amber-800"</code>
+                        </div>
+
+                        <div class="p-3 bg-rose-50 border border-rose-200 rounded-xl space-y-1">
+                            <div class="flex items-center justify-between">
+                                <span class="font-bold text-rose-900 text-xs">[VDC] Vận Dụng Cao</span>
+                                <span class="bg-rose-200 text-rose-800 text-[10px] font-bold px-2 py-0.5 rounded">Tỷ lệ ~10%</span>
+                            </div>
+                            <p class="text-[11px] text-slate-600">Bài toán phân hóa sâu, cực trị phức tạp, mô hình hóa thực tiễn mới lạ, câu tự luận phân loại học sinh giỏi.</p>
+                            <code class="text-[10px] text-rose-700 bg-white px-2 py-0.5 rounded block border border-rose-200">data-level="VDC" | class="... bg-rose-100 text-rose-700"</code>
+                        </div>
+                    </div>
+
+                    <!-- Bảng Ma Trận Mẫu Đề Thi Bộ GD&ĐT 2025 -->
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 space-y-2">
+                        <h4 class="font-bold text-slate-800 text-xs uppercase flex items-center">
+                            <i class="fa-solid fa-table mr-1.5 text-blue-600"></i> Khung Ma Trận Chuẩn 1 Đề Thi THPT (Ví dụ Môn Toán - 90 phút - 10 điểm)
+                        </h4>
+                        <div class="overflow-x-auto border border-slate-200 rounded-lg">
+                            <table class="w-full text-[11px] text-left">
+                                <thead class="bg-slate-100 font-bold text-slate-700 border-b">
+                                    <tr>
+                                        <th class="p-2">Phần thi / Dạng bài</th>
+                                        <th class="p-2 text-center text-blue-700">Nhận biết</th>
+                                        <th class="p-2 text-center text-emerald-700">Thông hiểu</th>
+                                        <th class="p-2 text-center text-amber-700">Vận dụng</th>
+                                        <th class="p-2 text-center text-rose-700">Vận dụng cao</th>
+                                        <th class="p-2 text-center font-extrabold">Tổng câu / Điểm</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100">
+                                    <tr>
+                                        <td class="p-2 font-medium">Phần I: Trắc nghiệm 4 lựa chọn (0.25đ/câu)</td>
+                                        <td class="p-2 text-center font-bold">8 câu</td>
+                                        <td class="p-2 text-center font-bold">4 câu</td>
+                                        <td class="p-2 text-center">-</td>
+                                        <td class="p-2 text-center">-</td>
+                                        <td class="p-2 text-center font-bold text-blue-700">12 câu (3.0đ)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-2 font-medium">Phần II: Trắc nghiệm Đúng / Sai (1.0đ/câu)</td>
+                                        <td class="p-2 text-center">-</td>
+                                        <td class="p-2 text-center font-bold">2 câu</td>
+                                        <td class="p-2 text-center font-bold">2 câu</td>
+                                        <td class="p-2 text-center">-</td>
+                                        <td class="p-2 text-center font-bold text-emerald-700">4 câu (4.0đ)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-2 font-medium">Phần III: Trắc nghiệm Trả lời ngắn (0.5đ/câu)</td>
+                                        <td class="p-2 text-center">-</td>
+                                        <td class="p-2 text-center">-</td>
+                                        <td class="p-2 text-center font-bold">4 câu</td>
+                                        <td class="p-2 text-center font-bold">2 câu</td>
+                                        <td class="p-2 text-center font-bold text-amber-700">6 câu (3.0đ)</td>
+                                    </tr>
+                                    <tr class="bg-blue-50/50 font-bold text-blue-900">
+                                        <td class="p-2 uppercase">Tổng cộng điểm & Tỷ lệ:</td>
+                                        <td class="p-2 text-center">2.0đ (20% - 40%)</td>
+                                        <td class="p-2 text-center">3.0đ (30%)</td>
+                                        <td class="p-2 text-center">3.0đ (30%)</td>
+                                        <td class="p-2 text-center">1.0đ (10%)</td>
+                                        <td class="p-2 text-center text-sm">22 câu (10.0đ)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 3: PROMPT MASTER -->
+                <div id="guideline-tab-content-3" class="hidden space-y-3">
+                    <div class="flex items-center justify-between">
+                        <p class="font-bold text-slate-800 text-xs">Prompt Mẫu Huấn Luyện NotebookLM:</p>
+                        <button type="button" onclick="copyMasterPromptOnly()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-[11px] font-bold px-3 py-1 rounded-lg transition shadow-sm flex items-center">
+                            <i class="fa-solid fa-copy mr-1"></i> Sao Chép Prompt Này
+                        </button>
+                    </div>
+                    <textarea id="master-prompt-textarea" readonly rows="14" class="w-full p-3 font-mono text-[11px] bg-slate-900 text-emerald-400 rounded-xl border border-slate-700 focus:outline-none leading-relaxed"></textarea>
+                </div>
+            </div>
+
+            <!-- Footer Modal -->
+            <div class="bg-slate-100 border-t border-slate-200 px-5 py-3 flex items-center justify-between">
+                <a href="https://docs.google.com/document/d/1L9x_n0fxCEfGGRjF7SkkvjhljAFLH692W2Gdyxjn9V0/export?format=docx" target="_blank" class="text-indigo-700 hover:text-indigo-900 font-bold text-xs flex items-center">
+                    <i class="fa-solid fa-cloud-arrow-down mr-1.5"></i> Tải file Word (.docx) Quy Ước Đề Thi
+                </a>
+                <div class="flex items-center space-x-2">
+                    <button type="button" onclick="closeExamGuidelineModal()" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-lg text-xs transition">Đóng</button>
+                    <button type="button" onclick="copyExamGuidelineFull()" class="px-4 py-2 bg-indigo-700 hover:bg-indigo-800 text-white font-bold rounded-lg text-xs shadow transition flex items-center">
+                        <i class="fa-solid fa-copy mr-1.5"></i> Sao Chép Toàn Bộ Quy Ước
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -1082,16 +1320,35 @@ QUY TẮC BẮT BUỘC (ĐỂ XUẤT RA FILE WORD NGUYÊN BẢN MÃ HTML):
 4. ĐẦU RA YÊU CẦU:
    - Chỉ xuất DUY NHẤT chuỗi mã nguồn HTML nguyên bản. Giữ nguyên 100% các thẻ HTML để khi lưu ghi chú hoặc tải file Word (.docx) về, file Word sẽ mang trọn vẹn mã HTML giúp hệ thống nạp hiển thị hoàn hảo.`;
             } else {
-                promptText = `Hãy biên soạn Đề thi/Bài tập Môn: ${subject} - Lớp: ${grade}. Nội dung/Chủ đề: "${lesson}".
+                promptText = `Hãy đóng vai chuyên gia biên soạn đề thi theo định hướng đánh giá năng lực của Bộ GD&ĐT cho Môn: ${subject} - Lớp: ${grade}. Chủ đề/Bài học: "${lesson}".
 
-QUY TẮC BẮT BUỘC (ĐỂ XUẤT RA FILE WORD NGUYÊN BẢN MÃ HTML):
+QUY TẮC BẮT BUỘC ĐỂ XUẤT RA FILE WORD NGUYÊN BẢN MÃ HTML (THEO QUY ƯỚC SÀO BÁY PORTAL):
 1. MỤC ĐÍCH: Dữ liệu này sẽ được tải xuống dưới dạng tệp Word (.docx) từ NotebookLM để nạp vào hệ thống Sào Báy Portal. Bạn BẮT BUỘC phải xuất TOÀN BỘ nội dung dưới dạng MÃ NGUỒN HTML NGUYÊN BẢN (RAW HTML CODE). TUYỆT ĐỐI KHÔNG đổi thành văn bản Word thường.
-2. CẤU TRÚC ĐỀ THI:
-   - Bao bọc trong mã HTML chuẩn có Tailwind CSS, tuân thủ các cú pháp nhận diện: <4LT>, <Câu 1>, <Câu 2>,...
-   - Mỗi câu gồm nội dung câu hỏi, 4 phương án A, B, C, D (dùng cú pháp <ĐA Câu X>), và lời giải chi tiết (<LG Câu X>).
-3. CÔNG THỨC TOÁN HỌC (MATHJAX):
-   - Giữ nguyên 100% công thức Toán dạng TeX/LaTeX kẹp trong $...$ hoặc $$...$$. Tuyệt đối không làm biến dạng ký hiệu toán.
-4. ĐẦU RA YÊU CẦU:
+2. CÁC DẠNG BÀI TẬP PHONG PHÚ:
+   Hãy xây dựng bộ câu hỏi đa dạng theo đúng Quy tắc soạn đề của hệ thống Sào Báy Portal:
+   - Dạng 1: Trắc nghiệm 4 lựa chọn (data-type="mcq_4"): Chọn 1 trong 4 đáp án A, B, C, D qua <input type="radio">. Thuộc tính: data-answer="A|B|C|D".
+   - Dạng 2: Trắc nghiệm Đúng / Sai theo chuẩn 2025 Bộ GD&ĐT (data-type="true_false"): Gồm 1 ngữ cảnh và 4 ý a, b, c, d với 2 cột chọn Đúng/Sai. Thuộc tính: data-answer="a:T|b:F|c:T|d:F". Chấm lũy tiến: Đúng 1 ý = 0.1đ, 2 ý = 0.25đ, 3 ý = 0.5đ, 4 ý = 1.0đ.
+   - Dạng 3: Trắc nghiệm Trả lời ngắn (data-type="short_answer"): Học sinh giải ra kết quả và nhập vào ô <input type="text" class="short-answer-input">. Thuộc tính: data-answer="kết_quả".
+   - Dạng 4: Điền từ / Điền khuyết (data-type="fill_blank"): Đoạn văn có các ô trống [1], [2] dạng <input data-blank="1"> kèm khung từ gợi ý (Word Bank). Thuộc tính: data-answer="1:từ1|2:từ2".
+   - Dạng 5: Nối cột tương ứng (data-type="matching"): Nối cột A (1, 2, 3, 4) với cột B (A, B, C, D) qua <select data-match="1">. Thuộc tính: data-answer="1-C|2-A|3-D|4-B".
+   - Dạng 6: Sắp xếp theo thứ tự (data-type="ordering"): Sắp xếp các bước thí nghiệm hoặc sự kiện logic. Thuộc tính: data-answer="2-4-1-3".
+   - Dạng 7: Tự luận có Barem chấm điểm chi tiết (data-type="essay"): Có vùng làm bài cho học sinh và Bảng Barem phân chia điểm chi tiết từng ý trong phần lời giải.
+3. PHÂN BỔ 4 MỨC ĐỘ NHẬN THỨC THEO CHUẨN MA TRẬN:
+   Mỗi câu hỏi BẮT BUỘC có thuộc tính data-level và nhãn hiển thị trực quan:
+   - [NB] Nhận biết: <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-100 text-blue-700 border border-blue-200 mr-2">[NB] Nhận biết</span> (data-level="NB")
+   - [TH] Thông hiểu: <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700 border border-emerald-200 mr-2">[TH] Thông hiểu</span> (data-level="TH")
+   - [VD] Vận dụng: <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-800 border border-amber-200 mr-2">[VD] Vận dụng</span> (data-level="VD")
+   - [VDC] Vận dụng cao: <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-rose-100 text-rose-700 border border-rose-200 mr-2">[VDC] Vận dụng cao</span> (data-level="VDC")
+4. METADATA VÀ NÚT BẤM TƯƠNG TÁC CHO TỪNG CÂU HỎI:
+   Mỗi câu hỏi phải là 1 khối độc lập:
+   <div class="question-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm mb-5" data-question-id="q1" data-type="..." data-level="..." data-topic="${lesson}" data-points="..." data-answer="...">.
+   Mỗi câu có nút bấm:
+   - <button type="button" onclick="checkSingleQuestion('q1')" class="btn-check bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-4 py-2 rounded-xl shadow-sm transition">Kiểm tra đáp án</button>
+   - <button type="button" onclick="toggleSolution('q1')" class="btn-toggle-sol text-xs font-bold text-slate-600 hover:text-blue-600">Xem lời giải chi tiết</button>
+   - Khối Lời giải chi tiết: <div id="solution-q1" class="solution-box hidden mt-3 p-4 bg-slate-50 border border-slate-200 rounded-xl text-xs md:text-sm text-slate-700 leading-relaxed">...</div>
+5. CÔNG THỨC TOÁN HỌC (MATHJAX):
+   - Mọi ký hiệu toán học BẮT BUỘC giữ nguyên 100% cú pháp TeX/LaTeX trong $...$ hoặc $$...$$. Tuyệt đối không làm biến dạng ký hiệu toán.
+6. ĐẦU RA YÊU CẦU:
    - Chỉ xuất DUY NHẤT chuỗi mã nguồn HTML nguyên bản. Giữ nguyên 100% các thẻ HTML để khi lưu ghi chú hoặc tải file Word (.docx) về, file Word vẫn lưu giữ nguyên vẹn mã HTML để Sào Báy Portal nạp hiển thị hoàn hảo.`;
             }
 
@@ -1618,6 +1875,222 @@ QUY TẮC BẮT BUỘC (ĐỂ XUẤT RA FILE WORD NGUYÊN BẢN MÃ HTML):
             alert('Đã cập nhật quy tắc điểm số và cấu hình GitHub thành công!');
             loadFolderTreeFromGit(true);
         }
-    </script>    
+
+        // ========================================================
+        // QUẢN LÝ MODAL QUY TẮC SOẠN ĐỀ & BỘ MÁY CHẤM ĐIỂM TƯƠNG TÁC
+        // ========================================================
+        const MASTER_PROMPT_TEMPLATE = `Hãy đóng vai chuyên gia biên soạn đề thi theo định hướng đánh giá năng lực của Bộ GD&ĐT cho Môn: [TÊN MÔN] - Lớp: [LỚP]. 
+Chủ đề bài học: "[TÊN CHỦ ĐỀ HOẶC NỘI DUNG]".
+
+QUY TẮC BẮT BUỘC ĐỂ XUẤT RA FILE WORD MANG NGUYÊN BẢN MÃ HTML (THEO QUY ƯỚC SÀO BÁY PORTAL):
+1. MỤC ĐÍCH: Dữ liệu này sẽ được tải xuống dưới dạng tệp Word (.docx) từ NotebookLM để nạp trực tiếp vào hệ thống Sào Báy Portal. Vì vậy, bạn BẮT BUỘC phải xuất TOÀN BỘ nội dung dưới dạng MÃ NGUỒN HTML NGUYÊN BẢN (RAW HTML CODE). TUYỆT ĐỐI KHÔNG xuất văn bản thường.
+2. CẤU TRÚC ĐỀ THI ĐA DẠNG:
+   Hãy tạo bộ câu hỏi phong phú bao gồm các dạng bài tập theo đúng Quy tắc soạn đề chuẩn Sào Báy:
+   - Dạng 1: Trắc nghiệm 4 lựa chọn (data-type="mcq_4"): Gồm 4 phương án A, B, C, D (radio), data-answer="A|B|C|D".
+   - Dạng 2: Trắc nghiệm Đúng / Sai 4 ý a,b,c,d theo chuẩn 2025 (data-type="true_false"): Gồm 1 ngữ cảnh và 4 ý a, b, c, d với 2 cột Đúng/Sai, data-answer="a:T|b:F|c:T|d:F".
+   - Dạng 3: Trắc nghiệm Trả lời ngắn (data-type="short_answer"): Có ô input nhập kết quả số/từ ngắn, data-answer="đáp_số".
+   - Dạng 4: Điền từ / Điền khuyết (data-type="fill_blank"): Đoạn văn có các ô khuyết [1], [2] kèm Word Bank, data-answer="1:từ1|2:từ2".
+   - Dạng 5: Nối cột tương ứng (data-type="matching"): Nối cột A với cột B, data-answer="1-C|2-A|3-D|4-B".
+   - Dạng 6: Sắp xếp theo thứ tự (data-type="ordering"): Sắp xếp logic quy trình/sự kiện, data-answer="2-4-1-3".
+   - Dạng 7: Tự luận có Barem chấm điểm chi tiết (data-type="essay"): Có vùng làm bài cho học sinh và Bảng Barem phân chia điểm chi tiết từng ý.
+3. PHÂN BỔ 4 MỨC ĐỘ NHẬN THỨC THEO CHUẨN MA TRẬN:
+   Mỗi câu hỏi BẮT BUỘC có thuộc tính data-level và nhãn hiển thị trực quan:
+   - [NB] Nhận biết (bg-blue-100 text-blue-700)
+   - [TH] Thông hiểu (bg-emerald-100 text-emerald-700)
+   - [VD] Vận dụng (bg-amber-100 text-amber-800)
+   - [VDC] Vận dụng cao (bg-rose-100 text-rose-700)
+4. METADATA TRÊN TỪNG CÂU HỎI:
+   Mỗi câu hỏi phải là một khối: <div class="question-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm mb-5" data-question-id="q1" data-type="..." data-level="..." data-topic="..." data-points="..." data-answer="...">.
+   Có nút "Kiểm tra đáp án" onclick="checkSingleQuestion('q1')" và nút "Xem lời giải chi tiết" onclick="toggleSolution('q1')" kèm khối giải thích <div id="solution-q1" class="solution-box hidden mt-3 p-4 bg-slate-50 border border-slate-200 rounded-xl text-xs md:text-sm text-slate-700 leading-relaxed">...</div>.
+5. CÔNG THỨC TOÁN HỌC (MATHJAX):
+   Giữ nguyên 100% cú pháp TeX/LaTeX trong $...$ hoặc $$...$$. Tuyệt đối không làm mất ký hiệu toán.
+6. ĐẦU RA YÊU CẦU:
+   Chỉ xuất DUY NHẤT chuỗi mã nguồn HTML nguyên bản từ thẻ <div class="exam-container ..."> đến hết.`;
+
+        function openExamGuidelineModal() {
+            let area = document.getElementById('master-prompt-textarea');
+            if (area) area.value = MASTER_PROMPT_TEMPLATE;
+            switchGuidelineTab(1);
+            document.getElementById('exam-guideline-modal').classList.remove('hidden');
+        }
+
+        function closeExamGuidelineModal() {
+            document.getElementById('exam-guideline-modal').classList.add('hidden');
+        }
+
+        function switchGuidelineTab(tabIdx) {
+            [1, 2, 3].forEach(idx => {
+                let btn = document.getElementById(`guideline-tab-btn-${idx}`);
+                let content = document.getElementById(`guideline-tab-content-${idx}`);
+                if (btn && content) {
+                    if (idx === tabIdx) {
+                        btn.className = "px-4 py-2 border-b-2 border-blue-600 text-blue-800 bg-white rounded-t-lg transition flex items-center";
+                        content.classList.remove('hidden');
+                    } else {
+                        btn.className = "px-4 py-2 border-b-2 border-transparent text-slate-600 hover:text-blue-700 rounded-t-lg transition flex items-center";
+                        content.classList.add('hidden');
+                    }
+                }
+            });
+        }
+
+        function copyMasterPromptOnly() {
+            navigator.clipboard.writeText(MASTER_PROMPT_TEMPLATE).then(() => {
+                showToast("Đã sao chép Prompt Master vào Clipboard!", "success");
+            }).catch(() => {
+                showToast("Vui lòng cấp quyền copy!", "error");
+            });
+        }
+
+        async function copyExamGuidelineFull() {
+            try {
+                let res = await fetch('QUY_TAC_SOAN_DE.md');
+                let fullText = '';
+                if (res.ok) {
+                    fullText = await res.text();
+                } else {
+                    fullText = MASTER_PROMPT_TEMPLATE;
+                }
+                await navigator.clipboard.writeText(fullText);
+                showToast("Đã sao chép toàn bộ Quy tắc soạn đề! Dán vào Google Docs hoặc NotebookLM ngay.", "success");
+            } catch(e) {
+                navigator.clipboard.writeText(MASTER_PROMPT_TEMPLATE);
+                showToast("Đã sao chép Prompt Quy ước vào Clipboard!", "success");
+            }
+        }
+
+        // ENGINE TƯƠNG TÁC LÀM BÀI TRẮC NGHIỆM TRÊN TRÌNH DUYỆT (HỖ TRỢ TẤT CẢ 7 DẠNG BÀI TẬP)
+        function toggleSolution(qid, forceOpen = null) {
+            let sol = document.getElementById('solution-' + qid);
+            if (!sol) {
+                // Thử tìm trong card
+                let card = document.querySelector(`.question-card[data-question-id="${qid}"]`);
+                if (card) sol = card.querySelector('.solution-box');
+            }
+            if (sol) {
+                if (forceOpen === true) sol.classList.remove('hidden');
+                else if (forceOpen === false) sol.classList.add('hidden');
+                else sol.classList.toggle('hidden');
+
+                if (!sol.classList.contains('hidden') && window.MathJax && window.MathJax.typesetPromise) {
+                    window.MathJax.typesetPromise([sol]).catch(e => {});
+                }
+            }
+        }
+
+        function checkSingleQuestion(qid) {
+            let card = document.querySelector(`.question-card[data-question-id="${qid}"]`);
+            if (!card) {
+                card = document.getElementById('card_' + qid) || document.getElementById(qid);
+            }
+            if (!card) return;
+
+            let type = card.getAttribute('data-type') || 'mcq_4';
+            let ans = (card.getAttribute('data-answer') || '').trim();
+            let maxPoints = parseFloat(card.getAttribute('data-points')) || 0.25;
+            let earnedPoints = 0;
+            let isCorrect = false;
+
+            if (type === 'mcq_4' || type === 'mc') {
+                let sel = card.querySelector(`input[name="${qid}"]:checked`) || card.querySelector(`input[type="radio"]:checked`);
+                if (!sel) {
+                    alert('Vui lòng chọn 1 phương án trước khi kiểm tra!');
+                    return;
+                }
+                isCorrect = (sel.value.toUpperCase() === ans.toUpperCase());
+                earnedPoints = isCorrect ? maxPoints : 0;
+            }
+            else if (type === 'true_false') {
+                let parts = ans.split('|').map(p => p.trim());
+                let correctCount = 0;
+                let hasUnanswered = false;
+
+                parts.forEach(p => {
+                    let [subKey, expected] = p.split(':');
+                    let sel = card.querySelector(`input[name="${qid}_${subKey}"]:checked`);
+                    if (!sel) hasUnanswered = true;
+                    else if (sel.value.toUpperCase() === expected.toUpperCase()) correctCount++;
+                });
+
+                if (hasUnanswered) {
+                    alert('Vui lòng chọn đủ Đúng/Sai cho cả 4 ý khẳng định!');
+                    return;
+                }
+
+                // Thang điểm Bộ GD&ĐT 2025
+                if (correctCount === 4) earnedPoints = maxPoints;
+                else if (correctCount === 3) earnedPoints = maxPoints * 0.5;
+                else if (correctCount === 2) earnedPoints = maxPoints * 0.25;
+                else if (correctCount === 1) earnedPoints = maxPoints * 0.1;
+                else earnedPoints = 0;
+
+                isCorrect = (correctCount === 4);
+            }
+            else if (type === 'short_answer') {
+                let inputEl = card.querySelector('.short-answer-input') || card.querySelector('input[type="text"]');
+                if (!inputEl || !inputEl.value.trim()) {
+                    alert('Vui lòng nhập kết quả trước khi kiểm tra!');
+                    return;
+                }
+                let userVal = inputEl.value.trim().toLowerCase().replace(/\s+/g, '').replace(',', '.');
+                let accepted = ans.toLowerCase().split('|').map(s => s.trim().replace(/\s+/g, '').replace(',', '.'));
+                isCorrect = accepted.includes(userVal);
+                earnedPoints = isCorrect ? maxPoints : 0;
+            }
+            else if (type === 'fill_blank') {
+                let parts = ans.split('|').map(p => p.trim());
+                let correctCount = 0;
+                parts.forEach(p => {
+                    let [idx, expVal] = p.split(':');
+                    let input = card.querySelector(`input[data-blank="${idx}"]`);
+                    if (input && input.value.trim().toLowerCase() === expVal.trim().toLowerCase()) {
+                        correctCount++;
+                        input.className = "blank-input inline-block w-28 px-2 py-1 mx-1 text-center font-bold text-emerald-800 bg-emerald-50 border border-emerald-500 rounded-lg shadow-inner";
+                    } else if (input) {
+                        input.className = "blank-input inline-block w-28 px-2 py-1 mx-1 text-center font-bold text-rose-800 bg-rose-50 border border-rose-500 rounded-lg shadow-inner";
+                    }
+                });
+                isCorrect = (correctCount === parts.length);
+                earnedPoints = (correctCount / (parts.length || 1)) * maxPoints;
+            }
+            else if (type === 'matching') {
+                let pairs = ans.split('|').map(p => p.trim().toUpperCase());
+                let correctCount = 0;
+                pairs.forEach(pair => {
+                    let [left, right] = pair.split('-');
+                    let sel = card.querySelector(`select[data-match="${left}"]`);
+                    if (sel && sel.value.toUpperCase() === right) correctCount++;
+                });
+                isCorrect = (correctCount === pairs.length);
+                earnedPoints = (correctCount / (pairs.length || 1)) * maxPoints;
+            }
+            else if (type === 'ordering') {
+                let inputEl = card.querySelector('input[type="text"]');
+                if (!inputEl || !inputEl.value.trim()) {
+                    alert('Vui lòng nhập thứ tự các bước trước khi kiểm tra!');
+                    return;
+                }
+                let userVal = inputEl.value.trim().replace(/\s+/g, '').replace(/[\rightarrow,>]/g, '-').toUpperCase();
+                let expected = ans.trim().replace(/\s+/g, '').toUpperCase();
+                isCorrect = (userVal === expected);
+                earnedPoints = isCorrect ? maxPoints : 0;
+            }
+            else if (type === 'essay') {
+                toggleSolution(qid, true);
+                return;
+            }
+
+            // Phản hồi giao diện
+            card.classList.remove('border-slate-200', 'border-emerald-500', 'border-rose-500', 'bg-emerald-50/20', 'bg-rose-50/20');
+            if (isCorrect) {
+                card.classList.add('border-emerald-500', 'bg-emerald-50/20');
+                showToast(`Chính xác! (+${earnedPoints.toFixed(2)} điểm)`, "success");
+            } else {
+                card.classList.add('border-rose-500', 'bg-rose-50/20');
+                showToast(`Chưa chính xác! (Đạt: ${earnedPoints.toFixed(2)}/${maxPoints} điểm)`, "error");
+            }
+            toggleSolution(qid, true);
+        }
+    </script>
 </body>
 </html>
