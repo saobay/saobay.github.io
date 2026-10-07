@@ -87,32 +87,59 @@
         </div>
 
         <!-- CÂY THƯ MỤC VÀ HIỂN THỊ NỘI DUNG -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6">
+        <div class="flex flex-col lg:flex-row gap-4 relative min-h-[650px] items-start">
             
-            <!-- CÂY THƯ MỤC BÀI HỌC CỘT TRÁI -->
-            <div class="lg:col-span-4 bg-white rounded-2xl border border-slate-200 shadow-sm p-3 md:p-4 flex flex-col h-[480px] md:h-[650px]">
-                <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-3">
-                    <h3 id="tree-title-heading" class="font-extrabold text-slate-800 text-sm md:text-base flex items-center">
-                        <i class="fa-solid fa-folder-tree text-blue-600 mr-2"></i> Cây Kiến Thức Lý Thuyết
-                    </h3>
-                    <button onclick="syncSystemData(true)" class="text-xs text-blue-600 hover:underline flex items-center font-semibold">
-                        <i class="fa-solid fa-rotate mr-1" id="sync-icon"></i> Tải lại
+            <!-- CÂY THƯ MỤC BÀI HỌC CỘT TRÁI (TỰ ĐỘNG THU GỌN KHI CHỌN BÀI ĐỌC) -->
+            <div id="sidebar-tree-wrapper" class="w-full lg:w-[350px] shrink-0 bg-white rounded-2xl border border-slate-200 shadow-sm p-3 md:p-4 flex flex-col h-[520px] lg:h-[720px] transition-all duration-300 relative overflow-hidden">
+                
+                <!-- GIAO DIỆN KHI MỞ RỘNG (MẶC ĐỊNH) -->
+                <div id="sidebar-expanded-content" class="flex flex-col h-full space-y-3">
+                    <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+                        <h3 id="tree-title-heading" class="font-extrabold text-slate-800 text-sm md:text-base flex items-center">
+                            <i class="fa-solid fa-folder-tree text-blue-600 mr-2"></i> Cây Kiến Thức
+                        </h3>
+                        <div class="flex items-center space-x-1">
+                            <button onclick="syncSystemData(true)" title="Tải lại từ Git" class="text-xs text-blue-600 hover:bg-blue-50 p-1.5 rounded-lg transition">
+                                <i class="fa-solid fa-rotate" id="sync-icon"></i>
+                            </button>
+                            <button onclick="toggleTreeSidebar(false)" title="Thu nhỏ danh mục" class="text-xs text-slate-500 hover:text-slate-800 hover:bg-slate-100 p-1.5 rounded-lg transition">
+                                <i class="fa-solid fa-angles-left"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="relative">
+                        <input type="text" id="tree-search-input" oninput="filterTreeNodes()" placeholder="Tìm nhanh bài học..." class="w-full text-xs bg-slate-50 border border-slate-200 rounded-lg pl-8 pr-3 py-2 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+                        <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2.5 text-slate-400 text-xs"></i>
+                    </div>
+
+                    <div id="tree-directory-container" class="flex-1 overflow-y-auto space-y-2 text-xs pr-1">
+                        <!-- Tải dữ liệu danh mục phân cấp tại đây -->
+                    </div>
+                </div>
+
+                <!-- GIAO DIỆN KHI THU GỌN (DẤU BA GẠCH NGANG) -->
+                <div id="sidebar-collapsed-content" class="hidden flex-col items-center justify-start h-full py-2 space-y-4 w-full">
+                    <button onclick="toggleTreeSidebar(true)" title="Mở danh mục bài học" class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white flex items-center justify-center text-base font-bold shadow-sm transition">
+                        <i class="fa-solid fa-bars"></i>
                     </button>
-                </div>
-
-                <div class="mb-3 relative">
-                    <input type="text" id="tree-search-input" oninput="filterTreeNodes()" placeholder="Tìm nhanh bài học..." class="w-full text-xs bg-slate-50 border border-slate-200 rounded-lg pl-8 pr-3 py-2 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"/>
-                    <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2.5 text-slate-400 text-xs"></i>
-                </div>
-
-                <div id="tree-directory-container" class="flex-1 overflow-y-auto space-y-2 text-xs pr-1">
-                    <!-- Tải dữ liệu danh mục tại đây -->
+                    <div class="[writing-mode:vertical-lr] text-[11px] font-extrabold text-slate-400 tracking-widest uppercase select-none cursor-pointer mt-4" onclick="toggleTreeSidebar(true)">
+                        <i class="fa-solid fa-folder-open mb-2 text-amber-500 [writing-mode:horizontal-tb]"></i> DANH MỤC
+                    </div>
                 </div>
             </div>
 
-            <!-- NỘI DUNG HIỂN THỊ CỘT PHẢI -->
-            <div class="lg:col-span-8 bg-white rounded-2xl border border-slate-200 shadow-sm p-4 md:p-6 flex flex-col h-[520px] md:h-[650px] overflow-y-auto relative" id="content-display-area">
+            <!-- NỘI DUNG HIỂN THỊ CỘT PHẢI (TỰ ĐỘNG DÃN RỘNG KHI CÂY DANH MỤC THU GỌN) -->
+            <div class="flex-1 w-full bg-white rounded-2xl border border-slate-200 shadow-sm p-4 md:p-8 flex flex-col min-h-[520px] lg:h-[720px] overflow-y-auto relative transition-all duration-300" id="content-display-area">
                 
+                <!-- NÚT MỞ NHANH DANH MỤC NẰM ĐẦU VÙNG ĐỌC (HIỂN THỊ KHI SIDEBAR THU GỌN) -->
+                <div id="floating-sidebar-toggle-bar" class="hidden pb-3 mb-2 border-b border-slate-100 flex items-center justify-between">
+                    <button onclick="toggleTreeSidebar(true)" class="bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1.5 rounded-lg border border-blue-200 transition flex items-center shadow-sm">
+                        <i class="fa-solid fa-bars mr-1.5 text-blue-600"></i> Hiện Danh Mục Bài Học
+                    </button>
+                    <span class="text-[11px] text-slate-400 italic">Đang ở chế độ đọc bài toàn màn hình</span>
+                </div>
+
                 <div id="empty-state" class="m-auto text-center space-y-3 py-8">
                     <div class="w-16 h-16 md:w-20 md:h-20 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center mx-auto text-2xl md:text-3xl shadow-inner">
                         <i class="fa-solid fa-book-open-reader"></i>
@@ -200,10 +227,14 @@
 
         function formatFolderDisplayName(folderPath) {
             if (!folderPath || folderPath === 'data') return 'Thư viện bài giảng (data)';
-            return folderPath
-                .replace(/^data\//, '')
+            let s = folderPath.replace(/^data\//, '');
+            if (/^tienganh6/i.test(s)) {
+                s = s.replace(/^tienganh6/i, 'THCS ❯ Tiếng Anh 6');
+            } else if (/^thcs/i.test(s)) {
+                s = s.replace(/^thcs\//i, 'THCS ❯ ');
+            }
+            return s
                 .replace(/\//g, ' ❯ ')
-                .replace(/tienganh6/gi, 'Tiếng Anh 6')
                 .replace(/unit(\d+)/gi, 'Unit $1');
         }
 
@@ -381,66 +412,174 @@
             };
         }
 
+        let isSidebarCollapsed = false;
+        function toggleTreeSidebar(forceExpand = null) {
+            let wrapper = document.getElementById('sidebar-tree-wrapper');
+            let expContent = document.getElementById('sidebar-expanded-content');
+            let colContent = document.getElementById('sidebar-collapsed-content');
+            let floatBar = document.getElementById('floating-sidebar-toggle-bar');
+            if (!wrapper) return;
+
+            if (forceExpand !== null) {
+                isSidebarCollapsed = !forceExpand;
+            } else {
+                isSidebarCollapsed = !isSidebarCollapsed;
+            }
+
+            if (isSidebarCollapsed) {
+                // Thu gọn thành thanh biểu tượng 3 gạch ngang
+                wrapper.classList.remove('lg:w-[350px]', 'p-3', 'md:p-4');
+                wrapper.classList.add('lg:w-16', 'p-1', 'items-center');
+                if (expContent) expContent.classList.add('hidden');
+                if (colContent) {
+                    colContent.classList.remove('hidden');
+                    colContent.classList.add('flex');
+                }
+                if (floatBar) floatBar.classList.remove('hidden');
+            } else {
+                // Mở rộng danh mục đầy đủ
+                wrapper.classList.remove('lg:w-16', 'p-1', 'items-center');
+                wrapper.classList.add('lg:w-[350px]', 'p-3', 'md:p-4');
+                if (expContent) expContent.classList.remove('hidden');
+                if (colContent) {
+                    colContent.classList.add('hidden');
+                    colContent.classList.remove('flex');
+                }
+                if (floatBar) floatBar.classList.add('hidden');
+            }
+        }
+
         function renderTreeDirectory() {
             const container = document.getElementById('tree-directory-container');
             container.innerHTML = '';
 
             if (!driveFolders || driveFolders.length === 0) {
-                container.innerHTML = `<div class="text-center py-8 text-slate-400">Đang tải cây danh mục từ Git...</div>`;
+                container.innerHTML = `<div class="text-center py-8 text-slate-400 text-xs">Đang tải cây danh mục từ Git...</div>`;
                 return;
             }
 
+            // PHÂN CẤP CHUẨN: THCS CÙNG CẤP VỚI KHỐI 10, KHỐI 11, KHỐI 12
+            const GRADE_LEVELS = [
+                {
+                    key: 'THCS',
+                    title: 'Cấp THCS (Lớp 6 - 9)',
+                    icon: 'fa-school',
+                    color: 'text-indigo-600',
+                    badge: 'bg-indigo-100 text-indigo-800',
+                    match: (f) => /THCS|tienganh6/i.test(f.path || f.FolderID || '')
+                },
+                {
+                    key: 'K10',
+                    title: 'Khối Lớp 10',
+                    icon: 'fa-graduation-cap',
+                    color: 'text-blue-600',
+                    badge: 'bg-blue-100 text-blue-800',
+                    match: (f) => /khối\s*lớp\s*10|khoi\s*lop\s*10|k10|toán\s*10|toan\s*10/i.test(f.path || f.FolderID || '') && !/THCS/i.test(f.path || f.FolderID || '')
+                },
+                {
+                    key: 'K11',
+                    title: 'Khối Lớp 11',
+                    icon: 'fa-graduation-cap',
+                    color: 'text-emerald-600',
+                    badge: 'bg-emerald-100 text-emerald-800',
+                    match: (f) => /khối\s*lớp\s*11|khoi\s*lop\s*11|k11/i.test(f.path || f.FolderID || '') && !/THCS/i.test(f.path || f.FolderID || '')
+                },
+                {
+                    key: 'K12',
+                    title: 'Khối Lớp 12',
+                    icon: 'fa-graduation-cap',
+                    color: 'text-purple-600',
+                    badge: 'bg-purple-100 text-purple-800',
+                    match: (f) => /khối\s*lớp\s*12|khoi\s*lop\s*12|k12/i.test(f.path || f.FolderID || '') && !/THCS/i.test(f.path || f.FolderID || '')
+                },
+                {
+                    key: 'KHAC',
+                    title: 'Học Liệu Khác',
+                    icon: 'fa-folder-open',
+                    color: 'text-slate-600',
+                    badge: 'bg-slate-100 text-slate-800',
+                    match: () => true
+                }
+            ];
+
             let html = '';
+            let assignedFolderIds = new Set();
 
-            driveFolders.forEach(folder => {
-                let folderId = folder.FolderID || folder.id || folder.path;
-                let folderName = folder.FolderName || folder.name || formatFolderDisplayName(folderId);
+            GRADE_LEVELS.forEach(grade => {
+                let foldersInGrade = driveFolders.filter(f => {
+                    let fid = f.path || f.FolderID || f.id || '';
+                    if (assignedFolderIds.has(fid)) return false;
+                    let matches = grade.match(f);
+                    if (matches) assignedFolderIds.add(fid);
+                    return matches;
+                });
 
-                let filesInFolder = driveFiles.filter(f => (f.FolderID === folderId || f.folderId === folderId));
-                
-                let matchedFiles = filesInFolder.map(f => ({ ...f, meta: parseFileName(f.Title || f.title || f.name || f.rawFileName) }))
-                .filter(f => {
-                    if (currentMode === 'theory') {
-                        return f.meta.isTheory;
-                    } else {
-                        return f.meta.isPractice;
+                let gradeHtml = '';
+                let totalLessonsInGrade = 0;
+
+                foldersInGrade.forEach(folder => {
+                    let folderId = folder.FolderID || folder.id || folder.path;
+                    let filesInFolder = driveFiles.filter(f => (f.FolderID === folderId || f.folderId === folderId));
+                    let matchedFiles = filesInFolder.map(f => ({ ...f, meta: parseFileName(f.Title || f.title || f.name || f.rawFileName) }))
+                    .filter(f => currentMode === 'theory' ? f.meta.isTheory : f.meta.isPractice);
+
+                    if (matchedFiles.length > 0) {
+                        totalLessonsInGrade += matchedFiles.length;
+                        let displayFolderName = formatFolderDisplayName(folderId)
+                            .replace(/^(?:THCS\s*❯\s*|Khối\s*lớp\s*10\s*❯\s*|Khối\s*lớp\s*11\s*❯\s*|Khối\s*lớp\s*12\s*❯\s*)/i, '');
+
+                        gradeHtml += `
+                            <div class="tree-subject-group mb-1.5 pl-2 border-l-2 border-slate-200">
+                                <div onclick="toggleTreeNode(this)" class="tree-node-content flex items-center justify-between p-1.5 rounded-lg cursor-pointer font-bold text-slate-700 hover:bg-slate-100 transition text-[11px]">
+                                    <div class="flex items-center space-x-1.5 truncate">
+                                        <i class="fa-solid fa-angle-right text-slate-400 text-[10px] transition-transform duration-200"></i>
+                                        <i class="fa-solid fa-folder text-amber-500"></i>
+                                        <span class="truncate">${displayFolderName || 'Bài học'}</span>
+                                    </div>
+                                    <span class="text-[9px] bg-slate-100 px-1.5 py-0.5 rounded text-slate-500 shrink-0">${matchedFiles.length} bài</span>
+                                </div>
+                                <div class="tree-children hidden pl-3 space-y-1 mt-1">
+                        `;
+
+                        matchedFiles.forEach(file => {
+                            let fileId = file.ItemID || file.id;
+                            gradeHtml += `
+                                <div onclick="selectItemDetail('${fileId}', this)" class="tree-item-node tree-node-content p-1.5 rounded-lg flex items-center justify-between cursor-pointer text-slate-600 hover:text-blue-700 hover:bg-blue-50/60 transition">
+                                    <div class="flex items-center space-x-2 truncate pr-2">
+                                        <i class="fa-regular ${currentMode === 'practice' ? 'fa-file-pen text-emerald-600' : 'fa-file-lines text-blue-500'}"></i>
+                                        <span class="truncate text-xs font-medium">${file.meta.cleanTitle}</span>
+                                    </div>
+                                    <span class="text-[9px] px-1.5 py-0.5 rounded font-bold shrink-0 ${file.meta.status === 'approved' ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-600'}">
+                                        ${file.meta.status === 'approved' ? 'Đã duyệt' : 'Chưa duyệt'}
+                                    </span>
+                                </div>
+                            `;
+                        });
+
+                        gradeHtml += `</div></div>`;
                     }
                 });
 
-                if (matchedFiles.length > 0) {
+                if (totalLessonsInGrade > 0) {
                     html += `
-                        <div class="tree-subject-group mb-2">
-                            <div onclick="toggleTreeNode(this)" class="tree-node-content flex items-center justify-between p-2 rounded-lg cursor-pointer font-bold text-slate-800 hover:bg-slate-100">
+                        <div class="grade-level-block mb-2.5 bg-slate-50/80 border border-slate-200 rounded-xl p-2 shadow-sm">
+                            <div onclick="toggleTreeNode(this)" class="grade-heading flex items-center justify-between p-1 cursor-pointer font-black text-slate-900 hover:text-blue-700">
                                 <div class="flex items-center space-x-2 truncate">
-                                    <i class="fa-solid fa-angle-right text-slate-400 transition-transform duration-200"></i>
-                                    <i class="fa-solid fa-folder-open text-amber-500"></i>
-                                    <span class="truncate text-xs">${folderName}</span>
+                                    <i class="fa-solid fa-angle-down text-slate-500 text-xs transition-transform duration-200"></i>
+                                    <i class="fa-solid ${grade.icon} ${grade.color} text-sm"></i>
+                                    <span class="text-xs uppercase tracking-wide">${grade.title}</span>
                                 </div>
-                                <span class="text-[10px] bg-slate-100 px-2 py-0.5 rounded-full text-slate-500 shrink-0">${matchedFiles.length} bài</span>
+                                <span class="text-[10px] font-bold ${grade.badge} px-2 py-0.5 rounded-full shrink-0">${totalLessonsInGrade} bài</span>
                             </div>
-                            <div class="tree-children hidden pl-4 space-y-1 mt-1">
+                            <div class="tree-children space-y-1 mt-2">
+                                ${gradeHtml}
+                            </div>
+                        </div>
                     `;
-
-                    matchedFiles.forEach(file => {
-                        let fileId = file.ItemID || file.id;
-                        html += `
-                            <div onclick="selectItemDetail('${fileId}', this)" class="tree-item-node tree-node-content p-1.5 rounded flex items-center justify-between cursor-pointer text-slate-600 hover:text-blue-600">
-                                <div class="flex items-center space-x-2 truncate pr-2">
-                                    <i class="fa-regular ${currentMode === 'practice' ? 'fa-file-pen text-emerald-600' : 'fa-file-lines text-blue-500'}"></i>
-                                    <span class="truncate text-xs font-medium">${file.meta.cleanTitle}</span>
-                                </div>
-                                <span class="text-[9px] px-1.5 py-0.5 rounded font-bold shrink-0 ${file.meta.status === 'approved' ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-600'}">
-                                    ${file.meta.status === 'approved' ? 'Đã duyệt' : 'Chưa kiểm duyệt'}
-                                </span>
-                            </div>
-                        `;
-                    });
-
-                    html += `</div></div>`;
                 }
             });
 
-            container.innerHTML = html || `<div class="text-center py-8 text-slate-400">Chưa có bài nào trong mục này trên Git.</div>`;
+            container.innerHTML = html || `<div class="text-center py-8 text-slate-400 text-xs">Chưa có bài nào trong mục này trên Git.</div>`;
         }
 
         async function selectItemDetail(fileId, elementNode) {
@@ -469,27 +608,102 @@
                 updateVerifyBadge('lesson-verify-badge', meta);
             }
 
+            // TỰ ĐỘNG THU NHỎ CÂY DANH MỤC THÀNH DẤU BA GẠCH NGANG ĐỂ DÀNH TRỌN DIỆN TÍCH CHO NGƯỜI ĐỌC
+            toggleTreeSidebar(false);
+
             let containerEl = document.getElementById(targetContainerId);
-            containerEl.innerHTML = `<p class="text-slate-400 italic"><i class="fa-solid fa-spinner fa-spin mr-2"></i> Đang nạp nội dung bài từ Git...</p>`;
+            containerEl.innerHTML = `<p class="text-slate-400 italic text-xs"><i class="fa-solid fa-spinner fa-spin mr-2"></i> Đang nạp nội dung bài từ Git...</p>`;
 
-            // NẠP NỘI DUNG TRỰC TIẾP VÀO TRANG (KHÔNG DÙNG IFRAME ĐỂ GIỮ NGUYÊN LIÊN KẾT DOM)
+            // NẠP NỘI DUNG VỚI CƠ CHẾ 4 TẦNG DỰ PHÒNG CHUẨN XÁC 100%
             let htmlCode = '';
-            let fetchUrl = rawFile.filePath || rawFile.GitUrl || rawFile.gitUrl;
+            let p = rawFile.filePath || '';
+            let rawGitUrl = rawFile.GitUrl || (p ? `https://raw.githubusercontent.com/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/${GITHUB_CONFIG.branch}/${encodeURI(p)}` : '');
 
-            if (fetchUrl) {
+            // 1. Kiểm tra cache phiên làm việc nếu bài vừa được đẩy
+            let cached = localStorage.getItem('lesson_cache_' + p) || sessionStorage.getItem('lesson_cache_' + p);
+            if (cached) {
+                htmlCode = cached;
+            }
+
+            // 2. Thử nạp từ URL tương đối nội bộ (nếu chạy local hoặc GitHub Pages đã deploy)
+            if (!htmlCode && p) {
                 try {
-                    let directUrl = fetchUrl.includes('http')
-                        ? fetchUrl.replace("github.com", "raw.githubusercontent.com").replace("/blob/", "/")
-                        : encodeURI(fetchUrl);
-                    let res = await fetch(directUrl);
-                    if (res.ok) {
-                        htmlCode = await res.text();
+                    let localRes = await fetch(encodeURI(p));
+                    if (localRes.ok) {
+                        htmlCode = await localRes.text();
                     }
-                } catch(e) {}
+                } catch(eLocal) {}
+            }
+
+            // 3. Nạp từ GitHub Raw CDN với cache-buster
+            if (!htmlCode && rawGitUrl) {
+                try {
+                    let cdnUrl = rawGitUrl + (rawGitUrl.includes('?') ? '&' : '?') + 't=' + Date.now();
+                    let gitRes = await fetch(cdnUrl);
+                    if (gitRes.ok) {
+                        htmlCode = await gitRes.text();
+                    }
+                } catch(eGit) {}
+            }
+
+            // 4. Nếu CDN chưa kịp cập nhật, lấy trực tiếp qua GitHub Contents API (Realtime tức thì qua Base64 UTF-8)
+            if (!htmlCode && p) {
+                try {
+                    let encodedPath = encodeURI(p);
+                    let apiUrl = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${encodedPath}`;
+                    let apiRes = await fetch(apiUrl, { headers: { "Accept": "application/vnd.github+json" } });
+                    if (apiRes.ok) {
+                        let fileData = await apiRes.json();
+                        if (fileData && fileData.content) {
+                            let binaryStr = window.atob(fileData.content.replace(/\s/g, ''));
+                            let bytes = new Uint8Array(binaryStr.length);
+                            for (let i = 0; i < binaryStr.length; i++) {
+                                bytes[i] = binaryStr.charCodeAt(i);
+                            }
+                            htmlCode = new TextDecoder('utf-8').decode(bytes);
+                        }
+                    }
+                } catch(eApi) {}
+            }
+
+            // 5. Dự phòng từ server Google (nếu có)
+            if (!htmlCode) {
+                htmlCode = rawFile.Content || rawFile.content || '';
             }
 
             if (!htmlCode) {
-                htmlCode = rawFile.Content || rawFile.content || '<p class="text-slate-400 italic">Nội dung bài học chưa có sẵn.</p>';
+                htmlCode = `
+                    <div class="p-8 text-center text-slate-500 bg-slate-50 rounded-2xl border border-dashed border-slate-300 space-y-2">
+                        <i class="fa-solid fa-file-circle-exclamation text-3xl text-amber-500"></i>
+                        <h4 class="font-bold text-slate-700 text-sm">Nội dung bài học đang được đồng bộ trên GitHub.</h4>
+                        <p class="text-xs text-slate-400">Đường dẫn: <code>${p}</code></p>
+                        <button onclick="selectItemDetail('${fileId}', null)" class="mt-3 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-4 py-2 rounded-xl shadow transition">
+                            <i class="fa-solid fa-rotate mr-1.5"></i> Thử tải lại
+                        </button>
+                    </div>
+                `;
+            }
+
+            // Cập nhật tiêu đề hiển thị chuẩn tiếng Việt trích xuất từ nội dung HTML
+            let docTitle = '';
+            let metaTitleMatch = htmlCode.match(/<meta[^>]*name=["']lesson-title["'][^>]*content=["']([^"']+)["']/i);
+            let titleTagMatch = htmlCode.match(/<title[^>]*>([^<]+)<\/title>/i);
+            let h1Match = htmlCode.match(/<h1[^>]*>([^<]+)<\/h1>/i);
+
+            if (metaTitleMatch && metaTitleMatch[1]) {
+                docTitle = metaTitleMatch[1].trim();
+            } else if (titleTagMatch && titleTagMatch[1]) {
+                docTitle = titleTagMatch[1].trim();
+            } else if (h1Match && h1Match[1]) {
+                docTitle = h1Match[1].trim();
+            }
+
+            if (docTitle) {
+                if (currentMode === 'practice') {
+                    document.getElementById('exam-title-display').innerText = docTitle;
+                } else {
+                    document.getElementById('lesson-title-display').innerText = docTitle;
+                }
             }
 
             // Giải mã HTML nếu bị escape entities
@@ -508,16 +722,13 @@
                 let parser = new DOMParser();
                 let doc = parser.parseFromString(htmlCode, 'text/html');
                 
-                // Lấy styles
                 let styleTags = doc.querySelectorAll('style');
                 stylesHtml = Array.from(styleTags).map(s => s.outerHTML).join('\n');
 
-                // Lấy body content
                 if (doc.body) {
                     bodyHtml = doc.body.innerHTML;
                 }
 
-                // Lấy scripts tương tác (trắc nghiệm, audio)
                 let scriptTags = doc.querySelectorAll('script');
                 scriptTags.forEach(sc => {
                     if (sc.src && (sc.src.includes('tailwindcss') || sc.src.includes('mathjax'))) return;
@@ -582,10 +793,13 @@
 
         function toggleTreeNode(element) {
             const children = element.nextElementSibling;
-            const arrow = element.querySelector('.fa-angle-right');
+            const arrow = element.querySelector('.fa-angle-right, .fa-angle-down');
             if (children) {
                 children.classList.toggle('hidden');
-                if (arrow) arrow.classList.toggle('rotate-90');
+                if (arrow) {
+                    if (arrow.classList.contains('fa-angle-right')) arrow.classList.toggle('rotate-90');
+                    else arrow.classList.toggle('rotate-180');
+                }
             }
         }
 
