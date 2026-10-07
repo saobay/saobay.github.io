@@ -625,7 +625,28 @@
 
             let token = getGithubToken();
             if (!token) {
-                alert("Thiếu GitHub Access Token.");
+                // Xóa thư mục qua Google Apps Script Proxy an toàn
+                try {
+                    let res = await fetch(API_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                        body: JSON.stringify({
+                            type: 'DELETE_FROM_GITHUB',
+                            filePath: `${currentSelectedFolderId}/.gitkeep`,
+                            commitMessage: `Xóa thư mục: ${currentSelectedFolderId} bởi ${currentUser.name}`
+                        })
+                    });
+                    let result = await parseSafeResponse(res);
+                    if (result.status === 'success') {
+                        alert(`Đã xóa thư mục "${currentSelectedFolderName}" trên GitHub qua Google Proxy!`);
+                        selectFolder('data', 'data (Thư mục dữ liệu gốc)');
+                        await loadFolderTreeFromGit(true);
+                    } else {
+                        alert(`Lỗi khi xóa qua Google Proxy: ${result.message || 'Không xác định'}`);
+                    }
+                } catch(err) {
+                    alert(`Lỗi kết nối khi xóa thư mục: ${err.message}`);
+                }
                 return;
             }
 
