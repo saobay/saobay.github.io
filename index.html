@@ -146,6 +146,11 @@
 
     <!-- SCRIPT CHÍNH TẢI BÀI HIỆU NĂNG CAO -->
     <script>
+        const GITHUB_CONFIG = {
+            owner: "saobay",
+            repo: "saobay.github.io",
+            branch: "main"
+        };
         const API_URL = "https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec";
         
         let currentUser = null;
@@ -155,7 +160,7 @@
 
         const notifyChannel = new BroadcastChannel('saobay_notifications');
         notifyChannel.onmessage = (e) => {
-            if (e.data && e.data.action === 'REFRESH_LESSON_LIST') {
+            if (e.data && (e.data.action === 'REFRESH_LESSON_LIST' || e.data.type === 'NEW_CONTENT_PUSHED')) {
                 syncSystemData(false);
             }
         };
@@ -168,38 +173,172 @@
 
             renderUserHeaderUI();
 
-            // TẢI TRỰC TIẾP DỮ LIỆU TỪ SERVER (ĐẢM BẢO CHÍNH XÁC VÀ ĐỒNG BỘ 100% GIỮA MỌI THIẾT BỊ)
+            // Hiển thị ngay từ bộ nhớ đệm nếu có
+            let cachedFolders = localStorage.getItem('saobay_main_folders');
+            let cachedFiles = localStorage.getItem('saobay_main_files');
+            if (cachedFolders && cachedFiles) {
+                try {
+                    driveFolders = JSON.parse(cachedFolders);
+                    driveFiles = JSON.parse(cachedFiles);
+                    renderTreeDirectory();
+                } catch(e) {}
+            }
+
+            // Đồng bộ trực tiếp dữ liệu mới nhất từ Git & Server
             syncSystemData(false);
+        }
+
+        function formatFolderDisplayName(folderPath) {
+            if (!folderPath || folderPath === 'data') return 'Thư viện bài giảng (data)';
+            return folderPath
+                .replace(/^data\//, '')
+                .replace(/\//g, ' ❯ ')
+                .replace(/tienganh6/gi, 'Tiếng Anh 6')
+                .replace(/unit(\d+)/gi, 'Unit $1');
         }
 
         async function syncSystemData(forceNotify) {
             let icon = document.getElementById('sync-icon');
-            if(icon) icon.classList.add('fa-spin');
+            if (icon) icon.classList.add('fa-spin');
 
             try {
-                let [folderRes, fileRes] = await Promise.all([
-                    fetch(`${API_URL}?type=ThuMuc`),
-                    fetch(`${API_URL}?type=BaiHoc`)
-                ]);
+                let gitFoldersMap = {};
+                let gitFileList = [];
 
-                driveFolders = await folderRes.json();
-                driveFiles = await fileRes.json();
+                // 1. TẢI TOÀN BỘ CÂY THƯ MỤC VÀ TỆP TIN TỪ GITHUB API
+                try {
+                    let gitApiUrl = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/git/trees/${GITHUB_CONFIG.branch}?recursive=1`;
+                    let gitRes = await fetch(gitApiUrl, { headers: { "Accept": "application/vnd.github+json" } });
+
+                    if (gitRes.ok) {
+                        let gitData = await gitRes.json();
+                        if (gitData && Array.isArray(gitData.tree)) {
+                            // Thu thập thư mục từ Git
+                            gitData.tree.forEach(item => {
+                                if (item.type === 'tree') {
+                                    let p = item.path;
+                                    if (p === 'backup' || p.startsWith('backup/') ||
+                                        p === 'teacher' || p.startsWith('teacher/') ||
+                                        p === 'used' || p.startsWith('used/') ||
+                                        p === '.git' || p.startsWith('.git/')) return;
+                                    
+                                    gitFoldersMap[p] = {
+                                        FolderID: p,
+                                        FolderName: formatFolderDisplayName(p),
+                                        path: p
+                                    };
+                                }
+                            });
+
+                            // Mặc định luôn có thư mục data
+                            if (!gitFoldersMap['data']) {
+                                gitFoldersMap['data'] = { FolderID: 'data', FolderName: 'Thư viện bài giảng (data)', path: 'data' };
+                            }
+
+                            // Thu thập file bài học & bài kiểm tra từ Git (.html)
+                            gitData.tree.forEach(item => {
+                                if (item.type === 'blob' && item.path.endsWith('.html')) {
+                                    let p = item.path;
+                                    if (p === 'index.html' || p === 'kiemtratrungtkb.html') return;
+                                    if (p.startsWith('backup/') || p.startsWith('teacher/') || p.startsWith('used/') || p.startsWith('.git/')) return;
+
+                                    let lastSlash = p.lastIndexOf('/');
+                                    let folderPath = lastSlash === -1 ? 'data' : p.substring(0, lastSlash);
+                                    let fileName = lastSlash === -1 ? p : p.substring(lastSlash + 1);
+
+                                    if (!gitFoldersMap[folderPath]) {
+                                        gitFoldersMap[folderPath] = {
+                                            FolderID: folderPath,
+                                            FolderName: formatFolderDisplayName(folderPath),
+                                            path: folderPath
+                                        };
+                                    }
+
+                                    let rawGitUrl = `https://raw.githubusercontent.com/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/${GITHUB_CONFIG.branch}/${p}`;
+
+                                    gitFileList.push({
+                                        ItemID: 'git_' + item.sha.substring(0, 10),
+                                        Title: fileName.replace(/\.html$/i, ''),
+                                        rawFileName: fileName,
+                                        filePath: p,
+                                        FolderID: folderPath,
+                                        FolderName: gitFoldersMap[folderPath].FolderName,
+                                        GitUrl: rawGitUrl,
+                                        source: 'git'
+                                    });
+                                }
+                            });
+                        }
+                    }
+                } catch (gitErr) {
+                    console.warn("Lỗi tải cây thư mục từ Git:", gitErr);
+                }
+
+                // 2. KẾT HỢP DỮ LIỆU TỪ GOOGLE DRIVE / APPS SCRIPT (NẾU CÓ)
+                let driveDataFiles = [];
+                try {
+                    let [folderRes, fileRes] = await Promise.all([
+                        fetch(`${API_URL}?type=ThuMuc`),
+                        fetch(`${API_URL}?type=BaiHoc`)
+                    ]);
+                    let dFolders = await folderRes.json();
+                    let dFiles = await fileRes.json();
+
+                    if (Array.isArray(dFolders)) {
+                        dFolders.forEach(df => {
+                            let fid = df.FolderID || df.id || df.path;
+                            if (fid && !gitFoldersMap[fid]) {
+                                gitFoldersMap[fid] = {
+                                    FolderID: fid,
+                                    FolderName: df.FolderName || df.name || formatFolderDisplayName(fid),
+                                    path: fid
+                                };
+                            }
+                        });
+                    }
+                    if (Array.isArray(dFiles)) {
+                        driveDataFiles = dFiles;
+                    }
+                } catch (driveErr) {
+                    console.log("Server Google Proxy chưa nạp thêm bài mới, dùng dữ liệu Git.");
+                }
+
+                // 3. HỢP NHẤT VÀ LỌC TRÙNG LẶP
+                let combinedFiles = [...gitFileList];
+                driveDataFiles.forEach(df => {
+                    let exists = combinedFiles.some(gf => 
+                        (gf.Title && df.Title && gf.Title.toLowerCase() === df.Title.toLowerCase()) ||
+                        (gf.filePath && df.GitUrl && df.GitUrl.includes(gf.filePath))
+                    );
+                    if (!exists) {
+                        combinedFiles.push(df);
+                    }
+                });
+
+                driveFolders = Object.values(gitFoldersMap);
+                driveFiles = combinedFiles;
+
+                // Lưu cache
+                localStorage.setItem('saobay_main_folders', JSON.stringify(driveFolders));
+                localStorage.setItem('saobay_main_files', JSON.stringify(driveFiles));
 
                 renderTreeDirectory();
-                if(forceNotify) alert('Đã cập nhật danh mục kiến thức mới nhất từ Server!');
+                if (forceNotify) alert('Đã cập nhật danh mục bài học & bài kiểm tra mới nhất từ Git!');
             } catch (err) {
-                console.log('Lỗi tải dữ liệu từ Server');
+                console.log('Lỗi cập nhật danh mục:', err);
             } finally {
-                if(icon) icon.classList.remove('fa-spin');
+                if (icon) icon.classList.remove('fa-spin');
             }
         }
 
         function parseFileName(fileName) {
-            let raw = fileName || 'Bài chưa tên';
+            let raw = (fileName || 'Bài chưa tên').replace(/\.html$/i, '');
             let status = 'none';
             let verifier = 'Chưa kiểm duyệt';
-            let isTheory = raw.includes('_Lý thuyết');
-            let isPractice = raw.includes('_Bài tập') || raw.includes('_Kiểm tra');
+
+            // Nhận diện bài tập / bài kiểm tra vs bài lý thuyết
+            let isPractice = /_Bài\s*tập|_Kiểm\s*tra|test|exam|de_thi|baitap|kiemtra/i.test(raw);
+            let isTheory = /_Lý\s*thuyết|theory|unit|lythuyet|baihoc/i.test(raw) || !isPractice;
 
             if (raw.includes('_none')) {
                 status = 'none';
@@ -207,12 +346,24 @@
                 status = 'approved';
                 let match = raw.match(/_id\d+|_gv\w+/i);
                 verifier = match ? match[0].replace(/_/, '') : 'Giáo viên';
+            } else if (/^unit\d+|^test\d+/i.test(raw)) {
+                status = 'approved';
+                verifier = 'Tổ Bộ Môn';
             }
 
-            let cleanTitle = raw.replace(/_Lý\s*thuyết|_Bài\s*tập|_Kiểm\s*tra|_none|_id\d+|_gv\w+/gi, '').trim();
+            let cleanTitle = raw
+                .replace(/_Lý\s*thuyết|_Bài\s*tập|_Kiểm\s*tra|_none|_id\d+|_gv\w+/gi, '')
+                .replace(/[_-]/g, ' ')
+                .trim();
+
+            if (/^test\s*(\d+)$/i.test(cleanTitle)) {
+                cleanTitle = cleanTitle.replace(/^test\s*(\d+)$/i, 'Đề kiểm tra $1');
+            } else if (/^unit\s*(\d+)$/i.test(cleanTitle)) {
+                cleanTitle = cleanTitle.replace(/^unit\s*(\d+)$/i, 'Bài học Unit $1');
+            }
 
             return {
-                cleanTitle: cleanTitle,
+                cleanTitle: cleanTitle || raw,
                 status: status,
                 verifier: verifier,
                 isTheory: isTheory,
@@ -225,22 +376,22 @@
             container.innerHTML = '';
 
             if (!driveFolders || driveFolders.length === 0) {
-                container.innerHTML = `<div class="text-center py-8 text-slate-400">Đang tải cây danh mục...</div>`;
+                container.innerHTML = `<div class="text-center py-8 text-slate-400">Đang tải cây danh mục từ Git...</div>`;
                 return;
             }
 
             let html = '';
 
             driveFolders.forEach(folder => {
-                let folderId = folder.FolderID || folder.id;
-                let folderName = folder.FolderName || folder.name;
+                let folderId = folder.FolderID || folder.id || folder.path;
+                let folderName = folder.FolderName || folder.name || formatFolderDisplayName(folderId);
 
                 let filesInFolder = driveFiles.filter(f => (f.FolderID === folderId || f.folderId === folderId));
                 
-                let matchedFiles = filesInFolder.map(f => ({ ...f, meta: parseFileName(f.Title || f.title || f.name) }))
+                let matchedFiles = filesInFolder.map(f => ({ ...f, meta: parseFileName(f.Title || f.title || f.name || f.rawFileName) }))
                 .filter(f => {
                     if (currentMode === 'theory') {
-                        return f.meta.isTheory || (!f.meta.isPractice && currentMode === 'theory');
+                        return f.meta.isTheory;
                     } else {
                         return f.meta.isPractice;
                     }
@@ -279,7 +430,7 @@
                 }
             });
 
-            container.innerHTML = html || `<div class="text-center py-8 text-slate-400">Chưa có bài học phù hợp.</div>`;
+            container.innerHTML = html || `<div class="text-center py-8 text-slate-400">Chưa có bài nào trong mục này trên Git.</div>`;
         }
 
         async function selectItemDetail(fileId, elementNode) {
@@ -289,7 +440,7 @@
             let rawFile = driveFiles.find(f => (f.ItemID || f.id) == fileId);
             if (!rawFile) return;
 
-            let meta = parseFileName(rawFile.Title || rawFile.title || rawFile.name);
+            let meta = parseFileName(rawFile.Title || rawFile.title || rawFile.name || rawFile.rawFileName);
             document.getElementById('empty-state').classList.add('hidden');
 
             let targetContainerId = (currentMode === 'practice') ? 'exam-questions-list' : 'lesson-body-content';
@@ -304,14 +455,30 @@
                 updateVerifyBadge('exam-verify-badge', meta);
             } else {
                 document.getElementById('lesson-title-display').innerText = meta.cleanTitle;
-                document.getElementById('lesson-meta-info').innerHTML = `<i class="fa-solid fa-folder mr-1"></i> Thư mục: <strong>${rawFile.FolderName || 'Gốc'}</strong>`;
+                document.getElementById('lesson-meta-info').innerHTML = `<i class="fa-solid fa-folder mr-1"></i> Thư mục: <strong>${rawFile.FolderName || rawFile.FolderID || 'Gốc'}</strong>`;
                 updateVerifyBadge('lesson-verify-badge', meta);
             }
 
             let containerEl = document.getElementById(targetContainerId);
-            containerEl.innerHTML = `<p class="text-slate-400 italic"><i class="fa-solid fa-spinner fa-spin mr-2"></i> Đang tải bài học...</p>`;
+            containerEl.innerHTML = `<p class="text-slate-400 italic"><i class="fa-solid fa-spinner fa-spin mr-2"></i> Đang nạp nội dung bài từ Git...</p>`;
 
-            // Ưu tiên 1: Tải trực tiếp từ GitHub nếu có link GitUrl
+            // Trường hợp 1: Có đường dẫn tệp trực tiếp trong repository (ví dụ tienganh6/unit1/test1.html)
+            if (rawFile.filePath) {
+                let encodedPath = encodeURI(rawFile.filePath);
+                containerEl.innerHTML = `
+                    <div class="w-full flex-1 flex flex-col min-h-[520px]">
+                        <div class="flex justify-end mb-2">
+                            <a href="${encodedPath}" target="_blank" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg border border-slate-300 font-semibold flex items-center shadow-sm">
+                                <i class="fa-solid fa-arrow-up-right-from-square mr-1.5 text-blue-600"></i> Mở toàn màn hình
+                            </a>
+                        </div>
+                        <iframe src="${encodedPath}" class="w-full flex-1 min-h-[540px] border border-slate-200 rounded-xl shadow-inner bg-white" frameborder="0"></iframe>
+                    </div>
+                `;
+                return;
+            }
+
+            // Trường hợp 2: Có GitUrl (đường dẫn raw GitHub)
             let gitUrl = rawFile.GitUrl || rawFile.gitUrl;
             if (gitUrl) {
                 try {
@@ -319,14 +486,22 @@
                     let gitRes = await fetch(rawGitUrl);
                     if (gitRes.ok) {
                         let htmlCode = await gitRes.text();
-                        containerEl.innerHTML = htmlCode;
-                        if (window.MathJax) MathJax.typesetPromise();
+                        if (htmlCode.includes('<html') || htmlCode.includes('<!DOCTYPE') || htmlCode.includes('<script')) {
+                            let frame = document.createElement('iframe');
+                            frame.className = "w-full min-h-[540px] border border-slate-200 rounded-xl shadow-inner bg-white";
+                            containerEl.innerHTML = '';
+                            containerEl.appendChild(frame);
+                            frame.srcdoc = htmlCode;
+                        } else {
+                            containerEl.innerHTML = htmlCode;
+                            if (window.MathJax) MathJax.typesetPromise();
+                        }
                         return;
                     }
                 } catch(e) {}
             }
 
-            // Ưu tiên 2: Sử dụng trường Content có sẵn từ Sheet / Drive
+            // Trường hợp 3: Nội dung từ Drive/Sheet
             containerEl.innerHTML = rawFile.Content || rawFile.content || '<p class="text-slate-400 italic">Nội dung bài học chưa có sẵn.</p>';
             if (window.MathJax) MathJax.typesetPromise();
         }
