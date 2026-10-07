@@ -70,27 +70,29 @@
         <aside id="sidebar-container" class="w-full md:w-80 bg-white rounded-2xl shadow-sm border p-4 flex flex-col space-y-4 transition-all duration-300 ease-in-out">
             <div class="flex items-center justify-between border-b pb-3">
                 <h2 class="font-bold text-slate-900 text-sm"><i class="fa-solid fa-folder-tree text-blue-700 mr-2"></i>Cấu Trúc Thư Mục</h2>
-                <button onclick="openAddFolderModal()" class="bg-blue-50 text-blue-700 hover:bg-blue-100 px-2.5 py-1 rounded-lg text-xs font-bold transition">
-                    <i class="fa-solid fa-plus mr-1"></i>Thêm mục
-                </button>
+                <div class="flex items-center space-x-1">
+                    <button onclick="loadFolderTreeFromGit(true)" title="Tải lại từ GitHub" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2 py-1 rounded-lg text-xs font-bold transition">
+                        <i class="fa-solid fa-arrows-rotate"></i>
+                    </button>
+                    <button onclick="openAddFolderModal()" class="bg-blue-50 text-blue-700 hover:bg-blue-100 px-2.5 py-1 rounded-lg text-xs font-bold transition">
+                        <i class="fa-solid fa-plus mr-1"></i>Thêm mục
+                    </button>
+                </div>
             </div>
 
             <div class="bg-amber-50 border border-amber-200 px-3 py-2 rounded-lg text-xs text-amber-900 flex items-center justify-between shadow-sm">
-                <div>
+                <div class="truncate mr-2">
                     <span class="font-bold block text-[10px] text-amber-700 uppercase">Thư mục chọn ở cây:</span>
-                    <span id="selected-folder-name" class="font-bold text-blue-900">Gốc (Root Sào Báy)</span>
+                    <span id="selected-folder-name" class="font-bold text-blue-900 truncate block">data (Thư mục dữ liệu)</span>
                 </div>
-                <button onclick="deleteSelectedFolder()" id="delete-folder-btn" class="hidden text-rose-600 hover:text-rose-800 p-1 font-bold transition" title="Xóa thư mục này">
+                <button onclick="deleteSelectedFolder()" id="delete-folder-btn" class="hidden text-rose-600 hover:text-rose-800 p-1 font-bold transition shrink-0" title="Xóa thư mục này">
                     <i class="fa-solid fa-trash-can text-sm"></i>
                 </button>
             </div>
 
-            <div id="folder-tree" class="flex-1 overflow-y-auto space-y-2 text-sm pr-1">
-                <div id="folder-item-root" class="folder-node p-2 rounded-lg bg-blue-600 text-white font-bold cursor-pointer flex items-center justify-between mb-2 shadow-md transition-all scale-[1.02]" onclick="selectFolder('root', 'Gốc (Root Sào Báy)', this)">
-                    <span><i class="fa-solid fa-folder-open text-amber-300 mr-2"></i>Thư Mục Gốc</span>
-                </div>
+            <div id="folder-tree" class="flex-1 overflow-y-auto space-y-1 text-sm pr-1 max-h-[calc(100vh-220px)]">
                 <div id="dynamic-folder-list" class="space-y-1">
-                    <span class="text-slate-400 text-xs italic">Đang tải danh mục...</span>
+                    <span class="text-slate-400 text-xs italic"><i class="fa-solid fa-spinner fa-spin mr-1"></i>Đang tải danh mục từ GitHub...</span>
                 </div>
             </div>
         </aside>
@@ -106,7 +108,7 @@
                     <div>
                         <span class="text-[10px] uppercase font-bold text-blue-300 block tracking-wider">Vị trí lưu trữ bài đẩy lên:</span>
                         <h4 id="main-working-folder-display" class="font-extrabold text-sm text-amber-300 flex items-center">
-                            <i class="fa-solid fa-folder-open mr-2 text-amber-400"></i> Gốc (Root Sào Báy)
+                            <i class="fa-solid fa-folder-open mr-2 text-amber-400"></i> data (Thư mục dữ liệu gốc)
                         </h4>
                     </div>
                 </div>
@@ -255,6 +257,11 @@
                     <label class="block font-bold text-slate-700 mb-1">Điểm tải 1 Đề thi ngắn (&lt;=10 câu)</label>
                     <input type="number" id="cfg-score-exam-short" value="20" class="w-full p-2 border rounded-lg font-bold text-blue-900"/>
                 </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">GitHub Access Token (PAT)</label>
+                    <input type="password" id="cfg-github-token" placeholder="ghp_..." class="w-full p-2 border rounded-lg font-mono text-xs text-blue-900"/>
+                    <p class="text-[10px] text-slate-400 mt-0.5">Dùng để đọc cấu trúc thư mục và lưu đề trực tiếp vào GitHub repo.</p>
+                </div>
             </div>
 
             <div class="pt-3 border-t flex justify-end space-x-2">
@@ -266,11 +273,17 @@
 
     <!-- LOGIC XỬ LÝ -->
     <script>
+        // CẤU HÌNH GITHUB ĐỒNG BỘ
+        const GITHUB_CONFIG = {
+            owner: "saobay",
+            repo: "saobay.github.io",
+            branch: "main",
+            token: "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"
+        };
         const API_URL = "https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec";
-        const ROOT_FOLDER_ID = "1PLibCtGMm_0oA6auh2CDeAl97uodJBB-";
-        
-        let currentSelectedFolderId = ""; 
-        let currentSelectedFolderName = "Gốc (Root Sào Báy)";
+
+        let currentSelectedFolderId = "data"; 
+        let currentSelectedFolderName = "data (Thư mục dữ liệu gốc)";
 
         const notifyChannel = new BroadcastChannel('saobay_notifications');
         
@@ -283,6 +296,27 @@
         };
 
         let scoreConfig = { knowledge: 100, examLong: 50, examShort: 20, edit: 10, delete: -10 };
+        let gitFolderMap = {};
+
+        function getGithubToken() {
+            return localStorage.getItem('saobay_github_token') || GITHUB_CONFIG.token;
+        }
+
+        function getEncodedGitHubPath(path) {
+            return path.split('/').map(seg => encodeURIComponent(seg)).join('/');
+        }
+
+        function utf8ToBase64(str) {
+            const bytes = new TextEncoder().encode(str);
+            const binString = Array.from(bytes, (byte) => String.fromCharCode(byte)).join('');
+            return btoa(binString);
+        }
+
+        async function parseSafeResponse(response) {
+            let text = await response.text();
+            try { return JSON.parse(text); } 
+            catch (e) { throw new Error("Phản hồi từ Server không hợp lệ."); }
+        }
 
         function initTeacherHub() {
             document.getElementById('user-display-name').innerText = currentUser.name;
@@ -292,62 +326,90 @@
                 document.getElementById('admin-settings-btn')?.classList.remove('hidden');
             }
 
-            // Tải danh mục thư mục tự động thông minh
+            // Chọn mặc định thư mục data
+            selectFolder('data', 'data (Thư viện bài giảng)');
+
+            // Tải danh mục thư mục trực tiếp từ GitHub
             loadFolderTreeFromGit();
 
             updateScorePreview();
             renderMathPreview(); 
         }
 
-        // HÀM TẢI DANH MỤC THÔNG MINH (TỰ ĐỘNG BỎ QUA FILE TĨNH NẾU CHẠY TRỰC TIẾP TỪ Ổ CỨNG)
-        async function loadFolderTreeFromGit() {
+        // HÀM TẢI DANH MỤC TRỰC TIẾP TỪ GITHUB API
+        async function loadFolderTreeFromGit(forceRefresh = false) {
             let container = document.getElementById('dynamic-folder-list');
-            container.innerHTML = '<span class="text-slate-400 text-xs italic">Đang tải danh mục thư mục...</span>';
+            container.innerHTML = '<span class="text-slate-400 text-xs italic"><i class="fa-solid fa-spinner fa-spin mr-1"></i> Đang nạp danh mục từ GitHub...</span>';
 
             let folders = [];
+            let token = getGithubToken();
 
-            // Nếu không chạy từ giao thức file:///, thử tải từ file JSON tĩnh trước
-            if (window.location.protocol !== 'file:') {
+            try {
+                let headers = { "Accept": "application/vnd.github+json" };
+                if (token) headers["Authorization"] = `Bearer ${token}`;
+
+                let apiUrl = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/git/trees/${GITHUB_CONFIG.branch}?recursive=1`;
+                let res = await fetch(apiUrl, { headers });
+
+                if (res.ok) {
+                    let data = await res.json();
+                    if (data && Array.isArray(data.tree)) {
+                        folders = data.tree
+                            .filter(item => {
+                                if (item.type !== 'tree') return false;
+                                let p = item.path;
+                                // QUY TẮC BẢO MẬT: TUYỆT ĐỐI KHÔNG ĐỤNG ĐẾN THƯ MỤC BACKUP VÀ HỆ THỐNG
+                                if (p === 'backup' || p.startsWith('backup/')) return false;
+                                if (p === 'teacher' || p.startsWith('teacher/')) return false;
+                                if (p === 'used' || p.startsWith('used/')) return false;
+                                if (p === '.git' || p.startsWith('.git/')) return false;
+                                return true;
+                            })
+                            .map(item => ({
+                                path: item.path,
+                                sha: item.sha
+                            }));
+
+                        localStorage.setItem('saobay_git_folders', JSON.stringify(folders));
+                    }
+                } else {
+                    console.warn("GitHub Tree API phản hồi không thành công:", res.status);
+                }
+            } catch (err) {
+                console.warn("Lỗi gọi GitHub API, thử đọc từ cache/folders.json:", err);
+            }
+
+            // Phương án dự phòng 1: Cache localStorage
+            if (!folders || folders.length === 0) {
+                let cached = localStorage.getItem('saobay_git_folders');
+                if (cached) {
+                    try { folders = JSON.parse(cached); } catch(e) {}
+                }
+            }
+
+            // Phương án dự phòng 2: File folders.json tĩnh
+            if (!folders || folders.length === 0) {
                 try {
-                    let res = await fetch("../folders.json?t=" + new Date().getTime());
-                    if (res.ok) {
-                        let raw = await res.json();
-                        if (Array.isArray(raw)) {
-                            folders = raw.map(f => ({
-                                id: String(f.FolderID || f.folderId || f.id || '').trim(),
-                                name: String(f.FolderName || f.folderName || f.name || 'Thư mục').trim(),
-                                parentId: String(f.ParentID || f.parentId || f.ParentId || '').trim()
+                    let resJson = await fetch("../folders.json?t=" + new Date().getTime());
+                    if (resJson.ok) {
+                        let rawJson = await resJson.json();
+                        if (Array.isArray(rawJson)) {
+                            folders = rawJson.map(f => ({
+                                path: f.path || f.FolderID || f.FolderName || 'data',
+                                sha: ''
                             }));
                         }
                     }
-                } catch (e) {
-                    console.log("Không đọc được file JSON tĩnh, chuyển sang API...");
-                }
+                } catch(e) {}
             }
 
-            // Nếu danh sách trống (do chạy từ ổ cứng hoặc lỗi file tĩnh), gọi trực tiếp Google Apps Script API
-            if (folders.length === 0) {
-                try {
-                    let resApi = await fetch(`${API_URL}?type=ThuMuc`);
-                    let rawApi = await parseSafeResponse(resApi);
-                    if (Array.isArray(rawApi) && rawApi.length > 0) {
-                        folders = rawApi.map(f => ({
-                            id: String(f.FolderID || f.folderId || f.id || '').trim(),
-                            name: String(f.FolderName || f.folderName || f.name || 'Thư mục').trim(),
-                            parentId: String(f.ParentID || f.parentId || f.ParentId || '').trim()
-                        }));
-                    }
-                } catch (err) {
-                    console.error("Lỗi tải từ API:", err);
-                }
+            // Luôn đảm bảo có thư mục 'data'
+            if (!folders || !folders.some(f => f.path === 'data')) {
+                folders = folders || [];
+                folders.unshift({ path: 'data', sha: '' });
             }
 
-            // Render ra giao diện
-            if (folders.length > 0) {
-                renderFolderTreeUI(folders);
-            } else {
-                container.innerHTML = '<span class="text-rose-500 text-xs">Không tìm thấy thư mục nào.</span>';
-            }
+            renderFolderTreeUI(folders);
         }
 
         function renderFolderTreeUI(folders) {
@@ -357,144 +419,229 @@
                 return;
             }
 
-            function buildTreeHtml(pId) {
-                let children = folders.filter(f => {
-                    if (pId === ROOT_FOLDER_ID) {
-                        return f.parentId === ROOT_FOLDER_ID || f.parentId === 'ROOT' || !f.parentId || !folders.some(p => p.id === f.parentId);
-                    }
-                    return f.parentId === pId;
-                });
+            // Xây dựng cây phân cấp (tree hierarchy)
+            let nodeMap = {};
+            let roots = [];
 
-                if (children.length === 0) return '';
+            folders.forEach(f => {
+                let p = f.path;
+                let lastSlash = p.lastIndexOf('/');
+                let name = lastSlash === -1 ? p : p.substring(lastSlash + 1);
+                let parentPath = lastSlash === -1 ? '' : p.substring(0, lastSlash);
 
-                let html = '<div class="space-y-1">';
-                children.forEach(f => {
-                    let safeName = f.name.replace(/'/g, "\\'");
-                    let subTree = buildTreeHtml(f.id);
-                    let hasSub = subTree.trim() !== '';
+                nodeMap[p] = {
+                    path: p,
+                    name: name,
+                    parentPath: parentPath,
+                    children: []
+                };
+            });
 
-                    html += `
-                        <div class="folder-item">
-                            <div class="folder-node p-2 rounded-lg hover:bg-slate-100 cursor-pointer flex items-center justify-between text-slate-700 text-xs font-medium transition border-l-2 border-transparent" onclick="selectFolder('${f.id}', '${safeName}', this)">
-                                <span class="truncate flex items-center">
-                                    <i class="fa-solid ${hasSub ? 'fa-folder-tree text-blue-600' : 'fa-folder text-amber-400'} mr-2"></i>
-                                    ${f.name}
-                                </span>
+            folders.forEach(f => {
+                let node = nodeMap[f.path];
+                if (node.parentPath && nodeMap[node.parentPath]) {
+                    nodeMap[node.parentPath].children.push(node);
+                } else {
+                    roots.push(node);
+                }
+            });
+
+            gitFolderMap = nodeMap;
+
+            function buildNodeHtml(node) {
+                let hasChildren = node.children && node.children.length > 0;
+                let isSelected = currentSelectedFolderId === node.path;
+                let safeName = node.name.replace(/'/g, "\\'");
+                let safePath = node.path.replace(/'/g, "\\'");
+
+                let displayName = node.name;
+                if (node.path === 'data') displayName = 'data (Thư viện bài giảng)';
+
+                let childrenHtml = '';
+                if (hasChildren) {
+                    childrenHtml = node.children.map(child => buildNodeHtml(child)).join('');
+                }
+
+                let activeClass = isSelected 
+                    ? "bg-blue-600 text-white font-bold shadow-md scale-[1.01]" 
+                    : "text-slate-700 hover:bg-slate-100 font-medium";
+
+                return `
+                    <div class="folder-node-wrapper my-0.5">
+                        <div class="folder-node p-2 rounded-lg cursor-pointer flex items-center justify-between text-xs transition border-l-2 border-transparent ${activeClass}"
+                             data-path="${node.path}"
+                             onclick="selectFolder('${safePath}', '${safeName}', this)">
+                            <div class="flex items-center space-x-1.5 truncate pr-1">
+                                ${hasChildren ? `
+                                    <button type="button" onclick="event.stopPropagation(); toggleFolderExpand(this)" class="p-1 text-slate-400 hover:text-blue-600 transition" title="Mở/Đóng nhánh">
+                                        <i class="fa-solid fa-chevron-down text-[10px]"></i>
+                                    </button>
+                                ` : `<span class="w-4 inline-block"></span>`}
+                                <i class="fa-solid ${hasChildren ? 'fa-folder-tree text-blue-500' : 'fa-folder text-amber-500'}"></i>
+                                <span class="truncate">${displayName}</span>
                             </div>
-                            ${hasSub ? `<div class="pl-3 border-l-2 border-slate-200 ml-2 mt-0.5 space-y-1">${subTree}</div>` : ''}
+                            ${hasChildren ? `<span class="text-[9px] bg-slate-200/80 text-slate-600 px-1.5 py-0.2 rounded-full font-bold">${node.children.length}</span>` : ''}
                         </div>
-                    `;
-                });
-                html += '</div>';
-                return html;
+                        ${hasChildren ? `<div class="folder-children pl-3 border-l-2 border-slate-200 ml-2 mt-0.5 space-y-0.5">${childrenHtml}</div>` : ''}
+                    </div>
+                `;
             }
 
-            let treeHtml = buildTreeHtml(ROOT_FOLDER_ID);
-            container.innerHTML = treeHtml || '<span class="text-slate-400 text-xs italic">Không thể hiển thị cấu trúc cây.</span>';
+            let html = roots.map(rootNode => buildNodeHtml(rootNode)).join('');
+            container.innerHTML = html || '<span class="text-slate-400 text-xs italic">Không có thư mục phù hợp.</span>';
         }
 
-        function generateAndCopyPrompt(type) {
-            let subject = document.getElementById('prompt-subject').value.trim() || "Toán";
-            let grade = document.getElementById('prompt-grade').value || "12";
-            let lesson = document.getElementById('prompt-lesson').value.trim() || "Nội dung học";
-
-            let promptText = "";
-
-            if (type === 'KNOWLEDGE') {
-                promptText = `Hãy đóng vai giáo viên biên soạn tài liệu Môn: ${subject} - Lớp: ${grade}. Chủ đề/Bài học: "${lesson}". Yêu cầu: Dựa theo các quy tắc trong file Quy ước soạn Bài kiến thức, hãy xuất ra mã HTML chuẩn, giữ nguyên các công thức Toán MathJax (dạng $...$ hoặc $$...$$) và các mã hình ảnh minh họa.`;
+        function toggleFolderExpand(btn) {
+            let parentWrapper = btn.closest('.folder-node-wrapper');
+            if (!parentWrapper) return;
+            let subContainer = parentWrapper.querySelector('.folder-children');
+            if (!subContainer) return;
+            
+            let icon = btn.querySelector('i');
+            if (subContainer.classList.contains('hidden')) {
+                subContainer.classList.remove('hidden');
+                if (icon) icon.className = "fa-solid fa-chevron-down text-[10px]";
             } else {
-                promptText = `Hãy biên soạn Đề thi/Bài tập Môn: ${subject} - Lớp: ${grade}. Nội dung/Chủ đề: "${lesson}". Yêu cầu: Xuất ra mã HTML theo đúng các cú pháp chuẩn <4LT>, <Câu X>, <ĐA Câu X>, <LG Câu X>.`;
+                subContainer.classList.add('hidden');
+                if (icon) icon.className = "fa-solid fa-chevron-right text-[10px]";
             }
-
-            if(!document.getElementById('item-title').value.trim()){
-                document.getElementById('item-title').value = `[${subject} ${grade}] ${lesson}`;
-            }
-
-            navigator.clipboard.writeText(promptText).then(() => {
-                alert("Đã copy Prompt!");
-            });
         }
 
         function toggleSidebar() {
             document.getElementById('sidebar-container').classList.toggle('hidden');
         }
 
-        function selectFolder(id, name, element) {
-            currentSelectedFolderId = (id === 'root' || !id) ? '' : id;
+        function selectFolder(path, name, element) {
+            currentSelectedFolderId = path;
             currentSelectedFolderName = name;
-            
-            document.getElementById('selected-folder-name').innerText = name;
-            document.getElementById('main-working-folder-display').innerHTML = `<i class="fa-solid fa-folder-open mr-2 text-amber-400"></i> ${name}`;
-            
+
+            let displayPath = path || 'data';
+            document.getElementById('selected-folder-name').innerText = `${name} (${displayPath})`;
+            document.getElementById('main-working-folder-display').innerHTML = `
+                <i class="fa-solid fa-folder-open mr-2 text-amber-400"></i> ${name}
+                <span class="text-xs text-blue-200 font-normal ml-2 tracking-normal">[${displayPath}]</span>
+            `;
+
             let delBtn = document.getElementById('delete-folder-btn');
-            if (id === 'root' || !id) delBtn.classList.add('hidden');
-            else delBtn.classList.remove('hidden');
+            if (!path || path === 'data' || path === 'root') {
+                delBtn.classList.add('hidden');
+            } else {
+                delBtn.classList.remove('hidden');
+            }
 
             document.querySelectorAll('.folder-node').forEach(el => {
-                el.className = "folder-node p-2 rounded-lg hover:bg-slate-100 cursor-pointer flex items-center justify-between text-slate-700 text-xs font-medium transition border-l-2 border-transparent";
+                if (el.getAttribute('data-path') === path || (path === 'data' && el.id === 'folder-item-root')) {
+                    el.className = "folder-node p-2 rounded-lg bg-blue-600 text-white font-bold cursor-pointer flex items-center justify-between text-xs shadow-md transition-all scale-[1.01]";
+                } else {
+                    el.className = "folder-node p-2 rounded-lg hover:bg-slate-100 cursor-pointer flex items-center justify-between text-slate-700 text-xs font-medium transition border-l-2 border-transparent";
+                }
             });
-
-            if (element) {
-                element.className = "folder-node p-2 rounded-lg bg-blue-600 text-white font-bold cursor-pointer flex items-center justify-between text-xs shadow-md transition-all scale-[1.02]";
-            }
-        }
-
-        async function parseSafeResponse(response) {
-            let text = await response.text();
-            try { return JSON.parse(text); } 
-            catch (e) { throw new Error("Phản hồi từ Server không hợp lệ."); }
         }
 
         async function openAddFolderModal() {
-            let folderName = prompt(`Nhập tên thư mục mới (tạo trong: "${currentSelectedFolderName}"):`);
-            if(!folderName) return;
+            let parentFolder = currentSelectedFolderId || 'data';
+            let folderName = prompt(`Nhập tên thư mục mới (sẽ tạo bên trong thư mục: "${parentFolder}"):`);
+            if (!folderName || !folderName.trim()) return;
 
-            let payload = {
-                type: 'CREATE_DRIVE_FOLDER',
-                parentId: currentSelectedFolderId,
-                folderName: folderName,
-                user: currentUser.name
-            };
+            folderName = folderName.trim().replace(/[\\/:*?"<>|]/g, "_");
+            let newFolderPath = `${parentFolder}/${folderName}`;
+
+            let token = getGithubToken();
+            if (!token) {
+                alert("Thiếu GitHub Access Token. Vui lòng cấu hình token trong mục Admin.");
+                return;
+            }
 
             try {
-                let res = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify(payload)
+                let encodedPath = getEncodedGitHubPath(`${newFolderPath}/.gitkeep`);
+                let apiUrl = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${encodedPath}`;
+
+                let putRes = await fetch(apiUrl, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Accept': 'application/vnd.github+json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: `Tạo thư mục mới: ${newFolderPath} bởi ${currentUser.name}`,
+                        content: utf8ToBase64(`Thư mục: ${folderName}\nTạo bởi: ${currentUser.name}\nThời gian: ${new Date().toLocaleString()}`),
+                        branch: GITHUB_CONFIG.branch
+                    })
                 });
-                let result = await parseSafeResponse(res);
-                if(result.status === 'success') {
-                    alert('Đã tạo thư mục thành công!');
-                    loadFolderTreeFromGit();
-                } else alert('Lỗi: ' + result.message);
-            } catch(err) { alert('Lỗi kết nối: ' + err.message); }
+
+                if (putRes.ok) {
+                    alert(`Đã tạo thư mục "${folderName}" thành công trên GitHub!`);
+                    currentSelectedFolderId = newFolderPath;
+                    currentSelectedFolderName = folderName;
+                    await loadFolderTreeFromGit(true);
+                    selectFolder(newFolderPath, folderName);
+                } else {
+                    let err = await putRes.json();
+                    alert(`Lỗi tạo thư mục trên GitHub: ${err.message || 'Không xác định'}`);
+                }
+            } catch (err) {
+                alert(`Lỗi kết nối khi tạo thư mục: ${err.message}`);
+            }
         }
 
         async function deleteSelectedFolder() {
-            if(!currentSelectedFolderId) return;
-            if(!confirm(`XÓA THƯ MỤC: Tác vụ xóa này sẽ xóa thư mục "${currentSelectedFolderName}". Tiếp tục?`)) return;
+            if (!currentSelectedFolderId || currentSelectedFolderId === 'data') {
+                alert("Không thể xóa thư mục gốc data!");
+                return;
+            }
 
-            let payload = {
-                type: 'DELETE_DRIVE_FOLDER',
-                folderId: currentSelectedFolderId,
-                user: currentUser.name,
-                action: 'DELETE_FOLDER'
-            };
+            if (!confirm(`XÁC NHẬN XÓA: Bạn có chắc muốn xóa thư mục "${currentSelectedFolderName}" (${currentSelectedFolderId}) trên GitHub?`)) {
+                return;
+            }
+
+            let token = getGithubToken();
+            if (!token) {
+                alert("Thiếu GitHub Access Token.");
+                return;
+            }
 
             try {
-                let res = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify(payload)
+                let encodedPath = getEncodedGitHubPath(`${currentSelectedFolderId}/.gitkeep`);
+                let apiUrl = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${encodedPath}?ref=${GITHUB_CONFIG.branch}`;
+
+                let checkRes = await fetch(apiUrl, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Accept': 'application/vnd.github+json'
+                    }
                 });
-                let result = await parseSafeResponse(res);
-                if(result.status === 'success') {
-                    alert('Đã xóa thư mục!');
-                    let rootEl = document.getElementById('folder-item-root');
-                    selectFolder('root', 'Gốc (Root Sào Báy)', rootEl);
-                    loadFolderTreeFromGit();
-                } else alert('Lỗi xóa: ' + result.message);
-            } catch(err) { alert('Lỗi xóa: ' + err.message); }
+
+                if (checkRes.ok) {
+                    let fileData = await checkRes.json();
+                    let delRes = await fetch(`https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${encodedPath}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Accept': 'application/vnd.github+json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            message: `Xóa thư mục: ${currentSelectedFolderId} bởi ${currentUser.name}`,
+                            sha: fileData.sha,
+                            branch: GITHUB_CONFIG.branch
+                        })
+                    });
+
+                    if (delRes.ok) {
+                        alert(`Đã xóa thư mục "${currentSelectedFolderName}" trên GitHub!`);
+                        selectFolder('data', 'data (Thư mục dữ liệu gốc)');
+                        await loadFolderTreeFromGit(true);
+                        return;
+                    }
+                }
+
+                alert(`Thư mục đã được bỏ chọn. Lưu ý: Thư mục có chứa bài học chỉ bị xóa khi toàn bộ các file bên trong được dọn dẹp.`);
+                selectFolder('data', 'data (Thư mục dữ liệu gốc)');
+                await loadFolderTreeFromGit(true);
+            } catch(err) {
+                alert(`Lỗi khi xóa: ${err.message}`);
+            }
         }
 
         function updateScorePreview() {
@@ -535,7 +682,7 @@
                 <\/script>
                 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"><\/script>
                 <style>
-                    body { font-family: sans-serif; padding: 15px; color: #1e293b; line-height: 1.6; }
+                    body { font-family: system-ui, -apple-system, sans-serif; padding: 15px; color: #1e293b; line-height: 1.6; }
                     img { max-width: 100%; height: auto; display: block; margin: 10px 0; border-radius: 8px; border: 1px solid #e2e8f0; }
                 </style>
             </head>
@@ -558,17 +705,58 @@
             renderMathPreview();
         }
 
-        function handleFileUpload(event) {
+        function generateAndCopyPrompt(type) {
+            let subject = document.getElementById('prompt-subject').value.trim() || "Toán";
+            let grade = document.getElementById('prompt-grade').value || "12";
+            let lesson = document.getElementById('prompt-lesson').value.trim() || "Nội dung học";
+
+            let promptText = "";
+
+            if (type === 'KNOWLEDGE') {
+                promptText = `Hãy đóng vai giáo viên biên soạn tài liệu Môn: ${subject} - Lớp: ${grade}. Chủ đề/Bài học: "${lesson}". Yêu cầu: Dựa theo các quy tắc trong file Quy ước soạn Bài kiến thức, hãy xuất ra mã HTML chuẩn, giữ nguyên các công thức Toán MathJax (dạng $...$ hoặc $$...$$) và các mã hình ảnh minh họa.`;
+            } else {
+                promptText = `Hãy biên soạn Đề thi/Bài tập Môn: ${subject} - Lớp: ${grade}. Nội dung/Chủ đề: "${lesson}". Yêu cầu: Xuất ra mã HTML theo đúng các cú pháp chuẩn <4LT>, <Câu X>, <ĐA Câu X>, <LG Câu X>.`;
+            }
+
+            if(!document.getElementById('item-title').value.trim()){
+                document.getElementById('item-title').value = `[${subject} ${grade}] ${lesson}`;
+            }
+
+            navigator.clipboard.writeText(promptText).then(() => {
+                alert("Đã copy Prompt!");
+            });
+        }
+
+        async function handleFileUpload(event) {
             let file = event.target.files[0];
             if (!file) return;
-            
-            if (file.name.endsWith('.docx')) {
+
+            let fileName = file.name;
+            let ext = fileName.split('.').pop().toLowerCase();
+
+            if (!document.getElementById('item-title').value.trim()) {
+                document.getElementById('item-title').value = fileName.substring(0, fileName.lastIndexOf('.')) || fileName;
+            }
+
+            if (ext === 'docx') {
                 let reader = new FileReader();
-                reader.onload = function(e) {
-                    mammoth.extractRawText({arrayBuffer: e.target.result}).then(function(res) {
-                        document.getElementById('item-content').value = res.value;
+                reader.onload = async function(e) {
+                    try {
+                        let arrayBuffer = e.target.result;
+                        let result = await mammoth.convertToHtml({ arrayBuffer: arrayBuffer });
+                        document.getElementById('item-content').value = result.value;
                         renderMathPreview();
-                    });
+                        alert('Đã đọc và chuyển đổi file Word (.docx) thành HTML thành công!');
+                    } catch (err) {
+                        try {
+                            let resultRaw = await mammoth.extractRawText({ arrayBuffer: e.target.result });
+                            document.getElementById('item-content').value = resultRaw.value;
+                            renderMathPreview();
+                            alert('Đã đọc file Word dưới dạng văn bản thô.');
+                        } catch (err2) {
+                            alert('Lỗi đọc file Word: ' + err.message);
+                        }
+                    }
                 };
                 reader.readAsArrayBuffer(file);
             } else {
@@ -576,65 +764,147 @@
                 reader.onload = function(e) {
                     document.getElementById('item-content').value = e.target.result;
                     renderMathPreview();
+                    alert('Đã tải nội dung file thành công!');
                 };
                 reader.readAsText(file);
             }
         }
 
-        async function handleFormSubmit(e) {
-            e.preventDefault();
-            let isEdit = document.getElementById('edit-mode-flag').value === 'EDIT';
+        async function handleFormSubmit(event) {
+            event.preventDefault();
+
+            let rawTitle = document.getElementById('item-title').value.trim();
+            let contentVal = document.getElementById('item-content').value.trim();
             let itemType = document.getElementById('item-type').value;
 
-            let pointsEarned = scoreConfig.edit;
-            if (!isEdit) {
-                if (itemType === 'KNOWLEDGE') pointsEarned = scoreConfig.knowledge;
-                else if (itemType === 'EXAM_LONG') pointsEarned = scoreConfig.examLong;
-                else pointsEarned = scoreConfig.examShort;
+            if (!rawTitle || !contentVal) {
+                alert('Vui lòng nhập đầy đủ tiêu đề và nội dung bài giảng / đề thi!');
+                return;
+            }
+
+            let targetFolder = currentSelectedFolderId || 'data';
+            // BẢO VỆ TUYỆT ĐỐI THƯ MỤC BACKUP
+            if (targetFolder === 'backup' || targetFolder.startsWith('backup/')) {
+                alert('LỖI: Thư mục backup là thư mục sao lưu dự phòng an toàn, tuyệt đối không được đẩy bài vào đây!');
+                return;
             }
 
             let btn = document.getElementById('submit-btn');
             btn.disabled = true;
-            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Đang xử lý ảnh & Đẩy bài...`;
-
-            let rawTitle = document.getElementById('item-title').value.trim();
-            let contentVal = document.getElementById('item-content').value;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Đang đẩy bài lên GitHub...`;
 
             let fileSubType = (itemType === 'KNOWLEDGE') ? 'Lý thuyết' : 'Bài tập';
-            let formattedTitle = `${rawTitle}_${fileSubType}_none`;
+            let safeTitle = rawTitle.replace(/[\\/:*?"<>|]/g, "_");
+            let formattedFileName = `${safeTitle}_${fileSubType}_none.html`;
+            let targetGitPath = `${targetFolder}/${formattedFileName}`;
 
-            let payload = {
-                type: 'SAVE_LESSON_CONTENT',
-                actionType: isEdit ? 'EDIT_CONTENT' : 'CREATE_CONTENT',
-                itemId: document.getElementById('editing-item-id').value,
-                author: currentUser.name,
-                folderId: currentSelectedFolderId, 
-                folderName: currentSelectedFolderName,
-                title: formattedTitle,
-                contentType: itemType,
-                content: contentVal
-            };
+            // Chuẩn hóa thành file HTML hoàn chỉnh nếu người dùng chỉ dán đoạn trích
+            let finalHtml = contentVal;
+            if (!contentVal.toLowerCase().includes('<!doctype') && !contentVal.toLowerCase().includes('<html')) {
+                finalHtml = `<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${safeTitle}</title>
+    <script src="https://cdn.tailwindcss.com"><\/script>
+    <script>
+        window.MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\\\(', '\\\\)']], displayMath: [['$$', '$$']] },
+            svg: { fontCache: 'global' }
+        };
+    <\/script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"><\/script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 20px; line-height: 1.6; color: #1e293b; max-width: 900px; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">${fileSubType}</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">${safeTitle}</h1>
+            <p class="text-xs text-slate-400 mt-1">Tác giả: ${currentUser.name} | Thư mục: ${targetFolder}</p>
+        </div>
+        <div class="content-body space-y-4">
+            ${contentVal}
+        </div>
+    </div>
+</body>
+</html>`;
+            }
+
+            let token = getGithubToken();
+            if (!token) {
+                alert("Thiếu GitHub Token để đẩy bài. Vui lòng thiết lập trong mục Admin!");
+                btn.disabled = false;
+                btn.innerHTML = `<i class="fa-solid fa-cloud-arrow-up mr-2"></i> Lưu & Đẩy Lên GitHub / Drive`;
+                return;
+            }
 
             try {
-                let res = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify(payload)
+                let encodedPath = getEncodedGitHubPath(targetGitPath);
+                let apiUrl = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${encodedPath}`;
+
+                // 1. Kiểm tra SHA nếu file đã tồn tại trên GitHub
+                let sha = undefined;
+                try {
+                    let checkRes = await fetch(`${apiUrl}?ref=${GITHUB_CONFIG.branch}`, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Accept': 'application/vnd.github+json'
+                        }
+                    });
+                    if (checkRes.ok) {
+                        let checkData = await checkRes.json();
+                        if (checkData && checkData.sha) sha = checkData.sha;
+                    }
+                } catch(checkErr) {
+                    console.log("Check existing file SHA:", checkErr);
+                }
+
+                // 2. Gửi request PUT ghi file lên GitHub
+                let base64Content = utf8ToBase64(finalHtml);
+                let putRes = await fetch(apiUrl, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Accept': 'application/vnd.github+json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: `Upload ${fileSubType}: ${safeTitle} vào [${targetFolder}]`,
+                        content: base64Content,
+                        branch: GITHUB_CONFIG.branch,
+                        ...(sha ? { sha } : {})
+                    })
                 });
-                let result = await parseSafeResponse(res);
-                
-                if(result.status === 'success') {
+
+                if (putRes.ok) {
+                    // Tính điểm thưởng
+                    let isEdit = document.getElementById('edit-mode-flag').value === 'EDIT';
+                    let pointsEarned = isEdit ? scoreConfig.edit : scoreConfig.knowledge;
+                    if (!isEdit) {
+                        if (itemType === 'EXAM_LONG') pointsEarned = scoreConfig.examLong;
+                        else if (itemType === 'EXAM_SHORT') pointsEarned = scoreConfig.examShort;
+                    }
+
                     currentUser.score += pointsEarned;
                     localStorage.setItem('user_score', currentUser.score);
                     document.getElementById('user-total-score').innerText = currentUser.score;
 
-                    notifyChannel.postMessage({ action: 'REFRESH_LESSON_LIST' });
+                    notifyChannel.postMessage({ action: 'REFRESH_LESSON_LIST', title: safeTitle, path: targetGitPath });
 
-                    alert(`Lưu thành công! Bài "${formattedTitle}" đã được đẩy trực tiếp lên Server/GitHub.`);
+                    alert(`🎉 THÀNH CÔNG!\nBài "${safeTitle}" đã được đẩy trực tiếp lên GitHub!\n📁 Vị trí: ${targetGitPath}\n⭐ Điểm thưởng nhận được: +${pointsEarned}`);
                     resetFormToCreate();
-                } else alert('Lỗi từ Server: ' + result.message);
+                    await loadFolderTreeFromGit();
+                } else {
+                    let err = await putRes.json();
+                    alert(`Lỗi khi đẩy lên GitHub: ${err.message || 'Không xác định'}`);
+                }
             } catch (err) {
-                alert('Lỗi kết nối API: ' + err.message);
+                alert(`Lỗi kết nối khi đẩy bài: ${err.message}`);
             } finally {
                 btn.disabled = false;
                 btn.innerHTML = `<i class="fa-solid fa-cloud-arrow-up mr-2"></i> Lưu & Đẩy Lên GitHub / Drive`;
@@ -646,11 +916,20 @@
             document.getElementById('editing-item-id').value = '';
             document.getElementById('item-title').value = '';
             document.getElementById('item-content').value = '';
+            let fileInput = document.getElementById('word-file-input');
+            if (fileInput) fileInput.value = '';
+            let driveInput = document.getElementById('drive-url-input');
+            if (driveInput) driveInput.value = '';
+            document.getElementById('cancel-edit-btn').classList.add('hidden');
             renderMathPreview();
             updateScorePreview();
         }
 
         function openAdminSettingsModal() {
+            document.getElementById('cfg-score-knowledge').value = scoreConfig.knowledge;
+            document.getElementById('cfg-score-exam-long').value = scoreConfig.examLong;
+            document.getElementById('cfg-score-exam-short').value = scoreConfig.examShort;
+            document.getElementById('cfg-github-token').value = localStorage.getItem('saobay_github_token') || GITHUB_CONFIG.token;
             document.getElementById('admin-settings-modal').classList.remove('hidden');
         }
 
@@ -663,144 +942,16 @@
             scoreConfig.examLong = parseInt(document.getElementById('cfg-score-exam-long').value) || 50;
             scoreConfig.examShort = parseInt(document.getElementById('cfg-score-exam-short').value) || 20;
 
+            let tokenVal = document.getElementById('cfg-github-token').value.trim();
+            if (tokenVal) {
+                localStorage.setItem('saobay_github_token', tokenVal);
+            }
+
             updateScorePreview();
             closeAdminSettingsModal();
-            alert('Đã cập nhật quy tắc điểm số hệ thống!');
+            alert('Đã cập nhật quy tắc điểm số và cấu hình GitHub thành công!');
+            loadFolderTreeFromGit(true);
         }
-    </script>
-<script>
-    document.getElementById('item-content').value += sample;
-    renderMathPreview();
-
-
-async function handleFileUpload(event) {
-    let file = event.target.files[0];
-    if (!file) return;
-
-    let fileName = file.name;
-    let ext = fileName.split('.').pop().toLowerCase();
-
-    if (!document.getElementById('item-title').value.trim()) {
-        document.getElementById('item-title').value = fileName.substring(0, fileName.lastIndexOf('.')) || fileName;
-    }
-
-    if (ext === 'docx') {
-        let reader = new FileReader();
-        reader.onload = async function(e) {
-            let arrayBuffer = e.target.result;
-            try {
-                let result = await mammoth.convertToHtml({ arrayBuffer: arrayBuffer });
-                document.getElementById('item-content').value = result.value;
-                renderMathPreview();
-                alert('Đã đọc và chuyển đổi file Word thành công!');
-            } catch (err) {
-                alert('Lỗi đọc file Word: ' + err.message);
-            }
-        };
-        reader.readAsArrayBuffer(file);
-    } else {
-        let reader = new FileReader();
-        reader.onload = function(e) {
-            document.getElementById('item-content').value = e.target.result;
-            renderMathPreview();
-            alert('Đã tải nội dung file thành công!');
-        };
-        reader.readAsText(file);
-    }
-}
-
-async function handleFormSubmit(event) {
-    event.preventDefault();
-
-    let title = document.getElementById('item-title').value.trim();
-    let content = document.getElementById('item-content').value.trim();
-    let type = document.getElementById('item-type').value;
-
-    if (!title || !content) {
-        alert('Vui lòng nhập đầy đủ tiêu đề và nội dung bài giảng!');
-        return;
-    }
-
-    let submitBtn = document.getElementById('submit-btn');
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Đang xử lý & Đẩy lên...';
-
-    let payload = {
-        type: 'PUSH_LESSON_ITEM',
-        folderId: currentSelectedFolderId,
-        folderName: currentSelectedFolderName,
-        itemType: type,
-        title: title,
-        content: content,
-        user: currentUser.name,
-        userId: currentUser.id
-    };
-
-    try {
-        let res = await fetch(API_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify(payload)
-        });
-        let result = await parseSafeResponse(res);
-
-        if (result.status === 'success') {
-            alert('Đã đẩy bài giảng thành công lên hệ thống GitHub & Drive!');
-            
-            let earnedPoints = 100;
-            if (type === 'EXAM_LONG') earnedPoints = scoreConfig.examLong;
-            if (type === 'EXAM_SHORT') earnedPoints = scoreConfig.examShort;
-            
-            currentUser.score += earnedPoints;
-            localStorage.setItem('user_score', currentUser.score);
-            document.getElementById('user-total-score').innerText = currentUser.score;
-
-            notifyChannel.postMessage({ type: 'NEW_CONTENT_PUSHED', title: title });
-
-            resetFormToCreate();
-        } else {
-            alert('Lỗi từ hệ thống: ' + (result.message || 'Không xác định'));
-        }
-    } catch (err) {
-        alert('Lỗi kết nối máy chủ: ' + err.message);
-    } finally {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up mr-2"></i> Lưu & Đẩy Lên GitHub / Drive';
-    }
-}
-
-function resetFormToCreate() {
-    document.getElementById('edit-mode-flag').value = 'CREATE';
-    document.getElementById('editing-item-id').value = '';
-    document.getElementById('item-title').value = '';
-    document.getElementById('item-content').value = '';
-    document.getElementById('word-file-input').value = '';
-    document.getElementById('drive-url-input').value = '';
-    document.getElementById('cancel-edit-btn').classList.add('hidden');
-    updateScorePreview();
-    renderMathPreview();
-}
-
-function openAdminSettingsModal() {
-    document.getElementById('cfg-score-knowledge').value = scoreConfig.knowledge;
-    document.getElementById('cfg-score-exam-long').value = scoreConfig.examLong;
-    document.getElementById('cfg-score-exam-short').value = scoreConfig.examShort;
-    document.getElementById('admin-settings-modal').classList.remove('hidden');
-}
-
-function closeAdminSettingsModal() {
-    document.getElementById('admin-settings-modal').classList.add('hidden');
-}
-
-function saveAdminSettings() {
-    scoreConfig.knowledge = parseInt(document.getElementById('cfg-score-knowledge').value) || 100;
-    scoreConfig.examLong = parseInt(document.getElementById('cfg-score-exam-long').value) || 50;
-    scoreConfig.examShort = parseInt(document.getElementById('cfg-score-exam-short').value) || 20;
-    
-    closeAdminSettingsModal();
-    updateScorePreview();
-    alert('Đã lưu cấu hình điểm thưởng thành công!');
-}
-</script>    
+    </script>    
 </body>
 </html>
