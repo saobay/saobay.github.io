@@ -278,7 +278,7 @@
             owner: "saobay",
             repo: "saobay.github.io",
             branch: "main",
-            token: "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"
+            token: "" // Không để token ở đây. Token được bảo mật qua Google Apps Script Proxy hoặc lưu trong trình duyệt (Admin)
         };
         const API_URL = "https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec";
 
@@ -548,7 +548,35 @@
 
             let token = getGithubToken();
             if (!token) {
-                alert("Thiếu GitHub Access Token. Vui lòng cấu hình token trong mục Admin.");
+                // Đẩy tạo thư mục qua Google Apps Script Proxy an toàn
+                try {
+                    let payload = {
+                        type: 'PUSH_TO_GITHUB',
+                        filePath: `${newFolderPath}/.gitkeep`,
+                        content: `Thư mục: ${folderName}\nTạo bởi: ${currentUser.name}\nThời gian: ${new Date().toLocaleString()}`,
+                        commitMessage: `Tạo thư mục mới: ${newFolderPath} bởi ${currentUser.name}`,
+                        folderName: folderName,
+                        parentId: parentFolder
+                    };
+
+                    let res = await fetch(API_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                        body: JSON.stringify(payload)
+                    });
+                    let result = await parseSafeResponse(res);
+                    if (result.status === 'success') {
+                        alert(`Đã tạo thư mục "${folderName}" thành công trên GitHub qua Google Proxy!`);
+                        currentSelectedFolderId = newFolderPath;
+                        currentSelectedFolderName = folderName;
+                        await loadFolderTreeFromGit(true);
+                        selectFolder(newFolderPath, folderName);
+                    } else {
+                        alert(`Lỗi tạo thư mục: ${result.message || 'Không xác định'}`);
+                    }
+                } catch(err) {
+                    alert(`Lỗi kết nối tạo thư mục: ${err.message}`);
+                }
                 return;
             }
 
@@ -837,9 +865,53 @@
 
             let token = getGithubToken();
             if (!token) {
-                alert("Thiếu GitHub Token để đẩy bài. Vui lòng thiết lập trong mục Admin!");
-                btn.disabled = false;
-                btn.innerHTML = `<i class="fa-solid fa-cloud-arrow-up mr-2"></i> Lưu & Đẩy Lên GitHub / Drive`;
+                // Đẩy an toàn qua Google Apps Script Proxy (Token ẩn trên server Google)
+                try {
+                    let payload = {
+                        type: 'PUSH_TO_GITHUB',
+                        filePath: targetGitPath,
+                        content: finalHtml,
+                        commitMessage: `Upload ${fileSubType}: ${safeTitle} vào [${targetFolder}]`,
+                        title: safeTitle,
+                        folderName: currentSelectedFolderName,
+                        folderId: currentSelectedFolderId,
+                        contentType: itemType,
+                        author: currentUser.name
+                    };
+
+                    let res = await fetch(API_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                        body: JSON.stringify(payload)
+                    });
+                    let result = await parseSafeResponse(res);
+
+                    if (result.status === 'success') {
+                        let isEdit = document.getElementById('edit-mode-flag').value === 'EDIT';
+                        let pointsEarned = isEdit ? scoreConfig.edit : scoreConfig.knowledge;
+                        if (!isEdit) {
+                            if (itemType === 'EXAM_LONG') pointsEarned = scoreConfig.examLong;
+                            else if (itemType === 'EXAM_SHORT') pointsEarned = scoreConfig.examShort;
+                        }
+
+                        currentUser.score += pointsEarned;
+                        localStorage.setItem('user_score', currentUser.score);
+                        document.getElementById('user-total-score').innerText = currentUser.score;
+
+                        notifyChannel.postMessage({ action: 'REFRESH_LESSON_LIST', title: safeTitle, path: targetGitPath });
+
+                        alert(`🎉 THÀNH CÔNG!\nBài "${safeTitle}" đã được đẩy trực tiếp lên GitHub qua Google Proxy!\n📁 Vị trí: ${targetGitPath}\n⭐ Điểm thưởng nhận được: +${pointsEarned}`);
+                        resetFormToCreate();
+                        await loadFolderTreeFromGit();
+                    } else {
+                        alert(`Lỗi khi đẩy bài qua Google Proxy: ${result.message || 'Không xác định'}`);
+                    }
+                } catch(err) {
+                    alert(`Lỗi kết nối máy chủ Google Proxy: ${err.message}`);
+                } finally {
+                    btn.disabled = false;
+                    btn.innerHTML = `<i class="fa-solid fa-cloud-arrow-up mr-2"></i> Lưu & Đẩy Lên GitHub / Drive`;
+                }
                 return;
             }
 
