@@ -865,9 +865,14 @@
             }
 
             // 3. Nạp từ GitHub Raw CDN với cache-buster
+            // FIX 2026-10-08: rawGitUrl chưa từng được khai báo trong hàm này -> ReferenceError
+            // làm chết cả tầng 3, 4, 5 (treo "Đang nạp" với file vừa đẩy khi Pages chưa deploy xong).
+            // Dùng GitUrl có sẵn trong rawFile, encode để an toàn với tên thư mục tiếng Việt/dấu cách.
+            let rawGitUrl = rawFile.GitUrl || rawFile.gitUrl || rawFile.rawGitUrl || '';
             if (!htmlCode && rawGitUrl) {
                 try {
-                    let cdnUrl = rawGitUrl + (rawGitUrl.includes('?') ? '&' : '?') + 't=' + Date.now();
+                    let baseRaw = encodeURI(rawGitUrl);
+                    let cdnUrl = baseRaw + (baseRaw.includes('?') ? '&' : '?') + 't=' + Date.now();
                     let gitRes = await fetch(cdnUrl);
                     if (gitRes.ok) {
                         htmlCode = await gitRes.text();
