@@ -152,7 +152,7 @@
             </div>
 
             <!-- NỘI DUNG HIỂN THỊ CỘT PHẢI (TỰ ĐỘNG DÃN RỘNG KHI CÂY DANH MỤC THU GỌN) -->
-            <div class="flex-1 w-full bg-white rounded-2xl border border-slate-200 shadow-sm p-4 md:p-8 flex flex-col min-h-[520px] lg:h-[720px] overflow-y-auto relative transition-all duration-300" id="content-display-area">
+            <div class="flex-1 w-full bg-white rounded-2xl border border-slate-200 shadow-sm p-2 md:p-8 flex flex-col min-h-[520px] lg:h-[720px] overflow-y-auto relative transition-all duration-300" id="content-display-area">
                 
                 <!-- NÚT MỞ NHANH DANH MỤC NẰM ĐẦU VÙNG ĐỌC (HIỂN THỊ KHI SIDEBAR THU GỌN) -->
                 <div id="floating-sidebar-toggle-bar" class="hidden pb-3 mb-2 border-b border-slate-100 flex items-center justify-between">
@@ -777,7 +777,10 @@
                 return '.lesson-native-rendered ' + trimmed + suffix;
             });
 
-            return `<style>\n.lesson-native-rendered { width: 100% !important; max-width: 100% !important; margin: 0 !important; }\n${css}\n</style>`;
+            // FIX mobile 2026-10-08: reset padding thừa do CSS body của file bài học
+            // bị chuyển thành padding của khung bao, đồng thời nới rộng nội dung
+            // trên màn hình nhỏ bằng cách giảm padding các lớp lồng nhau
+            return `<style>\n.lesson-native-rendered { width: 100% !important; max-width: 100% !important; margin: 0 !important; padding: 0 !important; }\n${css}\n@media (max-width: 768px){\n.lesson-native-rendered > div:first-child { padding-left: 12px !important; padding-right: 12px !important; }\n.lesson-native-rendered .exam-container { padding-left: 0 !important; padding-right: 0 !important; }\n}\n</style>`;
         }
 
         async function selectItemDetail(fileId, elementNode) {
@@ -940,6 +943,33 @@
             if (htmlCode.includes('<html') || htmlCode.includes('<!DOCTYPE') || htmlCode.includes('<body')) {
                 let parser = new DOMParser();
                 let doc = parser.parseFromString(htmlCode, 'text/html');
+
+                // LOẠI BỎ TIÊU ĐỀ TRÙNG LẶP: trang chính đã hiển thị docTitle phía trên,
+                // nên xóa các h1 trong file bài học có nội dung trùng với tiêu đề đó
+                try {
+                    let normT = function(s){ return (s||'').toLowerCase().replace(/[_\-:–—|]/g,' ').replace(/\s+/g,' ').trim(); };
+                    let wordsT = function(s){ return normT(s).split(' ').filter(function(w){ return w.length > 2; }); };
+                    let similarTitle = function(a, b){
+                        let wa = wordsT(a), wb = wordsT(b);
+                        if (!wa.length || !wb.length) return false;
+                        let setB = {}, hit = 0, i;
+                        for (i = 0; i < wb.length; i++) setB[wb[i]] = 1;
+                        for (i = 0; i < wa.length; i++) if (setB[wa[i]]) hit++;
+                        return hit / Math.max(wa.length, wb.length) >= 0.55;
+                    };
+                    if (docTitle && doc.body) {
+                        Array.prototype.slice.call(doc.body.querySelectorAll('h1')).forEach(function(h){
+                            if (!similarTitle(h.textContent, docTitle)) return;
+                            let p = h.parentElement;
+                            // Nếu h1 nằm trong cụm header đầu bài (có viền dưới, kèm nhãn/tác giả) thì xóa cả cụm
+                            if (p && /border-b/.test(p.className || '') && p.querySelector('h1') === h) {
+                                p.remove();
+                            } else {
+                                h.remove();
+                            }
+                        });
+                    }
+                } catch (eDup) { console.log('Dedupe title note:', eDup); }
                 
                 let styleTags = doc.querySelectorAll('style');
                 let rawStyles = Array.from(styleTags).map(s => s.innerHTML).join('\n');
