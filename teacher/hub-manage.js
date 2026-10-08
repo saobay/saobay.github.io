@@ -309,7 +309,9 @@
                             let lastSlash = item.path.lastIndexOf('/');
                             let folder = lastSlash === -1 ? '' : item.path.substring(0, lastSlash);
                             if (folder === 'data/bank' || folder.startsWith('data/bank/')) return false;
-                            return !curFolder || folder === curFolder;
+                            if (folder === 'data/scores' || folder.startsWith('data/scores/')) return false;
+                            // Khop tien to: chon "data" hien tat ca file trong cac thu muc con
+                            return !curFolder || folder === curFolder || folder.startsWith(curFolder + '/');
                         });
                     }
                 }
