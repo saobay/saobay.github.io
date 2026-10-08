@@ -174,7 +174,16 @@ YÊU CẦU CHI TIẾT:
                 return;
             }
 
-            let targetFolder = currentSelectedFolderId || 'data';
+            let targetFolder = currentSelectedFolderId || '';
+            // BAT BUOC chon thu muc trong cung (khong duoc de trong, khong duoc chon thu muc cha)
+            if (!targetFolder) {
+                alert('Vui lòng chọn thư mục trong cùng (không có thư mục con) ở cây thư mục bên trái trước khi đẩy bài!');
+                return;
+            }
+            if ((typeof folderHasChildren === 'function') && folderHasChildren(targetFolder)) {
+                alert('Thư mục đã chọn còn có thư mục con. Vui lòng chọn thư mục trong cùng!');
+                return;
+            }
             // BẢO VỆ TUYỆT ĐỐI THƯ MỤC BACKUP
             if (targetFolder === 'backup' || targetFolder.startsWith('backup/')) {
                 alert('LỖI: Thư mục backup là thư mục sao lưu dự phòng an toàn, tuyệt đối không được đẩy bài vào đây!');
