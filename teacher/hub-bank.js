@@ -1,0 +1,350 @@
+        // ========================================================
+        // NGÂN HÀNG CÂU HỎI — data/bank/ (Phase 2, 2026-10-08)
+        // - Tự bóc câu hỏi từ file đề (saobay-exam10-data) mỗi lần đẩy bài
+        // - Lưu vào data/bank/{MON}_{KHOI}.json kèm thẻ nhận dạng
+        // - Trình duyệt bank + trình sinh file "cầu nối" chương
+        // ========================================================
+
+        function bankNorm(s){
+            return String(s == null ? '' : s).toLowerCase()
+                .replace(/[àáạảãâầấậẩẫăằắặẳẵ]/g,'a').replace(/[èéẹẻẽêềếệểễ]/g,'e')
+                .replace(/[ìíịỉĩ]/g,'i').replace(/[òóọỏõôồốộổỗơờớợởỡ]/g,'o')
+                .replace(/[ùúụủũưừứựửữ]/g,'u').replace(/[ỳýỵỷỹ]/g,'y').replace(/đ/g,'d')
+                .replace(/[^a-z0-9]+/g,' ').replace(/\s+/g,' ').trim();
+        }
+
+        function bankNormLevel(lv){
+            let s = bankNorm(lv);
+            if (/^(vdc|van\sdung\acao)/.test(s)) return 'VDC';
+            if (/^(vd|van\sdung)/.test(s)) return 'VD';
+            if (/^(th|thong\shieu)/.test(s)) return 'TH';
+            return 'NB';
+        }
+
+        // Đoán thẻ môn/khối/chương/bài từ tên file + thư mục
+        function parseBankMeta(formattedFileName, targetFolder){
+            let raw = String(formattedFileName || '').replace(/\.html$/i,'');
+            let subject = (raw.match(/^([A-Za-z]+)/) || ['','TOAN'])[1].toUpperCase();
+            let gradeM = raw.match(/_(\d{1,2})_/);
+            let grade = gradeM ? parseInt(gradeM[1],10) : 10;
+            let folderM = String(targetFolder || '').match(/lớp\s*(\d{1,2})/i);
+            if (folderM) grade = parseInt(folderM[1],10);
+            let lessonM = raw.match(/BAI_(\d+)/i);
+            let chapterM = raw.match(/CHUONG_(\d+)/i);
+            return {
+                subject: subject,
+                grade: grade,
+                chapter: chapterM ? parseInt(chapterM[1],10) : 1,
+                lesson: lessonM ? parseInt(lessonM[1],10) : 0
+            };
+        }
+
+        function bankKey(subject, grade){
+            return 'data/bank/' + subject.toUpperCase() + '_' + grade + '.json';
+        }
+
+        // Bóc toàn bộ câu hỏi từ các khối saobay-exam10-data trong HTML
+        function extractQuestionsFromExam10(finalHtml, meta, sourcePath){
+            let out = [];
+            let re = /<script[^>]*class=["']saobay-exam10-data["'][^>]*>\s*(\{[\s\S]*?\})\s*<\/script>/gi;
+            let m, today = new Date().toISOString().slice(0,10);
+            while ((m = re.exec(finalHtml)) !== null){
+                let obj;
+                try { obj = JSON.parse(m[1]); } catch(e){ continue; }
+                (obj.sets || []).forEach(function(set, si){
+                    (set.questions || []).forEach(function(qq, qi){
+                        let q = {
+                            subject: meta.subject, grade: meta.grade,
+                            chapter: meta.chapter, lesson: meta.lesson,
+                            type: (qq.type === 'truefalse' || qq.type === 'short') ? qq.type : 'mcq',
+                            level: bankNormLevel(qq.level),
+                            q: String(qq.q || ''), options: qq.options || [],
+                            statements: qq.statements || [],
+                            answer: qq.answer == null ? '' : qq.answer,
+                            explain: String(qq.explain || ''),
+                            tags: [meta.subject.toLowerCase(), String(meta.grade), 'chuong-' + meta.chapter],
+                            source: sourcePath, setName: set.name || ('Đề ' + (si+1)),
+                            created: today
+                        };
+                        if (bankNorm(q.q)) out.push(q);
+                    });
+                });
+            }
+            return out;
+        }
+
+        async function bankApiRead(bankPath){
+            let token = getGithubToken();
+            if (!token) return { error: 'no-token' };
+            let apiUrl = 'https://api.github.com/repos/' + GITHUB_CONFIG.owner + '/' + GITHUB_CONFIG.repo
+                + '/contents/' + getEncodedGitHubPath(bankPath) + '?ref=' + GITHUB_CONFIG.branch;
+            let res = await fetch(apiUrl, { headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github+json' } });
+            if (res.status === 404) return { notFound: true };
+            if (!res.ok) return { error: 'http-' + res.status };
+            let data = await res.json();
+            let bin = atob(String(data.content || '').replace(/\s/g,''));
+            let bytes = new Uint8Array(bin.length);
+            for (let i=0;i<bin.length;i++) bytes[i] = bin.charCodeAt(i);
+            let text = new TextDecoder('utf-8').decode(bytes);
+            return { sha: data.sha, data: JSON.parse(text) };
+        }
+
+        async function bankApiWrite(bankPath, obj, sha, message){
+            let token = getGithubToken();
+            let apiUrl = 'https://api.github.com/repos/' + GITHUB_CONFIG.owner + '/' + GITHUB_CONFIG.repo
+                + '/contents/' + getEncodedGitHubPath(bankPath);
+            let body = { message: message, content: utf8ToBase64(JSON.stringify(obj)), branch: GITHUB_CONFIG.branch };
+            if (sha) body.sha = sha;
+            let res = await fetch(apiUrl, {
+                method: 'PUT',
+                headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            });
+            if (!res.ok){ let t = await res.text(); throw new Error('GitHub API ' + res.status + ': ' + t.slice(0,120)); }
+            return res.json();
+        }
+
+        // Ghi nối câu hỏi mới vào bank (khử trùng theo nội dung câu hỏi)
+        async function pushQuestionsToBank(questions, meta){
+            if (!questions.length) return { added: 0 };
+            let path = bankKey(meta.subject, meta.grade);
+            let read = await bankApiRead(path);
+            if (read.error) throw new Error(read.error);
+            let bank = read.notFound
+                ? { subject: meta.subject, grade: meta.grade, updated: new Date().toISOString().slice(0,10), questions: [] }
+                : read.data;
+            if (!Array.isArray(bank.questions)) bank.questions = [];
+            let seen = {};
+            bank.questions.forEach(function(q){ seen[bankNorm(q.q)] = 1; });
+            let dateTag = new Date().toISOString().slice(0,10).replace(/-/g,'');
+            let added = 0;
+            questions.forEach(function(q){
+                let key = bankNorm(q.q);
+                if (!key || seen[key]) return;
+                seen[key] = 1;
+                added++;
+                q.id = meta.subject.toUpperCase() + meta.grade + '_' + dateTag + '_' + String(bank.questions.length + 1).padStart(4,'0');
+                bank.questions.push(q);
+            });
+            bank.updated = new Date().toISOString().slice(0,10);
+            await bankApiWrite(path, bank, read.sha, 'Bank: +' + added + ' câu ' + meta.subject + ' khối ' + meta.grade);
+            return { added: added, path: path };
+        }
+
+        // Hook tự động: gọi sau khi đẩy bài thành công (không làm hỏng luồng chính)
+        async function autoSaveToBank(finalHtml, formattedFileName, targetGitPath, targetFolder){
+            try {
+                if (finalHtml.indexOf('saobay-exam10-data') === -1) return;
+                let meta = parseBankMeta(formattedFileName, targetFolder);
+                let qs = extractQuestionsFromExam10(finalHtml, meta, targetGitPath);
+                if (!qs.length) return;
+                let r = await pushQuestionsToBank(qs, meta);
+                if (r.added > 0 && typeof showToast === 'function')
+                    showToast('Đã lưu ' + r.added + ' câu vào ngân hàng ' + meta.subject + ' khối ' + meta.grade, 'success');
+            } catch(e){ console.log('autoSaveToBank note:', e); }
+        }
+
+        // Đẩy 1 file HTML lên GitHub trực tiếp (dùng cho file cầu nối / đề kiểm tra)
+        async function bankPushFile(targetPath, htmlContent, commitMessage){
+            let token = getGithubToken();
+            if (!token){ alert('Chức năng này cần token GitHub. Hãy đẩy 1 bài bất kỳ bằng form chính trước (để lưu token), rồi thử lại.'); throw new Error('no-token'); }
+            let apiUrl = 'https://api.github.com/repos/' + GITHUB_CONFIG.owner + '/' + GITHUB_CONFIG.repo
+                + '/contents/' + getEncodedGitHubPath(targetPath);
+            let sha;
+            try {
+                let chk = await fetch(apiUrl + '?ref=' + GITHUB_CONFIG.branch, { headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github+json' } });
+                if (chk.ok){ let jd = await chk.json(); sha = jd.sha; }
+            } catch(e){}
+            let body = { message: commitMessage, content: utf8ToBase64(htmlContent), branch: GITHUB_CONFIG.branch };
+            if (sha) body.sha = sha;
+            let res = await fetch(apiUrl, {
+                method: 'PUT',
+                headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            });
+            if (!res.ok){ let t = await res.text(); throw new Error('GitHub API ' + res.status + ': ' + t.slice(0,150)); }
+            return res.json();
+        }
+
+        // Chuẩn hoá HTML bọc ngoài cho file cầu nối / đề kiểm tra
+        function bankWrapPage(safeTitle, labelText, innerHtml){
+            return '<!DOCTYPE html>\n<html lang="vi">\n<head>\n'
+                + '    <meta charset="UTF-8">\n'
+                + '    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n'
+                + '    <title>' + safeTitle + '</title>\n'
+                + '    <meta name="lesson-title" content="' + safeTitle + '">\n'
+                + '    <script src="https://cdn.tailwindcss.com"><\/script>\n'
+                + '    <style>\n'
+                + "        body { font-family: system-ui, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; margin: 0 auto; }\n"
+                + '    <\/style>\n</head>\n'
+                + '<body class="bg-slate-50 min-h-screen">\n'
+                + '    <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">\n'
+                + '        <div class="border-b pb-4 mb-6">\n'
+                + '            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">' + labelText + '</span>\n'
+                + '            <h1 class="text-2xl font-black text-slate-900 mt-1">' + safeTitle + '</h1>\n'
+                + '        </div>\n'
+                + '        <div class="content-body space-y-4">\n' + innerHtml + '\n        </div>\n'
+                + '    </div>\n</body>\n</html>';
+        }
+
+        // ============ TRÌNH DUYỆT NGÂN HÀNG ============
+        let bankBrowserState = { path: '', data: null, fChapter: '', fType: '', fLevel: '', fKw: '' };
+
+        function openBankBrowser(){
+            let old = document.getElementById('bank-browser-modal');
+            if (old) old.remove();
+            let modal = document.createElement('div');
+            modal.id = 'bank-browser-modal';
+            modal.className = 'fixed inset-0 z-[9999] flex items-center justify-center p-3';
+            modal.innerHTML =
+                '<div class="absolute inset-0 bg-black/50" onclick="document.getElementById(\'bank-browser-modal\').remove()"></div>'
+                + '<div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden">'
+                + '<div class="flex items-center justify-between px-5 py-3 border-b bg-violet-700 text-white">'
+                + '<h3 class="font-black text-sm"><i class="fa-solid fa-database mr-2"></i>Ngân Hàng Câu Hỏi</h3>'
+                + '<button onclick="document.getElementById(\'bank-browser-modal\').remove()" class="text-white/80 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button></div>'
+                + '<div class="p-4 border-b bg-slate-50 flex flex-wrap gap-2 items-end">'
+                + '<div><label class="text-[10px] font-bold text-slate-500">Môn</label><br><input id="bank-f-subject" value="TOAN" class="text-xs border rounded-lg px-2 py-1.5 w-24 font-bold uppercase"></div>'
+                + '<div><label class="text-[10px] font-bold text-slate-500">Khối</label><br><input id="bank-f-grade" value="10" type="number" class="text-xs border rounded-lg px-2 py-1.5 w-16 font-bold"></div>'
+                + '<button onclick="bankBrowserLoad()" class="bg-violet-700 hover:bg-violet-800 text-white text-xs font-bold px-4 py-2 rounded-lg"><i class="fa-solid fa-download mr-1"></i>Tải bank</button>'
+                + '<div><label class="text-[10px] font-bold text-slate-500">Chương</label><br><input id="bank-f-chapter" placeholder="tất cả" class="text-xs border rounded-lg px-2 py-1.5 w-20"></div>'
+                + '<div><label class="text-[10px] font-bold text-slate-500">Dạng</label><br><select id="bank-f-type" class="text-xs border rounded-lg px-2 py-1.5"><option value="">tất cả</option><option value="mcq">Trắc nghiệm</option><option value="truefalse">Đúng/Sai</option><option value="short">Trả lời ngắn</option></select></div>'
+                + '<div><label class="text-[10px] font-bold text-slate-500">Mức độ</label><br><select id="bank-f-level" class="text-xs border rounded-lg px-2 py-1.5"><option value="">tất cả</option><option>NB</option><option>TH</option><option>VD</option><option>VDC</option></select></div>'
+                + '<div class="flex-1 min-w-[140px]"><label class="text-[10px] font-bold text-slate-500">Tìm kiếm</label><br><input id="bank-f-kw" placeholder="từ khóa trong câu hỏi..." class="text-xs border rounded-lg px-2 py-1.5 w-full"></div>'
+                + '<button onclick="bankBrowserRender()" class="bg-slate-700 hover:bg-slate-800 text-white text-xs font-bold px-4 py-2 rounded-lg"><i class="fa-solid fa-filter mr-1"></i>Lọc</button>'
+                + '</div>'
+                + '<div id="bank-browser-list" class="flex-1 overflow-y-auto p-4 space-y-2 text-sm"><p class="text-slate-400 text-xs italic">Nhập môn + khối rồi bấm "Tải bank".</p></div>'
+                + '<div id="bank-browser-foot" class="px-5 py-2 border-t text-[11px] text-slate-500 bg-slate-50"></div>'
+                + '</div>';
+            document.body.appendChild(modal);
+        }
+
+        async function bankBrowserLoad(){
+            let subject = document.getElementById('bank-f-subject').value.trim().toUpperCase() || 'TOAN';
+            let grade = parseInt(document.getElementById('bank-f-grade').value, 10) || 10;
+            let path = bankKey(subject, grade);
+            let list = document.getElementById('bank-browser-list');
+            list.innerHTML = '<p class="text-slate-400 text-xs italic"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Đang tải ' + path + '...</p>';
+            try {
+                let r = await bankApiRead(path);
+                if (r.notFound){ list.innerHTML = '<p class="text-amber-600 text-xs">Chưa có bank cho ' + subject + ' khối ' + grade + '. Hãy đẩy 1 file đề để tự tạo bank.</p>'; bankBrowserState.data = null; return; }
+                if (r.error) throw new Error(r.error);
+                bankBrowserState.path = path; bankBrowserState.data = r.data; bankBrowserState.sha = r.sha;
+                bankBrowserRender();
+            } catch(e){ list.innerHTML = '<p class="text-rose-600 text-xs">Lỗi tải bank: ' + String(e.message || e) + '</p>'; }
+        }
+
+        function bankBrowserRender(){
+            let st = bankBrowserState;
+            let list = document.getElementById('bank-browser-list');
+            let foot = document.getElementById('bank-browser-foot');
+            if (!st.data){ return; }
+            st.fChapter = document.getElementById('bank-f-chapter').value.trim();
+            st.fType = document.getElementById('bank-f-type').value;
+            st.fLevel = document.getElementById('bank-f-level').value;
+            st.fKw = bankNorm(document.getElementById('bank-f-kw').value);
+            let qs = (st.data.questions || []).filter(function(q){
+                if (st.fChapter && String(q.chapter) !== st.fChapter) return false;
+                if (st.fType && q.type !== st.fType) return false;
+                if (st.fLevel && q.level !== st.fLevel) return false;
+                if (st.fKw && bankNorm(q.q).indexOf(st.fKw) === -1) return false;
+                return true;
+            });
+            foot.textContent = 'Tổng ' + (st.data.questions || []).length + ' câu trong bank • đang hiện ' + qs.length + ' câu • cập nhật ' + (st.data.updated || '?');
+            if (!qs.length){ list.innerHTML = '<p class="text-slate-400 text-xs italic">Không có câu nào khớp bộ lọc.</p>'; return; }
+            list.innerHTML = qs.slice(0, 300).map(function(q){
+                let badge = {mcq:'bg-blue-100 text-blue-800', truefalse:'bg-amber-100 text-amber-800', short:'bg-emerald-100 text-emerald-800'}[q.type] || 'bg-slate-100';
+                return '<div class="border border-slate-200 rounded-xl p-3 bg-white">'
+                    + '<div class="flex items-start justify-between gap-2">'
+                    + '<p class="font-semibold text-slate-800 text-[13px] flex-1">' + String(q.q).replace(/</g,'&lt;').slice(0,220) + '</p>'
+                    + '<button onclick="bankDeleteQuestion(\'' + q.id + '\')" class="text-rose-400 hover:text-rose-600 text-xs shrink-0" title="Xóa câu này"><i class="fa-solid fa-trash"></i></button>'
+                    + '</div>'
+                    + '<div class="flex flex-wrap gap-1.5 mt-2 text-[10px] font-bold">'
+                    + '<span class="px-2 py-0.5 rounded-full ' + badge + '">' + q.type + '</span>'
+                    + '<span class="px-2 py-0.5 rounded-full bg-violet-100 text-violet-800">' + q.level + '</span>'
+                    + '<span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">chương ' + q.chapter + ' • bài ' + q.lesson + '</span>'
+                    + '<span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-medium">' + q.id + '</span>'
+                    + '</div></div>';
+            }).join('') + (qs.length > 300 ? '<p class="text-[11px] text-slate-400 italic">...và ' + (qs.length-300) + ' câu nữa (thu hẹp bộ lọc để xem).</p>' : '');
+        }
+
+        async function bankDeleteQuestion(qid){
+            let st = bankBrowserState;
+            if (!st.data || !confirm('Xóa câu ' + qid + ' khỏi bank?')) return;
+            st.data.questions = (st.data.questions || []).filter(function(q){ return q.id !== qid; });
+            st.data.updated = new Date().toISOString().slice(0,10);
+            try {
+                let r = await bankApiWrite(st.path, st.data, st.sha, 'Bank: xóa câu ' + qid);
+                st.sha = r.content.sha;
+                bankBrowserRender();
+                if (typeof showToast === 'function') showToast('Đã xóa câu ' + qid, 'success');
+            } catch(e){ alert('Lỗi xóa: ' + (e.message || e)); }
+        }
+
+        // ============ TRÌNH SINH FILE "CẦU NỐI" CHƯƠNG (Phase 3) ============
+        function openBridgeGenerator(){
+            let old = document.getElementById('bridge-gen-modal');
+            if (old) old.remove();
+            let modal = document.createElement('div');
+            modal.id = 'bridge-gen-modal';
+            modal.className = 'fixed inset-0 z-[9999] flex items-center justify-center p-3';
+            modal.innerHTML =
+                '<div class="absolute inset-0 bg-black/50" onclick="document.getElementById(\'bridge-gen-modal\').remove()"></div>'
+                + '<div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">'
+                + '<div class="flex items-center justify-between px-5 py-3 border-b bg-indigo-700 text-white rounded-t-2xl">'
+                + '<h3 class="font-black text-sm"><i class="fa-solid fa-bridge mr-2"></i>Tạo File Cầu Nối Chương (bốc câu từ bank)</h3>'
+                + '<button onclick="document.getElementById(\'bridge-gen-modal\').remove()" class="text-white/80 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button></div>'
+                + '<div class="p-5 space-y-3 text-sm">'
+                + '<div class="grid grid-cols-2 gap-3">'
+                + '<div><label class="text-[11px] font-bold text-slate-600">Môn</label><input id="bridge-subject" value="TOAN" class="mt-1 w-full text-sm border rounded-lg px-3 py-2 font-bold uppercase"></div>'
+                + '<div><label class="text-[11px] font-bold text-slate-600">Khối lớp</label><input id="bridge-grade" type="number" value="10" class="mt-1 w-full text-sm border rounded-lg px-3 py-2 font-bold"></div>'
+                + '<div><label class="text-[11px] font-bold text-slate-600">Chương</label><input id="bridge-chapter" type="number" value="1" class="mt-1 w-full text-sm border rounded-lg px-3 py-2 font-bold"></div>'
+                + '<div><label class="text-[11px] font-bold text-slate-600">Số câu mỗi lần hiện</label><input id="bridge-count" type="number" value="10" min="1" max="50" class="mt-1 w-full text-sm border rounded-lg px-3 py-2 font-bold"></div>'
+                + '</div>'
+                + '<div><label class="text-[11px] font-bold text-slate-600">Dạng câu (để trống = tất cả)</label><div class="flex gap-4 mt-1 text-xs font-semibold">'
+                + '<label class="flex items-center gap-1.5"><input type="checkbox" class="bridge-type" value="mcq" checked> Trắc nghiệm</label>'
+                + '<label class="flex items-center gap-1.5"><input type="checkbox" class="bridge-type" value="truefalse" checked> Đúng/Sai</label>'
+                + '<label class="flex items-center gap-1.5"><input type="checkbox" class="bridge-type" value="short" checked> Trả lời ngắn</label>'
+                + '</div></div>'
+                + '<div><label class="text-[11px] font-bold text-slate-600">Tỉ lệ mức độ % (NB / TH / VD / VDC)</label><div class="grid grid-cols-4 gap-2 mt-1">'
+                + '<input id="bridge-lv-nb" type="number" value="40" title="Nhận biết" class="text-sm border rounded-lg px-2 py-2 text-center font-bold">'
+                + '<input id="bridge-lv-th" type="number" value="30" title="Thông hiểu" class="text-sm border rounded-lg px-2 py-2 text-center font-bold">'
+                + '<input id="bridge-lv-vd" type="number" value="20" title="Vận dụng" class="text-sm border rounded-lg px-2 py-2 text-center font-bold">'
+                + '<input id="bridge-lv-vdc" type="number" value="10" title="Vận dụng cao" class="text-sm border rounded-lg px-2 py-2 text-center font-bold">'
+                + '</div></div>'
+                + '<div><label class="text-[11px] font-bold text-slate-600">Thời gian (phút, 0 = bài tập không tính giờ)</label><input id="bridge-timelimit" type="number" value="0" min="0" max="180" class="mt-1 w-full text-sm border rounded-lg px-3 py-2 font-bold"></div>'
+                + '<div><label class="text-[11px] font-bold text-slate-600">Tiêu đề file</label><input id="bridge-title" value="Luyện tập tổng hợp" class="mt-1 w-full text-sm border rounded-lg px-3 py-2"></div>'
+                + '<p class="text-[11px] text-slate-500 leading-relaxed">File cầu nối <b>không chứa câu hỏi cố định</b> — mỗi lần học sinh mở, web bốc ngẫu nhiên từ ngân hàng theo đúng tỉ lệ trên. Đẩy càng nhiều đề vào bank, kho câu càng phong phú.</p>'
+                + '<button onclick="generateBridgeFile()" class="w-full bg-indigo-700 hover:bg-indigo-800 text-white font-bold text-sm px-4 py-2.5 rounded-xl"><i class="fa-solid fa-cloud-arrow-up mr-2"></i>Tạo & Đẩy File Cầu Nối</button>'
+                + '</div></div>';
+            document.body.appendChild(modal);
+        }
+
+        async function generateBridgeFile(){
+            try {
+                let subject = document.getElementById('bridge-subject').value.trim().toUpperCase() || 'TOAN';
+                let grade = parseInt(document.getElementById('bridge-grade').value, 10) || 10;
+                let chapter = parseInt(document.getElementById('bridge-chapter').value, 10) || 1;
+                let count = Math.min(50, Math.max(1, parseInt(document.getElementById('bridge-count').value, 10) || 10));
+                let types = Array.prototype.slice.call(document.querySelectorAll('.bridge-type:checked')).map(function(c){ return c.value; });
+                let lvNB = parseFloat(document.getElementById('bridge-lv-nb').value) || 0;
+                let lvTH = parseFloat(document.getElementById('bridge-lv-th').value) || 0;
+                let lvVD = parseFloat(document.getElementById('bridge-lv-vd').value) || 0;
+                let lvVDC = parseFloat(document.getElementById('bridge-lv-vdc').value) || 0;
+                let timeLimit = parseFloat(document.getElementById('bridge-timelimit').value) || 0;
+                let title = document.getElementById('bridge-title').value.trim() || ('Luyện tập chương ' + chapter);
+                let cfg = { subject: subject, grade: grade, chapter: chapter, count: count, types: types,
+                            levels: { NB: lvNB, TH: lvTH, VD: lvVD, VDC: lvVDC }, time_limit: timeLimit };
+                let inner = '<div class="saobay-bank-view"></div>\n'
+                    + '<script type="application/json" class="saobay-bank-config">\n' + JSON.stringify(cfg) + '\n<\/script>';
+                let safeTitle = (subject + ' ' + grade + ' - Chương ' + chapter + ' - ' + title).replace(/[<>&"]/g,'');
+                let page = bankWrapPage(safeTitle, 'Bài tập tổng hợp', inner);
+                let folder = (typeof currentSelectedFolderId !== 'undefined' && currentSelectedFolderId) ? currentSelectedFolderId : 'data';
+                let asciiTitle = (typeof removeVietnameseTones === 'function' ? removeVietnameseTones(safeTitle) : safeTitle).replace(/[\\/:*?"<>|]/g,'_');
+                let path = folder + '/' + asciiTitle + '_Bai_tap_none.html';
+                await bankPushFile(path, page, 'Bridge: ' + safeTitle + ' [' + folder + ']');
+                document.getElementById('bridge-gen-modal').remove();
+                if (typeof showToast === 'function') showToast('Đã đẩy file cầu nối: ' + path, 'success');
+                else alert('Đã đẩy file cầu nối: ' + path);
+                if (typeof loadFolderTreeFromGit === 'function') loadFolderTreeFromGit();
+            } catch(e){ alert('Lỗi tạo file cầu nối: ' + (e.message || e)); }
+        }
