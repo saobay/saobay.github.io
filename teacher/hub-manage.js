@@ -46,6 +46,10 @@
                     }
                 }
 
+                // Registry quyen so huu de thi (khong chan neu loi)
+                let reg = {};
+                try { reg = await getExamRegistry(); } catch(eReg){}
+
                 if (files.length === 0) {
                     container.innerHTML = `
                         <div class="text-center py-12 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
@@ -81,12 +85,20 @@
                                 <a href="../${encodeURI(f.path)}" target="_blank" class="text-xs text-slate-600 hover:text-blue-600 px-2 py-1 rounded bg-slate-100 hover:bg-slate-200 font-semibold" title="Xem trước">
                                     <i class="fa-solid fa-eye"></i>
                                 </a>
-                                <button onclick="loadLessonIntoEditor('${f.path}', '${title.replace(/'/g, "\\'")}')" class="text-xs text-blue-700 hover:text-blue-900 px-2.5 py-1 rounded bg-blue-50 hover:bg-blue-100 font-bold border border-blue-200 flex items-center">
-                                    <i class="fa-solid fa-pen-to-square mr-1"></i> Sửa bài
-                                </button>
-                                <button onclick="deleteLessonFromManager('${f.path}', '${title.replace(/'/g, "\\'")}')" class="text-xs text-rose-600 hover:text-rose-800 px-2 py-1 rounded bg-rose-50 hover:bg-rose-100 font-bold border border-rose-200" title="Xóa bài">
-                                    <i class="fa-solid fa-trash-can"></i>
-                                </button>
+                                ${(() => {
+                                    let own = (typeof examOwnerOf === 'function') ? examOwnerOf(f.path, reg) : null;
+                                    let can = (typeof canManageExam === 'function') ? canManageExam(f.path, reg) : true;
+                                    let ownerTag = own && own.owner_name
+                                        ? `<span class="text-[10px] text-slate-400" title="Chủ sở hữu"><i class="fa-solid fa-user-check mr-0.5"></i>${own.owner_name.replace(/</g, '&lt;')}</span>`
+                                        : `<button onclick="claimExamOwner('${f.path}', '${title.replace(/'/g, "\\'")}')" class="text-[10px] text-violet-600 hover:underline font-bold" title="Nhận quyền sở hữu đề này">Nhận</button>`;
+                                    let editBtn = can
+                                        ? `<button onclick="loadLessonIntoEditor('${f.path}', '${title.replace(/'/g, "\\'")}')" class="text-xs text-blue-700 hover:text-blue-900 px-2.5 py-1 rounded bg-blue-50 hover:bg-blue-100 font-bold border border-blue-200 flex items-center"><i class="fa-solid fa-pen-to-square mr-1"></i> Sửa bài</button>`
+                                        : `<span class="text-[10px] text-slate-300 font-bold px-1" title="Đề của giáo viên khác"><i class="fa-solid fa-lock mr-0.5"></i>Sửa bài</span>`;
+                                    let delBtn = can
+                                        ? `<button onclick="deleteLessonFromManager('${f.path}', '${title.replace(/'/g, "\\'")}')" class="text-xs text-rose-600 hover:text-rose-800 px-2 py-1 rounded bg-rose-50 hover:bg-rose-100 font-bold border border-rose-200" title="Xóa bài"><i class="fa-solid fa-trash-can"></i></button>`
+                                        : `<span class="text-[10px] text-slate-300 font-bold px-1" title="Đề của giáo viên khác"><i class="fa-solid fa-lock"></i></span>`;
+                                    return ownerTag + editBtn + delBtn;
+                                })()}
                             </div>
                         </div>
                     `;
@@ -99,6 +111,12 @@
         }
 
         async function loadLessonIntoEditor(filePath, title) {
+            try {
+                if (typeof canManageExam === 'function' && !canManageExam(filePath)){
+                    alert('Bạn không có quyền sửa đề này (đề của giáo viên khác). Chỉ chủ đề và admin được sửa.');
+                    return;
+                }
+            } catch(ePerm){}
             try {
                 let res = await fetch(`../${encodeURI(filePath)}`);
                 if (res.ok) {
@@ -123,6 +141,12 @@
         }
 
         async function deleteLessonFromManager(filePath, title) {
+            try {
+                if (typeof canManageExam === 'function' && !canManageExam(filePath)){
+                    alert('Bạn không có quyền xoá đề này (đề của giáo viên khác). Chỉ chủ đề và admin được xoá.');
+                    return;
+                }
+            } catch(e){}
             if (!confirm(`Bạn có chắc muốn xóa bài "${title}" (${filePath}) trên GitHub?`)) return;
             try {
                 let res = await fetch(API_URL, {
