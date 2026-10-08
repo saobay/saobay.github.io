@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>🎡 Vòng Quay Chọn Học Sinh | SAOBAY</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  * { -webkit-tap-highlight-color: transparent; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; }
+  #wheel { transition: filter .3s; }
+  .spinning #wheel { filter: drop-shadow(0 0 25px rgba(255,200,50,.7)); }
+  @keyframes popIn { 0%{transform:scale(.3);opacity:0} 60%{transform:scale(1.15)} 100%{transform:scale(1);opacity:1} }
+  .pop-in { animation: popIn .5s ease-out; }
+  @keyframes bounce2 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+  .bounce-slow { animation: bounce2 1.6s ease-in-out infinite; }
+  @keyframes glowPulse { 0%,100%{box-shadow:0 0 15px rgba(255,215,0,.5)} 50%{box-shadow:0 0 35px rgba(255,215,0,.9)} }
+  .glow-gold { animation: glowPulse 1.5s ease-in-out infinite; }
+  .confetti { position:fixed; top:-20px; z-index:50; pointer-events:none; animation: fall linear forwards; }
+  @keyframes fall { to { transform: translateY(110vh) rotate(720deg); } }
+  .name-chip { transition: all .2s; }
+  .name-chip:hover { transform: scale(1.05); }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-thumb { background: #c4b5fd; border-radius: 3px; }
+</style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-violet-600 via-fuchsia-500 to-orange-400 text-slate-800">
+
+<div class="max-w-3xl mx-auto px-3 py-4 pb-10">
+
+  <!-- Header -->
+  <div class="text-center mb-4">
+    <h1 class="text-3xl md:text-4xl font-black text-white drop-shadow-lg">🎡 VÒNG QUAY CHỌN HỌC SINH</h1>
+    <p class="text-white/90 text-sm mt-1 font-medium">Quay trúng rồi — không quay lại đến khi reset! 🎯</p>
+  </div>
+
+  <!-- Tabs -->
+  <div class="flex gap-2 mb-4">
+    <button id="tab-setup" class="flex-1 py-2.5 rounded-xl font-bold text-sm bg-white text-violet-700 shadow-lg">
+      <i class="fa-solid fa-users mr-1"></i>Danh sách lớp
+    </button>
+    <button id="tab-wheel" class="flex-1 py-2.5 rounded-xl font-bold text-sm bg-white/30 text-white">
+      <i class="fa-solid fa-dharmachakra mr-1"></i>Vòng quay
+    </button>
+    <button id="tab-scores" class="flex-1 py-2.5 rounded-xl font-bold text-sm bg-white/30 text-white">
+      <i class="fa-solid fa-trophy mr-1"></i>Bảng điểm
+    </button>
+  </div>
+
+  <!-- ===== TAB 1: SETUP ===== -->
+  <div id="panel-setup" class="bg-white rounded-2xl shadow-2xl p-4">
+    <h2 class="font-black text-lg mb-2 text-violet-700"><i class="fa-solid fa-list mr-2"></i>Danh sách học sinh</h2>
+    <p class="text-xs text-slate-500 mb-2">Dán tên học sinh, <b>mỗi dòng 1 tên</b>. Hoặc bấm "Lớp mẫu" để thử nhanh.</p>
+    <textarea id="names-input" rows="8" placeholder="Nguyễn Văn An&#10;Trần Thị Bình&#10;Phạm Văn Cường&#10;..." class="w-full border-2 border-violet-200 rounded-xl p-3 text-sm focus:border-violet-500 focus:outline-none"></textarea>
+    <div class="flex gap-2 mt-3">
+      <button id="btn-load" class="flex-1 bg-violet-600 hover:bg-violet-700 text-white font-bold py-3 rounded-xl shadow-lg active:scale-95 transition">
+        <i class="fa-solid fa-check mr-1"></i>Nạp danh sách
+      </button>
+      <button id="btn-sample" class="bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-4 rounded-xl shadow-lg active:scale-95 transition">
+        <i class="fa-solid fa-wand-magic-sparkles mr-1"></i>Lớp mẫu
+      </button>
+    </div>
+    <div id="loaded-info" class="hidden mt-3 bg-emerald-50 border border-emerald-300 rounded-xl p-3 text-sm">
+      <p class="font-bold text-emerald-800"><i class="fa-solid fa-circle-check mr-1"></i>Đã nạp <span id="loaded-count">0</span> học sinh</p>
+      <div id="loaded-preview" class="flex flex-wrap gap-1.5 mt-2 max-h-32 overflow-y-auto"></div>
+    </div>
+  </div>
+
+  <!-- ===== TAB 2: WHEEL ===== -->
+  <div id="panel-wheel" class="hidden">
+    <div class="bg-white/95 rounded-2xl shadow-2xl p-4">
+      <div class="flex items-center justify-between mb-2">
+        <p class="text-sm font-bold text-slate-600">Còn lại: <span id="remain-count" class="text-violet-700 text-lg">0</span> HS</p>
+        <button id="btn-reset" class="text-xs bg-slate-200 hover:bg-slate-300 font-bold px-3 py-1.5 rounded-lg">
+          <i class="fa-solid fa-rotate-left mr-1"></i>Reset quay lại
+        </button>
+      </div>
+
+      <!-- Wheel -->
+      <div id="wheel-wrap" class="relative mx-auto" style="max-width:420px">
+        <!-- Pointer -->
+        <div class="absolute -top-2 left-1/2 -translate-x-1/2 z-10" style="filter:drop-shadow(0 3px 3px rgba(0,0,0,.3))">
+          <div class="w-0 h-0 border-l-[16px] border-l-transparent border-r-[16px] border-r-transparent border-t-[28px] border-t-red-600"></div>
+        </div>
+        <canvas id="wheel" width="800" height="800" class="w-full h-auto rounded-full shadow-2xl"></canvas>
+        <!-- Center hub -->
+        <button id="btn-spin" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 md:w-28 md:h-28 rounded-full bg-gradient-to-br from-red-500 to-orange-500 text-white font-black text-lg shadow-2xl border-4 border-white active:scale-90 transition glow-gold z-10">
+          QUAY<br><i class="fa-solid fa-rotate text-2xl"></i>
+        </button>
+      </div>
+
+      <!-- Winner -->
+      <div id="winner-box" class="hidden mt-4 text-center pop-in">
+        <div class="bg-gradient-to-r from-amber-100 to-yellow-100 border-2 border-amber-400 rounded-2xl p-4">
+          <p class="text-xs font-bold text-amber-700 uppercase tracking-wide">🎉 Chúc mừng!</p>
+          <p id="winner-name" class="text-2xl md:text-3xl font-black text-amber-800 my-1"></p>
+          <p class="text-xs text-slate-500 mb-3">được chọn lên bảng!</p>
+          <div class="flex gap-2 justify-center">
+            <button id="btn-plus1" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-5 py-2.5 rounded-xl shadow active:scale-95 transition">
+              <i class="fa-solid fa-plus mr-1"></i>Cộng 1 điểm
+            </button>
+            <button id="btn-plus2" class="bg-blue-500 hover:bg-blue-600 text-white font-bold px-5 py-2.5 rounded-xl shadow active:scale-95 transition">
+              <i class="fa-solid fa-plus mr-1"></i>Cộng 2 điểm
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- History -->
+      <div class="mt-4">
+        <h3 class="font-bold text-sm text-slate-600 mb-2"><i class="fa-solid fa-clock-rotate-left mr-1"></i>Lịch sử đã quay (<span id="hist-count">0</span>)</h3>
+        <div id="history-list" class="flex flex-wrap gap-1.5 max-h-28 overflow-y-auto">
+          <p class="text-xs text-slate-400 italic">Chưa quay ai cả.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== TAB 3: SCORES ===== -->
+  <div id="panel-scores" class="hidden">
+    <div class="bg-white rounded-2xl shadow-2xl p-4">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="font-black text-lg text-amber-600"><i class="fa-solid fa-trophy mr-2"></i>Bảng điểm tích lũy</h2>
+        <button id="btn-clear-scores" class="text-xs bg-red-100 text-red-600 font-bold px-3 py-1.5 rounded-lg hover:bg-red-200">
+          <i class="fa-solid fa-trash mr-1"></i>Xóa điểm
+        </button>
+      </div>
+      <div id="score-board" class="space-y-2 max-h-96 overflow-y-auto"></div>
+    </div>
+  </div>
+
+  <p class="text-center text-white/70 text-xs mt-6">SAOBAY Games 🎮 — Điểm lưu trên máy này</p>
+</div>
+
+<script>
+// ===== STATE =====
+let allStudents = [];       // tất cả HS
+let picked = [];            // đã quay trúng (loại khỏi vòng quay)
+let scores = {};            // điểm tích lũy {name: points}
+let spinning = false;
+
+try { scores = JSON.parse(localStorage.getItem('saobay_wheel_scores') || '{}'); } catch(e){ scores = {}; }
+function saveScores(){ localStorage.setItem('saobay_wheel_scores', JSON.stringify(scores)); }
+
+// ===== TABS =====
+const tabs = { 'tab-setup':'panel-setup', 'tab-wheel':'panel-wheel', 'tab-scores':'panel-scores' };
+Object.keys(tabs).forEach(function(tid){
+  document.getElementById(tid).addEventListener('click', function(){
+    Object.keys(tabs).forEach(function(k){
+      document.getElementById(k).className = 'flex-1 py-2.5 rounded-xl font-bold text-sm ' + (k===tid ? 'bg-white text-violet-700 shadow-lg' : 'bg-white/30 text-white');
+      document.getElementById(tabs[k]).classList.toggle('hidden', k!==tid);
+    });
+    if (tid==='tab-scores') renderScores();
+  });
+});
+function goTab(tid){ document.getElementById(tid).click(); }
+
+// ===== SETUP =====
+document.getElementById('btn-sample').addEventListener('click', function(){
+  document.getElementById('names-input').value =
+    'Nguyễn Văn An\nTrần Thị Bình\nPhạm Văn Cường\nLê Thị Dung\nHoàng Văn Em\nVũ Thị Phương\nĐặng Văn Giang\nBùi Thị Hằng\nĐỗ Văn Khang\nNgô Thị Lan\nTrịnh Văn Minh\nDương Thị Ngọc\nLý Văn Phúc\nTống Thị Quỳnh\nPhan Văn Sơn\nChu Thị Thảo';
+});
+document.getElementById('btn-load').addEventListener('click', function(){
+  let names = document.getElementById('names-input').value.split('\n')
+    .map(function(x){ return x.trim(); }).filter(function(x){ return x.length > 0; });
+  // loại trùng
+  names = [...new Set(names)];
+  if (!names.length){ alert('Chưa có tên nào! Dán danh sách hoặc bấm "Lớp mẫu".'); return; }
+  allStudents = names;
+  picked = [];
+  document.getElementById('loaded-info').classList.remove('hidden');
+  document.getElementById('loaded-count').textContent = names.length;
+  document.getElementById('loaded-preview').innerHTML = names.map(function(n){
+    return '<span class="name-chip text-xs bg-violet-100 text-violet-800 font-semibold px-2.5 py-1 rounded-full">'+escapeHtml(n)+'</span>';
+  }).join('');
+  drawWheel();
+  updateRemain();
+  renderHistory();
+  goTab('tab-wheel');
+});
+function escapeHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// ===== WHEEL DRAW =====
+const canvas = document.getElementById('wheel');
+const ctx = canvas.getContext('2d');
+const COLORS = ['#FF6B6B','#4ECDC4','#FFD93D','#6BCB77','#FF9F1C','#A78BFA','#F472B6','#60A5FA','#34D399','#FB7185','#FBBF24','#818CF8'];
+let currentRotation = 0;
+
+function remaining(){ return allStudents.filter(function(n){ return picked.indexOf(n) < 0; }); }
+
+function drawWheel(){
+  let list = remaining();
+  let n = list.length;
+  ctx.clearRect(0,0,800,800);
+  if (!n){
+    ctx.fillStyle = '#e2e8f0'; ctx.beginPath(); ctx.arc(400,400,395,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#94a3b8'; ctx.font = 'bold 42px sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillText('Hết HS rồi! 🎉', 400, 400);
+    return;
+  }
+  let arc = Math.PI*2 / n;
+  for (let i=0;i<n;i++){
+    let a0 = currentRotation + i*arc, a1 = a0 + arc;
+    ctx.beginPath(); ctx.moveTo(400,400); ctx.arc(400,400,395,a0,a1); ctx.closePath();
+    ctx.fillStyle = COLORS[i % COLORS.length]; ctx.fill();
+    ctx.strokeStyle = '#fff'; ctx.lineWidth = 3; ctx.stroke();
+    // tên
+    ctx.save();
+    ctx.translate(400,400); ctx.rotate(a0 + arc/2);
+    ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+    ctx.fillStyle = '#1e293b';
+    let fs = n > 20 ? 22 : (n > 12 ? 28 : 34);
+    ctx.font = 'bold '+fs+'px sans-serif';
+    let label = list[i].length > 14 ? list[i].slice(0,13)+'…' : list[i];
+    ctx.fillText(label, 375, 0);
+    ctx.restore();
+  }
+  // viền ngoài
+  ctx.beginPath(); ctx.arc(400,400,395,0,Math.PI*2); ctx.lineWidth=10; ctx.strokeStyle='#fff'; ctx.stroke();
+}
+
+function updateRemain(){
+  document.getElementById('remain-count').textContent = remaining().length;
+}
+
+// ===== SPIN =====
+document.getElementById('btn-spin').addEventListener('click', function(){
+  let list = remaining();
+  if (spinning) return;
+  if (!allStudents.length){ alert('Chưa có danh sách lớp! Vào tab "Danh sách lớp" trước nhé.'); goTab('tab-setup'); return; }
+  if (!list.length){ alert('Đã quay hết cả lớp! Bấm "Reset quay lại" để chơi vòng mới. 🎉'); return; }
+  spinning = true;
+  document.getElementById('winner-box').classList.add('hidden');
+  document.body.classList.add('spinning');
+  document.getElementById('btn-spin').innerHTML = '<i class="fa-solid fa-spinner fa-spin text-2xl"></i>';
+
+  // chọn ngẫu nhiên 1 HS trong số còn lại
+  let winIdx = Math.floor(Math.random()*list.length);
+  let n = list.length;
+  let arc = Math.PI*2 / n;
+  // kim ở đỉnh (góc -PI/2). Tâm ô thắng = winIdx*arc + arc/2 (tương đối vòng quay)
+  // Cần rotation R sao cho: R + winIdx*arc + arc/2 ≡ -PI/2 (mod 2PI)
+  let target = (-Math.PI/2) - (winIdx*arc + arc/2);
+  // quay thêm nhiều vòng
+  let extraTurns = 5 + Math.floor(Math.random()*3);
+  let startRot = currentRotation;
+  let endRot = target + extraTurns*Math.PI*2;
+  // chuẩn hóa để quay tiến
+  while (endRot < startRot + Math.PI*4) endRot += Math.PI*2;
+
+  let dur = 4200 + Math.random()*1500;
+  let t0 = null;
+  function easeOut(t){ return 1 - Math.pow(1-t, 4); }
+  function frame(ts){
+    if (!t0) t0 = ts;
+    let p = Math.min(1, (ts - t0)/dur);
+    currentRotation = startRot + (endRot - startRot)*easeOut(p);
+    drawWheel();
+    if (p < 1){ requestAnimationFrame(frame); }
+    else { finishSpin(list[winIdx]); }
+  }
+  requestAnimationFrame(frame);
+});
+
+function finishSpin(name){
+  spinning = false;
+  currentRotation = currentRotation % (Math.PI*2);
+  document.body.classList.remove('spinning');
+  document.getElementById('btn-spin').innerHTML = 'QUAY<br><i class="fa-solid fa-rotate text-2xl"></i>';
+  picked.push(name);
+  updateRemain();
+  renderHistory();
+  drawWheel();
+  // hiện người thắng
+  document.getElementById('winner-name').textContent = name;
+  let wb = document.getElementById('winner-box');
+  wb.classList.remove('hidden');
+  wb.classList.remove('pop-in'); void wb.offsetWidth; wb.classList.add('pop-in');
+  launchConfetti();
+  if (scores[name] === undefined) scores[name] = 0;
+  saveScores();
+}
+
+// ===== CỘNG ĐIỂM =====
+function addPoint(name, pts){
+  scores[name] = (scores[name] || 0) + pts;
+  saveScores();
+  let wb = document.getElementById('winner-box');
+  let note = document.createElement('p');
+  note.className = 'text-emerald-600 font-bold text-sm mt-2 pop-in';
+  note.innerHTML = '<i class="fa-solid fa-star mr-1"></i>Đã cộng '+pts+' điểm! Tổng: '+scores[name]+' điểm';
+  wb.querySelector('.bg-gradient-to-r').appendChild(note);
+  setTimeout(function(){ note.remove(); }, 2500);
+}
+document.getElementById('btn-plus1').addEventListener('click', function(){
+  addPoint(document.getElementById('winner-name').textContent, 1);
+});
+document.getElementById('btn-plus2').addEventListener('click', function(){
+  addPoint(document.getElementById('winner-name').textContent, 2);
+});
+
+// ===== RESET =====
+document.getElementById('btn-reset').addEventListener('click', function(){
+  if (!picked.length){ alert('Chưa quay ai cả!'); return; }
+  if (!confirm('Reset? Tất cả HS sẽ được quay lại từ đầu.')) return;
+  picked = [];
+  document.getElementById('winner-box').classList.add('hidden');
+  drawWheel(); updateRemain(); renderHistory();
+});
+
+// ===== HISTORY =====
+function renderHistory(){
+  let box = document.getElementById('history-list');
+  document.getElementById('hist-count').textContent = picked.length;
+  if (!picked.length){ box.innerHTML = '<p class="text-xs text-slate-400 italic">Chưa quay ai cả.</p>'; return; }
+  box.innerHTML = picked.map(function(n,i){
+    return '<span class="name-chip text-xs bg-amber-100 text-amber-800 font-bold px-2.5 py-1 rounded-full"><i class="fa-solid fa-check mr-1"></i>'+(i+1)+'. '+escapeHtml(n)+'</span>';
+  }).join('');
+}
+
+// ===== SCORES BOARD =====
+function renderScores(){
+  let box = document.getElementById('score-board');
+  let names = allStudents.length ? allStudents.slice() : Object.keys(scores);
+  if (!names.length){ box.innerHTML = '<p class="text-sm text-slate-400 italic text-center py-6">Chưa có dữ liệu điểm.</p>'; return; }
+  names.sort(function(a,b){ return (scores[b]||0) - (scores[a]||0); });
+  let medals = ['🥇','🥈','🥉'];
+  box.innerHTML = names.map(function(n,i){
+    let pts = scores[n] || 0;
+    let medal = i < 3 && pts > 0 ? medals[i]+' ' : '<span class="text-slate-400 font-bold w-8 inline-block">'+(i+1)+'.</span> ';
+    return '<div class="flex items-center gap-2 bg-slate-50 border rounded-xl px-3 py-2.5">'
+      + '<span class="font-black">'+medal+'</span>'
+      + '<span class="flex-1 font-bold text-sm">'+escapeHtml(n)+'</span>'
+      + '<span class="bg-amber-100 text-amber-800 font-black text-sm px-3 py-1 rounded-full"><i class="fa-solid fa-star mr-1"></i>'+pts+'</span>'
+      + '<button onclick="adjScore(\''+n.replace(/'/g,"\\'")+'\',1)" class="w-8 h-8 rounded-full bg-emerald-500 text-white font-black active:scale-90">+</button>'
+      + '<button onclick="adjScore(\''+n.replace(/'/g,"\\'")+'\',-1)" class="w-8 h-8 rounded-full bg-rose-400 text-white font-black active:scale-90">−</button>'
+      + '</div>';
+  }).join('');
+}
+window.adjScore = function(name, d){
+  scores[name] = Math.max(0, (scores[name]||0) + d);
+  saveScores(); renderScores();
+};
+document.getElementById('btn-clear-scores').addEventListener('click', function(){
+  if (!confirm('Xóa toàn bộ điểm đã lưu?')) return;
+  scores = {}; saveScores(); renderScores();
+});
+
+// ===== CONFETTI =====
+function launchConfetti(){
+  let colors = ['#FF6B6B','#4ECDC4','#FFD93D','#6BCB77','#A78BFA','#F472B6','#60A5FA'];
+  for (let i=0;i<80;i++){
+    let c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.left = Math.random()*100 + 'vw';
+    c.style.background = colors[Math.floor(Math.random()*colors.length)];
+    let sz = 6 + Math.random()*8;
+    c.style.width = sz+'px'; c.style.height = sz*(Math.random()>.5?1:.4)+'px';
+    c.style.animationDuration = (2 + Math.random()*2.5) + 's';
+    c.style.animationDelay = (Math.random()*0.5) + 's';
+    if (Math.random() > .5) c.style.borderRadius = '50%';
+    document.body.appendChild(c);
+    setTimeout(function(){ c.remove(); }, 5500);
+  }
+}
+
+drawWheel();
+</script>
+</body>
+</html>
