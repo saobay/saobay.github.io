@@ -5,7 +5,7 @@
         // ========================================================
 
         const MAMMOTH_CDN = 'https://cdn.jsdelivr.net/npm/mammoth@1.6.0/mammoth.browser.min.js';
-        let wordState = { questions: [], fileName: '' };
+        let wordState = { questions: [], fileName: '', extractedImages: [] };
 
         function ensureMammoth(){
             return new Promise(function(resolve, reject){
@@ -47,7 +47,18 @@
             try {
                 await ensureMammoth();
                 let buf = await f.arrayBuffer();
-                let result = await window.mammoth.convertToHtml({ arrayBuffer: buf });
+                wordState.extractedImages = [];
+                let result = await window.mammoth.convertToHtml({ arrayBuffer: buf }, {
+                    convertImage: window.mammoth.images.imgElement(function(image){
+                        var ct = String(image.contentType || '').toLowerCase();
+                        if (ct.indexOf('wmf') >= 0 || ct.indexOf('emf') >= 0) return [];
+                        return image.read('base64').then(function(b64){
+                            var idx = wordState.extractedImages.length;
+                            wordState.extractedImages.push({ b64: b64, contentType: image.contentType, idx: idx });
+                            return { src: 'data:' + image.contentType + ';base64,' + b64 };
+                        });
+                    })
+                });
                 let doc = new DOMParser().parseFromString(result.value || '', 'text/html');
                 let lines = [];
                 doc.querySelectorAll('p, li, h1, h2, h3, h4, tr').forEach(function(el){
@@ -76,6 +87,22 @@
                     }).join('') + '</div>'
                     + '<button onclick="sendWordToEditor()" class="mt-2 w-full bg-indigo-700 hover:bg-indigo-800 text-white text-xs font-bold px-4 py-2.5 rounded-xl"><i class="fa-solid fa-arrow-down mr-1"></i>Đưa ' + qs.length + ' câu vào khung soạn để đẩy</button>'
                     + '</div>';
+                // UI gan anh vao cau hoi (neu co anh trich xuat)
+                if (wordState.extractedImages && wordState.extractedImages.length){
+                    h += '<div class="mt-2 bg-white border border-amber-200 rounded-xl p-3">'
+                        + '<p class="text-xs font-black text-slate-800 mb-2"><i class="fa-solid fa-images text-amber-600 mr-1"></i>Gán ảnh vào câu hỏi (' + wordState.extractedImages.length + ' ảnh)</p>'
+                        + '<div class="space-y-2 max-h-64 overflow-y-auto pr-1">'
+                        + wordState.extractedImages.map(function(im, ii){
+                            var opts = '<option value="">-- Không gán --</option>' + qs.map(function(q, qi){
+                                return '<option value="' + qi + '">Câu ' + (qi+1) + '</option>';
+                            }).join('');
+                            return '<div class="flex items-center gap-2 border border-slate-200 rounded-lg p-2">'
+                                + '<img src="data:' + im.contentType + ';base64,' + im.b64 + '" class="w-16 h-16 object-contain rounded border border-slate-200 bg-slate-50">'
+                                + '<div class="flex-1"><p class="text-[11px] font-bold text-slate-600 mb-1">Ảnh ' + (ii+1) + '</p>'
+                                + '<select id="img-map-' + ii + '" class="w-full text-xs border rounded-lg px-2 py-1">' + opts + '</select></div>'
+                                + '</div>';
+                        }).join('') + '</div></div>';
+                }
                 pv.innerHTML = h;
             } catch(e){
                 pv.innerHTML = '<p class="text-xs text-rose-600">Lỗi đọc file: ' + String(e.message || e).replace(/</g,'&lt;') + '</p>';
@@ -146,9 +173,20 @@
         function sendWordToEditor(){
             let qs = wordState.questions || [];
             if (!qs.length){ alert('Chưa có câu hỏi nào để chuyển.'); return; }
-            let examJson = { time_limit: 0, sets: [{ name: 'Đề', questions: qs.map(function(q){
-                return { type: q.type, level: q.level, q: q.q, options: q.options || [],
+            // Gan anh vao cau hoi theo mapping cua giao vien
+            let imgMap = {};
+            (wordState.extractedImages || []).forEach(function(im, ii){
+                let sel = document.getElementById('img-map-' + ii);
+                if (sel && sel.value !== ''){
+                    let qi = parseInt(sel.value, 10);
+                    if (!isNaN(qi) && qs[qi]) imgMap[qi] = 'data:' + im.contentType + ';base64,' + im.b64;
+                }
+            });
+            let examJson = { time_limit: 0, sets: [{ name: 'Đề', questions: qs.map(function(q, qi){
+                let o = { type: q.type, level: q.level, q: q.q, options: q.options || [],
                          statements: q.statements || [], answer: q.answer, explain: q.explain || '' };
+                if (imgMap[qi]) o.img = imgMap[qi];
+                return o;
             }) }] };
             let frag = '<div class="saobay-exam10">\n'
                 + '<script type="application/json" class="saobay-exam10-data">\n' + JSON.stringify(examJson) + '\n<\/script>\n</div>';
