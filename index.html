@@ -43,6 +43,11 @@
         .lesson-native-rendered table:not([class]) th, .lesson-native-rendered table:not([class]) td { border: 1px solid #cbd5e1; padding: 0.5rem 0.75rem; text-align: left; }
         .lesson-native-rendered table:not([class]) th { background-color: #f1f5f9; font-weight: 700; }
         .lesson-native-rendered img { max-width: 100%; height: auto; border-radius: 0.5rem; margin: 0.5rem 0; }
+        /* Trạng thái chấm bài của trình xem 10 bộ đề (saobay-exam10) */
+        .exam10-q.ok { border-color: #16a34a !important; background: #f0fdf4 !important; }
+        .exam10-q.bad { border-color: #dc2626 !important; background: #fef2f2 !important; }
+        .exam10-opt.picked-correct { border-color: #16a34a !important; background: #dcfce7 !important; }
+        .exam10-opt.picked-wrong { border-color: #dc2626 !important; background: #fee2e2 !important; }
     </style>
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col" onload="initMainPage()">
@@ -429,7 +434,9 @@
             let verifier = 'Chưa kiểm duyệt';
 
             // Nhận diện bài tập / bài kiểm tra vs bài lý thuyết
-            let isPractice = /_Bài\s*tập|_Kiểm\s*tra|test|exam|de_thi|baitap|kiemtra/i.test(raw);
+            // FIX 2026-10-08: thêm biến thể không dấu _Bai_tap/_Kiem_tra/bai_tap do teacher-hub
+            // tự sinh tên file không dấu (trước đây không khớp pattern nên bài tập bị lọt sang khung lý thuyết)
+            let isPractice = /_Bài\s*tập|_Bai_tap|bai_tap|_Kiểm\s*tra|_Kiem_tra|test|exam|de_thi|baitap|kiemtra/i.test(raw);
             let isTheory = /_Lý\s*thuyết|theory|unit|lythuyet|baihoc/i.test(raw) || !isPractice;
 
             if (raw.includes('_none')) {
@@ -982,6 +989,7 @@
                     scriptTags.forEach(sc => {
                         if (sc.src && (sc.src.includes('tailwindcss') || sc.src.includes('mathjax'))) return;
                         if (sc.textContent && (sc.textContent.includes('MathJax') || sc.textContent.includes('mathjax'))) return;
+                        if (sc.type === 'application/json') return; // giữ dữ liệu 10 bộ đề trong HTML, không thực thi
                         scriptsToExecute.push({ src: sc.src, code: sc.textContent });
                     });
                 }
@@ -1017,10 +1025,148 @@
                 }
             });
 
+            // Gắn trình xem "10 bộ đề trong 1 file" nếu bài tập dạng saobay-exam10
+            try { mountExam10Viewers(containerEl); } catch(eEx10){ console.log('exam10 mount note:', eEx10); }
+
             // Render công thức toán học MathJax
             renderMathInTarget(containerEl);
             setTimeout(() => renderMathInTarget(containerEl), 150);
             setTimeout(() => renderMathInTarget(containerEl), 400);
+        }
+
+        // ========================================================
+        // TRÌNH XEM "10 BỘ ĐỀ TRONG 1 FILE" (saobay-exam10) — 2026-10-08
+        // File bài tập do AI sinh chứa 10 bộ đề trong 1 thẻ JSON;
+        // trình xem hiển thị NGẪU NHIÊN 1 đề, có nút "Đổi đề",
+        // chấm đúng/sai từng câu kèm lời giải chi tiết.
+        // ========================================================
+        function mountExam10Viewers(scopeEl) {
+            if (!scopeEl || !scopeEl.querySelectorAll) return;
+            scopeEl.querySelectorAll('.saobay-exam10').forEach(function(root){
+                if (root.dataset.mounted === '1') return;
+                root.dataset.mounted = '1';
+
+                let sets = [];
+                try {
+                    let dataEl = root.querySelector('script.saobay-exam10-data');
+                    let parsed = JSON.parse(dataEl.textContent);
+                    if (parsed && parsed.sets && parsed.sets.length) sets = parsed.sets;
+                } catch(eParse) { console.log('exam10: không đọc được JSON đề thi', eParse); }
+
+                if (!sets.length) {
+                    root.innerHTML = '<div class="p-6 text-center text-sm text-rose-600 bg-rose-50 border border-rose-200 rounded-xl">Không đọc được dữ liệu 10 bộ đề trong file này. Vui lòng kiểm tra lại định dạng JSON.</div>';
+                    return;
+                }
+
+                root.innerHTML =
+                    '<div class="exam10-toolbar flex flex-wrap items-center justify-between gap-2 bg-indigo-50 border border-indigo-200 rounded-xl px-3 py-2 mb-4">'
+                    + '<div class="text-xs font-bold text-indigo-900"><i class="fa-solid fa-layer-group mr-1.5 text-indigo-600"></i><span class="exam10-set-label"></span> <span class="exam10-set-count text-indigo-400 font-medium"></span></div>'
+                    + '<button type="button" class="exam10-shuffle bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold px-3.5 py-2 rounded-lg shadow transition flex items-center"><i class="fa-solid fa-shuffle mr-1.5"></i> Đổi đề</button>'
+                    + '</div>'
+                    + '<div class="exam10-questions space-y-4"></div>';
+
+                let labelEl = root.querySelector('.exam10-set-label');
+                let countEl = root.querySelector('.exam10-set-count');
+                let qWrap = root.querySelector('.exam10-questions');
+                let cur = -1;
+
+                function esc(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+                function normAns(s){ return String(s == null ? '' : s).trim().toLowerCase().replace(/\s+/g,' '); }
+
+                function renderSet(idx){
+                    cur = idx;
+                    let set = sets[idx] || { questions: [] };
+                    let qs = set.questions || [];
+                    labelEl.textContent = set.name || ('Đề ' + (idx + 1));
+                    countEl.textContent = '• bộ ' + (idx + 1) + '/' + sets.length + ' • ' + qs.length + ' câu';
+
+                    let html = '';
+                    qs.forEach(function(qq, qi){
+                        let qid = 'ex10_' + idx + '_' + qi;
+                        html += '<div class="exam10-q bg-white p-4 rounded-xl border border-slate-200 shadow-sm" data-qi="' + qi + '">';
+                        html += '<div class="font-bold text-slate-800 text-sm mb-2">Câu ' + (qi + 1) + ': ' + esc(qq.q) + '</div>';
+                        html += '<div class="space-y-1.5">';
+                        if (qq.type === 'truefalse') {
+                            html += '<div class="text-xs text-slate-500 mb-1">Chọn Đúng / Sai cho mỗi ý:</div>';
+                            (qq.statements || []).forEach(function(st, si){
+                                let nm = qid + '_s' + si;
+                                html += '<div class="flex items-center justify-between gap-2 text-sm bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 mb-1.5">'
+                                    + '<span class="flex-1"><b>' + String.fromCharCode(97 + si) + ')</b> ' + esc(st) + '</span>'
+                                    + '<span class="flex gap-3 shrink-0 text-xs font-medium"><label class="cursor-pointer"><input type="radio" name="' + nm + '" value="T" class="accent-emerald-600 mr-1">Đúng</label>'
+                                    + '<label class="cursor-pointer"><input type="radio" name="' + nm + '" value="F" class="accent-rose-600 mr-1">Sai</label></span></div>';
+                            });
+                        } else if (qq.type === 'short') {
+                            html += '<input type="text" data-short="1" placeholder="Nhập đáp án của em..." class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">';
+                        } else {
+                            (qq.options || []).forEach(function(op){
+                                let val = String(op).charAt(0);
+                                html += '<label class="exam10-opt flex items-start gap-2 text-sm bg-slate-50 hover:bg-blue-50 border border-slate-200 rounded-lg px-3 py-2 cursor-pointer transition">'
+                                    + '<input type="radio" name="' + qid + '" value="' + esc(val) + '" class="mt-1 accent-blue-600 shrink-0">'
+                                    + '<span>' + esc(op) + '</span></label>';
+                            });
+                        }
+                        html += '</div>';
+                        html += '<button type="button" class="exam10-check mt-2.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold px-3.5 py-1.5 rounded-lg transition">Kiểm tra</button>';
+                        html += '<div class="exam10-feedback hidden mt-2 text-sm rounded-lg px-3 py-2 leading-relaxed"></div>';
+                        html += '</div>';
+                    });
+                    qWrap.innerHTML = html;
+
+                    qWrap.querySelectorAll('.exam10-q').forEach(function(card){
+                        let qi = parseInt(card.getAttribute('data-qi'), 10);
+                        let qq = qs[qi];
+                        let qid = 'ex10_' + idx + '_' + qi;
+                        card.querySelector('.exam10-check').addEventListener('click', function(){
+                            let fb = card.querySelector('.exam10-feedback');
+                            let ok = false, detail = '';
+                            card.classList.remove('ok','bad');
+                            card.querySelectorAll('.exam10-opt').forEach(function(o){ o.classList.remove('picked-correct','picked-wrong'); });
+                            if (qq.type === 'mcq') {
+                                let sel = card.querySelector('input[type=radio]:checked');
+                                let ans = String(qq.answer || '').toUpperCase();
+                                ok = !!(sel && sel.value.toUpperCase() === ans);
+                                detail = 'Đáp án đúng: <b>' + esc(ans) + '</b>';
+                                if (sel && sel.closest('label')) sel.closest('label').classList.add(ok ? 'picked-correct' : 'picked-wrong');
+                            } else if (qq.type === 'truefalse') {
+                                let exp = qq.answer || [];
+                                let parts = [], allOk = true;
+                                (qq.statements || []).forEach(function(st, si){
+                                    let sel = card.querySelector('input[name="' + qid + '_s' + si + '"]:checked');
+                                    let want = String(exp[si] || '').toUpperCase();
+                                    if (sel) {
+                                        let good = sel.value.toUpperCase() === want;
+                                        if (!good) allOk = false;
+                                        parts.push('<b>' + String.fromCharCode(97+si) + ')</b> ' + (good ? '✓' : '✗ (đúng: ' + (want === 'T' ? 'Đúng' : 'Sai') + ')'));
+                                    } else { allOk = false; parts.push('<b>' + String.fromCharCode(97+si) + ')</b> ? (chưa chọn)'); }
+                                });
+                                ok = allOk;
+                                detail = parts.join('<br>');
+                            } else {
+                                let inp = card.querySelector('[data-short]');
+                                let ans = normAns(qq.answer);
+                                ok = !!(inp && ans !== '' && normAns(inp.value) === ans);
+                                detail = 'Đáp án đúng: <b>' + esc(qq.answer) + '</b>';
+                            }
+                            card.classList.add(ok ? 'ok' : 'bad');
+                            fb.className = 'exam10-feedback mt-2 text-sm rounded-lg px-3 py-2 leading-relaxed ' + (ok ? 'bg-emerald-50 border border-emerald-200 text-emerald-900' : 'bg-rose-50 border border-rose-200 text-rose-900');
+                            fb.innerHTML = '<b>' + (ok ? '✓ Chính xác!' : '✗ Chưa đúng.') + '</b> ' + detail
+                                + (qq.explain ? '<br><span class="text-slate-600"><b>Giải thích:</b> ' + esc(qq.explain) + '</span>' : '');
+                        });
+                    });
+
+                    if (window.MathJax) renderMathInTarget(qWrap);
+                }
+
+                root.querySelector('.exam10-shuffle').addEventListener('click', function(){
+                    let n = sets.length, ni = cur, guard = 0;
+                    if (n > 1) { while (ni === cur && guard++ < 20) ni = Math.floor(Math.random() * n); }
+                    renderSet(ni);
+                    let tb = root.querySelector('.exam10-toolbar');
+                    if (tb && tb.scrollIntoView) tb.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                });
+
+                renderSet(Math.floor(Math.random() * sets.length));
+            });
         }
 
         function renderMathInTarget(targetEl) {
