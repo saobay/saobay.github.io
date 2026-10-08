@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOÁN 10 - Bài 2: Tập hợp và các phép toán trên tập hợp</title>
+    <meta name="lesson-title" content="TOÁN 10 - Bài 2: Tập hợp và các phép toán trên tập hợp">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">TOÁN 10 - Bài 2: Tập hợp và các phép toán trên tập hợp</h1>
+            <p class="text-xs text-slate-500 mt-1">Môn: Toán • Khối: 10 • Chương 1: Mệnh đề và tập hợp • Bài 2: Tập hợp và các phép toán trên tập hợp</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="bai-ly-thuyet">
+<h2 class="text-2xl font-bold text-blue-800 mb-4">Bài 2: Tập hợp và các phép toán trên tập hợp</h2>
+<p class="mb-4">Ở bài học này, chúng ta tìm hiểu khái niệm <strong>tập hợp</strong>, các cách xác định một tập hợp,
+quan hệ giữa các tập hợp (tập con, hai tập hợp bằng nhau), các tập hợp số quen thuộc và
+<strong>bốn phép toán</strong> trên tập hợp: giao, hợp, hiệu và phần bù.</p>
+
+<h3 class="text-xl font-semibold text-blue-700 mt-6 mb-2">1. Tập hợp và phần tử</h3>
+<p class="mb-2"><strong>Tập hợp</strong> là một khái niệm cơ bản của toán học, không định nghĩa.
+Mỗi đối tượng trong tập hợp được gọi là một <strong>phần tử</strong> của tập hợp đó.</p>
+<p class="mb-2">Người ta thường đặt tên tập hợp bằng các chữ cái in hoa: $A, B, C, \ldots$</p>
+<ul class="list-disc ml-6 mb-2">
+<li>$a \in A$: phần tử $a$ <strong>thuộc</strong> tập hợp $A$.</li>
+<li>$b \notin A$: phần tử $b$ <strong>không thuộc</strong> tập hợp $A$.</li>
+</ul>
+<div class="bg-blue-50 border-l-4 border-blue-500 p-3 my-3 rounded">
+<p class="font-semibold mb-1">Ví dụ</p>
+<p>Gọi $A$ là tập hợp các số tự nhiên nhỏ hơn $5$. Khi đó $3 \in A$ vì $3$ là số tự nhiên nhỏ hơn $5$;
+còn $7 \notin A$ vì $7$ không nhỏ hơn $5$.</p>
+</div>
+<div class="bg-amber-50 border-l-4 border-amber-500 p-3 my-3 rounded">
+<p class="font-semibold">📌 Ghi nhớ</p>
+<p>$a \in A$ nghĩa là "$a$ là phần tử của $A$"; $b \notin A$ nghĩa là "$b$ không phải phần tử của $A$".</p>
+</div>
+
+<h3 class="text-xl font-semibold text-blue-700 mt-6 mb-2">2. Cách xác định một tập hợp</h3>
+<p class="mb-2">Có hai cách thường dùng để xác định một tập hợp:</p>
+<ul class="list-disc ml-6 mb-2">
+<li><strong>Cách 1: Liệt kê các phần tử của tập hợp.</strong>
+Ví dụ: $A = \{1; 2; 3; 4\}$ là tập hợp gồm bốn phần tử $1, 2, 3, 4$.</li>
+<li><strong>Cách 2: Chỉ ra tính chất đặc trưng</strong> của các phần tử.
+Ví dụ: $A = \{x \in \mathbb{N} \mid x < 5\}$ là tập hợp các số tự nhiên $x$ thỏa mãn $x < 5$.</li>
+</ul>
+<div class="bg-blue-50 border-l-4 border-blue-500 p-3 my-3 rounded">
+<p class="font-semibold mb-1">Ví dụ</p>
+<p class="mb-1">a) Liệt kê các phần tử của tập hợp $B = \{x \in \mathbb{N} \mid x \text{ là ước của } 6\}$.</p>
+<p class="mb-1">Các ước tự nhiên của $6$ là $1; 2; 3; 6$, vậy $B = \{1; 2; 3; 6\}$.</p>
+<p class="mb-1">b) Viết tập hợp $C = \{2; 4; 6; 8\}$ bằng cách chỉ ra tính chất đặc trưng.</p>
+<p>$C = \{x \in \mathbb{N} \mid x \text{ chẵn và } x \le 8\}$ (có thể có nhiều cách viết khác).</p>
+</div>
+<div class="bg-amber-50 border-l-4 border-amber-500 p-3 my-3 rounded">
+<p class="font-semibold">📌 Ghi nhớ</p>
+<p>Khi liệt kê, mỗi phần tử chỉ viết một lần và thứ tự liệt kê không quan trọng:
+$\{1; 2; 3\} = \{3; 2; 1\}$.</p>
+</div>
+
+<h3 class="text-xl font-semibold text-blue-700 mt-6 mb-2">3. Tập rỗng</h3>
+<p class="mb-2"><strong>Tập rỗng</strong> là tập hợp không chứa phần tử nào, kí hiệu là <strong>$\varnothing$</strong>.</p>
+<div class="bg-blue-50 border-l-4 border-blue-500 p-3 my-3 rounded">
+<p class="font-semibold mb-1">Ví dụ</p>
+<p class="mb-1">$M = \{x \in \mathbb{R} \mid x^2 + 1 = 0\} = \varnothing$ vì phương trình $x^2 + 1 = 0$ vô nghiệm trên $\mathbb{R}$.</p>
+<p>$N = \{x \in \mathbb{N} \mid 5 < x < 6\} = \varnothing$ vì không có số tự nhiên nào vừa lớn hơn $5$ vừa nhỏ hơn $6$.</p>
+</div>
+<div class="bg-amber-50 border-l-4 border-amber-500 p-3 my-3 rounded">
+<p class="font-semibold">📌 Ghi nhớ</p>
+<p>Chú ý phân biệt: $\varnothing$ là tập rỗng, còn $\{0\}$ và $\{\varnothing\}$ đều <strong>không</strong> phải tập rỗng
+(vì chúng chứa một phần tử).</p>
+</div>
+
+<h3 class="text-xl font-semibold text-blue-700 mt-6 mb-2">4. Tập con</h3>
+<p class="mb-2">Nếu mọi phần tử của tập hợp $A$ đều là phần tử của tập hợp $B$ thì ta nói $A$ là
+<strong>tập con</strong> của $B$, kí hiệu <strong>$A \subset B$</strong> (đọc là "$A$ chứa trong $B$").</p>
+<p class="mb-2">Ta có: $A \subset B \Leftrightarrow (x \in A \Rightarrow x \in B)$.</p>
+<p class="mb-2">Các tính chất thường dùng:</p>
+<ul class="list-disc ml-6 mb-2">
+<li>$A \subset A$ (mọi tập hợp đều là tập con của chính nó);</li>
+<li>$\varnothing \subset A$ (tập rỗng là tập con của mọi tập hợp);</li>
+<li>$(A \subset B \text{ và } B \subset C) \Rightarrow A \subset C$.</li>
+</ul>
+<div class="bg-blue-50 border-l-4 border-blue-500 p-3 my-3 rounded">
+<p class="font-semibold mb-1">Ví dụ</p>
+<p>Cho $A = \{1; 2\}$ và $B = \{1; 2; 3; 4\}$. Vì $1 \in B$ và $2 \in B$ nên $A \subset B$.
+Ngược lại $B \not\subset A$ vì $3 \in B$ nhưng $3 \notin A$.</p>
+</div>
+<div class="bg-amber-50 border-l-4 border-amber-500 p-3 my-3 rounded">
+<p class="font-semibold">📌 Ghi nhớ</p>
+<p>Muốn chứng minh $A \not\subset B$, chỉ cần chỉ ra <strong>một</strong> phần tử thuộc $A$ nhưng không thuộc $B$.</p>
+</div>
+
+<h3 class="text-xl font-semibold text-blue-700 mt-6 mb-2">5. Hai tập hợp bằng nhau</h3>
+<p class="mb-2">Hai tập hợp $A$ và $B$ được gọi là <strong>bằng nhau</strong>, kí hiệu <strong>$A = B$</strong>,
+nếu mọi phần tử của $A$ đều là phần tử của $B$ và ngược lại, tức là:</p>
+<p class="mb-2 text-center">$A = B \Leftrightarrow (A \subset B \text{ và } B \subset A)$.</p>
+<div class="bg-blue-50 border-l-4 border-blue-500 p-3 my-3 rounded">
+<p class="font-semibold mb-1">Ví dụ</p>
+<p>$A = \{x \in \mathbb{N} \mid x < 4\}$ và $B = \{0; 1; 2; 3\}$. Liệt kê $A$ ta được $A = \{0; 1; 2; 3\}$,
+vậy $A = B$.</p>
+</div>
+<div class="bg-amber-50 border-l-4 border-amber-500 p-3 my-3 rounded">
+<p class="font-semibold">📌 Ghi nhớ</p>
+<p>Hai tập hợp bằng nhau khi chúng có <strong>đúng các phần tử như nhau</strong>, không phụ thuộc thứ tự liệt kê.</p>
+</div>
+
+<h3 class="text-xl font-semibold text-blue-700 mt-6 mb-2">6. Các tập hợp số</h3>
+<p class="mb-2">Các tập hợp số đã học:</p>
+<ul class="list-disc ml-6 mb-2">
+<li>$\mathbb{N} = \{0; 1; 2; 3; \ldots\}$: tập hợp các <strong>số tự nhiên</strong>;</li>
+<li>$\mathbb{N}^* = \{1; 2; 3; \ldots\}$: tập hợp các <strong>số tự nhiên khác $0$</strong>;</li>
+<li>$\mathbb{Z} = \{\ldots; -2; -1; 0; 1; 2; \ldots\}$: tập hợp các <strong>số nguyên</strong>;</li>
+<li>$\mathbb{Q}$: tập hợp các <strong>số hữu tỉ</strong> (viết được dưới dạng $\frac{a}{b}$ với $a, b \in \mathbb{Z}, b \ne 0$);</li>
+<li>$\mathbb{R}$: tập hợp các <strong>số thực</strong>.</li>
+</ul>
+<p class="mb-2">Quan hệ bao hàm giữa chúng: <strong>$\mathbb{N}^* \subset \mathbb{N} \subset \mathbb{Z} \subset \mathbb{Q} \subset \mathbb{R}$</strong>.</p>
+<p class="mb-2">Các tập con thường dùng của $\mathbb{R}$:</p>
+<table class="border-collapse w-full my-3 text-sm">
+<tr class="bg-blue-100">
+<th class="border border-gray-300 px-3 py-2">Tên gọi</th>
+<th class="border border-gray-300 px-3 py-2">Kí hiệu</th>
+<th class="border border-gray-300 px-3 py-2">Tập hợp</th>
+</tr>
+<tr><td class="border border-gray-300 px-3 py-2">Khoảng mở</td><td class="border border-gray-300 px-3 py-2">$(a; b)$</td><td class="border border-gray-300 px-3 py-2">$\{x \in \mathbb{R} \mid a < x < b\}$</td></tr>
+<tr><td class="border border-gray-300 px-3 py-2">Đoạn (khoảng đóng)</td><td class="border border-gray-300 px-3 py-2">$[a; b]$</td><td class="border border-gray-300 px-3 py-2">$\{x \in \mathbb{R} \mid a \le x \le b\}$</td></tr>
+<tr><td class="border border-gray-300 px-3 py-2">Nửa khoảng</td><td class="border border-gray-300 px-3 py-2">$[a; b)$</td><td class="border border-gray-300 px-3 py-2">$\{x \in \mathbb{R} \mid a \le x < b\}$</td></tr>
+<tr><td class="border border-gray-300 px-3 py-2">Nửa khoảng</td><td class="border border-gray-300 px-3 py-2">$(a; b]$</td><td class="border border-gray-300 px-3 py-2">$\{x \in \mathbb{R} \mid a < x \le b\}$</td></tr>
+<tr><td class="border border-gray-300 px-3 py-2">Nửa khoảng</td><td class="border border-gray-300 px-3 py-2">$(a; +\infty)$</td><td class="border border-gray-300 px-3 py-2">$\{x \in \mathbb{R} \mid x > a\}$</td></tr>
+<tr><td class="border border-gray-300 px-3 py-2">Nửa khoảng</td><td class="border border-gray-300 px-3 py-2">$[a; +\infty)$</td><td class="border border-gray-300 px-3 py-2">$\{x \in \mathbb{R} \mid x \ge a\}$</td></tr>
+<tr><td class="border border-gray-300 px-3 py-2">Nửa khoảng</td><td class="border border-gray-300 px-3 py-2">$(-\infty; b)$</td><td class="border border-gray-300 px-3 py-2">$\{x \in \mathbb{R} \mid x < b\}$</td></tr>
+<tr><td class="border border-gray-300 px-3 py-2">Nửa khoảng</td><td class="border border-gray-300 px-3 py-2">$(-\infty; b]$</td><td class="border border-gray-300 px-3 py-2">$\{x \in \mathbb{R} \mid x \le b\}$</td></tr>
+<tr><td class="border border-gray-300 px-3 py-2">Cả trục số</td><td class="border border-gray-300 px-3 py-2">$(-\infty; +\infty)$</td><td class="border border-gray-300 px-3 py-2">$\mathbb{R}$</td></tr>
+</table>
+<div class="bg-blue-50 border-l-4 border-blue-500 p-3 my-3 rounded">
+<p class="font-semibold mb-1">Ví dụ</p>
+<p class="mb-1">a) $2 \in (1; 5)$ nhưng $1 \notin (1; 5)$ vì $1$ là đầu mút trái của khoảng mở.</p>
+<p>b) $[-2; 3] = \{x \in \mathbb{R} \mid -2 \le x \le 3\}$: đầu mút $-2$ và $3$ đều thuộc đoạn.</p>
+</div>
+<div class="bg-amber-50 border-l-4 border-amber-500 p-3 my-3 rounded">
+<p class="font-semibold">📌 Ghi nhớ</p>
+<p>Dấu ngoặc tròn $($ $)$ nghĩa là <strong>không lấy</strong> đầu mút; dấu ngoặc vuông $[$ $]$ nghĩa là
+<strong>có lấy</strong> đầu mút. Kí hiệu $+\infty, -\infty$ luôn đi với ngoặc tròn.</p>
+</div>
+
+<h3 class="text-xl font-semibold text-blue-700 mt-6 mb-2">7. Giao của hai tập hợp</h3>
+<p class="mb-2">Tập hợp gồm các phần tử <strong>thuộc cả</strong> $A$ <strong>và</strong> $B$ được gọi là
+<strong>giao</strong> của $A$ và $B$, kí hiệu <strong>$A \cap B$</strong>:</p>
+<p class="mb-2 text-center">$A \cap B = \{x \mid x \in A \text{ và } x \in B\}$.</p>
+<div class="bg-blue-50 border-l-4 border-blue-500 p-3 my-3 rounded">
+<p class="font-semibold mb-1">Ví dụ</p>
+<p class="mb-1">a) Cho $A = \{1; 2; 3; 4\}$, $B = \{3; 4; 5; 6\}$. Các phần tử chung là $3; 4$ nên
+$A \cap B = \{3; 4\}$.</p>
+<p>b) Cho $A = [1; 5]$, $B = (3; 7)$. Phần chung của hai tập hợp là $(3; 5]$, vậy $A \cap B = (3; 5]$.</p>
+</div>
+<div class="bg-amber-50 border-l-4 border-amber-500 p-3 my-3 rounded">
+<p class="font-semibold">📌 Ghi nhớ</p>
+<p>$x \in A \cap B \Leftrightarrow (x \in A \text{ và } x \in B)$. Nếu $A$ và $B$ không có phần tử chung
+thì $A \cap B = \varnothing$ (hai tập hợp <strong>rời nhau</strong>).</p>
+</div>
+
+<h3 class="text-xl font-semibold text-blue-700 mt-6 mb-2">8. Hợp của hai tập hợp</h3>
+<p class="mb-2">Tập hợp gồm các phần tử <strong>thuộc $A$ hoặc thuộc $B$</strong> được gọi là
+<strong>hợp</strong> của $A$ và $B$, kí hiệu <strong>$A \cup B$</strong>:</p>
+<p class="mb-2 text-center">$A \cup B = \{x \mid x \in A \text{ hoặc } x \in B\}$.</p>
+<div class="bg-blue-50 border-l-4 border-blue-500 p-3 my-3 rounded">
+<p class="font-semibold mb-1">Ví dụ</p>
+<p class="mb-1">a) Cho $A = \{1; 2; 3\}$, $B = \{3; 4; 5\}$. Gom tất cả phần tử (phần tử chung chỉ viết một lần):
+$A \cup B = \{1; 2; 3; 4; 5\}$.</p>
+<p>b) Cho $A = (-\infty; 2]$, $B = [0; +\infty)$. Khi đó $A \cup B = (-\infty; +\infty) = \mathbb{R}$.</p>
+</div>
+<div class="bg-amber-50 border-l-4 border-amber-500 p-3 my-3 rounded">
+<p class="font-semibold">📌 Ghi nhớ</p>
+<p>$x \in A \cup B \Leftrightarrow (x \in A \text{ hoặc } x \in B)$. Phần tử chung của $A$ và $B$
+chỉ được kể <strong>một lần</strong> trong $A \cup B$.</p>
+</div>
+
+<h3 class="text-xl font-semibold text-blue-700 mt-6 mb-2">9. Hiệu của hai tập hợp</h3>
+<p class="mb-2">Tập hợp gồm các phần tử <strong>thuộc $A$ nhưng không thuộc $B$</strong> được gọi là
+<strong>hiệu</strong> của $A$ và $B$, kí hiệu <strong>$A \setminus B$</strong>:</p>
+<p class="mb-2 text-center">$A \setminus B = \{x \mid x \in A \text{ và } x \notin B\}$.</p>
+<div class="bg-blue-50 border-l-4 border-blue-500 p-3 my-3 rounded">
+<p class="font-semibold mb-1">Ví dụ</p>
+<p class="mb-1">a) Cho $A = \{1; 2; 3; 4\}$, $B = \{3; 4; 5\}$. Loại khỏi $A$ các phần tử của $B$:
+$A \setminus B = \{1; 2\}$.</p>
+<p>b) Cho $A = [1; 6]$, $B = (4; 8)$. Khi đó $A \setminus B = [1; 4]$.</p>
+</div>
+<div class="bg-amber-50 border-l-4 border-amber-500 p-3 my-3 rounded">
+<p class="font-semibold">📌 Ghi nhớ</p>
+<p>$A \setminus B \ne B \setminus A$ nói chung (phép hiệu <strong>không</strong> có tính giao hoán).
+Nếu $B \subset A$ thì $A \setminus B$ chính là "phần còn lại" của $A$ sau khi bỏ đi $B$.</p>
+</div>
+
+<h3 class="text-xl font-semibold text-blue-700 mt-6 mb-2">10. Phần bù</h3>
+<p class="mb-2">Nếu $A \subset E$ thì hiệu $E \setminus A$ được gọi là <strong>phần bù</strong> của $A$ trong $E$,
+kí hiệu <strong>$C_E A$</strong>:</p>
+<p class="mb-2 text-center">$C_E A = E \setminus A = \{x \mid x \in E \text{ và } x \notin A\}$.</p>
+<div class="bg-blue-50 border-l-4 border-blue-500 p-3 my-3 rounded">
+<p class="font-semibold mb-1">Ví dụ</p>
+<p class="mb-1">a) Cho $E = \{1; 2; 3; 4; 5\}$ và $A = \{1; 3\}$. Khi đó $C_E A = \{2; 4; 5\}$.</p>
+<p>b) Cho $E = \mathbb{R}$ và $A = [1; 5)$. Phần bù của $A$ trong $\mathbb{R}$ là
+$C_{\mathbb{R}} A = (-\infty; 1) \cup [5; +\infty)$.</p>
+</div>
+<div class="bg-amber-50 border-l-4 border-amber-500 p-3 my-3 rounded">
+<p class="font-semibold">📌 Ghi nhớ</p>
+<p>Phần bù $C_E A$ chỉ xác định khi <strong>$A \subset E$</strong>. Khi $E = \mathbb{R}$,
+người ta thường viết gọn $C_{\mathbb{R}} A$.</p>
+</div>
+
+<h3 class="text-xl font-semibold text-blue-700 mt-6 mb-2">Tóm tắt kiến thức</h3>
+<ul class="list-disc ml-6 mb-2">
+<li>Tập hợp: $\in, \notin$; hai cách xác định: <strong>liệt kê</strong> và <strong>tính chất đặc trưng</strong>.</li>
+<li>Tập rỗng $\varnothing$; tập con $A \subset B$; hai tập hợp bằng nhau $A = B$.</li>
+<li>$\mathbb{N}^* \subset \mathbb{N} \subset \mathbb{Z} \subset \mathbb{Q} \subset \mathbb{R}$;
+khoảng $(a; b)$, đoạn $[a; b]$, nửa khoảng $[a; b), (a; b]$ và các nửa khoảng vô hạn.</li>
+<li>$A \cap B$: lấy phần <strong>chung</strong>; $A \cup B$: lấy <strong>tất cả</strong> (chung kể một lần).</li>
+<li>$A \setminus B$: thuộc $A$ nhưng không thuộc $B$; $C_E A = E \setminus A$ với $A \subset E$.</li>
+</ul>
+
+<h3 class="text-xl font-semibold text-blue-700 mt-6 mb-2">Bài tập tự luyện</h3>
+<div class="bg-gray-50 border border-gray-200 p-3 my-3 rounded">
+<p class="mb-2"><strong>Câu 1.</strong> Cho $A = \{1; 2; 3; 4\}$, $B = \{3; 4; 5; 6\}$. Tập $A \cap B$ là:<br>
+A. $\{1; 2; 3; 4; 5; 6\}$ &nbsp; B. $\{1; 2\}$ &nbsp; C. $\{3; 4\}$ &nbsp; D. $\varnothing$</p>
+<p class="mb-2"><strong>Câu 2.</strong> Cho $A = [-1; 3)$, $B = (2; 5]$. Tập $A \cup B$ là:<br>
+A. $(2; 3)$ &nbsp; B. $[-1; 5]$ &nbsp; C. $[-1; 2]$ &nbsp; D. $(3; 5]$</p>
+<p class="mb-2"><strong>Câu 3.</strong> Cho $E = \mathbb{R}$, $A = (2; +\infty)$. Phần bù $C_E A$ là:<br>
+A. $(-\infty; 2]$ &nbsp; B. $(-\infty; 2)$ &nbsp; C. $[2; +\infty)$ &nbsp; D. $\varnothing$</p>
+<p class="mb-2"><strong>Câu 4.</strong> Lớp 10A có $40$ học sinh, trong đó $25$ em thích Toán, $18$ em thích Văn,
+$10$ em thích cả hai môn. Số em thích ít nhất một trong hai môn là:<br>
+A. $43$ &nbsp; B. $33$ &nbsp; C. $35$ &nbsp; D. $23$</p>
+<p class="text-sm text-gray-600"><strong>Đáp án:</strong> 1–C, 2–B, 3–A, 4–B.</p>
+</div>
+</div>
+
+        </div>
+    </div>
+</body>
+</html>
