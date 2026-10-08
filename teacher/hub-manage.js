@@ -23,6 +23,11 @@
             else if (modId === 'stats') renderStatsOverview();
         }
 
+        let manageFolderFilter = ''; // '' = tat ca thu muc
+        function setManageFolderFilter(v){
+            manageFolderFilter = v || '';
+            renderLessonManagementList();
+        }
         let manageTypeFilter = 'all'; // 'all' | 'theory' | 'exam'
         function setManageTypeFilter(t){
             manageTypeFilter = t;
@@ -41,7 +46,7 @@
             if (!container) return;
             container.innerHTML = '<div class="text-center py-8 text-slate-400 text-xs"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Đang nạp danh sách bài từ Git...</div>';
 
-            let curFolder = currentSelectedFolderId || 'data';
+            let curFolder = manageFolderFilter || '';
             try {
                 let gitApiUrl = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/git/trees/${GITHUB_CONFIG.branch}?recursive=1`;
                 let headers = { "Accept": "application/vnd.github+json" };
@@ -60,8 +65,9 @@
                             if (item.type !== 'blob' || !item.path.endsWith('.html')) return false;
                             if (item.path.startsWith('backup/') || item.path.startsWith('teacher/') || item.path.startsWith('used/')) return false;
                             let lastSlash = item.path.lastIndexOf('/');
-                            let folder = lastSlash === -1 ? 'data' : item.path.substring(0, lastSlash);
-                            return folder === curFolder || curFolder === 'data';
+                            let folder = lastSlash === -1 ? '' : item.path.substring(0, lastSlash);
+                            if (folder === 'data/bank' || folder.startsWith('data/bank/')) return false;
+                            return !curFolder || folder === curFolder;
                         });
                     }
                 }
@@ -74,7 +80,7 @@
                     container.innerHTML = `
                         <div class="text-center py-12 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
                             <i class="fa-regular fa-folder-open text-3xl text-slate-400"></i>
-                            <p class="text-xs font-bold text-slate-600">Thư mục [${curFolder}] hiện chưa có bài học nào trên Git.</p>
+                            <p class="text-xs font-bold text-slate-600">Chưa có bài học nào trên Git${curFolder ? ' trong thư mục [' + curFolder + ']' : ''}.</p>
                             <button onclick="switchTeacherModule('compose')" class="text-xs bg-blue-600 hover:bg-blue-700 text-white font-bold px-3 py-1.5 rounded-lg shadow mt-2">
                                 + Soạn bài mới ngay
                             </button>
@@ -91,8 +97,20 @@
                 });
                 let nTheory = files.filter(function(f){ return fileKindOf(f.path.substring(f.path.lastIndexOf('/') + 1)) === 'theory'; }).length;
                 let nExam = files.length - nTheory;
+                let folders = {};
+                files.forEach(function(f){
+                    let ls = f.path.lastIndexOf('/');
+                    let fd = ls === -1 ? '(gốc)' : f.path.substring(0, ls);
+                    folders[fd] = (folders[fd] || 0) + 1;
+                });
+                let fkeys = Object.keys(folders).sort();
                 let html = '<div class="flex flex-wrap items-center gap-2 mb-2">'
-                    + '<span class="text-[11px] font-bold text-slate-500">Lọc:</span>'
+                    + '<span class="text-[11px] font-bold text-slate-500">Thư mục:</span>'
+                    + '<select onchange="setManageFolderFilter(this.value)" class="text-xs border border-slate-300 rounded-lg px-2 py-1.5 bg-white font-semibold text-slate-700 max-w-[220px]">'
+                    + '<option value="">Tất cả thư mục (' + files.length + ')</option>'
+                    + fkeys.map(function(k){ return '<option value="' + k.replace(/"/g, '&quot;') + '"' + (k === manageFolderFilter ? ' selected' : '') + '>' + k.replace(/</g, '&lt;') + ' (' + folders[k] + ')</option>'; }).join('')
+                    + '</select>'
+                    + '<span class="text-[11px] font-bold text-slate-500 ml-1">Loại:</span>'
                     + '<button id="mfilter-all" onclick="setManageTypeFilter(\'all\')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition ' + (manageTypeFilter === 'all' ? 'bg-blue-700 text-white shadow' : 'bg-slate-100 text-slate-600 hover:bg-slate-200') + '">Tất cả (' + files.length + ')</button>'
                     + '<button id="mfilter-theory" onclick="setManageTypeFilter(\'theory\')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition ' + (manageTypeFilter === 'theory' ? 'bg-blue-700 text-white shadow' : 'bg-slate-100 text-slate-600 hover:bg-slate-200') + '">📘 Lý thuyết (' + nTheory + ')</button>'
                     + '<button id="mfilter-exam" onclick="setManageTypeFilter(\'exam\')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition ' + (manageTypeFilter === 'exam' ? 'bg-blue-700 text-white shadow' : 'bg-slate-100 text-slate-600 hover:bg-slate-200') + '">📝 Đề thi/Bài tập (' + nExam + ')</button>'
