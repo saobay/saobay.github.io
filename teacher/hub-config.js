@@ -409,81 +409,87 @@
                 alert("Không thể xóa thư mục gốc data!");
                 return;
             }
+            let delPath = currentSelectedFolderId, delName = currentSelectedFolderName;
 
-            if (!confirm(`XÁC NHẬN XÓA: Bạn có chắc muốn xóa thư mục "${currentSelectedFolderName}" (${currentSelectedFolderId}) trên GitHub?`)) {
-                return;
-            }
+            // Liet ke file trong thu muc (de canh bao + xoa de quy)
+            let delFiles = [];
+            try {
+                let tk2 = getGithubToken();
+                let hh = { "Accept": "application/vnd.github+json" };
+                if (tk2) hh["Authorization"] = "Bearer " + tk2;
+                let tr = await fetch(`https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/git/trees/${GITHUB_CONFIG.branch}?recursive=1`, { headers: hh });
+                if (tr.ok) {
+                    let td = await tr.json();
+                    if (td && Array.isArray(td.tree)) {
+                        delFiles = td.tree.filter(function(it){ return it.type === 'blob' && (it.path === delPath || it.path.startsWith(delPath + '/')); }).map(function(it){ return it.path; });
+                    }
+                }
+            } catch(eC){}
+            let fileCount = delFiles.length;
+
+            let msg = `XÁC NHẬN XÓA: Xóa thư mục "${delName}" (${delPath}) trên GitHub?`;
+            if (fileCount > 0) msg += `\n\nCẢNH BÁO: Thư mục còn chứa ${fileCount} file (bài học). Xóa thư mục sẽ XÓA TẤT CẢ các bài bên trong!`;
+            if (!confirm(msg)) return;
 
             let token = getGithubToken();
-            if (!token) {
-                // Xóa thư mục qua Google Apps Script Proxy an toàn
+            // Xoa tung file trong thu muc (de quy). Neu thu muc rong, dam bao co .gitkeep de xoa.
+            let targets = delFiles.length ? delFiles : [delPath + '/.gitkeep'];
+            let okCount = 0, failCount = 0;
+            for (let fi = 0; fi < targets.length; fi++){
+                let fp = targets[fi];
                 try {
-                    let res = await fetch(API_URL, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                        body: JSON.stringify({
-                            type: 'DELETE_FROM_GITHUB',
-                            filePath: `${currentSelectedFolderId}/.gitkeep`,
-                            commitMessage: `Xóa thư mục: ${currentSelectedFolderId} bởi ${currentUser.name}`
-                        })
-                    });
-                    let result = await parseSafeResponse(res);
-                    if (result.status === 'success') {
-                        alert(`Đã xóa thư mục "${currentSelectedFolderName}" trên GitHub qua Google Proxy!`);
-                        selectFolder('data', 'data (Thư mục dữ liệu gốc)');
-                        await loadFolderTreeFromGit(true);
+                    if (!token) {
+                        let res = await fetch(API_URL, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                            body: JSON.stringify({
+                                type: 'DELETE_FROM_GITHUB',
+                                filePath: fp,
+                                commitMessage: `Xóa thư mục: ${delPath} bởi ${(typeof currentUser !== 'undefined' && currentUser.name) || 'admin'}`
+                            })
+                        });
+                        let result = await parseSafeResponse(res);
+                        if (result.status === 'success') okCount++; else failCount++;
                     } else {
-                        alert(`Lỗi khi xóa qua Google Proxy: ${result.message || 'Không xác định'}`);
+                        let encodedPath = getEncodedGitHubPath(fp);
+                        let apiUrl = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${encodedPath}?ref=${GITHUB_CONFIG.branch}`;
+                        let checkRes = await fetch(apiUrl, { headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github+json' } });
+                        if (checkRes.ok) {
+                            let fileData = await checkRes.json();
+                            let delRes = await fetch(`https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${encodedPath}`, {
+                                method: 'DELETE',
+                                headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ message: `Xóa thư mục: ${delPath} bởi ${(typeof currentUser !== 'undefined' && currentUser.name) || 'admin'}`, sha: fileData.sha, branch: GITHUB_CONFIG.branch })
+                            });
+                            if (delRes.ok) okCount++; else failCount++;
+                        } else { failCount++; }
                     }
-                } catch(err) {
-                    alert(`Lỗi kết nối khi xóa thư mục: ${err.message}`);
-                }
-                return;
+                } catch(eF){ failCount++; }
             }
-
-            try {
-                let encodedPath = getEncodedGitHubPath(`${currentSelectedFolderId}/.gitkeep`);
-                let apiUrl = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${encodedPath}?ref=${GITHUB_CONFIG.branch}`;
-
-                let checkRes = await fetch(apiUrl, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Accept': 'application/vnd.github+json'
-                    }
-                });
-
-                if (checkRes.ok) {
-                    let fileData = await checkRes.json();
-                    let delRes = await fetch(`https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${encodedPath}`, {
-                        method: 'DELETE',
-                        headers: {
-                            'Authorization': `Bearer ${token}`,
-                            'Accept': 'application/vnd.github+json',
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            message: `Xóa thư mục: ${currentSelectedFolderId} bởi ${currentUser.name}`,
-                            sha: fileData.sha,
-                            branch: GITHUB_CONFIG.branch
-                        })
-                    });
-
-                    if (delRes.ok) {
-                        alert(`Đã xóa thư mục "${currentSelectedFolderName}" trên GitHub!`);
-                        selectFolder('data', 'data (Thư mục dữ liệu gốc)');
-                        await loadFolderTreeFromGit(true);
-                        return;
-                    }
-                }
-
-                alert(`Thư mục đã được bỏ chọn. Lưu ý: Thư mục có chứa bài học chỉ bị xóa khi toàn bộ các file bên trong được dọn dẹp.`);
-                selectFolder('data', 'data (Thư mục dữ liệu gốc)');
-                await loadFolderTreeFromGit(true);
-            } catch(err) {
-                alert(`Lỗi khi xóa: ${err.message}`);
+            if (okCount > 0 && failCount === 0) {
+                alert(`Đã xóa thư mục "${delName}" (${okCount} file) trên GitHub!`);
+            } else if (okCount > 0) {
+                alert(`Đã xóa ${okCount} file, còn ${failCount} file lỗi. Hãy bấm Làm mới và thử lại.`);
+            } else {
+                alert(`Không xóa được file nào (lỗi quyền hoặc kết nối).`);
             }
+            clearFolderSelection();
+            await loadFolderTreeFromGit(true);
         }
 
+        function clearFolderSelection(){
+            currentSelectedFolderId = "";
+            currentSelectedFolderName = "(chưa chọn)";
+            let sf = document.getElementById('selected-folder-name');
+            if (sf) sf.innerText = "Chưa chọn — bấm vào thư mục trong cùng ở cây bên dưới";
+            let mw = document.getElementById('main-working-folder-display');
+            if (mw) mw.innerHTML = '<i class="fa-solid fa-folder-open mr-2 text-amber-400"></i> <span class="text-rose-300">Chưa chọn thư mục</span>';
+            let delBtn = document.getElementById('delete-folder-btn');
+            if (delBtn) delBtn.classList.add('hidden');
+            document.querySelectorAll('.folder-node').forEach(function(el){
+                el.className = "folder-node p-2 rounded-lg hover:bg-slate-100 cursor-pointer flex items-center justify-between text-slate-700 text-xs font-medium transition border-l-2 border-transparent";
+            });
+        }
         function updateScorePreview() {
             let type = document.getElementById('item-type').value;
             let preview = document.getElementById('score-reward-preview');
