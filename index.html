@@ -167,12 +167,73 @@
                     <span class="text-[11px] text-slate-400 italic">Đang ở chế độ đọc bài toàn màn hình</span>
                 </div>
 
-                <div id="empty-state" class="m-auto text-center space-y-3 py-8">
-                    <div class="w-16 h-16 md:w-20 md:h-20 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center mx-auto text-2xl md:text-3xl shadow-inner">
-                        <i class="fa-solid fa-book-open-reader"></i>
+                <div id="empty-state" class="w-full max-w-4xl mx-auto space-y-6 py-4 px-2">
+                    <!-- Hero -->
+                    <div class="bg-gradient-to-br from-blue-600 via-indigo-600 to-violet-700 rounded-2xl p-5 md:p-8 text-white shadow-xl relative overflow-hidden">
+                        <div class="absolute -right-8 -top-8 w-40 h-40 bg-white/10 rounded-full"></div>
+                        <div class="absolute right-16 bottom-0 w-24 h-24 bg-white/10 rounded-full"></div>
+                        <h2 class="text-xl md:text-3xl font-black mb-2">Chào mừng đến với SAOBAY! 🎓</h2>
+                        <p class="text-blue-100 text-sm md:text-base">Học lý thuyết, luyện bài tập, thí nghiệm ảo và chơi game cùng bạn bè.</p>
+                        <div class="flex flex-wrap gap-2 mt-4">
+                            <button onclick="document.getElementById('sidebar-tree-wrapper').scrollIntoView({behavior:'smooth'})" class="bg-white text-indigo-700 font-bold text-sm px-4 py-2 rounded-xl hover:bg-blue-50"><i class="fa-solid fa-book-open mr-1.5"></i>Chọn bài học</button>
+                            <a href="#game-zone" onclick="document.getElementById('game-zone').scrollIntoView({behavior:'smooth'});return false;" class="bg-white/20 text-white font-bold text-sm px-4 py-2 rounded-xl hover:bg-white/30 border border-white/30"><i class="fa-solid fa-gamepad mr-1.5"></i>Chơi game</a>
+                        </div>
                     </div>
-                    <h4 class="font-bold text-slate-700 text-base md:text-lg">Chưa chọn bài học</h4>
-                    <p class="text-xs text-slate-400 max-w-sm mx-auto">Vui lòng chọn bài học từ danh mục bên trái để hiển thị nội dung.</p>
+                    <!-- Phong thi nghiem ao -->
+                    <div>
+                        <h3 class="font-black text-slate-800 text-base md:text-lg mb-3"><i class="fa-solid fa-flask text-emerald-600 mr-2"></i>Phòng thí nghiệm ảo</h3>
+                        <div class="grid grid-cols-3 gap-2 md:gap-4">
+                            <a href="labs/lab-ly.html" class="bg-gradient-to-br from-sky-50 to-blue-100 border border-sky-200 rounded-2xl p-3 md:p-5 text-center hover:shadow-lg hover:-translate-y-0.5 transition-all">
+                                <div class="text-3xl md:text-5xl mb-2">⚛️</div>
+                                <p class="font-bold text-sky-900 text-xs md:text-sm">Vật lý</p>
+                                <p class="text-[10px] md:text-xs text-sky-600 hidden md:block">Con lắc, mạch điện, rơi tự do</p>
+                            </a>
+                            <a href="labs/lab-hoa.html" class="bg-gradient-to-br from-emerald-50 to-green-100 border border-emerald-200 rounded-2xl p-3 md:p-5 text-center hover:shadow-lg hover:-translate-y-0.5 transition-all">
+                                <div class="text-3xl md:text-5xl mb-2">🧪</div>
+                                <p class="font-bold text-emerald-900 text-xs md:text-sm">Hóa học</p>
+                                <p class="text-[10px] md:text-xs text-emerald-600 hidden md:block">Bảng tuần hoàn, trộn dung dịch</p>
+                            </a>
+                            <a href="labs/lab-sinh.html" class="bg-gradient-to-br from-lime-50 to-yellow-100 border border-lime-200 rounded-2xl p-3 md:p-5 text-center hover:shadow-lg hover:-translate-y-0.5 transition-all">
+                                <div class="text-3xl md:text-5xl mb-2">🧬</div>
+                                <p class="font-bold text-lime-900 text-xs md:text-sm">Sinh học</p>
+                                <p class="text-[10px] md:text-xs text-lime-700 hidden md:block">Tế bào, kính hiển vi</p>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Game zone -->
+                    <div id="game-zone">
+                        <h3 class="font-black text-slate-800 text-base md:text-lg mb-3"><i class="fa-solid fa-gamepad text-violet-600 mr-2"></i>Game khởi động</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
+                            <a href="games/wheel-pick.html" class="bg-gradient-to-br from-amber-50 to-orange-100 border border-amber-200 rounded-2xl p-3 md:p-4 text-center hover:shadow-lg hover:-translate-y-0.5 transition-all">
+                                <div class="text-3xl md:text-4xl mb-1.5">🎡</div>
+                                <p class="font-bold text-amber-900 text-xs md:text-sm">Vòng quay chọn HS</p>
+                                <p class="text-[10px] text-amber-600 hidden md:block">Ngẫu nhiên, không trùng</p>
+                            </a>
+                            <a href="games/quiz-race.html" class="bg-gradient-to-br from-rose-50 to-pink-100 border border-rose-200 rounded-2xl p-3 md:p-4 text-center hover:shadow-lg hover:-translate-y-0.5 transition-all">
+                                <div class="text-3xl md:text-4xl mb-1.5">🏁</div>
+                                <p class="font-bold text-rose-900 text-xs md:text-sm">Đua kiến thức</p>
+                                <p class="text-[10px] text-rose-600 hidden md:block">2 đội thi đua</p>
+                            </a>
+                            <a href="games/memory-match.html" class="bg-gradient-to-br from-cyan-50 to-sky-100 border border-cyan-200 rounded-2xl p-3 md:p-4 text-center hover:shadow-lg hover:-translate-y-0.5 transition-all">
+                                <div class="text-3xl md:text-4xl mb-1.5">🃏</div>
+                                <p class="font-bold text-cyan-900 text-xs md:text-sm">Trí nhớ</p>
+                                <p class="text-[10px] text-cyan-600 hidden md:block">Lật thẻ tìm cặp</p>
+                            </a>
+                            <a href="games/fast-finger.html" class="bg-gradient-to-br from-violet-50 to-purple-100 border border-violet-200 rounded-2xl p-3 md:p-4 text-center hover:shadow-lg hover:-translate-y-0.5 transition-all">
+                                <div class="text-3xl md:text-4xl mb-1.5">⚡</div>
+                                <p class="font-bold text-violet-900 text-xs md:text-sm">Ai nhanh hơn</p>
+                                <p class="text-[10px] text-violet-600 hidden md:block">2 người cùng chơi</p>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Tac vu nhanh -->
+                    <div>
+                        <h3 class="font-black text-slate-800 text-base md:text-lg mb-3"><i class="fa-solid fa-bolt text-amber-500 mr-2"></i>Tác vụ nhanh</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <a href="teacher/teacher-hub.html" class="bg-slate-800 text-white text-xs md:text-sm font-bold px-4 py-2.5 rounded-xl hover:bg-slate-700"><i class="fa-solid fa-chalkboard-user mr-1.5"></i>Dành cho giáo viên</a>
+                            <button onclick="showLoginModal()" class="bg-blue-600 text-white text-xs md:text-sm font-bold px-4 py-2.5 rounded-xl hover:bg-blue-700"><i class="fa-solid fa-right-to-bracket mr-1.5"></i>Đăng nhập</button>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- KHU VỰC HIỂN THỊ LÝ THUYẾT -->
