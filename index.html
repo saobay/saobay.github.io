@@ -1260,29 +1260,37 @@
                             examSlug = bn.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\u0111/g, 'd').replace(/\u0110/g, 'D')
                                 .replace(/[^a-zA-Z0-9]+/g, '_').replace(/^_+|_+$/g, '').slice(0, 80) || 'exam';
                         } catch(eSlug){}
-                        let savedName = '', savedClass = '';
+                        let savedName = '', savedClass = '', lockedName = '', lockedClass = '';
                         try { savedName = localStorage.getItem('saobay_student_name') || ''; savedClass = localStorage.getItem('saobay_student_class') || ''; } catch(eLS){}
                         try {
                             let su = JSON.parse(localStorage.getItem('saobay_user') || 'null');
                             if (su && su.role === 'student'){
-                                if (su.name) savedName = su.name;
-                                if (su.className) savedClass = su.className;
+                                if (su.name) lockedName = su.name;
+                                if (su.className) lockedClass = su.className;
                             }
                         } catch(eSU){}
+                        let isLocked = !!(lockedName && lockedClass);
+                        if (isLocked){ savedName = lockedName; savedClass = lockedClass; }
                         let escA = function(v){ return String(v == null ? '' : v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); };
                         summaryEl.insertAdjacentHTML('beforeend',
                             '<div class="mt-4 pt-4 border-t border-slate-200 text-left">'
                             + '<p class="text-sm font-black text-slate-800 mb-2">\u0110i\u1ec3m c\u1ee7a b\u1ea1n \u0111\u00e3 \u0111\u01b0\u1ee3c ghi nh\u1eadn. G\u1eedi \u0111i\u1ec3m cho gi\u00e1o vi\u00ean:</p>'
-                            + '<div class="flex flex-col sm:flex-row gap-2">'
-                            + '<input id="ex10-sname" placeholder="H\u1ecd v\u00e0 t\u00ean" value="' + escA(savedName) + '" class="flex-1 text-sm border border-slate-300 rounded-lg px-3 py-2">'
-                            + '<input id="ex10-sclass" placeholder="L\u1edbp (vd: 10A1)" value="' + escA(savedClass) + '" class="w-full sm:w-32 text-sm border border-slate-300 rounded-lg px-3 py-2">'
-                            + '</div>'
+                            + (isLocked
+                            ? '<div class="flex flex-col sm:flex-row gap-2">'
+                                + '<div class="flex-1 text-sm border border-slate-200 bg-slate-50 rounded-lg px-3 py-2"><span class="text-[11px] text-slate-500 block">H\u1ecd v\u00e0 t\u00ean</span><b class="text-slate-800">' + escA(lockedName) + '</b></div>'
+                                + '<div class="w-full sm:w-36 text-sm border border-slate-200 bg-slate-50 rounded-lg px-3 py-2"><span class="text-[11px] text-slate-500 block">L\u1edbp</span><b class="text-slate-800">' + escA(lockedClass) + '</b></div>'
+                                + '</div><p class="text-[11px] text-slate-400 mt-1"><i class="fa-solid fa-lock mr-1"></i>Th\u00f4ng tin l\u1ea5y t\u1eeb t\u00e0i kho\u1ea3n \u0111\u0103ng nh\u1eadp, kh\u00f4ng th\u1ec3 s\u1eed\u1ea5.</p>'
+                            : '<div class="flex flex-col sm:flex-row gap-2">'
+                                + '<input id="ex10-sname" placeholder="H\u1ecd v\u00e0 t\u00ean" value="' + escA(savedName) + '" class="flex-1 text-sm border border-slate-300 rounded-lg px-3 py-2">'
+                                + '<input id="ex10-sclass" placeholder="L\u1edbp (vd: 10A1)" value="' + escA(savedClass) + '" class="w-full sm:w-32 text-sm border border-slate-300 rounded-lg px-3 py-2">'
+                                + '</div>')
                             + '<button class="ex10-send-score mt-2 w-full bg-indigo-700 hover:bg-indigo-800 disabled:opacity-60 text-white text-sm font-bold px-4 py-2.5 rounded-xl">G\u1eedi \u0111i\u1ec3m</button>'
                             + '<p class="ex10-send-note text-xs text-slate-500 mt-1.5"></p></div>');
                         let sendBtn = summaryEl.querySelector('.ex10-send-score');
                         if (sendBtn) sendBtn.addEventListener('click', function(){
                             let nmEl = summaryEl.querySelector('#ex10-sname'), clEl = summaryEl.querySelector('#ex10-sclass');
-                            let nm = nmEl ? nmEl.value.trim() : '', cl = clEl ? clEl.value.trim() : '';
+                            let nm = isLocked ? lockedName : (nmEl ? nmEl.value.trim() : '');
+                            let cl = isLocked ? lockedClass : (clEl ? clEl.value.trim() : '');
                             let note = summaryEl.querySelector('.ex10-send-note');
                             if (!nm || !cl){ note.textContent = 'Vui l\u00f2ng nh\u1eadp h\u1ecd t\u00ean v\u00e0 l\u1edbp.'; note.className = 'ex10-send-note text-xs text-rose-600 mt-1.5'; return; }
                             try { localStorage.setItem('saobay_student_name', nm); localStorage.setItem('saobay_student_class', cl); } catch(e){}
