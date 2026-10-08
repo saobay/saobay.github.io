@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Phòng thí nghiệm Sinh học ảo — SAOBAY</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body { font-family: system-ui, -apple-system, sans-serif; -webkit-tap-highlight-color: transparent; }
+  .tab-btn.active { background: #16a34a; color: #fff; }
+  .big-btn { min-height: 52px; }
+  .org { cursor: pointer; transition: transform .15s; }
+  .org:active { transform: scale(1.1); }
+  .org.selected { filter: drop-shadow(0 0 6px #f59e0b); }
+  .food-card { touch-action: none; user-select: none; }
+  .slot.filled { border-style: solid; }
+</style>
+</head>
+<body class="bg-slate-100 min-h-screen">
+<div class="max-w-3xl mx-auto pb-10">
+  <div class="bg-gradient-to-r from-green-600 to-lime-600 text-white px-4 py-4 sticky top-0 z-10 shadow">
+    <h1 class="text-lg font-black">🌱 Phòng thí nghiệm Sinh học ảo</h1>
+    <p class="text-xs opacity-80">Chạm • Phóng to • Sắp xếp — khám phá sự sống</p>
+  </div>
+
+  <div class="flex gap-2 px-3 mt-3">
+    <button class="tab-btn active flex-1 big-btn rounded-xl bg-white shadow font-bold text-sm" data-tab="cell">🔬 Tế bào</button>
+    <button class="tab-btn flex-1 big-btn rounded-xl bg-white shadow font-bold text-sm" data-tab="micro">🔍 Kính hiển vi</button>
+    <button class="tab-btn flex-1 big-btn rounded-xl bg-white shadow font-bold text-sm" data-tab="food">🦁 Chuỗi thức ăn</button>
+  </div>
+
+  <!-- ===== TAB 1: TẾ BÀO TƯƠNG TÁC ===== -->
+  <div id="tab-cell" class="tab-panel px-3 mt-3">
+    <div class="bg-white rounded-2xl shadow p-4">
+      <div class="flex items-center justify-between mb-1">
+        <h2 class="font-black text-green-800">Tế bào tương tác</h2>
+        <div class="flex gap-1 text-xs">
+          <button id="cell-animal" class="px-3 py-2 rounded-lg font-bold bg-green-600 text-white">Động vật</button>
+          <button id="cell-plant" class="px-3 py-2 rounded-lg font-bold bg-green-100">Thực vật</button>
+        </div>
+      </div>
+      <p class="text-xs text-slate-500 mb-2">Chạm vào từng bộ phận của tế bào để xem chú thích.</p>
+      <div id="cell-svg-wrap" class="rounded-xl bg-green-50 border overflow-hidden"></div>
+      <div id="org-info" class="mt-3 bg-amber-50 border border-amber-200 rounded-xl p-3 hidden">
+        <div id="org-name" class="font-black text-amber-900"></div>
+        <p id="org-desc" class="text-sm text-slate-700 mt-1"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== TAB 2: KÍNH HIỂN VI ẢO ===== -->
+  <div id="tab-micro" class="tab-panel px-3 mt-3 hidden">
+    <div class="bg-white rounded-2xl shadow p-4">
+      <h2 class="font-black text-lime-800 mb-1">Kính hiển vi ảo</h2>
+      <p class="text-xs text-slate-500 mb-2">Kéo thanh trượt để phóng to mẫu vật qua các cấp độ.</p>
+      <canvas id="cv-micro" class="w-full rounded-full border-8 border-slate-700 mx-auto block" style="max-width:340px; aspect-ratio:1;" height="340"></canvas>
+      <div class="mt-3 px-2">
+        <input id="micro-zoom" type="range" min="0" max="3" step="1" value="0" class="w-full">
+        <div class="flex justify-between text-[11px] font-bold text-slate-500">
+          <span>👁️ 40×</span><span>🔬 100×</span><span>🔬 400×</span><span>🔬 1000×</span>
+        </div>
+      </div>
+      <div id="micro-label" class="text-center mt-2 text-sm font-bold text-lime-800"></div>
+      <p id="micro-desc" class="text-xs text-slate-500 text-center mt-1 px-4"></p>
+    </div>
+  </div>
+
+  <!-- ===== TAB 3: CHUỖI THỨC ĂN ===== -->
+  <div id="tab-food" class="tab-panel px-3 mt-3 hidden">
+    <div class="bg-white rounded-2xl shadow p-4">
+      <h2 class="font-black text-orange-800 mb-1">Chuỗi thức ăn</h2>
+      <p class="text-xs text-slate-500 mb-2">Kéo (hoặc chạm 2 lần) các thẻ vào ô theo đúng thứ tự: <b>sinh vật sản xuất → tiêu thụ → phân giải</b>.</p>
+      <div class="flex items-center gap-1 mb-3 overflow-x-auto pb-1" id="food-slots"></div>
+      <div class="text-xs font-bold text-slate-500 mb-1">Thẻ sinh vật (chạm để chọn, chạm ô để đặt):</div>
+      <div id="food-bank" class="flex flex-wrap gap-2 mb-3"></div>
+      <div class="flex gap-2">
+        <button id="food-check" class="big-btn flex-1 bg-orange-600 text-white font-black rounded-xl">✅ Kiểm tra</button>
+        <button id="food-shuffle" class="big-btn px-4 bg-slate-300 font-black rounded-xl">🔀 Trộn</button>
+      </div>
+      <div id="food-msg" class="mt-2 text-center text-sm font-bold"></div>
+      <div class="mt-2 text-[11px] text-slate-500">💡 Chuỗi đúng: Cỏ → Châu chấu → Ếch → Rắn → Diều hâu → Vi sinh vật phân giải</div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.tab-btn').forEach(function(b){
+  b.addEventListener('click', function(){
+    document.querySelectorAll('.tab-btn').forEach(function(x){ x.classList.remove('active'); });
+    b.classList.add('active');
+    document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.add('hidden'); });
+    document.getElementById('tab-' + b.dataset.tab).classList.remove('hidden');
+    if (window.__fitAll) { try { window.__fitAll(); } catch(e){} }
+  });
+});
+function fitCanvas(cv){
+  var r = cv.getBoundingClientRect(), d = window.devicePixelRatio || 1;
+  var H = parseInt(cv.getAttribute('height')) || 300;
+  cv.width = r.width * d; cv.height = H * d;
+  var ctx = cv.getContext('2d'); ctx.setTransform(d,0,0,d,0,0);
+  return {ctx: ctx, w: r.width, h: H};
+}
+
+// ================= 1. TẾ BÀO TƯƠNG TÁC =================
+(function(){
+  var ORGS = {
+    animal: [
+      {id:'nucleus', name:'Nhân tế bào', x:170, y:150, r:42, color:'#a78bfa',
+       desc:'Chứa vật chất di truyền (ADN), điều khiển mọi hoạt động sống của tế bào.'},
+      {id:'membrane', name:'Màng tế bào', x:170, y:150, r:0, color:'#f472b6', ring:true,
+       desc:'Bao bọc tế bào, kiểm soát chất ra vào, bảo vệ tế bào.'},
+      {id:'mito', name:'Ti thể', x:90, y:90, r:26, color:'#fb923c', ellipse:true,
+       desc:'Nơi hô hấp tế bào, tạo năng lượng ATP — "nhà máy điện" của tế bào.'},
+      {id:'cyto', name:'Tế bào chất', x:250, y:230, r:30, color:'#86efac',
+       desc:'Dịch keo chứa các bào quan, nơi diễn ra nhiều phản ứng hóa học.'},
+      {id:'ribo', name:'Ribôxôm', x:230, y:90, r:14, color:'#facc15',
+       desc:'Nơi tổng hợp prôtêin cho tế bào.'}
+    ],
+    plant: [
+      {id:'nucleus', name:'Nhân tế bào', x:170, y:150, r:38, color:'#a78bfa',
+       desc:'Chứa vật chất di truyền (ADN), điều khiển mọi hoạt động sống.'},
+      {id:'wall', name:'Thành tế bào', x:170, y:150, r:0, color:'#65a30d', ring:true, rect:true,
+       desc:'Bao ngoài bằng xenlulozơ, giúp tế bào thực vật cứng chắc.'},
+      {id:'chloro', name:'Lục lạp', x:85, y:85, r:28, color:'#22c55e', ellipse:true,
+       desc:'Chứa diệp lục, nơi quang hợp tạo chất hữu cơ từ CO₂ và nước.'},
+      {id:'vacuole', name:'Không bào', x:250, y:210, r:44, color:'#7dd3fc',
+       desc:'Chứa dịch tế bào, dự trữ nước và chất dinh dưỡng, tạo sức trương.'},
+      {id:'mito', name:'Ti thể', x:250, y:85, r:24, color:'#fb923c', ellipse:true,
+       desc:'Nơi hô hấp tế bào, tạo năng lượng ATP.'}
+    ]
+  };
+  var mode = 'animal';
+  var wrap = document.getElementById('cell-svg-wrap');
+
+  function render(){
+    var orgs = ORGS[mode], W = 340, H = 300;
+    var svg = '<svg viewBox="0 0 '+W+' '+H+'" class="w-full" style="max-height:320px">';
+    // Nền tế bào
+    if (mode === 'plant'){
+      svg += '<rect x="20" y="15" width="300" height="270" rx="40" fill="#f0fdf4" stroke="#65a30d" stroke-width="10" class="org" data-id="wall"/>';
+    } else {
+      svg += '<ellipse cx="170" cy="150" rx="148" ry="132" fill="#fdf2f8" stroke="#f472b6" stroke-width="6" class="org" data-id="membrane"/>';
+    }
+    orgs.forEach(function(o){
+      if (o.ring) return;
+      if (o.ellipse){
+        svg += '<ellipse cx="'+o.x+'" cy="'+o.y+'" rx="'+o.r+'" ry="'+(o.r*0.62)+'" fill="'+o.color+'" opacity="0.85" stroke="#fff" stroke-width="2" class="org" data-id="'+o.id+'"/>';
+        // Gạch trong ti thể / lục lạp
+        svg += '<path d="M '+(o.x-o.r*0.6)+' '+o.y+' Q '+o.x+' '+(o.y-o.r*0.4)+' '+(o.x+o.r*0.6)+' '+o.y+'" stroke="#fff" stroke-width="2" fill="none" opacity="0.7"/>';
+      } else {
+        svg += '<circle cx="'+o.x+'" cy="'+o.y+'" r="'+o.r+'" fill="'+o.color+'" opacity="0.85" stroke="#fff" stroke-width="2" class="org" data-id="'+o.id+'"/>';
+        if (o.id === 'nucleus'){
+          svg += '<circle cx="'+o.x+'" cy="'+o.y+'" r="'+(o.r*0.45)+'" fill="#7c3aed" opacity="0.9"/>';
+        }
+      }
+      // Nhãn
+      svg += '<text x="'+o.x+'" y="'+(o.y+o.r+16)+'" text-anchor="middle" font-size="11" font-weight="bold" fill="#475569">'+o.name.split(' ')[0]+'</text>';
+    });
+    svg += '</svg>';
+    wrap.innerHTML = svg;
+    wrap.querySelectorAll('.org').forEach(function(el){
+      el.addEventListener('click', function(){
+        wrap.querySelectorAll('.org').forEach(function(x){ x.classList.remove('selected'); });
+        el.classList.add('selected');
+        var o = orgs.find(function(z){ return z.id === el.dataset.id; });
+        if (o){
+          document.getElementById('org-info').classList.remove('hidden');
+          document.getElementById('org-name').textContent = '🔬 ' + o.name;
+          document.getElementById('org-desc').textContent = o.desc;
+        }
+      });
+    });
+  }
+  document.getElementById('cell-animal').addEventListener('click', function(){
+    mode = 'animal'; render();
+    this.className = 'px-3 py-2 rounded-lg font-bold bg-green-600 text-white';
+    document.getElementById('cell-plant').className = 'px-3 py-2 rounded-lg font-bold bg-green-100';
+    document.getElementById('org-info').classList.add('hidden');
+  });
+  document.getElementById('cell-plant').addEventListener('click', function(){
+    mode = 'plant'; render();
+    this.className = 'px-3 py-2 rounded-lg font-bold bg-green-600 text-white';
+    document.getElementById('cell-animal').className = 'px-3 py-2 rounded-lg font-bold bg-green-100';
+    document.getElementById('org-info').classList.add('hidden');
+  });
+  render();
+})();
+
+// ================= 2. KÍNH HIỂN VI ẢO =================
+(function(){
+  var cv = document.getElementById('cv-micro');
+  var G = fitCanvas(cv);
+  window.addEventListener('resize', function(){ G = fitCanvas(cv); });
+  var zoom = 0;
+  var labels = ['Mẫu lá cây — 40×', 'Mô lá — 100×', 'Tế bào thực vật — 400×', 'Lục lạp — 1000×'];
+  var descs = [
+    'Nhìn bằng mắt thường qua thị kính nhỏ nhất: thấy gân lá và màu xanh.',
+    'Phóng to 100 lần: thấy các mô tế bào xếp khít nhau như tổ ong.',
+    'Phóng to 400 lần: thấy rõ thành tế bào, nhân và các lục lạp xanh.',
+    'Phóng to 1000 lần (vật kính dầu): thấy lục lạp với các hạt grana bên trong.'
+  ];
+  document.getElementById('micro-zoom').addEventListener('input', function(e){
+    zoom = parseInt(e.target.value);
+    document.getElementById('micro-label').textContent = labels[zoom];
+    document.getElementById('micro-desc').textContent = descs[zoom];
+  });
+  document.getElementById('micro-label').textContent = labels[0];
+  document.getElementById('micro-desc').textContent = descs[0];
+
+  function rnd(seed){ var x = Math.sin(seed*999)*10000; return x - Math.floor(x); }
+  function draw(){
+    var ctx = G.ctx, W = G.w, H = G.h, cx = W/2, cy = H/2, R = Math.min(W,H)/2 - 6;
+    ctx.clearRect(0,0,W,H);
+    // Nền đen kính hiển vi
+    ctx.fillStyle = '#0f172a';
+    ctx.beginPath(); ctx.arc(cx,cy,R,0,7); ctx.fill();
+    ctx.save();
+    ctx.beginPath(); ctx.arc(cx,cy,R,0,7); ctx.clip();
+
+    if (zoom === 0){
+      // Lá cây
+      ctx.fillStyle = '#166534';
+      ctx.beginPath(); ctx.ellipse(cx,cy,R*0.7,R*0.45,0.4,0,7); ctx.fill();
+      ctx.strokeStyle = '#4ade80'; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.moveTo(cx-R*0.6,cy+R*0.25); ctx.quadraticCurveTo(cx,cy-R*0.1,cx+R*0.6,cy-R*0.3); ctx.stroke();
+      for (var i=0;i<5;i++){
+        ctx.beginPath(); ctx.moveTo(cx-R*0.3+i*R*0.15, cy+R*0.05-i*4);
+        ctx.lineTo(cx-R*0.3+i*R*0.15+R*0.25, cy-R*0.25+i*6); ctx.stroke();
+      }
+    } else if (zoom === 1){
+      // Mô tế bào tổ ong
+      ctx.strokeStyle = '#4ade80'; ctx.lineWidth = 2;
+      for (var r2=-2;r2<=2;r2++) for (var c2=-2;c2<=2;c2++){
+        var hx = cx + c2*46 + (r2%2?23:0), hy = cy + r2*40;
+        ctx.beginPath();
+        for (var k=0;k<6;k++){ var a2 = Math.PI/3*k + Math.PI/6;
+          var px = hx + 24*Math.cos(a2), py = hy + 24*Math.sin(a2);
+          k?ctx.lineTo(px,py):ctx.moveTo(px,py); }
+        ctx.closePath(); ctx.stroke();
+      }
+    } else if (zoom === 2){
+      // Tế bào thực vật
+      for (var i2=0;i2<7;i2++){
+        var tx = cx + (rnd(i2)-0.5)*R*1.2, ty = cy + (rnd(i2+50)-0.5)*R*1.2;
+        var tr = 44 + rnd(i2+99)*18;
+        ctx.fillStyle = 'rgba(34,197,94,0.25)';
+        ctx.strokeStyle = '#4ade80'; ctx.lineWidth = 4;
+        ctx.beginPath(); ctx.arc(tx,ty,tr,0,7); ctx.fill(); ctx.stroke();
+        // Nhân
+        ctx.fillStyle = '#a78bfa';
+        ctx.beginPath(); ctx.arc(tx+tr*0.25,ty-tr*0.2,tr*0.3,0,7); ctx.fill();
+        // Lục lạp
+        ctx.fillStyle = '#22c55e';
+        for (var j=0;j<6;j++){
+          ctx.beginPath();
+          ctx.ellipse(tx-tr*0.4+rnd(i2*10+j)*tr*0.8, ty-tr*0.4+rnd(i2*20+j)*tr*0.8, 9, 6, rnd(j)*3, 0, 7);
+          ctx.fill();
+        }
+      }
+    } else {
+      // Lục lạp cận cảnh
+      ctx.fillStyle = '#14532d';
+      ctx.beginPath(); ctx.ellipse(cx,cy,R*0.75,R*0.5,0.3,0,7); ctx.fill();
+      ctx.strokeStyle = '#4ade80'; ctx.lineWidth = 4; ctx.stroke();
+      ctx.fillStyle = '#22c55e';
+      for (var g2=0; g2<9; g2++){
+        var gx = cx + (rnd(g2+7)-0.5)*R*0.9, gy = cy + (rnd(g2+77)-0.5)*R*0.55;
+        for (var s2=0;s2<5;s2++){
+          ctx.beginPath(); ctx.arc(gx, gy-8+s2*4, 12, 0, 7); ctx.fill();
+        }
+      }
+      ctx.fillStyle = '#bbf7d0'; ctx.font = 'bold 13px sans-serif'; ctx.textAlign='center';
+      ctx.fillText('Grana (chồng tilacôit)', cx, cy+R*0.72);
+    }
+    ctx.restore();
+    // Vòng tròn thị kính
+    ctx.strokeStyle = '#334155'; ctx.lineWidth = 10;
+    ctx.beginPath(); ctx.arc(cx,cy,R+3,0,7); ctx.stroke();
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ================= 3. CHUỖI THỨC ĂN =================
+(function(){
+  var CHAIN = [
+    {e:'🌿', n:'Cỏ', role:'Sinh vật sản xuất'},
+    {e:'🦗', n:'Châu chấu', role:'Tiêu thụ bậc 1'},
+    {e:'🐸', n:'Ếch', role:'Tiêu thụ bậc 2'},
+    {e:'🐍', n:'Rắn', role:'Tiêu thụ bậc 3'},
+    {e:'🦅', n:'Diều hâu', role:'Tiêu thụ bậc 4'},
+    {e:'🦠', n:'Vi sinh vật', role:'Phân giải'}
+  ];
+  var order = [], placed = {}, selected = null;
+  var slotsEl = document.getElementById('food-slots');
+  var bankEl = document.getElementById('food-bank');
+
+  function shuffle(a){
+    for (var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i];a[i]=a[j];a[j]=t; }
+    return a;
+  }
+  function init(){
+    order = shuffle([0,1,2,3,4,5]);
+    placed = {}; selected = null;
+    renderSlots(); renderBank();
+    document.getElementById('food-msg').textContent = '';
+  }
+  function renderSlots(){
+    var h = '';
+    for (var i=0;i<6;i++){
+      var p = placed[i];
+      h += '<div class="slot shrink-0 w-20 h-24 border-2 border-dashed border-orange-300 rounded-xl flex flex-col items-center justify-center bg-orange-50 '+(p!==undefined?'filled !border-orange-500 bg-white':'')+'" data-slot="'+i+'">';
+      if (p !== undefined){
+        h += '<div class="text-3xl">'+CHAIN[p].e+'</div><div class="text-[10px] font-bold">'+CHAIN[p].n+'</div>';
+      } else {
+        h += '<div class="text-2xl text-orange-200">'+(i+1)+'</div>';
+      }
+      h += '</div>';
+      if (i<5) h += '<div class="text-orange-400 font-black shrink-0">→</div>';
+    }
+    slotsEl.innerHTML = h;
+    slotsEl.querySelectorAll('.slot').forEach(function(s){
+      s.addEventListener('click', function(){
+        var si = parseInt(s.dataset.slot);
+        if (selected !== null && placed[si] === undefined){
+          placed[si] = selected; selected = null;
+          renderSlots(); renderBank();
+        } else if (placed[si] !== undefined){
+          // Gỡ ra
+          order.push(placed[si]); delete placed[si]; selected = null;
+          renderSlots(); renderBank();
+        }
+      });
+    });
+  }
+  function renderBank(){
+    bankEl.innerHTML = '';
+    order.forEach(function(ci){
+      var d = document.createElement('button');
+      d.className = 'food-card px-3 py-2.5 rounded-xl border-2 font-bold text-sm flex items-center gap-1.5 ' +
+        (selected === ci ? 'border-orange-600 bg-orange-100' : 'border-slate-200 bg-white');
+      d.innerHTML = '<span class="text-2xl">'+CHAIN[ci].e+'</span> '+CHAIN[ci].n;
+      d.addEventListener('click', function(){
+        selected = (selected === ci) ? null : ci;
+        renderBank();
+      });
+      bankEl.appendChild(d);
+    });
+  }
+  document.getElementById('food-shuffle').addEventListener('click', init);
+  document.getElementById('food-check').addEventListener('click', function(){
+    var msg = document.getElementById('food-msg');
+    var keys = Object.keys(placed);
+    if (keys.length < 6){ msg.textContent = '⚠️ Hãy đặt đủ 6 thẻ vào các ô!'; msg.className = 'mt-2 text-center text-sm font-bold text-amber-600'; return; }
+    var ok = true;
+    for (var i=0;i<6;i++){ if (placed[i] !== i) ok = false; }
+    if (ok){
+      msg.textContent = '🎉 Chính xác! Chuỗi thức ăn hoàn chỉnh.';
+      msg.className = 'mt-2 text-center text-sm font-bold text-green-600';
+      slotsEl.querySelectorAll('.slot').forEach(function(s){
+        var ci = placed[parseInt(s.dataset.slot)];
+        var tag = document.createElement('div');
+        tag.className = 'text-[9px] text-green-700 font-bold';
+        tag.textContent = CHAIN[ci].role;
+        s.appendChild(tag);
+      });
+    } else {
+      msg.textContent = '❌ Chưa đúng. Nhớ: Cỏ → động vật ăn cỏ → ... → sinh vật phân giải.';
+      msg.className = 'mt-2 text-center text-sm font-bold text-rose-600';
+    }
+  });
+  init();
+})();
+
+// Fit lai canvas khi chuyen tab (tab an co width=0)
+window.__fitAll = function(){
+  try { var c=document.getElementById('cv-micro'); if(c && c.offsetParent){ var r=c.getBoundingClientRect(),d=window.devicePixelRatio||1; c.width=r.width*d; c.height=(parseInt(c.getAttribute('height'))||300)*d; var x2=c.getContext('2d'); x2.setTransform(d,0,0,d,0,0); } } catch(e){}
+};
+</script>
+</body>
+</html>
