@@ -44,6 +44,21 @@
 
         let exbSub = 'mot'; // 'mot' = moi HS 1 de | 'lop' = ca lop chung 1 de
         let exbBankPool = [];
+        function exbSourceApproved(src){
+            let fn = String(src || '');
+            let slash = fn.lastIndexOf('/');
+            if (slash >= 0) fn = fn.substring(slash + 1);
+            fn = fn.replace(/\.html$/i, '');
+            if (/_id\d+|_gv\w+/i.test(fn)) return true;
+            if (/^unit\d+|^test\d+/i.test(fn)) return true;
+            return false;
+        }
+        function exbApplyApprovedFilter(questions){
+            let cb = document.getElementById('exbb-only-approved');
+            let onlyApproved = !cb || cb.checked;
+            if (!onlyApproved) return questions;
+            return (questions || []).filter(function(q){ return exbSourceApproved(q.source); });
+        }
         let exbClassExam = [];
 
         function exbSwitchSub(sub){
@@ -76,7 +91,7 @@
                 let r = await bankApiRead(bankKey(subject, grade));
                 if (r.notFound) throw new Error('Chưa có bank ' + subject + ' khối ' + grade + '. Hãy đẩy đề để tạo bank trước.');
                 if (r.error) throw new Error(r.error);
-                exbBankPool = r.data.questions || [];
+                exbBankPool = exbApplyApprovedFilter(r.data.questions || []);
                 let rows = '';
                 for (let c = chFrom; c <= chTo; c++){
                     let n = exbBankPool.filter(function(q){ return q.chapter === c; }).length;
@@ -198,7 +213,7 @@
                     let r = await bankApiRead(bankKey(m.subject, m.grade));
                     if (r.notFound) throw new Error('Chưa có bank. Bấm "Tải ma trận" trước.');
                     if (r.error) throw new Error(r.error);
-                    exbBankPool = r.data.questions || [];
+                    exbBankPool = exbApplyApprovedFilter(r.data.questions || []);
                 }
                 let picked = exbMatrixPick(exbBankPool, m);
                 if (!picked.length) throw new Error('Không bốc được câu nào — kiểm tra ma trận.');
@@ -241,7 +256,7 @@
                     let r = await bankApiRead(bankKey(m.subject, m.grade));
                     if (r.notFound) throw new Error('Chưa có bank. Bấm "Tải ma trận" trước.');
                     if (r.error) throw new Error(r.error);
-                    exbBankPool = r.data.questions || [];
+                    exbBankPool = exbApplyApprovedFilter(r.data.questions || []);
                 }
                 exbClassExam = exbMatrixPick(exbBankPool, m);
                 if (!exbClassExam.length) throw new Error('Không bốc được câu nào — kiểm tra ma trận.');
