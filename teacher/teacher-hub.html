@@ -160,6 +160,15 @@
                             <div class="text-[10px] text-slate-500">Điểm thưởng & Báo cáo</div>
                         </div>
                     </button>
+                    <button type="button" onclick="switchTeacherModule('private')" id="mod-tab-private" class="module-tab-btn flex items-center p-2.5 rounded-xl transition border text-left bg-white border-slate-200 text-slate-700 hover:bg-slate-100">
+                        <div class="w-9 h-9 rounded-lg bg-violet-200 text-violet-700 flex items-center justify-center text-base font-bold shrink-0 mr-2.5">
+                            <i class="fa-solid fa-user-lock"></i>
+                        </div>
+                        <div class="truncate">
+                            <div class="text-xs font-extrabold uppercase">5. Lớp Học Thêm</div>
+                            <div class="text-[10px] text-slate-500">Lớp riêng & HS</div>
+                        </div>
+                    </button>
                 </div>
             </div>
 
@@ -641,6 +650,30 @@
                 </div>
             </div>
 
+            <!-- ======================================================== -->
+            <!-- CHỨC NĂNG 5: LỚP HỌC THÊM (riêng tư) -->
+            <!-- ======================================================== -->
+            <div id="module-private-view" class="hidden space-y-4 flex-1 flex flex-col">
+                <div class="border-b pb-3">
+                    <h3 class="font-extrabold text-slate-800 text-base flex items-center">
+                        <i class="fa-solid fa-user-lock text-violet-600 mr-2"></i> Lớp Học Thêm Của Tôi
+                    </h3>
+                    <p class="text-xs text-slate-500 mt-0.5">Tạo lớp riêng — chỉ bạn và quản trị viên thấy. Đẩy bài riêng cho từng lớp.</p>
+                </div>
+                <div class="bg-violet-50 border border-violet-200 rounded-xl p-3 flex flex-wrap gap-2 items-end">
+                    <div class="flex-1 min-w-[200px]">
+                        <label class="text-[11px] font-bold text-violet-900">Tên lớp mới</label>
+                        <input id="pv-class-name" placeholder="VD: Toán 10 - Tối T3" class="w-full text-sm border border-violet-300 rounded-lg px-3 py-2 mt-1">
+                    </div>
+                    <button onclick="createPrivateClass()" class="bg-violet-600 hover:bg-violet-700 text-white text-sm font-bold px-4 py-2 rounded-lg">
+                        <i class="fa-solid fa-plus mr-1"></i> Tạo lớp
+                    </button>
+                </div>
+                <div id="pv-class-list" class="space-y-3">
+                    <p class="text-xs text-slate-400 italic">Đang tải...</p>
+                </div>
+            </div>
+
         <!-- MODAL DUYET DE THEO TUNG BO (2026-10-08) -->
         <div id="exam-review-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
             <div class="absolute inset-0 bg-black/50" onclick="closeExamReviewer()"></div>
@@ -1117,5 +1150,6 @@
     <script src="hub-assign.js?v=20261008_2"></script>
     <script src="hub-users.js?v=20261008_2"></script>
     <script src="hub-word.js?v=20261008_3"></script>
+    <script src="hub-private.js?v=20261009_1"></script>
 </body>
 </html>
