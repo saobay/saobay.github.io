@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cắt ghép chứng minh diện tích hình thang — Tương tác | SAOBAY</title>
+<style>
+  :root{
+    --bg:#0f1b2d; --panel:#16283f; --cyan:#22d3ee; --amber:#f59e0b;
+    --yellow:#fde047; --green:#34d399; --text:#f1f5f9; --muted:#94a3b8;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{background:var(--bg); color:var(--text);
+       font-family:"Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif;
+       min-height:100vh; padding:16px;}
+  .wrap{max-width:860px; margin:0 auto;}
+  header{text-align:center; padding:10px 4px 14px;}
+  header h1{font-size:clamp(20px,4.5vw,30px); color:var(--yellow); margin-bottom:6px;}
+  header p{color:var(--muted); font-size:clamp(13px,3vw,16px);}
+  .brand{color:var(--cyan); font-weight:700; letter-spacing:2px; font-size:13px;}
+  canvas#cv{width:100%; height:auto; display:block; background:#0b1526;
+            border:1px solid #1e3a5f; border-radius:12px; touch-action:manipulation;}
+  .panel{background:var(--panel); border:1px solid #1e3a5f; border-radius:12px;
+         padding:14px 16px; margin-top:14px;}
+  .sliders{display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;}
+  @media (max-width:640px){ .sliders{grid-template-columns:1fr;} }
+  .ctl label{display:flex; justify-content:space-between; align-items:center;
+             font-size:15px; margin-bottom:6px; color:var(--text);}
+  .ctl label b{color:var(--cyan);}
+  .val{background:#0b1526; border:1px solid #1e3a5f; border-radius:8px;
+       padding:2px 10px; font-weight:700; color:var(--yellow); min-width:52px; text-align:center;}
+  input[type=range]{width:100%; accent-color:var(--cyan); height:28px; cursor:pointer;}
+  .btns{display:flex; gap:10px; margin-top:14px; flex-wrap:wrap;}
+  button{flex:1 1 180px; font-size:17px; font-weight:700; padding:12px 10px;
+         border:none; border-radius:10px; cursor:pointer; color:#0b1526;}
+  #btnCut{background:var(--amber);}
+  #btnCut:disabled{opacity:.45; cursor:default;}
+  #btnReset{background:#334155; color:var(--text); flex:0 1 140px;}
+  button:active{transform:scale(.98);}
+  .formula{text-align:center; font-size:clamp(17px,4vw,24px); line-height:1.9;}
+  .formula .big{color:var(--yellow); font-weight:800;}
+  .formula .res{color:var(--green); font-weight:800; font-size:1.25em;}
+  .note{color:var(--muted); font-size:14px; text-align:center; margin-top:10px; line-height:1.6;}
+  footer{text-align:center; color:var(--muted); font-size:13px; margin:18px 0 8px;}
+  footer b{color:var(--cyan); letter-spacing:2px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">SAOBAY • THPT SÀO BÁY</div>
+    <h1>Cắt ghép chứng minh S hình thang = (a+b)·h/2</h1>
+    <p>Toán 8 — Kéo thanh trượt để đổi kích thước, bấm <b>“Cắt &amp; ghép”</b> để xem mảnh tam giác bay sang đầu kia.</p>
+  </header>
+
+  <canvas id="cv" width="900" height="560"></canvas>
+
+  <div class="panel">
+    <div class="sliders">
+      <div class="ctl">
+        <label><span>Đáy lớn <b>a</b></span><span class="val" id="vA">8</span></label>
+        <input type="range" id="sA" min="4" max="14" step="0.5" value="8">
+      </div>
+      <div class="ctl">
+        <label><span>Đáy nhỏ <b>b</b></span><span class="val" id="vB">4</span></label>
+        <input type="range" id="sB" min="2" max="10" step="0.5" value="4">
+      </div>
+      <div class="ctl">
+        <label><span>Chiều cao <b>h</b></span><span class="val" id="vH">4</span></label>
+        <input type="range" id="sH" min="2" max="8" step="0.5" value="4">
+      </div>
+    </div>
+    <div class="btns">
+      <button id="btnCut">✂ Cắt &amp; ghép</button>
+      <button id="btnReset">↺ Đặt lại</button>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="formula" id="formula"></div>
+    <div class="note" id="shapeNote">Hình thang ban đầu — diện tích S = <span id="s0"></span></div>
+  </div>
+
+  <div class="note">Mẹo: sau khi bấm <b>“Cắt &amp; ghép”</b>, hãy kéo thanh trượt để thấy công thức đúng với mọi kích thước.<br>
+  Diện tích không đổi khi cắt ghép — đó là chìa khóa của chứng minh.</div>
+
+  <footer><b>SAOBAY</b> — Website học tập THPT Sào Báy</footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var cv = document.getElementById('cv');
+  var ctx = cv.getContext('2d');
+  var W = cv.width, H = cv.height;
+
+  var CYAN='#22d3ee', AMBER='#f59e0b', YELLOW='#fde047', GREEN='#34d399',
+      WHITE='#f1f5f9', GRID='rgba(255,255,255,0.06)';
+
+  var sA=document.getElementById('sA'), sB=document.getElementById('sB'), sH=document.getElementById('sH');
+  var vA=document.getElementById('vA'), vB=document.getElementById('vB'), vH=document.getElementById('vH');
+  var btnCut=document.getElementById('btnCut'), btnReset=document.getElementById('btnReset');
+  var formulaEl=document.getElementById('formula'), shapeNote=document.getElementById('shapeNote');
+
+  var a=8, b=4, h=4;
+  var anim = null; // {phase:'sep'|'fly'|'done', t0, dur}
+
+  function read(){
+    a=parseFloat(sA.value); b=parseFloat(sB.value); h=parseFloat(sH.value);
+    if(b>=a){ b=a-0.5; sB.value=b; }
+    vA.textContent=fmt(a); vB.textContent=fmt(b); vH.textContent=fmt(h);
+    updateFormula();
+  }
+  function fmt(x){ return (Math.round(x*10)/10).toString().replace('.', ','); }
+
+  function updateFormula(){
+    var s=(a+b)*h/2;
+    formulaEl.innerHTML =
+      'S = (a + b) · h / 2 = ('+fmt(a)+' + '+fmt(b)+') · '+fmt(h)+' / 2 = <span class="res">'+fmt(s)+'</span>';
+    document.getElementById('s0').textContent = fmt(s);
+    if(anim && anim.phase==='done'){
+      shapeNote.innerHTML = 'Hình chữ nhật sau ghép: đáy (a+b)/2 = <b style="color:'+YELLOW+'">'+
+        fmt((a+b)/2)+'</b>, cao h = '+fmt(h)+' — diện tích vẫn = <b style="color:'+GREEN+'">'+fmt(s)+'</b> ✓';
+    } else {
+      shapeNote.innerHTML = 'Hình thang ban đầu — diện tích S = '+fmt(s);
+    }
+  }
+
+  // --- geometry in math coords -> canvas px ---
+  function mapper(){
+    var padX=70, padTop=60, padBot=90;
+    var sc=Math.min((W-2*padX)/ (a+1.5), (H-padTop-padBot)/ (h+1.0));
+    var ox=(W - a*sc)/2, oy=H-padBot;
+    return {
+      X:function(x){return ox+x*sc;},
+      Y:function(y){return oy-y*sc;},
+      sc:sc
+    };
+  }
+  function trap(){ var L=(a-b)/2; return {L:L, A:[0,0],B:[a,0],C:[a-L,h],D:[L,h]}; }
+  function triStart(){ var L=(a-b)/2; return [[0,0],[L,0],[L,h]]; }
+  function triTarget(){ var L=(a-b)/2; return [[a-L,h],[a,h],[a,0]]; }
+
+  function drawPoly(pts, fill, stroke, lw, alpha){
+    var m=mapper();
+    ctx.save();
+    ctx.globalAlpha=(alpha==null?1:alpha);
+    ctx.beginPath();
+    pts.forEach(function(p,i){ var x=m.X(p[0]), y=m.Y(p[1]); i?ctx.lineTo(x,y):ctx.moveTo(x,y); });
+    ctx.closePath();
+    if(fill){ctx.fillStyle=fill; ctx.fill();}
+    if(stroke){ctx.strokeStyle=stroke; ctx.lineWidth=lw||2.5; ctx.stroke();}
+    ctx.restore();
+  }
+  function text(str,x,y,size,color,align,weight){
+    var m=mapper();
+    ctx.save();
+    ctx.font=(weight||'')+' '+size+'px "Segoe UI",system-ui,sans-serif';
+    ctx.fillStyle=color||WHITE; ctx.textAlign=align||'center'; ctx.textBaseline='middle';
+    ctx.fillText(str,m.X(x),m.Y(y));
+    ctx.restore();
+  }
+  function grid(){
+    var m=mapper();
+    ctx.save(); ctx.strokeStyle=GRID; ctx.lineWidth=1;
+    for(var gx=Math.floor(-2); gx<=a+2; gx++){ctx.beginPath();ctx.moveTo(m.X(gx),0);ctx.lineTo(m.X(gx),H);ctx.stroke();}
+    for(var gy=0; gy<=h+1; gy++){ctx.beginPath();ctx.moveTo(0,m.Y(gy));ctx.lineTo(W,m.Y(gy));ctx.stroke();}
+    ctx.restore();
+  }
+  function dashedLine(p,q,color){
+    var m=mapper();
+    ctx.save(); ctx.strokeStyle=color; ctx.lineWidth=2.5; ctx.setLineDash([9,7]);
+    ctx.beginPath(); ctx.moveTo(m.X(p[0]),m.Y(p[1])); ctx.lineTo(m.X(q[0]),m.Y(q[1])); ctx.stroke();
+    ctx.restore();
+  }
+
+  function drawStatic(showTri){
+    grid();
+    var t=trap();
+    drawPoly([t.A,t.B,t.C,t.D], 'rgba(34,211,238,0.85)', WHITE, 3);
+    // labels
+    text('A',t.A[0]-0.35,-0.45,20,WHITE,'center','bold');
+    text('B',t.B[0]+0.35,-0.45,20,WHITE,'center','bold');
+    text('C',t.C[0]+0.35,t.C[1]+0.45,20,WHITE,'center','bold');
+    text('D',t.D[0]-0.35,t.D[1]+0.45,20,WHITE,'center','bold');
+    text('a = '+fmt(a), a/2, -1.05, 21, WHITE,'center','bold');
+    text('b = '+fmt(b), a/2, h+0.95, 21, WHITE,'center','bold');
+    dashedLine([t.L,0],[t.L,h], YELLOW);
+    text('h = '+fmt(h), t.L+0.62, h/2, 21, YELLOW,'center','bold');
+    if(showTri){
+      drawPoly(triStart(), 'rgba(245,158,11,0.95)', WHITE, 3);
+    }
+  }
+
+  function ease(p){ p=Math.max(0,Math.min(1,p)); return 0.5*(1-Math.cos(Math.PI*p)); }
+
+  function frame(now){
+    ctx.clearRect(0,0,W,H);
+    if(!anim){ drawStatic(false); return; }
+    var t=(now-anim.t0)/1000;
+    var T0=triStart(), T1=triTarget();
+    function cent(P){return [(P[0][0]+P[1][0]+P[2][0])/3,(P[0][1]+P[1][1]+P[2][1])/3];}
+    var c0=cent(T0), c1=cent(T1);
+
+    if(anim.phase==='sep'){
+      var s=ease(t/0.7);
+      drawStatic(false);
+      var sh=[[-0.7*s, 0.35*s]];
+      drawPoly(T0.map(function(p){return [p[0]+sh[0][0], p[1]+sh[0][1]];}), 'rgba(245,158,11,0.95)', WHITE, 3);
+      text('cắt rời mảnh tam giác…', a/2, h+1.9, 22, AMBER, 'center', 'bold');
+      if(t>=0.75){ anim.phase='fly'; anim.t0=now; }
+    } else if(anim.phase==='fly'){
+      var s2=ease(t/2.2);
+      grid();
+      var tt=trap();
+      drawPoly([[tt.L,0],tt.B,tt.C,tt.D], 'rgba(34,211,238,0.85)', WHITE, 3);
+      // dashed target
+      var m=mapper(); ctx.save(); ctx.strokeStyle=YELLOW; ctx.lineWidth=2; ctx.setLineDash([8,6]);
+      ctx.globalAlpha=0.6; ctx.beginPath();
+      T1.forEach(function(p,i){var x=m.X(p[0]),y=m.Y(p[1]); i?ctx.lineTo(x,y):ctx.moveTo(x,y);});
+      ctx.closePath(); ctx.stroke(); ctx.restore();
+      var cx=(1-s2)*c0[0]+s2*c1[0], cy=(1-s2)*c0[1]+s2*c1[1]+1.4*Math.sin(Math.PI*s2);
+      var fl=Math.cos(Math.PI*s2);
+      var V=T0.map(function(p){return [cx+(p[0]-c0[0]), cy+fl*(p[1]-c0[1])];});
+      drawPoly(V, 'rgba(245,158,11,0.95)', WHITE, 3);
+      text('mảnh tam giác bay sang đầu kia…', a/2, h+1.9, 22, AMBER, 'center', 'bold');
+      if(t>=2.3){ anim.phase='done'; anim.t0=now; updateFormula(); }
+    } else { // done
+      grid();
+      var t2=trap();
+      drawPoly([[t2.L,0],t2.B,t2.C,t2.D], 'rgba(34,211,238,0.85)', WHITE, 3);
+      drawPoly(triTarget(), 'rgba(245,158,11,0.95)', WHITE, 3);
+      var m2=mapper();
+      ctx.save(); ctx.strokeStyle=WHITE; ctx.lineWidth=3.5;
+      ctx.strokeRect(m2.X(t2.L), m2.Y(h), m2.X(a)-m2.X(t2.L), m2.Y(0)-m2.Y(h));
+      ctx.restore();
+      text('đáy = (a+b)/2 = '+fmt((a+b)/2), (t2.L+a)/2, -1.05, 21, WHITE,'center','bold');
+      text('cao = h = '+fmt(h), a+0.85, h/2, 21, WHITE,'center','bold');
+      text('ráp khít! diện tích không đổi ✓', a/2, h+1.9, 22, GREEN, 'center', 'bold');
+    }
+    if(anim && anim.phase!=='done') requestAnimationFrame(frame);
+  }
+
+  btnCut.addEventListener('click', function(){
+    if(anim && anim.phase!=='done') return;
+    anim={phase:'sep', t0:performance.now()};
+    btnCut.disabled=true;
+    updateFormula();
+    requestAnimationFrame(frame);
+  });
+  btnReset.addEventListener('click', function(){
+    anim=null; btnCut.disabled=false;
+    updateFormula();
+    ctx.clearRect(0,0,W,H); drawStatic(false);
+  });
+  [sA,sB,sH].forEach(function(s){
+    s.addEventListener('input', function(){
+      read();
+      if(!(anim && anim.phase!=='done')){
+        ctx.clearRect(0,0,W,H);
+        if(anim && anim.phase==='done'){ frame(performance.now()); }
+        else drawStatic(false);
+      }
+    });
+  });
+
+  read();
+  drawStatic(false);
+})();
+</script>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
