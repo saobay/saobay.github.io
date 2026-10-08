@@ -218,7 +218,9 @@
                 let inner = '<div class="saobay-bank-view"></div>\n'
                     + '<script type="application/json" class="saobay-bank-config">\n' + JSON.stringify(cfg) + '\n<\/script>';
                 let page = bankWrapPage(safeTitle, 'Bài tập', inner);
-                let folder = (typeof currentSelectedFolderId !== 'undefined' && currentSelectedFolderId) ? currentSelectedFolderId : 'data';
+                let folder = (typeof currentSelectedFolderId !== 'undefined' && currentSelectedFolderId) ? currentSelectedFolderId : '';
+                if (!folder) { alert('Vui lòng chọn thư mục trong cùng ở cây thư mục bên trái trước khi lưu đề!'); return; }
+                if ((typeof folderHasChildren === 'function') && folderHasChildren(folder)) { alert('Vui lòng chọn thư mục trong cùng (không có thư mục con)!'); return; }
                 let asciiBase = (typeof removeVietnameseTones === 'function' ? removeVietnameseTones(title) : title)
                     .replace(/[\\/:*?"<>|]/g, '_').replace(/\s+/g, '_').slice(0, 40);
                 let path = folder + '/' + m.subject + '_' + m.grade + '_' + asciiBase + '_Bai_tap_none.html';
@@ -270,7 +272,9 @@
                     + '<script type="application/json" class="saobay-exam10-data">\n' + JSON.stringify(examJson) + '\n<\/script>\n</div>\n'
                     + '<p class="text-xs text-slate-500 mt-2">Đề chung cả lớp: cùng bộ câu hỏi, thứ tự câu trộn trong từng dạng.</p>';
                 let page = bankWrapPage(safeTitle, 'Bài kiểm tra', inner);
-                let folder = (typeof currentSelectedFolderId !== 'undefined' && currentSelectedFolderId) ? currentSelectedFolderId : 'data';
+                let folder = (typeof currentSelectedFolderId !== 'undefined' && currentSelectedFolderId) ? currentSelectedFolderId : '';
+                if (!folder) { alert('Vui lòng chọn thư mục trong cùng ở cây thư mục bên trái trước khi lưu đề!'); return; }
+                if ((typeof folderHasChildren === 'function') && folderHasChildren(folder)) { alert('Vui lòng chọn thư mục trong cùng (không có thư mục con)!'); return; }
                 let asciiBase = (typeof removeVietnameseTones === 'function' ? removeVietnameseTones(title) : title)
                     .replace(/[\\/:*?"<>|]/g, '_').replace(/\s+/g, '_').slice(0, 40);
                 let path = folder + '/' + m.subject + '_' + m.grade + '_' + asciiBase + '_Kiem_tra_none.html';
@@ -378,7 +382,9 @@
                     + '<p class="text-xs text-slate-500 mt-2"><i class="fa-solid fa-lock mr-1"></i>Đề kiểm tra nghiêm túc: trong giờ làm bài không hiện đáp án; hết giờ/nộp bài mới chấm điểm.</p>';
                 let safeTitle = (m.subject + ' ' + m.grade + ' - ' + m.title).replace(/[<>&"]/g, '');
                 let page = bankWrapPage(safeTitle, 'Bài kiểm tra', inner);
-                let folder = (typeof currentSelectedFolderId !== 'undefined' && currentSelectedFolderId) ? currentSelectedFolderId : 'data';
+                let folder = (typeof currentSelectedFolderId !== 'undefined' && currentSelectedFolderId) ? currentSelectedFolderId : '';
+                if (!folder) { alert('Vui lòng chọn thư mục trong cùng ở cây thư mục bên trái trước khi lưu đề!'); return; }
+                if ((typeof folderHasChildren === 'function') && folderHasChildren(folder)) { alert('Vui lòng chọn thư mục trong cùng (không có thư mục con)!'); return; }
                 let asciiBase = (typeof removeVietnameseTones === 'function' ? removeVietnameseTones(m.title) : m.title)
                     .replace(/[\\/:*?"<>|]/g, '_').replace(/\s+/g, '_').slice(0, 40);
                 let path = folder + '/' + m.subject + '_' + m.grade + '_KIEM_TRA_' + asciiBase + '_Kiem_tra_none.html';
