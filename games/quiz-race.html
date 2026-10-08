@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>🏁 Đua Kiến Thức | SAOBAY</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  * { -webkit-tap-highlight-color: transparent; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; }
+  @keyframes shake { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-8px)} 40%,80%{transform:translateX(8px)} }
+  .shake { animation: shake .45s; }
+  @keyframes zoomPop { 0%{transform:scale(.5);opacity:0} 100%{transform:scale(1);opacity:1} }
+  .zoom-pop { animation: zoomPop .35s ease-out; }
+  @keyframes glowWin { 0%,100%{box-shadow:0 0 10px rgba(34,197,94,.6)} 50%{box-shadow:0 0 30px rgba(34,197,94,1)} }
+  .glow-win { animation: glowWin 1s ease-in-out infinite; }
+  @keyframes timerPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.12)} }
+  .timer-danger { animation: timerPulse .5s ease-in-out infinite; color:#dc2626 !important; }
+  .confetti { position:fixed; top:-20px; z-index:50; pointer-events:none; animation: fall linear forwards; }
+  @keyframes fall { to { transform: translateY(110vh) rotate(720deg); } }
+  .ans-btn { transition: all .15s; }
+  .ans-btn:active { transform: scale(.96); }
+  .team-a-bg { background: linear-gradient(135deg,#3b82f6,#1d4ed8); }
+  .team-b-bg { background: linear-gradient(135deg,#ef4444,#b91c1c); }
+</style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 text-slate-800">
+
+<div class="max-w-3xl mx-auto px-3 py-4 pb-10">
+
+  <div class="text-center mb-4">
+    <h1 class="text-3xl md:text-4xl font-black text-white drop-shadow-lg">🏁 ĐUA KIẾN THỨC</h1>
+    <p class="text-white/90 text-sm mt-1 font-medium">2 đội thi đua — trả lời nhanh, ghi điểm!</p>
+  </div>
+
+  <!-- ===== SETUP ===== -->
+  <div id="panel-setup" class="bg-white rounded-2xl shadow-2xl p-4">
+    <h2 class="font-black text-lg mb-3 text-indigo-700"><i class="fa-solid fa-gear mr-2"></i>Thiết lập trận đấu</h2>
+
+    <div class="grid grid-cols-2 gap-3 mb-3">
+      <div>
+        <label class="text-xs font-bold text-blue-700">Tên đội A</label>
+        <input id="team-a-name" value="Đội Xanh" class="w-full border-2 border-blue-300 rounded-xl px-3 py-2 text-sm font-bold mt-1">
+      </div>
+      <div>
+        <label class="text-xs font-bold text-red-700">Tên đội B</label>
+        <input id="team-b-name" value="Đội Đỏ" class="w-full border-2 border-red-300 rounded-xl px-3 py-2 text-sm font-bold mt-1">
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="text-xs font-bold text-slate-600">⏱️ Thời gian mỗi câu (giây)</label>
+      <input id="time-per-q" type="number" value="20" min="5" max="120" class="w-24 border-2 border-slate-300 rounded-xl px-3 py-2 text-sm font-bold mt-1 text-center">
+    </div>
+
+    <h3 class="font-bold text-sm mb-1 text-slate-700"><i class="fa-solid fa-circle-question mr-1"></i>Câu hỏi <span class="text-xs font-normal text-slate-400">(đã có sẵn 8 câu mẫu — có thể thêm)</span></h3>
+    <div id="q-list" class="space-y-1.5 max-h-48 overflow-y-auto mb-3 bg-slate-50 rounded-xl p-2"></div>
+
+    <details class="bg-indigo-50 rounded-xl p-3 mb-3">
+      <summary class="font-bold text-sm text-indigo-700 cursor-pointer"><i class="fa-solid fa-plus mr-1"></i>Thêm câu hỏi mới</summary>
+      <div class="mt-2 space-y-2">
+        <input id="new-q" placeholder="Câu hỏi..." class="w-full border rounded-lg px-3 py-2 text-sm">
+        <div class="grid grid-cols-2 gap-2">
+          <input id="new-a" placeholder="Đáp án A" class="border rounded-lg px-3 py-2 text-sm">
+          <input id="new-b" placeholder="Đáp án B" class="border rounded-lg px-3 py-2 text-sm">
+          <input id="new-c" placeholder="Đáp án C" class="border rounded-lg px-3 py-2 text-sm">
+          <input id="new-d" placeholder="Đáp án D" class="border rounded-lg px-3 py-2 text-sm">
+        </div>
+        <div class="flex gap-2 items-center">
+          <label class="text-xs font-bold">Đáp án đúng:</label>
+          <select id="new-correct" class="border rounded-lg px-2 py-1.5 text-sm font-bold">
+            <option value="0">A</option><option value="1">B</option><option value="2">C</option><option value="3">D</option>
+          </select>
+          <button id="btn-add-q" class="ml-auto bg-indigo-600 text-white text-sm font-bold px-4 py-2 rounded-lg active:scale-95">Thêm</button>
+        </div>
+      </div>
+    </details>
+
+    <button id="btn-start" class="w-full bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-black text-lg py-3.5 rounded-xl shadow-xl active:scale-95 transition">
+      <i class="fa-solid fa-flag-checkered mr-2"></i>BẮT ĐẦU ĐUA!
+    </button>
+  </div>
+
+  <!-- ===== GAME ===== -->
+  <div id="panel-game" class="hidden">
+    <!-- Scoreboard -->
+    <div class="grid grid-cols-2 gap-3 mb-3">
+      <div id="score-a-box" class="team-a-bg rounded-2xl p-3 text-white shadow-xl text-center">
+        <p id="score-a-name" class="font-black text-sm">Đội Xanh</p>
+        <p class="text-4xl font-black" id="score-a">0</p>
+        <p class="text-xs opacity-80">điểm</p>
+      </div>
+      <div id="score-b-box" class="team-b-bg rounded-2xl p-3 text-white shadow-xl text-center">
+        <p id="score-b-name" class="font-black text-sm">Đội Đỏ</p>
+        <p class="text-4xl font-black" id="score-b">0</p>
+        <p class="text-xs opacity-80">điểm</p>
+      </div>
+    </div>
+
+    <!-- Turn + timer -->
+    <div class="bg-white rounded-2xl shadow-xl p-3 mb-3 flex items-center justify-between">
+      <div>
+        <p class="text-xs text-slate-400 font-bold">Câu <span id="q-num">1</span>/<span id="q-total">0</span></p>
+        <p class="font-black text-sm">Lượt: <span id="turn-name" class="text-indigo-600">—</span></p>
+      </div>
+      <div id="timer-box" class="text-center">
+        <p id="timer" class="text-4xl font-black text-indigo-600">20</p>
+        <p class="text-[10px] text-slate-400 font-bold">giây</p>
+      </div>
+    </div>
+
+    <!-- Question -->
+    <div class="bg-white rounded-2xl shadow-2xl p-4">
+      <p id="question-text" class="font-black text-lg mb-4 leading-snug"></p>
+      <div id="answers" class="grid grid-cols-1 gap-2.5"></div>
+      <div id="feedback" class="hidden mt-3 text-center font-black text-lg"></div>
+      <button id="btn-next" class="hidden w-full mt-3 bg-indigo-600 text-white font-bold py-3 rounded-xl active:scale-95">
+        Câu tiếp theo <i class="fa-solid fa-arrow-right ml-1"></i>
+      </button>
+    </div>
+
+    <button id="btn-quit" class="w-full mt-3 text-white/80 text-xs font-bold py-2 underline">Kết thúc trận đấu</button>
+  </div>
+
+  <!-- ===== RESULT ===== -->
+  <div id="panel-result" class="hidden">
+    <div class="bg-white rounded-2xl shadow-2xl p-6 text-center">
+      <h2 class="text-3xl font-black mb-1">🏆 KẾT QUẢ</h2>
+      <p id="result-winner" class="text-xl font-black text-amber-600 mb-4"></p>
+      <div class="grid grid-cols-2 gap-3 mb-5">
+        <div class="team-a-bg rounded-xl p-4 text-white">
+          <p id="res-a-name" class="font-bold text-sm"></p>
+          <p id="res-a-score" class="text-4xl font-black"></p>
+        </div>
+        <div class="team-b-bg rounded-xl p-4 text-white">
+          <p id="res-b-name" class="font-bold text-sm"></p>
+          <p id="res-b-score" class="text-4xl font-black"></p>
+        </div>
+      </div>
+      <button id="btn-again" class="bg-indigo-600 text-white font-bold px-8 py-3 rounded-xl active:scale-95 mr-2">
+        <i class="fa-solid fa-rotate-left mr-1"></i>Chơi lại
+      </button>
+      <button id="btn-edit" class="bg-slate-200 font-bold px-8 py-3 rounded-xl active:scale-95">
+        <i class="fa-solid fa-gear mr-1"></i>Thiết lập
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+let questions = [
+  {q:'Thủ đô của Việt Nam là?', a:['TP. Hồ Chí Minh','Hà Nội','Đà Nẵng','Huế'], c:1},
+  {q:'2 + 3 × 4 = ?', a:['20','24','14','18'], c:2},
+  {q:'Từ nào là danh từ?', a:['Chạy','Đẹp','Bàn','Nhanh'], c:2},
+  {q:'"Hello" trong tiếng Việt nghĩa là?', a:['Tạm biệt','Xin chào','Cảm ơn','Xin lỗi'], c:1},
+  {q:'Hành tinh gần Mặt Trời nhất?', a:['Sao Kim','Trái Đất','Sao Thủy','Sao Hỏa'], c:2},
+  {q:'Số nào là số nguyên tố?', a:['4','6','7','9'], c:2},
+  {q:'Sông dài nhất Việt Nam?', a:['Sông Hồng','Sông Mekong','Sông Đồng Nai','Sông Đà'], c:1},
+  {q:'1 giờ có bao nhiêu phút?', a:['100','90','60','120'], c:2},
+];
+let teamA='Đội Xanh', teamB='Đội Đỏ', scoreA=0, scoreB=0, qIdx=0, turn='A';
+let timePerQ=20, timeLeft=0, timerId=null, answered=false;
+
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function shuffle(arr){ for(let i=arr.length-1;i>0;i--){ let j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; } return arr; }
+
+// ===== SETUP UI =====
+function renderQList(){
+  document.getElementById('q-list').innerHTML = questions.map(function(x,i){
+    return '<div class="flex items-center gap-2 bg-white border rounded-lg px-2.5 py-1.5 text-xs">'
+      + '<span class="font-black text-indigo-600">'+(i+1)+'.</span>'
+      + '<span class="flex-1 truncate">'+esc(x.q)+'</span>'
+      + '<button onclick="delQ('+i+')" class="text-red-500 font-bold px-1"><i class="fa-solid fa-trash"></i></button></div>';
+  }).join('');
+}
+window.delQ = function(i){ questions.splice(i,1); renderQList(); };
+document.getElementById('btn-add-q').addEventListener('click', function(){
+  let q=document.getElementById('new-q').value.trim();
+  let a=document.getElementById('new-a').value.trim(), b=document.getElementById('new-b').value.trim();
+  let c=document.getElementById('new-c').value.trim(), d=document.getElementById('new-d').value.trim();
+  if(!q||!a||!b||!c||!d){ alert('Điền đủ câu hỏi + 4 đáp án nhé!'); return; }
+  questions.push({q:q, a:[a,b,c,d], c:parseInt(document.getElementById('new-correct').value,10)});
+  ['new-q','new-a','new-b','new-c','new-d'].forEach(function(id){ document.getElementById(id).value=''; });
+  renderQList();
+});
+
+// ===== START =====
+document.getElementById('btn-start').addEventListener('click', function(){
+  if (questions.length < 2){ alert('Cần ít nhất 2 câu hỏi!'); return; }
+  teamA = document.getElementById('team-a-name').value.trim() || 'Đội Xanh';
+  teamB = document.getElementById('team-b-name').value.trim() || 'Đội Đỏ';
+  timePerQ = Math.max(5, parseInt(document.getElementById('time-per-q').value,10) || 20);
+  scoreA=0; scoreB=0; qIdx=0; turn='A';
+  questions = shuffle(questions.slice());
+  document.getElementById('panel-setup').classList.add('hidden');
+  document.getElementById('panel-result').classList.add('hidden');
+  document.getElementById('panel-game').classList.remove('hidden');
+  document.getElementById('score-a-name').textContent = teamA;
+  document.getElementById('score-b-name').textContent = teamB;
+  document.getElementById('q-total').textContent = questions.length;
+  updateScores();
+  showQuestion();
+});
+function updateScores(){
+  document.getElementById('score-a').textContent = scoreA;
+  document.getElementById('score-b').textContent = scoreB;
+}
+
+// ===== QUESTION FLOW =====
+function showQuestion(){
+  if (qIdx >= questions.length){ endGame(); return; }
+  answered = false;
+  let q = questions[qIdx];
+  document.getElementById('q-num').textContent = qIdx+1;
+  document.getElementById('turn-name').textContent = (turn==='A'?teamA:teamB);
+  document.getElementById('turn-name').className = turn==='A' ? 'text-blue-600' : 'text-red-600';
+  document.getElementById('question-text').textContent = q.q;
+  document.getElementById('feedback').classList.add('hidden');
+  document.getElementById('btn-next').classList.add('hidden');
+  let box = document.getElementById('answers');
+  let labels = ['A','B','C','D'];
+  let colors = ['bg-blue-500','bg-emerald-500','bg-amber-500','bg-purple-500'];
+  box.innerHTML = q.a.map(function(ans,i){
+    return '<button data-i="'+i+'" class="ans-btn zoom-pop '+colors[i]+' text-white font-bold text-left px-4 py-3.5 rounded-xl shadow-lg text-base">'
+      + '<span class="bg-white/30 rounded-lg px-2 py-0.5 mr-2 text-sm">'+labels[i]+'</span>'+esc(ans)+'</button>';
+  }).join('');
+  box.querySelectorAll('.ans-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){ answer(parseInt(btn.dataset.i,10)); });
+  });
+  startTimer();
+}
+
+function startTimer(){
+  clearInterval(timerId);
+  timeLeft = timePerQ;
+  let tEl = document.getElementById('timer');
+  tEl.textContent = timeLeft;
+  tEl.classList.remove('timer-danger');
+  timerId = setInterval(function(){
+    timeLeft--;
+    tEl.textContent = timeLeft;
+    if (timeLeft <= 5) tEl.classList.add('timer-danger');
+    if (timeLeft <= 0){ clearInterval(timerId); timeOut(); }
+  }, 1000);
+}
+
+function lockAnswers(){ document.querySelectorAll('.ans-btn').forEach(function(b){ b.disabled = true; b.classList.add('opacity-70'); }); }
+
+function answer(i){
+  if (answered) return;
+  answered = true;
+  clearInterval(timerId);
+  lockAnswers();
+  let q = questions[qIdx];
+  let btns = document.querySelectorAll('.ans-btn');
+  let fb = document.getElementById('feedback');
+  fb.classList.remove('hidden');
+  if (i === q.c){
+    // ĐÚNG
+    btns[i].classList.add('glow-win','!bg-emerald-600');
+    fb.innerHTML = '<span class="text-emerald-600">✅ CHÍNH XÁC! +1 điểm</span>';
+    fb.classList.remove('shake'); void fb.offsetWidth;
+    if (turn==='A') scoreA++; else scoreB++;
+    updateScores();
+    launchMiniConfetti();
+  } else {
+    // SAI
+    btns[i].classList.add('shake','!bg-red-600');
+    btns[q.c].classList.add('glow-win','!bg-emerald-600');
+    fb.innerHTML = '<span class="text-red-600">❌ Sai rồi! Đáp án đúng: <b>'+esc(q.a[q.c])+'</b></span>';
+  }
+  turn = (turn==='A') ? 'B' : 'A';
+  document.getElementById('btn-next').classList.remove('hidden');
+}
+
+function timeOut(){
+  if (answered) return;
+  answered = true;
+  lockAnswers();
+  let q = questions[qIdx];
+  let btns = document.querySelectorAll('.ans-btn');
+  btns[q.c].classList.add('glow-win','!bg-emerald-600');
+  let fb = document.getElementById('feedback');
+  fb.classList.remove('hidden');
+  fb.innerHTML = '<span class="text-amber-600">⏰ Hết giờ! Đáp án: <b>'+esc(q.a[q.c])+'</b></span>';
+  turn = (turn==='A') ? 'B' : 'A';
+  document.getElementById('btn-next').classList.remove('hidden');
+}
+
+document.getElementById('btn-next').addEventListener('click', function(){ qIdx++; showQuestion(); });
+document.getElementById('btn-quit').addEventListener('click', function(){
+  if (confirm('Kết thúc trận đấu và xem kết quả?')) endGame();
+});
+
+function endGame(){
+  clearInterval(timerId);
+  document.getElementById('panel-game').classList.add('hidden');
+  document.getElementById('panel-result').classList.remove('hidden');
+  document.getElementById('res-a-name').textContent = teamA;
+  document.getElementById('res-b-name').textContent = teamB;
+  document.getElementById('res-a-score').textContent = scoreA;
+  document.getElementById('res-b-score').textContent = scoreB;
+  let w = document.getElementById('result-winner');
+  if (scoreA > scoreB){ w.textContent = '🎉 '+teamA+' THẮNG!'; launchConfetti(); }
+  else if (scoreB > scoreA){ w.textContent = '🎉 '+teamB+' THẮNG!'; launchConfetti(); }
+  else { w.textContent = '🤝 HÒA! Cả 2 đội đều giỏi!'; }
+  window.scrollTo(0,0);
+}
+document.getElementById('btn-again').addEventListener('click', function(){
+  document.getElementById('panel-result').classList.add('hidden');
+  document.getElementById('btn-start').click();
+});
+document.getElementById('btn-edit').addEventListener('click', function(){
+  document.getElementById('panel-result').classList.add('hidden');
+  document.getElementById('panel-setup').classList.remove('hidden');
+});
+
+function launchMiniConfetti(){
+  let colors = ['#22c55e','#4ade80','#bbf7d0'];
+  for (let i=0;i<25;i++){
+    let c = document.createElement('div');
+    c.className='confetti';
+    c.style.left = (30+Math.random()*40)+'vw';
+    c.style.background = colors[Math.floor(Math.random()*colors.length)];
+    c.style.width='8px'; c.style.height='8px'; c.style.borderRadius='50%';
+    c.style.animationDuration = (1.5+Math.random())+'s';
+    document.body.appendChild(c);
+    setTimeout(function(){ c.remove(); }, 3000);
+  }
+}
+function launchConfetti(){
+  let colors = ['#FF6B6B','#4ECDC4','#FFD93D','#6BCB77','#A78BFA','#F472B6','#60A5FA'];
+  for (let i=0;i<100;i++){
+    let c = document.createElement('div');
+    c.className='confetti';
+    c.style.left = Math.random()*100+'vw';
+    c.style.background = colors[Math.floor(Math.random()*colors.length)];
+    let sz = 6+Math.random()*8;
+    c.style.width=sz+'px'; c.style.height=sz+'px';
+    if (Math.random()>.5) c.style.borderRadius='50%';
+    c.style.animationDuration = (2+Math.random()*2.5)+'s';
+    document.body.appendChild(c);
+    setTimeout(function(){ c.remove(); }, 5500);
+  }
+}
+
+renderQList();
+</script>
+</body>
+</html>
