@@ -85,3 +85,16 @@ YÊU CẦU CHI TIẾT:
   `..._Bai_tap_none.html` lên đúng thư mục.
 - Nếu AI trả về thiếu đề hoặc JSON lỗi, web sẽ báo "Không đọc được dữ liệu 10 bộ đề"
   — chỉ cần yêu cầu AI xuất lại phần thiếu.
+
+## Chế độ Bài tập / Bài kiểm tra (mới 2026-10-08)
+
+- Web tự động sau mỗi lần bấm **Kiểm tra**: **khóa câu đó** (không cho sửa/làm lại),
+  đúng cộng **+1 điểm** vào thanh **Điểm: X/Y** trên thanh công cụ.
+- **Bài tập** (mặc định): không tính giờ — học sinh làm từng câu tùy ý.
+- **Bài kiểm tra tính giờ**: ở tab **Đẩy Đề Thi / Bài Tập**, nhập số phút vào ô
+  **"Bài kiểm tra tính giờ"** trước khi đẩy. Teacher-hub tự chèn
+  `"time_limit": <số phút>` vào JSON. Khi đó web hiện **đồng hồ đếm ngược** +
+  nút **Nộp bài**; hết giờ tự khóa toàn bộ câu chưa làm (tính là sai) và hiện
+  bảng điểm tổng kết.
+- Nếu tự viết JSON thủ công, thêm `"time_limit": 15` ngang hàng với `"sets"`
+  để bật chế độ tính giờ (đơn vị: phút).
