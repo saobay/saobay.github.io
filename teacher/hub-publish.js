@@ -275,6 +275,41 @@ Sau khi tôi duyệt "Đề 1", tôi sẽ yêu cầu "tiếp tục Đề 2"... �
                 }
             } catch(eTime){ console.log('time_limit inject note:', eTime); }
 
+            // EXAM10 — CÀI ĐIỂM (2026-10-08): gắn scoring mặc định + points riêng từng câu vào JSON saobay-exam10-data.
+            try {
+                if (currentPushTab === 'exam' && finalHtml.indexOf('saobay-exam10-data') !== -1){
+                    let gv = function(id){ let el = document.getElementById(id); return el ? parseFloat(el.value) : NaN; };
+                    let defScoring = {};
+                    let vm = gv('score-mcq'); if (!isNaN(vm) && vm >= 0) defScoring.mcq = vm;
+                    let vt = gv('score-tf'); if (!isNaN(vt) && vt >= 0) defScoring.truefalse = vt;
+                    let vs = gv('score-short'); if (!isNaN(vs) && vs >= 0) defScoring.short = vs;
+                    let ve = gv('score-essay'); if (!isNaN(ve) && ve >= 0) defScoring.essay = ve;
+                    // Diem rieng tung cau tu bang perq-score-list
+                    let perQ = {};
+                    document.querySelectorAll('#perq-score-list input[data-pq]').forEach(function(inp){
+                        let v = parseFloat(inp.value);
+                        if (!isNaN(v) && v >= 0) perQ[inp.getAttribute('data-pq')] = v;
+                    });
+                    if (Object.keys(defScoring).length || Object.keys(perQ).length){
+                        finalHtml = finalHtml.replace(/(<script[^>]*class=["']saobay-exam10-data["'][^>]*>\s*)(\{[\s\S]*?\})(\s*<\/script>)/g, function(m, open, jsonStr, close){
+                            try {
+                                let obj = JSON.parse(jsonStr);
+                                if (Object.keys(defScoring).length) obj.scoring = Object.assign({}, obj.scoring || {}, defScoring);
+                                let qi = 0;
+                                (obj.sets || []).forEach(function(st){
+                                    (st.questions || []).forEach(function(qq){
+                                        let k = 'q' + qi;
+                                        if (perQ[k] !== undefined && !qq.points) qq.points = perQ[k];
+                                        qi++;
+                                    });
+                                });
+                                return open + JSON.stringify(obj) + close;
+                            } catch(eJson){ return m; }
+                        });
+                    }
+                }
+            } catch(eScore){ console.log('scoring inject note:', eScore); }
+
             // Lưu trước vào bộ nhớ đệm trình duyệt để index.html đọc được ngay tức thì
             try {
                 localStorage.setItem('lesson_cache_' + targetGitPath, finalHtml);
@@ -524,4 +559,37 @@ Sau khi tôi duyệt "Đề 1", tôi sẽ yêu cầu "tiếp tục Đề 2"... �
                 if (typeof showToast === 'function') showToast('Đã nhận quyền sở hữu đề này', 'success');
                 if (typeof renderManageList === 'function') renderManageList();
             } catch(e){ alert('Lỗi: ' + (e.message || e)); }
+        }
+
+        // Cai diem tung cau (2026-10-08): doc JSON tu khung soan, liet ke de GV nhap diem rieng
+        function togglePerQScore(){
+            let box = document.getElementById('perq-score-box');
+            if (!box) return;
+            box.classList.toggle('hidden');
+            if (box.classList.contains('hidden')) return;
+            let list = document.getElementById('perq-score-list');
+            let ta = document.getElementById('item-content');
+            let html = '';
+            try {
+                let val = ta ? ta.value : '';
+                let m = val.match(/<script[^>]*class=["']saobay-exam10-data["'][^>]*>([\s\S]*?)<\/script>/);
+                if (!m) throw new Error('no data');
+                let obj = JSON.parse(m[1]);
+                let qi = 0;
+                (obj.sets || []).forEach(function(st){
+                    (st.questions || []).forEach(function(qq){
+                        let tname = {mcq:'TN', truefalse:'Đ/S', short:'TLN', essay:'TL'}[qq.type] || qq.type;
+                        let cur = (qq.points !== undefined && qq.points !== null) ? qq.points : '';
+                        html += '<div class="flex items-center gap-2 text-[11px]">'
+                            + '<span class="w-6 font-bold text-slate-500">' + (qi + 1) + '</span>'
+                            + '<span class="px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 font-bold text-[10px]">' + tname + '</span>'
+                            + '<span class="flex-1 truncate text-slate-700">' + String(qq.q || '').replace(/</g,'&lt;').slice(0, 60) + '</span>'
+                            + '<input type="number" step="0.05" min="0" data-pq="q' + qi + '" value="' + cur + '" placeholder="—" class="text-xs border border-sky-300 rounded px-1.5 py-1 w-16 font-semibold">'
+                            + '</div>';
+                        qi++;
+                    });
+                });
+                if (!qi) html = '<p class="text-[11px] text-slate-400">Chưa có câu hỏi nào trong nội dung.</p>';
+            } catch(e){ html = '<p class="text-[11px] text-rose-600">Chưa đọc được đề thi từ khung soạn. Hãy nạp đề (Word/AI) trước.</p>'; }
+            list.innerHTML = html;
         }
