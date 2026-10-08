@@ -24,10 +24,15 @@ YÊU CẦU:
             }
 
             if (type === 'EXAM10') {
-                // PROMPT 10 BỘ ĐỀ TRONG 1 FILE (2026-10-08): AI chỉ sinh DỮ LIỆU JSON,
-                // web saobay.github.io tự render ngẫu nhiên 1 đề + nút "Đổi đề" + chấm từng câu
-                promptText = `Xuất DUY NHẤT mã HTML thô (raw code, không bọc khối code markdown, không thêm chữ giải thích ngoài) cho 1 FILE BÀI TẬP gồm 10 BỘ ĐỀ của Bài: "${lesson}" - Môn: ${subject} - Lớp: ${grade}.
-ĐỊNH DẠNG BẮT BUỘC (viết TIẾNG VIỆT CÓ DẤU đầy đủ trong mọi chuỗi), chỉ xuất đúng khối sau (không thêm <html>, <head>, <body>):
+                // PROMPT 10 BỘ ĐỀ CHUẨN SÀO BÁY (2026-10-08, rà soát theo kiến trúc web thật):
+                // - AI chỉ sinh DỮ LIỆU JSON trong <script class="saobay-exam10-data">, KHÔNG viết HTML card, KHÔNG viết JS
+                //   (web tự render + chấm bài qua mountExam10Viewers trong index.html)
+                // - 4 dạng câu web hiểu: mcq / truefalse / short / essay
+                // - Quy trình NotebookLM: xin 1 ĐỀ/lần (10 đề 1 lúc sẽ treo), rồi "tiếp tục đề 2"...
+                promptText = `Bạn là chuyên gia biên soạn đề thi theo định hướng đánh giá năng lực của Bộ GD&ĐT.
+Nhiệm vụ: soạn ĐỀ 1 (làm từng đề một, KHÔNG làm 10 đề cùng lúc) cho Bài: "${lesson}" - Môn: ${subject} - Lớp: ${grade}.
+
+ĐỊNH DẠNG BẮT BUỘC — chỉ xuất DUY NHẤT khối mã HTML thô dưới đây (không bọc markdown, không chữ giải thích ngoài, không thêm <html>/<head>/<body>):
 
 <div class="saobay-exam10">
 <script type="application/json" class="saobay-exam10-data">
@@ -36,33 +41,38 @@ YÊU CẦU:
     {
       "name": "Đề 1",
       "questions": [
-        {"type":"mcq","q":"Nội dung câu hỏi 1?","options":["A. Phương án A","B. Phương án B","C. Phương án C","D. Phương án D"],"answer":"B","explain":"Giải thích ngắn gọn vì sao chọn B."},
-        {"type":"truefalse","q":"Xét tính đúng sai của các ý sau:","statements":["Ý a ...","Ý b ...","Ý c ...","Ý d ..."],"answer":["T","F","T","F"],"explain":"Giải thích từng ý."},
-        {"type":"short","q":"Điền đáp án: ...?","answer":"đáp án đúng","explain":"Giải thích."}
+        {"type":"mcq","level":"NB","q":"Nội dung câu hỏi?","options":["A. ...","B. ...","C. ...","D. ..."],"answer":"B","explain":"Giải thích ngắn gọn."},
+        {"type":"truefalse","level":"TH","q":"Xét tính đúng/sai:","statements":["Ý a ...","Ý b ...","Ý c ...","Ý d ..."],"answer":["T","F","T","F"],"explain":"Giải thích từng ý."},
+        {"type":"short","level":"VD","q":"Điền đáp số: ...?","answer":"24","explain":"Giải thích."},
+        {"type":"essay","level":"VDC","q":"Câu tự luận: ... (ghi [TL] ở đầu)","explain":"Hướng dẫn chấm / barem từng ý."}
       ]
-    },
-    {"name":"Đề 2","questions":[ ... ]},
-    {"name":"Đề 3","questions":[ ... ]},
-    {"name":"Đề 4","questions":[ ... ]},
-    {"name":"Đề 5","questions":[ ... ]},
-    {"name":"Đề 6","questions":[ ... ]},
-    {"name":"Đề 7","questions":[ ... ]},
-    {"name":"Đề 8","questions":[ ... ]},
-    {"name":"Đề 9","questions":[ ... ]},
-    {"name":"Đề 10","questions":[ ... ]}
+    }
   ]
 }
 <\/script>
 </div>
 
-YÊU CẦU CHI TIẾT:
-1. Đúng 10 đề, mỗi đề 8-12 câu, bao phủ toàn bộ kiến thức trọng tâm của bài "${lesson}". Các đề KHÁC NHAU rõ rệt: đảo thứ tự câu, đổi số liệu, đổi cách hỏi, không lặp nguyên câu giữa các đề.
-2. Phối hợp 3 dạng câu: mcq (trắc nghiệm 4 đáp án, trường answer là ký tự A/B/C/D), truefalse (4 ý a-d, trường answer là mảng 4 giá trị "T"/"F" tương ứng), short (trả lời ngắn, answer là chuỗi đáp án chuẩn).
-3. Mỗi câu bắt buộc có "explain" giải thích ngắn gọn, dễ hiểu với học sinh.
-4. Công thức Toán viết bằng $...$ hoặc $$...$$, giữ nguyên 100% cú pháp TeX.
-5. TUYỆT ĐỐI không dùng ký tự < > & trong chuỗi JSON (dấu nhỏ hơn viết thành \\u003c). Không để dấu phẩy thừa cuối mảng/object làm vỡ JSON.
-6. Nếu nội dung quá dài cho 1 lần trả lời: chia thành nhiều lần xuất, mỗi lần ghi rõ "BỘ ĐỀ n/10", giữ nguyên cấu trúc; lần cuối gộp đủ 10 bộ.
-7. Chỉ xuất thuần mã HTML theo đúng khung trên, không thêm bất kỳ văn bản nào ngoài khung.`;
+QUY TẮC 4 DẠNG CÂU (web chỉ hiểu 4 dạng này):
+1. mcq — trắc nghiệm 4 đáp án: "options" đủ 4 chuỗi bắt đầu bằng "A. "/"B. "/"C. "/"D. ", "answer" là 1 ký tự A/B/C/D.
+2. truefalse — đúng/sai 4 ý a,b,c,d: "statements" đúng 4 chuỗi, "answer" là mảng 4 giá trị "T"/"F" theo thứ tự a→d. Thang điểm web: đúng 1 ý=0.125, 2 ý=0.25, 3 ý=0.5, 4 ý=1.
+3. short — trả lời ngắn: "answer" là chuỗi đáp số chuẩn (chỉ 1 đáp án, vd "24").
+4. essay — tự luận: KHÔNG có "answer" (giáo viên chấm tay), "explain" ghi barem chấm từng ý.
+
+QUY TẮC 4 MỨC ĐỘ (trường "level" bắt buộc mỗi câu):
+- "NB" Nhận biết: nhắc lại định nghĩa, khái niệm, công thức cơ bản.
+- "TH" Thông hiểu: hiểu bản chất, phân biệt khái niệm, áp dụng trực tiếp 1 công thức.
+- "VD" Vận dụng: tổng hợp 2-3 kiến thức để giải bài toán thông thường.
+- "VDC" Vận dụng cao: bài toán phân hóa, tư duy phức tạp, mô hình thực tiễn mới.
+Mỗi đề 10 câu: 6 mcq + 2 truefalse + 2 short (có thể thay 1 short bằng essay cho đề kiểm tra). Phân bố đều NB/TH/VD/VDC.
+
+QUY TẮC KỸ THUẬT:
+- Viết TIẾNG VIỆT CÓ DẤU đầy đủ trong mọi chuỗi.
+- Công thức Toán giữ nguyên 100% cú pháp TeX trong $...$ hoặc $$...$$.
+- TUYỆT ĐỐI không dùng ký tự < > & trong chuỗi JSON (dấu < viết thành \\u003c). Không để dấu phẩy thừa cuối mảng/object.
+- Mỗi câu bắt buộc có "explain" ngắn gọn, dễ hiểu.
+- KHÔNG viết thẻ HTML câu hỏi, KHÔNG viết JavaScript — chỉ xuất đúng khối JSON trên.
+
+Sau khi tôi duyệt "Đề 1", tôi sẽ yêu cầu "tiếp tục Đề 2"... đến "Đề 10", mỗi đề KHÁC NHAU rõ rệt (đảo thứ tự, đổi số liệu, đổi cách hỏi).`;
             }
 
             if(!document.getElementById('item-title').value.trim()){
