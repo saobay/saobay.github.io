@@ -273,10 +273,11 @@
                                     Nguồn đề khi đẩy:
                                 </label>
                                 <select id="exam-source" onchange="syncExamSource()" class="text-xs border border-slate-300 rounded-lg px-2 py-1.5 bg-white font-semibold text-slate-800">
-                                    <option value="fixed">Đề cố định — giữ nguyên nội dung vừa dán</option>
-                                    <option value="bank">Đề từ thư viện — bốc ngẫu nhiên từ bank</option>
+                                    <option value="fixed">1. Đề cố định — giữ nguyên nội dung vừa dán</option>
+                                    <option value="bank">2. Đề riêng mỗi HS — mỗi em bốc ngẫu nhiên từ bank</option>
+                                    <option value="bankfrozen">3. Đề chung cả lớp — bốc từ bank, khóa chung, trộn thứ tự trong từng dạng</option>
                                 </select>
-                                <span class="text-[10px] text-slate-500">Cố định: giao đúng 10 bộ đề đã dán • Thư viện: nội dung dán vào vẫn lưu bank, file đẩy lên sẽ bốc câu ngẫu nhiên từ bank</span>
+                                <span class="text-[10px] text-slate-500">1: giao đúng 10 bộ đề đã dán • 2: mỗi HS một đề riêng • 3: cả lớp cùng bộ câu, trộn thứ tự câu trong từng dạng (TN với TN, Đ/S với Đ/S...)</span>
                             </div>
                             <div id="bank-source-config" class="hidden flex-wrap items-center gap-x-3 gap-y-2 bg-violet-50/70 p-2 rounded-lg border border-violet-200 text-[11px]">
                                 <label class="font-bold text-violet-900">Chương: <input id="bank-src-chapter" type="number" value="1" class="w-14 text-xs border border-violet-300 rounded px-1 py-0.5 font-semibold"></label>
@@ -291,6 +292,11 @@
                                     <input id="bank-src-th" type="number" value="30" title="Thông hiểu" class="w-11 text-xs border border-violet-300 rounded px-1 py-0.5 font-semibold">
                                     <input id="bank-src-vd" type="number" value="20" title="Vận dụng" class="w-11 text-xs border border-violet-300 rounded px-1 py-0.5 font-semibold">
                                     <input id="bank-src-vdc" type="number" value="10" title="Vận dụng cao" class="w-11 text-xs border border-violet-300 rounded px-1 py-0.5 font-semibold">
+                                </span>
+                                <span id="bankfrozen-counts" class="hidden font-bold text-violet-900">Số câu từng dạng (đề chung cả lớp) — TN:
+                                    <input id="bank-src-n-mcq" type="number" value="12" min="0" class="w-11 text-xs border border-violet-300 rounded px-1 py-0.5 font-semibold">
+                                    Đ/S: <input id="bank-src-n-tf" type="number" value="4" min="0" class="w-11 text-xs border border-violet-300 rounded px-1 py-0.5 font-semibold">
+                                    TLN: <input id="bank-src-n-short" type="number" value="0" min="0" class="w-11 text-xs border border-violet-300 rounded px-1 py-0.5 font-semibold">
                                 </span>
                             </div>
                         </div>
