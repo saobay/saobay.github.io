@@ -1230,6 +1230,13 @@
                         } catch(eSlug){}
                         let savedName = '', savedClass = '';
                         try { savedName = localStorage.getItem('saobay_student_name') || ''; savedClass = localStorage.getItem('saobay_student_class') || ''; } catch(eLS){}
+                        try {
+                            let su = JSON.parse(localStorage.getItem('saobay_user') || 'null');
+                            if (su && su.role === 'student'){
+                                if (su.name) savedName = su.name;
+                                if (su.className) savedClass = su.className;
+                            }
+                        } catch(eSU){}
                         let escA = function(v){ return String(v == null ? '' : v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); };
                         summaryEl.insertAdjacentHTML('beforeend',
                             '<div class="mt-4 pt-4 border-t border-slate-200 text-left">'
