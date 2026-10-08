@@ -25,23 +25,26 @@
                 + '</div>'
                 + '<div class="p-5 overflow-y-auto space-y-4 text-sm">'
                 + '<div id="exb-pane-bank" class="space-y-4">'
-                + '<p class="text-[11px] text-indigo-900 bg-indigo-50 border border-indigo-200 rounded-lg px-3 py-2 leading-relaxed"><i class="fa-solid fa-shuffle mr-1"></i><b>Mỗi học sinh 1 đề:</b> file đẩy lên chỉ chứa cấu hình — mỗi em mở ra web <b>bốc ngẫu nhiên</b> một bộ câu khác nhau từ ngân hàng theo đúng tỉ lệ bên dưới.</p>'
+                + '<div class="flex gap-2">'
+                + '<button id="exb-sub-mot" onclick="exbSwitchSub(\'mot\')" class="flex-1 px-3 py-2.5 rounded-xl text-xs font-bold bg-indigo-700 text-white shadow">Mỗi HS 1 đề cùng ma trận</button>'
+                + '<button id="exb-sub-lop" onclick="exbSwitchSub(\'lop\')" class="flex-1 px-3 py-2.5 rounded-xl text-xs font-bold bg-white text-slate-700 border border-slate-300">Cả lớp chung 1 đề</button>'
+                + '</div>'
+                + '<p id="exb-sub-desc" class="text-[11px] text-indigo-900 bg-indigo-50 border border-indigo-200 rounded-lg px-3 py-2 leading-relaxed"><i class="fa-solid fa-shuffle mr-1"></i><b>Mỗi HS 1 đề cùng ma trận:</b> file chỉ lưu <b>ma trận</b> — mỗi em mở ra web bốc 1 bộ câu <b>khác nhau</b> nhưng cùng ma trận (cùng vùng kiến thức, số câu, tỉ lệ).</p>'
                 + '<div><label class="text-[11px] font-bold text-slate-600">Tên đề</label>'
                 + '<input id="exbb-title" value="Luyện tập chương 1" class="mt-1 w-full text-sm border rounded-lg px-3 py-2 font-bold"></div>'
-                + '<div class="grid grid-cols-3 gap-3">'
-                + '<div><label class="text-[11px] font-bold text-slate-600">Môn</label><input id="exbb-subject" value="TOAN" class="mt-1 w-full text-sm border rounded-lg px-3 py-2 font-bold uppercase"></div>'
-                + '<div><label class="text-[11px] font-bold text-slate-600">Khối</label><input id="exbb-grade" type="number" value="10" class="mt-1 w-full text-sm border rounded-lg px-3 py-2 font-bold"></div>'
-                + '<div><label class="text-[11px] font-bold text-slate-600">Chương</label><input id="exbb-chapter" type="number" value="1" class="mt-1 w-full text-sm border rounded-lg px-3 py-2 font-bold"></div>'
+                + '<div class="grid grid-cols-4 gap-2">'
+                + '<div><label class="text-[11px] font-bold text-slate-600">Môn</label><input id="exbb-subject" value="TOAN" class="mt-1 w-full text-sm border rounded-lg px-2 py-2 font-bold uppercase"></div>'
+                + '<div><label class="text-[11px] font-bold text-slate-600">Khối</label><input id="exbb-grade" type="number" value="10" class="mt-1 w-full text-sm border rounded-lg px-2 py-2 font-bold"></div>'
+                + '<div><label class="text-[11px] font-bold text-slate-600">Từ chương</label><input id="exbb-ch-from" type="number" value="1" class="mt-1 w-full text-sm border rounded-lg px-2 py-2 font-bold"></div>'
+                + '<div><label class="text-[11px] font-bold text-slate-600">Đến chương</label><input id="exbb-ch-to" type="number" value="1" class="mt-1 w-full text-sm border rounded-lg px-2 py-2 font-bold"></div>'
                 + '</div>'
-                + '<div class="grid grid-cols-2 gap-3">'
-                + '<div><label class="text-[11px] font-bold text-slate-600">Số câu mỗi lượt bốc</label><input id="exbb-count" type="number" value="10" min="1" max="50" class="mt-1 w-full text-sm border rounded-lg px-3 py-2 font-bold"></div>'
-                + '<div><label class="text-[11px] font-bold text-slate-600">Thời gian (phút, 0 = không tính giờ)</label><input id="exbb-timelimit" type="number" value="0" min="0" class="mt-1 w-full text-sm border rounded-lg px-3 py-2 font-bold"></div>'
+                + '<button onclick="exbLoadMatrix()" class="w-full bg-slate-700 hover:bg-slate-800 text-white text-xs font-bold px-4 py-2 rounded-xl"><i class="fa-solid fa-table-cells mr-1"></i>Tải ma trận từ ngân hàng</button>'
+                + '<div id="exb-matrix"><p class="text-xs text-slate-400 italic">Bấm "Tải ma trận" để xem số câu từng chương trong bank.</p></div>'
+                + '<div class="grid grid-cols-3 gap-2">'
+                + '<div><label class="text-[11px] font-bold text-blue-900">TN (câu)</label><input id="exbb-n-mcq" type="number" value="8" min="0" class="mt-1 w-full text-sm border rounded-lg px-2 py-2 font-bold"></div>'
+                + '<div><label class="text-[11px] font-bold text-amber-900">Đ/S (câu)</label><input id="exbb-n-tf" type="number" value="2" min="0" class="mt-1 w-full text-sm border rounded-lg px-2 py-2 font-bold"></div>'
+                + '<div><label class="text-[11px] font-bold text-emerald-900">TLN (câu)</label><input id="exbb-n-short" type="number" value="0" min="0" class="mt-1 w-full text-sm border rounded-lg px-2 py-2 font-bold"></div>'
                 + '</div>'
-                + '<div><label class="text-[11px] font-bold text-slate-600">Dạng câu</label><div class="flex gap-4 mt-1 text-xs font-semibold">'
-                + '<label><input type="checkbox" class="exbb-type" value="mcq" checked> Trắc nghiệm</label>'
-                + '<label><input type="checkbox" class="exbb-type" value="truefalse" checked> Đúng/Sai</label>'
-                + '<label><input type="checkbox" class="exbb-type" value="short" checked> Trả lời ngắn</label>'
-                + '</div></div>'
                 + '<div><label class="text-[11px] font-bold text-slate-600">Tỉ lệ mức độ % — NB / TH / VD / VDC</label>'
                 + '<div class="grid grid-cols-4 gap-2 mt-1">'
                 + '<input id="exbb-lv-nb" type="number" value="40" class="text-sm border rounded-lg px-2 py-2 text-center font-bold">'
@@ -49,7 +52,19 @@
                 + '<input id="exbb-lv-vd" type="number" value="20" class="text-sm border rounded-lg px-2 py-2 text-center font-bold">'
                 + '<input id="exbb-lv-vdc" type="number" value="10" class="text-sm border rounded-lg px-2 py-2 text-center font-bold">'
                 + '</div></div>'
-                + '<button onclick="exbBankSave()" class="w-full bg-indigo-700 hover:bg-indigo-800 text-white text-xs font-bold px-4 py-3 rounded-xl"><i class="fa-solid fa-cloud-arrow-up mr-1"></i>Lưu đề (mỗi HS 1 đề)</button>'
+                + '<div><label class="text-[11px] font-bold text-slate-600">Thời gian làm bài (phút, 0 = không tính giờ)</label><input id="exbb-timelimit" type="number" value="0" min="0" class="mt-1 w-full text-sm border rounded-lg px-3 py-2 font-bold"></div>'
+                + '<p class="text-[11px] text-slate-500 bg-slate-50 border rounded-lg px-3 py-2"><i class="fa-solid fa-scale-balanced mr-1"></i><b>Thang điểm Đúng/Sai</b> (áp dụng mọi câu Đ/S): đúng 1/4 ý → <b>0.125</b> • 2/4 → <b>0.25</b> • 3/4 → <b>0.5</b> • 4/4 → <b>1</b> điểm.</p>'
+                + '<div id="exb-act-mot" class="flex gap-2">'
+                + '<button onclick="exbPreviewSample()" class="flex-1 bg-slate-600 hover:bg-slate-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl"><i class="fa-solid fa-eye mr-1"></i>Xem đề mẫu</button>'
+                + '<button onclick="exbBankSave()" class="flex-1 bg-indigo-700 hover:bg-indigo-800 text-white text-xs font-bold px-4 py-2.5 rounded-xl"><i class="fa-solid fa-cloud-arrow-up mr-1"></i>Lưu đề</button>'
+                + '</div>'
+                + '<div id="exb-act-lop" class="hidden flex gap-2">'
+                + '<button onclick="exbPickClassExam()" class="flex-1 bg-slate-600 hover:bg-slate-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl"><i class="fa-solid fa-dice mr-1"></i>Bốc đề & xem trước</button>'
+                + '<button onclick="exbClassSave()" class="flex-1 bg-indigo-700 hover:bg-indigo-800 text-white text-xs font-bold px-4 py-2.5 rounded-xl"><i class="fa-solid fa-cloud-arrow-up mr-1"></i>Lưu đề</button>'
+                + '</div>'
+                + '<div id="exb-bank-preview" class="border-t pt-3"><p class="text-xs text-slate-400 italic">Tải ma trận rồi xem trước đề.</p></div>'
+                + '</div>'
+
                 + '</div>'
                 + '<div id="exb-pane-fixed" class="hidden space-y-4">'
                 + '<div><label class="text-[11px] font-bold text-slate-600">Tên đề kiểm tra</label>'
@@ -133,33 +148,178 @@
             if (mf) mf.className = 'flex-1 px-3 py-2 rounded-lg text-xs font-bold ' + (mode === 'fixed' ? 'bg-amber-600 text-white shadow' : 'bg-white text-slate-700 border border-slate-300');
         }
 
-        function exbBankVal(id){ let el = document.getElementById(id); return el ? el.value.trim() : ''; }
+        let exbSub = 'mot'; // 'mot' = moi HS 1 de | 'lop' = ca lop chung 1 de
+        let exbBankPool = [];
+        let exbClassExam = [];
 
-        // Luu de "Moi HS 1 de": file cau noi boc ngau nhien tu bank moi lan mo
-        async function exbBankSave(){
+        function exbSwitchSub(sub){
+            exbSub = sub;
+            let bm = document.getElementById('exb-sub-mot'), bl = document.getElementById('exb-sub-lop');
+            let am = document.getElementById('exb-act-mot'), al = document.getElementById('exb-act-lop');
+            let desc = document.getElementById('exb-sub-desc');
+            if (bm) bm.className = 'flex-1 px-3 py-2.5 rounded-xl text-xs font-bold ' + (sub === 'mot' ? 'bg-indigo-700 text-white shadow' : 'bg-white text-slate-700 border border-slate-300');
+            if (bl) bl.className = 'flex-1 px-3 py-2.5 rounded-xl text-xs font-bold ' + (sub === 'lop' ? 'bg-indigo-700 text-white shadow' : 'bg-white text-slate-700 border border-slate-300');
+            if (am) am.classList.toggle('hidden', sub !== 'mot');
+            if (al){ al.classList.toggle('hidden', sub !== 'lop'); al.classList.toggle('flex', sub === 'lop'); }
+            if (desc) desc.innerHTML = sub === 'mot'
+                ? '<i class="fa-solid fa-shuffle mr-1"></i><b>Mỗi HS 1 đề cùng ma trận:</b> file chỉ lưu <b>ma trận</b> — mỗi em mở ra web bốc 1 bộ câu <b>khác nhau</b> nhưng cùng ma trận.'
+                : '<i class="fa-solid fa-users mr-1"></i><b>Cả lớp chung 1 đề:</b> bốc <b>1 lần duy nhất</b> từ bank theo ma trận, khóa cứng bộ câu — cả lớp làm cùng 1 đề, thứ tự câu trộn trong từng dạng.';
+        }
+
+        function exbBankVal(id){ let el = document.getElementById(id); return el ? el.value.trim() : ''; }
+        function exbBankNum(id, def){ let v = parseFloat(exbBankVal(id)); return isNaN(v) ? def : v; }
+
+        // Tai ma tran chuong tu bank
+        async function exbLoadMatrix(){
+            let mx = document.getElementById('exb-matrix');
+            mx.innerHTML = '<p class="text-xs text-slate-400 italic"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Đang tải bank...</p>';
             try {
                 let subject = (exbBankVal('exbb-subject') || 'TOAN').toUpperCase();
                 let grade = parseInt(exbBankVal('exbb-grade'), 10) || 10;
-                let types = Array.prototype.slice.call(document.querySelectorAll('.exbb-type:checked')).map(function(c){ return c.value; });
-                if (!types.length){ alert('Chọn ít nhất 1 dạng câu.'); return; }
-                let cfg = {
-                    subject: subject, grade: grade,
-                    chapter: parseInt(exbBankVal('exbb-chapter'), 10) || 1,
-                    count: Math.min(50, Math.max(1, parseInt(exbBankVal('exbb-count'), 10) || 10)),
-                    types: types,
-                    levels: { NB: parseFloat(exbBankVal('exbb-lv-nb')) || 0, TH: parseFloat(exbBankVal('exbb-lv-th')) || 0,
-                              VD: parseFloat(exbBankVal('exbb-lv-vd')) || 0, VDC: parseFloat(exbBankVal('exbb-lv-vdc')) || 0 },
-                    time_limit: Math.max(0, parseFloat(exbBankVal('exbb-timelimit')) || 0)
-                };
-                let title = exbBankVal('exbb-title') || ('Luyện tập ' + subject + ' ' + grade);
+                let chFrom = parseInt(exbBankVal('exbb-ch-from'), 10) || 1;
+                let chTo = parseInt(exbBankVal('exbb-ch-to'), 10) || chFrom;
+                if (chTo < chFrom){ let t = chFrom; chFrom = chTo; chTo = t; }
+                let r = await bankApiRead(bankKey(subject, grade));
+                if (r.notFound) throw new Error('Chưa có bank ' + subject + ' khối ' + grade + '. Hãy đẩy đề để tạo bank trước.');
+                if (r.error) throw new Error(r.error);
+                exbBankPool = r.data.questions || [];
+                let rows = '';
+                for (let c = chFrom; c <= chTo; c++){
+                    let n = exbBankPool.filter(function(q){ return q.chapter === c; }).length;
+                    rows += '<tr class="border-t"><td class="px-2 py-1.5 font-bold text-slate-700">Chương ' + c + '</td>'
+                        + '<td class="px-2 py-1.5 text-slate-500">' + n + ' câu</td>'
+                        + '<td class="px-2 py-1.5"><input data-ch="' + c + '" type="number" value="' + n + '" min="0" class="exb-ch-count w-16 text-xs border rounded px-1.5 py-1 text-center font-bold"></td></tr>';
+                }
+                mx.innerHTML = '<table class="w-full text-xs border border-slate-200 rounded-lg overflow-hidden">'
+                    + '<thead><tr class="bg-slate-100 text-slate-600"><th class="px-2 py-1.5 text-left">Vùng kiến thức</th><th class="px-2 py-1.5 text-left">Trong bank</th><th class="px-2 py-1.5 text-left">Số câu lấy</th></tr></thead>'
+                    + '<tbody>' + rows + '</tbody></table>'
+                    + '<p class="text-[10px] text-slate-400 mt-1">Chỉnh "Số câu lấy" mỗi chương cho đúng ý đồ ma trận.</p>';
+            } catch(e){ mx.innerHTML = '<p class="text-xs text-rose-600">Lỗi: ' + String(e.message || e).replace(/</g,'&lt;') + '</p>'; }
+        }
+
+        // Doc ma tran tu form
+        function exbGetMatrix(){
+            let chapters = {};
+            document.querySelectorAll('.exb-ch-count').forEach(function(el){
+                let c = el.getAttribute('data-ch');
+                chapters[c] = Math.max(0, parseInt(el.value, 10) || 0);
+            });
+            // neu chua tai ma tran: lay theo khoang chuong, chia deu
+            if (!Object.keys(chapters).length){
+                let chFrom = parseInt(exbBankVal('exbb-ch-from'), 10) || 1;
+                let chTo = parseInt(exbBankVal('exbb-ch-to'), 10) || chFrom;
+                for (let c = Math.min(chFrom, chTo); c <= Math.max(chFrom, chTo); c++) chapters[c] = 9999;
+            }
+            return {
+                subject: (exbBankVal('exbb-subject') || 'TOAN').toUpperCase(),
+                grade: parseInt(exbBankVal('exbb-grade'), 10) || 10,
+                chapters: chapters,
+                types: { mcq: Math.max(0, parseInt(exbBankVal('exbb-n-mcq'), 10) || 0),
+                         truefalse: Math.max(0, parseInt(exbBankVal('exbb-n-tf'), 10) || 0),
+                         short: Math.max(0, parseInt(exbBankVal('exbb-n-short'), 10) || 0) },
+                levels: { NB: exbBankNum('exbb-lv-nb', 25), TH: exbBankNum('exbb-lv-th', 25),
+                          VD: exbBankNum('exbb-lv-vd', 25), VDC: exbBankNum('exbb-lv-vdc', 25) },
+                time_limit: Math.max(0, exbBankNum('exbb-timelimit', 0))
+            };
+        }
+
+        // Boc cau theo ma tran: moi chuong -> phan bo theo dang -> phan bo theo muc do
+        function exbMatrixPick(pool, matrix){
+            let picked = [], used = {};
+            let typeTotal = (matrix.types.mcq || 0) + (matrix.types.truefalse || 0) + (matrix.types.short || 0);
+            if (!typeTotal) typeTotal = 1;
+            let lvTotal = (matrix.levels.NB || 0) + (matrix.levels.TH || 0) + (matrix.levels.VD || 0) + (matrix.levels.VDC || 0);
+            if (!lvTotal) lvTotal = 1;
+            Object.keys(matrix.chapters).forEach(function(ch){
+                let n = matrix.chapters[ch] || 0;
+                if (!n) return;
+                // 9999 = lay het theo ti le dang
+                let cpool = pool.filter(function(q){ return String(q.chapter) === String(ch); });
+                if (!cpool.length) return;
+                if (n >= 9999) n = cpool.length;
+                ['mcq', 'truefalse', 'short'].forEach(function(tp){
+                    let want = (matrix.types[tp] || 0) > 0 ? Math.max(1, Math.round(n * ((matrix.types[tp] || 0) / typeTotal))) : 0;
+                    let groups = { NB: [], TH: [], VD: [], VDC: [] };
+                    cpool.forEach(function(q){ if (q.type === tp && !used[q.id]) (groups[q.level] || groups.NB).push(q); });
+                    Object.keys(groups).forEach(function(k){ exbShuffle(groups[k]); });
+                    ['NB', 'TH', 'VD', 'VDC'].forEach(function(lv){
+                        let w = Math.round(want * ((matrix.levels[lv] || 0) / lvTotal));
+                        let g = groups[lv];
+                        for (let i = 0; i < w && i < g.length; i++){ picked.push(g[i]); used[g[i].id] = 1; }
+                    });
+                    let have = picked.filter(function(q){ return q.type === tp && String(q.chapter) === String(ch); }).length;
+                    if (have > want){ // cat bot khi lam tron vuot
+                        let over = have - want;
+                        for (let i = picked.length - 1; i >= 0 && over > 0; i--){
+                            if (picked[i].type === tp && String(picked[i].chapter) === String(ch)){
+                                delete used[picked[i].id]; picked.splice(i, 1); over--;
+                            }
+                        }
+                        have = want;
+                    }
+                    if (have < want){
+                        let rest = exbShuffle(cpool.filter(function(q){ return q.type === tp && !used[q.id]; }));
+                        for (let i = 0; i < (want - have) && i < rest.length; i++){ picked.push(rest[i]); used[rest[i].id] = 1; }
+                    }
+                });
+            });
+            let tOrd = { mcq: 0, truefalse: 1, short: 2 };
+            picked.sort(function(a, b){ return (tOrd[a.type] == null ? 9 : tOrd[a.type]) - (tOrd[b.type] == null ? 9 : tOrd[b.type]); });
+            return picked;
+        }
+
+        function exbRenderPicked(picked, label){
+            let pv = document.getElementById('exb-bank-preview');
+            let badge = { mcq: 'bg-blue-100 text-blue-800', truefalse: 'bg-amber-100 text-amber-800', short: 'bg-emerald-100 text-emerald-800' };
+            let tn = { mcq: 'TN', truefalse: 'Đ/S', short: 'TLN' };
+            pv.innerHTML = '<div class="flex items-center justify-between mb-2">'
+                + '<p class="text-xs font-black text-slate-700">' + label + ': ' + picked.length + ' câu</p></div>'
+                + '<div class="space-y-2 max-h-72 overflow-y-auto pr-1">'
+                + picked.map(function(q, i){
+                    return '<div class="border border-slate-200 rounded-xl p-2.5 bg-white text-[13px]">'
+                        + '<p class="font-semibold text-slate-800"><span class="text-slate-400 font-bold mr-1">' + (i+1) + '.</span>'
+                        + String(q.q).replace(/</g, '&lt;').slice(0, 160) + '</p>'
+                        + '<div class="flex gap-1.5 mt-1.5 text-[10px] font-bold">'
+                        + '<span class="px-2 py-0.5 rounded-full ' + (badge[q.type] || 'bg-slate-100') + '">' + (tn[q.type] || q.type) + '</span>'
+                        + '<span class="px-2 py-0.5 rounded-full bg-violet-100 text-violet-800">' + q.level + '</span>'
+                        + '<span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">chương ' + q.chapter + '</span>'
+                        + '</div></div>';
+                }).join('') + '</div>';
+        }
+
+        // Moi HS 1 de: xem 1 de mau boc tu bank theo ma tran
+        async function exbPreviewSample(){
+            let pv = document.getElementById('exb-bank-preview');
+            pv.innerHTML = '<p class="text-xs text-slate-400 italic"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Đang bốc đề mẫu...</p>';
+            try {
+                let m = exbGetMatrix();
+                if (!exbBankPool.length){
+                    let r = await bankApiRead(bankKey(m.subject, m.grade));
+                    if (r.notFound) throw new Error('Chưa có bank. Bấm "Tải ma trận" trước.');
+                    if (r.error) throw new Error(r.error);
+                    exbBankPool = r.data.questions || [];
+                }
+                let picked = exbMatrixPick(exbBankPool, m);
+                if (!picked.length) throw new Error('Không bốc được câu nào — kiểm tra ma trận.');
+                exbRenderPicked(picked, 'Đề mẫu (mỗi HS sẽ bốc 1 đề khác cùng ma trận)');
+            } catch(e){ pv.innerHTML = '<p class="text-xs text-rose-600">Lỗi: ' + String(e.message || e).replace(/</g,'&lt;') + '</p>'; }
+        }
+
+        // Moi HS 1 de: luu file cau noi chua ma tran
+        async function exbBankSave(){
+            try {
+                let m = exbGetMatrix();
+                let title = exbBankVal('exbb-title') || ('Luyện tập ' + m.subject + ' ' + m.grade);
                 let safeTitle = title.replace(/[<>&"]/g, '');
+                let cfg = { subject: m.subject, grade: m.grade, matrix: m.chapters,
+                            types: m.types, levels: m.levels, time_limit: m.time_limit };
                 let inner = '<div class="saobay-bank-view"></div>\n'
                     + '<script type="application/json" class="saobay-bank-config">\n' + JSON.stringify(cfg) + '\n<\/script>';
                 let page = bankWrapPage(safeTitle, 'Bài tập', inner);
                 let folder = (typeof currentSelectedFolderId !== 'undefined' && currentSelectedFolderId) ? currentSelectedFolderId : 'data';
                 let asciiBase = (typeof removeVietnameseTones === 'function' ? removeVietnameseTones(title) : title)
                     .replace(/[\\/:*?"<>|]/g, '_').replace(/\s+/g, '_').slice(0, 40);
-                let path = folder + '/' + subject + '_' + grade + '_' + asciiBase + '_Bai_tap_none.html';
+                let path = folder + '/' + m.subject + '_' + m.grade + '_' + asciiBase + '_Bai_tap_none.html';
                 await bankPushFile(path, page, 'Bank exam (moi HS 1 de): ' + safeTitle + ' [' + folder + ']');
                 document.getElementById('exam-builder-modal').remove();
                 if (typeof showToast === 'function') showToast('Đã lưu đề (mỗi HS 1 đề): ' + path, 'success');
@@ -168,9 +328,61 @@
             } catch(e){ alert('Lỗi lưu đề: ' + (e.message || e)); }
         }
 
+        // Ca lop chung 1 de: boc 1 lan, xem truoc day du
+        async function exbPickClassExam(){
+            let pv = document.getElementById('exb-bank-preview');
+            pv.innerHTML = '<p class="text-xs text-slate-400 italic"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Đang bốc đề...</p>';
+            try {
+                let m = exbGetMatrix();
+                if (!exbBankPool.length){
+                    let r = await bankApiRead(bankKey(m.subject, m.grade));
+                    if (r.notFound) throw new Error('Chưa có bank. Bấm "Tải ma trận" trước.');
+                    if (r.error) throw new Error(r.error);
+                    exbBankPool = r.data.questions || [];
+                }
+                exbClassExam = exbMatrixPick(exbBankPool, m);
+                if (!exbClassExam.length) throw new Error('Không bốc được câu nào — kiểm tra ma trận.');
+                exbClassExam._matrix = m;
+                exbRenderPicked(exbClassExam, 'Đề chung cả lớp (xem trước đầy đủ — bấm "Bốc đề & xem trước" để bốc bộ khác)');
+            } catch(e){ pv.innerHTML = '<p class="text-xs text-rose-600">Lỗi: ' + String(e.message || e).replace(/</g,'&lt;') + '</p>'; }
+        }
+
+        // Ca lop chung 1 de: luu de dong bang (khoa cung bo cau)
+        async function exbClassSave(){
+            try {
+                if (!exbClassExam.length){ alert('Hãy bấm "Bốc đề & xem trước" trước khi lưu.'); return; }
+                let m = exbClassExam._matrix || exbGetMatrix();
+                let title = exbBankVal('exbb-title') || ('Đề chung ' + m.subject + ' ' + m.grade);
+                let safeTitle = title.replace(/[<>&"]/g, '');
+                let examJson = {
+                    frozen_bank_exam: true,
+                    shuffle_within_type: true,
+                    time_limit: m.time_limit || 0,
+                    meta: { title: safeTitle, subject: m.subject, grade: m.grade },
+                    sets: [{ name: safeTitle, questions: exbClassExam.map(function(q){
+                        return { type: q.type, level: q.level, q: q.q, options: q.options || [],
+                                 statements: q.statements || [], answer: q.answer, explain: q.explain || '' };
+                    }) }]
+                };
+                let inner = '<div class="saobay-exam10">\n'
+                    + '<script type="application/json" class="saobay-exam10-data">\n' + JSON.stringify(examJson) + '\n<\/script>\n</div>\n'
+                    + '<p class="text-xs text-slate-500 mt-2">Đề chung cả lớp: cùng bộ câu hỏi, thứ tự câu trộn trong từng dạng.</p>';
+                let page = bankWrapPage(safeTitle, 'Bài kiểm tra', inner);
+                let folder = (typeof currentSelectedFolderId !== 'undefined' && currentSelectedFolderId) ? currentSelectedFolderId : 'data';
+                let asciiBase = (typeof removeVietnameseTones === 'function' ? removeVietnameseTones(title) : title)
+                    .replace(/[\\/:*?"<>|]/g, '_').replace(/\s+/g, '_').slice(0, 40);
+                let path = folder + '/' + m.subject + '_' + m.grade + '_' + asciiBase + '_Kiem_tra_none.html';
+                await bankPushFile(path, page, 'Class exam (chung 1 de): ' + safeTitle + ' [' + folder + ']');
+                document.getElementById('exam-builder-modal').remove();
+                if (typeof showToast === 'function') showToast('Đã lưu đề chung cả lớp: ' + path, 'success');
+                else alert('Đã lưu đề: ' + path);
+                if (typeof loadFolderTreeFromGit === 'function') loadFolderTreeFromGit();
+            } catch(e){ alert('Lỗi lưu đề: ' + (e.message || e)); }
+        }
+
         async function examBuilderPreview(){
             let pv = document.getElementById('exb-preview');
-            pv.innerHTML = '<p class="text-xs text-slate-400 italic"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Đang lọc bank...</p>';
+            pv.innerHTML = '<p class=\"text-xs text-slate-400 italic\"><i class=\"fa-solid fa-spinner fa-spin mr-2\"></i>Đang lọc bank...</p>';
             try {
                 let subject = (exbVal('exb-subject') || 'TOAN').toUpperCase();
                 let grade = parseInt(exbVal('exb-grade'), 10) || 10;
@@ -181,7 +393,7 @@
                 if (r.notFound) throw new Error('Chưa có bank ' + subject + ' khối ' + grade);
                 if (r.error) throw new Error(r.error);
                 let pool = (r.data.questions || []).filter(function(q){ return q.lesson >= lFrom && q.lesson <= lTo; });
-                if (!pool.length) throw new Error('Không có câu nào trong khoảng bài ' + lFrom + '–' + lTo);
+                if (!pool.length) throw new Error('Không có câu nào trong khoảng bài ' + lFrom + '\u2013' + lTo);
 
                 let scoring = { mcq: exbNum('exb-s-mcq', 1), truefalse: exbNum('exb-s-truefalse', 1), short: exbNum('exb-s-short', 1) };
                 let want = { mcq: Math.max(0, parseInt(exbVal('exb-n-mcq'), 10) || 0),
@@ -203,7 +415,8 @@
                     picked = picked.concat(al.picked);
                 });
                 exbShuffle(picked);
-                let totalScore = picked.reduce(function(s, q){ return s + (scoring[q.type] || 0); }, 0);
+
+         let totalScore = picked.reduce(function(s, q){ return s + (scoring[q.type] || 0); }, 0);
 
                 examBuilderState.questions = picked;
                 examBuilderState.meta = {
