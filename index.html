@@ -1271,10 +1271,24 @@
                     try {
                         let metaSC = (parsed && parsed.meta) || {};
                         let examSlug = 'exam';
+                        function slugify(v){
+                            return String(v == null ? '' : v).normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\u0111/g, 'd').replace(/\u0110/g, 'D')
+                                .replace(/[^a-zA-Z0-9]+/g, '_').replace(/^_+|_+$/g, '').slice(0, 80);
+                        }
                         try {
-                            let bn = (location.pathname.split('/').pop() || '').replace(/\\.html?$/i, '');
-                            examSlug = bn.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\u0111/g, 'd').replace(/\u0110/g, 'D')
-                                .replace(/[^a-zA-Z0-9]+/g, '_').replace(/^_+|_+$/g, '').slice(0, 80) || 'exam';
+                            // Uu tien metadata cua de thi (on dinh, khong phu thuoc URL trang mo)
+                            let metaSlug = '';
+                            try {
+                                let pm = (parsed && parsed.meta) || {};
+                                let ms = slugify(pm.subject), mg = parseInt(pm.grade, 10), mt = slugify(pm.title);
+                                if (ms && mg) metaSlug = ms.toUpperCase() + '_' + mg + (mt ? '_' + mt : '');
+                            } catch(eM){}
+                            let bn = (location.pathname.split('/').pop() || '').replace(/\.html?$/i, '');
+                            let urlSlug = slugify(bn);
+                            if (/^index$/i.test(urlSlug)) urlSlug = '';
+                            let titleSlug = slugify(document.title);
+                            if (/^index$/i.test(titleSlug)) titleSlug = '';
+                            examSlug = metaSlug || urlSlug || titleSlug || 'exam';
                         } catch(eSlug){}
                         let savedName = '', savedClass = '', lockedName = '', lockedClass = '';
                         try { savedName = localStorage.getItem('saobay_student_name') || ''; savedClass = localStorage.getItem('saobay_student_class') || ''; } catch(eLS){}
