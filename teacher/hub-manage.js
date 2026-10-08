@@ -175,7 +175,29 @@
         async function renderManageQuestionStats(wrap){
             if(__mqStatsCache && (Date.now() - __mqStatsCache.t < 60000)){ drawManageQuestionStats(wrap, __mqStatsCache.data); return; }
             var folder = getManageFolder();
-            var registry = (window.__hubRegistry && window.__hubRegistry.files) ? window.__hubRegistry.files : [];
+            // Lay danh sach file truc tiep tu GitHub API (window.__hubRegistry khong ton tai)
+            var registry = [];
+            try {
+                var gitApiUrl = 'https://api.github.com/repos/' + GITHUB_CONFIG.owner + '/' + GITHUB_CONFIG.repo + '/git/trees/' + GITHUB_CONFIG.branch + '?recursive=1';
+                var headers = { "Accept": "application/vnd.github+json" };
+                var tk = (typeof getGithubToken === 'function') ? getGithubToken() : null;
+                if (tk) headers["Authorization"] = "Bearer " + tk;
+                var res = await fetch(gitApiUrl, { headers: headers });
+                if (res.ok){
+                    var data = await res.json();
+                    if (data && Array.isArray(data.tree)){
+                        registry = data.tree.filter(function(item){
+                            if (item.type !== 'blob' || !item.path.endsWith('.html')) return false;
+                            if (item.path.startsWith('backup/') || item.path.startsWith('teacher/') || item.path.startsWith('used/')) return false;
+                            var lastSlash = item.path.lastIndexOf('/');
+                            var fd = lastSlash === -1 ? '' : item.path.substring(0, lastSlash);
+                            if (fd === 'data/bank' || fd.indexOf('data/bank/') === 0) return false;
+                            if (fd === 'data/scores' || fd.indexOf('data/scores/') === 0) return false;
+                            return true;
+                        });
+                    }
+                }
+            } catch(eFetch){}
             var examFiles = registry.filter(function(f){
                 var fn = f.path.substring(f.path.lastIndexOf('/') + 1);
                 if(fileKindOf(fn) !== 'exam') return false;
@@ -187,7 +209,7 @@
                 var f = examFiles[fi];
                 var info = {path:f.path, name:f.path.substring(f.path.lastIndexOf('/')+1), sets:0, mcq:0, tf:0, short:0, essay:0, NB:0, TH:0, VD:0, VDC:0, dynamic:false, err:''};
                 try {
-                    var txt = await (await fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/' + f.path, {cache:'no-store'})).text();
+                    var txt = await (await fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/' + f.path.split('/').map(encodeURIComponent).join('/'), {cache:'no-store'})).text();
                     var m = txt.match(/const\s+EXAM_SETS\s*=\s*(\[[\s\S]*?\])\s*;/);
                     var sets = [];
                     if(m){ try { sets = JSON.parse(m[1]); } catch(e0){} }
