@@ -28,9 +28,9 @@
     {
       "name": "Đề 1",
       "questions": [
-        {"type":"mcq","q":"Nội dung câu hỏi 1?","options":["A. Phương án A","B. Phương án B","C. Phương án C","D. Phương án D"],"answer":"B","explain":"Giải thích ngắn gọn vì sao chọn B."},
-        {"type":"truefalse","q":"Xét tính đúng sai của các ý sau:","statements":["Ý a ...","Ý b ...","Ý c ...","Ý d ..."],"answer":["T","F","T","F"],"explain":"Giải thích từng ý."},
-        {"type":"short","q":"Điền đáp án: ...?","answer":"đáp án đúng","explain":"Giải thích."}
+        {"type":"mcq","level":"NB","q":"Nội dung câu hỏi 1?","options":["A. Phương án A","B. Phương án B","C. Phương án C","D. Phương án D"],"answer":"B","explain":"Giải thích ngắn gọn vì sao chọn B."},
+        {"type":"truefalse","level":"TH","q":"Xét tính đúng sai của các ý sau:","statements":["Ý a ...","Ý b ...","Ý c ...","Ý d ..."],"answer":["T","F","T","F"],"explain":"Giải thích từng ý."},
+        {"type":"short","level":"VD","q":"Điền đáp án: ...?","answer":"đáp án đúng","explain":"Giải thích."}
       ]
     },
     {"name":"Đề 2","questions":[ ... ]},
@@ -56,9 +56,9 @@ Xuất DUY NHẤT mã HTML thô (raw code, không bọc khối code markdown, kh
     {
       "name": "Đề 1",
       "questions": [
-        {"type":"mcq","q":"Nội dung câu hỏi 1?","options":["A. Phương án A","B. Phương án B","C. Phương án C","D. Phương án D"],"answer":"B","explain":"Giải thích ngắn gọn vì sao chọn B."},
-        {"type":"truefalse","q":"Xét tính đúng sai của các ý sau:","statements":["Ý a ...","Ý b ...","Ý c ...","Ý d ..."],"answer":["T","F","T","F"],"explain":"Giải thích từng ý."},
-        {"type":"short","q":"Điền đáp án: ...?","answer":"đáp án đúng","explain":"Giải thích."}
+        {"type":"mcq","level":"NB","q":"Nội dung câu hỏi 1?","options":["A. Phương án A","B. Phương án B","C. Phương án C","D. Phương án D"],"answer":"B","explain":"Giải thích ngắn gọn vì sao chọn B."},
+        {"type":"truefalse","level":"TH","q":"Xét tính đúng sai của các ý sau:","statements":["Ý a ...","Ý b ...","Ý c ...","Ý d ..."],"answer":["T","F","T","F"],"explain":"Giải thích từng ý."},
+        {"type":"short","level":"VD","q":"Điền đáp án: ...?","answer":"đáp án đúng","explain":"Giải thích."}
       ]
     },
     {"name":"Đề 2","questions":[ ... ]},
@@ -71,6 +71,7 @@ Xuất DUY NHẤT mã HTML thô (raw code, không bọc khối code markdown, kh
 YÊU CẦU CHI TIẾT:
 1. Đúng 10 đề, mỗi đề 8-12 câu, bao phủ toàn bộ kiến thức trọng tâm của bài "[TÊN BÀI]". Các đề KHÁC NHAU rõ rệt: đảo thứ tự câu, đổi số liệu, đổi cách hỏi, không lặp nguyên câu giữa các đề.
 2. Phối hợp 3 dạng câu: mcq (trắc nghiệm 4 đáp án, trường answer là ký tự A/B/C/D), truefalse (4 ý a-d, trường answer là mảng 4 giá trị "T"/"F" tương ứng), short (trả lời ngắn, answer là chuỗi đáp án chuẩn).
+   Mỗi câu BẮT BUỘC có trường "level" phân loại mức độ: "NB" (nhận biết), "TH" (thông hiểu), "VD" (vận dụng), "VDC" (vận dụng cao) — phân bố đều các mức trong mỗi đề.
 3. Mỗi câu bắt buộc có "explain" giải thích ngắn gọn, dễ hiểu với học sinh.
 4. Công thức Toán viết bằng $...$ hoặc $$...$$, giữ nguyên 100% cú pháp TeX.
 5. TUYỆT ĐỐI không dùng ký tự < > & trong chuỗi JSON (dấu nhỏ hơn viết thành \u003c). Không để dấu phẩy thừa cuối mảng/object làm vỡ JSON.
