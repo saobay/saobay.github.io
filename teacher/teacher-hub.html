@@ -296,6 +296,15 @@
                                     <i class="fa-solid fa-copy mr-1"></i> Copy Prompt 10 Bộ Đề
                                 </button>
                             </div>
+                            <div class="flex flex-wrap items-center gap-2 bg-amber-50/70 p-2 rounded-lg border border-amber-200">
+                                <label for="exam-time-limit" class="text-[11px] text-amber-900 font-bold flex items-center whitespace-nowrap">
+                                    <i class="fa-solid fa-stopwatch mr-1.5 text-amber-600"></i>
+                                    Bài kiểm tra tính giờ:
+                                </label>
+                                <input id="exam-time-limit" type="number" min="1" max="180" placeholder="Số phút"
+                                    class="text-xs border border-amber-300 rounded-lg px-2 py-1.5 w-28 bg-white font-semibold text-amber-900" />
+                                <span class="text-[10px] text-amber-700 leading-snug">Nhập số phút để gắn cờ <b>bài kiểm tra</b> (hiện đồng hồ đếm ngược, hết giờ tự khóa + chấm điểm, mỗi câu chấm xong khóa luôn không cho sửa).<br class="hidden md:block" /> Để trống = <b>bài tập</b> thường (không tính giờ, vẫn khóa câu + cộng điểm sau mỗi lần chấm).</span>
+                            </div>
                         </div>
                     </div>
                     <p class="text-[11px] text-emerald-800 bg-emerald-50/90 border border-emerald-200 px-3 py-1.5 rounded-lg font-medium flex items-center">
@@ -2253,6 +2262,24 @@ YÊU CẦU CHI TIẾT:
 </body>
 </html>`;
             }
+
+            // EXAM10 — gắn cờ BÀI KIỂM TRA TÍNH GIỜ (2026-10-08):
+            // Nếu đang ở tab Đề thi và giáo viên nhập số phút -> chèn "time_limit" vào JSON saobay-exam10-data.
+            // Web sẽ hiện đồng hồ đếm ngược + nút Nộp bài; hết giờ tự khóa toàn bộ và chấm điểm.
+            // Để trống = bài tập thường (không tính giờ).
+            try {
+                let timeInput = document.getElementById('exam-time-limit');
+                let minutes = timeInput ? parseFloat(timeInput.value) : 0;
+                if (currentPushTab === 'exam' && minutes > 0 && minutes <= 10080 && finalHtml.indexOf('saobay-exam10-data') !== -1) {
+                    finalHtml = finalHtml.replace(/(<script[^>]*class=["']saobay-exam10-data["'][^>]*>\s*)(\{[\s\S]*?\})(\s*<\/script>)/, function(m, open, jsonStr, close){
+                        try {
+                            let obj = JSON.parse(jsonStr);
+                            obj.time_limit = minutes;
+                            return open + JSON.stringify(obj) + close;
+                        } catch(eJson){ return m; }
+                    });
+                }
+            } catch(eTime){ console.log('time_limit inject note:', eTime); }
 
             // Lưu trước vào bộ nhớ đệm trình duyệt để index.html đọc được ngay tức thì
             try {
