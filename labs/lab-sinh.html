@@ -52,14 +52,13 @@
   <div id="tab-micro" class="tab-panel px-3 mt-3 hidden">
     <div class="bg-white rounded-2xl shadow p-3">
       <h2 class="font-black text-lime-800 mb-1">Kính hiển vi ảo</h2>
-      <p class="text-xs text-slate-500 mb-2">Kéo thanh trượt để phóng to mẫu vật qua các cấp độ.</p>
-      <canvas id="cv-micro" class="w-full rounded-full border-8 border-slate-700 mx-auto block" style="max-width:340px; aspect-ratio:1;" height="220"></canvas>
-      <div class="mt-3 px-2">
+      <div class="mb-2 px-1">
         <input id="micro-zoom" type="range" min="0" max="3" step="1" value="0" class="w-full">
         <div class="flex justify-between text-[11px] font-bold text-slate-500">
           <span>👁️ 40×</span><span>🔬 100×</span><span>🔬 400×</span><span>🔬 1000×</span>
         </div>
       </div>
+      <canvas id="cv-micro" class="w-full rounded-full border-8 border-slate-700 mx-auto block" style="max-width:340px; aspect-ratio:1;" height="220"></canvas>
       <div id="micro-label" class="text-center mt-2 text-sm font-bold text-lime-800"></div>
       <p id="micro-desc" class="text-xs text-slate-500 text-center mt-1 px-4"></p>
     </div>
@@ -68,15 +67,14 @@
   <!-- ===== TAB 3: CHUỖI THỨC ĂN ===== -->
   <div id="tab-food" class="tab-panel px-3 mt-3 hidden">
     <div class="bg-white rounded-2xl shadow p-3">
-      <h2 class="font-black text-orange-800 mb-1">Chuỗi thức ăn</h2>
-      <p class="text-xs text-slate-500 mb-2">Kéo (hoặc chạm 2 lần) các thẻ vào ô theo đúng thứ tự: <b>sinh vật sản xuất → tiêu thụ → phân giải</b>.</p>
-      <div class="flex items-center gap-1 mb-3 overflow-x-auto pb-1" id="food-slots"></div>
-      <div class="text-xs font-bold text-slate-500 mb-1">Thẻ sinh vật (chạm để chọn, chạm ô để đặt):</div>
-      <div id="food-bank" class="flex flex-wrap gap-2 mb-3"></div>
-      <div class="flex gap-2">
+      <h2 class="font-black text-orange-800 mb-1">Chuỗi thức ăn <span class="text-xs font-normal text-slate-400">— xếp đúng thứ tự</span></h2>
+      <div class="flex gap-2 mb-2">
         <button id="food-check" class="big-btn flex-1 bg-orange-600 text-white font-black rounded-xl">✅ Kiểm tra</button>
         <button id="food-shuffle" class="big-btn px-4 bg-slate-300 font-black rounded-xl">🔀 Trộn</button>
       </div>
+      <div class="flex items-center gap-1 mb-2 overflow-x-auto pb-1" id="food-slots"></div>
+      <div class="text-xs font-bold text-slate-500 mb-1">Thẻ sinh vật (chạm để chọn, chạm ô để đặt):</div>
+      <div id="food-bank" class="flex flex-wrap gap-2 mb-2"></div>
       <div id="food-msg" class="mt-2 text-center text-sm font-bold"></div>
       <div class="mt-2 text-[11px] text-slate-500">💡 Chuỗi đúng: Cỏ → Châu chấu → Ếch → Rắn → Diều hâu → Vi sinh vật phân giải</div>
     </div>
