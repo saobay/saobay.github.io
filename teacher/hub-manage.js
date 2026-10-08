@@ -1,9 +1,17 @@
         // ========================================================
         // QUẢN LÝ CÁC MODULE CHỨC NĂNG CỦA TEACHER HUB
         // ========================================================
+        (function hideAuditTab(){
+            try {
+                let b = document.getElementById('mod-tab-audit');
+                if (b) b.style.display = 'none';
+                let v = document.getElementById('module-audit-view');
+                if (v) v.style.display = 'none';
+            } catch(e){}
+        })();
         function switchTeacherModule(modId) {
             try {
-                ['compose', 'manage', 'audit', 'stats'].forEach(function(id){
+                ['compose', 'manage', 'stats'].forEach(function(id){
                     let tab = document.getElementById('mod-tab-' + id);
                     let view = document.getElementById('module-' + id + '-view');
                     let iconBox = tab ? tab.querySelector('div') : null;
@@ -39,94 +47,65 @@
             });
             renderLessonManagementList();
         }
-        let manageStatsVisible = false; // panel thong ke cau hoi theo thu muc
-        let manageStatsCache = {};       // path -> stats (cache)
-        let manageStatsLastPaths = [];
-        function toggleManageQuestionStats(){
-            manageStatsVisible = !manageStatsVisible;
-            renderLessonManagementList();
-        }
-        async function loadManageQuestionStats(paths){
-            let panel = document.getElementById('manage-qstats-panel');
-            if (!panel) return;
-            let rows = [];
-            for (let p of paths){
-                if (manageStatsCache[p]){ rows.push(manageStatsCache[p]); continue; }
-                let st = { path: p, name: p.substring(p.lastIndexOf('/')+1).replace(/\.html$/i,''), ok: false, dynamic: false };
-                try {
-                    let url = 'https://raw.githubusercontent.com/' + GITHUB_CONFIG.owner + '/' + GITHUB_CONFIG.repo + '/' + GITHUB_CONFIG.branch + '/' + encodeURI(p) + '?t=' + Date.now();
-                    let r = await fetch(url);
-                    if (r.ok){
-                        let txt = await r.text();
-                        let m = txt.match(/<script[^>]*saobay-exam10-data[^>]*>([\s\S]*?)<\/script>/i);
-                        if (m){
-                            let d = JSON.parse(m[1]);
-                            st.sets = (d.sets||[]).length; st.q = 0; st.mcq = 0; st.truefalse = 0; st.short = 0; st.essay = 0; st.NB = 0; st.TH = 0; st.VD = 0; st.VDC = 0;
-                            (d.sets||[]).forEach(function(s){
-                                (s.questions||[]).forEach(function(q){
-                                    st.q++;
-                                    if (q.type === 'mcq') st.mcq++;
-                                    else if (q.type === 'truefalse') st.truefalse++;
-                                    else if (q.type === 'short') st.short++;
-                                    else if (q.type === 'essay') st.essay++;
-                                    let lv = String(q.level || 'NB').toUpperCase();
-                                    if (lv === 'NB' || lv === 'TH' || lv === 'VD' || lv === 'VDC') st[lv]++;
-                                });
-                            });
-                            st.ok = true;
-                        } else if (/saobay-bank-config/.test(txt)){ st.dynamic = true; st.ok = true; }
-                    }
-                } catch(e){ st.err = true; }
-                manageStatsCache[p] = st;
-                rows.push(st);
-            }
-            let T = { files: 0, sets: 0, q: 0, mcq: 0, truefalse: 0, short: 0, essay: 0, NB: 0, TH: 0, VD: 0, VDC: 0, dynamic: 0 };
-            rows.forEach(function(s){
-                if (!s.ok) return;
-                if (s.dynamic){ T.dynamic++; return; }
-                T.files++; T.sets += s.sets; T.q += s.q; T.mcq += s.mcq; T.truefalse += s.truefalse; T.short += s.short; T.essay += s.essay;
-                T.NB += s.NB; T.TH += s.TH; T.VD += s.VD; T.VDC += s.VDC;
-            });
-            function esc(s){ return String(s).replace(/</g, '&lt;'); }
-            let h = '<div class="bg-violet-50 border border-violet-200 rounded-xl p-3">'
-                + '<div class="flex items-center justify-between mb-2">'
-                + '<span class="text-xs font-black text-violet-900 uppercase"><i class="fa-solid fa-chart-simple mr-1.5"></i>Thống kê câu hỏi trong thư mục</span>'
-                + '<button onclick="manageStatsCache={};loadManageQuestionStats(manageStatsLastPaths)" class="text-[10px] text-violet-700 hover:underline font-bold"><i class="fa-solid fa-rotate-right mr-1"></i>Tải lại</button>'
-                + '</div>'
-                + '<div class="flex flex-wrap gap-2 mb-2">'
-                + '<span class="text-[11px] bg-white border border-violet-200 rounded-lg px-2 py-1 font-bold text-slate-700">' + T.files + ' file đề tĩnh</span>'
-                + '<span class="text-[11px] bg-white border border-violet-200 rounded-lg px-2 py-1 font-bold text-slate-700">' + T.sets + ' bộ đề</span>'
-                + '<span class="text-[11px] bg-white border border-violet-200 rounded-lg px-2 py-1 font-bold text-slate-700">Tổng ' + T.q + ' câu</span>'
-                + '<span class="text-[11px] bg-blue-100 border border-blue-200 rounded-lg px-2 py-1 font-bold text-blue-800">TN: ' + T.mcq + '</span>'
-                + '<span class="text-[11px] bg-emerald-100 border border-emerald-200 rounded-lg px-2 py-1 font-bold text-emerald-800">Đ/S: ' + T.truefalse + '</span>'
-                + '<span class="text-[11px] bg-amber-100 border border-amber-200 rounded-lg px-2 py-1 font-bold text-amber-800">TLN: ' + T.short + '</span>'
-                + (T.essay ? '<span class="text-[11px] bg-rose-100 border border-rose-200 rounded-lg px-2 py-1 font-bold text-rose-800">Tự luận: ' + T.essay + '</span>' : '')
-                + '<span class="text-[11px] bg-white border border-slate-200 rounded-lg px-2 py-1 font-bold text-slate-500">NB ' + T.NB + ' • TH ' + T.TH + ' • VD ' + T.VD + ' • VDC ' + T.VDC + '</span>'
-                + (T.dynamic ? '<span class="text-[11px] bg-white border border-slate-200 rounded-lg px-2 py-1 font-bold text-slate-500">' + T.dynamic + ' đề động (rút từ bank)</span>' : '')
-                + '</div>';
-            if (rows.length){
-                h += '<div class="overflow-x-auto"><table class="w-full text-[11px] bg-white rounded-lg overflow-hidden border border-violet-100">'
-                    + '<thead><tr class="bg-violet-100 text-violet-900">'
-                    + '<th class="text-left px-2 py-1.5 font-bold">File đề</th><th class="px-2 py-1.5 font-bold">Bộ đề</th><th class="px-2 py-1.5 font-bold">Tổng câu</th><th class="px-2 py-1.5 font-bold">TN</th><th class="px-2 py-1.5 font-bold">Đ/S</th><th class="px-2 py-1.5 font-bold">TLN</th><th class="px-2 py-1.5 font-bold">NB/TH/VD/VDC</th>'
-                    + '</tr></thead><tbody>';
-                rows.forEach(function(s){
-                    h += '<tr class="border-t border-violet-100">'
-                        + '<td class="px-2 py-1.5 font-semibold text-slate-700">' + esc(s.name) + '</td>';
-                    if (s.dynamic) h += '<td colspan="6" class="px-2 py-1.5 text-slate-400 italic text-center">Đề động — mỗi học sinh rút 1 đề từ ngân hàng</td>';
-                    else if (!s.ok) h += '<td colspan="6" class="px-2 py-1.5 text-rose-400 italic text-center">Không đọc được dữ liệu</td>';
-                    else h += '<td class="px-2 py-1.5 text-center">' + s.sets + '</td><td class="px-2 py-1.5 text-center font-bold">' + s.q + '</td>'
-                        + '<td class="px-2 py-1.5 text-center">' + s.mcq + '</td><td class="px-2 py-1.5 text-center">' + s.truefalse + '</td><td class="px-2 py-1.5 text-center">' + s.short + '</td>'
-                        + '<td class="px-2 py-1.5 text-center text-slate-500">' + s.NB + '/' + s.TH + '/' + s.VD + '/' + s.VDC + '</td>';
-                    h += '</tr>';
-                });
-                h += '</tbody></table></div>';
-            }
-            h += '</div>';
-            panel.innerHTML = h;
-        }
         function fileKindOf(fileName){
             if (/_?Bai.?tap|_?Kiem.?tra|_?De.?thi|exam|test/i.test(fileName)) return 'exam';
             return 'theory';
+        }
+        function fileApproved(fileName){
+            let raw = String(fileName || '').replace(/\.html$/i, '');
+            if (/_id\d+|_gv\w+/i.test(raw)) return true;
+            if (/^unit\d+|^test\d+/i.test(raw)) return true;
+            return false;
+        }
+        async function approveLesson(filePath, fileName){
+            let uname = '';
+            try { uname = (typeof currentUser !== 'undefined' && currentUser.name) ? currentUser.name : ''; } catch(e){}
+            let tag = 'gv' + uname.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9]/g, '');
+            tag = tag.slice(0, 18) || 'gvGV';
+            if (!confirm('Duyệt bài "' + fileName.replace(/\.html$/i, '') + '"?\nFile sẽ được gắn mã duyệt _' + tag + '.')) return;
+            let newFileName = fileName.replace(/_none/i, '_' + tag);
+            if (newFileName === fileName) newFileName = fileName.replace(/\.html$/i, '_' + tag + '.html');
+            let slash = filePath.lastIndexOf('/');
+            let newPath = (slash === -1 ? '' : filePath.substring(0, slash + 1)) + newFileName;
+            if (newPath === filePath){ alert('Bài này đã được duyệt rồi.'); return; }
+            try {
+                let token = (typeof getGithubToken === 'function') ? getGithubToken() : null;
+                // 1. Doc noi dung file cu
+                let oldUrl = 'https://api.github.com/repos/' + GITHUB_CONFIG.owner + '/' + GITHUB_CONFIG.repo + '/contents/' + getEncodedGitHubPath(filePath) + '?ref=' + GITHUB_CONFIG.branch;
+                let hh = { 'Accept': 'application/vnd.github+json' };
+                if (token) hh['Authorization'] = 'Bearer ' + token;
+                let gr = await fetch(oldUrl, { headers: hh });
+                if (!gr.ok) throw new Error('Không đọc được file gốc (HTTP ' + gr.status + ')');
+                let gj = await gr.json();
+                let contentB64 = gj.content || '';
+                // 2. Tao file moi (ten da duyet)
+                let newUrl = 'https://api.github.com/repos/' + GITHUB_CONFIG.owner + '/' + GITHUB_CONFIG.repo + '/contents/' + getEncodedGitHubPath(newPath);
+                let putBody = { message: 'Duyệt bài: ' + fileName + ' -> ' + newFileName, content: contentB64.replace(/\n/g, ''), branch: GITHUB_CONFIG.branch };
+                let hdrs = { 'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json' };
+                if (token) hdrs['Authorization'] = 'Bearer ' + token;
+                let pr;
+                if (token) {
+                    pr = await fetch(newUrl, { method: 'PUT', headers: hdrs, body: JSON.stringify(putBody) });
+                } else {
+                    // Qua proxy
+                    let rx = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                        body: JSON.stringify({ type: 'PUSH_TO_GITHUB', filePath: newPath, content: atob(contentB64.replace(/\n/g, '')), commitMessage: putBody.message }) });
+                    let rj = await rx.json().catch(function(){ return {}; });
+                    pr = { ok: rj.status === 'success' };
+                }
+                if (!pr.ok) throw new Error('Không tạo được file đã duyệt.');
+                // 3. Xoa file cu
+                let delBody = { message: 'Xóa bản chưa duyệt: ' + fileName, sha: gj.sha, branch: GITHUB_CONFIG.branch };
+                if (token) {
+                    let dr = await fetch(oldUrl, { method: 'DELETE', headers: hdrs, body: JSON.stringify(delBody) });
+                    if (!dr.ok) console.warn('Khong xoa duoc file cu');
+                } else {
+                    await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                        body: JSON.stringify({ type: 'DELETE_FROM_GITHUB', filePath: filePath, commitMessage: delBody.message }) });
+                }
+                alert('Đã duyệt bài thành công!');
+                renderLessonManagementList();
+            } catch(e){ alert('Lỗi duyệt bài: ' + (e.message || e)); }
         }
         async function renderLessonManagementList() {
             let container = document.getElementById('manage-lessons-table-container');
@@ -201,11 +180,7 @@
                     + '<button id="mfilter-all" onclick="setManageTypeFilter(\'all\')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition ' + (manageTypeFilter === 'all' ? 'bg-blue-700 text-white shadow' : 'bg-slate-100 text-slate-600 hover:bg-slate-200') + '">Tất cả (' + files.length + ')</button>'
                     + '<button id="mfilter-theory" onclick="setManageTypeFilter(\'theory\')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition ' + (manageTypeFilter === 'theory' ? 'bg-blue-700 text-white shadow' : 'bg-slate-100 text-slate-600 hover:bg-slate-200') + '">📘 Lý thuyết (' + nTheory + ')</button>'
                     + '<button id="mfilter-exam" onclick="setManageTypeFilter(\'exam\')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition ' + (manageTypeFilter === 'exam' ? 'bg-blue-700 text-white shadow' : 'bg-slate-100 text-slate-600 hover:bg-slate-200') + '">📝 Đề thi/Bài tập (' + nExam + ')</button>'
-                    + '<button id="mfilter-qstats" onclick="toggleManageQuestionStats()" class="px-3 py-1.5 rounded-lg text-xs font-bold transition ' + (manageStatsVisible ? 'bg-violet-700 text-white shadow' : 'bg-slate-100 text-slate-600 hover:bg-slate-200') + '">📊 Thống kê câu hỏi</button>'
                     + '</div>';
-                if (manageStatsVisible){
-                    html += '<div id="manage-qstats-panel" class="mb-3"><div class="text-center py-4 text-slate-400 text-xs bg-violet-50 border border-violet-200 rounded-xl"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Đang thống kê câu hỏi...</div></div>';
-                }
                 if (!shown.length){
                     html += '<div class="text-center py-8 text-slate-400 text-xs bg-slate-50 border border-slate-200 rounded-xl">Không có bài nào thuộc loại này trong thư mục hiện tại.</div>';
                 }
@@ -223,7 +198,11 @@
                                     <i class="fa-solid ${isExam ? 'fa-file-pen' : 'fa-book-open'}"></i>
                                 </div>
                                 <div class="truncate">
-                                    <h4 class="font-bold text-xs text-slate-800 truncate">${title}</h4>
+                                    <h4 class="font-bold text-xs text-slate-800 truncate">${title}
+                                        ${fileApproved(fileName)
+                                            ? '<span class="ml-1 text-[9px] bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded-full font-bold align-middle">Đã duyệt</span>'
+                                            : `<button onclick="approveLesson('${f.path}', '${fileName.replace(/'/g, "\\'")}')" class="ml-1 text-[9px] bg-amber-100 hover:bg-amber-200 text-amber-800 px-1.5 py-0.5 rounded-full font-bold align-middle" title="Duyệt bài này"><i class="fa-solid fa-check mr-0.5"></i>Duyệt</button>`}
+                                    </h4>
                                     <p class="text-[10px] text-slate-400 truncate"><i class="fa-regular fa-folder mr-1"></i>${f.path}</p>
                                 </div>
                             </div>
@@ -251,10 +230,6 @@
                 });
                 html += '</div>';
                 container.innerHTML = html;
-                if (manageStatsVisible){
-                    manageStatsLastPaths = shown.filter(function(f){ return fileKindOf(f.path.substring(f.path.lastIndexOf('/')+1)) === 'exam'; }).map(function(f){ return f.path; });
-                    loadManageQuestionStats(manageStatsLastPaths);
-                }
             } catch(e) {
                 container.innerHTML = `<div class="text-xs text-rose-500 py-4 text-center">Lỗi tải danh sách: ${e.message}</div>`;
             }
