@@ -154,6 +154,11 @@ YÊU CẦU CHI TIẾT:
             return str || 'bai_hoc';
         }
 
+        function readBankMetaFromForm(){
+            function v(id){ let el = document.getElementById(id); return el ? el.value.trim() : ''; }
+            return { subject: v('item-subject'), grade: v('item-grade'), chapter: v('item-chapter'), lesson: v('item-lesson') };
+        }
+
         async function handleFormSubmit(event) {
             event.preventDefault();
 
@@ -293,7 +298,7 @@ YÊU CẦU CHI TIẾT:
 
                         alert(`🎉 THÀNH CÔNG!\nBài "${safeTitle}" đã được đẩy trực tiếp lên GitHub qua Google Proxy!\n📁 Vị trí: ${targetGitPath}\n⭐ Điểm thưởng nhận được: +${pointsEarned}`);
                         // Phase 2: tu boc cau hoi vao ngan hang (khong chan luong chinh)
-                        autoSaveToBank(finalHtml, formattedFileName, targetGitPath, targetFolder).catch(function(){});
+                        autoSaveToBank(finalHtml, formattedFileName, targetGitPath, targetFolder, readBankMetaFromForm()).catch(function(){});
                         // Quyen so huu de thi: ai day thi la chu (khong chan luong chinh)
                         registerExamOwner(targetGitPath, safeTitle).catch(function(){});
                         resetFormToCreate();
@@ -365,7 +370,7 @@ YÊU CẦU CHI TIẾT:
 
                     alert(`🎉 THÀNH CÔNG!\nBài "${safeTitle}" đã được đẩy trực tiếp lên GitHub!\n📁 Vị trí: ${targetGitPath}\n⭐ Điểm thưởng nhận được: +${pointsEarned}`);
                     // Phase 2: tu boc cau hoi vao ngan hang (khong chan luong chinh)
-                    autoSaveToBank(finalHtml, formattedFileName, targetGitPath, targetFolder).catch(function(){});
+                    autoSaveToBank(finalHtml, formattedFileName, targetGitPath, targetFolder, readBankMetaFromForm()).catch(function(){});
                     // Quyen so huu de thi: ai day thi la chu (khong chan luong chinh)
                     registerExamOwner(targetGitPath, safeTitle).catch(function(){});
                         resetFormToCreate();
