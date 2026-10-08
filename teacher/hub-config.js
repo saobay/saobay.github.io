@@ -68,7 +68,7 @@
             // Tải danh mục thư mục trực tiếp từ GitHub
             loadFolderTreeFromGit();
 
-            switchPushTab('theory'); // mặc định mở tab đẩy lý thuyết
+            switchPushMode('theory'); // mặc định mở tab đẩy lý thuyết
             renderMathPreview(); 
         }
 
