@@ -11,13 +11,11 @@
                     if (tab) tab.className = "module-tab-btn flex items-center p-2.5 rounded-xl transition border text-left " + (active ? "bg-blue-50 border-blue-600 text-blue-900 shadow-sm" : "bg-white border-slate-200 text-slate-700 hover:bg-slate-100");
                     if (iconBox) iconBox.className = "w-9 h-9 rounded-lg flex items-center justify-center text-base font-bold shrink-0 mr-2.5 " + (active ? "bg-blue-600 text-white shadow" : "bg-slate-200 text-slate-700");
                     if (view) {
-                        if (active) {
-                            view.classList.remove('hidden');
-                            view.style.display = '';
-                        } else {
-                            view.classList.add('hidden');
-                            view.style.display = 'none';
-                        }
+                        view.classList.remove('hidden');
+                        // Dieu khien hien thi TRUC TIEP bang style de tranh xung dot CSS
+                        view.style.setProperty('display', active ? 'flex' : 'none', 'important');
+                        view.style.setProperty('visibility', active ? 'visible' : 'hidden', 'important');
+                        view.style.setProperty('opacity', active ? '1' : '0', 'important');
                     } else if (active) {
                         console.error('[hub] Khong tim thay view: module-' + id + '-view');
                     }
