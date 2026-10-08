@@ -1,45 +1,43 @@
         // ========================================================
-        // TAB TÁCH GIAO DIỆN ĐẨY BÀI: Lý thuyết / Đề thi-Bài tập (2026-10-08)
+        // 3 CHE DO DAY: Ly thuyet / Soan de tu bank / Day truc tiep (2026-10-08)
         // ========================================================
-        let currentPushTab = 'theory'; // 'theory' | 'exam'
+        let currentPushTab = 'theory'; // 'theory' | 'bank' | 'direct'
 
-        function switchPushTab(mode) {
+        function switchPushMode(mode) {
             currentPushTab = mode;
-            let isExam = (mode === 'exam');
-
-            let tabT = document.getElementById('push-tab-theory');
-            let tabE = document.getElementById('push-tab-exam');
-            if (tabT) tabT.className = 'flex-1 px-4 py-2.5 rounded-lg text-xs font-bold transition flex items-center justify-center ' + (isExam ? 'bg-slate-100 text-slate-600 hover:bg-slate-200' : 'bg-blue-700 text-white shadow');
-            if (tabE) tabE.className = 'flex-1 px-4 py-2.5 rounded-lg text-xs font-bold transition flex items-center justify-center ' + (isExam ? 'bg-indigo-700 text-white shadow' : 'bg-slate-100 text-slate-600 hover:bg-slate-200');
+            let isExam = (mode !== 'theory');
+            let base = 'flex-1 px-3 py-2.5 rounded-lg text-xs font-bold transition flex items-center justify-center ';
+            let on = { theory: 'bg-blue-700 text-white shadow', bank: 'bg-amber-500 text-white shadow', direct: 'bg-indigo-700 text-white shadow' };
+            let off = 'bg-slate-100 text-slate-600 hover:bg-slate-200';
+            let bT = document.getElementById('push-mode-theory');
+            let bB = document.getElementById('push-mode-bank');
+            let bD = document.getElementById('push-mode-direct');
+            if (bT) bT.className = base + (mode === 'theory' ? on.theory : off);
+            if (bB) bB.className = base + (mode === 'bank' ? on.bank : off);
+            if (bD) bD.className = base + (mode === 'direct' ? on.direct : off);
 
             let panelT = document.getElementById('prompt-panel-theory');
             let panelE = document.getElementById('prompt-panel-exam');
             if (panelT) panelT.classList.toggle('hidden', isExam);
             if (panelE) panelE.classList.toggle('hidden', !isExam);
-            // Dong cong cu bank (cau noi / soan de) chi hien o tab De thi, an o tab Ly thuyet
-            let bankRow = document.getElementById('bank-tools-row');
-            if (bankRow) bankRow.classList.toggle('hidden', !isExam);
+            // Panel builder (ngan hang de) chi hien o che do bank
+            let bp = document.getElementById('exam-builder-panel');
+            if (bp) bp.classList.toggle('hidden', mode !== 'bank');
+            // Panel day truc tiep chi hien o che do direct
+            let dp = document.getElementById('direct-panel');
+            if (dp) dp.classList.toggle('hidden', mode !== 'direct');
 
-            // Đồng bộ loại bài đẩy ẩn theo tab (đã bỏ chọn dài/ngắn: đề thi luôn EXAM_LONG)
+            // Đồng bộ loại bài đẩy ẩn theo chế độ (đề thi luôn EXAM_LONG)
             let itemType = document.getElementById('item-type');
             if (itemType) itemType.value = isExam ? 'EXAM_LONG' : 'KNOWLEDGE';
             refreshPushSubmitBtn();
             updateScorePreview();
+            let showP = mode === 'bank' ? bp : (mode === 'direct' ? dp : null);
+            if (showP && showP.scrollIntoView) showP.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
-
-        // Panel "Soạn đề cố định từ đẩy trực tiếp": bật/tắt khu vực đẩy trực tiếp
-        function toggleDirectPanel(){
-            let p = document.getElementById('direct-panel');
-            if (!p) return;
-            p.classList.toggle('hidden');
-            let btn = document.getElementById('direct-push-btn');
-            if (btn){
-                let open = !p.classList.contains('hidden');
-                btn.classList.toggle('!bg-indigo-700', open);
-                btn.classList.toggle('!text-white', open);
-            }
-            if (!p.classList.contains('hidden') && p.scrollIntoView) p.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
+        // Alias cu (tuong thich)
+        function switchPushTab(mode){ switchPushMode(mode === 'exam' ? 'direct' : 'theory'); }
+        function toggleDirectPanel(){ switchPushMode('direct'); }
 
         // 2 dạng nhập trong panel trực tiếp: dán AI / file Word
         function switchDirectInput(mode){
