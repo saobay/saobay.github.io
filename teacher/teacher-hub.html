@@ -574,6 +574,31 @@
                     <!-- Thống kê -->
                 </div>
             </div>
+
+        <!-- MODAL DUYET DE THEO TUNG BO (2026-10-08) -->
+        <div id="exam-review-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+            <div class="absolute inset-0 bg-black/50" onclick="closeExamReviewer()"></div>
+            <div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden">
+                <div class="bg-indigo-700 text-white px-5 py-3 flex items-center justify-between shrink-0">
+                    <div>
+                        <h3 id="erm-title" class="font-bold text-sm">Duyệt đề</h3>
+                        <p id="erm-progress" class="text-[11px] text-indigo-200">Đề 1/10 · Đã duyệt 0/10</p>
+                    </div>
+                    <button onclick="closeExamReviewer()" class="text-white/80 hover:text-white text-xl leading-none px-2">&times;</button>
+                </div>
+                <div class="flex items-center justify-between px-5 py-2 bg-slate-50 border-b shrink-0">
+                    <button id="erm-prev" onclick="examReviewNav(-1)" class="px-3 py-1.5 rounded-lg bg-white border border-slate-300 text-xs font-bold text-slate-700 hover:bg-slate-100">&larr; Đề trước</button>
+                    <div id="erm-dots" class="flex flex-wrap gap-1 justify-center"></div>
+                    <button id="erm-next" onclick="examReviewNav(1)" class="px-3 py-1.5 rounded-lg bg-white border border-slate-300 text-xs font-bold text-slate-700 hover:bg-slate-100">Đề sau &rarr;</button>
+                </div>
+                <div id="erm-body" class="flex-1 overflow-y-auto p-5 space-y-4"></div>
+                <div class="px-5 py-3 bg-slate-50 border-t flex items-center justify-between shrink-0">
+                    <span id="erm-set-status" class="text-xs font-bold"></span>
+                    <button id="erm-approve-btn" onclick="approveExamReviewSet()" class="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold shadow"><i class="fa-solid fa-check mr-1"></i>Duyệt đề này</button>
+                </div>
+            </div>
+        </div>
+
         </main>
     </div>
     </div>
