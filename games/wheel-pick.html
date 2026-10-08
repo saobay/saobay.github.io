@@ -51,16 +51,27 @@
   <!-- ===== TAB 1: SETUP ===== -->
   <div id="panel-setup" class="bg-white rounded-2xl shadow-2xl p-4">
     <h2 class="font-black text-lg mb-2 text-violet-700"><i class="fa-solid fa-list mr-2"></i>Danh sách học sinh</h2>
-    <p class="text-xs text-slate-500 mb-2">Dán tên học sinh, <b>mỗi dòng 1 tên</b>. Hoặc bấm "Lớp mẫu" để thử nhanh.</p>
-    <textarea id="names-input" rows="8" placeholder="Nguyễn Văn An&#10;Trần Thị Bình&#10;Phạm Văn Cường&#10;..." class="w-full border-2 border-violet-200 rounded-xl p-3 text-sm focus:border-violet-500 focus:outline-none"></textarea>
-    <div class="flex gap-2 mt-3">
-      <button id="btn-load" class="flex-1 bg-violet-600 hover:bg-violet-700 text-white font-bold py-3 rounded-xl shadow-lg active:scale-95 transition">
-        <i class="fa-solid fa-check mr-1"></i>Nạp danh sách
-      </button>
-      <button id="btn-sample" class="bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-4 rounded-xl shadow-lg active:scale-95 transition">
-        <i class="fa-solid fa-wand-magic-sparkles mr-1"></i>Lớp mẫu
+    <p class="text-xs text-slate-500 mb-2">Chọn lớp để lấy danh sách HS tự động.</p>
+    <div class="flex gap-2 mb-3">
+      <select id="class-select" class="flex-1 border-2 border-violet-200 rounded-xl p-3 text-sm font-bold focus:border-violet-500 focus:outline-none">
+        <option value="">-- Chọn lớp --</option>
+      </select>
+      <button id="btn-load-class" class="bg-violet-600 hover:bg-violet-700 text-white font-bold py-3 px-4 rounded-xl shadow-lg active:scale-95 transition whitespace-nowrap">
+        <i class="fa-solid fa-download mr-1"></i>Lấy DS
       </button>
     </div>
+    <details class="mb-3">
+      <summary class="text-xs text-slate-500 cursor-pointer">Hoặc nhập tay (bấm để mở)</summary>
+      <textarea id="names-input" rows="5" placeholder="Nguyễn Văn An&#10;Trần Thị Bình&#10;..." class="w-full border-2 border-violet-200 rounded-xl p-3 text-sm focus:border-violet-500 focus:outline-none mt-2"></textarea>
+      <div class="flex gap-2 mt-2">
+        <button id="btn-load" class="flex-1 bg-slate-600 hover:bg-slate-700 text-white font-bold py-2.5 rounded-xl shadow active:scale-95 transition text-sm">
+          <i class="fa-solid fa-check mr-1"></i>Nạp danh sách tay
+        </button>
+        <button id="btn-sample" class="bg-amber-500 hover:bg-amber-600 text-white font-bold py-2.5 px-4 rounded-xl shadow active:scale-95 transition text-sm">
+          Lớp mẫu
+        </button>
+      </div>
+    </details>
     <div id="loaded-info" class="hidden mt-3 bg-emerald-50 border border-emerald-300 rounded-xl p-3 text-sm">
       <p class="font-bold text-emerald-800"><i class="fa-solid fa-circle-check mr-1"></i>Đã nạp <span id="loaded-count">0</span> học sinh</p>
       <div id="loaded-preview" class="flex flex-wrap gap-1.5 mt-2 max-h-32 overflow-y-auto"></div>
@@ -367,11 +378,5 @@ function launchConfetti(){
 
 drawWheel();
 </script>
-<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
-<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
-<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
-<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
-</footer>
-<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
 </body>
 </html>
