@@ -96,6 +96,7 @@
                                 let p = item.path;
                                 // QUY TẮC BẢO MẬT: TUYỆT ĐỐI KHÔNG ĐỤNG ĐẾN THƯ MỤC BACKUP VÀ HỆ THỐNG
                                 if (p === 'backup' || p.startsWith('backup/')) return false;
+                                if (p === 'data/bank' || p.startsWith('data/bank/')) return false; // Bank tu dong trich, khong phai noi day bai
                                 if (p === 'teacher' || p.startsWith('teacher/')) return false;
                                 if (p === 'used' || p.startsWith('used/')) return false;
                                 if (p === 'tienganh6' || p.startsWith('tienganh6/')) return false;
