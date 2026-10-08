@@ -304,10 +304,23 @@
                             <label class="text-[11px] font-bold text-indigo-900 whitespace-nowrap"><i class="fa-solid fa-file-word text-blue-600 mr-1"></i>Chọn file Word (.docx):</label>
                             <input type="file" id="word-exam-input" accept=".docx" onchange="handleWordExamFile(this)" class="block text-[11px] text-slate-500 file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:bg-blue-600 file:text-white file:font-bold cursor-pointer"/>
                             <button type="button" onclick="toggleWordGuide()" class="text-[11px] font-bold text-indigo-700 hover:underline"><i class="fa-solid fa-circle-question mr-1"></i>Xem quy cách soạn Word</button>
-                            <button type="button" onclick="aiParseExam()" title="Dùng AI (Gemini) đọc file Word lộn xộn, tự nhận diện câu hỏi + đáp án" class="text-[11px] font-bold text-white bg-violet-600 hover:bg-violet-700 px-2.5 py-1 rounded-lg"><i class="fa-solid fa-robot mr-1"></i>AI đọc đề</button>
+                            <button type="button" onclick="document.getElementById('ai-key-box').classList.toggle('hidden')" title="Cài đặt AI đọc đề" class="text-[11px] font-bold text-violet-700 hover:underline"><i class="fa-solid fa-robot mr-1"></i>AI đọc đề</button>
                         </div>
                         <div id="word-guide" class="hidden text-[11px] text-slate-700 bg-white rounded-lg p-3 border border-indigo-100 leading-relaxed"></div>
                         <div id="word-preview" class="text-[11px]"></div>
+                        <div id="ai-key-box" class="hidden bg-violet-50 border border-violet-200 rounded-lg p-3 space-y-2">
+                            <p class="text-[11px] font-black text-violet-900"><i class="fa-solid fa-robot mr-1"></i>AI đọc đề thi lộn xộn</p>
+                            <div class="flex gap-2">
+                                <input type="password" id="gemini-key-input" placeholder="Dán Gemini API key của bạn (lấy miễn phí tại aistudio.google.com)" class="flex-1 text-xs border rounded-lg px-2.5 py-1.5">
+                                <button type="button" onclick="saveGeminiKeyUI()" class="bg-violet-600 hover:bg-violet-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg">Lưu key</button>
+                            </div>
+                            <p id="gemini-key-status" class="text-[10px] text-slate-500"></p>
+                            <div class="flex flex-wrap gap-2">
+                                <button type="button" onclick="aiParseExam()" class="bg-violet-600 hover:bg-violet-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg"><i class="fa-solid fa-bolt mr-1"></i>AI đọc ngay (Gemini)</button>
+                                <button type="button" onclick="copyNotebookLMPrompt()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg"><i class="fa-solid fa-copy mr-1"></i>Copy prompt gửi NotebookLM</button>
+                            </div>
+                            <p class="text-[10px] text-slate-500">Nếu Gemini API lỗi, dùng nút <b>Copy prompt gửi NotebookLM</b>: dán vào NotebookLM (kèm file Word), copy JSON trả về vào khung <b>"Gộp nhiều bộ đề"</b> bên dưới.</p>
+                        </div>
                         <!-- B. ĐỀ NGUYÊN BẢN: giữ nguyên bố cục Word (công thức + hình vẽ) -->
                         <div class="bg-white/70 rounded-lg border border-emerald-200 overflow-hidden">
                             <button type="button" onclick="document.getElementById('paper-box').classList.toggle('hidden')" class="w-full px-3 py-2 text-left text-[11px] font-bold text-emerald-900 hover:bg-emerald-50 flex items-center">
