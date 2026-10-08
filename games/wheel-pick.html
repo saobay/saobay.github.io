@@ -30,9 +30,6 @@
 <div class="max-w-3xl mx-auto px-3 py-4 pb-10">
 
   <!-- Header -->
-  <div class="mb-3">
-    <a href="../index.html" class="inline-block bg-white/25 hover:bg-white/40 border border-white/60 text-white font-black rounded-xl px-5 py-3 text-base shadow">🏠 Trang chủ</a>
-  </div>
   <div class="text-center mb-4">
     <h1 class="text-3xl md:text-4xl font-black text-white drop-shadow-lg">🎡 VÒNG QUAY CHỌN HỌC SINH</h1>
     <p class="text-white/90 text-sm mt-1 font-medium">Quay trúng rồi — không quay lại đến khi reset! 🎯</p>
@@ -170,7 +167,51 @@ Object.keys(tabs).forEach(function(tid){
 });
 function goTab(tid){ document.getElementById(tid).click(); }
 
-// ===== SETUP =====
+// ===== SETUP: TAI DS HS TU used.is =====
+let usedStudents = {};  // {className: [{id,name}, ...]}
+async function loadUsedData(){
+  try {
+    let res = await fetch('../used/used.is?' + Date.now());
+    if (!res.ok) return;
+    let txt = await res.text();
+    let db;
+    try { db = JSON.parse(txt); }
+    catch(e){ db = JSON.parse(decodeURIComponent(escape(atob(txt)))); }
+    let stu = db.students || {};
+    let sel = document.getElementById('class-select');
+    Object.keys(stu).sort().forEach(function(cls){
+      let arr = (stu[cls] || []).filter(function(x){
+        return x && x.name && x.name !== 'Họ và tên' && x.id !== 'Mã định danh Bộ GD&ĐT';
+      });
+      if (!arr.length) return;
+      usedStudents[cls] = arr.map(function(x){ return x.name; });
+      let o = document.createElement('option');
+      o.value = cls; o.textContent = cls + ' (' + arr.length + ' HS)';
+      sel.appendChild(o);
+    });
+  } catch(e){ console.warn('Khong tai duoc used.is', e); }
+}
+document.getElementById('btn-load-class').addEventListener('click', function(){
+  let cls = document.getElementById('class-select').value;
+  if (!cls){ alert('Hãy chọn lớp trước!'); return; }
+  let names = usedStudents[cls] || [];
+  if (!names.length){ alert('Lớp ' + cls + ' chưa có danh sách HS.'); return; }
+  names = [...new Set(names)];
+  allStudents = names;
+  picked = [];
+  document.getElementById('loaded-info').classList.remove('hidden');
+  document.getElementById('loaded-count').textContent = names.length + ' (lớp ' + cls + ')';
+  document.getElementById('loaded-preview').innerHTML = names.map(function(n){
+    return '<span class="name-chip text-xs bg-violet-100 text-violet-800 font-semibold px-2.5 py-1 rounded-full">'+escapeHtml(n)+'</span>';
+  }).join('');
+  drawWheel();
+  updateRemain();
+  renderHistory();
+  goTab('tab-wheel');
+});
+loadUsedData();
+
+// ===== SETUP (nhap tay) =====
 document.getElementById('btn-sample').addEventListener('click', function(){
   document.getElementById('names-input').value =
     'Nguyễn Văn An\nTrần Thị Bình\nPhạm Văn Cường\nLê Thị Dung\nHoàng Văn Em\nVũ Thị Phương\nĐặng Văn Giang\nBùi Thị Hằng\nĐỗ Văn Khang\nNgô Thị Lan\nTrịnh Văn Minh\nDương Thị Ngọc\nLý Văn Phúc\nTống Thị Quỳnh\nPhan Văn Sơn\nChu Thị Thảo';
@@ -381,11 +422,5 @@ function launchConfetti(){
 
 drawWheel();
 </script>
-<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
-<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
-<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
-<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
-</footer>
-<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
 </body>
 </html>
