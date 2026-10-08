@@ -5,6 +5,59 @@
         // ========================================================
 
         const MAMMOTH_CDN = 'https://cdn.jsdelivr.net/npm/mammoth@1.6.0/mammoth.browser.min.js';
+        const JSZIP_CDN = 'https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js';
+        function ensureJsZip(){
+            return new Promise(function(resolve, reject){
+                if (window.JSZip) return resolve();
+                let sc = document.createElement('script');
+                sc.src = JSZIP_CDN;
+                sc.onload = function(){ resolve(); };
+                sc.onerror = function(){ reject(new Error('Không tải được thư viện JSZip.')); };
+                document.head.appendChild(sc);
+            });
+        }
+        // Doc dinh dang dap an tu document.xml: chu do / gach chan / in dam
+        async function detectAnswerFormatting(arrayBuffer){
+            let marks = []; // [{text, red, underline, bold}]
+            try {
+                await ensureJsZip();
+                let zip = await window.JSZip.loadAsync(arrayBuffer);
+                let docXml = await zip.file('word/document.xml').async('text');
+                let parser = new DOMParser();
+                let xml = parser.parseFromString(docXml, 'text/xml');
+                let paras = xml.getElementsByTagName('w:p');
+                for (let pi = 0; pi < paras.length; pi++){
+                    let p = paras[pi];
+                    let runs = p.getElementsByTagName('w:r');
+                    let pText = '', pRed = false, pU = false, pB = false;
+                    for (let ri = 0; ri < runs.length; ri++){
+                        let r = runs[ri];
+                        let tEls = r.getElementsByTagName('w:t');
+                        let rText = '';
+                        for (let ti = 0; ti < tEls.length; ti++) rText += tEls[ti].textContent;
+                        if (!rText.trim()) continue;
+                        let rPr = r.getElementsByTagName('w:rPr')[0];
+                        let red = false, u = false, b = false;
+                        if (rPr){
+                            let color = rPr.getElementsByTagName('w:color')[0];
+                            if (color){
+                                let val = (color.getAttribute('w:val') || '').toUpperCase();
+                                if (val === 'FF0000' || val === 'RED' || val === 'C00000') red = true;
+                            }
+                            if (rPr.getElementsByTagName('w:u')[0]) u = true;
+                            if (rPr.getElementsByTagName('w:b')[0]) b = true;
+                        }
+                        pText += rText;
+                        if (red) pRed = true;
+                        if (u) pU = true;
+                        if (b) pB = true;
+                    }
+                    pText = pText.replace(/\s+/g, ' ').trim();
+                    if (pText) marks.push({ text: pText, red: pRed, underline: pU, bold: pB });
+                }
+            } catch(e){ console.warn('detectAnswerFormatting:', e); }
+            return marks;
+        }
         let wordState = { questions: [], fileName: '', extractedImages: [] };
 
         function ensureMammoth(){
@@ -65,7 +118,32 @@
                     let t = (el.textContent || '').replace(/\s+/g, ' ').trim();
                     if (t) lines.push(t);
                 });
+                wordState.rawText = lines.join('\n');
                 let qs = parseWordExam(lines);
+                // Nhan dien dap an tu dinh dang: chu do / gach chan o phuong an
+                try {
+                    let marks = await detectAnswerFormatting(buf);
+                    let markIdx = 0;
+                    qs.forEach(function(q){
+                        // Tim doan text cua cau hoi trong marks
+                        let qStart = -1;
+                        for (let mi = markIdx; mi < marks.length; mi++){
+                            if (marks[mi].text.indexOf(q.q.slice(0, 20)) >= 0){ qStart = mi; break; }
+                        }
+                        if (qStart < 0) return;
+                        // Quet cac phuong an trong marks sau cau hoi
+                        for (let mi = qStart + 1; mi < Math.min(qStart + 12, marks.length); mi++){
+                            let mt = marks[mi].text;
+                            let om = mt.match(/^([A-D])\s*[\.\)\:]/i);
+                            if (om && (marks[mi].red || marks[mi].underline)){
+                                if (q.type === 'mcq' && !q.answer) q.answer = om[1].toUpperCase();
+                            }
+                            // Gap cau moi thi dung
+                            if (/^câu\s*\d+/i.test(mt)) break;
+                        }
+                        markIdx = qStart + 1;
+                    });
+                } catch(eFmt){ console.warn('answer format detect:', eFmt); }
                 wordState.questions = qs;
                 wordState.fileName = f.name;
                 if (!qs.length){
@@ -338,6 +416,59 @@ async function handlePaperDocxFile(input){
     }
     input.value = '';
 }
+
+
+        // ---- AI DOC DE: Gemini API truc tiep (2026-10-08) ----
+        function getGeminiKey(){ try { return localStorage.getItem('saobay_gemini_key') || ''; } catch(e){ return ''; } }
+        function setGeminiKey(k){ try { localStorage.setItem('saobay_gemini_key', k || ''); } catch(e){} }
+        async function aiParseExam(){
+            let pv = document.getElementById('word-preview');
+            let key = getGeminiKey();
+            if (!key){
+                let k = prompt('Nhập Gemini API key (miễn phí tại aistudio.google.com — chỉ nhập 1 lần, lưu trên trình duyệt này):');
+                if (!k || !k.trim()){ alert('Cần API key để dùng AI đọc đề.'); return; }
+                setGeminiKey(k.trim()); key = k.trim();
+            }
+            let rawText = wordState.rawText || '';
+            if (!rawText){ alert('Hãy tải file Word lên trước (nút "Tải file .docx").'); return; }
+            if (pv) pv.innerHTML = '<p class="text-xs text-slate-400 italic"><i class="fa-solid fa-spinner fa-spin mr-2"></i>AI đang đọc và cấu trúc đề thi... (có thể mất 30-60 giây)</p>';
+            try {
+                let prompt = 'Bạn là chuyên gia biên soạn đề thi. Dưới đây là nội dung thô của 1 đề thi trích từ file Word (có thể lộn xộn, thiếu cấu trúc).\n\n'
+                    + 'NHIỆM VỤ: Nhận diện TẤT CẢ câu hỏi, phân loại dạng, tìm đáp án đúng, và xuất ra JSON theo đúng cấu trúc SAOBAY.\n\n'
+                    + 'CẤU TRÚC JSON BẮT BUỘC (mỗi câu 1 object):\n'
+                    + '- {"type":"mcq","level":"NB","q":"...","options":["A. ...","B. ...","C. ...","D. ..."],"answer":"B","explain":"..."} (trắc nghiệm)\n'
+                    + '- {"type":"truefalse","level":"TH","q":"...","statements":["ý a","ý b","ý c","ý d"],"answer":["T","F","T","F"],"explain":"..."} (đúng/sai 4 ý)\n'
+                    + '- {"type":"short","level":"VD","q":"...","answer":"đáp số","explain":"..."} (trả lời ngắn)\n'
+                    + '- {"type":"essay","level":"VDC","q":"...","explain":"barem"} (tự luận, không có answer)\n'
+                    + 'level: NB (nhận biết), TH (thông hiểu), VD (vận dụng), VDC (vận dụng cao).\n'
+                    + 'CHỈ xuất JSON thuần: {"sets":[{"name":"Đề","questions":[...]}]} — không thêm chữ giải thích ngoài.\n\n'
+                    + 'NỘI DUNG ĐỀ:\n' + rawText.slice(0, 60000);
+                let url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + encodeURIComponent(key);
+                let resp = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { temperature: 0.2, maxOutputTokens: 16000 } }) });
+                if (!resp.ok){ let et = await resp.text(); throw new Error('Gemini API lỗi ' + resp.status + ': ' + et.slice(0, 200)); }
+                let jr = await resp.json();
+                let outText = ((((jr.candidates || [])[0] || {}).content || {}).parts || []).map(function(pt){ return pt.text || ''; }).join('');
+                outText = outText.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '').trim();
+                let jStart = outText.indexOf('{'), jEnd = outText.lastIndexOf('}');
+                if (jStart < 0) throw new Error('AI không trả về JSON.');
+                let examJson = JSON.parse(outText.substring(jStart, jEnd + 1));
+                let sets = examJson.sets || [];
+                if (!sets.length) throw new Error('JSON không có bộ đề nào.');
+                let frag = '<div class="saobay-exam10">\n<script type="application/json" class="saobay-exam10-data">\n'
+                    + JSON.stringify(examJson) + '\n<\/script>\n</div>';
+                let ta = document.getElementById('item-content');
+                if (ta){ ta.value = frag; if (typeof renderMathPreview === 'function'){ try { renderMathPreview(); } catch(e){} } }
+                let nQ = sets.reduce(function(s2, st){ return s2 + (st.questions || []).length; }, 0);
+                if (pv) pv.innerHTML = '<div class="bg-white border border-emerald-200 rounded-xl p-3"><p class="text-xs font-black text-slate-800">'
+                    + '<i class="fa-solid fa-robot text-emerald-600 mr-1"></i>AI đã cấu trúc ' + nQ + ' câu hỏi.</p>'
+                    + '<p class="text-[11px] text-slate-500 mt-1">Đã nạp vào khung soạn thảo — <b>kiểm tra lại đáp án</b> rồi nhập tiêu đề, bấm Đẩy bài.</p></div>';
+                if (typeof showToast === 'function') showToast('AI đã đọc xong ' + nQ + ' câu!', 'success');
+            } catch(e){
+                if (pv) pv.innerHTML = '<p class="text-xs text-rose-600">Lỗi AI: ' + String(e.message || e).replace(/</g,'&lt;')
+                    + '<br><button onclick="setGeminiKey(\'\');aiParseExam()" class="mt-1 text-blue-600 underline">Nhập lại API key</button></p>';
+            }
+        }
 
 // ---- Cách 2: dán từ Word ----
 function togglePaperPaste(){
