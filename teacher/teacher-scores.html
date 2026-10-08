@@ -99,11 +99,15 @@ body{font-family:system-ui,-apple-system,sans-serif}
         } else {
             document.getElementById('user-badge').textContent = '• ' + (sessionUser.name || '') + ' (' + (sessionUser.role || '') + ')';
         }
-        // 1. nạp phân công
-        let assigns = [];
+        // 1. nạp phân công + lớp riêng
+        let assigns = [], customClasses = [];
         try {
             let used = await rawJson('used/used.is');
             assigns = Array.isArray(used.assignments) ? used.assignments : [];
+            let customs = Array.isArray(used.custom_classes) ? used.custom_classes : [];
+            let me = sessionUser ? String(sessionUser.id) : '';
+            if (sessionUser && sessionUser.role === 'admin') customClasses = customs;
+            else customClasses = customs.filter(function(c){ return String(c.created_by) === me; });
         } catch(e){
             document.getElementById('assign-info').innerHTML = '<span class="text-rose-600">Không tải được phân công chuyên môn.</span>';
         }
@@ -123,8 +127,10 @@ body{font-family:system-ui,-apple-system,sans-serif}
         } else {
             let uniq = {};
             assigns.forEach(function(a){ uniq[a.subject + ' (lớp ' + a.class + ')'] = 1; });
+            let parts = Object.keys(uniq);
+            customClasses.forEach(function(c){ parts.push('Lớp riêng: ' + c.name); });
             info.innerHTML = '<i class="fa-solid fa-clipboard-check text-indigo-600 mr-1"></i><b>Phân công của bạn:</b> '
-                + esc(Object.keys(uniq).join(' • '));
+                + esc(parts.join(' • '));
         }
         // 2. liệt kê đề thi có bài nộp
         await loadExams();
