@@ -259,9 +259,11 @@
                                     let ownerTag = own && own.owner_name
                                         ? `<span class="text-[10px] text-slate-400" title="Chủ sở hữu"><i class="fa-solid fa-user-check mr-0.5"></i>${own.owner_name.replace(/</g, '&lt;')}</span>`
                                         : '';
+                                    let editFn = isExam ? 'openExamReviewer' : 'loadLessonIntoEditor';
+                                    let editLabel = isExam ? 'Duyệt đề' : 'Sửa bài';
                                     let editBtn = can
-                                        ? `<button onclick="loadLessonIntoEditor('${f.path}', '${title.replace(/'/g, "\\'")}')" class="text-xs text-blue-700 hover:text-blue-900 px-2.5 py-1 rounded bg-blue-50 hover:bg-blue-100 font-bold border border-blue-200 flex items-center"><i class="fa-solid fa-pen-to-square mr-1"></i> Sửa bài</button>`
-                                        : `<span class="text-[10px] text-slate-300 font-bold px-1" title="Đề của giáo viên khác"><i class="fa-solid fa-lock mr-0.5"></i>Sửa bài</span>`;
+                                        ? `<button onclick="${editFn}('${f.path}', '${title.replace(/'/g, "\\'")}')" class="text-xs text-blue-700 hover:text-blue-900 px-2.5 py-1 rounded bg-blue-50 hover:bg-blue-100 font-bold border border-blue-200 flex items-center"><i class="fa-solid ${isExam ? 'fa-list-check' : 'fa-pen-to-square'} mr-1"></i> ${editLabel}</button>`
+                                        : `<span class="text-[10px] text-slate-300 font-bold px-1" title="Đề của giáo viên khác"><i class="fa-solid fa-lock mr-0.5"></i>${editLabel}</span>`;
                                     let delBtn = can
                                         ? `<button onclick="deleteLessonFromManager('${f.path}', '${title.replace(/'/g, "\\'")}')" class="text-xs text-rose-600 hover:text-rose-800 px-2 py-1 rounded bg-rose-50 hover:bg-rose-100 font-bold border border-rose-200" title="Xóa bài"><i class="fa-solid fa-trash-can"></i></button>`
                                         : `<span class="text-[10px] text-slate-300 font-bold px-1" title="Đề của giáo viên khác"><i class="fa-solid fa-lock"></i></span>`;
@@ -275,6 +277,217 @@
                 container.innerHTML = html;
             } catch(e) {
                 container.innerHTML = `<div class="text-xs text-rose-500 py-4 text-center">Lỗi tải danh sách: ${e.message}</div>`;
+            }
+        }
+
+
+        // ============ TRINH DUYET DE THEO TUNG BO (2026-10-08) ============
+        let ermData = { filePath: '', fileName: '', sets: [], idx: 0, rawHtml: '', sha: '' };
+
+        async function openExamReviewer(filePath, fileName){
+            try {
+                if (typeof canManageExam === 'function' && !canManageExam(filePath)){
+                    alert('Bạn không có quyền sửa đề này (đề của giáo viên khác).');
+                    return;
+                }
+            } catch(ePerm){}
+            let modal = document.getElementById('exam-review-modal');
+            let body = document.getElementById('erm-body');
+            if (!modal || !body) return;
+            body.innerHTML = '<p class="text-xs text-slate-400 italic text-center py-8"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Đang tải đề...</p>';
+            modal.classList.remove('hidden');
+            try {
+                let res = await fetch(`../${encodeURI(filePath)}`);
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                let html = await res.text();
+                let sets = [];
+                let re = /<script[^>]*class=["']saobay-exam10-data["'][^>]*>\s*(\{[\s\S]*?\})\s*<\/script>/gi;
+                let m;
+                while ((m = re.exec(html)) !== null){
+                    try {
+                        let obj = JSON.parse(m[1]);
+                        (obj.sets || []).forEach(function(st){ sets.push(st); });
+                    } catch(e){}
+                }
+                if (!sets.length) throw new Error('Không tìm thấy dữ liệu các bộ đề trong file.');
+                ermData = { filePath: filePath, fileName: fileName, sets: sets, idx: 0, rawHtml: html, sha: '' };
+                document.getElementById('erm-title').textContent = 'Duyệt: ' + fileName.replace(/\.html$/i, '');
+                renderExamReviewSet();
+            } catch(e){
+                body.innerHTML = '<p class="text-xs text-rose-600 text-center py-8">Lỗi tải đề: ' + String(e.message || e).replace(/</g,'&lt;') + '</p>';
+            }
+        }
+        function closeExamReviewer(){
+            let modal = document.getElementById('exam-review-modal');
+            if (modal) modal.classList.add('hidden');
+            ermData = { filePath: '', fileName: '', sets: [], idx: 0, rawHtml: '', sha: '' };
+        }
+        function examReviewNav(dir){
+            if (!ermData.sets.length) return;
+            ermData.idx = (ermData.idx + dir + ermData.sets.length) % ermData.sets.length;
+            renderExamReviewSet();
+        }
+        function examReviewGo(i){
+            if (!ermData.sets.length) return;
+            ermData.idx = Math.max(0, Math.min(ermData.sets.length - 1, i));
+            renderExamReviewSet();
+        }
+        function ermApprovedCount(){
+            return ermData.sets.filter(function(st){ return !!st.approved; }).length;
+        }
+        function renderExamReviewSet(){
+            let body = document.getElementById('erm-body');
+            if (!body || !ermData.sets.length) return;
+            let st = ermData.sets[ermData.idx];
+            let total = ermData.sets.length;
+            let done = ermApprovedCount();
+            document.getElementById('erm-progress').textContent = 'Đề ' + (ermData.idx + 1) + '/' + total + ' · Đã duyệt ' + done + '/' + total;
+            // dots
+            let dots = document.getElementById('erm-dots');
+            dots.innerHTML = ermData.sets.map(function(s2, i){
+                let c = s2.approved ? 'bg-emerald-500 text-white' : (i === ermData.idx ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-600 hover:bg-slate-300');
+                return '<button onclick="examReviewGo(' + i + ')" class="w-7 h-7 rounded-full text-[10px] font-bold ' + c + '" title="Đề ' + (i+1) + (s2.approved ? ' (đã duyệt)' : '') + '">' + (i+1) + '</button>';
+            }).join('');
+            // questions
+            let qs = st.questions || [];
+            let qhtml = qs.map(function(qq, qi){
+                let t = (qq.type === 'truefalse') ? 'Đúng/Sai' : (qq.type === 'short' ? 'Trả lời ngắn' : (qq.type === 'essay' ? 'Tự luận' : 'Trắc nghiệm'));
+                let qtxt = String(qq.q || '').replace(/</g, '&lt;');
+                let opts = '';
+                if (qq.options && qq.options.length){
+                    opts = '<div class="mt-1 space-y-0.5">' + qq.options.map(function(op, oi){
+                        let isAns = String(qq.answer) === String('ABCD'[oi]) || String(qq.answer) === String(op);
+                        return '<div class="text-[11px] ' + (isAns ? 'text-emerald-700 font-bold' : 'text-slate-600') + '">' + 'ABCD'[oi] + '. ' + String(op).replace(/</g,'&lt;') + (isAns ? ' ✓' : '') + '</div>';
+                    }).join('') + '</div>';
+                }
+                let stmts = '';
+                if (qq.statements && qq.statements.length){
+                    stmts = '<div class="mt-1 space-y-0.5">' + qq.statements.map(function(sm, mi){
+                        return '<div class="text-[11px] text-slate-600">' + String.fromCharCode(97+mi) + ') ' + String(sm.text || sm).replace(/</g,'&lt;') + ' <b class="' + (sm.answer ? 'text-emerald-700' : 'text-rose-600') + '">(' + (sm.answer ? 'Đúng' : 'Sai') + ')</b></div>';
+                    }).join('') + '</div>';
+                }
+                return '<div class="bg-slate-50 border border-slate-200 rounded-xl p-3">'
+                    + '<div class="flex items-center gap-2 mb-1"><span class="text-[10px] font-bold bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded-full">Câu ' + (qi+1) + '</span>'
+                    + '<span class="text-[10px] font-bold bg-slate-200 text-slate-600 px-2 py-0.5 rounded-full">' + t + '</span>'
+                    + (qq.level ? '<span class="text-[10px] font-bold bg-violet-100 text-violet-800 px-2 py-0.5 rounded-full">' + String(qq.level).replace(/</g,'&lt;') + '</span>' : '')
+                    + '</div>'
+                    + '<div class="text-xs text-slate-800 font-medium">' + qtxt + '</div>' + opts + stmts
+                    + (qq.answer && !opts && !stmts ? '<div class="text-[11px] text-emerald-700 font-bold mt-1">Đáp án: ' + String(qq.answer).replace(/</g,'&lt;') + '</div>' : '')
+                    + (qq.explain ? '<div class="text-[11px] text-slate-500 italic mt-1">Giải thích: ' + String(qq.explain).replace(/</g,'&lt;') + '</div>' : '')
+                    + '</div>';
+            }).join('');
+            body.innerHTML = '<h4 class="font-bold text-sm text-slate-800">' + String(st.name || ('Đề ' + (ermData.idx+1))).replace(/</g,'&lt;') + '</h4>' + (qhtml || '<p class="text-xs text-slate-400">Đề này chưa có câu hỏi.</p>');
+            body.scrollTop = 0;
+            let statusEl = document.getElementById('erm-set-status');
+            let btn = document.getElementById('erm-approve-btn');
+            if (st.approved){
+                statusEl.innerHTML = '<span class="text-emerald-700"><i class="fa-solid fa-circle-check mr-1"></i>Đề này đã được duyệt' + (st.approvedBy ? ' bởi ' + String(st.approvedBy).replace(/</g,'&lt;') : '') + '</span>';
+                btn.className = 'px-5 py-2 rounded-xl bg-slate-300 text-slate-500 text-sm font-bold shadow cursor-not-allowed';
+                btn.innerHTML = '<i class="fa-solid fa-check mr-1"></i>Đã duyệt';
+                btn.disabled = true;
+            } else {
+                statusEl.innerHTML = '<span class="text-amber-700"><i class="fa-solid fa-circle-exclamation mr-1"></i>Đề này chưa duyệt</span>';
+                btn.className = 'px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold shadow';
+                btn.innerHTML = '<i class="fa-solid fa-check mr-1"></i>Duyệt đề này';
+                btn.disabled = false;
+            }
+            document.getElementById('erm-prev').disabled = (total <= 1);
+            document.getElementById('erm-next').disabled = (total <= 1);
+        }
+        async function approveExamReviewSet(){
+            if (!ermData.sets.length) return;
+            let st = ermData.sets[ermData.idx];
+            if (st.approved) return;
+            let uname = '';
+            try { uname = (typeof currentUser !== 'undefined' && currentUser.name) ? currentUser.name : ''; } catch(e){}
+            let by = uname || 'GV';
+            if (!confirm('Duyệt "' + (st.name || ('Đề ' + (ermData.idx+1))) + '"?')) return;
+            st.approved = true;
+            st.approvedBy = by;
+            st.approvedAt = new Date().toISOString().slice(0, 10);
+            try {
+                await ermSaveFile();
+                let done = ermApprovedCount(), total = ermData.sets.length;
+                if (done >= total){
+                    // Duyet het -> doi ten file thanh da duyet
+                    await ermRenameApproved(by);
+                    alert('Đã duyệt hết ' + total + ' đề! Bài "' + ermData.fileName.replace(/\.html$/i,'') + '" giờ được coi là ĐÃ DUYỆT.');
+                    closeExamReviewer();
+                    renderLessonManagementList();
+                } else {
+                    renderExamReviewSet();
+                }
+            } catch(e){
+                // rollback
+                delete st.approved; delete st.approvedBy; delete st.approvedAt;
+                alert('Lỗi lưu duyệt: ' + (e.message || e));
+            }
+        }
+        async function ermSaveFile(){
+            // Ghi approved vao tung set trong JSON roi day lai file
+            let html = ermData.rawHtml;
+            let idxSet = 0;
+            let newHtml = html.replace(/<script[^>]*class=["']saobay-exam10-data["'][^>]*>\s*(\{[\s\S]*?\})\s*<\/script>/gi, function(m0, jsonStr){
+                let obj;
+                try { obj = JSON.parse(jsonStr); } catch(e){ return m0; }
+                (obj.sets || []).forEach(function(s2){
+                    // map theo thu tu
+                    let src = ermData.sets[idxSet++];
+                    if (src){ s2.approved = !!src.approved; if (src.approvedBy) s2.approvedBy = src.approvedBy; if (src.approvedAt) s2.approvedAt = src.approvedAt; }
+                });
+                let open = m0.substring(0, m0.indexOf(jsonStr));
+                return open + JSON.stringify(obj) + '</scr' + 'ipt>';
+            });
+            ermData.rawHtml = newHtml;
+            // Day len GitHub
+            let token = (typeof getGithubToken === 'function') ? getGithubToken() : null;
+            let filePath = ermData.filePath;
+            if (token){
+                let url = 'https://api.github.com/repos/' + GITHUB_CONFIG.owner + '/' + GITHUB_CONFIG.repo + '/contents/' + getEncodedGitHubPath(filePath);
+                let gr = await fetch(url + '?ref=' + GITHUB_CONFIG.branch, { headers: { 'Accept': 'application/vnd.github+json', 'Authorization': 'Bearer ' + token } });
+                if (!gr.ok) throw new Error('Không đọc được file (HTTP ' + gr.status + ')');
+                let gj = await gr.json();
+                let b64 = btoa(unescape(encodeURIComponent(newHtml)));
+                let pr = await fetch(url, { method: 'PUT', headers: { 'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+                    body: JSON.stringify({ message: 'Duyệt đề ' + (ermData.idx+1) + ': ' + ermData.fileName, content: b64, sha: gj.sha, branch: GITHUB_CONFIG.branch }) });
+                if (!pr.ok) throw new Error('Đẩy file thất bại (HTTP ' + pr.status + ')');
+            } else {
+                let rx = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ type: 'PUSH_TO_GITHUB', filePath: filePath, content: newHtml, commitMessage: 'Duyệt đề ' + (ermData.idx+1) + ': ' + ermData.fileName }) });
+                let rj = await rx.json().catch(function(){ return {}; });
+                if (rj.status !== 'success') throw new Error(rj.message || 'Đẩy file thất bại');
+            }
+        }
+        async function ermRenameApproved(by){
+            // Doi ten file: _none -> _gvTen (danh dau da duyet het)
+            let filePath = ermData.filePath;
+            let slash = filePath.lastIndexOf('/');
+            let fileName = slash === -1 ? filePath : filePath.substring(slash + 1);
+            let tag = 'gv' + String(by || 'GV').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9]/g, '').slice(0, 18);
+            if (!tag || tag === 'gv') tag = 'gvGV';
+            let newFileName = fileName.replace(/_none/i, '_' + tag);
+            if (newFileName === fileName) newFileName = fileName.replace(/\.html$/i, '_' + tag + '.html');
+            let newPath = (slash === -1 ? '' : filePath.substring(0, slash + 1)) + newFileName;
+            if (newPath === filePath) return;
+            let token = (typeof getGithubToken === 'function') ? getGithubToken() : null;
+            let contentB64 = btoa(unescape(encodeURIComponent(ermData.rawHtml)));
+            if (token){
+                let newUrl = 'https://api.github.com/repos/' + GITHUB_CONFIG.owner + '/' + GITHUB_CONFIG.repo + '/contents/' + getEncodedGitHubPath(newPath);
+                let hdrs = { 'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token };
+                let pr = await fetch(newUrl, { method: 'PUT', headers: hdrs,
+                    body: JSON.stringify({ message: 'Duyệt hết - đổi tên: ' + fileName, content: contentB64, branch: GITHUB_CONFIG.branch }) });
+                if (!pr.ok) throw new Error('Không tạo được file đã duyệt');
+                let oldUrl = 'https://api.github.com/repos/' + GITHUB_CONFIG.owner + '/' + GITHUB_CONFIG.repo + '/contents/' + getEncodedGitHubPath(filePath);
+                let gr = await fetch(oldUrl + '?ref=' + GITHUB_CONFIG.branch, { headers: { 'Accept': 'application/vnd.github+json', 'Authorization': 'Bearer ' + token } });
+                let gj = await gr.json().catch(function(){ return {}; });
+                if (gj.sha) await fetch(oldUrl, { method: 'DELETE', headers: hdrs, body: JSON.stringify({ message: 'Xóa bản chưa duyệt: ' + fileName, sha: gj.sha, branch: GITHUB_CONFIG.branch }) });
+            } else {
+                let rx = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ type: 'PUSH_TO_GITHUB', filePath: newPath, content: ermData.rawHtml, commitMessage: 'Duyệt hết - đổi tên: ' + fileName }) });
+                let rj = await rx.json().catch(function(){ return {}; });
+                if (rj.status !== 'success') throw new Error('Không tạo được file đã duyệt');
+                await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ type: 'DELETE_FROM_GITHUB', filePath: filePath, commitMessage: 'Xóa bản chưa duyệt: ' + fileName }) });
             }
         }
 
