@@ -1082,7 +1082,13 @@
                     if (parsed && parsed.open_to){ let t2 = new Date(parsed.open_to).getTime(); if (t2 > 0) openTo = t2; }
                     if (parsed && parsed.scoring && typeof parsed.scoring === 'object') scoring = parsed.scoring;
                 } catch(eParse) { console.log('exam10: khong doc duoc JSON de thi', eParse); }
-                function qWeight(qq){ let w = parseFloat(scoring[(qq && qq.type) || 'mcq']); return (w > 0 ? w : 1); }
+                function qWeight(qq){
+                    let pw = parseFloat(qq && qq.points);
+                    if (!isNaN(pw) && pw >= 0) return pw; // diem rieng tung cau (AI hoac GV cai)
+                    let w = parseFloat(scoring[(qq && qq.type) || 'mcq']);
+                    if (!isNaN(w) && w >= 0) return w; // giu 0 cho tu luan, chi fallback khi thieu
+                    return 1;
+                }
                 function fmtScore(v){ let r = Math.round(v * 100) / 100; return String(r); }
                 function fmtDT(ts){ try { return new Date(ts).toLocaleString('vi-VN'); } catch(e){ return ''; } }
 
@@ -1408,7 +1414,9 @@
                     qs.forEach(function(qq, qi){
                         let qid = 'ex10_' + idx + '_' + qi;
                         html += '<div class="exam10-q bg-white p-4 rounded-xl border border-slate-200 shadow-sm" data-qi="' + qi + '">';
-                        html += '<div class="font-bold text-slate-800 text-sm mb-2">C\u00e2u ' + (qi + 1) + ': ' + esc(qq.q) + '</div>';
+                        let qw = qWeight(qq);
+                        html += '<div class="font-bold text-slate-800 text-sm mb-2">C\u00e2u ' + (qi + 1) + ': ' + esc(qq.q)
+                            + ' <span class="ml-1 text-[11px] font-semibold text-amber-700 bg-amber-50 border border-amber-200 rounded px-1.5 py-0.5 whitespace-nowrap">' + fmtScore(qw) + ' \u0111i\u1ec3m</span></div>';
                         if (qq.img) html += '<div class="my-2 text-center"><img src="' + esc(qq.img) + '" class="max-w-full h-auto rounded-lg border border-slate-200 inline-block" style="max-height:320px" alt="Hình minh họa"></div>';
                         html += '<div class="space-y-1.5">';
                         if (qq.type === 'truefalse') {
