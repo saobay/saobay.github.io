@@ -40,15 +40,19 @@
             }
         }
 
-        // Chon nguon de khi day: "fixed" = giu nguyen noi dung dan vao;
-        // "bank" = noi dung dan vao van luu bank, file day len la file cau noi
+        // Chon nguon de khi day: "fixed" = giu nguyen noi dung dan vao (10 bo de co dinh);
+        // "bank" = moi HS boc 1 de rieng tu bank luc mo;
+        // "bankfrozen" = boc 1 lan tu bank, khoa chung ca lop, tron thu tu trong tung dang
         function syncExamSource() {
             let sel = document.getElementById('exam-source');
             let cfg = document.getElementById('bank-source-config');
+            let frz = document.getElementById('bankfrozen-counts');
             if (!sel || !cfg) return;
-            let isBank = sel.value === 'bank';
-            cfg.classList.toggle('hidden', !isBank);
-            cfg.classList.toggle('flex', isBank);
+            let v = sel.value;
+            let showCfg = (v === 'bank' || v === 'bankfrozen');
+            cfg.classList.toggle('hidden', !showCfg);
+            cfg.classList.toggle('flex', showCfg);
+            if (frz) frz.classList.toggle('hidden', v !== 'bankfrozen');
         }
 
         function refreshPushSubmitBtn() {
