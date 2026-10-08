@@ -231,6 +231,42 @@ YÊU CẦU CHI TIẾT:
 </html>`;
             }
 
+            // Lua chon NGUON DE khi day (2026-10-08):
+            // "fixed" = giu nguyen noi dung dan vao (10 bo de co dinh de giao bai);
+            // "bank" = noi dung dan vao van duoc boc vao bank, file day len la file cau noi
+            //          (moi lan mo boc ngau nhien tu bank theo cau hinh duoi).
+            let examSource = 'fixed';
+            try {
+                let srcSel = document.getElementById('exam-source');
+                if (currentPushTab === 'exam' && srcSel) examSource = srcSel.value || 'fixed';
+            } catch(eSrc){}
+            if (examSource === 'bank'){
+                try {
+                    let metaSeed = parseBankMeta(formattedFileName, targetFolder);
+                    let qsSeed = extractQuestionsFromExam10(contentVal, metaSeed, targetGitPath);
+                    if (qsSeed.length) await pushQuestionsToBank(qsSeed, metaSeed);
+                    let bTypes = Array.prototype.slice.call(document.querySelectorAll('.bank-src-type:checked'))
+                        .map(function(c){ return c.value; });
+                    let gv = function(id){ let el = document.getElementById(id); return el ? el.value : ''; };
+                    let bTime = 0;
+                    try { let ti = document.getElementById('exam-time-limit'); bTime = ti ? (parseFloat(ti.value) || 0) : 0; } catch(e){}
+                    let bcfg = {
+                        subject: metaSeed.subject, grade: metaSeed.grade,
+                        chapter: parseInt(gv('bank-src-chapter'), 10) || metaSeed.chapter,
+                        count: Math.min(50, Math.max(1, parseInt(gv('bank-src-count'), 10) || 10)),
+                        types: bTypes,
+                        levels: {
+                            NB: parseFloat(gv('bank-src-nb')) || 0, TH: parseFloat(gv('bank-src-th')) || 0,
+                            VD: parseFloat(gv('bank-src-vd')) || 0, VDC: parseFloat(gv('bank-src-vdc')) || 0
+                        },
+                        time_limit: bTime
+                    };
+                    let inner = '<div class="saobay-bank-view"></div>\n'
+                        + '<script type="application/json" class="saobay-bank-config">\n' + JSON.stringify(bcfg) + '\n<\/script>';
+                    finalHtml = bankWrapPage(safeTitle, 'B\u00e0i t\u1eadp t\u1ed5ng h\u1ee3p', inner);
+                } catch(eBankSrc){ console.log('bank source note:', eBankSrc); }
+            }
+
             // EXAM10 — gắn cờ BÀI KIỂM TRA TÍNH GIỜ (2026-10-08):
             // Nếu đang ở tab Đề thi và giáo viên nhập số phút -> chèn "time_limit" vào JSON saobay-exam10-data.
             // Web sẽ hiện đồng hồ đếm ngược + nút Nộp bài; hết giờ tự khóa toàn bộ và chấm điểm.
