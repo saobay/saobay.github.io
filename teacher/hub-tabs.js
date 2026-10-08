@@ -32,8 +32,6 @@
             if (itemType) itemType.value = isExam ? 'EXAM_LONG' : 'KNOWLEDGE';
             refreshPushSubmitBtn();
             updateScorePreview();
-            let showP = mode === 'bank' ? bp : (mode === 'direct' ? dp : null);
-            if (showP && showP.scrollIntoView) showP.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
         // Alias cu (tuong thich)
         function switchPushTab(mode){ switchPushMode(mode === 'exam' ? 'direct' : 'theory'); }
