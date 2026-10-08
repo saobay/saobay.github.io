@@ -175,14 +175,29 @@
                 await ensureXlsx();
                 let wb = XLSX.utils.book_new();
                 let ws = XLSX.utils.aoa_to_sheet([
-                    ['Lớp', 'Môn', 'Giáo viên'],
-                    ['10A1', 'Toán', 'Bùi Thanh Hà (1700499890)'],
-                    ['10A1', 'Văn', 'Nguyễn Văn B'],
-                    ['11A2', 'Toán', 'Trần Thị C']
+                    ['BẢNG PHÂN CÔNG CHUYÊN MÔN'],
+                    ['STT', 'Mã định danh', 'Họ tên giáo viên', 'Ngày sinh', 'Môn dạy'],
+                    [1, '1700499890', 'Bùi Thanh Hà', '01/01/1980', 'Toán: 10A1, 10A2 GDĐP: 11A1'],
+                    [2, '1700499891', 'Nguyễn Văn B', '02/02/1981', 'Ngữ Văn: 10A1, 11A2']
                 ]);
                 XLSX.utils.book_append_sheet(wb, ws, 'PhanCong');
                 XLSX.writeFile(wb, 'mau-phan-cong-chuyen-mon.xlsx');
             } catch(e){ alert(e.message || e); }
+        }
+
+        // Tach "Môn: lớp1, lớp2 Môn2: lớp3..." -> [{subject, classes}]
+        function parseAssignCell(cellText){
+            let out = [];
+            let text = String(cellText || '').replace(/\n/g, ' ').trim();
+            if (!text) return out;
+            let re = /([^\n:,;]+?)\s*:\s*((?:\d{1,2}A\d{1,2}\s*[,;\s]*)+)/g, m;
+            while ((m = re.exec(text)) !== null){
+                let subject = m[1].trim();
+                let classes = (m[2].match(/\d{1,2}A\d{1,2}/gi) || []).map(function(c){ return c.toUpperCase(); });
+                classes = classes.filter(function(c, i){ return classes.indexOf(c) === i; });
+                if (subject && classes.length) out.push({ subject: subject, classes: classes });
+            }
+            return out;
         }
 
         async function assignImportExcel(input){
@@ -196,20 +211,52 @@
                 let ws = wb.Sheets[wb.SheetNames[0]];
                 let rows = XLSX.utils.sheet_to_json(ws, { header: 1, defval: '' });
                 if (rows.length < 2) throw new Error('File trống hoặc không có dữ liệu.');
-                let head = rows[0].map(assignNorm);
-                let ci = head.findIndex(function(h){ return ['lop','class'].indexOf(h) >= 0; });
-                let si = head.findIndex(function(h){ return ['mon','subject'].indexOf(h) >= 0; });
-                let ti = head.findIndex(function(h){ return ['giao vien','giaovien','teachers','teacher','gv'].indexOf(h) >= 0; });
-                if (ci < 0 || si < 0 || ti < 0) throw new Error('Không tìm thấy đủ 3 cột Lớp / Môn / Giáo viên trong dòng tiêu đề.');
                 let list = [];
-                for (let r = 1; r < rows.length; r++){
-                    let row = rows[r];
-                    let c = String(row[ci] || '').trim(), s2 = String(row[si] || '').trim(), t = String(row[ti] || '').trim();
-                    if (!c && !s2 && !t) continue;
-                    list.push({ class: c, subject: s2, teachers: t });
+                // Phat hien dinh dang: mau chinh thuc (Ho ten giao vien + Mon day) hay mau don gian (Lop/Mon/GV)
+                let hdrIdx = -1, mode = null, ci = -1, si = -1, ti = -1, bi = -1, ni = -1, mi = -1;
+                for (let i = 0; i < Math.min(rows.length, 10); i++){
+                    let h = rows[i].map(assignNorm);
+                    let hstr = h.join(' ');
+                    if (hstr.indexOf('ho ten') >= 0 && hstr.indexOf('mon') >= 0){
+                        hdrIdx = i; mode = 'official';
+                        bi = h.findIndex(function(x){ return x.indexOf('ma dinh danh') >= 0 || x === 'ma'; });
+                        ni = h.findIndex(function(x){ return x.indexOf('ho ten') >= 0; });
+                        mi = h.findIndex(function(x){ return x.indexOf('mon day') >= 0 && x.indexOf('lua chon') < 0; });
+                        break;
+                    }
+                    let c0 = h.findIndex(function(x){ return ['lop','class'].indexOf(x) >= 0; });
+                    let s0 = h.findIndex(function(x){ return ['mon','subject'].indexOf(x) >= 0; });
+                    let t0 = h.findIndex(function(x){ return ['giao vien','giaovien','teachers','teacher','gv'].indexOf(x) >= 0; });
+                    if (c0 >= 0 && s0 >= 0 && t0 >= 0){ hdrIdx = i; mode = 'simple'; ci = c0; si = s0; ti = t0; break; }
+                }
+                if (!mode) throw new Error('Không nhận diện được định dạng file. Dùng file mẫu (nút Tải file mẫu).');
+                if (mode === 'official'){
+                    if (ni < 0 || mi < 0) throw new Error('Không tìm thấy cột Họ tên / Môn dạy.');
+                    let nGV = 0;
+                    for (let r = hdrIdx + 1; r < rows.length; r++){
+                        let row = rows[r];
+                        let name = String(row[ni] || '').trim();
+                        if (!name) continue;
+                        nGV++;
+                        let uid = bi >= 0 ? String(row[bi] || '').trim() : '';
+                        let tstr = uid ? name + ' (' + uid + ')' : name;
+                        parseAssignCell(String(row[mi] || '')).forEach(function(p){
+                            p.classes.forEach(function(c){
+                                list.push({ class: c, subject: p.subject, teachers: tstr });
+                            });
+                        });
+                    }
+                    if (!nGV) throw new Error('Không đọc được giáo viên nào.');
+                } else {
+                    for (let r = hdrIdx + 1; r < rows.length; r++){
+                        let row = rows[r];
+                        let c = String(row[ci] || '').trim(), s2 = String(row[si] || '').trim(), t = String(row[ti] || '').trim();
+                        if (!c && !s2 && !t) continue;
+                        list.push({ class: c, subject: s2, teachers: t });
+                    }
                 }
                 if (!list.length) throw new Error('Không đọc được dòng dữ liệu nào.');
-                if (!confirm('Đã đọc ' + list.length + ' dòng từ Excel.\nĐẩy file này sẽ THAY TOÀN BỘ phân công cũ. Tiếp tục?')) return;
+                if (!confirm('Đã đọc ' + list.length + ' phân công từ Excel.\nĐẩy file này sẽ THAY TOÀN BỘ phân công cũ. Tiếp tục?')) return;
                 assignState.list = list;
                 await assignSave(true);
                 if (typeof showToast === 'function') showToast('Đã thay toàn bộ phân công từ Excel (' + list.length + ' dòng)', 'success');
