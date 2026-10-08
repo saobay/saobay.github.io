@@ -20,12 +20,12 @@
             let panelE = document.getElementById('prompt-panel-exam');
             if (panelT) panelT.classList.toggle('hidden', isExam);
             if (panelE) panelE.classList.toggle('hidden', !isExam);
-            // Panel builder (ngan hang de) chi hien o che do bank
+            // Panel builder (ngan hang de) mo mem o che do bank
             let bp = document.getElementById('exam-builder-panel');
-            if (bp) bp.classList.toggle('hidden', mode !== 'bank');
-            // Panel day truc tiep chi hien o che do direct
+            if (bp) bp.classList.toggle('open', mode === 'bank');
+            // Panel day truc tiep mo mem o che do direct
             let dp = document.getElementById('direct-panel');
-            if (dp) dp.classList.toggle('hidden', mode !== 'direct');
+            if (dp) dp.classList.toggle('open', mode === 'direct');
 
             // Đồng bộ loại bài đẩy ẩn theo chế độ (đề thi luôn EXAM_LONG)
             let itemType = document.getElementById('item-type');
