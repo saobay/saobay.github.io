@@ -132,10 +132,17 @@
         }
 
         // Hook tự động: gọi sau khi đẩy bài thành công (không làm hỏng luồng chính)
-        async function autoSaveToBank(finalHtml, formattedFileName, targetGitPath, targetFolder){
+        async function autoSaveToBank(finalHtml, formattedFileName, targetGitPath, targetFolder, explicitMeta){
             try {
                 if (finalHtml.indexOf('saobay-exam10-data') === -1) return;
                 let meta = parseBankMeta(formattedFileName, targetFolder);
+                // Uu tien vung kien thuc GV chon tren form (2026-10-08)
+                if (explicitMeta){
+                    if (explicitMeta.subject) meta.subject = String(explicitMeta.subject).toUpperCase();
+                    if (explicitMeta.grade) meta.grade = parseInt(explicitMeta.grade, 10) || meta.grade;
+                    if (explicitMeta.chapter !== undefined && explicitMeta.chapter !== '') meta.chapter = parseInt(explicitMeta.chapter, 10) || 0;
+                    if (explicitMeta.lesson !== undefined && explicitMeta.lesson !== '') meta.lesson = parseInt(explicitMeta.lesson, 10) || 0;
+                }
                 let qs = extractQuestionsFromExam10(finalHtml, meta, targetGitPath);
                 if (!qs.length) return;
                 let r = await pushQuestionsToBank(qs, meta);
