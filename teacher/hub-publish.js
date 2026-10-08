@@ -44,7 +44,8 @@ Nhiệm vụ: soạn ĐỀ 1 (làm từng đề một, KHÔNG làm 10 đề cùn
         {"type":"mcq","level":"NB","q":"Nội dung câu hỏi?","options":["A. ...","B. ...","C. ...","D. ..."],"answer":"B","explain":"Giải thích ngắn gọn."},
         {"type":"truefalse","level":"TH","q":"Xét tính đúng/sai:","statements":["Ý a ...","Ý b ...","Ý c ...","Ý d ..."],"answer":["T","F","T","F"],"explain":"Giải thích từng ý."},
         {"type":"short","level":"VD","q":"Điền đáp số: ...?","answer":"24","explain":"Giải thích."},
-        {"type":"essay","level":"VDC","q":"Câu tự luận: ... (ghi [TL] ở đầu)","explain":"Hướng dẫn chấm / barem từng ý."}
+        {"type":"essay","level":"VDC","q":"Câu tự luận: ... (ghi [TL] ở đầu)","explain":"Hướng dẫn chấm / barem từng ý."},
+        {"type":"mcq","level":"TH","q":"Câu có hình minh họa?","options":["A. ...","B. ...","C. ...","D. ..."],"answer":"A","img":"https://.../hinh1.png","explain":"Giải thích."}
       ]
     }
   ]
@@ -70,6 +71,7 @@ QUY TẮC KỸ THUẬT:
 - Công thức Toán giữ nguyên 100% cú pháp TeX trong $...$ hoặc $$...$$.
 - TUYỆT ĐỐI không dùng ký tự < > & trong chuỗi JSON (dấu < viết thành \\u003c). Không để dấu phẩy thừa cuối mảng/object.
 - Mỗi câu bắt buộc có "explain" ngắn gọn, dễ hiểu.
+- Nếu câu hỏi có hình minh họa (tôi sẽ cung cấp URL ảnh), thêm trường "img" với URL đó.
 - KHÔNG viết thẻ HTML câu hỏi, KHÔNG viết JavaScript — chỉ xuất đúng khối JSON trên.
 
 Sau khi tôi duyệt "Đề 1", tôi sẽ yêu cầu "tiếp tục Đề 2"... đến "Đề 10", mỗi đề KHÁC NHAU rõ rệt (đảo thứ tự, đổi số liệu, đổi cách hỏi).`;
