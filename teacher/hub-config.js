@@ -8,8 +8,8 @@
         };
         const API_URL = "https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec";
 
-        let currentSelectedFolderId = "data"; 
-        let currentSelectedFolderName = "data (Thư mục dữ liệu gốc)";
+        let currentSelectedFolderId = ""; 
+        let currentSelectedFolderName = "(chưa chọn)";
 
         const notifyChannel = new BroadcastChannel('saobay_notifications');
         
@@ -97,6 +97,7 @@
                                 // QUY TẮC BẢO MẬT: TUYỆT ĐỐI KHÔNG ĐỤNG ĐẾN THƯ MỤC BACKUP VÀ HỆ THỐNG
                                 if (p === 'backup' || p.startsWith('backup/')) return false;
                                 if (p === 'data/bank' || p.startsWith('data/bank/')) return false; // Bank tu dong trich, khong phai noi day bai
+                                if (p === 'data/scores' || p.startsWith('data/scores/')) return false; // Diem thi, khong phai noi day bai
                                 if (p === 'teacher' || p.startsWith('teacher/')) return false;
                                 if (p === 'used' || p.startsWith('used/')) return false;
                                 if (p === 'tienganh6' || p.startsWith('tienganh6/')) return false;
@@ -186,6 +187,19 @@
 
             gitFolderMap = nodeMap;
 
+            // An node goc 'data': dua cac thu muc con len lam root (giong giao dien HS)
+            let dataNode = nodeMap['data'];
+            if (dataNode) {
+                roots = dataNode.children;
+            }
+            // Sap xep: thu muc co con truoc, theo ten
+            roots.sort(function(a, b){
+                let ac = (a.children && a.children.length) ? 0 : 1;
+                let bc = (b.children && b.children.length) ? 0 : 1;
+                if (ac !== bc) return ac - bc;
+                return a.name.localeCompare(b.name, 'vi');
+            });
+
             function buildNodeHtml(node, depth = 0) {
                 let hasChildren = node.children && node.children.length > 0;
                 let isSelected = currentSelectedFolderId === node.path;
@@ -193,7 +207,6 @@
                 let safePath = node.path.replace(/'/g, "\\'");
 
                 let displayName = node.name;
-                if (node.path === 'data') displayName = 'data (Thư viện bài giảng)';
 
                 let childrenHtml = '';
                 if (hasChildren) {
@@ -204,9 +217,8 @@
                     ? "bg-blue-600 text-white font-bold shadow-md scale-[1.01]" 
                     : "text-slate-700 hover:bg-slate-100 font-medium";
 
-                // QUY TẮC: Mặc định chỉ mở thư mục gốc data (để hiện 2 thư mục chính THCS và THPT).
-                // Mọi thư mục con bên trong mặc định ĐỀU ĐÓNG (hidden), chỉ mở khi người dùng click vào.
-                let isExpandedByDefault = (node.path === 'data');
+                // QUY TẮC: Tat ca thu muc mac dinh DONG, chi mo khi nguoi dung click.
+                let isExpandedByDefault = false;
                 let chevronClass = isExpandedByDefault ? "fa-solid fa-chevron-down text-[10px]" : "fa-solid fa-chevron-right text-[10px]";
                 let childrenContainerClass = isExpandedByDefault 
                     ? "folder-children pl-3 border-l-2 border-slate-200 ml-2 mt-0.5 space-y-0.5" 
@@ -257,7 +269,33 @@
             document.getElementById('sidebar-container').classList.toggle('hidden');
         }
 
+        function folderHasChildren(path){
+            let n = (typeof gitFolderMap !== 'undefined' && gitFolderMap) ? gitFolderMap[path] : null;
+            return !!(n && n.children && n.children.length);
+        }
         function selectFolder(path, name, element) {
+            // QUY TAC: chi duoc chon thu muc TRONG CUNG (khong co thu muc con).
+            // Click vao thu muc cha thi chi mo/ dong nhanh, khong chon.
+            if (folderHasChildren(path)) {
+                if (element) {
+                    let wrapper = element.closest('.folder-node-wrapper');
+                    if (wrapper) {
+                        let sub = wrapper.querySelector('.folder-children');
+                        let icon = wrapper.querySelector('button i');
+                        if (sub) {
+                            if (sub.classList.contains('hidden')) {
+                                sub.classList.remove('hidden');
+                                if (icon) icon.className = "fa-solid fa-chevron-down text-[10px]";
+                            } else {
+                                sub.classList.add('hidden');
+                                if (icon) icon.className = "fa-solid fa-chevron-right text-[10px]";
+                            }
+                        }
+                    }
+                }
+                if (typeof showToast === 'function') showToast('Vui lòng chọn thư mục trong cùng (không có thư mục con) để đẩy bài.', 'warning');
+                return;
+            }
             currentSelectedFolderId = path;
             currentSelectedFolderName = name;
 
@@ -267,19 +305,6 @@
                 <i class="fa-solid fa-folder-open mr-2 text-amber-400"></i> ${name}
                 <span class="text-xs text-blue-200 font-normal ml-2 tracking-normal">[${displayPath}]</span>
             `;
-
-            // Tự động mở nhánh con khi người dùng click chọn thư mục cha
-            if (element) {
-                let wrapper = element.closest('.folder-node-wrapper');
-                if (wrapper) {
-                    let sub = wrapper.querySelector('.folder-children');
-                    let icon = wrapper.querySelector('button i');
-                    if (sub && sub.classList.contains('hidden')) {
-                        sub.classList.remove('hidden');
-                        if (icon) icon.className = "fa-solid fa-chevron-down text-[10px]";
-                    }
-                }
-            }
 
             let delBtn = document.getElementById('delete-folder-btn');
             if (!path || path === 'data' || path === 'root') {
