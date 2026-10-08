@@ -1032,6 +1032,7 @@
 
             // Gắn trình xem "10 bộ đề trong 1 file" nếu bài tập dạng saobay-exam10
             try { mountExam10Viewers(containerEl); } catch(eEx10){ console.log('exam10 mount note:', eEx10); }
+            try { mountBankViewers(containerEl); } catch(eBank){ console.log('bank mount note:', eBank); }
 
             // Render công thức toán học MathJax
             renderMathInTarget(containerEl);
@@ -1053,27 +1054,54 @@
 
                 let sets = [];
                 let timeLimitMin = 0; // >0 = BAI KIEM TRA (tinh gio), 0 = BAI TAP (khong tinh gio)
+                let parsed = null, strictMode = false, openFrom = 0, openTo = 0, scoring = {};
                 try {
                     let dataEl = root.querySelector('script.saobay-exam10-data');
-                    let parsed = JSON.parse(dataEl.textContent);
+                    parsed = JSON.parse(dataEl.textContent);
                     if (parsed && parsed.sets && parsed.sets.length) sets = parsed.sets;
                     let tl = parseFloat(parsed && parsed.time_limit);
                     if (tl > 0 && tl < 10080) timeLimitMin = tl;
+                    strictMode = !!(parsed && parsed.exam_strict);
+                    if (parsed && parsed.open_from){ let t = new Date(parsed.open_from).getTime(); if (t > 0) openFrom = t; }
+                    if (parsed && parsed.open_to){ let t2 = new Date(parsed.open_to).getTime(); if (t2 > 0) openTo = t2; }
+                    if (parsed && parsed.scoring && typeof parsed.scoring === 'object') scoring = parsed.scoring;
                 } catch(eParse) { console.log('exam10: khong doc duoc JSON de thi', eParse); }
+                function qWeight(qq){ let w = parseFloat(scoring[(qq && qq.type) || 'mcq']); return (w > 0 ? w : 1); }
+                function fmtScore(v){ let r = Math.round(v * 100) / 100; return String(r); }
+                function fmtDT(ts){ try { return new Date(ts).toLocaleString('vi-VN'); } catch(e){ return ''; } }
 
                 if (!sets.length) {
                     root.innerHTML = '<div class="p-6 text-center text-sm text-rose-600 bg-rose-50 border border-rose-200 rounded-xl">Kh\u00f4ng \u0111\u1ecdc \u0111\u01b0\u1ee3c d\u1eef li\u1ec7u 10 b\u1ed9 \u0111\u1ec1 trong file n\u00e0y. Vui l\u00f2ng ki\u1ec3m tra l\u1ea1i \u0111\u1ecbnh d\u1ea1ng JSON.</div>';
                     return;
                 }
 
-                let examMode = timeLimitMin > 0;
+                // Phase 4: khoa gio mo bai kiem tra nghiem tuc
+                if (strictMode){
+                    let nowTs = Date.now();
+                    if (openFrom && nowTs < openFrom){
+                        root.innerHTML = '<div class="p-8 text-center rounded-2xl border bg-amber-50 border-amber-200">'
+                            + '<div class="text-3xl mb-2">\uD83D\uDD12</div>'
+                            + '<div class="font-black text-amber-900">B\u00e0i ki\u1ec3m tra ch\u01b0a m\u1edf</div>'
+                            + '<div class="text-sm text-amber-700 mt-1">Th\u1eddi gian m\u1edf: <b>' + fmtDT(openFrom) + '</b></div></div>';
+                        return;
+                    }
+                    if (openTo && nowTs > openTo){
+                        root.innerHTML = '<div class="p-8 text-center rounded-2xl border bg-slate-100 border-slate-300">'
+                            + '<div class="text-3xl mb-2">\uD83D\uDD12</div>'
+                            + '<div class="font-black text-slate-800">\u0110\u00e3 h\u1ebft th\u1eddi gian l\u00e0m b\u00e0i</div>'
+                            + '<div class="text-sm text-slate-500 mt-1">B\u00e0i ki\u1ec3m tra \u0111\u00e3 \u0111\u00f3ng l\u00fac <b>' + fmtDT(openTo) + '</b>.</div></div>';
+                        return;
+                    }
+                }
+
+                let examMode = timeLimitMin > 0 || strictMode;
 
                 root.innerHTML =
                     '<div class="exam10-toolbar flex flex-wrap items-center justify-between gap-2 bg-indigo-50 border border-indigo-200 rounded-xl px-3 py-2 mb-4">'
                     + '<div class="text-xs font-bold text-indigo-900"><i class="fa-solid fa-layer-group mr-1.5 text-indigo-600"></i><span class="exam10-set-label"></span> <span class="exam10-set-count text-indigo-400 font-medium"></span></div>'
                     + '<div class="flex flex-wrap items-center gap-2">'
                     + '<span class="exam10-score text-xs font-black bg-white border border-indigo-200 text-indigo-800 px-2.5 py-1.5 rounded-lg">\u0110i\u1ec3m: 0/0</span>'
-                    + (examMode ? '<span class="exam10-timer text-xs font-black bg-white border border-amber-300 text-amber-700 px-2.5 py-1.5 rounded-lg"><i class="fa-solid fa-stopwatch mr-1"></i><span class="exam10-timer-val"></span></span>' : '')
+                    + (timeLimitMin > 0 ? '<span class="exam10-timer text-xs font-black bg-white border border-amber-300 text-amber-700 px-2.5 py-1.5 rounded-lg"><i class="fa-solid fa-stopwatch mr-1"></i><span class="exam10-timer-val"></span></span>' : '')
                     + '<button type="button" class="exam10-shuffle bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold px-3.5 py-2 rounded-lg shadow transition flex items-center"><i class="fa-solid fa-shuffle mr-1.5"></i> \u0110\u1ed5i \u0111\u1ec1</button>'
                     + (examMode ? '<button type="button" class="exam10-submit bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-3.5 py-2 rounded-lg shadow transition flex items-center"><i class="fa-solid fa-paper-plane mr-1.5"></i> N\u1ed9p b\u00e0i</button>' : '')
                     + '</div></div>'
@@ -1086,31 +1114,32 @@
                 let timerEl = root.querySelector('.exam10-timer-val');
                 let summaryEl = root.querySelector('.exam10-summary');
                 let qWrap = root.querySelector('.exam10-questions');
-                let cur = -1, score = 0, totalQ = 0, finished = false, timerId = null, remaining = 0;
+                let cur = -1, score = 0, totalQ = 0, finished = false, timerId = null, remaining = 0, answeredCount = 0, maxScore = 0;
 
                 function esc(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
                 function normAns(s){ return String(s == null ? '' : s).trim().toLowerCase().replace(/\s+/g,' '); }
                 function fmtTime(sec){ sec = Math.max(0, sec); let m = Math.floor(sec/60), s = sec%60; return (m<10?'0':'')+m + ':' + (s<10?'0':'')+s; }
-                function updateScore(){ scoreEl.textContent = '\u0110i\u1ec3m: ' + score + '/' + totalQ; }
+                function updateScore(){
+                    if (strictMode && !finished) scoreEl.textContent = '\u0110\u00e3 l\u00e0m: ' + answeredCount + '/' + totalQ;
+                    else scoreEl.textContent = '\u0110i\u1ec3m: ' + fmtScore(score) + '/' + fmtScore(maxScore);
+                }
 
                 function lockCard(card){
                     card.querySelectorAll('input').forEach(function(i){ i.disabled = true; });
                     let btn = card.querySelector('.exam10-check');
-                    if (btn){ btn.disabled = true; btn.classList.add('opacity-50','cursor-not-allowed'); btn.innerHTML = '<i class="fa-solid fa-lock mr-1"></i> \u0110\u00e3 ch\u1ea5m'; }
+                    if (btn){ btn.disabled = true; btn.classList.add('opacity-50','cursor-not-allowed'); btn.innerHTML = '<i class="fa-solid fa-lock mr-1"></i> ' + (strictMode ? '\u0110\u00e3 tr\u1ea3 l\u1eddi' : '\u0110\u00e3 ch\u1ea5m'); }
                 }
 
                 // Cham 1 cau: danh gia + KHOA cau (khong cho sua/lam lai) + cong diem
-                function gradeCard(card, qq, qid){
-                    if (!card || card.dataset.done === '1' || finished) return false;
-                    card.dataset.done = '1';
-                    let fb = card.querySelector('.exam10-feedback');
-                    let ok = false, detail = '';
+                // strictMode: chi ghi nhan dap an, KHONG hien dung/sai; dap an hien khi nop bai/het gio
+                function evalQ(card, qq, qid){
+                    let ok = false, detail = '', selLabel = null;
                     if (qq.type === 'mcq') {
                         let sel = card.querySelector('input[type=radio]:checked');
                         let ans = String(qq.answer || '').toUpperCase();
                         ok = !!(sel && sel.value.toUpperCase() === ans);
                         detail = '\u0110\u00e1p \u00e1n \u0111\u00fang: <b>' + esc(ans) + '</b>';
-                        if (sel && sel.closest('label')) sel.closest('label').classList.add(ok ? 'picked-correct' : 'picked-wrong');
+                        if (sel && sel.closest('label')) selLabel = sel.closest('label');
                     } else if (qq.type === 'truefalse') {
                         let exp = qq.answer || [];
                         let parts = [], allOk = true;
@@ -1131,13 +1160,37 @@
                         ok = !!(inp && ans !== '' && normAns(inp.value) === ans);
                         detail = '\u0110\u00e1p \u00e1n \u0111\u00fang: <b>' + esc(qq.answer) + '</b>';
                     }
+                    return { ok: ok, detail: detail, selLabel: selLabel };
+                }
+
+                function revealQ(card, qq, r){
+                    let fb = card.querySelector('.exam10-feedback');
+                    let ok = r.ok;
+                    if (r.selLabel) r.selLabel.classList.add(ok ? 'picked-correct' : 'picked-wrong');
                     card.classList.add(ok ? 'ok' : 'bad');
                     fb.className = 'exam10-feedback mt-2 text-sm rounded-lg px-3 py-2 leading-relaxed ' + (ok ? 'bg-emerald-50 border border-emerald-200 text-emerald-900' : 'bg-rose-50 border border-rose-200 text-rose-900');
-                    fb.innerHTML = '<b>' + (ok ? '\u2713 Ch\u00ednh x\u00e1c! +1 \u0111i\u1ec3m' : '\u2717 Ch\u01b0a \u0111\u00fang.') + '</b> ' + detail
+                    fb.innerHTML = '<b>' + (ok ? '\u2713 Ch\u00ednh x\u00e1c! +' + fmtScore(qWeight(qq)) + ' \u0111i\u1ec3m' : '\u2717 Ch\u01b0a \u0111\u00fang.') + '</b> ' + r.detail
                         + (qq.explain ? '<br><span class="text-slate-600"><b>Gi\u1ea3i th\u00edch:</b> ' + esc(qq.explain) + '</span>' : '');
                     lockCard(card);
-                    if (ok) { score++; updateScore(); }
-                    return ok;
+                    if (ok) score += qWeight(qq);
+                    updateScore();
+                }
+
+                function gradeCard(card, qq, qid, forceReveal){
+                    if (!card || card.dataset.done === '1' || finished) return false;
+                    card.dataset.done = '1';
+                    let r = evalQ(card, qq, qid);
+                    if (strictMode && !forceReveal){
+                        let fb = card.querySelector('.exam10-feedback');
+                        fb.className = 'exam10-feedback mt-2 text-sm rounded-lg px-3 py-2 leading-relaxed bg-slate-100 border border-slate-200 text-slate-600';
+                        fb.innerHTML = '<b>\u2713 \u0110\u00e3 ghi nh\u1eadn c\u00e2u tr\u1ea3 l\u1eddi.</b> \u0110\u00e1p \u00e1n v\u00e0 \u0111i\u1ec3m s\u1ebd hi\u1ec7n khi b\u1ea1n n\u1ed9p b\u00e0i ho\u1eb7c h\u1ebft gi\u1edd.';
+                        lockCard(card);
+                        answeredCount++;
+                        updateScore();
+                        return r.ok;
+                    }
+                    revealQ(card, qq, r);
+                    return r.ok;
                 }
 
                 function stopTimer(){ if (timerId){ clearInterval(timerId); timerId = null; } }
@@ -1147,26 +1200,31 @@
                     finished = true;
                     stopTimer();
                     qWrap.querySelectorAll('.exam10-q').forEach(function(card){
-                        if (card.dataset.done === '1') return;
                         let qi = parseInt(card.getAttribute('data-qi'), 10);
                         let qq = (sets[cur].questions || [])[qi];
                         let qid = 'ex10_' + cur + '_' + qi;
-                        gradeCard(card, qq, qid);
+                        if (card.dataset.done === '1'){
+                            if (strictMode) revealQ(card, qq, evalQ(card, qq, qid));
+                            return;
+                        }
+                        gradeCard(card, qq, qid, true);
                     });
-                    let pct = totalQ ? Math.round(score/totalQ*100) : 0;
+                    let pct = maxScore ? Math.round(score / maxScore * 100) : 0;
+                    let correctCount = qWrap.querySelectorAll('.exam10-q.ok').length;
                     let title = reason === 'timeout' ? 'H\u1ebft gi\u1edd!' : '\u0110\u00e3 n\u1ed9p b\u00e0i!';
                     let color = pct >= 80 ? 'emerald' : (pct >= 50 ? 'amber' : 'rose');
                     summaryEl.className = 'exam10-summary mt-4 p-5 text-center rounded-2xl border bg-' + color + '-50 border-' + color + '-200';
                     summaryEl.innerHTML = '<div class="text-lg font-black text-' + color + '-800">' + title + '</div>'
-                        + '<div class="text-3xl font-black text-slate-900 mt-1">' + score + '/' + totalQ + ' \u0111i\u1ec3m</div>'
-                        + '<div class="text-xs text-slate-500 mt-1">\u0110\u00fang ' + score + ' tr\u00ean ' + totalQ + ' c\u00e2u (' + pct + '%)</div>';
+                        + '<div class="text-3xl font-black text-slate-900 mt-1">' + fmtScore(score) + '/' + fmtScore(maxScore) + ' \u0111i\u1ec3m</div>'
+                        + '<div class="text-xs text-slate-500 mt-1">\u0110\u00fang ' + correctCount + ' tr\u00ean ' + totalQ + ' c\u00e2u (' + pct + '%)</div>';
                     if (summaryEl.scrollIntoView) summaryEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                     if (window.MathJax) renderMathInTarget(summaryEl);
+                    updateScore();
                 }
 
                 function startTimer(){
                     stopTimer();
-                    if (!examMode) return;
+                    if (!(timeLimitMin > 0)) return;
                     remaining = Math.round(timeLimitMin * 60);
                     let tick = function(){
                         if (timerEl) {
@@ -1182,13 +1240,14 @@
                 }
 
                 function renderSet(idx){
-                    cur = idx; finished = false; score = 0;
+                    cur = idx; finished = false; score = 0; answeredCount = 0;
                     stopTimer();
                     summaryEl.className = 'exam10-summary hidden mt-4';
                     summaryEl.innerHTML = '';
                     let set = sets[idx] || { questions: [] };
                     let qs = set.questions || [];
                     totalQ = qs.length;
+                    maxScore = qs.reduce(function(s, qq){ return s + qWeight(qq); }, 0);
                     labelEl.textContent = set.name || ('\u0110\u1ec1 ' + (idx + 1));
                     countEl.textContent = '\u2022 b\u1ed9 ' + (idx + 1) + '/' + sets.length + ' \u2022 ' + qs.length + ' c\u00e2u' + (examMode ? ' \u2022 ' + timeLimitMin + ' ph\u00fat' : '');
                     updateScore();
@@ -1219,7 +1278,7 @@
                             });
                         }
                         html += '</div>';
-                        html += '<button type="button" class="exam10-check mt-2.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold px-3.5 py-1.5 rounded-lg transition">Ki\u1ec3m tra</button>';
+                        html += '<button type="button" class="exam10-check mt-2.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold px-3.5 py-1.5 rounded-lg transition">' + (strictMode ? 'Tr\u1ea3 l\u1eddi' : 'Ki\u1ec3m tra') + '</button>';
                         html += '<div class="exam10-feedback hidden mt-2 text-sm rounded-lg px-3 py-2 leading-relaxed"></div>';
                         html += '</div>';
                     });
@@ -1255,6 +1314,144 @@
                 });
 
                 renderSet(Math.floor(Math.random() * sets.length));
+            });
+        }
+
+        // BANK VIEW - file "cau noi" boc cau hoi tu ngan hang (Phase 3, 2026-10-08)
+        // Cau truc trong file bai hoc:
+        //   <div class="saobay-bank-view"></div>
+        //   + 1 the script JSON cau hinh (class saobay-bank-config) chua:
+        //     {"subject":"TOAN","grade":10,"chapter":1,"count":10,
+        //      "types":["mcq","truefalse","short"],
+        //      "levels":{"NB":40,"TH":30,"VD":20,"VDC":10},"time_limit":0}
+        // Web boc ngau nhien cau hoi tu data/bank/ roi dung lai trinh render exam10
+        // (khoa cau + diem + dem nguoc). Nut "Boc cau khac" boc lai tu bank.
+        function shuffleArr(a){
+            for (let i = a.length - 1; i > 0; i--){
+                let j = Math.floor(Math.random() * (i + 1));
+                let t = a[i]; a[i] = a[j]; a[j] = t;
+            }
+            return a;
+        }
+
+        async function fetchBankJson(bankPath){
+            try {
+                let r = await fetch(encodeURI(bankPath));
+                if (r.ok) return await r.json();
+            } catch(e1){}
+            try {
+                let url = 'https://raw.githubusercontent.com/' + GITHUB_CONFIG.owner + '/' + GITHUB_CONFIG.repo + '/' + GITHUB_CONFIG.branch + '/' + bankPath;
+                let r2 = await fetch(encodeURI(url) + '?t=' + Date.now());
+                if (r2.ok) return await r2.json();
+            } catch(e2){}
+            try {
+                let apiUrl = 'https://api.github.com/repos/' + GITHUB_CONFIG.owner + '/' + GITHUB_CONFIG.repo + '/contents/' + encodeURI(bankPath);
+                let r3 = await fetch(apiUrl, { headers: { 'Accept': 'application/vnd.github+json' } });
+                if (r3.ok){
+                    let fd = await r3.json();
+                    if (fd && fd.content){
+                        let bin = atob(String(fd.content).replace(/\s/g,''));
+                        let bytes = new Uint8Array(bin.length);
+                        for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+                        return JSON.parse(new TextDecoder('utf-8').decode(bytes));
+                    }
+                }
+            } catch(e3){}
+            return null;
+        }
+
+        function pickBankQuestions(all, cfg){
+            let types = (cfg.types && cfg.types.length) ? cfg.types : null;
+            let pool = (all || []).filter(function(q){
+                if (cfg.chapter && q.chapter !== cfg.chapter) return false;
+                if (types && types.indexOf(q.type) === -1) return false;
+                return true;
+            });
+            if (!pool.length) return [];
+            let count = Math.min(cfg.count || 10, pool.length);
+            let groups = { NB: [], TH: [], VD: [], VDC: [] };
+            pool.forEach(function(q){ (groups[q.level] || groups.NB).push(q); });
+            Object.keys(groups).forEach(function(k){ shuffleArr(groups[k]); });
+            let ratios = cfg.levels || { NB: 25, TH: 25, VD: 25, VDC: 25 };
+            let totalR = 0;
+            Object.keys(ratios).forEach(function(k){ totalR += (+ratios[k] || 0); });
+            if (!totalR) totalR = 1;
+            let picked = [], used = {};
+            ['NB','TH','VD','VDC'].forEach(function(lv){
+                let want = Math.round(count * ((+ratios[lv] || 0) / totalR));
+                let g = groups[lv] || [];
+                for (let i = 0; i < want && i < g.length; i++){ picked.push(g[i]); used[g[i].id] = 1; }
+            });
+            if (picked.length < count){
+                let rest = shuffleArr(pool.filter(function(q){ return !used[q.id]; }));
+                while (picked.length < count && rest.length) picked.push(rest.pop());
+            }
+            shuffleArr(picked);
+            return picked.map(function(q){
+                return { type: q.type, level: q.level, q: q.q, options: q.options || [],
+                         statements: q.statements || [], answer: q.answer, explain: q.explain || '' };
+            });
+        }
+
+        async function loadBankView(root){
+            let cfgEl = null;
+            if (root.nextElementSibling && root.nextElementSibling.matches
+                && root.nextElementSibling.matches('script.saobay-bank-config')) cfgEl = root.nextElementSibling;
+            if (!cfgEl && root.parentElement) cfgEl = root.parentElement.querySelector('script.saobay-bank-config');
+            let cfg = {};
+            try { cfg = cfgEl ? JSON.parse(cfgEl.textContent) : {}; } catch(eCfg){}
+            let subject = String(cfg.subject || 'TOAN').toUpperCase();
+            let grade = cfg.grade || 10;
+            let bankPath = 'data/bank/' + subject + '_' + grade + '.json';
+
+            root.innerHTML = '<p class="text-slate-400 italic text-xs"><i class="fa-solid fa-spinner fa-spin mr-2"></i> \u0110ang b\u1ed1c c\u00e2u h\u1ecfi t\u1eeb ng\u00e2n h\u00e0ng...</p>';
+
+            let bank = await fetchBankJson(bankPath);
+            let all = (bank && bank.questions) || [];
+            if (!all.length){
+                root.innerHTML = '<div class="p-6 text-center text-sm text-amber-700 bg-amber-50 border border-amber-200 rounded-xl">'
+                    + 'Ng\u00e2n h\u00e0ng c\u00e2u h\u1ecfi ' + subject + ' kh\u1ed1i ' + grade
+                    + ' ch\u01b0a c\u00f3 d\u1eef li\u1ec7u. Gi\u00e1o vi\u00ean h\u00e3y \u0111\u1ea9y th\u00eam \u0111\u1ec1 \u0111\u1ec3 b\u1ed5 sung bank.</div>';
+                return;
+            }
+            let picked = pickBankQuestions(all, cfg);
+            if (!picked.length){
+                root.innerHTML = '<div class="p-6 text-center text-sm text-amber-700 bg-amber-50 border border-amber-200 rounded-xl">'
+                    + 'Kh\u00f4ng t\u00ecm \u0111\u01b0\u1ee3c c\u00e2u h\u1ecfi ph\u00f9 h\u1ee3p trong bank (th\u1eed n\u1edbi b\u1ed9 l\u1ecdc).</div>';
+                return;
+            }
+
+            // Dung lai 100% trinh render exam10 (khoa cau + diem + dem nguoc)
+            let examDiv = document.createElement('div');
+            examDiv.className = 'saobay-exam10';
+            let dataScript = document.createElement('script');
+            dataScript.type = 'application/json';
+            dataScript.className = 'saobay-exam10-data';
+            dataScript.textContent = JSON.stringify({
+                sets: [{ name: cfg.set_name || '\u0110\u1ec1 luy\u1ec7n t\u1eadp', questions: picked }],
+                time_limit: cfg.time_limit || 0
+            });
+            examDiv.appendChild(dataScript);
+            root.innerHTML = '';
+            root.appendChild(examDiv);
+            try { mountExam10Viewers(root); } catch(eDel){ console.log('bank delegate note:', eDel); }
+
+            // Nut "Doi de" mac dinh chi doi giua cac set -> thay bang nut boc lai tu bank
+            let shuf = examDiv.querySelector('.exam10-shuffle');
+            if (shuf){
+                let nb = shuf.cloneNode(true);
+                nb.innerHTML = '<i class="fa-solid fa-dice mr-1.5"></i> B\u1ed1c c\u00e2u kh\u00e1c';
+                shuf.parentNode.replaceChild(nb, shuf);
+                nb.addEventListener('click', function(){ loadBankView(root); });
+            }
+        }
+
+        function mountBankViewers(scopeEl){
+            if (!scopeEl || !scopeEl.querySelectorAll) return;
+            scopeEl.querySelectorAll('.saobay-bank-view').forEach(function(root){
+                if (root.dataset.mounted === '1') return;
+                root.dataset.mounted = '1';
+                loadBankView(root);
             });
         }
 
