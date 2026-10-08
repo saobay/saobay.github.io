@@ -20,43 +20,39 @@
             let bankRow = document.getElementById('bank-tools-row');
             if (bankRow) bankRow.classList.toggle('hidden', !isExam);
 
-            // Đồng bộ loại bài đẩy ẩn theo tab
+            // Đồng bộ loại bài đẩy ẩn theo tab (đã bỏ chọn dài/ngắn: đề thi luôn EXAM_LONG)
             let itemType = document.getElementById('item-type');
-            if (itemType) {
-                if (isExam) {
-                    let lenSel = document.getElementById('exam-length');
-                    itemType.value = lenSel ? lenSel.value : 'EXAM_LONG';
-                } else {
-                    itemType.value = 'KNOWLEDGE';
-                }
-            }
+            if (itemType) itemType.value = isExam ? 'EXAM_LONG' : 'KNOWLEDGE';
             refreshPushSubmitBtn();
             updateScorePreview();
         }
 
-        function syncExamLength() {
-            let lenSel = document.getElementById('exam-length');
-            let itemType = document.getElementById('item-type');
-            if (lenSel && itemType && currentPushTab === 'exam') {
-                itemType.value = lenSel.value;
-                updateScorePreview();
+        // Panel "Soạn đề cố định từ đẩy trực tiếp": bật/tắt khu vực đẩy trực tiếp
+        function toggleDirectPanel(){
+            let p = document.getElementById('direct-panel');
+            if (!p) return;
+            p.classList.toggle('hidden');
+            let btn = document.getElementById('direct-push-btn');
+            if (btn){
+                let open = !p.classList.contains('hidden');
+                btn.classList.toggle('!bg-indigo-700', open);
+                btn.classList.toggle('!text-white', open);
             }
+            if (!p.classList.contains('hidden') && p.scrollIntoView) p.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
-        // Chon nguon de khi day: "fixed" = giu nguyen noi dung dan vao (10 bo de co dinh);
-        // "bank" = moi HS boc 1 de rieng tu bank luc mo;
-        // "bankfrozen" = boc 1 lan tu bank, khoa chung ca lop, tron thu tu trong tung dang
-        function syncExamSource() {
-            let sel = document.getElementById('exam-source');
-            let cfg = document.getElementById('bank-source-config');
-            let frz = document.getElementById('bankfrozen-counts');
-            if (!sel || !cfg) return;
-            let v = sel.value;
-            let showCfg = (v === 'bank' || v === 'bankfrozen');
-            cfg.classList.toggle('hidden', !showCfg);
-            cfg.classList.toggle('flex', showCfg);
-            if (frz) frz.classList.toggle('hidden', v !== 'bankfrozen');
+        // 2 dạng nhập trong panel trực tiếp: dán AI / file Word
+        function switchDirectInput(mode){
+            let isWord = (mode === 'word');
+            let box = document.getElementById('direct-word-box');
+            let hint = document.getElementById('direct-ai-hint');
+            if (box) box.classList.toggle('hidden', !isWord);
+            if (hint) hint.classList.toggle('hidden', isWord);
+            let tA = document.getElementById('direct-tab-ai'), tW = document.getElementById('direct-tab-word');
+            if (tA) tA.className = 'flex-1 px-3 py-2 rounded-lg text-xs font-bold ' + (isWord ? 'bg-white text-indigo-800 border border-indigo-200' : 'bg-indigo-700 text-white shadow');
+            if (tW) tW.className = 'flex-1 px-3 py-2 rounded-lg text-xs font-bold ' + (isWord ? 'bg-indigo-700 text-white shadow' : 'bg-white text-indigo-800 border border-indigo-200');
         }
+
 
         function refreshPushSubmitBtn() {
             let btn = document.getElementById('submit-btn');
