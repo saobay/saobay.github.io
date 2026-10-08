@@ -662,10 +662,19 @@
 
             await loadMasterDatabase();
 
-            // 0. Kiểm tra thời hạn tài khoản (2026-10-09)
-            function checkExpiry(uid){
+            // 0. Kiểm tra thời hạn tài khoản (2026-10-09) - file riêng used/account_expiry.json
+            let expiryDbCache = null;
+            async function getExpiryDb(){
+                if (expiryDbCache) return expiryDbCache;
                 try {
-                    let exp = (masterDatabase.account_expiry || {})[uid];
+                    let r = await fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/used/account_expiry.json?t=' + Date.now());
+                    expiryDbCache = r.ok ? await r.json() : {};
+                } catch(e){ expiryDbCache = {}; }
+                return expiryDbCache;
+            }
+            function checkExpiry(uid, expDb){
+                try {
+                    let exp = (expDb || {})[uid];
                     if (!exp || !exp.expires_at) return { ok: true, daysLeft: Infinity };
                     let days = Math.ceil((new Date(exp.expires_at).getTime() - Date.now()) / 86400000);
                     return { ok: days >= 0, daysLeft: days, expiresAt: exp.expires_at };
@@ -728,7 +737,8 @@
             }
 
             // 3b. Kiểm tra thời hạn tài khoản
-            let expCheck = checkExpiry(matchedUser.id);
+            let expDb = await getExpiryDb();
+            let expCheck = checkExpiry(matchedUser.id, expDb);
             if (!expCheck.ok){
                 let ds = new Date(expCheck.expiresAt).toLocaleDateString('vi-VN');
                 showToast('Tài khoản của bạn đã hết hạn sử dụng (hết hạn ngày ' + ds + '). Vui lòng liên hệ quản trị viên để gia hạn!', 'error');
@@ -756,7 +766,7 @@
             // 6. Đăng nhập thành công với mật khẩu riêng đã đổi
             matchedUser.mustChangePassword = false;
             try {
-                let exp = (masterDatabase.account_expiry || {})[matchedUser.id];
+                let exp = (expDb || {})[matchedUser.id];
                 if (exp && exp.expires_at) matchedUser.expires_at = exp.expires_at;
             } catch(e){}
             localStorage.setItem('saobay_user', JSON.stringify(matchedUser));
