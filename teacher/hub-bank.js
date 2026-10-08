@@ -56,7 +56,7 @@
                         let q = {
                             subject: meta.subject, grade: meta.grade,
                             chapter: meta.chapter, lesson: meta.lesson,
-                            type: (qq.type === 'truefalse' || qq.type === 'short') ? qq.type : 'mcq',
+                            type: (qq.type === 'truefalse' || qq.type === 'short' || qq.type === 'essay') ? qq.type : 'mcq',
                             level: bankNormLevel(qq.level),
                             q: String(qq.q || ''), options: qq.options || [],
                             statements: qq.statements || [],
