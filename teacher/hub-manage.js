@@ -342,57 +342,100 @@
             let total = ermData.sets.length;
             let done = ermApprovedCount();
             document.getElementById('erm-progress').textContent = 'Đề ' + (ermData.idx + 1) + '/' + total + ' · Đã duyệt ' + done + '/' + total;
-            // dots
             let dots = document.getElementById('erm-dots');
             dots.innerHTML = ermData.sets.map(function(s2, i){
                 let c = s2.approved ? 'bg-emerald-500 text-white' : (i === ermData.idx ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-600 hover:bg-slate-300');
                 return '<button onclick="examReviewGo(' + i + ')" class="w-7 h-7 rounded-full text-[10px] font-bold ' + c + '" title="Đề ' + (i+1) + (s2.approved ? ' (đã duyệt)' : '') + '">' + (i+1) + '</button>';
             }).join('');
-            // questions
             let qs = st.questions || [];
-            let qhtml = qs.map(function(qq, qi){
+            let esc = function(v){ return String(v == null ? '' : v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); };
+            let qhtml = '';
+            if (ermEditMode){
+                qhtml = '<div class="bg-blue-50 border border-blue-200 rounded-xl p-3"><label class="text-[11px] font-bold text-slate-600">Tên đề:</label>'
+                    + '<input id="erm-set-name" value="' + esc(st.name || ('Đề ' + (ermData.idx+1))) + '" class="mt-1 w-full text-xs border rounded-lg px-2 py-1.5 font-bold"></div>';
+            } else {
+                qhtml = '<h4 class="font-bold text-sm text-slate-800">' + esc(st.name || ('Đề ' + (ermData.idx+1))) + '</h4>';
+            }
+            qhtml += qs.map(function(qq, qi){
                 let t = (qq.type === 'truefalse') ? 'Đúng/Sai' : (qq.type === 'short' ? 'Trả lời ngắn' : (qq.type === 'essay' ? 'Tự luận' : 'Trắc nghiệm'));
-                let qtxt = String(qq.q || '').replace(/</g, '&lt;');
+                if (ermEditMode){
+                    let oEdits = (qq.options || []).map(function(op, oi){
+                        return '<div class="flex items-center gap-1 mt-1"><span class="text-[11px] font-bold text-slate-500 w-4">' + 'ABCD'[oi] + '.</span>'
+                            + '<input id="erm-q-' + qi + '-opt-' + oi + '" value="' + esc(op) + '" class="flex-1 text-xs border rounded px-2 py-1"></div>';
+                    }).join('');
+                    let sEdits = (qq.statements || []).map(function(sm, mi){
+                        let txt = (typeof sm === 'object') ? (sm.text || '') : sm;
+                        return '<div class="flex items-center gap-1 mt-1"><span class="text-[11px] font-bold text-slate-500 w-4">' + String.fromCharCode(97+mi) + ')</span>'
+                            + '<input id="erm-q-' + qi + '-stmt-' + mi + '" value="' + esc(txt) + '" class="flex-1 text-xs border rounded px-2 py-1"></div>';
+                    }).join('');
+                    return '<div class="bg-white border-2 border-blue-300 rounded-xl p-3">'
+                        + '<div class="flex items-center gap-2 mb-2"><span class="text-[10px] font-bold bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded-full">Câu ' + (qi+1) + '</span>'
+                        + '<span class="text-[10px] font-bold bg-slate-200 text-slate-600 px-2 py-0.5 rounded-full">' + t + '</span></div>'
+                        + '<label class="text-[11px] font-bold text-slate-600">Đề bài:</label>'
+                        + '<textarea id="erm-q-' + qi + '" rows="2" class="mt-1 w-full text-xs border rounded-lg px-2 py-1.5">' + esc(qq.q) + '</textarea>'
+                        + oEdits + sEdits
+                        + '<div class="flex gap-2 mt-2"><div class="flex-1"><label class="text-[11px] font-bold text-slate-600">Đáp án:</label>'
+                        + '<input id="erm-q-' + qi + '-ans" value="' + esc(qq.answer) + '" class="mt-1 w-full text-xs border rounded px-2 py-1"></div></div>'
+                        + '<label class="text-[11px] font-bold text-slate-600 mt-2 block">Giải thích:</label>'
+                        + '<textarea id="erm-q-' + qi + '-exp" rows="2" class="mt-1 w-full text-xs border rounded-lg px-2 py-1.5">' + esc(qq.explain) + '</textarea>'
+                        + '</div>';
+                }
+                let qtxt = esc(qq.q);
                 let opts = '';
                 if (qq.options && qq.options.length){
                     opts = '<div class="mt-1 space-y-0.5">' + qq.options.map(function(op, oi){
                         let isAns = String(qq.answer) === String('ABCD'[oi]) || String(qq.answer) === String(op);
-                        return '<div class="text-[11px] ' + (isAns ? 'text-emerald-700 font-bold' : 'text-slate-600') + '">' + 'ABCD'[oi] + '. ' + String(op).replace(/</g,'&lt;') + (isAns ? ' ✓' : '') + '</div>';
+                        return '<div class="text-[11px] ' + (isAns ? 'text-emerald-700 font-bold' : 'text-slate-600') + '">' + 'ABCD'[oi] + '. ' + esc(op) + (isAns ? ' ✓' : '') + '</div>';
                     }).join('') + '</div>';
                 }
                 let stmts = '';
                 if (qq.statements && qq.statements.length){
                     stmts = '<div class="mt-1 space-y-0.5">' + qq.statements.map(function(sm, mi){
-                        return '<div class="text-[11px] text-slate-600">' + String.fromCharCode(97+mi) + ') ' + String(sm.text || sm).replace(/</g,'&lt;') + ' <b class="' + (sm.answer ? 'text-emerald-700' : 'text-rose-600') + '">(' + (sm.answer ? 'Đúng' : 'Sai') + ')</b></div>';
+                        let txt = (typeof sm === 'object') ? (sm.text || '') : sm;
+                        let ans = (typeof sm === 'object') ? !!sm.answer : false;
+                        return '<div class="text-[11px] text-slate-600">' + String.fromCharCode(97+mi) + ') ' + esc(txt) + ' <b class="' + (ans ? 'text-emerald-700' : 'text-rose-600') + '">(' + (ans ? 'Đúng' : 'Sai') + ')</b></div>';
                     }).join('') + '</div>';
                 }
                 return '<div class="bg-slate-50 border border-slate-200 rounded-xl p-3">'
                     + '<div class="flex items-center gap-2 mb-1"><span class="text-[10px] font-bold bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded-full">Câu ' + (qi+1) + '</span>'
                     + '<span class="text-[10px] font-bold bg-slate-200 text-slate-600 px-2 py-0.5 rounded-full">' + t + '</span>'
-                    + (qq.level ? '<span class="text-[10px] font-bold bg-violet-100 text-violet-800 px-2 py-0.5 rounded-full">' + String(qq.level).replace(/</g,'&lt;') + '</span>' : '')
+                    + (qq.level ? '<span class="text-[10px] font-bold bg-violet-100 text-violet-800 px-2 py-0.5 rounded-full">' + esc(qq.level) + '</span>' : '')
                     + '</div>'
                     + '<div class="text-xs text-slate-800 font-medium">' + qtxt + '</div>' + opts + stmts
-                    + (qq.answer && !opts && !stmts ? '<div class="text-[11px] text-emerald-700 font-bold mt-1">Đáp án: ' + String(qq.answer).replace(/</g,'&lt;') + '</div>' : '')
-                    + (qq.explain ? '<div class="text-[11px] text-slate-500 italic mt-1">Giải thích: ' + String(qq.explain).replace(/</g,'&lt;') + '</div>' : '')
+                    + (qq.answer && !opts && !stmts ? '<div class="text-[11px] text-emerald-700 font-bold mt-1">Đáp án: ' + esc(qq.answer) + '</div>' : '')
+                    + (qq.explain ? '<div class="text-[11px] text-slate-500 italic mt-1">Giải thích: ' + esc(qq.explain) + '</div>' : '')
                     + '</div>';
             }).join('');
-            body.innerHTML = '<h4 class="font-bold text-sm text-slate-800">' + String(st.name || ('Đề ' + (ermData.idx+1))).replace(/</g,'&lt;') + '</h4>' + (qhtml || '<p class="text-xs text-slate-400">Đề này chưa có câu hỏi.</p>');
-            body.scrollTop = 0;
+            body.innerHTML = qhtml || '<p class="text-xs text-slate-400">Đề này chưa có câu hỏi.</p>';
+            if (!ermEditMode) body.scrollTop = 0;
             let statusEl = document.getElementById('erm-set-status');
             let btn = document.getElementById('erm-approve-btn');
+            let editBtn = document.getElementById('erm-edit-btn');
+            let saveBtn = document.getElementById('erm-save-btn');
+            if (editBtn) document.getElementById('erm-edit-label').textContent = ermEditMode ? 'Hủy sửa' : 'Sửa text';
+            if (saveBtn) saveBtn.classList.toggle('hidden', !ermEditMode);
+            if (btn) btn.classList.toggle('hidden', ermEditMode);
             if (st.approved){
-                statusEl.innerHTML = '<span class="text-emerald-700"><i class="fa-solid fa-circle-check mr-1"></i>Đề này đã được duyệt' + (st.approvedBy ? ' bởi ' + String(st.approvedBy).replace(/</g,'&lt;') : '') + '</span>';
-                btn.className = 'px-5 py-2 rounded-xl bg-slate-300 text-slate-500 text-sm font-bold shadow cursor-not-allowed';
-                btn.innerHTML = '<i class="fa-solid fa-check mr-1"></i>Đã duyệt';
-                btn.disabled = true;
+                statusEl.innerHTML = '<span class="text-emerald-700"><i class="fa-solid fa-circle-check mr-1"></i>Đề này đã được duyệt' + (st.approvedBy ? ' bởi ' + esc(st.approvedBy) : '') + '</span>';
+                if (btn){ btn.className = 'px-5 py-2 rounded-xl bg-slate-300 text-slate-500 text-sm font-bold shadow cursor-not-allowed'; btn.innerHTML = '<i class="fa-solid fa-check mr-1"></i>Đã duyệt'; btn.disabled = true; }
             } else {
                 statusEl.innerHTML = '<span class="text-amber-700"><i class="fa-solid fa-circle-exclamation mr-1"></i>Đề này chưa duyệt</span>';
-                btn.className = 'px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold shadow';
-                btn.innerHTML = '<i class="fa-solid fa-check mr-1"></i>Duyệt đề này';
-                btn.disabled = false;
+                if (btn){ btn.className = 'px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold shadow'; btn.innerHTML = '<i class="fa-solid fa-check mr-1"></i>Duyệt đề này'; btn.disabled = false; }
             }
-            document.getElementById('erm-prev').disabled = (total <= 1);
-            document.getElementById('erm-next').disabled = (total <= 1);
+            let pv = document.getElementById('erm-prev'), nx = document.getElementById('erm-next');
+            if (pv) pv.disabled = (total <= 1);
+            if (nx) nx.disabled = (total <= 1);
+        }
+        async function saveErmEdits(){
+            ermSaveEdits();
+            ermEditMode = false;
+            try {
+                await ermSaveFile();
+                alert('Đã lưu các sửa đổi vào file đề!');
+            } catch(e){
+                alert('Lỗi lưu: ' + (e.message || e));
+            }
+            renderExamReviewSet();
         }
         async function approveExamReviewSet(){
             if (!ermData.sets.length) return;
