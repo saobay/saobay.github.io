@@ -421,14 +421,38 @@ async function handlePaperDocxFile(input){
         // ---- AI DOC DE: Gemini API truc tiep (2026-10-08) ----
         function getGeminiKey(){ try { return localStorage.getItem('saobay_gemini_key') || ''; } catch(e){ return ''; } }
         function setGeminiKey(k){ try { localStorage.setItem('saobay_gemini_key', k || ''); } catch(e){} }
+        function saveGeminiKeyUI(){
+            let inp = document.getElementById('gemini-key-input');
+            let st = document.getElementById('gemini-key-status');
+            let k = inp ? inp.value.trim() : '';
+            if (!k){ if (st){ st.textContent = 'Hãy dán key vào ô trên.'; st.className = 'text-[10px] text-rose-600'; } return; }
+            setGeminiKey(k);
+            if (inp) inp.value = '';
+            if (st){ st.textContent = 'Đã lưu key (chỉ lưu trên trình duyệt này).'; st.className = 'text-[10px] text-emerald-700'; }
+            if (typeof showToast === 'function') showToast('Đã lưu Gemini API key!', 'success');
+        }
+        function copyNotebookLMPrompt(){
+            let rawText = (typeof wordState !== 'undefined' && wordState.rawText) ? wordState.rawText : '';
+            if (!rawText){ alert('Hãy tải file Word lên trước (nút "Tải file .docx").'); return; }
+            let prompt = 'Bạn là chuyên gia biên soạn đề thi. Dưới đây là nội dung thô của 1 đề thi trích từ file Word (có thể lộn xộn).\n\n'
+                + 'NHIỆM VỤ: Nhận diện TẤT CẢ câu hỏi, phân loại dạng, tìm đáp án đúng, xuất ra JSON theo đúng cấu trúc SAOBAY.\n\n'
+                + 'CẤU TRÚC JSON (mỗi câu 1 object):\n'
+                + '- {"type":"mcq","level":"NB","q":"...","options":["A. ...","B. ...","C. ...","D. ..."],"answer":"B","explain":"..."} (trắc nghiệm)\n'
+                + '- {"type":"truefalse","level":"TH","q":"...","statements":["ý a","ý b","ý c","ý d"],"answer":["T","F","T","F"],"explain":"..."} (đúng/sai)\n'
+                + '- {"type":"short","level":"VD","q":"...","answer":"đáp số","explain":"..."} (trả lời ngắn)\n'
+                + '- {"type":"essay","level":"VDC","q":"...","explain":"barem"} (tự luận)\n'
+                + 'CHỈ xuất JSON thuần: {"sets":[{"name":"Đề","questions":[...]}]} bọc trong:\n'
+                + '<div class="saobay-exam10">\n<script type="application/json" class="saobay-exam10-data">\n[JSON]\n<\/script>\n</div>\n\n'
+                + 'NỘI DUNG ĐỀ:\n' + rawText.slice(0, 50000);
+            navigator.clipboard.writeText(prompt).then(function(){
+                if (typeof showToast === 'function') showToast('Đã copy! Dán vào NotebookLM.', 'success');
+                else alert('Đã copy! Dán vào NotebookLM.');
+            }).catch(function(){ alert('Không copy được.'); });
+        }
         async function aiParseExam(){
             let pv = document.getElementById('word-preview');
             let key = getGeminiKey();
-            if (!key){
-                let k = prompt('Nhập Gemini API key (miễn phí tại aistudio.google.com — chỉ nhập 1 lần, lưu trên trình duyệt này):');
-                if (!k || !k.trim()){ alert('Cần API key để dùng AI đọc đề.'); return; }
-                setGeminiKey(k.trim()); key = k.trim();
-            }
+            if (!key){ alert('Chưa có API key. Mở mục "AI đọc đề", dán key vào ô rồi bấm Lưu key.'); return; }
             let rawText = wordState.rawText || '';
             if (!rawText){ alert('Hãy tải file Word lên trước (nút "Tải file .docx").'); return; }
             if (pv) pv.innerHTML = '<p class="text-xs text-slate-400 italic"><i class="fa-solid fa-spinner fa-spin mr-2"></i>AI đang đọc và cấu trúc đề thi... (có thể mất 30-60 giây)</p>';
