@@ -73,49 +73,59 @@
         }
 
         // HÀM TẢI DANH MỤC TRỰC TIẾP TỪ GITHUB API
-        async function loadFolderTreeFromGit(forceRefresh = false) {
+        async function loadFolderTreeFromGit(forceRefresh = false, expectPath = null) {
             let container = document.getElementById('dynamic-folder-list');
             container.innerHTML = '<span class="text-slate-400 text-xs italic"><i class="fa-solid fa-spinner fa-spin mr-1"></i> Đang nạp danh mục từ GitHub...</span>';
 
             let folders = [];
             let token = getGithubToken();
+            let headers = { "Accept": "application/vnd.github+json" };
+            if (token) headers["Authorization"] = `Bearer ${token}`;
+            let apiUrl = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/git/trees/${GITHUB_CONFIG.branch}?recursive=1`;
 
-            try {
-                let headers = { "Accept": "application/vnd.github+json" };
-                if (token) headers["Authorization"] = `Bearer ${token}`;
-
-                let apiUrl = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/git/trees/${GITHUB_CONFIG.branch}?recursive=1`;
-                let res = await fetch(apiUrl, { headers });
-
-                if (res.ok) {
+            async function fetchTreeFolders(){
+                try {
+                    let res = await fetch(apiUrl, { headers });
+                    if (!res.ok){ console.warn("GitHub Tree API phản hồi không thành công:", res.status); return null; }
                     let data = await res.json();
-                    if (data && Array.isArray(data.tree)) {
-                        folders = data.tree
-                            .filter(item => {
-                                if (item.type !== 'tree') return false;
-                                let p = item.path;
-                                // QUY TẮC BẢO MẬT: TUYỆT ĐỐI KHÔNG ĐỤNG ĐẾN THƯ MỤC BACKUP VÀ HỆ THỐNG
-                                if (p === 'backup' || p.startsWith('backup/')) return false;
-                                if (p === 'data/bank' || p.startsWith('data/bank/')) return false; // Bank tu dong trich, khong phai noi day bai
-                                if (p === 'data/scores' || p.startsWith('data/scores/')) return false; // Diem thi, khong phai noi day bai
-                                if (p === 'teacher' || p.startsWith('teacher/')) return false;
-                                if (p === 'used' || p.startsWith('used/')) return false;
-                                if (p === 'tienganh6' || p.startsWith('tienganh6/')) return false;
-                                if (p === '.git' || p.startsWith('.git/')) return false;
-                                return true;
-                            })
-                            .map(item => ({
-                                path: item.path,
-                                sha: item.sha
-                            }));
-
-                        localStorage.setItem('saobay_git_folders', JSON.stringify(folders));
-                    }
-                } else {
-                    console.warn("GitHub Tree API phản hồi không thành công:", res.status);
+                    if (!data || !Array.isArray(data.tree)) return null;
+                    let list = data.tree
+                        .filter(item => {
+                            if (item.type !== 'tree') return false;
+                            let p = item.path;
+                            // QUY TẮC BẢO MẬT: TUYỆT ĐỐI KHÔNG ĐỤNG ĐẾN THƯ MỤC BACKUP VÀ HỆ THỐNG
+                            if (p === 'backup' || p.startsWith('backup/')) return false;
+                            if (p === 'data/bank' || p.startsWith('data/bank/')) return false; // Bank tu dong trich, khong phai noi day bai
+                            if (p === 'data/scores' || p.startsWith('data/scores/')) return false; // Diem thi, khong phai noi day bai
+                            if (p === 'teacher' || p.startsWith('teacher/')) return false;
+                            if (p === 'used' || p.startsWith('used/')) return false;
+                            if (p === 'tienganh6' || p.startsWith('tienganh6/')) return false;
+                            if (p === '.git' || p.startsWith('.git/')) return false;
+                            return true;
+                        })
+                        .map(item => ({
+                            path: item.path,
+                            sha: item.sha
+                        }));
+                    try { localStorage.setItem('saobay_git_folders', JSON.stringify(list)); } catch(e){}
+                    return list;
+                } catch (err) {
+                    console.warn("Lỗi gọi GitHub API, thử đọc từ cache/folders.json:", err);
+                    return null;
                 }
-            } catch (err) {
-                console.warn("Lỗi gọi GitHub API, thử đọc từ cache/folders.json:", err);
+            }
+
+            folders = await fetchTreeFolders() || [];
+
+            // FIX 2026-10-08: vừa tạo thư mục mới mà GitHub API chưa kịp cập nhật -> thử lại
+            if (expectPath){
+                let tries = 0;
+                while (tries < 3 && !folders.some(f => f.path === expectPath)){
+                    await new Promise(r => setTimeout(r, 2500));
+                    let again = await fetchTreeFolders();
+                    if (again && again.length) folders = again;
+                    tries++;
+                }
             }
 
             // Phương án dự phòng 1: Cache localStorage
@@ -330,6 +340,43 @@
             });
         }
 
+        // FIX 2026-10-08: sau khi tạo thư mục mới, cây render mặc định ĐÓNG hết
+        // nên thư mục mới nằm ẩn trong thư mục cha -> mở các thư mục cha,
+        // cuộn tới và chọn thư mục mới để người dùng thấy ngay.
+        function revealFolderInTree(path){
+            if (!path) return;
+            let parts = path.split('/');
+            for (let i = 1; i < parts.length; i++){
+                let anc = parts.slice(0, i).join('/');
+                document.querySelectorAll('.folder-node').forEach(function(el){
+                    if (el.getAttribute('data-path') === anc){
+                        let wrapper = el.closest('.folder-node-wrapper');
+                        let sub = wrapper ? wrapper.querySelector('.folder-children') : null;
+                        let icon = wrapper ? wrapper.querySelector('button i') : null;
+                        if (sub && sub.classList.contains('hidden')){
+                            sub.classList.remove('hidden');
+                            if (icon) icon.className = "fa-solid fa-chevron-down text-[10px]";
+                        }
+                    }
+                });
+            }
+            let name = parts[parts.length - 1];
+            let target = null;
+            document.querySelectorAll('.folder-node').forEach(function(el){
+                if (el.getAttribute('data-path') === path) target = el;
+            });
+            if (target){
+                selectFolder(path, name, target);
+                try { target.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } catch(e){}
+            } else {
+                // Cây chưa kịp có node mới: vẫn cập nhật banner chọn
+                currentSelectedFolderId = path;
+                currentSelectedFolderName = name;
+                let sf = document.getElementById('selected-folder-name');
+                if (sf) sf.innerText = name + ' (' + path + ')';
+            }
+        }
+
         async function openAddFolderModal() {
             let parentFolder = currentSelectedFolderId || 'data';
             let folderName = prompt(`Nhập tên thư mục mới (sẽ tạo bên trong thư mục: "${parentFolder}"):`);
@@ -361,8 +408,8 @@
                         alert(`Đã tạo thư mục "${folderName}" thành công trên GitHub qua Google Proxy!`);
                         currentSelectedFolderId = newFolderPath;
                         currentSelectedFolderName = folderName;
-                        await loadFolderTreeFromGit(true);
-                        selectFolder(newFolderPath, folderName);
+                        await loadFolderTreeFromGit(true, newFolderPath);
+                        revealFolderInTree(newFolderPath);
                     } else {
                         alert(`Lỗi tạo thư mục: ${result.message || 'Không xác định'}`);
                     }
@@ -394,8 +441,8 @@
                     alert(`Đã tạo thư mục "${folderName}" thành công trên GitHub!`);
                     currentSelectedFolderId = newFolderPath;
                     currentSelectedFolderName = folderName;
-                    await loadFolderTreeFromGit(true);
-                    selectFolder(newFolderPath, folderName);
+                    await loadFolderTreeFromGit(true, newFolderPath);
+                    revealFolderInTree(newFolderPath);
                 } else {
                     let err = await putRes.json();
                     alert(`Lỗi tạo thư mục trên GitHub: ${err.message || 'Không xác định'}`);
