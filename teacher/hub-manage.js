@@ -2,25 +2,32 @@
         // QUẢN LÝ CÁC MODULE CHỨC NĂNG CỦA TEACHER HUB
         // ========================================================
         function switchTeacherModule(modId) {
-            ['compose', 'manage', 'audit', 'stats'].forEach(id => {
-                let tab = document.getElementById(`mod-tab-${id}`);
-                let view = document.getElementById(`module-${id}-view`);
-                let iconBox = tab ? tab.querySelector('div') : null;
-
-                if (id === modId) {
-                    if (tab) tab.className = "module-tab-btn flex items-center p-2.5 rounded-xl transition border text-left bg-blue-50 border-blue-600 text-blue-900 shadow-sm";
-                    if (iconBox) iconBox.className = "w-9 h-9 rounded-lg bg-blue-600 text-white flex items-center justify-center text-base font-bold shrink-0 mr-2.5 shadow";
-                    if (view) view.classList.remove('hidden');
-                } else {
-                    if (tab) tab.className = "module-tab-btn flex items-center p-2.5 rounded-xl transition border text-left bg-white border-slate-200 text-slate-700 hover:bg-slate-100";
-                    if (iconBox) iconBox.className = "w-9 h-9 rounded-lg bg-slate-200 text-slate-700 flex items-center justify-center text-base font-bold shrink-0 mr-2.5";
-                    if (view) view.classList.add('hidden');
-                }
-            });
-
-            if (modId === 'manage') renderLessonManagementList();
-            else if (modId === 'audit') renderAuditList();
-            else if (modId === 'stats') renderStatsOverview();
+            try {
+                ['compose', 'manage', 'audit', 'stats'].forEach(function(id){
+                    let tab = document.getElementById('mod-tab-' + id);
+                    let view = document.getElementById('module-' + id + '-view');
+                    let iconBox = tab ? tab.querySelector('div') : null;
+                    let active = (id === modId);
+                    if (tab) tab.className = "module-tab-btn flex items-center p-2.5 rounded-xl transition border text-left " + (active ? "bg-blue-50 border-blue-600 text-blue-900 shadow-sm" : "bg-white border-slate-200 text-slate-700 hover:bg-slate-100");
+                    if (iconBox) iconBox.className = "w-9 h-9 rounded-lg flex items-center justify-center text-base font-bold shrink-0 mr-2.5 " + (active ? "bg-blue-600 text-white shadow" : "bg-slate-200 text-slate-700");
+                    if (view) {
+                        if (active) {
+                            view.classList.remove('hidden');
+                            view.style.display = '';
+                        } else {
+                            view.classList.add('hidden');
+                            view.style.display = 'none';
+                        }
+                    } else if (active) {
+                        console.error('[hub] Khong tim thay view: module-' + id + '-view');
+                    }
+                });
+            } catch(eSw){ console.error('[hub] switchTeacherModule loi:', eSw); }
+            try {
+                if (modId === 'manage') renderLessonManagementList();
+                else if (modId === 'audit') renderAuditList();
+                else if (modId === 'stats') renderStatsOverview();
+            } catch(eR){ console.error('[hub] render module loi:', eR); }
         }
 
         let manageFolderFilter = ''; // '' = tat ca thu muc
