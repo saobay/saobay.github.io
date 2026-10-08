@@ -51,18 +51,20 @@
             if (/_?Bai.?tap|_?Kiem.?tra|_?De.?thi|exam|test/i.test(fileName)) return 'exam';
             return 'theory';
         }
+        function fileVerifier(fileName){
+            let raw = String(fileName || '').replace(/\.html$/i, '');
+            let m = raw.match(/_id\d+|_gv\w+/i);
+            if (m) return m[0].replace(/^_/, '');
+            if (/^unit\d+|^test\d+/i.test(raw)) return 'Tổ Bộ Môn';
+            return '';
+        }
         function fileApproved(fileName){
             let raw = String(fileName || '').replace(/\.html$/i, '');
             if (/_id\d+|_gv\w+/i.test(raw)) return true;
             if (/^unit\d+|^test\d+/i.test(raw)) return true;
             return false;
         }
-        async function approveLesson(filePath, fileName){
-            let uname = '';
-            try { uname = (typeof currentUser !== 'undefined' && currentUser.name) ? currentUser.name : ''; } catch(e){}
-            let tag = 'gv' + uname.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9]/g, '');
-            tag = tag.slice(0, 18) || 'gvGV';
-            if (!confirm('Duyệt bài "' + fileName.replace(/\.html$/i, '') + '"?\nFile sẽ được gắn mã duyệt _' + tag + '.')) return;
+        async function approveLessonCore(filePath, fileName, tag){
             let newFileName = fileName.replace(/_none/i, '_' + tag);
             if (newFileName === fileName) newFileName = fileName.replace(/\.html$/i, '_' + tag + '.html');
             let slash = filePath.lastIndexOf('/');
@@ -103,9 +105,48 @@
                     await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                         body: JSON.stringify({ type: 'DELETE_FROM_GITHUB', filePath: filePath, commitMessage: delBody.message }) });
                 }
+                return true;
+            } catch(e){ throw e; }
+        }
+        async function approveLesson(filePath, fileName){
+            let uname = '';
+            try { uname = (typeof currentUser !== 'undefined' && currentUser.name) ? currentUser.name : ''; } catch(e){}
+            let tag = 'gv' + uname.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9]/g, '');
+            tag = tag.slice(0, 18) || 'gvGV';
+            if (!confirm('Duyệt bài "' + fileName.replace(/\.html$/i, '') + '"?\nFile sẽ được gắn mã duyệt _' + tag + '.')) return;
+            try {
+                await approveLessonCore(filePath, fileName, tag);
                 alert('Đã duyệt bài thành công!');
                 renderLessonManagementList();
             } catch(e){ alert('Lỗi duyệt bài: ' + (e.message || e)); }
+        }
+        async function approveAllInFolder(){
+            try {
+                let uname = '';
+                try { uname = (typeof currentUser !== 'undefined' && currentUser.name) ? currentUser.name : ''; } catch(e){}
+                let tag = 'gv' + uname.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9]/g, '');
+                tag = tag.slice(0, 18) || 'gvGV';
+                let list = (typeof lessonRegistry !== 'undefined' && lessonRegistry.files) ? lessonRegistry.files : [];
+                let curFolder = (typeof manageFolderFilter !== 'undefined' && manageFolderFilter) ? manageFolderFilter : '';
+                let targets = list.filter(function(f){
+                    let lastSlash = f.path.lastIndexOf('/');
+                    let fn = lastSlash === -1 ? f.path : f.path.substring(lastSlash + 1);
+                    if (fileApproved(fn)) return false;
+                    if (curFolder && !f.path.startsWith(curFolder + '/') && f.path !== curFolder) return false;
+                    return true;
+                });
+                if (!targets.length){ alert('Không có bài chưa duyệt trong thư mục này.'); return; }
+                if (!confirm('Duyệt TẤT CẢ ' + targets.length + ' bài chưa duyệt trong thư mục hiện tại?\nMỗi bài sẽ được gắn mã _' + tag + '.')) return;
+                let ok = 0, fail = 0;
+                for (let f of targets){
+                    let lastSlash = f.path.lastIndexOf('/');
+                    let fn = lastSlash === -1 ? f.path : f.path.substring(lastSlash + 1);
+                    try { await approveLessonCore(f.path, fn, tag); ok++; }
+                    catch(e){ fail++; console.warn('Duyet loi:', f.path, e); }
+                }
+                alert('Xong! Đã duyệt ' + ok + ' bài' + (fail ? ', lỗi ' + fail + ' bài.' : '.'));
+                renderLessonManagementList();
+            } catch(e){ alert('Lỗi: ' + (e.message || e)); }
         }
         async function renderLessonManagementList() {
             let container = document.getElementById('manage-lessons-table-container');
@@ -180,6 +221,7 @@
                     + '<button id="mfilter-all" onclick="setManageTypeFilter(\'all\')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition ' + (manageTypeFilter === 'all' ? 'bg-blue-700 text-white shadow' : 'bg-slate-100 text-slate-600 hover:bg-slate-200') + '">Tất cả (' + files.length + ')</button>'
                     + '<button id="mfilter-theory" onclick="setManageTypeFilter(\'theory\')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition ' + (manageTypeFilter === 'theory' ? 'bg-blue-700 text-white shadow' : 'bg-slate-100 text-slate-600 hover:bg-slate-200') + '">📘 Lý thuyết (' + nTheory + ')</button>'
                     + '<button id="mfilter-exam" onclick="setManageTypeFilter(\'exam\')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition ' + (manageTypeFilter === 'exam' ? 'bg-blue-700 text-white shadow' : 'bg-slate-100 text-slate-600 hover:bg-slate-200') + '">📝 Đề thi/Bài tập (' + nExam + ')</button>'
+                    + '<button onclick="approveAllInFolder()" class="px-3 py-1.5 rounded-lg text-xs font-bold transition bg-emerald-600 hover:bg-emerald-700 text-white shadow ml-auto" title="Duyệt tất cả bài chưa duyệt trong thư mục đang lọc"><i class="fa-solid fa-check-double mr-1"></i>Duyệt tất cả</button>'
                     + '</div>';
                 if (!shown.length){
                     html += '<div class="text-center py-8 text-slate-400 text-xs bg-slate-50 border border-slate-200 rounded-xl">Không có bài nào thuộc loại này trong thư mục hiện tại.</div>';
@@ -191,17 +233,18 @@
                     let title = fileName.replace(/\.html$/i, '');
                     let isExam = fileKindOf(fileName) === 'exam';
 
+                    let isApproved = fileApproved(fileName);
                     html += `
-                        <div class="bg-white border border-slate-200 hover:border-blue-400 p-3 rounded-xl flex items-center justify-between shadow-sm transition">
+                        <div class="${isApproved ? 'bg-emerald-50 border-emerald-300' : 'bg-white border-slate-200'} border hover:border-blue-400 p-3 rounded-xl flex items-center justify-between shadow-sm transition">
                             <div class="flex items-center space-x-3 truncate pr-3">
                                 <div class="w-8 h-8 rounded-lg ${isExam ? 'bg-emerald-100 text-emerald-700' : 'bg-blue-100 text-blue-700'} flex items-center justify-center font-bold text-xs shrink-0">
                                     <i class="fa-solid ${isExam ? 'fa-file-pen' : 'fa-book-open'}"></i>
                                 </div>
                                 <div class="truncate">
                                     <h4 class="font-bold text-xs text-slate-800 truncate">${title}
-                                        ${fileApproved(fileName)
-                                            ? '<span class="ml-1 text-[9px] bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded-full font-bold align-middle">Đã duyệt</span>'
-                                            : `<button onclick="approveLesson('${f.path}', '${fileName.replace(/'/g, "\\'")}')" class="ml-1 text-[9px] bg-amber-100 hover:bg-amber-200 text-amber-800 px-1.5 py-0.5 rounded-full font-bold align-middle" title="Duyệt bài này"><i class="fa-solid fa-check mr-0.5"></i>Duyệt</button>`}
+                                        ${isApproved
+                                            ? '<span class="ml-1 text-[9px] bg-emerald-600 text-white px-1.5 py-0.5 rounded-full font-bold align-middle"><i class="fa-solid fa-check mr-0.5"></i>Đã duyệt' + (fileVerifier(fileName) ? ' · ' + fileVerifier(fileName).replace(/</g,'&lt;') : '') + '</span>'
+                                            : `<button onclick="approveLesson('${f.path}', '${fileName.replace(/'/g, "\\'")}')" class="ml-1 text-[9px] bg-amber-500 hover:bg-amber-600 text-white px-2 py-0.5 rounded-full font-bold align-middle shadow" title="Duyệt bài này"><i class="fa-solid fa-check mr-0.5"></i>Duyệt</button>`}
                                     </h4>
                                     <p class="text-[10px] text-slate-400 truncate"><i class="fa-regular fa-folder mr-1"></i>${f.path}</p>
                                 </div>
@@ -215,7 +258,7 @@
                                     let can = (typeof canManageExam === 'function') ? canManageExam(f.path, reg) : true;
                                     let ownerTag = own && own.owner_name
                                         ? `<span class="text-[10px] text-slate-400" title="Chủ sở hữu"><i class="fa-solid fa-user-check mr-0.5"></i>${own.owner_name.replace(/</g, '&lt;')}</span>`
-                                        : `<button onclick="claimExamOwner('${f.path}', '${title.replace(/'/g, "\\'")}')" class="text-[10px] text-violet-600 hover:underline font-bold" title="Nhận quyền sở hữu đề này">Nhận</button>`;
+                                        : '';
                                     let editBtn = can
                                         ? `<button onclick="loadLessonIntoEditor('${f.path}', '${title.replace(/'/g, "\\'")}')" class="text-xs text-blue-700 hover:text-blue-900 px-2.5 py-1 rounded bg-blue-50 hover:bg-blue-100 font-bold border border-blue-200 flex items-center"><i class="fa-solid fa-pen-to-square mr-1"></i> Sửa bài</button>`
                                         : `<span class="text-[10px] text-slate-300 font-bold px-1" title="Đề của giáo viên khác"><i class="fa-solid fa-lock mr-0.5"></i>Sửa bài</span>`;
