@@ -1046,11 +1046,27 @@
         // trình xem hiển thị NGẪU NHIÊN 1 đề, có nút "Đổi đề",
         // chấm đúng/sai từng câu kèm lời giải chi tiết.
         // ========================================================
+        // Khach (chua dang nhap) chi duoc hoc ly thuyet, khong duoc lam de thi (2026-10-08)
+        function examGuestBlocked(){
+            try {
+                let su = JSON.parse(localStorage.getItem('saobay_user') || 'null');
+                return !(su && su.id);
+            } catch(e){ return true; }
+        }
+        function examLoginWall(){
+            let loginUrl = location.origin + '/used/used.html';
+            return '<div class="p-6 text-center bg-amber-50 border border-amber-200 rounded-xl">'
+                + '<i class="fa-solid fa-lock text-3xl text-amber-500 mb-2"></i>'
+                + '<p class="text-sm font-bold text-slate-800 mb-1">Bài thi dành cho học sinh đã đăng nhập</p>'
+                + '<p class="text-xs text-slate-500 mb-3">Khách chỉ xem được bài lý thuyết. Hãy đăng nhập để làm bài và gửi điểm.</p>'
+                + '<a href="' + loginUrl + '" class="inline-block bg-blue-700 hover:bg-blue-800 text-white text-sm font-bold px-5 py-2.5 rounded-xl">Đăng nhập ngay</a></div>';
+        }
         function mountExam10Viewers(scopeEl) {
             if (!scopeEl || !scopeEl.querySelectorAll) return;
             scopeEl.querySelectorAll('.saobay-exam10').forEach(function(root){
                 if (root.dataset.mounted === '1') return;
                 root.dataset.mounted = '1';
+                if (examGuestBlocked()){ root.innerHTML = examLoginWall(); return; }
 
                 let sets = [];
                 let timeLimitMin = 0; // >0 = BAI KIEM TRA (tinh gio), 0 = BAI TAP (khong tinh gio)
@@ -1629,6 +1645,7 @@
             scopeEl.querySelectorAll('.saobay-bank-view').forEach(function(root){
                 if (root.dataset.mounted === '1') return;
                 root.dataset.mounted = '1';
+                if (examGuestBlocked()){ root.innerHTML = examLoginWall(); return; }
                 loadBankView(root);
             });
         }
