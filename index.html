@@ -1160,6 +1160,11 @@
                         else if (totalParts > 0) partial = Math.round(correctParts / totalParts * 1000) / 1000;
                         detail = parts.join('<br>');
                         return { ok: ok, detail: detail, selLabel: selLabel, partial: partial, correctParts: correctParts, totalParts: totalParts };
+                    } else if (qq.type === 'essay') {
+                        let ta = card.querySelector('[data-essay]');
+                        let wrote = !!(ta && ta.value.trim());
+                        detail = wrote ? 'Em \u0111\u00e3 l\u00e0m b\u00e0i t\u1ef1 lu\u1eadn.' : 'Ch\u01b0a l\u00e0m b\u00e0i.';
+                        return { ok: false, manual: true, wrote: wrote, detail: detail, selLabel: null };
                     } else {
                         let inp = card.querySelector('[data-short]');
                         let ans = normAns(qq.answer);
@@ -1171,6 +1176,15 @@
 
                 function revealQ(card, qq, r){
                     let fb = card.querySelector('.exam10-feedback');
+                    if (r.manual){
+                        card.classList.add('manual');
+                        fb.className = 'exam10-feedback mt-2 text-sm rounded-lg px-3 py-2 leading-relaxed border bg-violet-50 border-violet-200 text-violet-900';
+                        fb.innerHTML = '<b><i class="fa-solid fa-pen mr-1"></i>\u0110\u00e3 ghi nh\u1eadn b\u00e0i l\u00e0m.</b> C\u00e2u t\u1ef1 lu\u1eadn do gi\u00e1o vi\u00ean ch\u1ea5m th\u1ee7 c\u00f4ng'
+                            + (qq.explain ? '<br><span class="text-slate-600"><b>G\u1ee3i \u00fd:</b> ' + esc(qq.explain) + '</span>' : '');
+                        lockCard(card);
+                        updateScore();
+                        return;
+                    }
                     let ok = r.ok;
                     let isTF = qq.type === 'truefalse';
                     let gain = 0, gainText = '';
@@ -1369,6 +1383,9 @@
                             });
                         } else if (qq.type === 'short') {
                             html += '<input type="text" data-short="1" placeholder="Nh\u1eadp \u0111\u00e1p \u00e1n c\u1ee7a em..." class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">';
+                        } else if (qq.type === 'essay') {
+                            html += '<textarea data-essay="1" rows="4" placeholder="Nh\u1eadp b\u00e0i l\u00e0m c\u1ee7a em..." class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"></textarea>';
+                            html += '<p class="text-[11px] text-violet-700 mt-1"><i class="fa-solid fa-pen mr-1"></i>C\u00e2u t\u1ef1 lu\u1eadn \u2014 gi\u00e1o vi\u00ean ch\u1ea5m th\u1ee7 c\u00f4ng.</p>';
                         } else {
                             (qq.options || []).forEach(function(op){
                                 let val = String(op).charAt(0);
@@ -1465,7 +1482,7 @@
             let matrix = cfg.matrix || {};
             let types = cfg.types || { mcq: 8, truefalse: 2, short: 0 };
             let ratios = cfg.levels || { NB: 40, TH: 30, VD: 20, VDC: 10 };
-            let typeTotal = (types.mcq || 0) + (types.truefalse || 0) + (types.short || 0);
+            let typeTotal = (types.mcq || 0) + (types.truefalse || 0) + (types.short || 0) + (types.essay || 0);
             if (!typeTotal) typeTotal = 1;
             let lvTotal = (ratios.NB || 0) + (ratios.TH || 0) + (ratios.VD || 0) + (ratios.VDC || 0);
             if (!lvTotal) lvTotal = 1;
@@ -1476,7 +1493,7 @@
                 let cpool = (all || []).filter(function(q){ return String(q.chapter) === String(ch); });
                 if (!cpool.length) return;
                 if (n >= 9999) n = cpool.length;
-                ['mcq', 'truefalse', 'short'].forEach(function(tp){
+                ['mcq', 'truefalse', 'short', 'essay'].forEach(function(tp){
                     let want = (types[tp] || 0) > 0 ? Math.max(1, Math.round(n * ((types[tp] || 0) / typeTotal))) : 0;
                     let groups = { NB: [], TH: [], VD: [], VDC: [] };
                     cpool.forEach(function(q){ if (q.type === tp && !used[q.id]) (groups[q.level] || groups.NB).push(q); });
@@ -1502,7 +1519,7 @@
                     }
                 });
             });
-            let tOrd = { mcq: 0, truefalse: 1, short: 2 };
+            let tOrd = { mcq: 0, truefalse: 1, short: 2, essay: 3 };
             picked.sort(function(a, b){ return (tOrd[a.type] == null ? 9 : tOrd[a.type]) - (tOrd[b.type] == null ? 9 : tOrd[b.type]); });
             return picked.map(function(q){
                 return { type: q.type, level: q.level, q: q.q, options: q.options || [],
@@ -1581,7 +1598,8 @@
             dataScript.className = 'saobay-exam10-data';
             dataScript.textContent = JSON.stringify({
                 sets: [{ name: cfg.set_name || '\u0110\u1ec1 luy\u1ec7n t\u1eadp', questions: picked }],
-                time_limit: cfg.time_limit || 0
+                time_limit: cfg.time_limit || 0,
+                scoring: cfg.scoring || {}
             });
             examDiv.appendChild(dataScript);
             root.innerHTML = '';
