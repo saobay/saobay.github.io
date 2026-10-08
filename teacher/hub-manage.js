@@ -195,6 +195,11 @@
                         var m2 = txt.match(/const\s+EXAM_DATA\s*=\s*(\{[\s\S]*?\})\s*;/);
                         if(m2){ try { var dd = JSON.parse(m2[1]); sets = dd.sets || dd.examSets || []; } catch(e1){} }
                     }
+                    // Format saobay-exam10-data (2026-10-08): <script class="saobay-exam10-data">{"sets":[...]}</script>
+                    if(!sets.length){
+                        var m3 = txt.match(/<script[^>]*class=["']saobay-exam10-data["'][^>]*>\s*(\{[\s\S]*?\})\s*<\/script>/i);
+                        if(m3){ try { var dd3 = JSON.parse(m3[1]); sets = dd3.sets || []; } catch(e3){} }
+                    }
                     if(sets.length){
                         info.sets = sets.length; tot.sets += sets.length;
                         sets.forEach(function(s){
