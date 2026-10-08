@@ -7,112 +7,6 @@
 
         let examBuilderState = { questions: [], meta: null };
 
-        function openExamBuilder(){
-            let old = document.getElementById('exam-builder-modal');
-            if (old) old.remove();
-            let modal = document.createElement('div');
-            modal.id = 'exam-builder-modal';
-            modal.className = 'fixed inset-0 z-[9999] flex items-center justify-center p-3';
-            modal.innerHTML =
-                '<div class="absolute inset-0 bg-black/50" onclick="document.getElementById(\'exam-builder-modal\').remove()"></div>'
-                + '<div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[92vh] flex flex-col overflow-hidden">'
-                + '<div class="flex items-center justify-between px-5 py-3 border-b bg-amber-600 text-white">'
-                + '<h3 class="font-black text-sm"><i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Soạn Đề Kiểm Tra Từ Ngân Hàng</h3>'
-                + '<button onclick="document.getElementById(\'exam-builder-modal\').remove()" class="text-white/80 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button></div>'
-                + '<div class="flex gap-2 px-5 pt-3 text-xs font-bold bg-amber-50/50">'
-                + '<button id="exb-mode-bank" onclick="exbSwitchMode(\'bank\')" class="flex-1 px-3 py-2 rounded-lg bg-indigo-700 text-white shadow">Soạn đề từ Ngân hàng đề<br><span class="font-normal opacity-90">(Mỗi học sinh 1 đề)</span></button>'
-                + '<button id="exb-mode-fixed" onclick="exbSwitchMode(\'fixed\')" class="flex-1 px-3 py-2 rounded-lg bg-white text-slate-700 border border-slate-300">Soạn đề cố định<br><span class="font-normal opacity-70">(Khóa sẵn bộ câu)</span></button>'
-                + '</div>'
-                + '<div class="p-5 overflow-y-auto space-y-4 text-sm">'
-                + '<div id="exb-pane-bank" class="space-y-4">'
-                + '<div class="flex gap-2">'
-                + '<button id="exb-sub-mot" onclick="exbSwitchSub(\'mot\')" class="flex-1 px-3 py-2.5 rounded-xl text-xs font-bold bg-indigo-700 text-white shadow">Mỗi HS 1 đề cùng ma trận</button>'
-                + '<button id="exb-sub-lop" onclick="exbSwitchSub(\'lop\')" class="flex-1 px-3 py-2.5 rounded-xl text-xs font-bold bg-white text-slate-700 border border-slate-300">Cả lớp chung 1 đề</button>'
-                + '</div>'
-                + '<p id="exb-sub-desc" class="text-[11px] text-indigo-900 bg-indigo-50 border border-indigo-200 rounded-lg px-3 py-2 leading-relaxed"><i class="fa-solid fa-shuffle mr-1"></i><b>Mỗi HS 1 đề cùng ma trận:</b> file chỉ lưu <b>ma trận</b> — mỗi em mở ra web bốc 1 bộ câu <b>khác nhau</b> nhưng cùng ma trận (cùng vùng kiến thức, số câu, tỉ lệ).</p>'
-                + '<div><label class="text-[11px] font-bold text-slate-600">Tên đề</label>'
-                + '<input id="exbb-title" value="Luyện tập chương 1" class="mt-1 w-full text-sm border rounded-lg px-3 py-2 font-bold"></div>'
-                + '<div class="grid grid-cols-4 gap-2">'
-                + '<div><label class="text-[11px] font-bold text-slate-600">Môn</label><input id="exbb-subject" value="TOAN" class="mt-1 w-full text-sm border rounded-lg px-2 py-2 font-bold uppercase"></div>'
-                + '<div><label class="text-[11px] font-bold text-slate-600">Khối</label><input id="exbb-grade" type="number" value="10" class="mt-1 w-full text-sm border rounded-lg px-2 py-2 font-bold"></div>'
-                + '<div><label class="text-[11px] font-bold text-slate-600">Từ chương</label><input id="exbb-ch-from" type="number" value="1" class="mt-1 w-full text-sm border rounded-lg px-2 py-2 font-bold"></div>'
-                + '<div><label class="text-[11px] font-bold text-slate-600">Đến chương</label><input id="exbb-ch-to" type="number" value="1" class="mt-1 w-full text-sm border rounded-lg px-2 py-2 font-bold"></div>'
-                + '</div>'
-                + '<button onclick="exbLoadMatrix()" class="w-full bg-slate-700 hover:bg-slate-800 text-white text-xs font-bold px-4 py-2 rounded-xl"><i class="fa-solid fa-table-cells mr-1"></i>Tải ma trận từ ngân hàng</button>'
-                + '<div id="exb-matrix"><p class="text-xs text-slate-400 italic">Bấm "Tải ma trận" để xem số câu từng chương trong bank.</p></div>'
-                + '<div class="grid grid-cols-3 gap-2">'
-                + '<div><label class="text-[11px] font-bold text-blue-900">TN (câu)</label><input id="exbb-n-mcq" type="number" value="8" min="0" class="mt-1 w-full text-sm border rounded-lg px-2 py-2 font-bold"></div>'
-                + '<div><label class="text-[11px] font-bold text-amber-900">Đ/S (câu)</label><input id="exbb-n-tf" type="number" value="2" min="0" class="mt-1 w-full text-sm border rounded-lg px-2 py-2 font-bold"></div>'
-                + '<div><label class="text-[11px] font-bold text-emerald-900">TLN (câu)</label><input id="exbb-n-short" type="number" value="0" min="0" class="mt-1 w-full text-sm border rounded-lg px-2 py-2 font-bold"></div>'
-                + '</div>'
-                + '<div><label class="text-[11px] font-bold text-slate-600">Tỉ lệ mức độ % — NB / TH / VD / VDC</label>'
-                + '<div class="grid grid-cols-4 gap-2 mt-1">'
-                + '<input id="exbb-lv-nb" type="number" value="40" class="text-sm border rounded-lg px-2 py-2 text-center font-bold">'
-                + '<input id="exbb-lv-th" type="number" value="30" class="text-sm border rounded-lg px-2 py-2 text-center font-bold">'
-                + '<input id="exbb-lv-vd" type="number" value="20" class="text-sm border rounded-lg px-2 py-2 text-center font-bold">'
-                + '<input id="exbb-lv-vdc" type="number" value="10" class="text-sm border rounded-lg px-2 py-2 text-center font-bold">'
-                + '</div></div>'
-                + '<div><label class="text-[11px] font-bold text-slate-600">Thời gian làm bài (phút, 0 = không tính giờ)</label><input id="exbb-timelimit" type="number" value="0" min="0" class="mt-1 w-full text-sm border rounded-lg px-3 py-2 font-bold"></div>'
-                + '<p class="text-[11px] text-slate-500 bg-slate-50 border rounded-lg px-3 py-2"><i class="fa-solid fa-scale-balanced mr-1"></i><b>Thang điểm Đúng/Sai</b> (áp dụng mọi câu Đ/S): đúng 1/4 ý → <b>0.125</b> • 2/4 → <b>0.25</b> • 3/4 → <b>0.5</b> • 4/4 → <b>1</b> điểm.</p>'
-                + '<div id="exb-act-mot" class="flex gap-2">'
-                + '<button onclick="exbPreviewSample()" class="flex-1 bg-slate-600 hover:bg-slate-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl"><i class="fa-solid fa-eye mr-1"></i>Xem đề mẫu</button>'
-                + '<button onclick="exbBankSave()" class="flex-1 bg-indigo-700 hover:bg-indigo-800 text-white text-xs font-bold px-4 py-2.5 rounded-xl"><i class="fa-solid fa-cloud-arrow-up mr-1"></i>Lưu đề</button>'
-                + '</div>'
-                + '<div id="exb-act-lop" class="hidden flex gap-2">'
-                + '<button onclick="exbPickClassExam()" class="flex-1 bg-slate-600 hover:bg-slate-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl"><i class="fa-solid fa-dice mr-1"></i>Bốc đề & xem trước</button>'
-                + '<button onclick="exbClassSave()" class="flex-1 bg-indigo-700 hover:bg-indigo-800 text-white text-xs font-bold px-4 py-2.5 rounded-xl"><i class="fa-solid fa-cloud-arrow-up mr-1"></i>Lưu đề</button>'
-                + '</div>'
-                + '<div id="exb-bank-preview" class="border-t pt-3"><p class="text-xs text-slate-400 italic">Tải ma trận rồi xem trước đề.</p></div>'
-                + '</div>'
-
-                + '</div>'
-                + '<div id="exb-pane-fixed" class="hidden space-y-4">'
-                + '<div><label class="text-[11px] font-bold text-slate-600">Tên đề kiểm tra</label>'
-                + '<input id="exb-title" value="Kiểm tra 15 phút" class="mt-1 w-full text-sm border rounded-lg px-3 py-2 font-bold"></div>'
-                + '<div class="grid grid-cols-2 md:grid-cols-4 gap-3">'
-                + '<div><label class="text-[11px] font-bold text-slate-600">Môn</label><input id="exb-subject" value="TOAN" class="mt-1 w-full text-sm border rounded-lg px-3 py-2 font-bold uppercase"></div>'
-                + '<div><label class="text-[11px] font-bold text-slate-600">Khối</label><input id="exb-grade" type="number" value="10" class="mt-1 w-full text-sm border rounded-lg px-3 py-2 font-bold"></div>'
-                + '<div><label class="text-[11px] font-bold text-slate-600">Từ bài</label><input id="exb-lesson-from" type="number" value="1" class="mt-1 w-full text-sm border rounded-lg px-3 py-2 font-bold"></div>'
-                + '<div><label class="text-[11px] font-bold text-slate-600">Đến bài</label><input id="exb-lesson-to" type="number" value="1" class="mt-1 w-full text-sm border rounded-lg px-3 py-2 font-bold"></div>'
-                + '</div>'
-                + '<div class="grid grid-cols-3 gap-3">'
-                + '<div class="bg-blue-50 border border-blue-200 rounded-xl p-3"><label class="text-[11px] font-bold text-blue-900">Trắc nghiệm (câu)</label><input id="exb-n-mcq" type="number" value="6" min="0" class="mt-1 w-full text-sm border rounded-lg px-2 py-1.5 font-bold">'
-                + '<label class="text-[11px] font-bold text-blue-900 mt-2 block">Điểm/câu</label><input id="exb-s-mcq" type="number" value="0.5" step="0.25" min="0" class="mt-1 w-full text-sm border rounded-lg px-2 py-1.5 font-bold"></div>'
-                + '<div class="bg-amber-50 border border-amber-200 rounded-xl p-3"><label class="text-[11px] font-bold text-amber-900">Đúng/Sai (câu)</label><input id="exb-n-truefalse" type="number" value="2" min="0" class="text-sm border rounded-lg px-2 py-1.5 font-bold w-full mt-1">'
-                + '<label class="text-[11px] font-bold text-amber-900 mt-2 block">Điểm/câu</label><input id="exb-s-truefalse" type="number" value="1" step="0.25" min="0" class="mt-1 w-full text-sm border rounded-lg px-2 py-1.5 font-bold"></div>'
-                + '<div class="bg-emerald-50 border border-emerald-200 rounded-xl p-3"><label class="text-[11px] font-bold text-emerald-900">Trả lời ngắn (câu)</label><input id="exb-n-short" type="number" value="2" min="0" class="mt-1 w-full text-sm border rounded-lg px-2 py-1.5 font-bold">'
-                + '<label class="text-[11px] font-bold text-emerald-900 mt-2 block">Điểm/câu</label><input id="exb-s-short" type="number" value="1" step="0.25" min="0" class="mt-1 w-full text-sm border rounded-lg px-2 py-1.5 font-bold"></div>'
-                + '</div>'
-                + '<div><label class="text-[11px] font-bold text-slate-600">Tỉ lệ mức độ % — Nhận biết / Thông hiểu / Vận dụng / VD cao</label>'
-                + '<div class="grid grid-cols-4 gap-2 mt-1">'
-                + '<input id="exb-lv-nb" type="number" value="40" class="text-sm border rounded-lg px-2 py-2 text-center font-bold" title="Nhận biết">'
-                + '<input id="exb-lv-th" type="number" value="30" class="text-sm border rounded-lg px-2 py-2 text-center font-bold" title="Thông hiểu">'
-                + '<input id="exb-lv-vd" type="number" value="20" class="text-sm border rounded-lg px-2 py-2 text-center font-bold" title="Vận dụng">'
-                + '<input id="exb-lv-vdc" type="number" value="10" class="text-sm border rounded-lg px-2 py-2 text-center font-bold" title="Vận dụng cao">'
-                + '</div></div>'
-                + '<div class="grid grid-cols-1 md:grid-cols-3 gap-3">'
-                + '<div><label class="text-[11px] font-bold text-slate-600">Thời gian làm bài (phút)</label><input id="exb-timelimit" type="number" value="15" min="1" class="mt-1 w-full text-sm border rounded-lg px-3 py-2 font-bold"></div>'
-                + '<div><label class="text-[11px] font-bold text-slate-600">Mở từ (giờ/ngày)</label><input id="exb-open-from" type="datetime-local" class="mt-1 w-full text-sm border rounded-lg px-3 py-2"></div>'
-                + '<div><label class="text-[11px] font-bold text-slate-600">Đóng lúc (giờ/ngày)</label><input id="exb-open-to" type="datetime-local" class="mt-1 w-full text-sm border rounded-lg px-3 py-2"></div>'
-                + '</div>'
-                + '<label class="flex items-start gap-2 text-[11px] text-slate-700 bg-violet-50 border border-violet-200 rounded-lg px-3 py-2 cursor-pointer">'
-                + '<input id="exb-shuffle" type="checkbox" class="mt-0.5">'
-                + '<span><b>Trộn thứ tự câu trong từng dạng</b> (đề chung cả lớp: cả lớp cùng bộ câu, mỗi HS mở ra thứ tự TN/Đ-S/TLN được trộn riêng — chống nhìn bài).</span></label>'
-                + '<p class="text-[11px] text-slate-500 leading-relaxed"><i class="fa-solid fa-circle-info mr-1"></i>Chế độ <b>nghiêm túc</b>: trong giờ làm bài, học sinh trả lời từng câu <b>không hiện đáp án đúng/sai</b> (chỉ ghi nhận + khóa câu); hết giờ hoặc nộp bài mới hiện đáp án, lời giải và điểm theo thang điểm trên. Để trống giờ mở/đóng = mở tự do.</p>'
-                + '</div>'
-                + '<div class="flex flex-wrap gap-2">'
-                + '<button onclick="examBuilderPreview()" class="flex-1 bg-slate-700 hover:bg-slate-800 text-white text-xs font-bold px-4 py-2.5 rounded-xl"><i class="fa-solid fa-filter mr-1"></i>1. Lọc & Xem trước</button>'
-                + '<button onclick="examBuilderSave()" class="flex-1 bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl"><i class="fa-solid fa-cloud-arrow-up mr-1"></i>2. Lưu đề kiểm tra</button>'
-                + '</div>'
-                + '<div class="flex flex-wrap gap-2">'
-                + '<button onclick="examBuilderExportWord()" class="flex-1 bg-blue-700 hover:bg-blue-800 text-white text-xs font-bold px-4 py-2 rounded-xl"><i class="fa-solid fa-file-word mr-1"></i>Xuất Word (.doc)</button>'
-                + '<button onclick="examBuilderPrint()" class="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-800 text-xs font-bold px-4 py-2 rounded-xl"><i class="fa-solid fa-print mr-1"></i>In đề (PDF)</button>'
-                + '</div>'
-                + '<div id="exb-preview" class="border-t pt-3"><p class="text-xs text-slate-400 italic">Bấm "Lọc & Xem trước" để bốc câu hỏi từ bank.</p></div>'
-                + '</div></div>';
-            document.body.appendChild(modal);
-        }
-
         function exbVal(id){ let el = document.getElementById(id); return el ? el.value.trim() : ''; }
         function exbNum(id, def){ let v = parseFloat(exbVal(id)); return (v >= 0 || v < 0) && !isNaN(v) ? v : def; }
 
@@ -194,7 +88,11 @@
                     + '<thead><tr class="bg-slate-100 text-slate-600"><th class="px-2 py-1.5 text-left">Vùng kiến thức</th><th class="px-2 py-1.5 text-left">Trong bank</th><th class="px-2 py-1.5 text-left">Số câu lấy</th></tr></thead>'
                     + '<tbody>' + rows + '</tbody></table>'
                     + '<p class="text-[10px] text-slate-400 mt-1">Chỉnh "Số câu lấy" mỗi chương cho đúng ý đồ ma trận.</p>';
-            } catch(e){ mx.innerHTML = '<p class="text-xs text-rose-600">Lỗi: ' + String(e.message || e).replace(/</g,'&lt;') + '</p>'; }
+            } catch(e){
+                let msg = String(e.message || e);
+                if (msg === 'no-token') msg = 'Chưa có token GitHub — hãy đăng nhập GitHub rồi đẩy 1 bài bất kỳ bằng form chính trước (để lưu token), sau đó bấm lại "Tải ma trận".';
+                mx.innerHTML = '<p class="text-xs text-rose-600">Lỗi: ' + msg.replace(/</g,'&lt;') + '</p>';
+            }
         }
 
         // Doc ma tran tu form
@@ -321,8 +219,7 @@
                     .replace(/[\\/:*?"<>|]/g, '_').replace(/\s+/g, '_').slice(0, 40);
                 let path = folder + '/' + m.subject + '_' + m.grade + '_' + asciiBase + '_Bai_tap_none.html';
                 await bankPushFile(path, page, 'Bank exam (moi HS 1 de): ' + safeTitle + ' [' + folder + ']');
-                document.getElementById('exam-builder-modal').remove();
-                if (typeof showToast === 'function') showToast('Đã lưu đề (mỗi HS 1 đề): ' + path, 'success');
+                                if (typeof showToast === 'function') showToast('Đã lưu đề (mỗi HS 1 đề): ' + path, 'success');
                 else alert('Đã lưu đề: ' + path);
                 if (typeof loadFolderTreeFromGit === 'function') loadFolderTreeFromGit();
             } catch(e){ alert('Lỗi lưu đề: ' + (e.message || e)); }
@@ -373,8 +270,7 @@
                     .replace(/[\\/:*?"<>|]/g, '_').replace(/\s+/g, '_').slice(0, 40);
                 let path = folder + '/' + m.subject + '_' + m.grade + '_' + asciiBase + '_Kiem_tra_none.html';
                 await bankPushFile(path, page, 'Class exam (chung 1 de): ' + safeTitle + ' [' + folder + ']');
-                document.getElementById('exam-builder-modal').remove();
-                if (typeof showToast === 'function') showToast('Đã lưu đề chung cả lớp: ' + path, 'success');
+                                if (typeof showToast === 'function') showToast('Đã lưu đề chung cả lớp: ' + path, 'success');
                 else alert('Đã lưu đề: ' + path);
                 if (typeof loadFolderTreeFromGit === 'function') loadFolderTreeFromGit();
             } catch(e){ alert('Lỗi lưu đề: ' + (e.message || e)); }
@@ -482,8 +378,7 @@
                     .replace(/[\\/:*?"<>|]/g, '_').replace(/\s+/g, '_').slice(0, 40);
                 let path = folder + '/' + m.subject + '_' + m.grade + '_KIEM_TRA_' + asciiBase + '_Kiem_tra_none.html';
                 await bankPushFile(path, page, 'Exam: ' + safeTitle + ' [' + folder + ']');
-                document.getElementById('exam-builder-modal').remove();
-                if (typeof showToast === 'function') showToast('Đã lưu đề kiểm tra: ' + path, 'success');
+                                if (typeof showToast === 'function') showToast('Đã lưu đề kiểm tra: ' + path, 'success');
                 else alert('Đã lưu đề kiểm tra: ' + path);
                 if (typeof loadFolderTreeFromGit === 'function') loadFolderTreeFromGit();
             } catch(e){ alert('Lỗi lưu đề: ' + (e.message || e)); }
