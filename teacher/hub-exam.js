@@ -1,5 +1,76 @@
         // ========================================================
         // TRÌNH SOẠN ĐỀ KIỂM TRA (Phase 4, 2026-10-08)
+
+        // Gop nhieu bo de roi rac thanh 1 file 10 bo (2026-10-08)
+        function mergeExamSets(){
+            let statusEl = document.getElementById('merge-sets-status');
+            let setStatus = function(msg, ok){ if (statusEl){ statusEl.textContent = msg; statusEl.className = 'text-[11px] font-bold ' + (ok ? 'text-emerald-700' : 'text-rose-600'); } };
+            try {
+                let raw = document.getElementById('merge-sets-input').value || '';
+                if (!raw.trim()){ setStatus('Hãy dán nội dung AI trả về vào ô trên.', false); return; }
+                // Tach cac object {"name":"Đề N","questions":[...]} bang dem ngoac nhon
+                let sets = [];
+                let re = /"name"\s*:\s*"((?:Đề|De)\s*\d+)"/gi;
+                let m;
+                while ((m = re.exec(raw)) !== null){
+                    let nameStart = m.index;
+                    // Tim dau { mo object chua "name" nay (lui lai)
+                    let objStart = raw.lastIndexOf('{', nameStart);
+                    if (objStart < 0) continue;
+                    // Dem ngoac de tim dau } dong
+                    let depth = 0, inStr = false, esc = false, i;
+                    for (i = objStart; i < raw.length; i++){
+                        let ch = raw[i];
+                        if (inStr){
+                            if (esc) esc = false;
+                            else if (ch === '\\') esc = true;
+                            else if (ch === '"') inStr = false;
+                        } else {
+                            if (ch === '"') inStr = true;
+                            else if (ch === '{') depth++;
+                            else if (ch === '}'){ depth--; if (depth === 0) break; }
+                        }
+                    }
+                    if (depth !== 0) continue;
+                    let objStr = raw.substring(objStart, i + 1);
+                    try {
+                        let obj = JSON.parse(objStr);
+                        if (obj && obj.name && Array.isArray(obj.questions) && obj.questions.length){
+                            sets.push(obj);
+                        }
+                    } catch(e){}
+                }
+                if (!sets.length){ setStatus('Không tìm thấy bộ đề nào. Hãy dán đúng khối AI trả về.', false); return; }
+                // Loai trung theo ten, giu cai dau tien
+                let seen = {}, uniq = [];
+                sets.forEach(function(st){
+                    let key = String(st.name).replace(/\s+/g, ' ').trim().toLowerCase();
+                    if (!seen[key]){ seen[key] = 1; uniq.push(st); }
+                });
+                // Sap xep theo so de
+                uniq.sort(function(a, b){
+                    let na = parseInt(String(a.name).replace(/\D/g, ''), 10) || 0;
+                    let nb = parseInt(String(b.name).replace(/\D/g, ''), 10) || 0;
+                    return na - nb;
+                });
+                // Danh lai ten cho chuan
+                uniq.forEach(function(st, i){ st.name = 'Đề ' + (i + 1); });
+                let finalHtml = '<div class="saobay-exam10">\n<script type="application/json" class="saobay-exam10-data">\n'
+                    + JSON.stringify({ sets: uniq }) + '\n<\/script>\n</div>';
+                let editor = document.getElementById('item-content');
+                if (editor){
+                    editor.value = finalHtml;
+                    if (typeof renderMathPreview === 'function') renderMathPreview();
+                    if (typeof updateScorePreview === 'function') updateScorePreview();
+                }
+                let totalQ = uniq.reduce(function(s2, st){ return s2 + st.questions.length; }, 0);
+                setStatus('Đã gộp ' + uniq.length + ' bộ đề (' + totalQ + ' câu) vào khung soạn thảo bên dưới!', true);
+                if (typeof showToast === 'function') showToast('Đã gộp ' + uniq.length + ' bộ đề!', 'success');
+            } catch(e){
+                setStatus('Lỗi: ' + (e.message || e), false);
+            }
+        }
+
         // - Lọc bank theo môn/khối/bài/chương, bốc câu theo tỉ lệ mức độ
         // - Thang điểm từng dạng, khóa giờ mở, chế độ nghiêm túc (ẩn đáp án)
         // - Lưu đề "đóng băng" + xuất Word / In PDF
