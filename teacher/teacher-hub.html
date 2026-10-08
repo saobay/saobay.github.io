@@ -592,9 +592,13 @@
                     <button id="erm-next" onclick="examReviewNav(1)" class="px-3 py-1.5 rounded-lg bg-white border border-slate-300 text-xs font-bold text-slate-700 hover:bg-slate-100">Đề sau &rarr;</button>
                 </div>
                 <div id="erm-body" class="flex-1 overflow-y-auto p-5 space-y-4"></div>
-                <div class="px-5 py-3 bg-slate-50 border-t flex items-center justify-between shrink-0">
+                <div class="px-5 py-3 bg-slate-50 border-t flex items-center justify-between shrink-0 gap-2">
                     <span id="erm-set-status" class="text-xs font-bold"></span>
-                    <button id="erm-approve-btn" onclick="approveExamReviewSet()" class="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold shadow"><i class="fa-solid fa-check mr-1"></i>Duyệt đề này</button>
+                    <div class="flex gap-2">
+                        <button id="erm-edit-btn" onclick="toggleErmEdit()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold shadow"><i class="fa-solid fa-pen mr-1"></i><span id="erm-edit-label">Sửa text</span></button>
+                        <button id="erm-save-btn" onclick="saveErmEdits()" class="hidden px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-sm font-bold shadow"><i class="fa-solid fa-floppy-disk mr-1"></i>Lưu sửa</button>
+                        <button id="erm-approve-btn" onclick="approveExamReviewSet()" class="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold shadow"><i class="fa-solid fa-check mr-1"></i>Duyệt đề này</button>
+                    </div>
                 </div>
             </div>
         </div>
