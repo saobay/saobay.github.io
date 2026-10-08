@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>⚡ Ai Nhanh Hơn | SAOBAY</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  * { -webkit-tap-highlight-color: transparent; user-select:none; -webkit-user-select:none; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; }
+  @keyframes popIn { 0%{transform:scale(.4);opacity:0} 100%{transform:scale(1);opacity:1} }
+  .pop-in { animation: popIn .35s ease-out; }
+  @keyframes shakeX { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-8px)} 75%{transform:translateX(8px)} }
+  .shake { animation: shakeX .4s; }
+  @keyframes pulseWin { 0%,100%{transform:scale(1)} 50%{transform:scale(1.04)} }
+  .pulse-win { animation: pulseWin .8s ease-in-out infinite; }
+  .p-zone { min-height: 44vh; }
+  .ans-big { transition: all .12s; }
+  .ans-big:active { transform: scale(.95); }
+  .confetti { position:fixed; top:-20px; z-index:50; pointer-events:none; animation: fall linear forwards; }
+  @keyframes fall { to { transform: translateY(110vh) rotate(720deg); } }
+</style>
+</head>
+<body class="min-h-screen bg-slate-900 text-slate-800">
+
+<div id="app" class="max-w-4xl mx-auto px-3 py-4 pb-10">
+
+  <!-- Header -->
+  <div class="text-center mb-3">
+    <h1 class="text-2xl md:text-3xl font-black text-white drop-shadow">⚡ AI NHANH HƠN</h1>
+    <p class="text-white/70 text-xs font-medium">2 người chơi — cùng 1 điện thoại, ai bấm đúng trước thắng!</p>
+  </div>
+
+  <!-- ===== SETUP ===== -->
+  <div id="panel-setup" class="bg-white rounded-2xl shadow-2xl p-4">
+    <h2 class="font-black text-lg mb-3 text-slate-700"><i class="fa-solid fa-users mr-2"></i>Nhập tên 2 người chơi</h2>
+    <div class="grid grid-cols-2 gap-3 mb-3">
+      <div class="bg-blue-50 border-2 border-blue-300 rounded-xl p-3">
+        <label class="text-xs font-bold text-blue-700">🔵 Người chơi 1 (trên)</label>
+        <input id="p1-name" value="Người chơi 1" class="w-full border rounded-lg px-3 py-2 text-sm font-bold mt-1">
+      </div>
+      <div class="bg-red-50 border-2 border-red-300 rounded-xl p-3">
+        <label class="text-xs font-bold text-red-700">🔴 Người chơi 2 (dưới)</label>
+        <input id="p2-name" value="Người chơi 2" class="w-full border rounded-lg px-3 py-2 text-sm font-bold mt-1">
+      </div>
+    </div>
+    <div class="mb-3">
+      <label class="text-xs font-bold text-slate-600">Chơi đến mấy điểm thì thắng?</label>
+      <select id="win-score" class="ml-2 border-2 rounded-lg px-3 py-1.5 font-bold text-sm">
+        <option value="3">3 điểm</option><option value="5" selected>5 điểm</option>
+        <option value="7">7 điểm</option><option value="10">10 điểm</option>
+      </select>
+    </div>
+    <h3 class="font-bold text-sm mb-1"><i class="fa-solid fa-circle-question mr-1"></i>Câu hỏi (<span id="q-count">0</span> câu — có sẵn, bấm để xem/thêm)</h3>
+    <details class="bg-slate-50 rounded-xl p-3 mb-3">
+      <summary class="text-sm font-bold text-slate-600 cursor-pointer">Xem & thêm câu hỏi</summary>
+      <div id="q-list" class="mt-2 space-y-1 max-h-40 overflow-y-auto"></div>
+      <div class="mt-2 grid grid-cols-2 gap-1.5">
+        <input id="nq" placeholder="Câu hỏi" class="col-span-2 border rounded-lg px-2 py-1.5 text-xs">
+        <input id="na" placeholder="A đúng" class="border rounded-lg px-2 py-1.5 text-xs">
+        <input id="nb" placeholder="B" class="border rounded-lg px-2 py-1.5 text-xs">
+        <input id="nc" placeholder="C" class="border rounded-lg px-2 py-1.5 text-xs">
+        <input id="nd" placeholder="D" class="border rounded-lg px-2 py-1.5 text-xs">
+      </div>
+      <button id="btn-addq" class="mt-2 bg-slate-700 text-white text-xs font-bold px-4 py-2 rounded-lg">+ Thêm câu</button>
+    </details>
+    <button id="btn-start" class="w-full bg-gradient-to-r from-amber-500 to-orange-600 text-white font-black text-lg py-3.5 rounded-xl shadow-xl active:scale-95">
+      <i class="fa-solid fa-bolt mr-2"></i>VÀO TRẬN!
+    </button>
+    <p class="text-[11px] text-slate-400 mt-2 text-center">📱 Đặt điện thoại nằm ngang giữa 2 người chơi để dễ bấm nhất</p>
+  </div>
+
+  <!-- ===== BATTLE ===== -->
+  <div id="panel-battle" class="hidden">
+    <!-- Question bar -->
+    <div class="bg-white rounded-2xl shadow-xl p-3 mb-2 text-center sticky top-2 z-20">
+      <p class="text-[10px] font-bold text-slate-400">CÂU <span id="b-qnum">1</span> • Đích: <span id="b-target">5</span> điểm</p>
+      <p id="b-question" class="font-black text-base md:text-lg leading-snug"></p>
+    </div>
+
+    <!-- Player 1 zone (TOP, rotated for opponent) -->
+    <div class="p-zone rounded-2xl bg-gradient-to-b from-blue-600 to-blue-800 p-2 mb-2 shadow-xl" style="transform: rotate(180deg)">
+      <div class="flex items-center justify-between px-2 pt-1">
+        <p class="text-white font-black text-sm">🔵 <span class="p1n">P1</span></p>
+        <p class="text-white font-black text-2xl"><span id="s1">0</span> <span class="text-xs font-bold opacity-70">điểm</span></p>
+      </div>
+      <div id="zone1" class="grid grid-cols-2 gap-2 p-1"></div>
+    </div>
+
+    <!-- VS divider -->
+    <div class="text-center -my-1 relative z-10">
+      <span class="inline-block bg-amber-400 text-slate-900 font-black text-sm px-4 py-1 rounded-full shadow-lg">⚡ VS ⚡</span>
+    </div>
+
+    <!-- Player 2 zone (BOTTOM) -->
+    <div class="p-zone rounded-2xl bg-gradient-to-b from-red-600 to-red-800 p-2 mt-2 shadow-xl">
+      <div class="flex items-center justify-between px-2 pt-1">
+        <p class="text-white font-black text-sm">🔴 <span class="p2n">P2</span></p>
+        <p class="text-white font-black text-2xl"><span id="s2">0</span> <span class="text-xs font-bold opacity-70">điểm</span></p>
+      </div>
+      <div id="zone2" class="grid grid-cols-2 gap-2 p-1"></div>
+    </div>
+
+    <div id="b-feedback" class="hidden mt-2 text-center"></div>
+    <button id="b-next" class="hidden w-full mt-2 bg-white font-black py-3 rounded-xl active:scale-95">Câu tiếp theo <i class="fa-solid fa-arrow-right"></i></button>
+  </div>
+
+  <!-- ===== WINNER ===== -->
+  <div id="panel-winner" class="hidden">
+    <div class="bg-white rounded-2xl shadow-2xl p-6 text-center pop-in">
+      <div class="text-6xl mb-2">🏆</div>
+      <h2 id="w-title" class="text-3xl font-black"></h2>
+      <p class="text-slate-500 text-sm mt-1">là người nhanh tay nhất!</p>
+      <p class="text-5xl font-black my-4"><span id="w-s1" class="text-blue-600"></span> <span class="text-slate-300">-</span> <span id="w-s2" class="text-red-600"></span></p>
+      <div class="flex gap-2">
+        <button id="btn-rematch" class="flex-1 bg-amber-500 text-white font-bold py-3 rounded-xl active:scale-95">
+          <i class="fa-solid fa-bolt mr-1"></i>Đấu lại
+        </button>
+        <button id="btn-tosetup" class="flex-1 bg-slate-200 font-bold py-3 rounded-xl active:scale-95">Thiết lập</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+let questions = [
+  {q:'5 + 7 = ?', a:['10','11','12','13'], c:2},
+  {q:'"Cat" nghĩa là?', a:['Chó','Mèo','Chim','Cá'], c:1},
+  {q:'Thủ đô Việt Nam?', a:['Huế','Đà Nẵng','Hà Nội','Cần Thơ'], c:2},
+  {q:'Số chẵn là?', a:['3','7','8','11'], c:2},
+  {q:'Màu của lá cây?', a:['Đỏ','Vàng','Xanh lá','Tím'], c:2},
+  {q:'1 năm có mấy tháng?', a:['10','11','12','13'], c:2},
+  {q:'Con vật nào biết bay?', a:['Cá','Chim','Rùa','Ếch'], c:1},
+  {q:'3 × 4 = ?', a:['7','10','12','14'], c:2},
+  {q:'"Thank you" nghĩa là?', a:['Xin chào','Tạm biệt','Cảm ơn','Xin lỗi'], c:2},
+  {q:'Hôm nay là thứ mấy? (đố mẹo)', a:['Thứ 2','Thứ 7','Hôm nay','Chủ nhật'], c:2},
+];
+let p1='Người chơi 1', p2='Người chơi 2', s1=0, s2=0, qi=0, target=5;
+let roundOver=false, qOrder=[];
+
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ let j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+// setup list
+function renderSetupList(){
+  document.getElementById('q-count').textContent = questions.length;
+  document.getElementById('q-list').innerHTML = questions.map(function(x,i){
+    return '<div class="flex gap-1 items-center text-xs bg-white border rounded px-2 py-1"><b class="text-amber-600">'+(i+1)+'.</b><span class="flex-1 truncate">'+esc(x.q)+'</span><button onclick="delQ('+i+')" class="text-red-500"><i class="fa-solid fa-trash"></i></button></div>';
+  }).join('');
+}
+window.delQ = function(i){ questions.splice(i,1); renderSetupList(); };
+document.getElementById('btn-addq').addEventListener('click', function(){
+  let q=document.getElementById('nq').value.trim();
+  let a=[document.getElementById('na').value.trim(),document.getElementById('nb').value.trim(),document.getElementById('nc').value.trim(),document.getElementById('nd').value.trim()];
+  if(!q||a.some(function(x){return !x;})){ alert('Điền đủ câu hỏi + 4 đáp án!'); return; }
+  questions.push({q:q, a:a, c:0});
+  ['nq','na','nb','nc','nd'].forEach(function(id){ document.getElementById(id).value=''; });
+  renderSetupList();
+});
+
+// start
+document.getElementById('btn-start').addEventListener('click', function(){
+  if (questions.length < 3){ alert('Cần ít nhất 3 câu hỏi!'); return; }
+  p1 = document.getElementById('p1-name').value.trim() || 'Người chơi 1';
+  p2 = document.getElementById('p2-name').value.trim() || 'Người chơi 2';
+  target = parseInt(document.getElementById('win-score').value,10);
+  s1=0; s2=0; qi=0;
+  qOrder = shuffle(questions.map(function(_,i){return i;}));
+  document.querySelectorAll('.p1n').forEach(function(e){ e.textContent=p1; });
+  document.querySelectorAll('.p2n').forEach(function(e){ e.textContent=p2; });
+  document.getElementById('b-target').textContent = target;
+  document.getElementById('panel-setup').classList.add('hidden');
+  document.getElementById('panel-winner').classList.add('hidden');
+  document.getElementById('panel-battle').classList.remove('hidden');
+  showRound();
+});
+
+function showRound(){
+  roundOver = false;
+  let q = questions[qOrder[qi % qOrder.length]];
+  document.getElementById('b-qnum').textContent = (qi+1);
+  document.getElementById('b-question').textContent = q.q;
+  document.getElementById('b-feedback').classList.add('hidden');
+  document.getElementById('b-next').classList.add('hidden');
+  document.getElementById('s1').textContent = s1;
+  document.getElementById('s2').textContent = s2;
+  // đáp án trộn khác nhau cho 2 người (chống nhìn trộm!)
+  buildZone('zone1', q, 1);
+  buildZone('zone2', q, 2);
+}
+
+function buildZone(zoneId, q, player){
+  let order = shuffle([0,1,2,3]);
+  let colors = ['bg-white','bg-white','bg-white','bg-white'];
+  let box = document.getElementById(zoneId);
+  box.innerHTML = order.map(function(origI, pos){
+    return '<button data-orig="'+origI+'" class="ans-big '+colors[pos]+' text-slate-800 font-bold rounded-xl py-4 px-2 shadow text-sm md:text-base">'
+      + '<span class="inline-block bg-slate-800 text-white text-xs rounded px-1.5 mr-1">'+'ABCD'[pos]+'</span>'+esc(q.a[origI])+'</button>';
+  }).join('');
+  box.querySelectorAll('button').forEach(function(btn){
+    btn.addEventListener('click', function(){ buzz(player, parseInt(btn.dataset.orig,10), q, btn); }, {once:true});
+  });
+}
+
+function buzz(player, origI, q, btn){
+  if (roundOver) return;
+  roundOver = true;
+  let fb = document.getElementById('b-feedback');
+  fb.classList.remove('hidden');
+  // khóa cả 2 zone
+  document.querySelectorAll('#zone1 button, #zone2 button').forEach(function(b){ b.disabled=true; b.classList.add('opacity-60'); });
+  let name = player===1 ? p1 : p2;
+  let color = player===1 ? 'blue' : 'red';
+  if (origI === q.c){
+    // ĐÚNG — người bấm được điểm
+    btn.classList.remove('opacity-60'); btn.classList.add('!bg-emerald-400','pulse-win','pop-in');
+    if (player===1) s1++; else s2++;
+    fb.innerHTML = '<div class="pop-in inline-block bg-emerald-500 text-white font-black px-6 py-3 rounded-2xl shadow-xl">✅ '+esc(name)+' ĐÚNG! +1 điểm</div>';
+    launchMiniConfetti(color);
+  } else {
+    // SAI — đối thủ được điểm!
+    btn.classList.remove('opacity-60'); btn.classList.add('!bg-red-400','shake');
+    if (player===1) s2++; else s1++;
+    let other = player===1 ? p2 : p1;
+    fb.innerHTML = '<div class="pop-in inline-block bg-amber-500 text-white font-black px-6 py-3 rounded-2xl shadow-xl">❌ '+esc(name)+' sai! '+esc(other)+' +1 điểm<br><span class="text-xs font-bold">Đáp án: '+esc(q.a[q.c])+'</span></div>';
+  }
+  document.getElementById('s1').textContent = s1;
+  document.getElementById('s2').textContent = s2;
+  if (s1 >= target || s2 >= target){
+    setTimeout(function(){ endMatch(); }, 1400);
+  } else {
+    document.getElementById('b-next').classList.remove('hidden');
+  }
+}
+
+document.getElementById('b-next').addEventListener('click', function(){ qi++; showRound(); });
+
+function endMatch(){
+  document.getElementById('panel-battle').classList.add('hidden');
+  document.getElementById('panel-winner').classList.remove('hidden');
+  let winner = s1 > s2 ? p1 : p2;
+  let wc = s1 > s2 ? 'text-blue-600' : 'text-red-600';
+  document.getElementById('w-title').innerHTML = '🏆 <span class="'+wc+'">'+esc(winner)+'</span>';
+  document.getElementById('w-s1').textContent = s1;
+  document.getElementById('w-s2').textContent = s2;
+  launchConfetti();
+  window.scrollTo(0,0);
+}
+document.getElementById('btn-rematch').addEventListener('click', function(){
+  s1=0; s2=0; qi=0; qOrder = shuffle(qOrder);
+  document.getElementById('panel-winner').classList.add('hidden');
+  document.getElementById('panel-battle').classList.remove('hidden');
+  showRound();
+});
+document.getElementById('btn-tosetup').addEventListener('click', function(){
+  document.getElementById('panel-winner').classList.add('hidden');
+  document.getElementById('panel-setup').classList.remove('hidden');
+});
+
+function launchMiniConfetti(color){
+  let c1 = color==='blue' ? '#60a5fa' : '#f87171';
+  for (let i=0;i<30;i++){
+    let c = document.createElement('div');
+    c.className='confetti';
+    c.style.left = (20+Math.random()*60)+'vw';
+    c.style.background = Math.random()>.5 ? c1 : '#fbbf24';
+    c.style.width='8px'; c.style.height='8px'; c.style.borderRadius='50%';
+    c.style.animationDuration = (1.2+Math.random())+'s';
+    document.body.appendChild(c);
+    setTimeout(function(){ c.remove(); }, 3000);
+  }
+}
+function launchConfetti(){
+  let colors = ['#fbbf24','#f59e0b','#60a5fa','#f87171','#34d399'];
+  for (let i=0;i<100;i++){
+    let c = document.createElement('div');
+    c.className='confetti';
+    c.style.left = Math.random()*100+'vw';
+    c.style.background = colors[Math.floor(Math.random()*colors.length)];
+    let sz = 6+Math.random()*8;
+    c.style.width=sz+'px'; c.style.height=sz+'px';
+    if (Math.random()>.5) c.style.borderRadius='50%';
+    c.style.animationDuration = (2+Math.random()*2.5)+'s';
+    document.body.appendChild(c);
+    setTimeout(function(){ c.remove(); }, 5500);
+  }
+}
+
+renderSetupList();
+</script>
+</body>
+</html>
