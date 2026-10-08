@@ -1,1 +1,328 @@
-successfully downloaded text file (SHA: d42c06463aec65f84a405982af28120b756de6cd)
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 2: Công thức lượng giác</title>
+    <meta name="lesson-title" content="Bài 2: Công thức lượng giác">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 2: Công thức lượng giác</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 1: Hàm số lượng giác và phương trình lượng giác • Bài 2: Công thức lượng giác</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 2: Công thức lượng giác</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 1: Hàm số lượng giác và phương trình lượng giác — Kết nối tri thức với cuộc sống</p>
+
+<p>Ở Bài 1, ta đã biết giá trị lượng giác của một góc lượng giác $\alpha$: $\sin\alpha$, $\cos\alpha$, $\tan\alpha$, $\cot\alpha$. Trong bài này, ta học các <strong>công thức liên hệ</strong> giữa các giá trị lượng giác đó: hệ thức cơ bản, công thức cộng, công thức nhân đôi, công thức hạ bậc và công thức biến đổi tích thành tổng / tổng thành tích. Đây là "bộ đồ nghề" quan trọng nhất của cả chương.</p>
+
+<!-- 1. Hệ thức cơ bản -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Các hệ thức lượng giác cơ bản</h2>
+
+<p>Với mọi góc lượng giác $\alpha$, ta có các hệ thức sau:</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p>$$\sin^2\alpha + \cos^2\alpha = 1$$</p>
+<p class="mt-2">$$\tan\alpha \cdot \cot\alpha = 1 \quad (\sin\alpha \ne 0,\ \cos\alpha \ne 0)$$</p>
+<p class="mt-2">$$1 + \tan^2\alpha = \frac{1}{\cos^2\alpha} \quad (\cos\alpha \ne 0)$$</p>
+<p class="mt-2">$$1 + \cot^2\alpha = \frac{1}{\sin^2\alpha} \quad (\sin\alpha \ne 0)$$</p>
+</div>
+
+<p><strong>Cách nhớ:</strong> hệ thức đầu là "xương sống" (định lí Pythagore trên đường tròn đơn vị: điểm $M(\cos\alpha, \sin\alpha)$ luôn nằm trên đường tròn $x^2 + y^2 = 1$). Hai hệ thức sau suy ra bằng cách chia hai vế của hệ thức đầu cho $\cos^2\alpha$ hoặc $\sin^2\alpha$.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 1:</p>
+<p>Cho $\sin\alpha = \dfrac{3}{5}$ với $\dfrac{\pi}{2} < \alpha < \pi$. Tính $\cos\alpha$ và $\tan\alpha$.</p>
+<p class="font-semibold text-sky-800 mt-3 mb-1">Lời giải:</p>
+<p>Từ $\sin^2\alpha + \cos^2\alpha = 1$ suy ra</p>
+<p>$$\cos^2\alpha = 1 - \sin^2\alpha = 1 - \frac{9}{25} = \frac{16}{25}.$$</p>
+<p>Vì $\dfrac{\pi}{2} < \alpha < \pi$ (góc phần tư thứ II) nên $\cos\alpha < 0$, do đó $\cos\alpha = -\dfrac{4}{5}$.</p>
+<p>$$\tan\alpha = \frac{\sin\alpha}{\cos\alpha} = \frac{3/5}{-4/5} = -\frac{3}{4}.$$</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Khi tìm $\cos\alpha$ (hoặc $\sin\alpha$) từ hệ thức $\sin^2\alpha + \cos^2\alpha = 1$, luôn phải <strong>xét dấu</strong> theo góc phần tư của $\alpha$: phần tư I: $\sin, \cos > 0$; phần tư II: $\sin > 0, \cos < 0$; phần tư III: cả hai âm; phần tư IV: $\sin < 0, \cos > 0$.</p>
+</div>
+
+<!-- 2. Công thức cộng -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Công thức cộng</h2>
+
+<p>Với hai góc lượng giác $a$ và $b$ bất kì:</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p>$$\cos(a - b) = \cos a\cos b + \sin a\sin b$$</p>
+<p class="mt-2">$$\cos(a + b) = \cos a\cos b - \sin a\sin b$$</p>
+<p class="mt-2">$$\sin(a - b) = \sin a\cos b - \cos a\sin b$$</p>
+<p class="mt-2">$$\sin(a + b) = \sin a\cos b + \cos a\sin b$$</p>
+<p class="mt-2">$$\tan(a - b) = \frac{\tan a - \tan b}{1 + \tan a\tan b}, \qquad \tan(a + b) = \frac{\tan a + \tan b}{1 - \tan a\tan b}$$</p>
+<p class="text-sm text-slate-600 mt-1">(công thức tang chỉ đúng khi các giá trị tang xác định, tức mẫu số khác $0$)</p>
+</div>
+
+<p><strong>Cách nhớ:</strong> "cos thì <strong>đổi dấu</strong>" ($\cos(a+b)$ lấy dấu trừ, $\cos(a-b)$ lấy dấu cộng), còn "sin thì <strong>giữ dấu</strong>" và "sin cos cos sin" ($\sin(a+b) = \sin a\cos b + \cos a\sin b$).</p>
+
+<div class="svg-fig"><svg viewBox="0 0 400 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Đường tròn lượng giác minh họa công thức cộng cos(a-b)">
+<rect x="2" y="2" width="396" height="326" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="200" y="28" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0c4a6e" text-anchor="middle">Đường tròn lượng giác và công thức cộng</text>
+<circle cx="200" cy="175" r="150" fill="none" stroke="#0ea5e9" stroke-width="2"/>
+<line x1="30" y1="175" x2="375" y2="175" stroke="#64748b" stroke-width="1.2"/>
+<line x1="200" y1="10" x2="200" y2="320" stroke="#64748b" stroke-width="1.2"/>
+<polygon points="375,175 366,171 366,179" fill="#64748b"/>
+<polygon points="200,10 196,19 204,19" fill="#64748b"/>
+<text x="368" y="165" font-family="sans-serif" font-size="13" fill="#475569">x</text>
+<text x="208" y="22" font-family="sans-serif" font-size="13" fill="#475569">y</text>
+<text x="192" y="190" font-family="sans-serif" font-size="13" font-style="italic" fill="#475569">O</text>
+<!-- goc b = 20 do (xanh la) -->
+<path d="M 270 175 A 70 70 0 0 0 265.8 151.1" fill="none" stroke="#16a34a" stroke-width="2.5"/>
+<text x="252" y="160" font-family="sans-serif" font-size="13" font-weight="bold" fill="#16a34a">b</text>
+<line x1="200" y1="175" x2="341" y2="123.7" stroke="#16a34a" stroke-width="2"/>
+<circle cx="341" cy="123.7" r="4.5" fill="#16a34a"/>
+<line x1="341" y1="123.7" x2="341" y2="175" stroke="#16a34a" stroke-width="1.5" stroke-dasharray="5,4"/>
+<text x="345" y="112" font-family="sans-serif" font-size="12" fill="#16a34a">P(cos b, sin b)</text>
+<text x="292" y="190" font-family="sans-serif" font-size="12" fill="#16a34a">cos b</text>
+<text x="346" y="152" font-family="sans-serif" font-size="12" fill="#16a34a">sin b</text>
+<!-- goc a = 50 do (do) -->
+<path d="M 245 175 A 45 45 0 0 0 228.9 140.5" fill="none" stroke="#dc2626" stroke-width="2.5"/>
+<text x="232" y="150" font-family="sans-serif" font-size="13" font-weight="bold" fill="#dc2626">a</text>
+<line x1="200" y1="175" x2="296.4" y2="60.1" stroke="#dc2626" stroke-width="2"/>
+<circle cx="296.4" cy="60.1" r="4.5" fill="#dc2626"/>
+<line x1="296.4" y1="60.1" x2="296.4" y2="175" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="5,4"/>
+<text x="240" y="52" font-family="sans-serif" font-size="12" fill="#dc2626">M(cos a, sin a)</text>
+<text x="240" y="190" font-family="sans-serif" font-size="12" fill="#dc2626">cos a</text>
+<text x="300" y="118" font-family="sans-serif" font-size="12" fill="#dc2626">sin a</text>
+<!-- diem A(1,0) -->
+<circle cx="350" cy="175" r="4" fill="#0f172a"/>
+<text x="352" y="192" font-family="sans-serif" font-size="12" fill="#0f172a">A(1; 0)</text>
+<text x="200" y="312" font-family="sans-serif" font-size="12.5" fill="#0c4a6e" text-anchor="middle">cos(a − b) = cos a · cos b + sin a · sin b</text>
+</svg></div>
+
+<p>Ý tưởng chứng minh công thức $\cos(a-b)$: trên đường tròn đơn vị, lấy điểm $M(\cos a, \sin a)$ ứng với góc $a$ và điểm $P(\cos b, \sin b)$ ứng với góc $b$ (hình trên). Góc $\widehat{MOP} = a - b$. Tính độ dài dây $MP$ theo hai cách (định lí cosin trong tam giác $MOP$ và công thức khoảng cách), đồng nhất hai kết quả ta được công thức cộng của cosin; các công thức còn lại suy ra từ đó.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 2:</p>
+<p>Tính $\cos 15^\circ$ và $\sin 75^\circ$.</p>
+<p class="font-semibold text-sky-800 mt-3 mb-1">Lời giải:</p>
+<p>Ta viết $15^\circ = 45^\circ - 30^\circ$, áp dụng công thức cộng của cosin:</p>
+<p>$$\cos 15^\circ = \cos(45^\circ - 30^\circ) = \cos 45^\circ\cos 30^\circ + \sin 45^\circ\sin 30^\circ$$</p>
+<p>$$= \frac{\sqrt{2}}{2}\cdot\frac{\sqrt{3}}{2} + \frac{\sqrt{2}}{2}\cdot\frac{1}{2} = \frac{\sqrt{6} + \sqrt{2}}{4}.$$</p>
+<p>Còn $\sin 75^\circ = \sin(45^\circ + 30^\circ) = \sin 45^\circ\cos 30^\circ + \cos 45^\circ\sin 30^\circ = \dfrac{\sqrt{6}+\sqrt{2}}{4}$ (bằng $\cos 15^\circ$, đúng theo tính chất hai góc phụ nhau).</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 3 (dạng "nhận ra công thức"):</p>
+<p>Rút gọn $A = \sin 50^\circ\cos 10^\circ + \cos 50^\circ\sin 10^\circ$.</p>
+<p class="font-semibold text-sky-800 mt-3 mb-1">Lời giải:</p>
+<p>Đây chính là vế phải của $\sin(a+b)$ với $a = 50^\circ,\ b = 10^\circ$:</p>
+<p>$$A = \sin(50^\circ + 10^\circ) = \sin 60^\circ = \frac{\sqrt{3}}{2}.$$</p>
+</div>
+
+<!-- 3. Công thức nhân đôi -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Công thức nhân đôi</h2>
+
+<p>Cho $b = a$ trong công thức cộng, ta được công thức <strong>nhân đôi</strong>:</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p>$$\sin 2a = 2\sin a\cos a$$</p>
+<p class="mt-2">$$\cos 2a = \cos^2 a - \sin^2 a = 2\cos^2 a - 1 = 1 - 2\sin^2 a$$</p>
+<p class="mt-2">$$\tan 2a = \frac{2\tan a}{1 - \tan^2 a} \quad (\cos 2a \ne 0)$$</p>
+</div>
+
+<p><strong>Cách nhớ:</strong> $\cos 2a$ có <strong>ba</strong> dạng — dùng dạng nào tùy bài: cần $\cos a$ thì dùng $2\cos^2 a - 1$; cần $\sin a$ thì dùng $1 - 2\sin^2 a$.</p>
+
+<div class="svg-fig"><svg viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Minh họa góc nhân đôi trên đường tròn lượng giác">
+<rect x="2" y="2" width="396" height="316" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="200" y="28" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0c4a6e" text-anchor="middle">Minh họa góc nhân đôi: góc a và góc 2a</text>
+<circle cx="200" cy="180" r="150" fill="none" stroke="#0ea5e9" stroke-width="2"/>
+<line x1="30" y1="180" x2="375" y2="180" stroke="#64748b" stroke-width="1.2"/>
+<line x1="200" y1="15" x2="200" y2="315" stroke="#64748b" stroke-width="1.2"/>
+<polygon points="375,180 366,176 366,184" fill="#64748b"/>
+<text x="368" y="170" font-family="sans-serif" font-size="13" fill="#475569">x</text>
+<text x="192" y="195" font-family="sans-serif" font-size="13" font-style="italic" fill="#475569">O</text>
+<!-- goc a = 30 do -->
+<path d="M 250 180 A 50 50 0 0 0 243.3 155" fill="none" stroke="#16a34a" stroke-width="3"/>
+<text x="246" y="168" font-family="sans-serif" font-size="13" font-weight="bold" fill="#16a34a">a</text>
+<line x1="200" y1="180" x2="329.9" y2="105" stroke="#16a34a" stroke-width="2"/>
+<circle cx="329.9" cy="105" r="4.5" fill="#16a34a"/>
+<text x="333" y="98" font-family="sans-serif" font-size="12" fill="#16a34a">M</text>
+<!-- goc 2a = 60 do -->
+<path d="M 280 180 A 80 80 0 0 0 240 110.7" fill="none" stroke="#dc2626" stroke-width="3"/>
+<text x="272" y="140" font-family="sans-serif" font-size="13" font-weight="bold" fill="#dc2626">2a</text>
+<line x1="200" y1="180" x2="275" y2="50.1" stroke="#dc2626" stroke-width="2"/>
+<circle cx="275" cy="50.1" r="4.5" fill="#dc2626"/>
+<text x="279" y="44" font-family="sans-serif" font-size="12" fill="#dc2626">N</text>
+<line x1="275" y1="50.1" x2="275" y2="180" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="5,4"/>
+<text x="279" y="118" font-family="sans-serif" font-size="12" fill="#dc2626">sin 2a</text>
+<circle cx="350" cy="180" r="4" fill="#0f172a"/>
+<text x="352" y="197" font-family="sans-serif" font-size="12" fill="#0f172a">A(1; 0)</text>
+<text x="200" y="302" font-family="sans-serif" font-size="12.5" fill="#0c4a6e" text-anchor="middle">Nhân đôi góc a (xanh) được góc 2a (đỏ): sin 2a = 2 sin a cos a</text>
+</svg></div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 4:</p>
+<p>Cho $\sin a = \dfrac{3}{5}$ với $a$ là góc nhọn. Tính $\sin 2a$ và $\cos 2a$.</p>
+<p class="font-semibold text-sky-800 mt-3 mb-1">Lời giải:</p>
+<p>Vì $a$ nhọn nên $\cos a > 0$. Từ $\sin^2 a + \cos^2 a = 1$:</p>
+<p>$$\cos a = \sqrt{1 - \frac{9}{25}} = \frac{4}{5}.$$</p>
+<p>Áp dụng công thức nhân đôi:</p>
+<p>$$\sin 2a = 2\sin a\cos a = 2\cdot\frac{3}{5}\cdot\frac{4}{5} = \frac{24}{25},$$</p>
+<p>$$\cos 2a = 1 - 2\sin^2 a = 1 - 2\cdot\frac{9}{25} = \frac{7}{25}.$$</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Gặp $\sin 2a$ mà chỉ biết $\tan a$? Dùng $\sin 2a = \dfrac{2\tan a}{1 + \tan^2 a}$ (chia cả tử và mẫu của $2\sin a\cos a$ cho $\cos^2 a$). Tương tự $\cos 2a = \dfrac{1 - \tan^2 a}{1 + \tan^2 a}$.</p>
+</div>
+
+<!-- 4. Công thức hạ bậc -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Công thức hạ bậc</h2>
+
+<p>Từ hai dạng $\cos 2a = 2\cos^2 a - 1$ và $\cos 2a = 1 - 2\sin^2 a$, giải ra $\cos^2 a$ và $\sin^2 a$ ta được công thức <strong>hạ bậc</strong> (đưa bình phương về góc gấp đôi):</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p>$$\cos^2 a = \frac{1 + \cos 2a}{2}, \qquad \sin^2 a = \frac{1 - \cos 2a}{2}$$</p>
+</div>
+
+<p><strong>Cách nhớ:</strong> "$\cos$ thì cộng, $\sin$ thì trừ" — $\cos^2$ đi với dấu $+$, $\sin^2$ đi với dấu $-$.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 5:</p>
+<p>Tính $\sin^2\dfrac{\pi}{8}$.</p>
+<p class="font-semibold text-sky-800 mt-3 mb-1">Lời giải:</p>
+<p>Áp dụng công thức hạ bậc với $a = \dfrac{\pi}{8}$ (khi đó $2a = \dfrac{\pi}{4}$):</p>
+<p>$$\sin^2\frac{\pi}{8} = \frac{1 - \cos\frac{\pi}{4}}{2} = \frac{1 - \frac{\sqrt{2}}{2}}{2} = \frac{2 - \sqrt{2}}{4}.$$</p>
+</div>
+
+<!-- 5. Tích thành tổng / Tổng thành tích -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">5. Công thức biến đổi tích thành tổng và tổng thành tích</h2>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">5.1. Biến đổi tích thành tổng</h3>
+
+<p>Cộng/trừ từng vế các công thức cộng, ta được:</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p>$$\cos a\cos b = \frac{1}{2}\big[\cos(a - b) + \cos(a + b)\big]$$</p>
+<p class="mt-2">$$\sin a\sin b = \frac{1}{2}\big[\cos(a - b) - \cos(a + b)\big]$$</p>
+<p class="mt-2">$$\sin a\cos b = \frac{1}{2}\big[\sin(a - b) + \sin(a + b)\big]$$</p>
+</div>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">5.2. Biến đổi tổng thành tích</h3>
+
+<p>Đặt $u = a + b,\ v = a - b$ (tức $a = \dfrac{u+v}{2},\ b = \dfrac{u-v}{2}$) vào các công thức trên, ta được:</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p>$$\cos u + \cos v = 2\cos\frac{u+v}{2}\cos\frac{u-v}{2}$$</p>
+<p class="mt-2">$$\cos u - \cos v = -2\sin\frac{u+v}{2}\sin\frac{u-v}{2}$$</p>
+<p class="mt-2">$$\sin u + \sin v = 2\sin\frac{u+v}{2}\cos\frac{u-v}{2}$$</p>
+<p class="mt-2">$$\sin u - \sin v = 2\cos\frac{u+v}{2}\sin\frac{u-v}{2}$$</p>
+</div>
+
+<p><strong>Cách nhớ:</strong> "cos cộng cos bằng hai cos cos; cos trừ cos bằng trừ hai sin sin; sin cộng sin bằng hai sin cos; sin trừ sin bằng hai cos sin" — với góc là <strong>tổng chia hai</strong> và <strong>hiệu chia hai</strong>.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 6:</p>
+<p>Rút gọn $P = \dfrac{\sin a + \sin 3a}{\cos a + \cos 3a}$.</p>
+<p class="font-semibold text-sky-800 mt-3 mb-1">Lời giải:</p>
+<p>Áp dụng công thức tổng thành tích:</p>
+<p>$$\sin a + \sin 3a = 2\sin\frac{a+3a}{2}\cos\frac{a-3a}{2} = 2\sin 2a\cos a,$$</p>
+<p>$$\cos a + \cos 3a = 2\cos\frac{a+3a}{2}\cos\frac{a-3a}{2} = 2\cos 2a\cos a.$$</p>
+<p>Do đó (với $\cos a\cos 2a \ne 0$):</p>
+<p>$$P = \frac{2\sin 2a\cos a}{2\cos 2a\cos a} = \frac{\sin 2a}{\cos 2a} = \tan 2a.$$</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 7:</p>
+<p>Tính $A = \cos 20^\circ\cos 40^\circ\cos 80^\circ$.</p>
+<p class="font-semibold text-sky-800 mt-3 mb-1">Lời giải:</p>
+<p>Nhân cả hai vế với $\sin 20^\circ$ (khác $0$) rồi dùng $\sin 2x = 2\sin x\cos x$ liên tiếp:</p>
+<p>$$A\sin 20^\circ = \sin 20^\circ\cos 20^\circ\cos 40^\circ\cos 80^\circ = \frac{1}{2}\sin 40^\circ\cos 40^\circ\cos 80^\circ$$</p>
+<p>$$= \frac{1}{4}\sin 80^\circ\cos 80^\circ = \frac{1}{8}\sin 160^\circ = \frac{1}{8}\sin 20^\circ.$$</p>
+<p>Chia hai vế cho $\sin 20^\circ$ được $A = \dfrac{1}{8}$.</p>
+</div>
+
+<!-- 6. Bảng tổng hợp -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">6. Bảng tổng hợp công thức</h2>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 my-2 text-sm md:text-base">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-2 text-center">Nhóm</td><td class="border border-slate-300 px-4 py-2 text-center">Công thức</td></tr>
+<tr><td class="border border-slate-300 px-4 py-2 font-semibold align-top" rowspan="4">Hệ thức cơ bản</td><td class="border border-slate-300 px-4 py-2">$\sin^2\alpha + \cos^2\alpha = 1$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-2">$\tan\alpha\cdot\cot\alpha = 1$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-2">$1 + \tan^2\alpha = \dfrac{1}{\cos^2\alpha}$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-2">$1 + \cot^2\alpha = \dfrac{1}{\sin^2\alpha}$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-2 font-semibold align-top" rowspan="3">Công thức cộng</td><td class="border border-slate-300 px-4 py-2">$\cos(a \pm b) = \cos a\cos b \mp \sin a\sin b$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-2">$\sin(a \pm b) = \sin a\cos b \pm \cos a\sin b$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-2">$\tan(a \pm b) = \dfrac{\tan a \pm \tan b}{1 \mp \tan a\tan b}$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-2 font-semibold align-top" rowspan="3">Công thức nhân đôi</td><td class="border border-slate-300 px-4 py-2">$\sin 2a = 2\sin a\cos a$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-2">$\cos 2a = \cos^2 a - \sin^2 a = 2\cos^2 a - 1 = 1 - 2\sin^2 a$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-2">$\tan 2a = \dfrac{2\tan a}{1 - \tan^2 a}$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-2 font-semibold align-top" rowspan="2">Công thức hạ bậc</td><td class="border border-slate-300 px-4 py-2">$\cos^2 a = \dfrac{1 + \cos 2a}{2}$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-2">$\sin^2 a = \dfrac{1 - \cos 2a}{2}$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-2 font-semibold align-top" rowspan="3">Tích thành tổng</td><td class="border border-slate-300 px-4 py-2">$\cos a\cos b = \dfrac{1}{2}[\cos(a-b) + \cos(a+b)]$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-2">$\sin a\sin b = \dfrac{1}{2}[\cos(a-b) - \cos(a+b)]$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-2">$\sin a\cos b = \dfrac{1}{2}[\sin(a-b) + \sin(a+b)]$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-2 font-semibold align-top" rowspan="4">Tổng thành tích</td><td class="border border-slate-300 px-4 py-2">$\cos u + \cos v = 2\cos\dfrac{u+v}{2}\cos\dfrac{u-v}{2}$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-2">$\cos u - \cos v = -2\sin\dfrac{u+v}{2}\sin\dfrac{u-v}{2}$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-2">$\sin u + \sin v = 2\sin\dfrac{u+v}{2}\cos\dfrac{u-v}{2}$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-2">$\sin u - \sin v = 2\cos\dfrac{u+v}{2}\sin\dfrac{u-v}{2}$</td></tr>
+</table></div>
+
+<!-- Tóm tắt -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Hệ thức cơ bản:</strong> $\sin^2\alpha + \cos^2\alpha = 1$ là gốc; chia hai vế cho $\cos^2\alpha$ hoặc $\sin^2\alpha$ được $1 + \tan^2\alpha = \dfrac{1}{\cos^2\alpha}$ và $1 + \cot^2\alpha = \dfrac{1}{\sin^2\alpha}$.</li>
+<li><strong>Công thức cộng:</strong> cos "đổi dấu", sin "giữ dấu": $\cos(a+b) = \cos a\cos b - \sin a\sin b$; $\sin(a+b) = \sin a\cos b + \cos a\sin b$.</li>
+<li><strong>Công thức nhân đôi:</strong> $\sin 2a = 2\sin a\cos a$; $\cos 2a$ có 3 dạng ($\cos^2 a - \sin^2 a$, $2\cos^2 a - 1$, $1 - 2\sin^2 a$); $\tan 2a = \dfrac{2\tan a}{1-\tan^2 a}$.</li>
+<li><strong>Hạ bậc:</strong> $\cos^2 a = \dfrac{1+\cos 2a}{2}$, $\sin^2 a = \dfrac{1-\cos 2a}{2}$.</li>
+<li><strong>Tích thành tổng:</strong> $\cos a\cos b$, $\sin a\sin b$, $\sin a\cos b$ viết thành nửa tổng/hiệu của cosin, sin của tổng và hiệu.</li>
+<li><strong>Tổng thành tích:</strong> "hai cos cos, trừ hai sin sin, hai sin cos, hai cos sin" với góc $\dfrac{u+v}{2}$ và $\dfrac{u-v}{2}$.</li>
+<li><strong>Kĩ năng:</strong> nhận ra công thức trong biểu thức ("đọc ngược" công thức), tách góc đặc biệt ($15^\circ = 45^\circ - 30^\circ$), và luôn xét dấu khi khai căn.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
