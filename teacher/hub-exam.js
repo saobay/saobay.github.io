@@ -114,7 +114,10 @@
                 chapters: chapters,
                 types: { mcq: Math.max(0, parseInt(exbBankVal('exbb-n-mcq'), 10) || 0),
                          truefalse: Math.max(0, parseInt(exbBankVal('exbb-n-tf'), 10) || 0),
-                         short: Math.max(0, parseInt(exbBankVal('exbb-n-short'), 10) || 0) },
+                         short: Math.max(0, parseInt(exbBankVal('exbb-n-short'), 10) || 0),
+                         essay: Math.max(0, parseInt(exbBankVal('exbb-n-essay'), 10) || 0) },
+                scores: { mcq: exbBankNum('exbb-s-mcq', 0.25), truefalse: exbBankNum('exbb-s-tf', 1),
+                          short: exbBankNum('exbb-s-short', 0.5), essay: exbBankNum('exbb-s-essay', 0) },
                 levels: { NB: exbBankNum('exbb-lv-nb', 25), TH: exbBankNum('exbb-lv-th', 25),
                           VD: exbBankNum('exbb-lv-vd', 25), VDC: exbBankNum('exbb-lv-vdc', 25) },
                 time_limit: Math.max(0, exbBankNum('exbb-timelimit', 0))
@@ -124,7 +127,7 @@
         // Boc cau theo ma tran: moi chuong -> phan bo theo dang -> phan bo theo muc do
         function exbMatrixPick(pool, matrix){
             let picked = [], used = {};
-            let typeTotal = (matrix.types.mcq || 0) + (matrix.types.truefalse || 0) + (matrix.types.short || 0);
+            let typeTotal = (matrix.types.mcq || 0) + (matrix.types.truefalse || 0) + (matrix.types.short || 0) + (matrix.types.essay || 0);
             if (!typeTotal) typeTotal = 1;
             let lvTotal = (matrix.levels.NB || 0) + (matrix.levels.TH || 0) + (matrix.levels.VD || 0) + (matrix.levels.VDC || 0);
             if (!lvTotal) lvTotal = 1;
@@ -135,7 +138,7 @@
                 let cpool = pool.filter(function(q){ return String(q.chapter) === String(ch); });
                 if (!cpool.length) return;
                 if (n >= 9999) n = cpool.length;
-                ['mcq', 'truefalse', 'short'].forEach(function(tp){
+                ['mcq', 'truefalse', 'short', 'essay'].forEach(function(tp){
                     let want = (matrix.types[tp] || 0) > 0 ? Math.max(1, Math.round(n * ((matrix.types[tp] || 0) / typeTotal))) : 0;
                     let groups = { NB: [], TH: [], VD: [], VDC: [] };
                     cpool.forEach(function(q){ if (q.type === tp && !used[q.id]) (groups[q.level] || groups.NB).push(q); });
@@ -161,15 +164,15 @@
                     }
                 });
             });
-            let tOrd = { mcq: 0, truefalse: 1, short: 2 };
+            let tOrd = { mcq: 0, truefalse: 1, short: 2, essay: 3 };
             picked.sort(function(a, b){ return (tOrd[a.type] == null ? 9 : tOrd[a.type]) - (tOrd[b.type] == null ? 9 : tOrd[b.type]); });
             return picked;
         }
 
         function exbRenderPicked(picked, label){
             let pv = document.getElementById('exb-bank-preview');
-            let badge = { mcq: 'bg-blue-100 text-blue-800', truefalse: 'bg-amber-100 text-amber-800', short: 'bg-emerald-100 text-emerald-800' };
-            let tn = { mcq: 'TN', truefalse: 'Đ/S', short: 'TLN' };
+            let badge = { mcq: 'bg-blue-100 text-blue-800', truefalse: 'bg-amber-100 text-amber-800', short: 'bg-emerald-100 text-emerald-800', essay: 'bg-violet-100 text-violet-800' };
+            let tn = { mcq: 'TN', truefalse: 'Đ/S', short: 'TLN', essay: 'Tự luận' };
             pv.innerHTML = '<div class="flex items-center justify-between mb-2">'
                 + '<p class="text-xs font-black text-slate-700">' + label + ': ' + picked.length + ' câu</p></div>'
                 + '<div class="space-y-2 max-h-72 overflow-y-auto pr-1">'
@@ -210,7 +213,8 @@
                 let title = exbBankVal('exbb-title') || ('Luyện tập ' + m.subject + ' ' + m.grade);
                 let safeTitle = title.replace(/[<>&"]/g, '');
                 let cfg = { subject: m.subject, grade: m.grade, matrix: m.chapters,
-                            types: m.types, levels: m.levels, time_limit: m.time_limit };
+                            types: m.types, levels: m.levels, time_limit: m.time_limit,
+                            scoring: m.scores };
                 let inner = '<div class="saobay-bank-view"></div>\n'
                     + '<script type="application/json" class="saobay-bank-config">\n' + JSON.stringify(cfg) + '\n<\/script>';
                 let page = bankWrapPage(safeTitle, 'Bài tập', inner);
@@ -255,6 +259,7 @@
                     frozen_bank_exam: true,
                     shuffle_within_type: true,
                     time_limit: m.time_limit || 0,
+                    scoring: m.scores || {},
                     meta: { title: safeTitle, subject: m.subject, grade: m.grade },
                     sets: [{ name: safeTitle, questions: exbClassExam.map(function(q){
                         return { type: q.type, level: q.level, q: q.q, options: q.options || [],
