@@ -16,9 +16,47 @@
         function myUname(){ try { return String((currentUser && currentUser.name) || ''); } catch(e){ return ''; } }
         function uEsc(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
+        // ---- Tính thời hạn tài khoản (2026-10-09) ----
+        // Quy tắc: GV trường Sào Báy (có trong phân công) -> không thời hạn;
+        // HS có mã trong DB trường -> 1 năm; HS ngoài/tự đăng ký -> 3 tháng dùng thử;
+        // admin tạo tay -> theo lựa chọn (mặc định 3 tháng cho HS, không thời hạn cho GV)
+        function calcExpiryDays(role, userId, db, chosenDays){
+            if (chosenDays !== undefined && chosenDays !== null && chosenDays !== '') return chosenDays === 'unlimited' ? null : parseInt(chosenDays, 10);
+            if (role === 'teacher'){
+                let inSchool = false;
+                (db.assignments || []).forEach(function(a){
+                    if (String(a.teachers || '').indexOf(String(userId)) >= 0) inSchool = true;
+                });
+                if (inSchool) return null; // GV trường: không thời hạn
+                return null; // GV do admin tạo: mặc định không thời hạn (admin đổi được)
+            }
+            // student
+            let inSchool = false;
+            Object.keys(db.students || {}).forEach(function(c){
+                (db.students[c] || []).forEach(function(st){
+                    if (String(st.id) === String(userId)) inSchool = true;
+                });
+            });
+            return inSchool ? 365 : 90; // HS trường: 1 năm; HS ngoài: 3 tháng
+        }
+        function expiryDateISO(days){
+            if (days === null || days === undefined) return null;
+            let d = new Date(); d.setDate(d.getDate() + days);
+            return d.toISOString();
+        }
+        function fmtExpiry(iso){
+            if (!iso) return '<span class="text-emerald-700 font-bold">Không thời hạn</span>';
+            let t = new Date(iso).getTime(), now = Date.now();
+            let days = Math.ceil((t - now) / 86400000);
+            let ds = new Date(iso).toLocaleDateString('vi-VN');
+            if (days < 0) return '<span class="text-rose-700 font-bold">Hết hạn ' + ds + '</span>';
+            if (days <= 15) return '<span class="text-amber-700 font-bold">Còn ' + days + ' ngày (' + ds + ')</span>';
+            return '<span class="text-slate-600">Đến ' + ds + '</span>';
+        }
+
         // ---- Tạo tài khoản (dùng chung cho duyệt đăng ký & tạo tay) ----
         async function createUserAccount(o){
-            // o: {id, name, role: 'teacher'|'student', className}
+            // o: {id, name, role: 'teacher'|'student', className, expiryDays}
             let db = await assignFetchUsed();
             if (!db.passwords) db.passwords = {};
             if (db.passwords[o.id]) throw new Error('Mã ' + o.id + ' đã có tài khoản.');
@@ -33,7 +71,12 @@
                 if (!Array.isArray(db.students[c])) db.students[c] = [];
                 db.students[c].push({ id: o.id, name: o.name, dob: '' });
             }
-            await assignPushUsed(db, 'Tạo tài khoản ' + (o.role === 'teacher' ? 'giáo viên' : 'học sinh') + ': ' + o.name + ' (' + o.id + ')');
+            let expDays = calcExpiryDays(o.role, o.id, db, o.expiryDays);
+            if (!db.account_expiry) db.account_expiry = {};
+            db.account_expiry[o.id] = { expires_at: expiryDateISO(expDays),
+                type: o.role === 'teacher' ? 'teacher' : (expDays === 365 ? 'school_student' : (expDays === 90 ? 'trial' : 'custom')),
+                created_at: new Date().toISOString(), created_by: myUname() };
+            await assignPushUsed(db, 'Tạo tài khoản ' + (o.role === 'teacher' ? 'giáo viên' : 'học sinh') + ': ' + o.name + ' (' + o.id + ')' + (expDays ? ' [hạn ' + expDays + ' ngày]' : ' [không thời hạn]'));
             return true;
         }
 
@@ -54,6 +97,7 @@
                 + '<div class="flex gap-2 px-5 pt-3 text-xs font-bold">'
                 + '<button id="um-tab-pending" onclick="userMgrTab(\'pending\')" class="px-4 py-2 rounded-lg bg-indigo-700 text-white">Chờ duyệt <span id="um-pending-count" class="ml-1 bg-white text-indigo-700 rounded-full px-1.5"></span></button>'
                 + '<button id="um-tab-create" onclick="userMgrTab(\'create\')" class="px-4 py-2 rounded-lg bg-slate-200 text-slate-700">Tạo tài khoản</button>'
+                + '<button id="um-tab-list" onclick="userMgrTab(\'list\')" class="px-4 py-2 rounded-lg bg-slate-200 text-slate-700">Danh sách TK</button>'
                 + '</div>'
                 + '<div id="users-body" class="p-5 overflow-y-auto"><p class="text-xs text-slate-400 italic">Đang tải...</p></div>'
                 + '</div>';
@@ -63,10 +107,64 @@
 
         function userMgrTab(tab){
             userMgrState.tab = tab;
-            let bp = document.getElementById('um-tab-pending'), bc = document.getElementById('um-tab-create');
+            let bp = document.getElementById('um-tab-pending'), bc = document.getElementById('um-tab-create'), bl = document.getElementById('um-tab-list');
             if (bp){ bp.className = 'px-4 py-2 rounded-lg font-bold text-xs ' + (tab === 'pending' ? 'bg-indigo-700 text-white' : 'bg-slate-200 text-slate-700'); }
             if (bc){ bc.className = 'px-4 py-2 rounded-lg font-bold text-xs ' + (tab === 'create' ? 'bg-indigo-700 text-white' : 'bg-slate-200 text-slate-700'); }
-            if (tab === 'pending') userMgrLoadPending(); else userMgrRenderCreate();
+            if (bl){ bl.className = 'px-4 py-2 rounded-lg font-bold text-xs ' + (tab === 'list' ? 'bg-indigo-700 text-white' : 'bg-slate-200 text-slate-700'); }
+            if (tab === 'pending') userMgrLoadPending(); else if (tab === 'list') userMgrLoadList(); else userMgrRenderCreate();
+        }
+
+        // Danh sach tai khoan + thoi han + gia han (2026-10-09)
+        async function userMgrLoadList(){
+            let body = document.getElementById('users-body');
+            body.innerHTML = '<p class="text-xs text-slate-400 italic">Đang tải...</p>';
+            try {
+                let db = await assignFetchUsed();
+                let exp = db.account_expiry || {};
+                let ids = Object.keys(db.passwords || {}).filter(function(x){ return x !== 'admin'; });
+                // Tim ten + vai tro
+                function findName(uid){
+                    let tr = db.teachers_registry || {};
+                    if (tr[uid]) return { name: tr[uid].name, role: 'GV' };
+                    let out = null;
+                    Object.keys(db.students || {}).forEach(function(c){
+                        (db.students[c] || []).forEach(function(st){
+                            if (String(st.id) === String(uid)) out = { name: st.name, role: 'HS ' + c };
+                        });
+                    });
+                    return out || { name: '(chưa rõ)', role: '?' };
+                }
+                let h = '<div class="space-y-2">';
+                ids.forEach(function(uid){
+                    let info = findName(uid);
+                    let e = exp[uid] || {};
+                    h += '<div class="border border-slate-200 rounded-xl p-3 flex flex-wrap items-center gap-2 text-xs">'
+                        + '<div class="flex-1 min-w-[160px]"><p class="font-black text-slate-800">' + uEsc(info.name) + ' <span class="font-normal text-slate-400">(' + uEsc(uid) + ')</span></p>'
+                        + '<p class="text-slate-500">' + uEsc(info.role) + ' • Hạn: ' + fmtExpiry(e.expires_at) + '</p></div>'
+                        + '<button onclick="extendAccount(\'' + uEsc(uid) + '\')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-3 py-1.5 rounded-lg">Gia hạn</button>'
+                        + '</div>';
+                });
+                body.innerHTML = h ? h + '</div>' : '<p class="text-xs text-slate-400 italic">Chưa có tài khoản nào.</p>';
+            } catch(e){ body.innerHTML = '<p class="text-xs text-rose-600">Lỗi: ' + uEsc(e.message || e) + '</p>'; }
+        }
+        async function extendAccount(uid){
+            let v = prompt('Gia hạn tài khoản ' + uid + ' thêm bao nhiêu ngày? (nhập 0 = không thời hạn)', '90');
+            if (v === null) return;
+            let days = parseInt(v, 10);
+            if (isNaN(days) || days < 0){ alert('Số ngày không hợp lệ.'); return; }
+            try {
+                let db = await assignFetchUsed();
+                if (!db.account_expiry) db.account_expiry = {};
+                let cur = db.account_expiry[uid] || {};
+                let base = cur.expires_at && new Date(cur.expires_at).getTime() > Date.now() ? new Date(cur.expires_at) : new Date();
+                if (days === 0){ cur.expires_at = null; }
+                else { base.setDate(base.getDate() + days); cur.expires_at = base.toISOString(); }
+                cur.extended_at = new Date().toISOString(); cur.extended_by = myUname();
+                db.account_expiry[uid] = cur;
+                await assignPushUsed(db, 'Gia hạn tài khoản ' + uid + (days === 0 ? ' [không thời hạn]' : ' thêm ' + days + ' ngày'));
+                if (typeof showToast === 'function') showToast('Đã gia hạn!', 'success');
+                userMgrLoadList();
+            } catch(e){ alert('Lỗi: ' + (e.message || e)); }
         }
 
         async function userMgrLoadPending(){
@@ -145,6 +243,13 @@
                 + '<option value="teacher">Giáo viên</option><option value="student">Học sinh</option></select></div>'
                 + '<div id="uc-class-row" class="hidden"><label class="text-xs font-bold text-slate-600">Lớp (học sinh) *</label>'
                 + '<input id="uc-class" class="mt-1 w-full border rounded-lg px-3 py-2.5 uppercase" placeholder="VD: 10A1"></div>'
+                + '<div><label class="text-xs font-bold text-slate-600">Thời hạn sử dụng</label>'
+                + '<select id="uc-expiry" class="mt-1 w-full border rounded-lg px-3 py-2.5 font-semibold">'
+                + '<option value="">Tự động (GV trường: không hạn / HS trường: 1 năm / HS ngoài: 3 tháng)</option>'
+                + '<option value="30">1 tháng</option><option value="90">3 tháng</option>'
+                + '<option value="180">6 tháng</option><option value="365">1 năm</option>'
+                + '<option value="730">2 năm</option><option value="unlimited">Không thời hạn</option>'
+                + '</select></div>'
                 + '<button onclick="createAccountNow()" class="w-full bg-indigo-700 hover:bg-indigo-800 text-white font-bold py-2.5 rounded-xl"><i class="fa-solid fa-user-plus mr-1"></i>Tạo tài khoản</button>'
                 + '<p class="text-[11px] text-slate-500">Mật khẩu mặc định: <b>12345678</b> — hệ thống bắt đổi ngay lần đầu đăng nhập.</p>'
                 + '</div>';
@@ -155,11 +260,13 @@
             let id = document.getElementById('uc-id').value.replace(/\D/g, '');
             let role = document.getElementById('uc-role').value;
             let cls = document.getElementById('uc-class').value.trim().toUpperCase();
+            let expSel = document.getElementById('uc-expiry');
+            let expVal = expSel ? expSel.value : '';
             if (!name || id.length < 9){ alert('Nhập họ tên và mã đăng nhập (9-12 số).'); return; }
             if (role === 'student' && !cls){ alert('Học sinh cần nhập lớp.'); return; }
             if (!confirm('Tạo tài khoản ' + (role === 'teacher' ? 'giáo viên' : 'học sinh') + ' "' + name + '" (' + id + ')?')) return;
             try {
-                await createUserAccount({ id: id, name: name, role: role, className: cls });
+                await createUserAccount({ id: id, name: name, role: role, className: cls, expiryDays: expVal || undefined });
                 if (typeof showToast === 'function') showToast('Đã tạo tài khoản cho ' + name, 'success');
                 else alert('Đã tạo tài khoản cho ' + name);
                 userMgrRenderCreate();
