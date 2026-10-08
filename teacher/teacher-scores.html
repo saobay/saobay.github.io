@@ -38,6 +38,9 @@ body{font-family:system-ui,-apple-system,sans-serif}
                 <select id="class-filter" class="hidden ml-auto text-xs border rounded-lg px-2 py-1.5 font-semibold">
                     <option value="">Tất cả các lớp</option>
                 </select>
+                <select id="pv-class-filter" class="hidden text-xs border border-violet-300 rounded-lg px-2 py-1.5 font-semibold text-violet-800">
+                    <option value="">Lớp học thêm: tất cả</option>
+                </select>
                 <button id="csv-btn" onclick="exportCsv()" class="hidden text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg">
                     <i class="fa-solid fa-file-csv mr-1"></i>Xuất CSV
                 </button>
@@ -55,6 +58,21 @@ body{font-family:system-ui,-apple-system,sans-serif}
     const OWNER = 'saobay', REPO = 'saobay.github.io', BRANCH = 'main';
     const SCORES_DIR = 'data/scores';
     let sessionUser = null, mySubjects = [], exams = [], curResults = [], curExamId = '';
+    let pvClasses = [];
+    loadPvClasses();
+    async function loadPvClasses(){
+        try {
+            let r = await fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/data/private/classes.json?t=' + Date.now());
+            if (r.ok){ let j = await r.json(); pvClasses = j.classes || []; }
+        } catch(e){}
+    }
+    function pvMyClasses(){
+        let me = null;
+        try { me = JSON.parse(localStorage.getItem('saobay_user') || 'null'); } catch(e){}
+        if (!me) return [];
+        if (me.role === 'admin') return pvClasses;
+        return pvClasses.filter(function(c){ return c.teacher_id === me.id; });
+    }
 
     function norm(s){
         return String(s == null ? '' : s).toLowerCase().normalize('NFD')
@@ -241,8 +259,24 @@ body{font-family:system-ui,-apple-system,sans-serif}
             + cls.map(function(c){ return '<option value="' + esc(c) + '">' + esc(c) + '</option>'; }).join('');
         cf.classList.remove('hidden'); csvBtn.classList.remove('hidden');
         cf.onchange = renderTable;
+        // Dropdown lop hoc them
+        let pvcf = document.getElementById('pv-class-filter');
+        let mine = pvMyClasses();
+        if (mine.length){
+            pvcf.innerHTML = '<option value="">Lớp học thêm: tất cả</option>'
+                + mine.map(function(c){ return '<option value="' + c.id + '">' + esc(c.name) + ' (' + (c.students||[]).length + ' HS)</option>'; }).join('');
+            pvcf.classList.remove('hidden');
+            pvcf.onchange = renderTable;
+        } else pvcf.classList.add('hidden');
         let f = cf.value;
+        let pvf = pvcf.value;
         let rows = curResults.filter(function(r){ return !f || r.student_class === f; });
+        if (pvf){
+            let cls = pvClasses.find(function(c){ return c.id === pvf; });
+            let names = {};
+            (cls && cls.students || []).forEach(function(st){ names[norm(st.name)] = 1; });
+            rows = rows.filter(function(r){ return names[norm(r.student_name)]; });
+        }
         let h = '<div class="overflow-x-auto"><table class="w-full text-xs"><thead><tr class="bg-slate-100 text-slate-600">'
             + '<th class="px-2 py-2 text-left">STT</th><th class="px-2 py-2 text-left">Họ tên</th><th class="px-2 py-2 text-left">Lớp</th>'
             + '<th class="px-2 py-2 text-right">Điểm</th><th class="px-2 py-2 text-right">Đúng</th><th class="px-2 py-2 text-left">Nộp lúc</th>'
