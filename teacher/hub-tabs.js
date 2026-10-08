@@ -16,6 +16,9 @@
             let panelE = document.getElementById('prompt-panel-exam');
             if (panelT) panelT.classList.toggle('hidden', isExam);
             if (panelE) panelE.classList.toggle('hidden', !isExam);
+            // Dong cong cu bank (cau noi / soan de) chi hien o tab De thi, an o tab Ly thuyet
+            let bankRow = document.getElementById('bank-tools-row');
+            if (bankRow) bankRow.classList.toggle('hidden', !isExam);
 
             // Đồng bộ loại bài đẩy ẩn theo tab
             let itemType = document.getElementById('item-type');
