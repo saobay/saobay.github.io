@@ -129,8 +129,8 @@
                     
                     renderMathPreview();
                     // Tự chuyển sang đúng tab đẩy theo loại file đang sửa
-                    if (/bai_tap|baitap|kiem_tra|kiemtra|de_thi|exam|test/i.test(filePath)) switchPushTab('exam');
-                    else switchPushTab('theory');
+                    if (/bai_tap|baitap|kiem_tra|kiemtra|de_thi|exam|test/i.test(filePath)) switchPushMode('direct');
+                    else switchPushMode('theory');
                     updateScorePreview();
                     switchTeacherModule('compose');
                     alert(`Đã nạp nội dung bài "${title}" vào trình soạn thảo!`);
