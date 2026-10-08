@@ -1052,56 +1052,164 @@
                 root.dataset.mounted = '1';
 
                 let sets = [];
+                let timeLimitMin = 0; // >0 = BAI KIEM TRA (tinh gio), 0 = BAI TAP (khong tinh gio)
                 try {
                     let dataEl = root.querySelector('script.saobay-exam10-data');
                     let parsed = JSON.parse(dataEl.textContent);
                     if (parsed && parsed.sets && parsed.sets.length) sets = parsed.sets;
-                } catch(eParse) { console.log('exam10: không đọc được JSON đề thi', eParse); }
+                    let tl = parseFloat(parsed && parsed.time_limit);
+                    if (tl > 0 && tl < 10080) timeLimitMin = tl;
+                } catch(eParse) { console.log('exam10: khong doc duoc JSON de thi', eParse); }
 
                 if (!sets.length) {
-                    root.innerHTML = '<div class="p-6 text-center text-sm text-rose-600 bg-rose-50 border border-rose-200 rounded-xl">Không đọc được dữ liệu 10 bộ đề trong file này. Vui lòng kiểm tra lại định dạng JSON.</div>';
+                    root.innerHTML = '<div class="p-6 text-center text-sm text-rose-600 bg-rose-50 border border-rose-200 rounded-xl">Kh\u00f4ng \u0111\u1ecdc \u0111\u01b0\u1ee3c d\u1eef li\u1ec7u 10 b\u1ed9 \u0111\u1ec1 trong file n\u00e0y. Vui l\u00f2ng ki\u1ec3m tra l\u1ea1i \u0111\u1ecbnh d\u1ea1ng JSON.</div>';
                     return;
                 }
+
+                let examMode = timeLimitMin > 0;
 
                 root.innerHTML =
                     '<div class="exam10-toolbar flex flex-wrap items-center justify-between gap-2 bg-indigo-50 border border-indigo-200 rounded-xl px-3 py-2 mb-4">'
                     + '<div class="text-xs font-bold text-indigo-900"><i class="fa-solid fa-layer-group mr-1.5 text-indigo-600"></i><span class="exam10-set-label"></span> <span class="exam10-set-count text-indigo-400 font-medium"></span></div>'
-                    + '<button type="button" class="exam10-shuffle bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold px-3.5 py-2 rounded-lg shadow transition flex items-center"><i class="fa-solid fa-shuffle mr-1.5"></i> Đổi đề</button>'
-                    + '</div>'
-                    + '<div class="exam10-questions space-y-4"></div>';
+                    + '<div class="flex flex-wrap items-center gap-2">'
+                    + '<span class="exam10-score text-xs font-black bg-white border border-indigo-200 text-indigo-800 px-2.5 py-1.5 rounded-lg">\u0110i\u1ec3m: 0/0</span>'
+                    + (examMode ? '<span class="exam10-timer text-xs font-black bg-white border border-amber-300 text-amber-700 px-2.5 py-1.5 rounded-lg"><i class="fa-solid fa-stopwatch mr-1"></i><span class="exam10-timer-val"></span></span>' : '')
+                    + '<button type="button" class="exam10-shuffle bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold px-3.5 py-2 rounded-lg shadow transition flex items-center"><i class="fa-solid fa-shuffle mr-1.5"></i> \u0110\u1ed5i \u0111\u1ec1</button>'
+                    + (examMode ? '<button type="button" class="exam10-submit bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-3.5 py-2 rounded-lg shadow transition flex items-center"><i class="fa-solid fa-paper-plane mr-1.5"></i> N\u1ed9p b\u00e0i</button>' : '')
+                    + '</div></div>'
+                    + '<div class="exam10-questions space-y-4"></div>'
+                    + '<div class="exam10-summary hidden mt-4"></div>';
 
                 let labelEl = root.querySelector('.exam10-set-label');
                 let countEl = root.querySelector('.exam10-set-count');
+                let scoreEl = root.querySelector('.exam10-score');
+                let timerEl = root.querySelector('.exam10-timer-val');
+                let summaryEl = root.querySelector('.exam10-summary');
                 let qWrap = root.querySelector('.exam10-questions');
-                let cur = -1;
+                let cur = -1, score = 0, totalQ = 0, finished = false, timerId = null, remaining = 0;
 
                 function esc(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
                 function normAns(s){ return String(s == null ? '' : s).trim().toLowerCase().replace(/\s+/g,' '); }
+                function fmtTime(sec){ sec = Math.max(0, sec); let m = Math.floor(sec/60), s = sec%60; return (m<10?'0':'')+m + ':' + (s<10?'0':'')+s; }
+                function updateScore(){ scoreEl.textContent = '\u0110i\u1ec3m: ' + score + '/' + totalQ; }
+
+                function lockCard(card){
+                    card.querySelectorAll('input').forEach(function(i){ i.disabled = true; });
+                    let btn = card.querySelector('.exam10-check');
+                    if (btn){ btn.disabled = true; btn.classList.add('opacity-50','cursor-not-allowed'); btn.innerHTML = '<i class="fa-solid fa-lock mr-1"></i> \u0110\u00e3 ch\u1ea5m'; }
+                }
+
+                // Cham 1 cau: danh gia + KHOA cau (khong cho sua/lam lai) + cong diem
+                function gradeCard(card, qq, qid){
+                    if (!card || card.dataset.done === '1' || finished) return false;
+                    card.dataset.done = '1';
+                    let fb = card.querySelector('.exam10-feedback');
+                    let ok = false, detail = '';
+                    if (qq.type === 'mcq') {
+                        let sel = card.querySelector('input[type=radio]:checked');
+                        let ans = String(qq.answer || '').toUpperCase();
+                        ok = !!(sel && sel.value.toUpperCase() === ans);
+                        detail = '\u0110\u00e1p \u00e1n \u0111\u00fang: <b>' + esc(ans) + '</b>';
+                        if (sel && sel.closest('label')) sel.closest('label').classList.add(ok ? 'picked-correct' : 'picked-wrong');
+                    } else if (qq.type === 'truefalse') {
+                        let exp = qq.answer || [];
+                        let parts = [], allOk = true;
+                        (qq.statements || []).forEach(function(st, si){
+                            let sel = card.querySelector('input[name="' + qid + '_s' + si + '"]:checked');
+                            let want = String(exp[si] || '').toUpperCase();
+                            if (sel) {
+                                let good = sel.value.toUpperCase() === want;
+                                if (!good) allOk = false;
+                                parts.push('<b>' + String.fromCharCode(97+si) + ')</b> ' + (good ? '\u2713' : '\u2717 (\u0111\u00fang: ' + (want === 'T' ? '\u0110\u00fang' : 'Sai') + ')'));
+                            } else { allOk = false; parts.push('<b>' + String.fromCharCode(97+si) + ')</b> ? (ch\u01b0a tr\u1ea3 l\u1eddi)'); }
+                        });
+                        ok = allOk;
+                        detail = parts.join('<br>');
+                    } else {
+                        let inp = card.querySelector('[data-short]');
+                        let ans = normAns(qq.answer);
+                        ok = !!(inp && ans !== '' && normAns(inp.value) === ans);
+                        detail = '\u0110\u00e1p \u00e1n \u0111\u00fang: <b>' + esc(qq.answer) + '</b>';
+                    }
+                    card.classList.add(ok ? 'ok' : 'bad');
+                    fb.className = 'exam10-feedback mt-2 text-sm rounded-lg px-3 py-2 leading-relaxed ' + (ok ? 'bg-emerald-50 border border-emerald-200 text-emerald-900' : 'bg-rose-50 border border-rose-200 text-rose-900');
+                    fb.innerHTML = '<b>' + (ok ? '\u2713 Ch\u00ednh x\u00e1c! +1 \u0111i\u1ec3m' : '\u2717 Ch\u01b0a \u0111\u00fang.') + '</b> ' + detail
+                        + (qq.explain ? '<br><span class="text-slate-600"><b>Gi\u1ea3i th\u00edch:</b> ' + esc(qq.explain) + '</span>' : '');
+                    lockCard(card);
+                    if (ok) { score++; updateScore(); }
+                    return ok;
+                }
+
+                function stopTimer(){ if (timerId){ clearInterval(timerId); timerId = null; } }
+
+                function finishExam(reason){
+                    if (finished) return;
+                    finished = true;
+                    stopTimer();
+                    qWrap.querySelectorAll('.exam10-q').forEach(function(card){
+                        if (card.dataset.done === '1') return;
+                        let qi = parseInt(card.getAttribute('data-qi'), 10);
+                        let qq = (sets[cur].questions || [])[qi];
+                        let qid = 'ex10_' + cur + '_' + qi;
+                        gradeCard(card, qq, qid);
+                    });
+                    let pct = totalQ ? Math.round(score/totalQ*100) : 0;
+                    let title = reason === 'timeout' ? 'H\u1ebft gi\u1edd!' : '\u0110\u00e3 n\u1ed9p b\u00e0i!';
+                    let color = pct >= 80 ? 'emerald' : (pct >= 50 ? 'amber' : 'rose');
+                    summaryEl.className = 'exam10-summary mt-4 p-5 text-center rounded-2xl border bg-' + color + '-50 border-' + color + '-200';
+                    summaryEl.innerHTML = '<div class="text-lg font-black text-' + color + '-800">' + title + '</div>'
+                        + '<div class="text-3xl font-black text-slate-900 mt-1">' + score + '/' + totalQ + ' \u0111i\u1ec3m</div>'
+                        + '<div class="text-xs text-slate-500 mt-1">\u0110\u00fang ' + score + ' tr\u00ean ' + totalQ + ' c\u00e2u (' + pct + '%)</div>';
+                    if (summaryEl.scrollIntoView) summaryEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    if (window.MathJax) renderMathInTarget(summaryEl);
+                }
+
+                function startTimer(){
+                    stopTimer();
+                    if (!examMode) return;
+                    remaining = Math.round(timeLimitMin * 60);
+                    let tick = function(){
+                        if (timerEl) {
+                            timerEl.textContent = fmtTime(remaining);
+                            let wrap = timerEl.closest('.exam10-timer');
+                            if (wrap && remaining <= 60) wrap.classList.add('!border-rose-400','!text-rose-600');
+                        }
+                        if (remaining <= 0) { finishExam('timeout'); return; }
+                        remaining--;
+                    };
+                    tick();
+                    timerId = setInterval(tick, 1000);
+                }
 
                 function renderSet(idx){
-                    cur = idx;
+                    cur = idx; finished = false; score = 0;
+                    stopTimer();
+                    summaryEl.className = 'exam10-summary hidden mt-4';
+                    summaryEl.innerHTML = '';
                     let set = sets[idx] || { questions: [] };
                     let qs = set.questions || [];
-                    labelEl.textContent = set.name || ('Đề ' + (idx + 1));
-                    countEl.textContent = '• bộ ' + (idx + 1) + '/' + sets.length + ' • ' + qs.length + ' câu';
+                    totalQ = qs.length;
+                    labelEl.textContent = set.name || ('\u0110\u1ec1 ' + (idx + 1));
+                    countEl.textContent = '\u2022 b\u1ed9 ' + (idx + 1) + '/' + sets.length + ' \u2022 ' + qs.length + ' c\u00e2u' + (examMode ? ' \u2022 ' + timeLimitMin + ' ph\u00fat' : '');
+                    updateScore();
 
                     let html = '';
                     qs.forEach(function(qq, qi){
                         let qid = 'ex10_' + idx + '_' + qi;
                         html += '<div class="exam10-q bg-white p-4 rounded-xl border border-slate-200 shadow-sm" data-qi="' + qi + '">';
-                        html += '<div class="font-bold text-slate-800 text-sm mb-2">Câu ' + (qi + 1) + ': ' + esc(qq.q) + '</div>';
+                        html += '<div class="font-bold text-slate-800 text-sm mb-2">C\u00e2u ' + (qi + 1) + ': ' + esc(qq.q) + '</div>';
                         html += '<div class="space-y-1.5">';
                         if (qq.type === 'truefalse') {
-                            html += '<div class="text-xs text-slate-500 mb-1">Chọn Đúng / Sai cho mỗi ý:</div>';
+                            html += '<div class="text-xs text-slate-500 mb-1">Ch\u1ecdn \u0110\u00fang / Sai cho m\u1ed7i \u00fd:</div>';
                             (qq.statements || []).forEach(function(st, si){
                                 let nm = qid + '_s' + si;
                                 html += '<div class="flex items-center justify-between gap-2 text-sm bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 mb-1.5">'
                                     + '<span class="flex-1"><b>' + String.fromCharCode(97 + si) + ')</b> ' + esc(st) + '</span>'
-                                    + '<span class="flex gap-3 shrink-0 text-xs font-medium"><label class="cursor-pointer"><input type="radio" name="' + nm + '" value="T" class="accent-emerald-600 mr-1">Đúng</label>'
+                                    + '<span class="flex gap-3 shrink-0 text-xs font-medium"><label class="cursor-pointer"><input type="radio" name="' + nm + '" value="T" class="accent-emerald-600 mr-1">\u0110\u00fang</label>'
                                     + '<label class="cursor-pointer"><input type="radio" name="' + nm + '" value="F" class="accent-rose-600 mr-1">Sai</label></span></div>';
                             });
                         } else if (qq.type === 'short') {
-                            html += '<input type="text" data-short="1" placeholder="Nhập đáp án của em..." class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">';
+                            html += '<input type="text" data-short="1" placeholder="Nh\u1eadp \u0111\u00e1p \u00e1n c\u1ee7a em..." class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">';
                         } else {
                             (qq.options || []).forEach(function(op){
                                 let val = String(op).charAt(0);
@@ -1111,7 +1219,7 @@
                             });
                         }
                         html += '</div>';
-                        html += '<button type="button" class="exam10-check mt-2.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold px-3.5 py-1.5 rounded-lg transition">Kiểm tra</button>';
+                        html += '<button type="button" class="exam10-check mt-2.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold px-3.5 py-1.5 rounded-lg transition">Ki\u1ec3m tra</button>';
                         html += '<div class="exam10-feedback hidden mt-2 text-sm rounded-lg px-3 py-2 leading-relaxed"></div>';
                         html += '</div>';
                     });
@@ -1121,53 +1229,29 @@
                         let qi = parseInt(card.getAttribute('data-qi'), 10);
                         let qq = qs[qi];
                         let qid = 'ex10_' + idx + '_' + qi;
-                        card.querySelector('.exam10-check').addEventListener('click', function(){
-                            let fb = card.querySelector('.exam10-feedback');
-                            let ok = false, detail = '';
-                            card.classList.remove('ok','bad');
-                            card.querySelectorAll('.exam10-opt').forEach(function(o){ o.classList.remove('picked-correct','picked-wrong'); });
-                            if (qq.type === 'mcq') {
-                                let sel = card.querySelector('input[type=radio]:checked');
-                                let ans = String(qq.answer || '').toUpperCase();
-                                ok = !!(sel && sel.value.toUpperCase() === ans);
-                                detail = 'Đáp án đúng: <b>' + esc(ans) + '</b>';
-                                if (sel && sel.closest('label')) sel.closest('label').classList.add(ok ? 'picked-correct' : 'picked-wrong');
-                            } else if (qq.type === 'truefalse') {
-                                let exp = qq.answer || [];
-                                let parts = [], allOk = true;
-                                (qq.statements || []).forEach(function(st, si){
-                                    let sel = card.querySelector('input[name="' + qid + '_s' + si + '"]:checked');
-                                    let want = String(exp[si] || '').toUpperCase();
-                                    if (sel) {
-                                        let good = sel.value.toUpperCase() === want;
-                                        if (!good) allOk = false;
-                                        parts.push('<b>' + String.fromCharCode(97+si) + ')</b> ' + (good ? '✓' : '✗ (đúng: ' + (want === 'T' ? 'Đúng' : 'Sai') + ')'));
-                                    } else { allOk = false; parts.push('<b>' + String.fromCharCode(97+si) + ')</b> ? (chưa chọn)'); }
-                                });
-                                ok = allOk;
-                                detail = parts.join('<br>');
-                            } else {
-                                let inp = card.querySelector('[data-short]');
-                                let ans = normAns(qq.answer);
-                                ok = !!(inp && ans !== '' && normAns(inp.value) === ans);
-                                detail = 'Đáp án đúng: <b>' + esc(qq.answer) + '</b>';
-                            }
-                            card.classList.add(ok ? 'ok' : 'bad');
-                            fb.className = 'exam10-feedback mt-2 text-sm rounded-lg px-3 py-2 leading-relaxed ' + (ok ? 'bg-emerald-50 border border-emerald-200 text-emerald-900' : 'bg-rose-50 border border-rose-200 text-rose-900');
-                            fb.innerHTML = '<b>' + (ok ? '✓ Chính xác!' : '✗ Chưa đúng.') + '</b> ' + detail
-                                + (qq.explain ? '<br><span class="text-slate-600"><b>Giải thích:</b> ' + esc(qq.explain) + '</span>' : '');
-                        });
+                        card.querySelector('.exam10-check').addEventListener('click', function(){ gradeCard(card, qq, qid); });
                     });
 
+                    startTimer();
                     if (window.MathJax) renderMathInTarget(qWrap);
                 }
 
                 root.querySelector('.exam10-shuffle').addEventListener('click', function(){
+                    if (examMode && !finished) {
+                        let answered = qWrap.querySelectorAll('.exam10-q[data-done="1"]').length;
+                        if (answered > 0 && !confirm('\u0110\u1ed5i \u0111\u1ec1 s\u1ebd b\u1ecf k\u1ebft qu\u1ea3 \u0111\u1ec1 \u0111ang l\u00e0m (' + score + '/' + totalQ + ' \u0111i\u1ec3m). Ti\u1ebfp t\u1ee5c?')) return;
+                    }
                     let n = sets.length, ni = cur, guard = 0;
                     if (n > 1) { while (ni === cur && guard++ < 20) ni = Math.floor(Math.random() * n); }
                     renderSet(ni);
                     let tb = root.querySelector('.exam10-toolbar');
                     if (tb && tb.scrollIntoView) tb.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                });
+
+                let submitBtn = root.querySelector('.exam10-submit');
+                if (submitBtn) submitBtn.addEventListener('click', function(){
+                    if (finished) return;
+                    if (confirm('N\u1ed9p b\u00e0i ngay? C\u00e1c c\u00e2u ch\u01b0a tr\u1ea3 l\u1eddi s\u1ebd b\u1ecb kh\u00f3a v\u00e0 t\u00ednh l\u00e0 sai.')) finishExam('submit');
                 });
 
                 renderSet(Math.floor(Math.random() * sets.length));
