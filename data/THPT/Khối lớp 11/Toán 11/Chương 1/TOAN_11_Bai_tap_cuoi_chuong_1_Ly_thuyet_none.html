@@ -1,1 +1,350 @@
-successfully downloaded text file (SHA: 48ec01a968fa76afa3ed85d4b9711e5b18cc0a0c)
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài tập cuối chương 1</title>
+    <meta name="lesson-title" content="Bài tập cuối chương 1">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\(', '\)']],
+                displayMath: [['$$', '$$'], ['\[', '\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài tập cuối chương 1</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 1: Hàm số lượng giác và phương trình lượng giác • Bài tập cuối chương 1</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài tập cuối chương 1</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 1: Hàm số lượng giác và phương trình lượng giác — Tổng hợp ôn tập toàn chương</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">🎯 Mục tiêu ôn tập</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>Nắm vững <strong>đường tròn lượng giác</strong>, dấu và giá trị lượng giác của các góc đặc biệt, cách đổi đơn vị độ ↔ rađian.</li>
+<li>Thuộc lòng và vận dụng linh hoạt <strong>các công thức lượng giác</strong>: cộng, nhân đôi, hạ bậc, biến đổi tích ↔ tổng.</li>
+<li>Nắm <strong>tính chất 4 hàm số lượng giác</strong> (TXĐ, chẵn/lẻ, chu kì, sự biến thiên, đồ thị).</li>
+<li>Giải thành thạo <strong>4 phương trình lượng giác cơ bản</strong> và tìm nghiệm trên khoảng/đoạn cho trước.</li>
+</ul>
+</div>
+
+<!-- 1. GIA TRI LUONG GIAC -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Giá trị lượng giác của góc lượng giác — Tóm tắt</h2>
+
+<p>Trên đường tròn lượng giác (đường tròn đơn vị tâm $O$), mỗi góc lượng giác $\alpha$ ứng với một điểm $M$ duy nhất. Khi đó:</p>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$\cos \alpha = x_M \qquad \sin \alpha = y_M$$</p>
+<p class="mt-2">$$\tan \alpha = \frac{y_M}{x_M}\ (x_M \ne 0) \qquad \cot \alpha = \frac{x_M}{y_M}\ (y_M \ne 0)$$</p>
+</div>
+
+<div class="svg-fig"><svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Duong tron luong giac">
+<rect x="2" y="2" width="396" height="396" rx="12" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="200" y="30" font-family="sans-serif" font-size="15" font-weight="bold" fill="#0c4a6e" text-anchor="middle">ĐƯỜNG TRÒN LƯỢNG GIÁC</text>
+<line x1="60" y1="205" x2="340" y2="205" stroke="#64748b" stroke-width="1.5"/>
+<line x1="200" y1="60" x2="200" y2="350" stroke="#64748b" stroke-width="1.5"/>
+<polygon points="340,205 330,200 330,210" fill="#64748b"/>
+<polygon points="200,60 195,70 205,70" fill="#64748b"/>
+<text x="346" y="209" font-family="sans-serif" font-size="13" font-style="italic" fill="#334155">x</text>
+<text x="206" y="58" font-family="sans-serif" font-size="13" font-style="italic" fill="#334155">y</text>
+<circle cx="200" cy="205" r="115" fill="none" stroke="#2563eb" stroke-width="2.5"/>
+<circle cx="200" cy="205" r="4" fill="#0f172a"/>
+<text x="208" y="223" font-family="sans-serif" font-size="12" font-style="italic" fill="#0f172a">O</text>
+<line x1="200" y1="205" x2="299.6" y2="147.5" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4 3"/>
+<line x1="200" y1="205" x2="281.3" y2="123.7" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4 3"/>
+<line x1="200" y1="205" x2="257.5" y2="105.4" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4 3"/>
+<line x1="200" y1="205" x2="142.5" y2="105.4" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4 3"/>
+<line x1="200" y1="205" x2="118.7" y2="123.7" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4 3"/>
+<line x1="200" y1="205" x2="100.4" y2="147.5" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4 3"/>
+<path d="M 230.0 205.0 A 30 30 0 0 0 226.0 190.0" fill="none" stroke="#f59e0b" stroke-width="2"/>
+<path d="M 222.0 205.0 A 22 22 0 0 0 215.6 189.4" fill="none" stroke="#f59e0b" stroke-width="2"/>
+<path d="M 215.0 205.0 A 15 15 0 0 0 207.5 192.0" fill="none" stroke="#f59e0b" stroke-width="2"/>
+<circle cx="315.0" cy="205.0" r="5" fill="#dc2626" stroke="#fff" stroke-width="1.5"/>
+<circle cx="299.6" cy="147.5" r="5" fill="#dc2626" stroke="#fff" stroke-width="1.5"/>
+<circle cx="281.3" cy="123.7" r="5" fill="#dc2626" stroke="#fff" stroke-width="1.5"/>
+<circle cx="257.5" cy="105.4" r="5" fill="#dc2626" stroke="#fff" stroke-width="1.5"/>
+<circle cx="200.0" cy="90.0" r="5" fill="#dc2626" stroke="#fff" stroke-width="1.5"/>
+<circle cx="142.5" cy="105.4" r="5" fill="#dc2626" stroke="#fff" stroke-width="1.5"/>
+<circle cx="118.7" cy="123.7" r="5" fill="#dc2626" stroke="#fff" stroke-width="1.5"/>
+<circle cx="100.4" cy="147.5" r="5" fill="#dc2626" stroke="#fff" stroke-width="1.5"/>
+<circle cx="85.0" cy="205.0" r="5" fill="#dc2626" stroke="#fff" stroke-width="1.5"/>
+<text x="307.6" y="135.5" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e3a8a">π/6</text>
+<text x="307.6" y="148.5" font-family="sans-serif" font-size="10" fill="#475569">(√3/2; 1/2)</text>
+<text x="289.3" y="111.7" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e3a8a">π/4</text>
+<text x="289.3" y="124.7" font-family="sans-serif" font-size="10" fill="#475569">(√2/2; √2/2)</text>
+<text x="185.5" y="93.4" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e3a8a">π/3</text>
+<text x="185.5" y="106.4" font-family="sans-serif" font-size="10" fill="#475569">(1/2; √3/2)</text>
+<text x="208.0" y="76.0" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e3a8a">π/2</text>
+<text x="208.0" y="89.0" font-family="sans-serif" font-size="10" fill="#475569">(0; 1)</text>
+<text x="62.5" y="93.4" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e3a8a">2π/3</text>
+<text x="62.5" y="106.4" font-family="sans-serif" font-size="10" fill="#475569">(−1/2; √3/2)</text>
+<text x="14.4" y="163.5" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e3a8a">5π/6</text>
+<text x="14.4" y="176.5" font-family="sans-serif" font-size="10" fill="#475569">(−√3/2; 1/2)</text>
+<text x="51.0" y="225.0" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e3a8a">π</text>
+<text x="51.0" y="238.0" font-family="sans-serif" font-size="10" fill="#475569">(−1; 0)</text>
+<text x="323.0" y="225.0" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e3a8a">0</text>
+<text x="323.0" y="238.0" font-family="sans-serif" font-size="10" fill="#475569">(1; 0)</text>
+
+<text x="288" y="120" font-family="sans-serif" font-size="11" fill="#15803d">sin α &gt; 0; cos α &gt; 0</text>
+<text x="288" y="136" font-family="sans-serif" font-size="11" font-weight="bold" fill="#15803d">Góc phần tư I</text>
+<text x="60" y="120" font-family="sans-serif" font-size="11" fill="#b45309">sin α &gt; 0; cos α &lt; 0</text>
+<text x="60" y="136" font-family="sans-serif" font-size="11" font-weight="bold" fill="#b45309">Góc phần tư II</text>
+<text x="60" y="310" font-family="sans-serif" font-size="11" fill="#b91c1c">sin α &lt; 0; cos α &lt; 0</text>
+<text x="60" y="326" font-family="sans-serif" font-size="11" font-weight="bold" fill="#b91c1c">Góc phần tư III</text>
+<text x="288" y="310" font-family="sans-serif" font-size="11" fill="#1d4ed8">sin α &lt; 0; cos α &gt; 0</text>
+<text x="288" y="326" font-family="sans-serif" font-size="11" font-weight="bold" fill="#1d4ed8">Góc phần tư IV</text>
+<text x="200" y="384" font-family="sans-serif" font-size="12" fill="#334155" text-anchor="middle">cos α = x_M; sin α = y_M; tan α = y_M/x_M; cot α = x_M/y_M</text>
+</svg></div>
+
+<p><strong>Đổi đơn vị:</strong> $180^\circ = \pi$ rađian. Suy ra $\alpha^\circ = \alpha \cdot \frac{\pi}{180}$ rađian và $\alpha$ rađian $= \alpha \cdot \frac{180}{\pi}$ độ. Ví dụ: $30^\circ = \frac{\pi}{6}$; $\frac{3\pi}{4} = 135^\circ$.</p>
+
+<p><strong>Bảng giá trị lượng giác của các góc đặc biệt:</strong></p>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-3 py-1">Góc</td><td class="border border-slate-300 px-3 py-1">$0^\circ$ ($0$)</td><td class="border border-slate-300 px-3 py-1">$30^\circ$ ($\frac{\pi}{6}$)</td><td class="border border-slate-300 px-3 py-1">$45^\circ$ ($\frac{\pi}{4}$)</td><td class="border border-slate-300 px-3 py-1">$60^\circ$ ($\frac{\pi}{3}$)</td><td class="border border-slate-300 px-3 py-1">$90^\circ$ ($\frac{\pi}{2}$)</td></tr>
+<tr><td class="border border-slate-300 px-3 py-1 font-semibold bg-slate-50">$\sin$</td><td class="border border-slate-300 px-3 py-1">$0$</td><td class="border border-slate-300 px-3 py-1">$\frac{1}{2}$</td><td class="border border-slate-300 px-3 py-1">$\frac{\sqrt{2}}{2}$</td><td class="border border-slate-300 px-3 py-1">$\frac{\sqrt{3}}{2}$</td><td class="border border-slate-300 px-3 py-1">$1$</td></tr>
+<tr><td class="border border-slate-300 px-3 py-1 font-semibold bg-slate-50">$\cos$</td><td class="border border-slate-300 px-3 py-1">$1$</td><td class="border border-slate-300 px-3 py-1">$\frac{\sqrt{3}}{2}$</td><td class="border border-slate-300 px-3 py-1">$\frac{\sqrt{2}}{2}$</td><td class="border border-slate-300 px-3 py-1">$\frac{1}{2}$</td><td class="border border-slate-300 px-3 py-1">$0$</td></tr>
+<tr><td class="border border-slate-300 px-3 py-1 font-semibold bg-slate-50">$\tan$</td><td class="border border-slate-300 px-3 py-1">$0$</td><td class="border border-slate-300 px-3 py-1">$\frac{\sqrt{3}}{3}$</td><td class="border border-slate-300 px-3 py-1">$1$</td><td class="border border-slate-300 px-3 py-1">$\sqrt{3}$</td><td class="border border-slate-300 px-3 py-1">không xác định</td></tr>
+<tr><td class="border border-slate-300 px-3 py-1 font-semibold bg-slate-50">$\cot$</td><td class="border border-slate-300 px-3 py-1">không xác định</td><td class="border border-slate-300 px-3 py-1">$\sqrt{3}$</td><td class="border border-slate-300 px-3 py-1">$1$</td><td class="border border-slate-300 px-3 py-1">$\frac{\sqrt{3}}{3}$</td><td class="border border-slate-300 px-3 py-1">$0$</td></tr>
+</table></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Mẹo nhớ nhanh</p>
+<p class="mt-1">Dãy $\sin$ các góc $0^\circ, 30^\circ, 45^\circ, 60^\circ, 90^\circ$ là $0, \frac{1}{2}, \frac{\sqrt{2}}{2}, \frac{\sqrt{3}}{2}, 1$ — tử số tăng dần $0, 1, \sqrt{2}, \sqrt{3}, 2$ (viết $\frac{\sqrt{4}}{2} = 1$). Dãy $\cos$ là dãy $\sin$ <strong>viết ngược lại</strong>. $\tan = \frac{\sin}{\cos}$, $\cot = \frac{\cos}{\sin}$.</p>
+</div>
+
+<p><strong>Dấu của các giá trị lượng giác theo góc phần tư</strong> (xem hình đường tròn lượng giác ở trên):</p>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Góc phần tư</td><td class="border border-slate-300 px-4 py-1">I</td><td class="border border-slate-300 px-4 py-1">II</td><td class="border border-slate-300 px-4 py-1">III</td><td class="border border-slate-300 px-4 py-1">IV</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold bg-slate-50">$\sin$</td><td class="border border-slate-300 px-4 py-1 text-emerald-600 font-bold">+</td><td class="border border-slate-300 px-4 py-1 text-emerald-600 font-bold">+</td><td class="border border-slate-300 px-4 py-1 text-rose-600 font-bold">−</td><td class="border border-slate-300 px-4 py-1 text-rose-600 font-bold">−</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold bg-slate-50">$\cos$</td><td class="border border-slate-300 px-4 py-1 text-emerald-600 font-bold">+</td><td class="border border-slate-300 px-4 py-1 text-rose-600 font-bold">−</td><td class="border border-slate-300 px-4 py-1 text-rose-600 font-bold">−</td><td class="border border-slate-300 px-4 py-1 text-emerald-600 font-bold">+</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold bg-slate-50">$\tan, \cot$</td><td class="border border-slate-300 px-4 py-1 text-emerald-600 font-bold">+</td><td class="border border-slate-300 px-4 py-1 text-rose-600 font-bold">−</td><td class="border border-slate-300 px-4 py-1 text-emerald-600 font-bold">+</td><td class="border border-slate-300 px-4 py-1 text-rose-600 font-bold">−</td></tr>
+</table></div>
+
+<!-- 2. CONG THUC LUONG GIAC -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Công thức lượng giác trọng tâm</h2>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">2.1. Hệ thức cơ bản</h3>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$\sin^2 \alpha + \cos^2 \alpha = 1$$</p>
+<p class="mt-2">$$\tan \alpha \cdot \cot \alpha = 1 \qquad \left(\alpha \ne \frac{k\pi}{2}\right)$$</p>
+<p class="mt-2">$$1 + \tan^2 \alpha = \frac{1}{\cos^2 \alpha} \qquad (\cos \alpha \ne 0)$$</p>
+<p class="mt-2">$$1 + \cot^2 \alpha = \frac{1}{\sin^2 \alpha} \qquad (\sin \alpha \ne 0)$$</p>
+</div>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">2.2. Công thức cộng</h3>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$\sin(a \pm b) = \sin a \cos b \pm \cos a \sin b$$</p>
+<p class="mt-2">$$\cos(a \pm b) = \cos a \cos b \mp \sin a \sin b$$</p>
+<p class="mt-2">$$\tan(a \pm b) = \frac{\tan a \pm \tan b}{1 \mp \tan a \tan b}$$</p>
+</div>
+<p class="italic text-slate-600">Mẹo: "sin thì sin cos cos sin, dấu giữa giữ nguyên; cos thì cos cos sin sin, dấu giữa đổi liền".</p>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">2.3. Công thức nhân đôi và hạ bậc</h3>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$\sin 2a = 2 \sin a \cos a$$</p>
+<p class="mt-2">$$\cos 2a = \cos^2 a - \sin^2 a = 2\cos^2 a - 1 = 1 - 2\sin^2 a$$</p>
+<p class="mt-2">$$\tan 2a = \frac{2\tan a}{1 - \tan^2 a}$$</p>
+<p class="mt-2">$$\sin^2 a = \frac{1 - \cos 2a}{2} \qquad \cos^2 a = \frac{1 + \cos 2a}{2}$$</p>
+</div>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">2.4. Biến đổi tích thành tổng và tổng thành tích</h3>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$\cos a \cos b = \frac{\cos(a-b) + \cos(a+b)}{2}$$</p>
+<p class="mt-2">$$\sin a \sin b = \frac{\cos(a-b) - \cos(a+b)}{2}$$</p>
+<p class="mt-2">$$\sin a \cos b = \frac{\sin(a+b) + \sin(a-b)}{2}$$</p>
+</div>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$\cos a + \cos b = 2\cos\frac{a+b}{2}\cos\frac{a-b}{2}$$</p>
+<p class="mt-2">$$\cos a - \cos b = -2\sin\frac{a+b}{2}\sin\frac{a-b}{2}$$</p>
+<p class="mt-2">$$\sin a + \sin b = 2\sin\frac{a+b}{2}\cos\frac{a-b}{2}$$</p>
+<p class="mt-2">$$\sin a - \sin b = 2\cos\frac{a+b}{2}\sin\frac{a-b}{2}$$</p>
+</div>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">2.5. Góc liên quan đặc biệt</h3>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-3 py-1">Cặp góc</td><td class="border border-slate-300 px-3 py-1">$\sin$</td><td class="border border-slate-300 px-3 py-1">$\cos$</td><td class="border border-slate-300 px-3 py-1">$\tan, \cot$</td></tr>
+<tr><td class="border border-slate-300 px-3 py-1 font-semibold bg-slate-50">Đối nhau: $\alpha$ và $-\alpha$</td><td class="border border-slate-300 px-3 py-1">$\sin(-\alpha) = -\sin \alpha$</td><td class="border border-slate-300 px-3 py-1">$\cos(-\alpha) = \cos \alpha$</td><td class="border border-slate-300 px-3 py-1">đổi dấu</td></tr>
+<tr><td class="border border-slate-300 px-3 py-1 font-semibold bg-slate-50">Bù nhau: $\alpha$ và $\pi - \alpha$</td><td class="border border-slate-300 px-3 py-1">$\sin(\pi - \alpha) = \sin \alpha$</td><td class="border border-slate-300 px-3 py-1">$\cos(\pi - \alpha) = -\cos \alpha$</td><td class="border border-slate-300 px-3 py-1">đổi dấu</td></tr>
+<tr><td class="border border-slate-300 px-3 py-1 font-semibold bg-slate-50">Phụ nhau: $\alpha$ và $\frac{\pi}{2} - \alpha$</td><td class="border border-slate-300 px-3 py-1">$\sin\left(\frac{\pi}{2} - \alpha\right) = \cos \alpha$</td><td class="border border-slate-300 px-3 py-1">$\cos\left(\frac{\pi}{2} - \alpha\right) = \sin \alpha$</td><td class="border border-slate-300 px-3 py-1">$\tan \leftrightarrow \cot$</td></tr>
+<tr><td class="border border-slate-300 px-3 py-1 font-semibold bg-slate-50">Hơn kém $\pi$: $\alpha$ và $\pi + \alpha$</td><td class="border border-slate-300 px-3 py-1">$\sin(\pi + \alpha) = -\sin \alpha$</td><td class="border border-slate-300 px-3 py-1">$\cos(\pi + \alpha) = -\cos \alpha$</td><td class="border border-slate-300 px-3 py-1">giữ nguyên</td></tr>
+</table></div>
+<p class="italic text-slate-600">Mẹo: "cos đối, sin bù, phụ chéo, $\pi$ tan" — cos của hai góc đối nhau bằng nhau; sin của hai góc bù nhau bằng nhau; hai góc phụ nhau thì sin góc này bằng cos góc kia; cộng thêm $\pi$ thì tan, cot không đổi.</p>
+
+<!-- 3. HAM SO LUONG GIAC -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Tính chất 4 hàm số lượng giác</h2>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-3 py-1">Hàm số</td><td class="border border-slate-300 px-3 py-1">$y = \sin x$</td><td class="border border-slate-300 px-3 py-1">$y = \cos x$</td><td class="border border-slate-300 px-3 py-1">$y = \tan x$</td><td class="border border-slate-300 px-3 py-1">$y = \cot x$</td></tr>
+<tr><td class="border border-slate-300 px-3 py-1 font-semibold bg-slate-50">Tập xác định</td><td class="border border-slate-300 px-3 py-1">$\mathbb{R}$</td><td class="border border-slate-300 px-3 py-1">$\mathbb{R}$</td><td class="border border-slate-300 px-3 py-1">$x \ne \frac{\pi}{2} + k\pi$</td><td class="border border-slate-300 px-3 py-1">$x \ne k\pi$</td></tr>
+<tr><td class="border border-slate-300 px-3 py-1 font-semibold bg-slate-50">Tập giá trị</td><td class="border border-slate-300 px-3 py-1">$[-1; 1]$</td><td class="border border-slate-300 px-3 py-1">$[-1; 1]$</td><td class="border border-slate-300 px-3 py-1">$\mathbb{R}$</td><td class="border border-slate-300 px-3 py-1">$\mathbb{R}$</td></tr>
+<tr><td class="border border-slate-300 px-3 py-1 font-semibold bg-slate-50">Chẵn / lẻ</td><td class="border border-slate-300 px-3 py-1">lẻ</td><td class="border border-slate-300 px-3 py-1">chẵn</td><td class="border border-slate-300 px-3 py-1">lẻ</td><td class="border border-slate-300 px-3 py-1">lẻ</td></tr>
+<tr><td class="border border-slate-300 px-3 py-1 font-semibold bg-slate-50">Chu kì</td><td class="border border-slate-300 px-3 py-1">$2\pi$</td><td class="border border-slate-300 px-3 py-1">$2\pi$</td><td class="border border-slate-300 px-3 py-1">$\pi$</td><td class="border border-slate-300 px-3 py-1">$\pi$</td></tr>
+<tr><td class="border border-slate-300 px-3 py-1 font-semibold bg-slate-50">Đồng biến</td><td class="border border-slate-300 px-3 py-1">$\left(-\frac{\pi}{2} + k2\pi; \frac{\pi}{2} + k2\pi\right)$</td><td class="border border-slate-300 px-3 py-1">$(-\pi + k2\pi; k2\pi)$</td><td class="border border-slate-300 px-3 py-1">$\left(-\frac{\pi}{2} + k\pi; \frac{\pi}{2} + k\pi\right)$</td><td class="border border-slate-300 px-3 py-1">không có</td></tr>
+<tr><td class="border border-slate-300 px-3 py-1 font-semibold bg-slate-50">Nghịch biến</td><td class="border border-slate-300 px-3 py-1">$\left(\frac{\pi}{2} + k2\pi; \frac{3\pi}{2} + k2\pi\right)$</td><td class="border border-slate-300 px-3 py-1">$(k2\pi; \pi + k2\pi)$</td><td class="border border-slate-300 px-3 py-1">không có</td><td class="border border-slate-300 px-3 py-1">$(k\pi; \pi + k\pi)$</td></tr>
+</table></div>
+
+<p><strong>Đồ thị:</strong> $y = \sin x$ và $y = \cos x$ đều là <strong>đường hình sin</strong> (đồ thị của $\cos$ là đồ thị của $\sin$ tịnh tiến sang trái $\frac{\pi}{2}$). $y = \tan x$ và $y = \cot x$ có các đường tiệm cận đứng tại các điểm không xác định.</p>
+
+<div class="svg-fig" style="max-width:640px"><svg viewBox="0 0 640 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Do thi ham so y = sin x va y = cos x">
+<rect x="2" y="2" width="636" height="296" rx="12" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<line x1="40.0" y1="40" x2="40.0" y2="265" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="3 3"/>
+<line x1="110.0" y1="40" x2="110.0" y2="265" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="3 3"/>
+<line x1="180.0" y1="40" x2="180.0" y2="265" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="3 3"/>
+<line x1="250.0" y1="40" x2="250.0" y2="265" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="3 3"/>
+<line x1="320.0" y1="40" x2="320.0" y2="265" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="3 3"/>
+<line x1="390.0" y1="40" x2="390.0" y2="265" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="3 3"/>
+<line x1="460.0" y1="40" x2="460.0" y2="265" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="3 3"/>
+<line x1="530.0" y1="40" x2="530.0" y2="265" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="3 3"/>
+<line x1="600.0" y1="40" x2="600.0" y2="265" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="3 3"/>
+<line x1="30" y1="60" x2="30" y2="240" stroke="#94a3b8" stroke-width="1.5"/>
+<line x1="30" y1="60.0" x2="610" y2="60.0" stroke="#94a3b8" stroke-width="1" stroke-dasharray="5 4"/>
+<line x1="30" y1="240.0" x2="610" y2="240.0" stroke="#94a3b8" stroke-width="1" stroke-dasharray="5 4"/>
+<line x1="30" y1="150" x2="620" y2="150" stroke="#64748b" stroke-width="1.5"/>
+<polygon points="620,150 610,145 610,155" fill="#64748b"/>
+<polygon points="30,40 25,50 35,50" fill="#64748b"/>
+<text x="12" y="64.0" font-family="sans-serif" font-size="12" fill="#475569">1</text>
+<text x="6" y="244.0" font-family="sans-serif" font-size="12" fill="#475569">−1</text>
+<text x="626" y="154" font-family="sans-serif" font-size="13" font-style="italic" fill="#334155">x</text>
+<text x="36" y="36" font-family="sans-serif" font-size="13" font-style="italic" fill="#334155">y</text>
+<path d="M 40.0 150.0 L 43.5 142.9 L 47.0 135.9 L 50.5 129.0 L 54.0 122.2 L 57.5 115.6 L 61.0 109.1 L 64.5 103.0 L 68.0 97.1 L 71.5 91.5 L 75.0 86.4 L 78.5 81.6 L 82.0 77.2 L 85.5 73.3 L 89.0 69.8 L 92.5 66.9 L 96.0 64.4 L 99.5 62.5 L 103.0 61.1 L 106.5 60.3 L 110.0 60.0 L 113.5 60.3 L 117.0 61.1 L 120.5 62.5 L 124.0 64.4 L 127.5 66.9 L 131.0 69.8 L 134.5 73.3 L 138.0 77.2 L 141.5 81.6 L 145.0 86.4 L 148.5 91.5 L 152.0 97.1 L 155.5 103.0 L 159.0 109.1 L 162.5 115.6 L 166.0 122.2 L 169.5 129.0 L 173.0 135.9 L 176.5 142.9 L 180.0 150.0 L 183.5 157.1 L 187.0 164.1 L 190.5 171.0 L 194.0 177.8 L 197.5 184.4 L 201.0 190.9 L 204.5 197.0 L 208.0 202.9 L 211.5 208.5 L 215.0 213.6 L 218.5 218.4 L 222.0 222.8 L 225.5 226.7 L 229.0 230.2 L 232.5 233.1 L 236.0 235.6 L 239.5 237.5 L 243.0 238.9 L 246.5 239.7 L 250.0 240.0 L 253.5 239.7 L 257.0 238.9 L 260.5 237.5 L 264.0 235.6 L 267.5 233.1 L 271.0 230.2 L 274.5 226.7 L 278.0 222.8 L 281.5 218.4 L 285.0 213.6 L 288.5 208.5 L 292.0 202.9 L 295.5 197.0 L 299.0 190.9 L 302.5 184.4 L 306.0 177.8 L 309.5 171.0 L 313.0 164.1 L 316.5 157.1 L 320.0 150.0 L 323.5 142.9 L 327.0 135.9 L 330.5 129.0 L 334.0 122.2 L 337.5 115.6 L 341.0 109.1 L 344.5 103.0 L 348.0 97.1 L 351.5 91.5 L 355.0 86.4 L 358.5 81.6 L 362.0 77.2 L 365.5 73.3 L 369.0 69.8 L 372.5 66.9 L 376.0 64.4 L 379.5 62.5 L 383.0 61.1 L 386.5 60.3 L 390.0 60.0 L 393.5 60.3 L 397.0 61.1 L 400.5 62.5 L 404.0 64.4 L 407.5 66.9 L 411.0 69.8 L 414.5 73.3 L 418.0 77.2 L 421.5 81.6 L 425.0 86.4 L 428.5 91.5 L 432.0 97.1 L 435.5 103.0 L 439.0 109.1 L 442.5 115.6 L 446.0 122.2 L 449.5 129.0 L 453.0 135.9 L 456.5 142.9 L 460.0 150.0 L 463.5 157.1 L 467.0 164.1 L 470.5 171.0 L 474.0 177.8 L 477.5 184.4 L 481.0 190.9 L 484.5 197.0 L 488.0 202.9 L 491.5 208.5 L 495.0 213.6 L 498.5 218.4 L 502.0 222.8 L 505.5 226.7 L 509.0 230.2 L 512.5 233.1 L 516.0 235.6 L 519.5 237.5 L 523.0 238.9 L 526.5 239.7 L 530.0 240.0 L 533.5 239.7 L 537.0 238.9 L 540.5 237.5 L 544.0 235.6 L 547.5 233.1 L 551.0 230.2 L 554.5 226.7 L 558.0 222.8 L 561.5 218.4 L 565.0 213.6 L 568.5 208.5 L 572.0 202.9 L 575.5 197.0 L 579.0 190.9 L 582.5 184.4 L 586.0 177.8 L 589.5 171.0 L 593.0 164.1 L 596.5 157.1 L 600.0 150.0" fill="none" stroke="#dc2626" stroke-width="2.5"/>
+<path d="M 40.0 60.0 L 43.5 60.3 L 47.0 61.1 L 50.5 62.5 L 54.0 64.4 L 57.5 66.9 L 61.0 69.8 L 64.5 73.3 L 68.0 77.2 L 71.5 81.6 L 75.0 86.4 L 78.5 91.5 L 82.0 97.1 L 85.5 103.0 L 89.0 109.1 L 92.5 115.6 L 96.0 122.2 L 99.5 129.0 L 103.0 135.9 L 106.5 142.9 L 110.0 150.0 L 113.5 157.1 L 117.0 164.1 L 120.5 171.0 L 124.0 177.8 L 127.5 184.4 L 131.0 190.9 L 134.5 197.0 L 138.0 202.9 L 141.5 208.5 L 145.0 213.6 L 148.5 218.4 L 152.0 222.8 L 155.5 226.7 L 159.0 230.2 L 162.5 233.1 L 166.0 235.6 L 169.5 237.5 L 173.0 238.9 L 176.5 239.7 L 180.0 240.0 L 183.5 239.7 L 187.0 238.9 L 190.5 237.5 L 194.0 235.6 L 197.5 233.1 L 201.0 230.2 L 204.5 226.7 L 208.0 222.8 L 211.5 218.4 L 215.0 213.6 L 218.5 208.5 L 222.0 202.9 L 225.5 197.0 L 229.0 190.9 L 232.5 184.4 L 236.0 177.8 L 239.5 171.0 L 243.0 164.1 L 246.5 157.1 L 250.0 150.0 L 253.5 142.9 L 257.0 135.9 L 260.5 129.0 L 264.0 122.2 L 267.5 115.6 L 271.0 109.1 L 274.5 103.0 L 278.0 97.1 L 281.5 91.5 L 285.0 86.4 L 288.5 81.6 L 292.0 77.2 L 295.5 73.3 L 299.0 69.8 L 302.5 66.9 L 306.0 64.4 L 309.5 62.5 L 313.0 61.1 L 316.5 60.3 L 320.0 60.0 L 323.5 60.3 L 327.0 61.1 L 330.5 62.5 L 334.0 64.4 L 337.5 66.9 L 341.0 69.8 L 344.5 73.3 L 348.0 77.2 L 351.5 81.6 L 355.0 86.4 L 358.5 91.5 L 362.0 97.1 L 365.5 103.0 L 369.0 109.1 L 372.5 115.6 L 376.0 122.2 L 379.5 129.0 L 383.0 135.9 L 386.5 142.9 L 390.0 150.0 L 393.5 157.1 L 397.0 164.1 L 400.5 171.0 L 404.0 177.8 L 407.5 184.4 L 411.0 190.9 L 414.5 197.0 L 418.0 202.9 L 421.5 208.5 L 425.0 213.6 L 428.5 218.4 L 432.0 222.8 L 435.5 226.7 L 439.0 230.2 L 442.5 233.1 L 446.0 235.6 L 449.5 237.5 L 453.0 238.9 L 456.5 239.7 L 460.0 240.0 L 463.5 239.7 L 467.0 238.9 L 470.5 237.5 L 474.0 235.6 L 477.5 233.1 L 481.0 230.2 L 484.5 226.7 L 488.0 222.8 L 491.5 218.4 L 495.0 213.6 L 498.5 208.5 L 502.0 202.9 L 505.5 197.0 L 509.0 190.9 L 512.5 184.4 L 516.0 177.8 L 519.5 171.0 L 523.0 164.1 L 526.5 157.1 L 530.0 150.0 L 533.5 142.9 L 537.0 135.9 L 540.5 129.0 L 544.0 122.2 L 547.5 115.6 L 551.0 109.1 L 554.5 103.0 L 558.0 97.1 L 561.5 91.5 L 565.0 86.4 L 568.5 81.6 L 572.0 77.2 L 575.5 73.3 L 579.0 69.8 L 582.5 66.9 L 586.0 64.4 L 589.5 62.5 L 593.0 61.1 L 596.5 60.3 L 600.0 60.0" fill="none" stroke="#2563eb" stroke-width="2.5"/>
+<circle cx="390.0" cy="60.0" r="4.5" fill="#dc2626"/>
+<circle cx="530.0" cy="240.0" r="4.5" fill="#dc2626"/>
+<circle cx="320.0" cy="60.0" r="4.5" fill="#2563eb"/>
+<circle cx="460.0" cy="240.0" r="4.5" fill="#2563eb"/>
+<rect x="440" y="18" width="150" height="52" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+<line x1="452" y1="36" x2="482" y2="36" stroke="#dc2626" stroke-width="3"/>
+<text x="490" y="41" font-family="sans-serif" font-size="13" fill="#334155">y = sin x</text>
+<line x1="452" y1="58" x2="482" y2="58" stroke="#2563eb" stroke-width="3"/>
+<text x="490" y="63" font-family="sans-serif" font-size="13" fill="#334155">y = cos x</text>
+<text x="40.0" y="284" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">−2π</text>
+<text x="110.0" y="284" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">−3π/2</text>
+<text x="180.0" y="284" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">−π</text>
+<text x="250.0" y="284" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">−π/2</text>
+<text x="320.0" y="284" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">0</text>
+<text x="390.0" y="284" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">π/2</text>
+<text x="460.0" y="284" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">π</text>
+<text x="530.0" y="284" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">3π/2</text>
+<text x="600.0" y="284" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">2π</text>
+</svg></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Hàm <strong>chẵn</strong> ($\cos$) có đồ thị <strong>đối xứng qua trục $Oy$</strong>; hàm <strong>lẻ</strong> ($\sin, \tan, \cot$) có đồ thị <strong>đối xứng qua gốc $O$</strong>. $|\sin x| \le 1$, $|\cos x| \le 1$ với mọi $x$ — đây là chìa khóa để tìm GTLN, GTNN và biện luận tham số.</p>
+</div>
+
+<!-- 4. PHUONG TRINH LUONG GIAC CO BAN -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Phương trình lượng giác cơ bản — Họ nghiệm</h2>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 my-2">
+<tr class="bg-sky-100 font-semibold text-center"><td class="border border-slate-300 px-3 py-1">Phương trình</td><td class="border border-slate-300 px-3 py-1">Điều kiện có nghiệm</td><td class="border border-slate-300 px-3 py-1">Họ nghiệm ($k \in \mathbb{Z}$)</td></tr>
+<tr><td class="border border-slate-300 px-3 py-1 text-center font-semibold bg-slate-50">$\sin x = m$</td><td class="border border-slate-300 px-3 py-1 text-center">$|m| \le 1$</td><td class="border border-slate-300 px-3 py-1">$\sin x = \sin \alpha \Leftrightarrow \left[\begin{array}{l} x = \alpha + k2\pi \\ x = \pi - \alpha + k2\pi \end{array}\right.$</td></tr>
+<tr><td class="border border-slate-300 px-3 py-1 text-center font-semibold bg-slate-50">$\cos x = m$</td><td class="border border-slate-300 px-3 py-1 text-center">$|m| \le 1$</td><td class="border border-slate-300 px-3 py-1">$\cos x = \cos \alpha \Leftrightarrow x = \pm \alpha + k2\pi$</td></tr>
+<tr><td class="border border-slate-300 px-3 py-1 text-center font-semibold bg-slate-50">$\tan x = m$</td><td class="border border-slate-300 px-3 py-1 text-center">mọi $m \in \mathbb{R}$</td><td class="border border-slate-300 px-3 py-1">$\tan x = \tan \alpha \Leftrightarrow x = \alpha + k\pi$</td></tr>
+<tr><td class="border border-slate-300 px-3 py-1 text-center font-semibold bg-slate-50">$\cot x = m$</td><td class="border border-slate-300 px-3 py-1 text-center">mọi $m \in \mathbb{R}$</td><td class="border border-slate-300 px-3 py-1">$\cot x = \cot \alpha \Leftrightarrow x = \alpha + k\pi$</td></tr>
+</table></div>
+
+<p><strong>Các trường hợp đặc biệt cần nhớ:</strong></p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>$\sin x = 1 \Leftrightarrow x = \frac{\pi}{2} + k2\pi$; &nbsp; $\sin x = -1 \Leftrightarrow x = -\frac{\pi}{2} + k2\pi$; &nbsp; $\sin x = 0 \Leftrightarrow x = k\pi$.</li>
+<li>$\cos x = 1 \Leftrightarrow x = k2\pi$; &nbsp; $\cos x = -1 \Leftrightarrow x = \pi + k2\pi$; &nbsp; $\cos x = 0 \Leftrightarrow x = \frac{\pi}{2} + k\pi$.</li>
+<li>$\tan x = 0 \Leftrightarrow x = k\pi$; &nbsp; $\cot x = 0 \Leftrightarrow x = \frac{\pi}{2} + k\pi$.</li>
+</ul>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">$\sin, \cos$ chỉ có nghiệm khi $|m| \le 1$; $\tan, \cot$ luôn có nghiệm với mọi $m$. Chu kì nghiệm: $\sin, \cos$ là $k2\pi$, còn $\tan, \cot$ là $k\pi$ — nhầm chỗ này là mất điểm!</p>
+</div>
+
+<!-- 5. DANG BAI DIEN HINH -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">5. Các dạng bài điển hình và ví dụ giải mẫu</h2>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">Dạng 1: Tính giá trị lượng giác khi biết một giá trị</h3>
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ: Cho $\sin a = \frac{3}{5}$ với $\frac{\pi}{2} \lt a \lt \pi$. Tính $\cos a$, $\tan a$, $\cot a$.</p>
+<p><strong>Giải:</strong></p>
+<p>Bước 1: Dùng hệ thức cơ bản: $\cos^2 a = 1 - \sin^2 a = 1 - \frac{9}{25} = \frac{16}{25}$, suy ra $\cos a = \pm \frac{4}{5}$.</p>
+<p>Bước 2: Xét dấu theo góc phần tư: vì $\frac{\pi}{2} \lt a \lt \pi$ (góc phần tư II) nên $\cos a \lt 0$. Vậy $\cos a = -\frac{4}{5}$.</p>
+<p>Bước 3: $\tan a = \frac{\sin a}{\cos a} = \frac{3/5}{-4/5} = -\frac{3}{4}$; $\cot a = \frac{1}{\tan a} = -\frac{4}{3}$.</p>
+</div>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">Dạng 2: Rút gọn và chứng minh đẳng thức lượng giác</h3>
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ: Chứng minh $(1 + \cos 2x)\tan x = \sin 2x$ (với $\cos x \ne 0$).</p>
+<p><strong>Giải:</strong></p>
+<p>Biến đổi vế trái: $1 + \cos 2x = 2\cos^2 x$ (công thức nhân đôi), $\tan x = \frac{\sin x}{\cos x}$.</p>
+<p>Do đó $(1 + \cos 2x)\tan x = 2\cos^2 x \cdot \frac{\sin x}{\cos x} = 2\sin x \cos x = \sin 2x$ (đpcm).</p>
+</div>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">Dạng 3: Giải phương trình lượng giác, tìm nghiệm trên đoạn</h3>
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ: Tìm các nghiệm của phương trình $\sin x = \frac{\sqrt{3}}{2}$ trên đoạn $[0; 2\pi]$.</p>
+<p><strong>Giải:</strong></p>
+<p>Bước 1: $\sin x = \frac{\sqrt{3}}{2} = \sin \frac{\pi}{3}$, suy ra $\left[\begin{array}{l} x = \frac{\pi}{3} + k2\pi \\ x = \pi - \frac{\pi}{3} + k2\pi = \frac{2\pi}{3} + k2\pi \end{array}\right. (k \in \mathbb{Z})$.</p>
+<p>Bước 2: Cho nghiệm chạy trên $[0; 2\pi]$: với $k = 0$ được $x = \frac{\pi}{3}$ và $x = \frac{2\pi}{3}$ (đều thuộc $[0; 2\pi]$); với $k = 1$ được $x \gt 2\pi$ (loại).</p>
+<p>Bước 3: Kết luận: phương trình có hai nghiệm $x = \frac{\pi}{3}$ và $x = \frac{2\pi}{3}$.</p>
+</div>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">Dạng 4: Tìm giá trị lớn nhất, nhỏ nhất</h3>
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ: Tìm giá trị lớn nhất và nhỏ nhất của hàm số $y = 3 - 4\sin^2 x$.</p>
+<p><strong>Giải:</strong></p>
+<p>Vì $0 \le \sin^2 x \le 1$ với mọi $x$ nên $-4 \le -4\sin^2 x \le 0$, suy ra $-1 \le 3 - 4\sin^2 x \le 3$.</p>
+<p>Vậy $\max y = 3$ khi $\sin x = 0$ (tức $x = k\pi$) và $\min y = -1$ khi $\sin^2 x = 1$ (tức $x = \frac{\pi}{2} + k\pi$), $k \in \mathbb{Z}$.</p>
+</div>
+
+<!-- TONG KET -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn chương</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Đường tròn lượng giác:</strong> $\cos \alpha = x_M$, $\sin \alpha = y_M$; dấu theo góc phần tư (sin dương ở I, II; cos dương ở I, IV); $180^\circ = \pi$ rađian.</li>
+<li><strong>Góc đặc biệt:</strong> thuộc lòng bảng $\sin, \cos, \tan, \cot$ của $0, \frac{\pi}{6}, \frac{\pi}{4}, \frac{\pi}{3}, \frac{\pi}{2}$.</li>
+<li><strong>Công thức:</strong> cộng (sin/cos/tan của tổng hiệu), nhân đôi ($\sin 2a$, $\cos 2a$ 3 dạng), hạ bậc, tích ↔ tổng, các cặp góc đặc biệt (đối, bù, phụ, hơn kém $\pi$).</li>
+<li><strong>Hàm số lượng giác:</strong> TXĐ ($\tan$ bỏ $\frac{\pi}{2} + k\pi$, $\cot$ bỏ $k\pi$), $\cos$ chẵn còn lại lẻ, chu kì $2\pi$ ($\sin, \cos$) và $\pi$ ($\tan, \cot$), đồ thị hình sin.</li>
+<li><strong>Phương trình cơ bản:</strong> $\sin x = m$, $\cos x = m$ cần $|m| \le 1$; $\tan x = m$, $\cot x = m$ luôn có nghiệm; nhớ đúng chu kì nghiệm ($2\pi$ hay $\pi$).</li>
+<li><strong>Kĩ năng:</strong> tính giá trị lượng giác theo dấu góc phần tư, rút gọn/chứng minh đẳng thức, giải phương trình và lọc nghiệm trên đoạn, tìm GTLN/GTNN bằng $|\sin x| \le 1$, $|\cos x| \le 1$.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề ôn tập tổng hợp để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
