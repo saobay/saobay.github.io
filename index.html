@@ -96,7 +96,7 @@
     </header>
 
     <!-- MAIN CONTAINER -->
-    <main class="flex-1 max-w-7xl w-full mx-auto p-2 md:p-6 space-y-4">
+    <main class="flex-1 max-w-7xl w-full mx-auto px-0 py-2 md:p-6 space-y-2 md:space-y-4">
         
         <!-- THANH CHUYỂN TAB CÂY KIẾN THỨC -->
         <div class="bg-white rounded-xl p-2 border border-slate-200 shadow-sm flex items-center justify-between">
@@ -157,7 +157,7 @@
             </div>
 
             <!-- NỘI DUNG HIỂN THỊ CỘT PHẢI (TỰ ĐỘNG DÃN RỘNG KHI CÂY DANH MỤC THU GỌN) -->
-            <div class="flex-1 w-full bg-white rounded-2xl border border-slate-200 shadow-sm p-2 md:p-8 flex flex-col min-h-[520px] lg:h-[720px] overflow-y-auto relative transition-all duration-300" id="content-display-area">
+            <div class="flex-1 w-full bg-white rounded-none md:rounded-2xl border-y md:border border-slate-200 shadow-sm px-1 py-2 md:p-8 flex flex-col min-h-[520px] lg:h-[720px] overflow-y-auto relative transition-all duration-300" id="content-display-area">
                 
                 <!-- NÚT MỞ NHANH DANH MỤC NẰM ĐẦU VÙNG ĐỌC (HIỂN THỊ KHI SIDEBAR THU GỌN) -->
                 <div id="floating-sidebar-toggle-bar" class="hidden pb-3 mb-2 border-b border-slate-100 flex items-center justify-between">
@@ -787,7 +787,7 @@
             // FIX mobile 2026-10-08: reset padding thừa do CSS body của file bài học
             // bị chuyển thành padding của khung bao, đồng thời nới rộng nội dung
             // trên màn hình nhỏ bằng cách giảm padding các lớp lồng nhau
-            return `<style>\n.lesson-native-rendered { width: 100% !important; max-width: 100% !important; margin: 0 !important; padding: 0 !important; }\n${css}\n@media (max-width: 768px){\n.lesson-native-rendered > div:first-child { padding-left: 12px !important; padding-right: 12px !important; }\n.lesson-native-rendered .exam-container { padding-left: 0 !important; padding-right: 0 !important; }\n}\n</style>`;
+            return `<style>\n.lesson-native-rendered { width: 100% !important; max-width: 100% !important; margin: 0 !important; padding: 0 !important; }\n${css}\n@media (max-width: 768px){\n.lesson-native-rendered > div:first-child { padding-left: 8px !important; padding-right: 8px !important; }\n.lesson-native-rendered .exam-container { padding-left: 0 !important; padding-right: 0 !important; }\n.lesson-native-rendered .table-scroll { overflow-x: auto !important; -webkit-overflow-scrolling: touch; }\n.lesson-native-rendered .table-scroll table { min-width: 560px; }\n.lesson-native-rendered table { display: table; width: 100%; }\n#lesson-detail-view, #exam-detail-view { padding-left: 2px !important; padding-right: 2px !important; }\n#lesson-body-content { padding-left: 2px !important; padding-right: 2px !important; }\n}\n</style>`;
         }
 
         async function selectItemDetail(fileId, elementNode) {
