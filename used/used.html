@@ -18,7 +18,6 @@
     </style>
 </head>
 <body class="bg-slate-100 min-h-screen text-slate-800 antialiased flex flex-col justify-between">
-<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
 
     <!-- TOAST CONTAINER -->
     <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col space-y-2 pointer-events-none"></div>
@@ -663,6 +662,16 @@
 
             await loadMasterDatabase();
 
+            // 0. Kiểm tra thời hạn tài khoản (2026-10-09)
+            function checkExpiry(uid){
+                try {
+                    let exp = (masterDatabase.account_expiry || {})[uid];
+                    if (!exp || !exp.expires_at) return { ok: true, daysLeft: Infinity };
+                    let days = Math.ceil((new Date(exp.expires_at).getTime() - Date.now()) / 86400000);
+                    return { ok: days >= 0, daysLeft: days, expiresAt: exp.expires_at };
+                } catch(e){ return { ok: true, daysLeft: Infinity }; }
+            }
+
             // 1. Kiểm tra tài khoản Admin
             let adminPass = (masterDatabase.passwords && masterDatabase.passwords['admin']) || 'Dung2207@';
             if (usernameInput.toLowerCase() === 'admin') {
@@ -718,6 +727,15 @@
                 return;
             }
 
+            // 3b. Kiểm tra thời hạn tài khoản
+            let expCheck = checkExpiry(matchedUser.id);
+            if (!expCheck.ok){
+                let ds = new Date(expCheck.expiresAt).toLocaleDateString('vi-VN');
+                showToast('Tài khoản của bạn đã hết hạn sử dụng (hết hạn ngày ' + ds + '). Vui lòng liên hệ quản trị viên để gia hạn!', 'error');
+                alert('⛔ TÀI KHOẢN HẾT HẠN\n\nTài khoản của bạn đã hết hạn từ ngày ' + ds + '.\nMọi chức năng làm bài thi đã bị khóa.\n\nVui lòng liên hệ quản trị viên (Thầy Bùi Văn Dũng) để được gia hạn tài khoản.');
+                return;
+            }
+
             // 4. Kiểm tra mật khẩu
             let passStatus = getAccountPasswordStatus(matchedUser.id);
             let expectedPass = passStatus.isCustom ? passStatus.password : '12345678';
@@ -737,9 +755,17 @@
 
             // 6. Đăng nhập thành công với mật khẩu riêng đã đổi
             matchedUser.mustChangePassword = false;
+            try {
+                let exp = (masterDatabase.account_expiry || {})[matchedUser.id];
+                if (exp && exp.expires_at) matchedUser.expires_at = exp.expires_at;
+            } catch(e){}
             localStorage.setItem('saobay_user', JSON.stringify(matchedUser));
             currentUser = matchedUser;
-            showToast(`Xin chào ${matchedUser.name}! Đăng nhập thành công.`, 'success');
+            if (expCheck.daysLeft <= 15){
+                showToast(`Xin chào ${matchedUser.name}! Tài khoản của bạn còn ${expCheck.daysLeft} ngày sử dụng.`, 'warning');
+            } else {
+                showToast(`Xin chào ${matchedUser.name}! Đăng nhập thành công.`, 'success');
+            }
 
             setTimeout(() => {
                 if (matchedUser.role === 'teacher') {
