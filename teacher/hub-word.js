@@ -314,10 +314,17 @@ function cleanWordPastedHtml(html){
     var s = String(html || '');
     s = s.replace(/<!--[\s\S]*?-->/g, '');          // comment Word
     s = s.replace(/<\?xml[\s\S]*?\?>/gi, '');
-    // VML imagedata -> img thường (giữ ảnh data:, bỏ ảnh trỏ file ngoài)
+    // VML imagedata -> img thường (giữ ảnh data: và base64, bỏ ảnh trỏ file ngoài)
     s = s.replace(/<v:imagedata\b[^>]*src="([^"]+)"[^>]*\/?>/gi, function(m, src){
         if (/^data:/i.test(src)) return '<img src="' + src + '">';
-        return '';
+        return '<!-- anh vml bi bo: ' + src.slice(0, 60) + ' -->';
+    });
+    // Giữ thẻ <img> có src là data: (base64), bỏ img trỏ file tạm ngoài
+    s = s.replace(/<img\b[^>]*>/gi, function(m){
+        var sm = m.match(/src="([^"]+)"/i);
+        var src = sm ? sm[1] : '';
+        if (/^data:image\//i.test(src)) return '<img src="' + src + '">';
+        return '<!-- anh img bi bo -->';
     });
     // Bỏ thẻ namespace rác, giữ text bên trong
     s = s.replace(/<\/?(?:o|w|m|st1):[a-z0-9]+(?:\s[^>]*)?\/?>/gi, '');
