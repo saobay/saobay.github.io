@@ -169,6 +169,15 @@
                             <div class="text-[10px] text-slate-500">Lớp riêng & HS</div>
                         </div>
                     </button>
+                    <button type="button" onclick="switchTeacherModule('reports')" id="mod-tab-reports" class="module-tab-btn flex items-center p-2.5 rounded-xl transition border text-left bg-white border-slate-200 text-slate-700 hover:bg-slate-100">
+                        <div class="w-9 h-9 rounded-lg bg-rose-200 text-rose-700 flex items-center justify-center text-base font-bold shrink-0 mr-2.5">
+                            <i class="fa-solid fa-flag"></i>
+                        </div>
+                        <div class="truncate">
+                            <div class="text-xs font-extrabold uppercase">6. Báo Lỗi</div>
+                            <div class="text-[10px] text-slate-500">HS báo &bull; duyệt + điểm</div>
+                        </div>
+                    </button>
                 </div>
             </div>
 
@@ -1171,6 +1180,17 @@
 
     <!-- LOGIC XỬ LÝ -->
         <script src="hub-config.js?v=20261008_4"></script>
+            <div id="module-reports-view" class="hidden space-y-4 flex-1 flex flex-col">
+                <div class="border-b pb-3">
+                    <h3 class="font-extrabold text-slate-800 text-base flex items-center">
+                        <i class="fa-solid fa-flag text-rose-600 mr-2"></i> Báo Lỗi Từ Học Sinh
+                    </h3>
+                    <p class="text-xs text-slate-500 mt-0.5">Duyệt báo cáo — báo đúng thì HS được +5 điểm năng động.</p>
+                </div>
+                <div id="reports-list" class="space-y-2">
+                    <p class="text-xs text-slate-400 italic p-4">Đang tải...</p>
+                </div>
+            </div>
     <script src="hub-tabs.js?v=20261008_2"></script>
     <script src="hub-editor.js?v=20261008_2"></script>
     <script src="hub-preview.js?v=20261008_2"></script>
@@ -1183,5 +1203,6 @@
     <script src="hub-users.js?v=20261008_2"></script>
     <script src="hub-word.js?v=20261008_3"></script>
     <script src="hub-private.js?v=20261009_1"></script>
+    <script src="hub-reports.js?v=20261009_1"></script>
 </body>
 </html>
