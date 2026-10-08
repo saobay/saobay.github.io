@@ -121,16 +121,21 @@ document.querySelectorAll('.tab-btn').forEach(function(b){
     document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.add('hidden'); });
     document.getElementById('tab-' + b.dataset.tab).classList.remove('hidden');
     if (window.__fitAll) { try { window.__fitAll(); } catch(e){} }
+    var rf = window.__tabRefresh[b.dataset.tab];
+    if (rf) { try { rf(); } catch(e){} }
   });
 });
 function fitCanvas(cv){
   var hAttr = parseInt(cv.getAttribute('height')) || 300;
-  cv.style.height = hAttr + 'px'; // Co dinh chieu cao CSS (2026-10-09)
+  cv.style.height = hAttr + 'px';
   var r = cv.getBoundingClientRect(), d = window.devicePixelRatio || 1;
+  if (r.width < 10) return null; // tab dang an -> chua ve (2026-10-09)
   cv.width = Math.max(1, Math.round(r.width * d)); cv.height = Math.round(hAttr * d);
   var ctx = cv.getContext('2d'); ctx.setTransform(d,0,0,d,0,0);
   return {ctx: ctx, w: r.width, h: hAttr};
 }
+// Dang ky ham khoi tao lai khi mo tab
+window.__tabRefresh = window.__tabRefresh || {};
 
 // ================= 1. BẢNG TUẦN HOÀN =================
 (function(){
@@ -194,7 +199,9 @@ function fitCanvas(cv){
 (function(){
   var cv = document.getElementById('cv-mix');
   var G = fitCanvas(cv);
-  window.addEventListener('resize', function(){ G = fitCanvas(cv); });
+  function refreshMix(){ var ng = fitCanvas(cv); if (ng){ G = ng; drawBeakers(); } }
+  window.__tabRefresh['mix'] = refreshMix;
+  window.addEventListener('resize', function(){ var ng = fitCanvas(cv); if (ng) G = ng; });
   var state = 'empty', pourT = 0, colorNow = '#e0f2fe', colorTo = '#e0f2fe';
   var beakers = {acid:'#e0f2fe', base:'#e0f2fe'};
 
@@ -265,7 +272,8 @@ function fitCanvas(cv){
     ctx.fillText(label, x+w/2, y+h+18);
   }
 
-  function draw(){
+  function drawBeakers(){
+    if (!G) return;
     var ctx = G.ctx, W = G.w, H = G.h;
     ctx.clearRect(0,0,W,H);
     var bw = 90, bh = 130, y = 60;
@@ -296,16 +304,18 @@ function fitCanvas(cv){
         ctx.beginPath(); ctx.arc(bx, by, 3, 0, 7); ctx.fill();
       }
     }
-    requestAnimationFrame(draw);
+    requestAnimationFrame(drawBeakers);
   }
-  draw();
+  if (G) drawBeakers();
 })();
 
 // ================= 3. MÔ HÌNH NGUYÊN TỬ BOHR =================
 (function(){
   var cv = document.getElementById('cv-atom');
   var G = fitCanvas(cv);
-  window.addEventListener('resize', function(){ G = fitCanvas(cv); });
+  function refresh(){ var ng = fitCanvas(cv); if (ng){ G = ng; draw(); } }
+  window.__tabRefresh['atom'] = refresh;
+  window.addEventListener('resize', function(){ var ng = fitCanvas(cv); if (ng) G = ng; });
   // [Z, symbol, name, shells[]]
   var ATOMS = [
     [1,'H','Hiđro',[1]], [2,'He','Heli',[2]], [3,'Li','Liti',[2,1]],
@@ -317,6 +327,7 @@ function fitCanvas(cv){
     [19,'K','Kali',[2,8,8,1]], [20,'Ca','Canxi',[2,8,8,2]]
   ];
   var sel = document.getElementById('atom-sel');
+  sel.innerHTML = '';
   ATOMS.forEach(function(a, i){
     var o = document.createElement('option');
     o.value = i; o.textContent = a[1] + ' — ' + a[2] + ' (Z=' + a[0] + ')';
@@ -328,10 +339,11 @@ function fitCanvas(cv){
   var t = 0;
 
   function draw(){
+    if (!G) return;
     var ctx = G.ctx, W = G.w, H = G.h;
     ctx.clearRect(0,0,W,H);
     t += 0.02;
-    var cx = W/2, cy = H/2, R = Math.min(W,H)/2 - 24;
+    var cx = W/2, cy = H/2, R = Math.max(30, Math.min(W,H)/2 - 24);
     var n = cur[3].length;
     // Vẽ lớp vỏ
     for (var s=0; s<n; s++){
@@ -372,7 +384,7 @@ function fitCanvas(cv){
       '<b class="text-violet-800">' + cur[2] + ' (' + cur[1] + ')</b> — Z = ' + cur[0] +
       ', ' + total + ' electron: ' + cur[3].map(function(c,i){return 'lớp '+(i+1)+': '+c+'e';}).join(' • ');
   }, 500);
-  draw();
+  if (G) draw();
 })();
 
 // Fit lai canvas khi chuyen tab (tab an co width=0)
