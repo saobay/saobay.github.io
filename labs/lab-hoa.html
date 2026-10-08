@@ -58,9 +58,12 @@
   <div id="tab-mix" class="tab-panel px-3 mt-3 hidden">
     <div class="bg-white rounded-2xl shadow p-3">
       <h2 class="font-black text-teal-800 mb-1">Trộn dung dịch: Axit + Bazơ</h2>
-      <p class="text-xs text-slate-500 mb-2">Chọn axit, bazơ và chất chỉ thị, rồi bấm <b>Trộn</b> để xem màu sắc và phương trình phản ứng.</p>
+      <div class="flex gap-2 mb-2">
+        <button id="mix-go" class="big-btn flex-1 bg-teal-600 text-white font-black rounded-xl">🌀 Trộn dung dịch</button>
+        <button id="mix-reset" class="big-btn px-4 bg-slate-300 font-black rounded-xl">↺</button>
+      </div>
       <canvas id="cv-mix" class="w-full rounded-xl bg-slate-50 border" height="260"></canvas>
-      <div class="grid grid-cols-3 gap-2 mt-3 text-sm">
+      <div class="grid grid-cols-3 gap-2 mt-2 text-sm">
         <div>
           <label class="text-xs font-bold text-slate-600">🧪 Axit</label>
           <select id="mix-acid" class="w-full border rounded-xl px-2 py-2.5 font-bold">
@@ -85,11 +88,7 @@
           </select>
         </div>
       </div>
-      <div class="flex gap-2 mt-3">
-        <button id="mix-go" class="big-btn flex-1 bg-teal-600 text-white font-black rounded-xl">🌀 Trộn dung dịch</button>
-        <button id="mix-reset" class="big-btn px-4 bg-slate-300 font-black rounded-xl">↺</button>
-      </div>
-      <div id="mix-result" class="mt-3 hidden bg-teal-50 border border-teal-200 rounded-xl p-3">
+      <div id="mix-result" class="mt-2 hidden bg-teal-50 border border-teal-200 rounded-xl p-3">
         <div class="text-sm font-bold text-teal-900">Phương trình phản ứng:</div>
         <div id="mix-eq" class="text-center text-lg font-black text-teal-800 my-1"></div>
         <div id="mix-note" class="text-xs text-slate-600"></div>
@@ -101,7 +100,6 @@
   <div id="tab-atom" class="tab-panel px-3 mt-3 hidden">
     <div class="bg-white rounded-2xl shadow p-3">
       <h2 class="font-black text-violet-800 mb-1">Mô hình nguyên tử Bohr</h2>
-      <p class="text-xs text-slate-500 mb-2">Chọn nguyên tố để xem electron bay quanh hạt nhân theo từng lớp.</p>
       <div class="flex gap-2 items-center mb-2">
         <label class="text-xs font-bold text-slate-600">Nguyên tố:</label>
         <select id="atom-sel" class="flex-1 border rounded-xl px-2 py-2.5 font-bold text-sm"></select>
