@@ -24,7 +24,7 @@
             + '<div class="bg-slate-50 border rounded-lg p-2 font-mono text-[11px] whitespace-pre-wrap mb-2">Câu 1 [TN] [NB]\nNội dung câu hỏi viết ở đây...\nA. Phương án A\nB. Phương án B\nC. Phương án C\nD. Phương án D\nĐáp án: B\nGiải thích: Lời giải (không bắt buộc)...\n\nCâu 2 [ĐS] [TH]\nPhát biểu sau đúng hay sai?\na) Mệnh đề a\nb) Mệnh đề b\nc) Mệnh đề c\nd) Mệnh đề d\nĐáp án: Đ, S, Đ, S\n\nCâu 3 [TLN] [VD]\nNội dung câu hỏi...\nĐáp án: 42</div>'
             + '<ul class="list-disc ml-4 space-y-0.5">'
             + '<li><b>Câu N</b>: bắt đầu một câu mới (N là số thứ tự).</li>'
-            + '<li><b>[TN]</b> = trắc nghiệm 4 đáp án &nbsp; <b>[ĐS]</b> = đúng/sai &nbsp; <b>[TLN]</b> = trả lời ngắn.</li>'
+            + '<li><b>[TN]</b> = trắc nghiệm 4 đáp án &nbsp; <b>[ĐS]</b> = đúng/sai &nbsp; <b>[TLN]</b> = trả lời ngắn &nbsp; <b>[TL]</b> = tự luận (GV chấm tay).</li>'
             + '<li><b>[NB]</b> nhận biết &nbsp; <b>[TH]</b> thông hiểu &nbsp; <b>[VD]</b> vận dụng &nbsp; <b>[VDC]</b> vận dụng cao (mặc định NB).</li>'
             + '<li>Trắc nghiệm: phương án viết <b>A. B. C. D.</b> — Đúng/Sai: mệnh đề viết <b>a) b) c) d)</b>.</li>'
             + '<li><b>Đáp án:</b> TN ghi chữ cái (vd: B) • Đ/S ghi Đ,S cách nhau dấu phẩy (vd: Đ, S, Đ, S) • TLN ghi nội dung.</li>'
@@ -62,7 +62,7 @@
                     return;
                 }
                 let badge = { mcq: 'bg-blue-100 text-blue-800', truefalse: 'bg-amber-100 text-amber-800', short: 'bg-emerald-100 text-emerald-800' };
-                let typeName = { mcq: 'TN', truefalse: 'Đ/S', short: 'TLN' };
+                let typeName = { mcq: 'TN', truefalse: 'Đ/S', short: 'TLN', essay: 'TL' };
                 let h = '<div class="bg-white border border-indigo-200 rounded-xl p-3">'
                     + '<p class="text-xs font-black text-slate-800 mb-2"><i class="fa-solid fa-check-circle text-emerald-600 mr-1"></i>Đã đọc ' + qs.length + ' câu từ "' + String(f.name).replace(/</g,'&lt;') + '"</p>'
                     + '<div class="space-y-1.5 max-h-56 overflow-y-auto pr-1">'
@@ -100,6 +100,7 @@
                         if (v === 'TN' || v.indexOf('TRẮC NGHIỆM') >= 0 || v.indexOf('TRAC NGHIEM') >= 0) cur.type = 'mcq';
                         else if (v === 'ĐS' || v === 'DS' || v.indexOf('ĐÚNG') >= 0 || v.indexOf('DUNG') >= 0) cur.type = 'truefalse';
                         else if (v === 'TLN' || v.indexOf('TRẢ LỜI NGẮN') >= 0 || v.indexOf('TRA LOI NGAN') >= 0) cur.type = 'short';
+                        else if (v === 'TL' || v.indexOf('TỰ LUẬN') >= 0 || v.indexOf('TU LUAN') >= 0) cur.type = 'essay';
                         else if (['NB','TH','VD','VDC'].indexOf(v) >= 0) cur.level = v;
                     });
                     let qtext = rest.replace(/\[[^\]]+\]/g, '').trim();
@@ -112,9 +113,9 @@
                 let mExp = line.match(/^(giải thích|giai thich)\s*:\s*(.*)$/i);
                 if (mExp){ cur._inExplain = true; cur.explain = (mExp[2] || '').trim(); return; }
                 let mOpt = line.match(/^([A-D])[\.\)]\s*(.+)$/);
-                if (mOpt && cur.type !== 'truefalse'){ cur.type = cur.type || 'mcq'; cur.options.push(mOpt[1] + '. ' + mOpt[2].trim()); return; }
+                if (mOpt && cur.type !== 'truefalse' && cur.type !== 'essay'){ cur.type = cur.type || 'mcq'; cur.options.push(mOpt[1] + '. ' + mOpt[2].trim()); return; }
                 let mSt = line.match(/^([a-d])[\.\)]\s*(.+)$/);
-                if (mSt && cur.type !== 'mcq'){ cur.type = cur.type || 'truefalse'; cur.statements.push(mSt[2].trim()); return; }
+                if (mSt && cur.type !== 'mcq' && cur.type !== 'essay'){ cur.type = cur.type || 'truefalse'; cur.statements.push(mSt[2].trim()); return; }
                 if (cur._inExplain){ cur.explain += (cur.explain ? ' ' : '') + line; }
                 else cur.q += (cur.q ? ' ' : '') + line;
             });
@@ -132,6 +133,8 @@
                         if (['S','SAI','F','FALSE'].indexOf(v) >= 0) return 'F';
                         return '';
                     }).filter(Boolean);
+                } else if (q.type === 'essay') {
+                    q.answer = '';
                 } else {
                     q.answer = raw;
                 }
