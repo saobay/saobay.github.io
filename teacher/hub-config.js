@@ -57,6 +57,7 @@
             if (currentUser.role === 'admin') {
                 document.getElementById('admin-settings-btn')?.classList.remove('hidden');
                 document.getElementById('admin-accounts-btn')?.classList.remove('hidden');
+                document.getElementById('admin-assign-btn')?.classList.remove('hidden');
             }
 
             // Chọn mặc định thư mục data
