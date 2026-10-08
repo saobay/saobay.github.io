@@ -58,6 +58,8 @@
                 document.getElementById('admin-settings-btn')?.classList.remove('hidden');
                 document.getElementById('admin-accounts-btn')?.classList.remove('hidden');
                 document.getElementById('admin-assign-btn')?.classList.remove('hidden');
+                document.getElementById('admin-users-btn')?.classList.remove('hidden');
+                if (typeof updateRegBadge === 'function') updateRegBadge();
             }
 
             // Chọn mặc định thư mục data
@@ -370,6 +372,13 @@
         }
 
         async function deleteSelectedFolder() {
+            // Chỉ admin được xóa thư mục (2026-10-08): giáo viên không được xóa bất kỳ thư mục nào
+            try {
+                if (!(typeof currentUser !== 'undefined' && currentUser.role === 'admin')){
+                    alert('Chỉ admin mới được xóa thư mục.');
+                    return;
+                }
+            } catch(e){}
             if (!currentSelectedFolderId || currentSelectedFolderId === 'data') {
                 alert("Không thể xóa thư mục gốc data!");
                 return;
