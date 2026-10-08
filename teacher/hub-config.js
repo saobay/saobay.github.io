@@ -377,12 +377,58 @@
             }
         }
 
-        async function openAddFolderModal() {
-            let parentFolder = currentSelectedFolderId || 'data';
-            let folderName = prompt(`Nhập tên thư mục mới (sẽ tạo bên trong thư mục: "${parentFolder}"):`);
-            if (!folderName || !folderName.trim()) return;
+        // FIX 2026-10-08: hộp thoại tạo thư mục cho CHỌN THƯ MỤC CHA (vì thư mục cha
+        // không chọn được ở cây — click chỉ mở/đóng). Mặc định là thư mục đang chọn.
+        function openAddFolderModal() {
+            let sel = document.getElementById('add-folder-parent');
+            if (sel){
+                let opts = [];
+                let map = (typeof gitFolderMap !== 'undefined' && gitFolderMap) ? gitFolderMap : {};
+                Object.keys(map).forEach(function(p){
+                    if (p === 'data/bank' || p.indexOf('data/bank/') === 0) return;
+                    if (p === 'data/scores' || p.indexOf('data/scores/') === 0) return;
+                    if (p === 'backup' || p.indexOf('backup/') === 0) return;
+                    let depth = p === 'data' ? 0 : p.split('/').length - 1;
+                    opts.push({ path: p, depth: depth, name: map[p].name || p });
+                });
+                opts.sort(function(a, b){
+                    if (a.path === 'data') return -1;
+                    if (b.path === 'data') return 1;
+                    return a.path.localeCompare(b.path, 'vi');
+                });
+                let cur = currentSelectedFolderId || 'data';
+                sel.innerHTML = opts.map(function(o){
+                    let indent = new Array(o.depth + 1).join('&nbsp;&nbsp;');
+                    let label = (o.path === 'data' ? 'data (thư mục gốc)' : indent + o.name);
+                    return '<option value="' + o.path.replace(/"/g, '&quot;') + '"' + (o.path === cur ? ' selected' : '') + '>' + label + '</option>';
+                }).join('');
+            }
+            let nameInput = document.getElementById('add-folder-name');
+            if (nameInput) nameInput.value = '';
+            let modal = document.getElementById('add-folder-modal');
+            if (modal){
+                modal.classList.remove('hidden');
+                if (nameInput) setTimeout(function(){ nameInput.focus(); }, 50);
+            }
+        }
 
-            folderName = folderName.trim().replace(/[\\/:*?"<>|]/g, "_");
+        function closeAddFolderModal(){
+            let modal = document.getElementById('add-folder-modal');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        async function confirmAddFolder(){
+            let sel = document.getElementById('add-folder-parent');
+            let nameInput = document.getElementById('add-folder-name');
+            let parentFolder = (sel && sel.value) || currentSelectedFolderId || 'data';
+            let folderName = nameInput ? nameInput.value.trim() : '';
+            if (!folderName){ alert('Vui lòng nhập tên thư mục mới!'); if (nameInput) nameInput.focus(); return; }
+            folderName = folderName.replace(/[\\/:*?"<>|]/g, "_");
+            closeAddFolderModal();
+            await createFolderOnGitHub(parentFolder, folderName);
+        }
+
+        async function createFolderOnGitHub(parentFolder, folderName) {
             let newFolderPath = `${parentFolder}/${folderName}`;
 
             let token = getGithubToken();
