@@ -19,7 +19,39 @@
                 + '<div class="flex items-center justify-between px-5 py-3 border-b bg-amber-600 text-white">'
                 + '<h3 class="font-black text-sm"><i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Soạn Đề Kiểm Tra Từ Ngân Hàng</h3>'
                 + '<button onclick="document.getElementById(\'exam-builder-modal\').remove()" class="text-white/80 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button></div>'
+                + '<div class="flex gap-2 px-5 pt-3 text-xs font-bold bg-amber-50/50">'
+                + '<button id="exb-mode-bank" onclick="exbSwitchMode(\'bank\')" class="flex-1 px-3 py-2 rounded-lg bg-indigo-700 text-white shadow">Soạn đề từ Ngân hàng đề<br><span class="font-normal opacity-90">(Mỗi học sinh 1 đề)</span></button>'
+                + '<button id="exb-mode-fixed" onclick="exbSwitchMode(\'fixed\')" class="flex-1 px-3 py-2 rounded-lg bg-white text-slate-700 border border-slate-300">Soạn đề cố định<br><span class="font-normal opacity-70">(Khóa sẵn bộ câu)</span></button>'
+                + '</div>'
                 + '<div class="p-5 overflow-y-auto space-y-4 text-sm">'
+                + '<div id="exb-pane-bank" class="space-y-4">'
+                + '<p class="text-[11px] text-indigo-900 bg-indigo-50 border border-indigo-200 rounded-lg px-3 py-2 leading-relaxed"><i class="fa-solid fa-shuffle mr-1"></i><b>Mỗi học sinh 1 đề:</b> file đẩy lên chỉ chứa cấu hình — mỗi em mở ra web <b>bốc ngẫu nhiên</b> một bộ câu khác nhau từ ngân hàng theo đúng tỉ lệ bên dưới.</p>'
+                + '<div><label class="text-[11px] font-bold text-slate-600">Tên đề</label>'
+                + '<input id="exbb-title" value="Luyện tập chương 1" class="mt-1 w-full text-sm border rounded-lg px-3 py-2 font-bold"></div>'
+                + '<div class="grid grid-cols-3 gap-3">'
+                + '<div><label class="text-[11px] font-bold text-slate-600">Môn</label><input id="exbb-subject" value="TOAN" class="mt-1 w-full text-sm border rounded-lg px-3 py-2 font-bold uppercase"></div>'
+                + '<div><label class="text-[11px] font-bold text-slate-600">Khối</label><input id="exbb-grade" type="number" value="10" class="mt-1 w-full text-sm border rounded-lg px-3 py-2 font-bold"></div>'
+                + '<div><label class="text-[11px] font-bold text-slate-600">Chương</label><input id="exbb-chapter" type="number" value="1" class="mt-1 w-full text-sm border rounded-lg px-3 py-2 font-bold"></div>'
+                + '</div>'
+                + '<div class="grid grid-cols-2 gap-3">'
+                + '<div><label class="text-[11px] font-bold text-slate-600">Số câu mỗi lượt bốc</label><input id="exbb-count" type="number" value="10" min="1" max="50" class="mt-1 w-full text-sm border rounded-lg px-3 py-2 font-bold"></div>'
+                + '<div><label class="text-[11px] font-bold text-slate-600">Thời gian (phút, 0 = không tính giờ)</label><input id="exbb-timelimit" type="number" value="0" min="0" class="mt-1 w-full text-sm border rounded-lg px-3 py-2 font-bold"></div>'
+                + '</div>'
+                + '<div><label class="text-[11px] font-bold text-slate-600">Dạng câu</label><div class="flex gap-4 mt-1 text-xs font-semibold">'
+                + '<label><input type="checkbox" class="exbb-type" value="mcq" checked> Trắc nghiệm</label>'
+                + '<label><input type="checkbox" class="exbb-type" value="truefalse" checked> Đúng/Sai</label>'
+                + '<label><input type="checkbox" class="exbb-type" value="short" checked> Trả lời ngắn</label>'
+                + '</div></div>'
+                + '<div><label class="text-[11px] font-bold text-slate-600">Tỉ lệ mức độ % — NB / TH / VD / VDC</label>'
+                + '<div class="grid grid-cols-4 gap-2 mt-1">'
+                + '<input id="exbb-lv-nb" type="number" value="40" class="text-sm border rounded-lg px-2 py-2 text-center font-bold">'
+                + '<input id="exbb-lv-th" type="number" value="30" class="text-sm border rounded-lg px-2 py-2 text-center font-bold">'
+                + '<input id="exbb-lv-vd" type="number" value="20" class="text-sm border rounded-lg px-2 py-2 text-center font-bold">'
+                + '<input id="exbb-lv-vdc" type="number" value="10" class="text-sm border rounded-lg px-2 py-2 text-center font-bold">'
+                + '</div></div>'
+                + '<button onclick="exbBankSave()" class="w-full bg-indigo-700 hover:bg-indigo-800 text-white text-xs font-bold px-4 py-3 rounded-xl"><i class="fa-solid fa-cloud-arrow-up mr-1"></i>Lưu đề (mỗi HS 1 đề)</button>'
+                + '</div>'
+                + '<div id="exb-pane-fixed" class="hidden space-y-4">'
                 + '<div><label class="text-[11px] font-bold text-slate-600">Tên đề kiểm tra</label>'
                 + '<input id="exb-title" value="Kiểm tra 15 phút" class="mt-1 w-full text-sm border rounded-lg px-3 py-2 font-bold"></div>'
                 + '<div class="grid grid-cols-2 md:grid-cols-4 gap-3">'
@@ -48,7 +80,11 @@
                 + '<div><label class="text-[11px] font-bold text-slate-600">Mở từ (giờ/ngày)</label><input id="exb-open-from" type="datetime-local" class="mt-1 w-full text-sm border rounded-lg px-3 py-2"></div>'
                 + '<div><label class="text-[11px] font-bold text-slate-600">Đóng lúc (giờ/ngày)</label><input id="exb-open-to" type="datetime-local" class="mt-1 w-full text-sm border rounded-lg px-3 py-2"></div>'
                 + '</div>'
+                + '<label class="flex items-start gap-2 text-[11px] text-slate-700 bg-violet-50 border border-violet-200 rounded-lg px-3 py-2 cursor-pointer">'
+                + '<input id="exb-shuffle" type="checkbox" class="mt-0.5">'
+                + '<span><b>Trộn thứ tự câu trong từng dạng</b> (đề chung cả lớp: cả lớp cùng bộ câu, mỗi HS mở ra thứ tự TN/Đ-S/TLN được trộn riêng — chống nhìn bài).</span></label>'
                 + '<p class="text-[11px] text-slate-500 leading-relaxed"><i class="fa-solid fa-circle-info mr-1"></i>Chế độ <b>nghiêm túc</b>: trong giờ làm bài, học sinh trả lời từng câu <b>không hiện đáp án đúng/sai</b> (chỉ ghi nhận + khóa câu); hết giờ hoặc nộp bài mới hiện đáp án, lời giải và điểm theo thang điểm trên. Để trống giờ mở/đóng = mở tự do.</p>'
+                + '</div>'
                 + '<div class="flex flex-wrap gap-2">'
                 + '<button onclick="examBuilderPreview()" class="flex-1 bg-slate-700 hover:bg-slate-800 text-white text-xs font-bold px-4 py-2.5 rounded-xl"><i class="fa-solid fa-filter mr-1"></i>1. Lọc & Xem trước</button>'
                 + '<button onclick="examBuilderSave()" class="flex-1 bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl"><i class="fa-solid fa-cloud-arrow-up mr-1"></i>2. Lưu đề kiểm tra</button>'
@@ -84,6 +120,52 @@
                 let t = a[i]; a[i] = a[j]; a[j] = t;
             }
             return a;
+        }
+
+        let exbMode = 'bank';
+        function exbSwitchMode(mode){
+            exbMode = mode;
+            let pb = document.getElementById('exb-pane-bank'), pf = document.getElementById('exb-pane-fixed');
+            let mb = document.getElementById('exb-mode-bank'), mf = document.getElementById('exb-mode-fixed');
+            if (pb) pb.classList.toggle('hidden', mode !== 'bank');
+            if (pf) pf.classList.toggle('hidden', mode !== 'fixed');
+            if (mb) mb.className = 'flex-1 px-3 py-2 rounded-lg text-xs font-bold ' + (mode === 'bank' ? 'bg-indigo-700 text-white shadow' : 'bg-white text-slate-700 border border-slate-300');
+            if (mf) mf.className = 'flex-1 px-3 py-2 rounded-lg text-xs font-bold ' + (mode === 'fixed' ? 'bg-amber-600 text-white shadow' : 'bg-white text-slate-700 border border-slate-300');
+        }
+
+        function exbBankVal(id){ let el = document.getElementById(id); return el ? el.value.trim() : ''; }
+
+        // Luu de "Moi HS 1 de": file cau noi boc ngau nhien tu bank moi lan mo
+        async function exbBankSave(){
+            try {
+                let subject = (exbBankVal('exbb-subject') || 'TOAN').toUpperCase();
+                let grade = parseInt(exbBankVal('exbb-grade'), 10) || 10;
+                let types = Array.prototype.slice.call(document.querySelectorAll('.exbb-type:checked')).map(function(c){ return c.value; });
+                if (!types.length){ alert('Chọn ít nhất 1 dạng câu.'); return; }
+                let cfg = {
+                    subject: subject, grade: grade,
+                    chapter: parseInt(exbBankVal('exbb-chapter'), 10) || 1,
+                    count: Math.min(50, Math.max(1, parseInt(exbBankVal('exbb-count'), 10) || 10)),
+                    types: types,
+                    levels: { NB: parseFloat(exbBankVal('exbb-lv-nb')) || 0, TH: parseFloat(exbBankVal('exbb-lv-th')) || 0,
+                              VD: parseFloat(exbBankVal('exbb-lv-vd')) || 0, VDC: parseFloat(exbBankVal('exbb-lv-vdc')) || 0 },
+                    time_limit: Math.max(0, parseFloat(exbBankVal('exbb-timelimit')) || 0)
+                };
+                let title = exbBankVal('exbb-title') || ('Luyện tập ' + subject + ' ' + grade);
+                let safeTitle = title.replace(/[<>&"]/g, '');
+                let inner = '<div class="saobay-bank-view"></div>\n'
+                    + '<script type="application/json" class="saobay-bank-config">\n' + JSON.stringify(cfg) + '\n<\/script>';
+                let page = bankWrapPage(safeTitle, 'Bài tập', inner);
+                let folder = (typeof currentSelectedFolderId !== 'undefined' && currentSelectedFolderId) ? currentSelectedFolderId : 'data';
+                let asciiBase = (typeof removeVietnameseTones === 'function' ? removeVietnameseTones(title) : title)
+                    .replace(/[\\/:*?"<>|]/g, '_').replace(/\s+/g, '_').slice(0, 40);
+                let path = folder + '/' + subject + '_' + grade + '_' + asciiBase + '_Bai_tap_none.html';
+                await bankPushFile(path, page, 'Bank exam (moi HS 1 de): ' + safeTitle + ' [' + folder + ']');
+                document.getElementById('exam-builder-modal').remove();
+                if (typeof showToast === 'function') showToast('Đã lưu đề (mỗi HS 1 đề): ' + path, 'success');
+                else alert('Đã lưu đề: ' + path);
+                if (typeof loadFolderTreeFromGit === 'function') loadFolderTreeFromGit();
+            } catch(e){ alert('Lỗi lưu đề: ' + (e.message || e)); }
         }
 
         async function examBuilderPreview(){
@@ -153,8 +235,10 @@
             let st = examBuilderState;
             if (!st.questions.length){ alert('Hãy bấm "Lọc & Xem trước" trước khi lưu đề.'); return null; }
             let m = st.meta;
+            let shufEl = document.getElementById('exb-shuffle');
             return {
                 exam_strict: true,
+                shuffle_within_type: !!(shufEl && shufEl.checked),
                 open_from: m.openFrom || '',
                 open_to: m.openTo || '',
                 time_limit: m.timeLimit,
