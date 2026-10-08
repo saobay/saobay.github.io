@@ -395,6 +395,8 @@ YÊU CẦU CHI TIẾT:
                         alert(`🎉 THÀNH CÔNG!\nBài "${safeTitle}" đã được đẩy trực tiếp lên GitHub qua Google Proxy!\n📁 Vị trí: ${targetGitPath}\n⭐ Điểm thưởng nhận được: +${pointsEarned}`);
                         // Phase 2: tu boc cau hoi vao ngan hang (khong chan luong chinh)
                         autoSaveToBank(finalHtml, formattedFileName, targetGitPath, targetFolder).catch(function(){});
+                        // Quyen so huu de thi: ai day thi la chu (khong chan luong chinh)
+                        registerExamOwner(targetGitPath, safeTitle).catch(function(){});
                         resetFormToCreate();
                         await loadFolderTreeFromGit();
                     } else {
@@ -465,6 +467,8 @@ YÊU CẦU CHI TIẾT:
                     alert(`🎉 THÀNH CÔNG!\nBài "${safeTitle}" đã được đẩy trực tiếp lên GitHub!\n📁 Vị trí: ${targetGitPath}\n⭐ Điểm thưởng nhận được: +${pointsEarned}`);
                     // Phase 2: tu boc cau hoi vao ngan hang (khong chan luong chinh)
                     autoSaveToBank(finalHtml, formattedFileName, targetGitPath, targetFolder).catch(function(){});
+                    // Quyen so huu de thi: ai day thi la chu (khong chan luong chinh)
+                    registerExamOwner(targetGitPath, safeTitle).catch(function(){});
                         resetFormToCreate();
                     await loadFolderTreeFromGit();
                 } else {
@@ -491,4 +495,108 @@ YÊU CẦU CHI TIẾT:
             document.getElementById('cancel-edit-btn').classList.add('hidden');
             renderMathPreview();
             updateScorePreview();
+        }
+
+        // ========================================================
+        // REGISTRY QUYEN SO HUU DE THI (2026-10-08)
+        // data/exam-registry.json: { filePath: {owner_id, owner_name, title, created_at} }
+        // - Ai day bai thi la chu; chi chu + admin duoc sua/xoa
+        // - File cu chua co chu: giao vien van sua/xoa nhu cu + co nut "Nhan" de nhan chu
+        // ========================================================
+        const EXAM_REGISTRY_PATH = 'data/exam-registry.json';
+        let examRegistryCache = null;
+
+        async function getExamRegistry(force){
+            if (examRegistryCache && !force) return examRegistryCache;
+            let token = getGithubToken();
+            try {
+                if (token){
+                    let apiUrl = 'https://api.github.com/repos/' + GITHUB_CONFIG.owner + '/' + GITHUB_CONFIG.repo
+                        + '/contents/' + getEncodedGitHubPath(EXAM_REGISTRY_PATH) + '?ref=' + GITHUB_CONFIG.branch;
+                    let res = await fetch(apiUrl, { headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github+json' } });
+                    if (res.ok){
+                        let jd = await res.json();
+                        let bin = atob(String(jd.content || '').replace(/\s/g, ''));
+                        let bytes = new Uint8Array(bin.length);
+                        for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+                        examRegistryCache = JSON.parse(new TextDecoder('utf-8').decode(bytes));
+                        return examRegistryCache;
+                    }
+                } else {
+                    let raw = await fetch('https://raw.githubusercontent.com/' + GITHUB_CONFIG.owner + '/' + GITHUB_CONFIG.repo
+                        + '/' + GITHUB_CONFIG.branch + '/' + getEncodedGitHubPath(EXAM_REGISTRY_PATH) + '?t=' + Date.now());
+                    if (raw.ok){ examRegistryCache = await raw.json(); return examRegistryCache; }
+                }
+            } catch(e){}
+            examRegistryCache = {};
+            return examRegistryCache;
+        }
+
+        async function saveExamRegistry(reg){
+            let content = JSON.stringify(reg);
+            let token = getGithubToken();
+            if (token){
+                let apiUrl = 'https://api.github.com/repos/' + GITHUB_CONFIG.owner + '/' + GITHUB_CONFIG.repo
+                    + '/contents/' + getEncodedGitHubPath(EXAM_REGISTRY_PATH);
+                let sha;
+                try {
+                    let chk = await fetch(apiUrl + '?ref=' + GITHUB_CONFIG.branch,
+                        { headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github+json' } });
+                    if (chk.ok){ let jd = await chk.json(); sha = jd.sha; }
+                } catch(e){}
+                let body = { message: 'Cập nhật quyền sở hữu đề thi', content: utf8ToBase64(content), branch: GITHUB_CONFIG.branch };
+                if (sha) body.sha = sha;
+                let res = await fetch(apiUrl, { method: 'PUT',
+                    headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body) });
+                if (!res.ok) throw new Error('GitHub API ' + res.status);
+            } else {
+                let res2 = await fetch(API_URL, { method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ type: 'PUSH_TO_GITHUB', filePath: EXAM_REGISTRY_PATH, content: content,
+                        commitMessage: 'Cập nhật quyền sở hữu đề thi',
+                        title: 'exam-registry', author: (typeof currentUser !== 'undefined' ? currentUser.name : '') })
+                });
+                let rj = await res2.json();
+                if (!rj || rj.status !== 'success') throw new Error((rj && rj.message) || 'Proxy lỗi');
+            }
+            examRegistryCache = reg;
+        }
+
+        // Ghi nhan chu so huu sau khi day bai thanh cong (ghi de chu cu neu co)
+        async function registerExamOwner(filePath, title){
+            let reg = await getExamRegistry(true);
+            reg[filePath] = {
+                owner_id: (typeof currentUser !== 'undefined' && currentUser.id) ? String(currentUser.id) : '',
+                owner_name: (typeof currentUser !== 'undefined' && currentUser.name) ? currentUser.name : '',
+                title: title || filePath, created_at: new Date().toISOString()
+            };
+            await saveExamRegistry(reg);
+        }
+
+        function examOwnerOf(filePath, reg){
+            let r = reg || examRegistryCache || {};
+            return r[filePath] || null;
+        }
+        function isHubAdmin(){
+            try { return (typeof currentUser !== 'undefined' && currentUser.role === 'admin'); } catch(e){ return false; }
+        }
+        function myHubUid(){
+            try { return String((currentUser && currentUser.id) || ''); } catch(e){ return ''; }
+        }
+        // Quy tắc: admin luôn được; chủ được; file cũ chưa có chủ thì giáo viên vẫn được (như cũ)
+        function canManageExam(filePath, reg){
+            if (isHubAdmin()) return true;
+            let o = examOwnerOf(filePath, reg);
+            if (!o) return true; // file cũ chưa đăng ký chủ
+            return String(o.owner_id || '') === myHubUid() && myHubUid() !== '';
+        }
+        // Nhan chu so huu cho file cu
+        async function claimExamOwner(filePath, title){
+            if (!confirm('Nhận quyền sở hữu "' + title + '"?\nSau này chỉ bạn và admin được sửa/xoá đề này.')) return;
+            try {
+                await registerExamOwner(filePath, title);
+                if (typeof showToast === 'function') showToast('Đã nhận quyền sở hữu đề này', 'success');
+                if (typeof renderManageList === 'function') renderManageList();
+            } catch(e){ alert('Lỗi: ' + (e.message || e)); }
         }
