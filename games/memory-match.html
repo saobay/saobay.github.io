@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>🧠 Trí Nhớ Siêu Tốc | SAOBAY</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  * { -webkit-tap-highlight-color: transparent; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; }
+  .card { perspective: 600px; cursor: pointer; }
+  .card-inner { position:relative; width:100%; height:100%; transform-style:preserve-3d; transition: transform .45s cubic-bezier(.4,1.4,.6,1); }
+  .card.flipped .card-inner { transform: rotateY(180deg); }
+  .card-face { position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden; display:flex; align-items:center; justify-content:center; border-radius:1rem; padding:.5rem; }
+  .card-back { transform: rotateY(180deg); }
+  .card.matched { pointer-events:none; }
+  .card.matched .card-back { background: linear-gradient(135deg,#34d399,#059669) !important; }
+  @keyframes matchPop { 0%{transform:scale(1)} 40%{transform:scale(1.12)} 100%{transform:scale(1)} }
+  .card.just-matched .card-inner { animation: matchPop .4s ease-out; }
+  @keyframes wrongShake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
+  .card.wrong .card-inner { animation: wrongShake .35s; }
+  @keyframes popIn { 0%{transform:scale(.4);opacity:0} 100%{transform:scale(1);opacity:1} }
+  .pop-in { animation: popIn .4s ease-out; }
+  .confetti { position:fixed; top:-20px; z-index:50; pointer-events:none; animation: fall linear forwards; }
+  @keyframes fall { to { transform: translateY(110vh) rotate(720deg); } }
+</style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-teal-500 via-cyan-600 to-blue-700 text-slate-800">
+
+<div class="max-w-2xl mx-auto px-3 py-4 pb-10">
+  <div class="text-center mb-4">
+    <h1 class="text-3xl md:text-4xl font-black text-white drop-shadow-lg">🧠 TRÍ NHỚ SIÊU TỐC</h1>
+    <p class="text-white/90 text-sm mt-1 font-medium">Lật thẻ tìm cặp giống nhau — càng ít lượt càng giỏi!</p>
+  </div>
+
+  <!-- ===== SETUP ===== -->
+  <div id="panel-setup" class="bg-white rounded-2xl shadow-2xl p-4">
+    <h2 class="font-black text-lg mb-2 text-teal-700"><i class="fa-solid fa-layer-group mr-2"></i>Chọn bộ thẻ</h2>
+
+    <div class="grid grid-cols-2 gap-2 mb-3">
+      <button data-set="en" class="preset-btn bg-gradient-to-br from-blue-500 to-indigo-600 text-white font-bold py-3 rounded-xl shadow active:scale-95">
+        🇬🇧 Từ vựng Anh-Việt
+      </button>
+      <button data-set="math" class="preset-btn bg-gradient-to-br from-amber-500 to-orange-600 text-white font-bold py-3 rounded-xl shadow active:scale-95">
+        🔢 Công thức Toán
+      </button>
+    </div>
+
+    <details class="bg-teal-50 rounded-xl p-3 mb-3">
+      <summary class="font-bold text-sm text-teal-700 cursor-pointer"><i class="fa-solid fa-pen mr-1"></i>Tự nhập cặp từ (mỗi dòng: <i>từ | nghĩa</i>)</summary>
+      <textarea id="custom-pairs" rows="5" placeholder="apple | quả táo&#10;book | quyển sách&#10;teacher | giáo viên" class="w-full border-2 border-teal-200 rounded-xl p-3 text-sm mt-2 focus:border-teal-500 focus:outline-none"></textarea>
+      <button id="btn-custom" class="mt-2 bg-teal-600 text-white text-sm font-bold px-5 py-2 rounded-lg active:scale-95">
+        <i class="fa-solid fa-check mr-1"></i>Dùng bộ này
+      </button>
+    </details>
+
+    <div class="mb-4">
+      <label class="text-xs font-bold text-slate-600">Số cặp thẻ: <span id="pair-count-label" class="text-teal-700">6</span></label>
+      <input id="pair-count" type="range" min="4" max="10" value="6" class="w-full accent-teal-600">
+    </div>
+
+    <button id="btn-start" class="w-full bg-gradient-to-r from-teal-500 to-cyan-600 text-white font-black text-lg py-3.5 rounded-xl shadow-xl active:scale-95 transition">
+      <i class="fa-solid fa-play mr-2"></i>BẮT ĐẦU CHƠI!
+    </button>
+
+    <div class="mt-3 bg-amber-50 border border-amber-200 rounded-xl p-3 text-xs">
+      <p class="font-bold text-amber-800"><i class="fa-solid fa-trophy mr-1"></i>Kỷ lục của bạn: <span id="best-record">chưa có</span></p>
+    </div>
+  </div>
+
+  <!-- ===== GAME ===== -->
+  <div id="panel-game" class="hidden">
+    <div class="grid grid-cols-3 gap-2 mb-3">
+      <div class="bg-white rounded-xl shadow p-2 text-center">
+        <p class="text-[10px] font-bold text-slate-400 uppercase">Lượt lật</p>
+        <p id="stat-moves" class="text-2xl font-black text-teal-600">0</p>
+      </div>
+      <div class="bg-white rounded-xl shadow p-2 text-center">
+        <p class="text-[10px] font-bold text-slate-400 uppercase">Thời gian</p>
+        <p id="stat-time" class="text-2xl font-black text-blue-600">0:00</p>
+      </div>
+      <div class="bg-white rounded-xl shadow p-2 text-center">
+        <p class="text-[10px] font-bold text-slate-400 uppercase">Đã tìm</p>
+        <p class="text-2xl font-black text-emerald-600"><span id="stat-found">0</span>/<span id="stat-total">0</span></p>
+      </div>
+    </div>
+
+    <div id="board" class="grid gap-2"></div>
+
+    <div class="flex gap-2 mt-3">
+      <button id="btn-restart" class="flex-1 bg-white/90 font-bold py-2.5 rounded-xl text-sm active:scale-95">
+        <i class="fa-solid fa-rotate-left mr-1"></i>Chơi lại
+      </button>
+      <button id="btn-newset" class="flex-1 bg-white/90 font-bold py-2.5 rounded-xl text-sm active:scale-95">
+        <i class="fa-solid fa-gear mr-1"></i>Đổi bộ thẻ
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== WIN ===== -->
+  <div id="panel-win" class="hidden">
+    <div class="bg-white rounded-2xl shadow-2xl p-6 text-center pop-in">
+      <div class="text-6xl mb-2">🎉</div>
+      <h2 class="text-2xl font-black text-teal-700">TUYỆT VỜI!</h2>
+      <p class="text-slate-500 text-sm mt-1">Bạn đã tìm hết tất cả các cặp!</p>
+      <div class="grid grid-cols-2 gap-3 my-4">
+        <div class="bg-teal-50 rounded-xl p-3">
+          <p class="text-xs text-slate-400 font-bold">LƯỢT LẬT</p>
+          <p id="win-moves" class="text-3xl font-black text-teal-600"></p>
+        </div>
+        <div class="bg-blue-50 rounded-xl p-3">
+          <p class="text-xs text-slate-400 font-bold">THỜI GIAN</p>
+          <p id="win-time" class="text-3xl font-black text-blue-600"></p>
+        </div>
+      </div>
+      <p id="win-stars" class="text-3xl mb-4"></p>
+      <div class="flex gap-2">
+        <button id="btn-win-again" class="flex-1 bg-teal-600 text-white font-bold py-3 rounded-xl active:scale-95">
+          <i class="fa-solid fa-rotate-left mr-1"></i>Chơi lại
+        </button>
+        <button id="btn-win-new" class="flex-1 bg-slate-200 font-bold py-3 rounded-xl active:scale-95">Đổi bộ thẻ</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const PRESETS = {
+  en: [
+    ['apple','quả táo'],['book','quyển sách'],['teacher','giáo viên'],['school','trường học'],
+    ['friend','bạn bè'],['family','gia đình'],['house','ngôi nhà'],['water','nước'],
+    ['beautiful','xinh đẹp'],['happy','vui vẻ']
+  ],
+  math: [
+    ['(a+b)²','a²+2ab+b²'],['(a-b)²','a²-2ab+b²'],['a²-b²','(a-b)(a+b)'],
+    ['S hình vuông','a × a'],['S hình chữ nhật','dài × rộng'],['C hình tròn','2 × π × r'],
+    ['V hình hộp','dài×rộng×cao'],['1+2+...+n','n(n+1)/2'],['a³+b³','(a+b)(a²-ab+b²)'],
+    ['√(a×b)','√a × √b']
+  ]
+};
+
+let deck = [], firstCard = null, lockBoard = false;
+let moves = 0, found = 0, totalPairs = 6, seconds = 0, timerId = null;
+let currentPairs = [];
+
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ let j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+// best record
+try {
+  let b = JSON.parse(localStorage.getItem('saobay_memory_best') || 'null');
+  if (b) document.getElementById('best-record').textContent = b.moves + ' lượt, ' + fmtTime(b.seconds);
+} catch(e){}
+
+document.getElementById('pair-count').addEventListener('input', function(){
+  document.getElementById('pair-count-label').textContent = this.value;
+});
+document.querySelectorAll('.preset-btn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    let n = parseInt(document.getElementById('pair-count').value, 10);
+    currentPairs = shuffle(PRESETS[btn.dataset.set].slice()).slice(0, n);
+    startGame();
+  });
+});
+document.getElementById('btn-custom').addEventListener('click', function(){
+  let lines = document.getElementById('custom-pairs').value.split('\n')
+    .map(function(x){ return x.trim(); }).filter(function(x){ return x.indexOf('|') > 0; });
+  if (lines.length < 4){ alert('Nhập ít nhất 4 cặp (mỗi dòng: từ | nghĩa)!'); return; }
+  let n = parseInt(document.getElementById('pair-count').value, 10);
+  currentPairs = shuffle(lines.map(function(l){
+    let p = l.split('|'); return [p[0].trim(), p.slice(1).join('|').trim()];
+  })).slice(0, Math.min(n, lines.length));
+  startGame();
+});
+document.getElementById('btn-start').addEventListener('click', function(){
+  let n = parseInt(document.getElementById('pair-count').value, 10);
+  currentPairs = shuffle(PRESETS.en.slice()).slice(0, n);
+  startGame();
+});
+
+function startGame(){
+  totalPairs = currentPairs.length;
+  deck = [];
+  currentPairs.forEach(function(p, i){
+    deck.push({id:i, text:p[0]}); deck.push({id:i, text:p[1]});
+  });
+  deck = shuffle(deck);
+  moves = 0; found = 0; seconds = 0; firstCard = null; lockBoard = false;
+  document.getElementById('stat-moves').textContent = '0';
+  document.getElementById('stat-found').textContent = '0';
+  document.getElementById('stat-total').textContent = totalPairs;
+  document.getElementById('stat-time').textContent = '0:00';
+
+  let board = document.getElementById('board');
+  let cols = totalPairs <= 4 ? 'grid-cols-4' : (totalPairs <= 6 ? 'grid-cols-4' : 'grid-cols-5');
+  board.className = 'grid gap-2 ' + cols;
+  board.innerHTML = deck.map(function(c, i){
+    return '<div class="card aspect-[3/4]" data-idx="'+i+'"><div class="card-inner">'
+      + '<div class="card-face bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg">'
+      + '<span class="text-3xl text-white/90"><i class="fa-solid fa-question"></i></span></div>'
+      + '<div class="card-face card-back bg-white shadow-lg border-2 border-teal-200">'
+      + '<span class="font-bold text-slate-700 text-center leading-tight" style="font-size:clamp(10px,3.2vw,15px)">'+esc(c.text)+'</span></div>'
+      + '</div></div>';
+  }).join('');
+  board.querySelectorAll('.card').forEach(function(el){
+    el.addEventListener('click', function(){ flipCard(el); });
+  });
+
+  document.getElementById('panel-setup').classList.add('hidden');
+  document.getElementById('panel-win').classList.add('hidden');
+  document.getElementById('panel-game').classList.remove('hidden');
+  clearInterval(timerId);
+  timerId = setInterval(function(){
+    seconds++;
+    document.getElementById('stat-time').textContent = fmtTime(seconds);
+  }, 1000);
+  window.scrollTo(0,0);
+}
+
+function fmtTime(s){ return Math.floor(s/60) + ':' + String(s%60).padStart(2,'0'); }
+
+function flipCard(el){
+  if (lockBoard || el.classList.contains('flipped')) return;
+  el.classList.add('flipped');
+  if (!firstCard){ firstCard = el; return; }
+  moves++;
+  document.getElementById('stat-moves').textContent = moves;
+  let a = deck[parseInt(firstCard.dataset.idx,10)], b = deck[parseInt(el.dataset.idx,10)];
+  if (a.id === b.id){
+    // KHỚP!
+    lockBoard = true;
+    setTimeout(function(){
+      firstCard.classList.add('matched','just-matched');
+      el.classList.add('matched','just-matched');
+      found++;
+      document.getElementById('stat-found').textContent = found;
+      firstCard = null; lockBoard = false;
+      if (found === totalPairs) winGame();
+    }, 450);
+  } else {
+    // SAI
+    lockBoard = true;
+    let f1 = firstCard, f2 = el;
+    f1.classList.add('wrong'); f2.classList.add('wrong');
+    setTimeout(function(){
+      f1.classList.remove('flipped','wrong'); f2.classList.remove('flipped','wrong');
+      firstCard = null; lockBoard = false;
+    }, 800);
+  }
+}
+
+function winGame(){
+  clearInterval(timerId);
+  setTimeout(function(){
+    document.getElementById('panel-game').classList.add('hidden');
+    document.getElementById('panel-win').classList.remove('hidden');
+    document.getElementById('win-moves').textContent = moves;
+    document.getElementById('win-time').textContent = fmtTime(seconds);
+    // sao
+    let stars = moves <= totalPairs*1.6 ? 3 : (moves <= totalPairs*2.4 ? 2 : 1);
+    document.getElementById('win-stars').textContent = '⭐'.repeat(stars) + '☆'.repeat(3-stars);
+    // lưu kỷ lục
+    try {
+      let b = JSON.parse(localStorage.getItem('saobay_memory_best') || 'null');
+      if (!b || moves < b.moves){
+        localStorage.setItem('saobay_memory_best', JSON.stringify({moves:moves, seconds:seconds}));
+      }
+    } catch(e){}
+    launchConfetti();
+    window.scrollTo(0,0);
+  }, 600);
+}
+
+document.getElementById('btn-restart').addEventListener('click', startGame);
+document.getElementById('btn-win-again').addEventListener('click', startGame);
+function backToSetup(){
+  clearInterval(timerId);
+  document.getElementById('panel-game').classList.add('hidden');
+  document.getElementById('panel-win').classList.add('hidden');
+  document.getElementById('panel-setup').classList.remove('hidden');
+  try {
+    let b = JSON.parse(localStorage.getItem('saobay_memory_best') || 'null');
+    if (b) document.getElementById('best-record').textContent = b.moves + ' lượt, ' + fmtTime(b.seconds);
+  } catch(e){}
+}
+document.getElementById('btn-newset').addEventListener('click', backToSetup);
+document.getElementById('btn-win-new').addEventListener('click', backToSetup);
+
+function launchConfetti(){
+  let colors = ['#14b8a6','#06b6d4','#3b82f6','#a78bfa','#f472b6'];
+  for (let i=0;i<90;i++){
+    let c = document.createElement('div');
+    c.className='confetti';
+    c.style.left = Math.random()*100+'vw';
+    c.style.background = colors[Math.floor(Math.random()*colors.length)];
+    let sz = 6+Math.random()*8;
+    c.style.width=sz+'px'; c.style.height=sz+'px';
+    if (Math.random()>.5) c.style.borderRadius='50%';
+    c.style.animationDuration = (2+Math.random()*2.5)+'s';
+    document.body.appendChild(c);
+    setTimeout(function(){ c.remove(); }, 5500);
+  }
+}
+</script>
+</body>
+</html>
