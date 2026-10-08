@@ -90,17 +90,21 @@ document.querySelectorAll('.tab-btn').forEach(function(b){
     b.classList.add('active');
     document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.add('hidden'); });
     document.getElementById('tab-' + b.dataset.tab).classList.remove('hidden');
+    var rf = window.__tabRefresh[b.dataset.tab];
+    if (rf) { try { rf(); } catch(e){} }
     if (window.__fitAll) { try { window.__fitAll(); } catch(e){} }
   });
 });
 function fitCanvas(cv){
   var H = parseInt(cv.getAttribute('height')) || 300;
-  cv.style.height = H + 'px'; // Co dinh chieu cao CSS (2026-10-09)
+  cv.style.height = H + 'px';
   var r = cv.getBoundingClientRect(), d = window.devicePixelRatio || 1;
+  if (r.width < 10) return null;
   cv.width = Math.max(1, Math.round(r.width * d)); cv.height = Math.round(H * d);
   var ctx = cv.getContext('2d'); ctx.setTransform(d,0,0,d,0,0);
   return {ctx: ctx, w: r.width, h: H};
 }
+window.__tabRefresh = window.__tabRefresh || {};
 
 // ================= 1. TẾ BÀO TƯƠNG TÁC =================
 (function(){
@@ -191,7 +195,9 @@ function fitCanvas(cv){
 (function(){
   var cv = document.getElementById('cv-micro');
   var G = fitCanvas(cv);
-  window.addEventListener('resize', function(){ G = fitCanvas(cv); });
+  function refreshMicro(){ var ng = fitCanvas(cv); if (ng){ G = ng; draw(); } }
+  window.__tabRefresh['micro'] = refreshMicro;
+  window.addEventListener('resize', function(){ var ng = fitCanvas(cv); if (ng) G = ng; });
   var zoom = 0;
   var labels = ['Mẫu lá cây — 40×', 'Mô lá — 100×', 'Tế bào thực vật — 400×', 'Lục lạp — 1000×'];
   var descs = [
@@ -210,7 +216,8 @@ function fitCanvas(cv){
 
   function rnd(seed){ var x = Math.sin(seed*999)*10000; return x - Math.floor(x); }
   function draw(){
-    var ctx = G.ctx, W = G.w, H = G.h, cx = W/2, cy = H/2, R = Math.min(W,H)/2 - 6;
+    if (!G || G.w < 10) return;
+    var ctx = G.ctx, W = G.w, H = G.h, cx = W/2, cy = H/2, R = Math.max(20, Math.min(W,H)/2 - 6);
     ctx.clearRect(0,0,W,H);
     // Nền đen kính hiển vi
     ctx.fillStyle = '#0f172a';
@@ -279,7 +286,7 @@ function fitCanvas(cv){
     ctx.beginPath(); ctx.arc(cx,cy,R+3,0,7); ctx.stroke();
     requestAnimationFrame(draw);
   }
-  draw();
+  if (G) draw();
 })();
 
 // ================= 3. CHUỖI THỨC ĂN =================
