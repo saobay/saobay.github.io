@@ -40,6 +40,17 @@
             }
         }
 
+        // Chon nguon de khi day: "fixed" = giu nguyen noi dung dan vao;
+        // "bank" = noi dung dan vao van luu bank, file day len la file cau noi
+        function syncExamSource() {
+            let sel = document.getElementById('exam-source');
+            let cfg = document.getElementById('bank-source-config');
+            if (!sel || !cfg) return;
+            let isBank = sel.value === 'bank';
+            cfg.classList.toggle('hidden', !isBank);
+            cfg.classList.toggle('flex', isBank);
+        }
+
         function refreshPushSubmitBtn() {
             let btn = document.getElementById('submit-btn');
             if (!btn) return;
