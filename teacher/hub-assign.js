@@ -42,6 +42,45 @@
             return obj;
         }
 
+        // ---- Tài khoản có thời hạn: file riêng used/account_expiry.json (2026-10-09) ----
+        const EXPIRY_PATH = 'used/account_expiry.json';
+        async function assignFetchExpiry(){
+            try {
+                let url = 'https://raw.githubusercontent.com/' + GITHUB_CONFIG.owner + '/' + GITHUB_CONFIG.repo
+                    + '/' + GITHUB_CONFIG.branch + '/' + EXPIRY_PATH + '?t=' + Date.now();
+                let res = await fetch(url);
+                if (!res.ok) return {};
+                return await res.json();
+            } catch(e){ return {}; }
+        }
+        async function assignPushExpiry(obj, message){
+            let content = JSON.stringify(obj);
+            let token = getGithubToken();
+            if (token){
+                let apiUrl = 'https://api.github.com/repos/' + GITHUB_CONFIG.owner + '/' + GITHUB_CONFIG.repo
+                    + '/contents/' + getEncodedGitHubPath(EXPIRY_PATH);
+                let sha;
+                try {
+                    let chk = await fetch(apiUrl + '?ref=' + GITHUB_CONFIG.branch,
+                        { headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github+json' } });
+                    if (chk.ok){ let jd = await chk.json(); sha = jd.sha; }
+                } catch(e){}
+                let body = { message: message, content: utf8ToBase64(content), branch: GITHUB_CONFIG.branch };
+                if (sha) body.sha = sha;
+                let res = await fetch(apiUrl, { method: 'PUT',
+                    headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body) });
+                if (!res.ok){ let t = await res.text(); throw new Error('GitHub API ' + res.status + ': ' + t.slice(0,150)); }
+                return;
+            }
+            let res2 = await fetch(API_URL, { method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify({ type: 'PUSH_TO_GITHUB', filePath: EXPIRY_PATH, content: content,
+                    commitMessage: message, title: 'Thời hạn tài khoản', author: (typeof currentUser !== 'undefined' ? currentUser.name : 'admin') })
+            });
+            if (!res2.ok) throw new Error('Proxy push expiry HTTP ' + res2.status);
+        }
+
         async function assignPushUsed(obj, message){
             let content = JSON.stringify(obj);
             let token = getGithubToken();
