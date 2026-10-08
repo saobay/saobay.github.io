@@ -285,6 +285,19 @@
                     <p id="direct-ai-hint" class="text-[11px] text-indigo-900 bg-white/70 rounded-lg px-3 py-2 border border-indigo-100">
                         <i class="fa-solid fa-paste mr-1 text-indigo-600"></i>Dán mã HTML đề thi (từ AI/NotebookLM) vào <b>khung soạn thảo</b> bên dưới, nhập tiêu đề, rồi bấm <b>Đẩy bài</b>. Đề được giữ <b>cố định</b> + gắn cờ tính giờ theo cài đặt.
                     </p>
+                    <div class="bg-white/70 rounded-lg border border-indigo-100 overflow-hidden">
+                        <button type="button" onclick="document.getElementById('merge-sets-box').classList.toggle('hidden')" class="w-full px-3 py-2 text-left text-[11px] font-bold text-indigo-900 hover:bg-indigo-50 flex items-center">
+                            <i class="fa-solid fa-layer-group mr-1.5 text-indigo-600"></i>Gộp nhiều bộ đề rời rạc (AI trả từng đề 1) <i class="fa-solid fa-chevron-down ml-auto text-[10px]"></i>
+                        </button>
+                        <div id="merge-sets-box" class="hidden px-3 pb-3 space-y-2 border-t border-indigo-100 pt-2">
+                            <p class="text-[10px] text-slate-500">Dán <b>tất cả</b> các khối AI trả về vào đây (dán nối tiếp nhau, mỗi lần 1 đề cũng được), rồi bấm Gộp:</p>
+                            <textarea id="merge-sets-input" rows="4" placeholder='Dán các khối <div class="saobay-exam10">... vào đây...' class="w-full text-[11px] border rounded-lg px-2 py-1.5 font-mono"></textarea>
+                            <div class="flex items-center gap-2">
+                                <button type="button" onclick="mergeExamSets()" class="bg-indigo-700 hover:bg-indigo-800 text-white text-xs font-bold px-4 py-1.5 rounded-lg"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i>Gộp thành 10 bộ đề</button>
+                                <span id="merge-sets-status" class="text-[11px] font-bold text-slate-500"></span>
+                            </div>
+                        </div>
+                    </div>
                     <div id="direct-word-box" class="hidden space-y-2">
                         <div class="flex flex-wrap items-center gap-2 bg-white/70 rounded-lg px-3 py-2 border border-indigo-100">
                             <label class="text-[11px] font-bold text-indigo-900 whitespace-nowrap"><i class="fa-solid fa-file-word text-blue-600 mr-1"></i>Chọn file Word (.docx):</label>
