@@ -299,6 +299,15 @@
             currentSelectedFolderId = path;
             currentSelectedFolderName = name;
 
+            // Dong bo sang trang Quan ly: tu hien bai trong thu muc vua chon
+            try {
+                if (typeof manageFolderFilter !== 'undefined') manageFolderFilter = path;
+                let mv = document.getElementById('module-manage-view');
+                if (mv && !mv.classList.contains('hidden') && typeof renderLessonManagementList === 'function') {
+                    renderLessonManagementList();
+                }
+            } catch(eSync){}
+
             let displayPath = path || 'data';
             document.getElementById('selected-folder-name').innerText = `${name} (${displayPath})`;
             document.getElementById('main-working-folder-display').innerHTML = `
