@@ -23,6 +23,19 @@
             else if (modId === 'stats') renderStatsOverview();
         }
 
+        let manageTypeFilter = 'all'; // 'all' | 'theory' | 'exam'
+        function setManageTypeFilter(t){
+            manageTypeFilter = t;
+            ['all','theory','exam'].forEach(function(k){
+                let b = document.getElementById('mfilter-' + k);
+                if (b) b.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition ' + (k === t ? 'bg-blue-700 text-white shadow' : 'bg-slate-100 text-slate-600 hover:bg-slate-200');
+            });
+            renderLessonManagementList();
+        }
+        function fileKindOf(fileName){
+            if (/_?Bai.?tap|_?Kiem.?tra|_?De.?thi|exam|test/i.test(fileName)) return 'exam';
+            return 'theory';
+        }
         async function renderLessonManagementList() {
             let container = document.getElementById('manage-lessons-table-container');
             if (!container) return;
@@ -31,7 +44,14 @@
             let curFolder = currentSelectedFolderId || 'data';
             try {
                 let gitApiUrl = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/git/trees/${GITHUB_CONFIG.branch}?recursive=1`;
-                let res = await fetch(gitApiUrl, { headers: { "Accept": "application/vnd.github+json" } });
+                let headers = { "Accept": "application/vnd.github+json" };
+                let tk = (typeof getGithubToken === 'function') ? getGithubToken() : null;
+                if (tk) headers["Authorization"] = "Bearer " + tk;
+                let res = await fetch(gitApiUrl, { headers: headers });
+                if (res.status === 403 || res.status === 429){
+                    container.innerHTML = `<div class="text-xs text-amber-700 py-4 text-center bg-amber-50 border border-amber-200 rounded-xl">GitHub đang giới hạn lượt xem (rate limit). Hãy đăng nhập GitHub / đợi vài phút rồi bấm <b>Làm mới danh sách</b>.</div>`;
+                    return;
+                }
                 let files = [];
                 if (res.ok) {
                     let data = await res.json();
@@ -63,12 +83,29 @@
                     return;
                 }
 
-                let html = '<div class="space-y-2">';
-                files.forEach(f => {
+                // Loc theo loai: ly thuyet / de thi
+                let shown = files.filter(function(f){
+                    if (manageTypeFilter === 'all') return true;
+                    let fn = f.path.substring(f.path.lastIndexOf('/') + 1);
+                    return fileKindOf(fn) === manageTypeFilter;
+                });
+                let nTheory = files.filter(function(f){ return fileKindOf(f.path.substring(f.path.lastIndexOf('/') + 1)) === 'theory'; }).length;
+                let nExam = files.length - nTheory;
+                let html = '<div class="flex flex-wrap items-center gap-2 mb-2">'
+                    + '<span class="text-[11px] font-bold text-slate-500">Lọc:</span>'
+                    + '<button id="mfilter-all" onclick="setManageTypeFilter(\'all\')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition ' + (manageTypeFilter === 'all' ? 'bg-blue-700 text-white shadow' : 'bg-slate-100 text-slate-600 hover:bg-slate-200') + '">Tất cả (' + files.length + ')</button>'
+                    + '<button id="mfilter-theory" onclick="setManageTypeFilter(\'theory\')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition ' + (manageTypeFilter === 'theory' ? 'bg-blue-700 text-white shadow' : 'bg-slate-100 text-slate-600 hover:bg-slate-200') + '">📘 Lý thuyết (' + nTheory + ')</button>'
+                    + '<button id="mfilter-exam" onclick="setManageTypeFilter(\'exam\')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition ' + (manageTypeFilter === 'exam' ? 'bg-blue-700 text-white shadow' : 'bg-slate-100 text-slate-600 hover:bg-slate-200') + '">📝 Đề thi/Bài tập (' + nExam + ')</button>'
+                    + '</div>';
+                if (!shown.length){
+                    html += '<div class="text-center py-8 text-slate-400 text-xs bg-slate-50 border border-slate-200 rounded-xl">Không có bài nào thuộc loại này trong thư mục hiện tại.</div>';
+                }
+                html += '<div class="space-y-2">';
+                shown.forEach(f => {
                     let lastSlash = f.path.lastIndexOf('/');
                     let fileName = lastSlash === -1 ? f.path : f.path.substring(lastSlash + 1);
                     let title = fileName.replace(/\.html$/i, '');
-                    let isExam = /_Bài\s*tập|_Kiểm\s*tra|test/i.test(fileName);
+                    let isExam = fileKindOf(fileName) === 'exam';
 
                     html += `
                         <div class="bg-white border border-slate-200 hover:border-blue-400 p-3 rounded-xl flex items-center justify-between shadow-sm transition">
