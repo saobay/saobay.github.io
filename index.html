@@ -1246,6 +1246,21 @@
                     summaryEl.innerHTML = '';
                     let set = sets[idx] || { questions: [] };
                     let qs = set.questions || [];
+                    // De chung ca lop (khoa tu bank): ca lop cung 1 bo cau, nhung TRON thu tu
+                    // cau TRONG tung dang (TN tron voi TN, D/S tron voi D/S...), giu nguyen cau truc de
+                    if (set.shuffle_within_type){
+                        let tOrder = ['mcq', 'truefalse', 'short'];
+                        let groups = {};
+                        qs.forEach(function(qq){ let t = qq.type || 'mcq'; (groups[t] = groups[t] || []).push(qq); });
+                        Object.keys(groups).forEach(function(t){
+                            let g = groups[t];
+                            for (let i = g.length - 1; i > 0; i--){ let j = Math.floor(Math.random() * (i + 1)); let tmp = g[i]; g[i] = g[j]; g[j] = tmp; }
+                        });
+                        let reordered = [];
+                        tOrder.forEach(function(t){ if (groups[t]) reordered = reordered.concat(groups[t]); });
+                        Object.keys(groups).forEach(function(t){ if (tOrder.indexOf(t) < 0) reordered = reordered.concat(groups[t]); });
+                        set.questions = reordered; qs = reordered;
+                    }
                     totalQ = qs.length;
                     maxScore = qs.reduce(function(s, qq){ return s + qWeight(qq); }, 0);
                     labelEl.textContent = set.name || ('\u0110\u1ec1 ' + (idx + 1));
