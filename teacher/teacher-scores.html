@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bảng Điểm - SAOBAY</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+body{font-family:system-ui,-apple-system,sans-serif}
+.exam-item.active{background:#eef2ff;border-color:#6366f1}
+</style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+<div class="max-w-6xl mx-auto px-3 py-4">
+    <div class="flex flex-wrap items-center gap-2 mb-4">
+        <h1 class="text-xl font-black text-slate-900"><i class="fa-solid fa-chart-column text-emerald-600 mr-2"></i>Bảng Điểm Học Sinh</h1>
+        <span id="user-badge" class="text-xs text-slate-500"></span>
+        <a href="teacher-hub.html" class="ml-auto text-xs font-bold text-indigo-700 hover:underline"><i class="fa-solid fa-arrow-left mr-1"></i>Teacher Hub</a>
+    </div>
+
+    <div id="login-warn" class="hidden bg-amber-50 border border-amber-200 rounded-xl p-4 text-sm text-amber-900 mb-4">
+        Bạn chưa đăng nhập. <a href="../used/used.html" class="font-bold underline">Đăng nhập tại đây</a> để xem bảng điểm theo phân công của mình.
+    </div>
+
+    <div id="assign-info" class="bg-white border border-slate-200 rounded-xl p-3 mb-4 text-xs text-slate-600"></div>
+
+    <div class="grid md:grid-cols-3 gap-4">
+        <div class="md:col-span-1">
+            <h2 class="text-sm font-black text-slate-700 mb-2">Danh sách đề thi có bài nộp</h2>
+            <div id="exam-list" class="space-y-2 max-h-[70vh] overflow-y-auto pr-1">
+                <p class="text-xs text-slate-400 italic">Đang tải...</p>
+            </div>
+        </div>
+        <div class="md:col-span-2">
+            <div class="flex flex-wrap items-center gap-2 mb-2">
+                <h2 id="result-title" class="text-sm font-black text-slate-700">Chọn một đề thi để xem bảng điểm</h2>
+                <select id="class-filter" class="hidden ml-auto text-xs border rounded-lg px-2 py-1.5 font-semibold">
+                    <option value="">Tất cả các lớp</option>
+                </select>
+                <button id="csv-btn" onclick="exportCsv()" class="hidden text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg">
+                    <i class="fa-solid fa-file-csv mr-1"></i>Xuất CSV
+                </button>
+            </div>
+            <div id="result-body" class="bg-white border border-slate-200 rounded-xl overflow-hidden">
+                <p class="text-xs text-slate-400 italic p-4">Chưa chọn đề thi.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+(function(){
+    'use strict';
+    const OWNER = 'saobay', REPO = 'saobay.github.io', BRANCH = 'main';
+    const SCORES_DIR = 'data/scores';
+    let sessionUser = null, mySubjects = [], exams = [], curResults = [], curExamId = '';
+
+    function norm(s){
+        return String(s == null ? '' : s).toLowerCase().normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').trim();
+    }
+    function esc(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+    function token(){ try { return localStorage.getItem('saobay_github_token') || ''; } catch(e){ return ''; } }
+    function encPath(p){ return p.split('/').map(function(x){ return encodeURIComponent(x); }).join('/'); }
+
+    async function apiListDir(path){
+        let url = 'https://api.github.com/repos/' + OWNER + '/' + REPO + '/contents/' + encPath(path) + '?ref=' + BRANCH;
+        let headers = { 'Accept': 'application/vnd.github+json' };
+        let tk = token(); if (tk) headers['Authorization'] = 'Bearer ' + tk;
+        let res = await fetch(url, { headers: headers });
+        if (res.status === 404) return [];
+        if (!res.ok) throw new Error('GitHub API ' + res.status);
+        return res.json();
+    }
+    async function rawJson(path){
+        let url = 'https://raw.githubusercontent.com/' + OWNER + '/' + REPO + '/' + BRANCH + '/' + encPath(path) + '?t=' + Date.now();
+        let res = await fetch(url);
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res.json();
+    }
+    function fmtTime(iso){
+        try { return new Date(iso).toLocaleString('vi-VN', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit', year: 'numeric' }); }
+        catch(e){ return iso || ''; }
+    }
+    function seenKey(id){ return 'saobay_seen_' + id; }
+    function getSeen(id){ try { return localStorage.getItem(seenKey(id)) || ''; } catch(e){ return ''; } }
+    function setSeen(id, ts){ try { localStorage.setItem(seenKey(id), ts); } catch(e){} }
+    // timestamp trong tên file: 20261008153000_Ten.json
+    function tsFromName(name){
+        let m = String(name).match(/^(\d{14})_/);
+        return m ? m[1] : '';
+    }
+
+    async function init(){
+        try { sessionUser = JSON.parse(localStorage.getItem('saobay_user') || 'null'); } catch(e){}
+        if (!sessionUser){
+            document.getElementById('login-warn').classList.remove('hidden');
+        } else {
+            document.getElementById('user-badge').textContent = '• ' + (sessionUser.name || '') + ' (' + (sessionUser.role || '') + ')';
+        }
+        // 1. nạp phân công
+        let assigns = [];
+        try {
+            let used = await rawJson('used/used.is');
+            assigns = Array.isArray(used.assignments) ? used.assignments : [];
+        } catch(e){
+            document.getElementById('assign-info').innerHTML = '<span class="text-rose-600">Không tải được phân công chuyên môn.</span>';
+        }
+        if (sessionUser && sessionUser.role !== 'admin'){
+            let uname = norm(sessionUser.name), uid = String(sessionUser.id || '');
+            assigns = assigns.filter(function(a){
+                let t = String(a.teachers || '');
+                return (uname && norm(t.replace(/\(.*?\)/g, '')).indexOf(uname) >= 0) || (uid && t.indexOf(uid) >= 0);
+            });
+        }
+        mySubjects = assigns;
+        let info = document.getElementById('assign-info');
+        if (!assigns.length){
+            info.innerHTML = sessionUser && sessionUser.role !== 'admin'
+                ? '<i class="fa-solid fa-circle-info mr-1"></i>Bạn chưa được phân công môn nào (liên hệ admin).'
+                : '<i class="fa-solid fa-circle-info mr-1"></i>Chế độ admin: xem tất cả các đề thi.';
+        } else {
+            let uniq = {};
+            assigns.forEach(function(a){ uniq[a.subject + ' (lớp ' + a.class + ')'] = 1; });
+            info.innerHTML = '<i class="fa-solid fa-clipboard-check text-indigo-600 mr-1"></i><b>Phân công của bạn:</b> '
+                + esc(Object.keys(uniq).join(' • '));
+        }
+        // 2. liệt kê đề thi có bài nộp
+        await loadExams();
+    }
+
+    function examSubjectGrade(examId){
+        let m = String(examId).match(/^([A-Z]+)_(\d{1,2})/);
+        return m ? { subject: norm(m[1]), grade: parseInt(m[2], 10) } : { subject: '', grade: 0 };
+    }
+    function myExamFilter(examId){
+        if (!sessionUser || sessionUser.role === 'admin') return true;
+        if (!mySubjects.length) return false;
+        let sg = examSubjectGrade(examId);
+        return mySubjects.some(function(a){
+            let sOk = norm(a.subject) === sg.subject;
+            let gOk = !sg.grade || String(a.class || '').indexOf(String(sg.grade)) === 0;
+            return sOk && gOk;
+        });
+    }
+
+    async function loadExams(){
+        let listEl = document.getElementById('exam-list');
+        try {
+            let dirs = await apiListDir(SCORES_DIR);
+            dirs = dirs.filter(function(d){ return d.type === 'dir'; });
+            exams = [];
+            for (let d of dirs){
+                if (!myExamFilter(d.name)) continue;
+                let files = [];
+                try { files = (await apiListDir(SCORES_DIR + '/' + d.name)).filter(function(f){ return f.type === 'file' && /\.json$/i.test(f.name); }); }
+                catch(e){}
+                files.sort(function(a, b){ return a.name < b.name ? 1 : -1; });
+                let latestTs = files.length ? tsFromName(files[0].name) : '';
+                let seen = getSeen(d.name);
+                exams.push({ id: d.name, count: files.length, latestTs: latestTs, isNew: !!(latestTs && latestTs > seen), files: files });
+            }
+            exams.sort(function(a, b){ return (b.latestTs || '') < (a.latestTs || '') ? -1 : 1; });
+            if (!exams.length){
+                listEl.innerHTML = '<p class="text-xs text-slate-400 italic">Chưa có bài nộp nào cho phân công của bạn.</p>';
+                return;
+            }
+            listEl.innerHTML = exams.map(function(x){
+                return '<button onclick="selectExam(\'' + x.id.replace(/'/g, "\\'") + '\')" data-exam="' + esc(x.id) + '"'
+                    + ' class="exam-item w-full text-left bg-white border border-slate-200 rounded-xl px-3 py-2.5 hover:border-indigo-300 transition">'
+                    + '<p class="text-xs font-bold text-slate-800 leading-snug">' + esc(x.id.replace(/_/g, ' ')) + '</p>'
+                    + '<p class="text-[11px] text-slate-500 mt-0.5">' + x.count + ' bài nộp'
+                    + (x.isNew ? ' <span class="ml-1 bg-rose-600 text-white font-bold px-1.5 py-0.5 rounded-full text-[10px]">MỚI</span>' : '')
+                    + '</p></button>';
+            }).join('');
+        } catch(e){
+            listEl.innerHTML = '<p class="text-xs text-rose-600">Lỗi tải danh sách: ' + esc(e.message || e) + '</p>';
+        }
+    }
+
+    window.selectExam = async function(examId){
+        curExamId = examId;
+        document.querySelectorAll('.exam-item').forEach(function(el){
+            el.classList.toggle('active', el.getAttribute('data-exam') === examId);
+        });
+        let body = document.getElementById('result-body');
+        let title = document.getElementById('result-title');
+        title.textContent = 'Đang tải bảng điểm...';
+        body.innerHTML = '<p class="text-xs text-slate-400 italic p-4"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Đang tải...</p>';
+        try {
+            let exam = exams.find(function(x){ return x.id === examId; });
+            let files = exam ? exam.files : [];
+            let results = await Promise.all(files.map(function(f){
+                return rawJson(SCORES_DIR + '/' + examId + '/' + f.name).catch(function(){ return null; });
+            }));
+            curResults = results.filter(Boolean).sort(function(a, b){
+                return String(b.submitted_at || '') < String(a.submitted_at || '') ? -1 : 1;
+            });
+            if (exam && exam.latestTs) setSeen(examId, exam.latestTs);
+            renderTable();
+            loadExams(); // refresh badge MỚI
+        } catch(e){
+            body.innerHTML = '<p class="text-xs text-rose-600 p-4">Lỗi: ' + esc(e.message || e) + '</p>';
+        }
+    };
+
+    function renderTable(){
+        let body = document.getElementById('result-body');
+        let title = document.getElementById('result-title');
+        let cf = document.getElementById('class-filter');
+        let csvBtn = document.getElementById('csv-btn');
+        title.textContent = curExamId.replace(/_/g, ' ') + ' (' + curResults.length + ' bài)';
+        if (!curResults.length){
+            body.innerHTML = '<p class="text-xs text-slate-400 italic p-4">Chưa có bài nộp.</p>';
+            cf.classList.add('hidden'); csvBtn.classList.add('hidden');
+            return;
+        }
+        let classes = {};
+        curResults.forEach(function(r){ if (r.student_class) classes[r.student_class] = 1; });
+        let cls = Object.keys(classes).sort();
+        cf.innerHTML = '<option value="">Tất cả các lớp (' + cls.length + ')</option>'
+            + cls.map(function(c){ return '<option value="' + esc(c) + '">' + esc(c) + '</option>'; }).join('');
+        cf.classList.remove('hidden'); csvBtn.classList.remove('hidden');
+        cf.onchange = renderTable;
+        let f = cf.value;
+        let rows = curResults.filter(function(r){ return !f || r.student_class === f; });
+        let h = '<div class="overflow-x-auto"><table class="w-full text-xs"><thead><tr class="bg-slate-100 text-slate-600">'
+            + '<th class="px-2 py-2 text-left">STT</th><th class="px-2 py-2 text-left">Họ tên</th><th class="px-2 py-2 text-left">Lớp</th>'
+            + '<th class="px-2 py-2 text-right">Điểm</th><th class="px-2 py-2 text-right">Đúng</th><th class="px-2 py-2 text-left">Nộp lúc</th>'
+            + '</tr></thead><tbody>';
+        rows.forEach(function(r, i){
+            let pct = (r.max_score > 0) ? Math.round(r.score / r.max_score * 100) : 0;
+            let color = pct >= 80 ? 'text-emerald-700' : (pct >= 50 ? 'text-amber-700' : 'text-rose-700');
+            h += '<tr class="border-t hover:bg-slate-50">'
+                + '<td class="px-2 py-2 text-slate-400">' + (i+1) + '</td>'
+                + '<td class="px-2 py-2 font-semibold">' + esc(r.student_name) + '</td>'
+                + '<td class="px-2 py-2">' + esc(r.student_class) + '</td>'
+                + '<td class="px-2 py-2 text-right font-black ' + color + '">' + esc(r.score) + '/' + esc(r.max_score) + '</td>'
+                + '<td class="px-2 py-2 text-right text-slate-500">' + esc(r.correct) + '/' + esc(r.total) + '</td>'
+                + '<td class="px-2 py-2 text-slate-500 whitespace-nowrap">' + esc(fmtTime(r.submitted_at)) + '</td>'
+                + '</tr>';
+        });
+        body.innerHTML = h + '</tbody></table></div>';
+    }
+
+    window.exportCsv = function(){
+        if (!curResults.length) return;
+        let rows = [['STT','Ho ten','Lop','Diem','Diem toi da','Cau dung','Tong cau','Nop luc','De thi']];
+        curResults.forEach(function(r, i){
+            rows.push([i+1, r.student_name, r.student_class, r.score, r.max_score, r.correct, r.total, r.submitted_at, r.exam_title]);
+        });
+        let csv = '﻿' + rows.map(function(row){
+            return row.map(function(c){ return '"' + String(c == null ? '' : c).replace(/"/g, '""') + '"'; }).join(',');
+        }).join('\n');
+        let blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+        let a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'bang-diem-' + curExamId + '.csv';
+        document.body.appendChild(a); a.click();
+        setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 500);
+    };
+
+    init();
+})();
+</script>
+</body>
+</html>
