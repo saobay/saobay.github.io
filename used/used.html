@@ -498,6 +498,14 @@
             } catch(eCache) {}
 
             cachedTeachers = extractTeacherList(masterDatabase.assignments);
+            // Gop giao vien tao tu hub (teachers_registry) - 2026-10-08
+            try {
+                let tReg = masterDatabase.teachers_registry || {};
+                Object.keys(tReg).forEach(function(tid){
+                    let exists = cachedTeachers.some(function(t){ return String(t.id) === String(tid); });
+                    if (!exists) cachedTeachers.push({ id: String(tid), name: (tReg[tid] && tReg[tid].name) || String(tid), subjects: '', classes: '' });
+                });
+            } catch(eReg){}
             cachedStudents = extractStudentList(masterDatabase.students);
         }
 
