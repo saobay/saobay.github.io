@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đăng ký tài khoản - SAOBAY</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body class="bg-slate-50 min-h-screen flex items-center justify-center px-3 py-8">
+<div class="bg-white rounded-2xl shadow-xl border border-slate-200 w-full max-w-md p-6">
+    <div class="text-center mb-5">
+        <div class="w-14 h-14 mx-auto rounded-2xl bg-indigo-700 text-white flex items-center justify-center text-2xl mb-2">
+            <i class="fa-solid fa-user-plus"></i>
+        </div>
+        <h1 class="text-xl font-black text-slate-900">Đăng ký tài khoản SAOBAY</h1>
+        <p class="text-xs text-slate-500 mt-1">Thông tin của bạn sẽ được gửi đến <b>admin</b> để xét duyệt.<br>Mã đăng nhập chính là <b>số điện thoại/Zalo</b>.</p>
+    </div>
+    <div class="space-y-3 text-sm">
+        <div>
+            <label class="text-xs font-bold text-slate-600">Họ và tên *</label>
+            <input id="rg-name" class="mt-1 w-full border rounded-lg px-3 py-2.5" placeholder="VD: Nguyễn Văn A">
+        </div>
+        <div>
+            <label class="text-xs font-bold text-slate-600">Số điện thoại / Zalo (làm mã đăng nhập) *</label>
+            <input id="rg-phone" inputmode="numeric" class="mt-1 w-full border rounded-lg px-3 py-2.5" placeholder="VD: 0912345678">
+        </div>
+        <div>
+            <label class="text-xs font-bold text-slate-600">Bạn là *</label>
+            <select id="rg-role" onchange="document.getElementById('rg-class-row').classList.toggle('hidden', this.value !== 'student')" class="mt-1 w-full border rounded-lg px-3 py-2.5 font-semibold">
+                <option value="teacher">Giáo viên</option>
+                <option value="student">Học sinh</option>
+            </select>
+        </div>
+        <div id="rg-class-row" class="hidden">
+            <label class="text-xs font-bold text-slate-600">Lớp *</label>
+            <input id="rg-class" class="mt-1 w-full border rounded-lg px-3 py-2.5 uppercase" placeholder="VD: 10A1">
+        </div>
+        <div>
+            <label class="text-xs font-bold text-slate-600">Ghi chú thêm</label>
+            <textarea id="rg-note" rows="2" class="mt-1 w-full border rounded-lg px-3 py-2.5" placeholder="VD: Dạy Toán khối 10, dạy thêm buổi tối..."></textarea>
+        </div>
+        <button id="rg-btn" onclick="submitRegistration()" class="w-full bg-indigo-700 hover:bg-indigo-800 text-white font-bold py-3 rounded-xl">
+            <i class="fa-solid fa-paper-plane mr-1"></i>Gửi đăng ký
+        </button>
+        <p id="rg-msg" class="text-xs text-center"></p>
+        <p class="text-xs text-center text-slate-400"><a href="used.html" class="text-indigo-700 font-bold hover:underline">Đã có tài khoản? Đăng nhập</a></p>
+    </div>
+</div>
+<script>
+const API_URL = 'https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec';
+const RAW_URL = 'https://raw.githubusercontent.com/saobay/saobay.github.io/main/used/used.is';
+
+async function submitRegistration(){
+    let msg = document.getElementById('rg-msg');
+    let btn = document.getElementById('rg-btn');
+    let name = document.getElementById('rg-name').value.trim();
+    let phone = document.getElementById('rg-phone').value.replace(/\D/g, '');
+    let role = document.getElementById('rg-role').value;
+    let cls = document.getElementById('rg-class').value.trim().toUpperCase();
+    let note = document.getElementById('rg-note').value.trim();
+    msg.className = 'text-xs text-center';
+    if (!name){ msg.textContent = 'Vui lòng nhập họ tên.'; msg.classList.add('text-rose-600'); return; }
+    if (phone.length < 9 || phone.length > 12){ msg.textContent = 'Số điện thoại chưa đúng (9-12 số).'; msg.classList.add('text-rose-600'); return; }
+    if (role === 'student' && !cls){ msg.textContent = 'Học sinh vui lòng nhập lớp.'; msg.classList.add('text-rose-600'); return; }
+    btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i>Đang gửi...';
+    try {
+        let res = await fetch(RAW_URL + '?t=' + Date.now());
+        if (!res.ok) throw new Error('Không tải được dữ liệu (mạng).');
+        let db = await res.json();
+        if (!Array.isArray(db.registrations)) db.registrations = [];
+        if ((db.passwords && db.passwords[phone]) || db.registrations.some(function(r){ return r.id === phone && r.status === 'pending'; }))
+            throw new Error('Số điện thoại này đã đăng ký / đã có tài khoản.');
+        db.registrations.push({
+            id: phone, name: name, role_requested: role, className: cls, note: note,
+            status: 'pending', created_at: new Date().toISOString()
+        });
+        let push = await fetch(API_URL, { method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({ type: 'PUSH_TO_GITHUB', filePath: 'used/used.is',
+                content: JSON.stringify(db), commitMessage: 'Đăng ký tài khoản mới: ' + name + ' (' + phone + ')',
+                title: 'Đăng ký tài khoản', author: name })
+        });
+        let rj = await push.json();
+        if (!rj || rj.status !== 'success') throw new Error((rj && rj.message) || 'Gửi thất bại.');
+        msg.textContent = 'Đã gửi đăng ký thành công! Admin sẽ xét duyệt và báo lại cho bạn.';
+        msg.classList.add('text-emerald-700', 'font-bold');
+        btn.innerHTML = 'Đã gửi ✓';
+    } catch(e){
+        msg.textContent = 'Lỗi: ' + (e.message || e);
+        msg.classList.add('text-rose-600');
+        btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-paper-plane mr-1"></i>Gửi đăng ký';
+    }
+}
+</script>
+</body>
+</html>
