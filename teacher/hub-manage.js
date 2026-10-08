@@ -33,11 +33,9 @@
             } catch(eR){ console.error('[hub] render module loi:', eR); }
         }
 
-        let manageFolderFilter = ''; // '' = tat ca thu muc
-        function setManageFolderFilter(v){
-            manageFolderFilter = v || '';
-            renderLessonManagementList();
-        }
+        function getManageFolder(){ try { return (typeof currentSelectedFolderId !== 'undefined' && currentSelectedFolderId) ? currentSelectedFolderId : ''; } catch(e){ return ''; } }
+        function manageFolderLabel(){ var p = getManageFolder(); if(!p) return 'Tất cả thư mục'; var s = p.split('/'); return s[s.length-1] || p; }
+        function setManageFolderFilter(v){ renderLessonManagementList(); }
         let manageTypeFilter = 'all'; // 'all' | 'theory' | 'exam'
         function setManageTypeFilter(t){
             manageTypeFilter = t;
@@ -127,7 +125,7 @@
                 let tag = 'gv' + uname.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9]/g, '');
                 tag = tag.slice(0, 18) || 'gvGV';
                 let list = (typeof lessonRegistry !== 'undefined' && lessonRegistry.files) ? lessonRegistry.files : [];
-                let curFolder = (typeof manageFolderFilter !== 'undefined' && manageFolderFilter) ? manageFolderFilter : '';
+                let curFolder = getManageFolder();
                 let targets = list.filter(function(f){
                     let lastSlash = f.path.lastIndexOf('/');
                     let fn = lastSlash === -1 ? f.path : f.path.substring(lastSlash + 1);
@@ -148,12 +146,122 @@
                 renderLessonManagementList();
             } catch(e){ alert('Lỗi: ' + (e.message || e)); }
         }
+        
+        // ===== THONG KE CAU HOI THEO THU MUC (them 2026-10-08) =====
+        var __mqStatsCache = null;
+        async function toggleManageQuestionStats(){
+            var wrap = document.getElementById('manage-qstats-wrap');
+            if(!wrap) return;
+            if(wrap.innerHTML.trim()){ wrap.innerHTML=''; return; }
+            wrap.innerHTML = '<span class="text-xs text-slate-500 italic ml-1">Đang tính...</span>';
+            try { await renderManageQuestionStats(wrap); }
+            catch(e){ wrap.innerHTML = '<span class="text-xs text-red-600 ml-1">Lỗi: ' + String(e && e.message || e).replace(/</g,'&lt;') + '</span>'; }
+        }
+        function qTypeOf(q){
+            var ty = (q.type || q.qtype || q.kind || '').toString().toLowerCase();
+            if(ty.indexOf('true') === 0 || ty === 'ds' || ty.indexOf('dung') === 0) return 'tf';
+            if(ty.indexOf('short') === 0 || ty === 'tln' || ty.indexOf('tra loi ngan') === 0) return 'short';
+            if(ty.indexOf('essay') === 0 || ty === 'tuluan' || ty.indexOf('tu luan') === 0) return 'essay';
+            return 'mcq';
+        }
+        function qLevelOf(q){
+            var lv = (q.level || q.difficulty || q.mucdo || '').toString().toUpperCase();
+            if(lv.indexOf('NB') === 0 || lv === '1' || lv.indexOf('NHAN BIET') === 0) return 'NB';
+            if(lv.indexOf('TH') === 0 || lv === '2' || lv.indexOf('THONG HIEU') === 0) return 'TH';
+            if(lv.indexOf('VDC') === 0 || lv === '4') return 'VDC';
+            if(lv.indexOf('VD') === 0 || lv === '3' || lv.indexOf('VAN DUNG') === 0) return 'VD';
+            return '?';
+        }
+        async function renderManageQuestionStats(wrap){
+            if(__mqStatsCache && (Date.now() - __mqStatsCache.t < 60000)){ drawManageQuestionStats(wrap, __mqStatsCache.data); return; }
+            var folder = getManageFolder();
+            var registry = (window.__hubRegistry && window.__hubRegistry.files) ? window.__hubRegistry.files : [];
+            var examFiles = registry.filter(function(f){
+                var fn = f.path.substring(f.path.lastIndexOf('/') + 1);
+                if(fileKindOf(fn) !== 'exam') return false;
+                if(folder && !(f.path === folder || f.path.indexOf(folder + '/') === 0)) return false;
+                return true;
+            });
+            var perFile = [], tot = {sets:0, mcq:0, tf:0, short:0, essay:0, NB:0, TH:0, VD:0, VDC:0};
+            for(var fi = 0; fi < examFiles.length; fi++){
+                var f = examFiles[fi];
+                var info = {path:f.path, name:f.path.substring(f.path.lastIndexOf('/')+1), sets:0, mcq:0, tf:0, short:0, essay:0, NB:0, TH:0, VD:0, VDC:0, dynamic:false, err:''};
+                try {
+                    var txt = await (await fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/' + f.path, {cache:'no-store'})).text();
+                    var m = txt.match(/const\s+EXAM_SETS\s*=\s*(\[[\s\S]*?\])\s*;/);
+                    var sets = [];
+                    if(m){ try { sets = JSON.parse(m[1]); } catch(e0){} }
+                    else {
+                        var m2 = txt.match(/const\s+EXAM_DATA\s*=\s*(\{[\s\S]*?\})\s*;/);
+                        if(m2){ try { var dd = JSON.parse(m2[1]); sets = dd.sets || dd.examSets || []; } catch(e1){} }
+                    }
+                    if(sets.length){
+                        info.sets = sets.length; tot.sets += sets.length;
+                        sets.forEach(function(s){
+                            (s.questions || []).forEach(function(q){
+                                var qy = qTypeOf(q), ql = qLevelOf(q);
+                                info[qy]++; tot[qy]++;
+                                if(info[ql] !== undefined){ info[ql]++; tot[ql]++; }
+                            });
+                        });
+                    } else { info.dynamic = true; }
+                } catch(e2){ info.err = String(e2 && e2.message || e2); }
+                perFile.push(info);
+            }
+            var data = {folder: folder || '(Tất cả)', files: examFiles.length, perFile: perFile, tot: tot};
+            __mqStatsCache = {t: Date.now(), data: data};
+            drawManageQuestionStats(wrap, data);
+        }
+        function drawManageQuestionStats(wrap, data){
+            function esc(s){ return String(s == null ? '' : s).replace(/</g,'&lt;'); }
+            var tt = data.tot;
+            var totalQ = tt.mcq + tt.tf + tt.short + tt.essay;
+            var rows = data.perFile.map(function(f){
+                var q = f.mcq + f.tf + f.short + f.essay;
+                var note = f.dynamic ? '<span class="text-[10px] text-purple-600 italic">đề động từ ngân hàng</span>'
+                         : f.err ? '<span class="text-[10px] text-red-600">lỗi đọc</span>'
+                         : (f.sets + ' đề');
+                return '<tr class="border-t border-slate-100">'
+                    + '<td class="py-1 pr-2 text-slate-700 max-w-[220px] truncate" title="' + esc(f.path) + '">' + esc(f.name) + '</td>'
+                    + '<td class="py-1 pr-2 text-slate-500">' + note + '</td>'
+                    + '<td class="py-1 text-center font-bold text-slate-800">' + q + '</td>'
+                    + '<td class="py-1 text-center text-slate-600">' + f.mcq + '</td>'
+                    + '<td class="py-1 text-center text-slate-600">' + f.tf + '</td>'
+                    + '<td class="py-1 text-center text-slate-600">' + f.short + '</td>'
+                    + '<td class="py-1 text-center text-slate-600">' + f.NB + '/' + f.TH + '/' + f.VD + '/' + f.VDC + '</td></tr>';
+            }).join('');
+            wrap.innerHTML =
+                '<div class="w-full mt-2 bg-amber-50 border border-amber-200 rounded-xl p-3 text-xs">'
+                + '<div class="flex items-center justify-between flex-wrap gap-2 mb-2">'
+                + '<div class="font-bold text-amber-900">📊 Thống kê câu hỏi — thư mục: ' + esc(manageFolderLabel()) + '</div>'
+                + '<button onclick="__mqStatsCache=null;toggleManageQuestionStats();setTimeout(toggleManageQuestionStats,50);" class="px-2 py-1 rounded-lg bg-white border border-amber-300 text-amber-800 font-bold hover:bg-amber-100">↻ Làm mới</button>'
+                + '</div>'
+                + '<div class="flex flex-wrap gap-2 mb-2">'
+                + '<span class="px-2 py-1 rounded-lg bg-white border border-slate-200">📁 ' + data.files + ' file đề</span>'
+                + '<span class="px-2 py-1 rounded-lg bg-white border border-slate-200">📝 ' + tt.sets + ' bộ đề</span>'
+                + '<span class="px-2 py-1 rounded-lg bg-white border border-slate-200 font-bold">Σ ' + totalQ + ' câu hỏi</span>'
+                + '<span class="px-2 py-1 rounded-lg bg-white border border-slate-200">TN: ' + tt.mcq + '</span>'
+                + '<span class="px-2 py-1 rounded-lg bg-white border border-slate-200">Đ/S: ' + tt.tf + '</span>'
+                + '<span class="px-2 py-1 rounded-lg bg-white border border-slate-200">TLN: ' + tt.short + '</span>'
+                + '<span class="px-2 py-1 rounded-lg bg-white border border-slate-200">NB/TH/VD/VDC: ' + tt.NB + '/' + tt.TH + '/' + tt.VD + '/' + tt.VDC + '</span>'
+                + '</div>'
+                + (data.perFile.length
+                    ? '<div class="overflow-x-auto"><table class="w-full text-[11px]"><thead><tr class="text-left text-slate-500">'
+                      + '<th class="py-1 pr-2 font-semibold">File</th><th class="py-1 pr-2 font-semibold">Ghi chú</th>'
+                      + '<th class="py-1 text-center font-semibold">Tổng câu</th><th class="py-1 text-center font-semibold">TN</th>'
+                      + '<th class="py-1 text-center font-semibold">Đ/S</th><th class="py-1 text-center font-semibold">TLN</th>'
+                      + '<th class="py-1 text-center font-semibold">NB/TH/VD/VDC</th></tr></thead><tbody>' + rows + '</tbody></table></div>'
+                    : '<div class="italic text-slate-500">Thư mục này chưa có file đề thi/bài tập nào.</div>')
+                + '</div>';
+        }
+        // ===== HET THONG KE CAU HOI =====
+
         async function renderLessonManagementList() {
             let container = document.getElementById('manage-lessons-table-container');
             if (!container) return;
             container.innerHTML = '<div class="text-center py-8 text-slate-400 text-xs"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Đang nạp danh sách bài từ Git...</div>';
 
-            let curFolder = manageFolderFilter || '';
+            let curFolder = getManageFolder();
             try {
                 let gitApiUrl = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/git/trees/${GITHUB_CONFIG.branch}?recursive=1`;
                 let headers = { "Accept": "application/vnd.github+json" };
@@ -213,14 +321,14 @@
                 let fkeys = Object.keys(folders).sort();
                 let html = '<div class="flex flex-wrap items-center gap-2 mb-2">'
                     + '<span class="text-[11px] font-bold text-slate-500">Thư mục:</span>'
-                    + '<select onchange="setManageFolderFilter(this.value)" class="text-xs border border-slate-300 rounded-lg px-2 py-1.5 bg-white font-semibold text-slate-700 max-w-[220px]">'
-                    + '<option value="">Tất cả thư mục (' + files.length + ')</option>'
-                    + fkeys.map(function(k){ return '<option value="' + k.replace(/"/g, '&quot;') + '"' + (k === manageFolderFilter ? ' selected' : '') + '>' + k.replace(/</g, '&lt;') + ' (' + folders[k] + ')</option>'; }).join('')
-                    + '</select>'
+                    + '<span title="' + getManageFolder().replace(/"/g,'&quot;') + '" class="text-xs font-bold text-blue-700 bg-blue-50 border border-blue-200 rounded-lg px-2 py-1.5 max-w-[220px] truncate">📁 ' + manageFolderLabel().replace(/</g,'&lt;') + '</span>'
                     + '<span class="text-[11px] font-bold text-slate-500 ml-1">Loại:</span>'
                     + '<button id="mfilter-all" onclick="setManageTypeFilter(\'all\')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition ' + (manageTypeFilter === 'all' ? 'bg-blue-700 text-white shadow' : 'bg-slate-100 text-slate-600 hover:bg-slate-200') + '">Tất cả (' + files.length + ')</button>'
                     + '<button id="mfilter-theory" onclick="setManageTypeFilter(\'theory\')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition ' + (manageTypeFilter === 'theory' ? 'bg-blue-700 text-white shadow' : 'bg-slate-100 text-slate-600 hover:bg-slate-200') + '">📘 Lý thuyết (' + nTheory + ')</button>'
                     + '<button id="mfilter-exam" onclick="setManageTypeFilter(\'exam\')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition ' + (manageTypeFilter === 'exam' ? 'bg-blue-700 text-white shadow' : 'bg-slate-100 text-slate-600 hover:bg-slate-200') + '">📝 Đề thi/Bài tập (' + nExam + ')</button>'
+ + '<button id="mfilter-qstats" onclick="toggleManageQuestionStats()"'
+ + ' class="px-3 py-1.5 rounded-lg text-xs font-bold transition bg-amber-100 text-amber-800 hover:bg-amber-200 border border-amber-300">📊 Thống kê câu hỏi</button>'
+ + '<span id="manage-qstats-wrap"></span>'
                     + '<button onclick="approveAllInFolder()" class="px-3 py-1.5 rounded-lg text-xs font-bold transition bg-emerald-600 hover:bg-emerald-700 text-white shadow ml-auto" title="Duyệt tất cả bài chưa duyệt trong thư mục đang lọc"><i class="fa-solid fa-check-double mr-1"></i>Duyệt tất cả</button>'
                     + '</div>';
                 if (!shown.length){
