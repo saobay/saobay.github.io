@@ -293,7 +293,6 @@
                         }
                     }
                 }
-                if (typeof showToast === 'function') showToast('Vui lòng chọn thư mục trong cùng (không có thư mục con) để đẩy bài.', 'warning');
                 return;
             }
             currentSelectedFolderId = path;
