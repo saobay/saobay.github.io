@@ -72,11 +72,12 @@
                 db.students[c].push({ id: o.id, name: o.name, dob: '' });
             }
             let expDays = calcExpiryDays(o.role, o.id, db, o.expiryDays);
-            if (!db.account_expiry) db.account_expiry = {};
-            db.account_expiry[o.id] = { expires_at: expiryDateISO(expDays),
+            await assignPushUsed(db, 'Tạo tài khoản ' + (o.role === 'teacher' ? 'giáo viên' : 'học sinh') + ': ' + o.name + ' (' + o.id + ')');
+            let expDb = await assignFetchExpiry();
+            expDb[o.id] = { expires_at: expiryDateISO(expDays),
                 type: o.role === 'teacher' ? 'teacher' : (expDays === 365 ? 'school_student' : (expDays === 90 ? 'trial' : 'custom')),
                 created_at: new Date().toISOString(), created_by: myUname() };
-            await assignPushUsed(db, 'Tạo tài khoản ' + (o.role === 'teacher' ? 'giáo viên' : 'học sinh') + ': ' + o.name + ' (' + o.id + ')' + (expDays ? ' [hạn ' + expDays + ' ngày]' : ' [không thời hạn]'));
+            await assignPushExpiry(expDb, 'Cấp thời hạn TK ' + o.id + (expDays ? ' [' + expDays + ' ngày]' : ' [không thời hạn]'));
             return true;
         }
 
@@ -120,7 +121,7 @@
             body.innerHTML = '<p class="text-xs text-slate-400 italic">Đang tải...</p>';
             try {
                 let db = await assignFetchUsed();
-                let exp = db.account_expiry || {};
+                let exp = await assignFetchExpiry();
                 let ids = Object.keys(db.passwords || {}).filter(function(x){ return x !== 'admin'; });
                 // Tim ten + vai tro
                 function findName(uid){
@@ -153,15 +154,14 @@
             let days = parseInt(v, 10);
             if (isNaN(days) || days < 0){ alert('Số ngày không hợp lệ.'); return; }
             try {
-                let db = await assignFetchUsed();
-                if (!db.account_expiry) db.account_expiry = {};
-                let cur = db.account_expiry[uid] || {};
+                let expDb = await assignFetchExpiry();
+                let cur = expDb[uid] || {};
                 let base = cur.expires_at && new Date(cur.expires_at).getTime() > Date.now() ? new Date(cur.expires_at) : new Date();
                 if (days === 0){ cur.expires_at = null; }
                 else { base.setDate(base.getDate() + days); cur.expires_at = base.toISOString(); }
                 cur.extended_at = new Date().toISOString(); cur.extended_by = myUname();
-                db.account_expiry[uid] = cur;
-                await assignPushUsed(db, 'Gia hạn tài khoản ' + uid + (days === 0 ? ' [không thời hạn]' : ' thêm ' + days + ' ngày'));
+                expDb[uid] = cur;
+                await assignPushExpiry(expDb, 'Gia hạn tài khoản ' + uid + (days === 0 ? ' [không thời hạn]' : ' thêm ' + days + ' ngày'));
                 if (typeof showToast === 'function') showToast('Đã gia hạn!', 'success');
                 userMgrLoadList();
             } catch(e){ alert('Lỗi: ' + (e.message || e)); }
