@@ -1219,6 +1219,66 @@
                         + '<div class="text-xs text-slate-500 mt-1">\u0110\u00fang ' + correctCount + ' tr\u00ean ' + totalQ + ' c\u00e2u (' + pct + '%)</div>';
                     if (summaryEl.scrollIntoView) summaryEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                     if (window.MathJax) renderMathInTarget(summaryEl);
+                    // Form GUI DIEM cho giao vien (2026-10-08): HS nhap ten/lop, gui qua Google Proxy
+                    try {
+                        let metaSC = (parsed && parsed.meta) || {};
+                        let examSlug = 'exam';
+                        try {
+                            let bn = (location.pathname.split('/').pop() || '').replace(/\\.html?$/i, '');
+                            examSlug = bn.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\u0111/g, 'd').replace(/\u0110/g, 'D')
+                                .replace(/[^a-zA-Z0-9]+/g, '_').replace(/^_+|_+$/g, '').slice(0, 80) || 'exam';
+                        } catch(eSlug){}
+                        let savedName = '', savedClass = '';
+                        try { savedName = localStorage.getItem('saobay_student_name') || ''; savedClass = localStorage.getItem('saobay_student_class') || ''; } catch(eLS){}
+                        let escA = function(v){ return String(v == null ? '' : v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); };
+                        summaryEl.insertAdjacentHTML('beforeend',
+                            '<div class="mt-4 pt-4 border-t border-slate-200 text-left">'
+                            + '<p class="text-sm font-black text-slate-800 mb-2">\u0110i\u1ec3m c\u1ee7a b\u1ea1n \u0111\u00e3 \u0111\u01b0\u1ee3c ghi nh\u1eadn. G\u1eedi \u0111i\u1ec3m cho gi\u00e1o vi\u00ean:</p>'
+                            + '<div class="flex flex-col sm:flex-row gap-2">'
+                            + '<input id="ex10-sname" placeholder="H\u1ecd v\u00e0 t\u00ean" value="' + escA(savedName) + '" class="flex-1 text-sm border border-slate-300 rounded-lg px-3 py-2">'
+                            + '<input id="ex10-sclass" placeholder="L\u1edbp (vd: 10A1)" value="' + escA(savedClass) + '" class="w-full sm:w-32 text-sm border border-slate-300 rounded-lg px-3 py-2">'
+                            + '</div>'
+                            + '<button class="ex10-send-score mt-2 w-full bg-indigo-700 hover:bg-indigo-800 disabled:opacity-60 text-white text-sm font-bold px-4 py-2.5 rounded-xl">G\u1eedi \u0111i\u1ec3m</button>'
+                            + '<p class="ex10-send-note text-xs text-slate-500 mt-1.5"></p></div>');
+                        let sendBtn = summaryEl.querySelector('.ex10-send-score');
+                        if (sendBtn) sendBtn.addEventListener('click', function(){
+                            let nmEl = summaryEl.querySelector('#ex10-sname'), clEl = summaryEl.querySelector('#ex10-sclass');
+                            let nm = nmEl ? nmEl.value.trim() : '', cl = clEl ? clEl.value.trim() : '';
+                            let note = summaryEl.querySelector('.ex10-send-note');
+                            if (!nm || !cl){ note.textContent = 'Vui l\u00f2ng nh\u1eadp h\u1ecd t\u00ean v\u00e0 l\u1edbp.'; note.className = 'ex10-send-note text-xs text-rose-600 mt-1.5'; return; }
+                            try { localStorage.setItem('saobay_student_name', nm); localStorage.setItem('saobay_student_class', cl); } catch(e){}
+                            sendBtn.disabled = true; sendBtn.textContent = '\u0110ang g\u1eedi...';
+                            let subj = String(metaSC.subject || '').toUpperCase(), grd = parseInt(metaSC.grade, 10) || 0;
+                            if (!subj || !grd){ let m2 = examSlug.match(/^([A-Z]+)_(\d{1,2})/); if (m2){ subj = subj || m2[1]; grd = grd || parseInt(m2[2], 10); } }
+                            let payload = {
+                                exam_id: examSlug,
+                                exam_title: String(metaSC.title || ((sets[cur] && sets[cur].name) || document.title)).slice(0, 120),
+                                subject: subj, grade: grd, student_name: nm, student_class: cl,
+                                score: Math.round(score * 100) / 100, max_score: Math.round(maxScore * 100) / 100,
+                                correct: correctCount, total: totalQ, strict: !!strictMode,
+                                submitted_at: new Date().toISOString()
+                            };
+                            let safeNm = nm.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\u0111/g, 'd').replace(/[^a-zA-Z0-9]+/g, '_').slice(0, 30);
+                            let fname = examSlug + '/' + new Date().toISOString().slice(0, 19).replace(/[-:T]/g, '') + '_' + safeNm + '.json';
+                            fetch('https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec', {
+                                method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                                body: JSON.stringify({ type: 'PUSH_TO_GITHUB', filePath: 'data/scores/' + fname,
+                                    content: JSON.stringify(payload),
+                                    commitMessage: 'Nop diem: ' + nm + ' (' + cl + ') - ' + payload.exam_title,
+                                    title: payload.exam_title, author: nm })
+                            }).then(function(r){ return r.json(); }).then(function(rj){
+                                if (rj && rj.status === 'success'){
+                                    note.textContent = '\u0110\u00e3 g\u1eedi \u0111i\u1ec3m th\u00e0nh c\u00f4ng! Gi\u00e1o vi\u00ean s\u1ebd nh\u1eadn \u0111\u01b0\u1ee3c b\u1ea3ng \u0111i\u1ec3m c\u1ee7a b\u1ea1n.';
+                                    note.className = 'ex10-send-note text-xs text-emerald-700 font-bold mt-1.5';
+                                    sendBtn.textContent = '\u0110\u00e3 g\u1eedi';
+                                } else { throw new Error((rj && rj.message) || 'l\u1ed7i'); }
+                            }).catch(function(err){
+                                note.textContent = 'G\u1eedi th\u1ea5t b\u1ea1i, vui l\u00f2ng th\u1eed l\u1ea1i. (' + String((err && err.message) || err).slice(0, 80) + ')';
+                                note.className = 'ex10-send-note text-xs text-rose-600 mt-1.5';
+                                sendBtn.disabled = false; sendBtn.textContent = 'G\u1eedi \u0111i\u1ec3m';
+                            });
+                        });
+                    } catch(eForm){ console.log('score form note:', eForm); }
                     updateScore();
                 }
 
