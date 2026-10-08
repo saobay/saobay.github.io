@@ -292,6 +292,8 @@ YÊU CẦU CHI TIẾT:
                         notifyChannel.postMessage({ action: 'REFRESH_LESSON_LIST', title: safeTitle, path: targetGitPath, content: finalHtml });
 
                         alert(`🎉 THÀNH CÔNG!\nBài "${safeTitle}" đã được đẩy trực tiếp lên GitHub qua Google Proxy!\n📁 Vị trí: ${targetGitPath}\n⭐ Điểm thưởng nhận được: +${pointsEarned}`);
+                        // Phase 2: tu boc cau hoi vao ngan hang (khong chan luong chinh)
+                        autoSaveToBank(finalHtml, formattedFileName, targetGitPath, targetFolder).catch(function(){});
                         resetFormToCreate();
                         await loadFolderTreeFromGit();
                     } else {
@@ -360,7 +362,9 @@ YÊU CẦU CHI TIẾT:
                     notifyChannel.postMessage({ action: 'REFRESH_LESSON_LIST', title: safeTitle, path: targetGitPath, content: finalHtml });
 
                     alert(`🎉 THÀNH CÔNG!\nBài "${safeTitle}" đã được đẩy trực tiếp lên GitHub!\n📁 Vị trí: ${targetGitPath}\n⭐ Điểm thưởng nhận được: +${pointsEarned}`);
-                    resetFormToCreate();
+                    // Phase 2: tu boc cau hoi vao ngan hang (khong chan luong chinh)
+                    autoSaveToBank(finalHtml, formattedFileName, targetGitPath, targetFolder).catch(function(){});
+                        resetFormToCreate();
                     await loadFolderTreeFromGit();
                 } else {
                     let err = await putRes.json();
