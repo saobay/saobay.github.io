@@ -140,10 +140,12 @@ body{font-family:system-ui,-apple-system,sans-serif}
         let m = String(examId).match(/^([A-Z]+)_(\d{1,2})/);
         return m ? { subject: norm(m[1]), grade: parseInt(m[2], 10) } : { subject: '', grade: 0 };
     }
-    function myExamFilter(examId){
+    function myExamFilter(exam){
         if (!sessionUser || sessionUser.role === 'admin') return true;
         if (!mySubjects.length) return false;
-        let sg = examSubjectGrade(examId);
+        let sg = (exam && (exam.subject || exam.grade))
+            ? { subject: norm(exam.subject), grade: parseInt(exam.grade, 10) || 0 }
+            : examSubjectGrade(exam.id || exam);
         return mySubjects.some(function(a){
             let sOk = norm(a.subject) === sg.subject;
             let gOk = !sg.grade || String(a.class || '').indexOf(String(sg.grade)) === 0;
@@ -158,14 +160,23 @@ body{font-family:system-ui,-apple-system,sans-serif}
             dirs = dirs.filter(function(d){ return d.type === 'dir'; });
             exams = [];
             for (let d of dirs){
-                if (!myExamFilter(d.name)) continue;
                 let files = [];
                 try { files = (await apiListDir(SCORES_DIR + '/' + d.name)).filter(function(f){ return f.type === 'file' && /\.json$/i.test(f.name); }); }
                 catch(e){}
                 files.sort(function(a, b){ return a.name < b.name ? 1 : -1; });
-                let latestTs = files.length ? tsFromName(files[0].name) : '';
-                let seen = getSeen(d.name);
-                exams.push({ id: d.name, count: files.length, latestTs: latestTs, isNew: !!(latestTs && latestTs > seen), files: files });
+                // doc 1 bai mau de lay ten de / mon / khoi that (khong phu thuoc ten thu muc)
+                let sample = null;
+                if (files.length){
+                    try { sample = await rawJson(SCORES_DIR + '/' + d.name + '/' + files[0].name); } catch(eS){}
+                }
+                let exam = { id: d.name, count: files.length,
+                    title: (sample && sample.exam_title) || d.name.replace(/_/g, ' '),
+                    subject: sample ? sample.subject : '', grade: sample ? sample.grade : 0,
+                    latestTs: files.length ? tsFromName(files[0].name) : '',
+                    files: files };
+                exam.isNew = !!(exam.latestTs && exam.latestTs > getSeen(d.name));
+                if (!myExamFilter(exam)) continue;
+                exams.push(exam);
             }
             exams.sort(function(a, b){ return (b.latestTs || '') < (a.latestTs || '') ? -1 : 1; });
             if (!exams.length){
@@ -175,7 +186,7 @@ body{font-family:system-ui,-apple-system,sans-serif}
             listEl.innerHTML = exams.map(function(x){
                 return '<button onclick="selectExam(\'' + x.id.replace(/'/g, "\\'") + '\')" data-exam="' + esc(x.id) + '"'
                     + ' class="exam-item w-full text-left bg-white border border-slate-200 rounded-xl px-3 py-2.5 hover:border-indigo-300 transition">'
-                    + '<p class="text-xs font-bold text-slate-800 leading-snug">' + esc(x.id.replace(/_/g, ' ')) + '</p>'
+                    + '<p class="text-xs font-bold text-slate-800 leading-snug">' + esc(x.title) + '</p>'
                     + '<p class="text-[11px] text-slate-500 mt-0.5">' + x.count + ' bài nộp'
                     + (x.isNew ? ' <span class="ml-1 bg-rose-600 text-white font-bold px-1.5 py-0.5 rounded-full text-[10px]">MỚI</span>' : '')
                     + '</p></button>';
@@ -216,7 +227,8 @@ body{font-family:system-ui,-apple-system,sans-serif}
         let title = document.getElementById('result-title');
         let cf = document.getElementById('class-filter');
         let csvBtn = document.getElementById('csv-btn');
-        title.textContent = curExamId.replace(/_/g, ' ') + ' (' + curResults.length + ' bài)';
+        let curExam = exams.find(function(x){ return x.id === curExamId; });
+        title.textContent = (curExam && curExam.title ? curExam.title : curExamId.replace(/_/g, ' ')) + ' (' + curResults.length + ' bài)';
         if (!curResults.length){
             body.innerHTML = '<p class="text-xs text-slate-400 italic p-4">Chưa có bài nộp.</p>';
             cf.classList.add('hidden'); csvBtn.classList.add('hidden');
