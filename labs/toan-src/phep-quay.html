@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phép quay Q(O, α) — Tương tác | SAOBAY</title>
+<style>
+  :root{
+    --bg:#0f1b2d; --panel:#16283f; --edge:#27405e;
+    --cyan:#22d3ee; --amber:#fbbf24; --green:#34d399;
+    --white:#ffffff; --gray:#94a3b8;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  body{
+    margin:0; background:var(--bg); color:var(--white);
+    font-family:"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    line-height:1.5;
+  }
+  header{
+    padding:14px 16px; border-bottom:1px solid var(--edge);
+    display:flex; align-items:center; gap:10px;
+  }
+  header .logo{font-weight:800; font-size:20px; color:var(--cyan); letter-spacing:1px;}
+  header .sub{color:var(--gray); font-size:14px;}
+  main{max-width:640px; margin:0 auto; padding:12px 12px 40px;}
+  h1{font-size:22px; margin:10px 4px 2px;}
+  h1 .math{color:var(--cyan);}
+  p.lead{color:var(--gray); margin:0 4px 12px; font-size:15px;}
+  .canvas-wrap{
+    position:relative; background:var(--panel);
+    border:1px solid var(--edge); border-radius:14px; overflow:hidden;
+  }
+  canvas{display:block; width:100%; height:auto; touch-action:manipulation; cursor:crosshair;}
+  .hint{
+    position:absolute; left:0; right:0; bottom:0; text-align:center;
+    font-size:13px; color:var(--gray); background:rgba(15,27,45,.75);
+    padding:6px 8px; pointer-events:none;
+  }
+  .readout{display:flex; gap:10px; margin:12px 0;}
+  .card{
+    flex:1; background:var(--panel); border:1px solid var(--edge);
+    border-radius:12px; padding:10px 12px; text-align:center;
+  }
+  .card .k{font-size:13px; color:var(--gray);}
+  .card .v{font-size:20px; font-weight:700;}
+  .card.amber .v{color:var(--amber);}
+  .card.cyan .v{color:var(--cyan);}
+  .controls{background:var(--panel); border:1px solid var(--edge); border-radius:12px; padding:14px;}
+  .controls label.lbl{display:flex; justify-content:space-between; font-size:16px; font-weight:600; margin-bottom:6px;}
+  #alphaVal{color:var(--cyan); font-size:20px;}
+  input[type=range]{width:100%; height:34px; accent-color:var(--cyan);}
+  .row{display:flex; gap:16px; margin:8px 0 12px; font-size:16px;}
+  .row label{display:flex; align-items:center; gap:8px; cursor:pointer;}
+  .row input[type=radio]{width:20px; height:20px; accent-color:var(--cyan);}
+  #play{
+    width:100%; padding:13px; font-size:17px; font-weight:700;
+    color:#06202a; background:var(--cyan); border:none; border-radius:10px; cursor:pointer;
+  }
+  #play:active{transform:scale(.98);}
+  .formula{
+    margin-top:12px; background:var(--panel); border:1px solid var(--edge);
+    border-radius:12px; padding:12px 14px; font-size:16px;
+  }
+  .formula .t{color:var(--amber); font-weight:700; margin-bottom:6px;}
+  .formula code{font-size:17px; color:var(--white);}
+  #special{
+    margin-top:12px; border-radius:12px; padding:12px 14px; font-size:16px; font-weight:600;
+    display:none; background:rgba(52,211,153,.12); border:1px solid var(--green); color:var(--green);
+  }
+  footer{margin-top:18px; text-align:center; color:var(--gray); font-size:13px;}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">SAOBAY</div>
+  <div class="sub">Website học tập • THPT Sào Báy</div>
+</header>
+<main>
+  <h1>Phép quay <span class="math">Q(O, α)</span> — thí nghiệm tương tác</h1>
+  <p class="lead">Kéo thanh trượt để xoay hình, quan sát tọa độ thay đổi theo thời gian thực.</p>
+
+  <div class="canvas-wrap">
+    <canvas id="cv" width="720" height="720"></canvas>
+    <div class="hint">Chạm vào mặt phẳng để đặt lại điểm M</div>
+  </div>
+
+  <div class="readout" id="readout"></div>
+
+  <div class="controls">
+    <label class="lbl"><span>Góc quay α</span><span id="alphaVal">90°</span></label>
+    <input type="range" id="alpha" min="-180" max="360" step="1" value="90" aria-label="Góc quay alpha">
+    <div class="row">
+      <label><input type="radio" name="shape" value="point" checked> Điểm M</label>
+      <label><input type="radio" name="shape" value="tri"> Tam giác ABC</label>
+    </div>
+    <button id="play">▶ &nbsp;Tự quay α từ 0° đến 360°</button>
+  </div>
+
+  <div class="formula">
+    <div class="t">Công thức tọa độ</div>
+    <code>x′ = x·cosα − y·sinα<br>y′ = x·sinα + y·cosα</code>
+  </div>
+  <div id="special"></div>
+
+  <footer>SAOBAY • Toán 11 — Phép dời hình</footer>
+</main>
+
+<script>
+(function(){
+  "use strict";
+  var cv = document.getElementById('cv');
+  var ctx = cv.getContext('2d');
+  var W = 720, HALF = 6;               // nửa khoảng tọa độ [-6, 6]
+  var S = W / (2 * HALF);              // pixel / đơn vị
+  var BG = '#0f1b2d', CYAN = '#22d3ee', AMBER = '#fbbf24',
+      GREEN = '#34d399', WHITE = '#ffffff', GRAY = '#94a3b8';
+
+  var alpha = 90;                      // độ
+  var shape = 'point';
+  var M = {x: 3, y: 1};
+  var TRI = { A:{x:1, y:1}, B:{x:4, y:2}, C:{x:2.5, y:4} };
+  var playing = false, rafId = null, t0 = 0;
+
+  var slider = document.getElementById('alpha');
+  var alphaVal = document.getElementById('alphaVal');
+  var playBtn = document.getElementById('play');
+  var readout = document.getElementById('readout');
+  var special = document.getElementById('special');
+
+  function X(x){ return W/2 + x*S; }
+  function Y(y){ return W/2 - y*S; }
+  function rot(p, deg){
+    var r = deg*Math.PI/180, c = Math.cos(r), s = Math.sin(r);
+    return { x: p.x*c - p.y*s, y: p.x*s + p.y*c };
+  }
+  function fmt(n){
+    var v = Math.round(n*100)/100;
+    if (Object.is(v, -0)) v = 0;
+    return String(v).replace('.', ',').replace('-', '−');
+  }
+  function pt(p){ return '(' + fmt(p.x) + '; ' + fmt(p.y) + ')'; }
+
+  function grid(){
+    ctx.fillStyle = BG; ctx.fillRect(0, 0, W, W);
+    ctx.lineWidth = 1;
+    for (var g = -HALF; g <= HALF; g++){
+      ctx.strokeStyle = '#1e3a52';
+      ctx.beginPath(); ctx.moveTo(X(g), 0); ctx.lineTo(X(g), W); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0, Y(g)); ctx.lineTo(W, Y(g)); ctx.stroke();
+      if (g !== 0){
+        ctx.fillStyle = GRAY; ctx.font = '22px sans-serif'; ctx.textAlign = 'center';
+        ctx.fillText(String(g), X(g), Y(0) + 30);
+        ctx.textAlign = 'right';
+        ctx.fillText(String(g), X(0) - 12, Y(g) + 8);
+      }
+    }
+    // trục Ox, Oy + mũi tên
+    ctx.strokeStyle = WHITE; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.moveTo(8, Y(0)); ctx.lineTo(W-8, Y(0)); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(W-8, Y(0)); ctx.lineTo(W-24, Y(0)-9); ctx.lineTo(W-24, Y(0)+9); ctx.closePath();
+    ctx.fillStyle = WHITE; ctx.fill();
+    ctx.beginPath(); ctx.moveTo(X(0), W-8); ctx.lineTo(X(0), 8); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(X(0), 8); ctx.lineTo(X(0)-9, 24); ctx.lineTo(X(0)+9, 24); ctx.closePath(); ctx.fill();
+    ctx.font = 'bold 30px sans-serif'; ctx.fillStyle = WHITE;
+    ctx.textAlign = 'left'; ctx.fillText('x', W-34, Y(0)+38);
+    ctx.fillText('y', X(0)+14, 36);
+    ctx.fillText('O', X(0)-34, Y(0)+36);
+  }
+
+  function dot(p, color, r){
+    ctx.beginPath(); ctx.arc(X(p.x), Y(p.y), r || 11, 0, 7);
+    ctx.fillStyle = color; ctx.fill();
+    ctx.lineWidth = 3; ctx.strokeStyle = WHITE; ctx.stroke();
+  }
+  function seg(a, b, color, lw){
+    ctx.beginPath(); ctx.moveTo(X(a.x), Y(a.y)); ctx.lineTo(X(b.x), Y(b.y));
+    ctx.strokeStyle = color; ctx.lineWidth = lw || 4; ctx.stroke();
+  }
+  function label(text, p, dx, dy, color, size){
+    ctx.font = 'bold ' + (size || 30) + 'px sans-serif';
+    ctx.fillStyle = color; ctx.textAlign = 'left';
+    ctx.fillText(text, X(p.x)+dx, Y(p.y)+dy);
+  }
+  function dashedCircle(p, color){
+    var r = Math.hypot(p.x, p.y) * S;
+    ctx.beginPath(); ctx.arc(X(0), Y(0), r, 0, 7);
+    ctx.setLineDash([10, 8]); ctx.strokeStyle = color || GRAY; ctx.lineWidth = 2; ctx.stroke();
+    ctx.setLineDash([]);
+  }
+  // cung tròn có mũi tên từ góc a0 đến a1 (độ, chiều dương CCW trong toán học)
+  function arcArrow(a0deg, a1deg, rWorld, color){
+    var r = rWorld * S;
+    var ccwMath = a1deg >= a0deg;
+    var a0 = -a0deg*Math.PI/180, a1 = -a1deg*Math.PI/180; // đảo chiều vì trục y canvas
+    ctx.beginPath(); ctx.arc(X(0), Y(0), r, a0, a1, ccwMath);
+    ctx.strokeStyle = color; ctx.lineWidth = 5; ctx.stroke();
+    var ex = X(0) + r*Math.cos(a1), ey = Y(0) + r*Math.sin(a1);
+    var tang = a1 + (ccwMath ? -Math.PI/2 : Math.PI/2); // tiếp tuyến theo chiều quay
+    var s = 16;
+    ctx.beginPath();
+    ctx.moveTo(ex + s*Math.cos(tang), ey + s*Math.sin(tang));
+    ctx.lineTo(ex + s*0.9*Math.cos(tang+2.6), ey + s*0.9*Math.sin(tang+2.6));
+    ctx.lineTo(ex + s*0.9*Math.cos(tang-2.6), ey + s*0.9*Math.sin(tang-2.6));
+    ctx.closePath(); ctx.fillStyle = color; ctx.fill();
+  }
+  function tickMark(a, b){
+    var mx = (X(a.x)+X(b.x))/2, my = (Y(a.y)+Y(b.y))/2;
+    var dx = X(b.x)-X(a.x), dy = Y(b.y)-Y(a.y);
+    var L = Math.hypot(dx, dy), nx = -dy/L, ny = dx/L;
+    ctx.strokeStyle = WHITE; ctx.lineWidth = 4;
+    [-9, 9].forEach(function(off){
+      var cxp = mx + dx/L*off, cyp = my + dy/L*off;
+      ctx.beginPath();
+      ctx.moveTo(cxp + nx*11, cyp + ny*11);
+      ctx.lineTo(cxp - nx*11, cyp - ny*11);
+      ctx.stroke();
+    });
+  }
+
+  function drawPoint(){
+    var Mp = rot(M, alpha);
+    dashedCircle(M);
+    seg({x:0,y:0}, M, AMBER, 3);
+    seg({x:0,y:0}, Mp, CYAN, 3);
+    var a0 = Math.atan2(M.y, M.x)*180/Math.PI;
+    var rM = Math.hypot(M.x, M.y);
+    if (Math.abs(alpha) > 1 && rM > 0.2) arcArrow(a0, a0 + alpha, rM - 0.7, CYAN);
+    dot(M, AMBER); label('M', M, 18, -14, AMBER);
+    dot(Mp, CYAN); label('M′', Mp, 18, 26, CYAN);
+    readout.innerHTML =
+      '<div class="card amber"><div class="k">Điểm M</div><div class="v">M' + pt(M) + '</div></div>' +
+      '<div class="card cyan"><div class="k">Ảnh M′ qua Q(O, ' + alpha + '°)</div><div class="v">M′' + pt(Mp) + '</div></div>';
+  }
+
+  function drawTri(){
+    var keys = ['A','B','C'];
+    var img = {};
+    keys.forEach(function(k){ img[k] = rot(TRI[k], alpha); });
+    // ảnh (nét mờ) + gốc
+    ctx.globalAlpha = 0.35;
+    poly([TRI.A, TRI.B, TRI.C], AMBER);
+    ctx.globalAlpha = 1;
+    poly([img.A, img.B, img.C], CYAN);
+    keys.forEach(function(k){
+      label(k, TRI[k], -16, 34, AMBER, 28);
+      label(k + '′', img[k], 16, -12, CYAN, 28);
+    });
+    tickMark(TRI.A, TRI.B); tickMark(img.A, img.B);
+    ctx.font = 'bold 28px sans-serif'; ctx.fillStyle = GREEN; ctx.textAlign = 'center';
+    var mx = (X(img.A.x)+X(img.B.x))/2, my = (Y(img.A.y)+Y(img.B.y))/2;
+    ctx.fillText('A′B′ = AB', mx, my - 44);
+    readout.innerHTML =
+      '<div class="card amber"><div class="k">Tam giác ABC</div><div class="v" style="font-size:16px">A' + pt(TRI.A) + ' B' + pt(TRI.B) + ' C' + pt(TRI.C) + '</div></div>' +
+      '<div class="card cyan"><div class="k">Ảnh A′B′C′</div><div class="v" style="font-size:16px">A′' + pt(img.A) + ' B′' + pt(img.B) + ' C′' + pt(img.C) + '</div></div>';
+  }
+  function poly(pts, color){
+    ctx.beginPath();
+    ctx.moveTo(X(pts[0].x), Y(pts[0].y));
+    for (var i = 1; i < pts.length; i++) ctx.lineTo(X(pts[i].x), Y(pts[i].y));
+    ctx.closePath();
+    ctx.fillStyle = color; ctx.globalAlpha *= 1; // giữ alpha ngoài
+    ctx.strokeStyle = color; ctx.lineWidth = 4; ctx.stroke();
+  }
+
+  function draw(){
+    grid();
+    if (shape === 'point') drawPoint(); else drawTri();
+    alphaVal.textContent = alpha + '°';
+    // ghi chú trường hợp đặc biệt
+    var msg = '';
+    if (alpha === 180 || alpha === -180) msg = 'α = 180°: chính là phép đối xứng tâm O';
+    else if (alpha === 0 || alpha === 360) msg = 'α = ' + alpha + '°: phép đồng nhất (mọi điểm đứng yên)';
+    else if (alpha === 90) msg = 'Q(O, 90°): (x; y) → (−y; x)';
+    else if (alpha === -90) msg = 'Q(O, −90°): (x; y) → (y; −x)';
+    if (msg){ special.style.display = 'block'; special.textContent = msg; }
+    else { special.style.display = 'none'; }
+  }
+
+  function setAlpha(v){
+    alpha = Math.round(v);
+    slider.value = alpha;
+    draw();
+  }
+  function stop(){
+    playing = false;
+    playBtn.innerHTML = '▶ &nbsp;Tự quay α từ 0° đến 360°';
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = null;
+  }
+  function step(ts){
+    if (!playing) return;
+    if (!t0) t0 = ts;
+    var el = (ts - t0) / 1000;          // một vòng 10 giây
+    setAlpha((el * 36) % 361);
+    if (el * 36 >= 360){ stop(); setAlpha(360); setTimeout(function(){ t0 = 0; }, 600); }
+    else rafId = requestAnimationFrame(step);
+  }
+
+  slider.addEventListener('input', function(){ stop(); setAlpha(parseFloat(slider.value)); });
+  document.querySelectorAll('input[name=shape]').forEach(function(r){
+    r.addEventListener('change', function(){ shape = r.value; draw(); });
+  });
+  playBtn.addEventListener('click', function(){
+    if (playing){ stop(); return; }
+    playing = true; t0 = 0;
+    playBtn.innerHTML = '⏸ &nbsp;Dừng';
+    setAlpha(0);
+    rafId = requestAnimationFrame(step);
+  });
+  cv.addEventListener('click', function(ev){
+    if (shape !== 'point') return;
+    var rect = cv.getBoundingClientRect();
+    var px = (ev.clientX - rect.left) * (W / rect.width);
+    var py = (ev.clientY - rect.top) * (W / rect.width);
+    var wx = (px - W/2) / S, wy = (W/2 - py) / S;
+    M = { x: Math.round(wx*2)/2, y: Math.round(wy*2)/2 };
+    if (Math.hypot(M.x, M.y) > HALF - 0.5) return; // ngoài khung thì bỏ qua
+    draw();
+  });
+
+  draw();
+})();
+</script>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
