@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Phòng thí nghiệm Hóa học ảo — SAOBAY</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body { font-family: system-ui, -apple-system, sans-serif; -webkit-tap-highlight-color: transparent; }
+  .tab-btn.active { background: #059669; color: #fff; }
+  canvas { touch-action: none; }
+  .big-btn { min-height: 52px; }
+  .el-cell { min-width: 44px; min-height: 52px; }
+  .el-cell:active { transform: scale(1.15); }
+</style>
+</head>
+<body class="bg-slate-100 min-h-screen">
+<div class="max-w-3xl mx-auto pb-10">
+  <div class="bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-4 py-4 sticky top-0 z-10 shadow">
+    <h1 class="text-lg font-black">🧪 Phòng thí nghiệm Hóa học ảo</h1>
+    <p class="text-xs opacity-80">Chạm • Trộn • Quan sát — hóa học thật vui</p>
+  </div>
+
+  <div class="flex gap-2 px-3 mt-3">
+    <button class="tab-btn active flex-1 big-btn rounded-xl bg-white shadow font-bold text-sm" data-tab="periodic">🧬 Bảng tuần hoàn</button>
+    <button class="tab-btn flex-1 big-btn rounded-xl bg-white shadow font-bold text-sm" data-tab="mix">🌈 Trộn dung dịch</button>
+    <button class="tab-btn flex-1 big-btn rounded-xl bg-white shadow font-bold text-sm" data-tab="atom">⚛️ Nguyên tử</button>
+  </div>
+
+  <!-- ===== TAB 1: BẢNG TUẦN HOÀN ===== -->
+  <div id="tab-periodic" class="tab-panel px-3 mt-3">
+    <div class="bg-white rounded-2xl shadow p-4">
+      <h2 class="font-black text-emerald-800 mb-1">Bảng tuần hoàn tương tác</h2>
+      <p class="text-xs text-slate-500 mb-2">Chạm vào một nguyên tố để xem thông tin chi tiết.</p>
+      <div id="periodic-grid" class="overflow-x-auto pb-1"></div>
+      <div class="flex flex-wrap gap-2 mt-2 text-[11px]">
+        <span class="px-2 py-1 rounded bg-sky-200 font-bold">Kim loại kiềm</span>
+        <span class="px-2 py-1 rounded bg-amber-200 font-bold">Kim loại kiềm thổ</span>
+        <span class="px-2 py-1 rounded bg-emerald-200 font-bold">Phi kim</span>
+        <span class="px-2 py-1 rounded bg-violet-200 font-bold">Halogen</span>
+        <span class="px-2 py-1 rounded bg-rose-200 font-bold">Khí hiếm</span>
+        <span class="px-2 py-1 rounded bg-slate-300 font-bold">Kim loại chuyển tiếp</span>
+      </div>
+      <div id="el-info" class="mt-3 bg-emerald-50 border border-emerald-200 rounded-xl p-3 hidden">
+        <div class="flex items-center gap-3">
+          <div id="el-symbol" class="w-16 h-16 rounded-xl flex flex-col items-center justify-center text-white font-black text-2xl bg-emerald-600"></div>
+          <div>
+            <div id="el-name" class="font-black text-lg text-emerald-900"></div>
+            <div id="el-detail" class="text-sm text-slate-600"></div>
+          </div>
+        </div>
+        <p id="el-fact" class="text-xs text-slate-500 mt-2"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== TAB 2: TRỘN DUNG DỊCH ===== -->
+  <div id="tab-mix" class="tab-panel px-3 mt-3 hidden">
+    <div class="bg-white rounded-2xl shadow p-4">
+      <h2 class="font-black text-teal-800 mb-1">Trộn dung dịch: Axit + Bazơ</h2>
+      <p class="text-xs text-slate-500 mb-2">Chọn axit, bazơ và chất chỉ thị, rồi bấm <b>Trộn</b> để xem màu sắc và phương trình phản ứng.</p>
+      <canvas id="cv-mix" class="w-full rounded-xl bg-slate-50 border" height="260"></canvas>
+      <div class="grid grid-cols-3 gap-2 mt-3 text-sm">
+        <div>
+          <label class="text-xs font-bold text-slate-600">🧪 Axit</label>
+          <select id="mix-acid" class="w-full border rounded-xl px-2 py-2.5 font-bold">
+            <option value="HCl">HCl</option>
+            <option value="H2SO4">H₂SO₄</option>
+            <option value="CH3COOH">CH₃COOH</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-xs font-bold text-slate-600">⚗️ Bazơ</label>
+          <select id="mix-base" class="w-full border rounded-xl px-2 py-2.5 font-bold">
+            <option value="NaOH">NaOH</option>
+            <option value="KOH">KOH</option>
+            <option value="Ca(OH)2">Ca(OH)₂</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-xs font-bold text-slate-600">🎨 Chỉ thị</label>
+          <select id="mix-ind" class="w-full border rounded-xl px-2 py-2.5 font-bold">
+            <option value="phenol">Phenolphtalein</option>
+            <option value="litmus">Quỳ tím</option>
+          </select>
+        </div>
+      </div>
+      <div class="flex gap-2 mt-3">
+        <button id="mix-go" class="big-btn flex-1 bg-teal-600 text-white font-black rounded-xl">🌀 Trộn dung dịch</button>
+        <button id="mix-reset" class="big-btn px-4 bg-slate-300 font-black rounded-xl">↺</button>
+      </div>
+      <div id="mix-result" class="mt-3 hidden bg-teal-50 border border-teal-200 rounded-xl p-3">
+        <div class="text-sm font-bold text-teal-900">Phương trình phản ứng:</div>
+        <div id="mix-eq" class="text-center text-lg font-black text-teal-800 my-1"></div>
+        <div id="mix-note" class="text-xs text-slate-600"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== TAB 3: MÔ HÌNH NGUYÊN TỬ ===== -->
+  <div id="tab-atom" class="tab-panel px-3 mt-3 hidden">
+    <div class="bg-white rounded-2xl shadow p-4">
+      <h2 class="font-black text-violet-800 mb-1">Mô hình nguyên tử Bohr</h2>
+      <p class="text-xs text-slate-500 mb-2">Chọn nguyên tố để xem electron bay quanh hạt nhân theo từng lớp.</p>
+      <div class="flex gap-2 items-center mb-2">
+        <label class="text-xs font-bold text-slate-600">Nguyên tố:</label>
+        <select id="atom-sel" class="flex-1 border rounded-xl px-2 py-2.5 font-bold text-sm"></select>
+      </div>
+      <canvas id="cv-atom" class="w-full rounded-xl bg-slate-900 border" height="320"></canvas>
+      <div id="atom-info" class="mt-2 text-center text-sm text-slate-600"></div>
+      <p class="text-[11px] text-slate-500 mt-2">💡 Electron xếp theo lớp: lớp 1 tối đa 2e, lớp 2 tối đa 8e, lớp 3 tối đa 8e (đối với 20 nguyên tố đầu).</p>
+    </div>
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.tab-btn').forEach(function(b){
+  b.addEventListener('click', function(){
+    document.querySelectorAll('.tab-btn').forEach(function(x){ x.classList.remove('active'); });
+    b.classList.add('active');
+    document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.add('hidden'); });
+    document.getElementById('tab-' + b.dataset.tab).classList.remove('hidden');
+    if (window.__fitAll) { try { window.__fitAll(); } catch(e){} }
+  });
+});
+function fitCanvas(cv){
+  var r = cv.getBoundingClientRect(), d = window.devicePixelRatio || 1;
+  cv.width = r.width * d; cv.height = (parseInt(cv.getAttribute('height')) || 300) * d;
+  var ctx = cv.getContext('2d'); ctx.setTransform(d,0,0,d,0,0);
+  return {ctx: ctx, w: r.width, h: parseInt(cv.getAttribute('height')) || 300};
+}
+
+// ================= 1. BẢNG TUẦN HOÀN =================
+(function(){
+  // [Z, symbol, name, mass, group, fact]
+  var ELS = [
+    [1,'H','Hiđro','1.008','nonmetal','Nhẹ nhất, nhiên liệu của Mặt Trời.'],
+    [2,'He','Heli','4.003','noble','Khí hiếm, dùng bơm bóng bay.'],
+    [3,'Li','Liti','6.94','alkali','Kim loại nhẹ nhất, dùng trong pin.'],
+    [4,'Be','Berili','9.012','alkaline','Kim loại nhẹ, độc.'],
+    [5,'B','Bo','10.81','nonmetal','Á kim, dùng trong thủy tinh chịu nhiệt.'],
+    [6,'C','Cacbon','12.011','nonmetal','Kim cương và than chì đều là cacbon!'],
+    [7,'N','Nitơ','14.007','nonmetal','Chiếm 78% không khí.'],
+    [8,'O','Oxi','15.999','nonmetal','Cần cho sự cháy và hô hấp.'],
+    [9,'F','Flo','18.998','halogen','Hoạt động mạnh nhất trong các phi kim.'],
+    [10,'Ne','Neon','20.180','noble','Phát sáng đỏ cam trong biển quảng cáo.'],
+    [11,'Na','Natri','22.990','alkali','Mềm như bơ, phản ứng mạnh với nước.'],
+    [12,'Mg','Magie','24.305','alkaline','Cháy sáng chói, có trong diệp lục.'],
+    [13,'Al','Nhôm','26.982','metal','Kim loại phổ biến nhất vỏ Trái Đất.'],
+    [14,'Si','Silic','28.085','nonmetal','Á kim, vật liệu của chip máy tính.'],
+    [15,'P','Photpho','30.974','nonmetal','Phát sáng trong bóng tối.'],
+    [16,'S','Lưu huỳnh','32.06','nonmetal','Mùi trứng thối đặc trưng.'],
+    [17,'Cl','Clo','35.45','halogen','Khí độc màu vàng lục, khử trùng nước.'],
+    [18,'Ar','Agon','39.948','noble','Khí trơ bơm trong bóng đèn.'],
+    [19,'K','Kali','39.098','alkali','Cần cho cây trồng và cơ thể.'],
+    [20,'Ca','Canxi','40.078','alkaline','Tạo xương, răng và vỏ sò.'],
+    [26,'Fe','Sắt','55.845','transition','Kim loại của thời đại đồ sắt.'],
+    [29,'Cu','Đồng','63.546','transition','Dẫn điện tốt, làm dây điện.'],
+    [30,'Zn','Kẽm','65.38','transition','Mạ chống gỉ cho sắt thép.'],
+    [47,'Ag','Bạc','107.87','transition','Dẫn điện tốt nhất trong kim loại.'],
+    [79,'Au','Vàng','196.97','transition','Không gỉ, biểu tượng giàu sang.'],
+    [82,'Pb','Chì','207.2','metal','Nặng, độc, dùng làm ắc quy.']
+  ];
+  var catColor = {alkali:'bg-sky-300', alkaline:'bg-amber-300', nonmetal:'bg-emerald-300',
+    halogen:'bg-violet-300', noble:'bg-rose-300', transition:'bg-slate-300', metal:'bg-orange-300'};
+  var grid = document.getElementById('periodic-grid');
+  var inner = '<div class="grid gap-1" style="grid-template-columns: repeat(13, minmax(44px,1fr)); min-width: 600px;">';
+  ELS.forEach(function(e, i){
+    inner += '<button class="el-cell ' + (catColor[e[4]]||'bg-slate-200') +
+      ' rounded-lg flex flex-col items-center justify-center border border-black/10" data-i="'+i+'">' +
+      '<span class="text-[9px] font-bold opacity-70">'+e[0]+'</span>' +
+      '<span class="font-black text-sm leading-none">'+e[1]+'</span></button>';
+  });
+  grid.innerHTML = inner + '</div>';
+  grid.querySelectorAll('.el-cell').forEach(function(c){
+    c.addEventListener('click', function(){
+      var e = ELS[parseInt(c.dataset.i)];
+      document.getElementById('el-info').classList.remove('hidden');
+      var sym = document.getElementById('el-symbol');
+      sym.textContent = e[1];
+      sym.className = 'w-16 h-16 rounded-xl flex flex-col items-center justify-center text-white font-black text-2xl ' +
+        (catColor[e[4]]||'bg-slate-400').replace('300','600');
+      document.getElementById('el-name').textContent = e[2] + ' (' + e[1] + ')';
+      document.getElementById('el-detail').innerHTML =
+        'Số hiệu nguyên tử <b>Z = ' + e[0] + '</b> • Khối lượng nguyên tử <b>' + e[3] + '</b> đvC';
+      document.getElementById('el-fact').textContent = '💡 ' + e[5];
+    });
+  });
+})();
+
+// ================= 2. TRỘN DUNG DỊCH =================
+(function(){
+  var cv = document.getElementById('cv-mix');
+  var G = fitCanvas(cv);
+  window.addEventListener('resize', function(){ G = fitCanvas(cv); });
+  var state = 'empty', pourT = 0, colorNow = '#e0f2fe', colorTo = '#e0f2fe';
+  var beakers = {acid:'#e0f2fe', base:'#e0f2fe'};
+
+  var eqs = {
+    'HCl|NaOH':   'HCl + NaOH → NaCl + H₂O',
+    'HCl|KOH':    'HCl + KOH → KCl + H₂O',
+    'HCl|Ca(OH)2':'2HCl + Ca(OH)₂ → CaCl₂ + 2H₂O',
+    'H2SO4|NaOH': 'H₂SO₄ + 2NaOH → Na₂SO₄ + 2H₂O',
+    'H2SO4|KOH':  'H₂SO₄ + 2KOH → K₂SO₄ + 2H₂O',
+    'H2SO4|Ca(OH)2': 'H₂SO₄ + Ca(OH)₂ → CaSO₄ + 2H₂O',
+    'CH3COOH|NaOH': 'CH₃COOH + NaOH → CH₃COONa + H₂O',
+    'CH3COOH|KOH':  'CH₃COOH + KOH → CH₃COOK + H₂O',
+    'CH3COOH|Ca(OH)2': '2CH₃COOH + Ca(OH)₂ → (CH₃COO)₂Ca + 2H₂O'
+  };
+  var names = {HCl:'axit clohiđric', H2SO4:'axit sunfuric', CH3COOH:'axit axetic',
+               NaOH:'natri hiđroxit', KOH:'kali hiđroxit', 'Ca(OH)2':'canxi hiđroxit'};
+
+  document.getElementById('mix-go').addEventListener('click', function(){
+    var a = document.getElementById('mix-acid').value;
+    var b = document.getElementById('mix-base').value;
+    var ind = document.getElementById('mix-ind').value;
+    state = 'pouring'; pourT = 0;
+    // Màu: phenolphtalein hồng trong bazơ, không màu trong axit; quỳ tím xanh trong bazơ, đỏ trong axit
+    // Sau trung hòa (pH~7): phenolphtalein không màu, quỳ tím tím
+    if (ind === 'phenol'){ colorTo = '#fce7f3'; beakers = {acid:'#f8fafc', base:'#f9a8d4'}; }
+    else { colorTo = '#e9d5ff'; beakers = {acid:'#fca5a5', base:'#93c5fd'}; }
+    setTimeout(function(){
+      state = 'done';
+      var key = a + '|' + b;
+      document.getElementById('mix-result').classList.remove('hidden');
+      document.getElementById('mix-eq').textContent = eqs[key] || (a + ' + ' + b + ' → muối + nước');
+      var indName = ind === 'phenol' ? 'phenolphtalein' : 'quỳ tím';
+      var colName = ind === 'phenol' ? 'không màu' : 'màu tím';
+      document.getElementById('mix-note').innerHTML =
+        'Đã cho <b>' + names[a] + '</b> tác dụng với <b>' + names[b] + '</b> (phản ứng <b>trung hòa</b>). ' +
+        'Nhỏ ' + indName + ' vào: dung dịch chuyển <b>' + colName + '</b> vì môi trường đã trung tính (pH ≈ 7).';
+    }, 2200);
+  });
+  document.getElementById('mix-reset').addEventListener('click', function(){
+    state = 'empty'; colorNow = '#e0f2fe'; colorTo = '#e0f2fe';
+    document.getElementById('mix-result').classList.add('hidden');
+  });
+
+  function lerpColor(c1, c2, t){
+    function p(h){ return [parseInt(h.slice(1,3),16), parseInt(h.slice(3,5),16), parseInt(h.slice(5,7),16)]; }
+    var a = p(c1), b = p(c2);
+    return 'rgb(' + Math.round(a[0]+(b[0]-a[0])*t) + ',' + Math.round(a[1]+(b[1]-a[1])*t) + ',' + Math.round(a[2]+(b[2]-a[2])*t) + ')';
+  }
+
+  function beaker(ctx, x, y, w, h, color, label){
+    ctx.fillStyle = 'rgba(203,213,225,0.35)';
+    ctx.beginPath();
+    ctx.moveTo(x, y); ctx.lineTo(x, y+h-14);
+    ctx.quadraticCurveTo(x, y+h, x+14, y+h);
+    ctx.lineTo(x+w-14, y+h); ctx.quadraticCurveTo(x+w, y+h, x+w, y+h-14);
+    ctx.lineTo(x+w, y); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 3; ctx.stroke();
+    // Chất lỏng
+    var lh = h * 0.62;
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.moveTo(x+4, y+h-lh);
+    ctx.lineTo(x+4, y+h-16);
+    ctx.quadraticCurveTo(x+4, y+h-4, x+16, y+h-4);
+    ctx.lineTo(x+w-16, y+h-4); ctx.quadraticCurveTo(x+w-4, y+h-4, x+w-4, y+h-16);
+    ctx.lineTo(x+w-4, y+h-lh); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = '#475569'; ctx.font = 'bold 12px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText(label, x+w/2, y+h+18);
+  }
+
+  function draw(){
+    var ctx = G.ctx, W = G.w, H = G.h;
+    ctx.clearRect(0,0,W,H);
+    var bw = 90, bh = 130, y = 60;
+    var a = document.getElementById('mix-acid').value;
+    var b = document.getElementById('mix-base').value;
+    // Cốc axit, cốc bazơ, cốc trộn
+    beaker(ctx, 20, y, bw, bh, state==='empty' ? '#e0f2fe' : beakers.acid, a.replace('2','₂').replace('4','₄'));
+    beaker(ctx, W/2-bw/2, y, bw, bh, state==='empty' ? '#e0f2fe' : beakers.base, b.replace('2','₂'));
+    var mixColor = state==='empty' ? '#f1f5f9' : (state==='done' ? colorTo : lerpColor(colorNow, colorTo, Math.min(1, pourT)));
+    beaker(ctx, W-20-bw, y, bw, bh, mixColor, 'Hỗn hợp');
+    if (state === 'pouring'){
+      pourT += 0.02;
+      // Vẽ dòng chảy
+      ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 6;
+      ctx.beginPath(); ctx.moveTo(20+bw/2, y+bh*0.4);
+      ctx.quadraticCurveTo(W-20-bw/2-40, y-10, W-20-bw/2, y+bh*0.3); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(W/2, y+bh*0.4);
+      ctx.quadraticCurveTo(W-20-bw/2-20, y-20, W-20-bw/2, y+bh*0.3); ctx.stroke();
+      colorNow = mixColor;
+      if (pourT > 1.4){ /* chờ setTimeout chuyển done */ }
+    }
+    if (state === 'done'){
+      // Bong bóng
+      ctx.fillStyle = 'rgba(255,255,255,0.7)';
+      for (var i=0;i<8;i++){
+        var bx = W-20-bw + 15 + ((i*37)%(bw-30));
+        var by = y+bh-20 - ((Date.now()/30 + i*53) % (bh*0.55));
+        ctx.beginPath(); ctx.arc(bx, by, 3, 0, 7); ctx.fill();
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ================= 3. MÔ HÌNH NGUYÊN TỬ BOHR =================
+(function(){
+  var cv = document.getElementById('cv-atom');
+  var G = fitCanvas(cv);
+  window.addEventListener('resize', function(){ G = fitCanvas(cv); });
+  // [Z, symbol, name, shells[]]
+  var ATOMS = [
+    [1,'H','Hiđro',[1]], [2,'He','Heli',[2]], [3,'Li','Liti',[2,1]],
+    [4,'Be','Berili',[2,2]], [5,'B','Bo',[2,3]], [6,'C','Cacbon',[2,4]],
+    [7,'N','Nitơ',[2,5]], [8,'O','Oxi',[2,6]], [9,'F','Flo',[2,7]],
+    [10,'Ne','Neon',[2,8]], [11,'Na','Natri',[2,8,1]], [12,'Mg','Magie',[2,8,2]],
+    [13,'Al','Nhôm',[2,8,3]], [14,'Si','Silic',[2,8,4]], [15,'P','Photpho',[2,8,5]],
+    [16,'S','Lưu huỳnh',[2,8,6]], [17,'Cl','Clo',[2,8,7]], [18,'Ar','Agon',[2,8,8]],
+    [19,'K','Kali',[2,8,8,1]], [20,'Ca','Canxi',[2,8,8,2]]
+  ];
+  var sel = document.getElementById('atom-sel');
+  ATOMS.forEach(function(a, i){
+    var o = document.createElement('option');
+    o.value = i; o.textContent = a[1] + ' — ' + a[2] + ' (Z=' + a[0] + ')';
+    sel.appendChild(o);
+  });
+  var cur = ATOMS[5]; // Cacbon mặc định
+  sel.value = 5;
+  sel.addEventListener('change', function(){ cur = ATOMS[parseInt(sel.value)]; });
+  var t = 0;
+
+  function draw(){
+    var ctx = G.ctx, W = G.w, H = G.h;
+    ctx.clearRect(0,0,W,H);
+    t += 0.02;
+    var cx = W/2, cy = H/2, R = Math.min(W,H)/2 - 24;
+    var n = cur[3].length;
+    // Vẽ lớp vỏ
+    for (var s=0; s<n; s++){
+      var r = R * (s+1)/n;
+      ctx.strokeStyle = 'rgba(148,163,184,0.5)'; ctx.lineWidth = 1.5;
+      ctx.setLineDash([6,5]);
+      ctx.beginPath(); ctx.arc(cx,cy,r,0,7); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = '#94a3b8'; ctx.font = '10px sans-serif'; ctx.textAlign='center';
+      ctx.fillText('Lớp ' + (s+1), cx + r*0.72, cy - r*0.72);
+    }
+    // Hạt nhân
+    var grad = ctx.createRadialGradient(cx-5,cy-5,3,cx,cy,26);
+    grad.addColorStop(0,'#fca5a5'); grad.addColorStop(1,'#dc2626');
+    ctx.fillStyle = grad; ctx.beginPath(); ctx.arc(cx,cy,24,0,7); ctx.fill();
+    ctx.fillStyle = '#fff'; ctx.font = 'bold 13px sans-serif'; ctx.textAlign='center';
+    ctx.fillText(cur[1], cx, cy-1);
+    ctx.font = '10px sans-serif'; ctx.fillText(cur[0]+'p', cx, cy+13);
+    // Electron
+    for (var s2=0; s2<n; s2++){
+      var r2 = R * (s2+1)/n, cnt = cur[3][s2];
+      for (var e=0; e<cnt; e++){
+        var ang = t*(1.6 - s2*0.25) + e*(Math.PI*2/cnt);
+        var ex = cx + r2*Math.cos(ang), ey = cy + r2*Math.sin(ang);
+        var eg = ctx.createRadialGradient(ex-1,ey-1,1,ex,ey,7);
+        eg.addColorStop(0,'#bfdbfe'); eg.addColorStop(1,'#2563eb');
+        ctx.fillStyle = eg; ctx.beginPath(); ctx.arc(ex,ey,6,0,7); ctx.fill();
+        ctx.fillStyle = '#fff'; ctx.font = 'bold 8px sans-serif';
+        ctx.fillText('e', ex, ey+3);
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  // Cập nhật info mỗi giây
+  setInterval(function(){
+    var total = cur[3].reduce(function(a,c){return a+c;},0);
+    document.getElementById('atom-info').innerHTML =
+      '<b class="text-violet-800">' + cur[2] + ' (' + cur[1] + ')</b> — Z = ' + cur[0] +
+      ', ' + total + ' electron: ' + cur[3].map(function(c,i){return 'lớp '+(i+1)+': '+c+'e';}).join(' • ');
+  }, 500);
+  draw();
+})();
+
+// Fit lai canvas khi chuyen tab (tab an co width=0)
+window.__fitAll = function(){
+  try { var c=document.getElementById('cv-mix'); if(c && c.offsetParent){ var r=c.getBoundingClientRect(),d=window.devicePixelRatio||1; c.width=r.width*d; c.height=(parseInt(c.getAttribute('height'))||300)*d; var x2=c.getContext('2d'); x2.setTransform(d,0,0,d,0,0); } } catch(e){}
+  try { var c=document.getElementById('cv-atom'); if(c && c.offsetParent){ var r=c.getBoundingClientRect(),d=window.devicePixelRatio||1; c.width=r.width*d; c.height=(parseInt(c.getAttribute('height'))||300)*d; var x2=c.getContext('2d'); x2.setTransform(d,0,0,d,0,0); } } catch(e){}
+};
+</script>
+</body>
+</html>
