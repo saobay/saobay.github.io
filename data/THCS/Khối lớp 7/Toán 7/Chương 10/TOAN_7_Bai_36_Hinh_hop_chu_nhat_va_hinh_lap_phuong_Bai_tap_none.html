@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài tập Bài 36: Hình hộp chữ nhật và hình lập phương</title>
+    <meta name="lesson-title" content="Bài tập Bài 36: Hình hộp chữ nhật và hình lập phương">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Bài tập</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài tập Bài 36: Hình hộp chữ nhật và hình lập phương</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 10: Một số hình khối trong thực tiễn • Bài 36: Hình hộp chữ nhật và hình lập phương</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="saobay-exam10">
+<script type="application/json" class="saobay-exam10-data">
+{
+ "sets": [
+  {
+   "name": "Đề 1",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Hình hộp chữ nhật có bao nhiêu mặt?",
+     "options": [
+      "A. $4$",
+      "B. $5$",
+      "C. $6$",
+      "D. $8$"
+     ],
+     "answer": "C",
+     "explain": "Hình hộp chữ nhật có $6$ mặt đều là hình chữ nhật."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Hình lập phương có bao nhiêu cạnh?",
+     "options": [
+      "A. $6$",
+      "B. $8$",
+      "C. $12$",
+      "D. $18$"
+     ],
+     "answer": "C",
+     "explain": "Hình lập phương có $12$ cạnh bằng nhau."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Hình hộp chữ nhật có chiều dài $5\\text{ cm}$, chiều rộng $4\\text{ cm}$, chiều cao $3\\text{ cm}$. Tính diện tích xung quanh.",
+     "options": [
+      "A. $47\\text{ cm}^2$",
+      "B. $54\\text{ cm}^2$",
+      "C. $60\\text{ cm}^2$",
+      "D. $108\\text{ cm}^2$"
+     ],
+     "answer": "B",
+     "explain": "$S_{xq} = 2(5+4)\\cdot 3 = 54\\text{ (cm}^2\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Hình lập phương cạnh $4\\text{ cm}$ có thể tích bằng bao nhiêu?",
+     "options": [
+      "A. $16\\text{ cm}^3$",
+      "B. $48\\text{ cm}^3$",
+      "C. $64\\text{ cm}^3$",
+      "D. $96\\text{ cm}^3$"
+     ],
+     "answer": "C",
+     "explain": "$V = a^3 = 4^3 = 64\\text{ (cm}^3\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Hình hộp chữ nhật có chiều dài $6\\text{ cm}$, chiều rộng $4\\text{ cm}$, chiều cao $5\\text{ cm}$. Tính diện tích toàn phần.",
+     "options": [
+      "A. $148\\text{ cm}^2$",
+      "B. $100\\text{ cm}^2$",
+      "C. $120\\text{ cm}^2$",
+      "D. $124\\text{ cm}^2$"
+     ],
+     "answer": "A",
+     "explain": "$S_{xq} = 2(6+4)\\cdot 5 = 100$; $S_{tp} = 100 + 2\\cdot 6\\cdot 4 = 148\\text{ (cm}^2\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Một bể nước hình hộp chữ nhật có chiều dài $2\\text{ m}$, chiều rộng $1,5\\text{ m}$, chiều cao $1\\text{ m}$. Bể chứa được tối đa bao nhiêu lít nước?",
+     "options": [
+      "A. $300$ lít",
+      "B. $3000$ lít",
+      "C. $30$ lít",
+      "D. $4500$ lít"
+     ],
+     "answer": "B",
+     "explain": "$V = 2\\cdot 1,5\\cdot 1 = 3\\text{ (m}^3\\text{)} = 3000\\text{ (dm}^3\\text{)} = 3000$ lít."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho hình hộp chữ nhật có chiều dài $3\\text{ cm}$, chiều rộng $4\\text{ cm}$, chiều cao $5\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Diện tích xung quanh bằng $70\\text{ cm}^2$.",
+      "b) Thể tích bằng $60\\text{ cm}^3$.",
+      "c) Diện tích toàn phần bằng $94\\text{ cm}^2$.",
+      "d) Hình hộp chữ nhật có $12$ đỉnh."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$S_{xq} = 2(3+4)\\cdot 5 = 70$; $V = 60$; $S_{tp} = 70+2\\cdot 12 = 94$; hình hộp chữ nhật có $8$ đỉnh."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Cho hình lập phương cạnh $5\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Diện tích xung quanh bằng $100\\text{ cm}^2$.",
+      "b) Diện tích toàn phần bằng $150\\text{ cm}^2$.",
+      "c) Thể tích bằng $125\\text{ cm}^3$.",
+      "d) Hình lập phương có $6$ đỉnh."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$S_{xq} = 4\\cdot 25 = 100$; $S_{tp} = 6\\cdot 25 = 150$; $V = 125$; hình lập phương có $8$ đỉnh."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Hình hộp chữ nhật có chiều dài $8\\text{ cm}$, chiều rộng $6\\text{ cm}$, chiều cao $5\\text{ cm}$. Tính thể tích của hình (đơn vị: $\\text{cm}^3$).",
+     "answer": "240",
+     "explain": "$V = 8\\cdot 6\\cdot 5 = 240\\text{ (cm}^3\\text{)}$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Một hình lập phương có thể tích $27\\text{ cm}^3$. Tính độ dài cạnh của hình (đơn vị: cm).",
+     "answer": "3",
+     "explain": "$a^3 = 27 \\Rightarrow a = 3\\text{ (cm)}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 2",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Hình hộp chữ nhật có bao nhiêu đỉnh?",
+     "options": [
+      "A. $6$",
+      "B. $8$",
+      "C. $12$",
+      "D. $4$"
+     ],
+     "answer": "B",
+     "explain": "Hình hộp chữ nhật có $8$ đỉnh."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Các mặt của hình lập phương là những hình gì?",
+     "options": [
+      "A. Hình vuông bằng nhau",
+      "B. Hình chữ nhật không bằng nhau",
+      "C. Hình tam giác",
+      "D. Hình tròn"
+     ],
+     "answer": "A",
+     "explain": "Hình lập phương có $6$ mặt đều là hình vuông bằng nhau."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Diện tích xung quanh của hình hộp chữ nhật có chiều dài $7\\text{ cm}$, chiều rộng $3\\text{ cm}$, chiều cao $4\\text{ cm}$ bằng bao nhiêu?",
+     "options": [
+      "A. $80\\text{ cm}^2$",
+      "B. $40\\text{ cm}^2$",
+      "C. $84\\text{ cm}^2$",
+      "D. $160\\text{ cm}^2$"
+     ],
+     "answer": "A",
+     "explain": "$S_{xq} = 2(7+3)\\cdot 4 = 80\\text{ (cm}^2\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Thể tích của hình lập phương cạnh $6\\text{ cm}$ bằng bao nhiêu?",
+     "options": [
+      "A. $36\\text{ cm}^3$",
+      "B. $216\\text{ cm}^3$",
+      "C. $144\\text{ cm}^3$",
+      "D. $96\\text{ cm}^3$"
+     ],
+     "answer": "B",
+     "explain": "$V = 6^3 = 216\\text{ (cm}^3\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Hình hộp chữ nhật có diện tích xung quanh $96\\text{ cm}^2$, chiều dài $5\\text{ cm}$, chiều rộng $3\\text{ cm}$. Tính chiều cao của hình.",
+     "options": [
+      "A. $4\text{ cm}$",
+      "B. $6\text{ cm}$",
+      "C. $8\text{ cm}$",
+      "D. $12\text{ cm}$"
+     ],
+     "answer": "B",
+     "explain": "$2(5+3)\\cdot h = 96 \\Rightarrow 16h = 96 \\Rightarrow h = 6\\text{ (cm)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Một cái thùng hình lập phương cạnh $5\\text{ dm}$, không có nắp. Diện tích tôn cần dùng để làm thùng là bao nhiêu?",
+     "options": [
+      "A. $150\\text{ dm}^2$",
+      "B. $100\\text{ dm}^2$",
+      "C. $125\\text{ dm}^2$",
+      "D. $75\\text{ dm}^2$"
+     ],
+     "answer": "C",
+     "explain": "Thùng không nắp gồm $5$ mặt: $5\\cdot 5^2 = 125\\text{ (dm}^2\\text{)}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho hình hộp chữ nhật có chiều dài $10\\text{ cm}$, chiều rộng $6\\text{ cm}$, chiều cao $4\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Diện tích xung quanh bằng $128\\text{ cm}^2$.",
+      "b) Diện tích đáy bằng $60\\text{ cm}^2$.",
+      "c) Diện tích toàn phần bằng $248\\text{ cm}^2$.",
+      "d) Thể tích bằng $240\\text{ cm}^3$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$S_{xq} = 2(10+6)\\cdot 4 = 128$; $S_{\\text{đáy}} = 60$; $S_{tp} = 128+120 = 248$; $V = 240$."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Xét hình lập phương cạnh $a$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Hình lập phương có $12$ cạnh bằng nhau.",
+      "b) Hình lập phương có $6$ mặt là hình vuông bằng nhau.",
+      "c) Diện tích xung quanh bằng $4a^2$.",
+      "d) Thể tích bằng $6a^3$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b), c) đúng; d) sai vì $V = a^3$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Hình hộp chữ nhật có thể tích $120\\text{ cm}^3$, chiều dài $5\\text{ cm}$, chiều rộng $4\\text{ cm}$. Tính chiều cao của hình (đơn vị: cm).",
+     "answer": "6",
+     "explain": "$h = \\frac{V}{a\\cdot b} = \\frac{120}{20} = 6\\text{ (cm)}$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Một hình lập phương có diện tích toàn phần $54\\text{ cm}^2$. Tính độ dài cạnh của hình (đơn vị: cm).",
+     "answer": "3",
+     "explain": "$6a^2 = 54 \\Rightarrow a^2 = 9 \\Rightarrow a = 3\\text{ (cm)}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 3",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Hình hộp chữ nhật có bao nhiêu cạnh?",
+     "options": [
+      "A. $6$",
+      "B. $8$",
+      "C. $12$",
+      "D. $16$"
+     ],
+     "answer": "C",
+     "explain": "Hình hộp chữ nhật có $12$ cạnh."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Hai mặt đối diện của hình hộp chữ nhật thì như thế nào với nhau?",
+     "options": [
+      "A. Bằng nhau",
+      "B. Mặt này gấp đôi mặt kia",
+      "C. Không liên quan",
+      "D. Vuông góc với nhau"
+     ],
+     "answer": "A",
+     "explain": "Hai mặt đối diện của hình hộp chữ nhật bằng nhau."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Thể tích của hình hộp chữ nhật có chiều dài $9\\text{ cm}$, chiều rộng $5\\text{ cm}$, chiều cao $2\\text{ cm}$ bằng bao nhiêu?",
+     "options": [
+      "A. $90\\text{ cm}^3$",
+      "B. $45\\text{ cm}^3$",
+      "C. $28\\text{ cm}^3$",
+      "D. $180\\text{ cm}^3$"
+     ],
+     "answer": "A",
+     "explain": "$V = 9\\cdot 5\\cdot 2 = 90\\text{ (cm}^3\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Diện tích xung quanh của hình lập phương cạnh $7\\text{ cm}$ bằng bao nhiêu?",
+     "options": [
+      "A. $49\\text{ cm}^2$",
+      "B. $196\\text{ cm}^2$",
+      "C. $294\\text{ cm}^2$",
+      "D. $343\\text{ cm}^2$"
+     ],
+     "answer": "B",
+     "explain": "$S_{xq} = 4\\cdot 7^2 = 196\\text{ (cm}^2\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Hình hộp chữ nhật có thể tích $210\\text{ cm}^3$, diện tích đáy $30\\text{ cm}^2$. Tính chiều cao của hình.",
+     "options": [
+      "A. $6\text{ cm}$",
+      "B. $5\text{ cm}$",
+      "C. $7\text{ cm}$",
+      "D. $8\text{ cm}$"
+     ],
+     "answer": "C",
+     "explain": "$h = \\frac{V}{S_{\\text{đáy}}} = \\frac{210}{30} = 7\\text{ (cm)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Người ta sơn tất cả các mặt ngoài của một khối gỗ hình lập phương cạnh $10\\text{ cm}$. Diện tích cần sơn là bao nhiêu?",
+     "options": [
+      "A. $600\\text{ cm}^2$",
+      "B. $400\\text{ cm}^2$",
+      "C. $1000\\text{ cm}^2$",
+      "D. $300\\text{ cm}^2$"
+     ],
+     "answer": "A",
+     "explain": "Diện tích cần sơn $= S_{tp} = 6\\cdot 10^2 = 600\\text{ (cm}^2\\text{)}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho hình hộp chữ nhật có chiều dài $2\\text{ cm}$, chiều rộng $3\\text{ cm}$, chiều cao $4\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Diện tích xung quanh bằng $40\\text{ cm}^2$.",
+      "b) Thể tích bằng $24\\text{ cm}^3$.",
+      "c) Diện tích toàn phần bằng $52\\text{ cm}^2$.",
+      "d) Hình hộp chữ nhật có $6$ đỉnh."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$S_{xq} = 2(2+3)\\cdot 4 = 40$; $V = 24$; $S_{tp} = 40+2\\cdot 6 = 52$; hình hộp chữ nhật có $8$ đỉnh."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Một cái hộp hình lập phương cạnh $2\\text{ dm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Thể tích của hộp bằng $8\\text{ dm}^3$.",
+      "b) Diện tích toàn phần bằng $24\\text{ dm}^2$.",
+      "c) Diện tích xung quanh bằng $16\\text{ dm}^2$.",
+      "d) Hộp có $12$ mặt."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$V = 8$; $S_{tp} = 6\\cdot 4 = 24$; $S_{xq} = 4\\cdot 4 = 16$; hộp có $6$ mặt."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Tính diện tích xung quanh của hình hộp chữ nhật có chiều dài $12\\text{ cm}$, chiều rộng $8\\text{ cm}$, chiều cao $5\\text{ cm}$ (đơn vị: $\\text{cm}^2$).",
+     "answer": "200",
+     "explain": "$S_{xq} = 2(12+8)\\cdot 5 = 200\\text{ (cm}^2\\text{)}$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Một hình lập phương có cạnh $9\\text{ cm}$. Tính diện tích toàn phần của hình (đơn vị: $\\text{cm}^2$).",
+     "answer": "486",
+     "explain": "$S_{tp} = 6\\cdot 9^2 = 486\\text{ (cm}^2\\text{)}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 4",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Ba kích thước của hình hộp chữ nhật là ba đại lượng nào?",
+     "options": [
+      "A. Chiều dài, chiều rộng, chiều cao",
+      "B. Chu vi, diện tích, thể tích",
+      "C. Cạnh, góc, đường chéo",
+      "D. Bán kính, đường kính, chiều cao"
+     ],
+     "answer": "A",
+     "explain": "Hình hộp chữ nhật có ba kích thước: chiều dài, chiều rộng, chiều cao."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Công thức tính diện tích xung quanh của hình hộp chữ nhật (chiều dài $a$, chiều rộng $b$, chiều cao $h$) là gì?",
+     "options": [
+      "A. $S_{xq} = 2(a+b)\\cdot h$",
+      "B. $S_{xq} = (a+b)\\cdot h$",
+      "C. $S_{xq} = 2a+2b+h$",
+      "D. $S_{xq} = a\\cdot b\\cdot h$"
+     ],
+     "answer": "A",
+     "explain": "$S_{xq} = 2(a+b)\\\\cdot h$ (chu vi đáy nhân với chiều cao)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Công thức tính thể tích của hình hộp chữ nhật (chiều dài $a$, chiều rộng $b$, chiều cao $h$) là gì?",
+     "options": [
+      "A. $V = a\\cdot b\\cdot h$",
+      "B. $V = 2(a+b)\\cdot h$",
+      "C. $V = a+b+h$",
+      "D. $V = 2ab+2ah+2bh$"
+     ],
+     "answer": "A",
+     "explain": "$V = a\\\\cdot b\\\\cdot h$ (diện tích đáy nhân với chiều cao)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Hình lập phương cạnh $a$ có diện tích toàn phần bằng bao nhiêu?",
+     "options": [
+      "A. $4a^2$",
+      "B. $6a^2$",
+      "C. $a^3$",
+      "D. $2a^2$"
+     ],
+     "answer": "B",
+     "explain": "$S_{tp} = 6a^2$ (6 mặt hình vuông cạnh $a$)."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Hình hộp chữ nhật có chiều dài $4\\text{ cm}$, chiều rộng $6\\text{ cm}$, chiều cao $3\\text{ cm}$. Tính tổng độ dài tất cả các cạnh của hình.",
+     "options": [
+      "A. $26\text{ cm}$",
+      "B. $52\text{ cm}$",
+      "C. $39\text{ cm}$",
+      "D. $13\text{ cm}$"
+     ],
+     "answer": "B",
+     "explain": "Tổng độ dài $12$ cạnh $= 4(a+b+h) = 4\\cdot 13 = 52\\text{ (cm)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Một bể cá hình hộp chữ nhật có chiều dài $80\\text{ cm}$, chiều rộng $40\\text{ cm}$, chiều cao $50\\text{ cm}$. Trong bể đang có mực nước cao $30\\text{ cm}$. Tính thể tích nước trong bể.",
+     "options": [
+      "A. $96$ lít",
+      "B. $160$ lít",
+      "C. $96000\\text{ cm}^3$ nhưng chỉ $96$ lít",
+      "D. $160000\text{ cm}^3$"
+     ],
+     "answer": "A",
+     "explain": "$V_{\\text{nước}} = 80\\cdot 40\\cdot 30 = 96000\\text{ (cm}^3\\text{)} = 96$ lít."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho hình lập phương cạnh $10\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Diện tích xung quanh bằng $400\\text{ cm}^2$.",
+      "b) Thể tích bằng $1000\\text{ cm}^3$.",
+      "c) Diện tích toàn phần bằng $600\\text{ cm}^2$.",
+      "d) Tổng độ dài tất cả các cạnh bằng $120\text{ cm}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$S_{xq} = 400$; $V = 1000$; $S_{tp} = 600$; tổng các cạnh $= 12\\cdot 10 = 120$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Hình hộp chữ nhật có ba kích thước đều bằng $5\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Hình đó là hình lập phương.",
+      "b) Thể tích bằng $125\\text{ cm}^3$.",
+      "c) Diện tích toàn phần bằng $150\\text{ cm}^2$.",
+      "d) Diện tích xung quanh bằng $100\\text{ cm}^2$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "Ba kích thước bằng nhau nên là hình lập phương cạnh $5\\text{ cm}$; cả bốn khẳng định đều đúng."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Hình hộp chữ nhật có chiều dài $15\\text{ cm}$, chiều rộng $10\\text{ cm}$, chiều cao $8\\text{ cm}$. Tính thể tích của hình (đơn vị: $\\text{cm}^3$).",
+     "answer": "1200",
+     "explain": "$V = 15\\cdot 10\\cdot 8 = 1200\\text{ (cm}^3\\text{)}$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Một khối lập phương có thể tích $64\\text{ cm}^3$. Tính diện tích xung quanh của khối (đơn vị: $\\text{cm}^2$).",
+     "answer": "64",
+     "explain": "$a^3 = 64 \\Rightarrow a = 4\\text{ (cm)}$; $S_{xq} = 4\\cdot 16 = 64\\text{ (cm}^2\\text{)}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 5",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Phát biểu nào sau đây là SAI?",
+     "options": [
+      "A. Hình hộp chữ nhật có $6$ mặt đều là hình chữ nhật.",
+      "B. Hình lập phương có $12$ cạnh bằng nhau.",
+      "C. Hình hộp chữ nhật có $8$ đỉnh.",
+      "D. Hình lập phương có $8$ mặt."
+     ],
+     "answer": "D",
+     "explain": "A, B, C đúng; D sai vì hình lập phương chỉ có $6$ mặt."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Thể tích của hình lập phương cạnh $a$ bằng bao nhiêu?",
+     "options": [
+      "A. $a^3$",
+      "B. $6a^2$",
+      "C. $4a^2$",
+      "D. $3a$"
+     ],
+     "answer": "A",
+     "explain": "$V = a^3$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Hình hộp chữ nhật có chu vi đáy $30\\text{ cm}$, chiều cao $6\\text{ cm}$. Tính diện tích xung quanh.",
+     "options": [
+      "A. $90\\text{ cm}^2$",
+      "B. $180\\text{ cm}^2$",
+      "C. $36\\text{ cm}^2$",
+      "D. $150\\text{ cm}^2$"
+     ],
+     "answer": "B",
+     "explain": "$S_{xq} =$ chu vi đáy $\\times$ chiều cao $= 30\\cdot 6 = 180\\text{ (cm}^2\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Một hình lập phương có thể tích $1000\\text{ cm}^3$. Tính diện tích toàn phần của hình.",
+     "options": [
+      "A. $100\\text{ cm}^2$",
+      "B. $400\\text{ cm}^2$",
+      "C. $600\\text{ cm}^2$",
+      "D. $6000\\text{ cm}^2$"
+     ],
+     "answer": "C",
+     "explain": "$a^3 = 1000 \\Rightarrow a = 10\\text{ (cm)}$; $S_{tp} = 6\\cdot 100 = 600\\text{ (cm}^2\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Một căn phòng hình hộp chữ nhật có chiều dài $5\\text{ m}$, chiều rộng $4\\text{ m}$, chiều cao $3\\text{ m}$. Tính diện tích bốn bức tường xung quanh (không tính cửa).",
+     "options": [
+      "A. $54\\text{ m}^2$",
+      "B. $60\\text{ m}^2$",
+      "C. $47\\text{ m}^2$",
+      "D. $74\\text{ m}^2$"
+     ],
+     "answer": "A",
+     "explain": "Diện tích bốn bức tường $= S_{xq} = 2(5+4)\\cdot 3 = 54\\text{ (m}^2\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Người ta xếp các khối lập phương cạnh $2\\text{ cm}$ vào một chiếc hộp hình hộp chữ nhật có kích thước $12\\text{ cm} \\\\times 8\\text{ cm} \\\\times 6\\text{ cm}$. Xếp được tối đa bao nhiêu khối?",
+     "options": [
+      "A. $36$ khối",
+      "B. $48$ khối",
+      "C. $72$ khối",
+      "D. $144$ khối"
+     ],
+     "answer": "C",
+     "explain": "Số khối $= \\frac{12}{2}\\cdot\\frac{8}{2}\\cdot\\frac{6}{2} = 6\\cdot 4\\cdot 3 = 72$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho hình hộp chữ nhật có chiều dài $8\\text{ cm}$, chiều rộng $5\\text{ cm}$, chiều cao $6\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Diện tích xung quanh bằng $156\\text{ cm}^2$.",
+      "b) Thể tích bằng $240\\text{ cm}^3$.",
+      "c) Diện tích toàn phần bằng $236\\text{ cm}^2$.",
+      "d) Diện tích đáy bằng $40\\\\text{ cm}^2$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$S_{xq} = 2(8+5)\\cdot 6 = 156$; $V = 240$; $S_{tp} = 156+2\\cdot 40 = 236$; $S_{\\text{đáy}} = 40$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho khối lập phương có đường chéo của một mặt bằng $4\\\\sqrt{2}\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Cạnh của khối bằng $4\\text{ cm}$.",
+      "b) Thể tích bằng $64\\text{ cm}^3$.",
+      "c) Diện tích toàn phần bằng $96\\text{ cm}^2$.",
+      "d) Diện tích xung quanh bằng $64\\text{ cm}^2$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "Đường chéo mặt $= a\\\\sqrt{2} = 4\\\\sqrt{2} \\Rightarrow a = 4$; $V = 64$; $S_{tp} = 96$; $S_{xq} = 64$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Hình hộp chữ nhật có diện tích xung quanh $220\\text{ cm}^2$, chiều dài $6\\text{ cm}$, chiều rộng $5\\text{ cm}$. Tính chiều cao của hình (đơn vị: cm).",
+     "answer": "10",
+     "explain": "$2(6+5)\\cdot h = 220 \\Rightarrow 22h = 220 \\Rightarrow h = 10\\text{ (cm)}$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Tính thể tích của hình lập phương có diện tích toàn phần $150\\text{ cm}^2$ (đơn vị: $\\text{cm}^3$).",
+     "answer": "125",
+     "explain": "$6a^2 = 150 \\Rightarrow a = 5\\text{ (cm)}$; $V = 125\\text{ (cm}^3\\text{)}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 6",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Hình lập phương là hình hộp chữ nhật có đặc điểm gì?",
+     "options": [
+      "A. $6$ mặt đều là hình vuông bằng nhau",
+      "B. $6$ mặt đều là hình chữ nhật không bằng nhau",
+      "C. $4$ mặt là hình vuông",
+      "D. $8$ đỉnh và $6$ cạnh"
+     ],
+     "answer": "A",
+     "explain": "Hình lập phương là hình hộp chữ nhật có $6$ mặt đều là hình vuông bằng nhau."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Diện tích một mặt của hình lập phương cạnh $5\\text{ cm}$ bằng bao nhiêu?",
+     "options": [
+      "A. $25\\text{ cm}^2$",
+      "B. $20\\text{ cm}^2$",
+      "C. $125\\text{ cm}^2$",
+      "D. $150\\text{ cm}^2$"
+     ],
+     "answer": "A",
+     "explain": "Diện tích một mặt $= 5^2 = 25\\text{ (cm}^2\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Thể tích của hình hộp chữ nhật có chiều dài $11\\text{ cm}$, chiều rộng $9\\text{ cm}$, chiều cao $10\\text{ cm}$ bằng bao nhiêu?",
+     "options": [
+      "A. $900\\text{ cm}^3$",
+      "B. $990\\text{ cm}^3$",
+      "C. $1090\\text{ cm}^3$",
+      "D. $909\\text{ cm}^3$"
+     ],
+     "answer": "B",
+     "explain": "$V = 11\\cdot 9\\cdot 10 = 990\\text{ (cm}^3\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Diện tích xung quanh của hình lập phương cạnh $12\\text{ cm}$ bằng bao nhiêu?",
+     "options": [
+      "A. $144\\text{ cm}^2$",
+      "B. $864\\text{ cm}^2$",
+      "C. $576\\text{ cm}^2$",
+      "D. $1728\\text{ cm}^2$"
+     ],
+     "answer": "C",
+     "explain": "$S_{xq} = 4\\cdot 12^2 = 576\\text{ (cm}^2\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Một bể hình hộp chữ nhật có thể tích $48000\\text{ cm}^3$, đáy là hình chữ nhật $60\\text{ cm} \\\\times 40\\text{ cm}$. Tính chiều cao của bể.",
+     "options": [
+      "A. $20\text{ cm}$",
+      "B. $30\text{ cm}$",
+      "C. $40\text{ cm}$",
+      "D. $15\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "$h = \\frac{48000}{60\\cdot 40} = 20\\text{ (cm)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Từ một khối gỗ hình lập phương cạnh $12\\text{ cm}$, người ta cắt đi một khối hình hộp chữ nhật có kích thước $6\\text{ cm} \\\\times 6\\text{ cm} \\\\times 12\\text{ cm}$. Thể tích phần gỗ còn lại là bao nhiêu?",
+     "options": [
+      "A. $1296\\text{ cm}^3$",
+      "B. $1300\\text{ cm}^3$",
+      "C. $1728\\text{ cm}^3$",
+      "D. $432\\text{ cm}^3$"
+     ],
+     "answer": "A",
+     "explain": "$V_{\\text{còn lại}} = 12^3 - 6\\cdot 6\\cdot 12 = 1728 - 432 = 1296\\text{ (cm}^3\\text{)}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho hình hộp chữ nhật có ba kích thước $7\\text{ cm}$, $8\\text{ cm}$, $9\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Thể tích bằng $504\\text{ cm}^3$.",
+      "b) Diện tích xung quanh bằng $270\\text{ cm}^2$.",
+      "c) Diện tích toàn phần bằng $382\\text{ cm}^2$.",
+      "d) Hình có $12$ cạnh."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$V = 504$; $S_{xq} = 2(7+8)\\cdot 9 = 270$; $S_{tp} = 270+2\\cdot 56 = 382$; hình hộp chữ nhật có $12$ cạnh."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Một khối rubik hình lập phương cạnh $6\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Thể tích của khối bằng $216\\text{ cm}^3$.",
+      "b) Diện tích toàn phần bằng $216\\text{ cm}^2$.",
+      "c) Diện tích xung quanh bằng $144\\text{ cm}^2$.",
+      "d) Khối có $8$ đỉnh."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$V = 216$; $S_{tp} = 6\\cdot 36 = 216$; $S_{xq} = 4\\cdot 36 = 144$; có $8$ đỉnh."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Hình hộp chữ nhật có chiều dài $20\\text{ cm}$, chiều rộng $15\\text{ cm}$, chiều cao $12\\text{ cm}$. Tính diện tích xung quanh của hình (đơn vị: $\\text{cm}^2$).",
+     "answer": "840",
+     "explain": "$S_{xq} = 2(20+15)\\cdot 12 = 840\\text{ (cm}^2\\text{)}$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Một hình lập phương có diện tích xung quanh $256\\text{ cm}^2$. Tính thể tích của hình (đơn vị: $\\text{cm}^3$).",
+     "answer": "512",
+     "explain": "$4a^2 = 256 \\Rightarrow a = 8\\text{ (cm)}$; $V = 512\\text{ (cm}^3\\text{)}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 7",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Hình hộp chữ nhật có số mặt, số đỉnh, số cạnh lần lượt là bao nhiêu?",
+     "options": [
+      "A. $6, 12, 8$",
+      "B. $6, 8, 12$",
+      "C. $8, 6, 12$",
+      "D. $6, 8, 8$"
+     ],
+     "answer": "B",
+     "explain": "Hình hộp chữ nhật có $6$ mặt, $8$ đỉnh, $12$ cạnh."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Công thức $V = a\\\\cdot b\\\\cdot h$ dùng để tính thể tích của hình nào?",
+     "options": [
+      "A. Hình hộp chữ nhật",
+      "B. Hình lập phương",
+      "C. Hình lăng trụ đứng",
+      "D. Hình chóp"
+     ],
+     "answer": "A",
+     "explain": "$V = a\\\\cdot b\\\\cdot h$ là công thức thể tích hình hộp chữ nhật."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Hình hộp chữ nhật có diện tích đáy $48\\text{ cm}^2$, chiều cao $7\\text{ cm}$. Tính thể tích của hình.",
+     "options": [
+      "A. $55\\text{ cm}^3$",
+      "B. $335\\text{ cm}^3$",
+      "C. $336\\text{ cm}^3$",
+      "D. $343\\text{ cm}^3$"
+     ],
+     "answer": "C",
+     "explain": "$V = S_{\\text{đáy}}\\cdot h = 48\\cdot 7 = 336\\text{ (cm}^3\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Một hình lập phương có đường chéo của một mặt bằng $6\\\\sqrt{2}\\text{ cm}$. Tính độ dài cạnh của hình.",
+     "options": [
+      "A. $6\text{ cm}$",
+      "B. $12\text{ cm}$",
+      "C. $3\text{ cm}$",
+      "D. $36\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "Đường chéo mặt $= a\\\\sqrt{2} = 6\\\\sqrt{2} \\Rightarrow a = 6\\text{ (cm)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Một hộp quà hình lập phương cạnh $20\\text{ cm}$. Tính diện tích giấy cần dùng để gói hộp (không tính mép giấy).",
+     "options": [
+      "A. $1600\\text{ cm}^2$",
+      "B. $2400\\text{ cm}^2$",
+      "C. $8000\\text{ cm}^2$",
+      "D. $400\\text{ cm}^2$"
+     ],
+     "answer": "B",
+     "explain": "Diện tích giấy $= S_{tp} = 6\\cdot 20^2 = 2400\\text{ (cm}^2\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Một bể cá hình hộp chữ nhật có đáy $100\\text{ cm} \\\\times 60\\text{ cm}$, đang chứa $240$ lít nước. Tính chiều cao của mực nước trong bể.",
+     "options": [
+      "A. $30\text{ cm}$",
+      "B. $40\text{ cm}$",
+      "C. $50\text{ cm}$",
+      "D. $24\text{ cm}$"
+     ],
+     "answer": "B",
+     "explain": "$240$ lít $= 240000\\text{ cm}^3$; chiều cao mực nước $= \\frac{240000}{100\\cdot 60} = 40\\text{ (cm)}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho hình hộp chữ nhật có chiều dài $4\\text{ cm}$, chiều rộng $9\\text{ cm}$, chiều cao $10\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Diện tích xung quanh bằng $260\\text{ cm}^2$.",
+      "b) Thể tích bằng $360\\text{ cm}^3$.",
+      "c) Diện tích toàn phần bằng $332\\text{ cm}^2$.",
+      "d) Chu vi đáy bằng $26\\text{ cm}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$S_{xq} = 2(4+9)\\cdot 10 = 260$; $V = 360$; $S_{tp} = 260+72 = 332$; chu vi đáy $= 26$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho hình lập phương có cạnh $a = 3\\text{ dm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Đổi ra xăng-ti-mét, cạnh của hình bằng $30\text{ cm}$.",
+      "b) Thể tích bằng $27\\text{ dm}^3$.",
+      "c) Thể tích bằng $27000\\text{ cm}^3$.",
+      "d) Diện tích toàn phần bằng $54\\text{ dm}^2$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$3\\text{ dm} = 30\\text{ cm}$; $V = 27\\text{ dm}^3 = 27000\\text{ cm}^3$; $S_{tp} = 6\\cdot 9 = 54\\text{ dm}^2$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tính diện tích toàn phần của hình hộp chữ nhật có chiều dài $9\\text{ cm}$, chiều rộng $7\\text{ cm}$, chiều cao $4\\text{ cm}$ (đơn vị: $\\text{cm}^2$).",
+     "answer": "254",
+     "explain": "$S_{xq} = 2(9+7)\\cdot 4 = 128$; $S_{tp} = 128+2\\cdot 63 = 254\\text{ (cm}^2\\text{)}$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Một hình lập phương có tổng độ dài tất cả các cạnh bằng $60\\text{ cm}$. Tính thể tích của hình (đơn vị: $\\text{cm}^3$).",
+     "answer": "125",
+     "explain": "$12a = 60 \\Rightarrow a = 5\\text{ (cm)}$; $V = 125\\text{ (cm}^3\\text{)}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 8",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Mặt đáy của hình hộp chữ nhật là hình gì?",
+     "options": [
+      "A. Hình chữ nhật",
+      "B. Hình vuông",
+      "C. Hình tam giác",
+      "D. Hình tròn"
+     ],
+     "answer": "A",
+     "explain": "Các mặt của hình hộp chữ nhật đều là hình chữ nhật (kể cả mặt đáy)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Hình hộp chữ nhật có mấy mặt bên?",
+     "options": [
+      "A. $2$",
+      "B. $4$",
+      "C. $6$",
+      "D. $8$"
+     ],
+     "answer": "B",
+     "explain": "Hình hộp chữ nhật có $2$ mặt đáy và $4$ mặt bên."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Diện tích xung quanh của hình hộp chữ nhật có chiều dài $13\\text{ cm}$, chiều rộng $7\\text{ cm}$, chiều cao $6\\text{ cm}$ bằng bao nhiêu?",
+     "options": [
+      "A. $240\\text{ cm}^2$",
+      "B. $120\\text{ cm}^2$",
+      "C. $546\\text{ cm}^2$",
+      "D. $480\\text{ cm}^2$"
+     ],
+     "answer": "A",
+     "explain": "$S_{xq} = 2(13+7)\\cdot 6 = 240\\text{ (cm}^2\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Thể tích của hình lập phương cạnh $11\\text{ cm}$ bằng bao nhiêu?",
+     "options": [
+      "A. $121\\text{ cm}^3$",
+      "B. $726\\text{ cm}^3$",
+      "C. $1331\\text{ cm}^3$",
+      "D. $133\\text{ cm}^3$"
+     ],
+     "answer": "C",
+     "explain": "$V = 11^3 = 1331\\text{ (cm}^3\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tính diện tích toàn phần của hình hộp chữ nhật có chiều dài $5\\text{ cm}$, chiều rộng $5\\text{ cm}$, chiều cao $10\\text{ cm}$.",
+     "options": [
+      "A. $200\\text{ cm}^2$",
+      "B. $250\\text{ cm}^2$",
+      "C. $300\\text{ cm}^2$",
+      "D. $225\\text{ cm}^2$"
+     ],
+     "answer": "B",
+     "explain": "$S_{xq} = 2(5+5)\\cdot 10 = 200$; $S_{tp} = 200+2\\cdot 25 = 250\\text{ (cm}^2\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Một khối gỗ hình hộp chữ nhật có kích thước $30\\text{ cm} \\\\times 20\\text{ cm} \\\\times 10\\text{ cm}$ được cắt thành các khối lập phương cạnh $10\\text{ cm}$. Cắt được tối đa bao nhiêu khối?",
+     "options": [
+      "A. $6$ khối",
+      "B. $12$ khối",
+      "C. $3$ khối",
+      "D. $60$ khối"
+     ],
+     "answer": "A",
+     "explain": "Số khối $= \\frac{30}{10}\\cdot\\frac{20}{10}\\cdot\\frac{10}{10} = 3\\cdot 2\\cdot 1 = 6$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho hình lập phương cạnh $1\\text{ m}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Thể tích bằng $1\\text{ m}^3$.",
+      "b) Thể tích bằng $1000000\\text{ cm}^3$.",
+      "c) Diện tích toàn phần bằng $6\\text{ m}^2$.",
+      "d) Diện tích xung quanh bằng $4\\text{ m}^2$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$V = 1\\text{ m}^3 = 1000000\\text{ cm}^3$; $S_{tp} = 6\\text{ m}^2$; $S_{xq} = 4\\text{ m}^2$."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Hình hộp chữ nhật có ba kích thước đều bằng $6\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Hình đó là hình lập phương.",
+      "b) Diện tích xung quanh bằng $144\\text{ cm}^2$.",
+      "c) Thể tích bằng $216\\text{ cm}^3$.",
+      "d) Diện tích toàn phần bằng $216\\text{ cm}^2$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "Là hình lập phương cạnh $6\\text{ cm}$; $S_{xq} = 144$; $V = 216$; $S_{tp} = 216$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Hình hộp chữ nhật có chu vi đáy $40\\text{ cm}$, chiều cao $9\\text{ cm}$. Tính diện tích xung quanh của hình (đơn vị: $\\text{cm}^2$).",
+     "answer": "360",
+     "explain": "$S_{xq} = 40\\cdot 9 = 360\\text{ (cm}^2\\text{)}$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Một hình lập phương có thể tích $8000\\text{ cm}^3$. Tính tổng độ dài tất cả các cạnh của hình (đơn vị: cm).",
+     "answer": "240",
+     "explain": "$a^3 = 8000 \\Rightarrow a = 20\\text{ (cm)}$; tổng các cạnh $= 12\\cdot 20 = 240\\text{ (cm)}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 9",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong hình hộp chữ nhật, các cạnh bên có đặc điểm gì?",
+     "options": [
+      "A. Có độ dài bằng nhau",
+      "B. Có độ dài đôi một khác nhau",
+      "C. Song song với mặt đáy",
+      "D. Nằm trong mặt đáy"
+     ],
+     "answer": "A",
+     "explain": "Các cạnh bên của hình hộp chữ nhật bằng nhau (cùng bằng chiều cao)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Thể tích của hình hộp chữ nhật bằng gì?",
+     "options": [
+      "A. Diện tích đáy nhân với chiều cao",
+      "B. Chu vi đáy nhân với chiều cao",
+      "C. Tổng diện tích các mặt",
+      "D. Tích ba đường chéo"
+     ],
+     "answer": "A",
+     "explain": "$V = S_{\\text{đáy}}\\cdot h$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Thể tích của hình hộp chữ nhật có chiều dài $16\\text{ cm}$, chiều rộng $9\\text{ cm}$, chiều cao $5\\text{ cm}$ bằng bao nhiêu?",
+     "options": [
+      "A. $360\\text{ cm}^3$",
+      "B. $720\\text{ cm}^3$",
+      "C. $1440\\text{ cm}^3$",
+      "D. $180\\text{ cm}^3$"
+     ],
+     "answer": "B",
+     "explain": "$V = 16\\cdot 9\\cdot 5 = 720\\text{ (cm}^3\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Diện tích toàn phần của hình lập phương cạnh $8\\text{ cm}$ bằng bao nhiêu?",
+     "options": [
+      "A. $64\\text{ cm}^2$",
+      "B. $384\\text{ cm}^2$",
+      "C. $256\\text{ cm}^2$",
+      "D. $512\\text{ cm}^2$"
+     ],
+     "answer": "B",
+     "explain": "$S_{tp} = 6\\cdot 8^2 = 384\\text{ (cm}^2\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Một thùng carton hình hộp chữ nhật có diện tích xung quanh $1000\\text{ cm}^2$, chiều cao $10\\text{ cm}$, chiều dài $30\\text{ cm}$. Tính chiều rộng của thùng.",
+     "options": [
+      "A. $10\text{ cm}$",
+      "B. $15\text{ cm}$",
+      "C. $20\text{ cm}$",
+      "D. $25\text{ cm}$"
+     ],
+     "answer": "C",
+     "explain": "$2(30+b)\\cdot 10 = 1000 \\Rightarrow 30+b = 50 \\Rightarrow b = 20\\text{ (cm)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Người ta sơn mặt ngoài của một bể hình hộp chữ nhật không có nắp với chiều dài $2\\text{ m}$, chiều rộng $1\\text{ m}$, chiều cao $0,8\\text{ m}$. Diện tích cần sơn là bao nhiêu?",
+     "options": [
+      "A. $4,8\\text{ m}^2$",
+      "B. $6,8\\text{ m}^2$",
+      "C. $8,8\\text{ m}^2$",
+      "D. $2\\text{ m}^2$"
+     ],
+     "answer": "B",
+     "explain": "Diện tích cần sơn $= S_{xq} + S_{\\text{đáy}} = 2(2+1)\\cdot 0,8 + 2\\cdot 1 = 4,8+2 = 6,8\\text{ (m}^2\\text{)}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho hình hộp chữ nhật có ba kích thước $12\\text{ cm}$, $5\\text{ cm}$, $8\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Thể tích bằng $480\\text{ cm}^3$.",
+      "b) Diện tích xung quanh bằng $272\\text{ cm}^2$.",
+      "c) Diện tích toàn phần bằng $392\\text{ cm}^2$.",
+      "d) Diện tích đáy bằng $60\\text{ cm}^2$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$V = 480$; $S_{xq} = 2(12+5)\\cdot 8 = 272$; $S_{tp} = 272+120 = 392$; $S_{\\text{đáy}} = 60$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Một viên gạch hình hộp chữ nhật có kích thước $20\\text{ cm} \\\\times 10\\text{ cm} \\\\times 5\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Thể tích viên gạch bằng $1000\\text{ cm}^3$.",
+      "b) Diện tích xung quanh bằng $300\\text{ cm}^2$.",
+      "c) Diện tích toàn phần bằng $700\\text{ cm}^2$.",
+      "d) Viên gạch có $8$ đỉnh."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$V = 1000$; $S_{xq} = 2(20+10)\\cdot 5 = 300$; $S_{tp} = 300+400 = 700$; có $8$ đỉnh."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Hình hộp chữ nhật có chiều dài $25\\text{ cm}$, chiều rộng $12\\text{ cm}$, chiều cao $10\\text{ cm}$. Tính thể tích của hình (đơn vị: $\\text{cm}^3$).",
+     "answer": "3000",
+     "explain": "$V = 25\\cdot 12\\cdot 10 = 3000\\text{ (cm}^3\\text{)}$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Một hình lập phương có diện tích toàn phần $96\\text{ cm}^2$. Tính độ dài cạnh của hình (đơn vị: cm).",
+     "answer": "4",
+     "explain": "$6a^2 = 96 \\Rightarrow a^2 = 16 \\Rightarrow a = 4\\text{ (cm)}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 10",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Công thức $S_{xq} = 2(a+b)\\\\cdot h$ dùng để tính diện tích xung quanh của hình nào?",
+     "options": [
+      "A. Hình hộp chữ nhật",
+      "B. Hình lập phương",
+      "C. Hình lăng trụ đứng",
+      "D. Hình chóp"
+     ],
+     "answer": "A",
+     "explain": "Đó là công thức diện tích xung quanh của hình hộp chữ nhật."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Hình lập phương cạnh $a$ có bao nhiêu mặt?",
+     "options": [
+      "A. $4$",
+      "B. $6$",
+      "C. $8$",
+      "D. $12$"
+     ],
+     "answer": "B",
+     "explain": "Hình lập phương có $6$ mặt."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Diện tích xung quanh của hình hộp chữ nhật có chiều dài $18\\text{ cm}$, chiều rộng $12\\text{ cm}$, chiều cao $7\\text{ cm}$ bằng bao nhiêu?",
+     "options": [
+      "A. $216\\text{ cm}^2$",
+      "B. $210\\text{ cm}^2$",
+      "C. $420\\text{ cm}^2$",
+      "D. $1512\\text{ cm}^2$"
+     ],
+     "answer": "C",
+     "explain": "$S_{xq} = 2(18+12)\\cdot 7 = 420\\text{ (cm}^2\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Thể tích của hình lập phương cạnh $15\\text{ cm}$ bằng bao nhiêu?",
+     "options": [
+      "A. $3375\\text{ cm}^3$",
+      "B. $225\\text{ cm}^3$",
+      "C. $1350\\text{ cm}^3$",
+      "D. $900\\text{ cm}^3$"
+     ],
+     "answer": "A",
+     "explain": "$V = 15^3 = 3375\\text{ (cm}^3\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Một hồ bơi hình hộp chữ nhật có chiều dài $25\\text{ m}$, chiều rộng $10\\text{ m}$, chiều sâu $2\\text{ m}$. Thể tích nước khi hồ đầy là bao nhiêu?",
+     "options": [
+      "A. $250\\text{ m}^3$",
+      "B. $500\\text{ m}^3$",
+      "C. $5000\\text{ m}^3$",
+      "D. $50\\text{ m}^3$"
+     ],
+     "answer": "B",
+     "explain": "$V = 25\\cdot 10\\cdot 2 = 500\\text{ (m}^3\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Cho hình hộp chữ nhật có ba kích thước tỉ lệ $2:3:4$ và tổng độ dài tất cả các cạnh bằng $108\\text{ cm}$. Tính thể tích của hình.",
+     "options": [
+      "A. $324\\text{ cm}^3$",
+      "B. $432\\text{ cm}^3$",
+      "C. $648\\text{ cm}^3$",
+      "D. $864\\text{ cm}^3$"
+     ],
+     "answer": "C",
+     "explain": "$4(a+b+h) = 108 \\Rightarrow a+b+h = 27$; tỉ lệ $2:3:4$ cho $a=6$, $b=9$, $h=12$; $V = 648\\text{ (cm}^3\\text{)}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho hình hộp chữ nhật có chiều dài $3\\text{ cm}$, chiều rộng $7\\text{ cm}$, chiều cao $11\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Diện tích xung quanh bằng $220\\text{ cm}^2$.",
+      "b) Thể tích bằng $231\\text{ cm}^3$.",
+      "c) Diện tích toàn phần bằng $262\\text{ cm}^2$.",
+      "d) Hình có $6$ mặt."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$S_{xq} = 2(3+7)\\cdot 11 = 220$; $V = 231$; $S_{tp} = 220+42 = 262$; có $6$ mặt."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Một khối lập phương có cạnh $9\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Diện tích xung quanh bằng $324\\text{ cm}^2$.",
+      "b) Diện tích toàn phần bằng $486\\text{ cm}^2$.",
+      "c) Thể tích bằng $729\\text{ cm}^3$.",
+      "d) Diện tích mỗi mặt bằng $81\\text{ cm}^2$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$S_{xq} = 4\\cdot 81 = 324$; $S_{tp} = 6\\cdot 81 = 486$; $V = 729$; mỗi mặt $81\\text{ cm}^2$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Hình hộp chữ nhật có thể tích $1500\\text{ cm}^3$, diện tích đáy $150\\text{ cm}^2$. Tính chiều cao của hình (đơn vị: cm).",
+     "answer": "10",
+     "explain": "$h = \\frac{1500}{150} = 10\\text{ (cm)}$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Một bể nước hình lập phương cạnh $3\\text{ dm}$ chứa đầy nước. Hỏi bể chứa bao nhiêu lít nước?",
+     "answer": "27",
+     "explain": "$V = 3^3 = 27\\text{ (dm}^3\\text{)} = 27$ lít."
+    }
+   ]
+  }
+ ]
+}
+</script>
+</div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
