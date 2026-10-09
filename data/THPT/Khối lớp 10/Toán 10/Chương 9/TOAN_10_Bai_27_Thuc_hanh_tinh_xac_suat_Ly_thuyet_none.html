@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 27: Thực hành tính xác suất theo định nghĩa cổ điển</title>
+    <meta name="lesson-title" content="Bài 27: Thực hành tính xác suất theo định nghĩa cổ điển">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 27: Thực hành tính xác suất theo định nghĩa cổ điển</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 9: Tính xác suất theo định nghĩa cổ điển • Bài 27: Thực hành tính xác suất theo định nghĩa cổ điển</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 27: Thực hành tính xác suất theo định nghĩa cổ điển</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 9: Tính xác suất theo định nghĩa cổ điển — Toán 10 (Kết nối tri thức với cuộc sống)</p>
+
+<p>Bài này rèn kĩ năng tính xác suất trong các tình huống phức tạp hơn: gieo nhiều lần, lấy không hoàn lại, rút bài tú lơ khơ... Phương pháp chung gồm 4 bước:</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-bold text-emerald-800 mb-2">📌 Phương pháp 4 bước</p>
+<ol class="list-decimal ml-6 space-y-1">
+<li><strong>Mô tả không gian mẫu</strong> $\Omega$ và tính $n(\Omega)$ (thường dùng quy tắc nhân, hoán vị, tổ hợp).</li>
+<li><strong>Mô tả biến cố</strong> $A$ cần tính xác suất và đếm $n(A)$.</li>
+<li><strong>Áp dụng công thức</strong> $P(A) = \frac{n(A)}{n(\Omega)}$, rút gọn phân số.</li>
+<li><strong>Kiểm tra</strong>: $0 \le P(A) \le 1$? Kết quả có hợp lí không?</li>
+</ol>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Gieo xúc xắc hai lần</h2>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Gieo hai con xúc xắc cân đối. Tính xác suất tổng số chấm bằng $9$.</p>
+<p class="mt-2"><strong>Lời giải:</strong></p>
+<p>Bước 1: $n(\Omega) = 6 \times 6 = 36$.</p>
+<p>Bước 2: $A$: "tổng bằng $9$" — các cặp thuận lợi: $(3, 6), (4, 5), (5, 4), (6, 3)$ nên $n(A) = 4$.</p>
+<p>Bước 3: $P(A) = \frac{4}{36} = \frac{1}{9}$.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Lấy bi không hoàn lại</h2>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Hộp có $4$ bi đỏ và $6$ bi xanh. Lấy ngẫu nhiên <strong>lần lượt</strong> $2$ viên (không hoàn lại). Tính xác suất cả hai viên đều đỏ.</p>
+<p class="mt-2"><strong>Lời giải:</strong></p>
+<p>Bước 1: $n(\Omega) = 10 \times 9 = 90$.</p>
+<p>Bước 2: Lần 1 lấy bi đỏ có $4$ cách, lần 2 lấy bi đỏ trong $3$ viên còn lại có $3$ cách: $n(A) = 4 \times 3 = 12$.</p>
+<p>Bước 3: $P(A) = \frac{12}{90} = \frac{2}{15}$.</p>
+<p class="mt-1 text-sm text-slate-600">Cách khác (tổ hợp): $P(A) = \frac{C_4^2}{C_{10}^2} = \frac{6}{45} = \frac{2}{15}$ — cùng kết quả!</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">"Lấy lần lượt không hoàn lại" và "lấy đồng thời" cho <strong>cùng xác suất</strong> — chọn cách đếm nào tiện hơn (thường là tổ hợp $C_n^k$ cho "đồng thời").</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Dùng biến cố đối</h2>
+
+<p>Khi biến cố $A$ có quá nhiều trường hợp ("ít nhất một...", "không quá..."), hãy tính qua biến cố đối $\overline{A}$ (thường đơn giản hơn):</p>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$P(A) = 1 - P(\overline{A})$$</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Tung $3$ đồng xu cân đối. Tính xác suất có <strong>ít nhất một</strong> mặt ngửa.</p>
+<p class="mt-2"><strong>Lời giải:</strong> Gọi $A$: "ít nhất một mặt ngửa" thì $\overline{A}$: "cả ba mặt đều sấp".</p>
+<p>$n(\Omega) = 8$, $n(\overline{A}) = 1$ nên $P(\overline{A}) = \frac{1}{8}$.</p>
+<p>Vậy $P(A) = 1 - \frac{1}{8} = \frac{7}{8}$.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Bài toán rút bài tú lơ khơ</h2>
+
+<p>Bộ bài có $52$ lá: $4$ chất (cơ, rô, chuồn, bích), mỗi chất $13$ lá ($2$–$10$, $J$, $Q$, $K$, $A$).</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Rút ngẫu nhiên $2$ lá từ bộ bài $52$ lá. Tính xác suất cả hai lá cùng chất.</p>
+<p class="mt-2"><strong>Lời giải:</strong></p>
+<p>$n(\Omega) = C_{52}^2 = 1326$.</p>
+<p>$n(A) = 4 \cdot C_{13}^2 = 4 \cdot 78 = 312$ (chọn chất: $4$ cách; chọn $2$ lá trong $13$ lá của chất đó: $C_{13}^2$ cách).</p>
+<p>$P(A) = \frac{312}{1326} = \frac{4}{17}$.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Lỗi hay gặp</p>
+<ul class="list-disc ml-6 mt-1 space-y-1">
+<li>Đếm $n(\Omega)$ sai (quên nhân khi thực hiện nhiều công đoạn).</li>
+<li>Nhầm "lấy đồng thời" với "lấy có hoàn lại".</li>
+<li>Quên rút gọn phân số xác suất.</li>
+<li>Không nghĩ đến biến cố đối khi gặp "ít nhất".</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Nắm chắc 4 bước rồi làm 10 bộ đề thực hành bên dưới nhé! 💪</p>
+
+
+</div>
+
+        </div>
+    </div>
+</body>
+</html>
