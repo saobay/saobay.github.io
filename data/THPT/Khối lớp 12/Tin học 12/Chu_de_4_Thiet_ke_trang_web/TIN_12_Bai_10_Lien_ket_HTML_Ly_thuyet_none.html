@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 10: Tạo liên kết</title>
+    <meta name="lesson-title" content="Bài 10: Tạo liên kết">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 10: Tạo liên kết</h1>
+            <p class="text-xs text-slate-500 mt-1">Chủ đề 4: Giải quyết vấn đề với sự trợ giúp của máy tính • Bài 10: Tạo liên kết</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 10: Tạo liên kết</h1>
+<p class="text-center text-slate-500 italic mb-8">Chủ đề 4: Giải quyết vấn đề với sự trợ giúp của máy tính — Kết nối tri thức với cuộc sống</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Thẻ liên kết</h2>
+<p>Thẻ <em>&lt;a&gt;</em> (anchor) tạo <strong>liên kết</strong> (link). Thuộc tính quan trọng nhất là <em>href</em> — chỉ <strong>địa chỉ đích</strong> đến khi bấm vào liên kết. Nội dung giữa thẻ mở và thẻ đóng là <strong>phần hiển thị</strong> có thể bấm được (chữ hoặc ảnh).</p>
+<pre class="bg-slate-900 text-slate-100 rounded-lg p-4 overflow-x-auto text-sm my-4"><code>&lt;a href="https://www.example.com"&gt;Trang web mẫu&lt;/a&gt;</code></pre>
+<p>Đoạn mã trên hiển thị chữ <a href="#">Trang web mẫu</a> (gạch chân, màu xanh) — bấm vào sẽ mở địa chỉ trong <em>href</em>.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Các loại liên kết</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 my-2 text-sm">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-3 py-2">Loại</td><td class="border border-slate-300 px-3 py-2">href viết thế nào</td><td class="border border-slate-300 px-3 py-2">Ví dụ</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">Liên kết ngoài</td><td class="border border-slate-300 px-3 py-2"><strong>URL tuyệt đối</strong> (địa chỉ đầy đủ)</td><td class="border border-slate-300 px-3 py-2"><em>href="https://www.google.com"</em></td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">Liên kết trong</td><td class="border border-slate-300 px-3 py-2"><strong>Đường dẫn tương đối</strong> (tới trang khác cùng website)</td><td class="border border-slate-300 px-3 py-2"><em>href="gioi-thieu.html"</em>, <em>href="tin-tuc/bai1.html"</em></td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">Liên kết email</td><td class="border border-slate-300 px-3 py-2">Bắt đầu bằng <em>mailto:</em></td><td class="border border-slate-300 px-3 py-2"><em>href="mailto:info@example.com"</em> (bấm vào mở phần mềm gửi mail)</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">Liên kết điện thoại</td><td class="border border-slate-300 px-3 py-2">Bắt đầu bằng <em>tel:</em></td><td class="border border-slate-300 px-3 py-2"><em>href="tel:0123456789"</em> (bấm vào gọi điện trên di động)</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">Neo trong trang</td><td class="border border-slate-300 px-3 py-2"><em>#id</em> — nhảy tới phần tử có <em>id</em> tương ứng</td><td class="border border-slate-300 px-3 py-2"><em>href="#cuoi-trang"</em> nhảy tới phần tử có <em>id="cuoi-trang"</em></td></tr>
+</table></div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Mở liên kết ở đâu và chú thích</h2>
+<ul class="list-disc ml-6 space-y-2 my-3">
+<li>Thuộc tính <em>target</em>: <em>_blank</em> — mở liên kết trong <strong>tab mới</strong>; mặc định (<em>_self</em>) mở trong <strong>tab hiện tại</strong>.</li>
+<li>Thuộc tính <em>title</em>: dòng <strong>chú thích hiện ra khi di chuột</strong> lên liên kết.</li>
+<li>Có thể đặt <strong>hình ảnh</strong> trong thẻ <em>a</em> để tạo liên kết bằng ảnh (bấm vào ảnh để đi tới đích).</li>
+</ul>
+<pre class="bg-slate-900 text-slate-100 rounded-lg p-4 overflow-x-auto text-sm my-4"><code>&lt;a href="https://www.example.com" target="_blank" title="Mở trang mẫu"&gt;Xem thêm&lt;/a&gt;</code></pre>
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><strong>a + href</strong> là cặp không thể tách rời: <em>a</em> tạo liên kết, <em>href</em> chỉ đích đến. Nhớ nhanh: <strong>mailto:</strong> gửi thư, <strong>tel:</strong> gọi điện, <strong>#id</strong> nhảy trong trang, <strong>_blank</strong> mở tab mới.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Thẻ a</strong> tạo liên kết; thuộc tính <strong>href</strong> chỉ địa chỉ đích.</li>
+<li>Các loại: <strong>ngoài</strong> (URL tuyệt đối), <strong>trong</strong> (đường dẫn tương đối), <strong>email</strong> (mailto:), <strong>điện thoại</strong> (tel:), <strong>neo</strong> (#id nhảy tới phần tử có id).</li>
+<li><strong>target="_blank"</strong>: mở tab mới; <strong>title</strong>: chú thích khi di chuột; có thể bọc ảnh trong thẻ a.</li>
+</ul>
+</div>
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
