@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 25: Thực hành: Đo cường độ dòng điện và hiệu điện thế</title>
+    <meta name="lesson-title" content="Bài 25: Thực hành: Đo cường độ dòng điện và hiệu điện thế">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 25: Thực hành: Đo cường độ dòng điện và hiệu điện thế</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 5: Điện • Bài 25: Thực hành: Đo cường độ dòng điện và hiệu điện thế</p>
+        </div>
+        <div class="content-body space-y-4">
+<div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 25: Thực hành: Đo cường độ dòng điện và hiệu điện thế</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 5: Điện (Kết nối tri thức với cuộc sống)</p>
+
+<!-- Mở đầu -->
+<p>Ở bài 24, chúng ta đã biết ampe kế đo cường độ dòng điện, vôn kế đo hiệu điện thế. Bài thực hành này giúp chúng ta <strong>trực tiếp mắc mạch và đo</strong> I, U trong các trường hợp khác nhau, đồng thời rút ra <strong>quy luật</strong> của dòng điện trong mạch nối tiếp và song song.</p>
+
+<!-- 1. Mục đích, dụng cụ -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Mục đích và dụng cụ</h2>
+
+<p><strong>Mục đích:</strong></p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Đo được <strong>cường độ dòng điện</strong> chạy qua bóng đèn và <strong>hiệu điện thế</strong> giữa hai đầu bóng đèn;</li>
+<li>Rút ra nhận xét về I và U trong mạch điện <strong>nối tiếp</strong> và <strong>mạch song song</strong>.</li>
+</ul>
+
+<p><strong>Dụng cụ:</strong> nguồn điện (pin), 2 bóng đèn, 1 ampe kế, 1 vôn kế, công tắc, dây nối.</p>
+
+<!-- 2. Đo I trong mạch nối tiếp -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Đo cường độ dòng điện trong mạch nối tiếp</h2>
+
+<p><strong>Các bước tiến hành:</strong></p>
+<ol class="list-decimal ml-6 space-y-2 my-3">
+<li>Mắc mạch gồm nguồn, công tắc, 2 bóng đèn <strong>nối tiếp</strong> nhau;</li>
+<li>Mắc <strong>ampe kế nối tiếp</strong> vào mạch tại vị trí <strong>trước đèn 1</strong>, đóng công tắc, đọc số chỉ <strong>I<sub>1</sub></strong>;</li>
+<li>Chuyển ampe kế sang vị trí <strong>giữa hai đèn</strong>, đọc số chỉ <strong>I<sub>2</sub></strong>;</li>
+<li>Chuyển ampe kế sang vị trí <strong>sau đèn 2</strong>, đọc số chỉ <strong>I<sub>3</sub></strong>;</li>
+<li>So sánh I<sub>1</sub>, I<sub>2</sub>, I<sub>3</sub> và rút ra nhận xét.</li>
+</ol>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800">Kết quả thí nghiệm:</p>
+<p class="text-center my-2">$$I_1 = I_2 = I_3$$</p>
+<p><strong>Nhận xét:</strong> Trong mạch điện <strong>nối tiếp</strong>, cường độ dòng điện <strong>như nhau</strong> tại mọi vị trí.</p>
+</div>
+
+<!-- 3. Đo U trong mạch nối tiếp -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Đo hiệu điện thế trong mạch nối tiếp</h2>
+
+<p>Mắc <strong>vôn kế song song</strong> lần lượt với đèn 1, đèn 2 và với cả hai đèn (đoạn mạch), đọc các số chỉ <strong>U<sub>1</sub>, U<sub>2</sub>, U</strong>.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800">Kết quả thí nghiệm:</p>
+<p class="text-center my-2">$$U = U_1 + U_2$$</p>
+<p><strong>Nhận xét:</strong> Trong mạch điện <strong>nối tiếp</strong>, hiệu điện thế giữa hai đầu đoạn mạch bằng <strong>tổng</strong> các hiệu điện thế trên mỗi đèn.</p>
+</div>
+
+<!-- 4. Mạch song song -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Đo I và U trong mạch song song</h2>
+
+<p>Mắc 2 bóng đèn <strong>song song</strong> với nhau rồi mắc vào nguồn. Đo cường độ dòng điện trong các nhánh (I<sub>1</sub>, I<sub>2</sub>) và trong mạch chính (I); đo hiệu điện thế giữa hai đầu mỗi đèn (U<sub>1</sub>, U<sub>2</sub>).</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800">Kết quả thí nghiệm:</p>
+<p class="text-center my-2">$$I = I_1 + I_2 \qquad U_1 = U_2$$</p>
+<p><strong>Nhận xét:</strong> Trong mạch điện <strong>song song</strong>:</p>
+<ul class="list-disc ml-6 space-y-1 mt-2">
+<li>Cường độ dòng điện trong mạch chính bằng <strong>tổng</strong> các cường độ dòng điện trong các nhánh;</li>
+<li>Hiệu điện thế giữa hai đầu mỗi nhánh (mỗi đèn) <strong>bằng nhau</strong>.</li>
+</ul>
+</div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="So sanh mach noi tiep va mach song song">
+<rect x="2" y="2" width="436" height="236" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="110" y="28" font-family="sans-serif" font-size="14" fill="#0284c7" text-anchor="middle" font-weight="bold">Mạch nối tiếp</text>
+<line x1="30" y1="50" x2="190" y2="50" stroke="#334155" stroke-width="2.5"/>
+<line x1="30" y1="50" x2="30" y2="130" stroke="#334155" stroke-width="2.5"/>
+<line x1="190" y1="50" x2="190" y2="130" stroke="#334155" stroke-width="2.5"/>
+<line x1="30" y1="130" x2="190" y2="130" stroke="#334155" stroke-width="2.5"/>
+<circle cx="70" cy="50" r="12" fill="#fef9c3" stroke="#92400e" stroke-width="2"/>
+<circle cx="150" cy="50" r="12" fill="#fef9c3" stroke="#92400e" stroke-width="2"/>
+<text x="110" y="150" font-family="sans-serif" font-size="12" fill="#475569">I như nhau mọi nơi</text>
+<text x="110" y="168" font-family="sans-serif" font-size="12" fill="#475569">U = U1 + U2</text>
+<text x="330" y="28" font-family="sans-serif" font-size="14" fill="#0284c7" text-anchor="middle" font-weight="bold">Mạch song song</text>
+<line x1="250" y1="50" x2="410" y2="50" stroke="#334155" stroke-width="2.5"/>
+<line x1="250" y1="50" x2="250" y2="130" stroke="#334155" stroke-width="2.5"/>
+<line x1="410" y1="50" x2="410" y2="130" stroke="#334155" stroke-width="2.5"/>
+<line x1="250" y1="130" x2="410" y2="130" stroke="#334155" stroke-width="2.5"/>
+<line x1="330" y1="50" x2="330" y2="130" stroke="#334155" stroke-width="2.5"/>
+<circle cx="290" cy="50" r="12" fill="#fef9c3" stroke="#92400e" stroke-width="2"/>
+<circle cx="370" cy="50" r="12" fill="#fef9c3" stroke="#92400e" stroke-width="2"/>
+<text x="330" y="150" font-family="sans-serif" font-size="12" fill="#475569">I = I1 + I2</text>
+<text x="330" y="168" font-family="sans-serif" font-size="12" fill="#475569">U1 = U2</text>
+<text x="220" y="210" font-family="sans-serif" font-size="13" fill="#dc2626" font-weight="bold">Ampe kế: nối tiếp — Vôn kế: song song</text>
+</svg></div>
+
+<!-- 5. Lưu ý -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">5. Lưu ý khi làm thí nghiệm</h2>
+<ul class="list-disc ml-6 space-y-2 my-3">
+<li>Mắc <strong>đúng cực</strong> của ampe kế, vôn kế (cực + về phía cực + của nguồn);</li>
+<li>Chọn <strong>thang đo phù hợp</strong>: ban đầu chọn thang đo <strong>lớn nhất</strong>;</li>
+<li><strong>Không</strong> mắc trực tiếp ampe kế vào hai cực của nguồn điện;</li>
+<li>Ngắt công tắc (mở mạch) khi <strong>thay đổi vị trí</strong> mắc dụng cụ đo;</li>
+<li>Đọc số chỉ khi kim <strong>đứng yên</strong>, mắt nhìn <strong>vuông góc</strong> với mặt số.</li>
+</ul>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<ul class="list-disc ml-6 space-y-1 mt-1">
+<li><strong>Mạch nối tiếp:</strong> I như nhau mọi nơi; U = U<sub>1</sub> + U<sub>2</sub>;</li>
+<li><strong>Mạch song song:</strong> I = I<sub>1</sub> + I<sub>2</sub>; U<sub>1</sub> = U<sub>2</sub>;</li>
+<li>Ampe kế mắc <strong>nối tiếp</strong>, vôn kế mắc <strong>song song</strong>, đều phải <strong>đúng cực</strong> và chọn <strong>thang đo phù hợp</strong>.</li>
+</ul>
+</div>
+
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){{try{{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){{document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}}}catch(e){{}}}})();</script>
+</body>
+</html>
