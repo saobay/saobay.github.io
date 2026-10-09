@@ -35,14 +35,18 @@
         </div>
         <div>
             <label class="text-xs font-bold text-slate-600">Bạn là *</label>
-            <select id="rg-role" class="mt-1 w-full border rounded-lg px-3 py-2.5 font-semibold">
+            <select id="rg-role" onchange="onRoleChange()" class="mt-1 w-full border rounded-lg px-3 py-2.5 font-semibold">
+                <option value="student" selected>Học sinh</option>
                 <option value="teacher">Giáo viên</option>
-                <option value="student">Học sinh</option>
             </select>
+        </div>
+        <div id="rg-school-wrap" style="display:none">
+            <label class="text-xs font-bold text-slate-600">Tên trường *</label>
+            <input id="rg-school" class="mt-1 w-full border rounded-lg px-3 py-2.5" placeholder="VD: THPT Sào Báy">
         </div>
         <p class="text-[11px] text-slate-500 bg-blue-50 border border-blue-200 rounded-lg p-2">
             <i class="fa-solid fa-circle-info text-blue-600 mr-1"></i>
-            Tài khoản mới được <b>dùng thử 3 tháng full chức năng</b>, có hiệu lực ngay sau khi đăng ký. Admin sẽ xếp lớp/nhóm cho bạn sau.<br>
+            Tài khoản mới được <b>dùng thử 3 tháng full chức năng</b>, có hiệu lực ngay sau khi đăng ký, <b>không cần chờ duyệt</b>.<br>
             <b>Lưu ý:</b> HS/GV trường đăng nhập bằng <b>ID và mật khẩu do nhà trường cấp</b>.
         </p>
         <div>
@@ -115,10 +119,10 @@ function userRecordExists(db, phone, role){
 }
 
 // Thêm hồ sơ vào đúng danh sách (có chống trùng lặp khi thử lại)
-function addUserRecord(db, phone, name, role, note){
+function addUserRecord(db, phone, name, role, note, school){
     if (role === 'teacher'){
         if (!db.teachers_registry || Array.isArray(db.teachers_registry)) db.teachers_registry = {};
-        db.teachers_registry[phone] = { name: name, group: 'Trải nghiệm', role: 'teacher', note: note };
+        db.teachers_registry[phone] = { name: name, group: 'Trải nghiệm', role: 'teacher', note: note, school: school || '' };
     } else {
         if (!db.students) db.students = {};
         if (!Array.isArray(db.students['Trải nghiệm'])) db.students['Trải nghiệm'] = [];
@@ -127,6 +131,13 @@ function addUserRecord(db, phone, name, role, note){
         for (let i = 0; i < arr.length; i++){ if (String(arr[i].id) === String(phone)){ dup = true; break; } }
         if (!dup) arr.push({ id: phone, name: name, dob: '' });
     }
+}
+
+// Hiện/ẩn ô "Tên trường" khi đổi vai trò (mặc định HS, GV phải điền tên trường)
+function onRoleChange(){
+    let role = document.getElementById('rg-role').value;
+    let wrap = document.getElementById('rg-school-wrap');
+    if (wrap) wrap.style.display = (role === 'teacher') ? '' : 'none';
 }
 
 
@@ -180,8 +191,11 @@ async function submitRegistration(){
     let pass2 = document.getElementById('rg-pass2').value;
     let role = document.getElementById('rg-role').value;
     let note = document.getElementById('rg-note').value.trim();
+    let schoolEl = document.getElementById('rg-school');
+    let school = schoolEl ? schoolEl.value.trim() : '';
     msg.className = 'text-xs text-center';
     if (!name){ msg.textContent = 'Vui lòng nhập họ tên.'; msg.classList.add('text-rose-600'); return; }
+    if (role === 'teacher' && !school){ msg.textContent = 'Giáo viên vui lòng nhập tên trường.'; msg.classList.add('text-rose-600'); return; }
     let isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(phone);
     let isPhone = /^\d{9,12}$/.test(phone);
     if (!isEmail && !isPhone){ msg.textContent = 'Vui lòng nhập SĐT (9-12 số) hoặc Gmail đúng.'; msg.classList.add('text-rose-600'); return; }
@@ -222,7 +236,7 @@ async function submitRegistration(){
             }
             if (!db.passwords) db.passwords = {};
             db.passwords[phone] = passB64;
-            addUserRecord(db, phone, name, role, note);
+            addUserRecord(db, phone, name, role, note, school);
             let rj = await gasPush('used/used.is', JSON.stringify(db),
                 'Đăng ký tự động: tạo TK Trải nghiệm cho ' + name + ' (' + phone + ')',
                 'Đăng ký tài khoản', name);
@@ -239,7 +253,7 @@ async function submitRegistration(){
         if (!_verified) throw new Error('Đăng ký chưa hoàn tất, vui lòng thử lại sau ít phút.');
         // Lưu TK vừa tạo vào localStorage để đăng nhập ngay được mà không cần đợi CDN
         try {
-            localStorage.setItem('saobay_pending_reg', JSON.stringify({ phone: phone, passB64: passB64, name: name, role: role, ts: Date.now() }));
+            localStorage.setItem('saobay_pending_reg', JSON.stringify({ phone: phone, passB64: passB64, name: name, role: role, school: school, ts: Date.now() }));
         } catch(e){}
         clearFailCount(phone);
 
@@ -258,7 +272,7 @@ async function submitRegistration(){
                 'Đăng ký tự động: hạn 90 ngày cho ' + phone, 'Cấp hạn trial', name);
         } catch(eExp){ /* TK đã tạo xong; admin có thể cài hạn lại sau trong hub */ }
 
-        msg.textContent = 'Đăng ký thành công! Tài khoản Trải nghiệm có hiệu lực 3 tháng. Đang chuyển sang trang đăng nhập...';
+        msg.textContent = 'Đăng ký thành công! Bạn có thể sử dụng ngay đầy đủ chức năng.';
         msg.classList.add('text-emerald-700', 'font-bold');
         btn.innerHTML = 'Thành công ✓';
         setTimeout(function(){ window.location.href = 'used.html'; }, 1800);
