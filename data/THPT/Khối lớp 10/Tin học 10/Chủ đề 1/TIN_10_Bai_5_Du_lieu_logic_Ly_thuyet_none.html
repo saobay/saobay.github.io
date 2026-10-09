@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 5: Dữ liệu lôgic</title>
+    <meta name="lesson-title" content="Bài 5: Dữ liệu lôgic">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 5: Dữ liệu lôgic</h1>
+            <p class="text-xs text-slate-500 mt-1">Chủ đề 1: Máy tính và xã hội tri thức • Bài 5: Dữ liệu lôgic</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 5: Dữ liệu lôgic</h1>
+<p class="text-center text-slate-500 italic mb-8">Chủ đề 1: Máy tính và xã hội tri thức • Bài 5: Dữ liệu lôgic</p>
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Mệnh đề và dữ liệu lôgic</h2>
+
+<p><strong>Định nghĩa:</strong> <em>Mệnh đề lôgic</em> là câu khẳng định xác định được <strong>đúng</strong> hoặc <strong>sai</strong>. <em>Dữ liệu lôgic</em> chỉ nhận hai giá trị: <strong>đúng</strong> (true, bit 1) và <strong>sai</strong> (false, bit 0).</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Các phép toán lôgic</h2>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">2.1. Phép NOT (phủ định)</h3>
+<p>Đảo ngược giá trị: NOT đúng = sai; NOT sai = đúng.</p>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">2.2. Phép AND (và)</h3>
+<p>Chỉ đúng khi <strong>cả hai</strong> giá trị đều đúng.</p>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">2.3. Phép OR (hoặc)</h3>
+<p>Đúng khi <strong>có ít nhất một</strong> giá trị đúng; chỉ sai khi cả hai đều sai.</p>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">A</td><td class="border border-slate-300 px-4 py-1">B</td><td class="border border-slate-300 px-4 py-1">NOT A</td><td class="border border-slate-300 px-4 py-1">A AND B</td><td class="border border-slate-300 px-4 py-1">A OR B</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Đúng</td><td class="border border-slate-300 px-4 py-1">Đúng</td><td class="border border-slate-300 px-4 py-1">Sai</td><td class="border border-slate-300 px-4 py-1 font-bold text-emerald-600">Đúng</td><td class="border border-slate-300 px-4 py-1 font-bold text-emerald-600">Đúng</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Đúng</td><td class="border border-slate-300 px-4 py-1">Sai</td><td class="border border-slate-300 px-4 py-1">Sai</td><td class="border border-slate-300 px-4 py-1 font-bold text-rose-600">Sai</td><td class="border border-slate-300 px-4 py-1 font-bold text-emerald-600">Đúng</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Sai</td><td class="border border-slate-300 px-4 py-1">Đúng</td><td class="border border-slate-300 px-4 py-1">Đúng</td><td class="border border-slate-300 px-4 py-1 font-bold text-rose-600">Sai</td><td class="border border-slate-300 px-4 py-1 font-bold text-emerald-600">Đúng</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Sai</td><td class="border border-slate-300 px-4 py-1">Sai</td><td class="border border-slate-300 px-4 py-1">Đúng</td><td class="border border-slate-300 px-4 py-1 font-bold text-rose-600">Sai</td><td class="border border-slate-300 px-4 py-1 font-bold text-rose-600">Sai</td></tr>
+</table></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<ul class="list-disc ml-6 space-y-1 mt-1">
+<li><strong>Thứ tự ưu tiên:</strong> NOT trước, rồi AND, rồi OR (ngoặc được tính trước nhất).</li>
+<li><strong>Mẹo nhớ:</strong> AND là “khó tính” (cần cả hai đúng); OR là “dễ tính” (một đúng là đủ).</li>
+<li>A OR NOT A <strong>luôn đúng</strong>; A AND NOT A <strong>luôn sai</strong>.</li>
+</ul>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Mô hình mạch điện</h2>
+
+<div class="svg-fig"><svg viewBox="0 0 440 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mach dien AND OR">
+<rect x="2" y="2" width="436" height="196" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="115" y="28" font-family="sans-serif" font-size="13" font-weight="bold" fill="#0c4a6e" text-anchor="middle">MẠCH NỐI TIẾP → AND</text>
+<line x1="30" y1="60" x2="70" y2="60" stroke="#0f172a" stroke-width="2"/>
+<rect x="70" y="50" width="26" height="20" fill="#f8fafc" stroke="#0f172a" stroke-width="2"/>
+<text x="83" y="64" font-family="sans-serif" font-size="10" text-anchor="middle">A</text>
+<line x1="96" y1="60" x2="134" y2="60" stroke="#0f172a" stroke-width="2"/>
+<rect x="134" y="50" width="26" height="20" fill="#f8fafc" stroke="#0f172a" stroke-width="2"/>
+<text x="147" y="64" font-family="sans-serif" font-size="10" text-anchor="middle">B</text>
+<line x1="160" y1="60" x2="200" y2="60" stroke="#0f172a" stroke-width="2"/>
+<circle cx="200" cy="60" r="12" fill="#fef9c3" stroke="#0f172a" stroke-width="2"/>
+<text x="115" y="100" font-family="sans-serif" font-size="11" fill="#475569" text-anchor="middle">Đèn sáng khi A đóng VÀ B đóng</text>
+<text x="325" y="28" font-family="sans-serif" font-size="13" font-weight="bold" fill="#0c4a6e" text-anchor="middle">MẠCH SONG SONG → OR</text>
+<line x1="250" y1="45" x2="250" y2="75" stroke="#0f172a" stroke-width="2"/>
+<line x1="250" y1="45" x2="400" y2="45" stroke="#0f172a" stroke-width="2"/>
+<line x1="250" y1="75" x2="400" y2="75" stroke="#0f172a" stroke-width="2"/>
+<rect x="312" y="35" width="26" height="20" fill="#f8fafc" stroke="#0f172a" stroke-width="2"/>
+<text x="325" y="49" font-family="sans-serif" font-size="10" text-anchor="middle">A</text>
+<rect x="312" y="65" width="26" height="20" fill="#f8fafc" stroke="#0f172a" stroke-width="2"/>
+<text x="325" y="79" font-family="sans-serif" font-size="10" text-anchor="middle">B</text>
+<line x1="400" y1="45" x2="400" y2="60" stroke="#0f172a" stroke-width="2"/>
+<line x1="400" y1="75" x2="400" y2="60" stroke="#0f172a" stroke-width="2"/>
+<circle cx="400" cy="60" r="0" fill="none"/>
+<text x="325" y="100" font-family="sans-serif" font-size="11" fill="#475569" text-anchor="middle">Đèn sáng khi A đóng HOẶC B đóng</text>
+<rect x="60" y="120" width="320" height="56" rx="8" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+<text x="220" y="143" font-family="sans-serif" font-size="12" fill="#065f46" text-anchor="middle">Ví dụ: cửa tự động mở khi (có người) OR (nhấn nút);</text>
+<text x="220" y="162" font-family="sans-serif" font-size="12" fill="#065f46" text-anchor="middle">thang máy chạy khi (cửa đóng) AND (không quá tải)</text>
+</svg></div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Ứng dụng trong đời sống và lập trình</h2>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Điều kiện rẽ nhánh:</strong> “nếu (điểm từ 8 trở lên) AND (không vi phạm) thì khen thưởng”.</li>
+<li><strong>Thiết bị tự động:</strong> hệ thống báo cháy, tưới cây, đèn cảm biến đều dùng biểu thức lôgic.</li>
+<li><strong>Tìm kiếm:</strong> kết hợp từ khóa bằng AND, OR, NOT để lọc kết quả.</li>
+</ul>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Dữ liệu lôgic:</strong> chỉ có đúng và sai (bit 1 và 0).</li>
+<li><strong>NOT:</strong> đảo ngược; <strong>AND:</strong> đúng khi cả hai đúng; <strong>OR:</strong> đúng khi có ít nhất một đúng.</li>
+<li><strong>Ưu tiên:</strong> NOT → AND → OR; ngoặc tính trước.</li>
+<li><strong>Ứng dụng:</strong> mạch điện (nối tiếp = AND, song song = OR), điều kiện rẽ nhánh, thiết bị tự động.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm để kiểm tra nhé! 💪</p>
+
+
+        </div>
+    </div>
+</body>
+</html>
