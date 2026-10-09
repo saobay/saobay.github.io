@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài tập Bài 26: Giải bài toán bằng cách lập phương trình</title>
+    <meta name="lesson-title" content="Bài tập Bài 26: Giải bài toán bằng cách lập phương trình">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Bài tập</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài tập Bài 26: Giải bài toán bằng cách lập phương trình</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 7: Phương trình bậc nhất và hàm số bậc nhất • Bài 26: Giải bài toán bằng cách lập phương trình</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="saobay-exam10">
+<script type="application/json" class="saobay-exam10-data">
+{
+ "sets": [
+  {
+   "name": "Đề 1",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Bước 2 trong giải bài toán bằng cách lập phương trình là?",
+     "options": [
+      "A. lập phương trình",
+      "B. đặt điều kiện",
+      "C. giải phương trình",
+      "D. vẽ sơ đồ"
+     ],
+     "answer": "C",
+     "explain": "Đáp án đúng là “giải phương trình”."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tuổi bố gấp $3$ lần tuổi con. Tổng số tuổi của hai bố con là $48$. Tuổi con là?",
+     "options": [
+      "A. $16$ tuổi",
+      "B. $36$ tuổi",
+      "C. $12$ tuổi",
+      "D. $10$ tuổi"
+     ],
+     "answer": "C",
+     "explain": "$x+3x=48\\iff x=12$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tổng của hai số là $50$, hiệu của hai số là $10$. Tìm số lớn. (chỉ ghi số)",
+     "answer": "30",
+     "explain": "$x+y=50$, $x-y=10$ nên $2x=60$, $x=30$."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Bài toán: Tuổi bố gấp 3 lần tuổi con, tổng số tuổi hai bố con là 48. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Gọi $x$ (tuổi) là tuổi con, điều kiện $x>0$.",
+      "Tuổi bố được biểu diễn là $3x$.",
+      "Phương trình lập được là $x+3x=48$.",
+      "Tuổi con là $16$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$4x=48$ nên $x=12$ (thỏa mãn $x>0$); tuổi con là $12$, không phải $16$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Một số có hai chữ số, chữ số hàng chục hơn chữ số hàng đơn vị $2$, tổng hai chữ số là $10$. Tìm số đó. (chỉ ghi số)",
+     "answer": "64",
+     "explain": "Chữ số hàng chục $x$: $x+(x-2)=10\\iff x=6$; số đó là $64$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Bước 1 trong giải bài toán bằng cách lập phương trình là?",
+     "options": [
+      "A. lập phương trình",
+      "B. giải phương trình",
+      "C. trả lời",
+      "D. thử lại"
+     ],
+     "answer": "A",
+     "explain": "Đáp án đúng là “lập phương trình”."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Một hình chữ nhật có chiều dài hơn chiều rộng $4$ m. Gọi $x$ (m) là chiều rộng ($x>0$). Chu vi HCN được biểu diễn là?",
+     "options": [
+      "A. $2(x+x+4)$",
+      "B. $x(x+4)$",
+      "C. $2x+4$",
+      "D. $x+4$"
+     ],
+     "answer": "A",
+     "explain": "$P=2(\\text{dài}+\\text{rộng})=2((x+4)+x)$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong bước lập phương trình, ta phải?",
+     "options": [
+      "A. giải ngay phương trình",
+      "B. chọn ẩn số và đặt điều kiện cho ẩn",
+      "C. đoán đáp số",
+      "D. vẽ hình"
+     ],
+     "answer": "B",
+     "explain": "Đáp án đúng là “chọn ẩn số và đặt điều kiện cho ẩn”."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Bài toán: Một người đi xe đạp từ A đến B (dài $x$ km, $x>0$) với vận tốc 12 km/h, lúc về với vận tốc 15 km/h; thời gian về ít hơn thời gian đi 20 phút. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Thời gian đi là $\\frac{x}{12}$ giờ, thời gian về là $\\frac{x}{15}$ giờ.",
+      "$20$ phút $=\\frac{1}{3}$ giờ.",
+      "Phương trình: $\\frac{x}{12}-\\frac{x}{15}=\\frac{1}{3}$.",
+      "Quãng đường AB dài $30$ km."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "Giải $\\frac{x}{60}=\\frac{1}{3}$ được $x=20$ (thỏa mãn), không phải $30$ km."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Một người đi xe máy với vận tốc $40$ km/h trong $x$ giờ, rồi đi tiếp với vận tốc $50$ km/h trong $2$ giờ. Tổng quãng đường là?",
+     "options": [
+      "A. $90x$ (km)",
+      "B. $40x+100$ (km)",
+      "C. $40x+50$ (km)",
+      "D. $40(x+2)$ (km)"
+     ],
+     "answer": "B",
+     "explain": "$s_1=40x$, $s_2=50\\cdot 2=100$ nên tổng là $40x+100$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 2",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tổng số tuổi của hai anh em là $30$. Gọi $x$ là tuổi em ($x>0$). Tuổi anh được biểu diễn là?",
+     "options": [
+      "A. $30x$",
+      "B. $x-30$",
+      "C. $30-x$",
+      "D. $\\frac{30}{x}$"
+     ],
+     "answer": "C",
+     "explain": "Tuổi anh = tổng − tuổi em $=30-x$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Bài toán: Tuổi mẹ gấp 4 lần tuổi con. 5 năm nữa tổng tuổi hai mẹ con là 60. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Gọi $x$ là tuổi con hiện nay, $x>0$.",
+      "Tuổi mẹ hiện nay là $4x$.",
+      "Phương trình: $(x+5)+(4x+5)=60$.",
+      "Tuổi con hiện nay là $12$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$5x+10=60$ nên $x=10$ (thỏa mãn), không phải $12$."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Bài toán: Một HCN có chu vi 40 m, chiều dài hơn chiều rộng 4 m. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Gọi $x$ (m) là chiều rộng, $x>0$.",
+      "Chiều dài là $x+4$.",
+      "Phương trình: $2(x+x+4)=40$.",
+      "Chiều rộng là $8$ m."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$4x+8=40$ nên $x=8$ (thỏa mãn)."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Hai số tự nhiên liên tiếp có tổng là $41$. Tìm số bé. (chỉ ghi số)",
+     "answer": "20",
+     "explain": "$x+(x+1)=41\\iff x=20$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Khi chọn $x$ là số tuổi của một người, điều kiện thường đặt là?",
+     "options": [
+      "A. $x>0$",
+      "B. $x<0$",
+      "C. $x=0$",
+      "D. $x$ tùy ý"
+     ],
+     "answer": "A",
+     "explain": "Đáp án đúng là “$x>0$”."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Một cửa hàng bán $x$ chiếc áo giá $120$ nghìn đồng/chiếc và $10$ chiếc quần giá $200$ nghìn đồng/chiếc. Tổng số tiền là?",
+     "options": [
+      "A. $320x$ (nghìn đồng)",
+      "B. $120(x+10)$ (nghìn đồng)",
+      "C. $2000x$ (nghìn đồng)",
+      "D. $120x+2000$ (nghìn đồng)"
+     ],
+     "answer": "D",
+     "explain": "$120x+200\\cdot 10=120x+2000$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Một hình chữ nhật có chu vi $30$ m, chiều dài hơn chiều rộng $5$ m. Tìm chiều dài. (chỉ ghi số)",
+     "answer": "10",
+     "explain": "$2(x+x-5)=30\\iff 4x=40\\iff x=10$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Bước 3 trong giải bài toán bằng cách lập phương trình là?",
+     "options": [
+      "A. lập thêm phương trình mới",
+      "B. bỏ nghiệm âm",
+      "C. làm tròn nghiệm",
+      "D. kiểm tra nghiệm với điều kiện của ẩn rồi trả lời"
+     ],
+     "answer": "D",
+     "explain": "Đáp án đúng là “kiểm tra nghiệm với điều kiện của ẩn rồi trả lời”."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Khi chọn $x$ là số học sinh của một lớp, điều kiện thường đặt là?",
+     "options": [
+      "A. $x$ là số thập phân",
+      "B. $x$ là số nguyên dương",
+      "C. $x<0$",
+      "D. $x$ là phân số"
+     ],
+     "answer": "B",
+     "explain": "Đáp án đúng là “$x$ là số nguyên dương”."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Một hình chữ nhật có chu vi $40$ m, chiều dài hơn chiều rộng $4$ m. Chiều rộng là?",
+     "options": [
+      "A. $12$ m",
+      "B. $10$ m",
+      "C. $6$ m",
+      "D. $8$ m"
+     ],
+     "answer": "D",
+     "explain": "$2(x+x+4)=40\\iff x=8$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 3",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Lớp 8A có $40$ học sinh, số học sinh nam hơn số học sinh nữ $4$ bạn. Số học sinh nữ là?",
+     "options": [
+      "A. $18$ bạn",
+      "B. $22$ bạn",
+      "C. $20$ bạn",
+      "D. $16$ bạn"
+     ],
+     "answer": "A",
+     "explain": "$x+(x+4)=40\\iff x=18$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Khi chọn $x$ (km) là quãng đường, điều kiện thường đặt là?",
+     "options": [
+      "A. $x<0$",
+      "B. $x\\le 0$",
+      "C. $x>0$",
+      "D. không cần điều kiện"
+     ],
+     "answer": "C",
+     "explain": "Đáp án đúng là “$x>0$”."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Bài toán: Hai lớp 8A, 8B trồng tổng 150 cây; lớp 8A trồng ít hơn lớp 8B 30 cây. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Gọi $x$ là số cây lớp 8A trồng, $x$ nguyên dương.",
+      "Lớp 8B trồng $x+30$ cây.",
+      "Phương trình: $x+(x+30)=150$.",
+      "Lớp 8A trồng $90$ cây."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$2x=120$ nên $x=60$ (thỏa mãn), không phải $90$."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Bài toán: Lớp 8A có 40 học sinh, số nam hơn số nữ 4 bạn. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Gọi $x$ là số học sinh nữ, $x$ nguyên dương.",
+      "Số học sinh nam là $x+4$.",
+      "Phương trình: $x+(x+4)=40$.",
+      "Số học sinh nữ là $18$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$2x=36$ nên $x=18$ (thỏa mãn)."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Một người đi từ A đến B với vận tốc $30$ km/h, nghỉ $30$ phút rồi quay về với vận tốc $40$ km/h; tổng thời gian (kể cả nghỉ) là $4$ giờ. Tìm quãng đường AB (km). (chỉ ghi số)",
+     "answer": "60",
+     "explain": "$\\frac{x}{30}+\\frac{x}{40}+\\frac{1}{2}=4\\iff \\frac{7x}{120}=3{,}5\\iff x=60$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Biểu diễn thời gian theo quãng đường $s$ và vận tốc $v$ là?",
+     "options": [
+      "A. $t=\\frac{s}{v}$",
+      "B. $t=s\\cdot v$",
+      "C. $t=s+v$",
+      "D. $t=\\frac{v}{s}$"
+     ],
+     "answer": "A",
+     "explain": "Đáp án đúng là “$t=\\frac{s}{v}$”."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Hai số tự nhiên liên tiếp có tổng là $41$. Gọi $x$ là số bé. Phương trình lập được là?",
+     "options": [
+      "A. $x+(x+1)=41$",
+      "B. $x+x=41$",
+      "C. $2x+1=40$",
+      "D. $x(x+1)=41$"
+     ],
+     "answer": "A",
+     "explain": "Số lớn là $x+1$, tổng $x+(x+1)=41$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Biểu diễn quãng đường theo vận tốc $v$ và thời gian $t$ là?",
+     "options": [
+      "A. $s=v+t$",
+      "B. $s=\\frac{v}{t}$",
+      "C. $s=v-t$",
+      "D. $s=v\\cdot t$"
+     ],
+     "answer": "D",
+     "explain": "Đáp án đúng là “$s=v\\cdot t$”."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tuổi con bằng $\\frac{1}{3}$ tuổi bố. Tổng số tuổi hai bố con là $44$. Tìm tuổi bố. (chỉ ghi số)",
+     "answer": "33",
+     "explain": "$x+3x=44$... gọi tuổi con là $x$: $x+3x=44\\iff x=11$, tuổi bố $=33$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Một tam giác có chu vi $36$ cm. Gọi $x$ (cm) là độ dài cạnh thứ nhất. Tổng hai cạnh còn lại là?",
+     "options": [
+      "A. $36x$ (cm)",
+      "B. $36-x$ (cm)",
+      "C. $x-36$ (cm)",
+      "D. $\\frac{36}{x}$ (cm)"
+     ],
+     "answer": "B",
+     "explain": "Tổng hai cạnh còn lại = chu vi − cạnh thứ nhất."
+    }
+   ]
+  },
+  {
+   "name": "Đề 4",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Một số tự nhiên có hai chữ số, chữ số hàng chục là $x$, chữ số hàng đơn vị là $2x$. Số đó được viết là?",
+     "options": [
+      "A. $3x$",
+      "B. $2x^2$",
+      "C. $10x+2$",
+      "D. $12x$"
+     ],
+     "answer": "D",
+     "explain": "Số $=10\\cdot x+2x=12x$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Một hình chữ nhật có chu vi $48$ m, chiều dài gấp $3$ lần chiều rộng. Tìm diện tích (m²). (chỉ ghi số)",
+     "answer": "108",
+     "explain": "$2(3x+x)=48\\iff x=6$; diện tích $=6\\cdot 18=108$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Gọi $x$ (tuổi) là tuổi con. Tuổi bố gấp $3$ lần tuổi con. Tuổi bố là?",
+     "options": [
+      "A. $x+3$",
+      "B. $\\frac{x}{3}$",
+      "C. $3x$",
+      "D. $x-3$"
+     ],
+     "answer": "C",
+     "explain": "Đáp án đúng là “$3x$”."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Bài toán: Tổng hai số là 36, số lớn hơn số bé 6. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Gọi $x$ là số bé.",
+      "Số lớn là $x+6$.",
+      "Phương trình: $x+(x+6)=36$.",
+      "Số bé là $12$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$2x=30$ nên $x=15$, không phải $12$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Lớp 8A có $40$ học sinh. Gọi $x$ là số học sinh nữ. Số học sinh nam được biểu diễn là?",
+     "options": [
+      "A. $40x$",
+      "B. $x-40$",
+      "C. $40-x$",
+      "D. $\\frac{x}{40}$"
+     ],
+     "answer": "C",
+     "explain": "Số nam = tổng − số nữ $=40-x$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Bài toán: Một số có hai chữ số, chữ số hàng chục hơn chữ số hàng đơn vị 2, tổng hai chữ số là 10. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Gọi $x$ là chữ số hàng chục.",
+      "Chữ số hàng đơn vị là $x-2$.",
+      "Phương trình: $x+(x-2)=10$.",
+      "Số đó là $64$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$2x=12$ nên $x=6$; số đó là $64$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Chu vi hình chữ nhật có chiều dài $a$, chiều rộng $b$ là?",
+     "options": [
+      "A. $a+b$",
+      "B. $2(a+b)$",
+      "C. $a\\cdot b$",
+      "D. $4(a+b)$"
+     ],
+     "answer": "B",
+     "explain": "Đáp án đúng là “$2(a+b)$”."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tổng của hai số là $36$, số lớn hơn số bé $6$. Số bé là?",
+     "options": [
+      "A. $21$",
+      "B. $15$",
+      "C. $18$",
+      "D. $12$"
+     ],
+     "answer": "B",
+     "explain": "$x+(x+6)=36\\iff x=15$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Một người đi bộ với vận tốc $5$ km/h trong $x$ giờ được quãng đường $20$ km. Tìm $x$. (chỉ ghi số)",
+     "answer": "4",
+     "explain": "$5x=20\\iff x=4$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Gọi $x$ là số học sinh nữ. Số học sinh nam hơn số học sinh nữ $4$ bạn. Số học sinh nam là?",
+     "options": [
+      "A. $4x$",
+      "B. $x+4$",
+      "C. $x-4$",
+      "D. $\\frac{x}{4}$"
+     ],
+     "answer": "B",
+     "explain": "Đáp án đúng là “$x+4$”."
+    }
+   ]
+  },
+  {
+   "name": "Đề 5",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Gọi $x$ (m) là chiều rộng HCN. Chiều dài gấp đôi chiều rộng. Chiều dài là?",
+     "options": [
+      "A. $2x$",
+      "B. $x+2$",
+      "C. $\\frac{x}{2}$",
+      "D. $x^2$"
+     ],
+     "answer": "A",
+     "explain": "Đáp án đúng là “$2x$”."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Gọi $x$ (km/h) là vận tốc của xe. Thời gian đi hết quãng đường $60$ km là?",
+     "options": [
+      "A. $60x$ (giờ)",
+      "B. $\\frac{x}{60}$ (giờ)",
+      "C. $60-x$ (giờ)",
+      "D. $\\frac{60}{x}$ (giờ)"
+     ],
+     "answer": "D",
+     "explain": "Đáp án đúng là “$\\frac{60}{x}$ (giờ)”."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Gọi $x$ là số gà ($x$ nguyên dương). Tổng số chân gà và chó là $100$, số chó là $20-x$... Số chân gà là?",
+     "options": [
+      "A. $4x$",
+      "B. $2x$",
+      "C. $x$",
+      "D. $100-2x$"
+     ],
+     "answer": "B",
+     "explain": "Mỗi con gà có $2$ chân nên $x$ con gà có $2x$ chân."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tổng của ba số tự nhiên liên tiếp là $72$. Tìm số lớn nhất. (chỉ ghi số)",
+     "answer": "25",
+     "explain": "$x+(x+1)+(x+2)=72\\iff 3x=69\\iff x=23$; số lớn nhất $=25$."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Bài toán: Cửa hàng bán 120 chiếc áo trong hai ngày, ngày thứ hai gấp đôi ngày thứ nhất. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Gọi $x$ là số áo bán ngày thứ nhất, $x$ nguyên dương.",
+      "Ngày thứ hai bán $2x$ chiếc.",
+      "Phương trình: $x+2x=120$.",
+      "Ngày thứ nhất bán $60$ chiếc."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$3x=120$ nên $x=40$, không phải $60$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Một cửa hàng bán $120$ chiếc áo trong hai ngày. Ngày thứ hai bán gấp đôi ngày thứ nhất. Ngày thứ nhất bán được?",
+     "options": [
+      "A. $60$ chiếc",
+      "B. $80$ chiếc",
+      "C. $40$ chiếc",
+      "D. $30$ chiếc"
+     ],
+     "answer": "C",
+     "explain": "$x+2x=120\\iff x=40$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Bài toán: Một ô tô đi từ A đến B hết 3 giờ với vận tốc $v$ (km/h); lúc về tăng vận tốc thêm 10 km/h nên chỉ hết 2,5 giờ. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Quãng đường AB là $3v$ (km).",
+      "Lúc về vận tốc là $v+10$, quãng đường là $2,5(v+10)$.",
+      "Phương trình: $3v=2,5(v+10)$.",
+      "Quãng đường AB dài $120$ km."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$0,5v=25$ nên $v=50$, quãng đường $=3\\cdot 50=150$ km (không phải $120$ km)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Một ô tô đi quãng đường $120$ km với vận tốc $x$ km/h. Thời gian đi là?",
+     "options": [
+      "A. $\\frac{120}{x}$ (giờ)",
+      "B. $120x$ (giờ)",
+      "C. $\\frac{x}{120}$ (giờ)",
+      "D. $120-x$ (giờ)"
+     ],
+     "answer": "A",
+     "explain": "$t=\\frac{s}{v}=\\frac{120}{x}$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Lớp 8B có $45$ học sinh, số học sinh nam gấp đôi số học sinh nữ. Tìm số học sinh nữ. (chỉ ghi số)",
+     "answer": "15",
+     "explain": "$x+2x=45\\iff x=15$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Gọi $x$ là số thứ nhất. Số thứ hai hơn số thứ nhất $5$ đơn vị. Số thứ hai là?",
+     "options": [
+      "A. $5x$",
+      "B. $x+5$",
+      "C. $x-5$",
+      "D. $\\frac{x}{5}$"
+     ],
+     "answer": "B",
+     "explain": "Đáp án đúng là “$x+5$”."
+    }
+   ]
+  },
+  {
+   "name": "Đề 6",
+   "questions": [
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tuổi anh gấp $2$ lần tuổi em. $6$ năm trước, tổng số tuổi của hai anh em là $24$. Tìm tuổi em hiện nay. (chỉ ghi số)",
+     "answer": "12",
+     "explain": "$(x-6)+(2x-6)=24\\iff 3x=36\\iff x=12$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Gọi $x$ là tử số của phân số. Mẫu số hơn tử số $3$ đơn vị. Mẫu số là?",
+     "options": [
+      "A. $3x$",
+      "B. $x-3$",
+      "C. $\\frac{x}{3}$",
+      "D. $x+3$"
+     ],
+     "answer": "D",
+     "explain": "Đáp án đúng là “$x+3$”."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Trong bài toán chuyển động, nếu gọi $x$ là quãng đường thì điều kiện là?",
+     "options": [
+      "A. $x<0$",
+      "B. $x=0$",
+      "C. $x>0$",
+      "D. $x$ nguyên âm"
+     ],
+     "answer": "C",
+     "explain": "Đáp án đúng là “$x>0$”."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Bài toán: Chu vi một HCN là 48 m, chiều dài gấp 3 lần chiều rộng. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Gọi $x$ (m) là chiều rộng, $x>0$.",
+      "Chiều dài là $3x$.",
+      "Phương trình: $2(3x+x)=48$.",
+      "Diện tích HCN là $108$ m²."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$8x=48$ nên $x=6$; diện tích $=6\\cdot 18=108$ m²."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Một số gấp $3$ lần số kia, tổng hai số là $48$. Tìm số lớn. (chỉ ghi số)",
+     "answer": "36",
+     "explain": "$x+3x=48\\iff x=12$, số lớn $=36$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tuổi mẹ gấp $4$ lần tuổi con. $5$ năm nữa, tổng số tuổi của hai mẹ con là $60$. Tuổi con hiện nay là?",
+     "options": [
+      "A. $12$ tuổi",
+      "B. $8$ tuổi",
+      "C. $15$ tuổi",
+      "D. $10$ tuổi"
+     ],
+     "answer": "D",
+     "explain": "$(x+5)+(4x+5)=60\\iff 5x=50\\iff x=10$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Để giải bài toán “tìm tuổi”, ẩn $x$ thường được chọn là?",
+     "options": [
+      "A. số tuổi của người nhiều tuổi nhất",
+      "B. số tuổi của người ít tuổi hơn (hoặc theo yêu cầu)",
+      "C. năm sinh",
+      "D. tổng số tuổi"
+     ],
+     "answer": "B",
+     "explain": "Đáp án đúng là “số tuổi của người ít tuổi hơn (hoặc theo yêu cầu)”."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Gọi $x$ (đồng) là giá gốc của món hàng. Sau khi giảm $20\\%$, giá mới là?",
+     "options": [
+      "A. $1,2x$",
+      "B. $x-20$",
+      "C. $0,8x$",
+      "D. $0,2x$"
+     ],
+     "answer": "C",
+     "explain": "Đáp án đúng là “$0,8x$”."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Bài toán: Một số tự nhiên có hai chữ số, chữ số hàng chục hơn hàng đơn vị 1, tổng hai chữ số là 9. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Gọi $x$ là chữ số hàng chục.",
+      "Chữ số hàng đơn vị là $x-1$.",
+      "Phương trình: $x+(x-1)=9$.",
+      "Chữ số hàng chục là $4$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$2x=10$ nên $x=5$, không phải $4$; số đó là $54$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Gọi $x$ (giờ) là thời gian đi. Quãng đường đi được với vận tốc $15$ km/h là?",
+     "options": [
+      "A. $15x$ (km)",
+      "B. $\\frac{15}{x}$ (km)",
+      "C. $\\frac{x}{15}$ (km)",
+      "D. $15+x$ (km)"
+     ],
+     "answer": "A",
+     "explain": "Đáp án đúng là “$15x$ (km)”."
+    }
+   ]
+  },
+  {
+   "name": "Đề 7",
+   "questions": [
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Hai lớp 8A và 8B trồng được tổng cộng $150$ cây. Lớp 8A trồng ít hơn lớp 8B $30$ cây. Lớp 8A trồng được bao nhiêu cây? (chỉ ghi số)",
+     "answer": "60",
+     "explain": "$x+(x+30)=150\\iff x=60$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Bài toán: Tuổi anh gấp 2 lần tuổi em. 6 năm trước, tổng tuổi hai anh em là 24. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Gọi $x$ là tuổi em hiện nay, $x>6$.",
+      "6 năm trước tuổi em là $x-6$, tuổi anh là $2x-6$.",
+      "Phương trình: $(x-6)+(2x-6)=24$.",
+      "Tuổi em hiện nay là $10$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$3x=36$ nên $x=12$ (thỏa mãn $x>6$), không phải $10$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Một mảnh vườn hình chữ nhật có chiều dài gấp $2$ lần chiều rộng, chu vi $36$ m. Chiều rộng là?",
+     "options": [
+      "A. $6$ m",
+      "B. $12$ m",
+      "C. $9$ m",
+      "D. $4$ m"
+     ],
+     "answer": "A",
+     "explain": "$2(2x+x)=36\\iff x=6$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Gọi $x$ là chữ số hàng chục. Chữ số hàng đơn vị kém chữ số hàng chục $2$. Chữ số hàng đơn vị là?",
+     "options": [
+      "A. $2x$",
+      "B. $x+2$",
+      "C. $x-2$",
+      "D. $10-x$"
+     ],
+     "answer": "C",
+     "explain": "Đáp án đúng là “$x-2$”."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Khi lập phương trình, “mối quan hệ giữa các đại lượng” thường là?",
+     "options": [
+      "A. đẳng thức (tổng, hiệu, tích, thương) cho trong đề bài",
+      "B. bất đẳng thức",
+      "C. hình vẽ",
+      "D. bảng số liệu"
+     ],
+     "answer": "A",
+     "explain": "Đáp án đúng là “đẳng thức (tổng, hiệu, tích, thương) cho trong đề bài”."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Gọi $x$ là số sách ngăn thứ nhất. Ngăn thứ hai gấp $2$ lần ngăn thứ nhất. Số sách ngăn thứ hai là?",
+     "options": [
+      "A. $x+2$",
+      "B. $2x$",
+      "C. $\\frac{x}{2}$",
+      "D. $x^2$"
+     ],
+     "answer": "B",
+     "explain": "Đáp án đúng là “$2x$”."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Thứ tự đúng các bước giải bài toán bằng cách lập phương trình là?",
+     "options": [
+      "A. Giải phương trình → Lập phương trình → Trả lời",
+      "B. Lập phương trình → Trả lời → Giải phương trình",
+      "C. Lập phương trình → Giải phương trình → Kiểm tra, trả lời",
+      "D. Trả lời → Lập phương trình → Giải phương trình"
+     ],
+     "answer": "C",
+     "explain": "Đáp án đúng là “Lập phương trình → Giải phương trình → Kiểm tra, trả lời”."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Trong bài toán tìm số tự nhiên, điều kiện của ẩn $x$ thường là?",
+     "options": [
+      "A. $x$ là số thập phân",
+      "B. $x<0$",
+      "C. $x$ là phân số",
+      "D. $x$ là số tự nhiên (hoặc số nguyên dương)"
+     ],
+     "answer": "D",
+     "explain": "Đáp án đúng là “$x$ là số tự nhiên (hoặc số nguyên dương)”."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Chu vi một tam giác đều cạnh $x$ là $27$ cm. Tìm $x$. (chỉ ghi số)",
+     "answer": "9",
+     "explain": "$3x=27\\iff x=9$."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Bài toán: Một ô tô đi 120 km với vận tốc $x$ km/h. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Điều kiện: $x>0$.",
+      "Thời gian đi là $\\frac{120}{x}$ giờ.",
+      "Nếu $x=40$ thì thời gian đi là $3$ giờ.",
+      "Thời gian đi là $120x$ giờ."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$t=\\frac{s}{v}=\\frac{120}{x}$; với $x=40$: $t=3$ giờ."
+    }
+   ]
+  },
+  {
+   "name": "Đề 8",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Nghiệm $x=-5$ của phương trình lập được, trong khi $x$ là số tuổi ($x>0$). Ta?",
+     "options": [
+      "A. loại nghiệm $x=-5$ vì không thỏa mãn điều kiện",
+      "B. nhận $x=-5$ làm đáp số",
+      "C. lấy giá trị tuyệt đối",
+      "D. lập phương trình khác"
+     ],
+     "answer": "A",
+     "explain": "Đáp án đúng là “loại nghiệm $x=-5$ vì không thỏa mãn điều kiện”."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Đổi $20$ phút sang giờ được?",
+     "options": [
+      "A. $20$ giờ",
+      "B. $\\frac{1}{3}$ giờ",
+      "C. $0,2$ giờ",
+      "D. $\\frac{1}{2}$ giờ"
+     ],
+     "answer": "B",
+     "explain": "Đáp án đúng là “$\\frac{1}{3}$ giờ”."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Bài toán: Hai số tự nhiên liên tiếp có tổng là 41. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Gọi $x$ là số bé, $x$ là số tự nhiên.",
+      "Số lớn là $x+1$.",
+      "Phương trình: $x+(x+1)=41$.",
+      "Số bé là $21$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$2x=40$ nên $x=20$, không phải $21$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Một chiếc áo sau khi giảm giá $20\\%$ còn $240$ nghìn đồng. Tìm giá gốc (nghìn đồng). (chỉ ghi số)",
+     "answer": "300",
+     "explain": "$0{,}8x=240\\iff x=300$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Bài toán: Một người đi từ A đến B với vận tốc 30 km/h, nghỉ 30 phút rồi quay về với vận tốc 40 km/h; tổng thời gian (kể cả nghỉ) là 4 giờ. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Gọi $x$ (km) là quãng đường AB, $x>0$.",
+      "Thời gian đi là $\\frac{x}{30}$, thời gian về là $\\frac{x}{40}$ (giờ).",
+      "Phương trình: $\\frac{x}{30}+\\frac{x}{40}+\\frac{1}{2}=4$.",
+      "Quãng đường AB dài $50$ km."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$\\frac{7x}{120}=3,5$ nên $x=60$ (thỏa mãn), không phải $50$ km."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Một người đi xe đạp từ A đến B với vận tốc $12$ km/h, lúc về với vận tốc $15$ km/h nên thời gian về ít hơn thời gian đi $20$ phút. Quãng đường AB dài?",
+     "options": [
+      "A. $30$ km",
+      "B. $20$ km",
+      "C. $15$ km",
+      "D. $25$ km"
+     ],
+     "answer": "B",
+     "explain": "$\\frac{x}{12}-\\frac{x}{15}=\\frac{1}{3}\\iff x=20$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Giá một quyển vở sau khi tăng $10\\%$ là $11$ nghìn đồng. Tìm giá gốc. (chỉ ghi số)",
+     "answer": "10",
+     "explain": "$1{,}1x=11\\iff x=10$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Một bể chứa $x$ lít nước ($x>0$). Sau khi dùng $20$ lít, lượng nước còn lại là?",
+     "options": [
+      "A. $20-x$ (lít)",
+      "B. $20x$ (lít)",
+      "C. $x-20$ (lít)",
+      "D. $\\frac{x}{20}$ (lít)"
+     ],
+     "answer": "C",
+     "explain": "Đáp án đúng là “$x-20$ (lít)”."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Gọi $x$ là năng suất một ngày (sản phẩm/ngày, $x>0$). Số sản phẩm làm trong $5$ ngày là?",
+     "options": [
+      "A. $\\frac{5}{x}$",
+      "B. $5x$",
+      "C. $x+5$",
+      "D. $x^5$"
+     ],
+     "answer": "B",
+     "explain": "Đáp án đúng là “$5x$”."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Vì sao phải đặt điều kiện cho ẩn??",
+     "options": [
+      "A. Để phương trình khó hơn",
+      "B. Để đáp số đẹp hơn",
+      "C. Vì quy định của SGK",
+      "D. Để loại nghiệm không phù hợp với thực tế của bài toán"
+     ],
+     "answer": "D",
+     "explain": "Đáp án đúng là “Để loại nghiệm không phù hợp với thực tế của bài toán”."
+    }
+   ]
+  },
+  {
+   "name": "Đề 9",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Gọi $x$ là chiều dài ($x>0$). Chiều rộng bằng $\\frac{2}{3}$ chiều dài. Chiều rộng là?",
+     "options": [
+      "A. $\\frac{3x}{2}$",
+      "B. $x+\\frac{2}{3}$",
+      "C. $\\frac{2}{3x}$",
+      "D. $\\frac{2x}{3}$"
+     ],
+     "answer": "D",
+     "explain": "Đáp án đúng là “$\\frac{2x}{3}$”."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Đổi $30$ phút sang giờ được?",
+     "options": [
+      "A. $30$ giờ",
+      "B. $0,3$ giờ",
+      "C. $\\frac{1}{2}$ giờ",
+      "D. $\\frac{1}{3}$ giờ"
+     ],
+     "answer": "C",
+     "explain": "Đáp án đúng là “$\\frac{1}{2}$ giờ”."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Bài toán: Tìm số tự nhiên có hai chữ số biết chữ số hàng đơn vị gấp đôi chữ số hàng chục và tổng hai chữ số là 9. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Gọi $x$ là chữ số hàng chục ($1\\le x\\le 9$, nguyên).",
+      "Chữ số hàng đơn vị là $2x$.",
+      "Phương trình: $x+2x=9$.",
+      "Số cần tìm là $36$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$3x=9$ nên $x=3$; số đó là $36$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tìm số tự nhiên có hai chữ số biết chữ số hàng đơn vị gấp đôi chữ số hàng chục và tổng hai chữ số là $9$. (chỉ ghi số)",
+     "answer": "36",
+     "explain": "Chữ số hàng chục $x$: $x+2x=9\\iff x=3$; số đó là $36$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Hai số hơn kém nhau $8$, tổng hai số là $40$. Tìm số bé. (chỉ ghi số)",
+     "answer": "16",
+     "explain": "$x+(x+8)=40\\iff x=16$."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Bài toán: Một mảnh vườn HCN có chiều dài gấp 2 lần chiều rộng, chu vi 36 m. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Gọi $x$ (m) là chiều rộng, $x>0$.",
+      "Chiều dài là $2x$.",
+      "Phương trình: $2(2x+x)=36$.",
+      "Chiều rộng là $9$ m."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$6x=36$ nên $x=6$, không phải $9$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Đổi $15$ phút sang giờ được?",
+     "options": [
+      "A. $15$ giờ",
+      "B. $0,15$ giờ",
+      "C. $\\frac{1}{5}$ giờ",
+      "D. $\\frac{1}{4}$ giờ"
+     ],
+     "answer": "D",
+     "explain": "Đáp án đúng là “$\\frac{1}{4}$ giờ”."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Hai lớp 8A và 8B trồng được tổng cộng $150$ cây. Lớp 8A trồng ít hơn lớp 8B $30$ cây. Lớp 8A trồng được?",
+     "options": [
+      "A. $90$ cây",
+      "B. $75$ cây",
+      "C. $60$ cây",
+      "D. $45$ cây"
+     ],
+     "answer": "C",
+     "explain": "$x+(x+30)=150\\iff x=60$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Diện tích hình chữ nhật có chiều dài $a$, chiều rộng $b$ là?",
+     "options": [
+      "A. $a\\cdot b$",
+      "B. $2(a+b)$",
+      "C. $a+b$",
+      "D. $4a$"
+     ],
+     "answer": "A",
+     "explain": "Đáp án đúng là “$a\\cdot b$”."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Trong $x$ giờ, một vòi chảy được $5x$ lít nước. Trong $1$ giờ vòi chảy được?",
+     "options": [
+      "A. $5$ lít",
+      "B. $x$ lít",
+      "C. $5x^2$ lít",
+      "D. $\\frac{1}{5}$ lít"
+     ],
+     "answer": "A",
+     "explain": "Đáp án đúng là “$5$ lít”."
+    }
+   ]
+  },
+  {
+   "name": "Đề 10",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Gọi $x$ là điểm bài kiểm tra ($0\\le x\\le 10$). Điểm trung bình hai bài $x$ và $8$ là?",
+     "options": [
+      "A. $x+8$",
+      "B. $\\frac{x+8}{2}$",
+      "C. $2x+8$",
+      "D. $\\frac{x}{8}$"
+     ],
+     "answer": "B",
+     "explain": "Đáp án đúng là “$\\frac{x+8}{2}$”."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Một người tiết kiệm $x$ đồng mỗi tháng ($x>0$). Sau $1$ năm, số tiền tiết kiệm được là?",
+     "options": [
+      "A. $x+12$ đồng",
+      "B. $\\frac{x}{12}$ đồng",
+      "C. $12x$ đồng",
+      "D. $x^{12}$ đồng"
+     ],
+     "answer": "C",
+     "explain": "Đáp án đúng là “$12x$ đồng”."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Số có hai chữ số với chữ số hàng chục là $a$, hàng đơn vị là $b$ được viết là?",
+     "options": [
+      "A. $a+b$",
+      "B. $ab$",
+      "C. $10a+b$",
+      "D. $10b+a$"
+     ],
+     "answer": "C",
+     "explain": "Đáp án đúng là “$10a+b$”."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Bài toán: Tổng ba số tự nhiên liên tiếp là 72. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Gọi $x$ là số bé nhất.",
+      "Ba số là $x$, $x+1$, $x+2$.",
+      "Phương trình: $x+(x+1)+(x+2)=72$.",
+      "Số lớn nhất là $24$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$3x=69$ nên $x=23$; số lớn nhất là $25$, không phải $24$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tổng của hai số tự nhiên liên tiếp, số bé là $x$, được biểu diễn là?",
+     "options": [
+      "A. $x+x$",
+      "B. $x+(x+1)$",
+      "C. $2x+2$",
+      "D. $x\\cdot(x+1)$"
+     ],
+     "answer": "B",
+     "explain": "Đáp án đúng là “$x+(x+1)$”."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Một chiếc áo sau khi giảm giá $20\\%$ còn $240$ nghìn đồng. Giá gốc của chiếc áo là?",
+     "options": [
+      "A. $288$ nghìn đồng",
+      "B. $192$ nghìn đồng",
+      "C. $260$ nghìn đồng",
+      "D. $300$ nghìn đồng"
+     ],
+     "answer": "D",
+     "explain": "$0{,}8x=240\\iff x=300$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Gọi $x$ là số con gà, tổng số gà và chó là $20$ con. Số chó là?",
+     "options": [
+      "A. $x-20$",
+      "B. $20x$",
+      "C. $\\frac{20}{x}$",
+      "D. $20-x$"
+     ],
+     "answer": "D",
+     "explain": "Đáp án đúng là “$20-x$”."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Một ô tô đi từ A đến B hết $3$ giờ. Lúc về, ô tô tăng vận tốc thêm $10$ km/h nên chỉ hết $2{,}5$ giờ. Tìm quãng đường AB (km). (chỉ ghi số)",
+     "answer": "150",
+     "explain": "$3v=2{,}5(v+10)\\iff 0{,}5v=25\\iff v=50$; quãng đường $=3\\cdot 50=150$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Một sân hình chữ nhật có chu vi $100$ m, chiều rộng bằng $\\frac{2}{3}$ chiều dài. Tìm chiều dài. (chỉ ghi số)",
+     "answer": "30",
+     "explain": "$x+\\frac{2x}{3}=50\\iff \\frac{5x}{3}=50\\iff x=30$."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Bài toán: Giá gốc một chiếc áo là $x$ nghìn đồng, sau khi giảm 20% còn 240 nghìn đồng. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Điều kiện: $x>0$.",
+      "Giá sau giảm là $0,8x$.",
+      "Phương trình: $0,8x=240$.",
+      "Giá gốc là $300$ nghìn đồng."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$x=300$ (thỏa mãn $x>0$)."
+    }
+   ]
+  }
+ ]
+}
+</script>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
