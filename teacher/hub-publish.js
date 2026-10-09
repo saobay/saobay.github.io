@@ -537,9 +537,16 @@ MA TRẬN CỦA TÔI (bạn tuân thủ tuyệt đối):`;
         // Ghi nhan chu so huu sau khi day bai thanh cong (ghi de chu cu neu co)
         async function registerExamOwner(filePath, title){
             let reg = await getExamRegistry(true);
+            // FIX 2026-10-10: thêm owner_tag để phân biệt GV (trường: id_tên, tự do: TD_sdt)
+            let _uid = (typeof currentUser !== 'undefined' && currentUser.id) ? String(currentUser.id) : '';
+            let _uname = (typeof currentUser !== 'undefined' && currentUser.name) ? currentUser.name : '';
+            let _tag = '';
+            if (/^0\d{8,11}$/.test(_uid) || _uid.indexOf('@') >= 0) _tag = 'TD_' + _uid;
+            else if (_uid) _tag = _uid + '_' + _uname;
             reg[filePath] = {
-                owner_id: (typeof currentUser !== 'undefined' && currentUser.id) ? String(currentUser.id) : '',
-                owner_name: (typeof currentUser !== 'undefined' && currentUser.name) ? currentUser.name : '',
+                owner_id: _uid,
+                owner_name: _uname,
+                owner_tag: _tag,
                 title: title || filePath, created_at: new Date().toISOString()
             };
             await saveExamRegistry(reg);
