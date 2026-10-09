@@ -24,13 +24,19 @@ YÊU CẦU:
             }
 
             if (type === 'EXAM10') {
-                // PROMPT 10 BỘ ĐỀ CHUẨN SÀO BÁY (2026-10-08, rà soát theo kiến trúc web thật):
+                // PROMPT TẠO ĐỀ MỚI CHUẨN SÀO BÁY (2026-10-09):
+                // - AI soạn 1 ĐỀ MỚI HOÀN TOÀN theo đúng MA TRẬN người dùng cung cấp
                 // - AI chỉ sinh DỮ LIỆU JSON trong <script class="saobay-exam10-data">, KHÔNG viết HTML card, KHÔNG viết JS
                 //   (web tự render + chấm bài qua mountExam10Viewers trong index.html)
                 // - 4 dạng câu web hiểu: mcq / truefalse / short / essay
-                // - Quy trình NotebookLM: xin 1 ĐỀ/lần (10 đề 1 lúc sẽ treo), rồi "tiếp tục đề 2"...
                 promptText = `Bạn là chuyên gia biên soạn đề thi theo định hướng đánh giá năng lực của Bộ GD&ĐT.
-Nhiệm vụ: soạn ĐỀ 1 (làm từng đề một, KHÔNG làm 10 đề cùng lúc) cho Bài: "${lesson}" - Môn: ${subject} - Lớp: ${grade}.
+Nhiệm vụ: soạn 1 ĐỀ THI MỚI HOÀN TOÀN (chưa từng xuất hiện ở bất kỳ đâu) cho Bài: "${lesson}" - Môn: ${subject} - Lớp: ${grade}.
+
+YÊU CẦU QUAN TRỌNG NHẤT:
+1. Đề phải MỚI TINH — học sinh chưa từng thấy. Không sao chép, không biến thể nhẹ từ đề cũ.
+2. Tôi sẽ cung cấp MA TRẬN CHI TIẾT ngay sau prompt này (gồm: chủ đề/chương, số câu mỗi chủ đề, phân bố mức độ NB/TH/VD/VDC, dạng câu mcq/truefalse/short/essay, thời gian làm bài).
+3. Bạn phải tuân thủ 100% ma trận — không tự ý thêm, bớt, hay đổi dạng câu/mức độ.
+4. Nếu ma trận chưa rõ chỗ nào, hãy hỏi lại thay vì tự đoán.
 
 ĐỊNH DẠNG BẮT BUỘC — chỉ xuất DUY NHẤT khối mã HTML thô dưới đây (không bọc markdown, không chữ giải thích ngoài, không thêm <html>/<head>/<body>):
 
@@ -44,13 +50,13 @@ Nhiệm vụ: soạn ĐỀ 1 (làm từng đề một, KHÔNG làm 10 đề cùn
         {"type":"mcq","level":"NB","q":"Nội dung câu hỏi?","options":["A. ...","B. ...","C. ...","D. ..."],"answer":"B","explain":"Giải thích ngắn gọn."},
         {"type":"truefalse","level":"TH","q":"Xét tính đúng/sai:","statements":["Ý a ...","Ý b ...","Ý c ...","Ý d ..."],"answer":["T","F","T","F"],"explain":"Giải thích từng ý."},
         {"type":"short","level":"VD","q":"Điền đáp số: ...?","answer":"24","explain":"Giải thích."},
-        {"type":"essay","level":"VDC","q":"Câu tự luận: ... (ghi [TL] ở đầu)","explain":"Hướng dẫn chấm / barem từng ý."},
+        {"type":"essay","level":"VDC","q":"[TL] Câu tự luận: ...","explain":"Barem chấm từng ý."},
         {"type":"mcq","level":"TH","q":"Câu có hình minh họa?","options":["A. ...","B. ...","C. ...","D. ..."],"answer":"A","img":"https://.../hinh1.png","explain":"Giải thích."}
       ]
     }
   ]
 }
-<\/script>
+<\\/script>
 </div>
 
 QUY TẮC 4 DẠNG CÂU (web chỉ hiểu 4 dạng này):
@@ -64,7 +70,6 @@ QUY TẮC 4 MỨC ĐỘ (trường "level" bắt buộc mỗi câu):
 - "TH" Thông hiểu: hiểu bản chất, phân biệt khái niệm, áp dụng trực tiếp 1 công thức.
 - "VD" Vận dụng: tổng hợp 2-3 kiến thức để giải bài toán thông thường.
 - "VDC" Vận dụng cao: bài toán phân hóa, tư duy phức tạp, mô hình thực tiễn mới.
-Mỗi đề 10 câu: 6 mcq + 2 truefalse + 2 short (có thể thay 1 short bằng essay cho đề kiểm tra). Phân bố đều NB/TH/VD/VDC.
 
 QUY TẮC KỸ THUẬT:
 - Viết TIẾNG VIỆT CÓ DẤU đầy đủ trong mọi chuỗi.
@@ -74,7 +79,7 @@ QUY TẮC KỸ THUẬT:
 - Nếu câu hỏi có hình minh họa (tôi sẽ cung cấp URL ảnh), thêm trường "img" với URL đó.
 - KHÔNG viết thẻ HTML câu hỏi, KHÔNG viết JavaScript — chỉ xuất đúng khối JSON trên.
 
-Sau khi tôi duyệt "Đề 1", tôi sẽ yêu cầu "tiếp tục Đề 2"... đến "Đề 10", mỗi đề KHÁC NHAU rõ rệt (đảo thứ tự, đổi số liệu, đổi cách hỏi).`;
+MA TRẬN CỦA TÔI (bạn tuân thủ tuyệt đối):`;
             }
 
             if(!document.getElementById('item-title').value.trim()){
