@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 5: Tốc độ và vận tốc</title>
+    <meta name="lesson-title" content="Bài 5: Tốc độ và vận tốc">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+<!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay | Ma nguon thuoc nen tang hoc tap SAOBAY | Nghiem cam sao chep duoi moi hinh thuc -->
+<script data-saobay-guard="1">
+(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok){if(document.body){document.body.innerHTML='<div style="font-family:system-ui,sans-serif;max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff"><h2 style="color:#0f172a;margin-top:0">© SAOBAY — Trường THPT Sào Báy</h2><p style="color:#475569">Nội dung này chỉ được hiển thị tại địa chỉ chính thức <b>saobay.github.io</b>.</p><p style="color:#475569">Vui lòng truy cập đúng địa chỉ để học tập.</p></div>';}else{document.write("SAOBAY: truy cap tai saobay.github.io");}}catch(e){}})();
+</script>
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 5: Tốc độ và vận tốc</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 2: Động học • Bài 5: Tốc độ và vận tốc</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 5: Tốc độ và vận tốc</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 2: Động học — Vật lí 10 (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Tốc độ trung bình -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Tốc độ trung bình</h2>
+
+<p><strong>Định nghĩa:</strong> <em>Tốc độ trung bình</em> của vật cho biết vật đi nhanh hay chậm trên cả quãng đường, được tính bằng <strong>quãng đường đi được chia cho thời gian đi hết quãng đường đó</strong>:</p>
+<p>$$v_{tb} = \frac{s}{t}$$</p>
+<p>Trong đó $s$ là quãng đường đi được, $t$ là thời gian chuyển động.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Một xe máy đi quãng đường 60 km trong 1,5 giờ. Tốc độ trung bình của xe là $v_{tb} = \frac{60}{1,5} = 40$ km/h.</p>
+</div>
+
+<!-- 2. Tốc độ tức thời -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Tốc độ tức thời</h2>
+
+<p><em>Tốc độ tức thời</em> là tốc độ của vật tại một <strong>thời điểm xác định</strong> (ví dụ: tốc độ xe lúc 7 giờ 05 phút). Đồng hồ tốc độ trên xe máy, ô tô hiển thị chính là tốc độ tức thời.</p>
+
+<p>Tốc độ tức thời có thể tính gần đúng bằng quãng đường rất ngắn $\Delta s$ chia cho khoảng thời gian rất ngắn $\Delta t$ tương ứng.</p>
+
+<!-- 3. Vận tốc -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Vận tốc</h2>
+
+<p><strong>Định nghĩa:</strong> <em>Vận tốc</em> là đại lượng <strong>vectơ</strong>, cho biết cả <strong>hướng chuyển động</strong> và <strong>sự nhanh chậm</strong> của chuyển động tại mỗi thời điểm.</p>
+
+<p><em>Vận tốc trung bình</em> được tính bằng <strong>độ dịch chuyển chia cho thời gian</strong>:</p>
+<p>$$v = \frac{\Delta d}{\Delta t}$$</p>
+
+<p>Trên một hướng chuyển động xác định (ví dụ trục Ox), ta có thể dùng giá trị đại số: $v = \frac{\Delta x}{\Delta t}$, trong đó $\Delta x = x_2 - x_1$ là độ dịch chuyển.</p>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Phân biệt tốc độ và vận tốc</p>
+<ul class="list-disc ml-6 space-y-1 mt-1">
+<li><strong>Tốc độ</strong> (trung bình) $= \frac{s}{t}$: dùng <strong>quãng đường</strong>, là vô hướng, không âm.</li>
+<li><strong>Vận tốc</strong> (trung bình) $= \frac{\Delta d}{\Delta t}$: dùng <strong>độ dịch chuyển</strong>, là vectơ, có thể âm (ngược chiều dương).</li>
+<li>Khi vật <strong>đi thẳng không đổi chiều</strong>, độ lớn vận tốc trung bình bằng tốc độ trung bình.</li>
+<li><strong>Tốc độ tức thời</strong> chính là <strong>độ lớn của vận tốc tức thời</strong>.</li>
+</ul>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Một người đi 3 km về phía đông trong 0,5 giờ rồi quay về điểm xuất phát trong 0,5 giờ nữa.</p>
+<ul class="list-disc ml-6 space-y-1 mt-2">
+<li>Tốc độ trung bình: $v_{tb} = \frac{3 + 3}{0,5 + 0,5} = 6$ km/h.</li>
+<li>Vận tốc trung bình: $v = \frac{0}{1} = 0$ (độ dịch chuyển bằng 0).</li>
+</ul>
+</div>
+
+<!-- 4. Đơn vị -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Đơn vị tốc độ, vận tốc</h2>
+
+<p>Đơn vị trong hệ SI là <strong>mét trên giây (m/s)</strong>; trong đời sống thường dùng <strong>kilômét trên giờ (km/h)</strong>.</p>
+<p>$$1\ \text{m/s} = 3{,}6\ \text{km/h} \quad ; \quad 1\ \text{km/h} = \frac{1}{3{,}6}\ \text{m/s}$$</p>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Mẹo đổi đơn vị</p>
+<p class="mt-1">Từ <strong>m/s sang km/h: nhân 3,6</strong>; từ <strong>km/h sang m/s: chia 3,6</strong>. Ví dụ: 72 km/h = 20 m/s; 10 m/s = 36 km/h.</p>
+</div>
+
+<!-- 5. Đo tốc độ (Bài 6) -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">5. Các phương pháp đo tốc độ (nội dung thực hành)</h2>
+
+<p>Để đo tốc độ của vật chuyển động, ta cần đo <strong>quãng đường</strong> và <strong>thời gian</strong> tương ứng rồi tính $v = \frac{s}{t}$:</p>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-left my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Phương pháp</td><td class="border border-slate-300 px-4 py-1">Dụng cụ</td><td class="border border-slate-300 px-4 py-1">Cách làm</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Thước + đồng hồ bấm giây</td><td class="border border-slate-300 px-4 py-1">Thước đo, đồng hồ bấm giây</td><td class="border border-slate-300 px-4 py-1">Đo $s$, bấm giờ đo $t$, tính $v = \frac{s}{t}$ (tốc độ trung bình)</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Cổng quang điện</td><td class="border border-slate-300 px-4 py-1">Cổng quang điện + đồng hồ đo thời gian hiện số</td><td class="border border-slate-300 px-4 py-1">Vật đi qua cổng chắn tia sáng trong thời gian $\Delta t$; biết bề rộng vật $d$ thì $v = \frac{d}{\Delta t}$ (gần với tốc độ tức thời)</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Cảm biến chuyển động</td><td class="border border-slate-300 px-4 py-1">Cảm biến siêu âm + phần mềm</td><td class="border border-slate-300 px-4 py-1">Tự động ghi vị trí theo thời gian, vẽ đồ thị và tính vận tốc</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Súng bắn tốc độ</td><td class="border border-slate-300 px-4 py-1">Thiết bị phát - thu sóng</td><td class="border border-slate-300 px-4 py-1">Cảnh sát giao thông dùng để đo tốc độ tức thời của phương tiện</td></tr>
+</table></div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cổng quang điện đo tốc độ">
+<rect x="2" y="2" width="436" height="196" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<rect x="60" y="40" width="14" height="120" fill="#475569"/><rect x="180" y="40" width="14" height="120" fill="#475569"/>
+<line x1="74" y1="60" x2="180" y2="60" stroke="#facc15" stroke-width="2" stroke-dasharray="6,4"/>
+<rect x="100" y="100" width="60" height="26" rx="4" fill="#0284c7"/>
+<text x="130" y="118" font-family="sans-serif" font-size="12" fill="#fff" text-anchor="middle">vật (rộng d)</text>
+<line x1="60" y1="176" x2="330" y2="176" stroke="#1e293b" stroke-width="2"/>
+<polygon points="330,176 318,170 318,182" fill="#1e293b"/>
+<text x="240" y="150" font-family="sans-serif" font-size="13" fill="#0284c7">v = d / Δt</text>
+<text x="127" y="30" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">cổng quang điện</text>
+<rect x="230" y="60" width="150" height="70" rx="8" fill="#ecfeff" stroke="#0284c7" stroke-width="1.5"/>
+<text x="305" y="84" font-family="sans-serif" font-size="12" font-weight="bold" fill="#0e7490" text-anchor="middle">đồng hồ hiện số</text>
+<text x="305" y="106" font-family="sans-serif" font-size="12" fill="#0e7490" text-anchor="middle">đo thời gian Δt</text>
+<text x="305" y="124" font-family="sans-serif" font-size="12" fill="#0e7490" text-anchor="middle">vật chắn tia sáng</text>
+</svg></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Muốn đo tốc độ chính xác hơn: dùng <strong>cổng quang điện</strong> (đo khoảng thời gian rất ngắn) hoặc <strong>cảm biến chuyển động</strong>; đo <strong>tốc độ trung bình</strong> chỉ cần thước và đồng hồ bấm giây.</p>
+</div>
+
+<!-- Tổng kết -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Tốc độ trung bình:</strong> $v_{tb} = \frac{s}{t}$ (vô hướng).</li>
+<li><strong>Vận tốc trung bình:</strong> $v = \frac{\Delta d}{\Delta t}$ (vectơ).</li>
+<li><strong>Tốc độ tức thời</strong> = độ lớn của vận tốc tức thời (đồng hồ tốc độ trên xe).</li>
+<li><strong>Đơn vị:</strong> m/s (SI); 1 m/s = 3,6 km/h.</li>
+<li><strong>Đo tốc độ:</strong> thước + đồng hồ bấm giây; cổng quang điện ($v = \frac{d}{\Delta t}$); cảm biến chuyển động; súng bắn tốc độ.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+</body>
+</html>
