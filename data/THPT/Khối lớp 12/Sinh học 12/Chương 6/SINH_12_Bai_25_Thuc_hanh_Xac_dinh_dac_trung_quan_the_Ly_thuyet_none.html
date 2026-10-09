@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 25. Thực hành: Xác định khu vực phân bố, kiểu phân bố cá thể và ước tính kích thước mật độ của quần thể thực vật hoặc động vật ít di chuyển</title>
+    <meta name="lesson-title" content="Bài 25. Thực hành: Xác định khu vực phân bố, kiểu phân bố cá thể và ước tính kích thước mật độ của quần thể thực vật hoặc động vật ít di chuyển">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 25. Thực hành: Xác định khu vực phân bố, kiểu phân bố cá thể và ước tính kích thước mật độ của quần thể thực vật hoặc động vật ít di chuyển</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 1: Mệnh đề và tập hợp • Bài 25. Thực hành: Xác định khu vực phân bố, kiểu phân bố cá thể và ước tính kích thước mật độ của quần thể thực vật hoặc động vật ít di chuyển</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 25. Thực hành: Xác định khu vực phân bố, kiểu phân bố cá thể và ước tính kích thước mật độ của quần thể thực vật hoặc động vật ít di chuyển</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 6: Môi trường và sinh thái học quần thể • Kết nối tri thức với cuộc sống</p>
+
+<p>Bài thực hành giúp xác định <strong>khu vực phân bố</strong>, <strong>kiểu phân bố cá thể</strong> và <strong>ước tính kích thước, mật độ</strong> của quần thể sinh vật <strong>ít di chuyển</strong> (cây cỏ, ốc sên...).</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Mục đích – yêu cầu</h2>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Xác định được <strong>khu vực phân bố</strong> và <strong>kiểu phân bố</strong> cá thể của quần thể.</li>
+<li><strong>Ước tính</strong> được kích thước và mật độ quần thể bằng phương pháp <strong>ô tiêu chuẩn</strong> (quadrat).</li>
+<li>Rèn kĩ năng quan sát, đo đạc, tính toán ngoài thực địa.</li>
+</ul>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Chuẩn bị</h2>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Địa điểm:</strong> bãi cỏ, vườn trường, bờ ruộng có quần thể cây cỏ (hoặc ốc) phân bố tương đối rõ.</li>
+<li><strong>Dụng cụ:</strong> khung ô tiêu chuẩn (ví dụ 50 cm × 50 cm hoặc 1 m × 1 m), thước dây, cọc, sổ ghi chép.</li>
+</ul>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Các bước tiến hành</h2>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Bước 1:</strong> Xác định <strong>khu vực phân bố</strong> của quần thể (ranh giới nơi loài xuất hiện).</li>
+<li><strong>Bước 2:</strong> Đặt <strong>ngẫu nhiên</strong> 5–10 ô tiêu chuẩn trong khu vực.</li>
+<li><strong>Bước 3:</strong> <strong>Đếm số cá thể</strong> trong từng ô, ghi chép.</li>
+<li><strong>Bước 4:</strong> Tính <strong>mật độ trung bình</strong> (cá thể/ô), suy ra <strong>kích thước quần thể</strong> = mật độ × diện tích khu vực.</li>
+<li><strong>Bước 5:</strong> Nhận xét <strong>kiểu phân bố</strong> (đều/ngẫu nhiên/theo nhóm) dựa trên sự chênh lệch số cá thể giữa các ô.</li>
+</ul>
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+Ví dụ: ô 1 m², đếm 5 ô được 12, 15, 10, 14, 11 cá thể → trung bình 12,4 cá thể/m². Khu vực 100 m² → kích thước ≈ 1240 cá thể.
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Kết quả và giải thích</h2>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Mật độ</strong> = tổng số cá thể đếm được / tổng diện tích các ô.</li>
+<li><strong>Kích thước</strong> = mật độ × diện tích khu vực phân bố.</li>
+<li><strong>Kiểu phân bố:</strong> số cá thể các ô <strong>chênh lệch lớn</strong> → phân bố <strong>theo nhóm</strong>; <strong>tương đương nhau</strong> → phân bố <strong>đều/ngẫu nhiên</strong>.</li>
+<li>Kết quả chỉ là <strong>ước tính</strong> (không đếm được toàn bộ).</li>
+</ul>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">5. Kết luận và ý nghĩa</h2>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Xác định được đặc trưng cơ bản của quần thể ngoài thực địa.</li>
+<li>Ý nghĩa: theo dõi <strong>biến động số lượng</strong>, đánh giá <strong>hiện trạng</strong> quần thể phục vụ <strong>bảo tồn, khai thác hợp lí</strong>.</li>
+<li>Lưu ý: đặt ô <strong>ngẫu nhiên</strong>, đủ số lượng để kết quả <strong>đại diện</strong>.</li>
+</ul>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li>Phương pháp ô tiêu chuẩn: đếm trong ô → mật độ → kích thước quần thể.</li>
+<li>Xác định kiểu phân bố qua sự chênh lệch số cá thể giữa các ô.</li>
+<li>Kết quả là ước tính; cần đặt ô ngẫu nhiên, đủ số lượng.</li>
+</ul>
+</div><p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
