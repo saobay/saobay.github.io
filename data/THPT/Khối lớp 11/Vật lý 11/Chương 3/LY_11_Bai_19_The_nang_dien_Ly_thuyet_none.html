@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay | Ma nguon thuoc nen tang hoc tap SAOBAY | Nghiem cam sao chep duoi moi hinh thuc -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 19: Thế năng điện</title>
+    <meta name="lesson-title" content="Bài 19: Thế năng điện">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 19: Thế năng điện</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 3: Điện trường • Bài 19: Thế năng điện</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 1: Mệnh đề</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương I: Mệnh đề và tập hợp — Toán 10 (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Mệnh đề -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Mệnh đề</h2>
+
+<p><strong>Định nghĩa:</strong> <em>Mệnh đề</em> là một câu khẳng định <strong>đúng</strong> hoặc <strong>sai</strong>. Một mệnh đề không thể vừa đúng vừa sai.</p>
+
+<p>Người ta thường dùng các chữ cái in hoa $P, Q, R, \dots$ để kí hiệu mệnh đề.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>"Hà Nội là thủ đô của Việt Nam." là một <strong>mệnh đề đúng</strong>.</li>
+<li>"$2 + 3 = 5$." là một <strong>mệnh đề đúng</strong>.</li>
+<li>"$\sqrt{2}$ là số hữu tỉ." là một <strong>mệnh đề sai</strong>.</li>
+<li>"$15$ chia hết cho $4$." là một <strong>mệnh đề sai</strong>.</li>
+</ul>
+</div>
+
+<p><strong>Không phải mệnh đề:</strong> các câu hỏi, câu cảm thán, câu mệnh lệnh, và các câu mà ta chưa thể khẳng định đúng hay sai.</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>"Hôm nay trời đẹp quá!" (câu cảm thán)</li>
+<li>"Bạn tên là gì?" (câu hỏi)</li>
+<li>"Hãy làm bài tập về nhà!" (câu mệnh lệnh)</li>
+<li>"$x + 2 = 5$." — chưa biết $x$ nên chưa khẳng định được đúng hay sai (đây là <em>mệnh đề chứa biến</em>, xem mục 2).</li>
+</ul>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Mệnh đề phải là câu <strong>khẳng định</strong> và phải <strong>xác định được</strong> tính đúng hoặc sai. Chỉ cần một trong hai: đúng <em>hoặc</em> sai, không có trường hợp thứ ba.</p>
+</div>
+
+<!-- 2. Mệnh đề chứa biến -->
+<div class="svg-fig"><svg viewBox="0 0 440 225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Sơ đồ khái niệm mệnh đề">
+<rect x="2" y="2" width="436" height="221" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<rect x="160" y="12" width="120" height="38" rx="8" fill="#1e3a8a"/>
+<text x="220" y="37" font-family="sans-serif" font-size="15" font-weight="bold" fill="#ffffff" text-anchor="middle">MỆNH ĐỀ</text>
+<line x1="192" y1="50" x2="112" y2="96" stroke="#64748b" stroke-width="2"/>
+<line x1="248" y1="50" x2="328" y2="96" stroke="#64748b" stroke-width="2"/>
+<rect x="42" y="96" width="140" height="54" rx="8" fill="#15803d"/>
+<text x="112" y="119" font-family="sans-serif" font-size="13" font-weight="bold" fill="#ffffff" text-anchor="middle">Khẳng định ĐÚNG</text>
+<text x="112" y="138" font-family="sans-serif" font-size="11" fill="#dcfce7" text-anchor="middle">Ví dụ: &#8220;2 + 3 = 5&#8221;</text>
+<rect x="258" y="96" width="140" height="54" rx="8" fill="#b91c1c"/>
+<text x="328" y="119" font-family="sans-serif" font-size="13" font-weight="bold" fill="#ffffff" text-anchor="middle">Khẳng định SAI</text>
+<text x="328" y="138" font-family="sans-serif" font-size="11" fill="#fee2e2" text-anchor="middle">Ví dụ: &#8220;5 là số chẵn&#8221;</text>
+<rect x="60" y="168" width="320" height="42" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="220" y="194" font-family="sans-serif" font-size="12" fill="#92400e" text-anchor="middle">Mệnh đề chứa biến (có x, y, n&#8230;) &#8594; chưa phải mệnh đề</text>
+</svg></div>
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Mệnh đề chứa biến</h2>
+
+<p><strong>Định nghĩa:</strong> <em>Mệnh đề chứa biến</em> là một câu khẳng định chứa <strong>biến số</strong> (thường kí hiệu $x, y, n, \dots$). Khi chưa thay biến bằng một giá trị cụ thể, ta chưa thể khẳng định nó đúng hay sai, nên nó <strong>chưa phải</strong> là mệnh đề.</p>
+
+<p>Khi thay biến bằng một giá trị cụ thể, mệnh đề chứa biến trở thành một mệnh đề (đúng hoặc sai). Ta thường kí hiệu mệnh đề chứa biến là $P(x), Q(x), P(n), \dots$</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Xét mệnh đề chứa biến $P(x)$: "$x + 2 = 5$".</p>
+<ul class="list-disc ml-6 space-y-1 mt-2">
+<li>$P(3)$: "$3 + 2 = 5$" là mệnh đề <strong>đúng</strong>.</li>
+<li>$P(0)$: "$0 + 2 = 5$" là mệnh đề <strong>sai</strong>.</li>
+</ul>
+<p class="mt-2">Ví dụ khác: $Q(n)$: "$n$ chia hết cho $3$". Khi đó $Q(9)$ đúng, còn $Q(10)$ sai.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Mệnh đề chứa biến <strong>không phải</strong> là mệnh đề. Nó chỉ trở thành mệnh đề (đúng hoặc sai) sau khi ta <strong>thay biến bằng giá trị cụ thể</strong>.</p>
+</div>
+
+<!-- 3. Phủ định -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Phủ định của một mệnh đề</h2>
+
+<p><strong>Định nghĩa:</strong> Mỗi mệnh đề $P$ đều có một <em>mệnh đề phủ định</em>, kí hiệu là $\overline{P}$ (đọc là "không $P$"). Mệnh đề $\overline{P}$ <strong>đúng</strong> khi $P$ <strong>sai</strong>, và <strong>sai</strong> khi $P$ <strong>đúng</strong>.</p>
+
+<p>Nói cách khác, phủ định của một mệnh đề là mệnh đề có tính đúng sai <strong>ngược lại</strong>.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>$P$: "$5$ là số nguyên tố." (đúng) — phủ định $\overline{P}$: "$5$ <strong>không phải</strong> là số nguyên tố." (sai).</li>
+<li>$Q$: "$\pi$ là số hữu tỉ." (sai) — phủ định $\overline{Q}$: "$\pi$ <strong>không phải</strong> là số hữu tỉ." (đúng).</li>
+<li>$R$: "$2024$ là năm nhuận." (đúng) — phủ định $\overline{R}$: "$2024$ <strong>không phải</strong> là năm nhuận." (sai).</li>
+</ul>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Để phủ định một mệnh đề, ta thêm (hoặc bớt) từ <strong>"không"</strong> / <strong>"không phải"</strong> một cách hợp lí. $\overline{P}$ luôn có tính đúng sai <strong>ngược</strong> với $P$.</p>
+</div>
+
+<!-- 4. Mệnh đề kéo theo -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Mệnh đề kéo theo</h2>
+
+<p><strong>Định nghĩa:</strong> Mệnh đề <em>"Nếu $P$ thì $Q$"</em> được gọi là <em>mệnh đề kéo theo</em>, kí hiệu là $P \Rightarrow Q$.</p>
+
+<p>Mệnh đề $P \Rightarrow Q$ chỉ <strong>sai</strong> khi $P$ <strong>đúng</strong> và $Q$ <strong>sai</strong>. Trong các trường hợp còn lại, $P \Rightarrow Q$ đều <strong>đúng</strong>.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Bảng chân trị của $P \Rightarrow Q$:</p>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">$P$</td><td class="border border-slate-300 px-4 py-1">$Q$</td><td class="border border-slate-300 px-4 py-1">$P \Rightarrow Q$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Đúng</td><td class="border border-slate-300 px-4 py-1">Đúng</td><td class="border border-slate-300 px-4 py-1 font-bold text-emerald-600">Đúng</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Đúng</td><td class="border border-slate-300 px-4 py-1">Sai</td><td class="border border-slate-300 px-4 py-1 font-bold text-rose-600">Sai</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Sai</td><td class="border border-slate-300 px-4 py-1">Đúng</td><td class="border border-slate-300 px-4 py-1 font-bold text-emerald-600">Đúng</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Sai</td><td class="border border-slate-300 px-4 py-1">Sai</td><td class="border border-slate-300 px-4 py-1 font-bold text-emerald-600">Đúng</td></tr>
+</table></div>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>"Nếu $12$ chia hết cho $6$ thì $12$ chia hết cho $3$." — $P$ đúng, $Q$ đúng nên mệnh đề kéo theo <strong>đúng</strong>.</li>
+<li>"Nếu $5 > 3$ thì $2 > 7$." — $P$ đúng, $Q$ sai nên mệnh đề kéo theo <strong>sai</strong>.</li>
+<li>"Nếu $3 > 5$ thì $2 > 7$." — $P$ sai nên mệnh đề kéo theo <strong>đúng</strong> (dù $Q$ cũng sai).</li>
+</ul>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Mẹo nhớ nhanh: <strong>"Đúng kéo theo Sai là Sai"</strong> — $P \Rightarrow Q$ sai duy nhất khi $P$ đúng mà $Q$ sai. Khi $P$ đã sai thì $P \Rightarrow Q$ luôn đúng, không cần xét $Q$.</p>
+</div>
+
+<!-- 5. Mệnh đề đảo -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">5. Mệnh đề đảo</h2>
+
+<p><strong>Định nghĩa:</strong> Mệnh đề $Q \Rightarrow P$ được gọi là <em>mệnh đề đảo</em> của mệnh đề $P \Rightarrow Q$.</p>
+
+<p><strong>Chú ý quan trọng:</strong> mệnh đề đảo <strong>đúng không có nghĩa</strong> mệnh đề gốc đúng, và ngược lại. Tính đúng sai của $P \Rightarrow Q$ và $Q \Rightarrow P$ <strong>độc lập</strong> với nhau.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Xét $P \Rightarrow Q$: "Nếu $n$ chia hết cho $6$ thì $n$ chia hết cho $3$." — mệnh đề này <strong>đúng</strong>.</p>
+<p class="mt-2">Mệnh đề đảo $Q \Rightarrow P$: "Nếu $n$ chia hết cho $3$ thì $n$ chia hết cho $6$." — mệnh đề này <strong>sai</strong> (ví dụ $n = 9$ chia hết cho $3$ nhưng không chia hết cho $6$).</p>
+<p class="mt-2">Ví dụ khác: "Nếu $n$ chia hết cho $4$ thì $n$ là số chẵn." (đúng) có mệnh đề đảo "Nếu $n$ là số chẵn thì $n$ chia hết cho $4$." (sai, ví dụ $n = 6$).</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Mệnh đề đảo chỉ đơn giản là <strong>đổi vai trò</strong> của $P$ và $Q$. Đừng nhầm: đảo đúng $\nRightarrow$ gốc đúng.</p>
+</div>
+
+<!-- 6. Mệnh đề tương đương -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">6. Mệnh đề tương đương</h2>
+
+<p><strong>Định nghĩa:</strong> Mệnh đề <em>"$P$ khi và chỉ khi $Q$"</em> được gọi là <em>mệnh đề tương đương</em>, kí hiệu là $P \Leftrightarrow Q$.</p>
+
+<p>Mệnh đề $P \Leftrightarrow Q$ <strong>đúng</strong> khi $P$ và $Q$ <strong>cùng đúng hoặc cùng sai</strong>; <strong>sai</strong> khi một trong hai đúng và một trong hai sai.</p>
+
+<p>Nói cách khác, $P \Leftrightarrow Q$ đúng khi cả hai mệnh đề kéo theo $P \Rightarrow Q$ và $Q \Rightarrow P$ đều đúng.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>"$n$ chia hết cho $6$ <strong>khi và chỉ khi</strong> $n$ vừa chia hết cho $2$ vừa chia hết cho $3$." — mệnh đề <strong>đúng</strong>.</li>
+<li>"Tam giác $ABC$ đều <strong>khi và chỉ khi</strong> tam giác $ABC$ có ba góc bằng $60^\circ$." — mệnh đề <strong>đúng</strong>.</li>
+<li>"$x = 2$ <strong>khi và chỉ khi</strong> $x^2 = 4$." — mệnh đề <strong>sai</strong> (vì $x = -2$ cũng thỏa $x^2 = 4$).</li>
+</ul>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">$P \Leftrightarrow Q$ đúng $\Leftrightarrow$ $P, Q$ <strong>"cùng phe"</strong> (cùng đúng hoặc cùng sai). Cụm từ nhận diện: <strong>"khi và chỉ khi"</strong>, <strong>"điều kiện cần và đủ"</strong>.</p>
+</div>
+
+<!-- 7. ∀ và ∃ -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">7. Mệnh đề chứa kí hiệu $\forall$ và $\exists$</h2>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">7.1. Kí hiệu $\forall$ và $\exists$</h3>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Kí hiệu $\forall$ đọc là <strong>"với mọi"</strong>: $\forall x \in X, P(x)$ nghĩa là <em>mọi</em> phần tử $x$ thuộc tập $X$ đều làm cho $P(x)$ đúng.</li>
+<li>Kí hiệu $\exists$ đọc là <strong>"tồn tại"</strong> (có ít nhất một): $\exists x \in X, P(x)$ nghĩa là <em>có ít nhất một</em> phần tử $x$ thuộc tập $X$ làm cho $P(x)$ đúng.</li>
+</ul>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>"$\forall x \in \mathbb{R}, x^2 \ge 0$." là mệnh đề <strong>đúng</strong> (bình phương mọi số thực đều không âm).</li>
+<li>"$\forall n \in \mathbb{N}, n + 1 > n$." là mệnh đề <strong>đúng</strong>.</li>
+<li>"$\exists x \in \mathbb{R}, x^2 = 2$." là mệnh đề <strong>đúng</strong> (ví dụ $x = \sqrt{2}$).</li>
+<li>"$\exists n \in \mathbb{N}, n^2 = 3$." là mệnh đề <strong>sai</strong> (không có số tự nhiên nào bình phương bằng $3$).</li>
+</ul>
+</div>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">7.2. Phủ định của mệnh đề chứa $\forall$ và $\exists$</h3>
+
+<p>Quy tắc phủ định: <strong>đổi $\forall$ thành $\exists$</strong> (và ngược lại), đồng thời <strong>phủ định phần mệnh đề phía sau</strong>:</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$\overline{\forall x \in X, P(x)} \quad \text{là} \quad \exists x \in X, \overline{P(x)}$$</p>
+<p class="mt-2">$$\overline{\exists x \in X, P(x)} \quad \text{là} \quad \forall x \in X, \overline{P(x)}$$</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>$P$: "$\forall x \in \mathbb{R}, x^2 + 1 > 0$." (đúng) — phủ định: "$\exists x \in \mathbb{R}, x^2 + 1 \le 0$." (sai).</li>
+<li>$Q$: "$\exists n \in \mathbb{N}, 2n = 5$." (sai) — phủ định: "$\forall n \in \mathbb{N}, 2n \ne 5$." (đúng).</li>
+<li>$R$: "$\forall x \in \mathbb{R}, |x| \ge x$." (đúng) — phủ định: "$\exists x \in \mathbb{R}, |x| < x$." (sai).</li>
+</ul>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Công thức "2 đổi": <strong>đổi lượng từ</strong> ($\forall \leftrightarrow \exists$) và <strong>đổi dấu</strong> của bất đẳng thức/đẳng thức phía sau ($=$ thành $\ne$, $>$ thành $\le$, $<$ thành $\ge$, ...). Hai chỗ đều phải đổi thì mới ra đúng phủ định!</p>
+</div>
+
+<!-- Tổng kết -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Mệnh đề:</strong> câu khẳng định xác định được đúng hoặc sai.</li>
+<li><strong>Mệnh đề chứa biến</strong> $P(x)$: chưa phải mệnh đề; thay $x$ bằng giá trị cụ thể mới thành mệnh đề.</li>
+<li><strong>Phủ định</strong> $\overline{P}$: đúng sai ngược với $P$.</li>
+<li><strong>Kéo theo</strong> $P \Rightarrow Q$: sai duy nhất khi "$P$ đúng, $Q$ sai".</li>
+<li><strong>Đảo</strong> của $P \Rightarrow Q$ là $Q \Rightarrow P$ (đúng sai độc lập).</li>
+<li><strong>Tương đương</strong> $P \Leftrightarrow Q$: đúng khi $P, Q$ cùng đúng hoặc cùng sai.</li>
+<li><strong>$\forall$</strong> = với mọi; <strong>$\exists$</strong> = tồn tại ít nhất một.</li>
+<li><strong>Phủ định có lượng từ:</strong> $\overline{\forall \dots} = \exists \dots \overline{(\dots)}$ và $\overline{\exists \dots} = \forall \dots \overline{(\dots)}$.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Thế năng điện</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 3: Điện trường • Bài 19</p>
+
+<!-- 1. Công của lực điện -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Công của lực điện</h2>
+<ul class="list-disc ml-6 space-y-1">
+<li>Công của lực điện tác dụng lên điện tích $q$ khi di chuyển từ $M$ đến $N$: $A_{MN} = qEd$ (trong điện trường đều; $d$ là hình chiếu của $MN$ lên phương đường sức).</li>
+<li>Công của lực điện <strong>không phụ thuộc</strong> vào hình dạng đường đi, chỉ phụ thuộc vị trí điểm đầu và điểm cuối.</li>
+<li>Nếu $A_{MN} \gt 0$: lực điện sinh công <strong>dương</strong> (điện tích chuyển động cùng chiều lực điện); $A_{MN} \lt 0$: lực điện sinh công <strong>âm</strong>.</li>
+</ul>
+
+<!-- 2. Thế năng điện -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Thế năng của điện tích trong điện trường</h2>
+<ul class="list-disc ml-6 space-y-1">
+<li><strong>Thế năng</strong> của điện tích $q$ tại điểm $M$ trong điện trường: $W_M = qEd_M$ (trong điện trường đều; $d_M$ là khoảng cách từ $M$ đến bản âm đo dọc theo đường sức, khi chọn mốc thế năng tại bản âm).</li>
+<li>Đơn vị: <strong>jun</strong> (J).</li>
+<li>Thế năng <strong>có thể âm</strong> (phụ thuộc vào dấu của $q$ và cách chọn mốc thế năng).</li>
+</ul>
+
+<div class="svg-fig"><svg viewBox="0 0 440 240" xmlns="http://www.w3.org/200/svg" role="img" aria-label="The nang dien: dien tich di chuyen trong dien truong deu">
+<rect x="30" y="15" width="14" height="210" fill="#dc2626"/>
+<text x="14" y="125" font-family="sans-serif" font-size="16" font-weight="bold" fill="#dc2626">+</text>
+<rect x="396" y="15" width="14" height="210" fill="#0284c7"/>
+<text x="400" y="125" font-family="sans-serif" font-size="16" font-weight="bold" fill="#0284c7">−</text>
+<g stroke="#94a3b8" stroke-width="1.5">
+<line x1="60" y1="60" x2="380" y2="60"/><line x1="372" y1="55" x2="380" y2="60"/><line x1="372" y1="65" x2="380" y2="60"/>
+<line x1="60" y1="180" x2="380" y2="180"/><line x1="372" y1="175" x2="380" y2="180"/><line x1="372" y1="185" x2="380" y2="180"/>
+</g>
+<text x="220" y="40" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">E</text>
+<circle cx="150" cy="120" r="10" fill="#fef08a" stroke="#ca8a04" stroke-width="2"/>
+<text x="150" y="125" font-family="sans-serif" font-size="12" font-weight="bold" fill="#92400e" text-anchor="middle">q</text>
+<text x="150" y="145" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">M</text>
+<circle cx="290" cy="120" r="10" fill="#fef08a" stroke="#ca8a04" stroke-width="2"/>
+<text x="290" y="125" font-family="sans-serif" font-size="12" font-weight="bold" fill="#92400e" text-anchor="middle">q</text>
+<text x="290" y="145" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">N</text>
+<path d="M 160 110 C 200 80, 240 80, 280 110" fill="none" stroke="#7c3aed" stroke-width="2" stroke-dasharray="6,4"/>
+<line x1="160" y1="120" x2="280" y2="120" stroke="#7c3aed" stroke-width="2"/>
+<text x="220" y="108" font-family="sans-serif" font-size="11" fill="#7c3aed" text-anchor="middle">đường đi bất kì</text>
+<text x="220" y="138" font-family="sans-serif" font-size="11" fill="#7c3aed" text-anchor="middle">A(MN) như nhau</text>
+</svg></div>
+
+<!-- 3. Liên hệ công và thế năng -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Liên hệ giữa công của lực điện và thế năng</h2>
+<p class="text-center my-3 text-lg font-semibold text-sky-800">$A_{MN} = W_M - W_N$</p>
+<p>Công của lực điện bằng <strong>độ giảm thế năng</strong>: khi lực điện sinh công dương, thế năng giảm; khi lực điện sinh công âm, thế năng tăng.</p>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Kinh nghiệm</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>$W_M = qEd_M$: chú ý <strong>dấu</strong> của $q$ và cách chọn mốc (thường chọn bản âm hoặc vô cực làm mốc $W = 0$).</li>
+<li>Điện tích dương di chuyển cùng chiều $\vec{E}$: $A \gt 0$, $W$ giảm. Điện tích âm di chuyển cùng chiều $\vec{E}$: $A \lt 0$, $W$ tăng.</li>
+</ul>
+</div>
+
+<!-- 4. Ví dụ -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Ví dụ</h2>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 1</p>
+<p>Điện tích $q = 10^{-6}$ C di chuyển từ $M$ đến $N$ trong điện trường đều $E = 2000$ V/m; hình chiếu của $MN$ lên phương đường sức là $d = 5$ cm (cùng chiều $\vec{E}$). Tính công của lực điện và độ biến thiên thế năng.</p>
+<p class="mt-2"><strong>Lời giải:</strong> $A_{MN} = qEd = 10^{-6} \cdot 2000 \cdot 0{,}05 = 10^{-4}$ J. $\Delta W = W_N - W_M = -A_{MN} = -10^{-4}$ J (thế năng giảm).</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 2</p>
+<p>Một electron di chuyển ngược chiều đường sức trong điện trường đều. Hỏi thế năng của electron tăng hay giảm?</p>
+<p class="mt-2"><strong>Lời giải:</strong> Electron ($q \lt 0$) chịu lực điện ngược chiều $\vec{E}$, tức cùng chiều chuyển động ⇒ lực điện sinh công dương ⇒ thế năng <strong>giảm</strong>.</p>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Nhớ $A_{MN} = W_M - W_N$ và quy tắc dấu rồi làm đề nhé! ⚡</p>
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">
+(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok){if(document.body){document.body.innerHTML='<div style="font-family:system-ui,sans-serif;max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff"><h2 style="color:#0f172a;margin-top:0">© SAOBAY — Trường THPT Sào Báy</h2><p style="color:#475569">Nội dung này chỉ được hiển thị tại địa chỉ chính thức <b>saobay.github.io</b>.</p><p style="color:#475569">Vui lòng truy cập đúng địa chỉ để học tập.</p></div>';}else{document.write("SAOBAY: truy cap tai saobay.github.io");}}catch(e){}})();
+</script>
+</body>
+</html>
