@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 13: Khối lượng riêng</title>
+    <meta name="lesson-title" content="Bài 13: Khối lượng riêng">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 13: Khối lượng riêng</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 3: Khối lượng riêng và áp suất • Bài 13: Khối lượng riêng</p>
+        </div>
+        <div class="content-body space-y-4">
+<div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 13: Khối lượng riêng</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 3: Khối lượng riêng và áp suất (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Khối lượng riêng là gì -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Khối lượng riêng là gì?</h2>
+
+<p>Hãy tưởng tượng: một khối <strong>sắt</strong> và một khối <strong>gỗ</strong> có <strong>cùng thể tích</strong> (cùng "to" như nhau). Đặt lên cân, ta thấy khối sắt <strong>nặng hơn nhiều</strong> khối gỗ. Vì sao? Vì <strong>sắt "đặc" hơn gỗ</strong> — trong cùng một đơn vị thể tích, sắt chứa khối lượng lớn hơn.</p>
+
+<p>Đại lượng đặc trưng cho tính chất đó gọi là <strong>khối lượng riêng</strong>.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Định nghĩa:</p>
+<p><strong>Khối lượng riêng</strong> của một chất là <strong>khối lượng của một đơn vị thể tích</strong> chất đó.</p>
+<p class="text-center text-lg my-3">$$D = \frac{m}{V}$$</p>
+<p>Trong đó: $D$ là khối lượng riêng, $m$ là khối lượng của vật (chất), $V$ là thể tích của vật (chất).</p>
+</div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="So sanh khoi sat va khoi go cung the tich">
+<rect x="2" y="2" width="436" height="256" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="30" font-family="sans-serif" font-size="16" font-weight="bold" fill="#0f172a" text-anchor="middle">Cùng thể tích V = 1 dm³</text>
+<rect x="40" y="60" width="120" height="90" rx="6" fill="#94a3b8" stroke="#475569" stroke-width="2"/>
+<text x="100" y="115" font-family="sans-serif" font-size="15" font-weight="bold" fill="#1e293b" text-anchor="middle">SẮT</text>
+<text x="100" y="140" font-family="sans-serif" font-size="14" fill="#1e293b" text-anchor="middle">m = 7,8 kg</text>
+<rect x="280" y="60" width="120" height="90" rx="6" fill="#d6a05c" stroke="#92400e" stroke-width="2"/>
+<text x="340" y="115" font-family="sans-serif" font-size="15" font-weight="bold" fill="#451a03" text-anchor="middle">GỖ</text>
+<text x="340" y="140" font-family="sans-serif" font-size="14" fill="#451a03" text-anchor="middle">m = 0,7 kg</text>
+<text x="100" y="190" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0284c7" text-anchor="middle">D = 7 800 kg/m³</text>
+<text x="340" y="190" font-family="sans-serif" font-size="14" font-weight="bold" fill="#059669" text-anchor="middle">D = 700 kg/m³</text>
+<text x="220" y="228" font-family="sans-serif" font-size="14" fill="#475569" text-anchor="middle">Khối lượng riêng của sắt lớn hơn gỗ khoảng 11 lần</text>
+</svg></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">$D = \dfrac{m}{V}$: khối lượng riêng bằng khối lượng chia cho thể tích. Chất nào "đặc" hơn thì khối lượng riêng lớn hơn.</p>
+</div>
+
+<!-- 2. Đơn vị -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Đơn vị của khối lượng riêng</h2>
+
+<p>Trong hệ SI, khối lượng đo bằng <strong>kilôgam (kg)</strong>, thể tích đo bằng <strong>mét khối (m³)</strong> nên đơn vị của khối lượng riêng là:</p>
+<p class="text-center text-lg my-2">$$\text{kilôgam trên mét khối, kí hiệu: kg/m}^3$$</p>
+
+<p>Trong thực tế còn dùng đơn vị <strong>gam trên xentimét khối (g/cm³)</strong>. Cách đổi:</p>
+<p class="text-center text-lg my-2">$$1\ \text{g/cm}^3 = 1000\ \text{kg/m}^3$$</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Khối lượng riêng của nhôm là $2\,700\ \text{kg/m}^3$. Đổi sang g/cm³:</p>
+<p class="text-center text-lg my-2">$$2\,700\ \text{kg/m}^3 = 2{,}7\ \text{g/cm}^3$$</p>
+<p>(Chia cho 1000 khi đổi từ kg/m³ sang g/cm³.)</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Đơn vị SI: <strong>kg/m³</strong>. Nhớ: $1\ \text{g/cm}^3 = 1000\ \text{kg/m}^3$ — số đo theo g/cm³ <strong>nhỏ hơn 1000 lần</strong> số đo theo kg/m³.</p>
+</div>
+
+<!-- 3. Bảng -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Khối lượng riêng của một số chất</h2>
+
+<p>Ở cùng điều kiện nhiệt độ, áp suất, <strong>mỗi chất</strong> có một khối lượng riêng <strong>xác định</strong>. Bảng dưới đây ghi khối lượng riêng của một số chất thường gặp (ở 20°C):</p>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Chất</td><td class="border border-slate-300 px-4 py-1">Khối lượng riêng (kg/m³)</td><td class="border border-slate-300 px-4 py-1">Chất</td><td class="border border-slate-300 px-4 py-1">Khối lượng riêng (kg/m³)</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Vàng</td><td class="border border-slate-300 px-4 py-1">$19\,300$</td><td class="border border-slate-300 px-4 py-1">Nhôm</td><td class="border border-slate-300 px-4 py-1">$2\,700$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Chì</td><td class="border border-slate-300 px-4 py-1">$11\,300$</td><td class="border border-slate-300 px-4 py-1">Nước đá</td><td class="border border-slate-300 px-4 py-1">$900$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Bạc</td><td class="border border-slate-300 px-4 py-1">$10\,500$</td><td class="border border-slate-300 px-4 py-1">Dầu ăn</td><td class="border border-slate-300 px-4 py-1">$800$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Thép, sắt</td><td class="border border-slate-300 px-4 py-1">$7\,800$</td><td class="border border-slate-300 px-4 py-1">Gỗ tốt</td><td class="border border-slate-300 px-4 py-1">khoảng $800$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Thủy ngân</td><td class="border border-slate-300 px-4 py-1">$13\,600$</td><td class="border border-slate-300 px-4 py-1">Nước</td><td class="border border-slate-300 px-4 py-1">$1\,000$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Đồng</td><td class="border border-slate-300 px-4 py-1">$8\,900$</td><td class="border border-slate-300 px-4 py-1">Không khí</td><td class="border border-slate-300 px-4 py-1">$1{,}29$</td></tr>
+</table></div>
+
+<p><strong>Nhận xét:</strong> khối lượng riêng của chất rắn và chất lỏng lớn hơn của chất khí <strong>rất nhiều</strong> (nước nặng gấp khoảng 800 lần không khí cùng thể tích).</p>
+
+<!-- 4. Trọng lượng riêng -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Trọng lượng riêng</h2>
+
+<p>Tương tự khối lượng riêng, người ta định nghĩa <strong>trọng lượng riêng</strong> $d$ của một chất:</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p><strong>Trọng lượng riêng</strong> là <strong>trọng lượng của một đơn vị thể tích</strong> chất đó:</p>
+<p class="text-center text-lg my-2">$$d = \frac{P}{V}$$</p>
+<p>Đơn vị: <strong>niutơn trên mét khối (N/m³)</strong>.</p>
+</div>
+
+<p>Vì $P = 10m$ nên giữa trọng lượng riêng và khối lượng riêng có liên hệ:</p>
+<p class="text-center text-lg my-2">$$d = 10D$$</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-emerald-800 mb-2">Bài tập ví dụ (có lời giải):</p>
+<p>Một thỏi nhôm có thể tích $0{,}02\ \text{m}^3$. Biết khối lượng riêng của nhôm là $2\,700\ \text{kg/m}^3$. Tính khối lượng và trọng lượng của thỏi nhôm.</p>
+<p class="mt-2"><strong>Lời giải:</strong></p>
+<p>Khối lượng: $m = D \cdot V = 2\,700 \times 0{,}02 = 54\ \text{kg}$.</p>
+<p>Trọng lượng: $P = 10m = 540\ \text{N}$ (hoặc $P = d \cdot V = 27\,000 \times 0{,}02 = 540\ \text{N}$).</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">$d = \dfrac{P}{V}$ (N/m³) và $d = 10D$. Từ công thức $D = m/V$ suy ra: $m = D \cdot V$ và $V = m/D$ — rất tiện để tính khối lượng của vật lớn mà không cần cân.</p>
+</div>
+
+<!-- 5. Ứng dụng -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">5. Ứng dụng của khối lượng riêng</h2>
+
+<ul class="list-disc ml-6 space-y-2 my-3">
+<li><strong>Nhận biết chất liệu:</strong> đo khối lượng riêng của mẫu vật rồi so với bảng số liệu để biết đó là chất gì (ví dụ phân biệt vàng thật với vàng giả).</li>
+<li><strong>Chọn vật liệu:</strong> làm máy bay cần vật liệu nhẹ mà bền nên chọn hợp kim nhôm ($D$ nhỏ); làm quả tạ cần vật liệu nặng, gọn nên chọn gang, thép.</li>
+<li><strong>Tính khối lượng vật lớn:</strong> muốn biết khối lượng của một khối đá lớn hay lượng xăng trong bồn, chỉ cần đo thể tích rồi nhân với khối lượng riêng: $m = D \cdot V$.</li>
+<li><strong>Dự đoán nổi – chìm:</strong> vật có khối lượng riêng <strong>nhỏ hơn</strong> nước sẽ <strong>nổi</strong>, <strong>lớn hơn</strong> nước sẽ <strong>chìm</strong> (học kĩ ở Bài 17).</li>
+</ul>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-emerald-800 mb-2">Bài tập ví dụ (có lời giải):</p>
+<p>Một bể chứa $2\ \text{m}^3$ dầu ăn. Biết khối lượng riêng của dầu ăn là $800\ \text{kg/m}^3$. Tính khối lượng dầu trong bể.</p>
+<p class="mt-2"><strong>Lời giải:</strong> $m = D \cdot V = 800 \times 2 = 1\,600\ \text{kg} = 1{,}6\ \text{tấn}$.</p>
+</div>
+
+<!-- Tóm tắt -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Nội dung</td><td class="border border-slate-300 px-4 py-1">Công thức</td><td class="border border-slate-300 px-4 py-1">Đơn vị</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Khối lượng riêng</td><td class="border border-slate-300 px-4 py-1">$D = \dfrac{m}{V}$</td><td class="border border-slate-300 px-4 py-1">kg/m³</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Trọng lượng riêng</td><td class="border border-slate-300 px-4 py-1">$d = \dfrac{P}{V} = 10D$</td><td class="border border-slate-300 px-4 py-1">N/m³</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Đổi đơn vị</td><td class="border border-slate-300 px-4 py-1">$1\ \text{g/cm}^3 = 1000\ \text{kg/m}^3$</td><td class="border border-slate-300 px-4 py-1">—</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Suy ra</td><td class="border border-slate-300 px-4 py-1">$m = D \cdot V$; $V = \dfrac{m}{D}$</td><td class="border border-slate-300 px-4 py-1">—</td></tr>
+</table></div>
+
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){{try{{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){{document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}}}catch(e){{}}}})();</script>
+</body>
+</html>
