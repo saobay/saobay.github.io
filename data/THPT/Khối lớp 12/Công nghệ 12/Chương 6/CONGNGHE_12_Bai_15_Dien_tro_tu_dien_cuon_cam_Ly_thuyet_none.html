@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 15: Điện trở, tụ điện và cuộn cảm</title>
+    <meta name="lesson-title" content="Bài 15: Điện trở, tụ điện và cuộn cảm">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 15: Điện trở, tụ điện và cuộn cảm</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 6: Các linh kiện điện tử • Bài 15: Điện trở, tụ điện và cuộn cảm</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 15: Điện trở, tụ điện và cuộn cảm</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 6: Các linh kiện điện tử — Công nghệ 12 (Kết nối tri thức với cuộc sống)</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Điện trở</h2>
+
+<p><strong>Điện trở</strong> là linh kiện <strong>thụ động</strong>, có chức năng <strong>hạn chế dòng điện</strong>, phân áp, biến điện năng thành nhiệt năng. Đơn vị: <strong>ôm (Ω)</strong>.</p>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Điện trở cố định:</strong> giá trị không đổi; đọc trị số bằng <strong>vạch màu</strong> hoặc chữ số in trên thân.</li>
+<li><strong>Biến trở:</strong> điều chỉnh được điện trở (núm xoay âm lượng...).</li>
+<li><strong>Điện trở nhiệt (thermistor):</strong> NTC giảm khi nhiệt độ tăng, PTC tăng khi nhiệt độ tăng — dùng cảm biến nhiệt, bảo vệ quá nhiệt.</li>
+<li><strong>Quang trở (LDR):</strong> điện trở thay đổi theo ánh sáng — dùng cảm biến ánh sáng, đèn tự động.</li>
+</ul>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 my-2 text-sm">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-2">Màu</td><td class="border border-slate-300 px-4 py-2">Đen</td><td class="border border-slate-300 px-4 py-2">Nâu</td><td class="border border-slate-300 px-4 py-2">Đỏ</td><td class="border border-slate-300 px-4 py-2">Cam</td><td class="border border-slate-300 px-4 py-2">Vàng</td><td class="border border-slate-300 px-4 py-2">Xanh lá</td><td class="border border-slate-300 px-4 py-2">Xanh dương</td><td class="border border-slate-300 px-4 py-2">Tím</td><td class="border border-slate-300 px-4 py-2">Xám</td><td class="border border-slate-300 px-4 py-2">Trắng</td></tr>
+<tr><td class="border border-slate-300 px-4 py-2 font-semibold">Số</td><td class="border border-slate-300 px-4 py-2">0</td><td class="border border-slate-300 px-4 py-2">1</td><td class="border border-slate-300 px-4 py-2">2</td><td class="border border-slate-300 px-4 py-2">3</td><td class="border border-slate-300 px-4 py-2">4</td><td class="border border-slate-300 px-4 py-2">5</td><td class="border border-slate-300 px-4 py-2">6</td><td class="border border-slate-300 px-4 py-2">7</td><td class="border border-slate-300 px-4 py-2">8</td><td class="border border-slate-300 px-4 py-2">9</td></tr>
+</table></div>
+<p class="text-sm text-slate-600 italic">Hệ số nhân: đen ×1, nâu ×10, đỏ ×100, cam ×1000... Vạch cuối: vàng sai số 5%, bạc 10%. Ví dụ: nâu – đen – đỏ = 10 × 100 = 1000 Ω = 1 kΩ.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Tụ điện</h2>
+
+<p><strong>Tụ điện</strong> tích trữ và phóng điện năng; <strong>chặn dòng một chiều, cho dòng xoay chiều đi qua</strong>. Đơn vị điện dung: <strong>fara (F)</strong>, thường dùng μF, nF, pF. Công thức: $Q = C \times U$; năng lượng $W = C \times U^2 / 2$.</p>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Tụ hóa:</strong> có phân cực (chân dài là dương); mắc sai cực có thể nổ.</li>
+<li><strong>Tụ gốm, tụ giấy:</strong> không phân cực; dùng mạch cao tần.</li>
+<li><strong>Ứng dụng:</strong> lọc nguồn (làm phẳng điện áp), ghép tầng tín hiệu, tích điện.</li>
+<li>Tụ mắc <strong>nối tiếp</strong>: điện dung giảm; mắc <strong>song song</strong>: điện dung cộng dồn.</li>
+</ul>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Cuộn cảm</h2>
+
+<p><strong>Cuộn cảm</strong> là dây dẫn quấn thành cuộn; có tác dụng <strong>chống lại sự biến thiên của dòng điện</strong>. Đơn vị điện cảm: <strong>henry (H)</strong>. Lõi sắt làm tăng điện cảm.</p>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Ứng dụng:</strong> mạch lọc nhiễu, biến áp, rơle điện từ, mạch cộng hưởng.</li>
+<li>Dòng một chiều ổn định đi qua cuộn cảm gần như không bị cản.</li>
+</ul>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ tính toán:</p>
+<p>Điện trở 20 Ω mắc vào nguồn 10 V: dòng điện $I = U/R = 10/20 = 0{,}5$ A; công suất $P = U \times I = 5$ W.<br>
+Tụ 100 μF nạp 10 V: điện tích $Q = C \times U = 1000$ μC; năng lượng $W = C \times U^2/2 = 5$ mJ.<br>
+Hai điện trở 10 Ω và 20 Ω nối tiếp: $R_{tđ} = 30$ Ω; song song: $R_{tđ} = 6{,}67$ Ω.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Ba linh kiện <strong>thụ động</strong>: <strong>R</strong> hạn dòng (Ω), <strong>C</strong> tích điện (F), <strong>L</strong> chống biến thiên dòng (H). Tụ hóa <strong>có phân cực</strong>. Sửa mạch nhớ <strong>xả tụ</strong> để an toàn.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Điện trở:</strong> hạn chế dòng điện; loại cố định, biến trở, nhiệt trở, quang trở.</li>
+<li><strong>Tụ điện:</strong> tích/phóng điện; chặn một chiều, cho xoay chiều qua.</li>
+<li><strong>Cuộn cảm:</strong> chống biến thiên dòng điện; dùng trong lọc, biến áp.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
