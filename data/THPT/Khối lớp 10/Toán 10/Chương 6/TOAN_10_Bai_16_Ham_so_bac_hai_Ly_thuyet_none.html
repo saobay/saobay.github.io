@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 16: Hàm số bậc hai</title>
+    <meta name="lesson-title" content="Bài 16: Hàm số bậc hai">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 16: Hàm số bậc hai</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 6: Hàm số, đồ thị và ứng dụng • Bài 16: Hàm số bậc hai</p>
+        </div>
+        <div class="content-body space-y-4">
+            <h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 16: Hàm số bậc hai</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 6: Hàm số, đồ thị và ứng dụng</p>
+
+<!-- 1. Định nghĩa -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Định nghĩa</h2>
+
+<p><strong>Định nghĩa:</strong> <em>Hàm số bậc hai</em> là hàm số cho bằng công thức:</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$y = ax^2 + bx + c$$</p>
+<p class="mt-1">trong đó $x$ là biến số; $a, b, c$ là các hằng số và <strong>$a \ne 0$</strong>.</p>
+</div>
+
+<p>Tập xác định của hàm số bậc hai là $D = \mathbb{R}$.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>$y = 2x^2 - 3x + 1$ là hàm số bậc hai ($a = 2, b = -3, c = 1$).</li>
+<li>$y = -x^2 + 4$ là hàm số bậc hai ($a = -1, b = 0, c = 4$).</li>
+<li>$y = 3x + 2$ <strong>không</strong> phải hàm số bậc hai (vì $a = 0$).</li>
+</ul>
+</div>
+
+<!-- 2. Đồ thị -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Đồ thị của hàm số bậc hai</h2>
+
+<p>Đồ thị của hàm số $y = ax^2 + bx + c$ ($a \ne 0$) là một đường <strong>parabol</strong> có:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Đỉnh</strong> $I\left(-\dfrac{b}{2a};\, -\dfrac{\Delta}{4a}\right)$ với $\Delta = b^2 - 4ac$.</li>
+<li><strong>Trục đối xứng</strong> là đường thẳng $x = -\dfrac{b}{2a}$.</li>
+<li><strong>Bề lõm quay lên trên</strong> nếu $a \gt 0$, <strong>quay xuống dưới</strong> nếu $a \lt 0$.</li>
+<li>Cắt trục tung $Oy$ tại điểm $(0;\, c)$.</li>
+</ul>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Cách vẽ parabol:</p>
+<ol class="list-decimal ml-6 space-y-1">
+<li>Xác định tọa độ đỉnh $I$ và vẽ trục đối xứng $x = -\dfrac{b}{2a}$.</li>
+<li>Xác định một số điểm thuộc đồ thị (giao với $Oy$, giao với $Ox$ nếu có, thêm vài điểm đối xứng qua trục).</li>
+<li>Vẽ parabol đi qua các điểm đó, chú ý bề lõm theo dấu của $a$.</li>
+</ol>
+</div>
+
+<div class="svg-fig"><svg viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Parabol a lon hon 0">
+<rect x="2" y="2" width="396" height="316" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<line x1="20" y1="240" x2="390" y2="240" stroke="#334155" stroke-width="1.6"/>
+<polygon points="390,240 380,234 380,246" fill="#334155"/>
+<line x1="200" y1="310" x2="200" y2="15" stroke="#334155" stroke-width="1.6"/>
+<polygon points="200,15 194,25 206,25" fill="#334155"/>
+<text x="382" y="262" font-family="sans-serif" font-size="13" fill="#334155">x</text>
+<text x="210" y="28" font-family="sans-serif" font-size="13" fill="#334155">y</text>
+<line x1="310" y1="20" x2="310" y2="305" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="6,4"/>
+<path d="M172.5,40.5 L177.1,56.1 L181.7,71.1 L186.2,85.6 L190.8,99.6 L195.4,113.1 L200.0,126.0 L204.6,138.4 L209.2,150.3 L213.8,161.6 L218.3,172.4 L222.9,182.7 L227.5,192.5 L232.1,201.7 L236.7,210.4 L241.2,218.6 L245.8,226.3 L250.4,233.4 L255.0,240.0 L259.6,246.1 L264.2,251.6 L268.8,256.6 L273.3,261.1 L277.9,265.1 L282.5,268.5 L287.1,271.4 L291.7,273.8 L296.2,275.6 L300.8,276.9 L305.4,277.7 L310.0,278.0 L314.6,277.7 L319.2,276.9 L323.8,275.6 L328.3,273.8 L332.9,271.4 L337.5,268.5 L342.1,265.1 L346.7,261.1 L351.2,256.6 L355.8,251.6 L360.4,246.1 L365.0,240.0 L369.6,233.4 L374.2,226.3 L378.8,218.6 L383.3,210.4 L387.9,201.7 L392.5,192.5 L397.1,182.7 L401.7,172.4 L406.2,161.6 L410.8,150.3 L415.4,138.4 L420.0,126.0 L424.6,113.1 L429.2,99.6 L433.8,85.6 L438.3,71.1 L442.9,56.1 L447.5,40.5" fill="none" stroke="#1d4ed8" stroke-width="2.5"/>
+<circle cx="310" cy="278" r="5" fill="#b91c1c"/>
+<circle cx="200" cy="126" r="4.5" fill="#15803d"/>
+<circle cx="255" cy="240" r="4.5" fill="#15803d"/>
+<circle cx="365" cy="240" r="4.5" fill="#15803d"/>
+<text x="318" y="296" font-family="sans-serif" font-size="12" fill="#b91c1c" font-weight="bold">I(2; −1)</text>
+<text x="318" y="60" font-family="sans-serif" font-size="12" fill="#64748b">x = 2</text>
+<text x="30" y="40" font-family="sans-serif" font-size="14" fill="#1d4ed8" font-weight="bold">y = x² − 4x + 3 (a = 1 > 0)</text>
+</svg></div>
+<p class="text-center text-sm text-slate-500 -mt-2 mb-4">Parabol $y = x^2 - 4x + 3$: đỉnh $I(2;\, -1)$, trục đối xứng $x = 2$, bề lõm quay lên</p>
+
+<div class="svg-fig"><svg viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Parabol a nho hon 0">
+<rect x="2" y="2" width="396" height="316" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<line x1="20" y1="280" x2="390" y2="280" stroke="#334155" stroke-width="1.6"/>
+<polygon points="390,280 380,274 380,286" fill="#334155"/>
+<line x1="200" y1="310" x2="200" y2="15" stroke="#334155" stroke-width="1.6"/>
+<polygon points="200,15 194,25 206,25" fill="#334155"/>
+<text x="382" y="302" font-family="sans-serif" font-size="13" fill="#334155">x</text>
+<text x="210" y="28" font-family="sans-serif" font-size="13" fill="#334155">y</text>
+<line x1="255" y1="20" x2="255" y2="305" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="6,4"/>
+<path d="M134.0,313.6 L138.0,300.9 L142.1,288.6 L146.1,276.8 L150.1,265.4 L154.2,254.4 L158.2,243.9 L162.2,233.8 L166.3,224.1 L170.3,214.9 L174.3,206.0 L178.4,197.7 L182.4,189.7 L186.4,182.2 L190.5,175.1 L194.5,168.4 L198.5,162.2 L202.6,156.4 L206.6,151.0 L210.6,146.0 L214.7,141.5 L218.7,137.4 L222.7,133.8 L226.8,130.5 L230.8,127.7 L234.8,125.4 L238.9,123.4 L242.9,121.9 L246.9,120.9 L251.0,120.2 L255.0,120.0 L259.0,120.2 L263.1,120.9 L267.1,121.9 L271.1,123.4 L275.2,125.4 L279.2,127.7 L283.2,130.5 L287.3,133.8 L291.3,137.4 L295.3,141.5 L299.4,146.0 L303.4,151.0 L307.4,156.4 L311.5,162.2 L315.5,168.4 L319.5,175.1 L323.6,182.2 L327.6,189.7 L331.6,197.7 L335.7,206.0 L339.7,214.9 L343.7,224.1 L347.8,233.8 L351.8,243.9 L355.8,254.4 L359.9,265.4 L363.9,276.8 L367.9,288.6 L372.0,300.9 L376.0,313.6" fill="none" stroke="#1d4ed8" stroke-width="2.5"/>
+<circle cx="255" cy="120" r="5" fill="#b91c1c"/>
+<circle cx="200" cy="160" r="4.5" fill="#15803d"/>
+<circle cx="145" cy="280" r="4.5" fill="#15803d"/>
+<circle cx="365" cy="280" r="4.5" fill="#15803d"/>
+<text x="263" y="112" font-family="sans-serif" font-size="12" fill="#b91c1c" font-weight="bold">I(1; 4)</text>
+<text x="263" y="60" font-family="sans-serif" font-size="12" fill="#64748b">x = 1</text>
+<text x="30" y="40" font-family="sans-serif" font-size="14" fill="#1d4ed8" font-weight="bold">y = −x² + 2x + 3 (a = −1, lõm xuống)</text>
+</svg></div>
+<p class="text-center text-sm text-slate-500 -mt-2 mb-4">Parabol $y = -x^2 + 2x + 3$: đỉnh $I(1;\, 4)$, trục đối xứng $x = 1$, bề lõm quay xuống</p>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Nhớ nhanh: <strong>đỉnh $I\left(-\frac{b}{2a};\, -\frac{\Delta}{4a}\right)$</strong>, trục $x = -\frac{b}{2a}$. $a \gt 0$: lõm lên (đỉnh là điểm <strong>thấp nhất</strong>); $a \lt 0$: lõm xuống (đỉnh là điểm <strong>cao nhất</strong>).</p>
+</div>
+
+<!-- 3. Sự biến thiên -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Sự biến thiên của hàm số bậc hai</h2>
+
+<p>Dựa vào đồ thị, ta có bảng biến thiên của hàm số $y = ax^2 + bx + c$:</p>
+
+<p class="font-semibold mt-4 mb-2">Trường hợp $a \gt 0$ (bề lõm quay lên):</p>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">$x$</td><td class="border border-slate-300 px-4 py-1">$-\infty$</td><td class="border border-slate-300 px-4 py-1">$-\dfrac{b}{2a}$</td><td class="border border-slate-300 px-4 py-1">$+\infty$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">$y$</td><td class="border border-slate-300 px-4 py-1">$+\infty$ ↘</td><td class="border border-slate-300 px-4 py-1">$-\dfrac{\Delta}{4a}$</td><td class="border border-slate-300 px-4 py-1">↗ $+\infty$</td></tr>
+</table></div>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Hàm số <strong>nghịch biến</strong> trên $\left(-\infty;\, -\dfrac{b}{2a}\right)$, <strong>đồng biến</strong> trên $\left(-\dfrac{b}{2a};\, +\infty\right)$.</li>
+<li>Hàm số có <strong>giá trị nhỏ nhất</strong> $y_{\min} = -\dfrac{\Delta}{4a}$ tại $x = -\dfrac{b}{2a}$.</li>
+</ul>
+
+<p class="font-semibold mt-4 mb-2">Trường hợp $a \lt 0$ (bề lõm quay xuống):</p>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">$x$</td><td class="border border-slate-300 px-4 py-1">$-\infty$</td><td class="border border-slate-300 px-4 py-1">$-\dfrac{b}{2a}$</td><td class="border border-slate-300 px-4 py-1">$+\infty$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">$y$</td><td class="border border-slate-300 px-4 py-1">$-\infty$ ↗</td><td class="border border-slate-300 px-4 py-1">$-\dfrac{\Delta}{4a}$</td><td class="border border-slate-300 px-4 py-1">↘ $-\infty$</td></tr>
+</table></div>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Hàm số <strong>đồng biến</strong> trên $\left(-\infty;\, -\dfrac{b}{2a}\right)$, <strong>nghịch biến</strong> trên $\left(-\dfrac{b}{2a};\, +\infty\right)$.</li>
+<li>Hàm số có <strong>giá trị lớn nhất</strong> $y_{\max} = -\dfrac{\Delta}{4a}$ tại $x = -\dfrac{b}{2a}$.</li>
+</ul>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Xét hàm số $y = x^2 - 4x + 3$ ($a = 1 \gt 0$, $\Delta = 16 - 12 = 4$).</p>
+<ul class="list-disc ml-6 space-y-1 mt-2">
+<li>Đỉnh $I\left(2;\, -1\right)$, trục đối xứng $x = 2$.</li>
+<li>Nghịch biến trên $(-\infty;\, 2)$, đồng biến trên $(2;\, +\infty)$.</li>
+<li>Giá trị nhỏ nhất $y_{\min} = -1$ tại $x = 2$.</li>
+</ul>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">$a \gt 0$: đỉnh là điểm <strong>thấp nhất</strong> → có <strong>GTNN</strong>; $a \lt 0$: đỉnh là điểm <strong>cao nhất</strong> → có <strong>GTLN</strong>. Cả hai đều đạt tại $x = -\frac{b}{2a}$ với giá trị $-\frac{\Delta}{4a}$.</p>
+</div>
+
+<!-- 4. Ứng dụng -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Ứng dụng của hàm số bậc hai</h2>
+
+<p>Nhiều bài toán thực tế (tầm bay xa, lợi nhuận, diện tích lớn nhất...) đưa về việc tìm <strong>giá trị lớn nhất / nhỏ nhất</strong> của một hàm số bậc hai.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Một quả bóng được đá lên với quỹ đạo là parabol $y = -\dfrac{1}{20}x^2 + x$, trong đó $x$ (mét) là khoảng cách theo phương ngang và $y$ (mét) là độ cao. Hỏi bóng đạt độ cao lớn nhất bằng bao nhiêu?</p>
+<p class="mt-2"><strong>Giải:</strong> $a = -\dfrac{1}{20} \lt 0$ nên hàm số có giá trị lớn nhất tại $x = -\dfrac{b}{2a} = -\dfrac{1}{2\cdot(-1/20)} = 10$.</p>
+<p>Độ cao lớn nhất: $y_{\max} = -\dfrac{1}{20}\cdot 10^2 + 10 = -5 + 10 = 5$ (mét).</p>
+</div>
+
+<!-- Tổng kết -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Định nghĩa:</strong> $y = ax^2 + bx + c$ ($a \ne 0$), $D = \mathbb{R}$.</li>
+<li><strong>Đồ thị:</strong> parabol đỉnh $I\left(-\dfrac{b}{2a};\, -\dfrac{\Delta}{4a}\right)$, trục $x = -\dfrac{b}{2a}$; $a \gt 0$ lõm lên, $a \lt 0$ lõm xuống.</li>
+<li><strong>Biến thiên:</strong> $a \gt 0$: nghịch biến rồi đồng biến, có GTNN; $a \lt 0$: đồng biến rồi nghịch biến, có GTLN — tại $x = -\dfrac{b}{2a}$.</li>
+<li><strong>Ứng dụng:</strong> các bài toán tìm giá trị lớn nhất / nhỏ nhất trong thực tế.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+</body>
+</html>
