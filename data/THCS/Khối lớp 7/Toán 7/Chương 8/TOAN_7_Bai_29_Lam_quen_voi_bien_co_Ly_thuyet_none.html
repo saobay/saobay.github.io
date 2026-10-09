@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 29: Làm quen với biến cố</title>
+    <meta name="lesson-title" content="Bài 29: Làm quen với biến cố">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 29: Làm quen với biến cố</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 8: Làm quen với biến cố và xác suất của biến cố • Bài 29: Làm quen với biến cố</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<p class="text-slate-600">Tung một đồng xu, ta không biết trước sẽ được mặt sấp hay mặt ngửa; gieo một con xúc xắc, ta không biết trước sẽ được mấy chấm. Những hiện tượng mà kết quả không đoán trước được chắc chắn như vậy xuất hiện rất nhiều trong đời sống. Toán học gọi mỗi khả năng có thể xảy ra là một <strong>biến cố</strong>, và bài học này giúp các em phân loại chúng.</p>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-8 mb-4">1. Biến cố là gì?</h2>
+<p>Khi thực hiện một hoạt động, một thí nghiệm hay một trò chơi, mỗi <strong>sự kiện có thể xảy ra hoặc không xảy ra</strong> được gọi là một <strong>biến cố</strong>.</p>
+<div class="bg-sky-50 border border-sky-200 rounded-xl p-4 my-4">
+<p class="font-bold text-sky-800 mb-2">Ví dụ 1</p>
+<p>Khi gieo một con xúc xắc, các biến cố có thể kể đến là: "xuất hiện mặt 6 chấm", "xuất hiện mặt có số chấm là số chẵn", "xuất hiện mặt 7 chấm", ...</p>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-8 mb-4">2. Ba loại biến cố</h2>
+<ul class="list-disc pl-5 space-y-2">
+<li><strong>Biến cố chắc chắn</strong> là biến cố <strong>luôn xảy ra</strong> (biết trước là sẽ xảy ra).</li>
+<li><strong>Biến cố không thể</strong> là biến cố <strong>không bao giờ xảy ra</strong> (biết trước là sẽ không xảy ra).</li>
+<li><strong>Biến cố ngẫu nhiên</strong> là biến cố <strong>không thể biết trước</strong> là nó xảy ra hay không xảy ra.</li>
+</ul>
+<div class="bg-sky-50 border border-sky-200 rounded-xl p-4 my-4">
+<p class="font-bold text-sky-800 mb-2">Ví dụ 2</p>
+<p>Gieo một con xúc xắc (6 mặt ghi số chấm từ 1 đến 6):</p>
+<ul class="list-disc pl-5 space-y-1">
+<li>"Xuất hiện mặt có số chấm nhỏ hơn 7" là <strong>biến cố chắc chắn</strong> (mặt nào cũng thỏa mãn).</li>
+<li>"Xuất hiện mặt 7 chấm" là <strong>biến cố không thể</strong> (xúc xắc không có mặt 7 chấm).</li>
+<li>"Xuất hiện mặt 6 chấm" là <strong>biến cố ngẫu nhiên</strong> (có thể ra, có thể không).</li>
+</ul>
+<p class="mt-2"><strong>Ví dụ 3.</strong> Tung một đồng xu:</p>
+<ul class="list-disc pl-5 space-y-1">
+<li>"Xuất hiện mặt sấp hoặc mặt ngửa" — chắc chắn.</li>
+<li>"Đồng xu đứng thẳng trên cạnh của nó" — không thể (xem như không xảy ra trong điều kiện thường).</li>
+<li>"Xuất hiện mặt sấp" — ngẫu nhiên.</li>
+</ul>
+</div>
+<div class="bg-amber-50 border border-amber-300 rounded-xl p-4 my-4">
+<p class="font-bold text-amber-800 mb-2">📌 Ghi nhớ</p>
+<ul class="list-disc pl-5 space-y-1">
+<li>Có 3 loại biến cố: <strong>chắc chắn</strong> (luôn xảy ra), <strong>không thể</strong> (không bao giờ xảy ra), <strong>ngẫu nhiên</strong> (không biết trước).</li>
+<li>Muốn phân loại một biến cố, hãy tự hỏi: "Nó có <em>nhất định</em> xảy ra không? Nó có <em>thể nào</em> xảy ra không?"</li>
+</ul>
+</div>
+
+<div class="svg-fig">
+<svg viewBox="0 0 400 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ba loai bien co voi dong xu va xuc xac">
+<text x="200" y="25" text-anchor="middle" font-size="16" font-weight="bold" fill="#0f172a">Ba loại biến cố</text>
+<circle cx="80" cy="90" r="38" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+<text x="80" y="98" text-anchor="middle" font-size="18" fill="#92400e">Sấp</text>
+<circle cx="200" cy="90" r="38" fill="#f1f5f9" stroke="#64748b" stroke-width="2"/>
+<text x="200" y="98" text-anchor="middle" font-size="16" fill="#475569">7 chấm?</text>
+<line x1="172" y1="62" x2="228" y2="118" stroke="#dc2626" stroke-width="4"/>
+<rect x="270" y="52" width="76" height="76" rx="12" fill="#f0f9ff" stroke="#0284c7" stroke-width="2"/>
+<circle cx="289" cy="71" r="5" fill="#0284c7"/><circle cx="327" cy="71" r="5" fill="#0284c7"/>
+<circle cx="308" cy="90" r="5" fill="#0284c7"/>
+<circle cx="289" cy="109" r="5" fill="#0284c7"/><circle cx="327" cy="109" r="5" fill="#0284c7"/>
+<text x="80" y="150" text-anchor="middle" font-size="13" fill="#166534">"Được mặt sấp" — ngẫu nhiên</text>
+<text x="200" y="150" text-anchor="middle" font-size="13" fill="#b91c1c">"Được mặt 7 chấm" — không thể</text>
+<text x="308" y="150" text-anchor="middle" font-size="13" fill="#075985">"Được mặt ≤ 6 chấm" — chắc chắn</text>
+<text x="200" y="185" text-anchor="middle" font-size="14" fill="#475569">Tung đồng xu: "sấp hoặc ngửa" là chắc chắn;</text>
+<text x="200" y="208" text-anchor="middle" font-size="14" fill="#475569">"được cả sấp và ngửa cùng lúc" là không thể.</text>
+</svg>
+</div>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4 my-4">
+<p class="font-bold text-emerald-800 mb-2">Bài tập ví dụ (có lời giải)</p>
+<p><strong>Bài 1.</strong> Một hộp có 5 quả bóng màu đỏ và không có bóng màu xanh. Lấy ngẫu nhiên 1 quả. Phân loại các biến cố: A: "Lấy được bóng màu đỏ"; B: "Lấy được bóng màu xanh"; C: "Lấy được bóng màu đỏ hoặc màu xanh".</p>
+<p><em>Lời giải.</em> A là biến cố chắc chắn (hộp chỉ có bóng đỏ). B là biến cố không thể (không có bóng xanh). C là biến cố chắc chắn (quả nào lấy ra cũng là đỏ).</p>
+<p class="mt-3"><strong>Bài 2.</strong> Rút ngẫu nhiên 1 quân bài từ bộ bài 52 quân. Biến cố "Rút được quân Át" thuộc loại nào? Còn biến cố "Rút được quân bài có hình người" thì sao?</p>
+<p><em>Lời giải.</em> "Rút được quân Át" là biến cố ngẫu nhiên (có 4 quân Át trong 52 quân, có thể rút trúng hoặc không). "Rút được quân bài có hình người" cũng là biến cố ngẫu nhiên (có 12 quân hình: J, Q, K).</p>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-8 mb-4">Tóm tắt bài học</h2>
+<div class="table-scroll">
+<table class="w-full text-sm border-collapse">
+<thead><tr class="bg-sky-100"><th class="border border-sky-200 px-3 py-2 text-left">Loại biến cố</th><th class="border border-sky-200 px-3 py-2 text-left">Đặc điểm</th><th class="border border-sky-200 px-3 py-2 text-left">Ví dụ (gieo xúc xắc)</th></tr></thead>
+<tbody>
+<tr><td class="border border-slate-200 px-3 py-2 font-semibold text-emerald-700">Chắc chắn</td><td class="border border-slate-200 px-3 py-2">Luôn xảy ra</td><td class="border border-slate-200 px-3 py-2">"Xuất hiện mặt có số chấm nhỏ hơn 7"</td></tr>
+<tr class="bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-semibold text-red-700">Không thể</td><td class="border border-slate-200 px-3 py-2">Không bao giờ xảy ra</td><td class="border border-slate-200 px-3 py-2">"Xuất hiện mặt 7 chấm"</td></tr>
+<tr><td class="border border-slate-200 px-3 py-2 font-semibold text-sky-700">Ngẫu nhiên</td><td class="border border-slate-200 px-3 py-2">Không biết trước xảy ra hay không</td><td class="border border-slate-200 px-3 py-2">"Xuất hiện mặt 6 chấm"</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
