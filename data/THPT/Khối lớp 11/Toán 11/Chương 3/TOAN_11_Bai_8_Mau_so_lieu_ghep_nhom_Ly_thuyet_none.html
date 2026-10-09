@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay | Ma nguon thuoc nen tang hoc tap SAOBAY | Nghiem cam sao chep duoi moi hinh thuc -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 8: Mẫu số liệu ghép nhóm</title>
+    <meta name="lesson-title" content="Bài 8: Mẫu số liệu ghép nhóm">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 8: Mẫu số liệu ghép nhóm</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 3: Các số đặc trưng đo xu thế trung tâm của mẫu số liệu ghép nhóm • Bài 8: Mẫu số liệu ghép nhóm</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 8: Mẫu số liệu ghép nhóm</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 3: Các số đặc trưng đo xu thế trung tâm của mẫu số liệu ghép nhóm — Toán 11 (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Giới thiệu -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Vì sao cần ghép nhóm?</h2>
+
+<p>Khi mẫu số liệu có <strong>kích thước lớn</strong> (nhiều giá trị khác nhau), việc liệt kê từng giá trị trở nên cồng kềnh. Người ta <em>ghép nhóm</em> các giá trị gần nhau thành từng khoảng (nhóm) và đếm số giá trị thuộc mỗi nhóm — đó là <em>tần số</em> của nhóm. Kết quả thu được gọi là <em>mẫu số liệu ghép nhóm</em>, thường trình bày dưới dạng <em>bảng tần số ghép nhóm</em>.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Khảo sát chiều cao của 40 học sinh (đơn vị: cm):</p>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Nhóm</td><td class="border border-slate-300 px-4 py-1">$[150;155)$</td><td class="border border-slate-300 px-4 py-1">$[155;160)$</td><td class="border border-slate-300 px-4 py-1">$[160;165)$</td><td class="border border-slate-300 px-4 py-1">$[165;170)$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Tần số</td><td class="border border-slate-300 px-4 py-1">$5$</td><td class="border border-slate-300 px-4 py-1">$12$</td><td class="border border-slate-300 px-4 py-1">$15$</td><td class="border border-slate-300 px-4 py-1">$8$</td></tr>
+</table></div>
+<p>Cỡ mẫu $n = 5 + 12 + 15 + 8 = 40$.</p>
+</div>
+
+<!-- 2. Các khái niệm -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Các khái niệm cơ bản</h2>
+
+<ul class="list-disc ml-6 space-y-2 my-3">
+<li><strong>Nhóm</strong> $[a_i; a_{i+1})$: gồm các giá trị $x$ thỏa mãn $a_i \le x < a_{i+1}$. Đầu mút trái thuộc nhóm, đầu mút phải thuộc nhóm tiếp theo.</li>
+<li><strong>Độ dài nhóm</strong>: $h = a_{i+1} - a_i$ (thường các nhóm có độ dài bằng nhau).</li>
+<li><strong>Tần số</strong> $n_i$ của nhóm: số giá trị thuộc nhóm đó.</li>
+<li><strong>Cỡ mẫu</strong>: $n = n_1 + n_2 + \dots + n_k$ (tổng các tần số).</li>
+<li><strong>Tần số tích lũy</strong> của nhóm: tổng tần số từ nhóm đầu đến nhóm đó.</li>
+<li><strong>Tần số tương đối</strong> của nhóm: $\frac{n_i}{n}$ (thường tính theo phần trăm); tổng các tần số tương đối bằng $100\%$.</li>
+<li><strong>Giá trị đại diện</strong> của nhóm $[a_i; a_{i+1})$: $c_i = \frac{a_i + a_{i+1}}{2}$ — dùng thay cho mọi giá trị trong nhóm khi tính toán.</li>
+</ul>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Nhóm $[a;b)$ <strong>bao gồm</strong> $a$ nhưng <strong>không bao gồm</strong> $b$. Giá trị đúng bằng đầu mút phải $b$ được xếp vào nhóm tiếp theo.</p>
+</div>
+
+<!-- 3. Cách ghép nhóm -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Cách ghép nhóm mẫu số liệu</h2>
+
+<p>Để chuyển mẫu số liệu rời rạc thành mẫu số liệu ghép nhóm, ta thực hiện:</p>
+<ol class="list-decimal ml-6 space-y-2 my-3">
+<li>Xác định <strong>khoảng biến thiên</strong> $R = (\text{giá trị lớn nhất}) - (\text{giá trị nhỏ nhất})$.</li>
+<li>Chọn <strong>độ dài nhóm</strong> $h$ phù hợp (thường $h$ là số "đẹp", số nhóm khoảng $5$–$10$).</li>
+<li>Chia khoảng $[min; max]$ thành các nhóm $[a_0; a_1), [a_1; a_2), \dots$ với $a_{i+1} - a_i = h$.</li>
+<li>Đếm số giá trị thuộc mỗi nhóm để lập bảng tần số.</li>
+</ol>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Điểm kiểm tra của 20 học sinh: $4, 5, 6, 5, 7, 8, 6, 5, 9, 7, 6, 8, 5, 7, 6, 9, 8, 7, 6, 10$. Ghép thành các nhóm độ dài $2$: $[4;6)$, $[6;8)$, $[8;10]$ (nhóm cuối lấy cả đầu mút phải).</p>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Nhóm</td><td class="border border-slate-300 px-4 py-1">$[4;6)$</td><td class="border border-slate-300 px-4 py-1">$[6;8)$</td><td class="border border-slate-300 px-4 py-1">$[8;10]$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Tần số</td><td class="border border-slate-300 px-4 py-1">$4$</td><td class="border border-slate-300 px-4 py-1">$9$</td><td class="border border-slate-300 px-4 py-1">$7$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Tần số tương đối</td><td class="border border-slate-300 px-4 py-1">$20\%$</td><td class="border border-slate-300 px-4 py-1">$45\%$</td><td class="border border-slate-300 px-4 py-1">$35\%$</td></tr>
+</table></div>
+</div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Biểu đồ cột của bảng tần số ghép nhóm">
+<rect x="2" y="2" width="436" height="236" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="28" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0c4a6e" text-anchor="middle">Biểu đồ tần số ghép nhóm (điểm kiểm tra)</text>
+<line x1="50" y1="190" x2="410" y2="190" stroke="#334155" stroke-width="2"/>
+<rect x="80" y="150" width="60" height="40" fill="#0284c7" opacity="0.8"/>
+<rect x="180" y="100" width="60" height="90" fill="#0284c7" opacity="0.8"/>
+<rect x="280" y="120" width="60" height="70" fill="#0284c7" opacity="0.8"/>
+<text x="110" y="210" font-family="sans-serif" font-size="12" fill="#334155" text-anchor="middle">[4;6)</text>
+<text x="210" y="210" font-family="sans-serif" font-size="12" fill="#334155" text-anchor="middle">[6;8)</text>
+<text x="310" y="210" font-family="sans-serif" font-size="12" fill="#334155" text-anchor="middle">[8;10]</text>
+<text x="110" y="140" font-family="sans-serif" font-size="12" fill="#0c4a6e" text-anchor="middle">4</text>
+<text x="210" y="90" font-family="sans-serif" font-size="12" fill="#0c4a6e" text-anchor="middle">9</text>
+<text x="310" y="110" font-family="sans-serif" font-size="12" fill="#0c4a6e" text-anchor="middle">7</text>
+<text x="30" y="120" font-family="sans-serif" font-size="12" fill="#64748b" text-anchor="middle">Tần số</text>
+</svg></div>
+
+<!-- Tổng kết -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Mẫu số liệu ghép nhóm:</strong> chia giá trị thành các khoảng $[a_i; a_{i+1})$, đếm tần số mỗi nhóm.</li>
+<li><strong>Cỡ mẫu</strong> $n = \sum n_i$; <strong>giá trị đại diện</strong> $c_i = \frac{a_i+a_{i+1}}{2}$.</li>
+<li><strong>Tần số tương đối</strong> $= n_i/n$; tổng bằng $100\%$.</li>
+<li>Đầu mút <strong>trái</strong> thuộc nhóm, đầu mút <strong>phải</strong> thuộc nhóm sau.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">
+(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok){if(document.body){document.body.innerHTML='<div style="font-family:system-ui,sans-serif;max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff"><h2 style="color:#0f172a;margin-top:0">© SAOBAY — Trường THPT Sào Báy</h2><p style="color:#475569">Nội dung này chỉ được hiển thị tại địa chỉ chính thức <b>saobay.github.io</b>.</p><p style="color:#475569">Vui lòng truy cập đúng địa chỉ để học tập.</p></div>';}else{document.write("SAOBAY: truy cap tai saobay.github.io");}}catch(e){}})();
+</script>
+</body>
+</html>
