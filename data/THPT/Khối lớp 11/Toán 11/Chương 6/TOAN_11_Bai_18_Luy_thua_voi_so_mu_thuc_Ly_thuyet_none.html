@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay | Ma nguon thuoc nen tang hoc tap SAOBAY | Nghiem cam sao chep duoi moi hinh thuc -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 18: Lũy thừa với số mũ thực</title>
+    <meta name="lesson-title" content="Bài 18: Lũy thừa với số mũ thực">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 18: Lũy thừa với số mũ thực</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 6: Hàm số mũ và hàm số lôgarit</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 18: Lũy thừa với số mũ thực</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 6: Hàm số mũ và hàm số lôgarit — Toán 11 (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Lũy thừa với số mũ nguyên -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Lũy thừa với số mũ nguyên</h2>
+
+<p>Cho $a$ là số thực, $n$ là số nguyên dương: $a^n = \underbrace{a \cdot a \cdots a}_{n \text{ lần}}$.</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>$a^0 = 1$ với $a$ khác $0$.</li>
+<li>$a^{-n} = \frac{1}{a^n}$ với $a$ khác $0$.</li>
+</ul>
+
+<!-- 2. Căn bậc n -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Căn bậc $n$</h2>
+
+<p><strong>Định nghĩa:</strong> Cho số thực $b$ và số nguyên dương $n$. Số $a$ được gọi là <em>căn bậc $n$</em> của $b$ nếu $a^n = b$.</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Căn bậc $n$ lẻ ($n = 2k+1$): mỗi số thực $b$ có đúng một căn bậc $n$, kí hiệu $\sqrt[n]{b}$.</li>
+<li>Căn bậc $n$ chẵn ($n = 2k$): số âm không có căn bậc $n$; số $0$ có một căn bậc $n$ là $0$; số dương $b$ có hai căn bậc $n$ đối nhau, giá trị dương kí hiệu $\sqrt[n]{b}$.</li>
+</ul>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Tính chất của căn bậc $n$:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>$\sqrt[n]{a} \cdot \sqrt[n]{b} = \sqrt[n]{ab}$.</li>
+<li>$\frac{\sqrt[n]{a}}{\sqrt[n]{b}} = \sqrt[n]{\frac{a}{b}}$ ($b$ khác $0$).</li>
+<li>$(\sqrt[n]{a})^m = \sqrt[n]{a^m}$; $\sqrt[n]{\sqrt[k]{a}} = \sqrt[nk]{a}$.</li>
+</ul>
+</div>
+
+<!-- 3. Lũy thừa số mũ hữu tỉ -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Lũy thừa với số mũ hữu tỉ và số mũ thực</h2>
+
+<p><strong>Định nghĩa:</strong> Cho $a$ dương và số hữu tỉ $r = \frac{m}{n}$ ($m$ nguyên, $n$ nguyên dương): $a^r = a^{m/n} = \sqrt[n]{a^m}$.</p>
+<p><strong>Ví dụ:</strong> $8^{2/3} = \sqrt[3]{8^2} = \sqrt[3]{64} = 4$; $16^{3/4} = \sqrt[4]{16^3} = 8$.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Tính chất của lũy thừa (với $a, b$ dương; $m, n$ thực):</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>$a^m \cdot a^n = a^{m+n}$; $\frac{a^m}{a^n} = a^{m-n}$.</li>
+<li>$(a^m)^n = a^{m \cdot n}$; $(a \cdot b)^n = a^n \cdot b^n$; $\left(\frac{a}{b}\right)^n = \frac{a^n}{b^n}$.</li>
+</ul>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 So sánh hai lũy thừa cùng cơ số</p>
+<ul class="list-disc ml-6 mt-1 space-y-1">
+<li>Nếu $a$ lớn hơn $1$: $a^m$ lớn hơn $a^n$ khi và chỉ khi $m$ lớn hơn $n$.</li>
+<li>Nếu $0$ nhỏ hơn $a$ nhỏ hơn $1$: $a^m$ lớn hơn $a^n$ khi và chỉ khi $m$ nhỏ hơn $n$ (đảo chiều).</li>
+</ul>
+</div>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">
+(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok){if(document.body){document.body.innerHTML='<div style="font-family:system-ui,sans-serif;max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff"><h2 style="color:#0f172a;margin-top:0">© SAOBAY — Trường THPT Sào Báy</h2><p style="color:#475569">Nội dung này chỉ được hiển thị tại địa chỉ chính thức <b>saobay.github.io</b>.</p><p style="color:#475569">Vui lòng truy cập đúng địa chỉ để học tập.</p></div>';}else{document.write("SAOBAY: truy cap tai saobay.github.io");}}catch(e){}})();
+</script>
+</body>
+</html>
