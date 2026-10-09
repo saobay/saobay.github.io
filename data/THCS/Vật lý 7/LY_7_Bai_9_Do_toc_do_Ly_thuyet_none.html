@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 9: Đo tốc độ</title>
+    <meta name="lesson-title" content="Bài 9: Đo tốc độ">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 9: Đo tốc độ</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương III: Tốc độ • Bài 9: Đo tốc độ</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 9: Đo tốc độ</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương III: Tốc độ (Kết nối tri thức với cuộc sống)</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Cách đo tốc độ</h2>
+
+<p>Muốn đo tốc độ chuyển động của một vật, ta cần đo <strong>quãng đường</strong> $s$ mà vật đi được và <strong>thời gian</strong> $t$ vật đi hết quãng đường đó, rồi tính theo công thức:</p>
+<p class="text-center text-xl my-3">$$v = \frac{s}{t}$$</p>
+
+<p>Dụng cụ thường dùng:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Thước</strong> (thước mét, thước dây) để đo quãng đường.</li>
+<li><strong>Đồng hồ bấm giây</strong> để đo thời gian.</li>
+<li><strong>Cổng quang điện</strong> kết hợp <strong>đồng hồ đo thời gian hiện số</strong> để đo chính xác thời gian vật đi qua một đoạn ngắn.</li>
+<li><strong>Súng bắn tốc độ</strong> để đo tốc độ của xe đang chạy trên đường.</li>
+</ul>
+
+<div class="svg-fig"><svg viewBox="0 0 440 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="So do do toc do vien bi lan tren mang nghieng">
+<rect x="2" y="2" width="436" height="226" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<polygon points="40,190 400,190 400,200 40,200" fill="#94a3b8"/>
+<polygon points="40,190 400,120 400,132 40,200" fill="#cbd5e1" stroke="#64748b" stroke-width="1.5"/>
+<circle cx="120" cy="163" r="14" fill="#0284c7"/>
+<line x1="200" y1="60" x2="200" y2="150" stroke="#e11d48" stroke-width="2" stroke-dasharray="6,4"/>
+<rect x="188" y="40" width="24" height="22" rx="3" fill="#e11d48"/>
+<text x="200" y="56" font-family="sans-serif" font-size="11" fill="#fff" text-anchor="middle">A</text>
+<line x1="320" y1="60" x2="320" y2="112" stroke="#e11d48" stroke-width="2" stroke-dasharray="6,4"/>
+<rect x="308" y="40" width="24" height="22" rx="3" fill="#e11d48"/>
+<text x="320" y="56" font-family="sans-serif" font-size="11" fill="#fff" text-anchor="middle">B</text>
+<text x="260" y="90" font-family="sans-serif" font-size="15" font-weight="bold" fill="#0c4a6e">s</text>
+<text x="200" y="185" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">Cổng A</text>
+<text x="320" y="148" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">Cổng B</text>
+<text x="220" y="216" font-family="sans-serif" font-size="13" fill="#475569" text-anchor="middle">Đo s bằng thước, đo t bằng đồng hồ hiện số</text>
+</svg></div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Các bước đo tốc độ của vật chuyển động</h2>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ: đo tốc độ viên bi lăn trên máng nghiêng</p>
+<ol class="list-decimal ml-6 space-y-1">
+<li>Đánh dấu <strong>điểm xuất phát</strong> và <strong>điểm đích</strong> trên máng, đo <strong>quãng đường</strong> $s$ giữa hai điểm bằng thước.</li>
+<li>Thả viên bi lăn từ điểm xuất phát, đồng thời <strong>bấm đồng hồ</strong>; khi bi tới đích thì <strong>dừng đồng hồ</strong>, đọc <strong>thời gian</strong> $t$.</li>
+<li>Tính tốc độ: $v = s/t$.</li>
+<li><strong>Lặp lại</strong> phép đo 3 lần rồi lấy <strong>giá trị trung bình</strong> để giảm sai số.</li>
+</ol>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Để đo tốc độ, ta đo <strong>quãng đường</strong> $s$ và <strong>thời gian</strong> $t$ rồi tính $v = s/t$. Nên đo <strong>lặp lại nhiều lần</strong> và lấy giá trị trung bình để kết quả chính xác hơn.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Đo tốc độ bằng cổng quang điện</h2>
+
+<p><strong>Cổng quang điện</strong> gồm một nguồn phát tia hồng ngoại và một bộ thu. Khi vật đi qua cổng, tia hồng ngoại bị che khuất, đồng hồ đo thời gian hiện số sẽ ghi lại <strong>khoảng thời gian</strong> vật đi qua.</p>
+
+<p>Nếu đặt hai cổng quang điện A, B cách nhau quãng đường $s$, đồng hồ sẽ đo được thời gian $t$ vật đi từ A đến B. Tốc độ của vật là $v = s/t$.</p>
+
+<p>Ưu điểm: đo thời gian <strong>chính xác</strong> hơn bấm đồng hồ bằng tay, tránh sai số do phản xạ của người đo.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Hai cổng quang điện cách nhau $s = 0{,}5$ m. Đồng hồ hiện thời gian vật đi từ cổng A đến cổng B là $t = 0{,}25$ s. Tốc độ của vật:</p>
+<p class="text-center text-lg my-2">$$v = \frac{0{,}5}{0{,}25} = 2 \text{ (m/s)}$$</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Những lưu ý khi đo tốc độ</h2>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Chọn <strong>quãng đường đo</strong> phù hợp: không quá ngắn (sai số lớn) cũng không quá dài.</li>
+<li><strong>Bấm đồng hồ đúng lúc</strong>: bắt đầu khi vật xuất phát, dừng khi vật tới đích.</li>
+<li>Đo <strong>lặp lại nhiều lần</strong> rồi lấy trung bình.</li>
+<li>Khi dùng súng bắn tốc độ, phải hướng đúng vào xe cần đo.</li>
+</ul>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-emerald-800 mb-2">Bài tập ví dụ (có lời giải):</p>
+<p>Một học sinh đo tốc độ chạy của bạn mình trên quãng đường $60$ m được các thời gian: $9{,}8$ s; $10{,}1$ s; $10{,}1$ s. Tính tốc độ trung bình.</p>
+<p class="mt-2"><strong>Lời giải:</strong> Thời gian trung bình $t_{tb} = (9{,}8 + 10{,}1 + 10{,}1)/3 = 10$ s.</p>
+<p class="text-center text-lg my-2">$$v = \frac{60}{10} = 6 \text{ (m/s)}$$</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<ul class="list-disc ml-6 space-y-1 mt-1">
+<li>Đo tốc độ: đo $s$ bằng thước, đo $t$ bằng đồng hồ, tính $v = s/t$.</li>
+<li>Cổng quang điện + đồng hồ hiện số cho kết quả chính xác hơn bấm tay.</li>
+<li>Đo lặp lại nhiều lần, lấy giá trị trung bình để giảm sai số.</li>
+</ul>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Đại lượng cần đo</td><td class="border border-slate-300 px-4 py-1">Dụng cụ</td><td class="border border-slate-300 px-4 py-1">Cách tính</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Quãng đường $s$</td><td class="border border-slate-300 px-4 py-1">Thước mét, thước dây</td><td class="border border-slate-300 px-4 py-1">$v = s/t$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Thời gian $t$</td><td class="border border-slate-300 px-4 py-1">Đồng hồ bấm giây, cổng quang điện</td><td class="border border-slate-300 px-4 py-1">Đo lặp lại, lấy trung bình</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Tốc độ xe đang chạy</td><td class="border border-slate-300 px-4 py-1">Súng bắn tốc độ</td><td class="border border-slate-300 px-4 py-1">Đọc trực tiếp</td></tr>
+</table></div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+</div>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
