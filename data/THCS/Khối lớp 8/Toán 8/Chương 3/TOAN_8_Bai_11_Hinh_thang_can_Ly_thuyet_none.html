@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 11: Hình thang cân</title>
+    <meta name="lesson-title" content="Bài 11: Hình thang cân">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 11: Hình thang cân</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 3: Tứ giác • Bài 11: Hình thang cân</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3">1. Hình thang</H2>
+<p><strong>Định nghĩa.</strong> <em>Hình thang</em> là tứ giác có hai cạnh đối song song.</p>
+<p>Trong hình thang $ABCD$ ($AB \parallel CD$), hai cạnh song song $AB$, $CD$ gọi là hai <strong>đáy</strong> ($AB$ là đáy nhỏ, $CD$ là đáy lớn hoặc ngược lại); hai cạnh còn lại $AD$, $BC$ gọi là hai <strong>cạnh bên</strong>.</p>
+<p><strong>Định nghĩa.</strong> <em>Hình thang vuông</em> là hình thang có một góc vuông.</p>
+<div class="svg-fig">
+<svg viewBox="0 0 340 300" xmlns="http://www.w3.org/2000/svg">
+<polygon points="70,235 245,235 245,120 130,120" fill="#e0f2fe" stroke="#0284c7" stroke-width="2.5" stroke-linejoin="round"/>
+<rect x="70" y="221" width="14" height="14" fill="none" stroke="#dc2626" stroke-width="2"/>
+<rect x="231" y="221" width="14" height="14" fill="none" stroke="#dc2626" stroke-width="2"/>
+<path d="M150,229 L158,235 L150,241" fill="none" stroke="#0284c7" stroke-width="2"/>
+<path d="M170,114 L178,120 L170,126" fill="none" stroke="#0284c7" stroke-width="2"/>
+<text x="52" y="242" font-size="17" font-weight="bold" fill="#0f172a">A</text>
+<text x="250" y="242" font-size="17" font-weight="bold" fill="#0f172a">B</text>
+<text x="250" y="112" font-size="17" font-weight="bold" fill="#0f172a">C</text>
+<text x="122" y="112" font-size="17" font-weight="bold" fill="#0f172a">D</text>
+</svg>
+<p class="text-center text-sm text-slate-500 mt-1">Hình 1. Hình thang vuông $ABCD$ ($AB \parallel CD$, $\widehat{A} = \widehat{B} = 90^\circ$)</p>
+</div>
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3">2. Hình thang cân</H2>
+<p><strong>Định nghĩa.</strong> <em>Hình thang cân</em> là hình thang có hai góc kề một đáy bằng nhau.</p>
+<p><strong>Tính chất.</strong> Trong hình thang cân:</p>
+<ul class="list-disc pl-5 space-y-1">
+<li>Hai cạnh bên bằng nhau;</li>
+<li>Hai đường chéo bằng nhau.</li>
+</ul>
+<p><strong>Dấu hiệu nhận biết.</strong></p>
+<ul class="list-disc pl-5 space-y-1">
+<li>Hình thang có hai đường chéo bằng nhau là hình thang cân;</li>
+<li>Hình thang có hai góc kề một đáy bằng nhau là hình thang cân.</li>
+</ul>
+<div class="svg-fig">
+<svg viewBox="0 0 340 300" xmlns="http://www.w3.org/2000/svg">
+<polygon points="60,235 285,235 225,130 120,130" fill="#e0f2fe" stroke="#0284c7" stroke-width="2.5" stroke-linejoin="round"/>
+<line x1="60" y1="235" x2="225" y2="130" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="7,5"/>
+<line x1="285" y1="235" x2="120" y2="130" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="7,5"/>
+<path d="M82,235 A22,22 0 0 0 71,216" fill="none" stroke="#dc2626" stroke-width="2"/>
+<path d="M263,235 A22,22 0 0 1 274,216" fill="none" stroke="#dc2626" stroke-width="2"/>
+<path d="M144,130 A24,24 0 0 1 108,151" fill="none" stroke="#dc2626" stroke-width="2"/>
+<path d="M149,130 A29,29 0 0 1 105,155" fill="none" stroke="#dc2626" stroke-width="2"/>
+<path d="M237,151 A24,24 0 0 1 201,130" fill="none" stroke="#dc2626" stroke-width="2"/>
+<path d="M239,155 A29,29 0 0 1 196,130" fill="none" stroke="#dc2626" stroke-width="2"/>
+<line x1="85" y1="180" x2="95" y2="185" stroke="#0284c7" stroke-width="2.5"/>
+<line x1="251" y1="185" x2="259" y2="180" stroke="#0284c7" stroke-width="2.5"/>
+<path d="M150,229 L158,235 L150,241" fill="none" stroke="#0284c7" stroke-width="2"/>
+<path d="M165,124 L173,130 L165,136" fill="none" stroke="#0284c7" stroke-width="2"/>
+<text x="42" y="242" font-size="17" font-weight="bold" fill="#0f172a">A</text>
+<text x="290" y="242" font-size="17" font-weight="bold" fill="#0f172a">B</text>
+<text x="230" y="122" font-size="17" font-weight="bold" fill="#0f172a">C</text>
+<text x="112" y="122" font-size="17" font-weight="bold" fill="#0f172a">D</text>
+<text x="140" y="262" font-size="13" fill="#0284c7">AB // CD</text>
+</svg>
+<p class="text-center text-sm text-slate-500 mt-1">Hình 2. Hình thang cân $ABCD$ ($AB \parallel CD$): hai góc kề mỗi đáy bằng nhau, $AD = BC$, $AC = BD$</p>
+</div>
+<div class="bg-sky-50 border border-sky-200 rounded-xl p-4 my-4">
+<p class="font-bold text-sky-800 mb-2">📌 Ví dụ 1</p>
+<p>Cho hình thang cân $ABCD$ ($AB \parallel CD$) có $\widehat{A} = 70^\circ$. Tính các góc còn lại của hình thang.</p>
+<p><em>Giải.</em> Vì $ABCD$ là hình thang cân ($AB \parallel CD$) nên hai góc kề đáy $AB$ bằng nhau: $\widehat{B} = \widehat{A} = 70^\circ$.<br>
+Vì $AB \parallel CD$ nên $\widehat{A}$ và $\widehat{D}$ là hai góc trong cùng phía, do đó $\widehat{D} = 180^\circ - \widehat{A} = 180^\circ - 70^\circ = 110^\circ$.<br>
+Tương tự, hai góc kề đáy $CD$ bằng nhau nên $\widehat{C} = \widehat{D} = 110^\circ$.</p>
+</div>
+<div class="bg-amber-50 border-l-4 border-amber-400 rounded-r-xl p-4 my-4">
+<p class="font-bold text-amber-800 mb-2">📌 Ghi nhớ</p>
+<ul class="list-disc pl-5 space-y-1">
+<li>Hình thang là tứ giác có hai cạnh đối song song; hình thang vuông là hình thang có một góc vuông.</li>
+<li>Hình thang cân là hình thang có hai góc kề một đáy bằng nhau.</li>
+<li>Trong hình thang cân: <strong>hai cạnh bên bằng nhau</strong>, <strong>hai đường chéo bằng nhau</strong>.</li>
+<li>Hình thang có hai đường chéo bằng nhau là hình thang cân.</li>
+</ul>
+</div>
+
+
+            </div>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
