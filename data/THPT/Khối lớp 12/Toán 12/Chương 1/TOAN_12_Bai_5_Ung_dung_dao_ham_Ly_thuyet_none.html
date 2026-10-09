@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 5: Ứng dụng đạo hàm để giải quyết một số vấn đề liên quan đến thực tiễn</title>
+    <meta name="lesson-title" content="Bài 5: Ứng dụng đạo hàm để giải quyết một số vấn đề liên quan đến thực tiễn">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 5: Ứng dụng đạo hàm để giải quyết một số vấn đề liên quan đến thực tiễn</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 1: Ứng dụng đạo hàm để khảo sát và vẽ đồ thị của hàm số • Bài 5: Ứng dụng đạo hàm để giải quyết một số vấn đề liên quan đến thực tiễn</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 5: Ứng dụng đạo hàm để giải quyết một số vấn đề liên quan đến thực tiễn</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 1: Ứng dụng đạo hàm để khảo sát và vẽ đồ thị của hàm số — Bài 5 (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Bài toán tối ưu -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Bài toán tối ưu trong thực tiễn</h2>
+
+<p>Trong đời sống và sản xuất, ta thường gặp những câu hỏi dạng: <em>làm thế nào để được <strong>nhiều nhất</strong>, <strong>ít nhất</strong>, <strong>rẻ nhất</strong>, <strong>nhanh nhất</strong>?</em> Chẳng hạn:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Với một tấm bìa cho trước, gập thành chiếc hộp <strong>thể tích lớn nhất</strong> bằng cách nào?</li>
+<li>Với một đoạn hàng rào cho trước, rào mảnh vườn <strong>diện tích lớn nhất</strong> ra sao?</li>
+<li>Sản xuất bao nhiêu sản phẩm thì <strong>chi phí trung bình nhỏ nhất</strong>?</li>
+<li>Đi đường nào để <strong>thời gian di chuyển ngắn nhất</strong>?</li>
+</ul>
+
+<p>Các bài toán trên đều có chung một mô hình toán học: <strong>tìm giá trị lớn nhất hoặc giá trị nhỏ nhất của một hàm số</strong>. Những bài toán như vậy được gọi là <em>bài toán tối ưu</em>, và đạo hàm chính là công cụ sắc bén để giải chúng.</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-bold text-emerald-800 mb-2">🛠 Phương pháp giải bài toán tối ưu (4 bước)</p>
+<ol class="list-decimal ml-6 space-y-2">
+<li><strong>Xác định đại lượng cần tối ưu.</strong> Đọc kĩ đề bài để biết cần tìm giá trị lớn nhất hay nhỏ nhất của đại lượng nào (diện tích, thể tích, chi phí, thời gian, quãng đường, ...).</li>
+<li><strong>Lập hàm số.</strong> Đặt biến số $x$ (thường là kích thước, số lượng, vị trí, ...), biểu diễn đại lượng cần tối ưu theo $x$ thành hàm số $y = f(x)$, đồng thời xác định <strong>tập xác định</strong> của $x$ phù hợp với điều kiện thực tiễn (ví dụ độ dài phải dương).</li>
+<li><strong>Tìm giá trị lớn nhất / nhỏ nhất của hàm số.</strong> Tính đạo hàm $f'(x)$, tìm các điểm tới hạn, lập bảng biến thiên của $f$ trên tập xác định rồi kết luận.</li>
+<li><strong>Trả lời bài toán thực tiễn.</strong> Đối chiếu kết quả với điều kiện thực tế, kiểm tra tính hợp lí rồi đưa ra kết luận (kèm đơn vị).</li>
+</ol>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Hai lỗi hay gặp nhất: <strong>quên đặt điều kiện thực tiễn</strong> cho biến số (dẫn đến nhận nghiệm vô lí), và <strong>kết luận GTLN/GTNN khi chưa lập bảng biến thiên</strong> (điểm làm đạo hàm bằng $0$ chưa chắc đã cho cực trị mong muốn).</p>
+</div>
+
+<!-- 2. Ví dụ 1: hộp không nắp -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Ví dụ 1 — Chiếc hộp không nắp có thể tích lớn nhất</h2>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Đề bài:</p>
+<p>Từ một tấm bìa hình vuông cạnh $12$ cm, người ta cắt bỏ bốn hình vuông nhỏ bằng nhau ở bốn góc, mỗi hình vuông cạnh $x$ (cm), rồi gập lại thành một chiếc hộp không nắp. Hỏi $x$ bằng bao nhiêu thì hộp có thể tích lớn nhất?</p>
+</div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 215" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tam bia cat goc va hop khong nap">
+<rect x="30" y="25" width="150" height="150" rx="4" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+<rect x="30" y="25" width="36" height="36" fill="#fecaca" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="5,4"/>
+<rect x="144" y="25" width="36" height="36" fill="#fecaca" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="5,4"/>
+<rect x="30" y="139" width="36" height="36" fill="#fecaca" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="5,4"/>
+<rect x="144" y="139" width="36" height="36" fill="#fecaca" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="5,4"/>
+<text x="48" y="48" font-family="sans-serif" font-size="13" font-weight="bold" fill="#b91c1c" text-anchor="middle">x</text>
+<text x="162" y="48" font-family="sans-serif" font-size="13" font-weight="bold" fill="#b91c1c" text-anchor="middle">x</text>
+<text x="48" y="162" font-family="sans-serif" font-size="13" font-weight="bold" fill="#b91c1c" text-anchor="middle">x</text>
+<text x="162" y="162" font-family="sans-serif" font-size="13" font-weight="bold" fill="#b91c1c" text-anchor="middle">x</text>
+<text x="105" y="105" font-family="sans-serif" font-size="12" fill="#0369a1" text-anchor="middle">12 &#8722; 2x</text>
+<text x="105" y="196" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">Tấm bìa 12 cm × 12 cm</text>
+<line x1="192" y1="100" x2="222" y2="100" stroke="#64748b" stroke-width="2.5"/>
+<polygon points="222,93 234,100 222,107" fill="#64748b"/>
+<polygon points="262,60 372,60 342,98 232,98" fill="#bae6fd" stroke="#0284c7" stroke-width="2"/>
+<polygon points="232,98 342,98 342,168 232,168" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+<polygon points="342,98 372,60 372,130 342,168" fill="#7dd3fc" stroke="#0284c7" stroke-width="2"/>
+<line x1="224" y1="98" x2="224" y2="168" stroke="#b91c1c" stroke-width="1.5"/>
+<polygon points="224,98 221,106 227,106" fill="#b91c1c"/>
+<polygon points="224,168 221,160 227,160" fill="#b91c1c"/>
+<text x="214" y="138" font-family="sans-serif" font-size="13" font-weight="bold" fill="#b91c1c" text-anchor="end">x</text>
+<text x="302" y="196" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">Hộp không nắp sau khi gập</text>
+</svg></div>
+
+<p><strong>Lời giải</strong> (theo 4 bước):</p>
+<p><strong>Bước 1.</strong> Đại lượng cần tối ưu là <strong>thể tích</strong> $V$ của chiếc hộp (tìm giá trị lớn nhất).</p>
+<p><strong>Bước 2.</strong> Sau khi cắt và gập: chiều cao hộp là $x$ (cm); đáy hộp là hình vuông cạnh $12 - 2x$ (cm). Do đó
+$$V(x) = x(12 - 2x)^2 \quad \text{với} \quad 0 \lt x \lt 6$$
+(vì $x \gt 0$ và $12 - 2x \gt 0$).</p>
+<p><strong>Bước 3.</strong> Ta có
+$$V'(x) = (12 - 2x)^2 + x \cdot 2(12 - 2x)(-2) = (12 - 2x)(12 - 6x).$$
+$V'(x) = 0 \Leftrightarrow x = 2$ hoặc $x = 6$ (loại vì $x \lt 6$). Bảng biến thiên của $V$ trên $(0; 6)$:</p>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">$x$</td><td class="border border-slate-300 px-4 py-1">$0$</td><td class="border border-slate-300 px-4 py-1">$2$</td><td class="border border-slate-300 px-4 py-1">$6$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">$V'(x)$</td><td class="border border-slate-300 px-4 py-1 text-emerald-600 font-bold">$+$</td><td class="border border-slate-300 px-4 py-1 font-bold">$0$</td><td class="border border-slate-300 px-4 py-1 text-rose-600 font-bold">$-$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">$V(x)$</td><td class="border border-slate-300 px-4 py-1">$0$</td><td class="border border-slate-300 px-4 py-1 font-bold text-sky-700">$128$</td><td class="border border-slate-300 px-4 py-1">$0$</td></tr>
+</table></div>
+<p class="text-center text-sm text-slate-500 -mt-2 mb-2">$V$ tăng trên $(0; 2)$, giảm trên $(2; 6)$, đạt giá trị lớn nhất tại $x = 2$.</p>
+
+<p><strong>Bước 4.</strong> Vậy cắt mỗi góc một hình vuông cạnh $x = 2$ cm thì hộp có thể tích lớn nhất là $V_{\max} = 2 \times 8^2 = 128$ cm³.</p>
+
+<!-- 3. Ví dụ 2: mảnh vườn -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Ví dụ 2 — Mảnh vườn rào ba mặt có diện tích lớn nhất</h2>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Đề bài:</p>
+<p>Một gia đình có $60$ m lưới rào muốn rào một mảnh vườn hình chữ nhật. Vì một cạnh của vườn giáp tường nhà có sẵn nên chỉ cần rào ba mặt còn lại. Hỏi kích thước mảnh vườn thế nào thì diện tích lớn nhất?</p>
+</div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 205" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Manh vuon rao ba mat">
+<rect x="70" y="55" width="300" height="100" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+<line x1="64" y1="55" x2="376" y2="55" stroke="#92400e" stroke-width="9" stroke-linecap="round"/>
+<text x="220" y="38" font-family="sans-serif" font-size="13" font-weight="bold" fill="#92400e" text-anchor="middle">Tường nhà (có sẵn, không cần rào)</text>
+<line x1="70" y1="55" x2="70" y2="155" stroke="#2563eb" stroke-width="3.5" stroke-dasharray="9,6"/>
+<line x1="70" y1="155" x2="370" y2="155" stroke="#2563eb" stroke-width="3.5" stroke-dasharray="9,6"/>
+<line x1="370" y1="155" x2="370" y2="55" stroke="#2563eb" stroke-width="3.5" stroke-dasharray="9,6"/>
+<text x="220" y="178" font-family="sans-serif" font-size="13" fill="#1d4ed8" text-anchor="middle">lưới rào: mặt 60 &#8722; 2x</text>
+<text x="52" y="110" font-family="sans-serif" font-size="13" font-weight="bold" fill="#1d4ed8" text-anchor="middle">x</text>
+<text x="388" y="110" font-family="sans-serif" font-size="13" font-weight="bold" fill="#1d4ed8" text-anchor="middle">x</text>
+<text x="220" y="112" font-family="sans-serif" font-size="14" fill="#15803d" text-anchor="middle">Mảnh vườn</text>
+</svg></div>
+
+<p><strong>Lời giải:</strong></p>
+<p><strong>Bước 1.</strong> Đại lượng cần tối ưu là <strong>diện tích</strong> $S$ của mảnh vườn.</p>
+<p><strong>Bước 2.</strong> Gọi $x$ (m) là chiều rộng của vườn (hai mặt bên được rào). Mặt rào còn lại (đối diện tường) dài $60 - 2x$ (m). Diện tích:
+$$S(x) = x(60 - 2x) \quad \text{với} \quad 0 \lt x \lt 30.$$</p>
+<p><strong>Bước 3.</strong> $S'(x) = 60 - 4x$; $S'(x) = 0 \Leftrightarrow x = 15$. Bảng biến thiên cho thấy $S$ tăng trên $(0; 15)$, giảm trên $(15; 30)$ nên đạt giá trị lớn nhất tại $x = 15$.</p>
+<p><strong>Bước 4.</strong> Vậy mảnh vườn có chiều rộng $15$ m, chiều dài $60 - 2 \times 15 = 30$ m thì diện tích lớn nhất là $S_{\max} = 15 \times 30 = 450$ m².</p>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Nhận xét</p>
+<p class="mt-1">Với cùng một "ngân sách" $60$ m lưới, rào ba mặt (tận dụng tường nhà) cho diện tích tối đa $450$ m², lớn hơn hẳn rào bốn mặt độc lập ($S = x(30 - x) \le 225$ m²). Đó chính là ý nghĩa thực tiễn của bài toán tối ưu: <strong>dùng ít tài nguyên nhất để đạt hiệu quả cao nhất</strong>.</p>
+</div>
+
+<!-- 4. Ví dụ 3: thời gian ngắn nhất -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Ví dụ 3 — Lộ trình cho thời gian ngắn nhất</h2>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Đề bài:</p>
+<p>Một vận động viên đứng tại điểm $A$ trên bãi biển, cách mép nước (đường thẳng) $3$ km tại điểm $H$ gần nhất. Đích đến $C$ nằm trên mép nước, cách $H$ $5$ km. Vận động viên bơi thẳng từ $A$ đến một điểm $D$ trên mép nước (cách $H$ một đoạn $x$ km) với vận tốc $6$ km/h, rồi chạy dọc mép nước từ $D$ đến $C$ với vận tốc $8$ km/h. Hỏi chọn $D$ ở đâu để tổng thời gian di chuyển ngắn nhất?</p>
+</div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 205" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="So do boi va chay">
+<rect x="20" y="30" width="400" height="95" fill="#e0f2fe"/>
+<rect x="20" y="125" width="400" height="55" fill="#fef3c7"/>
+<line x1="20" y1="125" x2="420" y2="125" stroke="#0ea5e9" stroke-width="3"/>
+<text x="30" y="55" font-family="sans-serif" font-size="12" fill="#0369a1">biển</text>
+<text x="30" y="165" font-family="sans-serif" font-size="12" fill="#92400e">bãi cát (mép nước là đường thẳng)</text>
+<circle cx="140" cy="48" r="6" fill="#dc2626"/>
+<text x="140" y="36" font-family="sans-serif" font-size="13" font-weight="bold" fill="#b91c1c" text-anchor="middle">A</text>
+<line x1="140" y1="54" x2="140" y2="125" stroke="#64748b" stroke-width="1.5" stroke-dasharray="6,4"/>
+<text x="128" y="92" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="end">3 km</text>
+<text x="140" y="142" font-family="sans-serif" font-size="13" font-weight="bold" fill="#0c4a6e" text-anchor="middle">H</text>
+<circle cx="255" cy="125" r="6" fill="#7c3aed"/>
+<text x="255" y="142" font-family="sans-serif" font-size="13" font-weight="bold" fill="#5b21b6" text-anchor="middle">D</text>
+<circle cx="375" cy="125" r="6" fill="#15803d"/>
+<text x="375" y="142" font-family="sans-serif" font-size="13" font-weight="bold" fill="#15803d" text-anchor="middle">C</text>
+<line x1="140" y1="48" x2="255" y2="125" stroke="#dc2626" stroke-width="2.5" stroke-dasharray="8,5"/>
+<text x="185" y="72" font-family="sans-serif" font-size="12" fill="#b91c1c">bơi 6 km/h</text>
+<line x1="255" y1="125" x2="375" y2="125" stroke="#16a34a" stroke-width="4"/>
+<text x="315" y="114" font-family="sans-serif" font-size="12" fill="#15803d">chạy 8 km/h</text>
+<text x="197" y="142" font-family="sans-serif" font-size="13" font-weight="bold" fill="#5b21b6" text-anchor="middle">x</text>
+<text x="315" y="142" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">5 &#8722; x</text>
+</svg></div>
+
+<p><strong>Lời giải:</strong></p>
+<p><strong>Bước 1.</strong> Đại lượng cần tối ưu là <strong>tổng thời gian</strong> di chuyển $t$ (tìm giá trị nhỏ nhất).</p>
+<p><strong>Bước 2.</strong> Theo định lí Pythagore, quãng đường bơi $AD = \sqrt{x^2 + 3^2} = \sqrt{x^2 + 9}$ (km); quãng đường chạy $DC = 5 - x$ (km). Vì thời gian = quãng đường chia vận tốc:
+$$t(x) = \frac{\sqrt{x^2 + 9}}{6} + \frac{5 - x}{8} \quad \text{(giờ), với} \quad 0 \le x \le 5.$$</p>
+<p><strong>Bước 3.</strong> Ta có
+$$t'(x) = \frac{x}{6\sqrt{x^2 + 9}} - \frac{1}{8}.$$
+$t'(x) = 0 \Leftrightarrow 8x = 6\sqrt{x^2 + 9} \Leftrightarrow 28x^2 = 324 \Leftrightarrow x = \frac{9}{\sqrt{7}} \approx 3{,}40$ (km).
+Bảng biến thiên trên $[0; 5]$ cho thấy $t$ giảm rồi tăng, đạt giá trị nhỏ nhất tại $x = \frac{9}{\sqrt{7}}$.</p>
+<p><strong>Bước 4.</strong> Vậy nên lên bờ tại điểm $D$ cách $H$ khoảng $3{,}40$ km (chứ không phải bơi thẳng tới $C$ hay chạy hết cỡ rồi mới bơi). Tổng thời gian ngắn nhất là
+$$t_{\min} = \frac{\sqrt{7} + 5}{8} \approx 0{,}956 \text{ giờ } \approx 57{,}3 \text{ phút}.$$</p>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Nhận xét</p>
+<p class="mt-1">Kết quả $x \approx 3{,}40$ km cho thấy: vì bơi chậm hơn chạy, vận động viên nên <strong>bơi đoạn ngắn hơn</strong> (lên bờ sớm) rồi chạy nhiều hơn — một kết luận rất hợp trực giác mà chỉ tính toán tối ưu mới cho con số chính xác.</p>
+</div>
+
+<!-- Tóm tắt -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Bài toán tối ưu:</strong> tìm giá trị lớn nhất / nhỏ nhất của một đại lượng trong thực tiễn (diện tích, thể tích, chi phí, thời gian, quãng đường, ...).</li>
+<li><strong>Phương pháp 4 bước:</strong> (1) xác định đại lượng cần tối ưu; (2) đặt biến, lập hàm số $y = f(x)$ kèm điều kiện thực tiễn của $x$; (3) dùng đạo hàm và bảng biến thiên tìm GTLN/GTNN của $f$; (4) đối chiếu thực tế và kết luận (kèm đơn vị).</li>
+<li><strong>Mô hình thường gặp:</strong> diện tích hình chữ nhật với chu vi (hoặc chi phí) cho trước; thể tích hộp/lon/bể với vật liệu cho trước; chi phí trung bình nhỏ nhất; thời gian di chuyển ngắn nhất với hai vận tốc khác nhau.</li>
+<li><strong>Lưu ý:</strong> luôn đặt điều kiện cho biến số từ thực tiễn; luôn lập bảng biến thiên (hoặc xét dấu $f'$) trước khi kết luận; kiểm tra tính hợp lí của đáp số.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
