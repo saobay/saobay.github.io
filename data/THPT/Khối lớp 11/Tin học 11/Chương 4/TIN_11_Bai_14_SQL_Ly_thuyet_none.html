@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay | Ma nguon thuoc nen tang hoc tap SAOBAY | Nghiem cam sao chep duoi moi hinh thuc -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 14: SQL – Ngôn ngữ truy vấn có cấu trúc</title>
+    <meta name="lesson-title" content="Bài 14: SQL – Ngôn ngữ truy vấn có cấu trúc">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 14: SQL – Ngôn ngữ truy vấn có cấu trúc</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 4: Giới thiệu các hệ cơ sở dữ liệu • Bài 14: SQL – Ngôn ngữ truy vấn có cấu trúc</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 14: SQL – Ngôn ngữ truy vấn có cấu trúc</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 4: Giới thiệu các hệ cơ sở dữ liệu — sách Kết nối tri thức với cuộc sống</p>
+
+<!-- 1. SQL là gì -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. SQL là gì?</h2>
+
+<p><strong>SQL</strong> (Structured Query Language — <em>Ngôn ngữ truy vấn có cấu trúc</em>) là ngôn ngữ chuẩn dùng để <strong>định nghĩa, truy vấn và cập nhật</strong> dữ liệu trong các <strong>cơ sở dữ liệu quan hệ</strong>. Hầu hết các hệ quản trị CSDL quan hệ (MySQL, SQL Server, Oracle, PostgreSQL...) đều dùng SQL.</p>
+
+<p>Trong bài này ta làm việc với bảng <code>HOCSINH</code> mẫu:</p>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-sm my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">MaHS</td><td class="border border-slate-300 px-4 py-1">Hoten</td><td class="border border-slate-300 px-4 py-1">Lop</td><td class="border border-slate-300 px-4 py-1">DiemTB</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">HS01</td><td class="border border-slate-300 px-4 py-1">An</td><td class="border border-slate-300 px-4 py-1">11A1</td><td class="border border-slate-300 px-4 py-1">8.5</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">HS02</td><td class="border border-slate-300 px-4 py-1">Binh</td><td class="border border-slate-300 px-4 py-1">11A1</td><td class="border border-slate-300 px-4 py-1">7.0</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">HS03</td><td class="border border-slate-300 px-4 py-1">Cuong</td><td class="border border-slate-300 px-4 py-1">11A2</td><td class="border border-slate-300 px-4 py-1">9.0</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">HS04</td><td class="border border-slate-300 px-4 py-1">Dung</td><td class="border border-slate-300 px-4 py-1">11A2</td><td class="border border-slate-300 px-4 py-1">6.5</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">HS05</td><td class="border border-slate-300 px-4 py-1">Hoa</td><td class="border border-slate-300 px-4 py-1">11A1</td><td class="border border-slate-300 px-4 py-1">9.5</td></tr>
+</table></div>
+
+<!-- 2. Các nhóm câu lệnh SQL -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Các nhóm câu lệnh SQL</h2>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-sm my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Nhóm</td><td class="border border-slate-300 px-4 py-1">Chức năng</td><td class="border border-slate-300 px-4 py-1">Câu lệnh chính</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Định nghĩa dữ liệu (DDL)</td><td class="border border-slate-300 px-4 py-1">Tạo, sửa, xóa cấu trúc bảng</td><td class="border border-slate-300 px-4 py-1"><code>CREATE TABLE</code>, <code>ALTER TABLE</code>, <code>DROP TABLE</code></td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Thao tác dữ liệu (DML)</td><td class="border border-slate-300 px-4 py-1">Thêm, sửa, xóa dữ liệu</td><td class="border border-slate-300 px-4 py-1"><code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code></td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Truy vấn dữ liệu (DQL)</td><td class="border border-slate-300 px-4 py-1">Khai thác, tra cứu dữ liệu</td><td class="border border-slate-300 px-4 py-1"><code>SELECT</code></td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Kiểm soát dữ liệu (DCL)</td><td class="border border-slate-300 px-4 py-1">Phân quyền truy cập</td><td class="border border-slate-300 px-4 py-1"><code>GRANT</code>, <code>REVOKE</code></td></tr>
+</table></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><code>SELECT</code> là câu lệnh <strong>truy vấn</strong> (chỉ đọc dữ liệu, không làm thay đổi bảng). <code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code> là các lệnh <strong>làm thay đổi</strong> dữ liệu trong bảng.</p>
+</div>
+
+<!-- 3. Truy vấn dữ liệu với SELECT -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Truy vấn dữ liệu với SELECT</h2>
+
+<p><strong>Cú pháp cơ bản:</strong></p>
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2">SELECT <cột 1>, <cột 2>, ...
+FROM <bảng>
+WHERE <điều kiện>
+ORDER BY <cột> ASC | DESC;</pre>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ trên bảng HOCSINH:</p>
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2">-- Lấy họ tên và lớp của mọi học sinh
+SELECT Hoten, Lop FROM HOCSINH;
+
+-- Lấy mọi cột của học sinh lớp 11A1
+SELECT * FROM HOCSINH WHERE Lop = '11A1';
+
+-- Học sinh có điểm trung bình từ 8 đến 10
+SELECT Hoten, DiemTB FROM HOCSINH
+WHERE DiemTB BETWEEN 8 AND 10;
+
+-- Học sinh lớp 11A1, xếp theo điểm giảm dần
+SELECT Hoten, DiemTB FROM HOCSINH
+WHERE Lop = '11A1'
+ORDER BY DiemTB DESC;</pre>
+</div>
+
+<p><strong>Các phép so sánh trong mệnh đề WHERE:</strong> <code>=</code> (bằng), <code>!=</code> (khác), <code>BETWEEN a AND b</code> (trong khoảng), <code>LIKE</code> (so khớp mẫu với kí tự đại diện <code>%</code>), <code>IN</code> (thuộc danh sách), <code>IS NULL</code> (chưa có giá trị). Kết hợp nhiều điều kiện bằng <code>AND</code>, <code>OR</code>, <code>NOT</code>.</p>
+
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2">-- Họ tên bắt đầu bằng chữ T
+SELECT Hoten FROM HOCSINH WHERE Hoten LIKE 'T%';
+
+-- Học sinh lớp 11A1 hoặc 11A2 có điểm khác 10
+SELECT Hoten FROM HOCSINH
+WHERE Lop IN ('11A1', '11A2') AND DiemTB != 10;</pre>
+
+<p><strong>Sắp xếp kết quả:</strong> <code>ORDER BY</code> kèm <code>ASC</code> (tăng dần — mặc định) hoặc <code>DESC</code> (giảm dần).</p>
+
+<p><strong>Hàm gộp và nhóm:</strong> <code>COUNT</code> (đếm), <code>SUM</code> (tổng), <code>AVG</code> (trung bình), <code>MIN</code>, <code>MAX</code>. Dùng <code>GROUP BY</code> để tính gộp theo từng nhóm:</p>
+
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2">-- Đếm số học sinh mỗi lớp
+SELECT Lop, COUNT(*) FROM HOCSINH
+GROUP BY Lop;
+-- Kết quả: 11A1 | 3
+--          11A2 | 2
+
+-- Điểm trung bình của lớp 11A1
+SELECT AVG(DiemTB) FROM HOCSINH
+WHERE Lop = '11A1';   -- (8.5 + 7.0 + 9.5) / 3 = 8.33</pre>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><code>WHERE</code> <strong>lọc hàng</strong> trước khi tính toán; <code>GROUP BY</code> <strong>gom hàng</strong> thành nhóm để dùng hàm gộp; <code>ORDER BY</code> <strong>sắp xếp</strong> kết quả cuối cùng.</p>
+</div>
+
+<!-- 4. Cập nhật dữ liệu -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Cập nhật dữ liệu: INSERT, UPDATE, DELETE</h2>
+
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2">-- Thêm một học sinh mới
+INSERT INTO HOCSINH (MaHS, Hoten, Lop, DiemTB)
+VALUES ('HS06', 'Lan', '11A2', 8.0);
+
+-- Sửa điểm của học sinh HS02 thành 7.5
+UPDATE HOCSINH
+SET DiemTB = 7.5
+WHERE MaHS = 'HS02';
+
+-- Xóa học sinh có mã HS04
+DELETE FROM HOCSINH
+WHERE MaHS = 'HS04';</pre>
+
+<div class="bg-rose-50 border-l-4 border-rose-400 p-4 my-4">
+<p class="font-bold text-rose-800">⚠️ Cẩn thận!</p>
+<p class="mt-1"><code>UPDATE</code> hoặc <code>DELETE</code> <strong>không có mệnh đề WHERE</strong> sẽ tác động lên <strong>mọi hàng</strong> của bảng. Luôn kiểm tra điều kiện WHERE trước khi chạy!</p>
+</div>
+
+<!-- Tóm tắt -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>SQL</strong> là ngôn ngữ chuẩn để làm việc với CSDL quan hệ.</li>
+<li><strong>4 nhóm lệnh:</strong> DDL (<code>CREATE/ALTER/DROP TABLE</code>), DML (<code>INSERT/UPDATE/DELETE</code>), DQL (<code>SELECT</code>), DCL (<code>GRANT/REVOKE</code>).</li>
+<li><strong>Truy vấn:</strong> <code>SELECT ... FROM ... WHERE ... GROUP BY ... ORDER BY ...</code>.</li>
+<li><strong>WHERE:</strong> <code>=</code>, <code>!=</code>, <code>BETWEEN</code>, <code>LIKE</code>, <code>IN</code>, <code>IS NULL</code>, kết hợp bằng <code>AND/OR/NOT</code>.</li>
+<li><strong>Hàm gộp:</strong> <code>COUNT, SUM, AVG, MIN, MAX</code> (thường đi với <code>GROUP BY</code>).</li>
+<li><strong>Cập nhật:</strong> <code>INSERT INTO ... VALUES</code>, <code>UPDATE ... SET ... WHERE</code>, <code>DELETE FROM ... WHERE</code> — luôn cẩn thận với WHERE!</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">
+(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok){if(document.body){document.body.innerHTML='<div style="font-family:system-ui,sans-serif;max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff"><h2 style="color:#0f172a;margin-top:0">© SAOBAY — Trường THPT Sào Báy</h2><p style="color:#475569">Nội dung này chỉ được hiển thị tại địa chỉ chính thức <b>saobay.github.io</b>.</p><p style="color:#475569">Vui lòng truy cập đúng địa chỉ để học tập.</p></div>';}else{document.write("SAOBAY: truy cap tai saobay.github.io");}}catch(e){}})();
+</script>
+</body>
+</html>
