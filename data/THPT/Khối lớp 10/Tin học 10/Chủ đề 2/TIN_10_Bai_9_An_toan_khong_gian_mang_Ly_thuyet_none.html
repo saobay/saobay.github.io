@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 9: An toàn trong không gian mạng</title>
+    <meta name="lesson-title" content="Bài 9: An toàn trong không gian mạng">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 9: An toàn trong không gian mạng</h1>
+            <p class="text-xs text-slate-500 mt-1">Chủ đề 2: Mạng máy tính và Internet • Bài 9: An toàn trong không gian mạng</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 9: An toàn trong không gian mạng</h1>
+<p class="text-center text-slate-500 italic mb-8">Chủ đề 2: Mạng máy tính và Internet • Bài 9: An toàn trong không gian mạng</p>
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Không gian mạng và các nguy cơ</h2>
+
+<p><strong>Không gian mạng</strong> là môi trường số trên Internet nơi con người giao tiếp, học tập, làm việc. Bên cạnh tiện ích, không gian mạng tiềm ẩn nhiều nguy cơ:</p>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Nguy cơ</td><td class="border border-slate-300 px-4 py-1">Biểu hiện</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Virus, mã độc</td><td class="border border-slate-300 px-4 py-1">Máy chạy chậm, quảng cáo lạ, mất file; lây qua USB, email, file tải về</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Lừa đảo</td><td class="border border-slate-300 px-4 py-1">Giả danh người quen, tổ chức; giục giã khẩn cấp; xin OTP, tiền</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Tin giả</td><td class="border border-slate-300 px-4 py-1">Thông tin sai sự thật lan truyền nhanh, gây hoang mang</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Bắt nạt trực tuyến</td><td class="border border-slate-300 px-4 py-1">Đe dọa, xúc phạm, bôi nhọ qua mạng</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Lộ thông tin cá nhân</td><td class="border border-slate-300 px-4 py-1">Bị lợi dụng để lừa đảo, quấy rối</td></tr>
+</table></div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Biện pháp bảo vệ</h2>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Bảo vệ thiết bị:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>Cài <strong>phần mềm diệt virus</strong> uy tín, cập nhật thường xuyên.</li>
+<li><strong>Cập nhật phần mềm</strong> để vá lỗi bảo mật.</li>
+<li><strong>Sao lưu dữ liệu</strong> quan trọng định kì.</li>
+<li>Quét virus USB lạ; không mở file đáng ngờ; cẩn thận với macro trong file văn phòng.</li>
+</ul>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Bảo vệ tài khoản và thông tin:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>Đặt <strong>mật khẩu mạnh</strong>, khác nhau cho tài khoản quan trọng; bật <strong>xác thực hai yếu tố</strong>.</li>
+<li>Không chia sẻ <strong>mã OTP</strong>, mật khẩu cho bất kì ai.</li>
+<li>Hạn chế chia sẻ thông tin cá nhân; cài đặt <strong>quyền riêng tư</strong>.</li>
+<li>Đăng xuất sau khi dùng máy tính công cộng.</li>
+</ul>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Ứng xử an toàn và có trách nhiệm</h2>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Quy tắc vàng</p>
+<ul class="list-disc ml-6 space-y-1 mt-1">
+<li><strong>Cảnh giác:</strong> không bấm link lạ, không mở file đính kèm từ người không quen.</li>
+<li><strong>Kiểm chứng:</strong> kiểm tra thông tin từ nguồn uy tín trước khi tin và chia sẻ.</li>
+<li><strong>Văn minh:</strong> bình luận lịch sự, không xúc phạm, không lan truyền tin giả.</li>
+<li><strong>Báo cáo:</strong> khi bị đe dọa, lừa đảo — lưu bằng chứng, chặn và báo người lớn, thầy cô.</li>
+<li><strong>Pháp luật:</strong> tung tin giả, xúc phạm, giả mạo trên mạng là hành vi vi phạm pháp luật.</li>
+</ul>
+</div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cac lop bao ve an toan mang">
+<rect x="2" y="2" width="436" height="206" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="28" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0c4a6e" text-anchor="middle">CÁC LỚP BẢO VỆ AN TOÀN MẠNG</text>
+<rect x="120" y="45" width="200" height="36" rx="8" fill="#0ea5e9"/>
+<text x="220" y="68" font-family="sans-serif" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">Con người cảnh giác</text>
+<rect x="100" y="88" width="240" height="36" rx="8" fill="#8b5cf6"/>
+<text x="220" y="111" font-family="sans-serif" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">Mật khẩu mạnh + xác thực 2 yếu tố</text>
+<rect x="80" y="131" width="280" height="36" rx="8" fill="#10b981"/>
+<text x="220" y="154" font-family="sans-serif" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">Phần mềm diệt virus + cập nhật + sao lưu</text>
+<text x="220" y="190" font-family="sans-serif" font-size="11" fill="#475569" text-anchor="middle">An toàn nhất khi kết hợp cả ba lớp</text>
+</svg></div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Nguy cơ:</strong> virus/mã độc, lừa đảo, tin giả, bắt nạt trực tuyến, lộ thông tin cá nhân.</li>
+<li><strong>Bảo vệ:</strong> diệt virus, cập nhật, sao lưu, mật khẩu mạnh, 2FA, không chia sẻ OTP.</li>
+<li><strong>Ứng xử:</strong> cảnh giác, kiểm chứng, văn minh, báo cáo khi gặp sự cố; tuân thủ pháp luật.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm để kiểm tra nhé! 💪</p>
+
+
+        </div>
+    </div>
+</body>
+</html>
