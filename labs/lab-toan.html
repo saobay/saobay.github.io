@@ -8,7 +8,7 @@
 <style>
   body { font-family: system-ui, -apple-system, sans-serif; -webkit-tap-highlight-color: transparent; }
   .tab-btn.active { background: #7c3aed; color: #fff; }
-  canvas { touch-action: none; }
+  canvas { touch-action: pan-y; display: block; }
   .big-btn { min-height: 52px; }
   /* ===== sim: phep quay ===== */
 #sim-rot{
@@ -69,7 +69,7 @@
 
   /* ===== sim: trai phang khoi 3D ===== */
 
-#net-canvas{touch-action:none;cursor:grab;}
+#net-canvas{touch-action:pan-y;cursor:grab;}
 #net-canvas:active{cursor:grabbing;}
 .net-solid-btn.active{background:#4f46e5!important;color:#fff!important;border-color:#4f46e5!important;}
 #tab-net input[type=range]{accent-color:#4f46e5;}
@@ -117,7 +117,7 @@ canvas{height:auto !important;max-width:100%;}
   <p class="lead">Kéo thanh trượt để xoay hình, quan sát tọa độ thay đổi theo thời gian thực.</p>
 
   <div class="canvas-wrap">
-    <canvas id="rot-cv" width="720" height="720"></canvas>
+    <canvas style="touch-action:pan-y;display:block;" id="rot-cv" width="720" height="720"></canvas>
     <div class="hint">Chạm vào mặt phẳng để đặt lại điểm M</div>
   </div>
 
@@ -181,10 +181,10 @@ canvas{height:auto !important;max-width:100%;}
 
   <section class="stage">
     <div class="card graph-card">
-      <canvas id="sin-graph"></canvas>
+      <canvas style="touch-action:pan-y;display:block;" id="sin-graph"></canvas>
     </div>
     <div class="card circle-card">
-      <canvas id="sin-circle"></canvas>
+      <canvas style="touch-action:pan-y;display:block;" id="sin-circle"></canvas>
       <div class="playrow">
         <button id="sin-playBtn">▶ Chạy</button>
         <button id="sin-resetBtn" class="ghost">↺ Đặt lại</button>
@@ -221,7 +221,7 @@ canvas{height:auto !important;max-width:100%;}
     <p>Toán 8 — Kéo thanh trượt để đổi kích thước, bấm <b>“Cắt &amp; ghép”</b> để xem mảnh tam giác bay sang đầu kia.</p>
   </header>
 
-  <canvas id="tra-cv" width="900" height="560"></canvas>
+  <canvas style="touch-action:pan-y;display:block;" id="tra-cv" width="900" height="560"></canvas>
 
   <div class="panel">
     <div class="sliders">
@@ -269,7 +269,7 @@ canvas{height:auto !important;max-width:100%;}
       <p class="text-xs font-bold text-slate-600 mb-2">Chọn khối:</p>
       <div class="grid grid-cols-3 gap-2" id="net-solids"></div>
 
-      <canvas id="net-canvas" class="w-full rounded-xl bg-slate-50 border mt-3" height="380"></canvas>
+      <canvas style="touch-action:pan-y;display:block;" id="net-canvas" class="w-full rounded-xl bg-slate-50 border mt-3" height="380"></canvas>
 
       <div class="mt-3">
         <div class="flex justify-between items-center">
@@ -300,7 +300,7 @@ canvas{height:auto !important;max-width:100%;}
     <div class="bg-white rounded-2xl shadow p-4">
       <h2 class="font-black text-violet-800 mb-1">Hình vuông lớn cạnh (a + b)</h2>
       <p class="text-xs text-slate-500 mb-2">Ban đầu: 4 tam giác vuông + hình vuông c² ở giữa. Bấm <b>▶ Cắt &amp; ghép</b> để xem các tam giác trượt đi, lộ ra a² và b².</p>
-      <canvas id="pit-canvas" class="w-full rounded-xl bg-white border block"></canvas>
+      <canvas style="touch-action:pan-y;display:block;" id="pit-canvas" class="w-full rounded-xl bg-white border block"></canvas>
       <p id="pit-caption" class="text-sm text-slate-600 mt-2"></p>
       <div class="flex flex-wrap gap-x-4 gap-y-1 mt-2 text-xs text-slate-600 justify-center">
         <span><i class="inline-block w-3 h-3 rounded-sm align-middle" style="background:#f59e0b"></i> Tam giác vuông</span>
