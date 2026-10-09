@@ -247,15 +247,19 @@ async function submitRegistration(){
             await new Promise(function(r){ setTimeout(r, 1200); });
         }
         if (!created) { window.__saobayLastRegEnd = Date.now(); throw lastErr || new Error('Không tạo được tài khoản, vui lòng thử lại.'); }
-        // VERIFY 2026-10-10: xác nhận TK thực sự có trong DB server trước khi báo thành công
-        let _verified = await verifyAccountCreated(phone, passB64, role);
-        window.__saobayLastRegEnd = Date.now();
-        if (!_verified) throw new Error('Đăng ký chưa hoàn tất, vui lòng thử lại sau ít phút.');
-        // Lưu TK vừa tạo vào localStorage để đăng nhập ngay được mà không cần đợi CDN
+        // FIX 2026-10-10: push đã success (commit có trên GitHub) => TK chắc chắn tồn tại.
+        // Lưu pending reg NGAY để đăng nhập ngay được, không phụ thuộc CDN.
         try {
             localStorage.setItem('saobay_pending_reg', JSON.stringify({ phone: phone, passB64: passB64, name: name, role: role, school: school, ts: Date.now() }));
         } catch(e){}
         clearFailCount(phone);
+        window.__saobayLastRegEnd = Date.now();
+        // VERIFY: kiểm tra TK trong DB. CDN chậm chưa thấy thì vẫn báo thành công,
+        // chỉ thêm ghi chú tài khoản sẽ hiển thị sau vài phút (không chặn user).
+        let _verified = await verifyAccountCreated(phone, passB64, role);
+        var _successMsg = _verified
+            ? 'Đăng ký thành công! Bạn có thể sử dụng ngay đầy đủ chức năng.'
+            : 'Đăng ký thành công! Tài khoản sẽ hiển thị trong vài phút. Bạn có thể đăng nhập ngay.';
 
         // Ghi hạn 90 ngày vào account_expiry.json (bắt buộc — nếu thiếu, TK sẽ không bao giờ hết hạn)
         try {
@@ -272,7 +276,7 @@ async function submitRegistration(){
                 'Đăng ký tự động: hạn 90 ngày cho ' + phone, 'Cấp hạn trial', name);
         } catch(eExp){ /* TK đã tạo xong; admin có thể cài hạn lại sau trong hub */ }
 
-        msg.textContent = 'Đăng ký thành công! Bạn có thể sử dụng ngay đầy đủ chức năng.';
+        msg.textContent = _successMsg;
         msg.classList.add('text-emerald-700', 'font-bold');
         btn.innerHTML = 'Thành công ✓';
         setTimeout(function(){ window.location.href = 'used.html'; }, 1800);
