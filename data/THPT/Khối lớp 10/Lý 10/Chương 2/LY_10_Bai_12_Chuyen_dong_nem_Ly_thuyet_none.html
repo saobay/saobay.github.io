@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 12: Chuyển động ném</title>
+    <meta name="lesson-title" content="Bài 12: Chuyển động ném">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+<!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay | Ma nguon thuoc nen tang hoc tap SAOBAY | Nghiem cam sao chep duoi moi hinh thuc -->
+<script data-saobay-guard="1">
+(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok){if(document.body){document.body.innerHTML='<div style="font-family:system-ui,sans-serif;max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff"><h2 style="color:#0f172a;margin-top:0">© SAOBAY — Trường THPT Sào Báy</h2><p style="color:#475569">Nội dung này chỉ được hiển thị tại địa chỉ chính thức <b>saobay.github.io</b>.</p><p style="color:#475569">Vui lòng truy cập đúng địa chỉ để học tập.</p></div>';}else{document.write("SAOBAY: truy cap tai saobay.github.io");}}catch(e){}})();
+</script>
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 12: Chuyển động ném</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 2: Động học • Bài 12: Chuyển động ném</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 12: Chuyển động ném</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 2: Động học — Vật lí 10 (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Chuyển động ném ngang -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Chuyển động ném ngang</h2>
+
+<p><strong>Định nghĩa:</strong> <em>Chuyển động ném ngang</em> là chuyển động của vật được ném theo phương <strong>nằm ngang</strong> với vận tốc đầu $v_0$ từ độ cao $h$ so với mặt đất (bỏ qua sức cản không khí).</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Máy bay đang bay ngang thả một gói hàng cứu trợ; viên bi lăn ra khỏi mép bàn rồi rơi xuống đất — đều là những chuyển động ném ngang.</p>
+</div>
+
+<!-- 2. Phân tích chuyển động -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Phân tích chuyển động ném ngang</h2>
+
+<p><strong>Ý tưởng then chốt:</strong> Chuyển động ném ngang được phân tích thành <strong>hai chuyển động thành phần độc lập</strong> theo hai trục vuông góc:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Theo trục $Ox$ (nằm ngang):</strong> vật không chịu lực theo phương ngang → <strong>chuyển động thẳng đều</strong> với vận tốc $v_x = v_0$.</li>
+<li><strong>Theo trục $Oy$ (thẳng đứng):</strong> vật chỉ chịu trọng lực → <strong>rơi tự do</strong> với vận tốc đầu theo $Oy$ bằng 0, $v_y = gt$.</li>
+</ul>
+
+<div class="table-scroll"><table class="min-w-full border-collapse border border-slate-300 text-sm">
+<thead><tr class="bg-sky-100">
+<th class="border border-slate-300 px-3 py-2 text-left">Trục</th>
+<th class="border border-slate-300 px-3 py-2 text-left">Tính chất</th>
+<th class="border border-slate-300 px-3 py-2 text-left">Công thức</th>
+</tr></thead>
+<tbody>
+<tr><td class="border border-slate-300 px-3 py-2">$Ox$ (ngang)</td><td class="border border-slate-300 px-3 py-2">Thẳng đều</td><td class="border border-slate-300 px-3 py-2">$x = v_0t$; $v_x = v_0$</td></tr>
+<tr class="bg-slate-50"><td class="border border-slate-300 px-3 py-2">$Oy$ (đứng)</td><td class="border border-slate-300 px-3 py-2">Rơi tự do</td><td class="border border-slate-300 px-3 py-2">$y = \frac{1}{2}gt^2$; $v_y = gt$</td></tr>
+</tbody></table></div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Quỹ đạo parabol của chuyển động ném ngang">
+<rect x="2" y="2" width="436" height="276" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<line x1="40" y1="240" x2="400" y2="240" stroke="#1e293b" stroke-width="2"/>
+<text x="395" y="258" font-family="sans-serif" font-size="12" font-style="italic" fill="#475569">mặt đất</text>
+<path d="M 60 60 Q 180 62 300 230" fill="none" stroke="#0284c7" stroke-width="3"/>
+<circle cx="60" cy="60" r="8" fill="#dc2626"/>
+<text x="70" y="55" font-family="sans-serif" font-size="12" fill="#dc2626">v₀ (ngang)</text>
+<line x1="60" y1="60" x2="100" y2="60" stroke="#dc2626" stroke-width="2.5"/>
+<polygon points="100,60 90,55 90,65" fill="#dc2626"/>
+<circle cx="180" cy="75" r="6" fill="#0284c7"/>
+<line x1="180" y1="75" x2="225" y2="75" stroke="#16a34a" stroke-width="2"/>
+<polygon points="225,75 217,71 217,79" fill="#16a34a"/>
+<line x1="180" y1="75" x2="180" y2="110" stroke="#16a34a" stroke-width="2"/>
+<polygon points="180,110 176,102 184,102" fill="#16a34a"/>
+<text x="232" y="79" font-family="sans-serif" font-size="11" fill="#16a34a">vₓ = v₀</text>
+<text x="188" y="105" font-family="sans-serif" font-size="11" fill="#16a34a">vᵧ = gt</text>
+<line x1="60" y1="60" x2="60" y2="240" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="6,4"/>
+<text x="30" y="150" font-family="sans-serif" font-size="12" font-style="italic" fill="#475569">h</text>
+<line x1="60" y1="240" x2="300" y2="240" stroke="#f59e0b" stroke-width="2.5"/>
+<polygon points="300,240 290,235 290,245" fill="#f59e0b"/>
+<polygon points="60,240 70,235 70,245" fill="#f59e0b"/>
+<text x="170" y="262" font-family="sans-serif" font-size="12" font-weight="bold" fill="#b45309">tầm xa L</text>
+<text x="310" y="225" font-family="sans-serif" font-size="12" fill="#0284c7">quỹ đạo parabol</text>
+<text x="220" y="20" font-family="sans-serif" font-size="12" font-style="italic" fill="#475569" text-anchor="middle">Chuyển động ném ngang: quỹ đạo là một nhánh parabol</text>
+</svg></div>
+
+<!-- 3. Quỹ đạo -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Dạng của quỹ đạo</h2>
+
+<p>Khử $t$ từ $x = v_0t$ và $y = \frac{1}{2}gt^2$, ta được phương trình quỹ đạo:</p>
+<p>$$y = \frac{g}{2v_0^2}x^2$$</p>
+<p>Đây là phương trình của một <strong>parabol</strong> → quỹ đạo của chuyển động ném ngang là <strong>một nhánh parabol</strong>.</p>
+
+<!-- 4. Thời gian rơi và tầm xa -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Thời gian rơi và tầm xa</h2>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Thời gian rơi:</strong> vật chạm đất khi $y = h$:
+<p>$$t = \sqrt{\frac{2h}{g}}$$</p>
+→ Thời gian rơi <strong>chỉ phụ thuộc độ cao $h$</strong>, không phụ thuộc $v_0$!</li>
+<li><strong>Tầm xa</strong> (khoảng cách từ chân đường thẳng đứng qua vị trí ném đến điểm chạm đất):
+<p>$$L = v_0t = v_0\sqrt{\frac{2h}{g}}$$</p>
+→ Tầm xa <strong>tỉ lệ thuận</strong> với vận tốc ném $v_0$.</li>
+<li><strong>Vận tốc khi chạm đất:</strong>
+<p>$$v = \sqrt{v_x^2 + v_y^2} = \sqrt{v_0^2 + (gt)^2}$$</p></li>
+</ul>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Máy bay bay ngang ở độ cao $h = 500$ m với tốc độ $v_0 = 100$ m/s thả một gói hàng (lấy $g = 10$ m/s$^2$):</p>
+<ul class="list-disc ml-6 space-y-1 mt-1">
+<li>Thời gian rơi: $t = \sqrt{\frac{2 \times 500}{10}} = 10$ s.</li>
+<li>Tầm xa: $L = 100 \times 10 = 1000$ m = 1 km.</li>
+<li>Vận tốc chạm đất: $v = \sqrt{100^2 + (10 \times 10)^2} = 100\sqrt{2} \approx 141$ m/s.</li>
+</ul>
+</div>
+
+<!-- 5. Chuyển động ném xiên -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">5. Mở rộng: chuyển động ném xiên</h2>
+
+<p>Nếu vật được ném <strong>xiên góc</strong> $\alpha$ so với phương ngang với vận tốc đầu $v_0$:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Quỹ đạo cũng là một <strong>parabol</strong> (đầy đủ, có nhánh lên và nhánh xuống).</li>
+<li>Tầm xa: $L = \frac{v_0^2\sin 2\alpha}{g}$ — <strong>tầm xa cực đại khi góc ném bằng $45^\circ$</strong>.</li>
+<li>Độ cao cực đại: $H = \frac{v_0^2\sin^2\alpha}{2g}$.</li>
+</ul>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Mẹo làm bài:</p>
+<ul class="list-disc ml-6 space-y-1 mt-1">
+<li>Ném ngang: tách thành $Ox$ (thẳng đều) và $Oy$ (rơi tự do).</li>
+<li>Thời gian rơi chỉ phụ thuộc $h$: $t = \sqrt{\frac{2h}{g}}$.</li>
+<li>Tầm xa: $L = v_0t$.</li>
+<li>Vận tốc chạm đất: tổng hợp vectơ $v_x$ và $v_y$.</li>
+</ul>
+</div>
+
+<!-- Tổng kết -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Ném ngang:</strong> $v_0$ theo phương ngang từ độ cao $h$.</li>
+<li>$Ox$: thẳng đều ($x = v_0t$, $v_x = v_0$); $Oy$: rơi tự do ($y = \frac{1}{2}gt^2$, $v_y = gt$).</li>
+<li><strong>Quỹ đạo:</strong> một nhánh parabol $y = \frac{g}{2v_0^2}x^2$.</li>
+<li><strong>Thời gian rơi:</strong> $t = \sqrt{\frac{2h}{g}}$ (chỉ phụ thuộc $h$).</li>
+<li><strong>Tầm xa:</strong> $L = v_0\sqrt{\frac{2h}{g}}$; <strong>vận tốc chạm đất:</strong> $v = \sqrt{v_0^2 + (gt)^2}$.</li>
+<li><strong>Ném xiên:</strong> quỹ đạo parabol đầy đủ; tầm xa cực đại khi góc ném $45^\circ$.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+</body>
+</html>
