@@ -225,8 +225,11 @@ async function submitRegistration(){
             let hasRecord = userRecordExists(db, phone, role);
             if (hasPass && hasRecord){
                 // Idempotent: đã có đủ hồ sơ + mật khẩu → chỉ thành công khi đúng MK vừa đặt
+                // (user bấm đăng ký lại do mạng lag, không phải người khác)
                 if (db.passwords[phone] === passB64){ created = true; clearFailCount(phone); break; }
-                throw new Error(wrongPassMessage(phone));
+                // Đính chính 2026-10-10: SĐT đã có người dùng → CHẶN đăng ký mới.
+                // Người quên MK dùng trang đăng nhập, không đăng ký đè.
+                throw new Error('SĐT này đã được đăng ký. Vui lòng dùng SĐT khác hoặc đăng nhập với mật khẩu của bạn.');
             }
             if (hasPass && !hasRecord){
                 // FIX 2026-10-10 — TRẠNG THÁI GÃY: có MK nhưng mất hồ sơ → tự sửa chữa
