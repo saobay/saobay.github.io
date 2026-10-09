@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 6: Hệ thức lượng trong tam giác</title>
+    <meta name="lesson-title" content="Bài 6: Hệ thức lượng trong tam giác">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 6: Hệ thức lượng trong tam giác</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 1: Mệnh đề và tập hợp • Bài 6: Hệ thức lượng trong tam giác</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 6: Hệ thức lượng trong tam giác</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 3: Hệ thức lượng trong tam giác — Toán 10 (Kết nối tri thức với cuộc sống)</p>
+
+<p>Cho tam giác $ABC$ với các kí hiệu quen thuộc: $BC = a$, $CA = b$, $AB = c$; các góc $\widehat{A}, \widehat{B}, \widehat{C}$; bán kính đường tròn ngoại tiếp $R$, bán kính đường tròn nội tiếp $r$; nửa chu vi $p = \dfrac{a + b + c}{2}$; diện tích $S$.</p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tam giac ABC voi ki hieu canh va goc">
+<rect x="2" y="2" width="436" height="296" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<polygon points="70,250 370,250 250,60" fill="#dbeafe" opacity="0.7" stroke="#1d4ed8" stroke-width="2.5"/>
+<circle cx="70" cy="250" r="5" fill="#1d4ed8"/>
+<circle cx="370" cy="250" r="5" fill="#1d4ed8"/>
+<circle cx="250" cy="60" r="5" fill="#1d4ed8"/>
+<text x="58" y="272" font-family="sans-serif" font-size="15" font-weight="bold" fill="#1d4ed8">A</text>
+<text x="374" y="272" font-family="sans-serif" font-size="15" font-weight="bold" fill="#1d4ed8">B</text>
+<text x="244" y="48" font-family="sans-serif" font-size="15" font-weight="bold" fill="#1d4ed8">C</text>
+<text x="210" y="272" font-family="sans-serif" font-size="14" font-style="italic" fill="#b45309">c</text>
+<text x="318" y="160" font-family="sans-serif" font-size="14" font-style="italic" fill="#b45309">a</text>
+<text x="150" y="160" font-family="sans-serif" font-size="14" font-style="italic" fill="#b45309">b</text>
+<path d="M 105 250 A 35 35 0 0 0 100 222" fill="none" stroke="#b45309" stroke-width="2"/>
+<text x="112" y="238" font-family="sans-serif" font-size="13" fill="#b45309" font-style="italic">A</text>
+<path d="M 335 250 A 35 35 0 0 1 340 222" fill="none" stroke="#b45309" stroke-width="2"/>
+<text x="318" y="238" font-family="sans-serif" font-size="13" fill="#b45309" font-style="italic">B</text>
+<path d="M 250 95 A 35 35 0 0 1 268 82" fill="none" stroke="#b45309" stroke-width="2"/>
+<text x="246" y="112" font-family="sans-serif" font-size="13" fill="#b45309" font-style="italic">C</text>
+<text x="150" y="292" font-family="sans-serif" font-size="12" fill="#64748b">a = BC đối diện góc A; b = CA đối diện góc B; c = AB đối diện góc C</text>
+</svg></div>
+
+<!-- 1. Định lí cosin -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Định lí côsin</h2>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-bold text-emerald-800">Định lí côsin</p>
+<p class="text-center mt-2">$$a^2 = b^2 + c^2 - 2bc\cos A$$</p>
+<p class="text-center mt-2">$$b^2 = a^2 + c^2 - 2ac\cos B$$</p>
+<p class="text-center mt-2">$$c^2 = a^2 + b^2 - 2ab\cos C$$</p>
+</div>
+
+<p><strong>Hệ quả</strong> (tính góc khi biết ba cạnh):</p>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$\cos A = \frac{b^2 + c^2 - a^2}{2bc}, \quad \cos B = \frac{a^2 + c^2 - b^2}{2ac}, \quad \cos C = \frac{a^2 + b^2 - c^2}{2ab}$$</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Cho tam giác $ABC$ có $AB = 5$, $AC = 8$, $\widehat{A} = 60^\circ$. Tính $BC$.</p>
+<p class="mt-2"><strong>Lời giải.</strong> Áp dụng định lí côsin:</p>
+<p class="text-center mt-1">$BC^2 = AB^2 + AC^2 - 2 \cdot AB \cdot AC \cdot \cos 60^\circ = 25 + 64 - 2 \cdot 5 \cdot 8 \cdot \frac{1}{2} = 49$.</p>
+<p>Vậy $BC = 7$.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Định lí côsin dùng khi biết <strong>hai cạnh và góc xen giữa</strong> (tính cạnh thứ ba) hoặc biết <strong>ba cạnh</strong> (tính góc qua hệ quả). Chú ý: $a^2 = b^2 + c^2 - 2bc\cos A$ — cạnh $a$ "đi với" góc $A$.</p>
+</div>
+
+<!-- 2. Định lí sin -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Định lí sin</h2>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-bold text-emerald-800">Định lí sin</p>
+<p class="text-center mt-2">$$\frac{a}{\sin A} = \frac{b}{\sin B} = \frac{c}{\sin C} = 2R$$</p>
+<p class="mt-2 text-sm text-slate-600">trong đó $R$ là bán kính đường tròn ngoại tiếp tam giác $ABC$.</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Cho tam giác $ABC$ có $\widehat{A} = 45^\circ$, $\widehat{B} = 60^\circ$, $BC = 10$. Tính $AC$ và bán kính $R$.</p>
+<p class="mt-2"><strong>Lời giải.</strong> $\widehat{C} = 180^\circ - 45^\circ - 60^\circ = 75^\circ$. Theo định lí sin:</p>
+<p class="text-center mt-1">$\frac{BC}{\sin A} = \frac{AC}{\sin B} = 2R \Rightarrow \frac{10}{\sin 45^\circ} = \frac{AC}{\sin 60^\circ} = 2R$.</p>
+<p class="mt-1">Suy ra $AC = \frac{10 \cdot \sin 60^\circ}{\sin 45^\circ} = \frac{10 \cdot \sqrt{3}/2}{\sqrt{2}/2} = 5\sqrt{6}$ và $2R = \frac{10}{\sqrt{2}/2} = 10\sqrt{2}$, tức $R = 5\sqrt{2}$.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Định lí sin dùng khi biết <strong>một cạnh và hai góc</strong> (tính cạnh còn lại, tính $R$) hoặc biết <strong>hai cạnh và góc đối diện một trong hai cạnh</strong>. Tỉ số $\frac{a}{\sin A} = 2R$ — đừng quên số $2$!</p>
+</div>
+
+<!-- 3. Diện tích -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Công thức tính diện tích tam giác</h2>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$S = \frac{1}{2}bc\sin A = \frac{1}{2}ca\sin B = \frac{1}{2}ab\sin C$$</p>
+<p class="mt-2">$$S = \frac{abc}{4R} = pr = \sqrt{p(p-a)(p-b)(p-c)}$$</p>
+<p class="mt-2 text-sm text-slate-600">(công thức Hê-rông, với $p = \frac{a+b+c}{2}$)</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Tính diện tích tam giác $ABC$ có $AB = 6$, $AC = 8$, $\widehat{A} = 90^\circ$.</p>
+<p class="mt-2"><strong>Lời giải.</strong> $S = \frac{1}{2} \cdot AB \cdot AC \cdot \sin 90^\circ = \frac{1}{2} \cdot 6 \cdot 8 \cdot 1 = 24$.</p>
+</div>
+
+<!-- 4. Đường trung tuyến -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Công thức tính độ dài đường trung tuyến</h2>
+
+<p>Gọi $m_a, m_b, m_c$ lần lượt là độ dài các đường trung tuyến kẻ từ $A, B, C$.</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$m_a^2 = \frac{2b^2 + 2c^2 - a^2}{4}, \quad m_b^2 = \frac{2a^2 + 2c^2 - b^2}{4}, \quad m_c^2 = \frac{2a^2 + 2b^2 - c^2}{4}$$</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Cho tam giác $ABC$ có $AB = 4$, $AC = 6$, $BC = 8$. Tính độ dài đường trung tuyến $m_a$.</p>
+<p class="mt-2"><strong>Lời giải.</strong> $m_a^2 = \frac{2b^2 + 2c^2 - a^2}{4} = \frac{2 \cdot 36 + 2 \cdot 16 - 64}{4} = \frac{72 + 32 - 64}{4} = 10$.</p>
+<p>Vậy $m_a = \sqrt{10}$.</p>
+</div>
+
+<!-- 5. Giải tam giác -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">5. Giải tam giác và ứng dụng thực tế</h2>
+
+<p><em>Giải tam giác</em> là tìm các cạnh và các góc còn lại của tam giác khi biết một số yếu tố cho trước:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Biết <strong>hai cạnh và góc xen giữa</strong> → dùng định lí <strong>côsin</strong> tính cạnh thứ ba.</li>
+<li>Biết <strong>một cạnh và hai góc kề</strong> → dùng định lí <strong>sin</strong> tính các cạnh còn lại.</li>
+<li>Biết <strong>ba cạnh</strong> → dùng <strong>hệ quả định lí côsin</strong> tính các góc.</li>
+</ul>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ thực tế:</p>
+<p>Để đo khoảng cách từ bờ sông đến một cù lao giữa sông, người ta chọn hai điểm $A, B$ trên bờ cách nhau $100$ m, rồi đo được $\widehat{CAB} = 70^\circ$, $\widehat{CBA} = 60^\circ$ ($C$ là vị trí cù lao). Tính khoảng cách $AC$.</p>
+<p class="mt-2"><strong>Lời giải.</strong> $\widehat{ACB} = 180^\circ - 70^\circ - 60^\circ = 50^\circ$. Theo định lí sin: $\frac{AC}{\sin 60^\circ} = \frac{100}{\sin 50^\circ}$, suy ra $AC = \frac{100 \cdot \sin 60^\circ}{\sin 50^\circ} \approx 113$ m.</p>
+</div>
+
+<!-- Tổng kết -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Định lí côsin:</strong> $a^2 = b^2 + c^2 - 2bc\cos A$ (dùng khi biết 2 cạnh + góc xen giữa, hoặc 3 cạnh tính góc).</li>
+<li><strong>Định lí sin:</strong> $\frac{a}{\sin A} = \frac{b}{\sin B} = \frac{c}{\sin C} = 2R$ (dùng khi biết 1 cạnh + 2 góc).</li>
+<li><strong>Diện tích:</strong> $S = \frac{1}{2}bc\sin A = \frac{abc}{4R} = pr = \sqrt{p(p-a)(p-b)(p-c)}$.</li>
+<li><strong>Trung tuyến:</strong> $m_a^2 = \frac{2b^2 + 2c^2 - a^2}{4}$.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+</body>
+</html>
