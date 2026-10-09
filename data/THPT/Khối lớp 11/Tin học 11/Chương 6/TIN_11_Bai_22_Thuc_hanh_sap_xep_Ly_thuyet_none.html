@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay | Ma nguon thuoc nen tang hoc tap SAOBAY | Nghiem cam sao chep duoi moi hinh thuc -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 22: Thực hành bài toán sắp xếp</title>
+    <meta name="lesson-title" content="Bài 22: Thực hành bài toán sắp xếp">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 22: Thực hành bài toán sắp xếp</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 6: Kĩ thuật lập trình • Bài 22: Thực hành bài toán sắp xếp</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 22: Thực hành bài toán sắp xếp</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 6: Kĩ thuật lập trình — sách Kết nối tri thức với cuộc sống</p>
+
+<!-- 1. Nhắc lại ba thuật toán sắp xếp đơn giản -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Nhắc lại ba thuật toán sắp xếp đơn giản</h2>
+
+<p><strong>Sắp xếp nổi bọt (bubble sort):</strong> lặp đi lặp lại việc so sánh từng cặp phần tử kề nhau và đổi chỗ nếu chúng sai thứ tự. Sau mỗi lượt, phần tử lớn nhất "nổi" lên cuối dãy.</p>
+
+<p><strong>Sắp xếp chọn (selection sort):</strong> mỗi lượt chọn phần tử nhỏ nhất trong phần chưa sắp xếp và đổi chỗ với phần tử đầu của phần đó.</p>
+
+<p><strong>Sắp xếp chèn (insertion sort):</strong> duyệt từng phần tử và chèn nó vào đúng vị trí trong phần đã sắp xếp ở phía trước.</p>
+
+<p>Cả ba thuật toán đều có độ phức tạp O($n^2$) trong trường hợp xấu nhất.</p>
+
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2"># Sắp xếp nổi bọt (tăng dần), tránh dùng dấu lớn hơn
+def bubble_sort(a):
+    n = len(a)
+    for i in range(n):
+        for j in range(n - 1 - i):
+            if a[j] == max(a[j], a[j + 1]) and a[j] != a[j + 1]:
+                a[j], a[j + 1] = a[j + 1], a[j]
+    return a
+
+# Sắp xếp chọn (tăng dần)
+def selection_sort(a):
+    n = len(a)
+    for i in range(n):
+        k = i
+        for j in range(i + 1, n):
+            if a[j] == min(a[j], a[k]):
+                k = j
+        a[i], a[k] = a[k], a[i]
+    return a</pre>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Điều kiện <code>a[j] &gt; a[j+1]</code> được viết lại thành <code>a[j] == max(a[j], a[j+1]) and a[j] != a[j+1]</code> để tránh dùng <code>&gt;</code>. Trên giấy thi, cứ viết <code>&gt;</code> bình thường.</p>
+</div>
+
+<!-- 2. Trace quá trình sắp xếp -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Trace quá trình sắp xếp (theo dõi từng bước)</h2>
+
+<p><strong>Ví dụ nổi bọt</strong> với <code>a = [5, 3, 8, 1]</code> (lượt 1, j chạy từ 0 đến 2):</p>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-sm my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">j</td><td class="border border-slate-300 px-4 py-1">So sánh</td><td class="border border-slate-300 px-4 py-1">Đổi chỗ?</td><td class="border border-slate-300 px-4 py-1">Mảng sau bước</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">0</td><td class="border border-slate-300 px-4 py-1">5 và 3</td><td class="border border-slate-300 px-4 py-1">có</td><td class="border border-slate-300 px-4 py-1">[3, 5, 8, 1]</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">1</td><td class="border border-slate-300 px-4 py-1">5 và 8</td><td class="border border-slate-300 px-4 py-1">không</td><td class="border border-slate-300 px-4 py-1">[3, 5, 8, 1]</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">2</td><td class="border border-slate-300 px-4 py-1">8 và 1</td><td class="border border-slate-300 px-4 py-1">có</td><td class="border border-slate-300 px-4 py-1">[3, 5, 1, 8]</td></tr>
+</table></div>
+<p>Hết lượt 1, số lớn nhất (8) đã về cuối. Tiếp tục lượt 2, 3 cho đến khi mảng sắp xếp xong: <code>[1, 3, 5, 8]</code>.</p>
+
+<p><strong>Ví dụ sắp xếp chọn</strong> với <code>a = [5, 3, 8, 1]</code>:</p>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-sm my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Lượt (i)</td><td class="border border-slate-300 px-4 py-1">Nhỏ nhất trong phần chưa sắp xếp</td><td class="border border-slate-300 px-4 py-1">Mảng sau lượt</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">0</td><td class="border border-slate-300 px-4 py-1">1 (chỉ số 3) → đổi với a[0]</td><td class="border border-slate-300 px-4 py-1">[1, 3, 8, 5]</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">1</td><td class="border border-slate-300 px-4 py-1">3 (đã đúng vị trí)</td><td class="border border-slate-300 px-4 py-1">[1, 3, 8, 5]</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">2</td><td class="border border-slate-300 px-4 py-1">5 (chỉ số 3) → đổi với a[2]</td><td class="border border-slate-300 px-4 py-1">[1, 3, 5, 8]</td></tr>
+</table></div>
+
+<!-- 3. Đếm số lần so sánh và đổi chỗ -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Đếm số lần so sánh và đổi chỗ</h2>
+
+<p>Trong thực hành, người ta thường yêu cầu <strong>đếm số lần đổi chỗ</strong> hoặc <strong>số lần so sánh</strong> để đánh giá thuật toán.</p>
+
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2"># Nổi bọt có đếm số lần đổi chỗ
+def bubble_sort_dem(a):
+    n = len(a)
+    dem = 0
+    for i in range(n):
+        for j in range(n - 1 - i):
+            if a[j] == max(a[j], a[j + 1]) and a[j] != a[j + 1]:
+                a[j], a[j + 1] = a[j + 1], a[j]
+                dem = dem + 1
+    return dem
+
+print(bubble_sort_dem([5, 3, 8, 1]))  # 4</pre>
+
+<p><strong>Số lần so sánh</strong> của nổi bọt và chọn (không tính tối ưu dừng sớm): với mảng <code>n</code> phần tử, tổng số cặp so sánh là $(n-1) + (n-2) + \ldots + 1 = \frac{n(n-1)}{2}$.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Với $n = 4$: số lần so sánh là $3 + 2 + 1 = 6$. Với $n = 5$: $4 + 3 + 2 + 1 = 10$ lần.</p>
+</div>
+
+<!-- 4. Sắp xếp giảm dần và các biến thể -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Sắp xếp giảm dần và các biến thể</h2>
+
+<p>Muốn sắp xếp <strong>giảm dần</strong>, chỉ cần đổi chiều so sánh: đổi chỗ khi phần tử trước <strong>nhỏ hơn</strong> phần tử sau.</p>
+
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2"># Nổi bọt sắp xếp giảm dần
+def bubble_sort_giam(a):
+    n = len(a)
+    for i in range(n):
+        for j in range(n - 1 - i):
+            if a[j] == min(a[j], a[j + 1]) and a[j] != a[j + 1]:
+                a[j], a[j + 1] = a[j + 1], a[j]
+    return a
+
+print(bubble_sort_giam([5, 3, 8, 1]))  # [8, 5, 3, 1]</pre>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-sm my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Yêu cầu</td><td class="border border-slate-300 px-4 py-1">Cách điều chỉnh</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Sắp xếp giảm dần</td><td class="border border-slate-300 px-4 py-1">Đổi chiều điều kiện so sánh</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Đếm số lần đổi chỗ</td><td class="border border-slate-300 px-4 py-1">Thêm biến đếm, tăng mỗi khi đổi chỗ</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Dừng sớm khi đã sắp xếp</td><td class="border border-slate-300 px-4 py-1">Dùng cờ hiệu: hết một lượt không đổi chỗ nào thì dừng</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Sắp xếp chuỗi</td><td class="border border-slate-300 px-4 py-1">So sánh chuỗi theo thứ tự từ điển (mặc định của Python)</td></tr>
+</table></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">⚠️ Lỗi thường gặp</p>
+<ul class="list-disc ml-6 space-y-1 mt-1">
+<li>Phạm vi vòng lặp trong sai: <code>range(n - 1 - i)</code> chứ không phải <code>range(n)</code> (tránh so sánh <code>a[n-1]</code> với <code>a[n]</code> gây lỗi).</li>
+<li>Quên cập nhật chỉ số phần tử nhỏ nhất trong sắp xếp chọn.</li>
+<li>Nhầm chiều so sánh khi chuyển từ tăng dần sang giảm dần.</li>
+</ul>
+</div>
+
+<!-- 5. Bài toán mẫu -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">5. Bài toán mẫu: xếp hạng học sinh</h2>
+
+<p><strong>Đề bài:</strong> Nhập điểm trung bình của <code>n</code> học sinh. Sắp xếp giảm dần để xếp hạng và in ra danh sách sau khi sắp xếp.</p>
+
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2">def sap_xep_giam(a):
+    n = len(a)
+    for i in range(n):
+        for j in range(n - 1 - i):
+            if a[j] == min(a[j], a[j + 1]) and a[j] != a[j + 1]:
+                a[j], a[j + 1] = a[j + 1], a[j]
+    return a
+
+n = int(input())
+diem = list(map(float, input().split()))
+print(sap_xep_giam(diem))</pre>
+
+<!-- Tóm tắt -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Nổi bọt:</strong> so sánh cặp kề nhau, đổi chỗ nếu sai thứ tự; phần tử lớn "nổi" lên cuối.</li>
+<li><strong>Chọn:</strong> mỗi lượt chọn nhỏ nhất trong phần chưa sắp xếp, đổi với đầu phần đó.</li>
+<li><strong>Chèn:</strong> chèn từng phần tử vào đúng vị trí trong phần đã sắp xếp.</li>
+<li><strong>Số lần so sánh:</strong> $n(n-1)/2$ với mảng $n$ phần tử.</li>
+<li><strong>Thực hành:</strong> trace từng bước, đếm đổi chỗ, đổi chiều sắp xếp, dừng sớm bằng cờ hiệu.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">
+(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok){if(document.body){document.body.innerHTML='<div style="font-family:system-ui,sans-serif;max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff"><h2 style="color:#0f172a;margin-top:0">© SAOBAY — Trường THPT Sào Báy</h2><p style="color:#475569">Nội dung này chỉ được hiển thị tại địa chỉ chính thức <b>saobay.github.io</b>.</p><p style="color:#475569">Vui lòng truy cập đúng địa chỉ để học tập.</p></div>';}else{document.write("SAOBAY: truy cap tai saobay.github.io");}}catch(e){}})();
+</script>
+</body>
+</html>
