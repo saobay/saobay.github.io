@@ -64,15 +64,33 @@
                 if (db.passwords[o.id]) throw new Error('Mã ' + o.id + ' đã có tài khoản.');
                 db.passwords[o.id] = o.password || '12345678';
                 var UNASSIGNED = getUnassignedGroup(db);
-                o._forceTrial = UNASSIGNED === 'Trải nghiệm';
-                if (o.role === 'teacher' || o.role === 'bgh'){
-                    if (!db.teachers_registry || Array.isArray(db.teachers_registry)) db.teachers_registry = {};
-                    db.teachers_registry[o.id] = { name: o.name, group: UNASSIGNED, note: o.note || '', role: o.role };
-                } else {
-                    if (!db.students) db.students = {};
-                    if (!Array.isArray(db.students[UNASSIGNED])) db.students[UNASSIGNED] = [];
-                    db.students[UNASSIGNED].push({ id: o.id, name: o.name, dob: '' });
-                }
+                 o._forceTrial = UNASSIGNED === 'Trải nghiệm';
+                 // TK nhà trường (có trong phân công/DS trường): không cần phân nhóm, quyền theo phân công chuyên môn
+                 // TK mới: tự động vào nhóm Trải nghiệm
+                 var isSchoolAccount = false;
+                 if (o.role === 'teacher' || o.role === 'bgh'){
+                     (db.assignments || []).forEach(function(a){
+                         if (String(a.teachers || '').indexOf(String(o.id)) >= 0) isSchoolAccount = true;
+                     });
+                 } else {
+                     Object.keys(db.students || {}).forEach(function(c){
+                         (db.students[c] || []).forEach(function(st){
+                             if (String(st.id) === String(o.id)) isSchoolAccount = true;
+                         });
+                     });
+                 }
+                 var targetGroup = isSchoolAccount ? '' : UNASSIGNED;
+                 if (!isSchoolAccount) o._forceTrial = true;
+                 if (o.role === 'teacher' || o.role === 'bgh'){
+                     if (!db.teachers_registry || Array.isArray(db.teachers_registry)) db.teachers_registry = {};
+                     db.teachers_registry[o.id] = { name: o.name, group: targetGroup, note: o.note || '', role: o.role };
+                 } else {
+                     if (!isSchoolAccount) {
+                         if (!db.students) db.students = {};
+                         if (!Array.isArray(db.students[UNASSIGNED])) db.students[UNASSIGNED] = [];
+                         db.students[UNASSIGNED].push({ id: o.id, name: o.name, dob: '' });
+                     }
+                 }
             }, 'Tạo tài khoản ' + _rn + ': ' + o.name + ' (' + o.id + ')');
             let expDays = o._forceTrial ? 90 : calcExpiryDays(o.role, o.id, db, o.expiryDays);
             let expDb = await assignFetchExpiry();
