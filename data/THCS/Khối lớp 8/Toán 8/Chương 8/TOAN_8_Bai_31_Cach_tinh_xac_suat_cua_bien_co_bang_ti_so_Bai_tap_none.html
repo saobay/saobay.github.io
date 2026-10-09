@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài tập Bài 31: Cách tính xác suất của biến cố bằng tỉ số</title>
+    <meta name="lesson-title" content="Bài tập Bài 31: Cách tính xác suất của biến cố bằng tỉ số">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Bài tập</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài tập Bài 31: Cách tính xác suất của biến cố bằng tỉ số</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 8: Mở đầu về tính xác suất của biến cố • Bài 31: Cách tính xác suất của biến cố bằng tỉ số</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="saobay-exam10">
+<script type="application/json" class="saobay-exam10-data">
+{
+ "sets": [
+  {
+   "name": "Đề 1",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Gieo một con xúc xắc. Xác suất của biến cố “xuất hiện mặt có số chấm lớn hơn 2” là:",
+     "options": [
+      "A. $1/3$",
+      "B. $5/6$",
+      "C. $1/2$",
+      "D. $2/3$"
+     ],
+     "answer": "D",
+     "explain": "Các mặt 3, 4, 5, 6 (4 kết quả) nên $P = \\frac{4}{6} = \\frac{2}{3}$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Gieo một con xúc xắc. Xác suất của biến cố “xuất hiện mặt 6 chấm” là:",
+     "options": [
+      "A. $6/6$",
+      "B. $1/3$",
+      "C. $1/2$",
+      "D. $1/6$"
+     ],
+     "answer": "D",
+     "explain": "Có 6 kết quả có thể, 1 kết quả thuận lợi nên $P = \\frac{1}{6}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tung đồng thời hai đồng xu. Xác suất của biến cố “hai mặt xuất hiện khác nhau” là:",
+     "options": [
+      "A. $3/4$",
+      "B. $1/4$",
+      "C. $1/2$",
+      "D. $1/3$"
+     ],
+     "answer": "C",
+     "explain": "Các kết quả thuận lợi: (S; N), (N; S) (2 kết quả) nên $P = \\frac{2}{4} = \\frac{1}{2}$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Gieo đồng thời hai con xúc xắc. Xác suất của biến cố “tổng số chấm hai mặt bằng 8” là bao nhiêu? (Điền phân số dạng a/b)",
+     "answer": "5/36",
+     "explain": "Các cặp có tổng bằng 8: (2; 6), (3; 5), (4; 4), (5; 3), (6; 2) — 5 cặp nên $P = \\frac{5}{36}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Một hộp có 10 thẻ đánh số từ 1 đến 10. Rút ngẫu nhiên một thẻ. Xác suất của biến cố “rút được thẻ ghi số chẵn” là:",
+     "options": [
+      "A. $2/5$",
+      "B. $1/2$",
+      "C. $3/5$",
+      "D. $1/3$"
+     ],
+     "answer": "B",
+     "explain": "Có 5 số chẵn từ 1 đến 10 nên $P = \\frac{5}{10} = 1/2$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Gieo một con xúc xắc. Xác suất của biến cố “xuất hiện mặt 3 chấm” là:",
+     "options": [
+      "A. $1/2$",
+      "B. $3/6$",
+      "C. $1/6$",
+      "D. $1/3$"
+     ],
+     "answer": "C",
+     "explain": "Có 6 kết quả có thể, 1 kết quả thuận lợi nên $P = \\frac{1}{6}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Tung một đồng xu một lần. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Xác suất xuất hiện mặt sấp là $\\frac{1}{2}$.",
+      "b) Xác suất xuất hiện mặt ngửa là $\\frac{1}{2}$.",
+      "c) Xác suất xuất hiện mặt sấp hoặc mặt ngửa là 1.",
+      "d) Xác suất xuất hiện đồng thời cả hai mặt là $\\frac{1}{2}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b) Đúng. c) Đúng — biến cố chắc chắn. d) Sai — $P = 0$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tung đồng thời hai đồng xu. Xác suất của biến cố “có ít nhất một mặt ngửa” là bao nhiêu? (Điền phân số dạng a/b)",
+     "answer": "3/4",
+     "explain": "Có 3 kết quả thuận lợi trên 4 kết quả có thể nên $P = \\frac{3}{4}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Một vòng quay có 12 ô bằng nhau, trong đó có 3 ô màu đỏ, còn lại màu xanh. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Xác suất “dừng ở ô đỏ” là $\\frac{3}{12}$.",
+      "b) Xác suất “dừng ở ô xanh” là $\\frac{9}{12}$.",
+      "c) Tổng hai xác suất trên bằng 1.",
+      "d) Xác suất “dừng ở ô vàng” là $\\frac{1}{12}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b) Đúng ($P = 1/4$ và $P = 3/4$). c) Đúng. d) Sai — không có ô vàng, $P = 0$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Gieo một con xúc xắc. Xác suất của biến cố “xuất hiện mặt có số chấm là số lẻ” là:",
+     "options": [
+      "A. $1/3$",
+      "B. $1/6$",
+      "C. $1/2$",
+      "D. $3/4$"
+     ],
+     "answer": "C",
+     "explain": "Các mặt lẻ là 1, 3, 5 (3 kết quả) nên $P = \\frac{3}{6} = \\frac{1}{2}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 2",
+   "questions": [
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Một hộp có 4 quả bóng đỏ và 4 quả bóng xanh giống hệt nhau. Lấy ngẫu nhiên một quả. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Xác suất lấy được bóng đỏ là $\\frac{4}{8}$.",
+      "b) Xác suất lấy được bóng xanh là $\\frac{4}{8}$.",
+      "c) Xác suất lấy được bóng đỏ hoặc bóng xanh là 1.",
+      "d) Xác suất lấy được bóng vàng là $\\frac{1}{8}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b) Đúng ($P = 1/2$ và $P = 1/2$). c) Đúng — biến cố chắc chắn. d) Sai — $P = 0$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Một vòng quay có 8 ô bằng nhau, trong đó có 2 ô màu đỏ, còn lại màu xanh. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Xác suất “dừng ở ô đỏ” là $\\frac{2}{8}$.",
+      "b) Xác suất “dừng ở ô xanh” là $\\frac{6}{8}$.",
+      "c) Tổng hai xác suất trên bằng 1.",
+      "d) Xác suất “dừng ở ô vàng” là $\\frac{1}{8}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b) Đúng ($P = 1/4$ và $P = 3/4$). c) Đúng. d) Sai — không có ô vàng, $P = 0$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Một hộp có 8 thẻ đánh số từ 1 đến 8. Rút ngẫu nhiên một thẻ. Xác suất của biến cố “rút được thẻ ghi số 1” là:",
+     "options": [
+      "A. $1/4$",
+      "B. $1/8$",
+      "C. $1$",
+      "D. $1/7$"
+     ],
+     "answer": "B",
+     "explain": "Có 8 kết quả có thể, 1 kết quả thuận lợi nên $P = \\frac{1}{8}$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Một vòng quay có 12 ô bằng nhau, trong đó có 4 ô màu đỏ. Quay một lần. Xác suất của biến cố “mũi tên dừng ở ô màu đỏ” là:",
+     "options": [
+      "A. $1/3$",
+      "B. $2/3$",
+      "C. $1/12$",
+      "D. $1/2$"
+     ],
+     "answer": "A",
+     "explain": "Có 12 kết quả có thể, 4 kết quả thuận lợi nên $P = \\frac{4}{12} = 1/3$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Gieo một con xúc xắc. Xác suất của biến cố “xuất hiện mặt có số chấm là số nguyên tố” là:",
+     "options": [
+      "A. $1/2$",
+      "B. $1/6$",
+      "C. $2/5$",
+      "D. $1/3$"
+     ],
+     "answer": "A",
+     "explain": "Các số nguyên tố là 2, 3, 5 (3 kết quả) nên $P = \\frac{3}{6} = \\frac{1}{2}$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Một vòng quay có 10 ô bằng nhau, trong đó có 2 ô màu đỏ. Quay một lần. Xác suất của biến cố “mũi tên dừng ở ô màu đỏ” là:",
+     "options": [
+      "A. $1/5$",
+      "B. $1/10$",
+      "C. $4/5$",
+      "D. $1/4$"
+     ],
+     "answer": "A",
+     "explain": "Có 10 kết quả có thể, 2 kết quả thuận lợi nên $P = \\frac{2}{10} = 1/5$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Gieo một con xúc xắc. Xác suất của biến cố “xuất hiện mặt có số chấm là ước của 6” là bao nhiêu? (Điền phân số dạng a/b)",
+     "answer": "2/3",
+     "explain": "Các ước của 6 là 1, 2, 3, 6 (4 kết quả) nên $P = \\frac{4}{6} = \\frac{2}{3}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Một hộp có 27 thẻ đánh số từ 1 đến 27. Rút ngẫu nhiên một thẻ. Xác suất của biến cố “rút được thẻ ghi số chia hết cho 3” là:",
+     "options": [
+      "A. $8/27$",
+      "B. $10/27$",
+      "C. $1/3$",
+      "D. $1/4$"
+     ],
+     "answer": "C",
+     "explain": "Có 9 số chia hết cho 3 từ 1 đến 27 nên $P = \\frac{9}{27} = 1/3$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Gieo một con xúc xắc. Xác suất của biến cố “xuất hiện mặt có số chấm không vượt quá 2” là:",
+     "options": [
+      "A. $2/5$",
+      "B. $1/2$",
+      "C. $1/6$",
+      "D. $1/3$"
+     ],
+     "answer": "D",
+     "explain": "Các mặt 1, 2 (2 kết quả) nên $P = \\frac{2}{6} = \\frac{1}{3}$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Gieo đồng thời hai con xúc xắc. Xác suất của biến cố “tổng số chấm hai mặt bằng 9” là bao nhiêu? (Điền phân số dạng a/b)",
+     "answer": "1/9",
+     "explain": "Có 4 cặp có tổng bằng 9 trên 36 kết quả có thể nên $P = \\frac{4}{36} = \\frac{1}{9}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 3",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tung một đồng xu một lần. Xác suất của biến cố “xuất hiện mặt sấp” là:",
+     "options": [
+      "A. $1$",
+      "B. $1/3$",
+      "C. $1/4$",
+      "D. $1/2$"
+     ],
+     "answer": "D",
+     "explain": "Có 2 kết quả có thể, 1 kết quả thuận lợi nên $P = \\frac{1}{2}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Một vòng quay có 10 ô bằng nhau, trong đó có 3 ô màu đỏ, còn lại màu xanh. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Xác suất “dừng ở ô đỏ” là $\\frac{3}{10}$.",
+      "b) Xác suất “dừng ở ô xanh” là $\\frac{7}{10}$.",
+      "c) Tổng hai xác suất trên bằng 1.",
+      "d) Xác suất “dừng ở ô vàng” là $\\frac{1}{10}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b) Đúng ($P = 3/10$ và $P = 7/10$). c) Đúng. d) Sai — không có ô vàng, $P = 0$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Gieo một con xúc xắc. Xác suất của biến cố “xuất hiện mặt có số chấm chia hết cho 3” là:",
+     "options": [
+      "A. $1/4$",
+      "B. $1/6$",
+      "C. $1/2$",
+      "D. $1/3$"
+     ],
+     "answer": "D",
+     "explain": "Các mặt 3, 6 (2 kết quả) nên $P = \\frac{2}{6} = \\frac{1}{3}$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Một hộp có 3 quả bóng đỏ và 4 quả bóng xanh giống hệt nhau. Lấy ngẫu nhiên một quả. Xác suất của biến cố “lấy được bóng xanh” là:",
+     "options": [
+      "A. $4/3$",
+      "B. $1/7$",
+      "C. $3/7$",
+      "D. $4/7$"
+     ],
+     "answer": "D",
+     "explain": "Có 7 kết quả có thể, 4 kết quả thuận lợi nên $P = \\frac{4}{7} = 4/7$."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Một hộp có 2 quả bóng đỏ và 3 quả bóng xanh giống hệt nhau. Lấy ngẫu nhiên một quả. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Xác suất lấy được bóng đỏ là $\\frac{2}{5}$.",
+      "b) Xác suất lấy được bóng xanh là $\\frac{3}{5}$.",
+      "c) Xác suất lấy được bóng đỏ hoặc bóng xanh là 1.",
+      "d) Xác suất lấy được bóng vàng là $\\frac{1}{5}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b) Đúng ($P = 2/5$ và $P = 3/5$). c) Đúng — biến cố chắc chắn. d) Sai — $P = 0$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Một hộp có 4 bóng đỏ, 3 bóng xanh, 3 bóng vàng giống hệt nhau. Lấy ngẫu nhiên một quả. Xác suất “lấy được bóng vàng” là bao nhiêu? (Điền phân số dạng a/b)",
+     "answer": "3/10",
+     "explain": "$P = \\frac{3}{10} = 3/10$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Một hộp có 4 quả bóng đỏ và 5 quả bóng xanh giống hệt nhau. Lấy ngẫu nhiên một quả. Xác suất của biến cố “lấy được bóng không phải màu đỏ” là:",
+     "options": [
+      "A. $1/3$",
+      "B. $4/9$",
+      "C. $1/9$",
+      "D. $5/9$"
+     ],
+     "answer": "D",
+     "explain": "Bóng không phải màu đỏ là bóng xanh: 5 quả. $P = \\frac{5}{9} = 5/9$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Một vòng quay có 10 ô bằng nhau, trong đó có 2 ô màu đỏ. Quay hai lần liên tiếp. Xác suất của biến cố “cả hai lần mũi tên đều dừng ở ô đỏ” là bao nhiêu? (Điền phân số dạng a/b)",
+     "answer": "1/25",
+     "explain": "Mỗi lần quay $P(\\text{đỏ}) = \\frac{2}{10}$ nên $P = \\frac{2}{10} \\times \\frac{2}{10} = 1/25$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tung đồng thời hai đồng xu. Xác suất của biến cố “có đúng một mặt sấp” là:",
+     "options": [
+      "A. $1/4$",
+      "B. $1/2$",
+      "C. $1/3$",
+      "D. $3/4$"
+     ],
+     "answer": "B",
+     "explain": "Các kết quả thuận lợi: (S; N), (N; S) (2 kết quả) nên $P = \\frac{2}{4} = \\frac{1}{2}$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Một hộp có 12 thẻ đánh số từ 1 đến 12. Rút ngẫu nhiên một thẻ. Xác suất của biến cố “rút được thẻ ghi số 1” là:",
+     "options": [
+      "A. $1/6$",
+      "B. $1$",
+      "C. $1/11$",
+      "D. $1/12$"
+     ],
+     "answer": "D",
+     "explain": "Có 12 kết quả có thể, 1 kết quả thuận lợi nên $P = \\frac{1}{12}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 4",
+   "questions": [
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Một hộp có 4 quả bóng đỏ và 3 quả bóng xanh giống hệt nhau. Lấy ngẫu nhiên một quả. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Xác suất lấy được bóng đỏ là $\\frac{4}{7}$.",
+      "b) Xác suất lấy được bóng xanh là $\\frac{3}{7}$.",
+      "c) Xác suất lấy được bóng đỏ hoặc bóng xanh là 1.",
+      "d) Xác suất lấy được bóng vàng là $\\frac{1}{7}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b) Đúng ($P = 4/7$ và $P = 3/7$). c) Đúng — biến cố chắc chắn. d) Sai — $P = 0$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Gieo một con xúc xắc. Xác suất của biến cố “xuất hiện mặt có số chấm là số chẵn” là:",
+     "options": [
+      "A. $1/2$",
+      "B. $2/3$",
+      "C. $1/3$",
+      "D. $1/6$"
+     ],
+     "answer": "A",
+     "explain": "Các mặt chẵn là 2, 4, 6 (3 kết quả) nên $P = \\frac{3}{6} = \\frac{1}{2}$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Một vòng quay có 6 ô bằng nhau, trong đó có 4 ô màu đỏ. Quay hai lần liên tiếp. Xác suất của biến cố “cả hai lần mũi tên đều dừng ở ô đỏ” là bao nhiêu? (Điền phân số dạng a/b)",
+     "answer": "4/9",
+     "explain": "Mỗi lần quay $P(\\text{đỏ}) = \\frac{4}{6}$ nên $P = \\frac{4}{6} \\times \\frac{4}{6} = 4/9$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Một hộp có 4 bóng đỏ, 2 bóng xanh, 4 bóng vàng giống hệt nhau. Lấy ngẫu nhiên một quả. Xác suất “lấy được bóng vàng” là bao nhiêu? (Điền phân số dạng a/b)",
+     "answer": "2/5",
+     "explain": "$P = \\frac{4}{10} = 2/5$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Một hộp có 10 thẻ đánh số từ 1 đến 10. Rút ngẫu nhiên một thẻ. Xác suất của biến cố “rút được thẻ ghi số 1” là:",
+     "options": [
+      "A. $1/5$",
+      "B. $1/10$",
+      "C. $1$",
+      "D. $1/9$"
+     ],
+     "answer": "B",
+     "explain": "Có 10 kết quả có thể, 1 kết quả thuận lợi nên $P = \\frac{1}{10}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Gieo đồng thời hai con xúc xắc. Xác suất của biến cố “tổng số chấm hai mặt bằng 7” là:",
+     "options": [
+      "A. $1/12$",
+      "B. $5/36$",
+      "C. $1/6$",
+      "D. $7/36$"
+     ],
+     "answer": "C",
+     "explain": "Có 36 kết quả có thể; 6 cặp có tổng bằng 7 nên $P = \\frac{6}{36} = \\frac{1}{6}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Một hộp có 6 quả bóng đỏ và 3 quả bóng xanh giống hệt nhau. Lấy ngẫu nhiên một quả. Xác suất của biến cố “lấy được bóng không phải màu đỏ” là:",
+     "options": [
+      "A. $5/9$",
+      "B. $2/3$",
+      "C. $1/3$",
+      "D. $1/9$"
+     ],
+     "answer": "C",
+     "explain": "Bóng không phải màu đỏ là bóng xanh: 3 quả. $P = \\frac{3}{9} = 1/3$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Một vòng quay có 10 ô bằng nhau, trong đó có 4 ô màu đỏ. Quay một lần. Xác suất của biến cố “mũi tên dừng ở ô màu đỏ” là:",
+     "options": [
+      "A. $2/3$",
+      "B. $2/5$",
+      "C. $1/10$",
+      "D. $3/5$"
+     ],
+     "answer": "B",
+     "explain": "Có 10 kết quả có thể, 4 kết quả thuận lợi nên $P = \\frac{4}{10} = 2/5$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Một hộp có 22 thẻ đánh số từ 1 đến 22. Rút ngẫu nhiên một thẻ. Xác suất của biến cố “rút được thẻ ghi số chẵn” là:",
+     "options": [
+      "A. $1/3$",
+      "B. $5/11$",
+      "C. $6/11$",
+      "D. $1/2$"
+     ],
+     "answer": "D",
+     "explain": "Có 11 số chẵn từ 1 đến 22 nên $P = \\frac{11}{22} = 1/2$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Tung đồng thời hai đồng xu. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Xác suất “cả hai mặt đều sấp” là $\\frac{1}{4}$.",
+      "b) Xác suất “có đúng một mặt ngửa” là $\\frac{1}{2}$.",
+      "c) Xác suất “hai mặt khác nhau” là $\\frac{1}{4}$.",
+      "d) Xác suất “ít nhất một mặt sấp” là $\\frac{3}{4}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "a) Đúng. b) Đúng — (S; N), (N; S). c) Sai — $P = \\frac{2}{4} = \\frac{1}{2}$. d) Đúng."
+    }
+   ]
+  },
+  {
+   "name": "Đề 5",
+   "questions": [
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Một hộp có 2 quả bóng đỏ và 5 quả bóng xanh giống hệt nhau. Lấy ngẫu nhiên một quả. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Xác suất lấy được bóng đỏ là $\\frac{2}{7}$.",
+      "b) Xác suất lấy được bóng xanh là $\\frac{5}{7}$.",
+      "c) Xác suất lấy được bóng đỏ hoặc bóng xanh là 1.",
+      "d) Xác suất lấy được bóng vàng là $\\frac{1}{7}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b) Đúng ($P = 2/7$ và $P = 5/7$). c) Đúng — biến cố chắc chắn. d) Sai — $P = 0$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tung đồng thời hai đồng xu. Xác suất của biến cố “cả hai mặt đều sấp” là:",
+     "options": [
+      "A. $1/4$",
+      "B. $1/3$",
+      "C. $1/2$",
+      "D. $2/4$"
+     ],
+     "answer": "A",
+     "explain": "Không gian mẫu có 4 kết quả: (S; S), (S; N), (N; S), (N; N); 1 kết quả thuận lợi nên $P = \\frac{1}{4}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Một hộp có 12 thẻ đánh số từ 1 đến 12. Rút ngẫu nhiên một thẻ. Xác suất của biến cố “rút được thẻ ghi số chẵn” là:",
+     "options": [
+      "A. $1/3$",
+      "B. $7/12$",
+      "C. $1/2$",
+      "D. $5/12$"
+     ],
+     "answer": "C",
+     "explain": "Có 6 số chẵn từ 1 đến 12 nên $P = \\frac{6}{12} = 1/2$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Một vòng quay có 12 ô bằng nhau, trong đó có 2 ô màu đỏ. Quay một lần. Xác suất của biến cố “mũi tên dừng ở ô màu đỏ” là:",
+     "options": [
+      "A. $1/5$",
+      "B. $1/12$",
+      "C. $5/6$",
+      "D. $1/6$"
+     ],
+     "answer": "D",
+     "explain": "Có 12 kết quả có thể, 2 kết quả thuận lợi nên $P = \\frac{2}{12} = 1/6$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Một vòng quay có 10 ô bằng nhau, trong đó có 3 ô màu đỏ. Quay hai lần liên tiếp. Xác suất của biến cố “cả hai lần mũi tên đều dừng ở ô đỏ” là bao nhiêu? (Điền phân số dạng a/b)",
+     "answer": "9/100",
+     "explain": "Mỗi lần quay $P(\\text{đỏ}) = \\frac{3}{10}$ nên $P = \\frac{3}{10} \\times \\frac{3}{10} = 9/100$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Một vòng quay có 12 ô bằng nhau, trong đó có 3 ô màu đỏ. Quay một lần. Xác suất của biến cố “mũi tên dừng ở ô màu đỏ” là:",
+     "options": [
+      "A. $1/4$",
+      "B. $1/12$",
+      "C. $1/3$",
+      "D. $3/4$"
+     ],
+     "answer": "A",
+     "explain": "Có 12 kết quả có thể, 3 kết quả thuận lợi nên $P = \\frac{3}{12} = 1/4$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Một vòng quay có 12 ô bằng nhau, trong đó có 2 ô màu đỏ, còn lại màu xanh. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Xác suất “dừng ở ô đỏ” là $\\frac{2}{12}$.",
+      "b) Xác suất “dừng ở ô xanh” là $\\frac{10}{12}$.",
+      "c) Tổng hai xác suất trên bằng 1.",
+      "d) Xác suất “dừng ở ô vàng” là $\\frac{1}{12}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b) Đúng ($P = 1/6$ và $P = 5/6$). c) Đúng. d) Sai — không có ô vàng, $P = 0$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Một hộp có 2 bóng đỏ, 3 bóng xanh, 4 bóng vàng giống hệt nhau. Lấy ngẫu nhiên một quả. Xác suất “lấy được bóng vàng” là bao nhiêu? (Điền phân số dạng a/b)",
+     "answer": "4/9",
+     "explain": "$P = \\frac{4}{9} = 4/9$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Một hộp có 20 thẻ đánh số từ 1 đến 20. Rút ngẫu nhiên một thẻ. Xác suất của biến cố “rút được thẻ ghi số chẵn” là:",
+     "options": [
+      "A. $1/2$",
+      "B. $9/20$",
+      "C. $11/20$",
+      "D. $1/3$"
+     ],
+     "answer": "A",
+     "explain": "Có 10 số chẵn từ 1 đến 20 nên $P = \\frac{10}{20} = 1/2$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Một hộp có 15 thẻ đánh số từ 1 đến 15. Rút ngẫu nhiên một thẻ. Xác suất của biến cố “rút được thẻ ghi số 1” là:",
+     "options": [
+      "A. $1/14$",
+      "B. $1/15$",
+      "C. $1$",
+      "D. $2/15$"
+     ],
+     "answer": "B",
+     "explain": "Có 15 kết quả có thể, 1 kết quả thuận lợi nên $P = \\frac{1}{15}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 6",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Một hộp có 4 quả bóng đỏ và 2 quả bóng xanh giống hệt nhau. Lấy ngẫu nhiên một quả. Xác suất của biến cố “lấy được bóng không phải màu đỏ” là:",
+     "options": [
+      "A. $1/3$",
+      "B. $1/2$",
+      "C. $2/3$",
+      "D. $1/6$"
+     ],
+     "answer": "A",
+     "explain": "Bóng không phải màu đỏ là bóng xanh: 2 quả. $P = \\frac{2}{6} = 1/3$."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Gieo một con xúc xắc. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Xác suất của biến cố “xuất hiện mặt 6 chấm” là $\\frac{1}{6}$.",
+      "b) Xác suất của biến cố “xuất hiện mặt lẻ” là $\\frac{1}{3}$.",
+      "c) Xác suất của biến cố “xuất hiện mặt có số chấm lớn hơn 4” là $\\frac{1}{3}$.",
+      "d) Xác suất của biến cố “xuất hiện mặt 7 chấm” là $\\frac{1}{6}$."
+     ],
+     "answer": [
+      "T",
+      "F",
+      "T",
+      "F"
+     ],
+     "explain": "a) Đúng. b) Sai — mặt lẻ có 3 kết quả nên $P = \\frac{1}{2}$. c) Đúng — mặt 5, 6. d) Sai — $P = 0$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Một vòng quay có 8 ô bằng nhau, trong đó có 3 ô màu đỏ, còn lại màu xanh. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Xác suất “dừng ở ô đỏ” là $\\frac{3}{8}$.",
+      "b) Xác suất “dừng ở ô xanh” là $\\frac{5}{8}$.",
+      "c) Tổng hai xác suất trên bằng 1.",
+      "d) Xác suất “dừng ở ô vàng” là $\\frac{1}{8}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b) Đúng ($P = 3/8$ và $P = 5/8$). c) Đúng. d) Sai — không có ô vàng, $P = 0$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Một hộp có 2 bóng đỏ, 2 bóng xanh, 2 bóng vàng giống hệt nhau. Lấy ngẫu nhiên một quả. Xác suất “lấy được bóng vàng” là bao nhiêu? (Điền phân số dạng a/b)",
+     "answer": "1/3",
+     "explain": "$P = \\frac{2}{6} = 1/3$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Một hộp có 6 quả bóng đỏ và 4 quả bóng xanh giống hệt nhau. Lấy ngẫu nhiên một quả. Xác suất của biến cố “lấy được bóng không phải màu đỏ” là:",
+     "options": [
+      "A. $1/2$",
+      "B. $1/10$",
+      "C. $3/5$",
+      "D. $2/5$"
+     ],
+     "answer": "D",
+     "explain": "Bóng không phải màu đỏ là bóng xanh: 4 quả. $P = \\frac{4}{10} = 2/5$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Một hộp có 5 quả bóng đỏ và 2 quả bóng xanh giống hệt nhau. Lấy ngẫu nhiên một quả. Xác suất của biến cố “lấy được bóng xanh” là:",
+     "options": [
+      "A. $2/5$",
+      "B. $1/7$",
+      "C. $5/7$",
+      "D. $2/7$"
+     ],
+     "answer": "D",
+     "explain": "Có 7 kết quả có thể, 2 kết quả thuận lợi nên $P = \\frac{2}{7} = 2/7$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Gieo một con xúc xắc. Xác suất của biến cố “xuất hiện mặt có số chấm lớn hơn hoặc bằng 5” là:",
+     "options": [
+      "A. $1/2$",
+      "B. $1/6$",
+      "C. $2/5$",
+      "D. $1/3$"
+     ],
+     "answer": "D",
+     "explain": "Các mặt 5, 6 (2 kết quả) nên $P = \\frac{2}{6} = \\frac{1}{3}$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Một hộp có 4 quả bóng đỏ và 4 quả bóng xanh giống hệt nhau. Lấy ngẫu nhiên một quả. Xác suất của biến cố “lấy được bóng xanh” là:",
+     "options": [
+      "A. $1/2$",
+      "B. $2/2$",
+      "C. $1$",
+      "D. $1/8$"
+     ],
+     "answer": "A",
+     "explain": "Có 8 kết quả có thể, 4 kết quả thuận lợi nên $P = \\frac{4}{8} = 1/2$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Một hộp có 21 thẻ đánh số từ 1 đến 21. Rút ngẫu nhiên một thẻ. Xác suất của biến cố “rút được thẻ ghi số chia hết cho 3” là:",
+     "options": [
+      "A. $2/7$",
+      "B. $1/3$",
+      "C. $8/21$",
+      "D. $1/4$"
+     ],
+     "answer": "B",
+     "explain": "Có 7 số chia hết cho 3 từ 1 đến 21 nên $P = \\frac{7}{21} = 1/3$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Một vòng quay có 8 ô bằng nhau, trong đó có 2 ô màu đỏ. Quay hai lần liên tiếp. Xác suất của biến cố “cả hai lần mũi tên đều dừng ở ô đỏ” là bao nhiêu? (Điền phân số dạng a/b)",
+     "answer": "1/16",
+     "explain": "Mỗi lần quay $P(\\text{đỏ}) = \\frac{2}{8}$ nên $P = \\frac{2}{8} \\times \\frac{2}{8} = 1/16$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 7",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Một hộp có 4 quả bóng đỏ và 3 quả bóng xanh giống hệt nhau. Lấy ngẫu nhiên một quả. Xác suất của biến cố “lấy được bóng không phải màu đỏ” là:",
+     "options": [
+      "A. $3/8$",
+      "B. $4/7$",
+      "C. $3/7$",
+      "D. $1/7$"
+     ],
+     "answer": "C",
+     "explain": "Bóng không phải màu đỏ là bóng xanh: 3 quả. $P = \\frac{3}{7} = 3/7$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Một hộp có 18 thẻ đánh số từ 1 đến 18. Rút ngẫu nhiên một thẻ. Xác suất của biến cố “rút được thẻ ghi số chia hết cho 3” là:",
+     "options": [
+      "A. $5/18$",
+      "B. $7/18$",
+      "C. $1/3$",
+      "D. $1/4$"
+     ],
+     "answer": "C",
+     "explain": "Có 6 số chia hết cho 3 từ 1 đến 18 nên $P = \\frac{6}{18} = 1/3$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Một hộp có 3 quả bóng đỏ và 4 quả bóng xanh giống hệt nhau. Lấy ngẫu nhiên một quả. Xác suất của biến cố “lấy được bóng không phải màu đỏ” là:",
+     "options": [
+      "A. $3/7$",
+      "B. $1/7$",
+      "C. $4/7$",
+      "D. $2/7$"
+     ],
+     "answer": "C",
+     "explain": "Bóng không phải màu đỏ là bóng xanh: 4 quả. $P = \\frac{4}{7} = 4/7$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Một hộp có 3 quả bóng đỏ và 4 quả bóng xanh giống hệt nhau. Lấy ngẫu nhiên một quả. Xác suất của biến cố “lấy được bóng đỏ” là:",
+     "options": [
+      "A. $3/4$",
+      "B. $3/7$",
+      "C. $4/7$",
+      "D. $1/7$"
+     ],
+     "answer": "B",
+     "explain": "Có 7 kết quả có thể, 3 kết quả thuận lợi nên $P = \\frac{3}{7} = 3/7$ (dạng phân số)."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Một hộp có 2 quả bóng đỏ và 4 quả bóng xanh giống hệt nhau. Lấy ngẫu nhiên một quả. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Xác suất lấy được bóng đỏ là $\\frac{2}{6}$.",
+      "b) Xác suất lấy được bóng xanh là $\\frac{4}{6}$.",
+      "c) Xác suất lấy được bóng đỏ hoặc bóng xanh là 1.",
+      "d) Xác suất lấy được bóng vàng là $\\frac{1}{6}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b) Đúng ($P = 1/3$ và $P = 2/3$). c) Đúng — biến cố chắc chắn. d) Sai — $P = 0$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Một hộp có 4 quả bóng đỏ và 3 quả bóng xanh giống hệt nhau. Lấy ngẫu nhiên một quả. Xác suất của biến cố “lấy được bóng xanh” là:",
+     "options": [
+      "A. $4/7$",
+      "B. $1/7$",
+      "C. $3/7$",
+      "D. $3/4$"
+     ],
+     "answer": "C",
+     "explain": "Có 7 kết quả có thể, 3 kết quả thuận lợi nên $P = \\frac{3}{7} = 3/7$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Một hộp có 2 bóng đỏ, 2 bóng xanh, 4 bóng vàng giống hệt nhau. Lấy ngẫu nhiên một quả. Xác suất “lấy được bóng vàng” là bao nhiêu? (Điền phân số dạng a/b)",
+     "answer": "1/2",
+     "explain": "$P = \\frac{4}{8} = 1/2$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Một vòng quay có 6 ô bằng nhau, trong đó có 2 ô màu đỏ. Quay hai lần liên tiếp. Xác suất của biến cố “cả hai lần mũi tên đều dừng ở ô đỏ” là bao nhiêu? (Điền phân số dạng a/b)",
+     "answer": "1/9",
+     "explain": "Mỗi lần quay $P(\\text{đỏ}) = \\frac{2}{6}$ nên $P = \\frac{2}{6} \\times \\frac{2}{6} = 1/9$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Một vòng quay có 8 ô bằng nhau, trong đó có 3 ô màu đỏ. Quay một lần. Xác suất của biến cố “mũi tên dừng ở ô màu đỏ” là:",
+     "options": [
+      "A. $3/5$",
+      "B. $1/8$",
+      "C. $3/8$",
+      "D. $5/8$"
+     ],
+     "answer": "C",
+     "explain": "Có 8 kết quả có thể, 3 kết quả thuận lợi nên $P = \\frac{3}{8} = 3/8$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Một vòng quay có 10 ô bằng nhau, trong đó có 2 ô màu đỏ, còn lại màu xanh. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Xác suất “dừng ở ô đỏ” là $\\frac{2}{10}$.",
+      "b) Xác suất “dừng ở ô xanh” là $\\frac{8}{10}$.",
+      "c) Tổng hai xác suất trên bằng 1.",
+      "d) Xác suất “dừng ở ô vàng” là $\\frac{1}{10}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b) Đúng ($P = 1/5$ và $P = 4/5$). c) Đúng. d) Sai — không có ô vàng, $P = 0$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 8",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Một hộp có 6 quả bóng đỏ và 5 quả bóng xanh giống hệt nhau. Lấy ngẫu nhiên một quả. Xác suất của biến cố “lấy được bóng không phải màu đỏ” là:",
+     "options": [
+      "A. $6/11$",
+      "B. $5/11$",
+      "C. $5/12$",
+      "D. $1/11$"
+     ],
+     "answer": "B",
+     "explain": "Bóng không phải màu đỏ là bóng xanh: 5 quả. $P = \\frac{5}{11} = 5/11$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Một hộp có 4 quả bóng đỏ và 4 quả bóng xanh giống hệt nhau. Lấy ngẫu nhiên một quả. Xác suất của biến cố “lấy được bóng đỏ” là:",
+     "options": [
+      "A. $2/2$",
+      "B. $1$",
+      "C. $1/2$",
+      "D. $1/8$"
+     ],
+     "answer": "C",
+     "explain": "Có 8 kết quả có thể, 4 kết quả thuận lợi nên $P = \\frac{4}{8} = 1/2$ (dạng phân số)."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Một hộp có 30 thẻ đánh số từ 1 đến 30. Rút ngẫu nhiên một thẻ. Xác suất của biến cố “rút được thẻ ghi số chia hết cho 3” là:",
+     "options": [
+      "A. $3/10$",
+      "B. $1/4$",
+      "C. $11/30$",
+      "D. $1/3$"
+     ],
+     "answer": "D",
+     "explain": "Có 10 số chia hết cho 3 từ 1 đến 30 nên $P = \\frac{10}{30} = 1/3$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Một vòng quay có 10 ô bằng nhau, trong đó có 4 ô màu đỏ. Quay hai lần liên tiếp. Xác suất của biến cố “cả hai lần mũi tên đều dừng ở ô đỏ” là bao nhiêu? (Điền phân số dạng a/b)",
+     "answer": "4/25",
+     "explain": "Mỗi lần quay $P(\\text{đỏ}) = \\frac{4}{10}$ nên $P = \\frac{4}{10} \\times \\frac{4}{10} = 4/25$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Một hộp có 4 quả bóng đỏ và 2 quả bóng xanh giống hệt nhau. Lấy ngẫu nhiên một quả. Xác suất của biến cố “lấy được bóng xanh” là:",
+     "options": [
+      "A. $1/3$",
+      "B. $1/6$",
+      "C. $1/2$",
+      "D. $2/3$"
+     ],
+     "answer": "A",
+     "explain": "Có 6 kết quả có thể, 2 kết quả thuận lợi nên $P = \\frac{2}{6} = 1/3$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Một hộp có 20 thẻ đánh số từ 1 đến 20. Rút ngẫu nhiên một thẻ. Xác suất của biến cố “rút được thẻ ghi số 1” là:",
+     "options": [
+      "A. $1/20$",
+      "B. $1/10$",
+      "C. $1/19$",
+      "D. $1$"
+     ],
+     "answer": "A",
+     "explain": "Có 20 kết quả có thể, 1 kết quả thuận lợi nên $P = \\frac{1}{20}$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Một hộp có 4 bóng đỏ, 2 bóng xanh, 3 bóng vàng giống hệt nhau. Lấy ngẫu nhiên một quả. Xác suất “lấy được bóng vàng” là bao nhiêu? (Điền phân số dạng a/b)",
+     "answer": "1/3",
+     "explain": "$P = \\frac{3}{9} = 1/3$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Một hộp có 18 thẻ đánh số từ 1 đến 18. Rút ngẫu nhiên một thẻ. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Xác suất “rút được thẻ ghi số chẵn” là $\\frac{9}{18}$.",
+      "b) Xác suất “rút được thẻ ghi số lẻ” là $\\frac{9}{18}$.",
+      "c) Xác suất “rút được thẻ ghi số nhỏ hơn 1” là 0.",
+      "d) Xác suất “rút được thẻ ghi số 0” là $\\frac{1}{18}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b) Đúng ($P = 1/2$). c) Đúng. d) Sai — $P = 0$."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Một hộp có 3 quả bóng đỏ và 5 quả bóng xanh giống hệt nhau. Lấy ngẫu nhiên một quả. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Xác suất lấy được bóng đỏ là $\\frac{3}{8}$.",
+      "b) Xác suất lấy được bóng xanh là $\\frac{5}{8}$.",
+      "c) Xác suất lấy được bóng đỏ hoặc bóng xanh là 1.",
+      "d) Xác suất lấy được bóng vàng là $\\frac{1}{8}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b) Đúng ($P = 3/8$ và $P = 5/8$). c) Đúng — biến cố chắc chắn. d) Sai — $P = 0$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Một hộp có 18 thẻ đánh số từ 1 đến 18. Rút ngẫu nhiên một thẻ. Xác suất của biến cố “rút được thẻ ghi số chẵn” là:",
+     "options": [
+      "A. $1/2$",
+      "B. $1/3$",
+      "C. $4/9$",
+      "D. $5/9$"
+     ],
+     "answer": "A",
+     "explain": "Có 9 số chẵn từ 1 đến 18 nên $P = \\frac{9}{18} = 1/2$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 9",
+   "questions": [
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Một hộp có 20 thẻ đánh số từ 1 đến 20. Rút ngẫu nhiên một thẻ. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Xác suất “rút được thẻ ghi số chẵn” là $\\frac{10}{20}$.",
+      "b) Xác suất “rút được thẻ ghi số lẻ” là $\\frac{10}{20}$.",
+      "c) Xác suất “rút được thẻ ghi số nhỏ hơn 1” là 0.",
+      "d) Xác suất “rút được thẻ ghi số 0” là $\\frac{1}{20}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b) Đúng ($P = 1/2$). c) Đúng. d) Sai — $P = 0$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Một hộp có 5 quả bóng đỏ và 5 quả bóng xanh giống hệt nhau. Lấy ngẫu nhiên một quả. Xác suất của biến cố “lấy được bóng không phải màu đỏ” là:",
+     "options": [
+      "A. $2/5$",
+      "B. $2/2$",
+      "C. $1/10$",
+      "D. $1/2$"
+     ],
+     "answer": "D",
+     "explain": "Bóng không phải màu đỏ là bóng xanh: 5 quả. $P = \\frac{5}{10} = 1/2$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Một hộp có 5 quả bóng đỏ và 3 quả bóng xanh giống hệt nhau. Lấy ngẫu nhiên một quả. Xác suất của biến cố “lấy được bóng xanh” là:",
+     "options": [
+      "A. $1/8$",
+      "B. $5/8$",
+      "C. $3/5$",
+      "D. $3/8$"
+     ],
+     "answer": "D",
+     "explain": "Có 8 kết quả có thể, 3 kết quả thuận lợi nên $P = \\frac{3}{8} = 3/8$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Một hộp có 2 bóng đỏ, 3 bóng xanh, 2 bóng vàng giống hệt nhau. Lấy ngẫu nhiên một quả. Xác suất “lấy được bóng vàng” là bao nhiêu? (Điền phân số dạng a/b)",
+     "answer": "2/7",
+     "explain": "$P = \\frac{2}{7} = 2/7$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Một hộp có 5 quả bóng đỏ và 2 quả bóng xanh giống hệt nhau. Lấy ngẫu nhiên một quả. Xác suất của biến cố “lấy được bóng không phải màu đỏ” là:",
+     "options": [
+      "A. $1/7$",
+      "B. $4/7$",
+      "C. $2/7$",
+      "D. $5/7$"
+     ],
+     "answer": "C",
+     "explain": "Bóng không phải màu đỏ là bóng xanh: 2 quả. $P = \\frac{2}{7} = 2/7$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Một vòng quay có 6 ô bằng nhau, trong đó có 3 ô màu đỏ. Quay hai lần liên tiếp. Xác suất của biến cố “cả hai lần mũi tên đều dừng ở ô đỏ” là bao nhiêu? (Điền phân số dạng a/b)",
+     "answer": "1/4",
+     "explain": "Mỗi lần quay $P(\\text{đỏ}) = \\frac{3}{6}$ nên $P = \\frac{3}{6} \\times \\frac{3}{6} = 1/4$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Một hộp có 15 thẻ đánh số từ 1 đến 15. Rút ngẫu nhiên một thẻ. Xác suất của biến cố “rút được thẻ ghi số chia hết cho 3” là:",
+     "options": [
+      "A. $1/4$",
+      "B. $4/15$",
+      "C. $2/5$",
+      "D. $1/3$"
+     ],
+     "answer": "D",
+     "explain": "Có 5 số chia hết cho 3 từ 1 đến 15 nên $P = \\frac{5}{15} = 1/3$."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Một hộp có 3 quả bóng đỏ và 4 quả bóng xanh giống hệt nhau. Lấy ngẫu nhiên một quả. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Xác suất lấy được bóng đỏ là $\\frac{3}{7}$.",
+      "b) Xác suất lấy được bóng xanh là $\\frac{4}{7}$.",
+      "c) Xác suất lấy được bóng đỏ hoặc bóng xanh là 1.",
+      "d) Xác suất lấy được bóng vàng là $\\frac{1}{7}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b) Đúng ($P = 3/7$ và $P = 4/7$). c) Đúng — biến cố chắc chắn. d) Sai — $P = 0$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Một hộp có 4 quả bóng đỏ và 5 quả bóng xanh giống hệt nhau. Lấy ngẫu nhiên một quả. Xác suất của biến cố “lấy được bóng đỏ” là:",
+     "options": [
+      "A. $4/5$",
+      "B. $1/9$",
+      "C. $5/9$",
+      "D. $4/9$"
+     ],
+     "answer": "D",
+     "explain": "Có 9 kết quả có thể, 4 kết quả thuận lợi nên $P = \\frac{4}{9} = 4/9$ (dạng phân số)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Một vòng quay có 8 ô bằng nhau, trong đó có 4 ô màu đỏ. Quay một lần. Xác suất của biến cố “mũi tên dừng ở ô màu đỏ” là:",
+     "options": [
+      "A. $1$",
+      "B. $1/8$",
+      "C. $2/2$",
+      "D. $1/2$"
+     ],
+     "answer": "D",
+     "explain": "Có 8 kết quả có thể, 4 kết quả thuận lợi nên $P = \\frac{4}{8} = 1/2$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 10",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Một vòng quay có 6 ô bằng nhau, trong đó có 4 ô màu đỏ. Quay một lần. Xác suất của biến cố “mũi tên dừng ở ô màu đỏ” là:",
+     "options": [
+      "A. $2/3$",
+      "B. $1/3$",
+      "C. $2$",
+      "D. $1/6$"
+     ],
+     "answer": "A",
+     "explain": "Có 6 kết quả có thể, 4 kết quả thuận lợi nên $P = \\frac{4}{6} = 2/3$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Một hộp có 4 quả bóng đỏ và 3 quả bóng xanh giống hệt nhau. Lấy ngẫu nhiên một quả. Xác suất của biến cố “lấy được bóng đỏ” là:",
+     "options": [
+      "A. $1/7$",
+      "B. $3/7$",
+      "C. $4/3$",
+      "D. $4/7$"
+     ],
+     "answer": "D",
+     "explain": "Có 7 kết quả có thể, 4 kết quả thuận lợi nên $P = \\frac{4}{7} = 4/7$ (dạng phân số)."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Một hộp có 4 quả bóng đỏ và 5 quả bóng xanh giống hệt nhau. Lấy ngẫu nhiên một quả. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Xác suất lấy được bóng đỏ là $\\frac{4}{9}$.",
+      "b) Xác suất lấy được bóng xanh là $\\frac{5}{9}$.",
+      "c) Xác suất lấy được bóng đỏ hoặc bóng xanh là 1.",
+      "d) Xác suất lấy được bóng vàng là $\\frac{1}{9}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b) Đúng ($P = 4/9$ và $P = 5/9$). c) Đúng — biến cố chắc chắn. d) Sai — $P = 0$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Một hộp có 24 thẻ đánh số từ 1 đến 24. Rút ngẫu nhiên một thẻ. Xác suất của biến cố “rút được thẻ ghi số chia hết cho 3” là:",
+     "options": [
+      "A. $1/4$",
+      "B. $3/8$",
+      "C. $1/3$",
+      "D. $7/24$"
+     ],
+     "answer": "C",
+     "explain": "Có 8 số chia hết cho 3 từ 1 đến 24 nên $P = \\frac{8}{24} = 1/3$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Một hộp có 2 quả bóng đỏ và 5 quả bóng xanh giống hệt nhau. Lấy ngẫu nhiên một quả. Xác suất của biến cố “lấy được bóng đỏ” là:",
+     "options": [
+      "A. $1/7$",
+      "B. $2/5$",
+      "C. $5/7$",
+      "D. $2/7$"
+     ],
+     "answer": "D",
+     "explain": "Có 7 kết quả có thể, 2 kết quả thuận lợi nên $P = \\frac{2}{7} = 2/7$ (dạng phân số)."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Một vòng quay có 8 ô bằng nhau, trong đó có 4 ô màu đỏ. Quay hai lần liên tiếp. Xác suất của biến cố “cả hai lần mũi tên đều dừng ở ô đỏ” là bao nhiêu? (Điền phân số dạng a/b)",
+     "answer": "1/4",
+     "explain": "Mỗi lần quay $P(\\text{đỏ}) = \\frac{4}{8}$ nên $P = \\frac{4}{8} \\times \\frac{4}{8} = 1/4$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Một hộp có 3 bóng đỏ, 3 bóng xanh, 2 bóng vàng giống hệt nhau. Lấy ngẫu nhiên một quả. Xác suất “lấy được bóng vàng” là bao nhiêu? (Điền phân số dạng a/b)",
+     "answer": "1/4",
+     "explain": "$P = \\frac{2}{8} = 1/4$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Một vòng quay có 12 ô bằng nhau, trong đó có 4 ô màu đỏ, còn lại màu xanh. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Xác suất “dừng ở ô đỏ” là $\\frac{4}{12}$.",
+      "b) Xác suất “dừng ở ô xanh” là $\\frac{8}{12}$.",
+      "c) Tổng hai xác suất trên bằng 1.",
+      "d) Xác suất “dừng ở ô vàng” là $\\frac{1}{12}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b) Đúng ($P = 1/3$ và $P = 2/3$). c) Đúng. d) Sai — không có ô vàng, $P = 0$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Một hộp có 5 quả bóng đỏ và 4 quả bóng xanh giống hệt nhau. Lấy ngẫu nhiên một quả. Xác suất của biến cố “lấy được bóng không phải màu đỏ” là:",
+     "options": [
+      "A. $5/9$",
+      "B. $4/10$",
+      "C. $4/9$",
+      "D. $1/9$"
+     ],
+     "answer": "C",
+     "explain": "Bóng không phải màu đỏ là bóng xanh: 4 quả. $P = \\frac{4}{9} = 4/9$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Một hộp có 14 thẻ đánh số từ 1 đến 14. Rút ngẫu nhiên một thẻ. Xác suất của biến cố “rút được thẻ ghi số chẵn” là:",
+     "options": [
+      "A. $1/2$",
+      "B. $1/3$",
+      "C. $4/7$",
+      "D. $3/7$"
+     ],
+     "answer": "A",
+     "explain": "Có 7 số chẵn từ 1 đến 14 nên $P = \\frac{7}{14} = 1/2$."
+    }
+   ]
+  }
+ ]
+}
+</script>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
