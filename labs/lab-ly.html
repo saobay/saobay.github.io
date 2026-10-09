@@ -146,7 +146,16 @@ function fitCanvas(cv){
   var L = 1, theta0 = 20*Math.PI/180, theta = theta0, omega = 0, running = false, last = 0;
   var g = 9.8, t = 0, lastCross = -1, periods = [], dragging = false;
   var G = fitCanvas(cv);
-  window.addEventListener('resize', function(){ G = fitCanvas(cv); });
+  (function(){
+  var rT, lastW = 0;
+  window.addEventListener('resize', function(){
+    clearTimeout(rT);
+    rT = setTimeout(function(){
+      var w = cv.getBoundingClientRect().width;
+      if (Math.abs(w - lastW) > 5) { lastW = w; G = fitCanvas(cv); }
+    }, 200);
+  });
+})();
 
   document.getElementById('pend-L').addEventListener('input', function(e){
     L = parseFloat(e.target.value);
@@ -273,7 +282,16 @@ function fitCanvas(cv){
 (function(){
   var cv = document.getElementById('cv-circuit');
   var G = fitCanvas(cv);
-  window.addEventListener('resize', function(){ G = fitCanvas(cv); });
+  (function(){
+  var rT, lastW = 0;
+  window.addEventListener('resize', function(){
+    clearTimeout(rT);
+    rT = setTimeout(function(){
+      var w = cv.getBoundingClientRect().width;
+      if (Math.abs(w - lastW) > 5) { lastW = w; G = fitCanvas(cv); }
+    }, 200);
+  });
+})();
   var closed = false, flowT = 0;
 
   document.getElementById('sw-toggle').addEventListener('click', function(){
@@ -361,7 +379,16 @@ function fitCanvas(cv){
 (function(){
   var cv = document.getElementById('cv-fall');
   var G = fitCanvas(cv);
-  window.addEventListener('resize', function(){ G = fitCanvas(cv); });
+  (function(){
+  var rT, lastW = 0;
+  window.addEventListener('resize', function(){
+    clearTimeout(rT);
+    rT = setTimeout(function(){
+      var w = cv.getBoundingClientRect().width;
+      if (Math.abs(w - lastW) > 5) { lastW = w; G = fitCanvas(cv); }
+    }, 200);
+  });
+})();
   var g = 9.8, h = 20, falling = false, y = 0, t = 0, obj = 'ball';
   var emojis = {ball:'⚽', apple:'🍎', rock:'🪨'};
   var names = {ball:'Quả bóng', apple:'Quả táo', rock:'Hòn đá'};
