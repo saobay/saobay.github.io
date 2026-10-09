@@ -56,7 +56,12 @@ body{font-family:system-ui,-apple-system,sans-serif}
         </div>
         <div class="bg-white rounded-xl shadow overflow-hidden">
             <div class="p-3 border-b flex flex-wrap items-center gap-2">
-                <h2 class="font-black text-sm text-slate-700">Danh sách chưa đổi mật khẩu mặc định</h2>
+                <h2 id="pw-table-title" class="font-black text-sm text-slate-700">Danh sách chưa đổi mật khẩu mặc định</h2>
+                <div class="flex gap-1">
+                    <button data-f="notchanged" onclick="setPwFilter('notchanged')" class="pw-filter-btn text-[11px] font-bold px-2.5 py-1.5 rounded-lg bg-blue-600 text-white">Chưa đổi</button>
+                    <button data-f="changed" onclick="setPwFilter('changed')" class="pw-filter-btn text-[11px] font-bold px-2.5 py-1.5 rounded-lg bg-slate-100 text-slate-600">Đã đổi</button>
+                    <button data-f="all" onclick="setPwFilter('all')" class="pw-filter-btn text-[11px] font-bold px-2.5 py-1.5 rounded-lg bg-slate-100 text-slate-600">Tất cả</button>
+                </div>
                 <input id="pw-search" oninput="renderPwTable()" placeholder="Tìm tên/mã..." class="ml-auto text-xs border rounded-lg px-2 py-1.5">
             </div>
             <div class="overflow-x-auto max-h-[60vh] overflow-y-auto">
@@ -233,13 +238,14 @@ async function loadAll(){
 }
 
 // ---- Tab 1: Password ----
-let pwList=[];
+let pwList=[], pwFilter='notchanged';
+window.renderPwTable=function(){ renderPwTable(); };
+window.setPwFilter=function(f){ pwFilter=f; renderPwTable(); };
 function renderPasswordTab(){
     pwList=[];
     let pw = db.passwords||{};
     let students = db.students||{};
-    let allT = getAllTeachers();
-    allT.forEach(t=>{
+    getAllTeachers().forEach(t=>{
         let id=t.id;
         let changed = pw[id] && pw[id]!=='12345678';
         pwList.push({name:t.name||id, id:id, role:'Giáo viên', group:(t.subjects||[]).join(', ')||t.group||'', changed:!!changed});
@@ -255,22 +261,33 @@ function renderPasswordTab(){
     let nc = pwList.filter(x=>!x.changed).length;
     document.getElementById('pw-not-changed').textContent = nc;
     document.getElementById('pw-changed').textContent = pwList.length - nc;
-    document.getElementById('pw-teachers').textContent = allT.length;
+    document.getElementById('pw-teachers').textContent = Object.keys(teachers).length;
     let sc = 0; Object.keys(students).forEach(c=>sc+=(students[c]||[]).length);
     document.getElementById('pw-students').textContent = sc;
     renderPwTable();
 }
 function renderPwTable(){
     let q = (document.getElementById('pw-search').value||'').toLowerCase();
-    let list = pwList.filter(x=>!x.changed).filter(x=>!q || (x.name+' '+x.id).toLowerCase().includes(q));
+    let list = pwList.filter(x=> pwFilter==='all' ? true : (pwFilter==='changed' ? x.changed : !x.changed))
+                     .filter(x=>!q || (x.name+' '+x.id).toLowerCase().includes(q));
     let h='';
-    if(!list.length) h='<tr><td colspan="5" class="px-3 py-4 text-center text-emerald-600 font-bold">Tất cả đã đổi mật khẩu! 🎉</td></tr>';
+    if(!list.length) h='<tr><td colspan="5" class="px-3 py-4 text-center text-slate-400 italic">Không có dữ liệu.</td></tr>';
+    // Cap nhat tieu de + nut loc
+    let t = document.getElementById('pw-table-title');
+    if(t) t.textContent = pwFilter==='changed' ? 'Danh sách đã đổi mật khẩu' : (pwFilter==='all' ? 'Danh sách tất cả tài khoản' : 'Danh sách chưa đổi mật khẩu mặc định');
+    document.querySelectorAll('.pw-filter-btn').forEach(b=>{
+        let on = b.dataset.f===pwFilter;
+        b.classList.toggle('bg-blue-600', on); b.classList.toggle('text-white', on);
+        b.classList.toggle('bg-slate-100', !on); b.classList.toggle('text-slate-600', !on);
+    });
     list.slice(0,200).forEach(x=>{
         h+='<tr class="border-t hover:bg-slate-50"><td class="px-3 py-2 font-semibold">'+esc(x.name)+'</td>'
             +'<td class="px-3 py-2 text-slate-500">'+esc(x.id)+'</td>'
             +'<td class="px-3 py-2">'+esc(x.role)+'</td>'
             +'<td class="px-3 py-2">'+esc(x.group)+'</td>'
-            +'<td class="px-3 py-2"><span class="bg-rose-100 text-rose-700 px-2 py-0.5 rounded-full font-bold">Chưa đổi</span></td></tr>';
+            +'<td class="px-3 py-2">'+(x.changed
+                ? '<span class="bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full font-bold">Đã đổi</span>'
+                : '<span class="bg-rose-100 text-rose-700 px-2 py-0.5 rounded-full font-bold">Chưa đổi</span>')+'</td></tr>';
     });
     if(list.length>200) h+='<tr><td colspan="5" class="px-3 py-2 text-center text-slate-400">... và '+(list.length-200)+' người nữa</td></tr>';
     document.getElementById('pw-tbody').innerHTML=h;
