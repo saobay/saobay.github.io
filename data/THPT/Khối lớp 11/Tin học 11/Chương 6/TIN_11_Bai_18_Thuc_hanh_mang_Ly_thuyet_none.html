@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay | Ma nguon thuoc nen tang hoc tap SAOBAY | Nghiem cam sao chep duoi moi hinh thuc -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 18: Thực hành dữ liệu mảng một chiều và hai chiều</title>
+    <meta name="lesson-title" content="Bài 18: Thực hành dữ liệu mảng một chiều và hai chiều">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 18: Thực hành dữ liệu mảng một chiều và hai chiều</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 6: Kĩ thuật lập trình • Bài 18: Thực hành dữ liệu mảng một chiều và hai chiều</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 18: Thực hành dữ liệu mảng một chiều và hai chiều</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 6: Kĩ thuật lập trình — sách Kết nối tri thức với cuộc sống</p>
+
+<!-- 1. Nhắc lại về mảng -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Nhắc lại về mảng một chiều và hai chiều</h2>
+
+<p><strong>Mảng một chiều</strong> là dãy hữu hạn các phần tử có cùng kiểu dữ liệu, truy cập qua <strong>chỉ số</strong> (bắt đầu từ 0). Trong Python, mảng thường được biểu diễn bằng kiểu <code>list</code>.</p>
+
+<p><strong>Mảng hai chiều</strong> (ma trận) là mảng mà mỗi phần tử của nó lại là một mảng một chiều — tức là <code>list</code> lồng trong <code>list</code>. Phần tử ở hàng <code>i</code>, cột <code>j</code> được truy cập bằng <code>a[i][j]</code>.</p>
+
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2">a = [5, 8, 2, 9]          # mảng một chiều, 4 phần tử
+b = [[1, 2, 3], [4, 5, 6]] # mảng hai chiều: 2 hàng, 3 cột
+print(a[0])                # 5  (phần tử đầu tiên)
+print(b[1][2])             # 6  (hàng 1, cột 2)</pre>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Các thao tác cơ bản:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li><code>len(a)</code>: số phần tử của mảng một chiều; <code>len(b)</code>: số hàng của ma trận; <code>len(b[0])</code>: số cột.</li>
+<li><code>a.append(x)</code>: thêm <code>x</code> vào cuối mảng một chiều.</li>
+<li>Duyệt mảng: <code>for x in a</code> hoặc <code>for i in range(len(a))</code>.</li>
+</ul>
+</div>
+
+<!-- 2. Nhập mảng từ bàn phím -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Nhập mảng từ bàn phím</h2>
+
+<p>Trong thực hành, dữ liệu thường được nhập từ bàn phím: các số cách nhau bởi dấu cách trên một dòng.</p>
+
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2"># Nhập mảng một chiều: các số trên một dòng, cách nhau bởi dấu cách
+a = list(map(int, input().split()))
+# Ví dụ nhập: 5 8 2 9  →  a = [5, 8, 2, 9]
+
+# Nhập ma trận m hàng, n cột
+m = int(input())   # số hàng
+n = int(input())   # số cột
+b = []
+for i in range(m):
+    row = list(map(int, input().split()))
+    b.append(row)  # mỗi dòng nhập là một hàng</pre>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><code>input().split()</code> tách dòng nhập thành các chuỗi con; <code>map(int, ...)</code> chuyển từng chuỗi thành số nguyên; <code>list(...)</code> gom lại thành mảng.</p>
+</div>
+
+<!-- 3. Các bài toán cơ bản trên mảng một chiều -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Các bài toán cơ bản trên mảng một chiều</h2>
+
+<p><strong>Tính tổng và trung bình</strong> các phần tử:</p>
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2">a = [5, 8, 2, 9]
+s = 0
+for x in a:
+    s = s + x
+print(s)          # 24
+print(s / len(a)) # 6.0 (trung bình)</pre>
+
+<p><strong>Tìm giá trị lớn nhất</strong> (và vị trí của nó):</p>
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2">a = [5, 8, 2, 9]
+mx = a[0]
+pos = 0
+for i in range(1, len(a)):
+    if a[i] &gt; mx:
+        mx = a[i]
+        pos = i
+print(mx, pos)  # 9 3</pre>
+
+<p><strong>Đếm</strong> số phần tử thỏa điều kiện (ví dụ đếm số chẵn):</p>
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2">a = [5, 8, 2, 9, 4]
+dem = 0
+for x in a:
+    if x % 2 == 0:
+        dem = dem + 1
+print(dem)  # 3  (8, 2, 4 là số chẵn)</pre>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Mẫu chung của các bài toán duyệt mảng:</p>
+<p>Khởi tạo biến tích lũy (tổng = 0, đếm = 0, max = phần tử đầu) → duyệt từng phần tử bằng vòng lặp → cập nhật biến tích lũy theo điều kiện → in kết quả.</p>
+</div>
+
+<!-- 4. Các bài toán trên mảng hai chiều -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Các bài toán trên mảng hai chiều</h2>
+
+<p>Duyệt ma trận cần <strong>hai vòng lặp lồng nhau</strong>: vòng ngoài duyệt hàng, vòng trong duyệt cột.</p>
+
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2">b = [[1, 2, 3], [4, 5, 6]]
+s = 0
+for i in range(len(b)):          # duyệt từng hàng
+    for j in range(len(b[i])):   # duyệt từng cột trong hàng
+        s = s + b[i][j]
+print(s)  # 21</pre>
+
+<p><strong>Tổng từng hàng</strong> của ma trận:</p>
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2">b = [[1, 2, 3], [4, 5, 6]]
+for i in range(len(b)):
+    s = 0
+    for j in range(len(b[i])):
+        s = s + b[i][j]
+    print("Hàng", i, "có tổng:", s)
+# Hàng 0 có tổng: 6
+# Hàng 1 có tổng: 15</pre>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-sm my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Bài toán</td><td class="border border-slate-300 px-4 py-1">Ý tưởng</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Tổng toàn ma trận</td><td class="border border-slate-300 px-4 py-1">Hai vòng lặp lồng nhau cộng dồn mọi <code>b[i][j]</code></td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Tổng từng hàng</td><td class="border border-slate-300 px-4 py-1">Vòng ngoài theo hàng, tổng riêng trong mỗi hàng</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Phần tử lớn nhất ma trận</td><td class="border border-slate-300 px-4 py-1">Hai vòng lặp lồng nhau, so sánh với max hiện tại</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Đếm phần tử thỏa điều kiện</td><td class="border border-slate-300 px-4 py-1">Hai vòng lặp lồng nhau, đếm khi gặp điều kiện</td></tr>
+</table></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">⚠️ Lỗi thường gặp</p>
+<ul class="list-disc ml-6 space-y-1 mt-1">
+<li>Truy cập <code>b[i][j]</code> vượt quá số hàng/cột → lỗi <code>IndexError</code>. Luôn kiểm tra <code>len(b)</code> và <code>len(b[i])</code>.</li>
+<li>Nhập ma trận: mỗi <strong>dòng nhập</strong> tương ứng một <strong>hàng</strong> — số lượng số trên mỗi dòng phải bằng số cột.</li>
+</ul>
+</div>
+
+<!-- 5. Bài toán mẫu tổng hợp -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">5. Bài toán mẫu: bảng điểm của lớp</h2>
+
+<p><strong>Đề bài:</strong> Nhập bảng điểm <code>m</code> học sinh, mỗi học sinh có <code>n</code> môn. Tính điểm trung bình của từng học sinh và tìm học sinh có điểm trung bình cao nhất.</p>
+
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2">m = int(input())  # số học sinh
+n = int(input())  # số môn
+diem = []
+for i in range(m):
+    row = list(map(float, input().split()))
+    diem.append(row)
+
+tb_max = -1
+hs_gioi = 0
+for i in range(m):
+    s = 0
+    for j in range(n):
+        s = s + diem[i][j]
+    tb = s / n
+    print("HS", i, "trung bình:", tb)
+    if tb &gt; tb_max:
+        tb_max = tb
+        hs_gioi = i
+print("Học sinh giỏi nhất:", hs_gioi)</pre>
+
+<p>Chương trình trên kết hợp đầy đủ các kĩ năng: nhập ma trận, duyệt hai vòng lặp lồng nhau, tính tổng theo hàng và tìm giá trị lớn nhất.</p>
+
+<!-- Tóm tắt -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Nhập mảng:</strong> <code>list(map(int, input().split()))</code>; nhập ma trận theo từng hàng.</li>
+<li><strong>Mẫu duyệt mảng một chiều:</strong> khởi tạo biến tích lũy → vòng lặp → cập nhật → in kết quả.</li>
+<li><strong>Mảng hai chiều:</strong> hai vòng lặp lồng nhau, truy cập <code>a[i][j]</code>; chú ý giới hạn chỉ số.</li>
+<li><strong>Bài toán điển hình:</strong> tính tổng, đếm, tìm max/min, tổng theo hàng/cột của ma trận.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">
+(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok){if(document.body){document.body.innerHTML='<div style="font-family:system-ui,sans-serif;max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff"><h2 style="color:#0f172a;margin-top:0">© SAOBAY — Trường THPT Sào Báy</h2><p style="color:#475569">Nội dung này chỉ được hiển thị tại địa chỉ chính thức <b>saobay.github.io</b>.</p><p style="color:#475569">Vui lòng truy cập đúng địa chỉ để học tập.</p></div>';}else{document.write("SAOBAY: truy cap tai saobay.github.io");}}catch(e){}})();
+</script>
+</body>
+</html>
