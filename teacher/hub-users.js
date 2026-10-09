@@ -61,16 +61,20 @@
             if (!db.passwords) db.passwords = {};
             if (db.passwords[o.id]) throw new Error('Mã ' + o.id + ' đã có tài khoản.');
             db.passwords[o.id] = '12345678'; // mật khẩu mặc định, used.html bắt đổi ngay lần đầu
-            var UNASSIGNED = 'Chưa phân nhóm lớp';
+            var UNASSIGNED = getUnassignedGroup(db);
+            // Trial mode: 90 ngay; het trial: cho phan cong (se bi chan hoc)
+            var isTrial = UNASSIGNED === 'Trải nghiệm';
             if (o.role === 'teacher'){
                 if (!db.teachers_registry || Array.isArray(db.teachers_registry)) db.teachers_registry = {};
                 db.teachers_registry[o.id] = { name: o.name, group: UNASSIGNED, note: o.note || '' };
             } else {
                 if (!db.students) db.students = {};
                 if (!Array.isArray(db.students[UNASSIGNED])) db.students[UNASSIGNED] = [];
-                db.students[UNASSIGNED].push({ id: o.id, name: o.name, dob: '', requestedClass: String(o.className || '').toUpperCase().trim() });
+                db.students[UNASSIGNED].push({ id: o.id, name: o.name, dob: '' });
             }
-            let expDays = calcExpiryDays(o.role, o.id, db, o.expiryDays);
+            // Ghi de thoi han: trial=90 ngay
+            o._forceTrial = isTrial;
+            let expDays = o._forceTrial ? 90 : calcExpiryDays(o.role, o.id, db, o.expiryDays);
             await assignPushUsed(db, 'Tạo tài khoản ' + (o.role === 'teacher' ? 'giáo viên' : 'học sinh') + ': ' + o.name + ' (' + o.id + ')');
             let expDb = await assignFetchExpiry();
             expDb[o.id] = { expires_at: expiryDateISO(expDays),
@@ -108,10 +112,11 @@
             (async function(){
                 try {
                     let db = await assignFetchUsed();
-                    let n = ((db.students && db.students[UNASSIGNED_GROUP]) || []).length;
+                    let _ug = getUnassignedGroup(db);
+                    let n = ((db.students && db.students[_ug]) || []).length;
                     Object.keys(db.teachers_registry || {}).forEach(function(tid){
                         let t = db.teachers_registry[tid];
-                        if (!t.group || t.group === UNASSIGNED_GROUP) n++;
+                        if (!t.group || t.group === _ug || t.group === 'Chưa phân nhóm lớp') n++;
                     });
                     let b = document.getElementById('um-unassigned-count');
                     if (b) b.textContent = n ? String(n) : '';
@@ -185,23 +190,30 @@
             } catch(e){ alert('Lỗi: ' + (e.message || e)); }
         }
 
-        // ===== CHUA PHAN NHOM LOP (2026-10-09) =====
-        var UNASSIGNED_GROUP = 'Chưa phân nhóm lớp';
+        // ===== CHUA PHAN NHOM LOP / TRAI NGHIEM (2026-10-09) =====
+        function getUnassignedGroup(db){
+            // trial_mode=true: nhom "Trải nghiệm" (full 3 thang); false: "Chờ phân công lớp" (chua duoc hoc)
+            let tm = db && db.settings && db.settings.trial_mode;
+            if (tm === undefined || tm === null) tm = true; // mac dinh dang trial
+            return tm ? 'Trải nghiệm' : 'Chờ phân công lớp';
+        }
+        var UNASSIGNED_GROUP = 'Trải nghiệm'; // fallback, dung getUnassignedGroup(db) khi co db
         async function userMgrLoadUnassigned(){
             let body = document.getElementById('users-body');
             body.innerHTML = '<p class="text-xs text-slate-400 italic">Đang tải...</p>';
             try {
                 let db = await assignFetchUsed();
+                let _ug2 = getUnassignedGroup(db);
                 // HS chua phan nhom
-                let unSt = (db.students && db.students[UNASSIGNED_GROUP]) || [];
-                // GV chua phan nhom
+                let unSt = (db.students && db.students[_ug2]) || [];
+                // GV chua phan nhom (gom ca ten cu)
                 let unTv = [];
                 Object.keys(db.teachers_registry || {}).forEach(function(tid){
                     let t = db.teachers_registry[tid];
-                    if (!t.group || t.group === UNASSIGNED_GROUP) unTv.push({ id: tid, name: t.name, requested: t.note });
+                    if (!t.group || t.group === _ug2 || t.group === 'Chưa phân nhóm lớp' || t.group === 'Trải nghiệm') unTv.push({ id: tid, name: t.name, requested: t.note });
                 });
                 // Danh sach lop hien co (de chon)
-                let classes = Object.keys(db.students || {}).filter(function(c){ return c !== UNASSIGNED_GROUP; }).sort();
+                let classes = Object.keys(db.students || {}).filter(function(c){ return c !== _ug2 && c !== 'Chưa phân nhóm lớp' && c !== 'Trải nghiệm' && c !== 'Chờ phân công lớp'; }).sort();
                 let h = '';
                 // HS
                 if (unSt.length){
@@ -233,13 +245,31 @@
                     });
                     h += '</div>';
                 }
+                let _tm = !(db.settings && db.settings.trial_mode === false);
+                let toggleHtml = '<div class="flex items-center justify-between bg-blue-50 border border-blue-200 rounded-xl p-3 mb-3 text-xs">'
+                    + '<div><p class="font-black text-blue-900">Chế độ trải nghiệm 3 tháng: ' + (_tm ? '<span class="text-emerald-700">ĐANG BẬT</span>' : '<span class="text-slate-500">ĐANG TẮT</span>') + '</p>'
+                    + '<p class="text-slate-500 text-[11px]">' + (_tm ? 'TK mới vào nhóm "Trải nghiệm", dùng full 3 tháng.' : 'TK mới vào "Chờ phân công lớp", chưa được học.') + '</p></div>'
+                    + '<button onclick="toggleTrialMode()" class="shrink-0 font-bold px-3 py-1.5 rounded-lg ' + (_tm ? 'bg-amber-500 hover:bg-amber-600 text-white' : 'bg-emerald-600 hover:bg-emerald-700 text-white') + '">'
+                    + (_tm ? 'Tắt trial' : 'Bật trial') + '</button></div>';
                 if (!h) h = '<p class="text-xs text-slate-400 italic">Không có ai chờ phân nhóm. Tất cả đã được xếp lớp/nhóm.</p>';
                 else h = '<p class="text-[11px] text-slate-500 mb-3"><i class="fa-solid fa-circle-info mr-1"></i>Tài khoản mới duyệt sẽ vào đây. Admin xếp lớp/nhóm cho từng người.</p>' + h;
+                h = toggleHtml + h;
                 body.innerHTML = h;
                 // Cap nhat badge
                 let badge = document.getElementById('um-unassigned-count');
                 if (badge) badge.textContent = unSt.length + unTv.length;
             } catch(e){ body.innerHTML = '<p class="text-xs text-rose-600">Lỗi: ' + uEsc(e.message || e) + '</p>'; }
+        }
+        async function toggleTrialMode(){
+            try {
+                let db = await assignFetchUsed();
+                if (!db.settings) db.settings = {};
+                let cur = !(db.settings.trial_mode === false);
+                db.settings.trial_mode = !cur;
+                await assignPushUsed(db, (cur ? 'Tắt' : 'Bật') + ' chế độ trải nghiệm 3 tháng');
+                if (typeof showToast === 'function') showToast(cur ? 'Đã tắt trial.' : 'Đã bật trial.', 'success');
+                userMgrLoadUnassigned();
+            } catch(e){ alert('Lỗi: ' + (e.message || e)); }
         }
         async function assignStudentToClass(sid){
             let sel = document.getElementById('uas-cls-' + sid);
@@ -247,7 +277,8 @@
             if (!cls){ alert('Hãy chọn lớp cho học sinh.'); return; }
             try {
                 let db = await assignFetchUsed();
-                let arr = db.students[UNASSIGNED_GROUP] || [];
+                let _ug3 = getUnassignedGroup(db);
+                let arr = db.students[_ug3] || [];
                 let idx = arr.findIndex(function(x){ return String(x.id) === String(sid); });
                 if (idx < 0) throw new Error('Không tìm thấy HS.');
                 let st = arr.splice(idx, 1)[0];
