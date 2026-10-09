@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài tập Bài 23: Phép cộng và phép trừ phân thức đại số</title>
+    <meta name="lesson-title" content="Bài tập Bài 23: Phép cộng và phép trừ phân thức đại số">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Bài tập</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài tập Bài 23: Phép cộng và phép trừ phân thức đại số</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 6: Phân thức đại số • Bài 23: Phép cộng và phép trừ phân thức đại số</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="saobay-exam10">
+<script type="application/json" class="saobay-exam10-data">
+{
+ "sets": [
+  {
+   "name": "Đề 1",
+   "questions": [
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tính giá trị của biểu thức $\\frac{2}{x}+\\frac{3}{3x}$ tại $x=3$. (chỉ ghi số)",
+     "answer": "1",
+     "explain": "$\\frac{2}{x}+\\frac{3}{3x}$ $=\\frac{6+3}{3x}=\\frac{9}{3x}$; tại $x=3$: $\\frac{9}{9}=1$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Kết quả của phép tính $\\frac{3x}{5}+\\frac{2x}{5}$ là",
+     "options": [
+      "A. $x$",
+      "B. $\\frac{1}{x}$",
+      "C. $\\frac{3x}{4}$",
+      "D. $2x$"
+     ],
+     "answer": "A",
+     "explain": "$\\frac{3x+2x}{5}=\\frac{5x}{5}=x$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "$\\frac{A}{M}+\\frac{B}{M}$ bằng?",
+     "options": [
+      "A. $\\frac{A+B}{2M}$",
+      "B. $\\frac{AB}{M}$",
+      "C. $\\frac{A+B}{M}$",
+      "D. $A+B$"
+     ],
+     "answer": "C",
+     "explain": "Đáp án đúng là “$\\frac{A+B}{M}$”."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho phép tính $\\frac{2x+3}{7}-\\frac{x+1}{7}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Kết quả là $\\frac{x+2}{7}$.",
+      "$\\frac{(2x+3)-(x+1)}{7}=\\frac{x+2}{7}$.",
+      "Kết quả là $\\frac{3x+4}{7}$.",
+      "Khi trừ cần đổi dấu $x+1$ thành $-x-1$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "$(2x+3)-(x+1)=x+2$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Muốn cộng hai phân thức có cùng mẫu thức, ta?",
+     "options": [
+      "A. cộng các tử thức với nhau và giữ nguyên mẫu thức",
+      "B. cộng cả tử và mẫu với nhau",
+      "C. giữ nguyên tử và cộng các mẫu thức",
+      "D. nhân các tử với nhau"
+     ],
+     "answer": "A",
+     "explain": "Đáp án đúng là “cộng các tử thức với nhau và giữ nguyên mẫu thức”."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tính giá trị của biểu thức $\\frac{5x+4}{5}+\\frac{8x+4}{5}$ tại $x=9$. (chỉ ghi số)",
+     "answer": "25",
+     "explain": "$\\frac{5x+4}{5}+\\frac{8x+4}{5}$ $=\\frac{13x+8}{5}$; tại $x=9$: $\\frac{125}{5}=25$."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Cho phép tính $\\frac{3x}{7}+\\frac{2x}{7}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Cộng tử với tử, giữ nguyên mẫu.",
+      "Kết quả là $\\frac{5x}{7}$.",
+      "Kết quả là $\\frac{5x}{14}$.",
+      "$\\frac{3x}{7}+\\frac{2x}{7}=\\frac{6x^2}{49}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "F"
+     ],
+     "explain": "Cùng mẫu: $\\frac{3x+2x}{7}=\\frac{5x}{7}$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Muốn trừ hai phân thức có cùng mẫu thức, ta?",
+     "options": [
+      "A. trừ cả tử và mẫu cho nhau",
+      "B. trừ các tử thức với nhau và giữ nguyên mẫu thức",
+      "C. giữ nguyên tử và trừ các mẫu thức",
+      "D. chia các tử cho nhau"
+     ],
+     "answer": "B",
+     "explain": "Đáp án đúng là “trừ các tử thức với nhau và giữ nguyên mẫu thức”."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Kết quả của phép tính $\\frac{1}{x}+\\frac{1}{2x}$ là",
+     "options": [
+      "A. $\\frac{x+3}{x(x+1)}$",
+      "B. $\\frac{1}{2x}$",
+      "C. $\\frac{3}{2x}$",
+      "D. $\\frac{2x}{x^2-1}$"
+     ],
+     "answer": "C",
+     "explain": "$\\frac{2}{2x}+\\frac{1}{2x}=\\frac{3}{2x}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Kết quả của phép tính $\\frac{x+1}{4}+\\frac{2x-1}{4}$ là",
+     "options": [
+      "A. $x$",
+      "B. $\\frac{3x}{4}$",
+      "C. $\\frac{x+2}{7}$",
+      "D. $\\frac{8}{x+2}$"
+     ],
+     "answer": "B",
+     "explain": "$\\frac{(x+1)+(2x-1)}{4}=\\frac{3x}{4}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 2",
+   "questions": [
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tính giá trị của biểu thức $\\frac{6x+5}{2}+\\frac{5x+8}{2}$ tại $x=9$. (chỉ ghi số)",
+     "answer": "56",
+     "explain": "$\\frac{6x+5}{2}+\\frac{5x+8}{2}$ $=\\frac{11x+13}{2}$; tại $x=9$: $\\frac{112}{2}=56$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Kết quả của phép tính $\\frac{2x+3}{7}-\\frac{x+1}{7}$ là",
+     "options": [
+      "A. $\\frac{3}{y}$",
+      "B. $\\frac{3x^2}{5}$",
+      "C. $\\frac{5x}{6}$",
+      "D. $\\frac{x+2}{7}$"
+     ],
+     "answer": "D",
+     "explain": "$\\frac{(2x+3)-(x+1)}{7}=\\frac{x+2}{7}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Cho phép tính $\\frac{5}{x}-\\frac{2}{x}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Trừ tử với tử, giữ nguyên mẫu.",
+      "Kết quả là $\\frac{3}{x}$.",
+      "Kết quả là $\\frac{3}{2x}$.",
+      "$\\frac{5}{x}-\\frac{2}{x}=\\frac{3}{0}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "F"
+     ],
+     "explain": "Cùng mẫu: $\\frac{5-2}{x}=\\frac{3}{x}$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "$\\frac{A}{M}-\\frac{B}{M}$ bằng?",
+     "options": [
+      "A. $\\frac{A-B}{2M}$",
+      "B. $\\frac{A}{B}$",
+      "C. $A-B$",
+      "D. $\\frac{A-B}{M}$"
+     ],
+     "answer": "D",
+     "explain": "Đáp án đúng là “$\\frac{A-B}{M}$”."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho phép tính $\\frac{1}{x-1}+\\frac{1}{x+1}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Mẫu thức chung là $(x-1)(x+1)$.",
+      "Kết quả là $\\frac{2x}{x^2-1}$.",
+      "$\\frac{1}{x-1}+\\frac{1}{x+1}=\\frac{2}{2x}$.",
+      "Kết quả là $\\frac{2x}{x^2+1}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "F"
+     ],
+     "explain": "Quy đồng: $\\frac{(x+1)+(x-1)}{(x-1)(x+1)}=\\frac{2x}{x^2-1}$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tính giá trị của biểu thức $\\frac{5}{x}+\\frac{3}{3x}$ tại $x=6$. (chỉ ghi số)",
+     "answer": "1",
+     "explain": "$\\frac{5}{x}+\\frac{3}{3x}$ $=\\frac{15+3}{3x}=\\frac{18}{3x}$; tại $x=6$: $\\frac{18}{18}=1$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Muốn cộng hai phân thức khác mẫu thức, trước hết ta phải?",
+     "options": [
+      "A. quy đồng mẫu thức hai phân thức",
+      "B. cộng ngay các tử thức",
+      "C. nhân hai mẫu thức với nhau",
+      "D. rút gọn từng phân thức"
+     ],
+     "answer": "A",
+     "explain": "Đáp án đúng là “quy đồng mẫu thức hai phân thức”."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Kết quả của phép tính $\\frac{2}{3}+\\frac{x}{6}$ là",
+     "options": [
+      "A. $\\frac{3x+2}{6}$",
+      "B. $\\frac{x-2}{x(x+2)}$",
+      "C. $\\frac{x}{x^2-1}$",
+      "D. $\\frac{x+4}{6}$"
+     ],
+     "answer": "D",
+     "explain": "$\\frac{4}{6}+\\frac{x}{6}=\\frac{x+4}{6}$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Sau khi quy đồng, để cộng hai phân thức ta?",
+     "options": [
+      "A. cộng cả tử và mẫu",
+      "B. cộng các tử thức và giữ nguyên mẫu thức chung",
+      "C. nhân các tử với nhau",
+      "D. bỏ mẫu thức đi"
+     ],
+     "answer": "B",
+     "explain": "Đáp án đúng là “cộng các tử thức và giữ nguyên mẫu thức chung”."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Kết quả của phép tính $\\frac{5}{x}-\\frac{2}{x}$ là",
+     "options": [
+      "A. $\\frac{3x^2}{5}$",
+      "B. $\\frac{1}{x}$",
+      "C. $\\frac{3}{x}$",
+      "D. $\\frac{x+2}{7}$"
+     ],
+     "answer": "C",
+     "explain": "$\\frac{5-2}{x}=\\frac{3}{x}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 3",
+   "questions": [
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tính giá trị của biểu thức $\\frac{3}{x}+\\frac{4}{4x}$ tại $x=2$. (chỉ ghi số)",
+     "answer": "2",
+     "explain": "$\\frac{3}{x}+\\frac{4}{4x}$ $=\\frac{12+4}{4x}=\\frac{16}{4x}$; tại $x=2$: $\\frac{16}{8}=2$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Kết quả của phép cộng các phân thức nên được?",
+     "options": [
+      "A. rút gọn (nếu có thể)",
+      "B. để nguyên không rút gọn",
+      "C. quy đồng thêm lần nữa",
+      "D. đổi dấu"
+     ],
+     "answer": "A",
+     "explain": "Đáp án đúng là “rút gọn (nếu có thể)”."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tính giá trị của biểu thức $\\frac{8x+8}{3}+\\frac{2x+9}{3}$ tại $x=1$. (chỉ ghi số)",
+     "answer": "9",
+     "explain": "$\\frac{8x+8}{3}+\\frac{2x+9}{3}$ $=\\frac{10x+17}{3}$; tại $x=1$: $\\frac{27}{3}=9$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Kết quả của phép tính $\\frac{4x}{9}+\\frac{5x}{9}$ là",
+     "options": [
+      "A. $x$",
+      "B. $\\frac{1}{x}$",
+      "C. $\\frac{3x}{4}$",
+      "D. $\\frac{x+2}{7}$"
+     ],
+     "answer": "A",
+     "explain": "$\\frac{9x}{9}=x$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "$y-x$ bằng?",
+     "options": [
+      "A. $x-y$",
+      "B. $x+y$",
+      "C. $-(x-y)$",
+      "D. $-(x+y)$"
+     ],
+     "answer": "C",
+     "explain": "Đáp án đúng là “$-(x-y)$”."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Để tìm mẫu thức chung của $\\frac{1}{x-y}$ và $\\frac{1}{y-x}$, ta?",
+     "options": [
+      "A. cộng hai mẫu thức",
+      "B. nhân hai tử thức",
+      "C. bỏ dấu trừ đi",
+      "D. đổi dấu một trong hai mẫu thức"
+     ],
+     "answer": "D",
+     "explain": "Đáp án đúng là “đổi dấu một trong hai mẫu thức”."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Kết quả của phép tính $\\frac{1}{x-1}+\\frac{1}{x+1}$ là",
+     "options": [
+      "A. $\\frac{2x}{x^2-1}$",
+      "B. $\\frac{x}{x^2-1}$",
+      "C. $\\frac{3x+2}{6}$",
+      "D. $\\frac{1}{2x}$"
+     ],
+     "answer": "A",
+     "explain": "$\\frac{(x+1)+(x-1)}{(x-1)(x+1)}=\\frac{2x}{x^2-1}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Cho phép tính $\\frac{1}{x}+\\frac{1}{2x}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Muốn cộng phải quy đồng mẫu thức trước.",
+      "Mẫu thức chung là $2x$.",
+      "Kết quả là $\\frac{3}{2x}$.",
+      "Kết quả là $\\frac{2}{3x}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "Quy đồng: $\\frac{2}{2x}+\\frac{1}{2x}=\\frac{3}{2x}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho phép tính $\\frac{3}{x}-\\frac{2}{x+1}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Mẫu thức chung là $x(x+1)$.",
+      "Kết quả là $\\frac{x+3}{x(x+1)}$.",
+      "$\\frac{3}{x}-\\frac{2}{x+1}=\\frac{1}{2x+1}$.",
+      "Kết quả là $\\frac{x+3}{x^2+1}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "F"
+     ],
+     "explain": "$\\frac{3(x+1)-2x}{x(x+1)}=\\frac{x+3}{x(x+1)}$; mẫu $x(x+1)=x^2+x$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Kết quả của phép tính $\\frac{3}{x+2}+\\frac{5}{x+2}$ là",
+     "options": [
+      "A. $\\frac{3}{y}$",
+      "B. $\\frac{8}{x+2}$",
+      "C. $\\frac{1}{x}$",
+      "D. $\\frac{3x^2}{5}$"
+     ],
+     "answer": "B",
+     "explain": "$\\frac{3+5}{x+2}=\\frac{8}{x+2}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 4",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "$\\frac{3}{x}+\\frac{2}{x}$ bằng?",
+     "options": [
+      "A. $\\frac{5}{2x}$",
+      "B. $\\frac{5}{x}$",
+      "C. $\\frac{6}{x}$",
+      "D. $5$"
+     ],
+     "answer": "B",
+     "explain": "Đáp án đúng là “$\\frac{5}{x}$”."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Mẫu thức chung của hai phân thức $\\frac{1}{x}$ và $\\frac{1}{3x}$ là",
+     "options": [
+      "A. $x$",
+      "B. $3x$",
+      "C. $2x$",
+      "D. $12x$"
+     ],
+     "answer": "B",
+     "explain": "Mẫu thức chung phải chia hết cho cả hai mẫu, đó là $3x$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Kết quả của phép tính $\\frac{2}{3x}+\\frac{1}{3x}$ là",
+     "options": [
+      "A. $x$",
+      "B. $\\frac{3}{x}$",
+      "C. $\\frac{8}{x+2}$",
+      "D. $\\frac{1}{x}$"
+     ],
+     "answer": "D",
+     "explain": "$\\frac{3}{3x}=\\frac{1}{x}$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tính giá trị của biểu thức $\\frac{5}{x}+\\frac{4}{2x}$ tại $x=7$. (chỉ ghi số)",
+     "answer": "1",
+     "explain": "$\\frac{5}{x}+\\frac{4}{2x}$ $=\\frac{10+4}{2x}=\\frac{14}{2x}$; tại $x=7$: $\\frac{14}{14}=1$."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Cho phép tính $\\frac{4x+1}{5}-\\frac{2x-1}{5}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Khi trừ phải đổi dấu các hạng tử của tử thứ hai.",
+      "Kết quả là $\\frac{2x+2}{5}$.",
+      "Kết quả là $\\frac{2x}{5}$.",
+      "$\\frac{4x+1}{5}-\\frac{2x-1}{5}=\\frac{6x}{5}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "F"
+     ],
+     "explain": "$\\frac{(4x+1)-(2x-1)}{5}=\\frac{2x+2}{5}$; chú ý $-(2x-1)=-2x+1$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho phép tính $\\frac{x^2+3}{5}+\\frac{2x^2-3}{5}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Kết quả là $\\frac{3x^2}{5}$.",
+      "$\\frac{(x^2+3)+(2x^2-3)}{5}=\\frac{3x^2}{5}$.",
+      "Kết quả là $\\frac{3x^2+6}{5}$.",
+      "Cộng tử với tử, giữ nguyên mẫu."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "$(x^2+3)+(2x^2-3)=3x^2$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tính giá trị của biểu thức $\\frac{4x+1}{3}+\\frac{3x+3}{3}$ tại $x=8$. (chỉ ghi số)",
+     "answer": "20",
+     "explain": "$\\frac{4x+1}{3}+\\frac{3x+3}{3}$ $=\\frac{7x+4}{3}$; tại $x=8$: $\\frac{60}{3}=20$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Mẫu thức chung của hai phân thức $\\frac{2}{5}$ và $\\frac{3}{4}$ là",
+     "options": [
+      "A. $x$",
+      "B. $2x$",
+      "C. $20$",
+      "D. $12x$"
+     ],
+     "answer": "C",
+     "explain": "Mẫu thức chung phải chia hết cho cả hai mẫu, đó là $20$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Kết quả của phép tính $\\frac{3}{x}-\\frac{2}{x+1}$ là",
+     "options": [
+      "A. $\\frac{x-2}{x(x+2)}$",
+      "B. $\\frac{x+3}{x(x+1)}$",
+      "C. $\\frac{2}{x}$",
+      "D. $\\frac{x+6}{4x}$"
+     ],
+     "answer": "B",
+     "explain": "$\\frac{3(x+1)-2x}{x(x+1)}=\\frac{x+3}{x(x+1)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Kết quả của phép tính $\\frac{7x-1}{6}-\\frac{2x-1}{6}$ là",
+     "options": [
+      "A. $x$",
+      "B. $\\frac{x+2}{7}$",
+      "C. $\\frac{5x}{6}$",
+      "D. $\\frac{3}{y}$"
+     ],
+     "answer": "C",
+     "explain": "$\\frac{(7x-1)-(2x-1)}{6}=\\frac{5x}{6}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 5",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Mẫu thức chung của hai phân thức $\\frac{1}{6}$ và $\\frac{1}{9}$ là",
+     "options": [
+      "A. $x$",
+      "B. $18$",
+      "C. $2x$",
+      "D. $12x$"
+     ],
+     "answer": "B",
+     "explain": "Mẫu thức chung phải chia hết cho cả hai mẫu, đó là $18$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho phép tính $\\frac{2}{x+2}-\\frac{1}{x}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Mẫu thức chung là $x(x+2)$.",
+      "Kết quả là $\\frac{x-2}{x(x+2)}$.",
+      "$\\frac{2}{x+2}-\\frac{1}{x}=\\frac{1}{2}$.",
+      "Kết quả là $\\frac{x-2}{x^2+2x}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "$\\frac{2x-(x+2)}{x(x+2)}=\\frac{x-2}{x(x+2)}$; $x(x+2)=x^2+2x$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tính giá trị của biểu thức $\\frac{1x+7}{5}+\\frac{3x+2}{5}$ tại $x=9$. (chỉ ghi số)",
+     "answer": "9",
+     "explain": "$\\frac{1x+7}{5}+\\frac{3x+2}{5}$ $=\\frac{4x+9}{5}$; tại $x=9$: $\\frac{45}{5}=9$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Kết quả của phép tính $\\frac{1}{2x}+\\frac{1}{3x}$ là",
+     "options": [
+      "A. $\\frac{x}{x^2-1}$",
+      "B. $\\frac{3x+2}{6}$",
+      "C. $\\frac{5}{6x}$",
+      "D. $\\frac{x+4}{6}$"
+     ],
+     "answer": "C",
+     "explain": "$\\frac{3+2}{6x}=\\frac{5}{6x}$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Mẫu thức chung của hai phân thức $\\frac{1}{2x}$ và $\\frac{1}{5x}$ là",
+     "options": [
+      "A. $x$",
+      "B. $2x$",
+      "C. $12x$",
+      "D. $10x$"
+     ],
+     "answer": "D",
+     "explain": "Mẫu thức chung phải chia hết cho cả hai mẫu, đó là $10x$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Kết quả của phép tính $\\frac{9}{2y}-\\frac{3}{2y}$ là",
+     "options": [
+      "A. $\\frac{3}{y}$",
+      "B. $\\frac{3x^2}{5}$",
+      "C. $\\frac{5x}{6}$",
+      "D. $x$"
+     ],
+     "answer": "A",
+     "explain": "$\\frac{6}{2y}=\\frac{3}{y}$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Mẫu thức chung của hai phân thức $\\frac{3}{x+1}$ và $\\frac{2}{x-1}$ là",
+     "options": [
+      "A. $(x+1)(x-1)$",
+      "B. $x$",
+      "C. $2x$",
+      "D. $12x$"
+     ],
+     "answer": "A",
+     "explain": "Mẫu thức chung phải chia hết cho cả hai mẫu, đó là $(x+1)(x-1)$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Kết quả của phép tính $\\frac{x^2+3}{5}+\\frac{2x^2-3}{5}$ là",
+     "options": [
+      "A. $\\frac{3}{x}$",
+      "B. $\\frac{3x^2}{5}$",
+      "C. $x$",
+      "D. $\\frac{3}{y}$"
+     ],
+     "answer": "B",
+     "explain": "$\\frac{(x^2+3)+(2x^2-3)}{5}=\\frac{3x^2}{5}$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tính giá trị của biểu thức $\\frac{3}{x}+\\frac{2}{2x}$ tại $x=2$. (chỉ ghi số)",
+     "answer": "2",
+     "explain": "$\\frac{3}{x}+\\frac{2}{2x}$ $=\\frac{6+2}{2x}=\\frac{8}{2x}$; tại $x=2$: $\\frac{8}{4}=2$."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Cho phép tính $\\frac{1}{y-x}+\\frac{1}{x-y}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "$\\frac{1}{y-x}=-\\frac{1}{x-y}$.",
+      "Tổng hai phân thức bằng $0$.",
+      "Mẫu thức chung là $x-y$.",
+      "Kết quả là $\\frac{2}{x-y}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "Đổi dấu: $\\frac{1}{y-x}+\\frac{1}{x-y}=-\\frac{1}{x-y}+\\frac{1}{x-y}=0$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 6",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Mẫu thức chung của hai phân thức $\\frac{1}{4x}$ và $\\frac{3}{2}$ là",
+     "options": [
+      "A. $x$",
+      "B. $2x$",
+      "C. $12x$",
+      "D. $4x$"
+     ],
+     "answer": "D",
+     "explain": "Mẫu thức chung phải chia hết cho cả hai mẫu, đó là $4x$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Kết quả của phép tính $\\frac{x}{2}+\\frac{1}{3}$ là",
+     "options": [
+      "A. $\\frac{3}{2x}$",
+      "B. $\\frac{x+4}{6}$",
+      "C. $\\frac{5}{6x}$",
+      "D. $\\frac{3x+2}{6}$"
+     ],
+     "answer": "D",
+     "explain": "$\\frac{3x}{6}+\\frac{2}{6}=\\frac{3x+2}{6}$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tính giá trị của biểu thức $\\frac{4x+8}{4}+\\frac{9x+5}{4}$ tại $x=7$. (chỉ ghi số)",
+     "answer": "26",
+     "explain": "$\\frac{4x+8}{4}+\\frac{9x+5}{4}$ $=\\frac{13x+13}{4}$; tại $x=7$: $\\frac{104}{4}=26$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Khi quy đồng hai phân thức $\\frac{1}{4x}$ và $\\frac{3}{2}$, mẫu thức chung là",
+     "options": [
+      "A. $x$",
+      "B. $2x$",
+      "C. $4x$",
+      "D. $x^2$"
+     ],
+     "answer": "C",
+     "explain": "Mẫu thức chung là $4x$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Khi quy đồng hai phân thức $\\frac{4}{x}$ và $\\frac{1}{x^2}$, mẫu thức chung là",
+     "options": [
+      "A. $x$",
+      "B. $x^2$",
+      "C. $2x$",
+      "D. $8x$"
+     ],
+     "answer": "B",
+     "explain": "Mẫu thức chung là $x^2$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Mẫu thức chung của hai phân thức $\\frac{4}{x}$ và $\\frac{1}{x^2}$ là",
+     "options": [
+      "A. $x$",
+      "B. $2x$",
+      "C. $x^2$",
+      "D. $12x$"
+     ],
+     "answer": "C",
+     "explain": "Mẫu thức chung phải chia hết cho cả hai mẫu, đó là $x^2$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Mẫu thức chung của hai phân thức $\\frac{2}{3x}$ và $\\frac{5}{6x}$ là",
+     "options": [
+      "A. $6x$",
+      "B. $x$",
+      "C. $2x$",
+      "D. $12x$"
+     ],
+     "answer": "A",
+     "explain": "Mẫu thức chung phải chia hết cho cả hai mẫu, đó là $6x$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho phép tính $\\frac{7x-1}{6}-\\frac{2x-1}{6}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Kết quả là $\\frac{5x}{6}$.",
+      "$\\frac{(7x-1)-(2x-1)}{6}=\\frac{5x}{6}$.",
+      "Kết quả là $\\frac{9x-2}{6}$.",
+      "Khi trừ cần đổi dấu $-1$ thành $+1$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "$(7x-1)-(2x-1)=5x$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tính giá trị của biểu thức $\\frac{5}{x}+\\frac{2}{2x}$ tại $x=3$. (chỉ ghi số)",
+     "answer": "2",
+     "explain": "$\\frac{5}{x}+\\frac{2}{2x}$ $=\\frac{10+2}{2x}=\\frac{12}{2x}$; tại $x=3$: $\\frac{12}{6}=2$."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Cho phép tính $\\frac{2}{3x}+\\frac{4}{3x}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Kết quả là $\\frac{6}{3x}$.",
+      "Rút gọn kết quả được $\\frac{2}{x}$.",
+      "Kết quả là $\\frac{8}{9x^2}$.",
+      "Cộng tử với tử, giữ nguyên mẫu."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "$\\frac{6}{3x}$ rút gọn được $\\frac{2}{x}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 7",
+   "questions": [
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Cho phép tính $\\frac{7}{4}-\\frac{3}{4}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Kết quả là $\\frac{4}{4}$.",
+      "Kết quả rút gọn là $1$.",
+      "Kết quả là $\\frac{10}{4}$.",
+      "Trừ tử với tử, giữ nguyên mẫu."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "$\\frac{7-3}{4}=\\frac{4}{4}=1$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Mẫu thức chung của hai phân thức $\\frac{7}{10}$ và $\\frac{3}{15}$ là",
+     "options": [
+      "A. $x$",
+      "B. $2x$",
+      "C. $30$",
+      "D. $12x$"
+     ],
+     "answer": "C",
+     "explain": "Mẫu thức chung phải chia hết cho cả hai mẫu, đó là $30$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Khi quy đồng hai phân thức $\\frac{2}{3x}$ và $\\frac{5}{6x}$, mẫu thức chung là",
+     "options": [
+      "A. $x$",
+      "B. $2x$",
+      "C. $x^2$",
+      "D. $6x$"
+     ],
+     "answer": "D",
+     "explain": "Mẫu thức chung là $6x$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tính giá trị của biểu thức $\\frac{4}{x}+\\frac{4}{2x}$ tại $x=2$. (chỉ ghi số)",
+     "answer": "3",
+     "explain": "$\\frac{4}{x}+\\frac{4}{2x}$ $=\\frac{8+4}{2x}=\\frac{12}{2x}$; tại $x=2$: $\\frac{12}{4}=3$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tính giá trị của biểu thức $\\frac{5x+1}{2}+\\frac{1x+5}{2}$ tại $x=6$. (chỉ ghi số)",
+     "answer": "21",
+     "explain": "$\\frac{5x+1}{2}+\\frac{1x+5}{2}$ $=\\frac{6x+6}{2}$; tại $x=6$: $\\frac{42}{2}=21$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Mẫu thức chung của hai phân thức $\\frac{1}{x+2}$ và $\\frac{1}{x}$ là",
+     "options": [
+      "A. $x$",
+      "B. $x(x+2)$",
+      "C. $2x$",
+      "D. $12x$"
+     ],
+     "answer": "B",
+     "explain": "Mẫu thức chung phải chia hết cho cả hai mẫu, đó là $x(x+2)$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Kết quả của phép tính $\\frac{5x+1}{4}-\\frac{2x-1}{4}$ là",
+     "options": [
+      "A. $0$",
+      "B. $1$",
+      "C. $\\frac{3x+2}{4}$",
+      "D. $\\frac{1}{2}$"
+     ],
+     "answer": "C",
+     "explain": "$\\frac{(5x+1)-(2x-1)}{4}=\\frac{3x+2}{4}$ (đổi dấu khi bỏ ngoặc)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Khi quy đồng hai phân thức $\\frac{1}{x+2}$ và $\\frac{1}{x}$, mẫu thức chung là",
+     "options": [
+      "A. $x(x+2)$",
+      "B. $x$",
+      "C. $2x$",
+      "D. $x^2$"
+     ],
+     "answer": "A",
+     "explain": "Mẫu thức chung là $x(x+2)$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho phép tính $\\frac{2}{x-2}+\\frac{2}{x+2}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Mẫu thức chung là $(x-2)(x+2)$.",
+      "Kết quả là $\\frac{4x}{x^2-4}$.",
+      "$\\frac{2}{x-2}+\\frac{2}{x+2}=\\frac{4}{2x}$.",
+      "Kết quả là $\\frac{4x}{x^2+4}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "F"
+     ],
+     "explain": "$\\frac{2(x+2)+2(x-2)}{(x-2)(x+2)}=\\frac{4x}{x^2-4}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Kết quả của phép tính $\\frac{2}{x+2}-\\frac{1}{x}$ là",
+     "options": [
+      "A. $\\frac{x-2}{x(x+2)}$",
+      "B. $\\frac{x+6}{4x}$",
+      "C. $\\frac{3x+2}{6}$",
+      "D. $\\frac{3}{2x}$"
+     ],
+     "answer": "A",
+     "explain": "$\\frac{2x-(x+2)}{x(x+2)}=\\frac{x-2}{x(x+2)}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 8",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Kết quả của phép tính $\\frac{1}{4}+\\frac{3}{2x}$ là",
+     "options": [
+      "A. $\\frac{2}{x}$",
+      "B. $\\frac{x+6}{4x}$",
+      "C. $\\frac{2x}{x^2-1}$",
+      "D. $\\frac{x-2}{x(x+2)}$"
+     ],
+     "answer": "B",
+     "explain": "$\\frac{x}{4x}+\\frac{6}{4x}=\\frac{x+6}{4x}$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Kết quả của phép tính $\\frac{2x}{5}+\\frac{3x}{5}$ là",
+     "options": [
+      "A. $0$",
+      "B. $x$",
+      "C. $1$",
+      "D. $\\frac{1}{2}$"
+     ],
+     "answer": "B",
+     "explain": "$\\frac{5x}{5}=x$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho phép tính $\\frac{4}{5x}+\\frac{1}{5x}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Kết quả là $\\frac{5}{5x}$.",
+      "Rút gọn kết quả được $\\frac{1}{x}$.",
+      "Kết quả là $\\frac{5}{25x^2}$.",
+      "Cộng tử với tử, giữ nguyên mẫu."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "$\\frac{5}{5x}=\\frac{1}{x}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Khi quy đồng hai phân thức $\\frac{7}{10}$ và $\\frac{3}{15}$, mẫu thức chung là",
+     "options": [
+      "A. $x$",
+      "B. $30$",
+      "C. $2x$",
+      "D. $x^2$"
+     ],
+     "answer": "B",
+     "explain": "Mẫu thức chung là $30$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tính giá trị của biểu thức $\\frac{4x+9}{2}+\\frac{6x+5}{2}$ tại $x=6$. (chỉ ghi số)",
+     "answer": "37",
+     "explain": "$\\frac{4x+9}{2}+\\frac{6x+5}{2}$ $=\\frac{10x+14}{2}$; tại $x=6$: $\\frac{74}{2}=37$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Kết quả của phép tính $\\frac{x}{x-y}-\\frac{y}{x-y}$ là",
+     "options": [
+      "A. $1$",
+      "B. $0$",
+      "C. $\\frac{1}{2}$",
+      "D. $2$"
+     ],
+     "answer": "A",
+     "explain": "$\\frac{x-y}{x-y}=1$."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Cho phép tính $\\frac{x}{2}+\\frac{1}{3}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Mẫu thức chung là $6$.",
+      "Quy đồng được $\\frac{3x}{6}+\\frac{2}{6}$.",
+      "Kết quả là $\\frac{3x+2}{6}$.",
+      "Kết quả là $\\frac{x+1}{5}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "MTC $=6$; $\\frac{3x+2}{6}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Khi quy đồng hai phân thức $\\frac{1}{x}$ và $\\frac{1}{3x}$, mẫu thức chung là",
+     "options": [
+      "A. $x$",
+      "B. $2x$",
+      "C. $3x$",
+      "D. $x^2$"
+     ],
+     "answer": "C",
+     "explain": "Mẫu thức chung là $3x$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tính giá trị của biểu thức $\\frac{3}{x}+\\frac{4}{4x}$ tại $x=4$. (chỉ ghi số)",
+     "answer": "1",
+     "explain": "$\\frac{3}{x}+\\frac{4}{4x}$ $=\\frac{12+4}{4x}=\\frac{16}{4x}$; tại $x=4$: $\\frac{16}{16}=1$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Kết quả của phép tính $\\frac{1}{y-x}+\\frac{1}{x-y}$ là",
+     "options": [
+      "A. $1$",
+      "B. $\\frac{1}{2}$",
+      "C. $2$",
+      "D. $0$"
+     ],
+     "answer": "D",
+     "explain": "$\\frac{1}{y-x}=-\\frac{1}{x-y}$ nên tổng bằng $0$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 9",
+   "questions": [
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tính giá trị của biểu thức $\\frac{2}{x}+\\frac{2}{2x}$ tại $x=3$. (chỉ ghi số)",
+     "answer": "1",
+     "explain": "$\\frac{2}{x}+\\frac{2}{2x}$ $=\\frac{4+2}{2x}=\\frac{6}{2x}$; tại $x=3$: $\\frac{6}{6}=1$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tính giá trị của biểu thức $\\frac{8x+3}{2}+\\frac{7x+6}{2}$ tại $x=5$. (chỉ ghi số)",
+     "answer": "42",
+     "explain": "$\\frac{8x+3}{2}+\\frac{7x+6}{2}$ $=\\frac{15x+9}{2}$; tại $x=5$: $\\frac{84}{2}=42$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Khi quy đồng hai phân thức $\\frac{1}{2x}$ và $\\frac{1}{5x}$, mẫu thức chung là",
+     "options": [
+      "A. $10x$",
+      "B. $x$",
+      "C. $2x$",
+      "D. $x^2$"
+     ],
+     "answer": "A",
+     "explain": "Mẫu thức chung là $10x$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Kết quả của phép tính $\\frac{9}{4}-\\frac{5}{4}$ là",
+     "options": [
+      "A. $1$",
+      "B. $0$",
+      "C. $\\frac{1}{2}$",
+      "D. $2$"
+     ],
+     "answer": "A",
+     "explain": "$\\frac{4}{4}=1$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Kết quả của phép tính $\\frac{5}{6x}-\\frac{1}{3x}$ là",
+     "options": [
+      "A. $\\frac{x+3}{x(x+1)}$",
+      "B. $\\frac{2}{x}$",
+      "C. $\\frac{1}{2x}$",
+      "D. $\\frac{5}{6x}$"
+     ],
+     "answer": "C",
+     "explain": "$\\frac{5-2}{6x}=\\frac{3}{6x}=\\frac{1}{2x}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Khi quy đồng hai phân thức $\\frac{2}{5}$ và $\\frac{3}{4}$, mẫu thức chung là",
+     "options": [
+      "A. $x$",
+      "B. $2x$",
+      "C. $x^2$",
+      "D. $20$"
+     ],
+     "answer": "D",
+     "explain": "Mẫu thức chung là $20$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho phép tính $\\frac{1}{4}+\\frac{3}{2x}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Mẫu thức chung là $4x$.",
+      "$\\frac{1}{4}=\\frac{x}{4x}$ và $\\frac{3}{2x}=\\frac{6}{4x}$.",
+      "Kết quả là $\\frac{x+6}{4x}$.",
+      "Kết quả là $\\frac{4}{6x}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$\\frac{x+6}{4x}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Cho phép tính $\\frac{5}{6x}-\\frac{1}{3x}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Mẫu thức chung là $6x$.",
+      "$\\frac{1}{3x}=\\frac{2}{6x}$.",
+      "Kết quả là $\\frac{1}{2x}$.",
+      "Kết quả là $\\frac{4}{3x}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$\\frac{5-2}{6x}=\\frac{3}{6x}=\\frac{1}{2x}$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Kết quả của phép tính $\\frac{a}{b}+\\frac{c}{b}$ là",
+     "options": [
+      "A. $0$",
+      "B. $1$",
+      "C. $\\frac{1}{2}$",
+      "D. $\\frac{a+c}{b}$"
+     ],
+     "answer": "D",
+     "explain": "Cộng tử, giữ nguyên mẫu."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Kết quả của phép tính $\\frac{7}{2x}-\\frac{3}{2x}$ là",
+     "options": [
+      "A. $0$",
+      "B. $1$",
+      "C. $\\frac{2}{x}$",
+      "D. $\\frac{1}{2}$"
+     ],
+     "answer": "C",
+     "explain": "$\\frac{4}{2x}=\\frac{2}{x}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 10",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Kết quả của phép tính $\\frac{2}{x-2}+\\frac{2}{x+2}$ là",
+     "options": [
+      "A. $\\frac{x-2}{x(x+2)}$",
+      "B. $\\frac{x+4}{6}$",
+      "C. $\\frac{x+6}{4x}$",
+      "D. $\\frac{4x}{x^2-4}$"
+     ],
+     "answer": "D",
+     "explain": "$\\frac{2(x+2)+2(x-2)}{(x-2)(x+2)}=\\frac{4x}{x^2-4}$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tính giá trị của biểu thức $\\frac{5}{x}+\\frac{3}{3x}$ tại $x=3$. (chỉ ghi số)",
+     "answer": "2",
+     "explain": "$\\frac{5}{x}+\\frac{3}{3x}$ $=\\frac{15+3}{3x}=\\frac{18}{3x}$; tại $x=3$: $\\frac{18}{9}=2$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho phép tính $\\frac{3}{2x}-\\frac{1}{4x}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Mẫu thức chung là $4x$.",
+      "$\\frac{3}{2x}=\\frac{6}{4x}$.",
+      "Kết quả là $\\frac{5}{4x}$.",
+      "Kết quả rút gọn là $\\frac{5}{4x}$ (đã tối giản)."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$\\frac{6-1}{4x}=\\frac{5}{4x}$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Kết quả của phép tính $\\frac{2x+1}{3}+\\frac{x-1}{3}$ là",
+     "options": [
+      "A. $0$",
+      "B. $1$",
+      "C. $x$",
+      "D. $\\frac{1}{2}$"
+     ],
+     "answer": "C",
+     "explain": "$\\frac{3x}{3}=x$."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Cho phép tính $\\frac{9}{2y}-\\frac{5}{2y}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Kết quả là $\\frac{4}{2y}$.",
+      "Rút gọn kết quả được $\\frac{2}{y}$.",
+      "Kết quả là $\\frac{14}{2y}$.",
+      "Trừ tử với tử, giữ nguyên mẫu."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "$\\frac{9-5}{2y}=\\frac{4}{2y}=\\frac{2}{y}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Khi quy đồng hai phân thức $\\frac{3}{x+1}$ và $\\frac{2}{x-1}$, mẫu thức chung là",
+     "options": [
+      "A. $x$",
+      "B. $(x+1)(x-1)$",
+      "C. $2x$",
+      "D. $x^2$"
+     ],
+     "answer": "B",
+     "explain": "Mẫu thức chung là $(x+1)(x-1)$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Kết quả của phép tính $\\frac{11}{5x}-\\frac{6}{5x}$ là",
+     "options": [
+      "A. $0$",
+      "B. $1$",
+      "C. $\\frac{1}{2}$",
+      "D. $\\frac{1}{x}$"
+     ],
+     "answer": "D",
+     "explain": "$\\frac{5}{5x}=\\frac{1}{x}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Khi quy đồng hai phân thức $\\frac{1}{6}$ và $\\frac{1}{9}$, mẫu thức chung là",
+     "options": [
+      "A. $x$",
+      "B. $2x$",
+      "C. $18$",
+      "D. $x^2$"
+     ],
+     "answer": "C",
+     "explain": "Mẫu thức chung là $18$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Kết quả của phép tính $\\frac{x+3}{6}-\\frac{x-3}{6}$ là",
+     "options": [
+      "A. $0$",
+      "B. $1$",
+      "C. $\\frac{1}{2}$",
+      "D. $2$"
+     ],
+     "answer": "B",
+     "explain": "$\\frac{(x+3)-(x-3)}{6}=\\frac{6}{6}=1$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tính giá trị của biểu thức $\\frac{6x+1}{7}+\\frac{7x+1}{7}$ tại $x=2$. (chỉ ghi số)",
+     "answer": "4",
+     "explain": "$\\frac{6x+1}{7}+\\frac{7x+1}{7}$ $=\\frac{13x+2}{7}$; tại $x=2$: $\\frac{28}{7}=4$."
+    }
+   ]
+  }
+ ]
+}
+</script>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
