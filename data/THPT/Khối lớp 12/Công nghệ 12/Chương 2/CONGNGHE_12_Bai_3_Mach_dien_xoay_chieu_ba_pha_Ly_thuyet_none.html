@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 3: Mạch điện xoay chiều ba pha</title>
+    <meta name="lesson-title" content="Bài 3: Mạch điện xoay chiều ba pha">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 3: Mạch điện xoay chiều ba pha</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 2: Hệ thống điện quốc gia • Bài 3: Mạch điện xoay chiều ba pha</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 3: Mạch điện xoay chiều ba pha</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 2: Hệ thống điện quốc gia — Công nghệ 12 (Kết nối tri thức với cuộc sống)</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Dòng điện xoay chiều một pha</h2>
+
+<p><strong>Khái niệm:</strong> Dòng điện xoay chiều một pha là dòng điện <strong>biến thiên tuần hoàn theo dạng hình sin</strong> theo thời gian:</p>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$i = I_m\sin(\omega t + \varphi)$$</p>
+</div>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>$I_m$: giá trị <strong>cực đại</strong> của dòng điện (A).</li>
+<li>$I = \frac{I_m}{\sqrt{2}}$: giá trị <strong>hiệu dụng</strong> (A) — giá trị ghi trên các thiết bị điện.</li>
+<li>$\omega$: tốc độ góc (rad/s); $T = \frac{2\pi}{\omega}$: chu kì (s); $f = \frac{1}{T}$: tần số (Hz).</li>
+<li>$\varphi$: pha ban đầu (rad).</li>
+</ul>
+<p>Với mạch có điện trở R, điện kháng X: tổng trở $Z = \sqrt{R^2 + X^2}$; $\tan\varphi = \frac{X}{R}$. Trong đó $X = X_L - X_C$ với $X_L = \omega L = 2\pi fL$ (cảm kháng), $X_C = \frac{1}{\omega C} = \frac{1}{2\pi fC}$ (dung kháng).</p>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Lưới điện Việt Nam: $f = 50\,Hz$, điện áp hiệu dụng sinh hoạt $220\,V$. Giá trị hiệu dụng $I = I_m/\sqrt{2}$ là giá trị thực tế đo được và ghi trên thiết bị.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Dòng điện xoay chiều ba pha</h2>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">2.1. Khái niệm</h3>
+<p>Dòng điện xoay chiều ba pha được tạo ra trong <strong>mạch điện ba pha</strong>, gồm ba phần:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Nguồn điện ba pha</strong> (máy phát điện ba pha).</li>
+<li><strong>Đường dây truyền tải ba pha.</strong></li>
+<li><strong>Tải điện ba pha</strong> (động cơ, lò điện, hệ thống chiếu sáng...).</li>
+</ul>
+<p>Ứng dụng rộng rãi trong <strong>sản xuất và đời sống</strong>: truyền tải điện năng, động cơ ba pha...</p>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">2.2. Nguyên lí tạo ra dòng điện xoay chiều ba pha</h3>
+<p>Máy phát điện xoay chiều ba pha gồm:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Phần tĩnh (stato):</strong> lõi thép có rãnh, đặt 3 cuộn dây AX, BY, CZ có cùng số vòng, cùng kích thước, đặt lệch nhau góc <strong>120°</strong>.</li>
+<li><strong>Phần quay (roto):</strong> nam châm điện quay với tốc độ góc $\omega$ không đổi.</li>
+</ul>
+<p>Nam châm quay làm từ thông qua các cuộn dây biến thiên, sinh ra ba suất điện động xoay chiều một pha có <strong>cùng biên độ, cùng tần số</strong> nhưng <strong>lệch pha nhau góc $\frac{2\pi}{3}$ rad (120°)</strong>:</p>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$e_A = E_m\sin\omega t; \quad e_B = E_m\sin\left(\omega t - \frac{2\pi}{3}\right); \quad e_C = E_m\sin\left(\omega t - \frac{4\pi}{3}\right)$$</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Cách nối nguồn và tải ba pha</h2>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">3.1. Nối hình sao (Y)</h3>
+<p>Ba điểm cuối <strong>X, Y, Z</strong> của các pha được nối với nhau tạo thành <strong>điểm trung tính O</strong>. Ba điểm đầu A, B, C nối với ba dây pha. Nếu có thêm dây nối từ O ra gọi là <strong>mạch ba pha bốn dây</strong>.</p>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">3.2. Nối hình tam giác (Δ)</h3>
+<p><strong>Điểm đầu của pha này</strong> được nối với <strong>điểm cuối của pha kia</strong> tạo thành hình tam giác khép kín: A nối với Z, B nối với X, C nối với Y.</p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Sơ đồ nối sao và nối tam giác">
+<rect x="2" y="2" width="436" height="206" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="110" y="24" font-family="sans-serif" font-size="13" font-weight="bold" fill="#0c4a6e" text-anchor="middle">NỐI HÌNH SAO (Y)</text>
+<text x="330" y="24" font-family="sans-serif" font-size="13" font-weight="bold" fill="#0c4a6e" text-anchor="middle">NỐI HÌNH TAM GIÁC (Δ)</text>
+<circle cx="110" cy="110" r="7" fill="#0284c7"/>
+<text x="110" y="145" font-family="sans-serif" font-size="11" fill="#0c4a6e" text-anchor="middle">O (trung tính)</text>
+<line x1="110" y1="103" x2="110" y2="55" stroke="#b91c1c" stroke-width="3"/>
+<line x1="104" y1="113" x2="62" y2="137" stroke="#b91c1c" stroke-width="3"/>
+<line x1="116" y1="113" x2="158" y2="137" stroke="#b91c1c" stroke-width="3"/>
+<circle cx="110" cy="50" r="6" fill="#fbbf24" stroke="#92400e"/>
+<circle cx="58" cy="140" r="6" fill="#fbbf24" stroke="#92400e"/>
+<circle cx="162" cy="140" r="6" fill="#fbbf24" stroke="#92400e"/>
+<text x="110" y="42" font-family="sans-serif" font-size="11" fill="#0c4a6e" text-anchor="middle">A</text>
+<text x="46" y="158" font-family="sans-serif" font-size="11" fill="#0c4a6e" text-anchor="middle">B</text>
+<text x="166" y="158" font-family="sans-serif" font-size="11" fill="#0c4a6e" text-anchor="middle">C</text>
+<line x1="285" y1="60" x2="375" y2="60" stroke="#b91c1c" stroke-width="3"/>
+<line x1="375" y1="60" x2="330" y2="138" stroke="#b91c1c" stroke-width="3"/>
+<line x1="330" y1="138" x2="285" y2="60" stroke="#b91c1c" stroke-width="3"/>
+<circle cx="285" cy="60" r="6" fill="#fbbf24" stroke="#92400e"/>
+<circle cx="375" cy="60" r="6" fill="#fbbf24" stroke="#92400e"/>
+<circle cx="330" cy="138" r="6" fill="#fbbf24" stroke="#92400e"/>
+<text x="272" y="52" font-family="sans-serif" font-size="11" fill="#0c4a6e" text-anchor="middle">A-Z</text>
+<text x="380" y="52" font-family="sans-serif" font-size="11" fill="#0c4a6e" text-anchor="middle">B-X</text>
+<text x="330" y="158" font-family="sans-serif" font-size="11" fill="#0c4a6e" text-anchor="middle">C-Y</text>
+<text x="220" y="192" font-family="sans-serif" font-size="11" fill="#475569" text-anchor="middle">Nguồn và tải ba pha đều có thể nối theo 2 cách này</text>
+</svg></div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Mạch điện ba pha</h2>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">4.1. Các đại lượng đặc trưng</h3>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Dòng điện dây</strong> $I_d$: dòng điện chạy trong <strong>dây pha</strong>.</li>
+<li><strong>Dòng điện pha</strong> $I_p$: dòng điện chạy trong <strong>mỗi pha</strong> của nguồn hoặc tải.</li>
+<li><strong>Điện áp dây</strong> $U_d$: điện áp giữa <strong>hai dây pha</strong>.</li>
+<li><strong>Điện áp pha</strong> $U_p$: điện áp giữa điểm đầu và điểm cuối mỗi pha (hoặc giữa dây pha và dây trung tính khi nối sao).</li>
+</ul>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">4.2. Mạch điện ba pha đối xứng</h3>
+<p><strong>Khái niệm:</strong> mạch điện có <strong>nguồn đối xứng</strong> (biên độ, tần số bằng nhau, lệch pha $\frac{2\pi}{3}$) và <strong>tải đối xứng</strong> ($Z_A = Z_B = Z_C$).</p>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-2">Cách nối tải</td><td class="border border-slate-300 px-4 py-2">Quan hệ dòng điện</td><td class="border border-slate-300 px-4 py-2">Quan hệ điện áp</td></tr>
+<tr><td class="border border-slate-300 px-4 py-2 font-semibold">Hình sao (Y)</td><td class="border border-slate-300 px-4 py-2">$I_d = I_p$</td><td class="border border-slate-300 px-4 py-2">$U_d = \sqrt{3}\,U_p$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-2 font-semibold">Hình tam giác (Δ)</td><td class="border border-slate-300 px-4 py-2">$I_d = \sqrt{3}\,I_p$</td><td class="border border-slate-300 px-4 py-2">$U_d = U_p$</td></tr>
+</table></div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 1 (tải nối sao):</p>
+<p>Tải ba pha đối xứng nối hình sao, $U_p = 220\,V$, mỗi pha $R = 50\,\Omega$.<br>
+$I_p = \frac{U_p}{R} = \frac{220}{50} = 4,4\,A$; do nối sao nên $I_d = I_p = 4,4\,A$.<br>
+$U_d = \sqrt{3}\,U_p = 220\sqrt{3}\,V$.</p>
+<p class="font-semibold text-sky-800 mb-2 mt-3">Ví dụ 2 (tải nối tam giác):</p>
+<p>Tải ba pha đối xứng nối hình tam giác, $U_d = 380\,V$, mỗi pha $R = 50\,\Omega$.<br>
+Do nối tam giác: $U_p = U_d = 380\,V$; $I_p = \frac{U_p}{R} = \frac{380}{50} = 7,6\,A$.<br>
+$I_d = \sqrt{3}\,I_p \approx 1,73 \times 7,6 \approx 13,16\,A$.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Mẹo nhớ: <strong>sao thì "dây bằng pha" về dòng</strong> ($I_d = I_p$), <strong>tam giác thì "dây bằng pha" về áp</strong> ($U_d = U_p$); chỗ còn lại nhân $\sqrt{3}$. Mạng 380/220 V: $U_d = 380\,V$, $U_p = 220\,V$.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Một pha:</strong> $i = I_m\sin(\omega t + \varphi)$; $I = I_m/\sqrt{2}$; $Z = \sqrt{R^2+X^2}$.</li>
+<li><strong>Ba pha:</strong> 3 suất điện động cùng biên độ, tần số, lệch pha 120°, tạo bởi máy phát 3 cuộn dây stato + roto nam châm điện.</li>
+<li><strong>Nối sao (Y):</strong> X, Y, Z chung thành điểm O; <strong>nối tam giác (Δ):</strong> đầu pha này nối cuối pha kia.</li>
+<li><strong>Đối xứng:</strong> sao: $I_d = I_p$, $U_d = \sqrt{3}U_p$; tam giác: $I_d = \sqrt{3}I_p$, $U_d = U_p$.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
