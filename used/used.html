@@ -1236,6 +1236,14 @@
                 if (masterDatabase.passwords) {
                     delete masterDatabase.passwords[accId];
                 }
+                // Xoa ca trong cache localStorage de so lieu dong nhat sau khi tai lai
+                try {
+                    let cachedPass = localStorage.getItem('saobay_passwords_cache');
+                    if (cachedPass) {
+                        let parsed = JSON.parse(cachedPass);
+                        if (parsed[accId]) { delete parsed[accId]; localStorage.setItem('saobay_passwords_cache', JSON.stringify(parsed)); }
+                    }
+                } catch(eCache){}
 
                 await saveMasterDatabaseToGit(`Admin reset mật khẩu cho ${accName} (${accId}) về mặc định`);
 
