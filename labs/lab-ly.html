@@ -38,7 +38,7 @@ canvas{height:auto !important;max-width:100%;}
     <div class="bg-white rounded-2xl shadow p-4">
       <h2 class="font-black text-blue-800 mb-1">Con lắc đơn</h2>
       <p class="text-xs text-slate-500 mb-2">Kéo quả nặng sang một bên để đặt góc, rồi bấm <b>Thả</b>. Đồng hồ đo chu kỳ dao động.</p>
-      <canvas id="cv-pendulum" class="w-full rounded-xl bg-slate-50 border" height="320" style="touch-action:pan-y;display:block;"></canvas>
+      <canvas id="cv-pendulum" class="w-full rounded-xl bg-slate-50 border" height="250" style="touch-action:pan-y;display:block;"></canvas>
       <div class="grid grid-cols-2 gap-2 mt-3 text-sm">
         <div>
           <label class="text-xs font-bold text-slate-600">Chiều dài dây l (m)</label>
@@ -75,7 +75,7 @@ canvas{height:auto !important;max-width:100%;}
     <div class="bg-white rounded-2xl shadow p-4">
       <h2 class="font-black text-amber-700 mb-1">Mạch điện đơn giản</h2>
       <p class="text-xs text-slate-500 mb-2">Chạm vào <b>công tắc</b> để đóng / ngắt mạch. Quan sát bóng đèn và dòng điện.</p>
-      <canvas id="cv-circuit" class="w-full rounded-xl bg-slate-900 border" height="300" style="touch-action:pan-y;display:block;"></canvas>
+      <canvas id="cv-circuit" class="w-full rounded-xl bg-slate-900 border" height="240" style="touch-action:pan-y;display:block;"></canvas>
       <div class="flex gap-2 mt-3">
         <button id="sw-toggle" class="big-btn flex-1 bg-amber-500 text-white font-black rounded-xl">🔌 Đóng công tắc</button>
       </div>
@@ -102,7 +102,7 @@ canvas{height:auto !important;max-width:100%;}
     <div class="bg-white rounded-2xl shadow p-4">
       <h2 class="font-black text-rose-700 mb-1">Rơi tự do</h2>
       <p class="text-xs text-slate-500 mb-2">Chọn độ cao, bấm <b>Thả</b>. So sánh thời gian rơi — vật nặng hay nhẹ rơi nhanh như nhau!</p>
-      <canvas id="cv-fall" class="w-full rounded-xl bg-gradient-to-b from-sky-100 to-sky-50 border" height="340" style="touch-action:pan-y;display:block;"></canvas>
+      <canvas id="cv-fall" class="w-full rounded-xl bg-gradient-to-b from-sky-100 to-sky-50 border" height="280" style="touch-action:pan-y;display:block;"></canvas>
       <div class="grid grid-cols-2 gap-2 mt-3">
         <div>
           <label class="text-xs font-bold text-slate-600">Độ cao h (m)</label>
@@ -181,7 +181,7 @@ window.__refits = window.__refits || [];
   document.getElementById('pend-T-theory').textContent = (2*Math.PI*Math.sqrt(L/g)).toFixed(2);
 
   function bobPos(){
-    var px = G.w/2, py = 40, len = Math.min(G.h-90, 220);
+    var px = G.w/2, py = 30, len = Math.min(G.h-70, 160);
     return {px:px, py:py, bx:px + len*Math.sin(theta), by:py + len*Math.cos(theta), len:len};
   }
   function posAt(ev){
@@ -325,18 +325,18 @@ window.__refits = window.__refits || [];
   function draw(){
     var ctx = G.ctx, W = G.w, H = G.h;
     ctx.clearRect(0,0,W,H);
-    var x0=50, x1=W-50, yT=90, yB=210;
+    var x0=50, x1=W-50, yT=70, yB=170;
     ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 4;
     // Dây dẫn
     ctx.beginPath();
     ctx.moveTo(x0,yB); ctx.lineTo(x0,yT); ctx.lineTo(x1,yT); ctx.lineTo(x1,yB); ctx.lineTo(x0,yB);
     ctx.stroke();
     // Pin (trái)
-    ctx.fillStyle = '#fbbf24'; ctx.fillRect(x0-14, 130, 28, 40);
+    ctx.fillStyle = '#fbbf24'; ctx.fillRect(x0-14, 100, 28, 40);
     ctx.fillStyle = '#92400e'; ctx.font = 'bold 13px sans-serif'; ctx.textAlign='center';
-    ctx.fillText('+', x0, 148); ctx.fillText('–', x0, 165);
+    ctx.fillText('+', x0, 118); ctx.fillText('–', x0, 135);
     ctx.fillStyle = '#fcd34d'; ctx.font = '11px sans-serif';
-    ctx.fillText('PIN 9V', x0, 190);
+    ctx.fillText('PIN 9V', x0, 158);
     // Bóng đèn (giữa trên)
     var bx = W/2, by = yT;
     var on = closed;
