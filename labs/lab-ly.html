@@ -195,16 +195,20 @@ document.querySelectorAll('.tab-btn').forEach(function(b){
     document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.add('hidden'); });
     document.getElementById('tab-' + b.dataset.tab).classList.remove('hidden');
     if (window.__fitAll) { try { window.__fitAll(); } catch(e){} }
+    var _rf = window.__tabRefresh && window.__tabRefresh[b.dataset.tab];
+    if (_rf) { try { _rf(); } catch(e){} }
   });
 });
 function fitCanvas(cv){
   var hAttr = parseInt(cv.getAttribute('height')) || 300;
-  cv.style.height = hAttr + 'px'; // Co dinh chieu cao CSS (2026-10-09)
+  cv.style.height = hAttr + 'px';
   var r = cv.getBoundingClientRect(), d = window.devicePixelRatio || 1;
+  if (r.width < 10) return null; // tab an -> bo qua
   cv.width = Math.max(1, Math.round(r.width * d)); cv.height = Math.round(hAttr * d);
   var ctx = cv.getContext('2d'); ctx.setTransform(d,0,0,d,0,0);
   return {ctx: ctx, w: r.width, h: hAttr};
 }
+window.__tabRefresh = window.__tabRefresh || {};
 
 // ================= 1. CON LẮC ĐƠN =================
 (function(){
@@ -367,12 +371,13 @@ function fitCanvas(cv){
     ctx.beginPath();
     ctx.moveTo(x0,yB); ctx.lineTo(x0,yT); ctx.lineTo(x1,yT); ctx.lineTo(x1,yB); ctx.lineTo(x0,yB);
     ctx.stroke();
-    // Pin (trái)
-    ctx.fillStyle = '#fbbf24'; ctx.fillRect(x0-14, 130, 28, 40);
+    // Pin (trái) - nam giua day trai
+    var pinY = (yT + yB) / 2;
+    ctx.fillStyle = '#fbbf24'; ctx.fillRect(x0-14, pinY-20, 28, 40);
     ctx.fillStyle = '#92400e'; ctx.font = 'bold 13px sans-serif'; ctx.textAlign='center';
-    ctx.fillText('+', x0, 148); ctx.fillText('–', x0, 165);
+    ctx.fillText('+', x0, pinY-2); ctx.fillText('–', x0, pinY+15);
     ctx.fillStyle = '#fcd34d'; ctx.font = '11px sans-serif';
-    ctx.fillText('PIN 9V', x0, 190);
+    ctx.fillText('PIN 9V', x0, pinY+32);
     // Bóng đèn (giữa trên)
     var bx = W/2, by = yT;
     var on = closed;
