@@ -335,6 +335,12 @@ async function userMgrLoadTrial(){
         ((db.students && db.students['Trải nghiệm']) || []).forEach(function(st){
             trials.push({ id: st.id, name: st.name || '(chưa rõ)', role: 'HS', isTeacher: false });
         });
+        // FIX 2026-10-09: phat hien TK "ma" — co trong registry/students nhung KHONG co password
+        // (xay ra khi push DB that bai giua chung hoac TK bi xoa tay). Danh dau de admin xu ly.
+        let pwdb = db.passwords || {};
+        trials.forEach(function(t){
+            t.hasPassword = !!pwdb[t.id];
+        });
         // Gan thong tin han su dung
         trials.forEach(function(t){
             let e = exp[t.id] || {};
@@ -342,6 +348,7 @@ async function userMgrLoadTrial(){
             t.created_at = e.created_at || null;
             t.days = trialDaysLeft(t.expires_at);
         });
+        let nBroken = trials.filter(function(t){ return !t.hasPassword; }).length;
         let nGV = trials.filter(function(t){ return t.role === 'GV'; }).length;
         let nHS = trials.filter(function(t){ return t.role === 'HS'; }).length;
         // Loc theo filter
@@ -368,6 +375,14 @@ async function userMgrLoadTrial(){
             + '<div class="bg-blue-50 border border-blue-200 rounded-xl p-3 text-center"><p class="text-2xl font-black text-blue-700">' + nGV + '</p><p class="text-[11px] text-blue-600 font-bold">Giáo viên</p></div>'
             + '<div class="bg-emerald-50 border border-emerald-200 rounded-xl p-3 text-center"><p class="text-2xl font-black text-emerald-700">' + nHS + '</p><p class="text-[11px] text-emerald-600 font-bold">Học sinh</p></div>'
             + '</div>';
+        // Canh bao TK ma (neu co)
+        if (nBroken > 0){
+            h += '<div class="bg-rose-50 border border-rose-300 rounded-xl p-3 text-xs text-rose-800">'
+                + '<b>⚠️ Phát hiện ' + nBroken + ' tài khoản lỗi</b> (không có mật khẩu trong DB — người dùng sẽ báo "Không tìm thấy tài khoản" khi đăng nhập). '
+                + 'Nguyên nhân thường do dữ liệu chưa đồng bộ hoặc TK đã bị xóa ở nơi khác. Bấm <b>🔄 Đồng bộ lại</b> để tải mới nhất; '
+                + 'nếu vẫn còn, dùng nút <b>Xóa</b> để dọn khỏi danh sách.'
+                + '</div>';
+        }
         // Bo loc
         h += '<div class="flex flex-wrap gap-2">'
             + fbtn('all', 'Tất cả (' + trials.length + ')')
@@ -375,6 +390,7 @@ async function userMgrLoadTrial(){
             + fbtn('hs', 'HS (' + nHS + ')')
             + fbtn('expiring', 'Sắp hết hạn')
             + fbtn('expired', 'Đã hết hạn')
+            + '<button onclick="userMgrLoadTrial()" title="Tải lại dữ liệu mới nhất từ server" class="px-3 py-1.5 rounded-lg font-bold text-xs bg-white border border-slate-300 text-slate-600 hover:bg-slate-100">🔄 Đồng bộ lại</button>'
             + '</div>';
         // Danh sach
         if (!shown.length){
@@ -391,6 +407,7 @@ async function userMgrLoadTrial(){
                     + '<div class="flex flex-wrap items-center gap-2">'
                     + '<div class="flex-1 min-w-[180px]">'
                     + '<p class="font-black text-slate-800">' + uEsc(t.name) + ' ' + roleBadge + ' <span class="font-normal text-slate-400">(' + uEsc(t.id) + ')</span></p>'
+                    + (t.hasPassword ? '' : '<p class="mt-1"><span class="bg-rose-100 text-rose-700 px-2 py-0.5 rounded-full font-bold">⚠️ TK lỗi — không đăng nhập được</span></p>')
                     + '<p class="text-slate-500 mt-0.5">ĐK: ' + regDate + ' • Hết hạn: ' + expDate + '</p>'
                     + '<p class="mt-1">' + trialDaysBadge(t.days) + '</p>'
                     + '</div>'
