@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 6: Bất phương trình bậc nhất một ẩn</title>
+    <meta name="lesson-title" content="Bài 6: Bất phương trình bậc nhất một ẩn">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 6: Bất phương trình bậc nhất một ẩn</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 2: Phương trình, bất phương trình bậc nhất một ẩn • Bài 6: Bất phương trình bậc nhất một ẩn</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 6: Bất phương trình bậc nhất một ẩn</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 2: Phương trình, bất phương trình bậc nhất một ẩn (Kết nối tri thức với cuộc sống)</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Khái niệm bất phương trình bậc nhất một ẩn</h2>
+<p><strong>Bất phương trình bậc nhất một ẩn</strong> là bất phương trình có dạng $ax + b \lt 0$ (hoặc $ax + b \le 0$, $ax + b \gt 0$, $ax + b \ge 0$), trong đó $a$, $b$ là hai số đã cho và $a \ne 0$.</p>
+<p>Ví dụ: $2x - 6 \gt 0$ là bất phương trình bậc nhất một ẩn; $x^2 + 1 \le 0$ không phải (vì có $x^2$); $0x + 5 \lt 0$ không phải (vì $a = 0$).</p>
+<p>Giá trị $x_0$ của ẩn $x$ sao cho $ax_0 + b \lt 0$ là một khẳng định đúng được gọi là một <strong>nghiệm</strong> của bất phương trình. Giải bất phương trình là tìm tất cả các nghiệm của nó — tập hợp đó gọi là <strong>tập nghiệm</strong>.</p>
+<p>Ví dụ: $x = 4$ là một nghiệm của $2x - 6 \gt 0$ vì $2 \cdot 4 - 6 = 2 \gt 0$; còn $x = 2$ không phải nghiệm vì $2 \cdot 2 - 6 = -2 \lt 0$.</p>
+<div class="bg-amber-50 border-l-4 border-amber-400 p-3 my-3 rounded-r-lg">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p>$ax + b \lt 0$ ($a \ne 0$) là bất phương trình bậc nhất một ẩn. Khác với phương trình (thường chỉ có vài nghiệm), bất phương trình thường có <em>vô số</em> nghiệm.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Cách giải bất phương trình bậc nhất một ẩn</h2>
+<p>Để giải bất phương trình $ax + b \lt 0$, ta dùng hai quy tắc biến đổi tương đương:</p>
+<p><strong>Quy tắc chuyển vế:</strong> chuyển một hạng tử từ vế này sang vế kia thì phải <em>đổi dấu</em> hạng tử đó (giống như giải phương trình).</p>
+<p><strong>Quy tắc nhân (chia):</strong> nhân (hoặc chia) cả hai vế với cùng một số <em>dương</em> thì giữ nguyên chiều; nhân (hoặc chia) cả hai vế với cùng một số <em>âm</em> thì <em>đổi chiều</em> bất phương trình.</p>
+<p>Cách giải $ax + b \lt 0$ ($a \ne 0$):</p>
+<p>$$ax + b \lt 0 \iff ax \lt -b \iff \left[\begin{array}{ll} x \lt -\dfrac{b}{a} & \text{nếu } a \gt 0 \\[4pt] x \gt -\dfrac{b}{a} & \text{nếu } a \lt 0 \end{array}\right.$$</p>
+<p class="font-bold">Ví dụ 1 (có lời giải):</p>
+<p>Giải bất phương trình $3x + 9 \gt 0$.</p>
+<p><strong>Lời giải:</strong> $3x + 9 \gt 0 \iff 3x \gt -9 \iff x \gt -3$ (chia hai vế cho $3 \gt 0$, giữ chiều).<br>
+Vậy tập nghiệm là $x \gt -3$.</p>
+<p class="font-bold">Ví dụ 2 (có lời giải):</p>
+<p>Giải bất phương trình $-2x + 6 \le 0$.</p>
+<p><strong>Lời giải:</strong> $-2x + 6 \le 0 \iff -2x \le -6 \iff x \ge 3$ (chia hai vế cho $-2 \lt 0$, <em>đổi chiều</em>).<br>
+Vậy tập nghiệm là $x \ge 3$.</p>
+<div class="bg-red-50 border-l-4 border-red-400 p-3 my-3 rounded-r-lg">
+<p class="font-bold text-red-800">⚠️ Lưu ý</p>
+<p>Khi nhân hoặc chia hai vế với một số <strong>âm</strong>, nhớ <strong>đổi chiều</strong> bất phương trình ($\lt$ thành $\gt$ và ngược lại; $\le$ thành $\ge$ và ngược lại).</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Biểu diễn tập nghiệm trên trục số</h2>
+<p>Để biểu diễn tập nghiệm trên trục số, ta gạch bỏ phần không thuộc tập nghiệm và:</p>
+<p>• dùng <strong>dấu ngoặc tròn</strong> (hoặc khoanh tròn <em>rỗng</em>) tại điểm đầu mút nếu điểm đó <strong>không</strong> thuộc tập nghiệm (dấu $\lt$, $\gt$);<br>
+• dùng <strong>dấu ngoặc vuông</strong> (hoặc tô <em>đặc</em> điểm) tại điểm đầu mút nếu điểm đó <strong>thuộc</strong> tập nghiệm (dấu $\le$, $\ge$).</p>
+
+<div class="svg-fig">
+<svg viewBox="0 0 420 210" xmlns="http://www.w3.org/2000/svg" font-family="system-ui, sans-serif">
+  <text x="210" y="18" text-anchor="middle" font-size="15" fill="#0c4a6e" font-weight="bold">Biểu diễn tập nghiệm $x \gt 2$</text>
+  <line x1="20" y1="60" x2="400" y2="60" stroke="#cbd5e1" stroke-width="6" stroke-linecap="round"/>
+  <line x1="200" y1="60" x2="400" y2="60" stroke="#0284c7" stroke-width="6" stroke-linecap="round"/>
+  <polygon points="400,60 386,52 386,68" fill="#0284c7"/>
+  <line x1="20" y1="60" x2="400" y2="60" stroke="#334155" stroke-width="1.5"/>
+  <g font-size="12" fill="#475569" text-anchor="middle">
+    <text x="80" y="88">0</text><text x="140" y="88">1</text><text x="200" y="88">2</text>
+    <text x="260" y="88">3</text><text x="320" y="88">4</text>
+  </g>
+  <circle cx="200" cy="60" r="8" fill="#fff" stroke="#0284c7" stroke-width="3"/>
+  <text x="200" y="115" text-anchor="middle" font-size="13" fill="#475569">khoanh tròn rỗng tại $2$ (không lấy $2$), gạch về bên phải</text>
+  <text x="210" y="148" text-anchor="middle" font-size="15" fill="#0c4a6e" font-weight="bold">Biểu diễn tập nghiệm $x \le -1$</text>
+  <line x1="20" y1="180" x2="400" y2="180" stroke="#cbd5e1" stroke-width="6" stroke-linecap="round"/>
+  <line x1="20" y1="180" x2="240" y2="180" stroke="#dc2626" stroke-width="6" stroke-linecap="round"/>
+  <polygon points="20,180 34,172 34,188" fill="#dc2626"/>
+  <line x1="20" y1="180" x2="400" y2="180" stroke="#334155" stroke-width="1.5"/>
+  <g font-size="12" fill="#475569" text-anchor="middle">
+    <text x="120" y="208">-3</text><text x="180" y="208">-2</text><text x="240" y="208">-1</text>
+    <text x="300" y="208">0</text><text x="360" y="208">1</text>
+  </g>
+  <circle cx="240" cy="180" r="8" fill="#dc2626" stroke="#dc2626" stroke-width="3"/>
+</svg>
+</div>
+<p class="text-center text-sm text-slate-500 -mt-2 mb-4">Điểm đặc tại $-1$ (lấy $-1$), gạch về bên trái; phần bị gạch bỏ là phần không thuộc tập nghiệm.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Bất phương trình đưa được về dạng $ax + b \lt 0$</h2>
+<p>Nhiều bất phương trình chưa có dạng chuẩn, nhưng sau khi khai triển, chuyển vế và rút gọn, ta đưa được chúng về dạng $ax + b \lt 0$ (hoặc $\le$, $\gt$, $\ge$) rồi giải như mục 2.</p>
+<p class="font-bold">Ví dụ 3 (có lời giải):</p>
+<p>Giải bất phương trình $2(x - 1) \lt 3x + 5$.</p>
+<p><strong>Lời giải:</strong> Khai triển: $2x - 2 \lt 3x + 5$.<br>
+Chuyển vế: $2x - 3x \lt 5 + 2$, tức $-x \lt 7$.<br>
+Nhân hai vế với $-1 \lt 0$ (đổi chiều): $x \gt -7$.<br>
+Vậy tập nghiệm là $x \gt -7$.</p>
+<p class="font-bold">Ví dụ 4 (có lời giải):</p>
+<p>Giải bất phương trình $\dfrac{x - 2}{3} \ge 1$.</p>
+<p><strong>Lời giải:</strong> Nhân hai vế với $3 \gt 0$ (giữ chiều): $x - 2 \ge 3$.<br>
+Chuyển vế: $x \ge 5$.<br>
+Vậy tập nghiệm là $x \ge 5$.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="table-scroll"><table class="w-full border-collapse text-sm">
+<tr><th class="border border-slate-300 px-4 py-1 bg-sky-50">Nội dung</th><th class="border border-slate-300 px-4 py-1 bg-sky-50">Cách làm</th><th class="border border-slate-300 px-4 py-1 bg-sky-50">Ví dụ</th></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Bất phương trình bậc nhất một ẩn</td><td class="border border-slate-300 px-4 py-1">Dạng $ax + b \lt 0$ ($a \ne 0$) và các dạng $\le, \gt, \ge$</td><td class="border border-slate-300 px-4 py-1">$2x - 6 \gt 0$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Chuyển vế</td><td class="border border-slate-300 px-4 py-1">Đổi dấu hạng tử khi chuyển vế</td><td class="border border-slate-300 px-4 py-1">$3x + 9 \gt 0 \iff 3x \gt -9$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Nhân/chia hai vế</td><td class="border border-slate-300 px-4 py-1">Số dương: giữ chiều; số âm: đổi chiều</td><td class="border border-slate-300 px-4 py-1">$-2x \le -6 \iff x \ge 3$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Biểu diễn trên trục số</td><td class="border border-slate-300 px-4 py-1">Tròn rỗng $( )$ nếu không lấy điểm đầu; đặc $[ ]$ nếu lấy</td><td class="border border-slate-300 px-4 py-1">$x \gt 2$: rỗng tại $2$, gạch phải; $x \le -1$: đặc tại $-1$, gạch trái</td></tr>
+</table></div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
