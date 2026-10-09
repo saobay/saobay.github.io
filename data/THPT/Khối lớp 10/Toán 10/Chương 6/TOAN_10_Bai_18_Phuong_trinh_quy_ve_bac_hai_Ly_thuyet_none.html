@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 18: Phương trình quy về phương trình bậc hai</title>
+    <meta name="lesson-title" content="Bài 18: Phương trình quy về phương trình bậc hai">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 18: Phương trình quy về phương trình bậc hai</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 6: Hàm số, đồ thị và ứng dụng • Bài 18: Phương trình quy về phương trình bậc hai</p>
+        </div>
+        <div class="content-body space-y-4">
+            <h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 18: Phương trình quy về phương trình bậc hai</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 6: Hàm số, đồ thị và ứng dụng</p>
+
+<!-- 1. Dang sqrt f = g -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Phương trình dạng $\sqrt{f(x)} = g(x)$</h2>
+
+<p>Muốn giải phương trình $\sqrt{f(x)} = g(x)$, ta <strong>bình phương hai vế</strong> để đưa về phương trình $f(x) = [g(x)]^2$. Tuy nhiên, phép bình phương có thể tạo ra <strong>nghiệm ngoại lai</strong>, vì vậy cần đặt điều kiện $g(x) \ge 0$ (vế trái là căn bậc hai nên không âm).</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-emerald-800 mb-2">Các bước giải:</p>
+<div class="table-scroll"><table class="mx-auto text-center my-2">
+<tr><td class="px-4 py-2">$$\sqrt{f(x)} = g(x) \iff \begin{cases} g(x) \ge 0 \\ f(x) = [g(x)]^2 \end{cases}$$</td></tr>
+</table></div>
+<p class="mt-2">Giải hệ trên rồi <strong>thử lại</strong> các nghiệm tìm được vào phương trình ban đầu để loại nghiệm không thỏa.</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 1:</p>
+<p>Giải phương trình $\sqrt{x} = x - 2$.</p>
+<p class="mt-2"><strong>Giải.</strong> Điều kiện: $x - 2 \ge 0$, tức $x \ge 2$. Bình phương hai vế:</p>
+<p>$$x = (x - 2)^2 \iff x = x^2 - 4x + 4 \iff x^2 - 5x + 4 = 0$$</p>
+<p>Phương trình có hai nghiệm $x = 1$ và $x = 4$. Thử lại: $x = 1 \lt 2$ (loại), $x = 4 \ge 2$ (nhận).</p>
+<p>Vậy phương trình có nghiệm duy nhất $x = 4$.</p>
+</div>
+
+<div class="svg-fig mx-auto my-4" style="max-width:340px"><svg viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Do thi y bang can x va y bang x tru 2">
+<rect x="2" y="2" width="316" height="236" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<line x1="20" y1="200" x2="310" y2="200" stroke="#334155" stroke-width="1.5"/>
+<line x1="60" y1="230" x2="60" y2="10" stroke="#334155" stroke-width="1.5"/>
+<text x="300" y="194" font-family="sans-serif" font-size="12" fill="#334155">x</text>
+<text x="66" y="20" font-family="sans-serif" font-size="12" fill="#334155">y</text>
+<path d="M60.0,200.0 L62.9,192.0 L65.9,188.6 L68.8,186.1 L71.7,183.9 L74.7,182.0 L77.6,180.3 L80.5,178.7 L83.5,177.3 L86.4,175.9 L89.3,174.6 L92.3,173.4 L95.2,172.2 L98.1,171.0 L101.1,169.9 L104.0,168.9 L106.9,167.9 L109.9,166.9 L112.8,165.9 L115.7,165.0 L118.7,164.1 L121.6,163.2 L124.5,162.3 L127.5,161.5 L130.4,160.6 L133.3,159.8 L136.3,159.0 L139.2,158.3 L142.1,157.5 L145.1,156.7 L148.0,156.0 L150.9,155.3 L153.9,154.6 L156.8,153.9 L159.7,153.2 L162.7,152.5 L165.6,151.8 L168.5,151.1 L171.5,150.5 L174.4,149.8 L177.3,149.2 L180.3,148.6 L183.2,147.9 L186.1,147.3 L189.1,146.7 L192.0,146.1 L194.9,145.5 L197.9,144.9 L200.8,144.3 L203.7,143.8 L206.7,143.2 L209.6,142.6 L212.5,142.1 L215.5,141.5 L218.4,141.0 L221.3,140.4 L224.3,139.9 L227.2,139.4 L230.1,138.8 L233.1,138.3 L236.0,137.8" fill="none" stroke="#1d4ed8" stroke-width="2.5"/>
+<path d="M104.0,200.0 L111.2,192.8 L118.3,185.7 L125.5,178.6 L132.6,171.4 L139.8,164.2 L146.9,157.1 L154.1,149.9 L161.2,142.8 L168.3,135.7 L175.5,128.5 L182.7,121.3 L189.8,114.2 L196.9,107.1 L204.1,99.9 L211.2,92.8 L218.4,85.6 L225.6,78.4 L232.7,71.3 L239.9,64.1 L247.0,57.0" fill="none" stroke="#b91c1c" stroke-width="2.5"/>
+<circle cx="148" cy="156" r="5" fill="#059669" stroke="#fff" stroke-width="2"/>
+<text x="148" y="140" font-family="sans-serif" font-size="12" fill="#059669" text-anchor="middle">(4; 2)</text>
+<text x="180" y="40" font-family="sans-serif" font-size="12" fill="#1d4ed8">y = căn x</text>
+<text x="230" y="100" font-family="sans-serif" font-size="12" fill="#b91c1c">y = x − 2</text>
+</svg>
+<p class="text-center text-sm text-slate-500 mt-1">Minh họa hình học: nghiệm của phương trình là hoành độ giao điểm của hai đồ thị.</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 2:</p>
+<p>Giải phương trình $\sqrt{x^2 - 4x - 5} = x - 2$.</p>
+<p class="mt-2"><strong>Giải.</strong> Điều kiện: $x - 2 \ge 0$. Bình phương hai vế:</p>
+<p>$$x^2 - 4x - 5 = (x - 2)^2 = x^2 - 4x + 4 \iff -5 = 4 \text{ (vô lí)}$$</p>
+<p>Vậy phương trình <strong>vô nghiệm</strong>.</p>
+</div>
+
+<!-- 2. Dang sqrt f = sqrt g -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Phương trình dạng $\sqrt{f(x)} = \sqrt{g(x)}$</h2>
+
+<p>Tương tự, ta bình phương hai vế và đặt điều kiện cho biểu thức dưới dấu căn không âm:</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<div class="table-scroll"><table class="mx-auto text-center my-2">
+<tr><td class="px-4 py-2">$$\sqrt{f(x)} = \sqrt{g(x)} \iff \begin{cases} f(x) \ge 0 \\ f(x) = g(x) \end{cases} \quad \text{hoặc} \quad \begin{cases} g(x) \ge 0 \\ f(x) = g(x) \end{cases}$$</td></tr>
+</table></div>
+<p class="mt-2">Chỉ cần một trong hai điều kiện ($f(x) \ge 0$ hoặc $g(x) \ge 0$) cùng với $f(x) = g(x)$ là đủ.</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 3:</p>
+<p>Giải phương trình $\sqrt{2x^2 - 3x - 5} = \sqrt{x^2 - 7}$.</p>
+<p class="mt-2"><strong>Giải.</strong> Bình phương hai vế:</p>
+<p>$$2x^2 - 3x - 5 = x^2 - 7 \iff x^2 - 3x + 2 = 0$$</p>
+<p>Phương trình có hai nghiệm $x = 1$ và $x = 2$. Thử lại:</p>
+<ul class="list-disc ml-6 mt-1">
+<li>$x = 1$: $2 - 3 - 5 = -6 \lt 0$ (loại).</li>
+<li>$x = 2$: $8 - 6 - 5 = -3 \lt 0$ (loại).</li>
+</ul>
+<p class="mt-1">Vậy phương trình <strong>vô nghiệm</strong>.</p>
+<p class="font-semibold text-sky-800 mb-2 mt-4">Ví dụ 4:</p>
+<p>Giải phương trình $\sqrt{x^2 + 1} = \sqrt{2x + 6}$.</p>
+<p class="mt-2"><strong>Giải.</strong> Bình phương hai vế:</p>
+<p>$$x^2 + 1 = 2x + 6 \iff x^2 - 2x - 5 = 0$$</p>
+<p>Phương trình có hai nghiệm $x = 1 \pm \sqrt{6}$. Thử lại: với cả hai nghiệm, $2x + 6 \gt 0$ nên đều thỏa.</p>
+<p>Vậy phương trình có hai nghiệm $x = 1 + \sqrt{6}$ và $x = 1 - \sqrt{6}$.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<ul class="list-disc ml-6 mt-1 space-y-1">
+<li>Bình phương hai vế có thể sinh <strong>nghiệm ngoại lai</strong> → luôn <strong>thử lại</strong> nghiệm vào phương trình gốc.</li>
+<li>Dạng $\sqrt{f(x)} = g(x)$: bắt buộc $g(x) \ge 0$.</li>
+<li>Dạng $\sqrt{f(x)} = \sqrt{g(x)}$: chỉ cần $f(x) \ge 0$ (hoặc $g(x) \ge 0$) kèm $f(x) = g(x)$.</li>
+</ul>
+</div>
+
+<!-- Tổng kết -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>$\sqrt{f(x)} = g(x)$:</strong> giải hệ $\begin{cases} g(x) \ge 0 \\ f(x) = [g(x)]^2 \end{cases}$.</li>
+<li><strong>$\sqrt{f(x)} = \sqrt{g(x)}$:</strong> giải hệ $\begin{cases} f(x) \ge 0 \\ f(x) = g(x) \end{cases}$ (hoặc thay bằng $g(x) \ge 0$).</li>
+<li>Sau khi bình phương, <strong>thử lại</strong> nghiệm vào phương trình ban đầu.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+</body>
+</html>
