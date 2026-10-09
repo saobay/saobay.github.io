@@ -88,7 +88,7 @@
                 <span class="hidden md:inline ml-1.5">BGH</span>
             </a>
 
-            <a href="used/used.html" title="Tài Khoản / Đổi MK" class="bg-blue-800 hover:bg-blue-700 text-white text-xs p-2 md:px-3 md:py-2 rounded-lg font-medium transition flex items-center border border-blue-700">
+            <a id="btn-account" href="used/used.html" onclick="return handleAccountClick(event)" title="Tài Khoản / Đổi MK" class="bg-blue-800 hover:bg-blue-700 text-white text-xs p-2 md:px-3 md:py-2 rounded-lg font-medium transition flex items-center border border-blue-700">
                 <i class="fa-solid fa-key"></i>
                 <span class="hidden md:inline ml-1.5">Tài Khoản</span>
             </a>
@@ -294,6 +294,245 @@ function renderTreeDirectory(){const e=document.getElementById("tree-directory-c
 
 const studentCompletedQuestions=new Set;function toggleSolution(e,t=null){let n=document.getElementById("solution-"+e);if(!n){let t=document.querySelector(`.question-card[data-question-id="${e}"]`);t&&(n=t.querySelector(".solution-box"))}n&&(!0===t?n.classList.remove("hidden"):!1===t?n.classList.add("hidden"):n.classList.toggle("hidden"),!n.classList.contains("hidden")&&window.MathJax&&window.MathJax.typesetPromise&&window.MathJax.typesetPromise([n]).catch(e=>{}))}function checkSingleQuestion(e){let t=document.querySelector(`.question-card[data-question-id="${e}"]`);if(t||(t=document.getElementById("card_"+e)||document.getElementById(e)),!t)return;let n=t.getAttribute("data-type")||"mcq_4",a=(t.getAttribute("data-answer")||"").trim(),r=parseFloat(t.getAttribute("data-points"))||.25,i=0,l=!1;if("mcq_4"===n||"mc"===n){let n=t.querySelector(`input[name="${e}"]:checked`)||t.querySelector('input[type="radio"]:checked');if(!n)return void alert("Vui lòng chọn 1 phương án trước khi kiểm tra!");l=n.value.toUpperCase()===a.toUpperCase(),i=l?r:0}else if("true_false"===n){let n=a.split("|").map(e=>e.trim()),s=0,o=!1;if(n.forEach(n=>{let[a,r]=n.split(":"),i=t.querySelector(`input[name="${e}_${a}"]:checked`);i?i.value.toUpperCase()===r.toUpperCase()&&s++:o=!0}),o)return void alert("Vui lòng chọn đủ Đúng/Sai cho cả 4 ý khẳng định!");i=4===s?r:3===s?.5*r:2===s?.25*r:1===s?.1*r:0,l=4===s}else if("short_answer"===n){let e=t.querySelector(".short-answer-input")||t.querySelector('input[type="text"]');if(!e||!e.value.trim())return void alert("Vui lòng nhập kết quả trước khi kiểm tra!");let n=e.value.trim().toLowerCase().replace(/\s+/g,"").replace(",",".");l=a.toLowerCase().split("|").map(e=>e.trim().replace(/\s+/g,"").replace(",",".")).includes(n),i=l?r:0}else if("fill_blank"===n){let e=a.split("|").map(e=>e.trim()),n=0;e.forEach(e=>{let[a,r]=e.split(":"),i=t.querySelector(`input[data-blank="${a}"]`);i&&i.value.trim().toLowerCase()===r.trim().toLowerCase()?(n++,i.className="blank-input inline-block w-28 px-2 py-1 mx-1 text-center font-bold text-emerald-800 bg-emerald-50 border border-emerald-500 rounded-lg shadow-inner"):i&&(i.className="blank-input inline-block w-28 px-2 py-1 mx-1 text-center font-bold text-rose-800 bg-rose-50 border border-rose-500 rounded-lg shadow-inner")}),l=n===e.length,i=n/(e.length||1)*r}else if("matching"===n){let e=a.split("|").map(e=>e.trim().toUpperCase()),n=0;e.forEach(e=>{let[a,r]=e.split("-"),i=t.querySelector(`select[data-match="${a}"]`);i&&i.value.toUpperCase()===r&&n++}),l=n===e.length,i=n/(e.length||1)*r}else if("ordering"===n){let e=t.querySelector('input[type="text"]');if(!e||!e.value.trim())return void alert("Vui lòng nhập thứ tự các bước trước khi kiểm tra!");l=e.value.trim().replace(/\s+/g,"").replace(/[\rightarrow,>]/g,"-").toUpperCase()===a.trim().replace(/\s+/g,"").toUpperCase(),i=l?r:0}else if("essay"===n)return void toggleSolution(e,!0);if(t.classList.remove("border-slate-200","border-emerald-500","border-rose-500","bg-emerald-50/20","bg-rose-50/20"),l)if(t.classList.add("border-emerald-500","bg-emerald-50/20"),currentUser&&!studentCompletedQuestions.has(e)){studentCompletedQuestions.add(e);let t=Math.round(10*i)||5;currentUser.score=(parseInt(currentUser.score)||0)+t,localStorage.setItem("saobay_user",JSON.stringify(currentUser));let n=document.getElementById("user-score-display");n&&(n.innerText=currentUser.score),alert(`✓ CHÍNH XÁC! Bạn được cộng +${t} điểm tích lũy vào tài khoản.`)}else alert(`✓ CHÍNH XÁC! Điểm đạt được: ${i.toFixed(2)}/${r} điểm.`);else t.classList.add("border-rose-500","bg-rose-50/20"),alert(`✗ CHƯA CHÍNH XÁC! Điểm đạt: ${i.toFixed(2)}/${r} điểm. Hãy bấm "Xem lời giải chi tiết" để xem hướng dẫn giải.`);toggleSolution(e,!0)}</script>
 
+
+    <!-- Modal Tai khoan cua toi cho Hoc sinh (2026-10-09) -->
+    <div id="hs-account-modal" class="hidden fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/50">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 space-y-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between border-b pb-3">
+                <h3 class="font-black text-slate-800 text-sm"><i class="fa-solid fa-user-gear text-blue-600 mr-2"></i>T&#224;i Kho&#7843;n C&#7911;a T&#244;i</h3>
+                <button onclick="closeHsAccount()" class="text-slate-400 hover:text-slate-600 text-xl leading-none">&times;</button>
+            </div>
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-2 text-sm">
+                <div class="flex justify-between"><span class="text-slate-500 font-bold text-xs">H&#7885; t&#234;n:</span><span id="hsa-name" class="font-bold text-slate-800 text-xs"></span></div>
+                <div class="flex justify-between"><span class="text-slate-500 font-bold text-xs">M&#227; HS / ID:</span><span id="hsa-id" class="font-bold text-slate-800 text-xs"></span></div>
+                <div class="flex justify-between"><span class="text-slate-500 font-bold text-xs">L&#7899;p:</span><span id="hsa-class" class="font-bold text-slate-800 text-xs"></span></div>
+                <div class="flex justify-between"><span class="text-slate-500 font-bold text-xs">Vai tr&#242;:</span><span id="hsa-role" class="font-bold text-slate-800 text-xs"></span></div>
+            </div>
+            <div class="border-t pt-4">
+                <h4 class="font-bold text-slate-700 text-xs mb-2"><i class="fa-solid fa-phone text-emerald-600 mr-1"></i>S&#272;T &#272;&#259;ng Nh&#7853;p</h4>
+                <p class="text-[11px] text-slate-500 mb-3">D&#249;ng S&#272;T &#273;&#7875; <b>&#273;&#259;ng nh&#7853;p thay cho m&#227; HS</b> (d&#7877; nh&#7899; h&#417;n). Qu&#7843;n l&#253; &#273;i&#7875;m/l&#7899;p v&#7851;n theo m&#227; HS c&#7911;a b&#7841;n.</p>
+                <div class="mb-3">
+                    <label class="block text-xs font-bold text-slate-600 mb-1">S&#272;T hi&#7879;n t&#7841;i</label>
+                    <p id="hsa-phone-current" class="text-sm font-semibold text-slate-800 bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5">Ch&#432;a c&#243;</p>
+                </div>
+                <div class="mb-3">
+                    <label class="block text-xs font-bold text-slate-600 mb-1">S&#272;T m&#7899;i <span class="font-normal text-slate-400">(10 s&#7889;, b&#7855;t &#273;&#7847;u b&#7857;ng 0)</span></label>
+                    <input type="tel" id="hsa-phone-input" placeholder="VD: 0912345678" maxlength="11" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm font-semibold focus:ring-2 focus:ring-blue-500 outline-none"/>
+                </div>
+                <p id="hsa-phone-msg" class="text-xs text-center min-h-[1rem] mb-2"></p>
+                <button id="hsa-phone-save" onclick="saveHsPhone()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow transition">L&#432;u S&#272;T</button>
+            </div>
+            <div class="border-t pt-4">
+                <h4 class="font-bold text-slate-700 text-xs mb-2"><i class="fa-solid fa-key text-amber-600 mr-1"></i>&#272;&#7893;i M&#7853;t Kh&#7849;u</h4>
+                <div class="mb-3">
+                    <label class="block text-xs font-bold text-slate-600 mb-1">M&#7853;t kh&#7849;u c&#361;</label>
+                    <input type="password" id="hsa-pass-old" placeholder="Nh&#7853;p m&#7853;t kh&#7849;u hi&#7879;n t&#7841;i" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm font-semibold focus:ring-2 focus:ring-blue-500 outline-none"/>
+                </div>
+                <div class="mb-3">
+                    <label class="block text-xs font-bold text-slate-600 mb-1">M&#7853;t kh&#7849;u m&#7899;i <span class="font-normal text-slate-400">(t&#7915; 6 k&#253; t&#7921;)</span></label>
+                    <input type="password" id="hsa-pass-new" placeholder="Nh&#7853;p m&#7853;t kh&#7849;u m&#7899;i" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm font-semibold focus:ring-2 focus:ring-blue-500 outline-none"/>
+                </div>
+                <div class="mb-3">
+                    <label class="block text-xs font-bold text-slate-600 mb-1">Nh&#7853;p l&#7841;i m&#7853;t kh&#7849;u m&#7899;i</label>
+                    <input type="password" id="hsa-pass-new2" placeholder="Nh&#7853;p l&#7841;i m&#7853;t kh&#7849;u m&#7899;i" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm font-semibold focus:ring-2 focus:ring-blue-500 outline-none"/>
+                </div>
+                <p id="hsa-pass-msg" class="text-xs text-center min-h-[1rem] mb-2"></p>
+                <button id="hsa-pass-save" onclick="changeHsPassword()" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow transition">&#272;&#7893;i m&#7853;t kh&#7849;u</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    function handleAccountClick(e){
+        var u = null;
+        try { u = JSON.parse(localStorage.getItem('saobay_user') || 'null'); } catch(err){}
+        if (u && u.id) {
+            if (e) e.preventDefault();
+            openHsAccount();
+            return false;
+        }
+        return true;
+    }
+    </script>
+
+    <script>
+    /* Quan ly tai khoan HS - mo modal (2026-10-09) */
+    function openHsAccount(){
+        try {
+            var u = null;
+            try { u = JSON.parse(localStorage.getItem('saobay_user') || 'null'); } catch(e){}
+            if (!u || !u.id) { alert('Vui lòng đăng nhập trước.'); return; }
+            document.getElementById('hsa-name').innerText = u.name || '';
+            document.getElementById('hsa-id').innerText = u.id || '';
+            document.getElementById('hsa-class').innerText = u.className || '\u2014';
+            var roleTxt = u.role === 'admin' ? 'Quản trị viên' : (u.role === 'bgh' ? 'Ban Giám Hiệu' : (u.role === 'teacher' ? 'Giáo viên' : 'Học sinh'));
+            document.getElementById('hsa-role').innerText = roleTxt;
+            document.getElementById('hsa-phone-current').innerText = u.phone || 'Chưa có';
+            document.getElementById('hsa-phone-input').value = u.phone || '';
+            document.getElementById('hsa-phone-msg').innerText = '';
+            document.getElementById('hsa-pass-old').value = '';
+            document.getElementById('hsa-pass-new').value = '';
+            document.getElementById('hsa-pass-new2').value = '';
+            document.getElementById('hsa-pass-msg').innerText = '';
+            document.getElementById('hs-account-modal').classList.remove('hidden');
+        } catch(e){ alert('Lỗi: ' + e.message); }
+    }
+    function closeHsAccount(){
+        document.getElementById('hs-account-modal').classList.add('hidden');
+    }
+    async function saveHsPhone(){
+        var msg = document.getElementById('hsa-phone-msg');
+        var btn = document.getElementById('hsa-phone-save');
+        var input = document.getElementById('hsa-phone-input');
+        var newPhone = (input.value || '').trim().replace(/\D/g, '');
+        msg.className = 'text-xs text-center min-h-[1rem] mb-2';
+        msg.innerText = '';
+        if (!/^0\d{9}$/.test(newPhone)) {
+            msg.innerText = 'SĐT phải có 10 số và bắt đầu bằng 0.';
+            msg.classList.add('text-rose-600');
+            return;
+        }
+        var u = null;
+        try { u = JSON.parse(localStorage.getItem('saobay_user') || 'null'); } catch(e){}
+        if (!u || !u.id) { msg.innerText = 'Vui lòng đăng nhập trước.'; msg.classList.add('text-rose-600'); return; }
+        var uid = String(u.id);
+        btn.disabled = true;
+        btn.innerText = 'Đang lưu...';
+        try {
+            var GAS_URL = 'https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec';
+            var saved = false, lastErr = null;
+            for (var attempt = 0; attempt < 3 && !saved; attempt++) {
+                var res = await fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/used/used.is?t=' + Date.now());
+                if (!res.ok) throw new Error('Không tải được dữ liệu.');
+                var db = await res.json();
+                var dup = false;
+                Object.keys(db.teachers_registry || {}).forEach(function(tid){
+                    if (String(tid) !== uid && String((db.teachers_registry[tid]||{}).phone) === newPhone) dup = true;
+                });
+                if (db.students) {
+                    Object.keys(db.students).forEach(function(cls){
+                        (db.students[cls]||[]).forEach(function(s){
+                            if (String(s.id) !== uid && String(s.phone) === newPhone) dup = true;
+                        });
+                    });
+                }
+                if (dup) throw new Error('SĐT này đã được tài khoản khác sử dụng.');
+                var found = false;
+                if (db.students) {
+                    Object.keys(db.students).forEach(function(cls){
+                        (db.students[cls]||[]).forEach(function(s){
+                            if (String(s.id) === uid) { s.phone = newPhone; found = true; }
+                        });
+                    });
+                }
+                if (!found && db.teachers_registry && db.teachers_registry[uid]) {
+                    db.teachers_registry[uid].phone = newPhone;
+                    found = true;
+                }
+                if (!found) throw new Error('Không tìm thấy tài khoản trong cơ sở dữ liệu.');
+                var pushRes = await fetch(GAS_URL, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'text/plain;charset=utf-8'},
+                    body: JSON.stringify({
+                        type: 'PUSH_TO_GITHUB',
+                        filePath: 'used/used.is',
+                        content: JSON.stringify(db),
+                        commitMessage: 'HS tu cap nhat SDT: ' + (u.name || uid),
+                        title: 'Cap nhat SDT HS',
+                        author: u.name || uid
+                    })
+                });
+                var rj = await pushRes.json();
+                if (rj && rj.status === 'success') { saved = true; break; }
+                var emsg = String((rj && rj.message) || '');
+                if (emsg.indexOf('409') < 0) throw new Error(emsg || 'Lưu thất bại.');
+                lastErr = new Error(emsg || 'Xung đột, đang thử lại...');
+                await new Promise(function(r){ setTimeout(r, 1200); });
+            }
+            if (!saved) throw lastErr || new Error('Không lưu được, vui lòng thử lại.');
+            u.phone = newPhone;
+            localStorage.setItem('saobay_user', JSON.stringify(u));
+            try { if (typeof currentUser !== 'undefined' && currentUser) currentUser.phone = newPhone; } catch(e){}
+            document.getElementById('hsa-phone-current').innerText = newPhone;
+            msg.innerText = 'Đã lưu SĐT thành công! Lần sau bạn có thể đăng nhập bằng SĐT này.';
+            msg.classList.add('text-emerald-600');
+            setTimeout(closeHsAccount, 1500);
+        } catch(e){
+            msg.innerText = 'Lỗi: ' + (e.message || e);
+            msg.classList.add('text-rose-600');
+        } finally {
+            btn.disabled = false;
+            btn.innerText = 'Lưu SĐT';
+        }
+    }
+    async function changeHsPassword(){
+        var msg = document.getElementById('hsa-pass-msg');
+        var btn = document.getElementById('hsa-pass-save');
+        var oldP = document.getElementById('hsa-pass-old').value;
+        var newP = document.getElementById('hsa-pass-new').value;
+        var newP2 = document.getElementById('hsa-pass-new2').value;
+        msg.className = 'text-xs text-center min-h-[1rem] mb-2';
+        msg.innerText = '';
+        if (!oldP) { msg.innerText = 'Vui lòng nhập mật khẩu cũ.'; msg.classList.add('text-rose-600'); return; }
+        if (!newP || newP.length < 6) { msg.innerText = 'Mật khẩu mới phải từ 6 ký tự trở lên.'; msg.classList.add('text-rose-600'); return; }
+        if (newP !== newP2) { msg.innerText = 'Mật khẩu nhập lại chưa khớp.'; msg.classList.add('text-rose-600'); return; }
+        if (newP === oldP) { msg.innerText = 'Mật khẩu mới phải khác mật khẩu cũ.'; msg.classList.add('text-rose-600'); return; }
+        var u = null;
+        try { u = JSON.parse(localStorage.getItem('saobay_user') || 'null'); } catch(e){}
+        if (!u || !u.id) { msg.innerText = 'Vui lòng đăng nhập trước.'; msg.classList.add('text-rose-600'); return; }
+        var uid = String(u.id);
+        btn.disabled = true;
+        btn.innerText = 'Đang đổi...';
+        try {
+            var GAS_URL = 'https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec';
+            var saved = false, lastErr = null;
+            for (var attempt = 0; attempt < 3 && !saved; attempt++) {
+                var res = await fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/used/used.is?t=' + Date.now());
+                if (!res.ok) throw new Error('Không tải được dữ liệu.');
+                var db = await res.json();
+                if (!db.passwords) db.passwords = {};
+                var savedPass = db.passwords[uid];
+                var currentPlain = '12345678';
+                if (savedPass && savedPass !== '12345678') {
+                    try { currentPlain = decodeURIComponent(escape(atob(savedPass))); }
+                    catch(e){ currentPlain = savedPass; }
+                }
+                if (oldP !== currentPlain) throw new Error('Mật khẩu cũ không đúng.');
+                db.passwords[uid] = btoa(unescape(encodeURIComponent(newP)));
+                var pushRes = await fetch(GAS_URL, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'text/plain;charset=utf-8'},
+                    body: JSON.stringify({
+                        type: 'PUSH_TO_GITHUB',
+                        filePath: 'used/used.is',
+                        content: JSON.stringify(db),
+                        commitMessage: 'HS tu doi mat khau: ' + (u.name || uid),
+                        title: 'Doi mat khau HS',
+                        author: u.name || uid
+                    })
+                });
+                var rj = await pushRes.json();
+                if (rj && rj.status === 'success') { saved = true; break; }
+                var emsg = String((rj && rj.message) || '');
+                if (emsg.indexOf('409') < 0) throw new Error(emsg || 'Đổi mật khẩu thất bại.');
+                lastErr = new Error(emsg || 'Xung đột, đang thử lại...');
+                await new Promise(function(r){ setTimeout(r, 1200); });
+            }
+            if (!saved) throw lastErr || new Error('Không đổi được, vui lòng thử lại.');
+            document.getElementById('hsa-pass-old').value = '';
+            document.getElementById('hsa-pass-new').value = '';
+            document.getElementById('hsa-pass-new2').value = '';
+            msg.innerText = 'Đổi mật khẩu thành công!';
+            msg.classList.add('text-emerald-600');
+        } catch(e){
+            msg.innerText = 'Lỗi: ' + (e.message || e);
+            msg.classList.add('text-rose-600');
+        } finally {
+            btn.disabled = false;
+            btn.innerText = 'Đổi mật khẩu';
+        }
+    }
+    </script>
 
 </body>
 </html>
