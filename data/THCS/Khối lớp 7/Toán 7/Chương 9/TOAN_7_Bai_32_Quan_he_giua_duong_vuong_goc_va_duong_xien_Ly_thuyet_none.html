@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 32: Quan hệ giữa đường vuông góc và đường xiên</title>
+    <meta name="lesson-title" content="Bài 32: Quan hệ giữa đường vuông góc và đường xiên">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 32: Quan hệ giữa đường vuông góc và đường xiên</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 9: Quan hệ giữa các yếu tố trong một tam giác • Bài 32: Quan hệ giữa đường vuông góc và đường xiên</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3">1. Đường vuông góc và đường xiên</h2>
+<p>Cho điểm $A$ không thuộc đường thẳng $d$. Kẻ $AH$ vuông góc với $d$ tại $H$ ($H \in d$); kẻ đoạn thẳng $AB$ với $B \in d$, $B \ne H$ (Hình 1).</p>
+<ul class="list-disc pl-6 space-y-1">
+  <li>Đoạn thẳng $AH$ gọi là <strong>đường vuông góc</strong> (hay đoạn vuông góc) kẻ từ điểm $A$ đến đường thẳng $d$; điểm $H$ gọi là <strong>chân đường vuông góc</strong>.</li>
+  <li>Đoạn thẳng $AB$ gọi là một <strong>đường xiên</strong> kẻ từ điểm $A$ đến đường thẳng $d$.</li>
+  <li>Đoạn thẳng $HB$ gọi là <strong>hình chiếu</strong> của đường xiên $AB$ trên đường thẳng $d$.</li>
+</ul>
+<div class="svg-fig">
+<svg viewBox="0 0 400 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Duong vuong goc va duong xien">
+  <line x1="20" y1="230" x2="380" y2="230" stroke="#0f172a" stroke-width="2.5"/>
+  <text x="368" y="222" font-size="17" font-style="italic">d</text>
+  <line x1="200" y1="40" x2="200" y2="230" stroke="#0284c7" stroke-width="2.5"/>
+  <line x1="200" y1="40" x2="90" y2="230" stroke="#16a34a" stroke-width="2.5"/>
+  <line x1="200" y1="40" x2="330" y2="230" stroke="#16a34a" stroke-width="2.5"/>
+  <rect x="200" y="206" width="24" height="24" fill="none" stroke="#0284c7" stroke-width="2"/>
+  <circle cx="200" cy="40" r="4" fill="#0f172a"/>
+  <circle cx="200" cy="230" r="4" fill="#0284c7"/>
+  <circle cx="90" cy="230" r="4" fill="#16a34a"/>
+  <circle cx="330" cy="230" r="4" fill="#16a34a"/>
+  <text x="200" y="30" font-size="18" font-weight="bold" text-anchor="middle">A</text>
+  <text x="212" y="248" font-size="17" font-weight="bold">H</text>
+  <text x="76" y="250" font-size="17" font-weight="bold">B</text>
+  <text x="322" y="250" font-size="17" font-weight="bold">C</text>
+  <text x="208" y="140" font-size="15" fill="#0284c7">AH: đường vuông góc</text>
+  <text x="100" y="120" font-size="15" fill="#16a34a">AB: đường xiên</text>
+  <text x="268" y="120" font-size="15" fill="#16a34a">AC: đường xiên</text>
+  <text x="130" y="250" font-size="14" fill="#64748b">HB: hình chiếu của AB</text>
+</svg>
+<p class="text-center text-sm text-slate-500 mt-1">Hình 1. Đường vuông góc $AH$ và các đường xiên $AB$, $AC$</p>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3">2. Quan hệ giữa đường vuông góc và đường xiên</h2>
+<div class="bg-amber-50 border border-amber-200 rounded-xl p-4">
+  <p class="font-bold text-amber-800">📌 Ghi nhớ — Định lí</p>
+  <p class="mt-1">Trong các đường xiên và đường vuông góc kẻ từ một điểm nằm ngoài một đường thẳng đến đường thẳng đó, <strong>đường vuông góc là đường ngắn nhất</strong>.</p>
+  <p class="mt-1">Tức là với Hình 1: $AH &lt; AB$ và $AH &lt; AC$.</p>
+</div>
+<div class="bg-amber-50 border border-amber-200 rounded-xl p-4">
+  <p class="font-bold text-amber-800">📌 Ghi nhớ — Khoảng cách từ điểm đến đường thẳng</p>
+  <p class="mt-1">Độ dài đường vuông góc $AH$ gọi là <strong>khoảng cách từ điểm $A$ đến đường thẳng $d$</strong>.</p>
+</div>
+<div class="bg-sky-50 border border-sky-200 rounded-xl p-4">
+  <p class="font-bold text-sky-800">Ví dụ 1.</p>
+  <p>Cho điểm $M$ nằm ngoài đường thẳng $xy$. Kẻ $MH \perp xy$ tại $H$ và kẻ đường xiên $MK$ ($K \in xy$). Biết $MH = 4\text{ cm}$. So sánh $MK$ với $4\text{ cm}$.</p>
+  <p class="font-semibold text-sky-800 mt-2">Lời giải:</p>
+  <p>$MH$ là đường vuông góc, $MK$ là đường xiên kẻ từ $M$ đến $xy$. Theo định lí, đường vuông góc là đường ngắn nhất nên $MH &lt; MK$. Vậy $MK &gt; 4\text{ cm}$.</p>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3">3. Quan hệ giữa hai đường xiên</h2>
+<p>Giả sử $AH$ là đường vuông góc kẻ từ $A$ đến đường thẳng $d$; $AB$ và $AC$ là hai đường xiên kẻ từ $A$ đến $d$ (Hình 1).</p>
+<div class="bg-amber-50 border border-amber-200 rounded-xl p-4">
+  <p class="font-bold text-amber-800">📌 Ghi nhớ — Nhận xét</p>
+  <ul class="list-disc pl-6 mt-1 space-y-1">
+    <li>Đường xiên nào có <strong>hình chiếu dài hơn</strong> thì <strong>dài hơn</strong>: $HB &gt; HC \Rightarrow AB &gt; AC$.</li>
+    <li>Đường xiên nào <strong>dài hơn</strong> thì có <strong>hình chiếu dài hơn</strong>: $AB &gt; AC \Rightarrow HB &gt; HC$.</li>
+    <li>Nếu hai đường xiên <strong>bằng nhau</strong> thì hai hình chiếu <strong>bằng nhau</strong> và ngược lại.</li>
+  </ul>
+</div>
+<div class="bg-sky-50 border border-sky-200 rounded-xl p-4">
+  <p class="font-bold text-sky-800">Ví dụ 2.</p>
+  <p>Từ điểm $A$ nằm ngoài đường thẳng $d$, kẻ đường vuông góc $AH$ và hai đường xiên $AB$, $AC$ đến $d$ sao cho $HB = 5\text{ cm}$, $HC = 3\text{ cm}$. So sánh $AB$ và $AC$.</p>
+  <p class="font-semibold text-sky-800 mt-2">Lời giải:</p>
+  <p>$HB &gt; HC$ nên đường xiên $AB$ dài hơn đường xiên $AC$. Vậy $AB &gt; AC$.</p>
+</div>
+<div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4">
+  <p class="font-bold text-emerald-800">Bài tập ví dụ.</p>
+  <p>Bạn An đứng tại điểm $A$ cách bờ sông (đường thẳng $d$) một khoảng $AH = 30\text{ m}$. An muốn đi đến bờ sông theo đường ngắn nhất. An phải đi theo đường nào và đi bao nhiêu mét?</p>
+  <p class="font-semibold text-emerald-800 mt-2">Lời giải:</p>
+  <p>Đường ngắn nhất từ $A$ đến $d$ là đường vuông góc $AH$. Vậy An đi theo đường $AH$ dài $30\text{ m}$.</p>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3">Tóm tắt</h2>
+<div class="table-scroll">
+<table class="w-full text-sm border-collapse border border-slate-300">
+  <thead><tr class="bg-sky-100">
+    <th class="border border-slate-300 px-3 py-2">Nội dung</th>
+    <th class="border border-slate-300 px-3 py-2">Phát biểu</th>
+  </tr></thead>
+  <tbody>
+    <tr><td class="border border-slate-300 px-3 py-2 font-semibold">Đường vuông góc — đường xiên</td><td class="border border-slate-300 px-3 py-2">Trong các đường xiên và đường vuông góc kẻ từ một điểm nằm ngoài một đường thẳng đến đường thẳng đó, đường vuông góc là đường ngắn nhất.</td></tr>
+    <tr><td class="border border-slate-300 px-3 py-2 font-semibold">Khoảng cách từ điểm đến đường thẳng</td><td class="border border-slate-300 px-3 py-2">Độ dài đường vuông góc kẻ từ điểm đó đến đường thẳng.</td></tr>
+    <tr><td class="border border-slate-300 px-3 py-2 font-semibold">So sánh hai đường xiên</td><td class="border border-slate-300 px-3 py-2">Đường xiên nào có hình chiếu dài hơn thì dài hơn và ngược lại.</td></tr>
+  </tbody>
+</table>
+</div>
+
+</div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
