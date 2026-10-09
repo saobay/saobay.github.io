@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 9: Phân tích đa thức thành nhân tử</title>
+    <meta name="lesson-title" content="Bài 9: Phân tích đa thức thành nhân tử">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 9: Phân tích đa thức thành nhân tử</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 2: Hằng đẳng thức đáng nhớ và ứng dụng • Bài 9: Phân tích đa thức thành nhân tử</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<p>Ở các bài trước, chúng ta đã học cách <strong>nhân</strong> đa thức với đa thức — tức là khai triển một <em>tích</em> thành một <em>tổng</em>. Trong bài này, ta làm điều <strong>ngược lại</strong>: biến đổi một đa thức (một tổng) thành một <em>tích</em> của các đa thức. Phép biến đổi đó được gọi là <strong>phân tích đa thức thành nhân tử</strong>.</p>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4 rounded-r-lg">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><strong>Phân tích đa thức thành nhân tử</strong> là biến đổi đa thức đó thành một <strong>tích</strong> của những đa thức.</p>
+<p class="mt-1">Ví dụ: $x^2+2x=x(x+2)$; $x^2-4=(x-2)(x+2)$.</p>
+<p class="mt-1">Phân tích thành nhân tử giúp <strong>tính nhanh</strong> giá trị biểu thức, <strong>rút gọn</strong> phân thức và <strong>giải phương trình</strong> dạng tích.</p>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-8">1. Phương pháp đặt nhân tử chung</h2>
+<p>Nếu <strong>mọi hạng tử</strong> của đa thức đều có chung một nhân tử (một số, một biến hay một biểu thức), ta đặt nhân tử đó ra ngoài dấu ngoặc theo tính chất phân phối của phép nhân đối với phép cộng:
+$$AB+AC=A(B+C).$$</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-bold text-sky-800">Ví dụ 1.</p>
+<p>Phân tích đa thức $3x^2+6x$ thành nhân tử.</p>
+<p class="mt-2"><em>Lời giải.</em> Hai hạng tử $3x^2$ và $6x$ có nhân tử chung là $3x$:
+$$3x^2+6x=3x\cdot x+3x\cdot 2=3x(x+2).$$
+Thử lại: $3x(x+2)=3x^2+6x$ ✔.</p>
+</div>
+
+<div class="svg-fig">
+<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Minh hoa dat nhan tu chung 3x trong 3x^2+6x">
+<text x="200" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#0f172a">3x² + 6x = 3x(x + 2)</text>
+<rect x="96" y="36" width="168" height="92" fill="none" stroke="#0f172a" stroke-width="2.5"/>
+<g>
+<rect x="96" y="36" width="56" height="56" fill="#bae6fd" stroke="#0369a1" stroke-width="1.5"/>
+<rect x="96" y="92" width="56" height="18" fill="#fde68a" stroke="#b45309" stroke-width="1.5"/>
+<rect x="96" y="110" width="56" height="18" fill="#fde68a" stroke="#b45309" stroke-width="1.5"/>
+<text x="124" y="68" text-anchor="middle" font-size="14" fill="#0c4a6e">x²</text>
+</g>
+<g>
+<rect x="152" y="36" width="56" height="56" fill="#bae6fd" stroke="#0369a1" stroke-width="1.5"/>
+<rect x="152" y="92" width="56" height="18" fill="#fde68a" stroke="#b45309" stroke-width="1.5"/>
+<rect x="152" y="110" width="56" height="18" fill="#fde68a" stroke="#b45309" stroke-width="1.5"/>
+<text x="180" y="68" text-anchor="middle" font-size="14" fill="#0c4a6e">x²</text>
+</g>
+<g>
+<rect x="208" y="36" width="56" height="56" fill="#bae6fd" stroke="#0369a1" stroke-width="1.5"/>
+<rect x="208" y="92" width="56" height="18" fill="#fde68a" stroke="#b45309" stroke-width="1.5"/>
+<rect x="208" y="110" width="56" height="18" fill="#fde68a" stroke="#b45309" stroke-width="1.5"/>
+<text x="236" y="68" text-anchor="middle" font-size="14" fill="#0c4a6e">x²</text>
+</g>
+<line x1="96" y1="140" x2="264" y2="140" stroke="#0f172a" stroke-width="1.5"/>
+<line x1="96" y1="135" x2="96" y2="145" stroke="#0f172a" stroke-width="1.5"/>
+<line x1="264" y1="135" x2="264" y2="145" stroke="#0f172a" stroke-width="1.5"/>
+<text x="180" y="158" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">3x</text>
+<line x1="84" y1="36" x2="84" y2="128" stroke="#0f172a" stroke-width="1.5"/>
+<line x1="79" y1="36" x2="89" y2="36" stroke="#0f172a" stroke-width="1.5"/>
+<line x1="79" y1="128" x2="89" y2="128" stroke="#0f172a" stroke-width="1.5"/>
+<text transform="rotate(-90 64 82)" x="64" y="82" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">x + 2</text>
+<rect x="96" y="172" width="12" height="12" fill="#bae6fd" stroke="#0369a1"/>
+<text x="114" y="182" font-size="12" fill="#334155">x²</text>
+<rect x="150" y="172" width="12" height="12" fill="#fde68a" stroke="#b45309"/>
+<text x="168" y="182" font-size="12" fill="#334155">x</text>
+</svg>
+<p class="text-center text-sm text-slate-500 mt-2">Minh họa diện tích: $3x^2+6x$ gồm 3 nhóm $x^2+2x$, mỗi nhóm $=x(x+2)$</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-bold text-sky-800">Ví dụ 2.</p>
+<p>Phân tích đa thức $5x(x-2)-3(x-2)$ thành nhân tử.</p>
+<p class="mt-2"><em>Lời giải.</em> Coi cả biểu thức $(x-2)$ là nhân tử chung:
+$$5x(x-2)-3(x-2)=(x-2)(5x-3).$$</p>
+</div>
+
+<p>💡 <strong>Mẹo đổi dấu:</strong> đôi khi cần đổi dấu để làm xuất hiện nhân tử chung, vì $A-B=-(B-A)$. Chẳng hạn $y-x=-(x-y)$.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-bold text-sky-800">Ví dụ 3.</p>
+<p>Phân tích $2x(x-y)+3(y-x)$ thành nhân tử.</p>
+<p class="mt-2"><em>Lời giải.</em> Vì $y-x=-(x-y)$ nên:
+$$2x(x-y)+3(y-x)=2x(x-y)-3(x-y)=(x-y)(2x-3).$$</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4 rounded-r-lg">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Khi đặt nhân tử chung, phải đặt <strong>triệt để</strong>: nhân tử chung là <strong>ước chung lớn nhất</strong> của các hệ số nhân với <strong>lũy thừa thấp nhất</strong> của các biến chung. Ví dụ $6x^2-9x=3x(2x-3)$, không dừng ở $x(6x-9)$.</p>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-8">2. Phương pháp dùng hằng đẳng thức</h2>
+<p>Nhắc lại 7 hằng đẳng thức đáng nhớ đã học ở Bài 6, 7, 8:</p>
+<div class="table-scroll">
+<table class="w-full text-sm border-collapse">
+<thead><tr class="bg-sky-100"><th class="border border-sky-200 px-3 py-2 text-left">Tên gọi</th><th class="border border-sky-200 px-3 py-2 text-left">Hằng đẳng thức</th></tr></thead>
+<tbody>
+<tr><td class="border border-sky-200 px-3 py-2">Bình phương của một tổng</td><td class="border border-sky-200 px-3 py-2">$(A+B)^2=A^2+2AB+B^2$</td></tr>
+<tr><td class="border border-sky-200 px-3 py-2">Bình phương của một hiệu</td><td class="border border-sky-200 px-3 py-2">$(A-B)^2=A^2-2AB+B^2$</td></tr>
+<tr><td class="border border-sky-200 px-3 py-2">Hiệu hai bình phương</td><td class="border border-sky-200 px-3 py-2">$A^2-B^2=(A-B)(A+B)$</td></tr>
+<tr><td class="border border-sky-200 px-3 py-2">Lập phương của một tổng</td><td class="border border-sky-200 px-3 py-2">$(A+B)^3=A^3+3A^2B+3AB^2+B^3$</td></tr>
+<tr><td class="border border-sky-200 px-3 py-2">Lập phương của một hiệu</td><td class="border border-sky-200 px-3 py-2">$(A-B)^3=A^3-3A^2B+3AB^2-B^3$</td></tr>
+<tr><td class="border border-sky-200 px-3 py-2">Tổng hai lập phương</td><td class="border border-sky-200 px-3 py-2">$A^3+B^3=(A+B)(A^2-AB+B^2)$</td></tr>
+<tr><td class="border border-sky-200 px-3 py-2">Hiệu hai lập phương</td><td class="border border-sky-200 px-3 py-2">$A^3-B^3=(A-B)(A^2+AB+B^2)$</td></tr>
+</tbody>
+</table>
+</div>
+<p>Khi đa thức có dạng <strong>vế phải</strong> của một hằng đẳng thức, ta viết ngay thành <strong>tích</strong> ở vế trái.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-bold text-sky-800">Ví dụ 4.</p>
+<p>Phân tích $x^2-9$ thành nhân tử.</p>
+<p class="mt-2"><em>Lời giải.</em> $x^2-9=x^2-3^2$. Áp dụng $A^2-B^2=(A-B)(A+B)$ với $A=x$, $B=3$:
+$$x^2-9=(x-3)(x+3).$$</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-bold text-sky-800">Ví dụ 5.</p>
+<p>Phân tích $x^2+4x+4$ thành nhân tử.</p>
+<p class="mt-2"><em>Lời giải.</em> $x^2+4x+4=x^2+2\cdot x\cdot 2+2^2$. Áp dụng $(A+B)^2=A^2+2AB+B^2$:
+$$x^2+4x+4=(x+2)^2.$$</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-bold text-sky-800">Ví dụ 6.</p>
+<p>Phân tích $8x^3-27$ thành nhân tử.</p>
+<p class="mt-2"><em>Lời giải.</em> $8x^3-27=(2x)^3-3^3$. Áp dụng $A^3-B^3=(A-B)(A^2+AB+B^2)$ với $A=2x$, $B=3$:
+$$8x^3-27=(2x-3)\big((2x)^2+(2x)\cdot 3+3^2\big)=(2x-3)(4x^2+6x+9).$$</p>
+</div>
+
+<div class="svg-fig">
+<svg viewBox="0 0 470 290" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Minh hoa hinh hoc hang dang thuc a^2-b^2=(a-b)(a+b)">
+<text x="115" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#0f172a">a² − b²</text>
+<rect x="40" y="40" width="150" height="150" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+<rect x="130" y="40" width="60" height="60" fill="#ffffff" stroke="#dc2626" stroke-width="2" stroke-dasharray="6 4"/>
+<line x1="130" y1="40" x2="130" y2="190" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="6 4"/>
+<line x1="40" y1="100" x2="130" y2="100" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="6 4"/>
+<text x="82" y="152" text-anchor="middle" font-size="16" font-weight="bold" fill="#0369a1">P₁</text>
+<text x="160" y="152" text-anchor="middle" font-size="16" font-weight="bold" fill="#b45309">P₂</text>
+<text x="115" y="210" text-anchor="middle" font-size="13" fill="#334155">a</text>
+<text transform="rotate(-90 24 115)" x="24" y="115" text-anchor="middle" font-size="13" fill="#334155">a</text>
+<text x="160" y="34" text-anchor="middle" font-size="13" fill="#dc2626">b</text>
+<text x="200" y="75" text-anchor="middle" font-size="13" fill="#dc2626">b</text>
+<text x="238" y="122" text-anchor="middle" font-size="30" fill="#0f172a">→</text>
+<text x="238" y="148" text-anchor="middle" font-size="11" fill="#64748b">xoay P₂ 90°</text>
+<text x="238" y="162" text-anchor="middle" font-size="11" fill="#64748b">rồi ghép</text>
+<text x="350" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#0f172a">(a − b)(a + b)</text>
+<rect x="305" y="40" width="90" height="210" fill="none" stroke="#0f172a" stroke-width="2"/>
+<rect x="305" y="40" width="90" height="150" fill="#bae6fd" stroke="#0369a1" stroke-width="1.5"/>
+<rect x="305" y="190" width="90" height="60" fill="#fde68a" stroke="#b45309" stroke-width="1.5"/>
+<text x="350" y="120" text-anchor="middle" font-size="16" font-weight="bold" fill="#0369a1">P₁</text>
+<text x="350" y="226" text-anchor="middle" font-size="16" font-weight="bold" fill="#b45309">P₂</text>
+<text transform="rotate(-90 288 145)" x="288" y="145" text-anchor="middle" font-size="13" fill="#334155">a + b</text>
+<text x="350" y="272" text-anchor="middle" font-size="13" fill="#334155">a − b</text>
+<line x1="403" y1="40" x2="403" y2="190" stroke="#334155" stroke-width="1.2"/>
+<text x="412" y="120" font-size="12" fill="#334155">a</text>
+<line x1="403" y1="190" x2="403" y2="250" stroke="#334155" stroke-width="1.2"/>
+<text x="412" y="224" font-size="12" fill="#334155">b</text>
+</svg>
+<p class="text-center text-sm text-slate-500 mt-2">Minh họa hình học: cắt phần $b^2$ khỏi hình vuông $a^2$, xoay mảnh $P_2$ rồi ghép thành hình chữ nhật $(a-b)\times(a+b)$</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4 rounded-r-lg">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Nhận dạng nhanh: thấy $A^2-B^2$ → nghĩ ngay $(A-B)(A+B)$; thấy ba hạng tử dạng $A^2\pm 2AB+B^2$ → nghĩ $(A\pm B)^2$; thấy $A^3\pm B^3$ → nghĩ $(A\pm B)(A^2\mp AB+B^2)$.</p>
+<p class="mt-1">⚠️ Lỗi thường gặp: $x^2+4\neq (x+2)^2$ (vì $(x+2)^2=x^2+4x+4$); $x^2-9\neq (x-3)^2$.</p>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-8">3. Phương pháp nhóm hạng tử</h2>
+<p>Khi đa thức <strong>không có nhân tử chung cho tất cả</strong> các hạng tử, ta thử <strong>nhóm</strong> các hạng tử một cách thích hợp thành từng nhóm nhỏ; mỗi nhóm phân tích được (bằng cách đặt nhân tử chung hoặc dùng hằng đẳng thức), rồi làm xuất hiện <strong>nhân tử chung mới</strong> cho cả đa thức.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-bold text-sky-800">Ví dụ 7.</p>
+<p>Phân tích $ax+ay+bx+by$ thành nhân tử.</p>
+<p class="mt-2"><em>Lời giải.</em> Nhóm hai hạng tử đầu và hai hạng tử cuối:
+$$ax+ay+bx+by=(ax+ay)+(bx+by)=a(x+y)+b(x+y)=(x+y)(a+b).$$</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-bold text-sky-800">Ví dụ 8.</p>
+<p>Phân tích $x^3+x^2-x-1$ thành nhân tử.</p>
+<p class="mt-2"><em>Lời giải.</em> Nhóm $(x^3+x^2)$ và $(-x-1)$:
+$$x^3+x^2-x-1=(x^3+x^2)-(x+1)=x^2(x+1)-(x+1)=(x+1)(x^2-1).$$
+Tiếp tục phân tích $x^2-1=(x-1)(x+1)$:
+$$x^3+x^2-x-1=(x+1)^2(x-1).$$</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-bold text-sky-800">Ví dụ 9.</p>
+<p>Phân tích $x^2+2x+1-y^2$ thành nhân tử.</p>
+<p class="mt-2"><em>Lời giải.</em> Nhóm ba hạng tử đầu thành bình phương của một tổng, rồi dùng hiệu hai bình phương:
+$$x^2+2x+1-y^2=(x^2+2x+1)-y^2=(x+1)^2-y^2=(x+1-y)(x+1+y).$$</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4 rounded-r-lg">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Thường nhóm theo kiểu <strong>2 – 2</strong> (hai nhóm, mỗi nhóm hai hạng tử) hoặc <strong>3 – 1</strong> (một nhóm ba hạng tử tạo thành hằng đẳng thức). Sau khi nhóm, <strong>phải xuất hiện nhân tử chung mới</strong>; nếu không, hãy thử cách nhóm khác.</p>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-8">4. Phối hợp nhiều phương pháp</h2>
+<p>Trong thực tế, một bài toán thường cần <strong>kết hợp</strong> nhiều phương pháp. Thứ tự ưu tiên khi phân tích:</p>
+<p class="text-center font-bold text-sky-800 my-3">① Đặt nhân tử chung &nbsp;→&nbsp; ② Dùng hằng đẳng thức &nbsp;→&nbsp; ③ Nhóm hạng tử</p>
+<p>và luôn phân tích đến khi <strong>không còn phân tích được nữa</strong> (triệt để).</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-bold text-sky-800">Ví dụ 10.</p>
+<p>Phân tích $2x^3-8x$ thành nhân tử.</p>
+<p class="mt-2"><em>Lời giải.</em> Trước hết đặt nhân tử chung $2x$, rồi dùng hiệu hai bình phương:
+$$2x^3-8x=2x(x^2-4)=2x(x-2)(x+2).$$</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-bold text-sky-800">Ví dụ 11.</p>
+<p>Phân tích $3x^2-6x+3$ thành nhân tử.</p>
+<p class="mt-2"><em>Lời giải.</em> Đặt nhân tử chung $3$, rồi dùng bình phương của một hiệu:
+$$3x^2-6x+3=3(x^2-2x+1)=3(x-1)^2.$$</p>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-8">5. Ứng dụng của phân tích đa thức thành nhân tử</h2>
+<p><strong>a) Tính nhanh giá trị biểu thức.</strong> Biến đổi biểu thức về dạng tích rồi thay số.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-bold text-sky-800">Ví dụ 12.</p>
+<p>Tính nhanh $105^2-5^2$.</p>
+<p class="mt-2"><em>Lời giải.</em>
+$$105^2-5^2=(105-5)(105+5)=100\cdot 110=11000.$$</p>
+</div>
+
+<p><strong>b) Giải phương trình dạng tích.</strong> Đưa phương trình về dạng $A\cdot B=0$.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-bold text-sky-800">Ví dụ 13.</p>
+<p>Giải phương trình $x^2-4x=0$.</p>
+<p class="mt-2"><em>Lời giải.</em> Phân tích vế trái thành nhân tử:
+$$x^2-4x=0\iff x(x-4)=0\iff x=0\ \text{hoặc}\ x=4.$$
+Vậy phương trình có hai nghiệm $x=0$ và $x=4$.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4 rounded-r-lg">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">$A\cdot B=0 \iff A=0$ <strong>hoặc</strong> $B=0$. Đây là chìa khóa để giải mọi phương trình đưa được về dạng tích.</p>
+</div>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-6">
+<p class="font-bold text-emerald-800">✅ Tóm tắt bài học</p>
+<ul class="list-disc ml-6 mt-2 space-y-1">
+<li><strong>Đặt nhân tử chung:</strong> $AB+AC=A(B+C)$ — đặt triệt để, chú ý đổi dấu khi cần.</li>
+<li><strong>Dùng hằng đẳng thức:</strong> nhận dạng $A^2-B^2$, $A^2\pm2AB+B^2$, $A^3\pm B^3$ để viết ngay thành tích.</li>
+<li><strong>Nhóm hạng tử:</strong> nhóm 2–2 hoặc 3–1 sao cho xuất hiện nhân tử chung mới.</li>
+<li><strong>Phối hợp:</strong> đặt nhân tử chung trước, rồi mới dùng hằng đẳng thức / nhóm; phân tích đến cùng.</li>
+<li><strong>Ứng dụng:</strong> tính nhanh, rút gọn, giải phương trình dạng tích.</li>
+</ul>
+</div>
+
+            </div>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
