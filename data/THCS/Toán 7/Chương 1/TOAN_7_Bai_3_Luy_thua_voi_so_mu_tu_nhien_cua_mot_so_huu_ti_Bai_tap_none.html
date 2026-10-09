@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài tập Bài 3: Lũy thừa với số mũ tự nhiên của một số hữu tỉ</title>
+    <meta name="lesson-title" content="Bài tập Bài 3: Lũy thừa với số mũ tự nhiên của một số hữu tỉ">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Bài tập</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài tập Bài 3: Lũy thừa với số mũ tự nhiên của một số hữu tỉ</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 1: Số hữu tỉ • Bài 3: Lũy thừa với số mũ tự nhiên của một số hữu tỉ</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="saobay-exam10">
+<script type="application/json" class="saobay-exam10-data">
+{
+ "sets": [
+  {
+   "name": "Đề 1",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tính $\\\\left(\\\\frac{1}{2}\\\\right)^3$.",
+     "options": [
+      "A. $\\frac{1}{8}$",
+      "B. $\\frac{3}{2}$",
+      "C. $\\frac{1}{6}$",
+      "D. $\\frac{3}{8}$"
+     ],
+     "answer": "A",
+     "explain": "$\\\\left(\\\\frac{1}{2}\\\\right)^3 = \\\\frac{1}{2} \\\\cdot \\\\frac{1}{2} \\\\cdot \\\\frac{1}{2} = \\\\frac{1}{8}$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tính $(-2)^3$.",
+     "options": [
+      "A. $-8$",
+      "B. $8$",
+      "C. $-6$",
+      "D. $6$"
+     ],
+     "answer": "A",
+     "explain": "$(-2)^3 = (-2) \\\\cdot (-2) \\\\cdot (-2) = -8$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Viết tích $\\\\left(\\\\frac{2}{3}\\\\right)^2 \\\\cdot \\\\frac{2}{3}$ dưới dạng một lũy thừa.",
+     "options": [
+      "A. $\\left(\\frac{2}{3}\\right)^3$",
+      "B. $\\left(\\frac{2}{3}\\right)^2$",
+      "C. $\\frac{4}{9}$",
+      "D. $\\frac{2}{3}$"
+     ],
+     "answer": "A",
+     "explain": "Cùng cơ số: cộng số mũ $2 + 1 = 3$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tính $(-5)^4 : (-5)^2$.",
+     "options": [
+      "A. $(-5)^2$",
+      "B. $(-5)^6$",
+      "C. $(-5)^3$",
+      "D. $5^2$"
+     ],
+     "answer": "A",
+     "explain": "Chia hai lũy thừa cùng cơ số: trừ số mũ $4 - 2 = 2$; $(-5)^2 = 25$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Viết $\\\\left[\\\\left(\\\\frac{3}{4}\\\\right)^2\\\\right]^3$ dưới dạng một lũy thừa.",
+     "options": [
+      "A. $\\left(\\frac{3}{4}\\right)^6$",
+      "B. $\\left(\\frac{3}{4}\\right)^5$",
+      "C. $\\left(\\frac{3}{4}\\right)^8$",
+      "D. $\\frac{3}{4}$"
+     ],
+     "answer": "A",
+     "explain": "Lũy thừa của lũy thừa: nhân hai số mũ $2 \\\\cdot 3 = 6$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tính $(0{,}2)^2$.",
+     "options": [
+      "A. $0{,}04$",
+      "B. $0{,}4$",
+      "C. $0{,}2$",
+      "D. $4$"
+     ],
+     "answer": "A",
+     "explain": "$(0{,}2)^2 = 0{,}2 \\\\cdot 0{,}2 = 0{,}04$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Xét tính đúng sai của các khẳng định sau (bài 1)..",
+     "statements": [
+      "a) $2^3 \\cdot 2^4 = 2^7$.",
+      "b) $5^6 : 5^2 = 5^3$.",
+      "c) $(3^2)^3 = 3^6$.",
+      "d) $(-1)^{10} = -1$."
+     ],
+     "answer": [
+      "T",
+      "F",
+      "T",
+      "F"
+     ],
+     "explain": "$5^6 : 5^2 = 5^4$; $(-1)^{10} = 1$ vì số mũ chẵn."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Xét tính đúng sai của các khẳng định sau (bài 2)..",
+     "statements": [
+      "a) $(2 \\cdot 3)^2 = 2^2 \\cdot 3^2$.",
+      "b) $\\left(\\frac{8}{4}\\right)^2 = \\frac{8^2}{4^2}$.",
+      "c) $\\left(\\frac{1}{3}\\right)^3 = \\frac{1}{27}$.",
+      "d) $\\left(-\\frac{2}{5}\\right)^2 = -\\frac{4}{25}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$\\\\left(-\\\\frac{2}{5}\\\\right)^2 = \\\\frac{4}{25}$ vì bình phương của số âm là số dương."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tính $\\\\left(\\\\frac{3}{2}\\\\right)^2 \\\\cdot \\\\left(\\\\frac{2}{3}\\\\right)^3$. Viết đáp án dưới dạng phân số tối giản a/b.",
+     "answer": "2/3",
+     "explain": "$\\\\frac{9}{4} \\\\cdot \\\\frac{8}{27} = \\\\frac{72}{108} = \\\\frac{2}{3}$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Viết $8^2 \\\\cdot 2^4$ dưới dạng lũy thừa của $2$: $2^n$. Tìm $n$.",
+     "answer": "10",
+     "explain": "$8^2 \\\\cdot 2^4 = (2^3)^2 \\\\cdot 2^4 = 2^6 \\\\cdot 2^4 = 2^{10}$ nên $n = 10$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 2",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tính $3^2$.",
+     "options": [
+      "A. $9$",
+      "B. $6$",
+      "C. $5$",
+      "D. $3$"
+     ],
+     "answer": "A",
+     "explain": "$3^2 = 3 \\\\cdot 3 = 9$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tính $(-1)^5$.",
+     "options": [
+      "A. $-1$",
+      "B. $1$",
+      "C. $-5$",
+      "D. $5$"
+     ],
+     "answer": "A",
+     "explain": "Lũy thừa bậc lẻ của $-1$ bằng $-1$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tính $\\\\left(\\\\frac{5}{6}\\\\right)^0$.",
+     "options": [
+      "A. $1$",
+      "B. $0$",
+      "C. $\\frac{5}{6}$",
+      "D. Không xác định"
+     ],
+     "answer": "A",
+     "explain": "Quy ước $x^0 = 1$ với $x \\\\ne 0$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Viết tích $7^3 \\\\cdot 7 \\\\cdot 7^2$ dưới dạng một lũy thừa.",
+     "options": [
+      "A. $7^6$",
+      "B. $7^5$",
+      "C. $7^7$",
+      "D. $21^6$"
+     ],
+     "answer": "A",
+     "explain": "Cộng các số mũ: $3 + 1 + 2 = 6$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Viết $(4^2)^3$ dưới dạng một lũy thừa của $4$.",
+     "options": [
+      "A. $4^6$",
+      "B. $4^5$",
+      "C. $4^8$",
+      "D. $16^3$"
+     ],
+     "answer": "A",
+     "explain": "Nhân hai số mũ: $2 \\\\cdot 3 = 6$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "So sánh $(-2)^4$ và $(-2)^3$. Khẳng định đúng là",
+     "options": [
+      "A. $(-2)^4 > (-2)^3$",
+      "B. $(-2)^4 < (-2)^3$",
+      "C. $(-2)^4 = (-2)^3$",
+      "D. Không so sánh được"
+     ],
+     "answer": "A",
+     "explain": "$(-2)^4 = 16 > -8 = (-2)^3$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Xét tính đúng sai của các khẳng định sau (bài 3)..",
+     "statements": [
+      "a) $x^1 = x$ với mọi số hữu tỉ $x$.",
+      "b) $x^0 = 0$ với mọi số hữu tỉ $x \\ne 0$.",
+      "c) $\\left(\\frac{a}{b}\\right)^2 = \\frac{a^2}{b^2}$ ($b \\ne 0$).",
+      "d) $2^3 = 3^2$."
+     ],
+     "answer": [
+      "T",
+      "F",
+      "T",
+      "F"
+     ],
+     "explain": "$x^0 = 1$ ($x \\\\ne 0$); $2^3 = 8 \\\\ne 9 = 3^2$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Xét tính đúng sai của các khẳng định sau (bài 4)..",
+     "statements": [
+      "a) $(10^3)^2 = 10^6$.",
+      "b) $(2 + 3)^2 = 2^2 + 3^2$.",
+      "c) $(-3)^2 = 3^2$.",
+      "d) $\\left(\\frac{1}{2}\\right)^2 < \\left(\\frac{1}{2}\\right)^3$."
+     ],
+     "answer": [
+      "T",
+      "F",
+      "T",
+      "F"
+     ],
+     "explain": "$(2+3)^2 = 25 \\\\ne 13 = 2^2 + 3^2$; $\\\\frac{1}{4} > \\\\frac{1}{8}$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Tính $(-0{,}5)^2$. Viết đáp án dưới dạng số thập phân.",
+     "answer": "0,25",
+     "explain": "$(-0{,}5)^2 = 0{,}25$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tính $\\\\left(\\\\frac{2}{5}\\\\right)^3 : \\\\frac{2}{5}$. Viết đáp án dưới dạng phân số tối giản a/b.",
+     "answer": "4/25",
+     "explain": "$\\\\left(\\\\frac{2}{5}\\\\right)^{3-1} = \\\\left(\\\\frac{2}{5}\\\\right)^2 = \\\\frac{4}{25}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 3",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tính $\\\\left(\\\\frac{3}{4}\\\\right)^2$.",
+     "options": [
+      "A. $\\frac{9}{16}$",
+      "B. $\\frac{6}{8}$",
+      "C. $\\frac{3}{8}$",
+      "D. $\\frac{6}{4}$"
+     ],
+     "answer": "A",
+     "explain": "$\\\\left(\\\\frac{3}{4}\\\\right)^2 = \\\\frac{3^2}{4^2} = \\\\frac{9}{16}$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tính $0^5$.",
+     "options": [
+      "A. $0$",
+      "B. $1$",
+      "C. $5$",
+      "D. Không xác định"
+     ],
+     "answer": "A",
+     "explain": "$0^5 = 0$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tính $\\\\left(-\\\\frac{2}{3}\\\\right)^3$.",
+     "options": [
+      "A. $-\\frac{8}{27}$",
+      "B. $\\frac{8}{27}$",
+      "C. $-\\frac{6}{9}$",
+      "D. $\\frac{6}{9}$"
+     ],
+     "answer": "A",
+     "explain": "$\\\\left(-\\\\frac{2}{3}\\\\right)^3 = -\\\\frac{2^3}{3^3} = -\\\\frac{8}{27}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Viết tích $\\\\left(\\\\frac{1}{5}\\\\right)^2 \\\\cdot \\\\left(\\\\frac{1}{5}\\\\right)^3$ dưới dạng một lũy thừa.",
+     "options": [
+      "A. $\\left(\\frac{1}{5}\\right)^5$",
+      "B. $\\left(\\frac{1}{5}\\right)^6$",
+      "C. $\\frac{1}{25}$",
+      "D. $\\frac{2}{5}$"
+     ],
+     "answer": "A",
+     "explain": "Cộng số mũ: $2 + 3 = 5$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tính $9^4 : 9$.",
+     "options": [
+      "A. $9^3$",
+      "B. $9^4$",
+      "C. $9^5$",
+      "D. $1$"
+     ],
+     "answer": "A",
+     "explain": "$9^4 : 9^1 = 9^{4-1} = 9^3$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tính $\\\\left[\\\\left(-\\\\frac{1}{2}\\\\right)^3\\\\right]^2$.",
+     "options": [
+      "A. $\\frac{1}{64}$",
+      "B. $-\\frac{1}{64}$",
+      "C. $\\left(-\\frac{1}{2}\\right)^5$",
+      "D. $\\frac{1}{32}$"
+     ],
+     "answer": "A",
+     "explain": "$\\\\left(-\\\\frac{1}{2}\\\\right)^{3 \\\\cdot 2} = \\\\left(-\\\\frac{1}{2}\\\\right)^6 = \\\\frac{1}{64}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Xét tính đúng sai của các khẳng định sau (bài 5)..",
+     "statements": [
+      "a) $4^2 \\cdot 4^3 = 4^5$.",
+      "b) $10^5 : 10^3 = 10^2$.",
+      "c) $(2^3)^2 = 2^5$.",
+      "d) $0^0 = 1$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "F"
+     ],
+     "explain": "$(2^3)^2 = 2^6$; $0^0$ không xác định."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Xét tính đúng sai của các khẳng định sau (bài 6)..",
+     "statements": [
+      "a) $(3 \\cdot 4)^2 = 144$.",
+      "b) $\\left(\\frac{6}{3}\\right)^3 = 8$.",
+      "c) $(-5)^3 = -125$.",
+      "d) $\\left(\\frac{2}{3}\\right)^0 = 0$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$\\\\left(\\\\frac{2}{3}\\\\right)^0 = 1$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Viết tích $3^3 \\\\cdot 9^2$ dưới dạng lũy thừa của $3$: $3^n$. Tìm $n$.",
+     "answer": "7",
+     "explain": "$3^3 \\\\cdot 9^2 = 3^3 \\\\cdot (3^2)^2 = 3^3 \\\\cdot 3^4 = 3^7$ nên $n = 7$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tính $\\\\left(\\\\frac{5}{4}\\\\right)^2 \\\\cdot \\\\left(\\\\frac{4}{5}\\\\right)^3$. Viết đáp án dưới dạng phân số tối giản a/b.",
+     "answer": "4/5",
+     "explain": "$\\\\frac{25}{16} \\\\cdot \\\\frac{64}{125} = \\\\frac{1600}{2000} = \\\\frac{4}{5}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 4",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tính $2^4$.",
+     "options": [
+      "A. $16$",
+      "B. $8$",
+      "C. $6$",
+      "D. $4$"
+     ],
+     "answer": "A",
+     "explain": "$2^4 = 2 \\\\cdot 2 \\\\cdot 2 \\\\cdot 2 = 16$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tính $(-3)^2$.",
+     "options": [
+      "A. $9$",
+      "B. $-9$",
+      "C. $-6$",
+      "D. $6$"
+     ],
+     "answer": "A",
+     "explain": "$(-3)^2 = (-3) \\\\cdot (-3) = 9$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tính $\\\\left(\\\\frac{7}{8}\\\\right)^1$.",
+     "options": [
+      "A. $\\frac{7}{8}$",
+      "B. $1$",
+      "C. $0$",
+      "D. $\\frac{8}{7}$"
+     ],
+     "answer": "A",
+     "explain": "$x^1 = x$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Viết tích $\\\\left(-\\\\frac{1}{3}\\\\right)^2 \\\\cdot \\\\left(-\\\\frac{1}{3}\\\\right)^3$ dưới dạng một lũy thừa.",
+     "options": [
+      "A. $\\left(-\\frac{1}{3}\\right)^5$",
+      "B. $\\left(-\\frac{1}{3}\\right)^6$",
+      "C. $\\left(\\frac{1}{3}\\right)^5$",
+      "D. $\\frac{1}{3}$"
+     ],
+     "answer": "A",
+     "explain": "Cộng số mũ: $2 + 3 = 5$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tính $(0{,}3)^3 : (0{,}3)$.",
+     "options": [
+      "A. $(0{,}3)^2$",
+      "B. $(0{,}3)^3$",
+      "C. $(0{,}3)^4$",
+      "D. $0{,}3$"
+     ],
+     "answer": "A",
+     "explain": "Trừ số mũ: $3 - 1 = 2$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Viết $\\\\left[\\\\left(\\\\frac{2}{5}\\\\right)^2\\\\right]^2$ dưới dạng một lũy thừa.",
+     "options": [
+      "A. $\\left(\\frac{2}{5}\\right)^4$",
+      "B. $\\left(\\frac{2}{5}\\right)^3$",
+      "C. $\\frac{4}{25}$",
+      "D. $\\left(\\frac{2}{5}\\right)^6$"
+     ],
+     "answer": "A",
+     "explain": "Nhân hai số mũ: $2 \\\\cdot 2 = 4$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Xét tính đúng sai của các khẳng định sau (bài 7)..",
+     "statements": [
+      "a) $(-4)^2 = 16$.",
+      "b) $(-4)^3 = -64$.",
+      "c) $\\left(\\frac{2}{5}\\right)^2 = \\frac{4}{25}$.",
+      "d) $\\left(\\frac{2}{5}\\right)^2 = \\frac{4}{10}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$\\\\left(\\\\frac{2}{5}\\\\right)^2 = \\\\frac{4}{25} \\\\ne \\\\frac{4}{10}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Xét tính đúng sai của các khẳng định sau (bài 8)..",
+     "statements": [
+      "a) $(5^2)^3 = 5^6$.",
+      "b) $3^4 \\cdot 3 = 3^5$.",
+      "c) $\\left(\\frac{1}{4}\\right)^2 = \\frac{1}{8}$.",
+      "d) $(-0{,}2)^2 = 0{,}04$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "$\\\\left(\\\\frac{1}{4}\\\\right)^2 = \\\\frac{1}{16}$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Tính $\\\\left(\\\\frac{7}{3}\\\\right)^0 + \\\\left(\\\\frac{2}{5}\\\\right)^1$. Viết đáp án dưới dạng phân số tối giản a/b.",
+     "answer": "7/5",
+     "explain": "$1 + \\\\frac{2}{5} = \\\\frac{7}{5}$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "So sánh $A = \\\\left(\\\\frac{1}{2}\\\\right)^3$ và $B = \\\\left(\\\\frac{1}{3}\\\\right)^2$. Phân số lớn hơn viết dưới dạng tối giản $\\\\frac{a}{b}$. Tính $a + b$.",
+     "answer": "9",
+     "explain": "$A = \\\\frac{1}{8} = 0{,}125 > \\\\frac{1}{9} \\\\approx 0{,}111 = B$; $a + b = 1 + 8 = 9$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 5",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tính $5^1$.",
+     "options": [
+      "A. $5$",
+      "B. $1$",
+      "C. $0$",
+      "D. $25$"
+     ],
+     "answer": "A",
+     "explain": "$5^1 = 5$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tính $(-10)^2$.",
+     "options": [
+      "A. $100$",
+      "B. $-100$",
+      "C. $-20$",
+      "D. $20$"
+     ],
+     "answer": "A",
+     "explain": "$(-10)^2 = (-10) \\\\cdot (-10) = 100$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tính $\\\\left(\\\\frac{2}{7}\\\\right)^3$.",
+     "options": [
+      "A. $\\frac{8}{343}$",
+      "B. $\\frac{6}{21}$",
+      "C. $\\frac{8}{21}$",
+      "D. $\\frac{6}{343}$"
+     ],
+     "answer": "A",
+     "explain": "$\\\\left(\\\\frac{2}{7}\\\\right)^3 = \\\\frac{2^3}{7^3} = \\\\frac{8}{343}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Viết tích $6^2 \\\\cdot 6^3$ dưới dạng một lũy thừa.",
+     "options": [
+      "A. $6^5$",
+      "B. $6^6$",
+      "C. $36^5$",
+      "D. $12^5$"
+     ],
+     "answer": "A",
+     "explain": "Cộng số mũ: $2 + 3 = 5$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tính $11^5 : 11^3$.",
+     "options": [
+      "A. $11^2$",
+      "B. $11^8$",
+      "C. $11^{15}$",
+      "D. $11$"
+     ],
+     "answer": "A",
+     "explain": "Trừ số mũ: $5 - 3 = 2$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tính $\\\\left(\\\\frac{3}{10}\\\\right)^2$.",
+     "options": [
+      "A. $\\frac{9}{100}$",
+      "B. $\\frac{6}{20}$",
+      "C. $\\frac{3}{100}$",
+      "D. $\\frac{9}{10}$"
+     ],
+     "answer": "A",
+     "explain": "$\\\\left(\\\\frac{3}{10}\\\\right)^2 = \\\\frac{9}{100}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Xét tính đúng sai của các khẳng định sau (bài 9)..",
+     "statements": [
+      "a) $2^5 = 32$.",
+      "b) $3^3 = 27$.",
+      "c) $10^2 = 20$.",
+      "d) $1^{100} = 1$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "$10^2 = 100$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Xét tính đúng sai của các khẳng định sau (bài 10)..",
+     "statements": [
+      "a) $[(-2)^2]^3 = 64$.",
+      "b) $(4 \\cdot 25)^2 = 100^2$.",
+      "c) $\\left(\\frac{9}{3}\\right)^2 = 9$.",
+      "d) $\\left(\\frac{7}{2}\\right)^2 = \\frac{49}{4}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$[(-2)^2]^3 = 4^3 = 64$; $(4 \\\\cdot 25)^2 = 100^2$; $\\\\left(\\\\frac{9}{3}\\\\right)^2 = 3^2 = 9$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tính $(-2)^3 + (-3)^2$.",
+     "answer": "1",
+     "explain": "$-8 + 9 = 1$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Viết thương $5^7 : 5^3$ dưới dạng $5^n$. Tìm $n$.",
+     "answer": "4",
+     "explain": "$5^{7-3} = 5^4$ nên $n = 4$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 6",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tính $1^7$.",
+     "options": [
+      "A. $1$",
+      "B. $7$",
+      "C. $0$",
+      "D. $10$"
+     ],
+     "answer": "A",
+     "explain": "$1^7 = 1$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tính $(-1)^4$.",
+     "options": [
+      "A. $1$",
+      "B. $-1$",
+      "C. $-4$",
+      "D. $4$"
+     ],
+     "answer": "A",
+     "explain": "Lũy thừa bậc chẵn của $-1$ bằng $1$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tính $\\\\left(\\\\frac{4}{5}\\\\right)^2$.",
+     "options": [
+      "A. $\\frac{16}{25}$",
+      "B. $\\frac{8}{10}$",
+      "C. $\\frac{4}{25}$",
+      "D. $\\frac{16}{10}$"
+     ],
+     "answer": "A",
+     "explain": "$\\\\left(\\\\frac{4}{5}\\\\right)^2 = \\\\frac{16}{25}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Viết tích $\\\\left(\\\\frac{3}{2}\\\\right)^3 \\\\cdot \\\\left(\\\\frac{3}{2}\\\\right)^2$ dưới dạng một lũy thừa.",
+     "options": [
+      "A. $\\left(\\frac{3}{2}\\right)^5$",
+      "B. $\\left(\\frac{3}{2}\\right)^6$",
+      "C. $\\frac{9}{4}$",
+      "D. $\\frac{3}{2}$"
+     ],
+     "answer": "A",
+     "explain": "Cộng số mũ: $3 + 2 = 5$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tính $8^3 : 8^2$.",
+     "options": [
+      "A. $8$",
+      "B. $8^5$",
+      "C. $8^6$",
+      "D. $1$"
+     ],
+     "answer": "A",
+     "explain": "$8^{3-2} = 8^1 = 8$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tính $(-0{,}4)^2$.",
+     "options": [
+      "A. $0{,}16$",
+      "B. $-0{,}16$",
+      "C. $0{,}8$",
+      "D. $-0{,}8$"
+     ],
+     "answer": "A",
+     "explain": "$(-0{,}4)^2 = 0{,}16$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Xét tính đúng sai của các khẳng định sau (bài 11)..",
+     "statements": [
+      "a) $(0{,}1)^2 = 0{,}01$.",
+      "b) $(0{,}1)^3 = 0{,}001$.",
+      "c) $(-0{,}1)^2 = -0{,}01$.",
+      "d) $5^0 = 1$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "$(-0{,}1)^2 = 0{,}01$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Xét tính đúng sai của các khẳng định sau (bài 12)..",
+     "statements": [
+      "a) $2^6 = 64$.",
+      "b) $\\left(\\frac{1}{2}\\right)^4 = \\frac{1}{16}$.",
+      "c) $(-2)^5 = -32$.",
+      "d) $\\left(\\frac{3}{2}\\right)^2 = \\frac{9}{2}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$\\\\left(\\\\frac{3}{2}\\\\right)^2 = \\\\frac{9}{4}$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Tính $\\\\left(\\\\frac{2}{3}\\\\right)^2 - \\\\left(\\\\frac{1}{3}\\\\right)^2$. Viết đáp án dưới dạng phân số tối giản a/b.",
+     "answer": "1/3",
+     "explain": "$\\\\frac{4}{9} - \\\\frac{1}{9} = \\\\frac{3}{9} = \\\\frac{1}{3}$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tìm số tự nhiên $n$ biết $\\\\left(\\\\frac{3}{4}\\\\right)^n = \\\\frac{27}{64}$. Tìm $n$.",
+     "answer": "3",
+     "explain": "$\\\\frac{27}{64} = \\\\left(\\\\frac{3}{4}\\\\right)^3$ nên $n = 3$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 7",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tính $10^3$.",
+     "options": [
+      "A. $1000$",
+      "B. $30$",
+      "C. $300$",
+      "D. $103$"
+     ],
+     "answer": "A",
+     "explain": "$10^3 = 10 \\\\cdot 10 \\\\cdot 10 = 1000$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tính $(-5)^3$.",
+     "options": [
+      "A. $-125$",
+      "B. $125$",
+      "C. $-15$",
+      "D. $15$"
+     ],
+     "answer": "A",
+     "explain": "$(-5)^3 = (-5) \\\\cdot (-5) \\\\cdot (-5) = -125$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tính $\\\\left(\\\\frac{1}{4}\\\\right)^3$.",
+     "options": [
+      "A. $\\frac{1}{64}$",
+      "B. $\\frac{3}{4}$",
+      "C. $\\frac{1}{12}$",
+      "D. $\\frac{3}{64}$"
+     ],
+     "answer": "A",
+     "explain": "$\\\\left(\\\\frac{1}{4}\\\\right)^3 = \\\\frac{1}{64}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Viết tích $(-2)^2 \\\\cdot (-2)^3$ dưới dạng một lũy thừa.",
+     "options": [
+      "A. $(-2)^5$",
+      "B. $(-2)^6$",
+      "C. $2^5$",
+      "D. $(-2)$"
+     ],
+     "answer": "A",
+     "explain": "Cộng số mũ: $2 + 3 = 5$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Viết $(7^2)^4$ dưới dạng một lũy thừa của $7$.",
+     "options": [
+      "A. $7^8$",
+      "B. $7^6$",
+      "C. $7^{16}$",
+      "D. $49^4$"
+     ],
+     "answer": "A",
+     "explain": "Nhân hai số mũ: $2 \\\\cdot 4 = 8$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tính $\\\\left(\\\\frac{2}{3}\\\\right)^4 : \\\\left(\\\\frac{2}{3}\\\\right)^2$.",
+     "options": [
+      "A. $\\left(\\frac{2}{3}\\right)^2$",
+      "B. $\\left(\\frac{2}{3}\\right)^6$",
+      "C. $\\left(\\frac{2}{3}\\right)^8$",
+      "D. $\\frac{2}{3}$"
+     ],
+     "answer": "A",
+     "explain": "Trừ số mũ: $4 - 2 = 2$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Xét tính đúng sai của các khẳng định sau (bài 13)..",
+     "statements": [
+      "a) $7^2 = 49$.",
+      "b) $2^4 = 16$.",
+      "c) $5^3 = 15$.",
+      "d) $10^4 = 10000$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "$5^3 = 125$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Xét tính đúng sai của các khẳng định sau (bài 14)..",
+     "statements": [
+      "a) $(2 \\cdot 5)^3 = 1000$.",
+      "b) $\\left(\\frac{12}{4}\\right)^2 = 9$.",
+      "c) $\\left(-\\frac{1}{3}\\right)^3 = -\\frac{1}{27}$.",
+      "d) $\\left(\\frac{5}{6}\\right)^2 = \\frac{25}{12}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$\\\\left(\\\\frac{5}{6}\\\\right)^2 = \\\\frac{25}{36}$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tính $\\\\left(\\\\frac{1}{2}\\\\right)^5 : \\\\left(\\\\frac{1}{2}\\\\right)^3$. Viết đáp án dưới dạng phân số tối giản a/b.",
+     "answer": "1/4",
+     "explain": "$\\\\left(\\\\frac{1}{2}\\\\right)^{5-3} = \\\\left(\\\\frac{1}{2}\\\\right)^2 = \\\\frac{1}{4}$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Viết $16 \\\\cdot 2^3$ dưới dạng lũy thừa của $2$: $2^n$. Tìm $n$.",
+     "answer": "7",
+     "explain": "$16 \\\\cdot 2^3 = 2^4 \\\\cdot 2^3 = 2^7$ nên $n = 7$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 8",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tính $2^0$.",
+     "options": [
+      "A. $1$",
+      "B. $0$",
+      "C. $2$",
+      "D. Không xác định"
+     ],
+     "answer": "A",
+     "explain": "Quy ước $x^0 = 1$ với $x \\\\ne 0$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tính $(-7)^2$.",
+     "options": [
+      "A. $49$",
+      "B. $-49$",
+      "C. $-14$",
+      "D. $14$"
+     ],
+     "answer": "A",
+     "explain": "$(-7)^2 = (-7) \\\\cdot (-7) = 49$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tính $\\\\left(\\\\frac{5}{6}\\\\right)^2$.",
+     "options": [
+      "A. $\\frac{25}{36}$",
+      "B. $\\frac{10}{12}$",
+      "C. $\\frac{5}{36}$",
+      "D. $\\frac{25}{12}$"
+     ],
+     "answer": "A",
+     "explain": "$\\\\left(\\\\frac{5}{6}\\\\right)^2 = \\\\frac{25}{36}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Viết tích $(0{,}5)^2 \\\\cdot (0{,}5)$ dưới dạng một lũy thừa.",
+     "options": [
+      "A. $(0{,}5)^3$",
+      "B. $(0{,}5)^2$",
+      "C. $0{,}25$",
+      "D. $0{,}5$"
+     ],
+     "answer": "A",
+     "explain": "Cộng số mũ: $2 + 1 = 3$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tính $3^7 : 3^4$.",
+     "options": [
+      "A. $3^3$",
+      "B. $3^{11}$",
+      "C. $3^{28}$",
+      "D. $3$"
+     ],
+     "answer": "A",
+     "explain": "Trừ số mũ: $7 - 4 = 3$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tính $[(-3)^2]^2$.",
+     "options": [
+      "A. $81$",
+      "B. $-81$",
+      "C. $36$",
+      "D. $-36$"
+     ],
+     "answer": "A",
+     "explain": "$(-3)^{2 \\\\cdot 2} = (-3)^4 = 81$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Xét tính đúng sai của các khẳng định sau (bài 15)..",
+     "statements": [
+      "a) $\\left(\\frac{3}{7}\\right)^2 = \\frac{9}{49}$.",
+      "b) $\\left(\\frac{3}{7}\\right)^3 = \\frac{27}{343}$.",
+      "c) $\\left(-\\frac{2}{7}\\right)^2 = -\\frac{4}{49}$.",
+      "d) $\\left(\\frac{10}{3}\\right)^2 = \\frac{100}{9}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "$\\\\left(-\\\\frac{2}{7}\\\\right)^2 = \\\\frac{4}{49}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Xét tính đúng sai của các khẳng định sau (bài 16)..",
+     "statements": [
+      "a) $4^3 = 64$.",
+      "b) $\\left(\\frac{2}{5}\\right)^3 = \\frac{8}{125}$.",
+      "c) $(-3)^4 = -81$.",
+      "d) $(0{,}2)^3 = 0{,}008$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "$(-3)^4 = 81$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Tính $(-1)^{2026} + (-1)^{2027}$.",
+     "answer": "0",
+     "explain": "$1 + (-1) = 0$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tìm số tự nhiên $n$ biết $\\\\frac{2}{3} \\\\cdot \\\\left(\\\\frac{2}{3}\\\\right)^n = \\\\left(\\\\frac{2}{3}\\\\right)^4$. Tìm $n$.",
+     "answer": "3",
+     "explain": "$1 + n = 4$ nên $n = 3$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 9",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tính $4^3$.",
+     "options": [
+      "A. $64$",
+      "B. $12$",
+      "C. $43$",
+      "D. $7$"
+     ],
+     "answer": "A",
+     "explain": "$4^3 = 4 \\\\cdot 4 \\\\cdot 4 = 64$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tính $(-2)^4$.",
+     "options": [
+      "A. $16$",
+      "B. $-16$",
+      "C. $-8$",
+      "D. $8$"
+     ],
+     "answer": "A",
+     "explain": "$(-2)^4 = 16$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tính $\\\\left(\\\\frac{3}{5}\\\\right)^2$.",
+     "options": [
+      "A. $\\frac{9}{25}$",
+      "B. $\\frac{6}{10}$",
+      "C. $\\frac{3}{25}$",
+      "D. $\\frac{9}{10}$"
+     ],
+     "answer": "A",
+     "explain": "$\\\\left(\\\\frac{3}{5}\\\\right)^2 = \\\\frac{9}{25}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Viết tích $(-4)^3 \\\\cdot (-4)$ dưới dạng một lũy thừa.",
+     "options": [
+      "A. $(-4)^4$",
+      "B. $(-4)^3$",
+      "C. $4^4$",
+      "D. $(-4)^2$"
+     ],
+     "answer": "A",
+     "explain": "Cộng số mũ: $3 + 1 = 4$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Viết $\\\\left[\\\\left(\\\\frac{1}{2}\\\\right)^3\\\\right]^2$ dưới dạng một lũy thừa.",
+     "options": [
+      "A. $\\left(\\frac{1}{2}\\right)^6$",
+      "B. $\\left(\\frac{1}{2}\\right)^5$",
+      "C. $\\left(\\frac{1}{2}\\right)^9$",
+      "D. $\\frac{1}{2}$"
+     ],
+     "answer": "A",
+     "explain": "Nhân hai số mũ: $3 \\\\cdot 2 = 6$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tính $\\\\left(\\\\frac{7}{3}\\\\right)^2 : \\\\frac{7}{3}$.",
+     "options": [
+      "A. $\\frac{7}{3}$",
+      "B. $\\left(\\frac{7}{3}\\right)^3$",
+      "C. $\\frac{49}{9}$",
+      "D. $1$"
+     ],
+     "answer": "A",
+     "explain": "$\\\\left(\\\\frac{7}{3}\\\\right)^{2-1} = \\\\frac{7}{3}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Xét tính đúng sai của các khẳng định sau (bài 17)..",
+     "statements": [
+      "a) $6^2 = 36$.",
+      "b) $(-6)^2 = -36$.",
+      "c) $\\left(\\frac{1}{5}\\right)^2 = \\frac{1}{25}$.",
+      "d) $3^4 = 81$."
+     ],
+     "answer": [
+      "T",
+      "F",
+      "T",
+      "T"
+     ],
+     "explain": "$(-6)^2 = 36$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Xét tính đúng sai của các khẳng định sau (bài 18)..",
+     "statements": [
+      "a) $(10^2)^3 = 10^6$.",
+      "b) $(5 \\cdot 2)^4 = 10^4$.",
+      "c) $\\left(\\frac{4}{2}\\right)^3 = 8$.",
+      "d) $\\left(-\\frac{2}{3}\\right)^2 = -\\frac{4}{9}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$\\\\left(-\\\\frac{2}{3}\\\\right)^2 = \\\\frac{4}{9}$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tính $2^3 \\\\cdot \\\\left(-\\\\frac{1}{2}\\\\right)^2$.",
+     "answer": "2",
+     "explain": "$8 \\\\cdot \\\\frac{1}{4} = 2$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Viết $27^2 \\\\cdot 3$ dưới dạng lũy thừa của $3$: $3^n$. Tìm $n$.",
+     "answer": "7",
+     "explain": "$27^2 \\\\cdot 3 = (3^3)^2 \\\\cdot 3 = 3^6 \\\\cdot 3 = 3^7$ nên $n = 7$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 10",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tính $9^2$.",
+     "options": [
+      "A. $81$",
+      "B. $18$",
+      "C. $92$",
+      "D. $11$"
+     ],
+     "answer": "A",
+     "explain": "$9^2 = 9 \\\\cdot 9 = 81$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tính $(-1)^3$.",
+     "options": [
+      "A. $-1$",
+      "B. $1$",
+      "C. $-3$",
+      "D. $3$"
+     ],
+     "answer": "A",
+     "explain": "Lũy thừa bậc lẻ của $-1$ bằng $-1$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tính $\\\\left(\\\\frac{2}{9}\\\\right)^2$.",
+     "options": [
+      "A. $\\frac{4}{81}$",
+      "B. $\\frac{4}{18}$",
+      "C. $\\frac{2}{81}$",
+      "D. $\\frac{4}{9}$"
+     ],
+     "answer": "A",
+     "explain": "$\\\\left(\\\\frac{2}{9}\\\\right)^2 = \\\\frac{4}{81}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Viết tích $5^2 \\\\cdot 5^3 \\\\cdot 5$ dưới dạng một lũy thừa.",
+     "options": [
+      "A. $5^6$",
+      "B. $5^5$",
+      "C. $5^7$",
+      "D. $25^6$"
+     ],
+     "answer": "A",
+     "explain": "Cộng các số mũ: $2 + 3 + 1 = 6$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tính $6^4 : 6^2$.",
+     "options": [
+      "A. $6^2$",
+      "B. $6^6$",
+      "C. $6^8$",
+      "D. $6$"
+     ],
+     "answer": "A",
+     "explain": "Trừ số mũ: $4 - 2 = 2$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tính $\\\\left(-\\\\frac{3}{4}\\\\right)^2$.",
+     "options": [
+      "A. $\\frac{9}{16}$",
+      "B. $-\\frac{9}{16}$",
+      "C. $\\frac{6}{8}$",
+      "D. $-\\frac{6}{8}$"
+     ],
+     "answer": "A",
+     "explain": "$\\\\left(-\\\\frac{3}{4}\\\\right)^2 = \\\\frac{9}{16}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Xét tính đúng sai của các khẳng định sau (bài 19)..",
+     "statements": [
+      "a) $8^2 = 64$.",
+      "b) $(-8)^2 = 64$.",
+      "c) $\\left(\\frac{4}{9}\\right)^2 = \\frac{16}{81}$.",
+      "d) $\\left(\\frac{4}{9}\\right)^2 = \\frac{8}{18}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$\\\\left(\\\\frac{4}{9}\\\\right)^2 = \\\\frac{16}{81} \\\\ne \\\\frac{8}{18}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Xét tính đúng sai của các khẳng định sau (bài 20)..",
+     "statements": [
+      "a) $\\left[\\left(\\frac{3}{2}\\right)^2\\right]^2 = \\frac{81}{16}$.",
+      "b) $2^5 : 2^2 = 2^3$.",
+      "c) $\\left(\\frac{1}{3}\\right)^3 < \\left(\\frac{1}{3}\\right)^2$.",
+      "d) $(-5)^2 < (-5)^3$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$(-5)^2 = 25 > -125 = (-5)^3$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Tính $\\\\left(\\\\frac{3}{4}\\\\right)^2 + \\\\left(\\\\frac{1}{4}\\\\right)^2$. Viết đáp án dưới dạng phân số tối giản a/b.",
+     "answer": "5/8",
+     "explain": "$\\\\frac{9}{16} + \\\\frac{1}{16} = \\\\frac{10}{16} = \\\\frac{5}{8}$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tìm số tự nhiên $n$ biết $2^n \\\\cdot 4 = 128$. Tìm $n$.",
+     "answer": "5",
+     "explain": "$2^n = 32 = 2^5$ nên $n = 5$."
+    }
+   ]
+  }
+ ]
+}
+</script>
+</div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
