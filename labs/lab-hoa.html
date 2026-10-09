@@ -17,13 +17,8 @@
 <body class="bg-slate-100 min-h-screen">
 <div class="max-w-6xl mx-auto pb-10 px-3">
   <div class="bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-4 py-4 sticky top-0 z-10 shadow">
-    <div class="flex items-center gap-3">
-      <a href="../index.html" class="shrink-0 bg-white/25 hover:bg-white/40 border border-white/50 text-white font-black rounded-xl px-4 py-3 text-base leading-none">🏠 Trang chủ</a>
-      <div>
-        <h1 class="text-lg font-black">🧪 Phòng thí nghiệm Hóa học ảo</h1>
-        <p class="text-xs opacity-80">Chạm • Trộn • Quan sát — hóa học thật vui</p>
-      </div>
-    </div>
+    <h1 class="text-lg font-black">🧪 Phòng thí nghiệm Hóa học ảo</h1>
+    <p class="text-xs opacity-80">Chạm • Trộn • Quan sát — hóa học thật vui</p>
   </div>
 
   <div class="flex gap-2 px-3 mt-3">
@@ -197,7 +192,16 @@ function fitCanvas(cv){
 (function(){
   var cv = document.getElementById('cv-mix');
   var G = fitCanvas(cv);
-  window.addEventListener('resize', function(){ G = fitCanvas(cv); });
+  (function(){
+  var rT, lastW = 0;
+  window.addEventListener('resize', function(){
+    clearTimeout(rT);
+    rT = setTimeout(function(){
+      var w = cv.getBoundingClientRect().width;
+      if (Math.abs(w - lastW) > 5) { lastW = w; G = fitCanvas(cv); }
+    }, 200);
+  });
+})();
   var state = 'empty', pourT = 0, colorNow = '#e0f2fe', colorTo = '#e0f2fe';
   var beakers = {acid:'#e0f2fe', base:'#e0f2fe'};
 
@@ -308,7 +312,16 @@ function fitCanvas(cv){
 (function(){
   var cv = document.getElementById('cv-atom');
   var G = fitCanvas(cv);
-  window.addEventListener('resize', function(){ G = fitCanvas(cv); });
+  (function(){
+  var rT, lastW = 0;
+  window.addEventListener('resize', function(){
+    clearTimeout(rT);
+    rT = setTimeout(function(){
+      var w = cv.getBoundingClientRect().width;
+      if (Math.abs(w - lastW) > 5) { lastW = w; G = fitCanvas(cv); }
+    }, 200);
+  });
+})();
   // [Z, symbol, name, shells[]]
   var ATOMS = [
     [1,'H','Hiđro',[1]], [2,'He','Heli',[2]], [3,'Li','Liti',[2,1]],
