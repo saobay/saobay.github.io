@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 19: Khuếch đại thuật toán</title>
+    <meta name="lesson-title" content="Bài 19: Khuếch đại thuật toán">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 19: Khuếch đại thuật toán</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 7: Điện tử tương tự • Bài 19: Khuếch đại thuật toán</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 19: Khuếch đại thuật toán</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 7: Điện tử tương tự — Công nghệ 12 (Kết nối tri thức với cuộc sống)</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Khái niệm khuếch đại thuật toán</h2>
+
+<p><strong>Khuếch đại thuật toán (op-amp)</strong> là IC tương tự có hệ số khuếch đại rất lớn, kí hiệu hình <strong>tam giác</strong>, với <strong>hai đầu vào</strong> (đảo (–) và không đảo (+)) và <strong>một đầu ra</strong>. IC phổ biến: <strong>741</strong> (8 chân: chân 2 đảo, chân 3 không đảo, chân 6 ra, chân 7–4 nguồn nuôi).</p>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Op-amp cần <strong>nguồn nuôi</strong>, thường là nguồn đôi <strong>±15 V</strong>; điện áp ra tối đa gần bằng nguồn nuôi (khoảng ±13 V).</li>
+<li><strong>Hồi tiếp âm</strong>: đưa một phần tín hiệu ra về đầu vào đảo → <strong>ổn định</strong> hệ số khuếch đại.</li>
+</ul>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Mạch khuếch đại đảo và không đảo</h2>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 my-2 text-sm">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-2">Mạch</td><td class="border border-slate-300 px-4 py-2">Tín hiệu vào</td><td class="border border-slate-300 px-4 py-2">Hệ số K</td><td class="border border-slate-300 px-4 py-2">Pha</td></tr>
+<tr><td class="border border-slate-300 px-4 py-2 font-semibold">Khuếch đại đảo</td><td class="border border-slate-300 px-4 py-2">Đầu vào đảo (–) qua R1</td><td class="border border-slate-300 px-4 py-2">$K = -R_f/R_1$</td><td class="border border-slate-300 px-4 py-2">Ngược pha</td></tr>
+<tr><td class="border border-slate-300 px-4 py-2 font-semibold">Khuếch đại không đảo</td><td class="border border-slate-300 px-4 py-2">Đầu vào không đảo (+)</td><td class="border border-slate-300 px-4 py-2">$K = 1 + R_f/R_1$</td><td class="border border-slate-300 px-4 py-2">Cùng pha</td></tr>
+</table></div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Khuếch đại đảo: $R_f = 100\,kΩ$, $R_1 = 10\,kΩ$ → $K = -10$; vào 0,3 V → ra $-3$ V (ngược pha).<br>
+Khuếch đại không đảo: $R_f = 90\,kΩ$, $R_1 = 10\,kΩ$ → $K = 10$; vào 0,5 V → ra $5$ V (cùng pha).<br>
+Muốn $K = -10$ với $R_1 = 10\,kΩ$ thì $R_f = 100\,kΩ$; muốn $K = 5$ (không đảo) thì $R_f = 40\,kΩ$.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Các mạch ứng dụng khác</h2>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Mạch cộng:</strong> cộng các điện áp đầu vào (mạch cộng đảo: $U_{ra} = -(U_1 + U_2)$ khi $R_f = R_1$).</li>
+<li><strong>Mạch trừ:</strong> lấy hiệu hai điện áp.</li>
+<li><strong>Mạch so sánh:</strong> op-amp không hồi tiếp, so sánh hai điện áp — dùng điều khiển theo ngưỡng.</li>
+<li><strong>Lưu ý bão hòa:</strong> tín hiệu vào quá lớn làm ra đạt cực đại, tín hiệu bị <strong>méo</strong> (cắt đỉnh).</li>
+</ul>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Op-amp: <strong>2 vào – 1 ra</strong>, kí hiệu tam giác, IC <strong>741</strong>. Đảo: <strong>$K = -R_f/R_1$</strong> (ngược pha). Không đảo: <strong>$K = 1 + R_f/R_1$</strong> (cùng pha). <strong>Hồi tiếp âm</strong> ổn định hệ số.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Op-amp:</strong> IC khuếch đại thuật toán, 2 đầu vào, 1 đầu ra.</li>
+<li><strong>Khuếch đại đảo:</strong> $K = -R_f/R_1$, ngược pha.</li>
+<li><strong>Khuếch đại không đảo:</strong> $K = 1 + R_f/R_1$, cùng pha.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
