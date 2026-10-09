@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 19: Đòn bẩy và ứng dụng</title>
+    <meta name="lesson-title" content="Bài 19: Đòn bẩy và ứng dụng">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 19: Đòn bẩy và ứng dụng</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 4: Tác dụng làm quay của lực • Bài 19: Đòn bẩy và ứng dụng</p>
+        </div>
+        <div class="content-body space-y-4">
+<div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 19: Đòn bẩy và ứng dụng</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 4: Tác dụng làm quay của lực (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Đòn bẩy -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Đòn bẩy là gì?</h2>
+
+<p><strong>Đòn bẩy</strong> là một thanh cứng có thể <strong>quay quanh một điểm cố định</strong> gọi là <strong>điểm tựa</strong> (kí hiệu $O$). Khi dùng đòn bẩy, ta tác dụng một lực $F_1$ vào một điểm của đòn bẩy để nâng (hoặc làm dịch chuyển) vật đặt ở điểm khác, vật này tác dụng lên đòn bẩy một lực cản $F_2$.</p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cac diem tren don bay: diem tua O, luc F1, luc can F2">
+<rect x="2" y="2" width="436" height="246" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<polygon points="200,180 240,180 220,140" fill="#94a3b8" stroke="#475569" stroke-width="2"/>
+<text x="220" y="205" font-family="sans-serif" font-size="14" font-weight="bold" fill="#1e293b" text-anchor="middle">O (điểm tựa)</text>
+<line x1="60" y1="140" x2="380" y2="140" stroke="#b45309" stroke-width="8"/>
+<rect x="330" y="100" width="60" height="40" rx="6" fill="#94a3b8" stroke="#475569" stroke-width="2"/>
+<text x="360" y="90" font-family="sans-serif" font-size="13" fill="#475569" text-anchor="middle">Vật (F₂)</text>
+<line x1="360" y1="100" x2="360" y2="60" stroke="#e11d48" stroke-width="3"/>
+<polygon points="360,52 352,68 368,68" fill="#e11d48"/>
+<text x="382" y="66" font-family="sans-serif" font-size="14" font-weight="bold" fill="#e11d48">F₂</text>
+<line x1="100" y1="140" x2="100" y2="80" stroke="#0284c7" stroke-width="3"/>
+<polygon points="100,72 92,88 108,88" fill="#0284c7"/>
+<text x="60" y="86" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0284c7">F₁</text>
+<text x="100" y="165" font-family="sans-serif" font-size="13" fill="#475569" text-anchor="middle">Điểm đặt lực F₁</text>
+<line x1="220" y1="140" x2="220" y2="165" stroke="#0284c7" stroke-width="2" stroke-dasharray="5,4"/>
+<text x="160" y="128" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0284c7">d₁</text>
+<text x="290" y="128" font-family="sans-serif" font-size="14" font-weight="bold" fill="#e11d48">d₂</text>
+</svg></div>
+
+<p>Các đại lượng trên đòn bẩy:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>$O$: <strong>điểm tựa</strong> (điểm cố định, đòn bẩy quay quanh đó).</li>
+<li>$F_1$: <strong>lực tác dụng</strong> (lực của tay người); $d_1$: cánh tay đòn của $F_1$ (khoảng cách từ $O$ đến giá của $F_1$).</li>
+<li>$F_2$: <strong>lực cản</strong> (thường là trọng lượng của vật cần nâng); $d_2$: cánh tay đòn của $F_2$.</li>
+</ul>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Đòn bẩy là thanh cứng quay quanh <strong>điểm tựa $O$</strong>. Có hai lực: <strong>lực tác dụng $F_1$</strong> và <strong>lực cản $F_2$</strong>, với hai cánh tay đòn $d_1, d_2$.</p>
+</div>
+
+<!-- 2. Điều kiện cân bằng -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Điều kiện cân bằng của đòn bẩy</h2>
+
+<p>Áp dụng quy tắc moment lực (Bài 18) cho đòn bẩy: hai lực $F_1$ và $F_2$ gây ra hai moment <strong>ngược chiều</strong> nhau quanh điểm tựa $O$. Đòn bẩy cân bằng khi:</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="text-center text-lg my-2">$$F_1 \times d_1 = F_2 \times d_2$$</p>
+<p class="text-center">hay $$\frac{F_1}{F_2} = \frac{d_2}{d_1}$$</p>
+</div>
+
+<p><strong>Hệ quả — lợi về lực:</strong></p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Nếu $d_1$ lớn hơn $d_2$ thì $F_1$ nhỏ hơn $F_2$: đòn bẩy cho ta <strong>lợi về lực</strong> (dùng lực nhỏ nâng vật nặng) — ví dụ: xà beng bẩy đá.</li>
+<li>Nếu $d_1$ nhỏ hơn $d_2$ thì $F_1$ lớn hơn $F_2$: <strong>thiệt về lực</strong> nhưng được <strong>lợi về đường đi</strong> — ví dụ: nhíp gắp, cần câu cá.</li>
+</ul>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-emerald-800 mb-2">Bài tập ví dụ (có lời giải):</p>
+<p>Dùng xà beng dài $1{,}5\ \text{m}$ để bẩy một hòn đá nặng $600\ \text{N}$. Điểm tựa cách hòn đá $0{,}3\ \text{m}$. Hỏi phải tác dụng lực tối thiểu bao nhiêu vào đầu kia của xà beng để bẩy được hòn đá?</p>
+<p class="mt-2"><strong>Lời giải:</strong> $d_2 = 0{,}3\ \text{m}$; $d_1 = 1{,}5 - 0{,}3 = 1{,}2\ \text{m}$.</p>
+<p class="text-center text-lg my-2">$$F_1 = \frac{F_2 \cdot d_2}{d_1} = \frac{600 \times 0{,}3}{1{,}2} = 150\ \text{N}$$</p>
+<p>Chỉ cần lực $150\ \text{N}$ để bẩy hòn đá $600\ \text{N}$ — lợi về lực 4 lần!</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">$F_1 d_1 = F_2 d_2$. <strong>Lợi về lực</strong> khi $d_1$ lớn hơn $d_2$ (điểm đặt lực xa điểm tựa hơn vật).</p>
+</div>
+
+<!-- 3. Các loại đòn bẩy -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Các loại đòn bẩy và ứng dụng</h2>
+
+<p>Tùy vị trí tương đối của điểm tựa $O$, điểm đặt lực $F_1$ và điểm đặt vật (lực $F_2$), người ta chia đòn bẩy thành ba loại:</p>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Loại</td><td class="border border-slate-300 px-4 py-1">Vị trí điểm tựa</td><td class="border border-slate-300 px-4 py-1">Đặc điểm</td><td class="border border-slate-300 px-4 py-1">Ví dụ</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><strong>Loại 1</strong></td><td class="border border-slate-300 px-4 py-1">Ở <strong>giữa</strong> lực và vật</td><td class="border border-slate-300 px-4 py-1">Có thể lợi hoặc thiệt về lực</td><td class="border border-slate-300 px-4 py-1">Bập bênh, kìm, kéo, xà beng</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><strong>Loại 2</strong></td><td class="border border-slate-300 px-4 py-1">Ở <strong>một đầu</strong>, vật ở giữa</td><td class="border border-slate-300 px-4 py-1">Luôn <strong>lợi về lực</strong> ($d_1$ lớn hơn $d_2$)</td><td class="border border-slate-300 px-4 py-1">Xe cút kít, cái mở nắp chai, kẹp hạt dẻ</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><strong>Loại 3</strong></td><td class="border border-slate-300 px-4 py-1">Ở <strong>một đầu</strong>, lực ở giữa</td><td class="border border-slate-300 px-4 py-1">Luôn <strong>thiệt về lực</strong> ($d_1$ nhỏ hơn $d_2$)</td><td class="border border-slate-300 px-4 py-1">Nhíp gắp, cần câu cá, cẳng tay người</td></tr>
+</table></div>
+
+<p><strong>Ứng dụng trong đời sống:</strong> xà beng bẩy đá, kìm cắt dây, kéo cắt, bập bênh, xe cút kít chở đất, cái mở nắp chai, nhíp nhổ râu, cần câu cá, mái chèo... Ngay cả <strong>cẳng tay</strong> của người cũng là một đòn bẩy loại 3 (khớp khuỷu tay là điểm tựa).</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-emerald-800 mb-2">Bài tập ví dụ (có lời giải):</p>
+<p>Xe cút kít chở đất nặng $400\ \text{N}$ đặt cách trục bánh xe $0{,}4\ \text{m}$. Tay người cầm ở cách trục bánh xe $1{,}6\ \text{m}$. Tính lực tay cần tác dụng để giữ xe cân bằng.</p>
+<p class="mt-2"><strong>Lời giải:</strong> Điểm tựa là trục bánh xe; $d_2 = 0{,}4\ \text{m}$; $d_1 = 1{,}6\ \text{m}$.</p>
+<p class="text-center text-lg my-2">$$F_1 = \frac{400 \times 0{,}4}{1{,}6} = 100\ \text{N}$$</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Ba loại đòn bẩy: <strong>điểm tựa ở giữa</strong> (bập bênh), <strong>vật ở giữa</strong> (xe cút kít — lợi về lực), <strong>lực ở giữa</strong> (nhíp — thiệt về lực). Điều kiện cân bằng: $F_1 d_1 = F_2 d_2$.</p>
+</div>
+
+<!-- Tóm tắt -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Nội dung</td><td class="border border-slate-300 px-4 py-1">Kiến thức trọng tâm</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Đòn bẩy</td><td class="border border-slate-300 px-4 py-1">Thanh cứng quay quanh điểm tựa $O$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Cân bằng</td><td class="border border-slate-300 px-4 py-1">$F_1 d_1 = F_2 d_2$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Lợi về lực</td><td class="border border-slate-300 px-4 py-1">$d_1$ lớn hơn $d_2$ → $F_1$ nhỏ hơn $F_2$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Ba loại</td><td class="border border-slate-300 px-4 py-1">Điểm tựa giữa / vật giữa / lực giữa</td></tr>
+</table></div>
+
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){{try{{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){{document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}}}catch(e){{}}}})();</script>
+</body>
+</html>
