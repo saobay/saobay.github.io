@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 6: Vectơ trong không gian</title>
+    <meta name="lesson-title" content="Bài 6: Vectơ trong không gian">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 6: Vectơ trong không gian</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 2: Vectơ và hệ trục tọa độ trong không gian • Bài 6: Vectơ trong không gian</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 6: Vectơ trong không gian</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 2: Vectơ và hệ trục tọa độ trong không gian — Kết nối tri thức với cuộc sống</p>
+
+<!-- 1. Vectơ trong không gian -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Vectơ trong không gian</h2>
+
+<p><strong>Định nghĩa:</strong> <em>Vectơ trong không gian</em> là một đoạn thẳng có hướng. Vectơ có điểm đầu là $A$ và điểm cuối là $B$ được kí hiệu là $\vec{AB}$.</p>
+
+<p>Khi không cần chỉ rõ điểm đầu và điểm cuối, vectơ còn được kí hiệu là $\vec{a}, \vec{b}, \vec{x}, \vec{y}, \dots$</p>
+
+<p><strong>Độ dài</strong> của vectơ $\vec{AB}$ là khoảng cách giữa điểm đầu $A$ và điểm cuối $B$, kí hiệu $|\vec{AB}|$ (hoặc $AB$).</p>
+
+<p><strong>Giá</strong> của một vectơ là đường thẳng đi qua điểm đầu và điểm cuối của vectơ đó.</p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Vectơ AB trong không gian">
+<rect x="2" y="2" width="436" height="156" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<line x1="60" y1="110" x2="360" y2="50" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="6,4"/>
+<text x="370" y="48" font-family="sans-serif" font-size="12" fill="#64748b" font-style="italic">giá của vectơ</text>
+<line x1="80" y1="105" x2="330" y2="55" stroke="#1d4ed8" stroke-width="3"/>
+<polygon points="330,55 308,52 314,66" fill="#1d4ed8"/>
+<circle cx="80" cy="105" r="6" fill="#1d4ed8"/>
+<circle cx="330" cy="55" r="6" fill="#1d4ed8"/>
+<text x="68" y="128" font-family="sans-serif" font-size="15" font-weight="bold" fill="#1e293b">A</text>
+<text x="336" y="78" font-family="sans-serif" font-size="15" font-weight="bold" fill="#1e293b">B</text>
+<text x="200" y="60" font-family="sans-serif" font-size="15" font-style="italic" fill="#1d4ed8">a</text>
+<text x="196" y="140" font-family="sans-serif" font-size="13" fill="#475569">Vectơ AB: điểm đầu A, điểm cuối B</text>
+</svg></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Mọi khái niệm về vectơ trong mặt phẳng (giá, độ dài, hướng) đều giữ nguyên khi chuyển sang không gian.</p>
+</div>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">Vectơ-không</h3>
+<p>Các vectơ có điểm đầu và điểm cuối trùng nhau (ví dụ $\vec{AA}, \vec{BB}$) gọi là các <em>vectơ-không</em>, kí hiệu $\vec{0}$. Ta quy ước vectơ-không có độ dài bằng $0$, <strong>cùng hướng</strong> (do đó cùng phương) với mọi vectơ.</p>
+
+<p><strong>Tính chất:</strong> Với mỗi điểm $O$ và vectơ $\vec{a}$ cho trước, có <strong>duy nhất</strong> điểm $M$ sao cho $\vec{OM} = \vec{a}$.</p>
+
+<!-- 2. Cùng phương, bằng nhau -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Hai vectơ cùng phương, bằng nhau</h2>
+
+<ul class="list-disc ml-6 space-y-2 my-3">
+<li><strong>Cùng phương:</strong> hai vectơ được gọi là <em>cùng phương</em> nếu chúng có giá song song hoặc trùng nhau.</li>
+<li>Nếu hai vectơ cùng phương thì chúng <em>cùng hướng</em> hoặc <em>ngược hướng</em>.</li>
+<li><strong>Bằng nhau:</strong> $\vec{a} = \vec{b}$ nếu chúng <strong>cùng hướng</strong> và <strong>cùng độ dài</strong>.</li>
+<li><strong>Vectơ đối:</strong> vectơ đối của $\vec{a}$ (khác $\vec{0}$) là vectơ có cùng độ dài và ngược hướng với $\vec{a}$, kí hiệu $-\vec{a}$.</li>
+</ul>
+
+<div class="svg-fig"><svg viewBox="0 0 440 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Các cặp vectơ cùng phương">
+<rect x="2" y="2" width="436" height="186" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="110" y="28" font-family="sans-serif" font-size="13" font-weight="bold" fill="#15803d" text-anchor="middle">Cùng hướng</text>
+<line x1="40" y1="60" x2="140" y2="60" stroke="#15803d" stroke-width="3"/>
+<polygon points="140,60 126,54 126,66" fill="#15803d"/>
+<line x1="40" y1="100" x2="140" y2="100" stroke="#15803d" stroke-width="3"/>
+<polygon points="140,100 126,94 126,106" fill="#15803d"/>
+<text x="150" y="65" font-family="sans-serif" font-size="13" font-style="italic" fill="#15803d">a</text>
+<text x="150" y="105" font-family="sans-serif" font-size="13" font-style="italic" fill="#15803d">b</text>
+<text x="330" y="28" font-family="sans-serif" font-size="13" font-weight="bold" fill="#b91c1c" text-anchor="middle">Ngược hướng</text>
+<line x1="260" y1="60" x2="360" y2="60" stroke="#b91c1c" stroke-width="3"/>
+<polygon points="360,60 346,54 346,66" fill="#b91c1c"/>
+<line x1="360" y1="100" x2="260" y2="100" stroke="#b91c1c" stroke-width="3"/>
+<polygon points="260,100 274,94 274,106" fill="#b91c1c"/>
+<text x="370" y="65" font-family="sans-serif" font-size="13" font-style="italic" fill="#b91c1c">c</text>
+<text x="250" y="105" font-family="sans-serif" font-size="13" font-style="italic" fill="#b91c1c">d</text>
+<text x="220" y="150" font-family="sans-serif" font-size="13" fill="#475569" text-anchor="middle">Cả hai cặp đều cùng phương (giá song song)</text>
+<text x="220" y="172" font-family="sans-serif" font-size="13" fill="#475569" text-anchor="middle">a = b (cùng hướng, cùng độ dài); d = −c</text>
+</svg></div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 1:</p>
+<p>Cho hình lập phương $ABCD.A'B'C'D'$. Trong các vectơ $\vec{AB}, \vec{A'B'}, \vec{CD}, \vec{BA}$, những vectơ nào bằng nhau? Vectơ nào ngược hướng với $\vec{AB}$?</p>
+<p class="mt-2"><strong>Giải:</strong> $ABB'A'$ là hình vuông nên $\vec{AB} = \vec{A'B'}$ (cùng hướng, cùng độ dài). $\vec{CD} = -\vec{AB}$ và $\vec{BA} = -\vec{AB}$ nên cả hai đều ngược hướng với $\vec{AB}$.</p>
+</div>
+
+<!-- 3. Tổng và hiệu -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Tổng và hiệu của hai vectơ</h2>
+
+<p><strong>Định nghĩa tổng:</strong> Cho hai vectơ $\vec{a}, \vec{b}$. Lấy điểm $A$ bất kì, xác định $B, C$ sao cho $\vec{AB} = \vec{a}$, $\vec{BC} = \vec{b}$. Khi đó $\vec{AC}$ được gọi là <em>tổng</em> của $\vec{a}$ và $\vec{b}$, kí hiệu $\vec{a} + \vec{b}$.</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-bold text-emerald-800 mb-2">Các quy tắc cộng, trừ</p>
+<ul class="list-disc ml-6 space-y-1">
+<li><strong>Quy tắc ba điểm:</strong> $\vec{AB} + \vec{BC} = \vec{AC}$.</li>
+<li><strong>Quy tắc hình bình hành:</strong> nếu $ABCD$ là hình bình hành thì $\vec{AB} + \vec{AD} = \vec{AC}$.</li>
+<li><strong>Quy tắc trừ:</strong> $\vec{AB} - \vec{AC} = \vec{CB}$ (chung điểm đầu $A$, lấy điểm cuối trừ nhau).</li>
+</ul>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 2:</p>
+<p>Cho hình hộp $ABCD.A'B'C'D'$. Tính tổng $\vec{AB} + \vec{B'C'} + \vec{DD'}$.</p>
+<p class="mt-2"><strong>Giải:</strong> $\vec{B'C'} = \vec{BC} = \vec{AD}$ và $\vec{DD'} = \vec{AA'}$, nên tổng bằng $\vec{AB} + \vec{AD} + \vec{AA'}$. Theo <strong>quy tắc hình hộp</strong> (xem mục 5), tổng này bằng $\vec{AC'}$.</p>
+</div>
+
+<!-- 4. Tích với một số -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Tích của vectơ với một số</h2>
+
+<p>Cho số thực $k$ và vectơ $\vec{a} \ne \vec{0}$. Tích $k\vec{a}$ là một vectơ:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Cùng hướng</strong> với $\vec{a}$ nếu $k > 0$; <strong>ngược hướng</strong> với $\vec{a}$ nếu $k < 0$;</li>
+<li>Có độ dài $|k\vec{a}| = |k| \cdot |\vec{a}|$.</li>
+</ul>
+<p>Quy ước: $0 \cdot \vec{a} = \vec{0}$ và $k \cdot \vec{0} = \vec{0}$.</p>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Hai vectơ $\vec{a}, \vec{b}$ (với $\vec{b} \ne \vec{0}$) cùng phương <strong>khi và chỉ khi</strong> tồn tại số $k$ sao cho $\vec{a} = k\vec{b}$.</p>
+</div>
+
+<!-- 5. Quy tắc hình hộp -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">5. Quy tắc hình hộp và vectơ đồng phẳng</h2>
+
+<p><strong>Quy tắc hình hộp:</strong> Cho hình hộp $ABCD.A'B'C'D'$. Khi đó:</p>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$\vec{AB} + \vec{AD} + \vec{AA'} = \vec{AC'}$$</p>
+</div>
+<p>(Tổng ba vectơ xuất phát từ một đỉnh bằng vectơ đường chéo của hình hộp xuất phát từ đỉnh đó.)</p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hình hộp và quy tắc hình hộp">
+<rect x="2" y="2" width="436" height="236" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<!-- hình hộp: đáy ABCD, trên A'B'C'D' -->
+<polygon points="90,170 230,170 230,90 90,90" fill="#dbeafe" stroke="#1d4ed8" stroke-width="1.5" opacity="0.9"/>
+<polygon points="140,130 280,130 280,50 140,50" fill="none" stroke="#1d4ed8" stroke-width="1.5"/>
+<line x1="90" y1="170" x2="140" y2="130" stroke="#1d4ed8" stroke-width="1.5"/>
+<line x1="230" y1="170" x2="280" y2="130" stroke="#1d4ed8" stroke-width="1.5"/>
+<line x1="230" y1="90" x2="280" y2="50" stroke="#1d4ed8" stroke-width="1.5"/>
+<line x1="90" y1="90" x2="140" y2="50" stroke="#1d4ed8" stroke-width="1.5"/>
+<line x1="90" y1="170" x2="280" y2="50" stroke="#b91c1c" stroke-width="2.5"/>
+<polygon points="280,50 264,52 270,64" fill="#b91c1c"/>
+<text x="80" y="188" font-family="sans-serif" font-size="14" font-weight="bold" fill="#1e293b">A</text>
+<text x="236" y="188" font-family="sans-serif" font-size="14" font-weight="bold" fill="#1e293b">B</text>
+<text x="286" y="128" font-family="sans-serif" font-size="14" font-weight="bold" fill="#1e293b">C'</text>
+<text x="146" y="128" font-family="sans-serif" font-size="14" font-weight="bold" fill="#1e293b">D</text>
+<text x="120" y="60" font-family="sans-serif" font-size="14" font-weight="bold" fill="#1e293b">A'</text>
+<text x="180" y="118" font-family="sans-serif" font-size="13" font-style="italic" fill="#b91c1c">AC'</text>
+<text x="220" y="228" font-family="sans-serif" font-size="13" fill="#475569" text-anchor="middle">AB + AD + AA' = AC'</text>
+</svg></div>
+
+<p><strong>Ba vectơ đồng phẳng:</strong> Trong không gian, ba vectơ được gọi là <em>đồng phẳng</em> nếu giá của chúng cùng song song với một mặt phẳng.</p>
+
+<p><strong>Điều kiện:</strong> Cho ba vectơ $\vec{a}, \vec{b}, \vec{c}$ trong đó $\vec{a}, \vec{b}$ không cùng phương. Khi đó $\vec{a}, \vec{b}, \vec{c}$ đồng phẳng <strong>khi và chỉ khi</strong> tồn tại duy nhất cặp số $x, y$ sao cho $\vec{c} = x\vec{a} + y\vec{b}$.</p>
+
+<!-- 6. Trung điểm, trọng tâm -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">6. Trung điểm và trọng tâm (dạng vectơ)</h2>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li>$I$ là trung điểm của $AB$ $\Leftrightarrow$ $\vec{IA} + \vec{IB} = \vec{0}$ $\Leftrightarrow$ $\vec{OI} = \dfrac{1}{2}(\vec{OA} + \vec{OB})$ với mọi $O$.</li>
+<li>$G$ là trọng tâm của tam giác $ABC$ $\Leftrightarrow$ $\vec{GA} + \vec{GB} + \vec{GC} = \vec{0}$ $\Leftrightarrow$ $\vec{OG} = \dfrac{1}{3}(\vec{OA} + \vec{OB} + \vec{OC})$ với mọi $O$.</li>
+<li>$G$ là trọng tâm của tứ diện $ABCD$ $\Leftrightarrow$ $\vec{GA} + \vec{GB} + \vec{GC} + \vec{GD} = \vec{0}$.</li>
+<li><strong>Quy tắc trung tuyến:</strong> $M$ là trung điểm của $BC$ thì $\vec{AM} = \dfrac{1}{2}(\vec{AB} + \vec{AC})$.</li>
+</ul>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 3:</p>
+<p>Cho tứ diện $ABCD$, $G$ là trọng tâm của tam giác $BCD$. Chứng minh $\vec{AG} = \dfrac{1}{3}(\vec{AB} + \vec{AC} + \vec{AD})$.</p>
+<p class="mt-2"><strong>Giải:</strong> $\vec{AG} = \vec{AB} + \vec{BG}$. Vì $G$ là trọng tâm $\triangle BCD$ nên $\vec{BG} = \dfrac{1}{3}(\vec{BC} + \vec{BD}) = \dfrac{1}{3}(\vec{AC} - \vec{AB} + \vec{AD} - \vec{AB})$. Suy ra $\vec{AG} = \vec{AB} + \dfrac{1}{3}(\vec{AC} + \vec{AD} - 2\vec{AB}) = \dfrac{1}{3}(\vec{AB} + \vec{AC} + \vec{AD})$. ∎</p>
+</div>
+
+<!-- Tổng kết -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Vectơ:</strong> đoạn thẳng có hướng; có giá, độ dài, hướng.</li>
+<li><strong>Cùng phương:</strong> giá song song hoặc trùng nhau; <strong>bằng nhau:</strong> cùng hướng + cùng độ dài.</li>
+<li><strong>Ba điểm:</strong> $\vec{AB} + \vec{BC} = \vec{AC}$; <strong>hình bình hành:</strong> $\vec{AB} + \vec{AD} = \vec{AC}$; <strong>trừ:</strong> $\vec{AB} - \vec{AC} = \vec{CB}$.</li>
+<li><strong>Tích với số:</strong> $k > 0$ cùng hướng, $k < 0$ ngược hướng; $|k\vec{a}| = |k||\vec{a}|$.</li>
+<li><strong>Hình hộp:</strong> $\vec{AB} + \vec{AD} + \vec{AA'} = \vec{AC'}$.</li>
+<li><strong>Đồng phẳng:</strong> $\vec{c} = x\vec{a} + y\vec{b}$ ($\vec{a}, \vec{b}$ không cùng phương).</li>
+<li><strong>Trung điểm:</strong> $\vec{IA} + \vec{IB} = \vec{0}$; <strong>trọng tâm tam giác:</strong> $\vec{GA} + \vec{GB} + \vec{GC} = \vec{0}$.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+            </div>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
