@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 1: Cấu trúc và vòng đời của virus</title>
+    <meta name="lesson-title" content="Bài 1: Cấu trúc và vòng đời của virus">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 1: Cấu trúc và vòng đời của virus</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 6: Virus • Bài 1: Cấu trúc và vòng đời của virus</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-emerald-800 mb-2">Bài 1: Cấu trúc và vòng đời của virus</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 6: Virus — Sinh học 10 (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Khái niệm -->
+<h2 class="text-xl font-bold text-emerald-700 mt-8 mb-3 border-l-4 border-emerald-500 pl-3">1. Khái niệm virus</h2>
+
+<p><strong>Định nghĩa:</strong> <em>Virus</em> là thực thể <strong>chưa có cấu tạo tế bào</strong>, có kích thước <strong>siêu hiển vi</strong> (chỉ quan sát được bằng kính hiển vi điện tử), <strong>kí sinh nội bào bắt buộc</strong> — chỉ nhân lên được trong tế bào chủ sống.</p>
+
+<p>Virus <strong>không được coi là sinh vật sống</strong> theo nghĩa đầy đủ vì: không có cấu tạo tế bào, không tự trao đổi chất, không tự sinh sản độc lập.</p>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">3 từ khóa về virus: <strong>chưa có cấu tạo tế bào</strong> – <strong>kích thước siêu hiển vi</strong> – <strong>kí sinh nội bào bắt buộc</strong>.</p>
+</div>
+
+<!-- 2. Cấu trúc -->
+<h2 class="text-xl font-bold text-emerald-700 mt-8 mb-3 border-l-4 border-emerald-500 pl-3">2. Cấu trúc của virus</h2>
+
+<p>Virus có cấu tạo <strong>đơn giản</strong> gồm 2 thành phần cơ bản:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Lõi:</strong> nucleic acid — <strong>DNA hoặc RNA</strong> (chỉ một trong hai), mang thông tin di truyền.</li>
+<li><strong>Vỏ capsid:</strong> protein bao bọc bên ngoài, bảo vệ lõi và giúp virus bám vào tế bào chủ.</li>
+</ul>
+<p>Một số virus còn có thêm <strong>vỏ ngoài</strong> (<em>envelope</em> — lớp lipid kép) và <strong>gai glycoprotein</strong> giúp nhận biết tế bào chủ (ví dụ virus cúm, SARS-CoV-2).</p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cau truc virus">
+<rect x="2" y="2" width="436" height="226" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="28" font-family="sans-serif" font-size="15" font-weight="bold" fill="#166534" text-anchor="middle">CẤU TRÚC VIRUS (có vỏ ngoài)</text>
+<g transform="translate(220,130)">
+<circle r="62" fill="none" stroke="#a855f7" stroke-width="10"/>
+<circle r="40" fill="none" stroke="#0284c7" stroke-width="8"/>
+<path d="M -18,-18 C -5,-25 5,-15 18,-20 C 25,-5 10,10 -5,5 C -18,0 -25,-8 -18,-18 Z" fill="#f472b6"/>
+<text x="0" y="6" font-family="sans-serif" font-size="11" font-weight="bold" fill="#7e22ce" text-anchor="middle">DNA/RNA</text>
+<g stroke="#16a34a" stroke-width="3">
+<line x1="0" y1="-62" x2="0" y2="-80"/><circle cx="0" cy="-84" r="5" fill="#16a34a" stroke="none"/>
+<line x1="44" y1="-44" x2="57" y2="-57"/><circle cx="60" cy="-60" r="5" fill="#16a34a" stroke="none"/>
+<line x1="62" y1="0" x2="80" y2="0"/><circle cx="84" cy="0" r="5" fill="#16a34a" stroke="none"/>
+<line x1="44" y1="44" x2="57" y2="57"/><circle cx="60" cy="60" r="5" fill="#16a34a" stroke="none"/>
+<line x1="0" y1="62" x2="0" y2="80"/><circle cx="0" cy="84" r="5" fill="#16a34a" stroke="none"/>
+<line x1="-44" y1="44" x2="-57" y2="57"/><circle cx="-60" cy="60" r="5" fill="#16a34a" stroke="none"/>
+<line x1="-62" y1="0" x2="-80" y2="0"/><circle cx="-84" cy="0" r="5" fill="#16a34a" stroke="none"/>
+<line x1="-44" y1="-44" x2="-57" y2="-57"/><circle cx="-60" cy="-60" r="5" fill="#16a34a" stroke="none"/>
+</g>
+</g>
+<g font-family="sans-serif" font-size="11" text-anchor="start">
+<rect x="300" y="70" width="14" height="14" fill="#f472b6"/><text x="320" y="82" fill="#334155">Lõi nucleic acid</text>
+<rect x="300" y="94" width="14" height="14" fill="none" stroke="#0284c7" stroke-width="4"/><text x="320" y="106" fill="#334155">Vỏ capsid (protein)</text>
+<rect x="300" y="118" width="14" height="14" fill="none" stroke="#a855f7" stroke-width="4"/><text x="320" y="130" fill="#334155">Vỏ ngoài (lipid)</text>
+<circle cx="307" cy="152" r="6" fill="#16a34a"/><text x="320" y="156" fill="#334155">Gai glycoprotein</text>
+</g>
+</svg></div>
+
+<p><strong>Phân loại virus</strong> dựa vào: loại nucleic acid (<strong>virus DNA</strong> / <strong>virus RNA</strong>) và có hay không có <strong>vỏ ngoài</strong>.</p>
+
+<!-- 3. Vòng đời -->
+<h2 class="text-xl font-bold text-emerald-700 mt-8 mb-3 border-l-4 border-emerald-500 pl-3">3. Vòng đời của virus</h2>
+
+<h3 class="text-lg font-semibold text-emerald-600 mt-4 mb-2">3.1. Chu trình tan (lytic)</h3>
+<p>Virus nhân lên nhanh và <strong>làm tan (chết) tế bào chủ</strong>. Gồm 5 giai đoạn:</p>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 my-2 text-sm">
+<tr class="bg-emerald-100 font-semibold"><td class="border border-slate-300 px-3 py-2">Giai đoạn</td><td class="border border-slate-300 px-3 py-2">Diễn biến</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">1. Hấp phụ</td><td class="border border-slate-300 px-3 py-2">Virus <strong>bám</strong> vào thụ thể đặc hiệu trên bề mặt tế bào chủ</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">2. Xâm nhập</td><td class="border border-slate-300 px-3 py-2">Virus đưa <strong>nucleic acid</strong> vào trong tế bào chủ</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">3. Tổng hợp</td><td class="border border-slate-300 px-3 py-2">Tế bào chủ <strong>tổng hợp</strong> nucleic acid và protein của virus</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">4. Lắp ráp</td><td class="border border-slate-300 px-3 py-2">Các thành phần <strong>lắp ráp</strong> thành virus hoàn chỉnh</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">5. Phóng thích</td><td class="border border-slate-300 px-3 py-2">Virus <strong>phá vỡ</strong> tế bào chủ, phóng thích ra ngoài</td></tr>
+</table></div>
+
+<h3 class="text-lg font-semibold text-emerald-600 mt-4 mb-2">3.2. Chu trình tiềm tan (lysogenic)</h3>
+<p>Virus <strong>cài hệ gen của mình vào NST</strong> của tế bào chủ (gọi là tiền virus). Hệ gen virus <strong>nhân lên cùng</strong> với NST tế bào chủ qua các lần phân bào mà <strong>không làm chết</strong> tế bào. Khi gặp điều kiện thuận lợi (tia UV, hóa chất...), virus có thể chuyển sang <strong>chu trình tan</strong>.</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-emerald-800 mb-2">Ví dụ:</p>
+<p>Virus HIV sau khi xâm nhập tế bào lympho T sẽ cài gen vào NST tế bào chủ (tiềm tan) — đó là lí do HIV rất khó chữa khỏi hoàn toàn. Virus cúm theo chu trình tan nên gây bệnh cấp tính rồi khỏi.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Mẹo nhớ 5 giai đoạn chu trình tan: <strong>"Hấp – Xâm – Tổng – Lắp – Phóng"</strong> (hấp phụ → xâm nhập → tổng hợp → lắp ráp → phóng thích). Tiềm tan = <strong>"nằm vùng"</strong>: cài gen vào NST chủ, chưa giết tế bào.</p>
+</div>
+
+<!-- Tổng kết -->
+<h2 class="text-xl font-bold text-emerald-700 mt-8 mb-3 border-l-4 border-emerald-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Virus:</strong> chưa có cấu tạo tế bào, kích thước siêu hiển vi, kí sinh nội bào bắt buộc.</li>
+<li><strong>Cấu trúc:</strong> lõi nucleic acid (DNA hoặc RNA) + vỏ capsid; một số có vỏ ngoài và gai glycoprotein.</li>
+<li><strong>Chu trình tan:</strong> hấp phụ → xâm nhập → tổng hợp → lắp ráp → phóng thích (làm chết tế bào chủ).</li>
+<li><strong>Chu trình tiềm tan:</strong> cài gen vào NST chủ, nhân lên cùng tế bào, chưa gây chết tế bào.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+</body>
+</html>
