@@ -160,26 +160,26 @@
             } catch(e){ console.log('autoSaveToBank note:', e); }
         }
 
-        // Đẩy 1 file HTML lên GitHub trực tiếp (dùng cho file cầu nối / đề kiểm tra)
+        // Đẩy 1 file HTML lên GitHub qua GAS proxy (không cần token cá nhân — 2026-10-09)
         async function bankPushFile(targetPath, htmlContent, commitMessage){
-            let token = getGithubToken();
-            if (!token){ alert('Chức năng này cần token GitHub. Hãy đẩy 1 bài bất kỳ bằng form chính trước (để lưu token), rồi thử lại.'); throw new Error('no-token'); }
-            let apiUrl = 'https://api.github.com/repos/' + GITHUB_CONFIG.owner + '/' + GITHUB_CONFIG.repo
-                + '/contents/' + getEncodedGitHubPath(targetPath);
-            let sha;
-            try {
-                let chk = await fetch(apiUrl + '?ref=' + GITHUB_CONFIG.branch, { headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github+json' } });
-                if (chk.ok){ let jd = await chk.json(); sha = jd.sha; }
-            } catch(e){}
-            let body = { message: commitMessage, content: utf8ToBase64(htmlContent), branch: GITHUB_CONFIG.branch };
-            if (sha) body.sha = sha;
-            let res = await fetch(apiUrl, {
-                method: 'PUT',
-                headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json' },
-                body: JSON.stringify(body)
+            let payload = {
+                type: 'PUSH_TO_GITHUB',
+                filePath: targetPath,
+                content: htmlContent,
+                commitMessage: commitMessage || ('Upload: ' + targetPath),
+                title: String(targetPath).split('/').pop(),
+                author: (typeof currentUser !== 'undefined' && currentUser.name) ? currentUser.name : 'Teacher'
+            };
+            let res = await fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(payload)
             });
-            if (!res.ok){ let t = await res.text(); throw new Error('GitHub API ' + res.status + ': ' + t.slice(0,150)); }
-            return res.json();
+            let result = await parseSafeResponse(res);
+            if (!result || result.status !== 'success'){
+                throw new Error('GAS proxy: ' + ((result && result.message) || 'lỗi không xác định'));
+            }
+            return result;
         }
 
         // Chuẩn hoá HTML bọc ngoài cho file cầu nối / đề kiểm tra

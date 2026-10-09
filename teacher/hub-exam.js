@@ -261,23 +261,54 @@
             return picked;
         }
 
+        // Re-render MathJax cho nội dung preview inject động (2026-10-09)
+        function exbTypesetMath(el){
+            try {
+                if (window.MathJax && window.MathJax.typesetPromise){
+                    let target = el || document.getElementById('exb-bank-preview') || document.getElementById('exb-preview');
+                    if (target) window.MathJax.typesetPromise([target]).catch(function(){});
+                }
+            } catch(e){}
+        }
+
         function exbRenderPicked(picked, label){
             let pv = document.getElementById('exb-bank-preview');
             let badge = { mcq: 'bg-blue-100 text-blue-800', truefalse: 'bg-amber-100 text-amber-800', short: 'bg-emerald-100 text-emerald-800', essay: 'bg-violet-100 text-violet-800' };
             let tn = { mcq: 'TN', truefalse: 'Đ/S', short: 'TLN', essay: 'Tự luận' };
             pv.innerHTML = '<div class="flex items-center justify-between mb-2">'
                 + '<p class="text-xs font-black text-slate-700">' + label + ': ' + picked.length + ' câu</p></div>'
-                + '<div class="space-y-2 max-h-72 overflow-y-auto pr-1">'
+                + '<div class="space-y-2 max-h-96 overflow-y-auto pr-1">'
                 + picked.map(function(q, i){
-                    return '<div class="border border-slate-200 rounded-xl p-2.5 bg-white text-[13px]">'
+                    let h = '<div class="border border-slate-200 rounded-xl p-2.5 bg-white text-[13px]">'
                         + '<p class="font-semibold text-slate-800"><span class="text-slate-400 font-bold mr-1">' + (i+1) + '.</span>'
-                        + String(q.q).replace(/</g, '&lt;').slice(0, 160) + '</p>'
-                        + '<div class="flex gap-1.5 mt-1.5 text-[10px] font-bold">'
+                        + String(q.q).replace(/</g, '&lt;') + '</p>';
+                    if (q.options && q.options.length){
+                        h += '<div class="mt-1.5 space-y-0.5">' + q.options.map(function(op){
+                            return '<p class="text-[12px] text-slate-600 pl-4">' + String(op).replace(/</g, '&lt;') + '</p>';
+                        }).join('') + '</div>';
+                    }
+                    if (q.statements && q.statements.length){
+                        h += '<div class="mt-1.5 space-y-0.5">' + q.statements.map(function(st, si){
+                            return '<p class="text-[12px] text-slate-600 pl-4"><b>' + 'abcd'[si] + ')</b> '
+                                + String(st.s != null ? st.s : st).replace(/</g, '&lt;') + '</p>';
+                        }).join('') + '</div>';
+                    }
+                    if (q.answer){
+                        h += '<p class="mt-1.5 text-[12px] font-bold text-emerald-700">Đáp án: '
+                            + String(q.answer).replace(/</g, '&lt;') + '</p>';
+                    }
+                    if (q.explain){
+                        h += '<p class="mt-1 text-[12px] text-slate-500"><b>Hướng dẫn:</b> '
+                            + String(q.explain).replace(/</g, '&lt;') + '</p>';
+                    }
+                    h += '<div class="flex gap-1.5 mt-1.5 text-[10px] font-bold">'
                         + '<span class="px-2 py-0.5 rounded-full ' + (badge[q.type] || 'bg-slate-100') + '">' + (tn[q.type] || q.type) + '</span>'
                         + '<span class="px-2 py-0.5 rounded-full bg-violet-100 text-violet-800">' + q.level + '</span>'
                         + '<span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">chương ' + q.chapter + '</span>'
                         + '</div></div>';
+                    return h;
                 }).join('') + '</div>';
+            exbTypesetMath(pv);
         }
 
         // Moi HS 1 de: xem 1 de mau boc tu bank theo ma tran
@@ -438,6 +469,7 @@
                             + '<span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">' + (scoring[q.type] || 0) + 'đ • bài ' + q.lesson + '</span>'
                             + '</div></div>';
                     }).join('') + '</div>';
+                exbTypesetMath(pv);
             } catch(e){ pv.innerHTML = '<p class="text-xs text-rose-600">Lỗi: ' + String(e.message || e).replace(/</g,'&lt;') + '</p>'; }
         }
 
