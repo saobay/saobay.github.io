@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 19: Khoa học dữ liệu</title>
+    <meta name="lesson-title" content="Bài 19: Khoa học dữ liệu">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 19: Khoa học dữ liệu</h1>
+            <p class="text-xs text-slate-500 mt-1">Chủ đề 5: Hướng nghiệp với tin học • Bài 19: Khoa học dữ liệu</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 19: Khoa học dữ liệu</h1>
+<p class="text-center text-slate-500 italic mb-8">Chủ đề 5: Hướng nghiệp với tin học — Kết nối tri thức với cuộc sống</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Khoa học dữ liệu là gì?</h2>
+<p><strong>Khoa học dữ liệu</strong> (<em>data science</em>) là lĩnh vực <strong>trích xuất tri thức và hiểu biết</strong> từ dữ liệu, kết hợp <strong>toán học – thống kê</strong>, <strong>tin học</strong> và <strong>kiến thức chuyên ngành</strong>. Dữ liệu ở khắp nơi: điểm số, thời tiết, lượt xem video, đơn hàng...</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Quy trình làm việc với dữ liệu</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 my-2 text-sm">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-3 py-2">Bước</td><td class="border border-slate-300 px-3 py-2">Công việc</td><td class="border border-slate-300 px-3 py-2">Ví dụ</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">1. Thu thập</td><td class="border border-slate-300 px-3 py-2">Lấy dữ liệu từ các nguồn</td><td class="border border-slate-300 px-3 py-2">Điểm thi, khảo sát, cảm biến</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">2. Tiền xử lý</td><td class="border border-slate-300 px-3 py-2"><strong>Làm sạch</strong>: xóa trùng, điền thiếu, sửa sai</td><td class="border border-slate-300 px-3 py-2">Xóa bản ghi trùng, chuẩn hóa đơn vị</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">3. Phân tích</td><td class="border border-slate-300 px-3 py-2">Thống kê, khai phá, học máy</td><td class="border border-slate-300 px-3 py-2">Điểm trung bình, dự báo điểm</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">4. Trực quan hóa</td><td class="border border-slate-300 px-3 py-2">Vẽ biểu đồ, bảng</td><td class="border border-slate-300 px-3 py-2">Biểu đồ cột điểm theo lớp</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">5. Ra quyết định</td><td class="border border-slate-300 px-3 py-2">Đề xuất hành động</td><td class="border border-slate-300 px-3 py-2">Tăng cường ôn tập môn yếu</td></tr>
+</table></div>
+<div class="svg-fig"><svg viewBox="0 0 440 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Quy trinh khoa hoc du lieu">
+<rect x="2" y="2" width="436" height="166" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="24" font-family="sans-serif" font-size="14" font-weight="bold" fill="#1e3a8a" text-anchor="middle">QUY TRÌNH KHOA HỌC DỮ LIỆU</text>
+<g font-family="sans-serif" font-size="10" font-weight="bold" text-anchor="middle">
+<rect x="14" y="44" width="70" height="60" rx="8" fill="#dbeafe" stroke="#0284c7" stroke-width="1.5"/><text x="49" y="70" fill="#0c4a6e">Thu</text><text x="49" y="84" fill="#0c4a6e">thập</text>
+<rect x="100" y="44" width="70" height="60" rx="8" fill="#dcfce7" stroke="#15803d" stroke-width="1.5"/><text x="135" y="70" fill="#166534">Tiền</text><text x="135" y="84" fill="#166534">xử lý</text>
+<rect x="186" y="44" width="70" height="60" rx="8" fill="#fef3c7" stroke="#b45309" stroke-width="1.5"/><text x="221" y="70" fill="#92400e">Phân</text><text x="221" y="84" fill="#92400e">tích</text>
+<rect x="272" y="44" width="70" height="60" rx="8" fill="#e0e7ff" stroke="#4f46e5" stroke-width="1.5"/><text x="307" y="70" fill="#312e81">Trực quan</text><text x="307" y="84" fill="#312e81">hóa</text>
+<rect x="358" y="44" width="70" height="60" rx="8" fill="#fee2e2" stroke="#b91c1c" stroke-width="1.5"/><text x="393" y="70" fill="#7f1d1d">Ra quyết</text><text x="393" y="84" fill="#7f1d1d">định</text>
+</g>
+<g stroke="#64748b" stroke-width="2" fill="none"><line x1="84" y1="74" x2="100" y2="74"/><line x1="170" y1="74" x2="186" y2="74"/><line x1="256" y1="74" x2="272" y2="74"/><line x1="342" y1="74" x2="358" y2="74"/></g>
+<text x="220" y="130" font-family="sans-serif" font-size="11" fill="#64748b" text-anchor="middle">Dữ liệu thô → dữ liệu sạch → tri thức → hành động</text>
+<text x="220" y="150" font-family="sans-serif" font-size="11" font-weight="bold" fill="#b45309" text-anchor="middle">Làm sạch dữ liệu chiếm phần lớn thời gian!</text>
+</svg></div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Ứng dụng và nghề nghiệp</h2>
+<ul class="list-disc ml-6 space-y-2 my-3">
+<li><strong>Ứng dụng</strong>: dự báo thời tiết, gợi ý phim/nhạc, chấm điểm tín dụng, y tế (chẩn đoán), giao thông (dự báo tắc đường).</li>
+<li><strong>Nghề nghiệp</strong>: nhà khoa học dữ liệu, kĩ sư dữ liệu, chuyên gia phân tích dữ liệu, chuyên gia học máy.</li>
+<li><strong>Kĩ năng cần có</strong>: toán – thống kê, lập trình (Python), trực quan hóa, hiểu lĩnh vực chuyên môn, tư duy phản biện.</li>
+</ul>
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><strong>Khoa học dữ liệu</strong> = trích xuất tri thức từ dữ liệu. Quy trình: <strong>thu thập → tiền xử lý (làm sạch) → phân tích → trực quan hóa → ra quyết định</strong>. Dữ liệu <strong>sạch</strong> là điều kiện để kết quả đáng tin cậy.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Khoa học dữ liệu</strong>: trích xuất tri thức từ dữ liệu (toán + tin học + chuyên ngành).</li>
+<li><strong>5 bước</strong>: thu thập → <strong>tiền xử lý/làm sạch</strong> → phân tích → trực quan hóa → ra quyết định.</li>
+<li><strong>Ứng dụng</strong>: dự báo, gợi ý, y tế, giao thông; <strong>nghề</strong>: nhà khoa học/kĩ sư/chuyên gia phân tích dữ liệu.</li>
+</ul>
+</div>
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
