@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 28: Thực hành trải nghiệm trích rút thông tin và tri thức</title>
+    <meta name="lesson-title" content="Bài 28: Thực hành trải nghiệm trích rút thông tin và tri thức">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 28: Thực hành trải nghiệm trích rút thông tin và tri thức</h1>
+            <p class="text-xs text-slate-500 mt-1">Chủ đề 7: Học máy, Khoa học dữ liệu và mô phỏng • Bài 28: Thực hành trải nghiệm trích rút thông tin và tri thức</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 28: Thực hành trải nghiệm trích rút thông tin và tri thức</h1>
+<p class="text-center text-slate-500 italic mb-8">Chủ đề 7: Học máy, Khoa học dữ liệu và mô phỏng — Kết nối tri thức với cuộc sống</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Mục tiêu thực hành</h2>
+<p>Vận dụng quy trình khoa học dữ liệu vào <strong>bài toán thực tế</strong>: từ dữ liệu thô của lớp/trường, <strong>trích rút thông tin</strong> (tính toán, biểu đồ) và <strong>tri thức</strong> (nhận xét, đề xuất).</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Các bước thực hành</h2>
+<ol class="list-decimal ml-6 space-y-2 my-3">
+<li><strong>Chọn bài toán</strong>: ví dụ "Môn nào HS lớp mình yếu nhất?" — câu hỏi rõ ràng, dữ liệu có sẵn.</li>
+<li><strong>Thu thập dữ liệu</strong>: bảng điểm các môn của lớp (có cấu trúc).</li>
+<li><strong>Làm sạch</strong>: kiểm tra ô trống, trùng lặp, sai sót.</li>
+<li><strong>Trích rút thông tin</strong>: tính điểm TB từng môn, vẽ biểu đồ cột so sánh.</li>
+<li><strong>Trích rút tri thức</strong>: nhận xét môn yếu nhất, tìm nguyên nhân, đề xuất ôn tập.</li>
+<li><strong>Trình bày</strong>: báo cáo ngắn gọn, trực quan, trung thực.</li>
+</ol>
+<pre class="bg-slate-900 text-slate-100 rounded-lg p-4 overflow-x-auto text-sm my-4"><code># Minh họa: điểm TB 3 môn, tìm môn yếu nhất
+toan = [7.5, 8.0, 6.5, 9.0]
+ly = [6.0, 5.5, 7.0, 6.5]
+hoa = [8.5, 9.0, 8.0, 9.5]
+tb_toan = sum(toan) / len(toan)   # 7.75
+tb_ly = sum(ly) / len(ly)         # 6.25
+tb_hoa = sum(hoa) / len(hoa)       # 8.75
+print(tb_toan, tb_ly, tb_hoa)</code></pre>
+<p><strong>Trace</strong>: tổng Toán = 31.0, TB = 31.0/4 = <strong>7.75</strong>; tổng Lý = 25.0, TB = <strong>6.25</strong>; tổng Hóa = 35.0, TB = <strong>8.75</strong>. In ra <strong>7.75 6.25 8.75</strong> → môn yếu nhất là <strong>Lý</strong> (tri thức rút ra).</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Yêu cầu với báo cáo</h2>
+<ul class="list-disc ml-6 space-y-2 my-3">
+<li><strong>Trung thực</strong>: không bóp méo số liệu, biểu đồ đúng tỉ lệ.</li>
+<li><strong>Rõ ràng</strong>: câu hỏi, dữ liệu, cách làm, kết quả, đề xuất.</li>
+<li><strong>Bảo mật</strong>: ẩn tên HS khi trình bày công khai.</li>
+</ul>
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Thực hành KHDL: <strong>câu hỏi rõ → thu thập → làm sạch → trích rút thông tin (tính, vẽ) → trích rút tri thức (nhận xét, đề xuất) → trình bày</strong>. Báo cáo phải <strong>trung thực, rõ ràng, bảo mật</strong> thông tin cá nhân.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Thực hành</strong>: áp dụng quy trình KHDL vào bài toán thực tế của lớp/trường.</li>
+<li><strong>6 bước</strong>: câu hỏi → thu thập → làm sạch → thông tin → tri thức → trình bày.</li>
+<li><strong>Yêu cầu</strong>: trung thực số liệu, rõ ràng, ẩn danh khi công khai.</li>
+</ul>
+</div>
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
