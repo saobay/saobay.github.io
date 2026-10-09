@@ -386,7 +386,7 @@ window.__tabRefresh = window.__tabRefresh || {};
 
 // Fit lai canvas khi chuyen tab (tab an co width=0)
 window.__fitAll = function(){
-  try { var c=document.getElementById('cv-micro'); if(c && c.offsetParent){ var r=c.getBoundingClientRect(),d=window.devicePixelRatio||1; c.width=r.width*d; c.height=(parseInt(c.getAttribute('height'))||300)*d; var x2=c.getContext('2d'); x2.setTransform(d,0,0,d,0,0); } } catch(e){}
+  try { var c=document.getElementById('cv-micro'); if(c && c.offsetParent){ fitCanvas(c); } } catch(e){}
 };
 </script>
 </body>
