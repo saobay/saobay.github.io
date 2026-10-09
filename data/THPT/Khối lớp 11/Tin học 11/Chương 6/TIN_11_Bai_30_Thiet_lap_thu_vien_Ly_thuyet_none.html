@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay | Ma nguon thuoc nen tang hoc tap SAOBAY | Nghiem cam sao chep duoi moi hinh thuc -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 30: Thiết lập thư viện cho chương trình</title>
+    <meta name="lesson-title" content="Bài 30: Thiết lập thư viện cho chương trình">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 30: Thiết lập thư viện cho chương trình</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 6: Kĩ thuật lập trình • Bài 30: Thiết lập thư viện cho chương trình</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 30: Thiết lập thư viện cho chương trình</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 6: Kĩ thuật lập trình — sách Kết nối tri thức với cuộc sống</p>
+
+<!-- 1. Thư viện là gì -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Thư viện là gì? Vì sao cần thư viện?</h2>
+
+<p><strong>Thư viện (library)</strong> là tập hợp các <strong>mô đun/hàm</strong> đã được viết sẵn, kiểm thử kĩ và <strong>dùng chung</strong> cho nhiều chương trình.</p>
+
+<p><strong>Vì sao cần thư viện:</strong></p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Không viết lại:</strong> dùng ngay hàm có sẵn thay vì tự viết lại từ đầu.</li>
+<li><strong>Đáng tin cậy:</strong> hàm trong thư viện đã được kiểm thử kĩ.</li>
+<li><strong>Tiết kiệm thời gian:</strong> tập trung vào logic chính của bài toán.</li>
+</ul>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Thay vì tự viết hàm tính căn bậc hai, ta dùng <code>math.sqrt()</code>. Thay vì tự viết tìm kiếm nhị phân, ta dùng <code>bisect.bisect_left()</code>.</p>
+</div>
+
+<!-- 2. Sử dụng thư viện có sẵn -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Sử dụng thư viện có sẵn trong Python</h2>
+
+<p>Dùng lệnh <code>import</code> để nạp thư viện:</p>
+
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2">import math
+print(math.sqrt(16))      # 4.0
+print(math.pi)            # 3.141592653589793
+
+import bisect
+a = [2, 5, 8, 12]
+print(bisect.bisect_left(a, 8))  # 2
+
+from math import sqrt, pi
+print(sqrt(25))           # 5.0 (không cần tiền tố math.)
+print(pi)</pre>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-sm my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Cách import</td><td class="border border-slate-300 px-4 py-1">Ý nghĩa</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><code>import math</code></td><td class="border border-slate-300 px-4 py-1">Nạp cả thư viện, gọi qua tiền tố <code>math.</code></td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><code>from math import sqrt</code></td><td class="border border-slate-300 px-4 py-1">Chỉ nạp hàm <code>sqrt</code>, gọi trực tiếp</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><code>import math as m</code></td><td class="border border-slate-300 px-4 py-1">Đặt tên ngắn gọn <code>m</code> cho thư viện</td></tr>
+</table></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><code>from math import *</code> nạp tất cả nhưng <strong>dễ trùng tên</strong> — nên liệt kê rõ hàm cần dùng.</p>
+</div>
+
+<!-- 3. Tự thiết lập thư viện riêng -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Tự thiết lập thư viện riêng</h2>
+
+<p>Các bước tạo thư viện <code>toan_hoc.py</code> của riêng mình:</p>
+<ol class="list-decimal ml-6 space-y-1 my-3">
+<li><strong>Viết file</strong> <code>toan_hoc.py</code> chứa các hàm dùng chung.</li>
+<li><strong>Đặt file</strong> cùng thư mục với chương trình chính (hoặc nơi Python tìm thấy).</li>
+<li><strong>import</strong> và sử dụng trong chương trình chính.</li>
+</ol>
+
+<p><strong>File <code>toan_hoc.py</code>:</strong></p>
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2">def tinh_tong(a):
+    s = 0
+    for x in a:
+        s = s + x
+    return s
+
+def tim_max(a):
+    mx = a[0]
+    for x in a:
+        if x == max(x, mx):
+            mx = x
+    return mx</pre>
+
+<p><strong>Chương trình chính <code>main.py</code>:</strong></p>
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2">import toan_hoc
+
+diem = [8, 7, 9, 6]
+print(toan_hoc.tinh_tong(diem))  # 30
+print(toan_hoc.tim_max(diem))    # 9</pre>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Quy tắc đặt tên file thư viện:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>Tên file là tên thư viện (không có <code>.py</code> khi import).</li>
+<li>Chỉ dùng chữ cái, số và gạch dưới; không trùng tên thư viện chuẩn.</li>
+</ul>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">⚠️ Lỗi thường gặp</p>
+<ul class="list-disc ml-6 space-y-1 mt-1">
+<li>File thư viện không cùng thư mục → lỗi <code>ModuleNotFoundError</code>.</li>
+<li>Quên tiền tố khi dùng <code>import math</code> (viết <code>sqrt(16)</code> thay vì <code>math.sqrt(16)</code>).</li>
+<li>Trùng tên hàm của mình với hàm thư viện → hàm thư viện bị ghi đè.</li>
+</ul>
+</div>
+
+<!-- Tóm tắt -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Thư viện:</strong> tập hợp hàm viết sẵn, dùng chung cho nhiều chương trình.</li>
+<li><strong>Sử dụng:</strong> <code>import math</code>, <code>from math import sqrt</code>, <code>import math as m</code>.</li>
+<li><strong>Tự tạo:</strong> viết file <code>.py</code> chứa các hàm, đặt cùng thư mục, rồi <code>import</code>.</li>
+<li><strong>Lợi ích:</strong> không viết lại, đáng tin cậy, tiết kiệm thời gian.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">
+(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok){if(document.body){document.body.innerHTML='<div style="font-family:system-ui,sans-serif;max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff"><h2 style="color:#0f172a;margin-top:0">© SAOBAY — Trường THPT Sào Báy</h2><p style="color:#475569">Nội dung này chỉ được hiển thị tại địa chỉ chính thức <b>saobay.github.io</b>.</p><p style="color:#475569">Vui lòng truy cập đúng địa chỉ để học tập.</p></div>';}else{document.write("SAOBAY: truy cap tai saobay.github.io");}}catch(e){}})();
+</script>
+</body>
+</html>
