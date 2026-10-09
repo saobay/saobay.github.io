@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 22: Ba đường conic</title>
+    <meta name="lesson-title" content="Bài 22: Ba đường conic">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 22: Ba đường conic</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 7: Phương pháp tọa độ trong mặt phẳng • Bài 22: Ba đường conic</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 22: Ba đường conic</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 7: Phương pháp tọa độ trong mặt phẳng — Toán 10 (Kết nối tri thức với cuộc sống)</p>
+
+<p>Ba đường <em>conic</em> là <strong>elip</strong>, <strong>hypebol</strong> và <strong>parabol</strong> — các đường thu được khi cắt một mặt nón tròn xoay bằng một mặt phẳng. Trong bài này ta học phương trình chính tắc và các yếu tố của chúng.</p>
+
+<!-- 1. Elip -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Elip</h2>
+
+<p><strong>Định nghĩa:</strong> Cho hai điểm cố định $F_1, F_2$ và độ dài không đổi $2a$ ($a > 0$, $2a > F_1F_2$). <em>Elip</em> $(E)$ là tập hợp các điểm $M$ sao cho:</p>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$MF_1 + MF_2 = 2a$$</p>
+</div>
+<p>$F_1, F_2$ gọi là các <em>tiêu điểm</em>; $F_1F_2 = 2c$ gọi là <em>tiêu cự</em>.</p>
+
+<p><strong>Phương trình chính tắc</strong> của elip (tiêu điểm nằm trên $Ox$, đối xứng qua $O$):</p>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$\frac{x^2}{a^2} + \frac{y^2}{b^2} = 1 \quad (a > b > 0)$$</p>
+<p class="text-sm text-slate-600 mt-1">với $b^2 = a^2 - c^2$, tức $c = \sqrt{a^2 - b^2}$.</p>
+</div>
+
+<p><strong>Các yếu tố:</strong> tiêu điểm $F_1(-c; 0)$, $F_2(c; 0)$; bốn đỉnh $A_1(-a; 0)$, $A_2(a; 0)$, $B_1(0; -b)$, $B_2(0; b)$; độ dài trục lớn $A_1A_2 = 2a$, trục nhỏ $B_1B_2 = 2b$.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Cho $(E): \frac{x^2}{25} + \frac{y^2}{16} = 1$. Tìm $a, b, c$ và tọa độ các tiêu điểm.</p>
+<p class="mt-2"><strong>Lời giải:</strong> $a^2 = 25 \Rightarrow a = 5$; $b^2 = 16 \Rightarrow b = 4$; $c = \sqrt{25 - 16} = 3$.</p>
+<p>Tiêu điểm $F_1(-3; 0)$, $F_2(3; 0)$; trục lớn $2a = 10$, trục nhỏ $2b = 8$.</p>
+</div>
+
+<!-- 2. Hypebol -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Hypebol</h2>
+
+<p><strong>Định nghĩa:</strong> Cho hai điểm cố định $F_1, F_2$ và độ dài không đổi $2a$ ($0 < 2a < F_1F_2$). <em>Hypebol</em> $(H)$ là tập hợp các điểm $M$ sao cho:</p>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$|MF_1 - MF_2| = 2a$$</p>
+</div>
+
+<p><strong>Phương trình chính tắc:</strong></p>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$\frac{x^2}{a^2} - \frac{y^2}{b^2} = 1 \quad (a > 0, b > 0)$$</p>
+<p class="text-sm text-slate-600 mt-1">với $c^2 = a^2 + b^2$ (chú ý <strong>dấu cộng</strong>, khác elip!).</p>
+</div>
+
+<p><strong>Các yếu tố:</strong> tiêu điểm $F_1(-c; 0)$, $F_2(c; 0)$; hai đỉnh $A_1(-a; 0)$, $A_2(a; 0)$; hai đường tiệm cận $y = \pm\frac{b}{a}x$.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Cho $(H): \frac{x^2}{9} - \frac{y^2}{16} = 1$. Tìm $c$ và tọa độ các tiêu điểm.</p>
+<p class="mt-2"><strong>Lời giải:</strong> $a^2 = 9$, $b^2 = 16$; $c = \sqrt{9 + 16} = 5$.</p>
+<p>Tiêu điểm $F_1(-5; 0)$, $F_2(5; 0)$; tiệm cận $y = \pm\frac{4}{3}x$.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Phân biệt nhanh: elip có <strong>dấu $+$</strong> và $c^2 = a^2 - b^2$ (<strong>trừ</strong>); hypebol có <strong>dấu $-$</strong> và $c^2 = a^2 + b^2$ (<strong>cộng</strong>). Dấu trong phương trình ngược với dấu trong công thức $c$!</p>
+</div>
+
+<!-- 3. Parabol -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Parabol</h2>
+
+<p><strong>Định nghĩa:</strong> Cho điểm cố định $F$ và đường thẳng cố định $\Delta$ không đi qua $F$. <em>Parabol</em> $(P)$ là tập hợp các điểm $M$ sao cho:</p>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$MF = d(M, \Delta)$$</p>
+</div>
+<p>$F$ gọi là <em>tiêu điểm</em>, $\Delta$ gọi là <em>đường chuẩn</em>.</p>
+
+<p><strong>Phương trình chính tắc</strong> (tiêu điểm $F\left(\frac{p}{2}; 0\right)$, đường chuẩn $\Delta: x = -\frac{p}{2}$, $p > 0$):</p>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$y^2 = 2px \quad (p > 0)$$</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Cho $(P): y^2 = 8x$. Tìm $p$, tiêu điểm và đường chuẩn.</p>
+<p class="mt-2"><strong>Lời giải:</strong> $2p = 8 \Rightarrow p = 4$. Tiêu điểm $F(2; 0)$, đường chuẩn $\Delta: x = -2$.</p>
+</div>
+
+<!-- SVG 3 conic -->
+<div class="svg-fig"><svg viewBox="0 0 440 270" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ba đường conic: elip, hypebol, parabol">
+<rect x="2" y="2" width="436" height="266" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<ellipse cx="110" cy="120" rx="80" ry="52" fill="none" stroke="#1d4ed8" stroke-width="2.5"/>
+<circle cx="84" cy="120" r="4" fill="#dc2626"/><circle cx="136" cy="120" r="4" fill="#dc2626"/>
+<text x="110" y="200" font-size="14" font-weight="bold" fill="#1d4ed8" text-anchor="middle">Elip</text>
+<text x="110" y="220" font-size="11" fill="#64748b" text-anchor="middle">MF₁ + MF₂ = 2a</text>
+<path d="M 250 60 Q 180 120 250 180" fill="none" stroke="#16a34a" stroke-width="2.5"/>
+<path d="M 250 60 Q 320 120 250 180" fill="none" stroke="#16a34a" stroke-width="2.5"/>
+<text x="250" y="200" font-size="14" font-weight="bold" fill="#16a34a" text-anchor="middle">Hypebol</text>
+<text x="250" y="220" font-size="11" fill="#64748b" text-anchor="middle">|MF₁ − MF₂| = 2a</text>
+<path d="M 400 40 Q 330 120 400 200" fill="none" stroke="#ea580c" stroke-width="2.5"/>
+<line x1="352" y1="40" x2="352" y2="200" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5,4"/>
+<circle cx="382" cy="120" r="4" fill="#dc2626"/>
+<text x="382" y="240" font-size="14" font-weight="bold" fill="#ea580c" text-anchor="middle">Parabol</text>
+<text x="382" y="258" font-size="11" fill="#64748b" text-anchor="middle">MF = d(M, Δ)</text>
+</svg></div>
+
+<!-- Bang so sanh -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Bảng so sánh ba đường conic</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Đường</td><td class="border border-slate-300 px-4 py-1">Định nghĩa</td><td class="border border-slate-300 px-4 py-1">PT chính tắc</td><td class="border border-slate-300 px-4 py-1">Tiêu điểm</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold text-blue-700">Elip</td><td class="border border-slate-300 px-4 py-1">$MF_1 + MF_2 = 2a$</td><td class="border border-slate-300 px-4 py-1">$\frac{x^2}{a^2} + \frac{y^2}{b^2} = 1$</td><td class="border border-slate-300 px-4 py-1">$(\pm c; 0)$, $c^2 = a^2 - b^2$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold text-emerald-700">Hypebol</td><td class="border border-slate-300 px-4 py-1">$|MF_1 - MF_2| = 2a$</td><td class="border border-slate-300 px-4 py-1">$\frac{x^2}{a^2} - \frac{y^2}{b^2} = 1$</td><td class="border border-slate-300 px-4 py-1">$(\pm c; 0)$, $c^2 = a^2 + b^2$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold text-orange-700">Parabol</td><td class="border border-slate-300 px-4 py-1">$MF = d(M, \Delta)$</td><td class="border border-slate-300 px-4 py-1">$y^2 = 2px$</td><td class="border border-slate-300 px-4 py-1">$F\left(\frac{p}{2}; 0\right)$, $\Delta: x = -\frac{p}{2}$</td></tr>
+</table></div>
+
+<!-- Tom tat -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Elip:</strong> $MF_1 + MF_2 = 2a$; $\frac{x^2}{a^2} + \frac{y^2}{b^2} = 1$; $c^2 = a^2 - b^2$; 4 đỉnh, trục lớn $2a$, trục nhỏ $2b$.</li>
+<li><strong>Hypebol:</strong> $|MF_1 - MF_2| = 2a$; $\frac{x^2}{a^2} - \frac{y^2}{b^2} = 1$; $c^2 = a^2 + b^2$; 2 đỉnh $(\pm a; 0)$; tiệm cận $y = \pm\frac{b}{a}x$.</li>
+<li><strong>Parabol:</strong> $MF = d(M, \Delta)$; $y^2 = 2px$; tiêu điểm $F\left(\frac{p}{2}; 0\right)$; đường chuẩn $x = -\frac{p}{2}$.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+
+</div>
+
+        </div>
+    </div>
+</body>
+</html>
