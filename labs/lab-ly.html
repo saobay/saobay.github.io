@@ -10,52 +10,51 @@
   .tab-btn.active { background: #1d4ed8; color: #fff; }
   canvas { touch-action: none; }
   .big-btn { min-height: 52px; }
+canvas{height:auto !important;max-width:100%;}
 </style>
 </head>
 <body class="bg-slate-100 min-h-screen">
 <div class="max-w-3xl mx-auto pb-10">
   <!-- Header -->
   <div class="bg-gradient-to-r from-blue-700 to-indigo-700 text-white px-4 py-3 sticky top-0 z-10 shadow">
-    <div class="flex items-center gap-2">
-      <a href="../index.html" class="shrink-0 w-10 h-10 rounded-xl bg-white/20 hover:bg-white/30 flex items-center justify-center text-xl" title="Về trang chủ">🏠</a>
-      <div class="min-w-0">
-        <h1 class="text-base font-black truncate">⚗️ Phòng thí nghiệm Vật lý ảo</h1>
-        <p class="text-[11px] opacity-80 truncate">Kéo • Chạm • Thử nghiệm — học Vật lý bằng tay</p>
+    <div class="flex items-center gap-3">
+      <a href="../index.html" class="shrink-0 bg-white/25 hover:bg-white/40 border border-white/50 text-white font-black rounded-xl px-4 py-3 text-base leading-none">🏠 Trang chủ</a>
+      <div>
+        <h1 class="text-lg font-black">⚗️ Phòng thí nghiệm Vật lý ảo</h1>
+        <p class="text-xs opacity-80">Kéo • Chạm • Thử nghiệm — học Vật lý bằng tay</p>
       </div>
     </div>
   </div>
 
   <!-- Tabs -->
   <div class="flex gap-2 px-3 mt-3">
-    <button class="tab-btn active flex-1 big-btn rounded-xl bg-white shadow font-bold text-xs md:text-sm" data-tab="pendulum">🕰️ Con lắc</button>
-    <button class="tab-btn flex-1 big-btn rounded-xl bg-white shadow font-bold text-xs md:text-sm" data-tab="circuit">💡 Mạch điện</button>
-    <button class="tab-btn flex-1 big-btn rounded-xl bg-white shadow font-bold text-xs md:text-sm" data-tab="fall">🍎 Rơi tự do</button>
-  </div>
-  <div class="flex gap-2 px-3 mt-2">
-    <button class="tab-btn flex-1 big-btn rounded-xl bg-white shadow font-bold text-xs md:text-sm" data-tab="wave">🌊 Sóng</button>
-    <button class="tab-btn flex-1 big-btn rounded-xl bg-white shadow font-bold text-xs md:text-sm" data-tab="light">🔦 Ánh sáng</button>
-    <button class="tab-btn flex-1 big-btn rounded-xl bg-white shadow font-bold text-xs md:text-sm" data-tab="force">💪 Lực</button>
+    <button class="tab-btn active flex-1 big-btn rounded-xl bg-white shadow font-bold text-sm" data-tab="pendulum">🕰️ Con lắc</button>
+    <button class="tab-btn flex-1 big-btn rounded-xl bg-white shadow font-bold text-sm" data-tab="circuit">💡 Mạch điện</button>
+    <button class="tab-btn flex-1 big-btn rounded-xl bg-white shadow font-bold text-sm" data-tab="fall">🍎 Rơi tự do</button>
   </div>
 
   <!-- ===== TAB 1: CON LẮC ĐƠN ===== -->
   <div id="tab-pendulum" class="tab-panel px-3 mt-3">
-    <div class="bg-white rounded-2xl shadow p-3">
-      <h2 class="font-black text-blue-800 mb-1">Con lắc đơn <span class="text-xs font-normal text-slate-400">— kéo quả nặng để đặt góc</span></h2>
-      <div class="flex gap-2 mb-2">
+    <div class="bg-white rounded-2xl shadow p-4">
+      <h2 class="font-black text-blue-800 mb-1">Con lắc đơn</h2>
+      <p class="text-xs text-slate-500 mb-2">Kéo quả nặng sang một bên để đặt góc, rồi bấm <b>Thả</b>. Đồng hồ đo chu kỳ dao động.</p>
+      <canvas id="cv-pendulum" class="w-full rounded-xl bg-slate-50 border" height="320"></canvas>
+      <div class="grid grid-cols-2 gap-2 mt-3 text-sm">
+        <div>
+          <label class="text-xs font-bold text-slate-600">Chiều dài dây l (m)</label>
+          <input id="pend-L" type="range" min="0.5" max="2" step="0.1" value="1" class="w-full">
+          <div class="text-center font-black text-blue-700"><span id="pend-L-val">1.0</span> m</div>
+        </div>
+        <div>
+          <label class="text-xs font-bold text-slate-600">Góc thả θ₀</label>
+          <input id="pend-A" type="range" min="5" max="60" step="1" value="20" class="w-full">
+          <div class="text-center font-black text-blue-700"><span id="pend-A-val">20</span>°</div>
+        </div>
+      </div>
+      <div class="flex gap-2 mt-3">
         <button id="pend-run" class="big-btn flex-1 bg-blue-600 text-white font-black rounded-xl">▶ Thả con lắc</button>
         <button id="pend-stop" class="big-btn flex-1 bg-slate-300 font-black rounded-xl">⏸ Dừng</button>
-        <button id="pend-reset-t" class="big-btn px-4 bg-amber-100 font-black rounded-xl">↺</button>
-      </div>
-      <canvas id="cv-pendulum" class="w-full rounded-xl bg-slate-50 border" height="220"></canvas>
-      <div class="grid grid-cols-2 gap-2 mt-2 text-sm">
-        <div>
-          <label class="text-xs font-bold text-slate-600">Dây l (m): <span id="pend-L-val" class="text-blue-700">1.0</span></label>
-          <input id="pend-L" type="range" min="0.5" max="2" step="0.1" value="1" class="w-full">
-        </div>
-        <div>
-          <label class="text-xs font-bold text-slate-600">Góc θ₀: <span id="pend-A-val" class="text-blue-700">20</span>°</label>
-          <input id="pend-A" type="range" min="5" max="60" step="1" value="20" class="w-full">
-        </div>
+        <button id="pend-reset-t" class="big-btn px-4 bg-amber-100 font-black rounded-xl">↺ Đo lại</button>
       </div>
       <div class="grid grid-cols-2 gap-2 mt-3 text-center">
         <div class="bg-blue-50 rounded-xl p-2">
@@ -73,12 +72,13 @@
 
   <!-- ===== TAB 2: MẠCH ĐIỆN ===== -->
   <div id="tab-circuit" class="tab-panel px-3 mt-3 hidden">
-    <div class="bg-white rounded-2xl shadow p-3">
+    <div class="bg-white rounded-2xl shadow p-4">
       <h2 class="font-black text-amber-700 mb-1">Mạch điện đơn giản</h2>
-      <div class="flex gap-2 mb-2">
+      <p class="text-xs text-slate-500 mb-2">Chạm vào <b>công tắc</b> để đóng / ngắt mạch. Quan sát bóng đèn và dòng điện.</p>
+      <canvas id="cv-circuit" class="w-full rounded-xl bg-slate-900 border" height="300"></canvas>
+      <div class="flex gap-2 mt-3">
         <button id="sw-toggle" class="big-btn flex-1 bg-amber-500 text-white font-black rounded-xl">🔌 Đóng công tắc</button>
       </div>
-      <canvas id="cv-circuit" class="w-full rounded-xl bg-slate-900 border" height="200"></canvas>
       <div class="grid grid-cols-3 gap-2 mt-3 text-center text-sm">
         <div class="bg-slate-50 rounded-xl p-2">
           <div class="text-[11px] text-slate-500">Pin</div>
@@ -99,17 +99,15 @@
 
   <!-- ===== TAB 3: RƠI TỰ DO ===== -->
   <div id="tab-fall" class="tab-panel px-3 mt-3 hidden">
-    <div class="bg-white rounded-2xl shadow p-3">
+    <div class="bg-white rounded-2xl shadow p-4">
       <h2 class="font-black text-rose-700 mb-1">Rơi tự do</h2>
-      <div class="flex gap-2 mb-2">
-        <button id="fall-drop" class="big-btn flex-1 bg-rose-600 text-white font-black rounded-xl">⬇ Thả vật</button>
-        <button id="fall-reset" class="big-btn px-4 bg-slate-300 font-black rounded-xl">↺</button>
-      </div>
-      <canvas id="cv-fall" class="w-full rounded-xl bg-gradient-to-b from-sky-100 to-sky-50 border" height="220"></canvas>
-      <div class="grid grid-cols-2 gap-2 mt-2">
+      <p class="text-xs text-slate-500 mb-2">Chọn độ cao, bấm <b>Thả</b>. So sánh thời gian rơi — vật nặng hay nhẹ rơi nhanh như nhau!</p>
+      <canvas id="cv-fall" class="w-full rounded-xl bg-gradient-to-b from-sky-100 to-sky-50 border" height="340"></canvas>
+      <div class="grid grid-cols-2 gap-2 mt-3">
         <div>
-          <label class="text-xs font-bold text-slate-600">Độ cao: <span id="fall-h-val" class="text-rose-700">20</span> m</label>
+          <label class="text-xs font-bold text-slate-600">Độ cao h (m)</label>
           <input id="fall-h" type="range" min="5" max="100" step="5" value="20" class="w-full">
+          <div class="text-center font-black text-rose-700"><span id="fall-h-val">20</span> m</div>
         </div>
         <div>
           <label class="text-xs font-bold text-slate-600">Vật</label>
@@ -120,68 +118,12 @@
           </select>
         </div>
       </div>
+      <div class="flex gap-2 mt-3">
+        <button id="fall-drop" class="big-btn flex-1 bg-rose-600 text-white font-black rounded-xl">⬇ Thả vật</button>
+        <button id="fall-reset" class="big-btn px-4 bg-slate-300 font-black rounded-xl">↺</button>
+      </div>
       <div id="fall-log" class="mt-3 space-y-1 text-sm"></div>
       <p class="text-[11px] text-slate-500 mt-2">💡 Công thức: t = √(2h/g), g = 9.8 m/s². Khối lượng không ảnh hưởng thời gian rơi (bỏ qua sức cản không khí).</p>
-    </div>
-  </div>
-
-  <!-- ===== TAB 4: SÓNG ===== -->
-  <div id="tab-wave" class="tab-panel px-3 mt-3 hidden">
-    <div class="bg-white rounded-2xl shadow p-3">
-      <h2 class="font-black text-cyan-700 mb-1">Sóng ngang</h2>
-      <div class="flex gap-2 mb-2">
-        <button id="wave-run" class="big-btn flex-1 bg-cyan-600 text-white font-black rounded-xl">▶ Chạy sóng</button>
-        <button id="wave-stop" class="big-btn px-4 bg-slate-300 font-black rounded-xl">⏸</button>
-      </div>
-      <canvas id="cv-wave" class="w-full rounded-xl bg-slate-900 border" height="220"></canvas>
-      <div class="grid grid-cols-2 gap-2 mt-2">
-        <div>
-          <label class="text-xs font-bold text-slate-600">Biên độ: <span id="wave-amp-val" class="text-cyan-700">35</span></label>
-          <input id="wave-amp" type="range" min="10" max="60" value="35" class="w-full">
-        </div>
-        <div>
-          <label class="text-xs font-bold text-slate-600">Tần số: <span id="wave-freq-val" class="text-cyan-700">3</span> Hz</label>
-          <input id="wave-freq" type="range" min="1" max="10" value="3" class="w-full">
-        </div>
-      </div>
-      <p class="text-[11px] text-slate-500 mt-2">💡 Điểm đỏ dao động lên xuống tại chỗ — sóng truyền năng lượng, không truyền vật chất.</p>
-    </div>
-  </div>
-
-  <!-- ===== TAB 5: ÁNH SÁNG ===== -->
-  <div id="tab-light" class="tab-panel px-3 mt-3 hidden">
-    <div class="bg-white rounded-2xl shadow p-3">
-      <h2 class="font-black text-amber-600 mb-1">Khúc xạ ánh sáng</h2>
-      <div class="mb-2">
-        <label class="text-xs font-bold text-slate-600">Góc tới i: <span id="light-ang-val" class="text-amber-600">30</span>°</label>
-        <input id="light-ang" type="range" min="0" max="80" value="30" class="w-full">
-      </div>
-      <canvas id="cv-light" class="w-full rounded-xl bg-slate-50 border" height="240"></canvas>
-      <div id="light-info" class="mt-2 text-sm bg-amber-50 border border-amber-200 rounded-xl p-2.5"></div>
-      <p class="text-[11px] text-slate-500 mt-2">💡 Định luật khúc xạ: sin i / sin r = n₂/n₁ (n<sub>nước</sub> = 1.33).</p>
-    </div>
-  </div>
-
-  <!-- ===== TAB 6: LỰC ===== -->
-  <div id="tab-force" class="tab-panel px-3 mt-3 hidden">
-    <div class="bg-white rounded-2xl shadow p-3">
-      <h2 class="font-black text-violet-700 mb-1">Tổng hợp lực</h2>
-      <div class="flex gap-2 mb-2">
-        <button id="force-run" class="big-btn flex-1 bg-violet-600 text-white font-black rounded-xl">▶ Thả vật</button>
-        <button id="force-reset" class="big-btn px-4 bg-slate-300 font-black rounded-xl">↺</button>
-      </div>
-      <canvas id="cv-force" class="w-full rounded-xl bg-slate-50 border" height="220"></canvas>
-      <div class="grid grid-cols-2 gap-2 mt-2">
-        <div>
-          <label class="text-xs font-bold text-slate-600">F₁ →: <span id="force-f1-val" class="text-violet-700">20</span> N</label>
-          <input id="force-f1" type="range" min="0" max="50" value="20" class="w-full">
-        </div>
-        <div>
-          <label class="text-xs font-bold text-slate-600">← F₂: <span id="force-f2-val" class="text-violet-700">10</span> N</label>
-          <input id="force-f2" type="range" min="0" max="50" value="10" class="w-full">
-        </div>
-      </div>
-      <div id="force-info" class="mt-2 text-sm bg-violet-50 border border-violet-200 rounded-xl p-2.5"></div>
     </div>
   </div>
 </div>
@@ -195,20 +137,21 @@ document.querySelectorAll('.tab-btn').forEach(function(b){
     document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.add('hidden'); });
     document.getElementById('tab-' + b.dataset.tab).classList.remove('hidden');
     if (window.__fitAll) { try { window.__fitAll(); } catch(e){} }
-    var _rf = window.__tabRefresh && window.__tabRefresh[b.dataset.tab];
-    if (_rf) { try { _rf(); } catch(e){} }
   });
 });
 function fitCanvas(cv){
-  var hAttr = parseInt(cv.getAttribute('height')) || 300;
-  cv.style.height = hAttr + 'px';
   var r = cv.getBoundingClientRect(), d = window.devicePixelRatio || 1;
-  if (r.width < 10) return null; // tab an -> bo qua
-  cv.width = Math.max(1, Math.round(r.width * d)); cv.height = Math.round(hAttr * d);
+  var H = parseInt(cv.getAttribute('height')) || 300;
+  if (!r.width || !cv.offsetParent){
+    // Canvas dang an (tab chua mo / resize luc cuon): KHONG dung vao width/height
+    // de tranh ti le vo cuc lam canvas phong cao vo tan. Tra ve fallback an toan.
+    return {ctx: cv.getContext('2d'), w: 360, h: H, hidden: true};
+  }
+  cv.width = r.width * d; cv.height = H * d;
   var ctx = cv.getContext('2d'); ctx.setTransform(d,0,0,d,0,0);
-  return {ctx: ctx, w: r.width, h: hAttr};
+  return {ctx: ctx, w: r.width, h: H, hidden: false};
 }
-window.__tabRefresh = window.__tabRefresh || {};
+window.__refits = window.__refits || [];
 
 // ================= 1. CON LẮC ĐƠN =================
 (function(){
@@ -216,9 +159,9 @@ window.__tabRefresh = window.__tabRefresh || {};
   var L = 1, theta0 = 20*Math.PI/180, theta = theta0, omega = 0, running = false, last = 0;
   var g = 9.8, t = 0, lastCross = -1, periods = [], dragging = false;
   var G = fitCanvas(cv);
-  window.__tabRefresh = window.__tabRefresh || {};
-  window.__tabRefresh['pendulum'] = function(){ var ng = fitCanvas(cv); if (ng) G = ng; };
-  window.addEventListener('resize', function(){ var ng = fitCanvas(cv); if (ng) G = ng; });
+  var __refit = function(){ var g2 = fitCanvas(cv); if (g2 && !g2.hidden) G = g2; };
+  window.__refits.push(__refit);
+  window.addEventListener('resize', __refit);
 
   document.getElementById('pend-L').addEventListener('input', function(e){
     L = parseFloat(e.target.value);
@@ -267,7 +210,6 @@ window.__tabRefresh = window.__tabRefresh || {};
   });
 
   function draw(){
-    if (!G){ var _ng = fitCanvas(cv); if (_ng) G = _ng; else { requestAnimationFrame(draw); return; } }
     var ctx = G.ctx; ctx.clearRect(0,0,G.w,G.h);
     var b = bobPos();
     // Giá treo
@@ -281,13 +223,12 @@ window.__tabRefresh = window.__tabRefresh || {};
     ctx.fillStyle = grad; ctx.beginPath(); ctx.arc(b.bx,b.by,20,0,7); ctx.fill();
     ctx.fillStyle = '#1e3a8a'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'center';
     ctx.fillText('m', b.bx, b.by+4);
-    // Góc (do tu phuong thang dung huong xuong)
+    // Góc
     if (Math.abs(theta) > 0.03){
       ctx.strokeStyle = '#f59e0b'; ctx.lineWidth = 2;
-      var a0 = Math.PI/2, a1 = Math.PI/2 - theta;
-      ctx.beginPath(); ctx.arc(b.px, b.py+8, 44, Math.min(a0,a1), Math.max(a0,a1)); ctx.stroke();
-      ctx.fillStyle = '#b45309'; ctx.font = '12px sans-serif'; ctx.textAlign = 'center';
-      ctx.fillText(Math.round(Math.abs(theta)*180/Math.PI)+'°', b.px + Math.sin(theta)*70, b.py+8 + Math.cos(theta)*70);
+      ctx.beginPath(); ctx.arc(b.px, b.py+8, 44, -Math.PI/2, -Math.PI/2 + (theta>0?1:-1)*Math.abs(theta)); ctx.stroke();
+      ctx.fillStyle = '#b45309'; ctx.font = '12px sans-serif';
+      ctx.fillText(Math.round(Math.abs(theta)*180/Math.PI)+'°', b.px + (theta>0?52:-52), b.py+60);
     }
     ctx.fillStyle = '#94a3b8'; ctx.font = '11px sans-serif'; ctx.textAlign = 'left';
     ctx.fillText('Kéo quả nặng để đổi góc thả', 8, G.h-10);
@@ -342,9 +283,9 @@ window.__tabRefresh = window.__tabRefresh || {};
 (function(){
   var cv = document.getElementById('cv-circuit');
   var G = fitCanvas(cv);
-  window.__tabRefresh = window.__tabRefresh || {};
-  window.__tabRefresh['circuit'] = function(){ var ng = fitCanvas(cv); if (ng) G = ng; };
-  window.addEventListener('resize', function(){ var ng = fitCanvas(cv); if (ng) G = ng; });
+  var __refit = function(){ var g2 = fitCanvas(cv); if (g2 && !g2.hidden) G = g2; };
+  window.__refits.push(__refit);
+  window.addEventListener('resize', __refit);
   var closed = false, flowT = 0;
 
   document.getElementById('sw-toggle').addEventListener('click', function(){
@@ -363,22 +304,20 @@ window.__tabRefresh = window.__tabRefresh || {};
   });
 
   function draw(){
-    if (!G){ var _ng = fitCanvas(cv); if (_ng) G = _ng; else { requestAnimationFrame(draw); return; } }
     var ctx = G.ctx, W = G.w, H = G.h;
     ctx.clearRect(0,0,W,H);
-    var x0=50, x1=W-50, yT=70, yB=H-25;
+    var x0=50, x1=W-50, yT=90, yB=210;
     ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 4;
     // Dây dẫn
     ctx.beginPath();
     ctx.moveTo(x0,yB); ctx.lineTo(x0,yT); ctx.lineTo(x1,yT); ctx.lineTo(x1,yB); ctx.lineTo(x0,yB);
     ctx.stroke();
-    // Pin (trái) - nam giua day trai
-    var pinY = (yT + yB) / 2;
-    ctx.fillStyle = '#fbbf24'; ctx.fillRect(x0-14, pinY-20, 28, 40);
+    // Pin (trái)
+    ctx.fillStyle = '#fbbf24'; ctx.fillRect(x0-14, 130, 28, 40);
     ctx.fillStyle = '#92400e'; ctx.font = 'bold 13px sans-serif'; ctx.textAlign='center';
-    ctx.fillText('+', x0, pinY-2); ctx.fillText('–', x0, pinY+15);
+    ctx.fillText('+', x0, 148); ctx.fillText('–', x0, 165);
     ctx.fillStyle = '#fcd34d'; ctx.font = '11px sans-serif';
-    ctx.fillText('PIN 9V', x0, pinY+32);
+    ctx.fillText('PIN 9V', x0, 190);
     // Bóng đèn (giữa trên)
     var bx = W/2, by = yT;
     var on = closed;
@@ -434,9 +373,9 @@ window.__tabRefresh = window.__tabRefresh || {};
 (function(){
   var cv = document.getElementById('cv-fall');
   var G = fitCanvas(cv);
-  window.__tabRefresh = window.__tabRefresh || {};
-  window.__tabRefresh['fall'] = function(){ var ng = fitCanvas(cv); if (ng) G = ng; };
-  window.addEventListener('resize', function(){ var ng = fitCanvas(cv); if (ng) G = ng; });
+  var __refit = function(){ var g2 = fitCanvas(cv); if (g2 && !g2.hidden) G = g2; };
+  window.__refits.push(__refit);
+  window.addEventListener('resize', __refit);
   var g = 9.8, h = 20, falling = false, y = 0, t = 0, obj = 'ball';
   var emojis = {ball:'⚽', apple:'🍎', rock:'🪨'};
   var names = {ball:'Quả bóng', apple:'Quả táo', rock:'Hòn đá'};
@@ -456,7 +395,6 @@ window.__tabRefresh = window.__tabRefresh || {};
   });
 
   function draw(){
-    if (!G){ var _ng = fitCanvas(cv); if (_ng) G = _ng; else { requestAnimationFrame(draw); return; } }
     var ctx = G.ctx, W = G.w, H = G.h;
     ctx.clearRect(0,0,W,H);
     var groundY = H - 30, topY = 20;
@@ -509,227 +447,16 @@ window.__tabRefresh = window.__tabRefresh || {};
   draw();
 })();
 
-
-// ================= 4. SÓNG NGANG =================
-(function(){
-  var cv = document.getElementById('cv-wave');
-  var G = fitCanvas(cv);
-  window.addEventListener('resize', function(){ G = fitCanvas(cv); });
-  var running = false, t = 0, raf = 0;
-  var ampEl = document.getElementById('wave-amp'), freqEl = document.getElementById('wave-freq');
-  ampEl.addEventListener('input', function(){ document.getElementById('wave-amp-val').textContent = ampEl.value; });
-  freqEl.addEventListener('input', function(){ document.getElementById('wave-freq-val').textContent = freqEl.value; });
-  function draw(){
-    var ctx = G.ctx, w = G.w, h = G.h;
-    ctx.clearRect(0, 0, w, h);
-    var A = parseFloat(ampEl.value), f = parseFloat(freqEl.value);
-    var midY = h / 2, k = 2 * Math.PI / (w / 2), om = 2 * Math.PI * f;
-    // truc
-    ctx.strokeStyle = '#334155'; ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(0, midY); ctx.lineTo(w, midY); ctx.stroke();
-    // song
-    ctx.strokeStyle = '#22d3ee'; ctx.lineWidth = 3; ctx.beginPath();
-    for (var x = 0; x <= w; x += 3){
-      var y = midY - A * Math.sin(k * x - om * t);
-      if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-    }
-    ctx.stroke();
-    // diem do dao dong tai cho
-    var px = w * 0.3;
-    var py = midY - A * Math.sin(k * px - om * t);
-    ctx.fillStyle = '#f43f5e';
-    ctx.beginPath(); ctx.arc(px, py, 7, 0, 7); ctx.fill();
-    ctx.strokeStyle = '#f43f5e'; ctx.setLineDash([4, 4]);
-    ctx.beginPath(); ctx.moveTo(px, midY - A - 8); ctx.lineTo(px, midY + A + 8); ctx.stroke();
-    ctx.setLineDash([]);
-    ctx.fillStyle = '#e2e8f0'; ctx.font = '11px sans-serif';
-    ctx.fillText('λ', px + 10, midY - A - 4);
-    if (running){ t += 1/60; raf = requestAnimationFrame(draw); }
-  }
-  document.getElementById('wave-run').addEventListener('click', function(){
-    if (running) return; running = true; draw();
-  });
-  document.getElementById('wave-stop').addEventListener('click', function(){
-    running = false; cancelAnimationFrame(raf);
-  });
-  // ve tinh lan dau
-  setTimeout(function(){ G = fitCanvas(cv); draw(); }, 300);
-})();
-
-// ================= 5. KHÚC XẠ ÁNH SÁNG =================
-(function(){
-  var cv = document.getElementById('cv-light');
-  var G = fitCanvas(cv);
-  window.addEventListener('resize', function(){ G = fitCanvas(cv); draw(); });
-  var angEl = document.getElementById('light-ang');
-  function draw(){
-    var ctx = G.ctx, w = G.w, h = G.h;
-    ctx.clearRect(0, 0, w, h);
-    var midY = h * 0.45;
-    // mat phan cach
-    ctx.fillStyle = '#bae6fd'; ctx.fillRect(0, midY, w, h - midY);
-    ctx.fillStyle = '#f8fafc'; ctx.fillRect(0, 0, w, midY);
-    ctx.strokeStyle = '#0284c7'; ctx.lineWidth = 2;
-    ctx.beginPath(); ctx.moveTo(0, midY); ctx.lineTo(w, midY); ctx.stroke();
-    ctx.fillStyle = '#64748b'; ctx.font = '11px sans-serif';
-    ctx.fillText('Không khí (n=1)', 8, 18);
-    ctx.fillText('Nước (n=1.33)', 8, midY + 18);
-    // phap tuyen
-    ctx.strokeStyle = '#94a3b8'; ctx.setLineDash([5, 5]); ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(w/2, 10); ctx.lineTo(w/2, h - 10); ctx.stroke();
-    ctx.setLineDash([]);
-    var iDeg = parseFloat(angEl.value);
-    document.getElementById('light-ang-val').textContent = iDeg;
-    var i = iDeg * Math.PI / 180;
-    var n1 = 1, n2 = 1.33;
-    var sinR = n1 * Math.sin(i) / n2;
-    var r = Math.asin(Math.min(1, sinR));
-    var rDeg = Math.round(r * 180 / Math.PI);
-    var L = Math.min(w, h) * 0.42;
-    // tia toi
-    ctx.strokeStyle = '#f59e0b'; ctx.lineWidth = 3;
-    ctx.beginPath(); ctx.moveTo(w/2 - L*Math.sin(i), midY - L*Math.cos(i)); ctx.lineTo(w/2, midY); ctx.stroke();
-    // tia khuc xa
-    ctx.beginPath(); ctx.moveTo(w/2, midY); ctx.lineTo(w/2 + L*Math.sin(r), midY + L*Math.cos(r)); ctx.stroke();
-    // tia phan xa yeu
-    ctx.strokeStyle = 'rgba(245,158,11,.35)'; ctx.lineWidth = 2;
-    ctx.beginPath(); ctx.moveTo(w/2, midY); ctx.lineTo(w/2 + L*Math.sin(i), midY - L*Math.cos(i)); ctx.stroke();
-    // mui ten
-    function arrow(x1, y1, x2, y2, col){
-      ctx.strokeStyle = col; ctx.fillStyle = col; ctx.lineWidth = 3;
-      ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
-      var a = Math.atan2(y2-y1, x2-x1);
-      ctx.beginPath(); ctx.moveTo(x2, y2);
-      ctx.lineTo(x2 - 9*Math.cos(a - .4), y2 - 9*Math.sin(a - .4));
-      ctx.lineTo(x2 - 9*Math.cos(a + .4), y2 - 9*Math.sin(a + .4));
-      ctx.closePath(); ctx.fill();
-    }
-    arrow(w/2 - L*Math.sin(i), midY - L*Math.cos(i), w/2 - 8*Math.sin(i), midY - 8*Math.cos(i), '#f59e0b');
-    arrow(w/2, midY, w/2 + (L-8)*Math.sin(r), midY + (L-8)*Math.cos(r), '#f59e0b');
-    // goc
-    ctx.fillStyle = '#92400e'; ctx.font = 'bold 12px sans-serif';
-    ctx.fillText('i=' + iDeg + '°', w/2 + 8, midY - L*0.55);
-    ctx.fillText('r=' + rDeg + '°', w/2 + 8, midY + L*0.5);
-    document.getElementById('light-info').innerHTML =
-      'Góc tới <b>i = ' + iDeg + '°</b> → góc khúc xạ <b>r = ' + rDeg + '°</b><br>' +
-      '<span class="text-xs text-slate-500">Tia sáng bị gãy khúc, lệch về phía pháp tuyến khi vào nước.</span>';
-  }
-  angEl.addEventListener('input', draw);
-  setTimeout(function(){ G = fitCanvas(cv); draw(); }, 300);
-})();
-
-// ================= 6. TỔNG HỢP LỰC =================
-(function(){
-  var cv = document.getElementById('cv-force');
-  var G = fitCanvas(cv);
-  window.addEventListener('resize', function(){ G = fitCanvas(cv); drawStatic(); });
-  var f1El = document.getElementById('force-f1'), f2El = document.getElementById('force-f2');
-  var x = 60, vx = 0, running = false, raf = 0;
-  f1El.addEventListener('input', function(){ document.getElementById('force-f1-val').textContent = f1El.value; drawStatic(); });
-  f2El.addEventListener('input', function(){ document.getElementById('force-f2-val').textContent = f2El.value; drawStatic(); });
-  function drawScene(px){
-    var ctx = G.ctx, w = G.w, h = G.h;
-    ctx.clearRect(0, 0, w, h);
-    var gy = h - 40;
-    ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 2;
-    ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(w, gy); ctx.stroke();
-    // vat
-    var bx = px, by = gy - 25;
-    ctx.fillStyle = '#8b5cf6';
-    ctx.fillRect(bx - 25, by - 25, 50, 50);
-    ctx.fillStyle = '#fff'; ctx.font = 'bold 13px sans-serif'; ctx.textAlign = 'center';
-    ctx.fillText('m', bx, by + 5); ctx.textAlign = 'left';
-    var F1 = parseFloat(f1El.value), F2 = parseFloat(f2El.value);
-    var net = F1 - F2;
-    function fArrow(x1, y1, len, col, label){
-      if (len <= 0) return;
-      var L = Math.min(120, len * 2.2);
-      ctx.strokeStyle = col; ctx.fillStyle = col; ctx.lineWidth = 4;
-      ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x1 + L, y1); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(x1 + L, y1);
-      ctx.lineTo(x1 + L - 10, y1 - 6); ctx.lineTo(x1 + L - 10, y1 + 6);
-      ctx.closePath(); ctx.fill();
-      ctx.font = 'bold 12px sans-serif';
-      ctx.fillText(label, x1 + L/2 - 8, y1 - 10);
-    }
-    // F1 sang phai (do), F2 sang trai (xanh)
-    ctx.save(); ctx.translate(bx + 25, by); ctx.scale(1, 1); ctx.restore();
-    (function(){
-      var L1 = Math.min(110, F1 * 2);
-      if (F1 > 0){
-        ctx.strokeStyle = '#ef4444'; ctx.fillStyle = '#ef4444'; ctx.lineWidth = 4;
-        ctx.beginPath(); ctx.moveTo(bx + 25, by); ctx.lineTo(bx + 25 + L1, by); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(bx + 25 + L1, by);
-        ctx.lineTo(bx + 25 + L1 - 10, by - 6); ctx.lineTo(bx + 25 + L1 - 10, by + 6);
-        ctx.closePath(); ctx.fill();
-        ctx.font = 'bold 12px sans-serif'; ctx.fillText('F1', bx + 25 + L1/2 - 6, by - 10);
-      }
-      var L2 = Math.min(110, F2 * 2);
-      if (F2 > 0){
-        ctx.strokeStyle = '#3b82f6'; ctx.fillStyle = '#3b82f6'; ctx.lineWidth = 4;
-        ctx.beginPath(); ctx.moveTo(bx - 25, by); ctx.lineTo(bx - 25 - L2, by); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(bx - 25 - L2, by);
-        ctx.lineTo(bx - 25 - L2 + 10, by - 6); ctx.lineTo(bx - 25 - L2 + 10, by + 6);
-        ctx.closePath(); ctx.fill();
-        ctx.font = 'bold 12px sans-serif'; ctx.fillText('F2', bx - 25 - L2/2 - 6, by - 10);
-      }
-    })();
-    // hop luc
-    if (net !== 0){
-      var dir = net > 0 ? 1 : -1;
-      var Ln = Math.min(130, Math.abs(net) * 2.4);
-      ctx.strokeStyle = '#10b981'; ctx.fillStyle = '#10b981'; ctx.lineWidth = 5;
-      var sx = dir > 0 ? bx + 25 : bx - 25;
-      ctx.beginPath(); ctx.moveTo(sx, by - 35); ctx.lineTo(sx + dir * Ln, by - 35); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(sx + dir * Ln, by - 35);
-      ctx.lineTo(sx + dir * Ln - dir*10, by - 41); ctx.lineTo(sx + dir * Ln - dir*10, by - 29);
-      ctx.closePath(); ctx.fill();
-      ctx.font = 'bold 12px sans-serif'; ctx.fillText('Fhl', sx + dir * Ln/2 - 8, by - 42);
-    }
-    return net;
-  }
-  function drawStatic(){
-    var net = drawScene(x);
-    updateInfo(net);
-  }
-  function updateInfo(net){
-    var F1 = parseFloat(f1El.value), F2 = parseFloat(f2El.value);
-    var html = 'F₁ = <b class="text-red-600">' + F1 + ' N →</b> &nbsp; F₂ = <b class="text-blue-600">← ' + F2 + ' N</b><br>';
-    if (net === 0) html += 'Hợp lực <b>F = 0</b> → vật <b>đứng yên</b> (cân bằng).';
-    else html += 'Hợp lực <b class="text-emerald-600">F = ' + Math.abs(net) + ' N</b> hướng <b>' + (net > 0 ? 'sang phải →' : '← sang trái') + '</b> → vật chuyển động theo hợp lực.';
-    document.getElementById('force-info').innerHTML = html;
-  }
-  function step(){
-    var net = F1v() - F2v();
-    function F1v(){ return parseFloat(f1El.value); }
-    function F2v(){ return parseFloat(f2El.value); }
-    var a = net * 0.6; // gia toc ti le hop luc
-    vx += a * 0.016; x += vx;
-    var w = G.w;
-    if (x > w - 40){ x = w - 40; vx = 0; running = false; cancelAnimationFrame(raf); }
-    if (x < 40){ x = 40; vx = 0; running = false; cancelAnimationFrame(raf); }
-    var n2 = drawScene(x); updateInfo(n2);
-    if (running) raf = requestAnimationFrame(step);
-  }
-  document.getElementById('force-run').addEventListener('click', function(){
-    if (running) return;
-    x = 60; vx = 0; running = true; step();
-  });
-  document.getElementById('force-reset').addEventListener('click', function(){
-    running = false; cancelAnimationFrame(raf); x = 60; vx = 0; drawStatic();
-  });
-  setTimeout(function(){ G = fitCanvas(cv); drawStatic(); }, 300);
-})();
-
-// Fit lai canvas khi chuyen tab (tab an co width=0)
+// Fit lai canvas khi chuyen tab (dung registry de cap nhat G tung tab)
 window.__fitAll = function(){
-  try { var c=document.getElementById('cv-pendulum'); if(c && c.offsetParent){ fitCanvas(c); } } catch(e){}
-  try { var c=document.getElementById('cv-circuit'); if(c && c.offsetParent){ fitCanvas(c); } } catch(e){}
-  try { var c=document.getElementById('cv-fall'); if(c && c.offsetParent){ fitCanvas(c); } } catch(e){}
-  try { var c=document.getElementById('cv-wave'); if(c && c.offsetParent){ fitCanvas(c); } } catch(e){}
-  try { var c=document.getElementById('cv-light'); if(c && c.offsetParent){ fitCanvas(c); } } catch(e){}
-  try { var c=document.getElementById('cv-force'); if(c && c.offsetParent){ fitCanvas(c); } } catch(e){}
+  (window.__refits || []).forEach(function(fn){ try { fn(); } catch(e){} });
 };
 </script>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
 </body>
 </html>
