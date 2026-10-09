@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 24: Công suất</title>
+    <meta name="lesson-title" content="Bài 24: Công suất">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 24: Công suất</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 4: Năng lượng, công, công suất • Bài 24: Công suất</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 24: Công suất</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 4: Năng lượng, công, công suất — Vật lí 10 (Kết nối tri thức với cuộc sống)</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Khái niệm công suất</h2>
+
+<p>Cùng một công việc (ví dụ: bơm đầy một bể nước), máy nào làm xong <strong>nhanh hơn</strong> thì máy đó <strong>khỏe hơn</strong>. Để so sánh sự nhanh, chậm của việc thực hiện công, người ta dùng đại lượng <em>công suất</em>.</p>
+
+<p><strong>Định nghĩa:</strong> <em>Công suất</em> là đại lượng vật lí đặc trưng cho <strong>tốc độ thực hiện công</strong>, được xác định bằng công thực hiện được trong một đơn vị thời gian:</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$P = \frac{A}{t}$$</p>
+</div>
+
+<p>Trong đó $A$ là công thực hiện (J), $t$ là thời gian thực hiện công (s).</p>
+
+<p><strong>Đơn vị:</strong> Trong hệ SI, công suất có đơn vị là <strong>oát</strong>, kí hiệu <strong>W</strong>. $1\ \text{W}$ là công suất của máy thực hiện công $1\ \text{J}$ trong $1\ \text{s}$:</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$1\ \text{W} = 1\ \text{J/s}$$</p>
+</div>
+
+<p>Các đơn vị khác: kilôoát ($1\ \text{kW} = 1000\ \text{W}$), mêgaoát ($1\ \text{MW} = 10^6\ \text{W}$), <strong>mã lực</strong> ($1\ \text{HP} = 736\ \text{W}$).</p>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Công suất lớn nghĩa là máy thực hiện công <strong>nhanh</strong>, không có nghĩa là tổng công thực hiện lớn (còn phụ thuộc thời gian: $A = Pt$). Công suất là đại lượng <strong>vô hướng</strong>.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Công suất trung bình và công suất tức thời</h2>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Công suất trung bình</strong> trong khoảng thời gian $t$: $P_{tb} = \dfrac{A}{t}$.</li>
+<li><strong>Công suất tức thời</strong> tại một thời điểm: đặc trưng cho tốc độ sinh công ngay tại thời điểm đó.</li>
+</ul>
+
+<p>Khi lực $\vec{F}$ không đổi và <strong>cùng hướng</strong> với vận tốc $\vec{v}$ của vật, công suất (tức thời) được tính gọn bằng:</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$P = Fv$$</p>
+</div>
+
+<p>Chứng minh nhanh: $P = \dfrac{A}{t} = \dfrac{Fs}{t} = Fv$ (vì $s/t = v$ khi lực cùng hướng chuyển động).</p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Do thi cong suat theo thoi gian">
+<rect x="2" y="2" width="436" height="186" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<line x1="50" y1="160" x2="420" y2="160" stroke="#475569" stroke-width="2"/>
+<line x1="50" y1="160" x2="50" y2="15" stroke="#475569" stroke-width="2"/>
+<polygon points="420,160 408,154 408,166" fill="#475569"/>
+<polygon points="50,15 44,27 56,27" fill="#475569"/>
+<text x="425" y="165" font-family="sans-serif" font-size="13" fill="#475569">t</text>
+<text x="30" y="25" font-family="sans-serif" font-size="13" fill="#475569">A</text>
+<line x1="50" y1="160" x2="380" y2="50" stroke="#2563eb" stroke-width="3"/>
+<circle cx="215" cy="105" r="5" fill="#dc2626"/>
+<text x="225" y="100" font-family="sans-serif" font-size="13" fill="#dc2626">P = A/t</text>
+<text x="220" y="182" font-family="sans-serif" font-size="13" fill="#475569" text-anchor="middle">Độ dốc của đồ thị A – t chính là công suất P</text>
+</svg></div>
+
+<p>Trên đồ thị công $A$ theo thời gian $t$ (đường thẳng qua gốc tọa độ), <strong>độ dốc</strong> của đường thẳng chính là công suất $P$: máy nào có đường dốc hơn thì công suất lớn hơn.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ mẫu:</p>
+<p>Một ô tô chuyển động đều với tốc độ $v = 20\ \text{m/s}$, lực kéo của động cơ $F = 1500\ \text{N}$. Tính công suất của động cơ.</p>
+<p class="mt-2"><strong>Lời giải:</strong> Vì chuyển động đều và lực cùng hướng vận tốc, $P = Fv = 1500 \cdot 20 = 30000\ \text{W} = 30\ \text{kW}$.</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ mẫu:</p>
+<p>Một cần cẩu nâng vật $500\ \text{kg}$ lên cao $12\ \text{m}$ trong $30\ \text{s}$. Tính công suất trung bình của cần cẩu. Lấy $g = 10\ \text{m/s}^2$.</p>
+<p class="mt-2"><strong>Lời giải:</strong> $A = mgh = 500 \cdot 10 \cdot 12 = 60000\ \text{J}$. $P_{tb} = A/t = 60000/30 = 2000\ \text{W}$.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Công suất</strong> đặc trưng cho tốc độ thực hiện công: $P = \dfrac{A}{t}$.</li>
+<li>Đơn vị: <strong>oát (W)</strong>; $1\ \text{W} = 1\ \text{J/s}$; $1\ \text{kW} = 1000\ \text{W}$; $1\ \text{HP} = 736\ \text{W}$.</li>
+<li>Khi lực cùng hướng vận tốc: <strong>$P = Fv$</strong> (công suất tức thời).</li>
+<li>Trên đồ thị $A$–$t$, độ dốc của đường thẳng bằng công suất $P$.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+</body>
+</html>
