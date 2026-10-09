@@ -56,11 +56,11 @@
 
         // ---- Tạo tài khoản (dùng chung cho duyệt đăng ký & tạo tay) ----
         async function createUserAccount(o){
-            // o: {id, name, role: 'teacher'|'student', className, expiryDays}
+            // o: {id, name, role: 'teacher'|'student', className, expiryDays, password}
             let db = await assignFetchUsed();
             if (!db.passwords) db.passwords = {};
             if (db.passwords[o.id]) throw new Error('Mã ' + o.id + ' đã có tài khoản.');
-            db.passwords[o.id] = '12345678'; // mật khẩu mặc định, used.html bắt đổi ngay lần đầu
+            db.passwords[o.id] = o.password || '12345678'; // dung MK nguoi dung dat, neu khong co thi mac dinh
             var UNASSIGNED = getUnassignedGroup(db);
             // Trial mode: 90 ngay; het trial: cho phan cong (se bi chan hoc)
             var isTrial = UNASSIGNED === 'Trải nghiệm';
@@ -378,13 +378,15 @@
         }
 
         async function approveReg(id){
-            if (!confirm('Duyệt tài khoản này? Mật khẩu mặc định: 12345678 (hệ thống bắt đổi ngay lần đầu đăng nhập).')) return;
+            if (!confirm('Duyệt tài khoản này?')) return;
             try {
                 let db = await assignFetchUsed();
                 let regs = Array.isArray(db.registrations) ? db.registrations : [];
                 let r = regs.filter(function(x){ return String(x.id) === String(id) && x.status === 'pending'; })[0];
                 if (!r) throw new Error('Đăng ký không còn chờ duyệt.');
-                await createUserAccount({ id: r.id, name: r.name, role: r.role_requested, className: r.className });
+                let userPass = null;
+                try { if (r.password) userPass = decodeURIComponent(escape(atob(r.password))); } catch(e){}
+                await createUserAccount({ id: r.id, name: r.name, role: r.role_requested, className: r.className, password: userPass });
                 await setRegStatus(id, 'approved');
                 if (typeof showToast === 'function') showToast('Đã duyệt & tạo tài khoản cho ' + r.name, 'success');
                 userMgrLoadPending();
