@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 15: Sinh quyển</title>
+    <meta name="lesson-title" content="Bài 15: Sinh quyển">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 15: Sinh quyển</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 6: Sinh quyển • Bài 15: Sinh quyển</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 15: Sinh quyển</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 6: Sinh quyển — Địa 10 (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Khái niệm và giới hạn -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Khái niệm và giới hạn của sinh quyển</h2>
+
+<p><strong>Định nghĩa:</strong> <em>Sinh quyển</em> là một quyển của Trái Đất, bao gồm <strong>toàn bộ sinh vật sinh sống</strong> và môi trường sống của chúng.</p>
+
+<p>Sinh quyển bao gồm:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Toàn bộ <strong>thủy quyển</strong> (sông, hồ, biển, đại dương);</li>
+<li>Phần dưới của <strong>khí quyển</strong> (chủ yếu là tầng đối lưu);</li>
+<li>Lớp đất đá trên bề mặt <strong>thạch quyển</strong> nơi có sự sống (lớp đất, lớp vỏ phong hóa).</li>
+</ul>
+
+<p><strong>Giới hạn của sinh quyển:</strong></p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Giới hạn trên:</strong> tiếp giáp với tầng ô-dôn của khí quyển (khoảng 22–25 km trên mực nước biển) — nơi tia tử ngoại quá mạnh, sinh vật không tồn tại được.</li>
+<li><strong>Giới hạn dưới:</strong> xuống tới đáy các rãnh đại dương sâu nhất (khoảng 11 km dưới mực nước biển) và lớp vỏ phong hóa trên lục địa.</li>
+</ul>
+
+<div class="svg-fig"><svg viewBox="0 0 440 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Gioi han sinh quyen">
+<rect x="2" y="2" width="436" height="296" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="28" font-family="sans-serif" font-size="15" font-weight="bold" fill="#0c4a6e" text-anchor="middle">GIỚI HẠN SINH QUYỂN</text>
+<rect x="60" y="48" width="320" height="40" rx="6" fill="#bae6fd"/>
+<text x="220" y="73" font-family="sans-serif" font-size="12" fill="#0c4a6e" text-anchor="middle">Tầng ô-dôn (giới hạn trên ~ 22–25 km)</text>
+<rect x="60" y="92" width="320" height="60" rx="6" fill="#bbf7d0"/>
+<text x="220" y="118" font-family="sans-serif" font-size="13" font-weight="bold" fill="#14532d" text-anchor="middle">KHÍ QUYỂN (tầng đối lưu)</text>
+<text x="220" y="138" font-family="sans-serif" font-size="11" fill="#166534" text-anchor="middle">Chim, côn trùng, thực vật trên cạn</text>
+<rect x="60" y="156" width="150" height="70" rx="6" fill="#a7f3d0"/>
+<text x="135" y="182" font-family="sans-serif" font-size="12" font-weight="bold" fill="#134e4a" text-anchor="middle">LỤC ĐỊA</text>
+<text x="135" y="200" font-family="sans-serif" font-size="11" fill="#134e4a" text-anchor="middle">Đất, rừng,</text>
+<text x="135" y="214" font-family="sans-serif" font-size="11" fill="#134e4a" text-anchor="middle">động vật trên cạn</text>
+<rect x="214" y="156" width="166" height="70" rx="6" fill="#7dd3fc"/>
+<text x="297" y="182" font-family="sans-serif" font-size="12" font-weight="bold" fill="#0c4a6e" text-anchor="middle">ĐẠI DƯƠNG</text>
+<text x="297" y="200" font-family="sans-serif" font-size="11" fill="#0c4a6e" text-anchor="middle">Sinh vật biển</text>
+<text x="297" y="214" font-family="sans-serif" font-size="11" fill="#0c4a6e" text-anchor="middle">đến rãnh sâu ~11 km</text>
+<rect x="60" y="230" width="320" height="34" rx="6" fill="#d6d3d1"/>
+<text x="220" y="251" font-family="sans-serif" font-size="12" fill="#44403c" text-anchor="middle">Thạch quyển (lớp vỏ phong hóa có sự sống)</text>
+<text x="220" y="284" font-family="sans-serif" font-size="12" font-style="italic" fill="#64748b" text-anchor="middle">Sinh quyển = nơi giao nhau của 3 quyển, có sự sống</text>
+</svg></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Sinh quyển là <strong>nơi gặp gỡ của khí quyển, thủy quyển và thạch quyển</strong> — chỉ tồn tại ở những nơi có <strong>sự sống</strong>. Giới hạn trên: tầng ô-dôn; giới hạn dưới: đáy đại dương sâu nhất.</p>
+</div>
+
+<!-- 2. Các nhân tố ảnh hưởng -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Các nhân tố ảnh hưởng đến sự phát triển và phân bố của sinh vật</h2>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Các nhân tố chủ yếu:</p>
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Khí hậu</strong> (nhiệt độ, lượng mưa, ánh sáng): nhân tố <strong>quyết định</strong> nhất. Mỗi loài sinh vật thích nghi với một giới hạn nhiệt, ẩm nhất định. Ví dụ: rừng mưa nhiệt đới cần nóng ẩm quanh năm; rừng lá kim chịu được lạnh giá.</li>
+<li><strong>Đất:</strong> ảnh hưởng đến sự phát triển của thực vật (độ phì, độ ẩm, độ chua). Đất đen giàu mùn nuôi đồng cỏ tươi tốt; đất pốt dôn nghèo dinh dưỡng chỉ có rừng lá kim thưa.</li>
+<li><strong>Địa hình</strong> (độ cao, độ dốc, hướng sườn): càng lên cao, nhiệt độ càng giảm nên vành đai sinh vật thay đổi theo độ cao (dưới chân núi là rừng nhiệt đới, lên cao là rừng ôn đới, đồng cỏ núi cao, băng tuyết).</li>
+<li><strong>Nguồn nước</strong> (sông, hồ, nước ngầm): nơi có nước, sinh vật phát triển phong phú (ốc đảo giữa hoang mạc là ví dụ điển hình).</li>
+<li><strong>Sinh vật:</strong> các loài tác động lẫn nhau (cạnh tranh, cộng sinh, chuỗi thức ăn). Thực vật là nguồn thức ăn, nơi cư trú của động vật.</li>
+<li><strong>Con người:</strong> tác động ngày càng lớn — tích cực (trồng rừng, bảo tồn) và tiêu cực (phá rừng, săn bắt, ô nhiễm làm nhiều loài tuyệt chủng).</li>
+</ul>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ minh họa:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>Hoang mạc Xa-ha-ra khô hạn → thực vật thưa thớt, chủ yếu là cây chịu hạn (xương rồng, cỏ khô).</li>
+<li>Rừng A-ma-dôn nóng ẩm quanh năm → thảm thực vật xum xuê nhiều tầng, động vật vô cùng phong phú.</li>
+<li>Dãy An-pơ (châu Âu): chân núi là rừng lá rộng, lên cao là rừng lá kim, cao nữa là đồng cỏ núi cao rồi đến băng tuyết vĩnh cửu.</li>
+</ul>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><strong>Khí hậu là nhân tố quyết định</strong> sự phát triển và phân bố của sinh vật (chủ yếu qua chế độ nhiệt và ẩm). Các nhân tố khác (đất, địa hình, nước, sinh vật, con người) tác động bổ sung, phối hợp với khí hậu.</p>
+</div>
+
+<!-- 3. Các nhóm sinh vật chính -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Các nhóm sinh vật chính trên Trái Đất</h2>
+
+<p>Theo điều kiện khí hậu từ xích đạo về hai cực, các kiểu thảm thực vật và động vật điển hình thay đổi như sau:</p>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 my-2 text-sm">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-3 py-2">Khu vực khí hậu</td><td class="border border-slate-300 px-3 py-2">Thảm thực vật điển hình</td><td class="border border-slate-300 px-3 py-2">Động vật điển hình</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2">Xích đạo nóng ẩm</td><td class="border border-slate-300 px-3 py-2">Rừng mưa nhiệt đới xum xuê nhiều tầng</td><td class="border border-slate-300 px-3 py-2">Khỉ, vượn, vẹt, trăn, côn trùng phong phú</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2">Nhiệt đới (mưa theo mùa)</td><td class="border border-slate-300 px-3 py-2">Rừng thưa, xa-van (đồng cỏ cao)</td><td class="border border-slate-300 px-3 py-2">Ngựa vằn, hươu cao cổ, sư tử, voi</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2">Hoang mạc nhiệt đới</td><td class="border border-slate-300 px-3 py-2">Cây bụi chịu hạn, xương rồng thưa thớt</td><td class="border border-slate-300 px-3 py-2">Lạc đà, bò sát, chuột sa mạc</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2">Ôn đới</td><td class="border border-slate-300 px-3 py-2">Rừng lá rộng, rừng hỗn hợp; đồng cỏ</td><td class="border border-slate-300 px-3 py-2">Hươu, nai, gấu, sóc, chim di cư</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2">Ôn đới lạnh</td><td class="border border-slate-300 px-3 py-2">Rừng lá kim (tai-ga)</td><td class="border border-slate-300 px-3 py-2">Chồn, nai sừng tấm, cú tuyết</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2">Cực</td><td class="border border-slate-300 px-3 py-2">Đồng rêu, địa y thưa thớt</td><td class="border border-slate-300 px-3 py-2">Gấu trắng, tuần lộc, chim cánh cụt</td></tr>
+</table></div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Liên hệ Việt Nam:</p>
+<p>Việt Nam nằm trong vùng nhiệt đới ẩm gió mùa nên thảm thực vật điển hình là <strong>rừng mưa nhiệt đới</strong> (rừng rậm thường xanh), với hệ động thực vật rất đa dạng: voi, hổ, voọc, nhiều loài chim và côn trùng. Đây là một trong những trung tâm đa dạng sinh học của thế giới.</p>
+</div>
+
+<!-- Tổng kết -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Sinh quyển</strong> là quyển chứa toàn bộ sinh vật: gồm toàn bộ thủy quyển, phần dưới khí quyển và lớp đất đá bề mặt thạch quyển có sự sống.</li>
+<li><strong>Giới hạn:</strong> trên — tầng ô-dôn (khoảng 22–25 km); dưới — đáy rãnh đại dương sâu nhất (khoảng 11 km).</li>
+<li><strong>Nhân tố quyết định</strong> sự phát triển, phân bố sinh vật là <strong>khí hậu</strong> (nhiệt, ẩm); các nhân tố khác: đất, địa hình, nguồn nước, sinh vật, con người.</li>
+<li>Sinh vật phân bố theo đới từ xích đạo về cực: rừng mưa nhiệt đới – xa-van – hoang mạc – rừng ôn đới – rừng lá kim – đồng rêu địa cực.</li>
+<li>Con người cần bảo vệ đa dạng sinh học: trồng rừng, bảo tồn các loài, chống ô nhiễm.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+</body>
+</html>
