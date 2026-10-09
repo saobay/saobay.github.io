@@ -157,7 +157,14 @@
                 + '<div id="users-body" class="p-5 overflow-y-auto"><p class="text-xs text-slate-400 italic">Đang tải...</p></div>'
                 + '</div>';
             document.body.appendChild(modal);
-            userMgrTab('pending');
+            // FIX 2026-10-09: nếu không có pending thì mở tab Trải nghiệm thay vì Chờ duyệt
+            (async function(){
+                try {
+                    let db0 = await assignFetchUsed();
+                    let nPend = (Array.isArray(db0.registrations) ? db0.registrations : []).filter(function(r){ return r.status === 'pending'; }).length;
+                    userMgrTab(nPend ? 'pending' : 'trial');
+                } catch(e){ userMgrTab('trial'); }
+            })();
             // Cap nhat badge Chua phan nhom
             (async function(){
                 try {
@@ -588,6 +595,9 @@ async function deleteTrialAccount(uid, isTeacher){
                 let pend = regs.filter(function(r){ return r.status === 'pending'; });
                 let pc = document.getElementById('um-pending-count');
                 if (pc) pc.textContent = pend.length ? String(pend.length) : '';
+                // FIX 2026-10-09: ẩn tab Chờ duyệt khi trống (đăng ký mới tự vào Trải nghiệm)
+                let ptab = document.getElementById('um-tab-pending');
+                if (ptab) ptab.style.display = pend.length ? '' : 'none';
                 if (!pend.length){
                     body.innerHTML = '<p class="text-xs text-slate-400 italic">Không có đăng ký nào chờ duyệt.</p>';
                     updateRegBadge();
@@ -609,15 +619,21 @@ async function deleteTrialAccount(uid, isTeacher){
         }
 
         async function setRegStatus(id, status){
-            let db = await assignFetchUsed();
-            let regs = Array.isArray(db.registrations) ? db.registrations : [];
-            let r = regs.filter(function(x){ return String(x.id) === String(id); })[0];
-            if (!r) throw new Error('Không tìm thấy đăng ký.');
-            r.status = status;
-            r.decided_at = new Date().toISOString();
-            r.decided_by = myUname();
-            await assignPushUsed(db, (status === 'approved' ? 'Duyệt' : 'Từ chối') + ' đăng ký: ' + r.name + ' (' + r.id + ')');
-            return r;
+            // FIX 2026-10-09: dùng assignUpdateUsed (atomic + tự retry khi 409)
+            // thay vì fetch+push rời rạc dễ bị SHA mismatch
+            let result = null;
+            let rname = '';
+            await assignUpdateUsed(function(db){
+                let regs = Array.isArray(db.registrations) ? db.registrations : [];
+                let r = regs.filter(function(x){ return String(x.id) === String(id); })[0];
+                if (!r) throw new Error('Không tìm thấy đăng ký.');
+                r.status = status;
+                r.decided_at = new Date().toISOString();
+                r.decided_by = myUname();
+                rname = r.name;
+                result = r;
+            }, (status === 'approved' ? 'Duyệt' : 'Từ chối') + ' đăng ký: ' + id);
+            return result;
         }
 
         async function approveReg(id){
