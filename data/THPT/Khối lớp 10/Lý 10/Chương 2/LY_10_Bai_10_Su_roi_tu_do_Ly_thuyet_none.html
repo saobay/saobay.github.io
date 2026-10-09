@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 10: Sự rơi tự do</title>
+    <meta name="lesson-title" content="Bài 10: Sự rơi tự do">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+<!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay | Ma nguon thuoc nen tang hoc tap SAOBAY | Nghiem cam sao chep duoi moi hinh thuc -->
+<script data-saobay-guard="1">
+(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok){if(document.body){document.body.innerHTML='<div style="font-family:system-ui,sans-serif;max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff"><h2 style="color:#0f172a;margin-top:0">© SAOBAY — Trường THPT Sào Báy</h2><p style="color:#475569">Nội dung này chỉ được hiển thị tại địa chỉ chính thức <b>saobay.github.io</b>.</p><p style="color:#475569">Vui lòng truy cập đúng địa chỉ để học tập.</p></div>';}else{document.write("SAOBAY: truy cap tai saobay.github.io");}}catch(e){}})();
+</script>
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 10: Sự rơi tự do</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 2: Động học • Bài 10: Sự rơi tự do</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 10: Sự rơi tự do</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 2: Động học — Vật lí 10 (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Định nghĩa -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Sự rơi tự do là gì?</h2>
+
+<p><strong>Định nghĩa:</strong> <em>Sự rơi tự do</em> là chuyển động rơi của vật chỉ dưới tác dụng của <strong>trọng lực</strong>, coi như <strong>bỏ qua sức cản của không khí</strong>.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Hòn đá, quả táo, giọt nước thả nhẹ từ tay xuống đất (bỏ qua sức cản không khí) là những chuyển động rơi tự do. Tờ giấy, lông chim rơi trong không khí thì sức cản đáng kể nên không phải rơi tự do lí tưởng.</p>
+</div>
+
+<!-- 2. Đặc điểm -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Đặc điểm của sự rơi tự do</h2>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Phương:</strong> thẳng đứng.</li>
+<li><strong>Chiều:</strong> từ trên xuống dưới.</li>
+<li><strong>Tính chất:</strong> chuyển động <strong>thẳng nhanh dần đều</strong> với gia tốc không đổi.</li>
+</ul>
+
+<div class="svg-fig"><svg viewBox="0 0 440 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Vật rơi tự do qua các khoảng thời gian đều nhau">
+<rect x="2" y="2" width="436" height="296" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<line x1="220" y1="20" x2="220" y2="280" stroke="#94a3b8" stroke-width="2" stroke-dasharray="8,6"/>
+<text x="240" y="40" font-family="sans-serif" font-size="12" font-style="italic" fill="#475569">thẳng đứng, xuống dưới</text>
+<circle cx="220" cy="45" r="10" fill="#0284c7"/>
+<text x="235" y="49" font-family="sans-serif" font-size="12" fill="#0369a1">t = 0</text>
+<circle cx="220" cy="85" r="10" fill="#0284c7"/>
+<text x="235" y="89" font-family="sans-serif" font-size="12" fill="#0369a1">t = T</text>
+<circle cx="220" cy="150" r="10" fill="#0284c7"/>
+<text x="235" y="154" font-family="sans-serif" font-size="12" fill="#0369a1">t = 2T</text>
+<circle cx="220" cy="240" r="10" fill="#0284c7"/>
+<text x="235" y="244" font-family="sans-serif" font-size="12" fill="#0369a1">t = 3T</text>
+<line x1="100" y1="45" x2="340" y2="45" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="5,4"/>
+<line x1="100" y1="85" x2="340" y2="85" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="5,4"/>
+<line x1="100" y1="150" x2="340" y2="150" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="5,4"/>
+<line x1="100" y1="240" x2="340" y2="240" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="5,4"/>
+<text x="105" y="70" font-family="sans-serif" font-size="12" fill="#dc2626">s</text>
+<text x="105" y="125" font-family="sans-serif" font-size="12" fill="#dc2626">3s</text>
+<text x="105" y="205" font-family="sans-serif" font-size="12" fill="#dc2626">5s</text>
+<line x1="300" y1="150" x2="300" y2="230" stroke="#16a34a" stroke-width="3"/>
+<polygon points="300,230 294,218 306,218" fill="#16a34a"/>
+<text x="308" y="196" font-family="sans-serif" font-size="13" font-weight="bold" fill="#16a34a">g</text>
+<text x="220" y="294" font-family="sans-serif" font-size="12" font-style="italic" fill="#475569" text-anchor="middle">Trong các khoảng thời gian bằng nhau, vật đi được quãng đường tăng dần: s, 3s, 5s, ...</text>
+</svg></div>
+
+<p><strong>Ghi nhớ:</strong> Nếu chụp ảnh nhiều lần cách đều nhau (cùng khoảng thời gian $T$), quãng đường vật rơi được trong các khoảng liên tiếp tỉ lệ với các số lẻ <strong>1 : 3 : 5 : 7 : ...</strong> — dấu hiệu của chuyển động nhanh dần đều.</p>
+
+<!-- 3. Gia tốc rơi tự do -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Gia tốc rơi tự do</h2>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Hướng:</strong> thẳng đứng, hướng xuống.</li>
+<li><strong>Độ lớn:</strong> gần mặt đất, $g \approx 9,8$ m/s$^2$ (trong bài toán đơn giản thường lấy $g = 10$ m/s$^2$).</li>
+<li><strong>Lưu ý:</strong> $g$ <strong>không phụ thuộc</strong> vào khối lượng, hình dạng của vật rơi — mọi vật (bỏ qua sức cản không khí) đều rơi nhanh như nhau.</li>
+</ul>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Vì sao tờ giấy rơi chậm hơn hòn đá?</p>
+<p>Không phải vì giấy nhẹ hơn, mà vì <strong>sức cản của không khí</strong> tác dụng lên tờ giấy (rộng, nhẹ) lớn hơn đáng kể so với trọng lượng của nó. Nếu bỏ hoàn toàn không khí (trong ống chân không), cả hai rơi nhanh như nhau!</p>
+</div>
+
+<!-- 4. Công thức -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Công thức của sự rơi tự do</h2>
+
+<p>Rơi tự do là chuyển động thẳng biến đổi đều với $v_0 = 0$, $a = g$, độ dịch chuyển $d = h$ (độ cao). Chọn chiều dương hướng xuống, ta được:</p>
+
+<div class="table-scroll"><table class="min-w-full border-collapse border border-slate-300 text-sm">
+<thead><tr class="bg-sky-100">
+<th class="border border-slate-300 px-3 py-2 text-left">Đại lượng</th>
+<th class="border border-slate-300 px-3 py-2 text-left">Công thức</th>
+</tr></thead>
+<tbody>
+<tr><td class="border border-slate-300 px-3 py-2">Vận tốc lúc $t$</td><td class="border border-slate-300 px-3 py-2">$v = gt$</td></tr>
+<tr class="bg-slate-50"><td class="border border-slate-300 px-3 py-2">Quãng đường rơi sau $t$</td><td class="border border-slate-300 px-3 py-2">$h = \frac{1}{2}gt^2$</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2">Công thức độc lập thời gian</td><td class="border border-slate-300 px-3 py-2">$v^2 = 2gh$</td></tr>
+</tbody></table></div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Thả một hòn đá rơi tự do từ độ cao $h = 20$ m (lấy $g = 10$ m/s$^2$):</p>
+<ul class="list-disc ml-6 space-y-1 mt-1">
+<li>Thời gian chạm đất: $h = \frac{1}{2}gt^2 \Rightarrow t = \sqrt{\frac{2h}{g}} = \sqrt{\frac{40}{10}} = 2$ s.</li>
+<li>Vận tốc khi chạm đất: $v = gt = 10 \times 2 = 20$ m/s (hoặc $v = \sqrt{2gh} = \sqrt{400} = 20$ m/s).</li>
+</ul>
+</div>
+
+<!-- 5. Thực hành đo g (Bài 11) -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">5. Thực hành: đo gia tốc rơi tự do</h2>
+
+<p><strong>Nguyên tắc:</strong> Thả vật rơi tự do từ độ cao $h$, đo thời gian rơi $t$ (bằng đồng hồ đo thời gian có cổng quang hoặc cảm biến), rồi tính $g$ từ công thức:</p>
+<p>$$g = \frac{2h}{t^2}$$</p>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Thay đổi độ cao $h$ nhiều lần, mỗi lần đo $t$ <strong>3 lần</strong> rồi lấy trung bình.</li>
+<li><strong>Giảm sai số:</strong> dùng vật đặc, nặng (giảm ảnh hưởng sức cản không khí); giữ vật đứng yên trước khi thả; lặp lại thí nghiệm nhiều lần.</li>
+<li><strong>Sai số:</strong> thời gian phản ứng khi bấm đồng hồ bằng tay; sức cản không khí; độ cao đo chưa chính xác.</li>
+</ul>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Mẹo làm bài:</p>
+<ul class="list-disc ml-6 space-y-1 mt-1">
+<li>Rơi tự do $\Rightarrow$ $v_0 = 0$, $a = g$.</li>
+<li>Muốn tính $t$ khi biết $h$: $t = \sqrt{\frac{2h}{g}}$.</li>
+<li>Muốn tính $v$ khi biết $h$ (không cần $t$): $v = \sqrt{2gh}$.</li>
+<li>Luôn <strong>kiểm tra đơn vị</strong>: $h$ (m), $t$ (s), $g$ (m/s$^2$), $v$ (m/s).</li>
+</ul>
+</div>
+
+<!-- Tổng kết -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Định nghĩa:</strong> chuyển động rơi chỉ dưới tác dụng của trọng lực (bỏ qua sức cản không khí).</li>
+<li><strong>Đặc điểm:</strong> thẳng đứng, hướng xuống, thẳng nhanh dần đều.</li>
+<li><strong>Gia tốc rơi tự do:</strong> $g \approx 9,8$ m/s$^2$ (thường lấy $g = 10$ m/s$^2$), không phụ thuộc khối lượng vật.</li>
+<li>$v = gt$; $h = \frac{1}{2}gt^2$; $v^2 = 2gh$.</li>
+<li><strong>Thực hành:</strong> đo $h$ và $t$, tính $g = \frac{2h}{t^2}$, lặp lại nhiều lần lấy trung bình để giảm sai số.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+</body>
+</html>
