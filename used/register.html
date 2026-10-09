@@ -152,6 +152,24 @@ function wrongPassMessage(phone){
     return 'Mật khẩu chưa đúng, bạn còn ' + (3 - n) + ' lần thử.';
 }
 
+// FIX 2026-10-10 (race condition): sau khi push thành công, VERIFY lại DB từ server
+// để chắc chắn TK thực sự tồn tại (cả passwords và hồ sơ). Tránh báo thành công giả
+// khi đăng ký nhiều TK liên tiếp mà CDN chưa kịp lan truyền bản push trước.
+async function verifyAccountCreated(phone, passB64, role){
+    for (let v = 0; v < 3; v++){
+        if (v > 0) await new Promise(function(r){ setTimeout(r, 2000); });
+        try {
+            let res = await fetch(RAW_URL + '?t=' + Date.now());
+            if (!res.ok) continue;
+            let db = await res.json();
+            let hasPass = !!(db.passwords && db.passwords[phone] === passB64);
+            let hasRecord = userRecordExists(db, phone, role);
+            if (hasPass && hasRecord) return true;
+        } catch(e){}
+    }
+    return false;
+}
+
 async function submitRegistration(){
     let msg = document.getElementById('rg-msg');
     let btn = document.getElementById('rg-btn');
@@ -169,6 +187,15 @@ async function submitRegistration(){
     if (!isEmail && !isPhone){ msg.textContent = 'Vui lòng nhập SĐT (9-12 số) hoặc Gmail đúng.'; msg.classList.add('text-rose-600'); return; }
     if (!pass || pass.length < 6){ msg.textContent = 'Mật khẩu phải từ 6 ký tự trở lên.'; msg.classList.add('text-rose-600'); return; }
     if (pass !== pass2){ msg.textContent = 'Mật khẩu nhập lại chưa khớp.'; msg.classList.add('text-rose-600'); return; }
+
+    // FIX 2026-10-10 (race condition): giãn cách tối thiểu 2.5s giữa 2 lần đăng ký
+    // liên tiếp trên cùng trình duyệt để CDN kịp lan truyền bản push trước.
+    let _nowTs = Date.now();
+    if (window.__saobayLastRegEnd && (_nowTs - window.__saobayLastRegEnd) < 2500){
+        let _waitMs = 2500 - (_nowTs - window.__saobayLastRegEnd);
+        msg.textContent = 'Đang hoàn tất đăng ký trước đó, vui lòng đợi ' + Math.ceil(_waitMs/1000) + ' giây...';
+        await new Promise(function(r){ setTimeout(r, _waitMs); });
+    }
 
     btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i>Đang tạo tài khoản...';
     try {
@@ -205,7 +232,15 @@ async function submitRegistration(){
             lastErr = new Error(emsg || 'Xung đột dữ liệu, đang thử lại...');
             await new Promise(function(r){ setTimeout(r, 1200); });
         }
-        if (!created) throw lastErr || new Error('Không tạo được tài khoản, vui lòng thử lại.');
+        if (!created) { window.__saobayLastRegEnd = Date.now(); throw lastErr || new Error('Không tạo được tài khoản, vui lòng thử lại.'); }
+        // VERIFY 2026-10-10: xác nhận TK thực sự có trong DB server trước khi báo thành công
+        let _verified = await verifyAccountCreated(phone, passB64, role);
+        window.__saobayLastRegEnd = Date.now();
+        if (!_verified) throw new Error('Đăng ký chưa hoàn tất, vui lòng thử lại sau ít phút.');
+        // Lưu TK vừa tạo vào localStorage để đăng nhập ngay được mà không cần đợi CDN
+        try {
+            localStorage.setItem('saobay_pending_reg', JSON.stringify({ phone: phone, passB64: passB64, name: name, role: role, ts: Date.now() }));
+        } catch(e){}
         clearFailCount(phone);
 
         // Ghi hạn 90 ngày vào account_expiry.json (bắt buộc — nếu thiếu, TK sẽ không bao giờ hết hạn)
@@ -228,6 +263,7 @@ async function submitRegistration(){
         btn.innerHTML = 'Thành công ✓';
         setTimeout(function(){ window.location.href = 'used.html'; }, 1800);
     } catch(e){
+        window.__saobayLastRegEnd = Date.now();
         msg.textContent = 'Lỗi: ' + (e.message || e);
         msg.classList.add('text-rose-600');
         btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-paper-plane mr-1"></i>Tạo tài khoản ngay';
