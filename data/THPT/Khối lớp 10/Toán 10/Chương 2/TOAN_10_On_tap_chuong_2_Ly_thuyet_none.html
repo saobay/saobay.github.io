@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ôn tập chương 2</title>
+    <meta name="lesson-title" content="Ôn tập chương 2">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Ôn tập chương 2</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 1: Mệnh đề và tập hợp • Ôn tập chương 2</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Ôn tập chương 2</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 2: Bất phương trình và hệ bất phương trình bậc nhất hai ẩn — Toán 10 (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Ôn tập BPT -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Bất phương trình bậc nhất hai ẩn (Bài 3)</h2>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Dạng:</strong> $ax + by \le c$ (hoặc $\ge, \lt, \gt$) với $a^2 + b^2 \gt 0$.</li>
+<li><strong>Nghiệm:</strong> cặp $(x_0; y_0)$ làm cho bất phương trình thành khẳng định đúng.</li>
+<li><strong>Miền nghiệm:</strong> nửa mặt phẳng bờ $d: ax + by = c$. Cách xác định: vẽ $d$ → lấy điểm thử $M_0 \notin d$ (thường là $O$) → $M_0$ thỏa mãn thì lấy nửa mặt phẳng chứa $M_0$, ngược lại lấy nửa còn lại.</li>
+<li><strong>Đường biên:</strong> dấu $\le, \ge$ → kể bờ (nét liền); dấu $\lt, \gt$ → không kể bờ (nét đứt).</li>
+</ul>
+
+<!-- 2. Ôn tập hệ -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Hệ bất phương trình bậc nhất hai ẩn (Bài 4)</h2>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Định nghĩa:</strong> hệ gồm hai hay nhiều bất phương trình bậc nhất hai ẩn.</li>
+<li><strong>Nghiệm của hệ:</strong> cặp số <strong>đồng thời</strong> là nghiệm của <strong>tất cả</strong> các bất phương trình trong hệ.</li>
+<li><strong>Miền nghiệm của hệ</strong> = giao của các miền nghiệm thành phần. Cách vẽ: trên cùng một hình, xác định miền nghiệm từng bất phương trình, gạch bỏ phần không thỏa mãn; phần còn lại không bị gạch là miền nghiệm của hệ.</li>
+</ul>
+
+<!-- 3. Bài toán tối ưu -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Bài toán tìm giá trị lớn nhất, nhỏ nhất (quy hoạch tuyến tính đơn giản)</h2>
+
+<p>Nhiều bài toán thực tế đưa về dạng: tìm giá trị lớn nhất (nhỏ nhất) của biểu thức $F(x; y) = ax + by$ khi $(x; y)$ là nghiệm của một hệ bất phương trình, tức $(x; y)$ thuộc một miền đa giác.</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-bold text-emerald-800">Các bước giải</p>
+<ol class="list-decimal ml-6 space-y-1 mt-2">
+<li>Đặt ẩn, lập <strong>hệ bất phương trình</strong> từ các điều kiện của bài toán.</li>
+<li>Xác định <strong>miền nghiệm</strong> (miền đa giác) và tọa độ các <strong>đỉnh</strong>.</li>
+<li>Tính giá trị của $F(x; y)$ tại từng đỉnh, <strong>so sánh</strong> để tìm giá trị lớn nhất / nhỏ nhất (định lí: cực trị đạt tại một đỉnh).</li>
+</ol>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ tổng hợp:</p>
+<p>Một phân xưởng sản xuất hai loại sản phẩm. Mỗi kg sản phẩm loại I cần $2$ giờ làm việc và lãi $30$ nghìn đồng; mỗi kg sản phẩm loại II cần $1$ giờ làm việc và lãi $50$ nghìn đồng. Phân xưởng có tối đa $40$ giờ làm việc và sản xuất không quá $30$ kg sản phẩm mỗi ngày. Hỏi mỗi ngày nên sản xuất mỗi loại bao nhiêu kg để lãi lớn nhất?</p>
+<p class="mt-2"><strong>Lời giải.</strong> Gọi $x, y$ lần lượt là số kg sản phẩm loại I, II ($x \ge 0, y \ge 0$).</p>
+<ul class="list-disc ml-6 space-y-1 mt-2">
+<li>Giờ làm việc: $2x + y \le 40$; tổng sản lượng: $x + y \le 30$.</li>
+<li>Lợi nhuận: $F(x; y) = 30x + 50y$ (nghìn đồng).</li>
+<li>Miền nghiệm có các đỉnh: $O(0; 0)$, $A(20; 0)$, $B(10; 20)$ (giao của $2x + y = 40$ và $x + y = 30$), $C(0; 30)$.</li>
+<li>$F(0; 0) = 0$; $F(20; 0) = 600$; $F(10; 20) = 1300$; $F(0; 30) = 1500$.</li>
+<li>Vậy lãi lớn nhất là $1500$ nghìn đồng, đạt khi sản xuất $0$ kg loại I và $30$ kg loại II.</li>
+</ul>
+</div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mien nghiem bai toan toi uu">
+<rect x="2" y="2" width="436" height="316" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<polygon points="70,295 170,295 120,195 70,145" fill="#bfdbfe" opacity="0.6"/>
+<line x1="30" y1="295" x2="410" y2="295" stroke="#334155" stroke-width="2"/>
+<polygon points="410,295 398,289 398,301" fill="#334155"/>
+<text x="416" y="299" font-family="sans-serif" font-size="14" font-style="italic" fill="#334155">x</text>
+<line x1="70" y1="310" x2="70" y2="20" stroke="#334155" stroke-width="2"/>
+<polygon points="70,20 64,32 76,32" fill="#334155"/>
+<text x="76" y="30" font-family="sans-serif" font-size="14" font-style="italic" fill="#334155">y</text>
+<text x="56" y="312" font-family="sans-serif" font-size="13" font-style="italic" fill="#334155">O</text>
+<line x1="70" y1="145" x2="270" y2="295" stroke="#1d4ed8" stroke-width="2"/>
+<text x="278" y="270" font-family="sans-serif" font-size="12" fill="#1d4ed8" font-style="italic">x + y = 30</text>
+<line x1="170" y1="295" x2="70" y2="95" stroke="#059669" stroke-width="2"/>
+<text x="80" y="85" font-family="sans-serif" font-size="12" fill="#059669" font-style="italic">2x + y = 40</text>
+<circle cx="70" cy="295" r="4" fill="#dc2626"/><text x="48" y="288" font-family="sans-serif" font-size="11" fill="#dc2626">O</text>
+<circle cx="170" cy="295" r="4" fill="#dc2626"/><text x="162" y="312" font-family="sans-serif" font-size="11" fill="#dc2626">A(20; 0)</text>
+<circle cx="120" cy="195" r="4" fill="#dc2626"/><text x="128" y="198" font-family="sans-serif" font-size="11" fill="#dc2626">B(10; 20)</text>
+<circle cx="70" cy="145" r="4" fill="#dc2626"/><text x="78" y="150" font-family="sans-serif" font-size="11" fill="#dc2626">C(0; 30)</text>
+<text x="95" y="240" font-family="sans-serif" font-size="12" fill="#1e40af" font-weight="bold">Miền nghiệm</text>
+</svg></div>
+<p class="text-center text-sm text-slate-500 italic">Miền nghiệm của hệ $\begin{cases} 2x + y \le 40 \\ x + y \le 30 \\ x \ge 0 \\ y \ge 0 \end{cases}$ là tứ giác $OABC$; giá trị lớn nhất của $F$ đạt tại đỉnh $C$.</p>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Bài toán tối ưu tuyến tính hai ẩn luôn giải theo 3 bước: <strong>lập hệ</strong> → <strong>tìm đỉnh</strong> của miền đa giác → <strong>tính $F$ tại đỉnh và so sánh</strong>. Cực trị của $F(x; y) = ax + by$ trên miền đa giác luôn đạt tại một đỉnh.</p>
+</div>
+
+<!-- Tổng kết -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Sơ đồ tư duy chương 2</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Bài 3:</strong> BPT $ax + by \le c$ → nghiệm là cặp số → miền nghiệm là nửa mặt phẳng (điểm thử $O$, kể/không kể bờ theo dấu).</li>
+<li><strong>Bài 4:</strong> Hệ BPT → nghiệm thỏa mãn đồng thời → miền nghiệm là giao các miền thành phần.</li>
+<li><strong>Vận dụng:</strong> Bài toán tối ưu $F(x; y) = ax + by$ → cực trị tại đỉnh của miền đa giác.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+</body>
+</html>
