@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay | Ma nguon thuoc nen tang hoc tap SAOBAY | Nghiem cam sao chep duoi moi hinh thuc -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 31: Thực hành sử dụng và tạo thư viện</title>
+    <meta name="lesson-title" content="Bài 31: Thực hành sử dụng và tạo thư viện">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 31: Thực hành sử dụng và tạo thư viện</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 6: Kĩ thuật lập trình • Bài 31: Thực hành sử dụng và tạo thư viện</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 31: Thực hành sử dụng và tạo thư viện</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 6: Kĩ thuật lập trình — sách Kết nối tri thức với cuộc sống</p>
+
+<!-- 1. Bài toán thực hành -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Bài toán thực hành</h2>
+
+<p>Sử dụng thư viện <code>toan_hoc.py</code> đã thiết lập ở Bài 30 để viết chương trình <strong>quản lí điểm kiểm tra</strong> của một lớp:</p>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Nhập:</strong> số học sinh và điểm của từng học sinh.</li>
+<li><strong>Tính:</strong> điểm trung bình cả lớp, điểm cao nhất, điểm thấp nhất.</li>
+<li><strong>Xếp loại:</strong> từng học sinh theo thang Giỏi/Khá/Trung bình/Yếu.</li>
+</ul>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">File thư viện <code>toan_hoc.py</code> (đã có):</p>
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto">def tinh_tong(a):
+    s = 0
+    for x in a:
+        s = s + x
+    return s
+
+def tinh_trung_binh(a):
+    return tinh_tong(a) / len(a)
+
+def tim_max(a):
+    mx = a[0]
+    for x in a:
+        if x == max(x, mx):
+            mx = x
+    return mx
+
+def tim_min(a):
+    mn = a[0]
+    for x in a:
+        if x == min(x, mn):
+            mn = x
+    return mn
+
+def xep_loai(d):
+    if d == max(d, 8):
+        return "Gioi"
+    if d == max(d, 6.5):
+        return "Kha"
+    if d == max(d, 5):
+        return "Trung binh"
+    return "Yeu"</pre>
+</div>
+
+<!-- 2. Chương trình chính sử dụng thư viện -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Chương trình chính sử dụng thư viện</h2>
+
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2">import toan_hoc as th
+
+n = int(input("So hoc sinh: "))
+diem = []
+for i in range(n):
+    d = float(input("Diem HS " + str(i + 1) + ": "))
+    diem.append(d)
+
+print("Diem TB ca lop:", th.tinh_trung_binh(diem))
+print("Diem cao nhat:", th.tim_max(diem))
+print("Diem thap nhat:", th.tim_min(diem))
+for i in range(n):
+    print("HS", i + 1, ":", diem[i], th.xep_loai(diem[i]))</pre>
+
+<p><strong>Chạy thử với n = 3, điểm 8, 6, 4:</strong></p>
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2">So hoc sinh: 3
+Diem HS 1: 8
+Diem HS 2: 6
+Diem HS 3: 4
+Diem TB ca lop: 6.0
+Diem cao nhat: 8
+Diem thap nhat: 4
+HS 1 : 8.0 Gioi
+HS 2 : 6.0 Kha
+HS 3 : 4.0 Yeu</pre>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<ul class="list-disc ml-6 space-y-1 mt-1">
+<li>Chương trình chính <strong>không cần biết</strong> hàm được viết thế nào — chỉ cần biết tên hàm và cách dùng.</li>
+<li>Muốn thêm tính năng (ví dụ: đếm số học sinh Giỏi) → <strong>viết thêm hàm vào thư viện</strong>, rồi gọi từ chương trình chính.</li>
+</ul>
+</div>
+
+<!-- 3. Mở rộng thư viện -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Mở rộng thư viện</h2>
+
+<p>Thêm hàm <code>dem_gioi(a)</code> đếm số học sinh đạt loại Giỏi vào <code>toan_hoc.py</code>:</p>
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2">def dem_gioi(a):
+    dem = 0
+    for d in a:
+        if xep_loai(d) == "Gioi":
+            dem = dem + 1
+    return dem</pre>
+
+<p>Trong chương trình chính chỉ cần thêm một dòng:</p>
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2">print("So HS dat loai Gioi:", th.dem_gioi(diem))</pre>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">⚠️ Lỗi thường gặp</p>
+<ul class="list-disc ml-6 space-y-1 mt-1">
+<li>Sửa thư viện nhưng <strong>chưa lưu file</strong> → chương trình chính vẫn chạy bản cũ.</li>
+<li>Thêm hàm mới nhưng <strong>quên kiểm thử</strong> → lỗi lan sang chương trình chính.</li>
+<li>Đặt tên hàm mới <strong>trùng hàm cũ</strong> → hàm cũ bị ghi đè.</li>
+</ul>
+</div>
+
+<!-- Tóm tắt -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Sử dụng thư viện:</strong> <code>import toan_hoc as th</code>, gọi <code>th.ten_ham()</code>.</li>
+<li><strong>Chương trình chính</strong> chỉ lo nhập/xuất và điều phối; logic tính toán nằm trong thư viện.</li>
+<li><strong>Mở rộng:</strong> thêm hàm vào file thư viện, kiểm thử rồi mới dùng trong chương trình chính.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">
+(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok){if(document.body){document.body.innerHTML='<div style="font-family:system-ui,sans-serif;max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff"><h2 style="color:#0f172a;margin-top:0">© SAOBAY — Trường THPT Sào Báy</h2><p style="color:#475569">Nội dung này chỉ được hiển thị tại địa chỉ chính thức <b>saobay.github.io</b>.</p><p style="color:#475569">Vui lòng truy cập đúng địa chỉ để học tập.</p></div>';}else{document.write("SAOBAY: truy cap tai saobay.github.io");}}catch(e){}})();
+</script>
+</body>
+</html>
