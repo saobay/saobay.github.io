@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ôn tập chương 4: Vectơ</title>
+    <meta name="lesson-title" content="Ôn tập chương 4: Vectơ">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Ôn tập chương 4: Vectơ</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 1: Mệnh đề và tập hợp • Ôn tập chương 4: Vectơ</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Ôn tập chương 4: Vectơ</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 4: Vectơ — Toán 10 (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Khái niệm -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Các khái niệm mở đầu</h2>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Vectơ</strong> là đoạn thẳng có hướng; vectơ có điểm đầu $A$, điểm cuối $B$ kí hiệu $\overrightarrow{AB}$.</li>
+<li><strong>Độ dài</strong> vectơ $\overrightarrow{AB}$ kí hiệu $|\overrightarrow{AB}|$ (là độ dài đoạn thẳng $AB$).</li>
+<li>Hai vectơ <strong>bằng nhau</strong>: cùng hướng và cùng độ dài. Hai vectơ <strong>đối nhau</strong>: ngược hướng và cùng độ dài.</li>
+<li><strong>Vectơ-không</strong> $\vec{0}$: điểm đầu trùng điểm cuối, độ dài bằng $0$, cùng phương với mọi vectơ.</li>
+<li>Hai vectơ <strong>cùng phương</strong>: giá song song hoặc trùng nhau.</li>
+</ul>
+
+<!-- 2. Tổng, hiệu -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Tổng và hiệu của hai vectơ</h2>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Quy tắc ba điểm:</strong> $\overrightarrow{AB} + \overrightarrow{BC} = \overrightarrow{AC}$.</li>
+<li><strong>Quy tắc hình bình hành:</strong> $ABCD$ là hình bình hành $\Rightarrow$ $\overrightarrow{AB} + \overrightarrow{AD} = \overrightarrow{AC}$.</li>
+<li><strong>Quy tắc trừ:</strong> $\overrightarrow{AB} - \overrightarrow{AC} = \overrightarrow{CB}$.</li>
+<li><strong>Trung điểm:</strong> $I$ là trung điểm $AB$ $\Leftrightarrow$ $\overrightarrow{IA} + \overrightarrow{IB} = \vec{0}$; $\overrightarrow{MA} + \overrightarrow{MB} = 2\overrightarrow{MI}$.</li>
+<li><strong>Trọng tâm:</strong> $\overrightarrow{GA} + \overrightarrow{GB} + \overrightarrow{GC} = \vec{0}$.</li>
+</ul>
+
+<!-- 3. Tích với số -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Tích của một vectơ với một số</h2>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>$k\vec{a}$: cùng hướng $\vec{a}$ nếu $k \gt 0$, ngược hướng nếu $k \lt 0$; $|k\vec{a}| = |k|\cdot|\vec{a}|$.</li>
+<li>Tính chất: $k(l\vec{a}) = (kl)\vec{a}$; $(k+l)\vec{a} = k\vec{a} + l\vec{a}$; $k(\vec{a}+\vec{b}) = k\vec{a} + k\vec{b}$.</li>
+<li><strong>Cùng phương:</strong> $\vec{a}, \vec{b}$ ($\vec{b} \ne \vec{0}$) cùng phương $\Leftrightarrow$ tồn tại $k$: $\vec{a} = k\vec{b}$.</li>
+<li>$\overrightarrow{OI} = \dfrac{\overrightarrow{OA} + \overrightarrow{OB}}{2}$ ($I$ là trung điểm $AB$); $\overrightarrow{OG} = \dfrac{\overrightarrow{OA} + \overrightarrow{OB} + \overrightarrow{OC}}{3}$ ($G$ là trọng tâm $\triangle ABC$).</li>
+</ul>
+
+<!-- 4. Tọa độ -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Vectơ trong mặt phẳng tọa độ</h2>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>$\vec{u} = (x; y) \Leftrightarrow \vec{u} = x\vec{i} + y\vec{j}$.</li>
+<li>$(x_1; y_1) \pm (x_2; y_2) = (x_1 \pm x_2;\ y_1 \pm y_2)$; $k(x; y) = (kx; ky)$.</li>
+<li>$\overrightarrow{AB} = (x_B - x_A;\ y_B - y_A)$; $AB = \sqrt{(x_B-x_A)^2 + (y_B-y_A)^2}$.</li>
+<li><strong>Trung điểm:</strong> $\left(\dfrac{x_A+x_B}{2};\ \dfrac{y_A+y_B}{2}\right)$; <strong>trọng tâm:</strong> $\left(\dfrac{x_A+x_B+x_C}{3};\ \dfrac{y_A+y_B+y_C}{3}\right)$.</li>
+<li><strong>Cùng phương:</strong> $x_1y_2 - x_2y_1 = 0$.</li>
+</ul>
+
+<!-- 5. Tích vô hướng -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">5. Tích vô hướng của hai vectơ</h2>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>$\vec{a}\cdot\vec{b} = |\vec{a}|\cdot|\vec{b}|\cdot\cos(\vec{a}, \vec{b})$; $\vec{a}\cdot\vec{a} = |\vec{a}|^2$.</li>
+<li>$\vec{a} \perp \vec{b} \Leftrightarrow \vec{a}\cdot\vec{b} = 0$ (với $\vec{a}, \vec{b} \ne \vec{0}$).</li>
+<li><strong>Tọa độ:</strong> $\vec{a}\cdot\vec{b} = x_1x_2 + y_1y_2$; $\cos(\vec{a},\vec{b}) = \dfrac{x_1x_2+y_1y_2}{|\vec{a}|\cdot|\vec{b}|}$.</li>
+<li>Ứng dụng: tính góc, chứng minh vuông góc, tính độ dài ($|\vec{a}+\vec{b}|^2 = |\vec{a}|^2 + 2\vec{a}\cdot\vec{b} + |\vec{b}|^2$).</li>
+</ul>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Sơ đồ tư duy chương 4</p>
+<p class="mt-1"><strong>Khái niệm</strong> (vectơ, độ dài, bằng nhau, cùng phương) → <strong>Tổng/Hiệu</strong> (ba điểm, hình bình hành, trừ) → <strong>Tích với số</strong> (định nghĩa, cùng phương, trung điểm/trọng tâm) → <strong>Tọa độ</strong> (phép toán, trung điểm, trọng tâm, cùng phương) → <strong>Tích vô hướng</strong> (định nghĩa, tọa độ, góc, vuông góc).</p>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Ôn kĩ lý thuyết rồi làm 10 bộ đề tổng hợp bên dưới nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+</body>
+</html>
