@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 12: Một số hệ thức giữa cạnh, góc trong tam giác vuông và ứng dụng</title>
+    <meta name="lesson-title" content="Bài 12: Một số hệ thức giữa cạnh, góc trong tam giác vuông và ứng dụng">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 12: Một số hệ thức giữa cạnh, góc trong tam giác vuông và ứng dụng</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 4: Hệ thức lượng trong tam giác vuông • Bài 12: Một số hệ thức giữa cạnh, góc trong tam giác vuông và ứng dụng</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 12: Một số hệ thức giữa cạnh, góc trong tam giác vuông và ứng dụng</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 4: Hệ thức lượng trong tam giác vuông (Kết nối tri thức với cuộc sống)</p>
+
+<p>Trong bài này ta xét tam giác $ABC$ vuông tại $A$ với quy ước: cạnh huyền $BC = a$, cạnh $CA = b$, cạnh $AB = c$.</p>
+<div class="svg-fig">
+<svg viewBox="0 0 380 262" xmlns="http://www.w3.org/2000/svg">
+  <polygon points="80,200 80,50 320,200" fill="#e0f2fe" stroke="#0369a1" stroke-width="2.5"/>
+  <path d="M80,188 h12 v12" fill="none" stroke="#0369a1" stroke-width="2"/>
+  <path d="M80,72 A22,22 0 0 1 98.7,61.7" fill="none" stroke="#dc2626" stroke-width="2.5"/>
+  <path d="M296,200 A24,24 0 0 1 299.6,187.3" fill="none" stroke="#16a34a" stroke-width="2.5"/>
+  <text x="70" y="44" font-size="17" font-weight="bold" fill="#0f172a">B</text>
+  <text x="64" y="220" font-size="17" font-weight="bold" fill="#0f172a">A</text>
+  <text x="326" y="220" font-size="17" font-weight="bold" fill="#0f172a">C</text>
+  <text x="102" y="56" font-size="14" font-weight="bold" fill="#dc2626">B</text>
+  <text x="272" y="192" font-size="14" font-weight="bold" fill="#16a34a">C</text>
+  <text x="52" y="125" font-size="16" font-weight="bold" fill="#0369a1" transform="rotate(-90 52 125)" text-anchor="middle">c</text>
+  <text x="200" y="226" font-size="16" font-weight="bold" fill="#0369a1" text-anchor="middle">b</text>
+  <text x="200" y="106" font-size="16" font-weight="bold" fill="#0369a1" transform="rotate(32 200 106)" text-anchor="middle">a</text>
+</svg>
+<p class="text-center text-sm text-slate-500 italic">Quy ước: tam giác ABC vuông tại A, BC = a (cạnh huyền), CA = b, AB = c</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Hệ thức giữa cạnh huyền, cạnh góc vuông và sin, côsin</h2>
+<p>Mỗi <strong>cạnh góc vuông</strong> bằng <strong>cạnh huyền</strong> nhân với <strong>sin góc đối</strong> hoặc nhân với <strong>côsin góc kề</strong>:</p>
+<p class="text-center text-lg my-3">$b = a\sin B = a\cos C$ &nbsp;&nbsp;;&nbsp;&nbsp; $c = a\sin C = a\cos B$</p>
+<p>Cách nhớ: “cạnh góc vuông = cạnh huyền × sin (góc đối diện nó)”. Chẳng hạn cạnh $b = CA$ đối diện góc $B$ nên $b = a\sin B$.</p>
+<div class="bg-amber-50 border-l-4 border-amber-400 p-3 my-3 rounded-r-lg">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p>Cạnh góc vuông = cạnh huyền × sin(góc đối) = cạnh huyền × cos(góc kề). Từ đó cũng suy ra: cạnh huyền = cạnh góc vuông chia cho sin(góc đối).</p>
+</div>
+<p class="font-bold">Ví dụ 1 (có lời giải):</p>
+<p>Cho tam giác $ABC$ vuông tại $A$ có $BC = 8$ cm và $\widehat{B} = 30^\circ$. Tính $AC$.</p>
+<p><strong>Lời giải:</strong> Cạnh $AC$ đối diện góc $B$ nên $AC = BC \cdot \sin B = 8 \cdot \sin 30^\circ = 8 \cdot \dfrac{1}{2} = 4$ (cm).</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Hệ thức giữa hai cạnh góc vuông và tang, côtang</h2>
+<p>Mỗi <strong>cạnh góc vuông</strong> bằng <strong>cạnh góc vuông kia</strong> nhân với <strong>tang góc đối</strong> hoặc nhân với <strong>côtang góc kề</strong>:</p>
+<p class="text-center text-lg my-3">$b = c\tan B = c\cot C$ &nbsp;&nbsp;;&nbsp;&nbsp; $c = b\tan C = b\cot B$</p>
+<p class="font-bold">Ví dụ 2 (có lời giải):</p>
+<p>Cho tam giác $ABC$ vuông tại $A$ có $AB = 6$ cm và $\widehat{B} = 45^\circ$. Tính $AC$.</p>
+<p><strong>Lời giải:</strong> $AC$ là cạnh đối của góc $B$ so với cạnh kề $AB$, nên $AC = AB \cdot \tan B = 6 \cdot \tan 45^\circ = 6 \cdot 1 = 6$ (cm).</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Giải tam giác vuông</h2>
+<p><strong>Giải tam giác vuông</strong> là tìm tất cả các cạnh và các góc còn lại của tam giác vuông đó khi biết trước <strong>hai cạnh</strong>, hoặc <strong>một cạnh và một góc nhọn</strong>.</p>
+<p class="font-bold">Ví dụ 3 (có lời giải):</p>
+<p>Giải tam giác $ABC$ vuông tại $A$, biết $AB = 5$ cm, $AC = 12$ cm (làm tròn góc đến độ).</p>
+<p><strong>Lời giải:</strong></p>
+<ul class="list-disc ml-6 my-2">
+<li>Cạnh huyền: $BC = \sqrt{AB^2 + AC^2} = \sqrt{25 + 144} = 13$ (cm).</li>
+<li>$\tan B = \dfrac{AC}{AB} = \dfrac{12}{5} = 2{,}4 \Rightarrow \widehat{B} \approx 67^\circ$ (dùng máy tính).</li>
+<li>$\widehat{C} = 90^\circ - \widehat{B} \approx 23^\circ$.</li>
+</ul>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Một số ứng dụng trong thực tế</h2>
+<p>Các hệ thức trên giúp đo gián tiếp những khoảng cách không đo trực tiếp được: chiều cao cột cờ, tòa nhà, khoảng cách qua sông… Ta thường dùng khái niệm <strong>góc nâng</strong> (góc giữa phương nằm ngang và tia nhìn <em>lên</em> vật) và <strong>góc hạ</strong> (tia nhìn <em>xuống</em> vật).</p>
+<div class="svg-fig">
+<svg viewBox="0 0 400 270" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="230" width="400" height="40" fill="#e2e8f0"/>
+  <rect x="300" y="70" width="14" height="160" fill="#94a3b8"/>
+  <polygon points="300,70 314,70 307,52" fill="#dc2626"/>
+  <circle cx="60" cy="214" r="10" fill="#fbbf24" stroke="#b45309" stroke-width="2"/>
+  <line x1="60" y1="214" x2="307" y2="70" stroke="#dc2626" stroke-width="2" stroke-dasharray="7,5"/>
+  <line x1="60" y1="214" x2="307" y2="214" stroke="#0369a1" stroke-width="2"/>
+  <path d="M96,214 A36,36 0 0 0 85.4,192.6" fill="none" stroke="#dc2626" stroke-width="2.5"/>
+  <text x="100" y="200" font-size="13" font-weight="bold" fill="#dc2626">góc nâng</text>
+  <text x="150" y="248" font-size="13" fill="#0369a1">khoảng cách đã biết</text>
+  <text x="322" y="160" font-size="13" fill="#475569">cột cờ</text>
+  <text x="40" y="200" font-size="13" fill="#475569">mắt</text>
+</svg>
+<p class="text-center text-sm text-slate-500 italic">Đo chiều cao cột cờ nhờ góc nâng và khoảng cách trên mặt đất</p>
+</div>
+<p class="font-bold">Ví dụ 4 (có lời giải):</p>
+<p>Một người đứng cách chân cột cờ $20$ m, nhìn lên đỉnh cột với <strong>góc nâng</strong> $35^\circ$. Mắt người đó cao $1{,}6$ m so với mặt đất. Tính chiều cao của cột cờ (làm tròn đến mét).</p>
+<p><strong>Lời giải:</strong> Gọi $h$ là chiều cao từ mặt đất đến đỉnh cột. Phần cột cao hơn tầm mắt là $20 \cdot \tan 35^\circ \approx 20 \cdot 0{,}7 = 14$ (m). Vậy chiều cao cột cờ $\approx 14 + 1{,}6 = 15{,}6 \approx 16$ (m).</p>
+<div class="bg-amber-50 border-l-4 border-amber-400 p-3 my-3 rounded-r-lg">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p>Bài toán thực tế → vẽ tam giác vuông → xác định cạnh đã biết, góc đã biết → chọn đúng hệ thức (sin/cos/tan) → tính. Nhớ cộng thêm chiều cao của người quan sát nếu đề cho!</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="table-scroll"><table class="w-full border-collapse text-sm">
+<tr><th class="border border-slate-300 px-4 py-1 bg-sky-50">Nội dung</th><th class="border border-slate-300 px-4 py-1 bg-sky-50">Công thức</th><th class="border border-slate-300 px-4 py-1 bg-sky-50">Ví dụ</th></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Cạnh góc vuông theo cạnh huyền</td><td class="border border-slate-300 px-4 py-1">$b=a\sin B=a\cos C$; $c=a\sin C=a\cos B$</td><td class="border border-slate-300 px-4 py-1">$a=8$, $\widehat B=30^\circ \Rightarrow b=4$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Cạnh góc vuông theo cạnh góc vuông kia</td><td class="border border-slate-300 px-4 py-1">$b=c\tan B=c\cot C$; $c=b\tan C=b\cot B$</td><td class="border border-slate-300 px-4 py-1">$c=6$, $\widehat B=45^\circ \Rightarrow b=6$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Giải tam giác vuông</td><td class="border border-slate-300 px-4 py-1">Tìm các cạnh, góc còn lại từ 2 cạnh hoặc 1 cạnh + 1 góc nhọn</td><td class="border border-slate-300 px-4 py-1">$AB=5,AC=12 \Rightarrow BC=13$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Ứng dụng</td><td class="border border-slate-300 px-4 py-1">Góc nâng/góc hạ + hệ thức lượng</td><td class="border border-slate-300 px-4 py-1">Đo chiều cao cột cờ, tòa nhà</td></tr>
+</table></div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
