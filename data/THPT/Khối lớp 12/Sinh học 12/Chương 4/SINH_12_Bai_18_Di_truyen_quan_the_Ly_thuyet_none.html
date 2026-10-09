@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 18. Di truyền quần thể</title>
+    <meta name="lesson-title" content="Bài 18. Di truyền quần thể">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 18. Di truyền quần thể</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 1: Mệnh đề và tập hợp • Bài 18. Di truyền quần thể</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 18. Di truyền quần thể</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 4: Di truyền quần thể • Kết nối tri thức với cuộc sống</p>
+
+<p><strong>Di truyền quần thể</strong> nghiên cứu <strong>cấu trúc di truyền của quần thể</strong> (tần số allele, tần số kiểu gene) và <strong>sự biến đổi</strong> của chúng qua các thế hệ dưới tác động của các nhân tố tiến hóa.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Khái niệm quần thể và vốn gene</h2>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Quần thể</strong> là tập hợp các cá thể <strong>cùng loài</strong>, sống trong một <strong>khoảng không gian xác định</strong>, giao phối tự do với nhau tạo ra thế hệ sau.</li>
+<li><strong>Vốn gene</strong> là toàn bộ các <strong>allele</strong> của mọi gene trong quần thể ở một thời điểm nhất định.</li>
+<li>Đặc trưng di truyền của quần thể: <strong>tần số allele</strong> và <strong>tần số kiểu gene</strong>.</li>
+</ul>
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">1.1. Tần số allele và tần số kiểu gene</h3>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Tần số allele</strong>: tỉ lệ allele đó trên tổng số allele của gene trong quần thể. Ví dụ: gene có 2 allele A, a với tần số lần lượt là $p$ và $q$ thì $p + q = 1$.</li>
+<li><strong>Tần số kiểu gene</strong>: tỉ lệ kiểu gene đó trên tổng số cá thể. Ví dụ: $d$ (AA) + $h$ (Aa) + $r$ (aa) = 1.</li>
+<li>Cách tính: với $N$ cá thể ($d$ AA, $h$ Aa, $r$ aa): $p = d + h/2$; $q = r + h/2$.</li>
+</ul>
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+Ví dụ: quần thể có 400 AA, 400 Aa, 200 aa (N = 1000). Tần số A: $p = 0,4 + 0,4/2 = 0,6$; tần số a: $q = 0,2 + 0,4/2 = 0,4$.
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Quần thể tự phối</h2>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Tự phối</strong> (tự thụ phấn ở thực vật, giao phối cận huyết ở động vật) làm tăng <strong>tỉ lệ đồng hợp</strong>, giảm <strong>tỉ lệ dị hợp</strong> qua các thế hệ.</li>
+<li>Sau $n$ thế hệ tự phối, từ quần thể ban đầu ($d$ AA : $h$ Aa : $r$ aa): Aa $= h/2^n$; AA $= d + h(1-1/2^n)/2$; aa $= r + h(1-1/2^n)/2$.</li>
+<li><strong>Tần số allele không đổi</strong> qua tự phối; chỉ <strong>cấu trúc kiểu gene thay đổi</strong>.</li>
+<li>Hậu quả: <strong>thoái hóa giống</strong> (biểu hiện tính trạng xấu do gene lặn) → trong chọn giống dùng tự phối để <strong>tạo dòng thuần</strong>.</li>
+</ul>
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+Ví dụ: P: 100% Aa tự phối. F1: 1/4 AA : 2/4 Aa : 1/4 aa; F2: 3/8 AA : 2/8 Aa : 3/8 aa. Tỉ lệ Aa giảm một nửa mỗi thế hệ.
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Quần thể ngẫu phối và định luật Hardy – Weinberg</h2>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">3.1. Nội dung định luật</h3>
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Trong quần thể <strong>ngẫu phối</strong> kích thước lớn, nếu không có các nhân tố làm thay đổi tần số allele thì <strong>cấu trúc di truyền ổn định</strong> qua các thế hệ: $p^2$ AA + $2pq$ Aa + $q^2$ aa = 1.</p>
+</div>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>$p^2, 2pq, q^2$ là tần số các kiểu gene AA, Aa, aa khi quần thể <strong>cân bằng di truyền</strong>.</li>
+<li>Quần thể cân bằng: tần số allele và tần số kiểu gene <strong>không đổi</strong> qua các thế hệ.</li>
+</ul>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">3.2. Điều kiện nghiệm đúng</h3>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Quần thể có <strong>kích thước lớn</strong>; các cá thể <strong>ngẫu phối</strong> (giao phối tự do).</li>
+<li><strong>Không</strong> có đột biến, <strong>không</strong> có chọn lọc tự nhiên, <strong>không</strong> có di – nhập gene, <strong>không</strong> có yếu tố ngẫu nhiên (phiêu bạt di truyền).</li>
+<li>Trong tự nhiên các điều kiện này <strong>khó thỏa mãn hoàn toàn</strong> → quần thể luôn biến đổi.</li>
+</ul>
+
+<div class="svg-fig"><svg viewBox="0 0 460 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="So do quan the tu phoi va ngau phoi">
+<rect x="2" y="2" width="456" height="256" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="230" y="26" font-family="sans-serif" font-size="13" font-weight="bold" fill="#1e3a8a" text-anchor="middle">TỰ PHỐI VÀ NGẪU PHỐI</text>
+<rect x="30" y="42" width="190" height="90" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="125" y="64" font-family="sans-serif" font-size="11" font-weight="bold" fill="#92400e" text-anchor="middle">Tự phối (Aa × Aa)</text>
+<text x="125" y="86" font-family="sans-serif" font-size="11" fill="#92400e" text-anchor="middle">P: 100% Aa</text>
+<text x="125" y="106" font-family="sans-serif" font-size="11" fill="#92400e" text-anchor="middle">F1: 1/4 AA : 2/4 Aa : 1/4 aa</text>
+<text x="125" y="124" font-family="sans-serif" font-size="11" fill="#b91c1c" text-anchor="middle">Aa giảm 1/2 mỗi thế hệ</text>
+<rect x="240" y="42" width="190" height="90" rx="8" fill="#dcfce7" stroke="#4ade80" stroke-width="1.5"/>
+<text x="335" y="64" font-family="sans-serif" font-size="11" font-weight="bold" fill="#166534" text-anchor="middle">Ngẫu phối (Hardy–Weinberg)</text>
+<text x="335" y="86" font-family="sans-serif" font-size="11" fill="#166534" text-anchor="middle">p² AA + 2pq Aa + q² aa = 1</text>
+<text x="335" y="106" font-family="sans-serif" font-size="11" fill="#166534" text-anchor="middle">Cấu trúc ổn định</text>
+<text x="335" y="124" font-family="sans-serif" font-size="11" fill="#166534" text-anchor="middle">p, q không đổi</text>
+<text x="230" y="158" font-family="sans-serif" font-size="11" font-weight="bold" fill="#1e3a8a" text-anchor="middle">Ví dụ tính tần số allele:</text>
+<text x="230" y="180" font-family="sans-serif" font-size="11" fill="#475569" text-anchor="middle">400 AA : 400 Aa : 200 aa → p(A) = 0,6; q(a) = 0,4</text>
+<text x="230" y="202" font-family="sans-serif" font-size="11" fill="#475569" text-anchor="middle">Nếu cân bằng: 0,36 AA : 0,48 Aa : 0,16 aa</text>
+<text x="230" y="224" font-family="sans-serif" font-size="11" fill="#475569" text-anchor="middle">0,36 + 0,48 + 0,16 = 1 ✓</text>
+<text x="230" y="244" font-family="sans-serif" font-size="11" fill="#b91c1c" text-anchor="middle">Tự phối: đổi KG, không đổi tần số allele</text>
+</svg></div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Ý nghĩa và ứng dụng</h2>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Lí luận:</strong> giải thích vì sao trong tự nhiên có những quần thể <strong>ổn định</strong> qua nhiều thế hệ.</li>
+<li><strong>Thực tiễn:</strong>
+<ul class="list-disc ml-6 space-y-1 my-2">
+<li>Từ tần số cá thể <strong>lặn</strong> ($q^2$) suy ra tần số allele ($q$) và tần số <strong>người mang gene</strong> ($2pq$) – ứng dụng trong <strong>di truyền y học</strong> (ví dụ: tính tần số người mang gene bệnh).</li>
+<li>Đánh giá sự <strong>biến động di truyền</strong> của quần thể, phục vụ <strong>bảo tồn</strong>.</li>
+</ul></li>
+</ul>
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+Ví dụ: bệnh bạch tạng (lặn) có tần số 1/10000 ($q^2$) → $q = 1/100$ → tần số người mang gene $2pq ≈ 1/50$.
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li>Vốn gene: toàn bộ allele của quần thể; đặc trưng bởi tần số allele và tần số kiểu gene.</li>
+<li>Tự phối: tăng đồng hợp, giảm dị hợp; tần số allele không đổi.</li>
+<li>Định luật Hardy – Weinberg: $p^2$ AA + $2pq$ Aa + $q^2$ aa = 1 khi ngẫu phối và không có nhân tố tiến hóa.</li>
+<li>Ứng dụng: tính tần số người mang gene bệnh, đánh giá biến động di truyền.</li>
+</ul>
+</div><p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
