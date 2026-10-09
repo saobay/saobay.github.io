@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài tập Bài 38: Hình chóp tam giác đều</title>
+    <meta name="lesson-title" content="Bài tập Bài 38: Hình chóp tam giác đều">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Bài tập</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài tập Bài 38: Hình chóp tam giác đều</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 10: Một số hình khối trong thực tiễn • Bài 38: Hình chóp tam giác đều</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="saobay-exam10">
+<script type="application/json" class="saobay-exam10-data">
+{
+ "sets": [
+  {
+   "name": "Đề 1",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Hình chóp tam giác đều có cạnh đáy $4$ cm, trung đoạn $8$ cm. Diện tích một mặt bên là:",
+     "options": [
+      "A. $32$ cm$^2$",
+      "B. $48$ cm$^2$",
+      "C. $12$ cm$^2$",
+      "D. $16$ cm$^2$"
+     ],
+     "answer": "D",
+     "explain": "Một mặt bên là tam giác có đáy $4$ cm, chiều cao $8$ cm nên diện tích là $\\frac{1}{2} \\times 4 \\times 8 = 16$ (cm$^2$)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Hình chóp tam giác đều có bao nhiêu mặt bên?",
+     "options": [
+      "A. 6",
+      "B. 4",
+      "C. 1",
+      "D. 3"
+     ],
+     "answer": "D",
+     "explain": "3 mặt bên: $SAB$, $SBC$, $SCA$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Hình chóp tam giác đều có cạnh đáy $6$ cm, trung đoạn $5$ cm. Diện tích xung quanh gấp mấy lần diện tích một mặt bên?",
+     "options": [
+      "A. 3 lần",
+      "B. 2 lần",
+      "C. 6 lần",
+      "D. 4 lần"
+     ],
+     "answer": "A",
+     "explain": "Có 3 mặt bên bằng nhau nên $S_{xq} = 3 \\times S_{\\text{một mặt bên}}$ ($S_{xq} = 45$ cm$^2$)."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Hình chóp tam giác đều có diện tích xung quanh $36$ cm$^2$, cạnh đáy $6$ cm. Tính trung đoạn $d$ (đơn vị: cm). (Điền số)",
+     "answer": "4",
+     "explain": "$S_{xq} = \\frac{3ad}{2}$ nên $d = \\frac{2S_{xq}}{3a} = \\frac{72}{18} = 4$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Diện tích xung quanh của hình chóp tam giác đều bằng:",
+     "options": [
+      "A. diện tích một mặt bên",
+      "B. tổng diện tích các mặt bên và mặt đáy",
+      "C. diện tích mặt đáy",
+      "D. tổng diện tích các mặt bên"
+     ],
+     "answer": "D",
+     "explain": "$S_{xq}$ là tổng diện tích 3 mặt bên."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Các mặt bên của hình chóp tam giác đều là:",
+     "options": [
+      "A. các tam giác vuông bằng nhau",
+      "B. các hình thang cân",
+      "C. các tam giác cân bằng nhau",
+      "D. các tam giác đều"
+     ],
+     "answer": "C",
+     "explain": "3 mặt bên là các tam giác cân bằng nhau, chung đỉnh $S$."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Hình chóp tam giác đều $S.ABC$ có cạnh đáy $8$ cm. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $AB = BC = CA = 8$ cm.",
+      "b) $SA = SB = SC$.",
+      "c) $SA = 8$ cm.",
+      "d) Hình chóp có 6 cạnh."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "a) Đúng. b) Đúng. c) Sai — chưa biết độ dài cạnh bên. d) Đúng."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Hình chóp tam giác đều có cạnh đáy $8$ cm, trung đoạn $5$ cm. Tính diện tích xung quanh (đơn vị: cm$^2$). (Điền số)",
+     "answer": "60",
+     "explain": "$S_{xq} = 3 \\times \\frac{1}{2} \\times 8 \\times 5 = 60$ (cm$^2$)."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "So sánh hình chóp tam giác đều và hình chóp tứ giác đều. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Hình chóp tam giác đều có ít mặt hơn hình chóp tứ giác đều.",
+      "b) Hình chóp tam giác đều có 6 cạnh, hình chóp tứ giác đều có 8 cạnh.",
+      "c) Đáy của hình chóp tam giác đều là tam giác đều.",
+      "d) Đáy của hình chóp tứ giác đều là tam giác đều."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a) Đúng — 4 mặt so với 5 mặt. b) Đúng. c) Đúng. d) Sai — đáy là hình vuông."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho hình chóp tam giác đều $S.ABC$ có cạnh đáy $10$ cm. Chu vi mặt đáy là:",
+     "options": [
+      "A. $10$ cm",
+      "B. $31$ cm",
+      "C. $30$ cm",
+      "D. $100$ cm"
+     ],
+     "answer": "C",
+     "explain": "Mặt đáy là tam giác đều cạnh $10$ cm nên chu vi là $3 \\times 10 = 30$ (cm)."
+    }
+   ]
+  },
+  {
+   "name": "Đề 2",
+   "questions": [
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Hình chóp tam giác đều $S.ABC$ có cạnh đáy $5$ cm. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $AB = BC = CA = 5$ cm.",
+      "b) $SA = SB = SC$.",
+      "c) $SA = 5$ cm.",
+      "d) Hình chóp có 6 cạnh."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "a) Đúng. b) Đúng. c) Sai — chưa biết độ dài cạnh bên. d) Đúng."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Hình chóp tam giác đều có cạnh đáy $10$ cm, trung đoạn $5$ cm. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Diện tích một mặt bên là $25$ cm$^2$.",
+      "b) Diện tích xung quanh là $75$ cm$^2$.",
+      "c) Diện tích xung quanh là $50$ cm$^2$.",
+      "d) Diện tích toàn phần bằng diện tích xung quanh."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "F"
+     ],
+     "explain": "a) Đúng — $\\frac{1}{2} \\times 10 \\times 5 = 25$. b) Đúng — $3 \\times 25 = 75$. c) Sai. d) Sai — $S_{tp} = S_{xq} + S_{\\text{đáy}}$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho hình chóp tam giác đều $S.ABC$ có cạnh đáy $8$ cm. Chu vi mặt đáy là:",
+     "options": [
+      "A. $8$ cm",
+      "B. $64$ cm",
+      "C. $24$ cm",
+      "D. $25$ cm"
+     ],
+     "answer": "C",
+     "explain": "Mặt đáy là tam giác đều cạnh $8$ cm nên chu vi là $3 \\times 8 = 24$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Đường cao của hình chóp tam giác đều $S.ABC$ ($O$ là trọng tâm tam giác $ABC$) là:",
+     "options": [
+      "A. đoạn thẳng $AB$",
+      "B. đoạn thẳng $SA$",
+      "C. trung đoạn của mặt bên",
+      "D. đoạn thẳng $SO$ vuông góc với mặt đáy"
+     ],
+     "answer": "D",
+     "explain": "$SO$ vuông góc với mặt phẳng đáy $(ABC)$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Cho hình chóp tam giác đều $S.ABC$ có đáy là tam giác đều cạnh 5 cm. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. $AB = BC = CA = 5$ cm",
+      "B. $AB = 5$ cm, $BC = 6$ cm",
+      "C. $SA = SB = AB = 5$ cm",
+      "D. $SA = AB = 5$ cm"
+     ],
+     "answer": "A",
+     "explain": "Đáy là tam giác đều cạnh 5 cm nên $AB = BC = CA = 5$ cm; cạnh bên chưa biết."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho hình chóp tam giác đều $S.ABC$, $M$ là trung điểm của $BC$. Đoạn thẳng $SM$ là:",
+     "options": [
+      "A. cạnh đáy của hình chóp",
+      "B. đường cao của hình chóp",
+      "C. trung đoạn của hình chóp",
+      "D. cạnh bên của hình chóp"
+     ],
+     "answer": "C",
+     "explain": "$SM$ là đường cao của mặt bên $SBC$ kẻ từ $S$ — chính là trung đoạn."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Hình chóp tam giác đều có cạnh đáy $10$ cm, trung đoạn $9$ cm. Tính diện tích xung quanh (đơn vị: cm$^2$). (Điền số)",
+     "answer": "135",
+     "explain": "$S_{xq} = \\frac{3 \\times 10 \\times 9}{2} = 135$ (cm$^2$)."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Biết diện tích xung quanh của một hình chóp tam giác đều là $90$ cm$^2$, cạnh đáy $6$ cm. Trung đoạn của hình chóp là:",
+     "options": [
+      "A. $11$ cm",
+      "B. $20$ cm",
+      "C. $9$ cm",
+      "D. $10$ cm"
+     ],
+     "answer": "D",
+     "explain": "$S_{xq} = \\frac{3ad}{2}$ nên $d = \\frac{2S_{xq}}{3a} = \\frac{180}{18} = 10$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Cho hình chóp tam giác đều $S.ABC$ có $O$ là trọng tâm tam giác $ABC$. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. $O$ là trung điểm của $SA$",
+      "B. $SO$ song song với mặt phẳng $(ABC)$",
+      "C. $SA$ vuông góc với mặt phẳng $(ABC)$",
+      "D. $SO$ vuông góc với mặt phẳng $(ABC)$"
+     ],
+     "answer": "D",
+     "explain": "$SO$ là đường cao của hình chóp nên vuông góc với mặt đáy."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Hình chóp tam giác đều $S.ABC$ có cạnh bên $SA = 15$ cm, khoảng cách từ trọng tâm $O$ của mặt đáy đến đỉnh $A$ là $OA = 9$ cm. Tính chiều cao $SO$ của hình chóp (đơn vị: cm). (Điền số)",
+     "answer": "12",
+     "explain": "Tam giác $SOA$ vuông tại $O$: $SO^2 = SA^2 - OA^2 = 225 - 81 = 144$, suy ra $SO = 12$ (cm)."
+    }
+   ]
+  },
+  {
+   "name": "Đề 3",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong hình chóp tam giác đều $S.ABC$, điểm $O$ là chân đường cao kẻ từ $S$. Điểm $O$ là:",
+     "options": [
+      "A. đỉnh $A$",
+      "B. điểm bất kì trong tam giác $ABC$",
+      "C. trung điểm của $AB$",
+      "D. trọng tâm của tam giác đều $ABC$"
+     ],
+     "answer": "D",
+     "explain": "$SO$ vuông góc với mặt đáy tại trọng tâm $O$ của tam giác đều $ABC$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Hình chóp tam giác đều $S.ABC$ có cạnh đáy 6 cm. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $AB = BC = CA = 6$ cm.",
+      "b) $SA = SB = SC$.",
+      "c) $SA = 6$ cm.",
+      "d) Các mặt bên là tam giác cân."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "a) Đúng. b) Đúng. c) Sai — chưa biết độ dài cạnh bên. d) Đúng."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Hình chóp tam giác đều có cạnh đáy $4$ cm, trung đoạn $6$ cm. Diện tích một mặt bên là:",
+     "options": [
+      "A. $24$ cm$^2$",
+      "B. $10$ cm$^2$",
+      "C. $12$ cm$^2$",
+      "D. $36$ cm$^2$"
+     ],
+     "answer": "C",
+     "explain": "Một mặt bên là tam giác có đáy $4$ cm, chiều cao $6$ cm nên diện tích là $\\frac{1}{2} \\times 4 \\times 6 = 12$ (cm$^2$)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Hình chóp tam giác đều có:",
+     "options": [
+      "A. 6 đỉnh và 4 mặt",
+      "B. 4 đỉnh và 4 mặt",
+      "C. 4 đỉnh và 5 mặt",
+      "D. 5 đỉnh và 4 mặt"
+     ],
+     "answer": "B",
+     "explain": "4 đỉnh ($S$, $A$, $B$, $C$) và 4 mặt (1 đáy + 3 mặt bên)."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Hình chóp tam giác đều có cạnh đáy $10$ cm, trung đoạn $12$ cm. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Diện tích một mặt bên là $60$ cm$^2$.",
+      "b) Diện tích xung quanh là $180$ cm$^2$.",
+      "c) Diện tích xung quanh là $120$ cm$^2$.",
+      "d) Diện tích toàn phần bằng diện tích xung quanh."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "F"
+     ],
+     "explain": "a), b) Đúng. c) Sai. d) Sai — $S_{tp} = S_{xq} + S_{\\text{đáy}}$ (lớn hơn $S_{xq}$)."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Hình chóp tam giác đều có cạnh đáy $6$ cm, trung đoạn $9$ cm. Tính diện tích xung quanh (đơn vị: cm$^2$). (Điền số)",
+     "answer": "81",
+     "explain": "$S_{xq} = 3 \\times \\frac{1}{2} \\times 6 \\times 9 = 81$ (cm$^2$)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Hình chóp tam giác đều có cạnh đáy $10$ cm, trung đoạn $5$ cm. Diện tích một mặt bên là:",
+     "options": [
+      "A. $75$ cm$^2$",
+      "B. $15$ cm$^2$",
+      "C. $50$ cm$^2$",
+      "D. $25$ cm$^2$"
+     ],
+     "answer": "D",
+     "explain": "Một mặt bên là tam giác có đáy $10$ cm, chiều cao $5$ cm nên diện tích là $\\frac{1}{2} \\times 10 \\times 5 = 25$ (cm$^2$)."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Hình chóp tam giác đều $S.ABC$ có cạnh bên $SA = 20$ cm, $OA = 12$ cm ($O$ là trọng tâm mặt đáy). Tính chiều cao $SO$ (đơn vị: cm). (Điền số)",
+     "answer": "16",
+     "explain": "Tam giác $SOA$ vuông tại $O$: $SO^2 = 20^2 - 12^2 = 256$, suy ra $SO = 16$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Biết diện tích xung quanh của một hình chóp tam giác đều là $60$ cm$^2$, cạnh đáy $8$ cm. Trung đoạn của hình chóp là:",
+     "options": [
+      "A. $6$ cm",
+      "B. $10$ cm",
+      "C. $4$ cm",
+      "D. $5$ cm"
+     ],
+     "answer": "D",
+     "explain": "$S_{xq} = \\frac{3ad}{2}$ nên $d = \\frac{2S_{xq}}{3a} = \\frac{120}{24} = 5$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho hình chóp tam giác đều $S.ABC$. Đỉnh của hình chóp là:",
+     "options": [
+      "A. $B$",
+      "B. $O$",
+      "C. $S$",
+      "D. $A$"
+     ],
+     "answer": "C",
+     "explain": "Hình chóp tam giác đều $S.ABC$ có đỉnh là $S$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 4",
+   "questions": [
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Hình chóp tam giác đều có cạnh đáy $4$ cm, trung đoạn $8$ cm. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Diện tích một mặt bên là $16$ cm$^2$.",
+      "b) Diện tích xung quanh là $48$ cm$^2$.",
+      "c) Diện tích xung quanh là $32$ cm$^2$.",
+      "d) Diện tích toàn phần bằng diện tích xung quanh."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "F"
+     ],
+     "explain": "a), b) Đúng. c) Sai. d) Sai — $S_{tp} = S_{xq} + S_{\\text{đáy}}$ (lớn hơn $S_{xq}$)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Các cạnh đáy của hình chóp tam giác đều $S.ABC$ là:",
+     "options": [
+      "A. $SA$, $SB$, $SC$",
+      "B. $AB$, $BC$, $CA$",
+      "C. $SA$, $AB$, $BC$",
+      "D. $SO$, $AB$, $BC$"
+     ],
+     "answer": "B",
+     "explain": "3 cạnh đáy tạo thành tam giác đều $ABC$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Hình chóp tam giác đều $S.ABC$ có cạnh bên $SA = 25$ cm, khoảng cách từ trọng tâm $O$ của mặt đáy đến đỉnh $A$ là $OA = 7$ cm. Tính chiều cao $SO$ của hình chóp (đơn vị: cm). (Điền số)",
+     "answer": "24",
+     "explain": "Tam giác $SOA$ vuông tại $O$: $SO^2 = SA^2 - OA^2 = 625 - 49 = 576$, suy ra $SO = 24$ (cm)."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Hình chóp tam giác đều có cạnh đáy $12$ cm, trung đoạn $12$ cm. Tính diện tích xung quanh (đơn vị: cm$^2$). (Điền số)",
+     "answer": "216",
+     "explain": "$S_{xq} = \\frac{3 \\times 12 \\times 12}{2} = 216$ (cm$^2$)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho hình chóp tam giác đều $S.ABC$ có cạnh đáy $4$ cm. Chu vi mặt đáy là:",
+     "options": [
+      "A. $13$ cm",
+      "B. $12$ cm",
+      "C. $16$ cm",
+      "D. $4$ cm"
+     ],
+     "answer": "B",
+     "explain": "Mặt đáy là tam giác đều cạnh $4$ cm nên chu vi là $3 \\times 4 = 12$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Hình chóp tam giác đều có cạnh đáy $8$ cm, trung đoạn $9$ cm. Diện tích xung quanh của hình chóp là:",
+     "options": [
+      "A. $116$ cm$^2$",
+      "B. $99$ cm$^2$",
+      "C. $108$ cm$^2$",
+      "D. $72$ cm$^2$"
+     ],
+     "answer": "C",
+     "explain": "$S_{xq} = 3 \\times \\frac{1}{2} \\times 8 \\times 9 = 108$ (cm$^2$)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Cho hình chóp tam giác đều $S.ABC$. Đường cao của hình chóp là:",
+     "options": [
+      "A. trung đoạn của mặt bên",
+      "B. đoạn thẳng $SO$ ($O$ là trọng tâm tam giác $ABC$)",
+      "C. đoạn thẳng $AB$",
+      "D. đoạn thẳng $SA$"
+     ],
+     "answer": "B",
+     "explain": "Đường cao là đoạn vuông góc từ đỉnh $S$ đến mặt đáy."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Hình chóp tam giác đều có số đỉnh là:",
+     "options": [
+      "A. 4",
+      "B. 6",
+      "C. 3",
+      "D. 5"
+     ],
+     "answer": "A",
+     "explain": "4 đỉnh: $S$, $A$, $B$, $C$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Hình chóp tam giác đều có tất cả:",
+     "options": [
+      "A. 9 cạnh",
+      "B. 8 cạnh",
+      "C. 4 cạnh",
+      "D. 6 cạnh"
+     ],
+     "answer": "D",
+     "explain": "3 cạnh đáy + 3 cạnh bên = 6 cạnh."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Hình chóp tam giác đều có cạnh đáy $8$ cm, trung đoạn $5$ cm. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Diện tích một mặt bên là $20$ cm$^2$.",
+      "b) Diện tích xung quanh là $60$ cm$^2$.",
+      "c) Diện tích xung quanh là $40$ cm$^2$.",
+      "d) Diện tích toàn phần bằng diện tích xung quanh."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "F"
+     ],
+     "explain": "a) Đúng — $\\frac{1}{2} \\times 8 \\times 5 = 20$. b) Đúng — $3 \\times 20 = 60$. c) Sai. d) Sai — $S_{tp} = S_{xq} + S_{\\text{đáy}}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 5",
+   "questions": [
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Hình chóp tam giác đều $S.ABC$ có cạnh đáy $6$ cm. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $AB = BC = CA = 6$ cm.",
+      "b) $SA = SB = SC$.",
+      "c) $SA = 6$ cm.",
+      "d) Hình chóp có 6 cạnh."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "a) Đúng. b) Đúng. c) Sai — chưa biết độ dài cạnh bên. d) Đúng."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Hình chóp tam giác đều có cạnh đáy $10$ cm, trung đoạn $9$ cm. Diện tích xung quanh của hình chóp là:",
+     "options": [
+      "A. $90$ cm$^2$",
+      "B. $145$ cm$^2$",
+      "C. $135$ cm$^2$",
+      "D. $126$ cm$^2$"
+     ],
+     "answer": "C",
+     "explain": "$S_{xq} = 3 \\times \\frac{1}{2} \\times 10 \\times 9 = 135$ (cm$^2$)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Hình chóp tam giác đều có cạnh đáy $6$ cm, trung đoạn $5$ cm. Diện tích một mặt bên là:",
+     "options": [
+      "A. $15$ cm$^2$",
+      "B. $30$ cm$^2$",
+      "C. $45$ cm$^2$",
+      "D. $11$ cm$^2$"
+     ],
+     "answer": "A",
+     "explain": "Một mặt bên là tam giác có đáy $6$ cm, chiều cao $5$ cm nên diện tích là $\\frac{1}{2} \\times 6 \\times 5 = 15$ (cm$^2$)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Mặt đáy của hình chóp tam giác đều là:",
+     "options": [
+      "A. tam giác đều",
+      "B. tam giác cân bất kì",
+      "C. tam giác vuông",
+      "D. hình vuông"
+     ],
+     "answer": "A",
+     "explain": "Định nghĩa: đáy của hình chóp tam giác đều là tam giác đều."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Hình chóp tam giác đều có diện tích xung quanh $45$ cm$^2$, cạnh đáy $6$ cm. Tính trung đoạn $d$ (đơn vị: cm). (Điền số)",
+     "answer": "5",
+     "explain": "$S_{xq} = \\frac{3ad}{2}$ nên $d = \\frac{2S_{xq}}{3a} = \\frac{90}{18} = 5$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trung đoạn của hình chóp tam giác đều là:",
+     "options": [
+      "A. đường cao của hình chóp",
+      "B. cạnh đáy của hình chóp",
+      "C. đường trung tuyến của mặt đáy",
+      "D. đường cao của mặt bên kẻ từ đỉnh $S$"
+     ],
+     "answer": "D",
+     "explain": "Trung đoạn $d$ là đường cao của mặt bên (tam giác cân) kẻ từ $S$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Hình chóp tam giác đều có cạnh đáy $6$ cm, trung đoạn $5$ cm. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Diện tích một mặt bên là $15$ cm$^2$.",
+      "b) Diện tích xung quanh là $45$ cm$^2$.",
+      "c) Diện tích xung quanh là $30$ cm$^2$.",
+      "d) Diện tích toàn phần bằng diện tích xung quanh."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "F"
+     ],
+     "explain": "a) Đúng — $\\frac{1}{2} \\times 6 \\times 5 = 15$. b) Đúng — $3 \\times 15 = 45$. c) Sai. d) Sai — $S_{tp} = S_{xq} + S_{\\text{đáy}}$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Hình chóp tam giác đều có cạnh đáy $12$ cm, trung đoạn $10$ cm. Tính diện tích một mặt bên (đơn vị: cm$^2$). (Điền số)",
+     "answer": "60",
+     "explain": "$S = \\frac{1}{2} \\times 12 \\times 10 = 60$ (cm$^2$)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Hình chóp tam giác đều có cạnh đáy $6$ cm, trung đoạn $8$ cm. Diện tích một mặt bên là:",
+     "options": [
+      "A. $72$ cm$^2$",
+      "B. $24$ cm$^2$",
+      "C. $14$ cm$^2$",
+      "D. $48$ cm$^2$"
+     ],
+     "answer": "B",
+     "explain": "Một mặt bên là tam giác có đáy $6$ cm, chiều cao $8$ cm nên diện tích là $\\frac{1}{2} \\times 6 \\times 8 = 24$ (cm$^2$)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Hình chóp tam giác đều có số cạnh là:",
+     "options": [
+      "A. 6",
+      "B. 4",
+      "C. 8",
+      "D. 9"
+     ],
+     "answer": "A",
+     "explain": "3 cạnh đáy ($AB$, $BC$, $CA$) + 3 cạnh bên ($SA$, $SB$, $SC$) = 6 cạnh."
+    }
+   ]
+  },
+  {
+   "name": "Đề 6",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Hình chóp tam giác đều có cạnh đáy $6$ cm, trung đoạn $10$ cm. Diện tích một mặt bên là:",
+     "options": [
+      "A. $30$ cm$^2$",
+      "B. $90$ cm$^2$",
+      "C. $60$ cm$^2$",
+      "D. $16$ cm$^2$"
+     ],
+     "answer": "A",
+     "explain": "Một mặt bên là tam giác có đáy $6$ cm, chiều cao $10$ cm nên diện tích là $\\frac{1}{2} \\times 6 \\times 10 = 30$ (cm$^2$)."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Hình chóp tam giác đều $S.ABC$, $M$ là trung điểm của $BC$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $SM$ là trung đoạn của hình chóp.",
+      "b) $SM$ vuông góc với $BC$.",
+      "c) $SO$ là trung đoạn của hình chóp ($O$ là trọng tâm tam giác $ABC$).",
+      "d) Tam giác $SBC$ cân tại $S$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "a), b) Đúng. c) Sai — $SO$ là đường cao của hình chóp. d) Đúng."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Hình chóp tam giác đều có cạnh đáy $8$ cm, trung đoạn $6$ cm. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Diện tích một mặt bên là $24$ cm$^2$.",
+      "b) Diện tích xung quanh là $72$ cm$^2$.",
+      "c) Diện tích xung quanh là $48$ cm$^2$.",
+      "d) Diện tích toàn phần bằng diện tích xung quanh."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "F"
+     ],
+     "explain": "a) Đúng — $\\frac{1}{2} \\times 8 \\times 6 = 24$. b) Đúng — $3 \\times 24 = 72$. c) Sai. d) Sai — $S_{tp} = S_{xq} + S_{\\text{đáy}}$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Hình chóp tam giác đều có cạnh đáy $8$ cm, trung đoạn $6$ cm. Tính diện tích xung quanh (đơn vị: cm$^2$). (Điền số)",
+     "answer": "72",
+     "explain": "$S_{xq} = 3 \\times \\frac{1}{2} \\times 8 \\times 6 = 72$ (cm$^2$)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Hình chóp tam giác đều có cạnh đáy $8$ cm, trung đoạn $10$ cm. Diện tích một mặt bên là:",
+     "options": [
+      "A. $80$ cm$^2$",
+      "B. $40$ cm$^2$",
+      "C. $18$ cm$^2$",
+      "D. $120$ cm$^2$"
+     ],
+     "answer": "B",
+     "explain": "Một mặt bên là tam giác có đáy $8$ cm, chiều cao $10$ cm nên diện tích là $\\frac{1}{2} \\times 8 \\times 10 = 40$ (cm$^2$)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Số mặt bên của hình chóp tam giác đều gấp mấy lần số mặt đáy?",
+     "options": [
+      "A. 2 lần",
+      "B. 1 lần",
+      "C. 4 lần",
+      "D. 3 lần"
+     ],
+     "answer": "D",
+     "explain": "3 mặt bên so với 1 mặt đáy."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Mỗi mặt bên của hình chóp tam giác đều là tam giác:",
+     "options": [
+      "A. cân",
+      "B. đều",
+      "C. vuông",
+      "D. thường"
+     ],
+     "answer": "A",
+     "explain": "Các mặt bên là tam giác cân tại $S$ và bằng nhau."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho hình chóp tam giác đều $S.ABC$. Cặp cạnh nào sau đây bằng nhau?",
+     "options": [
+      "A. $SA = AB$",
+      "B. $SA = SB$",
+      "C. $AB = SO$",
+      "D. $SO = SA$"
+     ],
+     "answer": "B",
+     "explain": "Các cạnh bên bằng nhau; cạnh bên và cạnh đáy chưa chắc bằng nhau."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Hình chóp tam giác đều có cạnh đáy $10$ cm, trung đoạn $9$ cm. Diện tích một mặt bên là:",
+     "options": [
+      "A. $90$ cm$^2$",
+      "B. $47$ cm$^2$",
+      "C. $45$ cm$^2$",
+      "D. $135$ cm$^2$"
+     ],
+     "answer": "C",
+     "explain": "$S = \\frac{1}{2} \\times 10 \\times 9 = 45$ (cm$^2$)."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Hình chóp tam giác đều $S.ABC$ có cạnh bên $SA = 26$ cm, $OA = 10$ cm ($O$ là trọng tâm mặt đáy). Tính chiều cao $SO$ (đơn vị: cm). (Điền số)",
+     "answer": "24",
+     "explain": "Tam giác $SOA$ vuông tại $O$: $SO^2 = 26^2 - 10^2 = 576$, suy ra $SO = 24$ (cm)."
+    }
+   ]
+  },
+  {
+   "name": "Đề 7",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Hình chóp tam giác đều có cạnh đáy $10$ cm, trung đoạn $8$ cm. Diện tích một mặt bên là:",
+     "options": [
+      "A. $120$ cm$^2$",
+      "B. $40$ cm$^2$",
+      "C. $80$ cm$^2$",
+      "D. $18$ cm$^2$"
+     ],
+     "answer": "B",
+     "explain": "Một mặt bên là tam giác có đáy $10$ cm, chiều cao $8$ cm nên diện tích là $\\frac{1}{2} \\times 10 \\times 8 = 40$ (cm$^2$)."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Hình chóp tam giác đều có cạnh đáy $4$ cm, trung đoạn $5$ cm. Diện tích xung quanh gấp mấy lần diện tích một mặt bên?",
+     "options": [
+      "A. 6 lần",
+      "B. 4 lần",
+      "C. 2 lần",
+      "D. 3 lần"
+     ],
+     "answer": "D",
+     "explain": "Có 3 mặt bên bằng nhau nên $S_{xq} = 3 \\times S_{\\text{một mặt bên}}$ ($S_{xq} = 30$ cm$^2$)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Hình chóp tam giác đều có cạnh đáy $4$ cm, trung đoạn $10$ cm. Diện tích một mặt bên là:",
+     "options": [
+      "A. $14$ cm$^2$",
+      "B. $20$ cm$^2$",
+      "C. $60$ cm$^2$",
+      "D. $40$ cm$^2$"
+     ],
+     "answer": "B",
+     "explain": "Một mặt bên là tam giác có đáy $4$ cm, chiều cao $10$ cm nên diện tích là $\\frac{1}{2} \\times 4 \\times 10 = 20$ (cm$^2$)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Hình chóp tam giác đều có số mặt là:",
+     "options": [
+      "A. 4",
+      "B. 3",
+      "C. 5",
+      "D. 6"
+     ],
+     "answer": "A",
+     "explain": "1 mặt đáy + 3 mặt bên = 4 mặt."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Hình chóp tam giác đều $S.ABC$ có $O$ là trọng tâm tam giác $ABC$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $SA = SB = SC$.",
+      "b) $SO$ là đường cao của hình chóp.",
+      "c) Trung đoạn là đường cao của mặt đáy.",
+      "d) Các mặt bên là tam giác $SAB$, $SBC$, $SCA$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "a), b) Đúng. c) Sai — trung đoạn là đường cao của mặt bên kẻ từ $S$. d) Đúng."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho hình chóp tam giác đều $S.ABC$. Các mặt bên là:",
+     "options": [
+      "A. tam giác $SAB$, $ABC$, $SCA$",
+      "B. tam giác $SAB$, $SBC$, $SCA$",
+      "C. tam giác $OAB$, $OBC$, $OCA$",
+      "D. tam giác $ABC$, $SAB$, $SBC$"
+     ],
+     "answer": "B",
+     "explain": "3 mặt bên chung đỉnh $S$: $SAB$, $SBC$, $SCA$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Hình chóp tam giác đều có cạnh đáy $6$ cm, trung đoạn $6$ cm. Tính diện tích xung quanh (đơn vị: cm$^2$). (Điền số)",
+     "answer": "54",
+     "explain": "$S_{xq} = 3 \\times \\frac{1}{2} \\times 6 \\times 6 = 54$ (cm$^2$)."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Hình chóp tam giác đều có diện tích xung quanh $144$ cm$^2$, cạnh đáy $12$ cm. Tính trung đoạn $d$ (đơn vị: cm). (Điền số)",
+     "answer": "8",
+     "explain": "$S_{xq} = \\frac{3ad}{2}$ nên $d = \\frac{2S_{xq}}{3a} = \\frac{288}{36} = 8$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Mặt đáy $ABC$ của hình chóp tam giác đều là tam giác đều. Số đo mỗi góc của mặt đáy là:",
+     "options": [
+      "A. $60^\\circ$",
+      "B. $30^\\circ$",
+      "C. $45^\\circ$",
+      "D. $90^\\circ$"
+     ],
+     "answer": "A",
+     "explain": "Mỗi góc của tam giác đều bằng $60^\\circ$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Hình chóp tam giác đều có cạnh đáy $6$ cm, trung đoạn $6$ cm. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Diện tích một mặt bên là $18$ cm$^2$.",
+      "b) Diện tích xung quanh là $54$ cm$^2$.",
+      "c) Diện tích xung quanh là $36$ cm$^2$.",
+      "d) Diện tích toàn phần bằng diện tích xung quanh."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "F"
+     ],
+     "explain": "a) Đúng — $\\frac{1}{2} \\times 6 \\times 6 = 18$. b) Đúng — $3 \\times 18 = 54$. c) Sai. d) Sai — $S_{tp} = S_{xq} + S_{\\text{đáy}}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 8",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Hình chóp tam giác đều có cạnh đáy $8$ cm, trung đoạn $6$ cm. Diện tích một mặt bên là:",
+     "options": [
+      "A. $24$ cm$^2$",
+      "B. $72$ cm$^2$",
+      "C. $48$ cm$^2$",
+      "D. $14$ cm$^2$"
+     ],
+     "answer": "A",
+     "explain": "Một mặt bên là tam giác có đáy $8$ cm, chiều cao $6$ cm nên diện tích là $\\frac{1}{2} \\times 8 \\times 6 = 24$ (cm$^2$)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Các cạnh bên của hình chóp tam giác đều:",
+     "options": [
+      "A. đôi một khác nhau",
+      "B. bằng nhau",
+      "C. vuông góc với nhau",
+      "D. bằng cạnh đáy"
+     ],
+     "answer": "B",
+     "explain": "Các mặt bên là tam giác cân bằng nhau có chung đỉnh $S$ nên $SA = SB = SC$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Hình chóp tam giác đều có cạnh đáy $8$ cm, trung đoạn $9$ cm. Diện tích một mặt bên là:",
+     "options": [
+      "A. $36$ cm$^2$",
+      "B. $108$ cm$^2$",
+      "C. $38$ cm$^2$",
+      "D. $72$ cm$^2$"
+     ],
+     "answer": "A",
+     "explain": "$S = \\frac{1}{2} \\times 8 \\times 9 = 36$ (cm$^2$)."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Hình chóp tam giác đều có diện tích xung quanh $108$ cm$^2$, cạnh đáy $9$ cm. Tính trung đoạn $d$ (đơn vị: cm). (Điền số)",
+     "answer": "8",
+     "explain": "$S_{xq} = \\frac{3ad}{2}$ nên $d = \\frac{2S_{xq}}{3a} = \\frac{216}{27} = 8$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho hình chóp tam giác đều $S.ABC$. Mặt đáy là:",
+     "options": [
+      "A. tam giác $SAB$",
+      "B. tam giác $SCA$",
+      "C. tam giác $ABC$",
+      "D. tam giác $SBC$"
+     ],
+     "answer": "C",
+     "explain": "$ABC$ là mặt đáy (tam giác đều); $SAB$, $SBC$, $SCA$ là các mặt bên."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho hình chóp tam giác đều $S.ABC$ có cạnh bên $SA = 9$ cm. Độ dài cạnh bên $SB$ là:",
+     "options": [
+      "A. $9$ cm",
+      "B. $18$ cm",
+      "C. $8$ cm",
+      "D. $10$ cm"
+     ],
+     "answer": "A",
+     "explain": "Các cạnh bên bằng nhau: $SB = SA = 9$ (cm)."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Hình chóp tam giác đều có cạnh đáy $8$ cm, trung đoạn $10$ cm. Tính diện tích một mặt bên (đơn vị: cm$^2$). (Điền số)",
+     "answer": "40",
+     "explain": "$S = \\frac{1}{2} \\times 8 \\times 10 = 40$ (cm$^2$)."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Hình chóp tam giác đều có cạnh đáy $10$ cm, trung đoạn $6$ cm. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Diện tích một mặt bên là $30$ cm$^2$.",
+      "b) Diện tích xung quanh là $90$ cm$^2$.",
+      "c) Diện tích xung quanh là $60$ cm$^2$.",
+      "d) Diện tích toàn phần bằng diện tích xung quanh."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "F"
+     ],
+     "explain": "a) Đúng — $\\frac{1}{2} \\times 10 \\times 6 = 30$. b) Đúng — $3 \\times 30 = 90$. c) Sai. d) Sai — $S_{tp} = S_{xq} + S_{\\text{đáy}}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Hình chóp tam giác đều $S.ABC$ có cạnh đáy $4$ cm. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $AB = BC = CA = 4$ cm.",
+      "b) $SA = SB = SC$.",
+      "c) $SA = 4$ cm.",
+      "d) Hình chóp có 6 cạnh."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "a) Đúng. b) Đúng. c) Sai — chưa biết độ dài cạnh bên. d) Đúng."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Hình chóp tam giác đều có cạnh đáy $8$ cm, trung đoạn $5$ cm. Diện tích một mặt bên là:",
+     "options": [
+      "A. $20$ cm$^2$",
+      "B. $40$ cm$^2$",
+      "C. $60$ cm$^2$",
+      "D. $13$ cm$^2$"
+     ],
+     "answer": "A",
+     "explain": "Một mặt bên là tam giác có đáy $8$ cm, chiều cao $5$ cm nên diện tích là $\\frac{1}{2} \\times 8 \\times 5 = 20$ (cm$^2$)."
+    }
+   ]
+  },
+  {
+   "name": "Đề 9",
+   "questions": [
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Hình chóp tam giác đều có cạnh đáy $8$ cm, trung đoạn $9$ cm. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Diện tích một mặt bên là $36$ cm$^2$.",
+      "b) Diện tích xung quanh là $108$ cm$^2$.",
+      "c) Diện tích xung quanh là $72$ cm$^2$.",
+      "d) Diện tích toàn phần bằng diện tích xung quanh."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "F"
+     ],
+     "explain": "a) Đúng — $\\frac{1}{2} \\times 8 \\times 9 = 36$. b) Đúng — $3 \\times 36 = 108$. c) Sai. d) Sai — $S_{tp} = S_{xq} + S_{\\text{đáy}}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Hình chóp tam giác đều có cạnh đáy $10$ cm, trung đoạn $6$ cm. Diện tích một mặt bên là:",
+     "options": [
+      "A. $60$ cm$^2$",
+      "B. $90$ cm$^2$",
+      "C. $30$ cm$^2$",
+      "D. $16$ cm$^2$"
+     ],
+     "answer": "C",
+     "explain": "Một mặt bên là tam giác có đáy $10$ cm, chiều cao $6$ cm nên diện tích là $\\frac{1}{2} \\times 10 \\times 6 = 30$ (cm$^2$)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho hình chóp tam giác đều $S.ABC$ có cạnh bên $SA = 7$ cm. Độ dài cạnh bên $SB$ là:",
+     "options": [
+      "A. $6$ cm",
+      "B. $8$ cm",
+      "C. $7$ cm",
+      "D. $14$ cm"
+     ],
+     "answer": "C",
+     "explain": "Các cạnh bên bằng nhau: $SB = SA = 7$ (cm)."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Hình chóp tam giác đều có cạnh đáy $10$ cm, trung đoạn $12$ cm. Tính diện tích xung quanh (đơn vị: cm$^2$). (Điền số)",
+     "answer": "180",
+     "explain": "$S_{xq} = \\frac{3 \\times 10 \\times 12}{2} = 180$ (cm$^2$)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Hình chóp tam giác đều có cạnh đáy $8$ cm, trung đoạn $8$ cm. Diện tích một mặt bên là:",
+     "options": [
+      "A. $96$ cm$^2$",
+      "B. $16$ cm$^2$",
+      "C. $64$ cm$^2$",
+      "D. $32$ cm$^2$"
+     ],
+     "answer": "D",
+     "explain": "Một mặt bên là tam giác có đáy $8$ cm, chiều cao $8$ cm nên diện tích là $\\frac{1}{2} \\times 8 \\times 8 = 32$ (cm$^2$)."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Hình chóp tam giác đều $S.ABC$ có cạnh bên $SA = 17$ cm, khoảng cách từ trọng tâm $O$ của mặt đáy đến đỉnh $A$ là $OA = 8$ cm. Tính chiều cao $SO$ của hình chóp (đơn vị: cm). (Điền số)",
+     "answer": "15",
+     "explain": "Tam giác $SOA$ vuông tại $O$: $SO^2 = SA^2 - OA^2 = 289 - 64 = 225$, suy ra $SO = 15$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Biết diện tích xung quanh của một hình chóp tam giác đều là $45$ cm$^2$, cạnh đáy $6$ cm. Trung đoạn của hình chóp là:",
+     "options": [
+      "A. $10$ cm",
+      "B. $4$ cm",
+      "C. $5$ cm",
+      "D. $6$ cm"
+     ],
+     "answer": "C",
+     "explain": "$S_{xq} = \\frac{3ad}{2}$ nên $d = \\frac{2S_{xq}}{3a} = \\frac{90}{18} = 5$ (cm)."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Hình chóp tam giác đều $S.ABC$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Mặt đáy là tam giác đều $ABC$.",
+      "b) Các mặt bên là các tam giác đều.",
+      "c) Hình chóp có 4 mặt.",
+      "d) Hình chóp có 8 cạnh."
+     ],
+     "answer": [
+      "T",
+      "F",
+      "T",
+      "F"
+     ],
+     "explain": "a) Đúng. b) Sai — các mặt bên là tam giác cân (bằng nhau). c) Đúng. d) Sai — có 6 cạnh."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho hình chóp tam giác đều $S.ABC$ có cạnh bên $SA = 8$ cm. Độ dài cạnh bên $SB$ là:",
+     "options": [
+      "A. $9$ cm",
+      "B. $7$ cm",
+      "C. $16$ cm",
+      "D. $8$ cm"
+     ],
+     "answer": "D",
+     "explain": "Các cạnh bên bằng nhau: $SB = SA = 8$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho hình chóp tam giác đều $S.ABC$ có cạnh đáy $6$ cm. Chu vi mặt đáy là:",
+     "options": [
+      "A. $18$ cm",
+      "B. $6$ cm",
+      "C. $19$ cm",
+      "D. $36$ cm"
+     ],
+     "answer": "A",
+     "explain": "Mặt đáy là tam giác đều cạnh $6$ cm nên chu vi là $3 \\times 6 = 18$ (cm)."
+    }
+   ]
+  },
+  {
+   "name": "Đề 10",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho hình chóp tam giác đều $S.ABC$ có cạnh đáy $5$ cm. Chu vi mặt đáy là:",
+     "options": [
+      "A. $5$ cm",
+      "B. $25$ cm",
+      "C. $15$ cm",
+      "D. $16$ cm"
+     ],
+     "answer": "C",
+     "explain": "Mặt đáy là tam giác đều cạnh $5$ cm nên chu vi là $3 \\times 5 = 15$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho hình chóp tam giác đều $S.ABC$ có cạnh bên $SA = 5$ cm. Độ dài cạnh bên $SB$ là:",
+     "options": [
+      "A. $4$ cm",
+      "B. $6$ cm",
+      "C. $10$ cm",
+      "D. $5$ cm"
+     ],
+     "answer": "D",
+     "explain": "Các cạnh bên bằng nhau: $SB = SA = 5$ (cm)."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Số đỉnh, số cạnh, số mặt của hình chóp tam giác đều. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Hình chóp tam giác đều có 4 đỉnh.",
+      "b) Hình chóp tam giác đều có 4 mặt.",
+      "c) Hình chóp tam giác đều có 6 cạnh.",
+      "d) Hình chóp tam giác đều có 5 đỉnh."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b), c) Đúng — 4 đỉnh, 4 mặt, 6 cạnh. d) Sai."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Hình chóp tam giác đều có cạnh đáy $10$ cm, trung đoạn $6$ cm. Diện tích xung quanh của hình chóp là:",
+     "options": [
+      "A. $60$ cm$^2$",
+      "B. $84$ cm$^2$",
+      "C. $100$ cm$^2$",
+      "D. $90$ cm$^2$"
+     ],
+     "answer": "D",
+     "explain": "$S_{xq} = 3 \\times \\frac{1}{2} \\times 10 \\times 6 = 90$ (cm$^2$)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho hình chóp tam giác đều $S.ABC$ có cạnh bên $SA = 6$ cm. Độ dài cạnh bên $SB$ là:",
+     "options": [
+      "A. $5$ cm",
+      "B. $12$ cm",
+      "C. $7$ cm",
+      "D. $6$ cm"
+     ],
+     "answer": "D",
+     "explain": "Các cạnh bên bằng nhau: $SB = SA = 6$ (cm)."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Hình chóp tam giác đều $S.ABC$ có cạnh bên $SA = 10$ cm, khoảng cách từ trọng tâm $O$ của mặt đáy đến đỉnh $A$ là $OA = 6$ cm. Tính chiều cao $SO$ của hình chóp (đơn vị: cm). (Điền số)",
+     "answer": "8",
+     "explain": "Tam giác $SOA$ vuông tại $O$: $SO^2 = SA^2 - OA^2 = 100 - 36 = 64$, suy ra $SO = 8$ (cm)."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Hình chóp tam giác đều có cạnh đáy $8$ cm, trung đoạn $6$ cm. Tính diện tích một mặt bên (đơn vị: cm$^2$). (Điền số)",
+     "answer": "24",
+     "explain": "$S = \\frac{1}{2} \\times 8 \\times 6 = 24$ (cm$^2$)."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Hình chóp tam giác đều có cạnh đáy $6$ cm, trung đoạn $9$ cm. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Diện tích một mặt bên là $27$ cm$^2$.",
+      "b) Diện tích xung quanh là $81$ cm$^2$.",
+      "c) Diện tích xung quanh là $54$ cm$^2$.",
+      "d) Diện tích toàn phần bằng diện tích xung quanh."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "F"
+     ],
+     "explain": "a) Đúng — $\\frac{1}{2} \\times 6 \\times 9 = 27$. b) Đúng — $3 \\times 27 = 81$. c) Sai. d) Sai — $S_{tp} = S_{xq} + S_{\\text{đáy}}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Hình chóp tam giác đều có cạnh đáy $6$ cm, trung đoạn $6$ cm. Diện tích một mặt bên là:",
+     "options": [
+      "A. $12$ cm$^2$",
+      "B. $36$ cm$^2$",
+      "C. $18$ cm$^2$",
+      "D. $54$ cm$^2$"
+     ],
+     "answer": "C",
+     "explain": "Một mặt bên là tam giác có đáy $6$ cm, chiều cao $6$ cm nên diện tích là $\\frac{1}{2} \\times 6 \\times 6 = 18$ (cm$^2$)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Hình chóp tam giác đều có cạnh đáy $10$ cm, trung đoạn $10$ cm. Diện tích một mặt bên là:",
+     "options": [
+      "A. $20$ cm$^2$",
+      "B. $100$ cm$^2$",
+      "C. $50$ cm$^2$",
+      "D. $150$ cm$^2$"
+     ],
+     "answer": "C",
+     "explain": "Một mặt bên là tam giác có đáy $10$ cm, chiều cao $10$ cm nên diện tích là $\\frac{1}{2} \\times 10 \\times 10 = 50$ (cm$^2$)."
+    }
+   ]
+  }
+ ]
+}
+</script>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
