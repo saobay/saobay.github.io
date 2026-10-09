@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay | Ma nguon thuoc nen tang hoc tap SAOBAY | Nghiem cam sao chep duoi moi hinh thuc -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 27: Thực hành thiết kế chương trình theo phương pháp làm mịn dần</title>
+    <meta name="lesson-title" content="Bài 27: Thực hành thiết kế chương trình theo phương pháp làm mịn dần">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 27: Thực hành thiết kế chương trình theo phương pháp làm mịn dần</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 6: Kĩ thuật lập trình • Bài 27: Thực hành thiết kế chương trình theo phương pháp làm mịn dần</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 27: Thực hành thiết kế chương trình theo phương pháp làm mịn dần</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 6: Kĩ thuật lập trình — sách Kết nối tri thức với cuộc sống</p>
+
+<!-- 1. Quy trình thực hành -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Quy trình thực hành thiết kế theo làm mịn dần</h2>
+
+<p>Trong bài thực hành này, ta áp dụng đầy đủ 5 bước của phương pháp làm mịn dần vào một bài toán cụ thể: <strong>phân tích → chia bài toán con → làm mịn → viết code → kiểm thử</strong>.</p>
+
+<p><strong>Bài toán thực hành:</strong> Nhập điểm các môn của <code>n</code> học sinh. In ra điểm trung bình của từng học sinh và chỉ số của học sinh có điểm trung bình cao nhất.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Bước 1 — Phân tích:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li><strong>Input:</strong> số học sinh <code>n</code>, số môn <code>m</code>, bảng điểm <code>n</code> hàng <code>m</code> cột.</li>
+<li><strong>Output:</strong> trung bình từng học sinh + chỉ số học sinh giỏi nhất.</li>
+<li><strong>Quan hệ:</strong> trung bình = tổng điểm các môn / số môn; giỏi nhất = trung bình lớn nhất.</li>
+</ul>
+</div>
+
+<!-- 2. Chia và làm mịn -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Chia bài toán con và làm mịn</h2>
+
+<p><strong>Bước 2 — Chia thành 3 bài toán con (mức 1):</strong></p>
+<ol class="list-decimal ml-6 space-y-1 my-3">
+<li>Nhập bảng điểm.</li>
+<li>Tính điểm trung bình từng học sinh.</li>
+<li>Tìm học sinh có trung bình cao nhất và in kết quả.</li>
+</ol>
+
+<p><strong>Bước 3 — Làm mịn (mức 2):</strong></p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>1.1: Nhập <code>n</code>, <code>m</code>.</li>
+<li>1.2: Nhập <code>n</code> dòng, mỗi dòng <code>m</code> số.</li>
+<li>2.1: Với mỗi học sinh, tính tổng điểm các môn.</li>
+<li>2.2: Chia tổng cho <code>m</code> được trung bình.</li>
+<li>3.1: Khởi tạo max = trung bình đầu, vt = 0.</li>
+<li>3.2: Duyệt các học sinh còn lại, cập nhật max và vt.</li>
+<li>3.3: In trung bình từng học sinh và chỉ số vt.</li>
+</ul>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Mỗi bước ở mức 2 chỉ cần <strong>1–3 lệnh Python</strong> là viết được — đó là dấu hiệu đã làm mịn đủ.</p>
+</div>
+
+<!-- 3. Viết code -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Viết code (bước 4)</h2>
+
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2"># Bài toán con 1: nhập bảng điểm
+n = int(input())
+m = int(input())
+diem = []
+for i in range(n):
+    diem.append(list(map(float, input().split())))
+
+# Bài toán con 2: tính trung bình từng học sinh
+tb = []
+for i in range(n):
+    s = 0
+    for x in diem[i]:
+        s = s + x
+    tb.append(s / m)
+    print("HS", i, ":", s / m)
+
+# Bài toán con 3: tìm học sinh giỏi nhất
+vmax = tb[0]
+vt = 0
+for i in range(1, n):
+    if tb[i] == max(tb[i], vmax) and tb[i] != vmax:
+        vmax = tb[i]
+        vt = i
+print("Giỏi nhất:", vt)</pre>
+
+<!-- 4. Kiểm thử -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Kiểm thử (bước 5)</h2>
+
+<p>Chạy thử với dữ liệu mẫu nhỏ và kiểm tra từng bài toán con:</p>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-sm my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Test</td><td class="border border-slate-300 px-4 py-1">Dữ liệu vào</td><td class="border border-slate-300 px-4 py-1">Kết quả mong đợi</td><td class="border border-slate-300 px-4 py-1">Kiểm tra</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">1</td><td class="border border-slate-300 px-4 py-1">n=2, m=2; điểm: 8 6 / 9 9</td><td class="border border-slate-300 px-4 py-1">TB: 7.0, 9.0; giỏi nhất: 1</td><td class="border border-slate-300 px-4 py-1">Bài toán con 2, 3</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">2</td><td class="border border-slate-300 px-4 py-1">n=1, m=3; điểm: 5 7 9</td><td class="border border-slate-300 px-4 py-1">TB: 7.0; giỏi nhất: 0</td><td class="border border-slate-300 px-4 py-1">Trường hợp biên n=1</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">3</td><td class="border border-slate-300 px-4 py-1">n=3, m=1; điểm: 8 / 8 / 8</td><td class="border border-slate-300 px-4 py-1">TB: 8.0, 8.0, 8.0; giỏi nhất: 0</td><td class="border border-slate-300 px-4 py-1">Điểm bằng nhau</td></tr>
+</table></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">⚠️ Lỗi thường gặp khi thực hành</p>
+<ul class="list-disc ml-6 space-y-1 mt-1">
+<li>Nhập sai số lượng số mỗi dòng (không bằng <code>m</code>) → kiểm tra dữ liệu nhập.</li>
+<li>Chia cho <code>m</code> nhưng <code>m = 0</code> → lỗi chia cho 0.</li>
+<li>Quên khởi tạo <code>vmax</code> trước vòng lặp tìm max.</li>
+<li>In nhầm chỉ số (bắt đầu từ 0) với số thứ tự học sinh (bắt đầu từ 1).</li>
+</ul>
+</div>
+
+<!-- 5. Bài tập tự thực hành -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">5. Bài tập tự thực hành</h2>
+
+<p>Áp dụng 5 bước cho bài toán: <strong>nhập mảng <code>n</code> số nguyên, đếm số lượng số chẵn và tính tổng các số chẵn</strong>.</p>
+
+<p>Gợi ý phân tích:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Mức 1:</strong> Nhập mảng → Đếm và tính tổng số chẵn → In kết quả.</li>
+<li><strong>Mức 2:</strong> Nhập n, nhập n số; khởi tạo đếm = 0, tổng = 0; duyệt mảng, nếu chẵn thì đếm tăng 1 và cộng vào tổng.</li>
+<li><strong>Mức 3:</strong> viết code Python (dùng <code>% 2 == 0</code> để kiểm tra chẵn).</li>
+<li><strong>Kiểm thử:</strong> mảng [1, 2, 3, 4] → đếm = 2, tổng = 6; mảng rỗng → đếm = 0, tổng = 0.</li>
+</ul>
+
+<!-- Tóm tắt -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Quy trình 5 bước:</strong> phân tích input/output → chia 3 bài toán con → làm mịn đến 1–3 lệnh → viết code → kiểm thử từng phần.</li>
+<li><strong>Kiểm thử</strong> gồm: dữ liệu thường, trường hợp biên (n = 1), trường hợp đặc biệt (điểm bằng nhau).</li>
+<li><strong>Lỗi hay gặp:</strong> nhập sai định dạng, chia cho 0, quên khởi tạo, nhầm chỉ số 0/1.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">
+(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok){if(document.body){document.body.innerHTML='<div style="font-family:system-ui,sans-serif;max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff"><h2 style="color:#0f172a;margin-top:0">© SAOBAY — Trường THPT Sào Báy</h2><p style="color:#475569">Nội dung này chỉ được hiển thị tại địa chỉ chính thức <b>saobay.github.io</b>.</p><p style="color:#475569">Vui lòng truy cập đúng địa chỉ để học tập.</p></div>';}else{document.write("SAOBAY: truy cap tai saobay.github.io");}}catch(e){}})();
+</script>
+</body>
+</html>
