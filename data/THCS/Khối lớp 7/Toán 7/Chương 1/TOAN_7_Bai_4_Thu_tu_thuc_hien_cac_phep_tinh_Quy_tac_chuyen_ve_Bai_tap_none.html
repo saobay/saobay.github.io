@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài tập Bài 4: Thứ tự thực hiện các phép tính. Quy tắc chuyển vế</title>
+    <meta name="lesson-title" content="Bài tập Bài 4: Thứ tự thực hiện các phép tính. Quy tắc chuyển vế">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Bài tập</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài tập Bài 4: Thứ tự thực hiện các phép tính. Quy tắc chuyển vế</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 1: Số hữu tỉ • Bài 4: Thứ tự thực hiện các phép tính. Quy tắc chuyển vế</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="saobay-exam10">
+<script type="application/json" class="saobay-exam10-data">
+{
+ "sets": [
+  {
+   "name": "Đề 1",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong biểu thức không có dấu ngoặc, phép tính nào được thực hiện trước tiên?",
+     "options": [
+      "A. Cộng và trừ",
+      "B. Nhân và chia",
+      "C. Lũy thừa",
+      "D. Thực hiện từ trái sang phải"
+     ],
+     "answer": "C",
+     "explain": "Thứ tự: lũy thừa trước, rồi đến nhân và chia, cuối cùng là cộng và trừ."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong biểu thức có đủ ba loại dấu ngoặc, thứ tự thực hiện đúng là",
+     "options": [
+      "A. $( ) \\to [ ] \\to \\{ \\}$",
+      "B. $\\{ \\} \\to [ ] \\to ( )$",
+      "C. $[ ] \\to ( ) \\to \\{ \\}$",
+      "D. Thực hiện tùy ý"
+     ],
+     "answer": "A",
+     "explain": "Thực hiện trong ngoặc tròn trước, rồi đến ngoặc vuông, cuối cùng là ngoặc nhọn."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tính $2 + 3 \\\\cdot 4$.",
+     "options": [
+      "A. $14$",
+      "B. $20$",
+      "C. $10$",
+      "D. $24$"
+     ],
+     "answer": "A",
+     "explain": "Nhân trước, cộng sau: $2 + 12 = 14$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tính $\\\\left(\\\\frac{1}{2} + \\\\frac{1}{3}\\\\right) \\\\cdot 6$.",
+     "options": [
+      "A. $5$",
+      "B. $1$",
+      "C. $\\frac{5}{6}$",
+      "D. $2$"
+     ],
+     "answer": "A",
+     "explain": "Trong ngoặc trước: $\\\\frac{5}{6} \\\\cdot 6 = 5$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tìm $x$ biết $x + \\\\frac{2}{3} = \\\\frac{5}{6}$.",
+     "options": [
+      "A. $\\frac{1}{6}$",
+      "B. $\\frac{3}{2}$",
+      "C. $\\frac{1}{2}$",
+      "D. $\\frac{1}{3}$"
+     ],
+     "answer": "A",
+     "explain": "Chuyển vế đổi dấu: $x = \\\\frac{5}{6} - \\\\frac{2}{3} = \\\\frac{1}{6}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tìm $x$ biết $x - \\\\frac{1}{4} = \\\\frac{3}{4}$.",
+     "options": [
+      "A. $1$",
+      "B. $\\frac{1}{2}$",
+      "C. $-\\frac{1}{2}$",
+      "D. $2$"
+     ],
+     "answer": "A",
+     "explain": "$x = \\\\frac{3}{4} + \\\\frac{1}{4} = 1$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho $A = \\\\frac{1}{2} + \\\\left(\\\\frac{1}{3}\\\\right)^2 \\\\cdot 9$. Xét tính đúng sai của các khẳng định sau (đề 1).",
+     "statements": [
+      "a) Thực hiện phép lũy thừa trước tiên.",
+      "b) $\\left(\\frac{1}{3}\\right)^2 \\cdot 9 = 1$.",
+      "c) $A = \\frac{3}{2}$.",
+      "d) Nếu thực hiện phép cộng trước phép nhân thì $A = \\frac{11}{2}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$A = \\\\frac{1}{2} + \\\\frac{1}{9} \\\\cdot 9 = \\\\frac{3}{2}$; cộng trước: $\\\\left(\\\\frac{1}{2} + \\\\frac{1}{9}\\\\right) \\\\cdot 9 = \\\\frac{11}{2}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Xét tính đúng sai của các khẳng định sau về quy tắc chuyển vế (đề 1).",
+     "statements": [
+      "a) $x + 5 = 12 \\Rightarrow x = 12 - 5$.",
+      "b) $x - \\frac{3}{4} = \\frac{1}{2} \\Rightarrow x = \\frac{1}{2} + \\frac{3}{4}$.",
+      "c) $\\frac{2}{3} - x = \\frac{1}{6} \\Rightarrow x = \\frac{2}{3} + \\frac{1}{6}$.",
+      "d) $-x = 4 \\Rightarrow x = -4$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "$\\\\frac{2}{3} - x = \\\\frac{1}{6} \\\\Rightarrow x = \\\\frac{2}{3} - \\\\frac{1}{6} = \\\\frac{1}{2}$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tính $\\\\frac{3}{4} : \\\\left(\\\\frac{1}{2}\\\\right)^2 - \\\\frac{1}{2}$. Viết đáp án dưới dạng phân số tối giản a/b.",
+     "answer": "5/2",
+     "explain": "$\\\\frac{3}{4} : \\\\frac{1}{4} = 3$; $3 - \\\\frac{1}{2} = \\\\frac{5}{2}$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tìm $x$ biết $2x - \\\\frac{1}{3} = \\\\frac{5}{6}$. Viết đáp án dưới dạng phân số tối giản a/b.",
+     "answer": "7/12",
+     "explain": "$2x = \\\\frac{5}{6} + \\\\frac{1}{3} = \\\\frac{7}{6}$ nên $x = \\\\frac{7}{12}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 2",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Quy tắc chuyển vế phát biểu đúng là",
+     "options": [
+      "A. Khi chuyển một số hạng sang vế kia thì đổi dấu số hạng đó.",
+      "B. Khi chuyển một số hạng sang vế kia thì giữ nguyên dấu.",
+      "C. Khi chuyển một số hạng sang vế kia thì đổi nó thành $0$.",
+      "D. Không được chuyển vế trong đẳng thức."
+     ],
+     "answer": "A",
+     "explain": "Chuyển vế phải đổi dấu: $+$ thành $-$, $-$ thành $+$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tính $10 - 2 \\\\cdot 3$.",
+     "options": [
+      "A. $4$",
+      "B. $24$",
+      "C. $14$",
+      "D. $0$"
+     ],
+     "answer": "A",
+     "explain": "Nhân trước, trừ sau: $10 - 6 = 4$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tính $\\\\left(\\\\frac{3}{4}\\\\right)^2 + \\\\frac{1}{2}$.",
+     "options": [
+      "A. $\\frac{17}{16}$",
+      "B. $\\frac{11}{16}$",
+      "C. $\\frac{5}{4}$",
+      "D. $1$"
+     ],
+     "answer": "A",
+     "explain": "$\\\\frac{9}{16} + \\\\frac{8}{16} = \\\\frac{17}{16}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tính $\\\\frac{1}{2} : \\\\frac{1}{4} + \\\\frac{1}{3}$.",
+     "options": [
+      "A. $\\frac{7}{3}$",
+      "B. $\\frac{5}{6}$",
+      "C. $\\frac{1}{2}$",
+      "D. $\\frac{7}{12}$"
+     ],
+     "answer": "A",
+     "explain": "Chia trước, cộng sau: $2 + \\\\frac{1}{3} = \\\\frac{7}{3}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tìm $x$ biết $x - \\\\frac{2}{5} = \\\\frac{3}{10}$.",
+     "options": [
+      "A. $\\frac{7}{10}$",
+      "B. $-\\frac{1}{10}$",
+      "C. $\\frac{1}{10}$",
+      "D. $\\frac{1}{2}$"
+     ],
+     "answer": "A",
+     "explain": "$x = \\\\frac{3}{10} + \\\\frac{2}{5} = \\\\frac{7}{10}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tìm $x$ biết $\\\\frac{1}{2} - x = \\\\frac{1}{6}$.",
+     "options": [
+      "A. $\\frac{1}{3}$",
+      "B. $\\frac{2}{3}$",
+      "C. $\\frac{1}{6}$",
+      "D. $\\frac{1}{12}$"
+     ],
+     "answer": "A",
+     "explain": "$x = \\\\frac{1}{2} - \\\\frac{1}{6} = \\\\frac{1}{3}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho $B = \\\\left(\\\\frac{2}{3} - \\\\frac{1}{2}\\\\right) \\\\cdot 12$. Xét tính đúng sai của các khẳng định sau (đề 2).",
+     "statements": [
+      "a) Thực hiện phép tính trong ngoặc trước.",
+      "b) $\\frac{2}{3} - \\frac{1}{2} = \\frac{1}{6}$.",
+      "c) $B = 2$.",
+      "d) Dùng tính chất phân phối: $B = \\frac{2}{3} \\cdot 12 - \\frac{1}{2} \\cdot 12 = 2$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$B = \\\\frac{1}{6} \\\\cdot 12 = 2$; phân phối: $8 - 6 = 2$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Xét tính đúng sai của các khẳng định sau (đề 2).",
+     "statements": [
+      "a) $(a + b) - c = a + (b - c)$ với mọi số hữu tỉ $a, b, c$.",
+      "b) $5 - 2 + 1 = 5 - (2 + 1)$.",
+      "c) $x + \\frac{1}{2} = \\frac{3}{4} \\Rightarrow x = \\frac{3}{4} - \\frac{1}{2}$.",
+      "d) $-2x = 6 \\Rightarrow x = -3$."
+     ],
+     "answer": [
+      "T",
+      "F",
+      "T",
+      "T"
+     ],
+     "explain": "$5 - 2 + 1 = 4 \\\\ne 2 = 5 - (2 + 1)$; phép trừ thực hiện từ trái sang phải."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Tính $\\\\left[1 - \\\\left(\\\\frac{1}{2}\\\\right)^2\\\\right] : \\\\frac{3}{4}$.",
+     "answer": "1",
+     "explain": "$\\\\left(1 - \\\\frac{1}{4}\\\\right) : \\\\frac{3}{4} = \\\\frac{3}{4} : \\\\frac{3}{4} = 1$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tìm $x$ biết $\\\\left(x + \\\\frac{1}{4}\\\\right) \\\\cdot 2 = \\\\frac{3}{2}$. Viết đáp án dưới dạng phân số tối giản a/b.",
+     "answer": "1/2",
+     "explain": "$x + \\\\frac{1}{4} = \\\\frac{3}{4}$ nên $x = \\\\frac{1}{2}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 3",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong biểu thức $4 + 5 \\\\cdot 2^2$, phép tính nào được thực hiện đầu tiên?",
+     "options": [
+      "A. Lũy thừa",
+      "B. Phép cộng",
+      "C. Phép nhân",
+      "D. Không xác định được"
+     ],
+     "answer": "A",
+     "explain": "Lũy thừa thực hiện trước nhân, chia, cộng, trừ."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Từ đẳng thức $x + a = b$ suy ra",
+     "options": [
+      "A. $x = b - a$",
+      "B. $x = b + a$",
+      "C. $x = a - b$",
+      "D. $x = -b - a$"
+     ],
+     "answer": "A",
+     "explain": "Chuyển $+a$ sang vế phải thành $-a$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tính $2^3 - 2 \\\\cdot 3$.",
+     "options": [
+      "A. $2$",
+      "B. $12$",
+      "C. $0$",
+      "D. $6$"
+     ],
+     "answer": "A",
+     "explain": "$8 - 6 = 2$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tính $\\\\left(\\\\frac{5}{6} - \\\\frac{1}{3}\\\\right) : \\\\frac{1}{2}$.",
+     "options": [
+      "A. $1$",
+      "B. $\\frac{1}{2}$",
+      "C. $\\frac{5}{3}$",
+      "D. $\\frac{1}{4}$"
+     ],
+     "answer": "A",
+     "explain": "$\\\\frac{1}{2} : \\\\frac{1}{2} = 1$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tìm $x$ biết $x + \\\\left(-\\\\frac{3}{4}\\\\right) = \\\\frac{1}{2}$.",
+     "options": [
+      "A. $\\frac{5}{4}$",
+      "B. $-\\frac{1}{4}$",
+      "C. $\\frac{1}{4}$",
+      "D. $-\\frac{5}{4}$"
+     ],
+     "answer": "A",
+     "explain": "$x = \\\\frac{1}{2} + \\\\frac{3}{4} = \\\\frac{5}{4}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tìm $x$ biết $3 - x = \\\\frac{7}{4}$.",
+     "options": [
+      "A. $\\frac{5}{4}$",
+      "B. $\\frac{19}{4}$",
+      "C. $\\frac{7}{4}$",
+      "D. $\\frac{1}{4}$"
+     ],
+     "answer": "A",
+     "explain": "$x = 3 - \\\\frac{7}{4} = \\\\frac{5}{4}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho $C = \\\\frac{2}{5} + \\\\frac{3}{5} \\\\cdot \\\\frac{1}{2}$. Xét tính đúng sai của các khẳng định sau (đề 3).",
+     "statements": [
+      "a) Thực hiện phép nhân trước phép cộng.",
+      "b) $\\frac{3}{5} \\cdot \\frac{1}{2} = \\frac{3}{10}$.",
+      "c) $C = \\frac{7}{10}$.",
+      "d) Nếu thực hiện phép cộng trước thì $C = \\frac{1}{2}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$C = \\\\frac{4}{10} + \\\\frac{3}{10} = \\\\frac{7}{10}$; cộng trước: $\\\\left(\\\\frac{2}{5} + \\\\frac{3}{5}\\\\right) \\\\cdot \\\\frac{1}{2} = \\\\frac{1}{2}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Xét tính đúng sai của các khẳng định sau về quy tắc chuyển vế (đề 3).",
+     "statements": [
+      "a) $x - a = b \\Rightarrow x = b + a$.",
+      "b) $a - x = b \\Rightarrow x = a - b$.",
+      "c) $x + \\frac{2}{7} = 0 \\Rightarrow x = \\frac{2}{7}$.",
+      "d) $1 - x = \\frac{1}{3} \\Rightarrow x = \\frac{2}{3}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "$x + \\\\frac{2}{7} = 0 \\\\Rightarrow x = -\\\\frac{2}{7}$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tính $\\\\left(\\\\frac{2}{3}\\\\right)^3 : \\\\frac{4}{9} + \\\\frac{1}{6}$. Viết đáp án dưới dạng phân số tối giản a/b.",
+     "answer": "5/6",
+     "explain": "$\\\\frac{8}{27} : \\\\frac{4}{9} = \\\\frac{2}{3}$; $\\\\frac{2}{3} + \\\\frac{1}{6} = \\\\frac{5}{6}$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tìm $x$ biết $\\\\frac{x}{3} + \\\\frac{1}{2} = \\\\frac{5}{6}$. Viết đáp án dưới dạng phân số tối giản a/b.",
+     "answer": "1",
+     "explain": "$\\\\frac{x}{3} = \\\\frac{5}{6} - \\\\frac{1}{2} = \\\\frac{1}{3}$ nên $x = 1$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 4",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong biểu thức có cả ngoặc tròn và ngoặc vuông, ta thực hiện ngoặc nào trước?",
+     "options": [
+      "A. Ngoặc tròn",
+      "B. Ngoặc vuông",
+      "C. Thực hiện đồng thời",
+      "D. Ngoặc nhọn"
+     ],
+     "answer": "A",
+     "explain": "Thứ tự: ngoặc tròn trước, rồi đến ngoặc vuông, cuối cùng là ngoặc nhọn."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Từ đẳng thức $x - a = b$ suy ra",
+     "options": [
+      "A. $x = b + a$",
+      "B. $x = b - a$",
+      "C. $x = a - b$",
+      "D. $x = -a - b$"
+     ],
+     "answer": "A",
+     "explain": "Chuyển $-a$ sang vế phải thành $+a$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tính $1 + 2 \\\\cdot \\\\left(\\\\frac{3}{4}\\\\right)^2$.",
+     "options": [
+      "A. $\\frac{17}{8}$",
+      "B. $\\frac{25}{8}$",
+      "C. $\\frac{9}{8}$",
+      "D. $2$"
+     ],
+     "answer": "A",
+     "explain": "$1 + 2 \\\\cdot \\\\frac{9}{16} = 1 + \\\\frac{9}{8} = \\\\frac{17}{8}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tính $\\\\left(\\\\frac{7}{8} - \\\\frac{1}{4}\\\\right) \\\\cdot 8$.",
+     "options": [
+      "A. $5$",
+      "B. $7$",
+      "C. $\\frac{3}{4}$",
+      "D. $6$"
+     ],
+     "answer": "A",
+     "explain": "$\\\\frac{5}{8} \\\\cdot 8 = 5$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tìm $x$ biết $x + \\\\frac{5}{6} = \\\\frac{1}{3}$.",
+     "options": [
+      "A. $-\\frac{1}{2}$",
+      "B. $\\frac{7}{6}$",
+      "C. $\\frac{1}{2}$",
+      "D. $-\\frac{7}{6}$"
+     ],
+     "answer": "A",
+     "explain": "$x = \\\\frac{1}{3} - \\\\frac{5}{6} = -\\\\frac{1}{2}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tìm $x$ biết $\\\\frac{2}{5} - x = -\\\\frac{1}{10}$.",
+     "options": [
+      "A. $\\frac{1}{2}$",
+      "B. $\\frac{3}{10}$",
+      "C. $-\\frac{1}{2}$",
+      "D. $\\frac{3}{5}$"
+     ],
+     "answer": "A",
+     "explain": "$x = \\\\frac{2}{5} + \\\\frac{1}{10} = \\\\frac{1}{2}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho $D = 3 - \\\\left(\\\\frac{1}{2}\\\\right)^2 \\\\cdot 4$. Xét tính đúng sai của các khẳng định sau (đề 4).",
+     "statements": [
+      "a) Thực hiện phép lũy thừa trước tiên.",
+      "b) $\\left(\\frac{1}{2}\\right)^2 \\cdot 4 = 1$.",
+      "c) $D = 2$.",
+      "d) Nếu thực hiện phép trừ trước phép nhân thì $D = 11$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$D = 3 - \\\\frac{1}{4} \\\\cdot 4 = 2$; trừ trước: $\\\\left(3 - \\\\frac{1}{4}\\\\right) \\\\cdot 4 = 11$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Xét tính đúng sai của các khẳng định sau (đề 4).",
+     "statements": [
+      "a) $10 : 2 \\cdot 5 = 25$.",
+      "b) $10 : (2 \\cdot 5) = 1$.",
+      "c) $2^3 \\cdot 2 = 2^4$.",
+      "d) $\\left(\\frac{1}{2} + \\frac{1}{2}\\right)^2 = \\frac{1}{2}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "Nhân, chia thực hiện từ trái sang phải: $10 : 2 \\\\cdot 5 = 5 \\\\cdot 5 = 25$; $\\\\left(\\\\frac{1}{2} + \\\\frac{1}{2}\\\\right)^2 = 1$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Tính $\\\\frac{5}{6} - \\\\left(\\\\frac{1}{3}\\\\right)^2 \\\\cdot 3$. Viết đáp án dưới dạng phân số tối giản a/b.",
+     "answer": "1/2",
+     "explain": "$\\\\frac{1}{9} \\\\cdot 3 = \\\\frac{1}{3}$; $\\\\frac{5}{6} - \\\\frac{1}{3} = \\\\frac{1}{2}$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tìm $x$ biết $\\\\left(2x - \\\\frac{1}{2}\\\\right) : \\\\frac{3}{4} = \\\\frac{2}{3}$. Viết đáp án dưới dạng phân số tối giản a/b.",
+     "answer": "1/2",
+     "explain": "$2x - \\\\frac{1}{2} = \\\\frac{2}{3} \\\\cdot \\\\frac{3}{4} = \\\\frac{1}{2}$ nên $2x = 1$, $x = \\\\frac{1}{2}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 5",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong biểu thức $3 + 4 \\\\cdot 2^3$, phép tính nào được thực hiện cuối cùng?",
+     "options": [
+      "A. Phép cộng",
+      "B. Phép nhân",
+      "C. Lũy thừa",
+      "D. Không xác định được"
+     ],
+     "answer": "A",
+     "explain": "Thứ tự: lũy thừa ($2^3$) → nhân ($4 \\\\cdot 8$) → cộng cuối cùng."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Từ $-x = 5$ suy ra $x$ bằng",
+     "options": [
+      "A. $-5$",
+      "B. $5$",
+      "C. $\\frac{1}{5}$",
+      "D. $0$"
+     ],
+     "answer": "A",
+     "explain": "Nhân hai vế với $-1$: $x = -5$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tính $4^2 : 2 + 1$.",
+     "options": [
+      "A. $9$",
+      "B. $7$",
+      "C. $12$",
+      "D. $5$"
+     ],
+     "answer": "A",
+     "explain": "$16 : 2 = 8$; $8 + 1 = 9$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tính $\\\\frac{2}{3} \\\\cdot \\\\left(\\\\frac{3}{4} - \\\\frac{1}{2}\\\\right)$.",
+     "options": [
+      "A. $\\frac{1}{6}$",
+      "B. $\\frac{1}{3}$",
+      "C. $\\frac{1}{2}$",
+      "D. $\\frac{5}{12}$"
+     ],
+     "answer": "A",
+     "explain": "$\\\\frac{2}{3} \\\\cdot \\\\frac{1}{4} = \\\\frac{1}{6}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tìm $x$ biết $x - \\\\left(-\\\\frac{1}{3}\\\\right) = \\\\frac{2}{3}$.",
+     "options": [
+      "A. $\\frac{1}{3}$",
+      "B. $1$",
+      "C. $-\\frac{1}{3}$",
+      "D. $\\frac{2}{3}$"
+     ],
+     "answer": "A",
+     "explain": "$x + \\\\frac{1}{3} = \\\\frac{2}{3}$ nên $x = \\\\frac{1}{3}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tìm $x$ biết $\\\\frac{5}{4} - x = \\\\frac{1}{2}$.",
+     "options": [
+      "A. $\\frac{3}{4}$",
+      "B. $\\frac{7}{4}$",
+      "C. $\\frac{1}{4}$",
+      "D. $\\frac{3}{2}$"
+     ],
+     "answer": "A",
+     "explain": "$x = \\\\frac{5}{4} - \\\\frac{1}{2} = \\\\frac{3}{4}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho $E = \\\\left(1 - \\\\frac{1}{3}\\\\right) : \\\\frac{2}{3}$. Xét tính đúng sai của các khẳng định sau (đề 5).",
+     "statements": [
+      "a) Thực hiện phép tính trong ngoặc trước.",
+      "b) $1 - \\frac{1}{3} = \\frac{2}{3}$.",
+      "c) $E = 1$.",
+      "d) Nếu thực hiện phép chia trước thì $E = \\frac{1}{2}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$E = \\\\frac{2}{3} : \\\\frac{2}{3} = 1$; chia trước: $1 - \\\\left(\\\\frac{1}{3} : \\\\frac{2}{3}\\\\right) = 1 - \\\\frac{1}{2} = \\\\frac{1}{2}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Xét tính đúng sai của các khẳng định sau (đề 5).",
+     "statements": [
+      "a) $x + 0 = 5 \\Rightarrow x = 5$.",
+      "b) $3x = \\frac{3}{4} \\Rightarrow x = \\frac{1}{4}$.",
+      "c) $x : 2 = \\frac{1}{6} \\Rightarrow x = \\frac{1}{3}$.",
+      "d) $-x + 1 = 0 \\Rightarrow x = 1$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$x = \\\\frac{3}{4} : 3 = \\\\frac{1}{4}$; $x = \\\\frac{1}{6} \\\\cdot 2 = \\\\frac{1}{3}$; $-x = -1 \\\\Rightarrow x = 1$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tính $\\\\frac{7}{10} - \\\\frac{2}{5} \\\\cdot \\\\left(\\\\frac{1}{2}\\\\right)^2$. Viết đáp án dưới dạng phân số tối giản a/b.",
+     "answer": "3/5",
+     "explain": "$\\\\frac{2}{5} \\\\cdot \\\\frac{1}{4} = \\\\frac{1}{10}$; $\\\\frac{7}{10} - \\\\frac{1}{10} = \\\\frac{3}{5}$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tìm $x$ biết $3\\\\left(x - \\\\frac{1}{6}\\\\right) = \\\\frac{1}{2}$. Viết đáp án dưới dạng phân số tối giản a/b.",
+     "answer": "1/3",
+     "explain": "$x - \\\\frac{1}{6} = \\\\frac{1}{6}$ nên $x = \\\\frac{1}{3}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 6",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Từ đẳng thức $a + b = c$ suy ra $a$ bằng",
+     "options": [
+      "A. $c - b$",
+      "B. $c + b$",
+      "C. $b - c$",
+      "D. $b + c$"
+     ],
+     "answer": "A",
+     "explain": "Chuyển $+b$ sang vế phải thành $-b$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tính $20 : 4 \\\\cdot 2$.",
+     "options": [
+      "A. $10$",
+      "B. $2{,}5$",
+      "C. $40$",
+      "D. $5$"
+     ],
+     "answer": "A",
+     "explain": "Nhân, chia cùng mức: thực hiện từ trái sang phải, $5 \\\\cdot 2 = 10$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tính $\\\\left(\\\\frac{1}{2}\\\\right)^3 + \\\\frac{3}{8}$.",
+     "options": [
+      "A. $\\frac{1}{2}$",
+      "B. $\\frac{1}{4}$",
+      "C. $\\frac{5}{8}$",
+      "D. $1$"
+     ],
+     "answer": "A",
+     "explain": "$\\\\frac{1}{8} + \\\\frac{3}{8} = \\\\frac{4}{8} = \\\\frac{1}{2}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tính $\\\\frac{5}{4} : \\\\left(\\\\frac{1}{2} + \\\\frac{1}{4}\\\\right)$.",
+     "options": [
+      "A. $\\frac{5}{3}$",
+      "B. $\\frac{15}{16}$",
+      "C. $\\frac{5}{4}$",
+      "D. $1$"
+     ],
+     "answer": "A",
+     "explain": "$\\\\frac{5}{4} : \\\\frac{3}{4} = \\\\frac{5}{3}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tìm $x$ biết $\\\\frac{1}{2} + x = -\\\\frac{1}{4}$.",
+     "options": [
+      "A. $-\\frac{3}{4}$",
+      "B. $\\frac{3}{4}$",
+      "C. $\\frac{1}{4}$",
+      "D. $-\\frac{1}{4}$"
+     ],
+     "answer": "A",
+     "explain": "$x = -\\\\frac{1}{4} - \\\\frac{1}{2} = -\\\\frac{3}{4}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tìm $x$ biết $x : \\\\left(-\\\\frac{2}{3}\\\\right) = \\\\frac{3}{4}$.",
+     "options": [
+      "A. $-\\frac{1}{2}$",
+      "B. $\\frac{1}{2}$",
+      "C. $-\\frac{9}{8}$",
+      "D. $\\frac{9}{8}$"
+     ],
+     "answer": "A",
+     "explain": "$x = \\\\frac{3}{4} \\\\cdot \\\\left(-\\\\frac{2}{3}\\\\right) = -\\\\frac{1}{2}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho $F = \\\\frac{1}{4} + \\\\frac{3}{4} : 2$. Xét tính đúng sai của các khẳng định sau (đề 6).",
+     "statements": [
+      "a) Thực hiện phép chia trước phép cộng.",
+      "b) $\\frac{3}{4} : 2 = \\frac{3}{8}$.",
+      "c) $F = \\frac{5}{8}$.",
+      "d) Nếu thực hiện phép cộng trước thì $F = \\frac{1}{2}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$F = \\\\frac{2}{8} + \\\\frac{3}{8} = \\\\frac{5}{8}$; cộng trước: $\\\\left(\\\\frac{1}{4} + \\\\frac{3}{4}\\\\right) : 2 = \\\\frac{1}{2}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Xét tính đúng sai của các khẳng định sau về quy tắc chuyển vế (đề 6).",
+     "statements": [
+      "a) $a - b = c \\Rightarrow a = c + b$.",
+      "b) $a + b = c \\Rightarrow b = c - a$.",
+      "c) $x - 1 = -4 \\Rightarrow x = -5$.",
+      "d) $2 - x = 5 \\Rightarrow x = -3$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "$x - 1 = -4 \\\\Rightarrow x = -4 + 1 = -3$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Tính $2 - \\\\left(\\\\frac{2}{3}\\\\right)^2 : \\\\frac{4}{9}$.",
+     "answer": "1",
+     "explain": "$\\\\frac{4}{9} : \\\\frac{4}{9} = 1$; $2 - 1 = 1$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tìm $x$ biết $\\\\left(x - \\\\frac{2}{3}\\\\right) \\\\cdot \\\\frac{3}{2} = \\\\frac{1}{4}$. Viết đáp án dưới dạng phân số tối giản a/b.",
+     "answer": "5/6",
+     "explain": "$x - \\\\frac{2}{3} = \\\\frac{1}{4} \\\\cdot \\\\frac{2}{3} = \\\\frac{1}{6}$ nên $x = \\\\frac{5}{6}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 7",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong biểu thức $2 \\\\cdot 3^2 + 1$, phép tính nào được thực hiện đầu tiên?",
+     "options": [
+      "A. Lũy thừa",
+      "B. Phép nhân",
+      "C. Phép cộng",
+      "D. Không xác định được"
+     ],
+     "answer": "A",
+     "explain": "Lũy thừa luôn thực hiện trước nhân, chia, cộng, trừ."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Từ đẳng thức $a - x = b$ suy ra $x$ bằng",
+     "options": [
+      "A. $a - b$",
+      "B. $a + b$",
+      "C. $b - a$",
+      "D. $-a - b$"
+     ],
+     "answer": "A",
+     "explain": "Chuyển $a$ sang vế phải và $b$ sang vế trái (đổi dấu): $x = a - b$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tính $9 - 3^2 : 3$.",
+     "options": [
+      "A. $6$",
+      "B. $18$",
+      "C. $0$",
+      "D. $24$"
+     ],
+     "answer": "A",
+     "explain": "$9 - 9 : 3 = 9 - 3 = 6$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tính $\\\\left(\\\\frac{2}{5} + \\\\frac{1}{10}\\\\right) \\\\cdot 10$.",
+     "options": [
+      "A. $5$",
+      "B. $3$",
+      "C. $\\frac{1}{2}$",
+      "D. $4$"
+     ],
+     "answer": "A",
+     "explain": "$\\\\frac{1}{2} \\\\cdot 10 = 5$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tìm $x$ biết $-x + \\\\frac{2}{3} = \\\\frac{1}{6}$.",
+     "options": [
+      "A. $\\frac{1}{2}$",
+      "B. $-\\frac{1}{2}$",
+      "C. $\\frac{5}{6}$",
+      "D. $-\\frac{5}{6}$"
+     ],
+     "answer": "A",
+     "explain": "$-x = \\\\frac{1}{6} - \\\\frac{2}{3} = -\\\\frac{1}{2}$ nên $x = \\\\frac{1}{2}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tìm $x$ biết $4x = -\\\\frac{2}{3}$.",
+     "options": [
+      "A. $-\\frac{1}{6}$",
+      "B. $\\frac{1}{6}$",
+      "C. $-\\frac{8}{3}$",
+      "D. $-\\frac{2}{12}$"
+     ],
+     "answer": "A",
+     "explain": "$x = \\\\left(-\\\\frac{2}{3}\\\\right) : 4 = -\\\\frac{1}{6}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho $G = \\\\left(\\\\frac{3}{2}\\\\right)^2 - \\\\frac{1}{2}$. Xét tính đúng sai của các khẳng định sau (đề 7).",
+     "statements": [
+      "a) Thực hiện phép lũy thừa trước phép trừ.",
+      "b) $\\left(\\frac{3}{2}\\right)^2 = \\frac{9}{4}$.",
+      "c) $G = \\frac{7}{4}$.",
+      "d) Nếu thực hiện phép trừ trước thì $G = 1$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$G = \\\\frac{9}{4} - \\\\frac{2}{4} = \\\\frac{7}{4}$; trừ trước: $\\\\left(\\\\frac{3}{2} - \\\\frac{1}{2}\\\\right)^2 = 1$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Xét tính đúng sai của các khẳng định sau (đề 7).",
+     "statements": [
+      "a) $(x + 1) - 1 = x$ với mọi số hữu tỉ $x$.",
+      "b) $7 - (3 - 1) = 5$.",
+      "c) $12 : 3 : 2 = 2$.",
+      "d) $12 : (3 : 2) = 8$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$7 - 2 = 5$; $12 : 3 : 2 = 4 : 2 = 2$; $12 : \\\\frac{3}{2} = 8$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tính $\\\\frac{1}{3} \\\\cdot 6 - \\\\left(\\\\frac{1}{2}\\\\right)^2$. Viết đáp án dưới dạng phân số tối giản a/b.",
+     "answer": "7/4",
+     "explain": "$2 - \\\\frac{1}{4} = \\\\frac{7}{4}$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tìm $x$ biết $\\\\frac{x}{2} - \\\\frac{1}{6} = \\\\frac{2}{3}$. Viết đáp án dưới dạng phân số tối giản a/b.",
+     "answer": "5/3",
+     "explain": "$\\\\frac{x}{2} = \\\\frac{2}{3} + \\\\frac{1}{6} = \\\\frac{5}{6}$ nên $x = \\\\frac{5}{3}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 8",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong biểu thức $\\\\{2 + [3 \\\\cdot (1 + 1)]\\\\}$, ta thực hiện phép tính trong ngoặc nào trước tiên?",
+     "options": [
+      "A. Ngoặc tròn",
+      "B. Ngoặc vuông",
+      "C. Ngoặc nhọn",
+      "D. Thực hiện đồng thời"
+     ],
+     "answer": "A",
+     "explain": "Luôn thực hiện trong ngoặc tròn trước tiên."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Từ $x + (-3) = 7$ suy ra $x$ bằng",
+     "options": [
+      "A. $10$",
+      "B. $4$",
+      "C. $-10$",
+      "D. $-4$"
+     ],
+     "answer": "A",
+     "explain": "$x = 7 - (-3) = 7 + 3 = 10$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tính $\\\\frac{1}{2} + \\\\left(\\\\frac{1}{2}\\\\right)^2 \\\\cdot 2$.",
+     "options": [
+      "A. $1$",
+      "B. $\\frac{3}{2}$",
+      "C. $\\frac{3}{4}$",
+      "D. $\\frac{1}{2}$"
+     ],
+     "answer": "A",
+     "explain": "$\\\\frac{1}{2} + \\\\frac{1}{4} \\\\cdot 2 = \\\\frac{1}{2} + \\\\frac{1}{2} = 1$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tính $\\\\left(\\\\frac{4}{3} - \\\\frac{1}{3}\\\\right)^2$.",
+     "options": [
+      "A. $1$",
+      "B. $\\frac{7}{9}$",
+      "C. $\\frac{5}{3}$",
+      "D. $\\frac{1}{3}$"
+     ],
+     "answer": "A",
+     "explain": "$1^2 = 1$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tìm $x$ biết $2x + \\\\frac{1}{4} = \\\\frac{3}{4}$.",
+     "options": [
+      "A. $\\frac{1}{4}$",
+      "B. $\\frac{1}{2}$",
+      "C. $1$",
+      "D. $\\frac{3}{8}$"
+     ],
+     "answer": "A",
+     "explain": "$2x = \\\\frac{1}{2}$ nên $x = \\\\frac{1}{4}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tìm $x$ biết $1 - 2x = \\\\frac{1}{5}$.",
+     "options": [
+      "A. $\\frac{2}{5}$",
+      "B. $\\frac{3}{5}$",
+      "C. $\\frac{4}{5}$",
+      "D. $\\frac{1}{5}$"
+     ],
+     "answer": "A",
+     "explain": "$2x = 1 - \\\\frac{1}{5} = \\\\frac{4}{5}$ nên $x = \\\\frac{2}{5}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho $H = 2^3 : 4 + 1$. Xét tính đúng sai của các khẳng định sau (đề 8).",
+     "statements": [
+      "a) Thực hiện phép lũy thừa trước tiên.",
+      "b) $2^3 : 4 = 2$.",
+      "c) $H = 3$.",
+      "d) Nếu thực hiện phép cộng trước thì $H = \\frac{8}{5}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$H = 8 : 4 + 1 = 3$; cộng trước: $2^3 : (4 + 1) = \\\\frac{8}{5}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Xét tính đúng sai của các khẳng định sau về tìm $x$ (đề 8).",
+     "statements": [
+      "a) $x + \\frac{1}{3} = \\frac{1}{2} \\Rightarrow x = \\frac{1}{6}$.",
+      "b) $x - \\frac{2}{3} = \\frac{1}{6} \\Rightarrow x = \\frac{5}{6}$.",
+      "c) $\\frac{1}{4} - x = \\frac{1}{2} \\Rightarrow x = -\\frac{1}{4}$.",
+      "d) $-x = -\\frac{3}{5} \\Rightarrow x = -\\frac{3}{5}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$-x = -\\\\frac{3}{5} \\\\Rightarrow x = \\\\frac{3}{5}$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Tính $\\\\frac{3}{5} : \\\\frac{1}{2} - \\\\left(\\\\frac{1}{5}\\\\right)^2$. Viết đáp án dưới dạng phân số tối giản a/b.",
+     "answer": "29/25",
+     "explain": "$\\\\frac{6}{5} - \\\\frac{1}{25} = \\\\frac{30 - 1}{25} = \\\\frac{29}{25}$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tìm $x$ biết $\\\\left(3x + \\\\frac{1}{2}\\\\right) : \\\\frac{5}{4} = \\\\frac{2}{5}$.",
+     "answer": "0",
+     "explain": "$3x + \\\\frac{1}{2} = \\\\frac{2}{5} \\\\cdot \\\\frac{5}{4} = \\\\frac{1}{2}$ nên $3x = 0$, $x = 0$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 9",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong biểu thức $5 + 2 \\\\cdot 3^2 - 1$, phép tính nào được thực hiện cuối cùng?",
+     "options": [
+      "A. Phép trừ",
+      "B. Phép cộng",
+      "C. Phép nhân",
+      "D. Lũy thừa"
+     ],
+     "answer": "A",
+     "explain": "Thứ tự: $3^2 \\\\to 2 \\\\cdot 9 \\\\to 5 + 18 \\\\to 23 - 1$; phép trừ cuối cùng."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Từ $-5 + x = 2$ suy ra $x$ bằng",
+     "options": [
+      "A. $7$",
+      "B. $-7$",
+      "C. $3$",
+      "D. $-3$"
+     ],
+     "answer": "A",
+     "explain": "$x = 2 - (-5) = 7$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tính $\\\\left(2 - \\\\frac{1}{2}\\\\right)^2$.",
+     "options": [
+      "A. $\\frac{9}{4}$",
+      "B. $3$",
+      "C. $\\frac{7}{4}$",
+      "D. $2$"
+     ],
+     "answer": "A",
+     "explain": "$\\\\left(\\\\frac{3}{2}\\\\right)^2 = \\\\frac{9}{4}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tính $8 : \\\\left(\\\\frac{2}{3}\\\\right)^2$.",
+     "options": [
+      "A. $18$",
+      "B. $\\frac{32}{9}$",
+      "C. $\\frac{16}{3}$",
+      "D. $4$"
+     ],
+     "answer": "A",
+     "explain": "$8 : \\\\frac{4}{9} = 8 \\\\cdot \\\\frac{9}{4} = 18$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tìm $x$ biết $\\\\frac{x}{4} = \\\\frac{3}{8}$.",
+     "options": [
+      "A. $\\frac{3}{2}$",
+      "B. $\\frac{3}{32}$",
+      "C. $\\frac{7}{8}$",
+      "D. $\\frac{3}{4}$"
+     ],
+     "answer": "A",
+     "explain": "$x = \\\\frac{3}{8} \\\\cdot 4 = \\\\frac{3}{2}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tìm $x$ biết $\\\\left(x + \\\\frac{1}{2}\\\\right) : \\\\frac{1}{4} = 6$.",
+     "options": [
+      "A. $1$",
+      "B. $2$",
+      "C. $\\frac{1}{2}$",
+      "D. $\\frac{3}{2}$"
+     ],
+     "answer": "A",
+     "explain": "$x + \\\\frac{1}{2} = 6 \\\\cdot \\\\frac{1}{4} = \\\\frac{3}{2}$ nên $x = 1$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho $K = 1 - 2 \\\\cdot \\\\left(\\\\frac{1}{4}\\\\right)^2$. Xét tính đúng sai của các khẳng định sau (đề 9).",
+     "statements": [
+      "a) Thực hiện phép lũy thừa trước tiên.",
+      "b) $\\left(\\frac{1}{4}\\right)^2 = \\frac{1}{16}$.",
+      "c) $2 \\cdot \\frac{1}{16} = \\frac{1}{8}$.",
+      "d) $K = \\frac{7}{8}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$K = 1 - \\\\frac{1}{8} = \\\\frac{7}{8}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Xét tính đúng sai của các khẳng định sau (đề 9).",
+     "statements": [
+      "a) $3(x + 1) = 6 \\Rightarrow x + 1 = 2$.",
+      "b) $\\frac{x - 1}{2} = 1 \\Rightarrow x - 1 = 2$.",
+      "c) $x + 2 = 2 + x$ luôn đúng với mọi số hữu tỉ $x$.",
+      "d) $0 \\cdot x = 5 \\Rightarrow x = 5$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$0 \\\\cdot x = 0 \\\\ne 5$ với mọi $x$ nên đẳng thức vô nghiệm."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tính $\\\\left[\\\\left(\\\\frac{1}{3}\\\\right)^2 + \\\\frac{1}{9}\\\\right] : \\\\frac{2}{9}$.",
+     "answer": "1",
+     "explain": "$\\\\left(\\\\frac{1}{9} + \\\\frac{1}{9}\\\\right) : \\\\frac{2}{9} = 1$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tìm $x$ biết $\\\\frac{2}{3} \\\\cdot \\\\left(x - \\\\frac{1}{2}\\\\right) = \\\\frac{1}{6}$. Viết đáp án dưới dạng phân số tối giản a/b.",
+     "answer": "3/4",
+     "explain": "$x - \\\\frac{1}{2} = \\\\frac{1}{6} \\\\cdot \\\\frac{3}{2} = \\\\frac{1}{4}$ nên $x = \\\\frac{3}{4}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 10",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Phát biểu đúng về quy tắc chuyển vế là",
+     "options": [
+      "A. Khi chuyển một số hạng từ vế này sang vế kia thì đổi dấu số hạng đó.",
+      "B. Khi chuyển một số hạng từ vế này sang vế kia thì giữ nguyên dấu.",
+      "C. Khi chuyển một số hạng từ vế này sang vế kia thì đổi nó thành $0$.",
+      "D. Không được chuyển vế trong đẳng thức."
+     ],
+     "answer": "A",
+     "explain": "Quy tắc chuyển vế: chuyển vế đổi dấu."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tính $6 + 12 : 3$.",
+     "options": [
+      "A. $10$",
+      "B. $6$",
+      "C. $18$",
+      "D. $2$"
+     ],
+     "answer": "A",
+     "explain": "Chia trước, cộng sau: $6 + 4 = 10$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tính $2^2 \\\\cdot 3 - 5$.",
+     "options": [
+      "A. $7$",
+      "B. $19$",
+      "C. $3$",
+      "D. $12$"
+     ],
+     "answer": "A",
+     "explain": "$4 \\\\cdot 3 - 5 = 12 - 5 = 7$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tính $\\\\left(1 - \\\\frac{1}{4}\\\\right) : \\\\left(\\\\frac{1}{2}\\\\right)^2$.",
+     "options": [
+      "A. $3$",
+      "B. $\\frac{3}{16}$",
+      "C. $\\frac{1}{2}$",
+      "D. $\\frac{3}{4}$"
+     ],
+     "answer": "A",
+     "explain": "$\\\\frac{3}{4} : \\\\frac{1}{4} = 3$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tìm $x$ biết $5x = \\\\frac{5}{6}$.",
+     "options": [
+      "A. $\\frac{1}{6}$",
+      "B. $\\frac{25}{6}$",
+      "C. $5$",
+      "D. $1$"
+     ],
+     "answer": "A",
+     "explain": "$x = \\\\frac{5}{6} : 5 = \\\\frac{1}{6}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tìm $x$ biết $x - \\\\frac{3}{2} = -\\\\frac{1}{2}$.",
+     "options": [
+      "A. $1$",
+      "B. $-1$",
+      "C. $2$",
+      "D. $-2$"
+     ],
+     "answer": "A",
+     "explain": "$x = -\\\\frac{1}{2} + \\\\frac{3}{2} = 1$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho $L = \\\\left(\\\\frac{2}{3}\\\\right)^2 \\\\cdot 9 - 1$. Xét tính đúng sai của các khẳng định sau (đề 10).",
+     "statements": [
+      "a) Thực hiện phép lũy thừa trước tiên.",
+      "b) $\\left(\\frac{2}{3}\\right)^2 \\cdot 9 = 4$.",
+      "c) $L = 3$.",
+      "d) Nếu thực hiện phép nhân trước thì $L = 35$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$L = \\\\frac{4}{9} \\\\cdot 9 - 1 = 3$; nhân trước: $\\\\left(\\\\frac{2}{3} \\\\cdot 9\\\\right)^2 - 1 = 36 - 1 = 35$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Xét tính đúng sai của các khẳng định sau về tìm $x$ (đề 10).",
+     "statements": [
+      "a) $x : 3 = \\frac{1}{9} \\Rightarrow x = \\frac{1}{3}$.",
+      "b) $x \\cdot (-2) = 4 \\Rightarrow x = -2$.",
+      "c) $-\\frac{x}{2} = \\frac{1}{4} \\Rightarrow x = -\\frac{1}{2}$.",
+      "d) $x + x = \\frac{1}{2} \\Rightarrow x = \\frac{1}{2}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$x + x = 2x = \\\\frac{1}{2} \\\\Rightarrow x = \\\\frac{1}{4}$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Tính $4 - 3 \\\\cdot \\\\left(\\\\frac{1}{3}\\\\right)^2$. Viết đáp án dưới dạng phân số tối giản a/b.",
+     "answer": "11/3",
+     "explain": "$4 - 3 \\\\cdot \\\\frac{1}{9} = 4 - \\\\frac{1}{3} = \\\\frac{11}{3}$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tìm $x$ biết $\\\\left(\\\\frac{1}{2} - x\\\\right) \\\\cdot 4 = 1$. Viết đáp án dưới dạng phân số tối giản a/b.",
+     "answer": "1/4",
+     "explain": "$\\\\frac{1}{2} - x = \\\\frac{1}{4}$ nên $x = \\\\frac{1}{4}$."
+    }
+   ]
+  }
+ ]
+}
+</script>
+</div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
