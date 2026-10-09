@@ -61,15 +61,14 @@
             if (!db.passwords) db.passwords = {};
             if (db.passwords[o.id]) throw new Error('Mã ' + o.id + ' đã có tài khoản.');
             db.passwords[o.id] = '12345678'; // mật khẩu mặc định, used.html bắt đổi ngay lần đầu
+            var UNASSIGNED = 'Chưa phân nhóm lớp';
             if (o.role === 'teacher'){
                 if (!db.teachers_registry || Array.isArray(db.teachers_registry)) db.teachers_registry = {};
-                db.teachers_registry[o.id] = { name: o.name };
+                db.teachers_registry[o.id] = { name: o.name, group: UNASSIGNED, note: o.note || '' };
             } else {
                 if (!db.students) db.students = {};
-                let c = String(o.className || '').toUpperCase().trim();
-                if (!c) throw new Error('Học sinh cần có lớp.');
-                if (!Array.isArray(db.students[c])) db.students[c] = [];
-                db.students[c].push({ id: o.id, name: o.name, dob: '' });
+                if (!Array.isArray(db.students[UNASSIGNED])) db.students[UNASSIGNED] = [];
+                db.students[UNASSIGNED].push({ id: o.id, name: o.name, dob: '', requestedClass: String(o.className || '').toUpperCase().trim() });
             }
             let expDays = calcExpiryDays(o.role, o.id, db, o.expiryDays);
             await assignPushUsed(db, 'Tạo tài khoản ' + (o.role === 'teacher' ? 'giáo viên' : 'học sinh') + ': ' + o.name + ' (' + o.id + ')');
@@ -97,6 +96,7 @@
                 + '<button onclick="document.getElementById(\'users-modal\').remove()" class="text-white/80 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button></div>'
                 + '<div class="flex gap-2 px-5 pt-3 text-xs font-bold">'
                 + '<button id="um-tab-pending" onclick="userMgrTab(\'pending\')" class="px-4 py-2 rounded-lg bg-indigo-700 text-white">Chờ duyệt <span id="um-pending-count" class="ml-1 bg-white text-indigo-700 rounded-full px-1.5"></span></button>'
+                + '<button id="um-tab-unassigned" onclick="userMgrTab(\'unassigned\')" class="px-4 py-2 rounded-lg bg-slate-200 text-slate-700">Chưa phân nhóm <span id="um-unassigned-count" class="ml-1 bg-amber-500 text-white rounded-full px-1.5"></span></button>'
                 + '<button id="um-tab-create" onclick="userMgrTab(\'create\')" class="px-4 py-2 rounded-lg bg-slate-200 text-slate-700">Tạo tài khoản</button>'
                 + '<button id="um-tab-list" onclick="userMgrTab(\'list\')" class="px-4 py-2 rounded-lg bg-slate-200 text-slate-700">Danh sách TK</button>'
                 + '</div>'
@@ -104,15 +104,29 @@
                 + '</div>';
             document.body.appendChild(modal);
             userMgrTab('pending');
+            // Cap nhat badge Chua phan nhom
+            (async function(){
+                try {
+                    let db = await assignFetchUsed();
+                    let n = ((db.students && db.students[UNASSIGNED_GROUP]) || []).length;
+                    Object.keys(db.teachers_registry || {}).forEach(function(tid){
+                        let t = db.teachers_registry[tid];
+                        if (!t.group || t.group === UNASSIGNED_GROUP) n++;
+                    });
+                    let b = document.getElementById('um-unassigned-count');
+                    if (b) b.textContent = n ? String(n) : '';
+                } catch(e){}
+            })();
         }
 
         function userMgrTab(tab){
             userMgrState.tab = tab;
-            let bp = document.getElementById('um-tab-pending'), bc = document.getElementById('um-tab-create'), bl = document.getElementById('um-tab-list');
+            let bp = document.getElementById('um-tab-pending'), bu = document.getElementById('um-tab-unassigned'), bc = document.getElementById('um-tab-create'), bl = document.getElementById('um-tab-list');
             if (bp){ bp.className = 'px-4 py-2 rounded-lg font-bold text-xs ' + (tab === 'pending' ? 'bg-indigo-700 text-white' : 'bg-slate-200 text-slate-700'); }
+            if (bu){ bu.className = 'px-4 py-2 rounded-lg font-bold text-xs ' + (tab === 'unassigned' ? 'bg-amber-600 text-white' : 'bg-slate-200 text-slate-700'); }
             if (bc){ bc.className = 'px-4 py-2 rounded-lg font-bold text-xs ' + (tab === 'create' ? 'bg-indigo-700 text-white' : 'bg-slate-200 text-slate-700'); }
             if (bl){ bl.className = 'px-4 py-2 rounded-lg font-bold text-xs ' + (tab === 'list' ? 'bg-indigo-700 text-white' : 'bg-slate-200 text-slate-700'); }
-            if (tab === 'pending') userMgrLoadPending(); else if (tab === 'list') userMgrLoadList(); else userMgrRenderCreate();
+            if (tab === 'pending') userMgrLoadPending(); else if (tab === 'unassigned') userMgrLoadUnassigned(); else if (tab === 'list') userMgrLoadList(); else userMgrRenderCreate();
         }
 
         // Danh sach tai khoan + thoi han + gia han (2026-10-09)
@@ -123,25 +137,29 @@
                 let db = await assignFetchUsed();
                 let exp = await assignFetchExpiry();
                 let ids = Object.keys(db.passwords || {}).filter(function(x){ return x !== 'admin'; });
-                // Tim ten + vai tro
+                // Tim ten + vai tro + nhom
                 function findName(uid){
                     let tr = db.teachers_registry || {};
-                    if (tr[uid]) return { name: tr[uid].name, role: 'GV' };
+                    if (tr[uid]) return { name: tr[uid].name, role: 'GV', group: tr[uid].group || UNASSIGNED_GROUP, isTeacher: true };
                     let out = null;
                     Object.keys(db.students || {}).forEach(function(c){
                         (db.students[c] || []).forEach(function(st){
-                            if (String(st.id) === String(uid)) out = { name: st.name, role: 'HS ' + c };
+                            if (String(st.id) === String(uid)) out = { name: st.name, role: 'HS', group: c, isTeacher: false };
                         });
                     });
-                    return out || { name: '(chưa rõ)', role: '?' };
+                    return out || { name: '(chưa rõ)', role: '?', group: '?', isTeacher: false };
                 }
                 let h = '<div class="space-y-2">';
                 ids.forEach(function(uid){
                     let info = findName(uid);
                     let e = exp[uid] || {};
+                    let grpBadge = info.group === UNASSIGNED_GROUP
+                        ? '<span class="bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded font-bold">' + uEsc(info.group) + '</span>'
+                        : '<span class="bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded">' + uEsc(info.group) + '</span>';
                     h += '<div class="border border-slate-200 rounded-xl p-3 flex flex-wrap items-center gap-2 text-xs">'
                         + '<div class="flex-1 min-w-[160px]"><p class="font-black text-slate-800">' + uEsc(info.name) + ' <span class="font-normal text-slate-400">(' + uEsc(uid) + ')</span></p>'
-                        + '<p class="text-slate-500">' + uEsc(info.role) + ' • Hạn: ' + fmtExpiry(e.expires_at) + '</p></div>'
+                        + '<p class="text-slate-500">' + uEsc(info.role) + ' • ' + grpBadge + ' • Hạn: ' + fmtExpiry(e.expires_at) + '</p></div>'
+                        + '<button onclick="changeUserGroup(\'' + uEsc(uid) + '\",' + (info.isTeacher ? 'true' : 'false') + ')" class="bg-slate-500 hover:bg-slate-600 text-white font-bold px-3 py-1.5 rounded-lg">Đổi nhóm</button>'
                         + '<button onclick="extendAccount(\'' + uEsc(uid) + '\')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-3 py-1.5 rounded-lg">Gia hạn</button>'
                         + '</div>';
                 });
@@ -163,6 +181,126 @@
                 expDb[uid] = cur;
                 await assignPushExpiry(expDb, 'Gia hạn tài khoản ' + uid + (days === 0 ? ' [không thời hạn]' : ' thêm ' + days + ' ngày'));
                 if (typeof showToast === 'function') showToast('Đã gia hạn!', 'success');
+                userMgrLoadList();
+            } catch(e){ alert('Lỗi: ' + (e.message || e)); }
+        }
+
+        // ===== CHUA PHAN NHOM LOP (2026-10-09) =====
+        var UNASSIGNED_GROUP = 'Chưa phân nhóm lớp';
+        async function userMgrLoadUnassigned(){
+            let body = document.getElementById('users-body');
+            body.innerHTML = '<p class="text-xs text-slate-400 italic">Đang tải...</p>';
+            try {
+                let db = await assignFetchUsed();
+                // HS chua phan nhom
+                let unSt = (db.students && db.students[UNASSIGNED_GROUP]) || [];
+                // GV chua phan nhom
+                let unTv = [];
+                Object.keys(db.teachers_registry || {}).forEach(function(tid){
+                    let t = db.teachers_registry[tid];
+                    if (!t.group || t.group === UNASSIGNED_GROUP) unTv.push({ id: tid, name: t.name, requested: t.note });
+                });
+                // Danh sach lop hien co (de chon)
+                let classes = Object.keys(db.students || {}).filter(function(c){ return c !== UNASSIGNED_GROUP; }).sort();
+                let h = '';
+                // HS
+                if (unSt.length){
+                    h += '<h4 class="font-black text-xs text-slate-700 mb-2"><i class="fa-solid fa-user-graduate mr-1 text-emerald-600"></i>Học sinh chờ xếp lớp (' + unSt.length + ')</h4><div class="space-y-2 mb-4">';
+                    unSt.forEach(function(st){
+                        let req = st.requestedClass ? ' <span class="text-slate-400">(xin vào ' + uEsc(st.requestedClass) + ')</span>' : '';
+                        h += '<div class="border border-amber-200 bg-amber-50 rounded-xl p-3 flex flex-wrap items-center gap-2 text-xs">'
+                            + '<div class="flex-1 min-w-[140px]"><p class="font-black text-slate-800">' + uEsc(st.name) + '</p>'
+                            + '<p class="text-slate-500">' + uEsc(st.id) + req + '</p></div>'
+                            + '<select id="uas-cls-' + uEsc(st.id) + '" class="border rounded-lg px-2 py-1.5 text-xs font-bold">'
+                            + '<option value="">-- Chọn lớp --</option>'
+                            + classes.map(function(c){ return '<option value="' + uEsc(c) + '"' + (st.requestedClass === c ? ' selected' : '') + '>' + uEsc(c) + '</option>'; }).join('')
+                            + '</select>'
+                            + '<button onclick="assignStudentToClass(\'' + uEsc(st.id) + '\')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-1.5 rounded-lg">Xếp lớp</button>'
+                            + '</div>';
+                    });
+                    h += '</div>';
+                }
+                // GV
+                if (unTv.length){
+                    h += '<h4 class="font-black text-xs text-slate-700 mb-2"><i class="fa-solid fa-chalkboard-user mr-1 text-blue-600"></i>Giáo viên chờ phân nhóm (' + unTv.length + ')</h4><div class="space-y-2">';
+                    unTv.forEach(function(t){
+                        h += '<div class="border border-amber-200 bg-amber-50 rounded-xl p-3 flex flex-wrap items-center gap-2 text-xs">'
+                            + '<div class="flex-1 min-w-[140px]"><p class="font-black text-slate-800">' + uEsc(t.name) + '</p>'
+                            + '<p class="text-slate-500">' + uEsc(t.id) + '</p></div>'
+                            + '<input id="uas-grp-' + uEsc(t.id) + '" placeholder="Nhóm (VD: Tổ Toán)" class="border rounded-lg px-2 py-1.5 text-xs w-36">'
+                            + '<button onclick="assignTeacherToGroup(\'' + uEsc(t.id) + '\')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-3 py-1.5 rounded-lg">Phân nhóm</button>'
+                            + '</div>';
+                    });
+                    h += '</div>';
+                }
+                if (!h) h = '<p class="text-xs text-slate-400 italic">Không có ai chờ phân nhóm. Tất cả đã được xếp lớp/nhóm.</p>';
+                else h = '<p class="text-[11px] text-slate-500 mb-3"><i class="fa-solid fa-circle-info mr-1"></i>Tài khoản mới duyệt sẽ vào đây. Admin xếp lớp/nhóm cho từng người.</p>' + h;
+                body.innerHTML = h;
+                // Cap nhat badge
+                let badge = document.getElementById('um-unassigned-count');
+                if (badge) badge.textContent = unSt.length + unTv.length;
+            } catch(e){ body.innerHTML = '<p class="text-xs text-rose-600">Lỗi: ' + uEsc(e.message || e) + '</p>'; }
+        }
+        async function assignStudentToClass(sid){
+            let sel = document.getElementById('uas-cls-' + sid);
+            let cls = sel ? sel.value.trim().toUpperCase() : '';
+            if (!cls){ alert('Hãy chọn lớp cho học sinh.'); return; }
+            try {
+                let db = await assignFetchUsed();
+                let arr = db.students[UNASSIGNED_GROUP] || [];
+                let idx = arr.findIndex(function(x){ return String(x.id) === String(sid); });
+                if (idx < 0) throw new Error('Không tìm thấy HS.');
+                let st = arr.splice(idx, 1)[0];
+                if (!Array.isArray(db.students[cls])) db.students[cls] = [];
+                db.students[cls].push({ id: st.id, name: st.name, dob: st.dob || '' });
+                await assignPushUsed(db, 'Xếp lớp ' + cls + ' cho HS: ' + st.name + ' (' + sid + ')');
+                if (typeof showToast === 'function') showToast('Đã xếp ' + st.name + ' vào lớp ' + cls, 'success');
+                userMgrLoadUnassigned();
+            } catch(e){ alert('Lỗi: ' + (e.message || e)); }
+        }
+        async function assignTeacherToGroup(tid){
+            let inp = document.getElementById('uas-grp-' + tid);
+            let grp = inp ? inp.value.trim() : '';
+            if (!grp){ alert('Hãy nhập tên nhóm cho giáo viên (VD: Tổ Toán, Tổ Văn...).'); return; }
+            try {
+                let db = await assignFetchUsed();
+                if (!db.teachers_registry || !db.teachers_registry[tid]) throw new Error('Không tìm thấy GV.');
+                db.teachers_registry[tid].group = grp;
+                await assignPushUsed(db, 'Phân nhóm "' + grp + '" cho GV: ' + db.teachers_registry[tid].name + ' (' + tid + ')');
+                if (typeof showToast === 'function') showToast('Đã phân nhóm!', 'success');
+                userMgrLoadUnassigned();
+            } catch(e){ alert('Lỗi: ' + (e.message || e)); }
+        }
+        // Doi nhom/lop cho TK da co (trong Danh sach TK)
+        async function changeUserGroup(uid, isTeacher){
+            try {
+                let db = await assignFetchUsed();
+                if (isTeacher){
+                    let cur = (db.teachers_registry[uid] && db.teachers_registry[uid].group) || UNASSIGNED_GROUP;
+                    let v = prompt('Đổi nhóm cho GV (hiện tại: ' + cur + '). Nhập tên nhóm mới:', cur === UNASSIGNED_GROUP ? '' : cur);
+                    if (v === null) return;
+                    v = v.trim() || UNASSIGNED_GROUP;
+                    db.teachers_registry[uid].group = v;
+                    await assignPushUsed(db, 'Đổi nhóm GV ' + uid + ' → "' + v + '"');
+                } else {
+                    let cur = '', nm = uid, curDob = '';
+                    Object.keys(db.students || {}).forEach(function(c){
+                        (db.students[c] || []).forEach(function(st){
+                            if (String(st.id) === String(uid)){ cur = c; nm = st.name; curDob = st.dob || ''; }
+                        });
+                    });
+                    let v = prompt('Đổi lớp cho HS ' + nm + ' (hiện tại: ' + cur + '). Nhập lớp mới:', cur === UNASSIGNED_GROUP ? '' : cur);
+                    if (v === null) return;
+                    v = (v.trim().toUpperCase()) || UNASSIGNED_GROUP;
+                    if (v === cur){ return; }
+                    Object.keys(db.students || {}).forEach(function(c){
+                        db.students[c] = (db.students[c] || []).filter(function(st){ return String(st.id) !== String(uid); });
+                    });
+                    if (!Array.isArray(db.students[v])) db.students[v] = [];
+                    db.students[v].push({ id: uid, name: nm, dob: curDob });
+                    await assignPushUsed(db, 'Đổi lớp HS ' + nm + ' (' + uid + '): ' + cur + ' → ' + v);
+                }
+                if (typeof showToast === 'function') showToast('Đã đổi!', 'success');
                 userMgrLoadList();
             } catch(e){ alert('Lỗi: ' + (e.message || e)); }
         }
