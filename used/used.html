@@ -48,12 +48,12 @@
             <!-- Form đăng nhập -->
             <form onsubmit="handleLoginSubmit(event)" class="space-y-4">
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Mã định danh hoặc Họ tên</label>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Mã định danh / SĐT hoặc Họ tên</label>
                     <div class="relative">
                         <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
                             <i class="fa-solid fa-user"></i>
                         </span>
-                        <input type="text" id="login-username" required placeholder="Nhập Mã GV, Mã HS hoặc Họ và tên..." class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs md:text-sm font-semibold focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"/>
+                        <input type="text" id="login-username" required placeholder="Nhập Mã GV, Mã HS, SĐT hoặc Họ và tên..." class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs md:text-sm font-semibold focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"/>
                     </div>
                 </div>
 
@@ -146,6 +146,17 @@
                             <i class="fa-solid fa-eye"></i>
                         </button>
                     </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Số điện thoại <span class="text-slate-400 font-normal normal-case">(không bắt buộc)</span></label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+                            <i class="fa-solid fa-phone"></i>
+                        </span>
+                        <input type="tel" id="force-phone" placeholder="VD: 0912345678 — để đăng nhập bằng SĐT sau này" class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs md:text-sm font-semibold focus:bg-white focus:ring-2 focus:ring-rose-500 focus:border-rose-500 outline-none transition"/>
+                    </div>
+                    <p class="text-[11px] text-slate-400 mt-1">Nhập SĐT để lần sau đăng nhập bằng SĐT thay vì nhớ mã định danh.</p>
                 </div>
 
                 <button type="submit" id="force-submit-btn" class="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-rose-200 transition duration-200 flex items-center justify-center space-x-2 text-sm mt-2">
@@ -451,6 +462,33 @@
             return str.toLowerCase().trim();
         }
 
+        // Chuẩn hóa SĐT VN: chỉ giữ số, +84 -> 0 (đăng nhập bằng SĐT, 2026-10-09)
+        function normalizePhone(input){
+            let d = String(input || '').replace(/\D/g, '');
+            if (d.length === 11 && d.indexOf('84') === 0) d = '0' + d.slice(2);
+            return d;
+        }
+        function isPhoneLike(input){
+            return /^0\d{9}$/.test(normalizePhone(input));
+        }
+        // Tìm chủ sở hữu SĐT trong DB (trừ chính user đang thao tác)
+        function findPhoneOwnerInDb(db, phoneNorm, excludeId){
+            let owner = null;
+            let tr = (db && db.teachers_registry) || {};
+            Object.keys(tr).forEach(function(tid){
+                if (String(tid) !== String(excludeId) && tr[tid] && tr[tid].phone === phoneNorm)
+                    owner = (tr[tid].name || tid) + ' (' + tid + ')';
+            });
+            let sts = (db && db.students) || {};
+            Object.keys(sts).forEach(function(cl){
+                (sts[cl] || []).forEach(function(st){
+                    if (String(st.id) !== String(excludeId) && st.phone === phoneNorm)
+                        owner = (st.name || st.id) + ' (' + st.id + ')';
+                });
+            });
+            return owner;
+        }
+
         function showToast(message, type = 'info') {
             let container = document.getElementById('toast-container');
             let toast = document.createElement('div');
@@ -515,8 +553,9 @@
                     if (existing) {
                         existing.role = regRole;
                         if (tReg[tid] && tReg[tid].group) existing.group = tReg[tid].group;
+                        if (tReg[tid] && tReg[tid].phone) existing.phone = tReg[tid].phone;
                     } else {
-                        cachedTeachers.push({ id: String(tid), name: (tReg[tid] && tReg[tid].name) || String(tid), subjects: '', classes: '', group: (tReg[tid] && tReg[tid].group) || '', role: regRole });
+                        cachedTeachers.push({ id: String(tid), name: (tReg[tid] && tReg[tid].name) || String(tid), subjects: '', classes: '', group: (tReg[tid] && tReg[tid].group) || '', role: regRole, phone: (tReg[tid] && tReg[tid].phone) || '' });
                     }
                 });
             } catch(eReg){}
@@ -567,6 +606,7 @@
                         id: s.id,
                         name: s.name,
                         dob: s.dob || '',
+                        phone: s.phone || '',
                         className: className
                     });
                 });
@@ -641,6 +681,7 @@
             document.getElementById('force-user-role').innerText = user.role === 'teacher' ? 'Giáo Viên' : (user.role === 'admin' ? 'Quản Trị Viên' : (user.role === 'bgh' ? 'Ban Giám Hiệu' : `Học Sinh (${user.className || ''})`));
             document.getElementById('force-new-pass').value = '';
             document.getElementById('force-confirm-pass').value = '';
+            document.getElementById('force-phone').value = (user && user.phone) || '';
             document.getElementById('force-new-pass').focus();
         }
 
@@ -720,7 +761,10 @@
             let matchedUser = null;
             let normInput = removeVietnameseTones(usernameInput);
 
-            let foundTeacher = cachedTeachers.find(t => t.id === usernameInput || removeVietnameseTones(t.name) === normInput);
+            let phoneNorm = isPhoneLike(usernameInput) ? normalizePhone(usernameInput) : null;
+            let foundTeacher = cachedTeachers.find(t => t.id === usernameInput);
+            if (!foundTeacher && phoneNorm) foundTeacher = cachedTeachers.find(t => t.phone === phoneNorm);
+            if (!foundTeacher) foundTeacher = cachedTeachers.find(t => removeVietnameseTones(t.name) === normInput);
             if (foundTeacher) {
                 matchedUser = {
                     id: foundTeacher.id,
@@ -728,26 +772,30 @@
                     role: foundTeacher.role === 'bgh' ? 'bgh' : 'teacher',
                     subjects: foundTeacher.subjects,
                     classes: foundTeacher.classes,
-                    group: foundTeacher.group || ''
+                    group: foundTeacher.group || '',
+                    phone: foundTeacher.phone || ''
                 };
             }
 
             // 3. Nếu chưa thấy, tìm kiếm trong danh sách Học sinh
             if (!matchedUser) {
-                let foundStudent = cachedStudents.find(s => s.id === usernameInput || removeVietnameseTones(s.name) === normInput);
+                let foundStudent = cachedStudents.find(s => s.id === usernameInput);
+                if (!foundStudent && phoneNorm) foundStudent = cachedStudents.find(s => s.phone === phoneNorm);
+                if (!foundStudent) foundStudent = cachedStudents.find(s => removeVietnameseTones(s.name) === normInput);
                 if (foundStudent) {
                     matchedUser = {
                         id: foundStudent.id,
                         name: foundStudent.name,
                         role: 'student',
                         className: foundStudent.className,
-                        dob: foundStudent.dob
+                        dob: foundStudent.dob,
+                        phone: foundStudent.phone || ''
                     };
                 }
             }
 
             if (!matchedUser) {
-                showToast('Không tìm thấy tài khoản! Vui lòng kiểm tra Mã định danh hoặc Họ tên.', 'error');
+                showToast('Không tìm thấy tài khoản! Vui lòng kiểm tra Mã định danh, SĐT hoặc Họ tên.', 'error');
                 return;
             }
 
@@ -833,6 +881,21 @@
                 return;
             }
 
+            let phoneInputRaw = document.getElementById('force-phone').value.trim();
+            let phoneNorm = '';
+            if (phoneInputRaw) {
+                phoneNorm = normalizePhone(phoneInputRaw);
+                if (!/^0\d{9}$/.test(phoneNorm)) {
+                    showToast('Số điện thoại không hợp lệ! Phải là 10 số bắt đầu bằng 0.', 'error');
+                    return;
+                }
+                let dupOwner = findPhoneOwnerInDb(masterDatabase, phoneNorm, forceUser.id);
+                if (dupOwner) {
+                    showToast('SĐT này đã được dùng cho tài khoản: ' + dupOwner, 'error');
+                    return;
+                }
+            }
+
             let btn = document.getElementById('force-submit-btn');
             btn.disabled = true;
             btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Đang lưu mật khẩu lên hệ thống...`;
@@ -840,6 +903,22 @@
             try {
                 if (!masterDatabase.passwords) masterDatabase.passwords = { 'admin': 'Dung2207@' };
                 masterDatabase.passwords[forceUser.id] = newPass;
+
+                if (phoneNorm) {
+                    if (forceUser.role === 'teacher' || forceUser.role === 'bgh') {
+                        if (!masterDatabase.teachers_registry) masterDatabase.teachers_registry = {};
+                        if (!masterDatabase.teachers_registry[forceUser.id]) masterDatabase.teachers_registry[forceUser.id] = { name: forceUser.name };
+                        masterDatabase.teachers_registry[forceUser.id].phone = phoneNorm;
+                    } else {
+                        let _sts = masterDatabase.students || {};
+                        Object.keys(_sts).forEach(function(_cl){
+                            (_sts[_cl] || []).forEach(function(_st){
+                                if (String(_st.id) === String(forceUser.id)) _st.phone = phoneNorm;
+                            });
+                        });
+                    }
+                    forceUser.phone = phoneNorm;
+                }
 
                 await saveMasterDatabaseToGit(`Cập nhật mật khẩu cho ${forceUser.name} (${forceUser.id})`);
 
