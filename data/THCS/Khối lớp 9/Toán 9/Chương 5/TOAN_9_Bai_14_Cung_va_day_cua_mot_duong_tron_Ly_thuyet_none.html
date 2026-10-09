@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 14: Cung và dây của một đường tròn</title>
+    <meta name="lesson-title" content="Bài 14: Cung và dây của một đường tròn">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 14: Cung và dây của một đường tròn</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 5: Đường tròn • Bài 14: Cung và dây của một đường tròn</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 14: Cung và dây của một đường tròn</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 5: Đường tròn (Kết nối tri thức với cuộc sống)</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Cung, dây và đường kính</h2>
+<ul class="list-disc ml-6 my-2">
+<li><strong>Dây cung</strong> (gọi tắt là <strong>dây</strong>): đoạn thẳng nối hai điểm phân biệt trên đường tròn. Ví dụ: đoạn $CD$.</li>
+<li><strong>Đường kính</strong>: dây đi qua tâm. Đường kính là <strong>dây lớn nhất</strong> trong một đường tròn, dài gấp đôi bán kính. Ví dụ: đoạn $AB$.</li>
+<li><strong>Cung</strong>: phần đường tròn giới hạn bởi hai điểm. Hai điểm $C$, $D$ chia đường tròn thành <strong>cung nhỏ</strong> $\overset{\frown}{CD}$ và <strong>cung lớn</strong> $\overset{\frown}{CD}$.</li>
+</ul>
+<div class="svg-fig">
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="200" cy="150" r="105" fill="#eef2ff" stroke="#4338ca" stroke-width="3"/>
+  <circle cx="200" cy="150" r="4" fill="#4338ca"/>
+  <text x="206" y="144" font-size="16" font-weight="bold" fill="#4338ca">O</text>
+  <line x1="95" y1="150" x2="305" y2="150" stroke="#dc2626" stroke-width="3"/>
+  <circle cx="95" cy="150" r="6" fill="#dc2626"/>
+  <circle cx="305" cy="150" r="6" fill="#dc2626"/>
+  <text x="82" y="140" font-size="16" font-weight="bold" fill="#dc2626">A</text>
+  <text x="308" y="140" font-size="16" font-weight="bold" fill="#dc2626">B</text>
+  <text x="180" y="140" font-size="14" font-weight="bold" fill="#dc2626">đường kính AB</text>
+  <line x1="140" y1="228" x2="270" y2="72" stroke="#16a34a" stroke-width="3"/>
+  <circle cx="140" cy="228" r="6" fill="#16a34a"/>
+  <circle cx="270" cy="72" r="6" fill="#16a34a"/>
+  <text x="128" y="252" font-size="16" font-weight="bold" fill="#16a34a">C</text>
+  <text x="274" y="64" font-size="16" font-weight="bold" fill="#16a34a">D</text>
+  <text x="238" y="200" font-size="14" font-weight="bold" fill="#16a34a">dây CD</text>
+  <path d="M270,72 A105,105 0 0 1 296,196" fill="none" stroke="#f59e0b" stroke-width="5"/>
+  <text x="300" y="150" font-size="14" font-weight="bold" fill="#b45309">cung nhỏ</text>
+</svg>
+<p class="text-center text-sm text-slate-500 italic">Đường kính AB, dây CD và cung nhỏ CD trên đường tròn (O)</p>
+</div>
+<div class="bg-amber-50 border-l-4 border-amber-400 p-3 my-3 rounded-r-lg">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p>Mọi đường kính đều là dây, nhưng không phải dây nào cũng là đường kính. <strong>Đường kính là dây lớn nhất</strong>: không có dây nào dài hơn $2R$.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Góc ở tâm và số đo cung</h2>
+<p><strong>Góc ở tâm</strong> là góc có đỉnh trùng với tâm của đường tròn. Ví dụ $\widehat{COD}$ với $O$ là tâm.</p>
+<ul class="list-disc ml-6 my-2">
+<li><strong>Số đo của cung nhỏ</strong> bằng số đo của <strong>góc ở tâm</strong> chắn cung đó.</li>
+<li><strong>Số đo của cung lớn</strong> bằng $360^\circ$ trừ đi số đo của cung nhỏ.</li>
+<li>Số đo của nửa đường tròn bằng $180^\circ$; cả đường tròn bằng $360^\circ$.</li>
+</ul>
+<p class="font-bold">Ví dụ 1 (có lời giải):</p>
+<p>Cho đường tròn $(O)$ có góc ở tâm $\widehat{AOB} = 75^\circ$. Tính số đo cung nhỏ $AB$ và cung lớn $AB$.</p>
+<p><strong>Lời giải:</strong> Số đo cung nhỏ $AB$ bằng số đo góc ở tâm chắn nó: $75^\circ$. Số đo cung lớn $AB$ là $360^\circ - 75^\circ = 285^\circ$.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Quan hệ giữa cung và dây</h2>
+<p>Trong một đường tròn (hoặc hai đường tròn bằng nhau), xét các <strong>cung nhỏ</strong>:</p>
+<ul class="list-disc ml-6 my-2">
+<li>Hai <strong>dây bằng nhau</strong> thì căng hai <strong>cung bằng nhau</strong> (và ngược lại).</li>
+<li><strong>Dây lớn hơn</strong> thì căng <strong>cung lớn hơn</strong> (và ngược lại).</li>
+</ul>
+<p class="font-bold">Ví dụ 2 (có lời giải):</p>
+<p>Dây $AB$ của đường tròn $(O; R)$ có độ dài bằng $R$. Tính số đo cung nhỏ $AB$.</p>
+<p><strong>Lời giải:</strong> $OA = OB = AB = R$ nên tam giác $OAB$ đều, suy ra góc ở tâm $\widehat{AOB} = 60^\circ$. Vậy số đo cung nhỏ $AB$ là $60^\circ$.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Đường kính vuông góc với dây</h2>
+<ul class="list-disc ml-6 my-2">
+<li>Trong một đường tròn, <strong>đường kính vuông góc với một dây</strong> thì <strong>đi qua trung điểm</strong> của dây ấy.</li>
+<li>Trong một đường tròn, <strong>đường kính đi qua trung điểm của một dây không đi qua tâm</strong> thì <strong>vuông góc</strong> với dây ấy.</li>
+</ul>
+<div class="svg-fig">
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="200" cy="150" r="105" fill="#fefce8" stroke="#a16207" stroke-width="3"/>
+  <circle cx="200" cy="150" r="4" fill="#a16207"/>
+  <text x="206" y="144" font-size="16" font-weight="bold" fill="#a16207">O</text>
+  <line x1="200" y1="45" x2="200" y2="255" stroke="#dc2626" stroke-width="3"/>
+  <text x="208" y="60" font-size="15" font-weight="bold" fill="#dc2626">đường kính</text>
+  <line x1="117" y1="150" x2="283" y2="150" stroke="#16a34a" stroke-width="3"/>
+  <circle cx="117" cy="150" r="6" fill="#16a34a"/>
+  <circle cx="283" cy="150" r="6" fill="#16a34a"/>
+  <circle cx="200" cy="150" r="7" fill="none" stroke="#1d4ed8" stroke-width="2.5"/>
+  <text x="105" y="140" font-size="16" font-weight="bold" fill="#16a34a">C</text>
+  <text x="287" y="140" font-size="16" font-weight="bold" fill="#16a34a">D</text>
+  <text x="186" y="176" font-size="15" font-weight="bold" fill="#1d4ed8">H</text>
+  <text x="228" y="168" font-size="14" fill="#16a34a">CH = HD</text>
+  <path d="M200,138 h12 v12" fill="none" stroke="#1d4ed8" stroke-width="2"/>
+</svg>
+<p class="text-center text-sm text-slate-500 italic">Đường kính vuông góc với dây CD tại H thì H là trung điểm của CD</p>
+</div>
+<div class="bg-amber-50 border-l-4 border-amber-400 p-3 my-3 rounded-r-lg">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p>“Vuông góc $\Rightarrow$ đi qua trung điểm” và ngược lại — nhưng chiều ngược lại <strong>chỉ đúng khi dây không đi qua tâm</strong> (hai đường kính cắt nhau tại trung điểm nhưng không vuông góc).</p>
+</div>
+<p class="font-bold">Ví dụ 3 (có lời giải):</p>
+<p>Cho đường tròn $(O; 10\text{ cm})$, dây $AB = 12\text{ cm}$. Gọi $H$ là trung điểm của $AB$. Tính $OH$.</p>
+<p><strong>Lời giải:</strong> Vì $H$ là trung điểm của dây $AB$ (không đi qua tâm) nên $OH \perp AB$. $AH = 6\text{ cm}$, tam giác $OAH$ vuông tại $H$: $OH = \sqrt{OA^2 - AH^2} = \sqrt{100 - 36} = 8$ (cm).</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="table-scroll"><table class="w-full border-collapse text-sm">
+<tr><th class="border border-slate-300 px-4 py-1 bg-sky-50">Nội dung</th><th class="border border-slate-300 px-4 py-1 bg-sky-50">Kết quả</th><th class="border border-slate-300 px-4 py-1 bg-sky-50">Ví dụ</th></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Dây, đường kính</td><td class="border border-slate-300 px-4 py-1">Dây nối 2 điểm trên đường tròn; đường kính là dây lớn nhất $= 2R$</td><td class="border border-slate-300 px-4 py-1">—</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Góc ở tâm – số đo cung</td><td class="border border-slate-300 px-4 py-1">Cung nhỏ = góc ở tâm; cung lớn $= 360^\circ -$ cung nhỏ</td><td class="border border-slate-300 px-4 py-1">Góc ở tâm $75^\circ \Rightarrow$ cung lớn $285^\circ$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Quan hệ cung – dây</td><td class="border border-slate-300 px-4 py-1">Dây bằng nhau $\Leftrightarrow$ cung (nhỏ) bằng nhau; dây lớn hơn $\Leftrightarrow$ cung lớn hơn</td><td class="border border-slate-300 px-4 py-1">Dây $= R \Rightarrow$ cung nhỏ $60^\circ$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Đường kính vuông góc dây</td><td class="border border-slate-300 px-4 py-1">Vuông góc $\Rightarrow$ qua trung điểm; qua trung điểm (dây không qua tâm) $\Rightarrow$ vuông góc</td><td class="border border-slate-300 px-4 py-1">$R=10$, dây $12 \Rightarrow$ khoảng cách $8$</td></tr>
+</table></div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
