@@ -44,6 +44,9 @@ body{font-family:system-ui,-apple-system,sans-serif}
                 <button id="csv-btn" onclick="exportCsv()" class="hidden text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg">
                     <i class="fa-solid fa-file-csv mr-1"></i>Xuất CSV
                 </button>
+                <button id="del-all-btn" onclick="deleteAllScores()" class="hidden text-xs font-bold bg-rose-600 hover:bg-rose-700 text-white px-3 py-1.5 rounded-lg" title="Xóa TẤT CẢ bài nộp của đề này (reset thống kê)">
+                    <i class="fa-solid fa-trash mr-1"></i>Xóa tất cả
+                </button>
             </div>
             <div id="result-body" class="bg-white border border-slate-200 rounded-xl overflow-hidden">
                 <p class="text-xs text-slate-400 italic p-4">Chưa chọn đề thi.</p>
@@ -229,7 +232,7 @@ body{font-family:system-ui,-apple-system,sans-serif}
             let exam = exams.find(function(x){ return x.id === examId; });
             let files = exam ? exam.files : [];
             let results = await Promise.all(files.map(function(f){
-                return rawJson(SCORES_DIR + '/' + examId + '/' + f.name).catch(function(){ return null; });
+                return rawJson(SCORES_DIR + '/' + examId + '/' + f.name).then(function(j){ if (j) j._fileName = f.name; return j; }).catch(function(){ return null; });
             }));
             curResults = results.filter(Boolean).sort(function(a, b){
                 return String(b.submitted_at || '') < String(a.submitted_at || '') ? -1 : 1;
@@ -247,6 +250,8 @@ body{font-family:system-ui,-apple-system,sans-serif}
         let title = document.getElementById('result-title');
         let cf = document.getElementById('class-filter');
         let csvBtn = document.getElementById('csv-btn');
+        let delAllBtn = document.getElementById('del-all-btn');
+        if (delAllBtn) delAllBtn.classList.toggle('hidden', !(sessionUser && sessionUser.role === 'admin' && curResults.length));
         let curExam = exams.find(function(x){ return x.id === curExamId; });
         title.textContent = (curExam && curExam.title ? curExam.title : curExamId.replace(/_/g, ' ')) + ' (' + curResults.length + ' bài)';
         if (!curResults.length){
@@ -282,6 +287,7 @@ body{font-family:system-ui,-apple-system,sans-serif}
         let h = '<div class="overflow-x-auto"><table class="w-full text-xs"><thead><tr class="bg-slate-100 text-slate-600">'
             + '<th class="px-2 py-2 text-left">STT</th><th class="px-2 py-2 text-left">Họ tên</th><th class="px-2 py-2 text-left">Lớp</th>'
             + '<th class="px-2 py-2 text-right">Điểm</th><th class="px-2 py-2 text-right">Đúng</th><th class="px-2 py-2 text-left">Nộp lúc</th>'
+            + ((sessionUser && sessionUser.role === 'admin') ? '<th class="px-2 py-2 text-center">Xóa</th>' : '')
             + '</tr></thead><tbody>';
         rows.forEach(function(r, i){
             let pct = (r.max_score > 0) ? Math.round(r.score / r.max_score * 100) : 0;
@@ -293,10 +299,63 @@ body{font-family:system-ui,-apple-system,sans-serif}
                 + '<td class="px-2 py-2 text-right font-black ' + color + '">' + esc(r.score) + '/' + esc(r.max_score) + '</td>'
                 + '<td class="px-2 py-2 text-right text-slate-500">' + esc(r.correct) + '/' + esc(r.total) + '</td>'
                 + '<td class="px-2 py-2 text-slate-500 whitespace-nowrap">' + esc(fmtTime(r.submitted_at)) + '</td>'
+                + ((sessionUser && sessionUser.role === 'admin') ? '<td class="px-2 py-2 text-center"><button onclick="deleteScore(\'' + esc(r._fileName || '') + '\', \'' + esc(r.student_name || '') + '\')" title="Xóa bài nộp này" class="text-rose-600 hover:text-rose-800 hover:bg-rose-50 px-2 py-1 rounded"><i class="fa-solid fa-trash"></i></button></td>' : '')
                 + '</tr>';
         });
         body.innerHTML = h + '</tbody></table></div>';
     }
+
+    window.deleteScore = async function(fileName, studentName){
+        if (!fileName) { alert('Không xác định được file điểm.'); return; }
+        if (!confirm('Xóa bài nộp của "' + studentName + '"?\nFile: ' + fileName + '\n\nHành động này không thể hoàn tác!')) return;
+        try {
+            let path = SCORES_DIR + '/' + curExamId + '/' + fileName;
+            let tk = token();
+            if (!tk) { alert('Cần token GitHub để xóa. Vào Teacher Hub > Cài đặt Admin để nhập token.'); return; }
+            // Lay SHA hien tai
+            let url = 'https://api.github.com/repos/' + OWNER + '/' + REPO + '/contents/' + encPath(path) + '?ref=' + BRANCH;
+            let res = await fetch(url, { headers: { 'Accept': 'application/vnd.github+json', 'Authorization': 'Bearer ' + tk } });
+            if (!res.ok) throw new Error('Không lấy được thông tin file (HTTP ' + res.status + ')');
+            let info = await res.json();
+            // Xoa file
+            let delRes = await fetch(url, {
+                method: 'DELETE',
+                headers: { 'Accept': 'application/vnd.github+json', 'Authorization': 'Bearer ' + tk, 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: 'Admin xóa bài nộp test: ' + studentName + ' (' + fileName + ')', sha: info.sha, branch: BRANCH })
+            });
+            if (!delRes.ok) { let t = await delRes.text(); throw new Error('GitHub API ' + delRes.status + ': ' + t.slice(0,120)); }
+            alert('Đã xóa bài nộp của "' + studentName + '".');
+            selectExam(curExamId); // tai lai bang
+        } catch(e){ alert('Lỗi xóa: ' + (e.message || e)); }
+    };
+
+    window.deleteAllScores = async function(){
+        if (!curResults.length) return;
+        let n = curResults.length;
+        if (!confirm('Xóa TẤT CẢ ' + n + ' bài nộp của đề này?\n\nThống kê sẽ về 0. Hành động không thể hoàn tác!')) return;
+        if (!confirm('Xác nhận lần cuối: XÓA HẾT ' + n + ' bài nộp?')) return;
+        let tk = token();
+        if (!tk) { alert('Cần token GitHub. Vào Teacher Hub > Cài đặt Admin để nhập token.'); return; }
+        let ok = 0, fail = 0;
+        for (let r of curResults) {
+            if (!r._fileName) { fail++; continue; }
+            try {
+                let path = SCORES_DIR + '/' + curExamId + '/' + r._fileName;
+                let url = 'https://api.github.com/repos/' + OWNER + '/' + REPO + '/contents/' + encPath(path) + '?ref=' + BRANCH;
+                let res = await fetch(url, { headers: { 'Accept': 'application/vnd.github+json', 'Authorization': 'Bearer ' + tk } });
+                if (!res.ok) { fail++; continue; }
+                let info = await res.json();
+                let delRes = await fetch(url, {
+                    method: 'DELETE',
+                    headers: { 'Accept': 'application/vnd.github+json', 'Authorization': 'Bearer ' + tk, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: 'Admin reset thống kê: xóa ' + r._fileName, sha: info.sha, branch: BRANCH })
+                });
+                if (delRes.ok) ok++; else fail++;
+            } catch(e){ fail++; }
+        }
+        alert('Đã xóa ' + ok + '/' + n + ' bài nộp.' + (fail ? ' Thất bại: ' + fail : ''));
+        selectExam(curExamId);
+    };
 
     window.exportCsv = function(){
         if (!curResults.length) return;
