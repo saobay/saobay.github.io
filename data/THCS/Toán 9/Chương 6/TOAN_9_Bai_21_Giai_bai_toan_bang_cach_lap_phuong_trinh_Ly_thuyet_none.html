@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 21: Giải bài toán bằng cách lập phương trình</title>
+    <meta name="lesson-title" content="Bài 21: Giải bài toán bằng cách lập phương trình">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 21: Giải bài toán bằng cách lập phương trình</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 6: Hàm số y = ax². Phương trình bậc hai một ẩn • Bài 21: Giải bài toán bằng cách lập phương trình</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 21: Giải bài toán bằng cách lập phương trình</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 6: Hàm số y = ax². Phương trình bậc hai một ẩn (Kết nối tri thức với cuộc sống)</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Các bước giải bài toán bằng cách lập phương trình</h2>
+<p><strong>Bước 1. Lập phương trình:</strong> Chọn ẩn số và đặt điều kiện thích hợp cho ẩn số; biểu diễn các đại lượng chưa biết theo ẩn và các đại lượng đã biết; lập phương trình biểu thị mối quan hệ giữa các đại lượng.</p>
+<p><strong>Bước 2. Giải phương trình.</strong></p>
+<p><strong>Bước 3. Kiểm tra</strong> xem các nghiệm tìm được có thỏa mãn điều kiện của ẩn hay không, rồi <strong>trả lời</strong>.</p>
+<div class="bg-amber-50 border-l-4 border-amber-400 p-3 my-3 rounded-r-lg">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p>Khi giải bài toán bằng cách lập phương trình bậc hai, điều kiện của ẩn thường là số dương (độ dài, vận tốc, thời gian, năng suất...). Nghiệm âm hoặc bằng 0 phải loại bỏ nếu không thỏa mãn điều kiện thực tế.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Dạng toán chuyển động</h2>
+<p>Các công thức thường dùng: $s = v \cdot t$; $v = \frac{s}{t}$; $t = \frac{s}{v}$ (quãng đường $s$, vận tốc $v$, thời gian $t$). Với chuyển động trên dòng nước: $v_{\text{xuôi}} = v_{\text{riêng}} + v_{\text{nước}}$; $v_{\text{ngược}} = v_{\text{riêng}} - v_{\text{nước}}$.</p>
+<p class="font-bold">Ví dụ 1 (có lời giải):</p>
+<p>Một ô tô đi từ A đến B dài 120 km với vận tốc dự định. Thực tế, ô tô đi với vận tốc lớn hơn dự định 10 km/h nên đến B sớm hơn dự định 24 phút. Tính vận tốc dự định của ô tô.</p>
+<p><strong>Lời giải:</strong> Gọi vận tốc dự định của ô tô là $x$ (km/h), điều kiện $x > 0$. Thời gian dự định đi là $\frac{120}{x}$ (giờ). Vận tốc thực tế là $x + 10$ (km/h), thời gian thực tế đi là $\frac{120}{x+10}$ (giờ). Đổi 24 phút $= 0{,}4$ giờ. Ta có phương trình: $$\frac{120}{x} - \frac{120}{x+10} = 0{,}4.$$ Quy đồng: $120(x + 10) - 120x = 0{,}4x(x + 10)$, suy ra $1200 = 0{,}4x^2 + 4x$, hay $0{,}4x^2 + 4x - 1200 = 0$. Nhân hai vế với $2{,}5$: $x^2 + 10x - 3000 = 0$. Tính $\Delta' = 5^2 - 1 \cdot (-3000) = 3025 = 55^2$. Phương trình có hai nghiệm: $x_1 = -5 + 55 = 50$, $x_2 = -5 - 55 = -60$ (loại vì $x > 0$). Vậy vận tốc dự định của ô tô là <strong>50 km/h</strong>.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Dạng toán năng suất lao động</h2>
+<p>Công thức: khối lượng công việc $=$ năng suất $\times$ thời gian. Khi năng suất tăng (hoặc giảm) một lượng thì thời gian hoàn thành thay đổi theo.</p>
+<p class="font-bold">Ví dụ 2 (có lời giải):</p>
+<p>Theo kế hoạch, một đội công nhân phải làm 400 sản phẩm trong một số ngày. Thực tế, mỗi ngày đội làm vượt mức 10 sản phẩm nên hoàn thành sớm hơn kế hoạch 2 ngày. Hỏi theo kế hoạch, mỗi ngày đội phải làm bao nhiêu sản phẩm?</p>
+<p><strong>Lời giải:</strong> Gọi số sản phẩm mỗi ngày theo kế hoạch là $x$ (sản phẩm), $x > 0$. Thời gian theo kế hoạch là $\frac{400}{x}$ (ngày). Thực tế mỗi ngày làm $x + 10$ sản phẩm, thời gian thực tế là $\frac{400}{x+10}$ (ngày). Ta có phương trình: $$\frac{400}{x} - \frac{400}{x+10} = 2.$$ Quy đồng: $400(x + 10) - 400x = 2x(x + 10)$, suy ra $4000 = 2x^2 + 20x$, hay $x^2 + 10x - 2000 = 0$. Tính $\Delta' = 5^2 + 2000 = 2025 = 45^2$. Nghiệm: $x_1 = -5 + 45 = 40$ (thỏa mãn), $x_2 = -5 - 45 = -50$ (loại). Vậy theo kế hoạch, mỗi ngày đội phải làm <strong>40 sản phẩm</strong>.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Dạng toán liên quan đến hình học và quỹ đạo parabol</h2>
+<p>Nhiều bài toán hình học (diện tích, chu vi) và bài toán chuyển động của vật bị ném dẫn đến phương trình bậc hai. Chẳng hạn, quỹ đạo của một vật được ném lên có dạng một parabol $y = -x^2 + 4x$ (hình dưới): vật xuất phát tại $O(0; 0)$, đạt độ cao lớn nhất $4$ m tại $x = 2$ m và rơi xuống đất tại $x = 4$ m.</p>
+<div class="svg-fig">
+<svg viewBox="0 0 340 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Quy dao parabol cua vat bi nem y bang tru x binh cong 4x">
+<rect x="0" y="0" width="340" height="280" fill="#ffffff" stroke="#e2e8f0"/>
+<line x1="60" y1="10" x2="60" y2="262" stroke="#94a3b8" stroke-width="1.5"/>
+<line x1="30" y1="240" x2="330" y2="240" stroke="#94a3b8" stroke-width="1.5"/>
+<polygon points="60,10 55,20 65,20" fill="#94a3b8"/>
+<polygon points="330,240 320,235 320,245" fill="#94a3b8"/>
+<text x="66" y="24" font-size="14" fill="#64748b">y (m)</text>
+<text x="310" y="232" font-size="14" fill="#64748b">x (m)</text>
+<path d="M60.0,240.0 L71.0,209.6 L82.0,182.4 L93.0,158.4 L104.0,137.6 L115.0,120.0 L126.0,105.6 L137.0,94.4 L148.0,86.4 L159.0,81.6 L170.0,80.0 L181.0,81.6 L192.0,86.4 L203.0,94.4 L214.0,105.6 L225.0,120.0 L236.0,137.6 L247.0,158.4 L258.0,182.4 L269.0,209.6 L280.0,240.0" fill="none" stroke="#2563eb" stroke-width="3"/>
+<circle cx="60" cy="240" r="5" fill="#dc2626"/><text x="44" y="258" font-size="12" fill="#dc2626">O</text>
+<circle cx="170" cy="80" r="5" fill="#16a34a"/><text x="176" y="72" font-size="12" fill="#16a34a">đỉnh (2; 4)</text>
+<circle cx="280" cy="240" r="5" fill="#dc2626"/><text x="268" y="258" font-size="12" fill="#dc2626">(4; 0)</text>
+<text x="200" y="130" font-size="14" fill="#2563eb" font-weight="bold">y = −x² + 4x</text>
+<text x="30" y="272" font-size="12" fill="#64748b">Vật rơi xuống đất khi y = 0, tức x = 4 m</text>
+</svg>
+</div>
+<p class="font-bold">Ví dụ 3 (có lời giải):</p>
+<p>Một mảnh vườn hình chữ nhật có chu vi 60 m và diện tích 200 m². Tính chiều dài và chiều rộng của mảnh vườn.</p>
+<p><strong>Lời giải:</strong> Nửa chu vi là $60 : 2 = 30$ (m). Gọi chiều dài là $x$ (m), điều kiện $15 < x < 30$; chiều rộng là $30 - x$ (m). Diện tích: $x(30 - x) = 200$, hay $x^2 - 30x + 200 = 0$. Tính $\Delta' = 15^2 - 200 = 25 = 5^2$. Nghiệm: $x_1 = 15 + 5 = 20$, $x_2 = 15 - 5 = 10$ (loại vì chiều dài phải lớn hơn chiều rộng, $x > 15$). Vậy chiều dài $20$ m, chiều rộng $30 - 20 = 10$ m.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="table-scroll"><table class="w-full border-collapse text-sm">
+<tr><th class="border border-slate-300 px-4 py-1 bg-sky-50">Nội dung</th><th class="border border-slate-300 px-4 py-1 bg-sky-50">Công thức</th><th class="border border-slate-300 px-4 py-1 bg-sky-50">Ví dụ</th></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Ba bước giải</td><td class="border border-slate-300 px-4 py-1">Lập phương trình → giải → kiểm tra điều kiện, trả lời</td><td class="border border-slate-300 px-4 py-1">—</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Toán chuyển động</td><td class="border border-slate-300 px-4 py-1">$s = v \cdot t$; $v_{\text{xuôi}} = v_{\text{riêng}} + v_{\text{nước}}$</td><td class="border border-slate-300 px-4 py-1">Vận tốc dự định 50 km/h</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Toán năng suất</td><td class="border border-slate-300 px-4 py-1">Công việc $=$ năng suất $\times$ thời gian</td><td class="border border-slate-300 px-4 py-1">Kế hoạch 40 sản phẩm/ngày</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Toán hình học</td><td class="border border-slate-300 px-4 py-1">Chu vi, diện tích hình chữ nhật</td><td class="border border-slate-300 px-4 py-1">Mảnh vườn 20 m × 10 m</td></tr>
+</table></div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
