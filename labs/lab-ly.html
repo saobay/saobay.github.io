@@ -208,12 +208,16 @@ function fitCanvas(cv){
     ctx.fillStyle = grad; ctx.beginPath(); ctx.arc(b.bx,b.by,20,0,7); ctx.fill();
     ctx.fillStyle = '#1e3a8a'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'center';
     ctx.fillText('m', b.bx, b.by+4);
-    // Góc
+    // Góc: vòng cung từ phương thẳng đứng tới dây (không vẽ ngược lên trên)
     if (Math.abs(theta) > 0.03){
+      var gcx = b.px, gcy = b.py + 8;
       ctx.strokeStyle = '#f59e0b'; ctx.lineWidth = 2;
-      ctx.beginPath(); ctx.arc(b.px, b.py+8, 44, -Math.PI/2, -Math.PI/2 + (theta>0?1:-1)*Math.abs(theta)); ctx.stroke();
-      ctx.fillStyle = '#b45309'; ctx.font = '12px sans-serif';
-      ctx.fillText(Math.round(Math.abs(theta)*180/Math.PI)+'°', b.px + (theta>0?52:-52), b.py+60);
+      ctx.beginPath(); ctx.arc(gcx, gcy, 44, Math.PI/2, Math.PI/2 - theta, theta > 0); ctx.stroke();
+      // Số độ đặt BÊN CẠNH dây (lệch vuông góc 16px), không đè lên dây
+      var s = Math.sin(theta), c = Math.cos(theta), sg = theta > 0 ? 1 : -1, rl = 60;
+      var lx = gcx + rl*s + 16*sg*c, ly = gcy + rl*c - 16*sg*s;
+      ctx.fillStyle = '#b45309'; ctx.font = 'bold 13px sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText(Math.round(Math.abs(theta)*180/Math.PI)+'°', lx, ly);
     }
     ctx.fillStyle = '#94a3b8'; ctx.font = '11px sans-serif'; ctx.textAlign = 'left';
     ctx.fillText('Kéo quả nặng để đổi góc thả', 8, G.h-10);
