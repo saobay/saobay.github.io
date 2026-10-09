@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 4: Phương trình quy về phương trình bậc nhất một ẩn</title>
+    <meta name="lesson-title" content="Bài 4: Phương trình quy về phương trình bậc nhất một ẩn">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 4: Phương trình quy về phương trình bậc nhất một ẩn</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 2: Phương trình, bất phương trình bậc nhất một ẩn • Bài 4: Phương trình quy về phương trình bậc nhất một ẩn</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 4: Phương trình quy về phương trình bậc nhất một ẩn</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 2: Phương trình, bất phương trình bậc nhất một ẩn (Kết nối tri thức với cuộc sống)</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Phương trình tích</h2>
+<p>Phương trình có dạng $A(x) \cdot B(x) = 0$, trong đó $A(x), B(x)$ là các đa thức của biến $x$, được gọi là <strong>phương trình tích</strong>.</p>
+<p>Để giải phương trình tích, ta áp dụng tính chất: một tích bằng $0$ khi và chỉ khi có ít nhất một thừa số bằng $0$. Cụ thể:</p>
+<p>$$A(x) \cdot B(x) = 0 \iff \left[\begin{array}{l} A(x) = 0 \\ B(x) = 0 \end{array}\right.$$</p>
+<p>Tức là: giải riêng từng phương trình $A(x) = 0$ và $B(x) = 0$, rồi lấy tất cả các nghiệm tìm được làm nghiệm của phương trình tích.</p>
+
+<div class="svg-fig">
+<svg viewBox="0 0 420 230" xmlns="http://www.w3.org/2000/svg" font-family="system-ui, sans-serif">
+  <rect x="110" y="8" width="200" height="40" rx="10" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+  <text x="210" y="33" text-anchor="middle" font-size="16" fill="#0c4a6e">$(x-2)(x+3)=0$</text>
+  <line x1="150" y1="48" x2="90" y2="80" stroke="#64748b" stroke-width="2"/>
+  <line x1="270" y1="48" x2="330" y2="80" stroke="#64748b" stroke-width="2"/>
+  <rect x="20" y="80" width="140" height="40" rx="10" fill="#fef9c3" stroke="#ca8a04" stroke-width="2"/>
+  <text x="90" y="105" text-anchor="middle" font-size="16" fill="#713f12">$x-2=0$</text>
+  <rect x="260" y="80" width="140" height="40" rx="10" fill="#fef9c3" stroke="#ca8a04" stroke-width="2"/>
+  <text x="330" y="105" text-anchor="middle" font-size="16" fill="#713f12">$x+3=0$</text>
+  <line x1="90" y1="120" x2="90" y2="150" stroke="#64748b" stroke-width="2"/>
+  <line x1="330" y1="120" x2="330" y2="150" stroke="#64748b" stroke-width="2"/>
+  <rect x="20" y="150" width="140" height="40" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+  <text x="90" y="175" text-anchor="middle" font-size="16" fill="#14532d">$x=2$</text>
+  <rect x="260" y="150" width="140" height="40" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+  <text x="330" y="175" text-anchor="middle" font-size="16" fill="#14532d">$x=-3$</text>
+  <text x="210" y="222" text-anchor="middle" font-size="14" fill="#475569">Tập nghiệm: $S = \{2; -3\}$</text>
+</svg>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-3 my-3 rounded-r-lg">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p>Muốn giải phương trình tích $A(x) \cdot B(x) = 0$, ta giải hai phương trình $A(x) = 0$ và $B(x) = 0$ rồi lấy tất cả các nghiệm của chúng.</p>
+</div>
+<p class="font-bold">Ví dụ 1 (có lời giải):</p>
+<p>Giải phương trình $(2x - 6)(x + 1) = 0$.</p>
+<p><strong>Lời giải:</strong> Ta có</p>
+<p>$$(2x - 6)(x + 1) = 0 \iff \left[\begin{array}{l} 2x - 6 = 0 \\ x + 1 = 0 \end{array}\right. \iff \left[\begin{array}{l} x = 3 \\ x = -1 \end{array}\right.$$</p>
+<p>Vậy phương trình có hai nghiệm $x = 3$ và $x = -1$.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Phương trình chứa ẩn ở mẫu</h2>
+<p>Phương trình chứa ẩn ở mẫu là phương trình có chứa ẩn số ở mẫu thức, ví dụ $\dfrac{2}{x - 1} = 3$ hay $\dfrac{x}{x + 2} + \dfrac{1}{x - 2} = \dfrac{3}{4}$.</p>
+<p>Khi giải phương trình chứa ẩn ở mẫu, trước hết ta phải tìm <strong>điều kiện xác định (ĐKXĐ)</strong> của phương trình: đó là điều kiện của ẩn để tất cả các mẫu thức trong phương trình đều khác $0$.</p>
+<div class="bg-amber-50 border-l-4 border-amber-400 p-3 my-3 rounded-r-lg">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p>Các bước giải phương trình chứa ẩn ở mẫu:</p>
+<p><strong>Bước 1.</strong> Tìm ĐKXĐ của phương trình (các mẫu thức khác $0$).<br>
+<strong>Bước 2.</strong> Quy đồng mẫu hai vế của phương trình rồi khử mẫu.<br>
+<strong>Bước 3.</strong> Giải phương trình vừa nhận được.<br>
+<strong>Bước 4.</strong> Đối chiếu các giá trị tìm được với ĐKXĐ: giá trị nào thỏa mãn ĐKXĐ là nghiệm, giá trị nào không thỏa mãn thì bị <em>loại</em>; rồi kết luận.</p>
+</div>
+
+<div class="svg-fig">
+<svg viewBox="0 0 420 380" xmlns="http://www.w3.org/2000/svg" font-family="system-ui, sans-serif">
+  <defs><marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#64748b"/></marker></defs>
+  <rect x="70" y="5" width="280" height="46" rx="10" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+  <text x="210" y="33" text-anchor="middle" font-size="15" fill="#0c4a6e">Bước 1: Tìm ĐKXĐ (mẫu khác 0)</text>
+  <line x1="210" y1="51" x2="210" y2="72" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="70" y="72" width="280" height="46" rx="10" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+  <text x="210" y="100" text-anchor="middle" font-size="15" fill="#0c4a6e">Bước 2: Quy đồng mẫu rồi khử mẫu</text>
+  <line x1="210" y1="118" x2="210" y2="139" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="70" y="139" width="280" height="46" rx="10" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+  <text x="210" y="167" text-anchor="middle" font-size="15" fill="#0c4a6e">Bước 3: Giải phương trình mới</text>
+  <line x1="210" y1="185" x2="210" y2="206" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="70" y="206" width="280" height="46" rx="10" fill="#fef9c3" stroke="#ca8a04" stroke-width="2"/>
+  <text x="210" y="234" text-anchor="middle" font-size="15" fill="#713f12">Bước 4: Đối chiếu với ĐKXĐ</text>
+  <line x1="140" y1="252" x2="80" y2="282" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="280" y1="252" x2="340" y2="282" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="10" y="282" width="140" height="46" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+  <text x="80" y="302" text-anchor="middle" font-size="14" fill="#14532d">Thỏa mãn → nhận</text>
+  <text x="80" y="320" text-anchor="middle" font-size="13" fill="#14532d">(là nghiệm)</text>
+  <rect x="270" y="282" width="140" height="46" rx="10" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+  <text x="340" y="302" text-anchor="middle" font-size="14" fill="#7f1d1d">Không thỏa → loại</text>
+  <text x="340" y="320" text-anchor="middle" font-size="13" fill="#7f1d1d">(nghiệm ngoại lai)</text>
+  <text x="210" y="362" text-anchor="middle" font-size="14" fill="#475569">Bước 5: Kết luận tập nghiệm</text>
+</svg>
+</div>
+
+<p class="font-bold">Ví dụ 2 (có lời giải):</p>
+<p>Giải phương trình $\dfrac{3}{x - 2} = 1$.</p>
+<p><strong>Lời giải:</strong></p>
+<p>ĐKXĐ: $x - 2 \ne 0$, tức là $x \ne 2$.<br>
+Quy đồng mẫu hai vế rồi khử mẫu, ta được: $3 = 1 \cdot (x - 2)$, hay $3 = x - 2$.<br>
+Giải phương trình mới: $x = 5$.<br>
+Đối chiếu ĐKXĐ: $x = 5 \ne 2$ nên thỏa mãn.<br>
+Vậy phương trình có nghiệm $x = 5$.</p>
+<p class="font-bold">Ví dụ 3 (có lời giải — nghiệm ngoại lai):</p>
+<p>Giải phương trình $\dfrac{x + 1}{x - 3} = \dfrac{4}{x - 3}$.</p>
+<p><strong>Lời giải:</strong></p>
+<p>ĐKXĐ: $x - 3 \ne 0$, tức là $x \ne 3$.<br>
+Khử mẫu hai vế, ta được: $x + 1 = 4$, suy ra $x = 3$.<br>
+Đối chiếu ĐKXĐ: $x = 3$ không thỏa mãn ĐKXĐ nên bị loại.<br>
+Vậy phương trình <strong>vô nghiệm</strong>.</p>
+<div class="bg-red-50 border-l-4 border-red-400 p-3 my-3 rounded-r-lg">
+<p class="font-bold text-red-800">⚠️ Lưu ý</p>
+<p>Không được bỏ qua bước đối chiếu ĐKXĐ! Giá trị tìm được sau khi khử mẫu có thể làm cho mẫu thức bằng $0$ — đó là <em>nghiệm ngoại lai</em> và phải loại bỏ.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Biến đổi để đưa về phương trình tích hoặc phương trình chứa ẩn ở mẫu</h2>
+<p>Nhiều phương trình thoạt nhìn chưa có dạng tích, nhưng sau khi chuyển vế, đặt nhân tử chung hoặc khai triển, ta có thể đưa chúng về dạng phương trình tích rồi giải như mục 1.</p>
+<p class="font-bold">Ví dụ 4 (có lời giải):</p>
+<p>Giải phương trình $(x + 2)(x - 5) = x^2 - 3x - 4$.</p>
+<p><strong>Lời giải:</strong> Khai triển vế trái: $x^2 - 3x - 10 = x^2 - 3x - 4$.<br>
+Chuyển vế: $x^2 - 3x - 10 - x^2 + 3x + 4 = 0$, rút gọn được $-6 = 0$ — vô lí.<br>
+Vậy phương trình <strong>vô nghiệm</strong>.</p>
+<p class="font-bold">Ví dụ 5 (có lời giải):</p>
+<p>Giải phương trình $x^2 - 4x + 3 = 0$.</p>
+<p><strong>Lời giải:</strong> Ta phân tích vế trái thành nhân tử: $x^2 - 4x + 3 = (x - 1)(x - 3)$.<br>
+Phương trình trở thành $(x - 1)(x - 3) = 0$, suy ra $x = 1$ hoặc $x = 3$.<br>
+Vậy phương trình có hai nghiệm $x = 1$ và $x = 3$.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="table-scroll"><table class="w-full border-collapse text-sm">
+<tr><th class="border border-slate-300 px-4 py-1 bg-sky-50">Nội dung</th><th class="border border-slate-300 px-4 py-1 bg-sky-50">Cách giải</th><th class="border border-slate-300 px-4 py-1 bg-sky-50">Ví dụ</th></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Phương trình tích $A(x)\cdot B(x)=0$</td><td class="border border-slate-300 px-4 py-1">Giải $A(x)=0$ và $B(x)=0$, lấy tất cả nghiệm</td><td class="border border-slate-300 px-4 py-1">$(x-2)(x+3)=0 \Rightarrow x=2$ hoặc $x=-3$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Phương trình chứa ẩn ở mẫu</td><td class="border border-slate-300 px-4 py-1">Tìm ĐKXĐ → quy đồng, khử mẫu → giải → đối chiếu ĐKXĐ</td><td class="border border-slate-300 px-4 py-1">$\dfrac{3}{x-2}=1$ (ĐKXĐ: $x\ne 2$) $\Rightarrow x=5$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Nghiệm ngoại lai</td><td class="border border-slate-300 px-4 py-1">Giá trị thỏa phương trình sau khử mẫu nhưng vi phạm ĐKXĐ → loại</td><td class="border border-slate-300 px-4 py-1">$\dfrac{x+1}{x-3}=\dfrac{4}{x-3}$: $x=3$ bị loại → vô nghiệm</td></tr>
+</table></div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
