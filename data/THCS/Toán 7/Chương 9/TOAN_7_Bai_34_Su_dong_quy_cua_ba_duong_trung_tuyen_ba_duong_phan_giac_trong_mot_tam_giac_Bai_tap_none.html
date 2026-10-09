@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài tập Bài 34: Sự đồng quy của ba đường trung tuyến, ba đường phân giác trong một tam giác</title>
+    <meta name="lesson-title" content="Bài tập Bài 34: Sự đồng quy của ba đường trung tuyến, ba đường phân giác trong một tam giác">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Bài tập</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài tập Bài 34: Sự đồng quy của ba đường trung tuyến, ba đường phân giác trong một tam giác</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 9: Quan hệ giữa các yếu tố trong một tam giác • Bài 34: Sự đồng quy của ba đường trung tuyến, ba đường phân giác trong một tam giác</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="saobay-exam10">
+<script type="application/json" class="saobay-exam10-data">
+{
+ "sets": [
+  {
+   "name": "Đề 1",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Đoạn thẳng nối một đỉnh của tam giác với trung điểm của cạnh đối diện được gọi là gì?",
+     "options": [
+      "A. Đường trung tuyến",
+      "B. Đường phân giác",
+      "C. Đường cao",
+      "D. Đường trung trực"
+     ],
+     "answer": "A",
+     "explain": "Đó là định nghĩa đường trung tuyến của tam giác."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Ba đường trung tuyến của một tam giác có tính chất nào sau đây?",
+     "options": [
+      "A. Đồng quy tại trọng tâm của tam giác",
+      "B. Song song với nhau",
+      "C. Đồng quy tại điểm cách đều ba cạnh",
+      "D. Không có điểm chung"
+     ],
+     "answer": "A",
+     "explain": "Ba đường trung tuyến của một tam giác đồng quy tại một điểm gọi là trọng tâm."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "$G$ là trọng tâm của tam giác $ABC$, $AM$ là đường trung tuyến ($M \\in BC$). Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. $AG = \\frac{1}{3}AM$",
+      "B. $AG = \\frac{2}{3}AM$",
+      "C. $AG = AM$",
+      "D. $AG = 2\\cdot AM$"
+     ],
+     "answer": "B",
+     "explain": "Trọng tâm cách mỗi đỉnh một khoảng bằng $\\frac{2}{3}$ độ dài đường trung tuyến đi qua đỉnh ấy."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "$I$ là giao điểm của ba đường phân giác trong tam giác $ABC$. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. $I$ cách đều ba cạnh của tam giác",
+      "B. $I$ cách đều ba đỉnh của tam giác",
+      "C. $I$ là trung điểm của $BC$",
+      "D. $I$ nằm ngoài tam giác"
+     ],
+     "answer": "A",
+     "explain": "Ba đường phân giác đồng quy tại điểm cách đều ba cạnh của tam giác."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "$G$ là trọng tâm của tam giác $ABC$, đường trung tuyến $AM = 12\\text{ cm}$. Tính $AG$.",
+     "options": [
+      "A. $8\text{ cm}$",
+      "B. $6\text{ cm}$",
+      "C. $4\text{ cm}$",
+      "D. $18\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "$AG = \\frac{2}{3}AM = \\frac{2}{3}\\cdot 12 = 8\\text{ (cm)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Cho tam giác $ABC$ có $AB = 6\\text{ cm}$, $AC = 8\\text{ cm}$, $BC = 10\\text{ cm}$. Gọi $M$ là trung điểm của $BC$. Tính độ dài đường trung tuyến $AM$.",
+     "options": [
+      "A. $4\text{ cm}$",
+      "B. $5\text{ cm}$",
+      "C. $6\text{ cm}$",
+      "D. $8\text{ cm}$"
+     ],
+     "answer": "B",
+     "explain": "$6^2+8^2 = 10^2$ nên tam giác vuông tại $A$; trung tuyến ứng với cạnh huyền bằng nửa cạnh huyền: $AM = \\frac{BC}{2} = 5\\text{ (cm)}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "$G$ là trọng tâm của tam giác $ABC$ với đường trung tuyến $AM = 9\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $AG = 6\text{ cm}$.",
+      "b) $GM = 3\text{ cm}$.",
+      "c) $AG = 2\\cdot GM$.",
+      "d) $GM = \\frac{2}{3}AM$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$AG = \\frac{2}{3}\\cdot 9 = 6\\text{ (cm)}$, $GM = \\frac{1}{3}\\cdot 9 = 3\\text{ (cm)}$, $AG = 2\\cdot GM$. Vậy d) sai."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "$I$ là giao điểm ba đường phân giác của tam giác $ABC$. Kẻ $IH \\perp BC$, $IK \\perp CA$, $IL \\perp AB$ với $IH = 4\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $IK = 4\text{ cm}$.",
+      "b) $IL = 4\text{ cm}$.",
+      "c) $I$ cách đều ba đỉnh của tam giác.",
+      "d) $I$ cách đều ba cạnh của tam giác."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "$I$ cách đều ba cạnh nên $IH = IK = IL = 4\\text{ (cm)}$; $I$ không cách đều ba đỉnh."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Trọng tâm $G$ của tam giác $ABC$ nằm trên đường trung tuyến $AM$ sao cho $GM = 5\\text{ cm}$. Tính độ dài $AM$ (đơn vị: cm).",
+     "answer": "15",
+     "explain": "$GM = \\frac{1}{3}AM$ nên $AM = 3\\cdot 5 = 15\\text{ (cm)}$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$, $M$ là trung điểm của $BC$, $G$ thuộc đoạn $AM$ sao cho $AG = 10\\text{ cm}$, $GM = 5\\text{ cm}$. Tính độ dài đường trung tuyến $AM$ (đơn vị: cm).",
+     "answer": "15",
+     "explain": "$AM = AG + GM = 10 + 5 = 15\\text{ (cm)}$ (và $\\frac{AG}{AM} = \\frac{2}{3}$ nên $G$ là trọng tâm)."
+    }
+   ]
+  },
+  {
+   "name": "Đề 2",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Điểm đồng quy của ba đường trung tuyến trong một tam giác được gọi là gì?",
+     "options": [
+      "A. Trọng tâm",
+      "B. Trực tâm",
+      "C. Tâm đường tròn ngoại tiếp",
+      "D. Trung điểm"
+     ],
+     "answer": "A",
+     "explain": "Điểm đồng quy của ba đường trung tuyến gọi là trọng tâm của tam giác."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Mỗi tam giác có bao nhiêu đường trung tuyến?",
+     "options": [
+      "A. $1$",
+      "B. $2$",
+      "C. $3$",
+      "D. $6$"
+     ],
+     "answer": "C",
+     "explain": "Mỗi đỉnh của tam giác cho một đường trung tuyến nên có $3$ đường trung tuyến."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Cho $G$ là trọng tâm của tam giác $ABC$, $AG = 8\\text{ cm}$. Tính $GM$ ($M$ là trung điểm của $BC$).",
+     "options": [
+      "A. $4\text{ cm}$",
+      "B. $12\text{ cm}$",
+      "C. $16\text{ cm}$",
+      "D. $6\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "$AG = 2\\cdot GM$ nên $GM = \\frac{AG}{2} = 4\\text{ (cm)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Đường phân giác của tam giác là đoạn thẳng như thế nào?",
+     "options": [
+      "A. Nối một đỉnh với một điểm trên cạnh đối diện và chia góc ở đỉnh đó thành hai phần bằng nhau",
+      "B. Nối hai trung điểm của hai cạnh",
+      "C. Vuông góc với một cạnh tại trung điểm của nó",
+      "D. Nối một đỉnh và vuông góc với cạnh đối diện"
+     ],
+     "answer": "A",
+     "explain": "Đó là định nghĩa đường phân giác của tam giác."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tam giác $ABC$ có $M$, $N$ lần lượt là trung điểm của $AB$, $AC$. Gọi $G$ là giao điểm của $BN$ và $CM$. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. $G$ là trọng tâm của tam giác $ABC$",
+      "B. $G$ là trung điểm của $BC$",
+      "C. $G$ là giao điểm ba đường phân giác",
+      "D. $G$ nằm ngoài tam giác"
+     ],
+     "answer": "A",
+     "explain": "$BN$, $CM$ là hai đường trung tuyến nên giao điểm $G$ của chúng là trọng tâm."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Cho tam giác $ABC$ vuông tại $A$ có $AB = 9\\text{ cm}$, $AC = 12\\text{ cm}$. Gọi $M$ là trung điểm của $BC$. Tính độ dài đường trung tuyến $AM$.",
+     "options": [
+      "A. $7,5\\text{ cm}$",
+      "B. $6\text{ cm}$",
+      "C. $9\text{ cm}$",
+      "D. $12\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "$BC = \\sqrt{9^2+12^2} = 15\\text{ (cm)}$; $AM = \\frac{BC}{2} = 7,5\\text{ (cm)}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$, $D$ là trung điểm của $BC$, $E$ là trung điểm của $AC$, $AD$ cắt $BE$ tại $G$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $G$ là trọng tâm của tam giác $ABC$.",
+      "b) $AG = \\frac{2}{3}AD$.",
+      "c) $BG = 2\\cdot GE$.",
+      "d) $D$ là trọng tâm của tam giác $ABC$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$AD$, $BE$ là hai đường trung tuyến nên $G$ là trọng tâm; $D$ chỉ là trung điểm của $BC$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Ba đường phân giác của tam giác $ABC$ đồng quy tại $I$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $I$ cách đều ba cạnh của tam giác.",
+      "b) Khoảng cách từ $I$ đến ba cạnh của tam giác bằng nhau.",
+      "c) $I$ cách đều ba đỉnh của tam giác.",
+      "d) $I$ nằm trong tam giác $ABC$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "a), b), d) đúng theo định lí; c) sai (điểm cách đều ba đỉnh là giao điểm ba đường trung trực)."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "$G$ là trọng tâm của tam giác $DEF$, đường trung tuyến $DI = 18\\text{ cm}$. Tính độ dài đoạn $GI$ (đơn vị: cm).",
+     "answer": "6",
+     "explain": "$GI = \\frac{1}{3}DI = \\frac{1}{3}\\cdot 18 = 6\\text{ (cm)}$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Cho tam giác $MNP$ có trọng tâm $G$, đường trung tuyến $MH = 21\\text{ cm}$. Tính độ dài đoạn $GH$ (đơn vị: cm).",
+     "answer": "7",
+     "explain": "$GH = \\frac{1}{3}MH = \\frac{1}{3}\\cdot 21 = 7\\text{ (cm)}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 3",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tia phân giác của một góc trong của tam giác cắt cạnh đối diện tại một điểm. Đoạn thẳng nối đỉnh với điểm đó được gọi là gì?",
+     "options": [
+      "A. Đường phân giác của tam giác",
+      "B. Đường trung tuyến của tam giác",
+      "C. Đường cao của tam giác",
+      "D. Đường trung bình của tam giác"
+     ],
+     "answer": "A",
+     "explain": "Đó là định nghĩa đường phân giác của tam giác."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Ba đường phân giác của một tam giác đồng quy tại một điểm. Điểm này có tính chất gì?",
+     "options": [
+      "A. Cách đều ba cạnh của tam giác",
+      "B. Cách đều ba đỉnh của tam giác",
+      "C. Là trung điểm của một cạnh",
+      "D. Nằm ngoài tam giác"
+     ],
+     "answer": "A",
+     "explain": "Giao điểm ba đường phân giác cách đều ba cạnh của tam giác."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "$G$ là trọng tâm của tam giác $ABC$. Tỉ số $\\\\frac{AG}{GM}$ ($M$ là trung điểm của $BC$) bằng bao nhiêu?",
+     "options": [
+      "A. $1$",
+      "B. $2$",
+      "C. $3$",
+      "D. $\\frac{1}{2}$"
+     ],
+     "answer": "B",
+     "explain": "$AG = 2\\cdot GM$ nên $\\frac{AG}{GM} = 2$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Cho $I$ là giao điểm ba đường phân giác của tam giác $ABC$, khoảng cách từ $I$ đến $BC$ bằng $5\\text{ cm}$. Khoảng cách từ $I$ đến $AB$ bằng bao nhiêu?",
+     "options": [
+      "A. $5\text{ cm}$",
+      "B. $10\text{ cm}$",
+      "C. $2,5\text{ cm}$",
+      "D. Không xác định được"
+     ],
+     "answer": "A",
+     "explain": "$I$ cách đều ba cạnh nên khoảng cách từ $I$ đến $AB$ cũng bằng $5\\text{ cm}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tam giác $ABC$ có $AB = AC$, $M$ là trung điểm của $BC$. Khẳng định nào sau đây đúng về đoạn $AM$?",
+     "options": [
+      "A. $AM$ chỉ là đường trung tuyến",
+      "B. $AM$ vừa là đường trung tuyến vừa là đường phân giác",
+      "C. $AM$ chỉ là đường cao",
+      "D. $AM$ không có tính chất đặc biệt"
+     ],
+     "answer": "B",
+     "explain": "Trong tam giác cân tại $A$, đường trung tuyến $AM$ đồng thời là đường phân giác (và đường cao)."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Cho tam giác $ABC$ có trọng tâm $G$. Biết $AG = 6\\text{ cm}$, $BG = 8\\text{ cm}$. Tính tổng độ dài hai đường trung tuyến xuất phát từ $A$ và từ $B$.",
+     "options": [
+      "A. $21\text{ cm}$",
+      "B. $14\text{ cm}$",
+      "C. $20\text{ cm}$",
+      "D. $28\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "Đường trung tuyến từ $A$: $\\frac{3}{2}\\cdot 6 = 9\\text{ (cm)}$; từ $B$: $\\frac{3}{2}\\cdot 8 = 12\\text{ (cm)}$. Tổng $21\\text{ cm}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ đều cạnh $6\\text{ cm}$, $G$ là trọng tâm, $I$ là giao điểm ba đường phân giác. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $G$ trùng với $I$.",
+      "b) $AG$ bằng $\\frac{2}{3}$ độ dài đường trung tuyến xuất phát từ $A$.",
+      "c) $I$ cách đều ba cạnh của tam giác.",
+      "d) $G$ nằm ngoài tam giác $ABC$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "Tam giác đều: trọng tâm trùng giao điểm ba đường phân giác, đều nằm trong tam giác."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho $G$ là trọng tâm của tam giác $ABC$, $M$ là trung điểm của $BC$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Ba điểm $A$, $G$, $M$ thẳng hàng.",
+      "b) $AG = 2\\cdot GM$.",
+      "c) $AM = 3\\cdot GM$.",
+      "d) $AG = 3\\cdot GM$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$G$ nằm trên đường trung tuyến $AM$ và chia nó theo tỉ số $2:1$ kể từ đỉnh nên a), b), c) đúng; d) sai."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Trọng tâm $G$ chia đường trung tuyến $AM$ theo tỉ số $AG:GM = 2:1$. Biết $AM = 27\\text{ cm}$. Tính $AG$ (đơn vị: cm).",
+     "answer": "18",
+     "explain": "$AG = \\frac{2}{3}AM = \\frac{2}{3}\\cdot 27 = 18\\text{ (cm)}$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "$I$ là giao điểm ba đường phân giác của tam giác $ABC$. Kẻ $IH \\perp BC$ với $IH = 6\\text{ cm}$, $IK \\perp AC$. Tính $IK$ (đơn vị: cm).",
+     "answer": "6",
+     "explain": "$I$ cách đều ba cạnh nên $IK = IH = 6\\text{ (cm)}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 4",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Mỗi tam giác có bao nhiêu đường phân giác?",
+     "options": [
+      "A. $1$",
+      "B. $2$",
+      "C. $3$",
+      "D. $6$"
+     ],
+     "answer": "C",
+     "explain": "Mỗi góc của tam giác cho một đường phân giác nên có $3$ đường phân giác."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trọng tâm của một tam giác nằm ở vị trí nào?",
+     "options": [
+      "A. Giao điểm của ba đường trung tuyến (nằm trong tam giác)",
+      "B. Ngoài tam giác",
+      "C. Tại một đỉnh của tam giác",
+      "D. Tại trung điểm của một cạnh"
+     ],
+     "answer": "A",
+     "explain": "Trọng tâm là giao điểm ba đường trung tuyến, luôn nằm trong tam giác."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Cho tam giác $ABC$, $M$ là trung điểm của $BC$. Đoạn thẳng $AM$ là đường gì của tam giác?",
+     "options": [
+      "A. Đường trung tuyến",
+      "B. Đường phân giác",
+      "C. Đường cao",
+      "D. Đường trung trực"
+     ],
+     "answer": "A",
+     "explain": "$M$ là trung điểm của $BC$ nên $AM$ là đường trung tuyến."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "$G$ là trọng tâm của tam giác $ABC$, $GM = 4\\text{ cm}$ ($M$ là trung điểm của $BC$). Tính $AM$.",
+     "options": [
+      "A. $6\text{ cm}$",
+      "B. $12\text{ cm}$",
+      "C. $8\text{ cm}$",
+      "D. $10\text{ cm}$"
+     ],
+     "answer": "B",
+     "explain": "$AM = 3\\cdot GM = 3\\cdot 4 = 12\\text{ (cm)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ vuông tại $A$ có $AB = 5\\text{ cm}$, $AC = 12\\text{ cm}$. Gọi $M$ là trung điểm của $BC$. Tính $AM$.",
+     "options": [
+      "A. $6,5\\text{ cm}$",
+      "B. $5\text{ cm}$",
+      "C. $12\text{ cm}$",
+      "D. $8,5\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "$BC = \\sqrt{25+144} = 13\\text{ (cm)}$; $AM = \\frac{BC}{2} = 6,5\\text{ (cm)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Cho tam giác $ABC$ có hai đường trung tuyến $BM$ và $CN$ cắt nhau tại $G$. Biết $BG = 10\\text{ cm}$, $CG = 8\\text{ cm}$. Tính $BM + CN$.",
+     "options": [
+      "A. $27\text{ cm}$",
+      "B. $18\text{ cm}$",
+      "C. $36\text{ cm}$",
+      "D. $20\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "$BM = \\frac{3}{2}BG = 15\\text{ (cm)}$, $CN = \\frac{3}{2}CG = 12\\text{ (cm)}$. Tổng $27\\text{ cm}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho tam giác $ABC$, $M$ là trung điểm của $BC$, $N$ là trung điểm của $AC$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $AM$, $BN$ là hai đường trung tuyến của tam giác.",
+      "b) Giao điểm của $AM$ và $BN$ là trọng tâm của tam giác.",
+      "c) Trọng tâm chia mỗi đường trung tuyến thành hai phần có tỉ lệ $2:1$ kể từ đỉnh.",
+      "d) $M$ là trọng tâm của tam giác $ABC$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b), c) đúng; d) sai vì $M$ chỉ là trung điểm của $BC$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho tam giác $DEF$, $I$ là giao điểm ba đường phân giác. Từ $I$ kẻ $IH \\perp DE$, $IK \\perp DF$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $IH = IK$.",
+      "b) $I$ cách đều hai cạnh $DE$ và $DF$.",
+      "c) $IH$ là khoảng cách từ $I$ đến cạnh $EF$.",
+      "d) Nếu kẻ thêm $IL \\perp EF$ thì $IH = IK = IL$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "$I$ cách đều ba cạnh nên a), b), d) đúng; c) sai vì khoảng cách từ $I$ đến $EF$ là đoạn vuông góc với $EF$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Cho tam giác $ABC$ có đường trung tuyến $AM = 30\\text{ cm}$, trọng tâm $G$. Tính độ dài đoạn $GM$ (đơn vị: cm).",
+     "answer": "10",
+     "explain": "$GM = \\frac{1}{3}AM = \\frac{1}{3}\\cdot 30 = 10\\text{ (cm)}$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Ba đường phân giác của tam giác $ABC$ cắt nhau tại $I$. Biết khoảng cách từ $I$ đến $AB$ là $7\\text{ cm}$. Tính tổng khoảng cách từ $I$ đến ba cạnh của tam giác (đơn vị: cm).",
+     "answer": "21",
+     "explain": "Khoảng cách từ $I$ đến mỗi cạnh đều bằng $7\\text{ cm}$ nên tổng là $3\\cdot 7 = 21\\text{ (cm)}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 5",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Phát biểu nào sau đây là SAI?",
+     "options": [
+      "A. Ba đường trung tuyến của một tam giác đồng quy tại trọng tâm.",
+      "B. Trọng tâm cách mỗi đỉnh một khoảng bằng $\\frac{2}{3}$ độ dài đường trung tuyến đi qua đỉnh ấy.",
+      "C. Ba đường phân giác của một tam giác đồng quy tại điểm cách đều ba đỉnh.",
+      "D. Mỗi tam giác có ba đường trung tuyến."
+     ],
+     "answer": "C",
+     "explain": "A, B, D đúng; C sai vì giao điểm ba đường phân giác cách đều ba cạnh (không phải ba đỉnh)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Giao điểm của ba đường phân giác trong một tam giác cách đều yếu tố nào của tam giác?",
+     "options": [
+      "A. Ba cạnh",
+      "B. Ba đỉnh",
+      "C. Ba đường cao",
+      "D. Ba trung điểm"
+     ],
+     "answer": "A",
+     "explain": "Giao điểm ba đường phân giác cách đều ba cạnh của tam giác."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "$G$ là trọng tâm của tam giác $MNP$, đường trung tuyến $MI$. Biết $GI = 6\\text{ cm}$. Tính $MI$.",
+     "options": [
+      "A. $12\text{ cm}$",
+      "B. $9\text{ cm}$",
+      "C. $18\text{ cm}$",
+      "D. $8\text{ cm}$"
+     ],
+     "answer": "C",
+     "explain": "$MI = 3\\cdot GI = 3\\cdot 6 = 18\\text{ (cm)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Cho tam giác $ABC$ có $AD$ là đường phân giác ($D \\in BC$), $\\widehat{BAD} = 30^\\circ$. Tính $\\widehat{BAC}$.",
+     "options": [
+      "A. $30^\\circ$",
+      "B. $60^\\circ$",
+      "C. $15^\\circ$",
+      "D. $90^\\circ$"
+     ],
+     "answer": "B",
+     "explain": "$AD$ là phân giác nên $\\widehat{BAC} = 2\\cdot\\widehat{BAD} = 60^\\circ$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tam giác $ABC$ cân tại $A$, $M$ là trung điểm của $BC$, $G$ là trọng tâm. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. $G$ nằm trên đoạn $AM$",
+      "B. $G$ là trung điểm của $BC$",
+      "C. $G$ nằm ngoài tam giác",
+      "D. $AM$ không phải đường trung tuyến"
+     ],
+     "answer": "A",
+     "explain": "$AM$ là đường trung tuyến nên trọng tâm $G$ nằm trên $AM$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Cho tam giác $ABC$ có trọng tâm $G$. Đường thẳng qua $G$ song song với $BC$ cắt $AB$, $AC$ lần lượt tại $D$, $E$. Biết $BC = 12\\text{ cm}$. Tính $DE$.",
+     "options": [
+      "A. $6\text{ cm}$",
+      "B. $8\text{ cm}$",
+      "C. $9\text{ cm}$",
+      "D. $4\text{ cm}$"
+     ],
+     "answer": "B",
+     "explain": "$\\frac{AD}{AB} = \\frac{AG}{AM} = \\frac{2}{3}$ nên $\\frac{DE}{BC} = \\frac{2}{3}$, suy ra $DE = 8\\text{ (cm)}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho $G$ là trọng tâm của tam giác $ABC$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $G$ nằm trong tam giác $ABC$.",
+      "b) Khoảng cách từ $G$ đến mỗi đỉnh bằng $\\frac{2}{3}$ độ dài đường trung tuyến tương ứng.",
+      "c) $G$ cách đều ba cạnh của tam giác.",
+      "d) $G$ là giao điểm của ba đường trung tuyến."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "a), b), d) đúng; c) sai (đó là tính chất của giao điểm ba đường phân giác)."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ có $I$ là giao điểm ba đường phân giác. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $I$ nằm trong tam giác $ABC$.",
+      "b) $I$ cách đều ba cạnh của tam giác.",
+      "c) Tổng khoảng cách từ $I$ đến ba cạnh bằng ba lần khoảng cách từ $I$ đến một cạnh.",
+      "d) $I$ là trọng tâm của tam giác $ABC$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b), c) đúng; d) sai (trọng tâm là giao điểm ba đường trung tuyến)."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Cho tam giác $DEF$ có trọng tâm $G$. Đường trung tuyến xuất phát từ đỉnh $D$ dài $24\\text{ cm}$. Tính độ dài đoạn $GD$ (đơn vị: cm).",
+     "answer": "16",
+     "explain": "$GD = \\frac{2}{3}\\cdot 24 = 16\\text{ (cm)}$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Tam giác $ABC$ có $M$ là trung điểm của $BC$. Điểm $G$ trên $AM$ thỏa mãn $AG = 2\\cdot GM$. Biết $AM = 36\\text{ cm}$. Tính $AG$ (đơn vị: cm).",
+     "answer": "24",
+     "explain": "$AG = \\frac{2}{3}AM = \\frac{2}{3}\\cdot 36 = 24\\text{ (cm)}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 6",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Đường trung tuyến của tam giác xuất phát từ đỉnh $A$ đi đến điểm nào?",
+     "options": [
+      "A. Trung điểm của cạnh $BC$",
+      "B. Một điểm bất kì trên cạnh $BC$",
+      "C. Đỉnh $B$",
+      "D. Chân đường vuông góc kẻ từ $A$"
+     ],
+     "answer": "A",
+     "explain": "Đường trung tuyến từ $A$ đi qua trung điểm của cạnh đối diện $BC$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Ba đường phân giác của một tam giác có đặc điểm gì?",
+     "options": [
+      "A. Đồng quy tại điểm cách đều ba cạnh",
+      "B. Song song với nhau",
+      "C. Đồng quy tại trọng tâm",
+      "D. Không có điểm chung"
+     ],
+     "answer": "A",
+     "explain": "Ba đường phân giác đồng quy tại điểm cách đều ba cạnh của tam giác."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Trọng tâm $G$ của tam giác $ABC$ có $AG = 10\\text{ cm}$. Tính độ dài đường trung tuyến $AM$ ($M$ là trung điểm của $BC$).",
+     "options": [
+      "A. $5\text{ cm}$",
+      "B. $20\text{ cm}$",
+      "C. $15\text{ cm}$",
+      "D. $12\text{ cm}$"
+     ],
+     "answer": "C",
+     "explain": "$AM = \\frac{3}{2}AG = \\frac{3}{2}\\cdot 10 = 15\\text{ (cm)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "$I$ là giao điểm ba đường phân giác của tam giác $ABC$. Kẻ $ID \\perp BC$, $IE \\perp AC$. Biết $ID = 3\\text{ cm}$. So sánh $IE$ với $3\\text{ cm}$.",
+     "options": [
+      "A. $IE = 3\text{ cm}$",
+      "B. $IE > 3\text{ cm}$",
+      "C. $IE < 3\text{ cm}$",
+      "D. Không so sánh được"
+     ],
+     "answer": "A",
+     "explain": "$I$ cách đều ba cạnh nên $IE = ID = 3\\text{ (cm)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$, hai đường trung tuyến $AD$ và $BE$ cắt nhau tại $G$. Tỉ số $\\\\frac{AG}{GD}$ bằng bao nhiêu?",
+     "options": [
+      "A. $1$",
+      "B. $2$",
+      "C. $3$",
+      "D. $\\frac{1}{2}$"
+     ],
+     "answer": "B",
+     "explain": "$G$ là trọng tâm nên $AG = 2\\cdot GD$, suy ra $\\frac{AG}{GD} = 2$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Cho tam giác $ABC$ có $AB = 10\\text{ cm}$, $AC = 10\\text{ cm}$, $BC = 12\\text{ cm}$. Gọi $M$ là trung điểm của $BC$. Tính $AM$.",
+     "options": [
+      "A. $6\text{ cm}$",
+      "B. $10\text{ cm}$",
+      "C. $8\text{ cm}$",
+      "D. $12\text{ cm}$"
+     ],
+     "answer": "C",
+     "explain": "Tam giác cân tại $A$ nên $AM \\perp BC$; $BM = 6\\text{ (cm)}$; $AM = \\sqrt{10^2-6^2} = 8\\text{ (cm)}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ đều, $O$ là giao điểm ba đường trung tuyến. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $O$ là trọng tâm của tam giác.",
+      "b) $O$ cũng là giao điểm ba đường phân giác của tam giác.",
+      "c) $O$ cách đều ba cạnh của tam giác.",
+      "d) $O$ nằm ngoài tam giác $ABC$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "Tam giác đều: các đường trung tuyến, phân giác trùng nhau; $O$ nằm trong tam giác."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho $G$ là trọng tâm của tam giác $MNP$, $Q$ là trung điểm của $NP$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Ba điểm $M$, $G$, $Q$ thẳng hàng.",
+      "b) $MG = 2\\cdot GQ$.",
+      "c) $MQ = 3\\cdot GQ$.",
+      "d) $MG = 3\\cdot GQ$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$G$ nằm trên đường trung tuyến $MQ$ và $MG:GQ = 2:1$ nên a), b), c) đúng; d) sai."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Đường trung tuyến $AM$ của tam giác $ABC$ dài $45\\text{ cm}$. Trọng tâm $G$ chia $AM$ thành hai đoạn $AG$ và $GM$. Tính $GM$ (đơn vị: cm).",
+     "answer": "15",
+     "explain": "$GM = \\frac{1}{3}AM = \\frac{1}{3}\\cdot 45 = 15\\text{ (cm)}$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Giao điểm $I$ của ba đường phân giác trong tam giác $ABC$ cách cạnh $BC$ một khoảng $8\\text{ cm}$. Tính khoảng cách từ $I$ đến cạnh $AC$ (đơn vị: cm).",
+     "answer": "8",
+     "explain": "$I$ cách đều ba cạnh nên khoảng cách từ $I$ đến $AC$ cũng bằng $8\\text{ cm}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 7",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trọng tâm $G$ chia đường trung tuyến $AM$ thành hai đoạn $AG$ và $GM$ theo tỉ lệ nào (kể từ đỉnh $A$)?",
+     "options": [
+      "A. $1:1$",
+      "B. $2:1$",
+      "C. $1:2$",
+      "D. $3:1$"
+     ],
+     "answer": "B",
+     "explain": "$AG = \\frac{2}{3}AM$, $GM = \\frac{1}{3}AM$ nên $AG:GM = 2:1$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Điểm cách đều ba cạnh của một tam giác là giao điểm của ba đường nào?",
+     "options": [
+      "A. Ba đường trung tuyến",
+      "B. Ba đường phân giác",
+      "C. Ba đường cao",
+      "D. Ba đường trung trực"
+     ],
+     "answer": "B",
+     "explain": "Giao điểm ba đường phân giác cách đều ba cạnh của tam giác."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Cho tam giác $ABC$, $G$ là trọng tâm. Biết $AM = 24\\text{ cm}$ ($M$ là trung điểm của $BC$). Tính $AG$.",
+     "options": [
+      "A. $16\text{ cm}$",
+      "B. $12\text{ cm}$",
+      "C. $8\text{ cm}$",
+      "D. $36\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "$AG = \\frac{2}{3}AM = \\frac{2}{3}\\cdot 24 = 16\\text{ (cm)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Đường phân giác xuất phát từ đỉnh $A$ của tam giác $ABC$ chia góc $A$ thành hai góc như thế nào?",
+     "options": [
+      "A. Hai góc bằng nhau",
+      "B. Hai góc có tổng bằng $90^\\circ$",
+      "C. Góc này gấp đôi góc kia",
+      "D. Tùy ý, không có quy luật"
+     ],
+     "answer": "A",
+     "explain": "Đường phân giác chia góc thành hai phần bằng nhau."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ có trọng tâm $G$, $M$ là trung điểm của $BC$. Biết $GM = 7\\text{ cm}$. Tính $AM$.",
+     "options": [
+      "A. $14\text{ cm}$",
+      "B. $10,5\text{ cm}$",
+      "C. $21\text{ cm}$",
+      "D. $28\text{ cm}$"
+     ],
+     "answer": "C",
+     "explain": "$AM = 3\\cdot GM = 3\\cdot 7 = 21\\text{ (cm)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Cho tam giác $ABC$ có $AB = 13\\text{ cm}$, $AC = 13\\text{ cm}$, $BC = 10\\text{ cm}$. Gọi $M$ là trung điểm của $BC$, $G$ là trọng tâm. Tính $GM$.",
+     "options": [
+      "A. $4\text{ cm}$",
+      "B. $8\text{ cm}$",
+      "C. $6\text{ cm}$",
+      "D. $12\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "Tam giác cân tại $A$: $AM = \\sqrt{13^2-5^2} = 12\\text{ (cm)}$; $GM = \\frac{1}{3}AM = 4\\text{ (cm)}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho tam giác $ABC$, $G$ là trọng tâm. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $G$ là điểm duy nhất trên mỗi đường trung tuyến cách đỉnh một khoảng bằng $\\frac{2}{3}$ độ dài đường trung tuyến đó.",
+      "b) Nếu $M$ là trung điểm của $BC$ thì ba điểm $A$, $G$, $M$ thẳng hàng.",
+      "c) $AG + GM = AM$.",
+      "d) $AG = GM$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b), c) đúng theo định lí; d) sai vì $AG = 2\\cdot GM$."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Về đường phân giác trong tam giác, xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Mỗi tam giác có ba đường phân giác.",
+      "b) Ba đường phân giác của một tam giác đồng quy.",
+      "c) Giao điểm ba đường phân giác cách đều ba đỉnh của tam giác.",
+      "d) Mỗi đường phân giác chia góc của tam giác thành hai phần bằng nhau."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "a), b), d) đúng; c) sai vì giao điểm cách đều ba cạnh."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tam giác $ABC$ có hai đường trung tuyến $BM = 18\\text{ cm}$ và $CN = 27\\text{ cm}$ cắt nhau tại $G$. Tính $BG$ (đơn vị: cm).",
+     "answer": "12",
+     "explain": "$BG = \\frac{2}{3}BM = \\frac{2}{3}\\cdot 18 = 12\\text{ (cm)}$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Tam giác $ABC$ có hai đường trung tuyến $BM = 18\\text{ cm}$ và $CN = 27\\text{ cm}$ cắt nhau tại $G$. Tính $CG$ (đơn vị: cm).",
+     "answer": "18",
+     "explain": "$CG = \\frac{2}{3}CN = \\frac{2}{3}\\cdot 27 = 18\\text{ (cm)}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 8",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho $M$ là trung điểm của $BC$ trong tam giác $ABC$. Đoạn thẳng $AM$ được gọi là gì?",
+     "options": [
+      "A. Đường trung tuyến",
+      "B. Đường phân giác",
+      "C. Đường cao",
+      "D. Đường trung trực"
+     ],
+     "answer": "A",
+     "explain": "$M$ là trung điểm của $BC$ nên $AM$ là đường trung tuyến."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Giao điểm của ba đường phân giác trong một tam giác có tính chất nào sau đây?",
+     "options": [
+      "A. Cách đều ba cạnh của tam giác",
+      "B. Cách đều ba đỉnh của tam giác",
+      "C. Là trung điểm của cạnh lớn nhất",
+      "D. Nằm ngoài tam giác"
+     ],
+     "answer": "A",
+     "explain": "Giao điểm ba đường phân giác cách đều ba cạnh của tam giác."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Biết $G$ là trọng tâm của tam giác $ABC$, $AG:GM = 2:1$, $AM = 33\\text{ cm}$ ($M$ là trung điểm của $BC$). Tính $GM$.",
+     "options": [
+      "A. $11\text{ cm}$",
+      "B. $22\text{ cm}$",
+      "C. $16,5\text{ cm}$",
+      "D. $9\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "$GM = \\frac{1}{3}AM = \\frac{1}{3}\\cdot 33 = 11\\text{ (cm)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $ABC$ có $AB = AC$. $AD$ là đường phân giác xuất phát từ $A$ ($D \\in BC$). Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. $D$ là đỉnh của tam giác",
+      "B. $D$ là trung điểm của $BC$",
+      "C. $AD$ vuông góc với $AB$",
+      "D. $D$ trùng với $B$"
+     ],
+     "answer": "B",
+     "explain": "Trong tam giác cân tại $A$, đường phân giác $AD$ đồng thời là đường trung tuyến nên $D$ là trung điểm của $BC$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Cho $G$ là trọng tâm của tam giác $ABC$. Biết diện tích tam giác $GBC$ bằng $10\\text{ cm}^2$. Tính diện tích tam giác $ABC$.",
+     "options": [
+      "A. $20\\text{ cm}^2$",
+      "B. $15\\text{ cm}^2$",
+      "C. $30\\text{ cm}^2$",
+      "D. $25\\text{ cm}^2$"
+     ],
+     "answer": "C",
+     "explain": "Trọng tâm chia tam giác thành ba tam giác có diện tích bằng nhau ($GBC$, $GCA$, $GAB$) nên $S_{ABC} = 3\\cdot 10 = 30\\text{ (cm}^2\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Cho tam giác $ABC$, $G$ là trọng tâm, $M$ là trung điểm của $BC$. Biết $BC = 18\\text{ cm}$, $AM = 27\\text{ cm}$. Tính $GM$.",
+     "options": [
+      "A. $6\text{ cm}$",
+      "B. $9\text{ cm}$",
+      "C. $18\text{ cm}$",
+      "D. $13,5\text{ cm}$"
+     ],
+     "answer": "B",
+     "explain": "$GM = \\frac{1}{3}AM = \\frac{1}{3}\\cdot 27 = 9\\text{ (cm)}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ vuông tại $A$, $M$ là trung điểm của $BC$, $G$ là trọng tâm. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $AM = \\frac{BC}{2}$.",
+      "b) $G$ thuộc đoạn $AM$.",
+      "c) $AG = \\frac{2}{3}AM$.",
+      "d) $G$ là trung điểm của $AM$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "Trung tuyến ứng với cạnh huyền bằng nửa cạnh huyền; $G$ chia $AM$ theo tỉ số $2:1$ nên d) sai."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho $I$ là giao điểm ba đường phân giác của tam giác $ABC$ vuông tại $A$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $I$ nằm trong tam giác $ABC$.",
+      "b) $I$ cách đều ba cạnh $AB$, $BC$, $CA$.",
+      "c) $I$ là trung điểm của $BC$.",
+      "d) Khoảng cách từ $I$ đến $AB$ bằng khoảng cách từ $I$ đến $AC$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "a), b), d) đúng; c) sai ($I$ không phải trung điểm của $BC$)."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Cho tam giác $ABC$ có trọng tâm $G$. Biết đường trung tuyến $BN = 36\\text{ cm}$. Tính $GN$ (đơn vị: cm).",
+     "answer": "12",
+     "explain": "$GN = \\frac{1}{3}BN = \\frac{1}{3}\\cdot 36 = 12\\text{ (cm)}$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "$I$ là giao điểm ba đường phân giác của tam giác $MNP$. Khoảng cách từ $I$ đến $MN$ là $11\\text{ cm}$. Tính khoảng cách từ $I$ đến $NP$ (đơn vị: cm).",
+     "answer": "11",
+     "explain": "$I$ cách đều ba cạnh nên khoảng cách từ $I$ đến $NP$ cũng bằng $11\\text{ cm}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 9",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Ba đường trung tuyến của một tam giác đồng quy tại điểm nào?",
+     "options": [
+      "A. Trọng tâm",
+      "B. Trực tâm",
+      "C. Điểm cách đều ba cạnh",
+      "D. Trung điểm của cạnh lớn nhất"
+     ],
+     "answer": "A",
+     "explain": "Điểm đồng quy của ba đường trung tuyến gọi là trọng tâm."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Ba đường phân giác của một tam giác đồng quy tại điểm nào?",
+     "options": [
+      "A. Trọng tâm",
+      "B. Điểm cách đều ba cạnh của tam giác",
+      "C. Điểm cách đều ba đỉnh của tam giác",
+      "D. Trực tâm"
+     ],
+     "answer": "B",
+     "explain": "Ba đường phân giác đồng quy tại điểm cách đều ba cạnh của tam giác."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "$G$ là trọng tâm của tam giác $ABC$, $M$ là trung điểm của $BC$, $AM = 42\\text{ cm}$. Tính $GM$.",
+     "options": [
+      "A. $28\text{ cm}$",
+      "B. $14\text{ cm}$",
+      "C. $21\text{ cm}$",
+      "D. $7\text{ cm}$"
+     ],
+     "answer": "B",
+     "explain": "$GM = \\frac{1}{3}AM = \\frac{1}{3}\\cdot 42 = 14\\text{ (cm)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Cho tam giác $ABC$ có $I$ là giao điểm ba đường phân giác. Từ $I$ kẻ $IH \\perp AB$. Biết $IH = 9\\text{ cm}$. Khoảng cách từ $I$ đến $AC$ bằng bao nhiêu?",
+     "options": [
+      "A. $18\text{ cm}$",
+      "B. $4,5\text{ cm}$",
+      "C. $9\text{ cm}$",
+      "D. Không xác định được"
+     ],
+     "answer": "C",
+     "explain": "$I$ cách đều ba cạnh nên khoảng cách từ $I$ đến $AC$ cũng bằng $9\\text{ cm}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ cân tại $A$ có $AB = AC = 15\\text{ cm}$, $BC = 18\\text{ cm}$. Gọi $M$ là trung điểm của $BC$. Tính $AM$.",
+     "options": [
+      "A. $9\text{ cm}$",
+      "B. $12\text{ cm}$",
+      "C. $15\text{ cm}$",
+      "D. $10\text{ cm}$"
+     ],
+     "answer": "B",
+     "explain": "$BM = 9\\text{ (cm)}$, $AM \\perp BC$ nên $AM = \\sqrt{15^2-9^2} = 12\\text{ (cm)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Cho tam giác $ABC$ có trọng tâm $G$. Qua $G$ kẻ đường thẳng song song với $BC$ cắt $AB$ tại $D$. Biết $AB = 15\\text{ cm}$. Tính $AD$.",
+     "options": [
+      "A. $10\text{ cm}$",
+      "B. $7,5\text{ cm}$",
+      "C. $5\text{ cm}$",
+      "D. $12\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "$\\frac{AD}{AB} = \\frac{AG}{AM} = \\frac{2}{3}$ nên $AD = \\frac{2}{3}\\cdot 15 = 10\\text{ (cm)}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho $G$ là trọng tâm của tam giác $ABC$; $M$, $N$, $P$ lần lượt là trung điểm của $BC$, $CA$, $AB$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $G$ là giao điểm của $AM$, $BN$, $CP$.",
+      "b) $AG = 2\\cdot GM$.",
+      "c) $AM = 3\\cdot GM$.",
+      "d) $G$ là trung điểm của $AM$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b), c) đúng theo định lí; d) sai vì $AG = 2\\cdot GM$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ có $AB = AC$, $I$ là giao điểm ba đường phân giác. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $I$ nằm trên đường trung tuyến xuất phát từ $A$.",
+      "b) $I$ cách đều hai cạnh $AB$ và $AC$.",
+      "c) $I$ là trung điểm của $BC$.",
+      "d) Khoảng cách từ $I$ đến $BC$ nhỏ hơn khoảng cách từ $A$ đến $BC$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "Tam giác cân tại $A$: đường phân giác từ $A$ cũng là đường trung tuyến; $I$ nằm trong tam giác nên d) đúng; c) sai."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tam giác $ABC$ có đường trung tuyến $AM$, trọng tâm $G$. Biết $AG = 20\\text{ cm}$. Tính $AM$ (đơn vị: cm).",
+     "answer": "30",
+     "explain": "$AM = \\frac{3}{2}AG = \\frac{3}{2}\\cdot 20 = 30\\text{ (cm)}$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Tam giác $DEF$ có $DI$ là đường phân giác ($I \\in EF$), $\\widehat{EDF} = 84^\\circ$. Tính $\\widehat{EDI}$ (đơn vị: độ).",
+     "answer": "42",
+     "explain": "$DI$ là phân giác nên $\\widehat{EDI} = \\frac{84^\\circ}{2} = 42^\\circ$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 10",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Phát biểu nào sau đây đúng về trọng tâm của tam giác?",
+     "options": [
+      "A. Trọng tâm là giao điểm của ba đường cao",
+      "B. Trọng tâm là giao điểm của ba đường trung tuyến",
+      "C. Trọng tâm là giao điểm của ba đường phân giác",
+      "D. Trọng tâm là giao điểm của ba đường trung trực"
+     ],
+     "answer": "B",
+     "explain": "Trọng tâm là điểm đồng quy của ba đường trung tuyến."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trọng tâm của một tam giác là giao điểm của ba đường nào?",
+     "options": [
+      "A. Ba đường trung tuyến",
+      "B. Ba đường phân giác",
+      "C. Ba đường cao",
+      "D. Ba đường trung trực"
+     ],
+     "answer": "A",
+     "explain": "Trọng tâm là điểm đồng quy của ba đường trung tuyến."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Cho $G$ là trọng tâm của tam giác $ABC$. Biết $AG = 14\\text{ cm}$. Tính $GM$ ($M$ là trung điểm của $BC$).",
+     "options": [
+      "A. $7\text{ cm}$",
+      "B. $21\text{ cm}$",
+      "C. $28\text{ cm}$",
+      "D. $10\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "$GM = \\frac{1}{2}AG = 7\\text{ (cm)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $ABC$ có $AD$ là đường trung tuyến ($D \\in BC$), $BE$ là đường trung tuyến ($E \\in AC$). Giao điểm của $AD$ và $BE$ là điểm nào?",
+     "options": [
+      "A. Trực tâm",
+      "B. Trọng tâm",
+      "C. Điểm cách đều ba cạnh",
+      "D. Trung điểm của $AB$"
+     ],
+     "answer": "B",
+     "explain": "Giao điểm hai đường trung tuyến chính là trọng tâm."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ có $M$ là trung điểm của $BC$, $G$ là trọng tâm. Biết $AG = 16\\text{ cm}$. Tính $AM$.",
+     "options": [
+      "A. $8\text{ cm}$",
+      "B. $32\text{ cm}$",
+      "C. $24\text{ cm}$",
+      "D. $20\text{ cm}$"
+     ],
+     "answer": "C",
+     "explain": "$AM = \\frac{3}{2}AG = \\frac{3}{2}\\cdot 16 = 24\\text{ (cm)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Cho tam giác $ABC$ đều. Gọi $M$ là trung điểm của $BC$, $G$ là trọng tâm. Biết $AM = 18\\text{ cm}$. Tính $AG$.",
+     "options": [
+      "A. $9\text{ cm}$",
+      "B. $12\text{ cm}$",
+      "C. $6\text{ cm}$",
+      "D. $27\text{ cm}$"
+     ],
+     "answer": "B",
+     "explain": "$AG = \\frac{2}{3}AM = \\frac{2}{3}\\cdot 18 = 12\\text{ (cm)}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ có $G$ là trọng tâm, $I$ là giao điểm ba đường phân giác. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $G$ và $I$ đều nằm trong tam giác $ABC$.",
+      "b) $G$ cách đều ba đỉnh của tam giác.",
+      "c) $I$ cách đều ba cạnh của tam giác.",
+      "d) Với tam giác đều, $G$ trùng với $I$."
+     ],
+     "answer": [
+      "T",
+      "F",
+      "T",
+      "T"
+     ],
+     "explain": "a), c), d) đúng; b) sai (điểm cách đều ba đỉnh là giao điểm ba đường trung trực)."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho tam giác $MNP$ có $G$ là trọng tâm. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $G$ chia mỗi đường trung tuyến theo tỉ số $2:1$ kể từ đỉnh.",
+      "b) Khoảng cách từ $G$ đến mỗi đỉnh bằng $\\frac{2}{3}$ độ dài đường trung tuyến tương ứng.",
+      "c) $G$ là trung điểm của mỗi đường trung tuyến.",
+      "d) Ba đường trung tuyến đồng quy tại $G$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "a), b), d) đúng theo định lí; c) sai."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$, $D$ là trung điểm của $BC$, $G$ là trọng tâm. Biết $GD = 8\\text{ cm}$. Tính $AD$ (đơn vị: cm).",
+     "answer": "24",
+     "explain": "$AD = 3\\cdot GD = 3\\cdot 8 = 24\\text{ (cm)}$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Ba đường phân giác của tam giác $ABC$ đồng quy tại $I$. Biết khoảng cách từ $I$ đến mỗi cạnh là $5\\text{ cm}$. Một đường tròn tâm $I$ bán kính $5\\text{ cm}$ tiếp xúc với bao nhiêu cạnh của tam giác?",
+     "answer": "3",
+     "explain": "Khoảng cách từ $I$ đến mỗi cạnh đều bằng bán kính nên đường tròn tiếp xúc với cả $3$ cạnh."
+    }
+   ]
+  }
+ ]
+}
+</script>
+</div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
