@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 9: Tích của một vectơ với một số</title>
+    <meta name="lesson-title" content="Bài 9: Tích của một vectơ với một số">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 9: Tích của một vectơ với một số</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 1: Mệnh đề và tập hợp • Bài 9: Tích của một vectơ với một số</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 9: Tích của một vectơ với một số</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 4: Vectơ — Toán 10 (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Định nghĩa -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Định nghĩa</h2>
+
+<p>Tích của một vectơ $\vec{a}$ với một số thực $k$ là một vectơ, kí hiệu $k\vec{a}$, được xác định như sau:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Cùng hướng</strong> với $\vec{a}$ nếu $k \gt 0$; <strong>ngược hướng</strong> với $\vec{a}$ nếu $k \lt 0$;</li>
+<li>Có <strong>độ dài</strong> bằng $|k| \cdot |\vec{a}|$.</li>
+</ul>
+<p>Quy ước: $0\vec{a} = \vec{0}$ và $k\vec{0} = \vec{0}$.</p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tich vecto voi mot so">
+<rect x="2" y="2" width="436" height="196" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<line x1="40" y1="70" x2="120" y2="70" stroke="#1d4ed8" stroke-width="2.5"/>
+<polygon points="120,70 108,64 108,76" fill="#1d4ed8"/>
+<text x="72" y="60" font-family="sans-serif" font-size="13" fill="#1d4ed8" font-weight="bold">a</text>
+<line x1="40" y1="120" x2="200" y2="120" stroke="#059669" stroke-width="2.5"/>
+<polygon points="200,120 188,114 188,126" fill="#059669"/>
+<text x="112" y="110" font-family="sans-serif" font-size="13" fill="#059669" font-weight="bold">2a</text>
+<line x1="400" y1="120" x2="300" y2="120" stroke="#dc2626" stroke-width="2.5"/>
+<polygon points="300,120 312,114 312,126" fill="#dc2626"/>
+<text x="342" y="110" font-family="sans-serif" font-size="13" fill="#dc2626" font-weight="bold">-a</text>
+<line x1="400" y1="160" x2="340" y2="160" stroke="#7c3aed" stroke-width="2.5"/>
+<polygon points="340,160 352,154 352,166" fill="#7c3aed"/>
+<text x="362" y="150" font-family="sans-serif" font-size="13" fill="#7c3aed" font-weight="bold">-0,5a</text>
+<text x="40" y="185" font-family="sans-serif" font-size="12" fill="#475569">k &gt; 0: cùng hướng, dài gấp |k| lần</text>
+<text x="270" y="185" font-family="sans-serif" font-size="12" fill="#475569">k &lt; 0: ngược hướng, dài gấp |k| lần</text>
+</svg></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">$|k\vec{a}| = |k| \cdot |\vec{a}|$. Dấu của $k$ quyết định <strong>hướng</strong>, $|k|$ quyết định <strong>độ dài</strong> (gấp $|k|$ lần).</p>
+</div>
+
+<!-- 2. Tính chất -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Tính chất</h2>
+
+<p>Với hai vectơ $\vec{a}, \vec{b}$ và hai số thực $k, l$, ta có:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>$k(l\vec{a}) = (kl)\vec{a}$;</li>
+<li>$(k + l)\vec{a} = k\vec{a} + l\vec{a}$;</li>
+<li>$k(\vec{a} + \vec{b}) = k\vec{a} + k\vec{b}$;</li>
+<li>$1\vec{a} = \vec{a}$; $(-1)\vec{a} = -\vec{a}$.</li>
+</ul>
+
+<!-- 3. Điều kiện cùng phương -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Điều kiện để hai vectơ cùng phương</h2>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-bold text-emerald-800">Định lí</p>
+<p class="mt-2">Hai vectơ $\vec{a}$ và $\vec{b}$ ($\vec{b} \ne \vec{0}$) <strong>cùng phương</strong> khi và chỉ khi tồn tại số $k$ sao cho:</p>
+<p class="text-center mt-2">$$\vec{a} = k\vec{b}$$</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>$\vec{a} = 3\vec{b}$: $\vec{a}$ cùng hướng với $\vec{b}$, $|\vec{a}| = 3|\vec{b}|$.</li>
+<li>$\vec{c} = -2\vec{d}$: $\vec{c}$ ngược hướng với $\vec{d}$, $|\vec{c}| = 2|\vec{d}|$.</li>
+<li>Ba điểm $A, B, C$ thẳng hàng $\Leftrightarrow$ $\overrightarrow{AB} = k\overrightarrow{AC}$ (với $k$ nào đó).</li>
+</ul>
+</div>
+
+<!-- 4. Trung điểm, trọng tâm -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Trung điểm của đoạn thẳng và trọng tâm của tam giác</h2>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li>$I$ là trung điểm của $AB$, $O$ tùy ý: $$\overrightarrow{OI} = \frac{\overrightarrow{OA} + \overrightarrow{OB}}{2}$$</li>
+<li>$G$ là trọng tâm của tam giác $ABC$, $O$ tùy ý: $$\overrightarrow{OG} = \frac{\overrightarrow{OA} + \overrightarrow{OB} + \overrightarrow{OC}}{3}$$</li>
+</ul>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Cho tam giác $ABC$, $M$ là trung điểm của $BC$. Chứng minh $\overrightarrow{AB} + \overrightarrow{AC} = 2\overrightarrow{AM}$.</p>
+<p class="mt-2"><strong>Lời giải.</strong> Áp dụng công thức trung điểm với $O \equiv A$: $\overrightarrow{AM} = \dfrac{\overrightarrow{AB} + \overrightarrow{AC}}{2}$, suy ra $\overrightarrow{AB} + \overrightarrow{AC} = 2\overrightarrow{AM}$. ∎</p>
+</div>
+
+<!-- Tổng kết -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Định nghĩa:</strong> $k\vec{a}$ cùng hướng $\vec{a}$ nếu $k \gt 0$, ngược hướng nếu $k \lt 0$; $|k\vec{a}| = |k|\cdot|\vec{a}|$.</li>
+<li><strong>Tính chất:</strong> $k(l\vec{a}) = (kl)\vec{a}$; $(k+l)\vec{a} = k\vec{a} + l\vec{a}$; $k(\vec{a}+\vec{b}) = k\vec{a} + k\vec{b}$.</li>
+<li><strong>Cùng phương:</strong> $\vec{a}, \vec{b}$ ($\vec{b} \ne \vec{0}$) cùng phương $\Leftrightarrow$ tồn tại $k$: $\vec{a} = k\vec{b}$.</li>
+<li><strong>Trung điểm:</strong> $\overrightarrow{OI} = \dfrac{\overrightarrow{OA} + \overrightarrow{OB}}{2}$ ($I$ là trung điểm $AB$).</li>
+<li><strong>Trọng tâm:</strong> $\overrightarrow{OG} = \dfrac{\overrightarrow{OA} + \overrightarrow{OB} + \overrightarrow{OC}}{3}$ ($G$ là trọng tâm $\triangle ABC$).</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+</body>
+</html>
