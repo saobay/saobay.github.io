@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 5: Bất đẳng thức và tính chất</title>
+    <meta name="lesson-title" content="Bài 5: Bất đẳng thức và tính chất">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 5: Bất đẳng thức và tính chất</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 2: Phương trình, bất phương trình bậc nhất một ẩn • Bài 5: Bất đẳng thức và tính chất</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 5: Bất đẳng thức và tính chất</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 2: Phương trình, bất phương trình bậc nhất một ẩn (Kết nối tri thức với cuộc sống)</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Bất đẳng thức</h2>
+<p>Khi so sánh hai số $a$ và $b$, ta dùng các kí hiệu $\lt$ (nhỏ hơn), $\gt$ (lớn hơn), $\le$ (nhỏ hơn hoặc bằng), $\ge$ (lớn hơn hoặc bằng). Hệ thức có dạng $a \lt b$ (hoặc $a \gt b$, $a \le b$, $a \ge b$) được gọi là một <strong>bất đẳng thức</strong>.</p>
+<p>Ví dụ: $-2 \lt 3$ là một bất đẳng thức (đúng); $5 \ge 5$ cũng là một bất đẳng thức (đúng); còn $4 \lt 1$ là một bất đẳng thức <em>sai</em>.</p>
+<p>Trên trục số, số nhỏ hơn nằm ở bên trái số lớn hơn:</p>
+
+<div class="svg-fig">
+<svg viewBox="0 0 420 130" xmlns="http://www.w3.org/2000/svg" font-family="system-ui, sans-serif">
+  <line x1="20" y1="70" x2="400" y2="70" stroke="#334155" stroke-width="2"/>
+  <polygon points="400,70 388,64 388,76" fill="#334155"/>
+  <g font-size="13" fill="#475569" text-anchor="middle">
+    <line x1="60" y1="64" x2="60" y2="76" stroke="#334155" stroke-width="2"/><text x="60" y="95">-4</text>
+    <line x1="110" y1="64" x2="110" y2="76" stroke="#334155" stroke-width="2"/><text x="110" y="95">-3</text>
+    <line x1="160" y1="64" x2="160" y2="76" stroke="#334155" stroke-width="2"/><text x="160" y="95">-2</text>
+    <line x1="210" y1="64" x2="210" y2="76" stroke="#334155" stroke-width="2"/><text x="210" y="95">-1</text>
+    <line x1="260" y1="64" x2="260" y2="76" stroke="#334155" stroke-width="2"/><text x="260" y="95">0</text>
+    <line x1="310" y1="64" x2="310" y2="76" stroke="#334155" stroke-width="2"/><text x="310" y="95">1</text>
+    <line x1="360" y1="64" x2="360" y2="76" stroke="#334155" stroke-width="2"/><text x="360" y="95">2</text>
+  </g>
+  <circle cx="160" cy="70" r="7" fill="#0284c7"/>
+  <text x="160" y="45" text-anchor="middle" font-size="15" fill="#0c4a6e" font-weight="bold">-2</text>
+  <circle cx="310" cy="70" r="7" fill="#dc2626"/>
+  <text x="310" y="45" text-anchor="middle" font-size="15" fill="#7f1d1d" font-weight="bold">1</text>
+  <text x="235" y="45" text-anchor="middle" font-size="16" fill="#334155">$-2 \lt 1$: điểm $-2$ nằm bên trái điểm $1$</text>
+</svg>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-3 my-3 rounded-r-lg">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p>$a \lt b$ nghĩa là "$a$ nhỏ hơn $b$"; $a \ge b$ nghĩa là "$a$ lớn hơn hoặc bằng $b$". Bất đẳng thức có thể đúng hoặc sai.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Liên hệ giữa thứ tự và phép cộng</h2>
+<p>Khi cộng cùng một số vào cả hai vế của một bất đẳng thức, ta được một bất đẳng thức mới <strong>cùng chiều</strong> với bất đẳng thức đã cho:</p>
+<p>$$a \lt b \Rightarrow a + c \lt b + c \quad \text{(với mọi số } c\text{)}$$</p>
+<p>Tính chất này cũng đúng với các dấu $\le$, $\gt$, $\ge$. Ví dụ: từ $-3 \lt 2$ suy ra $-3 + 5 \lt 2 + 5$, tức $2 \lt 7$.</p>
+<p class="font-bold">Ví dụ 1 (có lời giải):</p>
+<p>Cho $a \lt b$. So sánh $a - 4$ và $b - 4$.</p>
+<p><strong>Lời giải:</strong> Cộng cả hai vế của $a \lt b$ với $-4$, ta được $a + (-4) \lt b + (-4)$, tức $a - 4 \lt b - 4$.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Liên hệ giữa thứ tự và phép nhân</h2>
+<p>Khi nhân cả hai vế của một bất đẳng thức với cùng một số, chiều của bất đẳng thức có thể giữ nguyên hoặc đổi chiều, tùy dấu của số đó:</p>
+<p>$$a \lt b,\ c \gt 0 \Rightarrow ac \lt bc \quad \text{(giữ nguyên chiều)}$$</p>
+<p>$$a \lt b,\ c \lt 0 \Rightarrow ac \gt bc \quad \text{(đổi chiều)}$$</p>
+<p>Ví dụ: từ $2 \lt 5$, nhân hai vế với $3$ được $6 \lt 15$ (giữ chiều); nhân hai vế với $-2$ được $-4 \gt -10$ (đổi chiều).</p>
+
+<div class="svg-fig">
+<svg viewBox="0 0 420 190" xmlns="http://www.w3.org/2000/svg" font-family="system-ui, sans-serif">
+  <text x="210" y="18" text-anchor="middle" font-size="14" fill="#475569">Nhân với số âm ($-2$): thứ tự đảo ngược</text>
+  <line x1="30" y1="55" x2="390" y2="55" stroke="#334155" stroke-width="2"/>
+  <polygon points="390,55 378,49 378,61" fill="#334155"/>
+  <g font-size="12" fill="#475569" text-anchor="middle">
+    <line x1="90" y1="49" x2="90" y2="61" stroke="#334155" stroke-width="2"/><text x="90" y="80">2</text>
+    <line x1="270" y1="49" x2="270" y2="61" stroke="#334155" stroke-width="2"/><text x="270" y="80">5</text>
+  </g>
+  <circle cx="90" cy="55" r="6" fill="#0284c7"/><circle cx="270" cy="55" r="6" fill="#0284c7"/>
+  <text x="180" y="60" text-anchor="middle" font-size="15" fill="#0c4a6e">$2 \lt 5$</text>
+  <text x="210" y="105" text-anchor="middle" font-size="16" fill="#7f1d1d">$\times (-2)$ ↓ đổi chiều</text>
+  <line x1="30" y1="140" x2="390" y2="140" stroke="#334155" stroke-width="2"/>
+  <polygon points="390,140 378,134 378,146" fill="#334155"/>
+  <g font-size="12" fill="#475569" text-anchor="middle">
+    <line x1="150" y1="134" x2="150" y2="146" stroke="#334155" stroke-width="2"/><text x="150" y="165">-10</text>
+    <line x1="330" y1="134" x2="330" y2="146" stroke="#334155" stroke-width="2"/><text x="330" y="165">-4</text>
+  </g>
+  <circle cx="150" cy="140" r="6" fill="#dc2626"/><circle cx="330" cy="140" r="6" fill="#dc2626"/>
+  <text x="240" y="145" text-anchor="middle" font-size="15" fill="#7f1d1d">$-4 \gt -10$</text>
+</svg>
+</div>
+
+<div class="bg-red-50 border-l-4 border-red-400 p-3 my-3 rounded-r-lg">
+<p class="font-bold text-red-800">⚠️ Lưu ý</p>
+<p>Nhân (hoặc chia) hai vế với một số <strong>âm</strong> thì phải <strong>đổi chiều</strong> bất đẳng thức. Đây là lỗi sai phổ biến nhất của bài này!</p>
+</div>
+<p class="font-bold">Ví dụ 2 (có lời giải):</p>
+<p>Cho $a \lt b$. So sánh $-3a$ và $-3b$.</p>
+<p><strong>Lời giải:</strong> Nhân hai vế của $a \lt b$ với $-3 \lt 0$ nên phải đổi chiều: $-3a \gt -3b$.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Tính chất bắc cầu và cộng các bất đẳng thức cùng chiều</h2>
+<p><strong>Tính chất bắc cầu:</strong> nếu $a \le b$ và $b \le c$ thì $a \le c$.</p>
+<p><strong>Cộng các bất đẳng thức cùng chiều:</strong> cộng vế với vế hai bất đẳng thức cùng chiều, ta được bất đẳng thức cùng chiều:</p>
+<p>$$a \lt b,\ c \lt d \Rightarrow a + c \lt b + d$$</p>
+<p>Ví dụ: từ $x \lt 3$ và $y \lt 5$ suy ra $x + y \lt 8$.</p>
+<p class="font-bold">Ví dụ 3 (có lời giải):</p>
+<p>Biết $a \lt b$ và $c \lt 0$. So sánh $ac$ và $bc$; so sánh $a + c$ và $b$.</p>
+<p><strong>Lời giải:</strong> Nhân hai vế của $a \lt b$ với $c \lt 0$ (đổi chiều): $ac \gt bc$.<br>
+Từ $a \lt b$ và $c \lt 0$, cộng vế với vế: $a + c \lt b + 0$, tức $a + c \lt b$.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="table-scroll"><table class="w-full border-collapse text-sm">
+<tr><th class="border border-slate-300 px-4 py-1 bg-sky-50">Tính chất</th><th class="border border-slate-300 px-4 py-1 bg-sky-50">Nội dung</th><th class="border border-slate-300 px-4 py-1 bg-sky-50">Ví dụ</th></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Cộng hai vế</td><td class="border border-slate-300 px-4 py-1">$a \lt b \Rightarrow a + c \lt b + c$ (mọi $c$)</td><td class="border border-slate-300 px-4 py-1">$x \lt 4 \Rightarrow x - 1 \lt 3$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Nhân hai vế với số dương</td><td class="border border-slate-300 px-4 py-1">$a \lt b,\ c \gt 0 \Rightarrow ac \lt bc$</td><td class="border border-slate-300 px-4 py-1">$x \lt 4 \Rightarrow 2x \lt 8$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Nhân hai vế với số âm</td><td class="border border-slate-300 px-4 py-1">$a \lt b,\ c \lt 0 \Rightarrow ac \gt bc$ (đổi chiều)</td><td class="border border-slate-300 px-4 py-1">$x \lt 4 \Rightarrow -2x \gt -8$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Bắc cầu</td><td class="border border-slate-300 px-4 py-1">$a \le b,\ b \le c \Rightarrow a \le c$</td><td class="border border-slate-300 px-4 py-1">$x \le 2,\ 2 \le y \Rightarrow x \le y$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Cộng hai bất đẳng thức cùng chiều</td><td class="border border-slate-300 px-4 py-1">$a \lt b,\ c \lt d \Rightarrow a + c \lt b + d$</td><td class="border border-slate-300 px-4 py-1">$x \lt 3,\ y \lt 5 \Rightarrow x + y \lt 8$</td></tr>
+</table></div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
