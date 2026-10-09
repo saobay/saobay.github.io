@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 17: Biến thiên enthalpy trong các phản ứng hóa học</title>
+    <meta name="lesson-title" content="Bài 17: Biến thiên enthalpy trong các phản ứng hóa học">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 17: Biến thiên enthalpy trong các phản ứng hóa học</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 5: Năng lượng hóa học • Bài 17: Biến thiên enthalpy trong các phản ứng hóa học</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 17: Biến thiên enthalpy trong các phản ứng hóa học</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 5: Năng lượng hóa học — Hóa 10 (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Phản ứng tỏa nhiệt và phản ứng thu nhiệt -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Phản ứng tỏa nhiệt và phản ứng thu nhiệt</h2>
+
+<p>Hầu hết các phản ứng hóa học đều kèm theo sự <strong>thay đổi năng lượng</strong> của hệ, thường dưới dạng nhiệt. Dựa vào đó, người ta chia phản ứng hóa học thành hai loại:</p>
+
+<ul class="list-disc ml-6 space-y-2 my-3">
+<li><strong>Phản ứng tỏa nhiệt</strong> <em>(exothermic reaction)</em>: là phản ứng hóa học <strong>giải phóng</strong> năng lượng (dạng nhiệt) ra môi trường xung quanh. Khi đó năng lượng của hệ <strong>giảm</strong> và biến thiên enthalpy của phản ứng <strong>âm</strong>: $\Delta_rH \lt 0$.</li>
+<li><strong>Phản ứng thu nhiệt</strong> <em>(endothermic reaction)</em>: là phản ứng hóa học <strong>hấp thụ</strong> năng lượng (dạng nhiệt) từ môi trường xung quanh. Khi đó năng lượng của hệ <strong>tăng</strong> và biến thiên enthalpy của phản ứng <strong>dương</strong>: $\Delta_rH \gt 0$.</li>
+</ul>
+
+<div class="svg-fig"><svg viewBox="0 0 440 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Sơ đồ năng lượng phản ứng tỏa nhiệt và thu nhiệt">
+<rect x="2" y="2" width="436" height="246" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="110" y="26" font-family="sans-serif" font-size="13" font-weight="bold" fill="#0369a1" text-anchor="middle">Phản ứng tỏa nhiệt</text>
+<text x="330" y="26" font-family="sans-serif" font-size="13" font-weight="bold" fill="#b45309" text-anchor="middle">Phản ứng thu nhiệt</text>
+<line x1="30" y1="50" x2="190" y2="50" stroke="#0ea5e9" stroke-width="3"/>
+<text x="32" y="44" font-family="sans-serif" font-size="11" fill="#0c4a6e">Chất đầu</text>
+<line x1="30" y1="150" x2="190" y2="150" stroke="#22c55e" stroke-width="3"/>
+<text x="32" y="144" font-family="sans-serif" font-size="11" fill="#14532d">Sản phẩm</text>
+<line x1="110" y1="60" x2="110" y2="140" stroke="#ef4444" stroke-width="2" marker-end="url(#arr)"/>
+<text x="122" y="105" font-family="sans-serif" font-size="12" font-weight="bold" fill="#b91c1c">&#916;rH &#60; 0</text>
+<line x1="250" y1="150" x2="410" y2="150" stroke="#0ea5e9" stroke-width="3"/>
+<text x="252" y="144" font-family="sans-serif" font-size="11" fill="#0c4a6e">Chất đầu</text>
+<line x1="250" y1="50" x2="410" y2="50" stroke="#22c55e" stroke-width="3"/>
+<text x="252" y="44" font-family="sans-serif" font-size="11" fill="#14532d">Sản phẩm</text>
+<line x1="330" y1="140" x2="330" y2="60" stroke="#f59e0b" stroke-width="2" marker-end="url(#arr)"/>
+<text x="342" y="105" font-family="sans-serif" font-size="12" font-weight="bold" fill="#b45309">&#916;rH &#62; 0</text>
+<text x="220" y="200" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">Mức năng lượng của chất đầu và sản phẩm</text>
+<text x="220" y="222" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">quyết định dấu của &#916;rH</text>
+<defs><marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#64748b"/></marker></defs>
+</svg></div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>Phản ứng tỏa nhiệt: $CH_4(g) + 2O_2(g) \to CO_2(g) + 2H_2O(l)$ — đốt cháy khí methane (khí thiên nhiên) tỏa rất nhiều nhiệt; phản ứng trung hòa $NaOH(aq) + HCl(aq) \to NaCl(aq) + H_2O(l)$; phản ứng nổ $2H_2(g) + O_2(g) \to 2H_2O(l)$.</li>
+<li>Phản ứng thu nhiệt: nhiệt phân đá vôi $CaCO_3(s) \to CaO(s) + CO_2(g)$ (cần nung nóng liên tục); quá trình quang hợp ở cây xanh hấp thụ năng lượng ánh sáng.</li>
+</ul>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><strong>Tỏa nhiệt</strong>: hệ mất năng lượng, $\Delta_rH \lt 0$ (mũi tên năng lượng đi <strong>xuống</strong>). <strong>Thu nhiệt</strong>: hệ nhận năng lượng, $\Delta_rH \gt 0$ (mũi tên năng lượng đi <strong>lên</strong>). Đừng nhầm: phản ứng cần đun nóng để <em>khởi động</em> (như đốt cháy) vẫn có thể là phản ứng tỏa nhiệt!</p>
+</div>
+<!-- 2. Biến thiên enthalpy chuẩn -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Biến thiên enthalpy chuẩn của phản ứng hóa học</h2>
+
+<p><strong>Điều kiện chuẩn</strong> là điều kiện áp suất $1$ bar (đối với chất khí), nồng độ $1$ mol/L (đối với chất tan trong dung dịch); nhiệt độ thường được chọn là $25^\circ C$ ($298$ K).</p>
+
+<p><strong>Định nghĩa:</strong> <em>Biến thiên enthalpy chuẩn</em> của một phản ứng hóa học, kí hiệu là $\Delta_rH^{o}_{298}$, là biến thiên enthalpy của phản ứng đó khi tất cả các chất <strong>đều ở điều kiện chuẩn</strong>. Đơn vị: kJ (hoặc kJ/mol phản ứng theo đúng hệ số cân bằng).</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>$CH_4(g) + 2O_2(g) \to CO_2(g) + 2H_2O(l) \qquad \Delta_rH^{o}_{298} = -890{,}3$ kJ</p>
+<p class="mt-2">Nghĩa là: khi đốt cháy hoàn toàn $1$ mol $CH_4$ (các chất đều ở điều kiện chuẩn), phản ứng <strong>tỏa ra</strong> $890{,}3$ kJ nhiệt.</p>
+</div>
+
+<!-- 3. Nhiệt tạo thành chuẩn -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Nhiệt tạo thành chuẩn và biến thiên enthalpy của phản ứng</h2>
+
+<p><strong>Định nghĩa:</strong> <em>Nhiệt tạo thành chuẩn</em> (enthalpy tạo thành chuẩn) của một chất, kí hiệu $\Delta_fH^{o}_{298}$, là biến thiên enthalpy của phản ứng tạo thành <strong>$1$ mol</strong> chất đó từ các <strong>đơn chất bền nhất</strong> ở điều kiện chuẩn.</p>
+
+<p><strong>Quy ước:</strong> nhiệt tạo thành chuẩn của mọi <strong>đơn chất bền nhất</strong> (như $O_2(g)$, $H_2(g)$, $N_2(g)$, $C$ (graphite), $Na(s)$...) đều bằng <strong>$0$</strong>.</p>
+
+<p><strong>Công thức Hess</strong> — tính $\Delta_rH^{o}_{298}$ theo nhiệt tạo thành chuẩn:</p>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$\Delta_rH^{o}_{298} = \sum \nu_{sp}\,\Delta_fH^{o}_{298}(sp) \;-\; \sum \nu_{cđ}\,\Delta_fH^{o}_{298}(cđ)$$</p>
+<p class="text-sm text-slate-600 mt-1">($\nu$ là hệ số cân bằng của mỗi chất trong phương trình)</p>
+</div>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2 text-sm">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-3 py-1">Chất</td><td class="border border-slate-300 px-3 py-1">$CH_4(g)$</td><td class="border border-slate-300 px-3 py-1">$CO_2(g)$</td><td class="border border-slate-300 px-3 py-1">$H_2O(l)$</td><td class="border border-slate-300 px-3 py-1">$H_2O(g)$</td><td class="border border-slate-300 px-3 py-1">$CO(g)$</td><td class="border border-slate-300 px-3 py-1">$C_3H_8(g)$</td></tr>
+<tr><td class="border border-slate-300 px-3 py-1 font-semibold">$\Delta_fH^{o}_{298}$ (kJ/mol)</td><td class="border border-slate-300 px-3 py-1">$-74{,}6$</td><td class="border border-slate-300 px-3 py-1">$-393{,}5$</td><td class="border border-slate-300 px-3 py-1">$-285{,}8$</td><td class="border border-slate-300 px-3 py-1">$-241{,}8$</td><td class="border border-slate-300 px-3 py-1">$-110{,}5$</td><td class="border border-slate-300 px-3 py-1">$-103{,}8$</td></tr>
+</table></div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 1 — Tính $\Delta_rH^{o}_{298}$ của phản ứng nhiệt phân đá vôi:</p>
+<p>$CaCO_3(s) \to CaO(s) + CO_2(g)$</p>
+<p class="mt-2">Cho: $\Delta_fH^{o}_{298}(CaCO_3(s)) = -1207{,}6$ kJ/mol; $\Delta_fH^{o}_{298}(CaO(s)) = -635{,}1$ kJ/mol; $\Delta_fH^{o}_{298}(CO_2(g)) = -393{,}5$ kJ/mol.</p>
+<p class="mt-2"><strong>Lời giải:</strong></p>
+<p>$\Delta_rH^{o}_{298} = [\Delta_fH^{o}_{298}(CaO) + \Delta_fH^{o}_{298}(CO_2)] - \Delta_fH^{o}_{298}(CaCO_3)$</p>
+<p>$= [(-635{,}1) + (-393{,}5)] - (-1207{,}6) = -1028{,}6 + 1207{,}6 = +179{,}0$ kJ</p>
+<p>Kết quả dương nên đây là phản ứng <strong>thu nhiệt</strong> — phù hợp với thực tế phải nung đá vôi liên tục.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Công thức Hess: <strong>"sản phẩm trừ chất đầu"</strong> (có nhân hệ số cân bằng). Nhớ: $\Delta_fH^{o}_{298}$ của đơn chất bền nhất $= 0$ nên nhiều khi không cần viết vào phép tính.</p>
+</div>
+<!-- 4. Năng lượng liên kết -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Năng lượng liên kết và biến thiên enthalpy của phản ứng</h2>
+
+<p><strong>Định nghĩa:</strong> <em>Năng lượng liên kết</em>, kí hiệu $E_b$, là năng lượng cần thiết để <strong>phá vỡ $1$ mol liên kết</strong> trong phân tử ở thể khí thành các nguyên tử ở thể khí. Đơn vị: kJ/mol. Ví dụ: $E_b(H{-}H) = 436$ kJ/mol nghĩa là cần $436$ kJ để phá vỡ $1$ mol liên kết $H{-}H$.</p>
+
+<p>Khi phản ứng xảy ra: <strong>phá vỡ</strong> liên kết của chất đầu (thu nhiệt) rồi <strong>hình thành</strong> liên kết mới của sản phẩm (tỏa nhiệt). Do đó:</p>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$\Delta_rH^{o}_{298} = \sum E_b\text{(liên kết bị phá vỡ)} \;-\; \sum E_b\text{(liên kết được hình thành)}$$</p>
+</div>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2 text-sm">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-3 py-1">Liên kết</td><td class="border border-slate-300 px-3 py-1">$H{-}H$</td><td class="border border-slate-300 px-3 py-1">$O{=}O$</td><td class="border border-slate-300 px-3 py-1">$C{-}H$</td><td class="border border-slate-300 px-3 py-1">$O{-}H$</td><td class="border border-slate-300 px-3 py-1">$C{=}O$ (trong $CO_2$)</td><td class="border border-slate-300 px-3 py-1">$H{-}Cl$</td><td class="border border-slate-300 px-3 py-1">$Cl{-}Cl$</td><td class="border border-slate-300 px-3 py-1">$N{\equiv}N$</td><td class="border border-slate-300 px-3 py-1">$N{-}H$</td></tr>
+<tr><td class="border border-slate-300 px-3 py-1 font-semibold">$E_b$ (kJ/mol)</td><td class="border border-slate-300 px-3 py-1">$436$</td><td class="border border-slate-300 px-3 py-1">$498$</td><td class="border border-slate-300 px-3 py-1">$413$</td><td class="border border-slate-300 px-3 py-1">$463$</td><td class="border border-slate-300 px-3 py-1">$799$</td><td class="border border-slate-300 px-3 py-1">$431$</td><td class="border border-slate-300 px-3 py-1">$243$</td><td class="border border-slate-300 px-3 py-1">$945$</td><td class="border border-slate-300 px-3 py-1">$391$</td></tr>
+</table></div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 2 — Tính $\Delta_rH^{o}_{298}$ của phản ứng $H_2(g) + Cl_2(g) \to 2HCl(g)$ theo năng lượng liên kết:</p>
+<p class="mt-2"><strong>Lời giải:</strong></p>
+<ul class="list-disc ml-6 space-y-1 mt-1">
+<li>Liên kết bị phá vỡ: $1$ liên kết $H{-}H$ và $1$ liên kết $Cl{-}Cl$ → năng lượng cần: $436 + 243 = 679$ kJ.</li>
+<li>Liên kết được hình thành: $2$ liên kết $H{-}Cl$ → năng lượng tỏa ra: $2 \times 431 = 862$ kJ.</li>
+<li>$\Delta_rH^{o}_{298} = 679 - 862 = -183$ kJ → phản ứng <strong>tỏa nhiệt</strong>.</li>
+</ul>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Theo năng lượng liên kết: <strong>"phá trừ tạo"</strong> (năng lượng phá liên kết trừ năng lượng tạo liên kết). Chú ý <strong>nhân đúng số mol liên kết</strong> theo hệ số cân bằng (ví dụ $2H_2O$ có $4$ liên kết $O{-}H$).</p>
+</div>
+
+<!-- 5. Ứng dụng -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">5. Một số ứng dụng của biến thiên enthalpy</h2>
+
+<ul class="list-disc ml-6 space-y-2 my-3">
+<li><strong>So sánh nhiên liệu:</strong> giá trị tuyệt đối của $\Delta_rH$ (nhiệt cháy) càng lớn thì khi đốt cùng một lượng, nhiên liệu tỏa ra càng nhiều nhiệt. Ví dụ: nhiệt cháy của $H_2(g)$ ($-285{,}8$ kJ/mol) tính trên $1$ gam lớn hơn hẳn than đá, nên hydrogen được xem là nhiên liệu sạch của tương lai.</li>
+<li><strong>Công nghiệp:</strong> tính toán năng lượng cần cung cấp hoặc thu hồi trong các lò nung, lò phản ứng (như nung đá vôi cần cung cấp $179$ kJ cho mỗi mol $CaCO_3$).</li>
+<li><strong>Đời sống:</strong> tính năng lượng từ thức ăn (đốt cháy hoàn toàn $1$ mol glucose tỏa $2803$ kJ), thiết kế túi chườm nóng/lạnh dùng phản ứng tỏa nhiệt/thu nhiệt.</li>
+</ul>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Giá trị tuyệt đối của $\Delta_rH$ càng lớn thì nhiệt lượng tỏa ra (hoặc thu vào) càng nhiều — nhưng <strong>dấu</strong> mới cho biết phản ứng tỏa hay thu nhiệt.</p>
+</div>
+
+<!-- Tổng kết -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Phản ứng tỏa nhiệt:</strong> giải phóng nhiệt ra môi trường, $\Delta_rH \lt 0$.</li>
+<li><strong>Phản ứng thu nhiệt:</strong> hấp thụ nhiệt từ môi trường, $\Delta_rH \gt 0$.</li>
+<li><strong>Điều kiện chuẩn:</strong> $1$ bar, thường lấy $25^\circ C$ ($298$ K); kí hiệu $\Delta_rH^{o}_{298}$.</li>
+<li><strong>Nhiệt tạo thành chuẩn</strong> $\Delta_fH^{o}_{298}$: tạo $1$ mol chất từ đơn chất bền nhất; đơn chất bền nhất có $\Delta_fH^{o}_{298} = 0$.</li>
+<li><strong>Công thức Hess:</strong> $\Delta_rH^{o}_{298} = \sum \Delta_fH^{o}_{298}(sp) - \sum \Delta_fH^{o}_{298}(cđ)$ ("sản phẩm trừ chất đầu").</li>
+<li><strong>Năng lượng liên kết</strong> $E_b$: phá $1$ mol liên kết khí thành nguyên tử khí; $\Delta_rH^{o}_{298} = \sum E_b(\text{phá}) - \sum E_b(\text{tạo})$ ("phá trừ tạo").</li>
+<li>$|\Delta_rH|$ càng lớn → nhiệt tỏa/thu càng nhiều.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+</body>
+</html>
