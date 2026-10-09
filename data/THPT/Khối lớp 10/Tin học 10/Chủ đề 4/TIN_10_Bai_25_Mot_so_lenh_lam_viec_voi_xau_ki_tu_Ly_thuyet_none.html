@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 25: Một số lệnh làm việc với xâu kí tự</title>
+    <meta name="lesson-title" content="Bài 25: Một số lệnh làm việc với xâu kí tự">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 25: Một số lệnh làm việc với xâu kí tự</h1>
+            <p class="text-xs text-slate-500 mt-1">Chủ đề 5: Giải quyết vấn đề với sự trợ giúp của máy tính • Bài 25: Một số lệnh làm việc với xâu kí tự</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 25: Một số lệnh làm việc với xâu kí tự</h1>
+<p class="text-center text-slate-500 italic mb-8">Chủ đề 5: Giải quyết vấn đề với sự trợ giúp của máy tính</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Đổi chữ hoa, chữ thường</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Lệnh</td><td class="border border-slate-300 px-4 py-1">Tác dụng</td><td class="border border-slate-300 px-4 py-1">Ví dụ</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><code>upper()</code></td><td class="border border-slate-300 px-4 py-1">Đổi thành <strong>chữ hoa</strong></td><td class="border border-slate-300 px-4 py-1"><code>"tin".upper()</code> thành <code>"TIN"</code></td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><code>lower()</code></td><td class="border border-slate-300 px-4 py-1">Đổi thành <strong>chữ thường</strong></td><td class="border border-slate-300 px-4 py-1"><code>"TIN".lower()</code> thành <code>"tin"</code></td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><code>title()</code></td><td class="border border-slate-300 px-4 py-1"><strong>Viết hoa đầu mỗi từ</strong></td><td class="border border-slate-300 px-4 py-1"><code>"tin học".title()</code> thành <code>"Tin Học"</code></td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><code>capitalize()</code></td><td class="border border-slate-300 px-4 py-1">Viết hoa <strong>kí tự đầu</strong></td><td class="border border-slate-300 px-4 py-1"><code>"tin học".capitalize()</code> thành <code>"Tin học"</code></td></tr>
+</table></div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Xóa dấu cách, tách và nối xâu</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Lệnh</td><td class="border border-slate-300 px-4 py-1">Tác dụng</td><td class="border border-slate-300 px-4 py-1">Ví dụ</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><code>strip()</code></td><td class="border border-slate-300 px-4 py-1">Xóa dấu cách thừa ở <strong>hai đầu</strong></td><td class="border border-slate-300 px-4 py-1"><code>"  a  ".strip()</code> thành <code>"a"</code></td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><code>split()</code></td><td class="border border-slate-300 px-4 py-1"><strong>Tách</strong> xâu thành danh sách các từ</td><td class="border border-slate-300 px-4 py-1"><code>"a b c".split()</code> thành <code>['a','b','c']</code></td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><code>split(",")</code></td><td class="border border-slate-300 px-4 py-1">Tách theo dấu phân cách chỉ định</td><td class="border border-slate-300 px-4 py-1"><code>"a,b".split(",")</code> thành <code>['a','b']</code></td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><code>sep.join(ds)</code></td><td class="border border-slate-300 px-4 py-1"><strong>Nối</strong> danh sách thành xâu</td><td class="border border-slate-300 px-4 py-1"><code>"-".join(['a','b'])</code> thành <code>"a-b"</code></td></tr>
+</table></div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Thay thế, tìm kiếm, đếm</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Lệnh</td><td class="border border-slate-300 px-4 py-1">Tác dụng</td><td class="border border-slate-300 px-4 py-1">Ví dụ</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><code>replace(cũ, mới)</code></td><td class="border border-slate-300 px-4 py-1">Thay mọi chỗ <code>cũ</code> bằng <code>mới</code></td><td class="border border-slate-300 px-4 py-1"><code>"a-a".replace("a","b")</code> thành <code>"b-b"</code></td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><code>find(x)</code></td><td class="border border-slate-300 px-4 py-1">Vị trí đầu tiên của x (-1 nếu không có)</td><td class="border border-slate-300 px-4 py-1"><code>"tin".find("i")</code> cho <code>1</code></td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><code>count(x)</code></td><td class="border border-slate-300 px-4 py-1">Đếm số lần x xuất hiện</td><td class="border border-slate-300 px-4 py-1"><code>"a-a".count("a")</code> cho <code>2</code></td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><code>isdigit()</code></td><td class="border border-slate-300 px-4 py-1">Kiểm tra có phải toàn chữ số không</td><td class="border border-slate-300 px-4 py-1"><code>"123".isdigit()</code> cho <code>True</code></td></tr>
+</table></div>
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ: chuẩn hóa họ tên</p>
+<pre class="bg-slate-900 text-green-300 rounded-lg p-3 my-2 overflow-x-auto text-sm"><code>ten = "  nguyen   van an "
+ten = " ".join(ten.split()).title()
+print(ten)  # Nguyen Van An</code></pre>
+<p class="text-sm"><code>split()</code> tách các từ (tự bỏ dấu cách thừa), <code>join</code> nối lại bằng một dấu cách, <code>title()</code> viết hoa đầu từ.</p>
+</div>
+
+</div>
+        </div>
+    </div>
+</body>
+</html>
