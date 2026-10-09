@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài tập Bài 4: Khảo sát sự biến thiên và vẽ đồ thị của hàm số</title>
+    <meta name="lesson-title" content="Bài tập Bài 4: Khảo sát sự biến thiên và vẽ đồ thị của hàm số">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Bài tập</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài tập Bài 4: Khảo sát sự biến thiên và vẽ đồ thị của hàm số</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 1: Ứng dụng đạo hàm để khảo sát và vẽ đồ thị của hàm số • Bài 4: Khảo sát sự biến thiên và vẽ đồ thị của hàm số</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="saobay-exam10">
+<script type="application/json" class="saobay-exam10-data">
+{
+ "sets": [
+  {
+   "name": "Đề 1",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Khi $x \\to +\\infty$ (nhánh phải của đồ thị), đồ thị của hàm số bậc ba $y = ax^3 + bx^2 + cx + d$ ($a \\ne 0$) sẽ đi lên hay đi xuống nếu $a \\gt 0$?",
+     "options": [
+      "A. Đi lên.",
+      "B. Đi xuống.",
+      "C. Nằm ngang.",
+      "D. Không xác định được."
+     ],
+     "answer": "A",
+     "explain": "Với $a \\gt 0$, $\\lim_{x \\to +\\infty} y = +\\infty$ nên nhánh phải của đồ thị đi lên. (Nếu $a \\lt 0$ thì nhánh phải đi xuống.)",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Đồ thị của hàm số $y = \\frac{2x+1}{x-1}$ có tiệm cận đứng là đường thẳng nào?",
+     "options": [
+      "A. $x = 1$.",
+      "B. $x = -1$.",
+      "C. $y = 1$.",
+      "D. $y = 2$."
+     ],
+     "answer": "A",
+     "explain": "Tiệm cận đứng là nghiệm của mẫu số: $x - 1 = 0 \\Leftrightarrow x = 1$. (Tiệm cận ngang là $y = \\frac{2}{1} = 2$.)",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Một đồ thị hàm số bậc ba được mô tả như sau: có hai điểm cực trị, điểm cực đại nằm bên trái điểm cực tiểu, nhánh phải đi xuống. Hệ số $a$ của hàm số thỏa mãn điều gì?",
+     "options": [
+      "A. $a \\gt 0$.",
+      "B. $a \\lt 0$.",
+      "C. $a = 0$.",
+      "D. Không xác định được."
+     ],
+     "answer": "B",
+     "explain": "Nhánh phải đi xuống tức $\\lim_{x \\to +\\infty} y = -\\infty$, suy ra $a \\lt 0$. (Khi $a \\lt 0$ và có hai cực trị thì điểm cực đại nằm bên trái điểm cực tiểu.)",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Bảng biến thiên của hàm số $y = ax^4 + bx^2 + c$ cho thấy hàm số có ba điểm cực trị và $\\lim_{x \\to +\\infty} y = +\\infty$. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. $a \\gt 0$ và $b \\lt 0$.",
+      "B. $a \\lt 0$ và $b \\gt 0$.",
+      "C. $a \\gt 0$ và $b \\ge 0$.",
+      "D. $a \\lt 0$ và $b \\le 0$."
+     ],
+     "answer": "A",
+     "explain": "Vì $\\lim_{x \\to +\\infty} y = +\\infty$ nên $a \\gt 0$. Hàm trùng phương có ba điểm cực trị khi $ab \\lt 0$, mà $a \\gt 0$ nên $b \\lt 0$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Số giao điểm của đồ thị hàm số $y = x^3 - 3x + 2$ với trục $Ox$ là",
+     "options": [
+      "A. $1$.",
+      "B. $2$.",
+      "C. $3$.",
+      "D. $4$."
+     ],
+     "answer": "B",
+     "explain": "Hoành độ giao điểm là nghiệm của $x^3 - 3x + 2 = 0 \\Leftrightarrow (x-1)^2(x+2) = 0$, được $x = 1$ (nghiệm kép, đồ thị tiếp xúc với $Ox$) hoặc $x = -2$. Vậy có $2$ giao điểm phân biệt.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Tìm tất cả các giá trị của $m$ để đường thẳng $y = m$ cắt đồ thị hàm số $y = x^3 - 3x$ tại ba điểm phân biệt.",
+     "options": [
+      "A. $m \\in (-2; 2)$.",
+      "B. $m \\in [-2; 2]$.",
+      "C. $m$ nhỏ hơn hoặc bằng $-2$.",
+      "D. $m$ lớn hơn hoặc bằng $2$."
+     ],
+     "answer": "A",
+     "explain": "$y' = 3x^2 - 3 = 0 \\Leftrightarrow x = \\pm 1$. Hàm số đạt cực đại tại $x = -1$ với giá trị $y = 2$, đạt cực tiểu tại $x = 1$ với giá trị $y = -2$. Đường thẳng $y = m$ cắt đồ thị tại ba điểm phân biệt khi $m$ nằm giữa hai giá trị cực trị: $-2 \\lt m \\lt 2$, tức $m \\in (-2; 2)$. (Tại $m = \\pm 2$ đường thẳng tiếp xúc tại một điểm cực trị nên chỉ có hai điểm chung.)",
+     "points": 0.25
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Xét tính đúng, sai của các khẳng định sau về các bước khảo sát hàm số:",
+     "statements": [
+      "a) Bước đầu tiên khi khảo sát sự biến thiên của hàm số là tìm tập xác định.",
+      "b) Bảng biến thiên thể hiện chiều biến thiên và các điểm cực trị của hàm số.",
+      "c) Khi vẽ đồ thị, ta cần xác định một số điểm đặc biệt như giao điểm của đồ thị với các trục tọa độ.",
+      "d) Mọi hàm số đều có đường tiệm cận."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a) Đúng: tìm tập xác định là bước 1. b) Đúng: bảng biến thiên ghi dấu của $y'$ và các giá trị cực trị. c) Đúng: các điểm đặc biệt giúp vẽ đồ thị chính xác. d) Sai: ví dụ hàm đa thức (bậc ba, trùng phương) không có tiệm cận.",
+     "points": 1
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho hàm số $y = \\frac{x+2}{x-1}$. Xét tính đúng, sai của các khẳng định sau:",
+     "statements": [
+      "a) Tập xác định của hàm số là $D = \\mathbb{R} \\setminus \\{1\\}$.",
+      "b) Đồ thị có tiệm cận ngang $y = 1$ và tiệm cận đứng $x = 1$.",
+      "c) Ta có $y' = \\frac{-3}{(x-1)^2} \\lt 0$ nên hàm số nghịch biến trên từng khoảng xác định.",
+      "d) Đồ thị cắt trục $Oy$ tại điểm $(0; 2)$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a) Đúng: mẫu số $x - 1 \\ne 0$. b) Đúng: tiệm cận ngang $y = \\frac{1}{1} = 1$, tiệm cận đứng $x = 1$. c) Đúng: $y' = \\frac{1 \\cdot (x-1) - (x+2) \\cdot 1}{(x-1)^2} = \\frac{-3}{(x-1)^2} \\lt 0$ với mọi $x \\ne 1$. d) Sai: với $x = 0$ được $y = \\frac{2}{-1} = -2$ nên giao điểm là $(0; -2)$.",
+     "points": 1
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tìm số giao điểm của đồ thị hàm số $y = x^4 - 2x^2 + 1$ với trục $Ox$.",
+     "answer": "2",
+     "explain": "$x^4 - 2x^2 + 1 = 0 \\Leftrightarrow (x^2 - 1)^2 = 0 \\Leftrightarrow x = \\pm 1$. Đồ thị tiếp xúc với $Ox$ tại hai điểm $(1; 0)$ và $(-1; 0)$ nên có $2$ giao điểm.",
+     "points": 0.5
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Có bao nhiêu giá trị nguyên của $m$ để đồ thị hàm số $y = x^3 - 3x^2 + m$ cắt trục $Ox$ tại ba điểm phân biệt?",
+     "answer": "3",
+     "explain": "$y' = 3x^2 - 6x = 0 \\Leftrightarrow x = 0$ hoặc $x = 2$. Hàm số đạt cực đại tại $(0; m)$, đạt cực tiểu tại $(2; m - 4)$. Đồ thị cắt $Ox$ tại ba điểm phân biệt khi $m \\gt 0$ và $m - 4 \\lt 0$, tức $m \\in (0; 4)$. Các giá trị nguyên là $m = 1, 2, 3$: có $3$ giá trị.",
+     "points": 0.5
+    }
+   ]
+  },
+  {
+   "name": "Đề 2",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho hàm số trùng phương $y = ax^4 + bx^2 + c$ với $a \\lt 0$. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. $\\lim_{x \\to +\\infty} y = -\\infty$.",
+      "B. $\\lim_{x \\to +\\infty} y = +\\infty$.",
+      "C. Đồ thị luôn có ba điểm cực trị.",
+      "D. Đồ thị đối xứng qua trục $Ox$."
+     ],
+     "answer": "A",
+     "explain": "Với $a \\lt 0$, số hạng $ax^4$ quyết định giới hạn: $\\lim_{x \\to \\pm\\infty} y = -\\infty$. Đồ thị hàm trùng phương đối xứng qua trục $Oy$, còn số điểm cực trị phụ thuộc vào dấu của $b$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Đồ thị của hàm số $y = \\frac{3x-2}{2x+1}$ có tiệm cận ngang là đường thẳng nào?",
+     "options": [
+      "A. $y = \\frac{3}{2}$.",
+      "B. $y = -\\frac{1}{2}$.",
+      "C. $x = -\\frac{1}{2}$.",
+      "D. $y = 2$."
+     ],
+     "answer": "A",
+     "explain": "Tiệm cận ngang là $y = \\frac{a}{c} = \\frac{3}{2}$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Một đồ thị hàm số bậc ba được mô tả như sau: đi qua gốc tọa độ, có điểm cực đại $(-1; 2)$ và điểm cực tiểu $(1; -2)$, nhận gốc tọa độ làm tâm đối xứng. Hàm số đó là",
+     "options": [
+      "A. $y = x^3 - 3x$.",
+      "B. $y = -x^3 + 3x$.",
+      "C. $y = x^3 + 3x$.",
+      "D. $y = -x^3 - 3x$."
+     ],
+     "answer": "A",
+     "explain": "Với $y = x^3 - 3x$: $y' = 3x^2 - 3 = 0 \\Leftrightarrow x = \\pm 1$; $y(-1) = 2$ (cực đại), $y(1) = -2$ (cực tiểu); $y(0) = 0$ và $y(-x) = -y(x)$ nên đồ thị đối xứng qua gốc tọa độ.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Bảng biến thiên của hàm số bậc ba $y = ax^3 + bx^2 + cx + d$ cho thấy: $y'$ đổi dấu từ $+$ sang $-$ rồi từ $-$ sang $+$, và $\\lim_{x \\to -\\infty} y = -\\infty$. Đồ thị cắt trục $Oy$ tại điểm có tung độ dương. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. $a \\gt 0$ và $d \\gt 0$.",
+      "B. $a \\lt 0$ và $d \\gt 0$.",
+      "C. $a \\gt 0$ và $d \\lt 0$.",
+      "D. $a \\lt 0$ và $d \\lt 0$."
+     ],
+     "answer": "A",
+     "explain": "$y'$ đổi dấu hai lần nên đồ thị có hai điểm cực trị; $\\lim_{x \\to -\\infty} y = -\\infty$ nên $a \\gt 0$. Giao điểm với $Oy$ là $(0; d)$ có tung độ dương nên $d \\gt 0$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Số giao điểm của đồ thị hàm số $y = \\frac{2x-1}{x+1}$ với đường thẳng $y = x$ là",
+     "options": [
+      "A. $0$.",
+      "B. $1$.",
+      "C. $2$.",
+      "D. $3$."
+     ],
+     "answer": "A",
+     "explain": "Với $x \\ne -1$: $\\frac{2x-1}{x+1} = x \\Leftrightarrow 2x - 1 = x^2 + x \\Leftrightarrow x^2 - x + 1 = 0$. Phương trình có $\\Delta = -3 \\lt 0$ nên vô nghiệm. Vậy không có giao điểm.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Đồ thị của hàm số $y = |x^3 - 3x|$ có bao nhiêu điểm cực trị?",
+     "options": [
+      "A. $3$.",
+      "B. $4$.",
+      "C. $5$.",
+      "D. $6$."
+     ],
+     "answer": "C",
+     "explain": "Đặt $f(x) = x^3 - 3x$: $f' = 3x^2 - 3 = 0 \\Leftrightarrow x = \\pm 1$; cực đại $(-1; 2)$, cực tiểu $(1; -2)$. $f(x) = 0 \\Leftrightarrow x = 0$ hoặc $x = \\pm\\sqrt{3}$. Đồ thị $y = |f(x)|$ giữ nguyên phần $f \\ge 0$ và lấy đối xứng qua $Ox$ phần $f \\lt 0$. Các điểm cực trị gồm: $x = -1$ (cực đại), $x = 1$ (cực đại sau khi lật phần âm lên), và ba giao điểm với $Ox$ là $x = -\\sqrt{3}, 0, \\sqrt{3}$ (cực tiểu). Tổng cộng $5$ điểm cực trị.",
+     "points": 0.25
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Xét tính đúng, sai của các khẳng định sau về đồ thị của hàm số bậc ba $y = ax^3 + bx^2 + cx + d$ ($a \\ne 0$):",
+     "statements": [
+      "a) Nhánh phải của đồ thị (khi $x \\to +\\infty$) đi lên nếu $a \\gt 0$ và đi xuống nếu $a \\lt 0$.",
+      "b) Đồ thị hàm số bậc ba luôn có điểm uốn và nhận điểm uốn làm tâm đối xứng.",
+      "c) Mọi đồ thị hàm số bậc ba đều có hai điểm cực trị.",
+      "d) Đồ thị cắt trục $Oy$ tại điểm có tung độ bằng $d$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "a) Đúng theo dấu của hệ số $a$. b) Đúng: điểm uốn $I\\left(-\\frac{b}{3a}; y_I\\right)$ là tâm đối xứng của đồ thị. c) Sai: đồ thị có thể có một hoặc không có điểm cực trị (khi $\\Delta' \\le 0$). d) Đúng: với $x = 0$ được $y = d$.",
+     "points": 1
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho hàm số $y = x^4 - 4x^2 + 3$. Xét tính đúng, sai của các khẳng định sau:",
+     "statements": [
+      "a) Tập xác định của hàm số là $D = \\mathbb{R}$.",
+      "b) Ta có $y' = 4x^3 - 8x$ nên hàm số có ba điểm cực trị.",
+      "c) Giá trị cực tiểu của hàm số bằng $-1$.",
+      "d) Đồ thị hàm số cắt trục $Ox$ tại đúng hai điểm."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a) Đúng. b) Đúng: $y' = 4x(x^2 - 2) = 0 \\Leftrightarrow x = 0, x = \\pm\\sqrt{2}$ (ba nghiệm phân biệt). c) Đúng: $y(\\pm\\sqrt{2}) = 4 - 8 + 3 = -1$ là giá trị cực tiểu. d) Sai: $x^4 - 4x^2 + 3 = 0 \\Leftrightarrow x^2 = 1$ hoặc $x^2 = 3$, được bốn nghiệm $x = \\pm 1, \\pm\\sqrt{3}$ nên có bốn giao điểm.",
+     "points": 1
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tìm tọa độ điểm uốn của đồ thị hàm số $y = x^3 - 3x^2 + 2$.",
+     "answer": "$(1; 0)$",
+     "explain": "$y' = 3x^2 - 6x$, $y'' = 6x - 6$. $y'' = 0 \\Leftrightarrow x = 1$ và $y''$ đổi dấu qua $x = 1$ nên điểm uốn là $(1; y(1)) = (1; 0)$.",
+     "points": 0.5
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Cho $m$ là số nguyên thỏa mãn $-5 \\le m \\le 5$. Có bao nhiêu giá trị của $m$ để phương trình $x^4 - 2x^2 = m$ có đúng hai nghiệm phân biệt?",
+     "answer": "6",
+     "explain": "Đặt $f(x) = x^4 - 2x^2$: $f' = 4x^3 - 4x = 0 \\Leftrightarrow x = 0, \\pm 1$; cực đại $(0; 0)$, cực tiểu $(\\pm 1; -1)$. Phương trình $f(x) = m$ có đúng hai nghiệm phân biệt khi $m \\gt 0$ hoặc $m = -1$ (khi $m = -1$ được nghiệm kép $x = \\pm 1$). Với $m$ nguyên trong $[-5; 5]$: $m = -1, 1, 2, 3, 4, 5$, có $6$ giá trị.",
+     "points": 0.5
+    }
+   ]
+  },
+  {
+   "name": "Đề 3",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Đạo hàm của hàm số $y = x^3 - 2x^2 + x - 1$ là",
+     "options": [
+      "A. $y' = 3x^2 - 4x + 1$.",
+      "B. $y' = 3x^2 - 2x + 1$.",
+      "C. $y' = x^2 - 4x + 1$.",
+      "D. $y' = 3x^2 - 4x - 1$."
+     ],
+     "answer": "A",
+     "explain": "$y' = 3x^2 - 4x + 1$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho hàm số $y = \\frac{x+3}{2x-1}$ ($x \\ne \\frac{1}{2}$). Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. Hàm số nghịch biến trên từng khoảng xác định.",
+      "B. Hàm số đồng biến trên từng khoảng xác định.",
+      "C. Hàm số có hai điểm cực trị.",
+      "D. Đồ thị cắt trục $Ox$ tại $(0; 3)$."
+     ],
+     "answer": "A",
+     "explain": "$y' = \\frac{1 \\cdot (2x-1) - (x+3) \\cdot 2}{(2x-1)^2} = \\frac{-7}{(2x-1)^2} \\lt 0$ với mọi $x \\ne \\frac{1}{2}$ nên hàm số nghịch biến trên từng khoảng xác định.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Bảng biến thiên của một hàm số bậc ba cho biết: hàm số đạt cực đại bằng $4$ tại $x = 0$ và đạt cực tiểu bằng $0$ tại $x = 2$. Hàm số đó là",
+     "options": [
+      "A. $y = x^3 - 3x^2 + 4$.",
+      "B. $y = -x^3 + 3x^2 + 4$.",
+      "C. $y = x^3 + 3x^2 + 4$.",
+      "D. $y = x^3 - 3x^2 - 4$."
+     ],
+     "answer": "A",
+     "explain": "Với $y = x^3 - 3x^2 + 4$: $y' = 3x^2 - 6x = 0 \\Leftrightarrow x = 0$ hoặc $x = 2$; $y(0) = 4$ (cực đại), $y(2) = 0$ (cực tiểu), đúng với mô tả.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Một đồ thị hàm phân thức được mô tả như sau: có tiệm cận đứng $x = 2$, tiệm cận ngang $y = -1$ và đi qua điểm $(0; 1)$. Hàm số đó là",
+     "options": [
+      "A. $y = \\frac{-x-2}{x-2}$.",
+      "B. $y = \\frac{x+2}{x-2}$.",
+      "C. $y = \\frac{-x+2}{x-2}$.",
+      "D. $y = \\frac{x-2}{x+2}$."
+     ],
+     "answer": "A",
+     "explain": "Tiệm cận đứng $x = 2$ và tiệm cận ngang $y = -1$ cho dạng $y = \\frac{-x+b}{x-2}$. Đồ thị đi qua $(0; 1)$ nên $\\frac{b}{-2} = 1$, suy ra $b = -2$. Vậy $y = \\frac{-x-2}{x-2}$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Số giao điểm của đồ thị hàm số $y = -x^3 + 3x^2 - 2$ với trục $Ox$ là",
+     "options": [
+      "A. $1$.",
+      "B. $2$.",
+      "C. $3$.",
+      "D. $4$."
+     ],
+     "answer": "C",
+     "explain": "$-x^3 + 3x^2 - 2 = 0 \\Leftrightarrow x^3 - 3x^2 + 2 = 0 \\Leftrightarrow (x-1)(x^2-2x-2) = 0$, được ba nghiệm phân biệt $x = 1$, $x = 1 \\pm \\sqrt{3}$. Vậy có $3$ giao điểm.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Tìm $m$ để đồ thị hàm số $y = x^4 - 2mx^2 + 1$ có ba điểm cực trị tạo thành một tam giác vuông.",
+     "options": [
+      "A. $m = 0$.",
+      "B. $m = \\frac{1}{2}$.",
+      "C. $m = 1$.",
+      "D. $m = 2$."
+     ],
+     "answer": "C",
+     "explain": "Đồ thị có ba điểm cực trị khi $m \\gt 0$: $A(0; 1)$, $B(-\\sqrt{m}; 1-m^2)$, $C(\\sqrt{m}; 1-m^2)$. Tam giác $ABC$ cân tại $A$ nên vuông tại $A$: $\\overrightarrow{AB} \\cdot \\overrightarrow{AC} = 0 \\Leftrightarrow (-\\sqrt{m})(\\sqrt{m}) + (-m^2)(-m^2) = 0 \\Leftrightarrow -m + m^4 = 0$. Với $m \\gt 0$ được $m = 1$.",
+     "points": 0.25
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Xét tính đúng, sai của các khẳng định sau về hàm số trùng phương $y = ax^4 + bx^2 + c$ ($a \\ne 0$):",
+     "statements": [
+      "a) Đồ thị của hàm số đối xứng qua trục $Oy$.",
+      "b) Hàm số có ba điểm cực trị khi và chỉ khi $ab \\lt 0$.",
+      "c) Nếu $a \\gt 0$ thì $\\lim_{x \\to +\\infty} y = +\\infty$.",
+      "d) Mọi hàm số trùng phương đều có đúng một điểm cực trị."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a) Đúng vì $y(-x) = y(x)$. b) Đúng: $y' = 2x(2ax^2+b) = 0$ có ba nghiệm phân biệt khi $-\\frac{b}{2a} \\gt 0$, tức $ab \\lt 0$. c) Đúng. d) Sai: hàm số có thể có ba điểm cực trị.",
+     "points": 1
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho hàm số $y = 2x^3 - 3x^2$. Xét tính đúng, sai của các khẳng định sau:",
+     "statements": [
+      "a) Tập xác định của hàm số là $D = \\mathbb{R}$.",
+      "b) Ta có $y' = 6x^2 - 6x$ và $y'$ đổi dấu tại $x = 0$ và $x = 1$.",
+      "c) Hàm số đạt cực đại tại $x = 0$ với giá trị cực đại bằng $0$.",
+      "d) Đồ thị hàm số cắt trục $Ox$ tại ba điểm phân biệt."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a) Đúng. b) Đúng: $y' = 6x(x-1)$. c) Đúng: $y'$ đổi dấu từ $+$ sang $-$ tại $x = 0$, $y(0) = 0$. d) Sai: $2x^3 - 3x^2 = x^2(2x-3) = 0$ cho $x = 0$ (kép) và $x = \\frac{3}{2}$, chỉ có hai giao điểm phân biệt.",
+     "points": 1
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Cho $m$ là số nguyên thỏa mãn $-3 \\le m \\le 3$. Tính tổng tất cả các giá trị của $m$ để hàm số $y = x^3 - 3mx + 2$ có hai điểm cực trị.",
+     "answer": "6",
+     "explain": "$y' = 3x^2 - 3m = 0$ có hai nghiệm phân biệt khi $m \\gt 0$. Các giá trị nguyên trong $[-3; 3]$ là $1, 2, 3$, tổng bằng $6$.",
+     "points": 0.5
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Có bao nhiêu giá trị nguyên của $m$ để đường thẳng $y = mx + 2$ cắt đồ thị hàm số $y = x^3 - 3x^2 + 2$ tại ba điểm phân biệt, trong đó có đúng hai điểm có hoành độ dương?",
+     "answer": "2",
+     "explain": "Phương trình hoành độ giao điểm: $x^3 - 3x^2 + 2 = mx + 2 \\Leftrightarrow x(x^2 - 3x - m) = 0$. Ngoài nghiệm $x = 0$, cần $x^2 - 3x - m = 0$ có hai nghiệm dương phân biệt: $\\Delta = 9 + 4m \\gt 0$, tổng hai nghiệm bằng $3 \\gt 0$, tích hai nghiệm bằng $-m \\gt 0$, suy ra $-\\frac{9}{4} \\lt m \\lt 0$. Các giá trị nguyên là $m = -2, -1$: có $2$ giá trị.",
+     "points": 0.5
+    }
+   ]
+  },
+  {
+   "name": "Đề 4",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Đồ thị của hàm số bậc ba nhận điểm nào làm tâm đối xứng?",
+     "options": [
+      "A. Điểm uốn.",
+      "B. Điểm cực đại.",
+      "C. Giao điểm với trục $Oy$.",
+      "D. Gốc tọa độ."
+     ],
+     "answer": "A",
+     "explain": "Đồ thị hàm số bậc ba nhận điểm uốn $I\\left(-\\frac{b}{3a}; y_I\\right)$ làm tâm đối xứng.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Hàm số $y = x^4 + 2x^2 + 1$ có bao nhiêu điểm cực trị?",
+     "options": [
+      "A. $0$.",
+      "B. $1$.",
+      "C. $2$.",
+      "D. $3$."
+     ],
+     "answer": "B",
+     "explain": "$y' = 4x^3 + 4x = 4x(x^2+1) = 0 \\Leftrightarrow x = 0$ (nghiệm duy nhất và $y'$ đổi dấu) nên hàm số có một điểm cực trị.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Một đồ thị hàm số bậc ba được mô tả như sau: tiếp xúc với trục $Ox$ tại điểm có hoành độ $x = 1$, cắt trục $Ox$ tại điểm có hoành độ $x = -2$, nhánh phải đi lên. Hàm số đó là",
+     "options": [
+      "A. $y = x^3 - 3x + 2$.",
+      "B. $y = -x^3 + 3x - 2$.",
+      "C. $y = x^3 + 3x + 2$.",
+      "D. $y = x^3 - 3x - 2$."
+     ],
+     "answer": "A",
+     "explain": "Tiếp xúc với $Ox$ tại $x = 1$ nghĩa là $x = 1$ là nghiệm kép: $y = (x-1)^2(x+2) = x^3 - 3x + 2$. Hệ số $a = 1 \\gt 0$ nên nhánh phải đi lên, đúng với mô tả.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Bảng biến thiên của hàm số $y = \\frac{ax+b}{cx+d}$ cho thấy hàm số đồng biến trên từng khoảng xác định, có tiệm cận đứng $x = -1$ và đồ thị cắt trục $Oy$ tại điểm có tung độ bằng $1$. Hàm số đó là",
+     "options": [
+      "A. $y = \\frac{2x+1}{x+1}$.",
+      "B. $y = \\frac{2x-1}{x+1}$.",
+      "C. $y = \\frac{x+1}{2x+1}$.",
+      "D. $y = \\frac{-2x+1}{x+1}$."
+     ],
+     "answer": "A",
+     "explain": "Tiệm cận đứng $x = -1$ cho mẫu số $x + 1$. Đồ thị cắt $Oy$ tại tung độ $1$ nên $\\frac{b}{1} = 1$, tức $b = 1$. Với $y = \\frac{2x+1}{x+1}$: $y' = \\frac{1}{(x+1)^2} \\gt 0$ nên đồng biến trên từng khoảng xác định.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Số giao điểm phân biệt của đồ thị hàm số $y = x^3 - 3x^2$ với đường thẳng $y = -4$ là",
+     "options": [
+      "A. $1$.",
+      "B. $2$.",
+      "C. $3$.",
+      "D. $0$."
+     ],
+     "answer": "B",
+     "explain": "$x^3 - 3x^2 = -4 \\Leftrightarrow x^3 - 3x^2 + 4 = 0 \\Leftrightarrow (x+1)(x-2)^2 = 0$, được $x = -1$ và $x = 2$ (nghiệm kép, đường thẳng tiếp xúc với đồ thị). Vậy có $2$ giao điểm phân biệt.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Có bao nhiêu giá trị của $m$ để hai điểm cực trị của đồ thị hàm số $y = x^3 - 3x^2 + 3mx + 1$ đối xứng với nhau qua đường thẳng $y = x$?",
+     "options": [
+      "A. $0$.",
+      "B. $1$.",
+      "C. $2$.",
+      "D. Vô số."
+     ],
+     "answer": "A",
+     "explain": "Hai điểm cực trị tồn tại khi $y' = 3x^2 - 6x + 3m = 0$ có hai nghiệm phân biệt, tức $m \\lt 1$. Đường thẳng đi qua hai điểm cực trị là $y = (2m-2)x + (m+1)$; vuông góc với $y = x$ khi $2m - 2 = -1$, tức $m = \\frac{1}{2}$ (thỏa mãn $m \\lt 1$). Tuy nhiên trung điểm của hai điểm cực trị là $I\\left(1; \\frac{1}{2}\\right)$ không nằm trên đường thẳng $y = x$ nên không có giá trị $m$ nào thỏa mãn.",
+     "points": 0.25
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Xét tính đúng, sai của các khẳng định sau về hàm số $y = \\frac{ax+b}{cx+d}$ ($c \\ne 0$, $ad - bc \\ne 0$):",
+     "statements": [
+      "a) Tập xác định của hàm số là $D = \\mathbb{R} \\setminus \\{-\\frac{d}{c}\\}$.",
+      "b) Đồ thị có tiệm cận đứng $x = -\\frac{d}{c}$ và tiệm cận ngang $y = \\frac{a}{c}$.",
+      "c) Đạo hàm $y' = \\frac{ad-bc}{(cx+d)^2}$ không đổi dấu trên từng khoảng xác định.",
+      "d) Đồ thị của hàm phân thức luôn cắt trục $Ox$ tại hai điểm."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b), c) Đúng theo lí thuyết về hàm phân thức bậc nhất trên bậc nhất. d) Sai: phương trình $\\frac{ax+b}{cx+d} = 0$ cho nghiệm duy nhất $x = -\\frac{b}{a}$ nên đồ thị chỉ cắt $Ox$ tại một điểm.",
+     "points": 1
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho hàm số $y = -x^4 + 2x^2 - 1$. Xét tính đúng, sai của các khẳng định sau:",
+     "statements": [
+      "a) Tập xác định của hàm số là $D = \\mathbb{R}$.",
+      "b) Hàm số có ba điểm cực trị.",
+      "c) Hàm số đạt cực đại bằng $-1$ tại $x = 0$.",
+      "d) $\\lim_{x \\to +\\infty} y = -\\infty$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "a) Đúng. b) Đúng: $y' = -4x^3 + 4x = -4x(x^2-1) = 0$ có ba nghiệm phân biệt. c) Sai: $y''(0) = 4 \\gt 0$ nên $x = 0$ là điểm cực tiểu, giá trị cực tiểu bằng $-1$. d) Đúng vì hệ số $a = -1 \\lt 0$.",
+     "points": 1
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tìm tung độ giao điểm của đồ thị hàm số $y = \\frac{2x-3}{x+2}$ với trục $Oy$.",
+     "answer": "$-\\frac{3}{2}$",
+     "explain": "Giao điểm với trục $Oy$ ứng với $x = 0$: $y = \\frac{-3}{2}$. Vậy tung độ giao điểm là $-\\frac{3}{2}$.",
+     "points": 0.5
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Cho $m$ là số nguyên thỏa mãn $-5 \\le m \\le 5$. Tính tích tất cả các giá trị của $m$ để đồ thị hàm số $y = x^3 - 3x + m$ cắt trục $Ox$ tại đúng một điểm.",
+     "answer": "-3600",
+     "explain": "$y' = 3x^2 - 3 = 0 \\Leftrightarrow x = \\pm 1$; cực đại $(-1; 2+m)$, cực tiểu $(1; -2+m)$. Đồ thị cắt $Ox$ tại đúng một điểm khi $(2+m)(-2+m) \\gt 0$, tức $m \\gt 2$ hoặc $m \\lt -2$. Các giá trị nguyên trong $[-5; 5]$ là $-5, -4, -3, 3, 4, 5$, tích bằng $-3600$.",
+     "points": 0.5
+    }
+   ]
+  },
+  {
+   "name": "Đề 5",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Hàm số nào sau đây đồng biến trên $\\mathbb{R}$?",
+     "options": [
+      "A. $y = x^3 + x^2 + x + 1$.",
+      "B. $y = -x^3 + x$.",
+      "C. $y = x^3 - 3x$.",
+      "D. $y = \\frac{x+1}{x-1}$."
+     ],
+     "answer": "A",
+     "explain": "Với $y = x^3 + x^2 + x + 1$: $y' = 3x^2 + 2x + 1$ có $\\Delta = -8 \\lt 0$ và hệ số $3 \\gt 0$ nên $y' \\gt 0$ với mọi $x$, hàm số đồng biến trên $\\mathbb{R}$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Đồ thị của hàm số $y = \\frac{x-2}{3x+6}$ có tiệm cận đứng là đường thẳng nào?",
+     "options": [
+      "A. $x = -2$.",
+      "B. $x = 2$.",
+      "C. $y = -2$.",
+      "D. $y = \\frac{1}{3}$."
+     ],
+     "answer": "A",
+     "explain": "Tiệm cận đứng là nghiệm của mẫu số: $3x + 6 = 0 \\Leftrightarrow x = -2$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Một đồ thị hàm trùng phương được mô tả như sau: có dạng chữ W, cắt trục $Oy$ tại điểm $(0; -1)$. Hàm số đó là",
+     "options": [
+      "A. $y = x^4 - 3x^2 - 1$.",
+      "B. $y = -x^4 + 3x^2 - 1$.",
+      "C. $y = x^4 + 3x^2 - 1$.",
+      "D. $y = x^4 - 3x^2 + 1$."
+     ],
+     "answer": "A",
+     "explain": "Dạng chữ W ứng với $a \\gt 0$, $b \\lt 0$ (ba điểm cực trị). Đồ thị cắt $Oy$ tại $(0; -1)$ nên hệ số tự do bằng $-1$: hàm số là $y = x^4 - 3x^2 - 1$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Bảng biến thiên của một hàm số bậc ba cho biết: hàm số nghịch biến trên $(-1; 1)$, đồng biến trên $(-\\infty; -1)$ và $(1; +\\infty)$, đạt cực đại bằng $2$ tại $x = -1$. Hàm số đó là",
+     "options": [
+      "A. $y = x^3 - 3x$.",
+      "B. $y = -x^3 + 3x$.",
+      "C. $y = x^3 + 3x$.",
+      "D. $y = x^3 - 3x + 1$."
+     ],
+     "answer": "A",
+     "explain": "Với $y = x^3 - 3x$: $y' = 3x^2 - 3 = 0 \\Leftrightarrow x = \\pm 1$; $y(-1) = 2$ (cực đại), $y(1) = -2$ (cực tiểu), đúng với bảng biến thiên đã mô tả.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Phương trình $x^3 - 3x^2 + 1 = 0$ có bao nhiêu nghiệm thực phân biệt?",
+     "options": [
+      "A. $1$.",
+      "B. $2$.",
+      "C. $3$.",
+      "D. $0$."
+     ],
+     "answer": "C",
+     "explain": "Xét $f(x) = x^3 - 3x^2 + 1$: $f' = 3x^2 - 6x = 0 \\Leftrightarrow x = 0$ hoặc $x = 2$; cực đại $f(0) = 1 \\gt 0$, cực tiểu $f(2) = -3 \\lt 0$. Hai giá trị cực trị trái dấu nên phương trình $f(x) = 0$ có ba nghiệm phân biệt.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Diện tích của tam giác tạo bởi ba điểm cực trị của đồ thị hàm số $y = x^4 - 2x^2 + 3$ bằng",
+     "options": [
+      "A. $\\frac{1}{2}$.",
+      "B. $1$.",
+      "C. $2$.",
+      "D. $4$."
+     ],
+     "answer": "B",
+     "explain": "Ba điểm cực trị: $A(0; 3)$, $B(-1; 2)$, $C(1; 2)$. Cạnh $BC = 2$ nằm trên đường thẳng $y = 2$, khoảng cách từ $A$ đến đường thẳng $BC$ bằng $1$. Diện tích $S = \\frac{1}{2} \\cdot 2 \\cdot 1 = 1$.",
+     "points": 0.25
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Xét tính đúng, sai của các khẳng định sau về đồ thị của hàm số $y = |f(x)|$:",
+     "statements": [
+      "a) Đồ thị của $y = |f(x)|$ gồm phần đồ thị $y = f(x)$ nằm phía trên trục $Ox$ và ảnh đối xứng qua trục $Ox$ của phần đồ thị nằm phía dưới trục $Ox$.",
+      "b) Số điểm cực trị của đồ thị $y = |f(x)|$ luôn lớn hơn số điểm cực trị của đồ thị $y = f(x)$.",
+      "c) Mọi giao điểm của đồ thị $y = f(x)$ với trục $Ox$ đều trở thành điểm cực trị của đồ thị $y = |f(x)|$.",
+      "d) Ta có $y = |f(x)| \\ge 0$ với mọi $x$ thuộc tập xác định."
+     ],
+     "answer": [
+      "T",
+      "F",
+      "F",
+      "T"
+     ],
+     "explain": "a) Đúng theo cách vẽ đồ thị hàm trị tuyệt đối. b) Sai: số điểm cực trị có thể bằng nhau (ví dụ khi $f(x) \\ge 0$ với mọi $x$). c) Sai: chỉ những giao điểm mà tại đó $f$ đổi dấu mới trở thành điểm cực trị (điểm gãy); giao điểm tiếp xúc thì không. d) Đúng theo định nghĩa của trị tuyệt đối.",
+     "points": 1
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho hàm số $y = x^3 - 3x^2 + 3x - 1$. Xét tính đúng, sai của các khẳng định sau:",
+     "statements": [
+      "a) Tập xác định của hàm số là $D = \\mathbb{R}$.",
+      "b) Ta có $y' = 3(x-1)^2 \\ge 0$ nên hàm số đồng biến trên $\\mathbb{R}$.",
+      "c) Hàm số không có điểm cực trị.",
+      "d) Đồ thị có điểm uốn $I(1; 0)$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "a) Đúng. b) Đúng: $y = (x-1)^3$ nên $y' = 3(x-1)^2 \\ge 0$ với mọi $x$. c) Đúng: $y'$ không đổi dấu nên không có cực trị. d) Đúng: $y'' = 6(x-1) = 0 \\Leftrightarrow x = 1$, $y(1) = 0$.",
+     "points": 1
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tìm hoành độ giao điểm của đồ thị hàm số $y = \\frac{x+1}{x-2}$ với đường thẳng $y = -1$.",
+     "answer": "$\\frac{1}{2}$",
+     "explain": "Với $x \\ne 2$: $\\frac{x+1}{x-2} = -1 \\Leftrightarrow x + 1 = -x + 2 \\Leftrightarrow x = \\frac{1}{2}$. Vậy hoành độ giao điểm là $\\frac{1}{2}$.",
+     "points": 0.5
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Có bao nhiêu giá trị nguyên của $m$ để phương trình $|x^3 - 3x| = m$ có đúng sáu nghiệm phân biệt?",
+     "answer": "1",
+     "explain": "Đồ thị $y = |x^3 - 3x|$ có giá trị cực đại bằng $2$ tại $x = \\pm 1$ và giá trị cực tiểu bằng $0$ tại $x = -\\sqrt{3}, 0, \\sqrt{3}$. Đường thẳng $y = m$ cắt đồ thị tại sáu điểm phân biệt khi $0 \\lt m \\lt 2$. Giá trị nguyên duy nhất là $m = 1$: có $1$ giá trị.",
+     "points": 0.5
+    }
+   ]
+  },
+  {
+   "name": "Đề 6",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong các bước khảo sát sự biến thiên và vẽ đồ thị hàm số, bước nào được thực hiện đầu tiên?",
+     "options": [
+      "A. Tìm tập xác định.",
+      "B. Tính đạo hàm $y'$.",
+      "C. Vẽ đồ thị.",
+      "D. Lập bảng biến thiên."
+     ],
+     "answer": "A",
+     "explain": "Bước đầu tiên là tìm tập xác định của hàm số, sau đó mới xét sự biến thiên và vẽ đồ thị.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho hàm số $y = -2x^4 + x^2 + 3$. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. $\\lim_{x \\to -\\infty} y = -\\infty$.",
+      "B. $\\lim_{x \\to -\\infty} y = +\\infty$.",
+      "C. Hàm số có đúng một điểm cực trị.",
+      "D. Đồ thị đối xứng qua trục $Ox$."
+     ],
+     "answer": "A",
+     "explain": "Hệ số $a = -2 \\lt 0$ nên $\\lim_{x \\to \\pm\\infty} y = -\\infty$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Một đồ thị hàm phân thức được mô tả như sau: gồm hai nhánh nằm ở góc phần tư thứ II và thứ IV so với giao điểm của hai đường tiệm cận, có tiệm cận đứng $x = 1$ và tiệm cận ngang $y = 2$. Hàm số đó là",
+     "options": [
+      "A. $y = \\frac{2x-1}{x-1}$.",
+      "B. $y = \\frac{2x-3}{x-1}$.",
+      "C. $y = \\frac{2x+1}{x-1}$.",
+      "D. $y = \\frac{x+1}{x-1}$."
+     ],
+     "answer": "A",
+     "explain": "Tiệm cận đứng $x = 1$, tiệm cận ngang $y = 2$ cho dạng $y = \\frac{2x+b}{x-1}$. Hai nhánh ở góc phần tư II và IV nghĩa là hàm số nghịch biến trên từng khoảng xác định. Với $y = \\frac{2x-1}{x-1}$: $y' = \\frac{-1}{(x-1)^2} \\lt 0$, thỏa mãn.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Bảng biến thiên của hàm số $y = ax^4 + bx^2 + c$ cho thấy hàm số chỉ có một cực trị là điểm cực tiểu và $\\lim_{x \\to +\\infty} y = +\\infty$. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. $a = 1, b = 2$.",
+      "B. $a = -1, b = 2$.",
+      "C. $a = 1, b = -2$.",
+      "D. $a = -1, b = -2$."
+     ],
+     "answer": "A",
+     "explain": "Vì $\\lim_{x \\to +\\infty} y = +\\infty$ nên $a \\gt 0$. Hàm số có một cực trị là cực tiểu khi $ab \\ge 0$ nên $b \\ge 0$. Chỉ có đáp án A thỏa mãn.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Số giao điểm của đồ thị hàm số $y = x^3 + 2x^2 - x - 2$ với trục $Ox$ là",
+     "options": [
+      "A. $1$.",
+      "B. $2$.",
+      "C. $3$.",
+      "D. $4$."
+     ],
+     "answer": "C",
+     "explain": "$x^3 + 2x^2 - x - 2 = x^2(x+2) - (x+2) = (x+2)(x^2-1) = 0$ cho ba nghiệm phân biệt $x = -2, \\pm 1$. Vậy có $3$ giao điểm.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Đồ thị hàm số $y = 2x^3 - 3x^2 + 1$ cắt đường thẳng $y = m$ tại đúng hai điểm phân biệt. Tổng tất cả các giá trị của $m$ thỏa mãn bằng",
+     "options": [
+      "A. $-1$.",
+      "B. $0$.",
+      "C. $1$.",
+      "D. $2$."
+     ],
+     "answer": "B",
+     "explain": "$y' = 6x^2 - 6x = 0 \\Leftrightarrow x = 0$ hoặc $x = 1$; cực đại $(0; 1)$, cực tiểu $(1; -1)$. Đường thẳng $y = m$ cắt đồ thị tại đúng hai điểm phân biệt khi tiếp xúc tại một điểm cực trị: $m = 1$ hoặc $m = -1$. Tổng các giá trị là $0$.",
+     "points": 0.25
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Xét tính đúng, sai của các khẳng định sau về cách đọc bảng biến thiên:",
+     "statements": [
+      "a) Trên khoảng mà $y' \\gt 0$, hàm số đồng biến.",
+      "b) Tại điểm mà $y'$ đổi dấu từ $+$ sang $-$, hàm số đạt cực đại.",
+      "c) Mũi tên đi lên trong bảng biến thiên thể hiện hàm số nghịch biến.",
+      "d) Điểm mà tại đó $y' = 0$ luôn là điểm cực trị của hàm số."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "F"
+     ],
+     "explain": "a), b) Đúng theo quy tắc xét tính đơn điệu và tìm cực trị. c) Sai: mũi tên đi lên thể hiện hàm số đồng biến. d) Sai: ví dụ $y = x^3$ có $y'(0) = 0$ nhưng $x = 0$ không phải là điểm cực trị.",
+     "points": 1
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho hàm số $y = \\frac{3x+2}{x-2}$. Xét tính đúng, sai của các khẳng định sau:",
+     "statements": [
+      "a) Tập xác định của hàm số là $D = \\mathbb{R} \\setminus \\{2\\}$.",
+      "b) Đồ thị có tiệm cận ngang $y = 3$ và tiệm cận đứng $x = 2$.",
+      "c) Ta có $y' = \\frac{-8}{(x-2)^2} \\lt 0$ nên hàm số nghịch biến trên từng khoảng xác định.",
+      "d) Đồ thị cắt trục $Oy$ tại điểm $(0; 1)$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a) Đúng. b) Đúng: tiệm cận ngang $y = \\frac{3}{1} = 3$, tiệm cận đứng $x = 2$. c) Đúng: $y' = \\frac{3(x-2) - (3x+2)}{(x-2)^2} = \\frac{-8}{(x-2)^2} \\lt 0$ với mọi $x \\ne 2$. d) Sai: với $x = 0$ được $y = -1$ nên giao điểm là $(0; -1)$.",
+     "points": 1
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tìm hệ số $a$ biết đồ thị của hàm số bậc ba $y = ax^3 + 3x^2 - 2$ đi qua điểm $(1; 0)$.",
+     "answer": "$-1$",
+     "explain": "Điểm $(1; 0)$ thuộc đồ thị nên $a \\cdot 1 + 3 \\cdot 1 - 2 = 0$, suy ra $a = -1$.",
+     "points": 0.5
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Cho $m$ là số nguyên thỏa mãn $-10 \\le m \\le 0$. Có bao nhiêu giá trị của $m$ để hàm số $y = x^4 - 2(m+1)x^2 + m^2$ có đúng một điểm cực trị và điểm đó là điểm cực tiểu?",
+     "answer": "10",
+     "explain": "$y' = 4x^3 - 4(m+1)x = 4x(x^2 - (m+1))$. Hàm số có đúng một điểm cực trị khi $m + 1 \\le 0$, tức $m \\le -1$; khi đó $a = 1 \\gt 0$ nên điểm cực trị duy nhất $x = 0$ là điểm cực tiểu. Các giá trị nguyên trong $[-10; 0]$ thỏa mãn là $-10, -9, \\dots, -1$: có $10$ giá trị.",
+     "points": 0.5
+    }
+   ]
+  },
+  {
+   "name": "Đề 7",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Đồ thị của hàm số $y = \\frac{ax+b}{cx+d}$ ($c \\ne 0$, $ad - bc \\ne 0$) có bao nhiêu đường tiệm cận?",
+     "options": [
+      "A. $2$ (một tiệm cận đứng và một tiệm cận ngang).",
+      "B. $1$.",
+      "C. $3$.",
+      "D. $0$."
+     ],
+     "answer": "A",
+     "explain": "Đồ thị có tiệm cận đứng $x = -\\frac{d}{c}$ và tiệm cận ngang $y = \\frac{a}{c}$: tổng cộng $2$ đường tiệm cận.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Đồ thị của hàm số $y = x^3 - 3x^2 + 2$ cắt trục $Oy$ tại điểm nào?",
+     "options": [
+      "A. $(0; 2)$.",
+      "B. $(0; -2)$.",
+      "C. $(2; 0)$.",
+      "D. $(0; 1)$."
+     ],
+     "answer": "A",
+     "explain": "Giao điểm với trục $Oy$ ứng với $x = 0$: $y = 2$. Vậy điểm $(0; 2)$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Một đồ thị hàm số bậc ba được mô tả như sau: đi qua điểm $A(0; -2)$ và nhận điểm $I(1; 0)$ làm điểm uốn. Hàm số đó là",
+     "options": [
+      "A. $y = x^3 - 3x^2 + 4x - 2$.",
+      "B. $y = x^3 - 3x^2 + 2x - 2$.",
+      "C. $y = -x^3 + 3x^2 - 4x - 2$.",
+      "D. $y = x^3 + 3x^2 + 4x - 2$."
+     ],
+     "answer": "A",
+     "explain": "Với $y = x^3 - 3x^2 + 4x - 2$: $y'' = 6x - 6 = 0 \\Leftrightarrow x = 1$, $y(1) = 0$ nên điểm uốn là $I(1; 0)$; $y(0) = -2$ nên đồ thị đi qua $A(0; -2)$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Bảng biến thiên của hàm số $y = \\frac{ax+b}{cx+d}$ cho thấy hàm số nghịch biến trên $(-\\infty; 1)$ và $(1; +\\infty)$, đồng thời đồ thị cắt trục $Ox$ tại điểm có hoành độ bằng $-1$. Hàm số đó là",
+     "options": [
+      "A. $y = \\frac{x+1}{x-1}$.",
+      "B. $y = \\frac{2x+1}{x-1}$.",
+      "C. $y = \\frac{x-1}{x+1}$.",
+      "D. $y = \\frac{-x+1}{x-1}$."
+     ],
+     "answer": "A",
+     "explain": "Tiệm cận đứng $x = 1$ cho mẫu số $x - 1$. Đồ thị cắt $Ox$ tại $x = -1$ nên tử số triệt tiêu tại $x = -1$. Với $y = \\frac{x+1}{x-1}$: $y' = \\frac{-2}{(x-1)^2} \\lt 0$ nên nghịch biến trên từng khoảng xác định.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Phương trình $x^4 - 4x^2 + 3 = 0$ có bao nhiêu nghiệm thực phân biệt?",
+     "options": [
+      "A. $1$.",
+      "B. $2$.",
+      "C. $3$.",
+      "D. $4$."
+     ],
+     "answer": "D",
+     "explain": "Đặt $t = x^2 \\ge 0$: $t^2 - 4t + 3 = 0 \\Leftrightarrow t = 1$ hoặc $t = 3$, cả hai đều dương nên mỗi giá trị cho hai giá trị của $x$. Tổng cộng bốn nghiệm $x = \\pm 1, \\pm\\sqrt{3}$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Đường thẳng $d: y = -x + m$ cắt đồ thị $(C): y = \\frac{2x-1}{x+1}$ tại hai điểm phân biệt $A, B$. Giá trị của $m$ để độ dài đoạn thẳng $AB$ ngắn nhất là",
+     "options": [
+      "A. $0$.",
+      "B. $1$.",
+      "C. $2$.",
+      "D. $-1$."
+     ],
+     "answer": "B",
+     "explain": "Với $x \\ne -1$: $\\frac{2x-1}{x+1} = -x + m \\Leftrightarrow x^2 + (3-m)x - (m+1) = 0$, có $\\Delta = (m-1)^2 + 12 \\gt 0$ với mọi $m$ (và $x = -1$ không là nghiệm). Gọi $x_1, x_2$ là hai nghiệm: $AB^2 = (1 + 1)\\big[(x_1+x_2)^2 - 4x_1x_2\\big] = 2\\big[(m-3)^2 + 4(m+1)\\big] = 2(m-1)^2 + 24 \\ge 24$. $AB$ ngắn nhất khi $m = 1$.",
+     "points": 0.25
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Xét tính đúng, sai của các khẳng định sau về đường tiệm cận của đồ thị hàm số:",
+     "statements": [
+      "a) Đường thẳng $x = x_0$ là tiệm cận đứng của đồ thị hàm số nếu $\\lim_{x \\to x_0^+} f(x) = +\\infty$ hoặc $-\\infty$.",
+      "b) Đường thẳng $y = L$ là tiệm cận ngang của đồ thị hàm số nếu $\\lim_{x \\to +\\infty} f(x) = L$ hoặc $\\lim_{x \\to -\\infty} f(x) = L$.",
+      "c) Đồ thị hàm số $y = \\frac{2x+1}{x-1}$ có tiệm cận ngang $y = 2$.",
+      "d) Đồ thị của hàm số bậc ba luôn có đường tiệm cận."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b) Đúng theo định nghĩa đường tiệm cận. c) Đúng: tiệm cận ngang $y = \\frac{2}{1} = 2$. d) Sai: hàm đa thức không có tiệm cận.",
+     "points": 1
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho hàm số $y = x^3 + 3x^2 + 3x + 2$. Xét tính đúng, sai của các khẳng định sau:",
+     "statements": [
+      "a) Ta có $y' = 3(x+1)^2 \\ge 0$ nên hàm số đồng biến trên $\\mathbb{R}$.",
+      "b) Hàm số không có điểm cực trị.",
+      "c) Đồ thị có điểm uốn $I(-1; 1)$.",
+      "d) Đồ thị cắt trục $Oy$ tại điểm có tung độ bằng $1$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a) Đúng: $y = (x+1)^3 + 1$ nên $y' = 3(x+1)^2 \\ge 0$ với mọi $x$. b) Đúng: $y'$ không đổi dấu nên không có cực trị. c) Đúng: $y'' = 6(x+1) = 0 \\Leftrightarrow x = -1$, $y(-1) = 1$. d) Sai: với $x = 0$ được $y = 2$.",
+     "points": 1
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Cho $(C): y = x^3 - 3x^2 + 2$. Tính tổng hoành độ các giao điểm của $(C)$ với đường thẳng $y = 2$.",
+     "answer": "3",
+     "explain": "$x^3 - 3x^2 + 2 = 2 \\Leftrightarrow x^2(x-3) = 0$, được $x = 0$ và $x = 3$. Tổng hoành độ bằng $0 + 3 = 3$.",
+     "points": 0.5
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Có bao nhiêu giá trị nguyên của $m$ để đồ thị hàm số $y = x^3 - 3x^2 + m^2$ cắt trục $Ox$ tại ba điểm phân biệt?",
+     "answer": "2",
+     "explain": "$y' = 3x^2 - 6x = 0 \\Leftrightarrow x = 0$ hoặc $x = 2$; cực đại $(0; m^2)$, cực tiểu $(2; m^2-4)$. Đồ thị cắt $Ox$ tại ba điểm phân biệt khi $m^2 \\gt 0$ và $m^2 - 4 \\lt 0$, tức $0 \\lt m^2 \\lt 4$. Các giá trị nguyên là $m = -1, 1$: có $2$ giá trị.",
+     "points": 0.5
+    }
+   ]
+  },
+  {
+   "name": "Đề 8",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Đồ thị của hàm số trùng phương $y = ax^4 + bx^2 + c$ đối xứng qua",
+     "options": [
+      "A. Trục $Oy$.",
+      "B. Trục $Ox$.",
+      "C. Đường thẳng $y = x$.",
+      "D. Gốc tọa độ."
+     ],
+     "answer": "A",
+     "explain": "Vì $y(-x) = y(x)$ với mọi $x$ nên đồ thị đối xứng qua trục $Oy$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Đạo hàm của hàm số $y = \\frac{2x+3}{x-1}$ ($x \\ne 1$) là",
+     "options": [
+      "A. $y' = \\frac{-5}{(x-1)^2}$.",
+      "B. $y' = \\frac{5}{(x-1)^2}$.",
+      "C. $y' = \\frac{-1}{(x-1)^2}$.",
+      "D. $y' = \\frac{1}{(x-1)^2}$."
+     ],
+     "answer": "A",
+     "explain": "$y' = \\frac{2(x-1) - (2x+3)}{(x-1)^2} = \\frac{-5}{(x-1)^2}$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Một đồ thị hàm số bậc ba được mô tả như sau: không có điểm cực trị, luôn đi lên, cắt trục $Oy$ tại điểm có tung độ bằng $1$. Hàm số đó là",
+     "options": [
+      "A. $y = x^3 + x + 1$.",
+      "B. $y = x^3 - 3x + 1$.",
+      "C. $y = -x^3 + x + 1$.",
+      "D. $y = x^3 + x - 1$."
+     ],
+     "answer": "A",
+     "explain": "Với $y = x^3 + x + 1$: $y' = 3x^2 + 1 \\gt 0$ với mọi $x$ nên hàm số luôn đồng biến, không có cực trị; $y(0) = 1$ nên cắt $Oy$ tại tung độ $1$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Bảng biến thiên của hàm số $y = ax^4 + bx^2 + c$ cho thấy hàm số có ba điểm cực trị và đạt cực đại tại $x = 0$. Hàm số đó là",
+     "options": [
+      "A. $y = -x^4 + 2x^2 + 1$.",
+      "B. $y = x^4 - 2x^2 + 1$.",
+      "C. $y = -x^4 - 2x^2 + 1$.",
+      "D. $y = x^4 + 2x^2 + 1$."
+     ],
+     "answer": "B",
+     "explain": "Ba điểm cực trị với cực đại tại $x = 0$ ứng với $a \\gt 0$, $b \\lt 0$ (dạng chữ W). Với $y = x^4 - 2x^2 + 1$: $y' = 4x^3 - 4x = 0 \\Leftrightarrow x = 0, \\pm 1$ và $y''(0) = -4 \\lt 0$ nên $x = 0$ là điểm cực đại.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Số giao điểm của đồ thị hàm số $y = x^4 - 3x^2 + 2$ với trục $Ox$ là",
+     "options": [
+      "A. $1$.",
+      "B. $2$.",
+      "C. $3$.",
+      "D. $4$."
+     ],
+     "answer": "D",
+     "explain": "$x^4 - 3x^2 + 2 = 0$, đặt $t = x^2 \\ge 0$: $t^2 - 3t + 2 = 0 \\Leftrightarrow t = 1$ hoặc $t = 2$, cả hai đều dương nên được bốn nghiệm $x = \\pm 1, \\pm\\sqrt{2}$. Vậy có $4$ giao điểm.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Biết đồ thị của hàm số $y = x^3 + ax^2 + bx + c$ đi qua điểm $(0; 2)$, có điểm cực đại $(0; 2)$ và điểm cực tiểu $(2; -2)$. Giá trị của $a + b + c$ bằng",
+     "options": [
+      "A. $-1$.",
+      "B. $0$.",
+      "C. $1$.",
+      "D. $2$."
+     ],
+     "answer": "A",
+     "explain": "Đồ thị đi qua $(0; 2)$ nên $c = 2$. $y' = 3x^2 + 2ax + b$; $y'(0) = 0$ nên $b = 0$. Điểm $(2; -2)$ thuộc đồ thị: $8 + 4a + 2b + c = -2$; thay $b = 0$, $c = 2$ được $4a = -12$, tức $a = -3$ (kiểm tra $y'(2) = 12 - 12 = 0$, thỏa mãn). Vậy $a + b + c = -3 + 0 + 2 = -1$.",
+     "points": 0.25
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Xét tính đúng, sai của các khẳng định sau về giao điểm của đồ thị hàm số với các trục tọa độ:",
+     "statements": [
+      "a) Hoành độ giao điểm của đồ thị hàm số $y = f(x)$ với trục $Ox$ là nghiệm của phương trình $f(x) = 0$.",
+      "b) Tung độ giao điểm của đồ thị với trục $Oy$ bằng $f(0)$ (nếu $0$ thuộc tập xác định).",
+      "c) Số giao điểm của đồ thị $y = f(x)$ với đường thẳng $y = m$ bằng số nghiệm của phương trình $f(x) = m$.",
+      "d) Đồ thị của hàm số bậc ba luôn cắt trục $Ox$ tại ba điểm phân biệt."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b), c) Đúng theo định nghĩa giao điểm của hai đồ thị. d) Sai: ví dụ $y = x^3 + x$ chỉ cắt $Ox$ tại một điểm.",
+     "points": 1
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho hàm số $y = \\frac{x-1}{x+2}$. Xét tính đúng, sai của các khẳng định sau:",
+     "statements": [
+      "a) Tập xác định của hàm số là $D = \\mathbb{R} \\setminus \\{-2\\}$.",
+      "b) Đồ thị có tiệm cận ngang $y = 1$ và tiệm cận đứng $x = -2$.",
+      "c) Ta có $y' = \\frac{3}{(x+2)^2} \\gt 0$ nên hàm số đồng biến trên từng khoảng xác định.",
+      "d) Đồ thị cắt trục $Ox$ tại điểm $(-1; 0)$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a) Đúng. b) Đúng: tiệm cận ngang $y = \\frac{1}{1} = 1$, tiệm cận đứng $x = -2$. c) Đúng: $y' = \\frac{(x+2) - (x-1)}{(x+2)^2} = \\frac{3}{(x+2)^2} \\gt 0$ với mọi $x \\ne -2$. d) Sai: $y = 0 \\Leftrightarrow x = 1$ nên giao điểm là $(1; 0)$.",
+     "points": 1
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tìm giá trị nguyên nhỏ nhất của $m$ để hàm số $y = x^3 - 3x^2 + mx + 1$ đồng biến trên $(0; +\\infty)$.",
+     "answer": "3",
+     "explain": "$y' = 3x^2 - 6x + m \\ge 0$ với mọi $x \\gt 0$. $y'$ là parabol có đỉnh tại $x = 1$ với giá trị nhỏ nhất $y'(1) = m - 3$. Cần $m - 3 \\ge 0$, tức $m \\ge 3$. Giá trị nguyên nhỏ nhất là $3$.",
+     "points": 0.5
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tìm $m$ để phương trình $x^3 - 3x^2 + 2 = m$ có ba nghiệm phân biệt lập thành một cấp số cộng.",
+     "answer": "0",
+     "explain": "Gọi ba nghiệm là $x_1 \\lt x_2 \\lt x_3$ lập thành cấp số cộng thì $x_1 + x_3 = 2x_2$. Theo định lí Viète, $x_1 + x_2 + x_3 = 3$ nên $x_2 = 1$. Thay vào phương trình: $1 - 3 + 2 = m$, suy ra $m = 0$. Thử lại: $x^3 - 3x^2 + 2 = 0 \\Leftrightarrow (x-1)(x^2-2x-2) = 0$ cho ba nghiệm $1-\\sqrt{3}, 1, 1+\\sqrt{3}$ lập thành cấp số cộng. Vậy $m = 0$.",
+     "points": 0.5
+    }
+   ]
+  },
+  {
+   "name": "Đề 9",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Đồ thị của hàm số bậc ba $y = ax^3 + bx^2 + cx + d$ ($a \\ne 0$) có tối đa bao nhiêu điểm cực trị?",
+     "options": [
+      "A. $2$.",
+      "B. $3$.",
+      "C. $1$.",
+      "D. $0$."
+     ],
+     "answer": "A",
+     "explain": "$y' = 3ax^2 + 2bx + c$ là tam thức bậc hai nên có tối đa hai nghiệm phân biệt; đồ thị có tối đa hai điểm cực trị.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Đồ thị của hàm số $y = \\frac{4x-1}{2x+3}$ có tiệm cận ngang là đường thẳng nào?",
+     "options": [
+      "A. $y = 2$.",
+      "B. $y = -\\frac{3}{2}$.",
+      "C. $x = -\\frac{3}{2}$.",
+      "D. $y = 4$."
+     ],
+     "answer": "A",
+     "explain": "Tiệm cận ngang là $y = \\frac{a}{c} = \\frac{4}{2} = 2$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Một đồ thị hàm phân thức được mô tả như sau: cắt trục $Ox$ tại điểm $(2; 0)$, cắt trục $Oy$ tại điểm $(0; -1)$ và có tiệm cận đứng $x = -2$. Hàm số đó là",
+     "options": [
+      "A. $y = \\frac{x-2}{x+2}$.",
+      "B. $y = \\frac{x+2}{x-2}$.",
+      "C. $y = \\frac{2x-2}{x+2}$.",
+      "D. $y = \\frac{x-2}{x-2}$."
+     ],
+     "answer": "A",
+     "explain": "Tiệm cận đứng $x = -2$ cho mẫu số $x + 2$. Đồ thị cắt $Ox$ tại $(2; 0)$ nên tử số triệt tiêu tại $x = 2$; cắt $Oy$ tại $(0; -1)$ nên $\\frac{b}{2} = -1$, tức $b = -2$. Vậy $y = \\frac{x-2}{x+2}$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Bảng biến thiên của một hàm số bậc ba cho biết: $y' = 0$ tại $x = -1$ nhưng $y'$ không đổi dấu (luôn dương khi $x \\ne -1$). Hàm số đó là",
+     "options": [
+      "A. $y = x^3 + 3x^2 + 3x$.",
+      "B. $y = x^3 - 3x^2 + 3x$.",
+      "C. $y = -x^3 - 3x^2 - 3x$.",
+      "D. $y = x^3 + 3x^2 - 3x$."
+     ],
+     "answer": "A",
+     "explain": "Với $y = x^3 + 3x^2 + 3x$: $y' = 3x^2 + 6x + 3 = 3(x+1)^2 \\ge 0$ với mọi $x$, bằng $0$ chỉ tại $x = -1$ nên hàm số luôn đồng biến và không có cực trị.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Số giao điểm của đồ thị hàm số $y = x^3 - 6x^2 + 9x - 4$ với trục $Ox$ là",
+     "options": [
+      "A. $1$.",
+      "B. $2$.",
+      "C. $3$.",
+      "D. $4$."
+     ],
+     "answer": "B",
+     "explain": "Thử $x = 1$: $1 - 6 + 9 - 4 = 0$ nên $x^3 - 6x^2 + 9x - 4 = (x-1)(x^2-5x+4) = (x-1)^2(x-4)$. Được $x = 1$ (kép) và $x = 4$: có $2$ giao điểm phân biệt.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Cho hàm số $y = f(x)$ có đồ thị là đường cong bậc ba với điểm cực đại $(-1; 3)$ và điểm cực tiểu $(1; -1)$. Phương trình $|f(x)| = 2$ có bao nhiêu nghiệm phân biệt?",
+     "options": [
+      "A. $2$.",
+      "B. $3$.",
+      "C. $4$.",
+      "D. $6$."
+     ],
+     "answer": "C",
+     "explain": "Từ hai điểm cực trị suy ra $f(x) = x^3 - 3x + 1$ (vì $y' = 3a(x^2-1)$, giải hệ $y(-1) = 3$, $y(1) = -1$ được $a = 1$, $d = 1$). $|f(x)| = 2$ tương đương $f(x) = 2$ hoặc $f(x) = -2$. Vì cực đại $3 \\gt 2 \\gt -1$ (cực tiểu) nên $f(x) = 2$ có ba nghiệm phân biệt; vì cực tiểu $-1 \\gt -2$ nên $f(x) = -2$ có một nghiệm. Tổng cộng $4$ nghiệm phân biệt.",
+     "points": 0.25
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Xét tính đúng, sai của các khẳng định sau về dạng đồ thị của hàm số bậc ba $y = ax^3 + bx^2 + cx + d$ ($a \\ne 0$):",
+     "statements": [
+      "a) Nếu $a \\gt 0$ thì $\\lim_{x \\to +\\infty} y = +\\infty$.",
+      "b) Nếu phương trình $y' = 0$ có hai nghiệm phân biệt thì đồ thị có hai điểm cực trị.",
+      "c) Đồ thị của hàm số bậc ba nhận điểm uốn làm tâm đối xứng.",
+      "d) Nếu $y' = 0$ vô nghiệm thì hàm số nghịch biến trên $\\mathbb{R}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b), c) Đúng theo lí thuyết về hàm số bậc ba. d) Sai: còn phụ thuộc vào dấu của $a$; nếu $a \\gt 0$ thì hàm số đồng biến trên $\\mathbb{R}$.",
+     "points": 1
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho hàm số $y = -x^3 + 3x^2 - 3x + 2$. Xét tính đúng, sai của các khẳng định sau:",
+     "statements": [
+      "a) Ta có $y' = -3(x-1)^2 \\le 0$ nên hàm số nghịch biến trên $\\mathbb{R}$.",
+      "b) Hàm số không có điểm cực trị.",
+      "c) Đồ thị có điểm uốn $I(1; 1)$.",
+      "d) Đồ thị cắt trục $Oy$ tại điểm $(0; 2)$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "a) Đúng: $y = -(x-1)^3 + 1$ nên $y' = -3(x-1)^2 \\le 0$ với mọi $x$. b) Đúng: $y'$ không đổi dấu nên không có cực trị. c) Đúng: $y'' = -6(x-1) = 0 \\Leftrightarrow x = 1$, $y(1) = 1$. d) Đúng: $y(0) = 2$.",
+     "points": 1
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tìm tổng tung độ các điểm cực tiểu của đồ thị hàm số $y = x^4 - 4x^2 + 5$.",
+     "answer": "2",
+     "explain": "$y' = 4x^3 - 8x = 4x(x^2-2) = 0 \\Leftrightarrow x = 0, \\pm\\sqrt{2}$. $y(\\pm\\sqrt{2}) = 4 - 8 + 5 = 1$ là các giá trị cực tiểu (hai điểm $(\\pm\\sqrt{2}; 1)$). Tổng tung độ bằng $1 + 1 = 2$.",
+     "points": 0.5
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tìm $m$ để khoảng cách từ giao điểm của hai đường tiệm cận của đồ thị hàm số $y = \\frac{mx+2}{x-1}$ đến gốc tọa độ bằng $\\sqrt{5}$. Tính tích tất cả các giá trị của $m$ thỏa mãn.",
+     "answer": "$-4$",
+     "explain": "Giao điểm của hai đường tiệm cận là $I(1; m)$. $OI = \\sqrt{1 + m^2} = \\sqrt{5} \\Leftrightarrow m^2 = 4 \\Leftrightarrow m = \\pm 2$. Tích các giá trị bằng $-4$.",
+     "points": 0.5
+    }
+   ]
+  },
+  {
+   "name": "Đề 10",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Khi khảo sát hàm số $y = \\frac{ax+b}{cx+d}$ ($c \\ne 0$, $ad - bc \\ne 0$), khẳng định nào sau đây đúng?",
+     "options": [
+      "A. $y'$ không đổi dấu trên từng khoảng xác định.",
+      "B. Đồ thị luôn có hai điểm cực trị.",
+      "C. Đồ thị đối xứng qua gốc tọa độ.",
+      "D. $\\lim_{x \\to +\\infty} y = 0$."
+     ],
+     "answer": "A",
+     "explain": "$y' = \\frac{ad-bc}{(cx+d)^2}$ luôn cùng dấu với $ad - bc$ trên từng khoảng xác định nên không đổi dấu; đồ thị hàm phân thức không có cực trị.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Đồ thị của hàm số $y = x^4 - 2x^2$ đi qua điểm nào sau đây?",
+     "options": [
+      "A. $(1; -1)$.",
+      "B. $(0; 1)$.",
+      "C. $(-1; 1)$.",
+      "D. $(2; 0)$."
+     ],
+     "answer": "A",
+     "explain": "Với $x = 1$: $y = 1 - 2 = -1$ nên đồ thị đi qua điểm $(1; -1)$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Một đồ thị hàm trùng phương được mô tả như sau: có đúng một điểm cực trị là điểm cực đại, đi qua điểm $(0; 2)$. Hàm số đó là",
+     "options": [
+      "A. $y = -x^4 - x^2 + 2$.",
+      "B. $y = x^4 + x^2 + 2$.",
+      "C. $y = -x^4 + x^2 + 2$.",
+      "D. $y = -x^4 - x^2 - 2$."
+     ],
+     "answer": "A",
+     "explain": "Một cực trị là cực đại ứng với $a \\lt 0$, $b \\le 0$; đi qua $(0; 2)$ nên hệ số tự do bằng $2$. Với $y = -x^4 - x^2 + 2$: $y' = -4x^3 - 2x = -2x(2x^2+1) = 0 \\Leftrightarrow x = 0$ (duy nhất) và $y''(0) = -2 \\lt 0$ nên $x = 0$ là điểm cực đại.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Bảng biến thiên của một hàm số bậc ba cho biết: hàm số đồng biến trên $\\mathbb{R}$, $\\lim_{x \\to +\\infty} y = +\\infty$ và đồ thị cắt trục $Oy$ tại điểm có tung độ âm. Hàm số đó là",
+     "options": [
+      "A. $y = x^3 + 2x - 1$.",
+      "B. $y = x^3 - 3x - 1$.",
+      "C. $y = -x^3 + 2x - 1$.",
+      "D. $y = x^3 + 2x + 1$."
+     ],
+     "answer": "A",
+     "explain": "Với $y = x^3 + 2x - 1$: $y' = 3x^2 + 2 \\gt 0$ với mọi $x$ nên đồng biến trên $\\mathbb{R}$; $a = 1 \\gt 0$; $y(0) = -1 \\lt 0$ nên cắt $Oy$ tại tung độ âm.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Đồ thị hàm số $y = x^3 - 3x^2 + 4$ cắt đường thẳng $y = 4$ tại bao nhiêu điểm phân biệt?",
+     "options": [
+      "A. $1$.",
+      "B. $2$.",
+      "C. $3$.",
+      "D. $4$."
+     ],
+     "answer": "B",
+     "explain": "$x^3 - 3x^2 + 4 = 4 \\Leftrightarrow x^2(x-3) = 0$, được $x = 0$ (kép) và $x = 3$: có $2$ điểm phân biệt.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Có bao nhiêu giá trị nguyên của $m$ để đồ thị $(C_m): y = x^3 - 2x^2 + (1-m)x + m$ cắt trục $Ox$ tại ba điểm phân biệt có hoành độ $x_1, x_2, x_3$ thỏa mãn $x_1^2 + x_2^2 + x_3^2 \\lt 4$?",
+     "options": [
+      "A. $0$.",
+      "B. $1$.",
+      "C. $2$.",
+      "D. $3$."
+     ],
+     "answer": "A",
+     "explain": "$x^3 - 2x^2 + (1-m)x + m = (x-1)(x^2-x-m)$. Để có ba nghiệm phân biệt cần $x^2 - x - m = 0$ có hai nghiệm phân biệt khác $1$: $m \\gt -\\frac{1}{4}$ và $m \\ne 0$. Với $x_1 = 1$: $x_1^2 + x_2^2 + x_3^2 = 1 + (x_2+x_3)^2 - 2x_2x_3 = 2 + 2m \\lt 4 \\Leftrightarrow m \\lt 1$. Không có số nguyên $m$ nào trong $(-\\frac{1}{4}; 1)$ và khác $0$. Vậy có $0$ giá trị.",
+     "points": 0.25
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Xét tính đúng, sai của các khẳng định sau về đồ thị của hàm số $y = f(|x|)$:",
+     "statements": [
+      "a) Đồ thị của $y = f(|x|)$ đối xứng qua trục $Oy$.",
+      "b) Phần đồ thị $y = f(|x|)$ ứng với $x \\ge 0$ trùng với phần đồ thị $y = f(x)$ ứng với $x \\ge 0$.",
+      "c) Hàm số $y = f(|x|)$ luôn là hàm số chẵn.",
+      "d) Để vẽ đồ thị $y = f(|x|)$, ta giữ nguyên phần đồ thị $y = f(x)$ với $x \\ge 0$ rồi lấy đối xứng qua trục $Ox$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b), c) Đúng theo cách vẽ đồ thị hàm $f(|x|)$. d) Sai: phải lấy đối xứng qua trục $Oy$ (không phải trục $Ox$).",
+     "points": 1
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho hàm số $y = 2x^3 - 6x + 1$. Xét tính đúng, sai của các khẳng định sau:",
+     "statements": [
+      "a) Tập xác định của hàm số là $D = \\mathbb{R}$.",
+      "b) Hàm số đạt cực đại tại $(-1; 5)$ và đạt cực tiểu tại $(1; -3)$.",
+      "c) Đồ thị có điểm uốn $I(0; 1)$.",
+      "d) Đồ thị cắt trục $Ox$ tại đúng một điểm."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a) Đúng. b) Đúng: $y' = 6x^2 - 6 = 0 \\Leftrightarrow x = \\pm 1$; $y(-1) = 5$ (cực đại), $y(1) = -3$ (cực tiểu). c) Đúng: $y'' = 12x = 0 \\Leftrightarrow x = 0$, $y(0) = 1$. d) Sai: giá trị cực đại $5 \\gt 0$ và giá trị cực tiểu $-3 \\lt 0$ trái dấu nên đồ thị cắt $Ox$ tại ba điểm phân biệt.",
+     "points": 1
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Viết phương trình tiếp tuyến của đồ thị $(C): y = x^3 - 3x + 2$ tại điểm uốn. Tìm hệ số góc của tiếp tuyến đó.",
+     "answer": "$-3$",
+     "explain": "$y'' = 6x = 0 \\Leftrightarrow x = 0$; điểm uốn là $(0; 2)$. $y' = 3x^2 - 3$ nên hệ số góc của tiếp tuyến tại điểm uốn là $y'(0) = -3$.",
+     "points": 0.5
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tìm $m$ để đồ thị hàm số $y = x^4 - 2x^2 + m$ tiếp xúc với trục $Ox$. Tính tổng tất cả các giá trị của $m$ thỏa mãn.",
+     "answer": "1",
+     "explain": "Đồ thị tiếp xúc với $Ox$ khi hệ phương trình gồm $x^4 - 2x^2 + m = 0$ và đạo hàm $4x^3 - 4x = 0$ có nghiệm chung. Từ phương trình thứ hai: $x = 0$ hoặc $x = \\pm 1$. Với $x = 0$: $m = 0$; với $x = \\pm 1$: $1 - 2 + m = 0$, tức $m = 1$. Tổng các giá trị là $0 + 1 = 1$.",
+     "points": 0.5
+    }
+   ]
+  }
+ ]
+}
+</script>
+</div>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
