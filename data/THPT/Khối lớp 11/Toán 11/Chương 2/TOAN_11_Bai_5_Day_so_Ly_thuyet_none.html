@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay | Ma nguon thuoc nen tang hoc tap SAOBAY | Nghiem cam sao chep duoi moi hinh thuc -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 5: Dãy số</title>
+    <meta name="lesson-title" content="Bài 5: Dãy số">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 5: Dãy số</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 2: Dãy số, cấp số cộng và cấp số nhân • Bài 5: Dãy số</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 5: Dãy số</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 2: Dãy số, cấp số cộng và cấp số nhân — Toán 11 (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Định nghĩa dãy số -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Định nghĩa dãy số</h2>
+
+<p><strong>Định nghĩa:</strong> Mỗi hàm số $u$ xác định trên tập các số nguyên dương $\mathbb{N}^*$ được gọi là một <em>dãy số vô hạn</em> (gọi tắt là <em>dãy số</em>). Kí hiệu: $u_1, u_2, u_3, \dots, u_n, \dots$</p>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>$u_1$ gọi là <em>số hạng đầu</em>, $u_n$ gọi là <em>số hạng thứ $n$</em> hay <em>số hạng tổng quát</em> của dãy số.</li>
+<li>Dãy số được kí hiệu là $(u_n)$.</li>
+</ul>
+
+<p><strong>Dãy số hữu hạn:</strong> mỗi hàm số $u$ xác định trên tập $M = \{1, 2, 3, \dots, m\}$ với $m \in \mathbb{N}^*$ được gọi là một <em>dãy số hữu hạn</em>. Dạng khai triển: $u_1, u_2, u_3, \dots, u_m$, trong đó $u_1$ là số hạng đầu và $u_m$ là số hạng cuối.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>Dãy các số chính phương: $1, 4, 9, 16, 25, \dots$ có số hạng tổng quát $u_n = n^2$.</li>
+<li>Dãy số $(u_n)$ với $u_n = \frac{n}{n+1}$: các số hạng đầu là $\frac{1}{2}, \frac{2}{3}, \frac{3}{4}, \frac{4}{5}, \dots$</li>
+<li>Dãy hữu hạn: $2, 4, 6, 8, 10$ (5 số hạng).</li>
+</ul>
+</div>
+
+<!-- 2. Cách cho một dãy số -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Các cách cho một dãy số</h2>
+
+<p>Một dãy số có thể được cho bằng một trong các cách sau:</p>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">2.1. Cho bằng công thức số hạng tổng quát</h3>
+<p>Cho công thức $u_n$ theo $n$, từ đó tính được mọi số hạng khi biết $n$.</p>
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Cho $(u_n)$ với $u_n = 2n + 1$. Khi đó $u_1 = 3$, $u_2 = 5$, $u_3 = 7$, $u_{10} = 21$.</p>
+</div>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">2.2. Cho bằng phương pháp truy hồi</h3>
+<p>Cho số hạng đầu (hay vài số hạng đầu) và hệ thức truy hồi biểu thị số hạng thứ $n$ qua số hạng (hay vài số hạng) đứng ngay trước nó.</p>
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Dãy số $(u_n)$ xác định bởi $u_1 = 1$ và $u_{n+1} = u_n + 2$ với $n \ge 1$. Khi đó:</p>
+<p>$u_2 = u_1 + 2 = 3$; $u_3 = u_2 + 2 = 5$; $u_4 = u_3 + 2 = 7$; ...</p>
+</div>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">2.3. Cho bằng phương pháp mô tả</h3>
+<p>Người ta cho một mệnh đề mô tả cách xác định các số hạng liên tiếp của dãy số.</p>
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Dãy số $(p_n)$ với $p_n$ là số nguyên tố thứ $n$: $2, 3, 5, 7, 11, 13, \dots$</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Cách cho bằng <strong>công thức số hạng tổng quát</strong> tiện nhất khi cần tính $u_n$ với $n$ lớn mà không cần tính các số hạng trước đó.</p>
+</div>
+
+<!-- 3. Dãy số tăng, giảm -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Dãy số tăng, dãy số giảm</h2>
+
+<p><strong>Định nghĩa:</strong></p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Dãy số $(u_n)$ được gọi là <em>dãy số tăng</em> nếu $u_{n+1} > u_n$ với mọi $n \in \mathbb{N}^*$.</li>
+<li>Dãy số $(u_n)$ được gọi là <em>dãy số giảm</em> nếu $u_{n+1} < u_n$ với mọi $n \in \mathbb{N}^*$.</li>
+</ul>
+
+<p><strong>Cách xét tính đơn điệu:</strong> xét dấu của hiệu $u_{n+1} - u_n$:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Nếu $u_{n+1} - u_n > 0$ với mọi $n$ thì dãy <strong>tăng</strong>.</li>
+<li>Nếu $u_{n+1} - u_n < 0$ với mọi $n$ thì dãy <strong>giảm</strong>.</li>
+</ul>
+<p>Ngoài ra có thể xét thương $\frac{u_{n+1}}{u_n}$ (khi các số hạng dương): lớn hơn $1$ thì tăng, nhỏ hơn $1$ thì giảm.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Xét tính đơn điệu của dãy $(u_n)$ với $u_n = 3n - 1$.</p>
+<p><em>Lời giải.</em> Ta có $u_{n+1} - u_n = [3(n+1) - 1] - (3n - 1) = 3 > 0$ với mọi $n$. Vậy $(u_n)$ là dãy số <strong>tăng</strong>.</p>
+<p class="mt-2">Xét dãy $(v_n)$ với $v_n = \frac{1}{n}$: $v_{n+1} - v_n = \frac{1}{n+1} - \frac{1}{n} = -\frac{1}{n(n+1)} < 0$ với mọi $n$, nên $(v_n)$ là dãy số <strong>giảm</strong>.</p>
+</div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Biểu diễn các số hạng của dãy số tăng trên trục số">
+<rect x="2" y="2" width="436" height="236" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="28" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0c4a6e" text-anchor="middle">Dãy số tăng: u1 &lt; u2 &lt; u3 &lt; u4 &lt; ...</text>
+<line x1="30" y1="120" x2="410" y2="120" stroke="#334155" stroke-width="2" marker-end="url(#arr)"/>
+<defs><marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#334155"/></marker></defs>
+<circle cx="70" cy="120" r="6" fill="#0284c7"/><text x="70" y="150" font-family="sans-serif" font-size="13" fill="#0c4a6e" text-anchor="middle">u1</text>
+<circle cx="150" cy="120" r="6" fill="#0284c7"/><text x="150" y="150" font-family="sans-serif" font-size="13" fill="#0c4a6e" text-anchor="middle">u2</text>
+<circle cx="240" cy="120" r="6" fill="#0284c7"/><text x="240" y="150" font-family="sans-serif" font-size="13" fill="#0c4a6e" text-anchor="middle">u3</text>
+<circle cx="330" cy="120" r="6" fill="#0284c7"/><text x="330" y="150" font-family="sans-serif" font-size="13" fill="#0c4a6e" text-anchor="middle">u4</text>
+<text x="70" y="95" font-family="sans-serif" font-size="12" fill="#64748b" text-anchor="middle">3</text>
+<text x="150" y="95" font-family="sans-serif" font-size="12" fill="#64748b" text-anchor="middle">5</text>
+<text x="240" y="95" font-family="sans-serif" font-size="12" fill="#64748b" text-anchor="middle">7</text>
+<text x="330" y="95" font-family="sans-serif" font-size="12" fill="#64748b" text-anchor="middle">9</text>
+<text x="220" y="200" font-family="sans-serif" font-size="12" fill="#64748b" text-anchor="middle">Mỗi số hạng sau đều lớn hơn số hạng trước (ví dụ un = 2n + 1)</text>
+</svg></div>
+
+<!-- 4. Dãy số bị chặn -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Dãy số bị chặn</h2>
+
+<p><strong>Định nghĩa:</strong></p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Dãy số $(u_n)$ được gọi là <em>bị chặn trên</em> nếu tồn tại số $M$ sao cho $u_n \le M$ với mọi $n \in \mathbb{N}^*$.</li>
+<li>Dãy số $(u_n)$ được gọi là <em>bị chặn dưới</em> nếu tồn tại số $m$ sao cho $u_n \ge m$ với mọi $n \in \mathbb{N}^*$.</li>
+<li>Dãy số $(u_n)$ được gọi là <em>bị chặn</em> nếu nó vừa bị chặn trên vừa bị chặn dưới, tức tồn tại các số $m, M$ sao cho $m \le u_n \le M$ với mọi $n \in \mathbb{N}^*$.</li>
+</ul>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>Dãy $(u_n)$ với $u_n = \frac{n}{n+1} = 1 - \frac{1}{n+1}$: ta có $ \frac{1}{2} \le u_n < 1$ với mọi $n$, nên dãy <strong>bị chặn</strong> (chặn dưới bởi $\frac{1}{2}$, chặn trên bởi $1$).</li>
+<li>Dãy $(v_n)$ với $v_n = 2n + 1$ bị chặn dưới bởi $3$ nhưng <strong>không</strong> bị chặn trên.</li>
+<li>Dãy $(w_n)$ với $w_n = (-1)^n$ bị chặn vì $-1 \le w_n \le 1$ với mọi $n$.</li>
+</ul>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Mọi dãy số <strong>tăng</strong> đều bị chặn dưới bởi số hạng đầu $u_1$; mọi dãy số <strong>giảm</strong> đều bị chặn trên bởi số hạng đầu $u_1$.</p>
+</div>
+
+<!-- Tổng kết -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Dãy số</strong> $(u_n)$: hàm số xác định trên $\mathbb{N}^*$; $u_n$ là số hạng tổng quát.</li>
+<li><strong>Ba cách cho dãy số:</strong> công thức số hạng tổng quát, truy hồi, mô tả.</li>
+<li><strong>Dãy tăng:</strong> $u_{n+1} - u_n > 0$ với mọi $n$; <strong>dãy giảm:</strong> $u_{n+1} - u_n < 0$ với mọi $n$.</li>
+<li><strong>Dãy bị chặn:</strong> tồn tại $m, M$ sao cho $m \le u_n \le M$ với mọi $n$.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">
+(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok){if(document.body){document.body.innerHTML='<div style="font-family:system-ui,sans-serif;max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff"><h2 style="color:#0f172a;margin-top:0">© SAOBAY — Trường THPT Sào Báy</h2><p style="color:#475569">Nội dung này chỉ được hiển thị tại địa chỉ chính thức <b>saobay.github.io</b>.</p><p style="color:#475569">Vui lòng truy cập đúng địa chỉ để học tập.</p></div>';}else{document.write("SAOBAY: truy cap tai saobay.github.io");}}catch(e){}})();
+</script>
+</body>
+</html>
