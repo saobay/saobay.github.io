@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 2: Giải hệ hai phương trình bậc nhất hai ẩn</title>
+    <meta name="lesson-title" content="Bài 2: Giải hệ hai phương trình bậc nhất hai ẩn">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 2: Giải hệ hai phương trình bậc nhất hai ẩn</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 1: Phương trình và hệ hai phương trình bậc nhất hai ẩn • Bài 2: Giải hệ hai phương trình bậc nhất hai ẩn</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 2: Giải hệ hai phương trình bậc nhất hai ẩn</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 1: Phương trình và hệ hai phương trình bậc nhất hai ẩn (Kết nối tri thức với cuộc sống)</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Phương pháp thế</h2>
+<p>Các bước giải hệ phương trình bằng phương pháp thế:</p>
+<p><strong>Bước 1.</strong> Từ một phương trình của hệ, biểu diễn một ẩn theo ẩn kia rồi thế vào phương trình còn lại để được phương trình một ẩn.<br>
+<strong>Bước 2.</strong> Giải phương trình một ẩn vừa nhận được, từ đó suy ra nghiệm của hệ.<br>
+<strong>Bước 3.</strong> Kết luận nghiệm của hệ phương trình.</p>
+<p class="font-bold">Ví dụ 1 (có lời giải):</p>
+<p>Giải hệ phương trình $\begin{cases} x - y = 2 \\ 2x + y = 7 \end{cases}$ bằng phương pháp thế.</p>
+<p><strong>Lời giải:</strong> Từ phương trình thứ nhất, ta có $x = y + 2$. Thế vào phương trình thứ hai:</p>
+<p>$$2(y + 2) + y = 7 \Leftrightarrow 3y + 4 = 7 \Leftrightarrow 3y = 3 \Leftrightarrow y = 1.$$</p>
+<p>Suy ra $x = y + 2 = 3$. Vậy hệ phương trình có nghiệm $(3; 1)$.</p>
+<div class="bg-amber-50 border-l-4 border-amber-400 p-3 my-3 rounded-r-lg">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p>Phương pháp thế đặc biệt thuận tiện khi <strong>hệ số của một ẩn bằng 1 hoặc −1</strong> ở một phương trình, vì khi đó việc rút ẩn rất đơn giản.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Phương pháp cộng đại số</h2>
+<p>Các bước giải hệ phương trình bằng phương pháp cộng đại số:</p>
+<p><strong>Bước 1.</strong> Nhân hai vế của mỗi phương trình với một số thích hợp (nếu cần) sao cho hệ số của một ẩn trong hai phương trình <strong>đối nhau</strong> (hoặc bằng nhau).<br>
+<strong>Bước 2.</strong> Cộng (hoặc trừ) từng vế của hai phương trình để khử một ẩn, được phương trình một ẩn.<br>
+<strong>Bước 3.</strong> Giải phương trình một ẩn, tìm ẩn còn lại và kết luận nghiệm của hệ.</p>
+<p class="font-bold">Ví dụ 2 (có lời giải):</p>
+<p>Giải hệ phương trình $\begin{cases} 2x + 3y = 12 \\ 4x - 3y = 6 \end{cases}$ bằng phương pháp cộng đại số.</p>
+<p><strong>Lời giải:</strong> Hệ số của $y$ ở hai phương trình đã đối nhau ($3$ và $-3$) nên cộng từng vế:</p>
+<p>$$(2x + 3y) + (4x - 3y) = 12 + 6 \Leftrightarrow 6x = 18 \Leftrightarrow x = 3.$$</p>
+<p>Thay $x = 3$ vào phương trình $2x + 3y = 12$: $6 + 3y = 12 \Leftrightarrow y = 2$. Vậy hệ có nghiệm $(3; 2)$.</p>
+<div class="bg-amber-50 border-l-4 border-amber-400 p-3 my-3 rounded-r-lg">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p>• Nếu hệ số của một ẩn <strong>đối nhau</strong>: cộng từng vế để khử ẩn đó.<br>
+• Nếu hệ số của một ẩn <strong>bằng nhau</strong>: trừ từng vế để khử ẩn đó.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Số nghiệm của hệ hai phương trình bậc nhất hai ẩn</h2>
+<p>Dựa vào vị trí tương đối của hai đường thẳng $d_1: a_1x + b_1y = c_1$ và $d_2: a_2x + b_2y = c_2$, ta có:</p>
+<div class="svg-fig">
+<svg viewBox="0 0 660 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ba truong hop so nghiem cua he phuong trinh">
+  <rect x="0" y="0" width="660" height="230" fill="#f8fafc" rx="8"/>
+  <g>
+    <rect x="10" y="10" width="200" height="180" fill="#ffffff" stroke="#cbd5e1" rx="6"/>
+    <line x1="30" y1="170" x2="190" y2="170" stroke="#0f172a" stroke-width="1.5"/>
+    <line x1="50" y1="30" x2="50" y2="185" stroke="#0f172a" stroke-width="1.5"/>
+    <line x1="25" y1="70" x2="175" y2="160" stroke="#0284c7" stroke-width="2.5"/>
+    <line x1="25" y1="160" x2="175" y2="70" stroke="#16a34a" stroke-width="2.5"/>
+    <circle cx="110" cy="115" r="5" fill="#dc2626"/>
+    <text x="60" y="212" font-size="13" fill="#0f172a" font-weight="bold">Cắt nhau: 1 nghiệm</text>
+  </g>
+  <g>
+    <rect x="230" y="10" width="200" height="180" fill="#ffffff" stroke="#cbd5e1" rx="6"/>
+    <line x1="250" y1="170" x2="410" y2="170" stroke="#0f172a" stroke-width="1.5"/>
+    <line x1="270" y1="30" x2="270" y2="185" stroke="#0f172a" stroke-width="1.5"/>
+    <line x1="245" y1="80" x2="395" y2="150" stroke="#0284c7" stroke-width="2.5"/>
+    <line x1="245" y1="110" x2="395" y2="180" stroke="#16a34a" stroke-width="2.5"/>
+    <text x="280" y="212" font-size="13" fill="#0f172a" font-weight="bold">Song song: vô nghiệm</text>
+  </g>
+  <g>
+    <rect x="450" y="10" width="200" height="180" fill="#ffffff" stroke="#cbd5e1" rx="6"/>
+    <line x1="470" y1="170" x2="630" y2="170" stroke="#0f172a" stroke-width="1.5"/>
+    <line x1="490" y1="30" x2="490" y2="185" stroke="#0f172a" stroke-width="1.5"/>
+    <line x1="465" y1="80" x2="615" y2="160" stroke="#0284c7" stroke-width="4"/>
+    <line x1="465" y1="80" x2="615" y2="160" stroke="#16a34a" stroke-width="1.5" stroke-dasharray="6 4"/>
+    <text x="492" y="212" font-size="13" fill="#0f172a" font-weight="bold">Trùng nhau: vô số nghiệm</text>
+  </g>
+</svg>
+</div>
+<p>• $d_1$ cắt $d_2$: hệ có <strong>nghiệm duy nhất</strong> (tọa độ giao điểm).<br>
+• $d_1$ song song $d_2$: hệ <strong>vô nghiệm</strong>.<br>
+• $d_1$ trùng $d_2$: hệ có <strong>vô số nghiệm</strong>.</p>
+<p class="font-bold">Ví dụ 3 (có lời giải):</p>
+<p>Không giải hệ, hãy cho biết số nghiệm của hệ $\begin{cases} x + 2y = 4 \\ 2x + 4y = 8 \end{cases}$.</p>
+<p><strong>Lời giải:</strong> Nhân hai vế của phương trình thứ nhất với 2, ta được $2x + 4y = 8$ — trùng với phương trình thứ hai. Vậy hai đường thẳng trùng nhau, hệ có <strong>vô số nghiệm</strong>.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Ứng dụng thực tế</h2>
+<p>Nhiều bài toán thực tế đưa về việc giải hệ hai phương trình bậc nhất hai ẩn. Chẳng hạn:</p>
+<p class="font-bold">Ví dụ 4 (có lời giải):</p>
+<p>Tổng số tuổi của hai anh em hiện nay là 30 tuổi. Tuổi anh gấp đôi tuổi em. Tính tuổi của mỗi người.</p>
+<p><strong>Lời giải:</strong> Gọi $x, y$ lần lượt là tuổi của anh và em hiện nay ($x, y$ là số tự nhiên, $x$ lớn hơn $y$ lớn hơn 0). Ta có hệ:</p>
+<p>$$\begin{cases} x + y = 30 \\ x = 2y \end{cases}$$</p>
+<p>Thế $x = 2y$ vào phương trình thứ nhất: $2y + y = 30$, suy ra $y = 10$, $x = 20$. Vậy anh 20 tuổi, em 10 tuổi.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="table-scroll"><table class="w-full border-collapse text-sm">
+<tr><th class="border border-slate-300 px-4 py-1 bg-sky-50">Nội dung</th><th class="border border-slate-300 px-4 py-1 bg-sky-50">Cách làm</th><th class="border border-slate-300 px-4 py-1 bg-sky-50">Ví dụ</th></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Phương pháp thế</td><td class="border border-slate-300 px-4 py-1">Rút một ẩn theo ẩn kia rồi thế vào phương trình còn lại</td><td class="border border-slate-300 px-4 py-1">$\begin{cases} x - y = 2 \\ 2x + y = 7 \end{cases}$ có nghiệm $(3; 1)$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Phương pháp cộng đại số</td><td class="border border-slate-300 px-4 py-1">Cộng/trừ từng vế để khử một ẩn</td><td class="border border-slate-300 px-4 py-1">$\begin{cases} 2x + 3y = 12 \\ 4x - 3y = 6 \end{cases}$ có nghiệm $(3; 2)$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Số nghiệm của hệ</td><td class="border border-slate-300 px-4 py-1">Cắt nhau: 1 nghiệm; song song: vô nghiệm; trùng nhau: vô số nghiệm</td><td class="border border-slate-300 px-4 py-1">$\begin{cases} x + 2y = 4 \\ 2x + 4y = 8 \end{cases}$ vô số nghiệm</td></tr>
+</table></div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
