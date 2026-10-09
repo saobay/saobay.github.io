@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit 6: Artificial Intelligence</title>
+    <meta name="lesson-title" content="Unit 6: Artificial Intelligence">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Unit 6: Artificial Intelligence</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 1: Mệnh đề và tập hợp • Unit 6: Artificial Intelligence</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Unit 6: Artificial Intelligence</h1>
+<p class="text-center text-slate-500 italic mb-8">Unit 6: Artificial Intelligence • Tiếng Anh 12 (Global Success)</p>
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Từ vựng trọng tâm (Vocabulary)</h2>
+<p class="mb-2">Bấm vào 🔊 để nghe phát âm từng từ:</p>
+<div class="table-scroll"><table class="min-w-full border border-slate-300 text-sm">
+<tr class="bg-sky-100"><th class="border p-2">Từ</th><th class="border p-2">Phiên âm</th><th class="border p-2">Loại từ</th><th class="border p-2">Nghĩa</th></tr>
+<tr><td class="border p-2 font-semibold"><span class="vocab-word" data-say="artificial intelligence">artificial intelligence</span></td><td class="border p-2">/ˌɑːtɪˈfɪʃl ɪnˈtelɪdʒəns/</td><td class="border p-2">n</td><td class="border p-2">trí tuệ nhân tạo</td></tr>
+<tr><td class="border p-2 font-semibold"><span class="vocab-word" data-say="robot">robot</span></td><td class="border p-2">/ˈrəʊbɒt/</td><td class="border p-2">n</td><td class="border p-2">người máy</td></tr>
+<tr><td class="border p-2 font-semibold"><span class="vocab-word" data-say="automation">automation</span></td><td class="border p-2">/ˌɔːtəˈmeɪʃn/</td><td class="border p-2">n</td><td class="border p-2">tự động hóa</td></tr>
+<tr><td class="border p-2 font-semibold"><span class="vocab-word" data-say="algorithm">algorithm</span></td><td class="border p-2">/ˈælɡərɪðəm/</td><td class="border p-2">n</td><td class="border p-2">thuật toán</td></tr>
+<tr><td class="border p-2 font-semibold"><span class="vocab-word" data-say="machine learning">machine learning</span></td><td class="border p-2">/məˈʃiːn ˈlɜːnɪŋ/</td><td class="border p-2">n</td><td class="border p-2">học máy</td></tr>
+<tr><td class="border p-2 font-semibold"><span class="vocab-word" data-say="chatbot">chatbot</span></td><td class="border p-2">/ˈtʃætbɒt/</td><td class="border p-2">n</td><td class="border p-2">trợ lý ảo trò chuyện</td></tr>
+<tr><td class="border p-2 font-semibold"><span class="vocab-word" data-say="virtual assistant">virtual assistant</span></td><td class="border p-2">/ˈvɜːtʃuəl əˈsɪstənt/</td><td class="border p-2">n</td><td class="border p-2">trợ lý ảo</td></tr>
+<tr><td class="border p-2 font-semibold"><span class="vocab-word" data-say="data">data</span></td><td class="border p-2">/ˈdeɪtə/</td><td class="border p-2">n</td><td class="border p-2">dữ liệu</td></tr>
+<tr><td class="border p-2 font-semibold"><span class="vocab-word" data-say="analyse">analyse</span></td><td class="border p-2">/ˈænəlaɪz/</td><td class="border p-2">v</td><td class="border p-2">phân tích</td></tr>
+<tr><td class="border p-2 font-semibold"><span class="vocab-word" data-say="predict">predict</span></td><td class="border p-2">/prɪˈdɪkt/</td><td class="border p-2">v</td><td class="border p-2">dự đoán</td></tr>
+<tr><td class="border p-2 font-semibold"><span class="vocab-word" data-say="recognise">recognise</span></td><td class="border p-2">/ˈrekəɡnaɪz/</td><td class="border p-2">v</td><td class="border p-2">nhận diện</td></tr>
+<tr><td class="border p-2 font-semibold"><span class="vocab-word" data-say="intelligent">intelligent</span></td><td class="border p-2">/ɪnˈtelɪdʒənt/</td><td class="border p-2">adj</td><td class="border p-2">thông minh</td></tr>
+<tr><td class="border p-2 font-semibold"><span class="vocab-word" data-say="capable">capable</span></td><td class="border p-2">/ˈkeɪpəbəl/</td><td class="border p-2">adj</td><td class="border p-2">có khả năng</td></tr>
+<tr><td class="border p-2 font-semibold"><span class="vocab-word" data-say="replace">replace</span></td><td class="border p-2">/rɪˈpleɪs/</td><td class="border p-2">v</td><td class="border p-2">thay thế</td></tr>
+<tr><td class="border p-2 font-semibold"><span class="vocab-word" data-say="benefit">benefit</span></td><td class="border p-2">/ˈbenɪfɪt/</td><td class="border p-2">n/v</td><td class="border p-2">lợi ích; đem lại lợi ích</td></tr>
+<tr><td class="border p-2 font-semibold"><span class="vocab-word" data-say="threat">threat</span></td><td class="border p-2">/θret/</td><td class="border p-2">n</td><td class="border p-2">mối đe dọa</td></tr>
+<tr><td class="border p-2 font-semibold"><span class="vocab-word" data-say="programme">programme</span></td><td class="border p-2">/ˈprəʊɡræm/</td><td class="border p-2">v/n</td><td class="border p-2">lập trình; chương trình</td></tr>
+<tr><td class="border p-2 font-semibold"><span class="vocab-word" data-say="innovate">innovate</span></td><td class="border p-2">/ˈɪnəveɪt/</td><td class="border p-2">v</td><td class="border p-2">đổi mới</td></tr>
+<tr><td class="border p-2 font-semibold"><span class="vocab-word" data-say="virtual">virtual</span></td><td class="border p-2">/ˈvɜːtʃuəl/</td><td class="border p-2">adj</td><td class="border p-2">ảo</td></tr>
+<tr><td class="border p-2 font-semibold"><span class="vocab-word" data-say="digital">digital</span></td><td class="border p-2">/ˈdɪdʒɪtəl/</td><td class="border p-2">adj</td><td class="border p-2">kỹ thuật số</td></tr>
+</table></div>
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Phát âm (Pronunciation): Nguyên âm /eɪ/, /æ/ và phụ âm /ʃ/, /tʃ/</h2>
+<p><strong>/eɪ/</strong> (data, brave, cable): miệng hơi mở rồi khép. <strong>/æ/</strong> (analyse, chatbot, capable): miệng mở rộng, âm ngắn.</p>
+<p><strong>/ʃ/</strong> (machine, artificial): môi tròn, hơi đẩy ra. <strong>/tʃ/</strong> (chatbot, choose, virtual): bật hơi mạnh hơn.</p>
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4"><p class="font-semibold text-sky-800 mb-2">Luyện tập:</p>
+<p>data — analyse — capable — brave; machine — chatbot — choose — artificial</p></div>
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Ngữ pháp trọng tâm (Grammar)</h2>
+<h3 class="text-lg font-bold text-sky-600 mt-4 mb-2">1. Mệnh đề chỉ nguyên nhân — chủ động (Clauses of reason: active)</h3>
+<p><strong>Công thức:</strong> Because / Since / As + S + V (mệnh đề).</p>
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4"><p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li><strong>Because</strong> AI can learn from data, it is very useful. <em>(Vì AI có thể học từ dữ liệu nên nó rất hữu ích.)</em></li>
+<li><strong>Since</strong> robots work fast, factories use them widely. <em>(Vì robot làm việc nhanh nên các nhà máy dùng chúng rộng rãi.)</em></li>
+<li><strong>As</strong> the chatbot was busy, we waited a minute. <em>(Vì chatbot đang bận nên chúng tôi đợi một phút.)</em></li>
+</ul></div>
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4"><p class="font-bold text-amber-800">📌 Because of / Due to + cụm danh từ</p>
+<p class="mt-1"><strong>Because of / Due to / Owing to</strong> + cụm danh từ (không phải mệnh đề): <em><strong>Because of</strong> heavy rain, the match was cancelled.</em> Muốn dùng mệnh đề thì dùng <strong>because</strong>: <em><strong>Because</strong> it rained heavily, the match was cancelled.</em></p></div>
+<h3 class="text-lg font-bold text-sky-600 mt-4 mb-2">2. Mệnh đề chỉ nguyên nhân — bị động (Clauses of reason: passive)</h3>
+<p>Khi chủ ngữ chịu tác động, dùng câu bị động kết hợp với cụm chỉ nguyên nhân.</p>
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4"><p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>The flight <strong>was cancelled because of</strong> bad weather. <em>(Chuyến bay bị hủy vì thời tiết xấu.)</em></li>
+<li>Thousands of jobs <strong>have been replaced by</strong> robots. <em>(Hàng nghìn việc làm đã bị robot thay thế.)</em></li>
+<li>He <strong>was fined for</strong> speeding. <em>(Anh ấy bị phạt vì chạy quá tốc độ.)</em> — <strong>for</strong> + danh từ/V-ing chỉ lý do bị phạt/khen.</li>
+<li>She <strong>was praised for</strong> her quick thinking. <em>(Cô ấy được khen vì phản ứng nhanh.)</em></li>
+</ul></div>
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Kỹ năng đọc (Reading)</h2>
+<ul class="list-disc ml-6 space-y-1"><li>Xác định quan hệ nguyên nhân — kết quả trong đoạn văn.</li><li>Tìm từ khóa: because, since, due to, result in, lead to.</li><li>Chú ý số liệu và ví dụ minh họa về AI.</li></ul>
+<div class="read-aloud bg-sky-50 border border-sky-200 rounded-lg p-4 my-4" data-text="Artificial intelligence is changing our lives. AI can analyse huge amounts of data in seconds. Because of this ability, doctors use AI to find diseases early. Chatbots answer customer questions day and night. However, some people worry that robots will replace human workers. Schools now teach students to work with AI instead of competing against it."><p class="font-semibold text-sky-800 mb-2">📖 Đoạn văn mẫu — bấm "Nghe đọc mẫu":</p><p>Artificial intelligence is changing our lives. AI can analyse huge amounts of data in seconds. Because of this ability, doctors use AI to find diseases early. Chatbots answer customer questions day and night. However, some people worry that robots will replace human workers. Schools now teach students to work with AI instead of competing against it.</p></div>
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">5. Kỹ năng nghe (Listening)</h2>
+<ul class="list-disc ml-6 space-y-1"><li>Nghe từ khóa: robot, data, replace, benefit, risk.</li><li>Chú ý quan điểm: người nói ủng hộ hay lo ngại AI?</li><li>Nghe hội thoại: ai làm gì với AI?</li></ul>
+<div class="table-scroll"><table class="min-w-full border border-slate-300 text-sm">
+<tr class="bg-sky-100"><th class="border p-2">Cụm từ</th><th class="border p-2">Nghĩa</th></tr>
+<tr><td class="border p-2"><span class="vocab-word" data-say="come up with">come up with</span></td><td class="border p-2">nảy ra (ý tưởng)</td></tr>
+<tr><td class="border p-2"><span class="vocab-word" data-say="take over">take over</span></td><td class="border p-2">tiếp quản, thay thế</td></tr>
+<tr><td class="border p-2"><span class="vocab-word" data-say="in the future">in the future</span></td><td class="border p-2">trong tương lai</td></tr>
+<tr><td class="border p-2"><span class="vocab-word" data-say="play a role in">play a role in</span></td><td class="border p-2">đóng vai trò trong</td></tr>
+<tr><td class="border p-2"><span class="vocab-word" data-say="keep up with">keep up with</span></td><td class="border p-2">theo kịp</td></tr>
+</table></div>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
