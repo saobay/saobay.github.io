@@ -56,26 +56,25 @@
 
         // ---- Tạo tài khoản (dùng chung cho duyệt đăng ký & tạo tay) ----
         async function createUserAccount(o){
-            // o: {id, name, role: 'teacher'|'student', className, expiryDays, password}
-            let db = await assignFetchUsed();
-            if (!db.passwords) db.passwords = {};
-            if (db.passwords[o.id]) throw new Error('Mã ' + o.id + ' đã có tài khoản.');
-            db.passwords[o.id] = o.password || '12345678'; // dung MK nguoi dung dat, neu khong co thi mac dinh
-            var UNASSIGNED = getUnassignedGroup(db);
-            // Trial mode: 90 ngay; het trial: cho phan cong (se bi chan hoc)
-            var isTrial = UNASSIGNED === 'Trải nghiệm';
-            if (o.role === 'teacher'){
-                if (!db.teachers_registry || Array.isArray(db.teachers_registry)) db.teachers_registry = {};
-                db.teachers_registry[o.id] = { name: o.name, group: UNASSIGNED, note: o.note || '', role: o.role };
-            } else {
-                if (!db.students) db.students = {};
-                if (!Array.isArray(db.students[UNASSIGNED])) db.students[UNASSIGNED] = [];
-                db.students[UNASSIGNED].push({ id: o.id, name: o.name, dob: '' });
-            }
-            // Ghi de thoi han: trial=90 ngay
-            o._forceTrial = isTrial;
+            // o: {id, name, role, className, expiryDays, password}
+            // Co che thu lai khi xung dot SHA (phien khac dang day)
+            let _rn = o.role === 'teacher' ? 'giáo viên' : (o.role === 'bgh' ? 'Ban Giám Hiệu' : 'học sinh');
+            let db = await assignUpdateUsed(function(db){
+                if (!db.passwords) db.passwords = {};
+                if (db.passwords[o.id]) throw new Error('Mã ' + o.id + ' đã có tài khoản.');
+                db.passwords[o.id] = o.password || '12345678';
+                var UNASSIGNED = getUnassignedGroup(db);
+                o._forceTrial = UNASSIGNED === 'Trải nghiệm';
+                if (o.role === 'teacher' || o.role === 'bgh'){
+                    if (!db.teachers_registry || Array.isArray(db.teachers_registry)) db.teachers_registry = {};
+                    db.teachers_registry[o.id] = { name: o.name, group: UNASSIGNED, note: o.note || '', role: o.role };
+                } else {
+                    if (!db.students) db.students = {};
+                    if (!Array.isArray(db.students[UNASSIGNED])) db.students[UNASSIGNED] = [];
+                    db.students[UNASSIGNED].push({ id: o.id, name: o.name, dob: '' });
+                }
+            }, 'Tạo tài khoản ' + _rn + ': ' + o.name + ' (' + o.id + ')');
             let expDays = o._forceTrial ? 90 : calcExpiryDays(o.role, o.id, db, o.expiryDays);
-            await assignPushUsed(db, 'Tạo tài khoản ' + (o.role === 'teacher' ? 'giáo viên' : 'học sinh') + ': ' + o.name + ' (' + o.id + ')');
             let expDb = await assignFetchExpiry();
             expDb[o.id] = { expires_at: expiryDateISO(expDays),
                 type: (o.role === 'teacher' || o.role === 'bgh') ? o.role : (expDays === 365 ? 'school_student' : (expDays === 90 ? 'trial' : 'custom')),
