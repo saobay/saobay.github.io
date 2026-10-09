@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 26: Xác suất của biến cố liên quan tới phép thử</title>
+    <meta name="lesson-title" content="Bài 26: Xác suất của biến cố liên quan tới phép thử">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 26: Xác suất của biến cố liên quan tới phép thử</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 8: Xác suất của biến cố trong một số mô hình đơn giản • Bài 26: Xác suất của biến cố liên quan tới phép thử</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 26: Xác suất của biến cố liên quan tới phép thử</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 8: Xác suất của biến cố trong một số mô hình đơn giản (Kết nối tri thức với cuộc sống)</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Kết quả thuận lợi cho một biến cố</h2>
+<p>Xét một phép thử ngẫu nhiên. Mỗi <strong>biến cố</strong> là một sự kiện mà ta quan tâm, ví dụ "gieo xúc xắc được mặt 6 chấm". <strong>Kết quả thuận lợi</strong> cho biến cố $A$ là các kết quả của phép thử làm cho $A$ xảy ra. Số kết quả thuận lợi kí hiệu là $n(A)$.</p>
+<ul class="list-disc pl-6 my-2">
+<li>Gieo một con xúc xắc, biến cố $A$: "xuất hiện mặt 6 chấm" có 1 kết quả thuận lợi là $\{6\}$, $n(A) = 1$;</li>
+<li>Tung hai đồng xu, biến cố $B$: "cả hai mặt đều sấp" có 1 kết quả thuận lợi là $\{SS\}$, $n(B) = 1$;</li>
+<li>Rút 1 thẻ từ 10 thẻ đánh số 1 đến 10, biến cố $C$: "rút được thẻ ghi số chẵn" có các kết quả thuận lợi $\{2; 4; 6; 8; 10\}$, $n(C) = 5$.</li>
+</ul>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Xác suất của biến cố</h2>
+<p>Xét phép thử mà <strong>mọi kết quả đều có khả năng xảy ra như nhau</strong> (đồng khả năng). <strong>Xác suất</strong> của biến cố $A$, kí hiệu $P(A)$, được tính bằng công thức:</p>
+<p>$$P(A) = \frac{n(A)}{n(\Omega)},$$</p>
+<p>trong đó $n(A)$ là số kết quả thuận lợi cho $A$ và $n(\Omega)$ là số phần tử của không gian mẫu.</p>
+<div class="bg-amber-50 border-l-4 border-amber-400 p-3 my-3 rounded-r-lg">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p>$0 \le P(A) \le 1$. Biến cố <strong>chắc chắn</strong> có xác suất bằng 1, biến cố <strong>không thể</strong> có xác suất bằng 0. Xác suất càng gần 1 thì biến cố càng dễ xảy ra.</p>
+</div>
+<p class="font-bold">Ví dụ 1 (có lời giải):</p>
+<p>Gieo một con xúc xắc cân đối. Tính xác suất của biến cố $A$: "xuất hiện mặt có số chấm là số nguyên tố".</p>
+<p><strong>Lời giải:</strong> $\Omega = \{1; 2; 3; 4; 5; 6\}$ nên $n(\Omega) = 6$. Các mặt có số chấm nguyên tố là $\{2; 3; 5\}$ nên $n(A) = 3$. Vậy $P(A) = \frac{3}{6} = \frac{1}{2}$.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Tính xác suất trong một số mô hình đơn giản</h2>
+<p class="font-bold">Ví dụ 2 (vòng quay — có lời giải):</p>
+<p>Một vòng quay được chia thành 8 ô bằng nhau: 2 ô màu đỏ, 4 ô màu xanh, 2 ô màu vàng (xem hình). Quay ngẫu nhiên một lần. Tính xác suất mũi tên dừng ở ô màu xanh.</p>
+<div class="svg-fig">
+<svg viewBox="0 0 240 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Vong quay 8 o mau">
+<text x="120" y="14" text-anchor="middle" font-size="13" font-weight="bold" fill="#0c4a6e">Vòng quay may mắn (8 ô)</text>
+<path d="M 120 100 L 120.0 20.0 A 80 80 0 0 1 176.6 43.4 Z" fill="#ef4444" stroke="#fff" stroke-width="2"/>
+<path d="M 120 100 L 176.6 43.4 A 80 80 0 0 1 200.0 100.0 Z" fill="#38bdf8" stroke="#fff" stroke-width="2"/>
+<path d="M 120 100 L 200.0 100.0 A 80 80 0 0 1 176.6 156.6 Z" fill="#38bdf8" stroke="#fff" stroke-width="2"/>
+<path d="M 120 100 L 176.6 156.6 A 80 80 0 0 1 120.0 180.0 Z" fill="#ef4444" stroke="#fff" stroke-width="2"/>
+<path d="M 120 100 L 120.0 180.0 A 80 80 0 0 1 63.4 156.6 Z" fill="#fbbf24" stroke="#fff" stroke-width="2"/>
+<path d="M 120 100 L 63.4 156.6 A 80 80 0 0 1 40.0 100.0 Z" fill="#38bdf8" stroke="#fff" stroke-width="2"/>
+<path d="M 120 100 L 40.0 100.0 A 80 80 0 0 1 63.4 43.4 Z" fill="#fbbf24" stroke="#fff" stroke-width="2"/>
+<path d="M 120 100 L 63.4 43.4 A 80 80 0 0 1 120.0 20.0 Z" fill="#38bdf8" stroke="#fff" stroke-width="2"/>
+<circle cx="120" cy="100" r="80" fill="none" stroke="#334155" stroke-width="2"/>
+<circle cx="120" cy="100" r="10" fill="#334155"/>
+<polygon points="120,2 112,16 128,16" fill="#334155"/>
+<text x="120" y="206" text-anchor="middle" font-size="11" fill="#475569">Đỏ: 2 ô • Xanh: 4 ô • Vàng: 2 ô</text>
+</svg>
+</div>
+<p><strong>Lời giải:</strong> Có $n(\Omega) = 8$ kết quả (8 ô bằng nhau). Biến cố $X$: "mũi tên dừng ở ô màu xanh" có $n(X) = 4$ kết quả thuận lợi. Vậy $P(X) = \frac{4}{8} = \frac{1}{2} = 50\%$.</p>
+<p class="font-bold">Ví dụ 3 (hộp bi — có lời giải):</p>
+<p>Một hộp có 3 viên bi đỏ và 7 viên bi xanh (các viên bi giống nhau). Lấy ngẫu nhiên một viên bi. Tính xác suất lấy được viên bi đỏ.</p>
+<p><strong>Lời giải:</strong> $n(\Omega) = 3 + 7 = 10$. Biến cố $Đ$: "lấy được bi đỏ" có $n(Đ) = 3$ kết quả thuận lợi. Vậy $P(Đ) = \frac{3}{10} = 30\%$.</p>
+<div class="bg-amber-50 border-l-4 border-amber-400 p-3 my-3 rounded-r-lg">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p>Các bước tính xác suất: <strong>(1)</strong> xác định $n(\Omega)$; <strong>(2)</strong> đếm số kết quả thuận lợi $n(A)$; <strong>(3)</strong> tính $P(A) = \frac{n(A)}{n(\Omega)}$ và rút gọn (hoặc đổi ra phần trăm).</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="table-scroll"><table class="w-full border-collapse text-sm">
+<tr><th class="border border-slate-300 px-4 py-1 bg-sky-50">Nội dung</th><th class="border border-slate-300 px-4 py-1 bg-sky-50">Công thức</th><th class="border border-slate-300 px-4 py-1 bg-sky-50">Ví dụ</th></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Kết quả thuận lợi cho biến cố $A$</td><td class="border border-slate-300 px-4 py-1">Các kết quả làm $A$ xảy ra; số lượng là $n(A)$</td><td class="border border-slate-300 px-4 py-1">Rút thẻ số chẵn từ 1–10: $n(C) = 5$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Xác suất của biến cố $A$</td><td class="border border-slate-300 px-4 py-1">$P(A) = \frac{n(A)}{n(\Omega)}$</td><td class="border border-slate-300 px-4 py-1">Gieo xúc xắc được mặt 6 chấm: $P = \frac{1}{6}$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Phạm vi của xác suất</td><td class="border border-slate-300 px-4 py-1">$0 \le P(A) \le 1$</td><td class="border border-slate-300 px-4 py-1">Chắc chắn: $P = 1$; không thể: $P = 0$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Xác suất dạng phần trăm</td><td class="border border-slate-300 px-4 py-1">$P(A)\times 100\%$</td><td class="border border-slate-300 px-4 py-1">$\frac{3}{10} = 30\%$</td></tr>
+</table></div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
