@@ -118,6 +118,7 @@
                 + '<div class="flex gap-2 px-5 pt-3 text-xs font-bold">'
                 + '<button id="um-tab-pending" onclick="userMgrTab(\'pending\')" class="px-4 py-2 rounded-lg bg-indigo-700 text-white">Chờ duyệt <span id="um-pending-count" class="ml-1 bg-white text-indigo-700 rounded-full px-1.5"></span></button>'
                 + '<button id="um-tab-unassigned" onclick="userMgrTab(\'unassigned\')" class="px-4 py-2 rounded-lg bg-slate-200 text-slate-700">Chưa phân nhóm <span id="um-unassigned-count" class="ml-1 bg-amber-500 text-white rounded-full px-1.5"></span></button>'
+                + '<button id="um-tab-trial" onclick="userMgrTab(\'trial\')" class="px-4 py-2 rounded-lg bg-slate-200 text-slate-700">Trải nghiệm <span id="um-trial-count" class="ml-1 bg-violet-500 text-white rounded-full px-1.5"></span></button>'
                 + '<button id="um-tab-create" onclick="userMgrTab(\'create\')" class="px-4 py-2 rounded-lg bg-slate-200 text-slate-700">Tạo tài khoản</button>'
                 + '<button id="um-tab-list" onclick="userMgrTab(\'list\')" class="px-4 py-2 rounded-lg bg-slate-200 text-slate-700">Danh sách TK</button>'
                 + '</div>'
@@ -137,18 +138,26 @@
                     });
                     let b = document.getElementById('um-unassigned-count');
                     if (b) b.textContent = n ? String(n) : '';
+                    let nt = 0;
+                    Object.keys(db.teachers_registry || {}).forEach(function(tid){
+                        if ((db.teachers_registry[tid] || {}).group === 'Trải nghiệm') nt++;
+                    });
+                    nt += ((db.students && db.students['Trải nghiệm']) || []).length;
+                    let bt2 = document.getElementById('um-trial-count');
+                    if (bt2) bt2.textContent = nt ? String(nt) : '';
                 } catch(e){}
             })();
         }
 
         function userMgrTab(tab){
             userMgrState.tab = tab;
-            let bp = document.getElementById('um-tab-pending'), bu = document.getElementById('um-tab-unassigned'), bc = document.getElementById('um-tab-create'), bl = document.getElementById('um-tab-list');
+            let bp = document.getElementById('um-tab-pending'), bu = document.getElementById('um-tab-unassigned'), bc = document.getElementById('um-tab-create'), bl = document.getElementById('um-tab-list'), bt = document.getElementById('um-tab-trial');
             if (bp){ bp.className = 'px-4 py-2 rounded-lg font-bold text-xs ' + (tab === 'pending' ? 'bg-indigo-700 text-white' : 'bg-slate-200 text-slate-700'); }
             if (bu){ bu.className = 'px-4 py-2 rounded-lg font-bold text-xs ' + (tab === 'unassigned' ? 'bg-amber-600 text-white' : 'bg-slate-200 text-slate-700'); }
             if (bc){ bc.className = 'px-4 py-2 rounded-lg font-bold text-xs ' + (tab === 'create' ? 'bg-indigo-700 text-white' : 'bg-slate-200 text-slate-700'); }
             if (bl){ bl.className = 'px-4 py-2 rounded-lg font-bold text-xs ' + (tab === 'list' ? 'bg-indigo-700 text-white' : 'bg-slate-200 text-slate-700'); }
-            if (tab === 'pending') userMgrLoadPending(); else if (tab === 'unassigned') userMgrLoadUnassigned(); else if (tab === 'list') userMgrLoadList(); else userMgrRenderCreate();
+             if (bt){ bt.className = 'px-4 py-2 rounded-lg font-bold text-xs ' + (tab === 'trial' ? 'bg-violet-700 text-white' : 'bg-slate-200 text-slate-700'); }
+            if (tab === 'pending') userMgrLoadPending(); else if (tab === 'unassigned') userMgrLoadUnassigned(); else if (tab === 'list') userMgrLoadList(); else if (tab === 'trial') userMgrLoadTrial(); else userMgrRenderCreate();
         }
 
         // Danh sach tai khoan + thoi han + gia han (2026-10-09)
@@ -206,6 +215,144 @@
                 userMgrLoadList();
             } catch(e){ alert('Lỗi: ' + (e.message || e)); }
         }
+
+        // ===== QUAN LY TAI KHOAN TRAI NGHIEM (2026-10-09) =====
+var trialFilter = 'all';
+function setTrialFilter(f){
+    trialFilter = f;
+    userMgrLoadTrial();
+}
+function trialDaysLeft(expires_at){
+    if (!expires_at) return null;
+    return Math.ceil((new Date(expires_at).getTime() - Date.now()) / 86400000);
+}
+function trialDaysBadge(days){
+    if (days === null) return '<span class="text-emerald-700 font-bold">Không thời hạn</span>';
+    if (days < 0) return '<span class="bg-rose-100 text-rose-700 px-2 py-0.5 rounded-full font-bold">Hết hạn ' + (-days) + ' ngày</span>';
+    if (days === 0) return '<span class="bg-rose-100 text-rose-700 px-2 py-0.5 rounded-full font-bold">Hết hạn hôm nay</span>';
+    if (days < 7) return '<span class="bg-rose-100 text-rose-700 px-2 py-0.5 rounded-full font-bold">Còn ' + days + ' ngày</span>';
+    if (days < 15) return '<span class="bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-bold">Còn ' + days + ' ngày</span>';
+    return '<span class="bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full font-bold">Còn ' + days + ' ngày</span>';
+}
+async function userMgrLoadTrial(){
+    let body = document.getElementById('users-body');
+    body.innerHTML = '<p class="text-xs text-slate-400 italic">Đang tải...</p>';
+    try {
+        let db = await assignFetchUsed();
+        let exp = await assignFetchExpiry();
+        // Gom TK Trai nghiem: GV co group='Trải nghiệm' + HS trong students['Trải nghiệm']
+        let trials = [];
+        Object.keys(db.teachers_registry || {}).forEach(function(tid){
+            let t = db.teachers_registry[tid] || {};
+            if (t.group === 'Trải nghiệm') trials.push({ id: tid, name: t.name || '(chưa rõ)', role: 'GV', isTeacher: true });
+        });
+        ((db.students && db.students['Trải nghiệm']) || []).forEach(function(st){
+            trials.push({ id: st.id, name: st.name || '(chưa rõ)', role: 'HS', isTeacher: false });
+        });
+        // Gan thong tin han su dung
+        trials.forEach(function(t){
+            let e = exp[t.id] || {};
+            t.expires_at = e.expires_at || null;
+            t.created_at = e.created_at || null;
+            t.days = trialDaysLeft(t.expires_at);
+        });
+        let nGV = trials.filter(function(t){ return t.role === 'GV'; }).length;
+        let nHS = trials.filter(function(t){ return t.role === 'HS'; }).length;
+        // Loc theo filter
+        let shown = trials.filter(function(t){
+            if (trialFilter === 'gv') return t.role === 'GV';
+            if (trialFilter === 'hs') return t.role === 'HS';
+            if (trialFilter === 'expiring') return t.days !== null && t.days >= 0 && t.days < 7;
+            if (trialFilter === 'expired') return t.days !== null && t.days < 0;
+            return true;
+        });
+        // Sap xep: het han truoc, sap het han, roi den con nhieu ngay
+        shown.sort(function(a, b){
+            let da = a.days === null ? 99999 : a.days, dbb = b.days === null ? 99999 : b.days;
+            return da - dbb;
+        });
+        function fbtn(f, label){
+            let on = trialFilter === f;
+            return '<button onclick="setTrialFilter(\'' + f + '\')" class="px-3 py-1.5 rounded-lg font-bold text-xs ' + (on ? 'bg-violet-700 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200') + '">' + label + '</button>';
+        }
+        let h = '<div class="space-y-3">';
+        // Thong ke tong quan
+        h += '<div class="grid grid-cols-3 gap-2">'
+            + '<div class="bg-violet-50 border border-violet-200 rounded-xl p-3 text-center"><p class="text-2xl font-black text-violet-700">' + trials.length + '</p><p class="text-[11px] text-violet-600 font-bold">Tổng TK trải nghiệm</p></div>'
+            + '<div class="bg-blue-50 border border-blue-200 rounded-xl p-3 text-center"><p class="text-2xl font-black text-blue-700">' + nGV + '</p><p class="text-[11px] text-blue-600 font-bold">Giáo viên</p></div>'
+            + '<div class="bg-emerald-50 border border-emerald-200 rounded-xl p-3 text-center"><p class="text-2xl font-black text-emerald-700">' + nHS + '</p><p class="text-[11px] text-emerald-600 font-bold">Học sinh</p></div>'
+            + '</div>';
+        // Bo loc
+        h += '<div class="flex flex-wrap gap-2">'
+            + fbtn('all', 'Tất cả (' + trials.length + ')')
+            + fbtn('gv', 'GV (' + nGV + ')')
+            + fbtn('hs', 'HS (' + nHS + ')')
+            + fbtn('expiring', 'Sắp hết hạn')
+            + fbtn('expired', 'Đã hết hạn')
+            + '</div>';
+        // Danh sach
+        if (!shown.length){
+            h += '<p class="text-xs text-slate-400 italic py-4 text-center">Không có tài khoản nào khớp bộ lọc.</p>';
+        } else {
+            h += '<div class="space-y-2">';
+            shown.forEach(function(t){
+                let regDate = t.created_at ? new Date(t.created_at).toLocaleDateString('vi-VN') : '—';
+                let expDate = t.expires_at ? new Date(t.expires_at).toLocaleDateString('vi-VN') : 'Không thời hạn';
+                let roleBadge = t.role === 'GV'
+                    ? '<span class="bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded font-bold">GV</span>'
+                    : '<span class="bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded font-bold">HS</span>';
+                h += '<div class="border border-violet-200 bg-violet-50/50 rounded-xl p-3 text-xs">'
+                    + '<div class="flex flex-wrap items-center gap-2">'
+                    + '<div class="flex-1 min-w-[180px]">'
+                    + '<p class="font-black text-slate-800">' + uEsc(t.name) + ' ' + roleBadge + ' <span class="font-normal text-slate-400">(' + uEsc(t.id) + ')</span></p>'
+                    + '<p class="text-slate-500 mt-0.5">ĐK: ' + regDate + ' • Hết hạn: ' + expDate + '</p>'
+                    + '<p class="mt-1">' + trialDaysBadge(t.days) + '</p>'
+                    + '</div>'
+                    + '<div class="flex flex-wrap gap-1.5">'
+                    + '<button onclick="extendAccount(\'' + uEsc(t.id) + '\')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-3 py-1.5 rounded-lg">Gia hạn</button>'
+                    + '<button onclick="changeUserGroup(\'' + uEsc(t.id) + '\',' + (t.isTeacher ? 'true' : 'false') + ')" class="bg-slate-500 hover:bg-slate-600 text-white font-bold px-3 py-1.5 rounded-lg">Chuyển nhóm</button>'
+                    + '<button onclick="deleteTrialAccount(\'' + uEsc(t.id) + '\',' + (t.isTeacher ? 'true' : 'false') + ')" class="bg-rose-600 hover:bg-rose-700 text-white font-bold px-3 py-1.5 rounded-lg">Xóa</button>'
+                    + '</div></div></div>';
+            });
+            h += '</div>';
+        }
+        h += '</div>';
+        body.innerHTML = h;
+    } catch(e){ body.innerHTML = '<p class="text-xs text-rose-600">Lỗi: ' + uEsc(e.message || e) + '</p>'; }
+}
+async function deleteTrialAccount(uid, isTeacher){
+    let nm = uid;
+    try {
+        let db0 = await assignFetchUsed();
+        if (isTeacher && db0.teachers_registry && db0.teachers_registry[uid]) nm = db0.teachers_registry[uid].name || uid;
+        if (!isTeacher) Object.keys(db0.students || {}).forEach(function(c){ (db0.students[c] || []).forEach(function(st){ if (String(st.id) === String(uid)) nm = st.name || uid; }); });
+    } catch(e){}
+    if (!confirm('Xóa vĩnh viễn tài khoản trải nghiệm "' + nm + '" (' + uid + ')?')) return;
+    try {
+        let db = await assignUpdateUsed(function(db){
+            if (db.passwords) delete db.passwords[uid];
+            if (isTeacher){
+                if (db.teachers_registry) delete db.teachers_registry[uid];
+            } else {
+                Object.keys(db.students || {}).forEach(function(c){
+                    db.students[c] = (db.students[c] || []).filter(function(st){ return String(st.id) !== String(uid); });
+                });
+            }
+            if (Array.isArray(db.registrations)) db.registrations = db.registrations.filter(function(r){ return String(r.id) !== String(uid); });
+        }, 'Xóa TK trải nghiệm ' + uid);
+        try {
+            let expDb = await assignFetchExpiry();
+            delete expDb[uid];
+            await assignPushExpiry(expDb, 'Xóa hạn TK ' + uid);
+        } catch(e){}
+        if (typeof showToast === 'function') showToast('Đã xóa tài khoản ' + uid, 'success');
+        userMgrLoadTrial();
+        // Cap nhat badge
+        let bt2 = document.getElementById('um-trial-count');
+        if (bt2){ let n = parseInt(bt2.textContent || '0', 10); if (n > 0) bt2.textContent = String(n - 1); }
+    } catch(e){ alert('Lỗi xóa: ' + (e.message || e)); }
+}
+// ===== END QUAN LY TAI KHOAN TRAI NGHIEM =====
 
         // ===== CHUA PHAN NHOM LOP / TRAI NGHIEM (2026-10-09) =====
         function getUnassignedGroup(db){
