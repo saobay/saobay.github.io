@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 12: Tạo biểu mẫu</title>
+    <meta name="lesson-title" content="Bài 12: Tạo biểu mẫu">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 12: Tạo biểu mẫu</h1>
+            <p class="text-xs text-slate-500 mt-1">Chủ đề 4: Giải quyết vấn đề với sự trợ giúp của máy tính • Bài 12: Tạo biểu mẫu</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 12: Tạo biểu mẫu</h1>
+<p class="text-center text-slate-500 italic mb-8">Chủ đề 4: Giải quyết vấn đề với sự trợ giúp của máy tính — Kết nối tri thức với cuộc sống</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Biểu mẫu là gì?</h2>
+<p><strong>Biểu mẫu</strong> (form) là thành phần cho phép người dùng <strong>nhập liệu và gửi dữ liệu</strong> về máy chủ: form đăng ký, đăng nhập, khảo sát, đặt hàng, tìm kiếm...</p>
+<p>Thẻ <em>&lt;form&gt;</em> bao toàn bộ biểu mẫu với hai thuộc tính quan trọng:</p>
+<ul class="list-disc ml-6 space-y-2 my-3">
+<li><em>action</em>: <strong>địa chỉ nhận</strong> dữ liệu khi gửi.</li>
+<li><em>method</em>: cách gửi — <em>get</em> (dữ liệu hiện trên <strong>URL</strong>) hoặc <em>post</em> (dữ liệu gửi <strong>ngầm</strong>, an toàn hơn cho thông tin nhạy cảm).</li>
+</ul>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Các điều khiển nhập liệu</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 my-2 text-sm">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-3 py-2">Thẻ / Loại</td><td class="border border-slate-300 px-3 py-2">Tác dụng</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">&lt;input type="text"&gt;</td><td class="border border-slate-300 px-3 py-2">Ô nhập <strong>văn bản một dòng</strong></td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">&lt;input type="password"&gt;</td><td class="border border-slate-300 px-3 py-2">Ô nhập <strong>mật khẩu</strong> (hiện dấu chấm che)</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">&lt;input type="email"&gt;</td><td class="border border-slate-300 px-3 py-2">Ô nhập <strong>email</strong> (tự kiểm tra định dạng)</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">&lt;input type="number"&gt;</td><td class="border border-slate-300 px-3 py-2">Ô nhập <strong>số</strong></td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">&lt;input type="date"&gt;</td><td class="border border-slate-300 px-3 py-2">Ô chọn <strong>ngày tháng</strong></td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">&lt;input type="radio"&gt;</td><td class="border border-slate-300 px-3 py-2"><strong>Nút chọn một</strong> trong nhiều phương án (cùng <em>name</em>)</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">&lt;input type="checkbox"&gt;</td><td class="border border-slate-300 px-3 py-2"><strong>Hộp chọn nhiều</strong> phương án</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">&lt;input type="file"&gt;</td><td class="border border-slate-300 px-3 py-2">Chọn <strong>tệp</strong> để tải lên</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">&lt;input type="submit"&gt;</td><td class="border border-slate-300 px-3 py-2"><strong>Nút gửi</strong> biểu mẫu</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">&lt;input type="reset"&gt;</td><td class="border border-slate-300 px-3 py-2"><strong>Nút xóa</strong>, nhập lại từ đầu</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">&lt;select&gt; + &lt;option&gt;</td><td class="border border-slate-300 px-3 py-2"><strong>Danh sách thả xuống</strong> để chọn</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">&lt;textarea&gt;</td><td class="border border-slate-300 px-3 py-2">Ô nhập <strong>văn bản nhiều dòng</strong> (<em>rows</em>, <em>cols</em>)</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">&lt;button&gt;</td><td class="border border-slate-300 px-3 py-2"><strong>Nút bấm</strong> (linh hoạt, có thể chứa HTML)</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">&lt;label&gt;</td><td class="border border-slate-300 px-3 py-2"><strong>Nhãn</strong>: thuộc tính <em>for</em> trùng <em>id</em> của ô nhập — bấm vào nhãn sẽ <strong>kích hoạt</strong> ô nhập đó</td></tr>
+</table></div>
+<pre class="bg-slate-900 text-slate-100 rounded-lg p-4 overflow-x-auto text-sm my-4"><code>&lt;form action="/dang-ky" method="post"&gt;
+  &lt;label for="ten"&gt;Họ tên:&lt;/label&gt;
+  &lt;input type="text" id="ten" name="hoten" placeholder="Nhập họ tên" required&gt;
+  &lt;label for="mk"&gt;Mật khẩu:&lt;/label&gt;
+  &lt;input type="password" id="mk" name="matkhau" required&gt;
+  &lt;input type="submit" value="Đăng ký"&gt;
+&lt;/form&gt;</code></pre>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Các thuộc tính thường dùng</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 my-2 text-sm">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-3 py-2">Thuộc tính</td><td class="border border-slate-300 px-3 py-2">Tác dụng</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">name</td><td class="border border-slate-300 px-3 py-2"><strong>Tên</strong> của dữ liệu khi gửi về máy chủ</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">value</td><td class="border border-slate-300 px-3 py-2"><strong>Giá trị</strong> của điều khiển</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">placeholder</td><td class="border border-slate-300 px-3 py-2">Chữ <strong>gợi ý mờ</strong> trong ô nhập</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">required</td><td class="border border-slate-300 px-3 py-2"><strong>Bắt buộc</strong> phải nhập mới được gửi</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">checked</td><td class="border border-slate-300 px-3 py-2">Được <strong>chọn sẵn</strong> (radio, checkbox)</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">disabled</td><td class="border border-slate-300 px-3 py-2"><strong>Vô hiệu hóa</strong>, không nhập được</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">readonly</td><td class="border border-slate-300 px-3 py-2">Chỉ <strong>đọc</strong>, không sửa được (vẫn gửi dữ liệu)</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">maxlength</td><td class="border border-slate-300 px-3 py-2">Số kí tự <strong>tối đa</strong> được nhập</td></tr>
+</table></div>
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><strong>radio</strong> chọn <strong>một</strong> (cùng name), <strong>checkbox</strong> chọn <strong>nhiều</strong>; <strong>label + for/id</strong> giúp bấm vào nhãn để chọn; <strong>required</strong> bắt buộc nhập; form đăng nhập nên dùng <strong>method post</strong> để không lộ dữ liệu trên URL.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Biểu mẫu</strong>: thẻ form (action: nơi nhận, method: get/post) cho người dùng nhập và gửi dữ liệu.</li>
+<li><strong>input</strong> (thẻ rỗng) với type: text, password, email, number, date, <strong>radio</strong> (chọn một), <strong>checkbox</strong> (chọn nhiều), file, submit, reset.</li>
+<li><strong>select + option</strong>: danh sách thả xuống; <strong>textarea</strong>: văn bản nhiều dòng; <strong>button</strong>: nút bấm; <strong>label</strong> (for/id): nhãn bấm được.</li>
+<li>Thuộc tính: <strong>name, value, placeholder, required, checked, disabled, readonly, maxlength</strong>.</li>
+</ul>
+</div>
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
