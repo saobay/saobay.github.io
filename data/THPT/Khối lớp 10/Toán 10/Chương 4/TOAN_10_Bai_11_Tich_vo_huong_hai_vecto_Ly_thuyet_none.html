@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 11: Tích vô hướng của hai vectơ</title>
+    <meta name="lesson-title" content="Bài 11: Tích vô hướng của hai vectơ">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 11: Tích vô hướng của hai vectơ</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 1: Mệnh đề và tập hợp • Bài 11: Tích vô hướng của hai vectơ</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 11: Tích vô hướng của hai vectơ</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 4: Vectơ — Toán 10 (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Góc giữa hai vectơ -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Góc giữa hai vectơ</h2>
+
+<p>Cho hai vectơ $\vec{a}, \vec{b}$ khác $\vec{0}$. Từ điểm $O$ tùy ý, vẽ $\overrightarrow{OA} = \vec{a}$, $\overrightarrow{OB} = \vec{b}$. Góc $\widehat{AOB}$ (với số đo từ $0^\circ$ đến $180^\circ$) gọi là <strong>góc giữa hai vectơ</strong> $\vec{a}$ và $\vec{b}$, kí hiệu $(\vec{a}, \vec{b})$.</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-1">
+<li>$(\vec{a}, \vec{b}) = 90^\circ$: $\vec{a}$ <strong>vuông góc</strong> với $\vec{b}$, kí hiệu $\vec{a} \perp \vec{b}$;</li>
+<li>$(\vec{a}, \vec{b}) = 0^\circ$: $\vec{a}, \vec{b}$ cùng hướng; $(\vec{a}, \vec{b}) = 180^\circ$: $\vec{a}, \vec{b}$ ngược hướng.</li>
+</ul>
+</div>
+
+<!-- 2. Định nghĩa -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Định nghĩa tích vô hướng</h2>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-bold text-emerald-800">Định nghĩa</p>
+<p class="mt-2"><strong>Tích vô hướng</strong> của hai vectơ $\vec{a}$ và $\vec{b}$ là một <em>số thực</em>, kí hiệu $\vec{a} \cdot \vec{b}$, xác định bởi:</p>
+<p class="text-center mt-2">$$\vec{a} \cdot \vec{b} = |\vec{a}| \cdot |\vec{b}| \cdot \cos(\vec{a}, \vec{b})$$</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<ul class="list-disc ml-6 mt-1 space-y-1">
+<li>$\vec{a} \cdot \vec{a} = |\vec{a}|^2$ (tích vô hướng của một vectơ với chính nó bằng bình phương độ dài).</li>
+<li>$\vec{a} \perp \vec{b} \Leftrightarrow \vec{a} \cdot \vec{b} = 0$ (với $\vec{a}, \vec{b} \ne \vec{0}$).</li>
+<li>Dấu của $\vec{a} \cdot \vec{b}$ cho biết góc nhọn ($> 0$), góc tù ($< 0$) hay góc vuông ($= 0$).</li>
+</ul>
+</div>
+
+<!-- 3. Tính chất -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Tính chất</h2>
+
+<p>Với các vectơ $\vec{a}, \vec{b}, \vec{c}$ và số thực $k$:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>$\vec{a} \cdot \vec{b} = \vec{b} \cdot \vec{a}$ (giao hoán);</li>
+<li>$\vec{a} \cdot (\vec{b} + \vec{c}) = \vec{a} \cdot \vec{b} + \vec{a} \cdot \vec{c}$ (phân phối);</li>
+<li>$(k\vec{a}) \cdot \vec{b} = k(\vec{a} \cdot \vec{b}) = \vec{a} \cdot (k\vec{b})$;</li>
+<li>$(\vec{a} + \vec{b})^2 = |\vec{a}|^2 + 2\vec{a}\cdot\vec{b} + |\vec{b}|^2$; $(\vec{a} - \vec{b})\cdot(\vec{a} + \vec{b}) = |\vec{a}|^2 - |\vec{b}|^2$.</li>
+</ul>
+
+<!-- 4. Biểu thức tọa độ -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Biểu thức tọa độ của tích vô hướng</h2>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p>Cho $\vec{a} = (x_1; y_1)$, $\vec{b} = (x_2; y_2)$. Khi đó:</p>
+<ul class="list-disc ml-6 mt-2 space-y-2">
+<li>$$\vec{a} \cdot \vec{b} = x_1x_2 + y_1y_2$$</li>
+<li>$$|\vec{a}| = \sqrt{x_1^2 + y_1^2}$$</li>
+<li>$$\cos(\vec{a}, \vec{b}) = \frac{x_1x_2 + y_1y_2}{\sqrt{x_1^2 + y_1^2}\cdot\sqrt{x_2^2 + y_2^2}} \quad (\vec{a}, \vec{b} \ne \vec{0})$$</li>
+<li>$\vec{a} \perp \vec{b} \Leftrightarrow x_1x_2 + y_1y_2 = 0$.</li>
+</ul>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Cho $\vec{a} = (1; 2)$, $\vec{b} = (3; -1)$. Tính $\vec{a} \cdot \vec{b}$ và $\cos(\vec{a}, \vec{b})$.</p>
+<p class="mt-2"><strong>Lời giải.</strong> $\vec{a} \cdot \vec{b} = 1\cdot 3 + 2\cdot(-1) = 1$;</p>
+<p>$\cos(\vec{a}, \vec{b}) = \dfrac{1}{\sqrt{5}\cdot\sqrt{10}} = \dfrac{1}{5\sqrt{2}} = \dfrac{\sqrt{2}}{10}$.</p>
+</div>
+
+<!-- 5. Ứng dụng -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">5. Ứng dụng</h2>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Tính góc:</strong> dùng công thức $\cos(\vec{a}, \vec{b}) = \dfrac{\vec{a}\cdot\vec{b}}{|\vec{a}|\cdot|\vec{b}|}$.</li>
+<li><strong>Chứng minh vuông góc:</strong> $\vec{a} \perp \vec{b} \Leftrightarrow \vec{a}\cdot\vec{b} = 0$.</li>
+<li><strong>Tính độ dài:</strong> $|\vec{a} + \vec{b}|^2 = |\vec{a}|^2 + 2\vec{a}\cdot\vec{b} + |\vec{b}|^2$.</li>
+</ul>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Cho tam giác $ABC$ có $AB = 3$, $AC = 4$, $\widehat{A} = 90^\circ$. Tính $\overrightarrow{BA} \cdot \overrightarrow{BC}$.</p>
+<p class="mt-2"><strong>Lời giải.</strong> $BC = 5$, $\cos B = \dfrac{AB}{BC} = \dfrac{3}{5}$;</p>
+<p>$\overrightarrow{BA} \cdot \overrightarrow{BC} = BA \cdot BC \cdot \cos B = 3\cdot 5\cdot\dfrac{3}{5} = 9$.</p>
+</div>
+
+<!-- Tổng kết -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Định nghĩa:</strong> $\vec{a}\cdot\vec{b} = |\vec{a}|\cdot|\vec{b}|\cdot\cos(\vec{a}, \vec{b})$.</li>
+<li><strong>Hệ quả:</strong> $\vec{a}\cdot\vec{a} = |\vec{a}|^2$; $\vec{a} \perp \vec{b} \Leftrightarrow \vec{a}\cdot\vec{b} = 0$.</li>
+<li><strong>Tọa độ:</strong> $\vec{a}\cdot\vec{b} = x_1x_2 + y_1y_2$; $\cos(\vec{a},\vec{b}) = \dfrac{x_1x_2+y_1y_2}{|\vec{a}|\cdot|\vec{b}|}$.</li>
+<li><strong>Ứng dụng:</strong> tính góc, chứng minh vuông góc, tính độ dài.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+</body>
+</html>
