@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay | Ma nguon thuoc nen tang hoc tap SAOBAY | Nghiem cam sao chep duoi moi hinh thuc -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 7: Cấp số nhân</title>
+    <meta name="lesson-title" content="Bài 7: Cấp số nhân">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 7: Cấp số nhân</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 2: Dãy số, cấp số cộng và cấp số nhân • Bài 7: Cấp số nhân</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 7: Cấp số nhân</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 2: Dãy số, cấp số cộng và cấp số nhân — Toán 11 (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Định nghĩa -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Định nghĩa cấp số nhân</h2>
+
+<p><strong>Định nghĩa:</strong> <em>Cấp số nhân</em> là một dãy số (hữu hạn hay vô hạn), trong đó kể từ số hạng thứ hai, mỗi số hạng đều bằng tích của số hạng đứng ngay trước nó với một số không đổi $q$. Số $q$ được gọi là <em>công bội</em> của cấp số nhân.</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$u_{n+1} = u_n \cdot q \quad \text{với mọi } n \ge 1$$</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>Dãy $2, 6, 18, 54, \dots$ là cấp số nhân với $u_1 = 2$, công bội $q = 3$.</li>
+<li>Dãy $81, 27, 9, 3, 1, \dots$ là cấp số nhân với $u_1 = 81$, công bội $q = \frac{1}{3}$.</li>
+<li>Dãy $5, -10, 20, -40, \dots$ là cấp số nhân với $u_1 = 5$, công bội $q = -2$.</li>
+<li>Dãy hằng $4, 4, 4, \dots$ là cấp số nhân với công bội $q = 1$.</li>
+</ul>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Để kiểm tra một dãy số có phải cấp số nhân không, hãy tính thương $\frac{u_{n+1}}{u_n}$ (với $u_n \ne 0$): nếu thương là <strong>hằng số</strong> thì đó là cấp số nhân. Đừng nhầm với cấp số cộng (xét <strong>hiệu</strong>)!</p>
+</div>
+
+<!-- 2. Số hạng tổng quát -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Số hạng tổng quát của cấp số nhân</h2>
+
+<p><strong>Định lí:</strong> Nếu cấp số nhân $(u_n)$ có số hạng đầu $u_1$ và công bội $q$ thì số hạng tổng quát $u_n$ được xác định bởi công thức:</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$u_n = u_1 \cdot q^{n-1} \quad \text{với } n \ge 1$$</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Cho cấp số nhân $(u_n)$ có $u_1 = 3$, $q = 2$. Tìm $u_6$.</p>
+<p><em>Lời giải.</em> $u_6 = 3 \cdot 2^{5} = 96$.</p>
+<p class="mt-2">Cho cấp số nhân có $u_1 = 5$, $u_4 = 40$. Tìm công bội $q$ (biết $q > 0$).</p>
+<p><em>Lời giải.</em> $u_4 = u_1 \cdot q^3$ nên $q^3 = \frac{40}{5} = 8$, suy ra $q = 2$.</p>
+</div>
+
+<!-- 3. Tính chất -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Tính chất của cấp số nhân</h2>
+
+<p><strong>Định lí:</strong> Trong một cấp số nhân, bình phương của mỗi số hạng (trừ số hạng đầu và số hạng cuối đối với cấp số nhân hữu hạn) bằng <em>tích</em> của hai số hạng đứng kề với nó trong dãy:</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$u_k^2 = u_{k-1} \cdot u_{k+1} \quad \text{với } k \ge 2$$</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Ba số $2$, $x$, $18$ theo thứ tự lập thành cấp số nhân có các số hạng dương. Tìm $x$.</p>
+<p><em>Lời giải.</em> $x^2 = 2 \cdot 18 = 36$. Vì các số hạng dương nên $x = 6$.</p>
+</div>
+
+<!-- 4. Tổng n số hạng đầu -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Tổng $n$ số hạng đầu của cấp số nhân</h2>
+
+<p><strong>Định lí:</strong> Cho cấp số nhân $(u_n)$ có công bội $q \ne 1$. Đặt $S_n = u_1 + u_2 + \dots + u_n$. Khi đó:</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$S_n = u_1 \cdot \frac{q^n - 1}{q - 1} \quad (q \ne 1)$$</p>
+</div>
+
+<p>Nếu $q = 1$ thì $S_n = n \cdot u_1$.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Cho cấp số nhân $(u_n)$ có $u_1 = 1$, $q = 2$. Tính $S_5$.</p>
+<p><em>Lời giải.</em> $S_5 = 1 \cdot \frac{2^5 - 1}{2 - 1} = 31$. (Thật vậy: $1 + 2 + 4 + 8 + 16 = 31$.)</p>
+</div>
+
+<!-- 5. Tổng CSN lùi vô hạn -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">5. Tổng của cấp số nhân lùi vô hạn</h2>
+
+<p><strong>Định nghĩa:</strong> Cấp số nhân vô hạn $(u_n)$ có công bội $q$ thỏa mãn $|q| < 1$ được gọi là <em>cấp số nhân lùi vô hạn</em>.</p>
+
+<p><strong>Công thức tính tổng:</strong></p>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$S = u_1 + u_2 + \dots + u_n + \dots = \frac{u_1}{1 - q} \quad (|q| < 1)$$</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Tính tổng $S = 1 + \frac{1}{2} + \frac{1}{4} + \frac{1}{8} + \dots$</p>
+<p><em>Lời giải.</em> Đây là cấp số nhân lùi vô hạn với $u_1 = 1$, $q = \frac{1}{2}$. Vậy $S = \frac{1}{1 - \frac{1}{2}} = 2$.</p>
+</div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Minh họa cấp số nhân lùi vô hạn 1 + 1/2 + 1/4 + ... = 2">
+<rect x="2" y="2" width="436" height="246" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="28" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0c4a6e" text-anchor="middle">1 + 1/2 + 1/4 + 1/8 + ... = 2</text>
+<rect x="40" y="60" width="360" height="34" rx="4" fill="#0284c7" opacity="0.85"/>
+<text x="220" y="82" font-family="sans-serif" font-size="13" fill="#ffffff" text-anchor="middle">1</text>
+<rect x="40" y="100" width="180" height="34" rx="4" fill="#0284c7" opacity="0.7"/>
+<text x="130" y="122" font-family="sans-serif" font-size="13" fill="#ffffff" text-anchor="middle">1/2</text>
+<rect x="40" y="140" width="90" height="34" rx="4" fill="#0284c7" opacity="0.55"/>
+<text x="85" y="162" font-family="sans-serif" font-size="12" fill="#ffffff" text-anchor="middle">1/4</text>
+<rect x="40" y="180" width="45" height="34" rx="4" fill="#0284c7" opacity="0.4"/>
+<text x="62" y="202" font-family="sans-serif" font-size="11" fill="#ffffff" text-anchor="middle">1/8</text>
+<text x="220" y="232" font-family="sans-serif" font-size="12" fill="#64748b" text-anchor="middle">Mỗi thanh bằng một nửa thanh trước — tổng tiến tới 2</text>
+</svg></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Ba công thức của cấp số nhân: <strong>$u_n = u_1 \cdot q^{n-1}$</strong>, <strong>$u_k^2 = u_{k-1}\cdot u_{k+1}$</strong>, <strong>$S_n = u_1\frac{q^n-1}{q-1}$</strong> và tổng lùi vô hạn <strong>$S = \frac{u_1}{1-q}$</strong> ($|q| < 1$).</p>
+</div>
+
+<!-- Tổng kết -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Định nghĩa:</strong> $u_{n+1} = u_n \cdot q$ ($q$ là công bội, không đổi).</li>
+<li><strong>Số hạng tổng quát:</strong> $u_n = u_1 \cdot q^{n-1}$.</li>
+<li><strong>Tính chất:</strong> $u_k^2 = u_{k-1} \cdot u_{k+1}$ ($k \ge 2$).</li>
+<li><strong>Tổng $n$ số hạng đầu:</strong> $S_n = u_1 \cdot \frac{q^n - 1}{q - 1}$ ($q \ne 1$).</li>
+<li><strong>Tổng lùi vô hạn</strong> ($|q| < 1$): $S = \frac{u_1}{1 - q}$.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">
+(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok){if(document.body){document.body.innerHTML='<div style="font-family:system-ui,sans-serif;max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff"><h2 style="color:#0f172a;margin-top:0">© SAOBAY — Trường THPT Sào Báy</h2><p style="color:#475569">Nội dung này chỉ được hiển thị tại địa chỉ chính thức <b>saobay.github.io</b>.</p><p style="color:#475569">Vui lòng truy cập đúng địa chỉ để học tập.</p></div>';}else{document.write("SAOBAY: truy cap tai saobay.github.io");}}catch(e){}})();
+</script>
+</body>
+</html>
