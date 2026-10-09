@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 1: Quá trình hình thành và phát triển của chế độ phong kiến Tây Âu - Bài tập</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: system-ui, sans-serif; padding: 16px; line-height: 1.6; }
+        .question { background: white; padding: 16px; margin: 12px 0; border-radius: 8px; border: 1px solid #e2e8f0; }
+        .options label { display: block; padding: 8px; margin: 4px 0; background: #f8fafc; border-radius: 4px; cursor: pointer; }
+        .options label:hover { background: #e0f2fe; }
+    </style>
+</head>
+<body class="bg-slate-50">
+<div class="max-w-3xl mx-auto">
+<h1 class="text-2xl font-bold mb-4">Bài 1: Quá trình hình thành và phát triển của chế độ phong kiến Tây Âu - Bài tập</h1>
+
+<div class="question">
+<p class="font-semibold mb-2">Câu 1: Chế độ phong kiến Tây Âu hình thành từ thế kỉ:</p>
+<div class="options">
+<label><input type="radio" name="q1" value="A"> A. III</label>
+<label><input type="radio" name="q1" value="B"> B. V</label>
+<label><input type="radio" name="q1" value="C"> C. VII</label>
+<label><input type="radio" name="q1" value="D"> D. IX</label>
+</div>
+<button onclick="checkAnswer('q1', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q1" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 2: Đơn vị kinh tế-chính trị cơ bản là:</p>
+<div class="options">
+<label><input type="radio" name="q2" value="A"> A. Phường hội</label>
+<label><input type="radio" name="q2" value="B"> B. Lãnh địa phong kiến</label>
+<label><input type="radio" name="q2" value="C"> C. Công xã</label>
+<label><input type="radio" name="q2" value="D"> D. Bộ lạc</label>
+</div>
+<button onclick="checkAnswer('q2', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q2" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 3: Ai đứng đầu lãnh địa?</p>
+<div class="options">
+<label><input type="radio" name="q3" value="A"> A. Nông dân</label>
+<label><input type="radio" name="q3" value="B"> B. Lãnh chúa</label>
+<label><input type="radio" name="q3" value="C"> C. Thị dân</label>
+<label><input type="radio" name="q3" value="D"> D. Tăng lữ</label>
+</div>
+<button onclick="checkAnswer('q3', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q3" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 4: Đế quốc Rô-ma sụp đổ vào:</p>
+<div class="options">
+<label><input type="radio" name="q4" value="A"> A. Thế kỉ III</label>
+<label><input type="radio" name="q4" value="B"> B. Thế kỉ V</label>
+<label><input type="radio" name="q4" value="C"> C. Thế kỉ VII</label>
+<label><input type="radio" name="q4" value="D"> D. Thế kỉ X</label>
+</div>
+<button onclick="checkAnswer('q4', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q4" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 5: Tầng lớp nào đông nhất?</p>
+<div class="options">
+<label><input type="radio" name="q5" value="A"> A. Quý tộc</label>
+<label><input type="radio" name="q5" value="B"> B. Tăng lữ</label>
+<label><input type="radio" name="q5" value="C"> C. Nông dân</label>
+<label><input type="radio" name="q5" value="D"> D. Thị dân</label>
+</div>
+<button onclick="checkAnswer('q5', 'C')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q5" class="mt-2"></div>
+</div>
+</div>
+<script>
+function checkAnswer(qid, correct) {
+    const selected = document.querySelector(`input[name="${qid}"]:checked`);
+    const feedback = document.getElementById(`fb-${qid}`);
+    if (!selected) { feedback.innerHTML = '<span class="text-orange-600">Hãy chọn đáp án!</span>'; return; }
+    if (selected.value === correct) {
+        feedback.innerHTML = '<span class="text-green-600 font-bold">✓ Đúng!</span>';
+    } else {
+        feedback.innerHTML = '<span class="text-red-600">✗ Chưa đúng. Đáp án đúng: ' + correct + '</span>';
+    }
+}
+</script>
+</body>
+</html>
