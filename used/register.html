@@ -14,7 +14,7 @@
             <i class="fa-solid fa-user-plus"></i>
         </div>
         <h1 class="text-xl font-black text-slate-900">Đăng ký tài khoản SAOBAY</h1>
-        <p class="text-xs text-slate-500 mt-1">Thông tin của bạn sẽ được gửi đến <b>admin</b> để xét duyệt.<br>Mã đăng nhập chính là <b>SĐT/Zalo hoặc Gmail</b> bạn nhập.</p>
+        <p class="text-xs text-slate-500 mt-1">Tài khoản <b>Trải nghiệm</b> được tạo tự động, dùng ngay.<br>Mã đăng nhập chính là <b>SĐT/Zalo hoặc Gmail</b> bạn nhập.</p>
     </div>
     <div class="space-y-3 text-sm">
         <div>
@@ -42,7 +42,7 @@
         </div>
         <p class="text-[11px] text-slate-500 bg-blue-50 border border-blue-200 rounded-lg p-2">
             <i class="fa-solid fa-circle-info text-blue-600 mr-1"></i>
-            Tài khoản mới được <b>dùng thử 3 tháng full chức năng</b>. Admin sẽ xếp lớp/nhóm cho bạn sau.<br>
+            Tài khoản mới được <b>dùng thử 3 tháng full chức năng</b>, có hiệu lực ngay sau khi đăng ký. Admin sẽ xếp lớp/nhóm cho bạn sau.<br>
             <b>Lưu ý:</b> HS/GV trường đăng nhập bằng <b>ID và mật khẩu do nhà trường cấp</b>.
         </p>
         <div>
@@ -50,7 +50,7 @@
             <textarea id="rg-note" rows="2" class="mt-1 w-full border rounded-lg px-3 py-2.5" placeholder="VD: Dạy Toán khối 10, dạy thêm buổi tối..."></textarea>
         </div>
         <button id="rg-btn" onclick="submitRegistration()" class="w-full bg-indigo-700 hover:bg-indigo-800 text-white font-bold py-3 rounded-xl">
-            <i class="fa-solid fa-paper-plane mr-1"></i>Gửi đăng ký
+            <i class="fa-solid fa-paper-plane mr-1"></i>Tạo tài khoản ngay
         </button>
         <p id="rg-msg" class="text-xs text-center"></p>
         <p class="text-xs text-center text-slate-400"><a href="used.html" class="text-indigo-700 font-bold hover:underline">Đã có tài khoản? Đăng nhập</a></p>
@@ -59,6 +59,42 @@
 <script>
 const API_URL = 'https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec';
 const RAW_URL = 'https://raw.githubusercontent.com/saobay/saobay.github.io/main/used/used.is';
+const EXPIRY_URL = 'https://raw.githubusercontent.com/saobay/saobay.github.io/main/used/account_expiry.json';
+
+function expiryISO90(){
+    let d = new Date(); d.setDate(d.getDate() + 90);
+    let p = function(n){ return String(n).padStart(2, '0'); };
+    return d.getFullYear() + '-' + p(d.getMonth()+1) + '-' + p(d.getDate()) + 'T' + p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds()) + '+07:00';
+}
+
+async function gasPush(filePath, content, commitMessage, title, author){
+    let push = await fetch(API_URL, { method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ type: 'PUSH_TO_GITHUB', filePath: filePath,
+            content: content, commitMessage: commitMessage, title: title, author: author })
+    });
+    return await push.json();
+}
+
+function accountExists(db, phone){
+    if (db.passwords && db.passwords[phone]) return true;
+    if (db.teachers_registry && db.teachers_registry[phone]) return true;
+    let sts = db.students || {};
+    let keys = Object.keys(sts);
+    for (let i = 0; i < keys.length; i++){
+        let arr = sts[keys[i]] || [];
+        for (let j = 0; j < arr.length; j++){
+            if (String(arr[j].id) === String(phone)) return true;
+        }
+    }
+    if (Array.isArray(db.registrations)){
+        for (let i = 0; i < db.registrations.length; i++){
+            let r = db.registrations[i];
+            if (String(r.id) === String(phone) && r.status === 'pending') return true;
+        }
+    }
+    return false;
+}
 
 async function submitRegistration(){
     let msg = document.getElementById('rg-msg');
@@ -69,7 +105,6 @@ async function submitRegistration(){
     let pass = document.getElementById('rg-pass').value;
     let pass2 = document.getElementById('rg-pass2').value;
     let role = document.getElementById('rg-role').value;
-    let cls = '';
     let note = document.getElementById('rg-note').value.trim();
     msg.className = 'text-xs text-center';
     if (!name){ msg.textContent = 'Vui lòng nhập họ tên.'; msg.classList.add('text-rose-600'); return; }
@@ -79,33 +114,65 @@ async function submitRegistration(){
     if (!pass || pass.length < 6){ msg.textContent = 'Mật khẩu phải từ 6 ký tự trở lên.'; msg.classList.add('text-rose-600'); return; }
     if (pass !== pass2){ msg.textContent = 'Mật khẩu nhập lại chưa khớp.'; msg.classList.add('text-rose-600'); return; }
 
-    btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i>Đang gửi...';
+    btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i>Đang tạo tài khoản...';
     try {
-        let res = await fetch(RAW_URL + '?t=' + Date.now());
-        if (!res.ok) throw new Error('Không tải được dữ liệu (mạng).');
-        let db = await res.json();
-        if (!Array.isArray(db.registrations)) db.registrations = [];
-        if ((db.passwords && db.passwords[phone]) || db.registrations.some(function(r){ return r.id === phone && r.status === 'pending'; }))
-            throw new Error('Số điện thoại này đã đăng ký / đã có tài khoản.');
-        db.registrations.push({
-            id: phone, name: name, role_requested: role, className: cls, note: note,
-            password: btoa(unescape(encodeURIComponent(pass))), status: 'pending', created_at: new Date().toISOString()
-        });
-        let push = await fetch(API_URL, { method: 'POST',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify({ type: 'PUSH_TO_GITHUB', filePath: 'used/used.is',
-                content: JSON.stringify(db), commitMessage: 'Đăng ký tài khoản mới: ' + name + ' (' + phone + ')',
-                title: 'Đăng ký tài khoản', author: name })
-        });
-        let rj = await push.json();
-        if (!rj || rj.status !== 'success') throw new Error((rj && rj.message) || 'Gửi thất bại.');
-        msg.textContent = 'Đã gửi đăng ký thành công! Admin sẽ xét duyệt và báo lại cho bạn.';
+        let passB64 = btoa(unescape(encodeURIComponent(pass)));
+        let expiresAt = expiryISO90();
+        // Ghi tài khoản vào used.is — thử lại tối đa 3 lần khi xung đột SHA (409)
+        let lastErr = null, created = false;
+        for (let attempt = 0; attempt < 3 && !created; attempt++){
+            let res = await fetch(RAW_URL + '?t=' + Date.now());
+            if (!res.ok) throw new Error('Không tải được dữ liệu (mạng).');
+            let db = await res.json();
+            if (accountExists(db, phone)){
+                // Idempotent: lần thử lại mà tài khoản đã tồn tại với đúng mật khẩu vừa đặt → coi như thành công
+                if (attempt > 0 && db.passwords && db.passwords[phone] === passB64){ created = true; break; }
+                throw new Error('SĐT / Gmail này đã được đăng ký hoặc đã có tài khoản.');
+            }
+            if (!db.passwords) db.passwords = {};
+            db.passwords[phone] = passB64;
+            if (role === 'teacher'){
+                if (!db.teachers_registry || Array.isArray(db.teachers_registry)) db.teachers_registry = {};
+                db.teachers_registry[phone] = { name: name, group: 'Trải nghiệm', role: 'teacher', note: note };
+            } else {
+                if (!db.students) db.students = {};
+                if (!Array.isArray(db.students['Trải nghiệm'])) db.students['Trải nghiệm'] = [];
+                db.students['Trải nghiệm'].push({ id: phone, name: name, dob: '' });
+            }
+            let rj = await gasPush('used/used.is', JSON.stringify(db),
+                'Đăng ký tự động: tạo TK Trải nghiệm cho ' + name + ' (' + phone + ')',
+                'Đăng ký tài khoản', name);
+            if (rj && rj.status === 'success'){ created = true; break; }
+            let emsg = String((rj && rj.message) || '');
+            if (emsg.indexOf('409') < 0) throw new Error(emsg || 'Tạo tài khoản thất bại.');
+            lastErr = new Error(emsg || 'Xung đột dữ liệu, đang thử lại...');
+            await new Promise(function(r){ setTimeout(r, 1200); });
+        }
+        if (!created) throw lastErr || new Error('Không tạo được tài khoản, vui lòng thử lại.');
+
+        // Ghi hạn 90 ngày vào account_expiry.json (bắt buộc — nếu thiếu, TK sẽ không bao giờ hết hạn)
+        try {
+            let expDb = {};
+            for (let eAttempt = 0; eAttempt < 2; eAttempt++){
+                let er = await fetch(EXPIRY_URL + '?t=' + Date.now());
+                expDb = er.ok ? await er.json() : {};
+                if (expDb && typeof expDb === 'object' && !Array.isArray(expDb)) break;
+                expDb = {};
+            }
+            expDb[phone] = { expires_at: expiresAt, type: 'trial',
+                note: 'Tự đăng ký - Trải nghiệm 3 tháng', created_at: new Date().toISOString(), created_by: 'self-register' };
+            await gasPush('used/account_expiry.json', JSON.stringify(expDb),
+                'Đăng ký tự động: hạn 90 ngày cho ' + phone, 'Cấp hạn trial', name);
+        } catch(eExp){ /* TK đã tạo xong; admin có thể cài hạn lại sau trong hub */ }
+
+        msg.textContent = 'Đăng ký thành công! Tài khoản Trải nghiệm có hiệu lực 3 tháng. Đang chuyển sang trang đăng nhập...';
         msg.classList.add('text-emerald-700', 'font-bold');
-        btn.innerHTML = 'Đã gửi ✓';
+        btn.innerHTML = 'Thành công ✓';
+        setTimeout(function(){ window.location.href = 'used.html'; }, 1800);
     } catch(e){
         msg.textContent = 'Lỗi: ' + (e.message || e);
         msg.classList.add('text-rose-600');
-        btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-paper-plane mr-1"></i>Gửi đăng ký';
+        btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-paper-plane mr-1"></i>Tạo tài khoản ngay';
     }
 }
 </script>
