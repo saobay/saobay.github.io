@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 21: Phân thức đại số</title>
+    <meta name="lesson-title" content="Bài 21: Phân thức đại số">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 21: Phân thức đại số</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 6: Phân thức đại số • Bài 21: Phân thức đại số</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<p>Ở lớp 7 em đã học về phân số $\dfrac{a}{b}$ với $a, b$ là các số nguyên, $b \ne 0$. Trong chương này, ta mở rộng thành <strong>phân thức đại số</strong> — trong đó tử và mẫu là các đa thức.</p>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-6">1. Phân thức đại số</h2>
+<p><strong>Định nghĩa:</strong> Một <strong>phân thức đại số</strong> (gọi tắt là phân thức) là biểu thức có dạng $\dfrac{A}{B}$, trong đó $A, B$ là các đa thức và $B$ <strong>khác đa thức 0</strong>.</p>
+<ul class="list-disc pl-6 space-y-1">
+<li>$A$ được gọi là <strong>tử thức</strong> (tử), $B$ được gọi là <strong>mẫu thức</strong> (mẫu).</li>
+<li>Mỗi đa thức cũng được coi là một phân thức với mẫu thức bằng $1$, ví dụ: $2x+1 = \dfrac{2x+1}{1}$.</li>
+<li>Mỗi số thực cũng là một phân thức, ví dụ: $5 = \dfrac{5}{1}$.</li>
+</ul>
+
+<div class="bg-sky-50 border border-sky-200 rounded-xl p-4 mt-3">
+<p class="font-bold text-sky-800">📌 Ví dụ 1</p>
+<p>Các phân thức đại số: $\dfrac{x}{x+1}$ (tử thức $x$, mẫu thức $x+1$); $\dfrac{2x-3}{x^2+1}$; $\dfrac{5}{2y-1}$.<br>
+Biểu thức $\dfrac{x+1}{0}$ <strong>không phải</strong> phân thức vì mẫu là đa thức 0.</p>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-6">2. Điều kiện xác định của phân thức</h2>
+<p>Phân thức $\dfrac{A}{B}$ <strong>xác định</strong> (có nghĩa) khi <strong>mẫu thức $B \ne 0$</strong>.</p>
+<div class="bg-sky-50 border border-sky-200 rounded-xl p-4 mt-3">
+<p class="font-bold text-sky-800">📌 Ví dụ 2</p>
+<p>Phân thức $\dfrac{3}{x-2}$ xác định khi $x-2 \ne 0$, tức là $x \ne 2$.<br>
+Phân thức $\dfrac{x+1}{x^2-4}$ xác định khi $x^2-4 \ne 0$, tức là $x \ne 2$ và $x \ne -2$.</p>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-6">3. Hai phân thức bằng nhau</h2>
+<p>Hai phân thức $\dfrac{A}{B}$ và $\dfrac{C}{D}$ được gọi là <strong>bằng nhau</strong> nếu $A \cdot D = B \cdot C$ (tích chéo bằng nhau).</p>
+<div class="svg-fig">
+<svg viewBox="0 0 400 190" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,sans-serif">
+<text x="200" y="18" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Minh họa: 1/2 = 2/4</text>
+<rect x="40" y="45" width="140" height="34" fill="#e0f2fe" stroke="#0369a1"/>
+<rect x="40" y="45" width="70" height="34" fill="#38bdf8" stroke="#0369a1"/>
+<text x="110" y="105" text-anchor="middle" font-size="14" fill="#0f172a">1/2 của thanh</text>
+<rect x="220" y="45" width="140" height="34" fill="#e0f2fe" stroke="#0369a1"/>
+<rect x="220" y="45" width="70" height="34" fill="#38bdf8" stroke="#0369a1"/>
+<line x1="290" y1="45" x2="290" y2="79" stroke="#0369a1"/>
+<text x="290" y="105" text-anchor="middle" font-size="14" fill="#0f172a">2/4 của thanh</text>
+<text x="200" y="145" text-anchor="middle" font-size="15" font-weight="bold" fill="#0369a1">1 × 4 = 2 × 2 = 4 ✓</text>
+<text x="200" y="170" text-anchor="middle" font-size="13" fill="#475569">Hai phần tô màu bằng nhau nên hai phân thức bằng nhau</text>
+</svg>
+</div>
+<div class="bg-sky-50 border border-sky-200 rounded-xl p-4 mt-3">
+<p class="font-bold text-sky-800">📌 Ví dụ 3</p>
+<p>$\dfrac{x}{2} = \dfrac{2x}{4}$ vì $x \cdot 4 = 2 \cdot 2x = 4x$.<br>
+$\dfrac{x-1}{x+1} \ne \dfrac{x+1}{x-1}$ vì $(x-1)(x-1) = x^2-2x+1 \ne x^2+2x+1 = (x+1)(x+1)$.</p>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-6">4. Giá trị của phân thức</h2>
+<p>Muốn tính <strong>giá trị của phân thức</strong> $\dfrac{A}{B}$ tại $x = a$, ta thay $x = a$ vào tử và mẫu rồi tính (với điều kiện mẫu khác 0).</p>
+<div class="bg-sky-50 border border-sky-200 rounded-xl p-4 mt-3">
+<p class="font-bold text-sky-800">📌 Ví dụ 4</p>
+<p>Giá trị của phân thức $\dfrac{x+2}{x-1}$ tại $x = 3$ là $\dfrac{3+2}{3-1} = \dfrac{5}{2}$.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 rounded-r-xl p-4 mt-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<ul class="list-disc pl-6 space-y-1">
+<li>Phân thức đại số có dạng $\dfrac{A}{B}$ với $A, B$ là đa thức, $B$ khác đa thức 0.</li>
+<li>Phân thức $\dfrac{A}{B}$ xác định khi <strong>$B \ne 0$</strong>.</li>
+<li>$\dfrac{A}{B} = \dfrac{C}{D}$ khi <strong>$A \cdot D = B \cdot C$</strong>.</li>
+<li>Giá trị của phân thức tại $x=a$: thay $x=a$ vào rồi tính (mẫu phải khác 0).</li>
+</ul>
+</div>
+
+
+            </div>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
