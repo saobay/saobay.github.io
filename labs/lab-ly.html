@@ -11,6 +11,9 @@
   canvas { touch-action: pan-y; display: block; }
   .big-btn { min-height: 52px; }
 canvas{max-width:100%;display:block;}
+#cv-pendulum{width:100%;height:250px;}
+#cv-circuit{width:100%;height:240px;}
+#cv-fall{width:100%;height:280px;}
 </style>
 </head>
 <body class="bg-slate-100 min-h-screen">
@@ -38,7 +41,7 @@ canvas{max-width:100%;display:block;}
     <div class="bg-white rounded-2xl shadow p-4">
       <h2 class="font-black text-blue-800 mb-1">Con lắc đơn</h2>
       <p class="text-xs text-slate-500 mb-2">Kéo quả nặng sang một bên để đặt góc, rồi bấm <b>Thả</b>. Đồng hồ đo chu kỳ dao động.</p>
-      <canvas id="cv-pendulum" class="w-full rounded-xl bg-slate-50 border" height="250" style="touch-action:pan-y;display:block;"></canvas>
+      <canvas id="cv-pendulum" class="w-full rounded-xl bg-slate-50 border" height="250"></canvas>
       <div class="grid grid-cols-2 gap-2 mt-3 text-sm">
         <div>
           <label class="text-xs font-bold text-slate-600">Chiều dài dây l (m)</label>
@@ -75,7 +78,7 @@ canvas{max-width:100%;display:block;}
     <div class="bg-white rounded-2xl shadow p-4">
       <h2 class="font-black text-amber-700 mb-1">Mạch điện đơn giản</h2>
       <p class="text-xs text-slate-500 mb-2">Chạm vào <b>công tắc</b> để đóng / ngắt mạch. Quan sát bóng đèn và dòng điện.</p>
-      <canvas id="cv-circuit" class="w-full rounded-xl bg-slate-900 border" height="240" style="touch-action:pan-y;display:block;"></canvas>
+      <canvas id="cv-circuit" class="w-full rounded-xl bg-slate-900 border" height="240"></canvas>
       <div class="flex gap-2 mt-3">
         <button id="sw-toggle" class="big-btn flex-1 bg-amber-500 text-white font-black rounded-xl">🔌 Đóng công tắc</button>
       </div>
@@ -102,7 +105,7 @@ canvas{max-width:100%;display:block;}
     <div class="bg-white rounded-2xl shadow p-4">
       <h2 class="font-black text-rose-700 mb-1">Rơi tự do</h2>
       <p class="text-xs text-slate-500 mb-2">Chọn độ cao, bấm <b>Thả</b>. So sánh thời gian rơi — vật nặng hay nhẹ rơi nhanh như nhau!</p>
-      <canvas id="cv-fall" class="w-full rounded-xl bg-gradient-to-b from-sky-100 to-sky-50 border" height="280" style="touch-action:pan-y;display:block;"></canvas>
+      <canvas id="cv-fall" class="w-full rounded-xl bg-gradient-to-b from-sky-100 to-sky-50 border" height="280"></canvas>
       <div class="grid grid-cols-2 gap-2 mt-3">
         <div>
           <label class="text-xs font-bold text-slate-600">Độ cao h (m)</label>
@@ -140,18 +143,14 @@ document.querySelectorAll('.tab-btn').forEach(function(b){
   });
 });
 function fitCanvas(cv){
-  var r = cv.getBoundingClientRect(), d = window.devicePixelRatio || 1;
-  var H = parseInt(cv.getAttribute('height')) || 300;
-  if (!r.width || r.width < 10 || !cv.offsetParent){
-    return {ctx: cv.getContext('2d'), w: 360, h: H, hidden: true};
+  var d = window.devicePixelRatio || 1;
+  var w = cv.clientWidth, h = cv.clientHeight;
+  if (!w || !h || !cv.offsetParent){
+    return {ctx: cv.getContext('2d'), w: 360, h: 250, hidden: true};
   }
-  var W = Math.round(r.width);
-  cv.width = Math.round(W * d);
-  cv.height = Math.round(H * d);
-  cv.style.width = W + 'px';
-  cv.style.height = H + 'px';
+  cv.width = Math.round(w * d); cv.height = Math.round(h * d);
   var ctx = cv.getContext('2d'); ctx.setTransform(d,0,0,d,0,0);
-  return {ctx: ctx, w: W, h: H, hidden: false};
+  return {ctx: ctx, w: w, h: h, hidden: false};
 }
 window.__refits = window.__refits || [];
 
