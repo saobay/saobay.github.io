@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 7: Căn bậc hai và căn thức bậc hai</title>
+    <meta name="lesson-title" content="Bài 7: Căn bậc hai và căn thức bậc hai">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 7: Căn bậc hai và căn thức bậc hai</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 3: Căn bậc hai và căn bậc ba • Bài 7: Căn bậc hai và căn thức bậc hai</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 7: Căn bậc hai và căn thức bậc hai</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 3: Căn bậc hai và căn bậc ba (Kết nối tri thức với cuộc sống)</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Căn bậc hai của một số thực</h2>
+<p>Một số thực $x$ được gọi là <strong>căn bậc hai</strong> của số thực $a$ nếu $x^2 = a$.</p>
+<p>Ví dụ: $2$ và $-2$ đều là căn bậc hai của $4$ vì $2^2 = 4$ và $(-2)^2 = 4$.</p>
+<ul class="list-disc ml-6 my-2">
+    <li>Số thực dương $a$ có <strong>đúng hai</strong> căn bậc hai là hai số đối nhau: số dương kí hiệu là $\sqrt{a}$, số âm kí hiệu là $-\sqrt{a}$.</li>
+    <li>Số $0$ có đúng một căn bậc hai là $0$.</li>
+    <li>Số thực âm <strong>không có</strong> căn bậc hai.</li>
+</ul>
+<p>Số dương $\sqrt{a}$ được gọi là <strong>căn bậc hai số học</strong> của $a$.</p>
+<div class="bg-amber-50 border-l-4 border-amber-400 p-3 my-3 rounded-r-lg">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p>$\sqrt{a}$ xác định (có nghĩa) khi và chỉ khi $a \ge 0$. Với $a \ge 0$ ta có $(\sqrt{a})^2 = a$ và $\sqrt{a} \ge 0$.</p>
+</div>
+<div class="svg-fig">
+<svg viewBox="0 0 320 210" xmlns="http://www.w3.org/2000/svg">
+  <rect x="70" y="15" width="150" height="150" fill="#dbeafe" stroke="#2563eb" stroke-width="2.5" rx="4"/>
+  <text x="145" y="95" text-anchor="middle" font-size="22" fill="#1e3a8a" font-weight="bold">S = 16</text>
+  <line x1="70" y1="180" x2="220" y2="180" stroke="#0f172a" stroke-width="1.5"/>
+  <polygon points="70,180 76,177 76,183" fill="#0f172a"/>
+  <polygon points="220,180 214,177 214,183" fill="#0f172a"/>
+  <text x="145" y="202" text-anchor="middle" font-size="16" fill="#0f172a">cạnh = √16 = 4</text>
+  <text x="300" y="100" text-anchor="middle" font-size="14" fill="#64748b">Hình vuông</text>
+  <text x="300" y="120" text-anchor="middle" font-size="14" fill="#64748b">diện tích 16</text>
+</svg>
+</div>
+<p class="font-bold">Ví dụ 1 (có lời giải):</p>
+<p>Tìm căn bậc hai và căn bậc hai số học của $49$.</p>
+<p><strong>Lời giải:</strong> Vì $7^2 = 49$ và $(-7)^2 = 49$ nên $49$ có hai căn bậc hai là $7$ và $-7$. Căn bậc hai số học của $49$ là $\sqrt{49} = 7$.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Căn thức bậc hai</h2>
+<p>Với $A$ là một biểu thức đại số, người ta gọi $\sqrt{A}$ là <strong>căn thức bậc hai</strong> của $A$, còn $A$ được gọi là <strong>biểu thức lấy căn</strong> (hay biểu thức dưới dấu căn).</p>
+<p>$\sqrt{A}$ xác định (có nghĩa) khi $A$ nhận giá trị không âm, tức là khi $A \ge 0$.</p>
+<div class="svg-fig">
+<svg viewBox="0 0 340 120" xmlns="http://www.w3.org/2000/svg">
+  <line x1="20" y1="60" x2="320" y2="60" stroke="#0f172a" stroke-width="2"/>
+  <polygon points="320,60 312,55 312,65" fill="#0f172a"/>
+  <circle cx="170" cy="60" r="6" fill="#dc2626"/>
+  <text x="170" y="88" text-anchor="middle" font-size="15" fill="#dc2626" font-weight="bold">0</text>
+  <line x1="170" y1="60" x2="310" y2="60" stroke="#16a34a" stroke-width="6" stroke-linecap="round" opacity="0.55"/>
+  <line x1="30" y1="60" x2="170" y2="60" stroke="#dc2626" stroke-width="6" stroke-linecap="round" opacity="0.45"/>
+  <text x="240" y="40" text-anchor="middle" font-size="14" fill="#16a34a" font-weight="bold">A ≥ 0: √A xác định</text>
+  <text x="100" y="40" text-anchor="middle" font-size="14" fill="#dc2626" font-weight="bold">A &lt; 0: √A không xác định</text>
+</svg>
+</div>
+<div class="bg-amber-50 border-l-4 border-amber-400 p-3 my-3 rounded-r-lg">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p>Để tìm điều kiện xác định của $\sqrt{A}$, ta giải bất phương trình $A \ge 0$.</p>
+</div>
+<p class="font-bold">Ví dụ 2 (có lời giải):</p>
+<p>Tìm điều kiện xác định của $\sqrt{2x - 6}$.</p>
+<p><strong>Lời giải:</strong> $\sqrt{2x-6}$ xác định khi $2x - 6 \ge 0$, tức là $2x \ge 6$, suy ra $x \ge 3$.</p>
+<p class="font-bold">Ví dụ 3 (có lời giải):</p>
+<p>Biểu thức $\sqrt{x^2 + 1}$ có xác định với mọi số thực $x$ không? Vì sao?</p>
+<p><strong>Lời giải:</strong> Có. Vì $x^2 \ge 0$ với mọi $x$ nên $x^2 + 1 \ge 1 > 0$ với mọi $x$. Do đó $\sqrt{x^2+1}$ luôn xác định.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Hằng đẳng thức $\sqrt{A^2} = |A|$</h2>
+<p>Với $A$ là một biểu thức đại số, ta có hằng đẳng thức quan trọng:</p>
+<p>$$\sqrt{A^2} = |A| = \begin{cases} A & \text{khi } A \ge 0 \\ -A & \text{khi } A < 0 \end{cases}$$</p>
+<p>Hằng đẳng thức này cho phép ta "bỏ dấu căn" của một bình phương bằng cách lấy giá trị tuyệt đối.</p>
+<div class="bg-amber-50 border-l-4 border-amber-400 p-3 my-3 rounded-r-lg">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p>$\sqrt{A^2} = |A|$, <strong>không phải</strong> lúc nào cũng bằng $A$. Chỉ khi biết chắc $A \ge 0$ mới được viết $\sqrt{A^2} = A$.</p>
+</div>
+<p class="font-bold">Ví dụ 4 (có lời giải):</p>
+<p>Rút gọn: a) $\sqrt{(-5)^2}$; &nbsp; b) $\sqrt{(x-2)^2}$ với $x < 2$.</p>
+<p><strong>Lời giải:</strong> a) $\sqrt{(-5)^2} = |-5| = 5$. &nbsp; b) Vì $x < 2$ nên $x - 2 < 0$, do đó $\sqrt{(x-2)^2} = |x-2| = -(x-2) = 2 - x$.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. So sánh các căn bậc hai số học</h2>
+<p>Với $a, b$ là các số không âm, ta có:</p>
+<p>$$a < b \iff \sqrt{a} < \sqrt{b}$$</p>
+<p>Nói cách khác: số nào lớn hơn thì căn bậc hai số học của nó cũng lớn hơn (trên tập số không âm).</p>
+<p class="font-bold">Ví dụ 5 (có lời giải):</p>
+<p>So sánh $\sqrt{7}$ và $3$; so sánh $2\sqrt{3}$ và $3\sqrt{2}$.</p>
+<p><strong>Lời giải:</strong> Ta có $3 = \sqrt{9}$. Vì $7 < 9$ nên $\sqrt{7} < \sqrt{9} = 3$.<br>
+Ta có $2\sqrt{3} = \sqrt{4 \cdot 3} = \sqrt{12}$ và $3\sqrt{2} = \sqrt{9 \cdot 2} = \sqrt{18}$. Vì $12 < 18$ nên $2\sqrt{3} < 3\sqrt{2}$.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="table-scroll"><table class="w-full border-collapse text-sm">
+<tr><th class="border border-slate-300 px-4 py-1 bg-sky-50">Nội dung</th><th class="border border-slate-300 px-4 py-1 bg-sky-50">Công thức</th><th class="border border-slate-300 px-4 py-1 bg-sky-50">Ví dụ</th></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Căn bậc hai số học</td><td class="border border-slate-300 px-4 py-1">$\sqrt{a} \ge 0$; $(\sqrt{a})^2 = a$ ($a \ge 0$)</td><td class="border border-slate-300 px-4 py-1">$\sqrt{81} = 9$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Điều kiện xác định của $\sqrt{A}$</td><td class="border border-slate-300 px-4 py-1">$A \ge 0$</td><td class="border border-slate-300 px-4 py-1">$\sqrt{x-1}$ xác định khi $x \ge 1$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Hằng đẳng thức</td><td class="border border-slate-300 px-4 py-1">$\sqrt{A^2} = |A|$</td><td class="border border-slate-300 px-4 py-1">$\sqrt{(-7)^2} = 7$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">So sánh ($a, b \ge 0$)</td><td class="border border-slate-300 px-4 py-1">$a < b \iff \sqrt{a} < \sqrt{b}$</td><td class="border border-slate-300 px-4 py-1">$\sqrt{5} < 3$ vì $5 < 9$</td></tr>
+</table></div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
