@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 27: Hiệu suất</title>
+    <meta name="lesson-title" content="Bài 27: Hiệu suất">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 27: Hiệu suất</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 4: Năng lượng, công, công suất • Bài 27: Hiệu suất</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 27: Hiệu suất</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 4: Năng lượng, công, công suất — Vật lí 10 (Kết nối tri thức với cuộc sống)</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Công có ích, công hao phí, công toàn phần</h2>
+
+<p>Khi một máy hoạt động, năng lượng đầu vào không chuyển hóa hoàn toàn thành công phục vụ mục đích sử dụng:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Công có ích</strong> ($A_{ci}$): phần công phục vụ <strong>trực tiếp mục đích</strong> sử dụng (ví dụ: công nâng vật lên cao của cần cẩu).</li>
+<li><strong>Công hao phí</strong> ($A_{hp}$): phần công <strong>không phục vụ mục đích</strong>, chủ yếu do thắng <strong>lực ma sát</strong>, chuyển thành nhiệt năng tỏa ra môi trường.</li>
+<li><strong>Công toàn phần</strong> ($A_{tp}$): tổng năng lượng (công) mà máy tiêu thụ:</li>
+</ul>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$A_{tp} = A_{ci} + A_{hp}$$</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Hiệu suất</h2>
+
+<p><strong>Định nghĩa:</strong> <em>Hiệu suất</em> của máy là tỉ số giữa công có ích và công toàn phần (tính theo phần trăm), cho biết máy sử dụng năng lượng <strong>hiệu quả</strong> đến mức nào:</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$H = \frac{A_{ci}}{A_{tp}} \cdot 100\% = \frac{P_{ci}}{P_{tp}} \cdot 100\%$$</p>
+</div>
+
+<p><strong>Tính chất:</strong></p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Hiệu suất là đại lượng <strong>không có đơn vị</strong> (thường biểu diễn theo %).</li>
+<li>Do luôn có hao phí nên $A_{ci} \le A_{tp}$, tức là <strong>$H \le 100\%$</strong>. Không có máy nào đạt hiệu suất $100\%$.</li>
+<li>Muốn tăng hiệu suất: <strong>giảm ma sát</strong> (bôi trơn, dùng ổ bi, chế tạo chính xác...).</li>
+</ul>
+
+<div class="svg-fig"><svg viewBox="0 0 440 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Phan bo nang luong dau vao">
+<rect x="2" y="2" width="436" height="186" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="28" font-family="sans-serif" font-size="14" font-weight="bold" fill="#1e3a8a" text-anchor="middle">Năng lượng đầu vào (100%)</text>
+<rect x="60" y="45" width="320" height="46" rx="8" fill="#2563eb"/>
+<text x="220" y="73" font-family="sans-serif" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">Công có ích (H%)</text>
+<rect x="60" y="100" width="320" height="46" rx="8" fill="#f59e0b"/>
+<text x="220" y="128" font-family="sans-serif" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">Hao phí do ma sát</text>
+<text x="220" y="170" font-family="sans-serif" font-size="13" fill="#475569" text-anchor="middle">H = A(ci) / A(tp) × 100%</text>
+</svg></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><strong>Hiệu suất</strong> đo <em>hiệu quả</em> sử dụng năng lượng; <strong>công suất</strong> đo <em>tốc độ</em> thực hiện công — đây là hai đại lượng khác nhau. Động cơ nhiệt có $H$ khoảng $20$–$40\%$, động cơ điện có thể trên $90\%$.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Ví dụ</h2>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 1:</p>
+<p>Dùng mặt phẳng nghiêng dài $5\ \text{m}$ để kéo vật $60\ \text{kg}$ lên cao $2\ \text{m}$ với lực kéo $300\ \text{N}$. Tính hiệu suất của mặt phẳng nghiêng. Lấy $g = 10\ \text{m/s}^2$.</p>
+<p class="mt-2"><strong>Lời giải:</strong> $A_{ci} = mgh = 60 \cdot 10 \cdot 2 = 1200\ \text{J}$; $A_{tp} = F \cdot l = 300 \cdot 5 = 1500\ \text{J}$. $H = \dfrac{1200}{1500} \cdot 100\% = 80\%$.</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 2:</p>
+<p>Một động cơ có công suất toàn phần $2000\ \text{W}$, hiệu suất $75\%$. Tính công suất có ích và công suất hao phí.</p>
+<p class="mt-2"><strong>Lời giải:</strong> $P_{ci} = 0,75 \cdot 2000 = 1500\ \text{W}$; $P_{hp} = 2000 - 1500 = 500\ \text{W}$.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Công toàn phần:</strong> $A_{tp} = A_{ci} + A_{hp}$ (hao phí chủ yếu do ma sát).</li>
+<li><strong>Hiệu suất:</strong> $H = \dfrac{A_{ci}}{A_{tp}} \cdot 100\% = \dfrac{P_{ci}}{P_{tp}} \cdot 100\%$.</li>
+<li>$H \le 100\%$; $H$ không có đơn vị; tăng $H$ bằng cách giảm ma sát.</li>
+<li>Phân biệt: <strong>hiệu suất</strong> (hiệu quả) khác <strong>công suất</strong> (tốc độ sinh công).</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+</body>
+</html>
