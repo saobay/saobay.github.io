@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 9: Định luật Boyle</title>
+    <meta name="lesson-title" content="Bài 9: Định luật Boyle">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 9: Định luật Boyle</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 2: Khí lí tưởng • Bài 9: Định luật Boyle</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 9: Định luật Boyle</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 2: Khí lí tưởng — Vật lí 12 (Kết nối tri thức với cuộc sống)</p>
+
+
+<!-- 1. Trang thai & thong so -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Trạng thái và thông số trạng thái</h2>
+
+<p>Trạng thái của một lượng khí xác định được mô tả bằng ba <strong>thông số trạng thái</strong>: <strong>áp suất</strong> $p$, <strong>thể tích</strong> $V$ và <strong>nhiệt độ tuyệt đối</strong> $T$.</p>
+
+<p>Khi một hoặc nhiều thông số thay đổi, lượng khí chuyển từ trạng thái này sang trạng thái khác — gọi là <strong>quá trình biến đổi trạng thái</strong>. Quá trình mà chỉ có <strong>hai</strong> thông số biến đổi, thông số còn lại không đổi gọi là <strong>đẳng quá trình</strong>.</p>
+
+<!-- 2. Qua trinh dang nhiet -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Quá trình đẳng nhiệt. Định luật Boyle</h2>
+
+<p><strong>Quá trình đẳng nhiệt</strong> là quá trình biến đổi trạng thái trong đó <strong>nhiệt độ không đổi</strong> ($T = const$).</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p class="text-lg"><strong>Định luật Boyle:</strong> trong quá trình đẳng nhiệt của một lượng khí xác định, áp suất tỉ lệ nghịch với thể tích:</p>
+<p class="text-2xl mt-2">$$pV = const \quad \text{hay} \quad p_1V_1 = p_2V_2$$</p>
+</div>
+
+<p><strong>Đồ thị:</strong> đường biểu diễn quá trình đẳng nhiệt trong hệ toạ độ $p$–$V$ là một <strong>hyperbol</strong>, gọi là <strong>đường đẳng nhiệt</strong>. Nhiệt độ càng cao, đường đẳng nhiệt càng xa gốc toạ độ.</p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Duong dang nhiet trong he toa do p-V">
+<rect x="2" y="2" width="436" height="236" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="26" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0c4a6e" text-anchor="middle">ĐƯỜNG ĐẲNG NHIỆT (p – V)</text>
+<line x1="70" y1="200" x2="400" y2="200" stroke="#333" stroke-width="2"/>
+<line x1="70" y1="200" x2="70" y2="40" stroke="#333" stroke-width="2"/>
+<text x="410" y="196" font-family="sans-serif" font-size="14" fill="#333">V</text>
+<text x="56" y="46" font-family="sans-serif" font-size="14" fill="#333">p</text>
+<path d="M 90 180 Q 150 120 380 70" fill="none" stroke="#dc2626" stroke-width="3"/>
+<path d="M 90 150 Q 170 100 380 52" fill="none" stroke="#2563eb" stroke-width="3"/>
+<text x="350" y="92" font-family="sans-serif" font-size="12" fill="#b91c1c">T1</text>
+<text x="350" y="72" font-family="sans-serif" font-size="12" fill="#1d4ed8">T2 lớn hơn T1</text>
+<circle cx="150" cy="138" r="5" fill="#dc2626"/><circle cx="280" cy="92" r="5" fill="#dc2626"/>
+<text x="150" y="160" font-family="sans-serif" font-size="11" fill="#7f1d1d" text-anchor="middle">(p1,V1)</text>
+<text x="280" y="114" font-family="sans-serif" font-size="11" fill="#7f1d1d" text-anchor="middle">(p2,V2)</text>
+<text x="220" y="222" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">p1V1 = p2V2 (T không đổi); T càng cao, đường càng xa gốc O</text>
+</svg></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Định luật Boyle chỉ đúng khi <strong>nhiệt độ không đổi</strong> và <strong>lượng khí không đổi</strong>. $p$ tỉ lệ nghịch với $V$: nén thể tích còn một nửa thì áp suất tăng gấp đôi.</p>
+</div>
+
+<!-- 3. Vi du -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Ví dụ vận dụng</h2>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 1:</p>
+<p>Một lượng khí có thể tích $6$ lít ở áp suất $100$ kPa. Nén đẳng nhiệt đến thể tích $4$ lít, tính áp suất lúc sau.</p>
+<p class="mt-2"><strong>Lời giải:</strong> Áp dụng $p_1V_1 = p_2V_2$:<br>
+$p_2 = \frac{p_1V_1}{V_2} = \frac{100 \times 6}{4} = 150$ kPa.</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 2:</p>
+<p>Dùng bơm có thể tích $1$ lít để bơm khí (ở áp suất khí quyển $100$ kPa) vào một bình có thể tích $10$ lít, ban đầu chứa khí ở áp suất $100$ kPa. Sau $5$ lần bơm, áp suất trong bình là bao nhiêu (nhiệt độ không đổi)?</p>
+<p class="mt-2"><strong>Lời giải:</strong> Mỗi lần bơm đưa thêm lượng khí $p_0V_0$ vào bình.<br>
+$p = p_1 + n\frac{p_0V_0}{V} = 100 + 5 \times \frac{100 \times 1}{10} = 150$ kPa.</p>
+</div>
+
+<!-- Tong ket -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li>Ba <strong>thông số trạng thái</strong>: $p, V, T$.</li>
+<li><strong>Quá trình đẳng nhiệt:</strong> $T$ không đổi.</li>
+<li><strong>Định luật Boyle:</strong> $pV = const$ hay $p_1V_1 = p_2V_2$ ($p$ tỉ lệ nghịch với $V$).</li>
+<li>Đường đẳng nhiệt trong hệ $p$–$V$ là <strong>hyperbol</strong>; $T$ càng cao, đường càng xa gốc $O$.</li>
+</ul>
+</div>
+
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề Vật lí bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
