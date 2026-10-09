@@ -267,7 +267,7 @@ window.__tabRefresh = window.__tabRefresh || {};
   });
 
   function draw(){
-    if (!G){ requestAnimationFrame(draw); return; }
+    if (!G){ var _ng = fitCanvas(cv); if (_ng) G = _ng; else { requestAnimationFrame(draw); return; } }
     var ctx = G.ctx; ctx.clearRect(0,0,G.w,G.h);
     var b = bobPos();
     // Giá treo
@@ -281,12 +281,13 @@ window.__tabRefresh = window.__tabRefresh || {};
     ctx.fillStyle = grad; ctx.beginPath(); ctx.arc(b.bx,b.by,20,0,7); ctx.fill();
     ctx.fillStyle = '#1e3a8a'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'center';
     ctx.fillText('m', b.bx, b.by+4);
-    // Góc
+    // Góc (do tu phuong thang dung huong xuong)
     if (Math.abs(theta) > 0.03){
       ctx.strokeStyle = '#f59e0b'; ctx.lineWidth = 2;
-      ctx.beginPath(); ctx.arc(b.px, b.py+8, 44, -Math.PI/2, -Math.PI/2 + (theta>0?1:-1)*Math.abs(theta)); ctx.stroke();
-      ctx.fillStyle = '#b45309'; ctx.font = '12px sans-serif';
-      ctx.fillText(Math.round(Math.abs(theta)*180/Math.PI)+'°', b.px + (theta>0?52:-52), b.py+60);
+      var a0 = Math.PI/2, a1 = Math.PI/2 - theta;
+      ctx.beginPath(); ctx.arc(b.px, b.py+8, 44, Math.min(a0,a1), Math.max(a0,a1)); ctx.stroke();
+      ctx.fillStyle = '#b45309'; ctx.font = '12px sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText(Math.round(Math.abs(theta)*180/Math.PI)+'°', b.px + Math.sin(theta)*70, b.py+8 + Math.cos(theta)*70);
     }
     ctx.fillStyle = '#94a3b8'; ctx.font = '11px sans-serif'; ctx.textAlign = 'left';
     ctx.fillText('Kéo quả nặng để đổi góc thả', 8, G.h-10);
@@ -362,7 +363,7 @@ window.__tabRefresh = window.__tabRefresh || {};
   });
 
   function draw(){
-    if (!G) return;
+    if (!G){ var _ng = fitCanvas(cv); if (_ng) G = _ng; else { requestAnimationFrame(draw); return; } }
     var ctx = G.ctx, W = G.w, H = G.h;
     ctx.clearRect(0,0,W,H);
     var x0=50, x1=W-50, yT=70, yB=H-25;
@@ -455,7 +456,7 @@ window.__tabRefresh = window.__tabRefresh || {};
   });
 
   function draw(){
-    if (!G) return;
+    if (!G){ var _ng = fitCanvas(cv); if (_ng) G = _ng; else { requestAnimationFrame(draw); return; } }
     var ctx = G.ctx, W = G.w, H = G.h;
     ctx.clearRect(0,0,W,H);
     var groundY = H - 30, topY = 20;
