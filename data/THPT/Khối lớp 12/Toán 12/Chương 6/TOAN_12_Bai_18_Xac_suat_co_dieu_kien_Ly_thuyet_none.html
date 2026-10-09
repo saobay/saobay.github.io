@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 18: Xác suất có điều kiện</title>
+    <meta name="lesson-title" content="Bài 18: Xác suất có điều kiện">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 18: Xác suất có điều kiện</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 6: Xác suất có điều kiện • Bài 18: Xác suất có điều kiện</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h2>1. Định nghĩa xác suất có điều kiện</h2>
+<p>Cho hai biến cố $A, B$ với $P(B) > 0$. <b>Xác suất có điều kiện</b> của $A$ với điều kiện $B$ đã xảy ra, kí hiệu $P(A|B)$, được định nghĩa bởi:</p>
+<p style="text-align:center">$P(A|B) = \frac{P(AB)}{P(B)}.$</p>
+<p><b>Ý nghĩa.</b> Biết thêm thông tin "$B$ đã xảy ra" làm thu hẹp không gian mẫu, từ đó xác suất của $A$ có thể thay đổi.</p>
+<p><b>Ví dụ.</b> Gieo một con xúc xắc cân đối. Gọi $A$ là biến cố "ra mặt $6$", $B$ là biến cố "ra mặt chẵn". Tính $P(A|B)$.</p>
+<p><b>Giải.</b> Khi biết đã ra mặt chẵn, không gian mẫu thu hẹp thành $\{2; 4; 6\}$, trong đó chỉ có mặt $6$ thuận lợi cho $A$. Vậy $P(A|B) = \frac{1}{3}$.</p>
+
+<h2>2. Công thức nhân xác suất</h2>
+<p>Từ định nghĩa suy ra <b>công thức nhân</b>:</p>
+<p style="text-align:center">$P(AB) = P(B) \cdot P(A|B) = P(A) \cdot P(B|A).$</p>
+<p><b>Ví dụ.</b> Hộp có $4$ bi đỏ, $1$ bi xanh. Bốc liên tiếp $2$ bi không hoàn lại. Tính xác suất cả hai bi đều đỏ.</p>
+<p><b>Giải.</b> $P = \frac{4}{5} \cdot \frac{3}{4} = \frac{3}{5}$.</p>
+
+<h2>3. Biến cố độc lập</h2>
+<p>Hai biến cố $A, B$ được gọi là <b>độc lập</b> nếu việc $B$ xảy ra hay không không ảnh hưởng đến xác suất của $A$, tức:</p>
+<p style="text-align:center">$P(A|B) = P(A) \quad \text{(hay } P(AB) = P(A) \cdot P(B)\text{)}.$</p>
+<p><b>Ví dụ.</b> Gieo xúc xắc hai lần; kết quả lần 2 độc lập với lần 1.</p>
+
+<h2>4. Sơ đồ cây</h2>
+<p><b>Sơ đồ cây</b> mô tả các giai đoạn liên tiếp của một phép thử: mỗi nhánh ghi xác suất của nó; xác suất của một đường đi bằng <b>tích</b> các xác suất dọc theo đường đi đó.</p>
+
+<svg viewBox="0 0 560 300" xmlns="http://www.w3.org/2000/svg" style="max-width:560px;width:100%;height:auto;display:block;margin:12px auto">
+<text x="280" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e40af">Sơ đồ cây: chọn hộp rồi bốc bi</text>
+<circle cx="70" cy="150" r="6" fill="#0f172a"/>
+<text x="40" y="175" font-size="12">Bắt đầu</text>
+<line x1="76" y1="150" x2="200" y2="80" stroke="#1e40af" stroke-width="2"/>
+<line x1="76" y1="150" x2="200" y2="220" stroke="#16a34a" stroke-width="2"/>
+<text x="120" y="105" font-size="12" fill="#1e40af">Hộp I: $\frac{1}{2}$</text>
+<text x="120" y="205" font-size="12" fill="#16a34a">Hộp II: $\frac{1}{2}$</text>
+<circle cx="200" cy="80" r="5" fill="#0f172a"/><circle cx="200" cy="220" r="5" fill="#0f172a"/>
+<line x1="205" y1="80" x2="330" y2="50" stroke="#1e40af" stroke-width="2"/>
+<line x1="205" y1="80" x2="330" y2="110" stroke="#1e40af" stroke-width="2" stroke-dasharray="5,4"/>
+<line x1="205" y1="220" x2="330" y2="190" stroke="#16a34a" stroke-width="2"/>
+<line x1="205" y1="220" x2="330" y2="250" stroke="#16a34a" stroke-width="2" stroke-dasharray="5,4"/>
+<text x="250" y="60" font-size="12" fill="#1e40af">Đỏ: $\frac{2}{5}$</text>
+<text x="250" y="125" font-size="12" fill="#1e40af">Xanh: $\frac{3}{5}$</text>
+<text x="250" y="200" font-size="12" fill="#16a34a">Đỏ: $\frac{4}{5}$</text>
+<text x="250" y="265" font-size="12" fill="#16a34a">Xanh: $\frac{1}{5}$</text>
+<text x="345" y="55" font-size="12" fill="#dc2626">$\frac{1}{2}\cdot\frac{2}{5}=\frac{1}{5}$</text>
+<text x="345" y="115" font-size="12">$\frac{1}{2}\cdot\frac{3}{5}=\frac{3}{10}$</text>
+<text x="345" y="195" font-size="12" fill="#dc2626">$\frac{1}{2}\cdot\frac{4}{5}=\frac{2}{5}$</text>
+<text x="345" y="255" font-size="12">$\frac{1}{2}\cdot\frac{1}{5}=\frac{1}{10}$</text>
+<text x="120" y="292" font-size="12" fill="#475569">Nhân dọc nhánh; cộng các đường tới "Đỏ": $\frac{1}{5}+\frac{2}{5}=\frac{3}{5}$</text>
+</svg>
+
+            </div>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
