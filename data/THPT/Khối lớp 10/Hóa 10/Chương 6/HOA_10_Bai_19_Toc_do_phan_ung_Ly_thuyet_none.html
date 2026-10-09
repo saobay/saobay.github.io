@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 19: Tốc độ phản ứng</title>
+    <meta name="lesson-title" content="Bài 19: Tốc độ phản ứng">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 19: Tốc độ phản ứng</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 6: Tốc độ phản ứng • Bài 19: Tốc độ phản ứng</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 19: Tốc độ phản ứng</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 6: Tốc độ phản ứng — Hóa 10 (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Khái niệm -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Khái niệm tốc độ phản ứng</h2>
+
+<p>Trong thực tế, các phản ứng hóa học xảy ra với "tốc độ" rất khác nhau: phản ứng nổ xảy ra gần như tức thời, phản ứng gỉ sắt diễn ra trong nhiều tháng, còn sự hình thành dầu mỏ mất hàng triệu năm.</p>
+
+<p><strong>Định nghĩa:</strong> <em>Tốc độ phản ứng</em> là đại lượng đặc trưng cho sự <strong>nhanh, chậm</strong> của phản ứng hóa học, được xác định bằng <strong>sự thay đổi lượng chất đầu hoặc chất sản phẩm trong một đơn vị thời gian</strong>.</p>
+
+<p>Lượng chất có thể được biểu diễn bằng số mol, nồng độ mol, khối lượng hoặc thể tích; đơn vị thời gian có thể là giây (s), phút (min), giờ (h)...</p>
+
+<p>Khi dùng nồng độ mol, tốc độ phản ứng được tính bằng:</p>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$v = -\frac{\Delta C_{cđ}}{\Delta t} = +\frac{\Delta C_{sp}}{\Delta t}$$</p>
+<p class="text-sm text-slate-600 mt-1">($\Delta C_{cđ}$: độ giảm nồng độ chất đầu; $\Delta C_{sp}$: độ tăng nồng độ sản phẩm; $\Delta t$: khoảng thời gian)</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Phản ứng $2H_2O_2(aq) \to 2H_2O(l) + O_2(g)$. Sau $60$ giây, nồng độ $H_2O_2$ giảm từ $0{,}50$ mol/L xuống $0{,}20$ mol/L. Tốc độ trung bình của phản ứng:</p>
+<p class="mt-2">$v = -\frac{0{,}20 - 0{,}50}{60} = \frac{0{,}30}{60} = 0{,}005$ mol/(L·s).</p>
+<p class="mt-1 text-sm text-slate-600">Dấu trừ đảm bảo tốc độ luôn dương vì nồng độ chất đầu giảm dần ($\Delta C_{cđ} \lt 0$).</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Tốc độ phản ứng = <strong>lượng chất thay đổi</strong> chia <strong>thời gian</strong>. Với chất đầu dùng dấu trừ, với sản phẩm dùng dấu cộng — để tốc độ luôn là số <strong>dương</strong>.</p>
+</div>
+<!-- 2. Các yếu tố ảnh hưởng -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Các yếu tố ảnh hưởng đến tốc độ phản ứng</h2>
+
+<div class="svg-fig"><svg viewBox="0 0 440 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Các yếu tố ảnh hưởng đến tốc độ phản ứng">
+<rect x="2" y="2" width="436" height="256" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<rect x="150" y="14" width="140" height="40" rx="8" fill="#0369a1"/>
+<text x="220" y="39" font-family="sans-serif" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">TỐC ĐỘ PHẢN ỨNG</text>
+<rect x="30" y="80" width="175" height="44" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="117" y="98" font-family="sans-serif" font-size="12" font-weight="bold" fill="#92400e" text-anchor="middle">Nồng độ &#8593;</text>
+<text x="117" y="115" font-family="sans-serif" font-size="11" fill="#92400e" text-anchor="middle">tốc độ &#8593;</text>
+<rect x="235" y="80" width="175" height="44" rx="8" fill="#fee2e2" stroke="#ef4444" stroke-width="1.5"/>
+<text x="322" y="98" font-family="sans-serif" font-size="12" font-weight="bold" fill="#991b1b" text-anchor="middle">Nhiệt độ &#8593;</text>
+<text x="322" y="115" font-family="sans-serif" font-size="11" fill="#991b1b" text-anchor="middle">tốc độ &#8593; (Van't Hoff)</text>
+<rect x="30" y="140" width="175" height="44" rx="8" fill="#dcfce7" stroke="#22c55e" stroke-width="1.5"/>
+<text x="117" y="158" font-family="sans-serif" font-size="12" font-weight="bold" fill="#14532d" text-anchor="middle">Chất xúc tác</text>
+<text x="117" y="175" font-family="sans-serif" font-size="11" fill="#14532d" text-anchor="middle">tốc độ &#8593;</text>
+<rect x="235" y="140" width="175" height="44" rx="8" fill="#e0e7ff" stroke="#6366f1" stroke-width="1.5"/>
+<text x="322" y="158" font-family="sans-serif" font-size="12" font-weight="bold" fill="#312e81" text-anchor="middle">Diện tích bề mặt &#8593;</text>
+<text x="322" y="175" font-family="sans-serif" font-size="11" fill="#312e81" text-anchor="middle">tốc độ &#8593;</text>
+<rect x="130" y="200" width="180" height="40" rx="8" fill="#f3e8ff" stroke="#a855f7" stroke-width="1.5"/>
+<text x="220" y="217" font-family="sans-serif" font-size="12" font-weight="bold" fill="#581c87" text-anchor="middle">Áp suất (chất khí) &#8593;</text>
+<text x="220" y="233" font-family="sans-serif" font-size="11" fill="#581c87" text-anchor="middle">tốc độ &#8593;</text>
+</svg></div>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">2.1. Ảnh hưởng của nồng độ</h3>
+<p>Khi <strong>nồng độ chất phản ứng tăng</strong>, số tiểu phân trong một đơn vị thể tích tăng, số va chạm hiệu quả giữa các tiểu phân tăng → <strong>tốc độ phản ứng tăng</strong> và ngược lại.</p>
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Thí nghiệm:</p>
+<p>Cho hai mẫu kẽm có khối lượng bằng nhau vào hai cốc đựng dung dịch $HCl$ có nồng độ khác nhau ($1$M và $3$M). Bọt khí $H_2$ thoát ra ở cốc $HCl$ $3$M mạnh hơn nhiều → nồng độ acid càng lớn, phản ứng càng nhanh.</p>
+</div>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">2.2. Ảnh hưởng của nhiệt độ</h3>
+<p>Khi <strong>nhiệt độ tăng</strong>, các tiểu phân chuyển động nhanh hơn, số va chạm hiệu quả tăng → <strong>tốc độ phản ứng tăng</strong>.</p>
+<p><strong>Quy tắc Van't Hoff</strong> (Van-Hốp): khi tăng nhiệt độ thêm $10^\circ C$, tốc độ phản ứng thường tăng từ <strong>$2$ đến $4$ lần</strong>.</p>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$v_{T+10n} = \gamma^n \cdot v_T$$</p>
+<p class="text-sm text-slate-600 mt-1">($\gamma$: hệ số nhiệt độ Van't Hoff, thường $2 \le \gamma \le 4$; $n$: số lần tăng $10^\circ C$)</p>
+</div>
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Tốc độ phản ứng ở $20^\circ C$ là $0{,}02$ mol/(L·s), hệ số nhiệt độ $\gamma = 2$. Khi tăng lên $40^\circ C$ (tăng $20^\circ C$ tức $n = 2$): $v_{40} = 2^2 \times 0{,}02 = 0{,}08$ mol/(L·s) — nhanh gấp $4$ lần.</p>
+<p class="mt-1 text-sm text-slate-600">Thực tế: thức ăn để trong tủ lạnh lâu hỏng hơn vì nhiệt độ thấp làm chậm các phản ứng phân hủy.</p>
+</div>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">2.3. Ảnh hưởng của chất xúc tác</h3>
+<p><strong>Chất xúc tác</strong> là chất làm <strong>tăng tốc độ phản ứng</strong> nhưng <strong>không bị tiêu hao</strong> trong phản ứng (còn lại sau phản ứng). Cơ chế: chất xúc tác làm <strong>giảm năng lượng hoạt hóa</strong>, tạo con đường phản ứng mới dễ xảy ra hơn.</p>
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Thí nghiệm:</p>
+<p>$H_2O_2$ phân hủy rất chậm ở điều kiện thường. Khi thêm một ít bột $MnO_2$, bọt khí $O_2$ thoát ra mạnh mẽ: $2H_2O_2(aq) \xrightarrow{MnO_2} 2H_2O(l) + O_2(g)$. Sau phản ứng, khối lượng $MnO_2$ không đổi.</p>
+<p class="mt-1 text-sm text-slate-600">Thực tế: men làm bánh mì, enzyme trong cơ thể đều là chất xúc tác sinh học.</p>
+</div>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">2.4. Ảnh hưởng của diện tích bề mặt tiếp xúc</h3>
+<p>Với phản ứng có chất rắn tham gia, <strong>diện tích bề mặt tiếp xúc càng lớn</strong> (chất rắn càng mịn, càng nhỏ) thì <strong>tốc độ phản ứng càng nhanh</strong>.</p>
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Thí nghiệm:</p>
+<p>Cùng $1$ gam kẽm cho vào hai cốc $HCl$ cùng nồng độ: cốc dùng kẽm <strong>bột</strong> sủi bọt khí mạnh hơn hẳn cốc dùng kẽm <strong>miếng</strong> — vì bột kẽm có diện tích tiếp xúc với acid lớn hơn nhiều.</p>
+<p class="mt-1 text-sm text-slate-600">Thực tế: than tổ ong có nhiều lỗ để tăng diện tích cháy; củi chẻ nhỏ cháy nhanh hơn khúc gỗ to.</p>
+</div>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">2.5. Ảnh hưởng của áp suất (đối với phản ứng có chất khí)</h3>
+<p>Khi <strong>áp suất tăng</strong> (nén khí), nồng độ các chất khí tăng → số va chạm hiệu quả tăng → <strong>tốc độ phản ứng tăng</strong>.</p>
+<p class="text-sm text-slate-600">Thực tế: tổng hợp $NH_3$ trong công nghiệp thực hiện ở áp suất cao ($200$–$300$ bar) một phần là để tăng tốc độ phản ứng.</p>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">5 yếu tố làm <strong>tăng</strong> tốc độ phản ứng: <strong>nồng độ tăng, nhiệt độ tăng, có chất xúc tác, diện tích bề mặt tăng, áp suất tăng</strong> (với chất khí). Mẹo nhớ: "Nồng – Nhiệt – Xúc – Diện – Áp".</p>
+</div>
+<!-- 3. Ý nghĩa thực tiễn -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Ý nghĩa thực tiễn của việc nghiên cứu tốc độ phản ứng</h2>
+
+<ul class="list-disc ml-6 space-y-2 my-3">
+<li><strong>Tăng tốc</strong> các phản ứng có lợi: dùng xúc tác, tăng nhiệt độ, tăng nồng độ trong sản xuất hóa chất (ví dụ tổng hợp $NH_3$, $H_2SO_4$).</li>
+<li><strong>Làm chậm</strong> các phản ứng có hại: bảo quản thực phẩm trong tủ lạnh, dùng chất chống oxi hóa, sơn chống gỉ cho kim loại.</li>
+</ul>
+
+<!-- Tổng kết -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Tốc độ phản ứng:</strong> sự thay đổi lượng chất đầu/sản phẩm trong một đơn vị thời gian; $v = -\Delta C_{cđ}/\Delta t = +\Delta C_{sp}/\Delta t$.</li>
+<li><strong>Nồng độ tăng</strong> → tốc độ tăng.</li>
+<li><strong>Nhiệt độ tăng</strong> → tốc độ tăng (quy tắc Van't Hoff: tăng $10^\circ C$, tốc độ tăng $2$–$4$ lần; $v_{T+10n} = \gamma^n v_T$).</li>
+<li><strong>Chất xúc tác:</strong> làm tăng tốc độ, không bị tiêu hao (giảm năng lượng hoạt hóa).</li>
+<li><strong>Diện tích bề mặt tăng</strong> → tốc độ tăng.</li>
+<li><strong>Áp suất tăng</strong> (chất khí) → tốc độ tăng.</li>
+<li>Ứng dụng: tăng tốc phản ứng có lợi, làm chậm phản ứng có hại.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+</body>
+</html>
