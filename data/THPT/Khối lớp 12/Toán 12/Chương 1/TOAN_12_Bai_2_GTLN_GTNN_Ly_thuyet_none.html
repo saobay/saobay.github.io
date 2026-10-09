@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 2: Giá trị lớn nhất và giá trị nhỏ nhất của hàm số</title>
+    <meta name="lesson-title" content="Bài 2: Giá trị lớn nhất và giá trị nhỏ nhất của hàm số">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 2: Giá trị lớn nhất và giá trị nhỏ nhất của hàm số</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 1: Ứng dụng đạo hàm để khảo sát và vẽ đồ thị của hàm số • Bài 2: Giá trị lớn nhất và giá trị nhỏ nhất của hàm số</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 2: Giá trị lớn nhất và giá trị nhỏ nhất của hàm số</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 1: Ứng dụng đạo hàm để khảo sát và vẽ đồ thị của hàm số</p>
+
+<!-- 1. Định nghĩa -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Định nghĩa giá trị lớn nhất, giá trị nhỏ nhất</h2>
+
+<p>Cho hàm số $y = f(x)$ xác định trên tập $D$.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p><strong>a) Giá trị lớn nhất (GTLN):</strong> Số $M$ được gọi là <em>giá trị lớn nhất</em> của $f$ trên $D$ nếu đồng thời thỏa mãn hai điều kiện:</p>
+<ul class="list-disc ml-6 space-y-1 mt-2">
+<li>$f(x) \le M$ với mọi $x \in D$;</li>
+<li>Tồn tại $x_0 \in D$ sao cho $f(x_0) = M$ (tức là $M$ phải là một giá trị mà hàm số <strong>thực sự đạt được</strong>).</li>
+</ul>
+<p class="mt-2">Kí hiệu: $M = \max_{x \in D} f(x)$.</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p><strong>b) Giá trị nhỏ nhất (GTNN):</strong> Số $m$ được gọi là <em>giá trị nhỏ nhất</em> của $f$ trên $D$ nếu đồng thời thỏa mãn:</p>
+<ul class="list-disc ml-6 space-y-1 mt-2">
+<li>$f(x) \ge m$ với mọi $x \in D$;</li>
+<li>Tồn tại $x_0 \in D$ sao cho $f(x_0) = m$.</li>
+</ul>
+<p class="mt-2">Kí hiệu: $m = \min_{x \in D} f(x)$.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Điểm mấu chốt của định nghĩa là chữ <strong>"đạt được"</strong>: $M$ là GTLN không chỉ vì không có giá trị nào vượt quá $M$, mà còn vì <strong>có ít nhất một điểm</strong> $x_0$ mà tại đó $f(x_0) = M$. Tương tự với GTNN.</p>
+</div>
+
+<!-- 2. Tìm GTLN, GTNN trên đoạn -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Cách tìm GTLN, GTNN trên đoạn $[a; b]$</h2>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-emerald-800 mb-2">Định lí (sự tồn tại)</p>
+<p>Nếu hàm số $y = f(x)$ <strong>liên tục trên đoạn</strong> $[a; b]$ thì nó luôn <strong>tồn tại</strong> GTLN và GTNN trên đoạn đó.</p>
+</div>
+
+<p><strong>Quy tắc tìm GTLN, GTNN của hàm số liên tục trên đoạn $[a; b]$:</strong></p>
+<ol class="list-decimal ml-6 space-y-2 my-3">
+<li><strong>Bước 1.</strong> Tìm các điểm $x_1, x_2, \dots, x_n$ thuộc khoảng $(a; b)$ mà tại đó $f'(x) = 0$ hoặc $f'(x)$ <strong>không xác định</strong> (các <em>điểm tới hạn</em>).</li>
+<li><strong>Bước 2.</strong> Tính các giá trị $f(a)$, $f(x_1)$, $f(x_2)$, $\dots$, $f(x_n)$, $f(b)$.</li>
+<li><strong>Bước 3.</strong> So sánh các giá trị vừa tính: số <strong>lớn nhất</strong> trong chúng là GTLN, số <strong>nhỏ nhất</strong> là GTNN của $f$ trên $[a; b]$.</li>
+</ol>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Trên đoạn <strong>đóng</strong> $[a; b]$, đừng quên hai <strong>đầu mút</strong> $a$ và $b$: GTLN/GTNN hoàn toàn có thể đạt ngay tại đầu mút chứ không nhất thiết tại điểm tới hạn!</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 1: Tìm GTLN, GTNN của $y = x^3 - 3x^2 + 1$ trên đoạn $[-1; 2]$.</p>
+<p><em>Giải.</em></p>
+<ul class="list-disc ml-6 space-y-2 mt-2">
+<li>Tập xác định $D = \mathbb{R}$, hàm số liên tục trên $[-1; 2]$ nên tồn tại GTLN, GTNN.</li>
+<li>Đạo hàm: $y' = 3x^2 - 6x = 3x(x - 2)$. Giải $y' = 0$ được $x = 0$ hoặc $x = 2$.</li>
+<li>Điểm tới hạn thuộc khoảng $(-1; 2)$ là $x = 0$ (điểm $x = 2$ là đầu mút phải, sẽ xét cùng với các đầu mút).</li>
+<li>Tính giá trị tại điểm tới hạn và hai đầu mút:
+$$f(-1) = -1 - 3 + 1 = -3, \quad f(0) = 1, \quad f(2) = 8 - 12 + 1 = -3.$$</li>
+<li>So sánh: $\max\{-3; 1; -3\} = 1$, $\min\{-3; 1; -3\} = -3$.</li>
+</ul>
+<p class="mt-2"><strong>Kết luận:</strong> $\max_{[-1; 2]} y = 1$ đạt được tại $x = 0$; $\min_{[-1; 2]} y = -3$ đạt được tại $x = -1$ và $x = 2$.</p>
+<p class="mt-2">Bảng biến thiên trên $[-1; 2]$:</p>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">$x$</td><td class="border border-slate-300 px-4 py-1">$-1$</td><td class="border border-slate-300 px-3 py-1"></td><td class="border border-slate-300 px-4 py-1">$0$</td><td class="border border-slate-300 px-3 py-1"></td><td class="border border-slate-300 px-4 py-1">$2$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">$y'$</td><td class="border border-slate-300 px-4 py-1"></td><td class="border border-slate-300 px-3 py-1">$+$</td><td class="border border-slate-300 px-4 py-1">$0$</td><td class="border border-slate-300 px-3 py-1">$-$</td><td class="border border-slate-300 px-4 py-1"></td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">$y$</td><td class="border border-slate-300 px-4 py-1">$-3$</td><td class="border border-slate-300 px-3 py-1">$\nearrow$</td><td class="border border-slate-300 px-4 py-1">$1$</td><td class="border border-slate-300 px-3 py-1">$\searrow$</td><td class="border border-slate-300 px-4 py-1">$-3$</td></tr>
+</table></div>
+</div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Do thi ham so y bang x mu 3 tru 3x mu 2 cong 1 tren doan tru 1 den 2, chi ra GTLN va GTNN">
+<rect x="2" y="2" width="436" height="296" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="22" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0c4a6e" text-anchor="middle">Đồ thị y = x³ − 3x² + 1 trên [−1; 2]</text>
+<line x1="35" y1="97.1" x2="425" y2="97.1" stroke="#94a3b8" stroke-width="1"/>
+<line x1="175.8" y1="30" x2="175.8" y2="272" stroke="#94a3b8" stroke-width="1"/>
+<text x="418" y="90" font-family="sans-serif" font-size="12" fill="#64748b">x</text>
+<text x="184" y="42" font-family="sans-serif" font-size="12" fill="#64748b">y</text>
+<polyline points="67.5,225.7 72.9,207.1 78.3,189.7 83.8,173.5 89.2,158.5 94.6,144.7 100.0,132.0 105.4,120.4 110.8,109.8 116.3,100.3 121.7,91.8 127.1,84.2 132.5,77.6 137.9,71.9 143.3,67.0 148.8,63.0 154.2,59.8 159.6,57.3 165.0,55.6 170.4,54.6 175.8,54.3 181.3,54.6 186.7,55.5 192.1,57.0 197.5,59.1 202.9,61.7 208.3,64.7 213.8,68.2 219.2,72.1 224.6,76.4 230.0,81.1 235.4,86.0 240.8,91.3 246.3,96.8 251.7,102.6 257.1,108.5 262.5,114.6 267.9,120.9 273.3,127.2 278.8,133.6 284.2,140.0 289.6,146.4 295.0,152.8 300.4,159.1 305.8,165.4 311.3,171.5 316.7,177.4 322.1,183.2 327.5,188.7 332.9,194.0 338.3,198.9 343.8,203.6 349.2,207.9 354.6,211.8 360.0,215.3 365.4,218.3 370.8,220.9 376.3,223.0 381.7,224.5 387.1,225.4 392.5,225.7 397.9,225.4 403.3,224.4 408.8,222.7 414.2,220.2" fill="none" stroke="#0369a1" stroke-width="3"/>
+<circle cx="175.8" cy="54.3" r="6" fill="#16a34a" stroke="#ffffff" stroke-width="2"/>
+<text x="196" y="52" font-family="sans-serif" font-size="13" font-weight="bold" fill="#15803d">GTLN = 1 tại x = 0</text>
+<circle cx="67.5" cy="225.7" r="6" fill="#dc2626" stroke="#ffffff" stroke-width="2"/>
+<circle cx="392.5" cy="225.7" r="6" fill="#dc2626" stroke="#ffffff" stroke-width="2"/>
+<text x="60" y="252" font-family="sans-serif" font-size="13" font-weight="bold" fill="#b91c1c">GTNN = −3</text>
+<text x="300" y="252" font-family="sans-serif" font-size="12" fill="#b91c1c">tại x = −1 và x = 2</text>
+</svg></div>
+
+<!-- 3. Trên khoảng -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Tìm GTLN, GTNN trên một khoảng (nửa khoảng)</h2>
+
+<p>Trên một khoảng $(a; b)$ (hoặc nửa khoảng), hàm số liên tục <strong>chưa chắc</strong> có GTLN/GTNN. Cách làm:</p>
+<ol class="list-decimal ml-6 space-y-2 my-3">
+<li><strong>Bước 1.</strong> Lập <strong>bảng biến thiên</strong> của hàm số trên khoảng đang xét (tìm điểm tới hạn như trên đoạn).</li>
+<li><strong>Bước 2.</strong> Tính các <strong>giới hạn tại hai đầu mút</strong> của khoảng (kể cả khi đầu mút là $\pm\infty$).</li>
+<li><strong>Bước 3.</strong> Dựa vào bảng biến thiên và các giới hạn để kết luận GTLN/GTNN có tồn tại hay không, và bằng bao nhiêu.</li>
+</ol>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 2: Tìm GTLN, GTNN của $y = x + \dfrac{4}{x}$ trên khoảng $(0; +\infty)$.</p>
+<p><em>Giải.</em></p>
+<ul class="list-disc ml-6 space-y-2 mt-2">
+<li>Tập xác định $D = (0; +\infty)$.</li>
+<li>Đạo hàm: $y' = 1 - \dfrac{4}{x^2} = \dfrac{x^2 - 4}{x^2}$. Giải $y' = 0$ được $x = 2$ (nhận, vì $x = -2 \notin D$).</li>
+<li>Giới hạn tại hai đầu mút: $\lim_{x \to 0^+} \left(x + \dfrac{4}{x}\right) = +\infty$, $\lim_{x \to +\infty} \left(x + \dfrac{4}{x}\right) = +\infty$.</li>
+<li>Bảng biến thiên:</li>
+</ul>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">$x$</td><td class="border border-slate-300 px-4 py-1">$0$</td><td class="border border-slate-300 px-3 py-1"></td><td class="border border-slate-300 px-4 py-1">$2$</td><td class="border border-slate-300 px-3 py-1"></td><td class="border border-slate-300 px-4 py-1">$+\infty$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">$y'$</td><td class="border border-slate-300 px-4 py-1">$||$</td><td class="border border-slate-300 px-3 py-1">$-$</td><td class="border border-slate-300 px-4 py-1">$0$</td><td class="border border-slate-300 px-3 py-1">$+$</td><td class="border border-slate-300 px-4 py-1"></td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">$y$</td><td class="border border-slate-300 px-4 py-1">$+\infty$</td><td class="border border-slate-300 px-3 py-1">$\searrow$</td><td class="border border-slate-300 px-4 py-1">$4$</td><td class="border border-slate-300 px-3 py-1">$\nearrow$</td><td class="border border-slate-300 px-4 py-1">$+\infty$</td></tr>
+</table></div>
+<p class="mt-2"><strong>Kết luận:</strong> $\min_{(0; +\infty)} y = 4$ đạt được tại $x = 2$; hàm số <strong>không có GTLN</strong> trên $(0; +\infty)$ (vì $y \to +\infty$ ở cả hai đầu mà không bị chặn trên).</p>
+</div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Do thi ham so y bang x cong 4 tren x voi x duong, chi ra GTNN bang 4 tai x bang 2">
+<rect x="2" y="2" width="436" height="296" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="22" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0c4a6e" text-anchor="middle">Đồ thị y = x + 4/x trên (0; +∞)</text>
+<line x1="35" y1="260" x2="425" y2="260" stroke="#94a3b8" stroke-width="1"/>
+<line x1="35" y1="30" x2="35" y2="272" stroke="#94a3b8" stroke-width="1"/>
+<text x="418" y="252" font-family="sans-serif" font-size="12" fill="#64748b">x</text>
+<text x="43" y="42" font-family="sans-serif" font-size="12" fill="#64748b">y</text>
+<polyline points="47.4,73.2 51.6,90.0 55.7,103.5 59.9,114.7 64.0,123.9 68.2,131.7 72.3,138.3 76.5,144.0 80.6,148.9 84.8,153.1 88.9,156.8 93.1,160.0 97.2,162.8 101.4,165.3 105.5,167.4 109.7,169.3 113.8,171.0 118.0,172.5 122.1,173.7 126.3,174.9 130.4,175.8 134.6,176.7 138.7,177.4 142.9,178.0 147.0,178.5 151.2,178.9 155.3,179.3 159.5,179.6 163.6,179.8 167.8,179.9 171.9,180.0 176.1,180.0 180.2,180.0 184.4,179.9 188.5,179.8 192.7,179.6 196.8,179.4 201.0,179.2 205.1,179.0 209.3,178.7 213.4,178.3 217.6,178.0 221.7,177.6 225.9,177.2 230.0,176.8 234.1,176.4 238.3,175.9 242.4,175.4 246.6,174.9 250.7,174.4 254.9,173.9 259.0,173.3 263.2,172.8 267.3,172.2 271.5,171.6 275.6,171.0 279.8,170.4 283.9,169.8 288.1,169.1 292.2,168.5 296.4,167.8 300.5,167.1 304.7,166.5 308.8,165.8 313.0,165.1 317.1,164.4 321.3,163.7 325.4,162.9 329.6,162.2 333.7,161.5 337.9,160.7 342.0,160.0 346.2,159.2 350.3,158.5 354.5,157.7 358.6,157.0 362.8,156.2 366.9,155.4 371.1,154.6 375.2,153.8 379.4,153.0 383.5,152.2 387.7,151.4 391.8,150.6 396.0,149.8 400.1,149.0 404.3,148.2 408.4,147.3 412.6,146.5 416.7,145.7 420.9,144.8 425.0,144.0" fill="none" stroke="#0369a1" stroke-width="3"/>
+<circle cx="176.1" cy="180.0" r="6" fill="#dc2626" stroke="#ffffff" stroke-width="2"/>
+<text x="196" y="196" font-family="sans-serif" font-size="13" font-weight="bold" fill="#b91c1c">GTNN = 4 tại x = 2</text>
+<text x="52" y="60" font-family="sans-serif" font-size="12" fill="#64748b">y → +∞ khi x → 0⁺</text>
+<text x="330" y="130" font-family="sans-serif" font-size="12" fill="#64748b">y → +∞ khi x → +∞</text>
+</svg></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Trên <strong>khoảng mở</strong>, dù hàm số liên tục thì GTLN/GTNN vẫn <strong>có thể không tồn tại</strong> (như ví dụ 2 không có GTLN). Muốn kết luận chắc chắn, phải xét <strong>giới hạn tại các đầu mút</strong> của khoảng.</p>
+</div>
+
+<!-- 4. Ứng dụng -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Ứng dụng: bài toán tối ưu trong thực tế</h2>
+
+<p>Nhiều bài toán thực tế (diện tích lớn nhất, chi phí nhỏ nhất, ...) có thể giải bằng cách <strong>lập hàm số</strong> mô tả đại lượng cần tối ưu, rồi <strong>tìm GTLN/GTNN</strong> của hàm số đó.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 3: Tìm hai số dương có tổng bằng $8$ sao cho tích của chúng lớn nhất.</p>
+<p><em>Giải.</em> Gọi số thứ nhất là $x$ ($0 < x < 8$), số thứ hai là $8 - x$. Tích của hai số là</p>
+<p class="text-center">$$P(x) = x(8 - x) = -x^2 + 8x, \quad 0 < x < 8.$$</p>
+<ul class="list-disc ml-6 space-y-1 mt-2">
+<li>$P'(x) = 8 - 2x$; $P'(x) = 0 \Leftrightarrow x = 4$.</li>
+<li>Bảng biến thiên cho thấy $P$ tăng trên $(0; 4)$, giảm trên $(4; 8)$, đạt cực đại (cũng là GTLN) tại $x = 4$ với $P(4) = 16$.</li>
+</ul>
+<p class="mt-2"><strong>Kết luận:</strong> Tích lớn nhất bằng $16$, đạt được khi cả hai số đều bằng $4$.</p>
+</div>
+
+<!-- Tóm tắt -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Định nghĩa:</strong> $M = \max_D f \Leftrightarrow \begin{cases} f(x) \le M, \, \forall x \in D \\ \exists x_0 \in D: f(x_0) = M \end{cases}$; tương tự $m = \min_D f$ với $f(x) \ge m$.</li>
+<li><strong>Trên đoạn $[a; b]$</strong> (hàm liên tục): tìm điểm tới hạn trong $(a; b)$, tính $f$ tại các điểm tới hạn <strong>và hai đầu mút</strong>, rồi so sánh lấy số lớn nhất / nhỏ nhất.</li>
+<li><strong>Trên khoảng</strong> (nửa khoảng): lập <strong>bảng biến thiên</strong> + tính <strong>giới hạn tại hai đầu mút</strong> rồi kết luận; GTLN/GTNN có thể không tồn tại.</li>
+<li><strong>Bài toán thực tế:</strong> lập hàm số theo biến, tìm GTLN/GTNN của hàm số đó trên miền điều kiện.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
