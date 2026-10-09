@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 12: Bội chung. Bội chung nhỏ nhất</title>
+    <meta name="lesson-title" content="Bài 12: Bội chung. Bội chung nhỏ nhất">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 12: Bội chung. Bội chung nhỏ nhất</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 2: Tính chia hết trong tập hợp các số tự nhiên • Bài 12: Bội chung. Bội chung nhỏ nhất</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 12: Bội chung. Bội chung nhỏ nhất</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 2: Tính chia hết trong tập hợp các số tự nhiên (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Bội chung -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Bội chung</h2>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p><strong>Bội chung</strong> của hai hay nhiều số là <strong>bội của tất cả</strong> các số đó. Kí hiệu tập hợp các bội chung của $a$ và $b$ là <strong>BC($a, b$)</strong>.</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Các bội của $4$ là $0, 4, 8, 12, 16, 20, 24, \dots$ Các bội của $6$ là $0, 6, 12, 18, 24, \dots$</p>
+<p class="mt-2">Các số $0, 12, 24, \dots$ vừa là bội của $4$ vừa là bội của $6$ nên:</p>
+<p class="text-center text-lg my-2">BC($4, 6$) $= \{0;\ 12;\ 24;\ \dots\}$</p>
+</div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Minh hoa boi chung cua 4 va 6 tren truc so">
+<rect x="2" y="2" width="436" height="256" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="34" font-family="sans-serif" font-size="16" font-weight="bold" fill="#0369a1" text-anchor="middle">Bội chung của 4 và 6</text>
+<line x1="30" y1="120" x2="410" y2="120" stroke="#94a3b8" stroke-width="2"/>
+<g font-family="sans-serif" font-size="13" text-anchor="middle">
+<g fill="#0284c7"><circle cx="60" cy="120" r="5"/><text x="60" y="105" fill="#0c4a6e" font-weight="bold">0</text></g>
+<g fill="#0284c7"><circle cx="110" cy="120" r="5"/><text x="110" y="145" fill="#0c4a6e">4</text></g>
+<g fill="#0284c7"><circle cx="160" cy="120" r="5"/><text x="160" y="145" fill="#0c4a6e">8</text></g>
+<g fill="#e11d48"><circle cx="210" cy="120" r="8"/><text x="210" y="105" fill="#881337" font-weight="bold">12</text></g>
+<g fill="#0284c7"><circle cx="260" cy="120" r="5"/><text x="260" y="145" fill="#0c4a6e">16</text></g>
+<g fill="#0284c7"><circle cx="310" cy="120" r="5"/><text x="310" y="145" fill="#0c4a6e">20</text></g>
+<g fill="#e11d48"><circle cx="360" cy="120" r="8"/><text x="360" y="105" fill="#881337" font-weight="bold">24</text></g>
+</g>
+<text x="60" y="180" font-family="sans-serif" font-size="14" fill="#0284c7" text-anchor="middle">B(4): 0, 4, 8, 12, ...</text>
+<text x="60" y="205" font-family="sans-serif" font-size="14" fill="#059669" text-anchor="middle">B(6): 0, 6, 12, 18, 24, ...</text>
+<text x="220" y="240" font-family="sans-serif" font-size="14" font-weight="bold" fill="#b45309" text-anchor="middle">Bội chung (màu đỏ): 0, 12, 24, ...</text>
+</svg></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Bội chung của hai hay nhiều số là bội của <strong>tất cả</strong> các số đó. Số $0$ là bội chung của mọi số.</p>
+</div>
+
+<!-- 2. Bội chung nhỏ nhất -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Bội chung nhỏ nhất</h2>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p><strong>Bội chung nhỏ nhất</strong> (viết tắt là <strong>BCNN</strong>) của hai hay nhiều số là <strong>số nhỏ nhất khác $0$</strong> trong tập hợp các bội chung của các số đó. Kí hiệu: <strong>BCNN($a, b$)</strong>.</p>
+<p class="mt-2">Ví dụ: BC($4, 6$) $= \{0;\ 12;\ 24;\ \dots\}$ nên BCNN($4, 6$) $= 12$.</p>
+</div>
+
+<p><strong>Cách tìm BCNN bằng cách phân tích ra thừa số nguyên tố</strong>:</p>
+<ol class="list-decimal ml-6 space-y-2 my-3">
+<li><strong>Bước 1:</strong> Phân tích mỗi số ra thừa số nguyên tố.</li>
+<li><strong>Bước 2:</strong> Chọn ra các thừa số nguyên tố <strong>chung và riêng</strong>.</li>
+<li><strong>Bước 3:</strong> Lập tích các thừa số đã chọn, mỗi thừa số lấy với <strong>số mũ lớn nhất</strong>. Tích đó chính là BCNN.</li>
+</ol>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-emerald-800 mb-2">Bài tập ví dụ 1 (có lời giải):</p>
+<p>Tìm BCNN($24, 60$).</p>
+<p class="mt-2"><strong>Lời giải:</strong></p>
+<ul class="list-disc ml-6 space-y-1 mt-1">
+<li>Bước 1: $24 = 2^3 \cdot 3$; $60 = 2^2 \cdot 3 \cdot 5$.</li>
+<li>Bước 2: các thừa số nguyên tố chung và riêng là $2, 3, 5$.</li>
+<li>Bước 3: số mũ lớn nhất của $2$ là $3$, của $3$ là $1$, của $5$ là $1$. Vậy BCNN($24, 60$) $= 2^3 \cdot 3 \cdot 5 = 120$.</li>
+</ul>
+</div>
+
+<p><strong>Chú ý:</strong></p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>BCNN($a, 1$) $= a$ với mọi số tự nhiên $a$.</li>
+<li>Các bội chung của $a$ và $b$ đều là bội của BCNN($a, b$). Ví dụ: BC($24, 60$) $= \{0;\ 120;\ 240;\ \dots\}$.</li>
+</ul>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Tìm BCNN: phân tích ra thừa số nguyên tố → chọn thừa số <strong>chung và riêng</strong> → lập tích với <strong>số mũ lớn nhất</strong>. So sánh với ƯCLN: ƯCLN chọn thừa số <strong>chung</strong> với số mũ <strong>nhỏ nhất</strong>.</p>
+</div>
+
+<!-- 3. Ứng dụng -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Ứng dụng của bội chung nhỏ nhất</h2>
+
+<p><strong>Ứng dụng 1 — Quy đồng mẫu số các phân số:</strong> để quy đồng mẫu số hai hay nhiều phân số, ta thường lấy <strong>mẫu số chung</strong> là BCNN của các mẫu số.</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-emerald-800 mb-2">Bài tập ví dụ 2 (có lời giải):</p>
+<p>Quy đồng mẫu số hai phân số $\frac{5}{12}$ và $\frac{7}{18}$.</p>
+<p class="mt-2"><strong>Lời giải:</strong> BCNN($12, 18$) $= 36$ ($12 = 2^2 \cdot 3$; $18 = 2 \cdot 3^2$). Ta có:</p>
+<p class="text-center text-lg my-2">$$\frac{5}{12} = \frac{5 \cdot 3}{12 \cdot 3} = \frac{15}{36}; \quad \frac{7}{18} = \frac{7 \cdot 2}{18 \cdot 2} = \frac{14}{36}$$</p>
+</div>
+
+<p><strong>Ứng dụng 2 — Bài toán về sự lặp lại:</strong> khi cần tìm thời điểm (hoặc số lượng) <strong>nhỏ nhất</strong> mà nhiều sự việc cùng lặp lại, ta tìm BCNN của các chu kì.</p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Minh hoa BCNN qua hai den nhap nhay chu ky 4 va 6">
+<rect x="2" y="2" width="436" height="276" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="34" font-family="sans-serif" font-size="15" font-weight="bold" fill="#0369a1" text-anchor="middle">Hai đèn cùng sáng lúc 0 giây</text>
+<text x="60" y="70" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0284c7">Đèn xanh: cứ 4 giây</text>
+<text x="60" y="170" font-family="sans-serif" font-size="14" font-weight="bold" fill="#059669">Đèn đỏ: cứ 6 giây</text>
+<g>
+<rect x="60" y="85" width="28" height="28" rx="6" fill="#bae6fd" stroke="#0284c7"/><rect x="100" y="85" width="28" height="28" rx="6" fill="#bae6fd" stroke="#0284c7"/><rect x="140" y="85" width="28" height="28" rx="6" fill="#e11d48" stroke="#881337" stroke-width="2.5"/>
+<rect x="180" y="85" width="28" height="28" rx="6" fill="#bae6fd" stroke="#0284c7"/><rect x="220" y="85" width="28" height="28" rx="6" fill="#bae6fd" stroke="#0284c7"/><rect x="260" y="85" width="28" height="28" rx="6" fill="#e11d48" stroke="#881337" stroke-width="2.5"/>
+<text x="74" y="104" font-family="sans-serif" font-size="13" text-anchor="middle" fill="#0c4a6e">4</text><text x="114" y="104" font-family="sans-serif" font-size="13" text-anchor="middle" fill="#0c4a6e">8</text><text x="154" y="104" font-family="sans-serif" font-size="13" font-weight="bold" text-anchor="middle" fill="#881337">12</text><text x="194" y="104" font-family="sans-serif" font-size="13" text-anchor="middle" fill="#0c4a6e">16</text><text x="234" y="104" font-family="sans-serif" font-size="13" text-anchor="middle" fill="#0c4a6e">20</text><text x="274" y="104" font-family="sans-serif" font-size="13" font-weight="bold" text-anchor="middle" fill="#881337">24</text>
+<rect x="60" y="185" width="28" height="28" rx="6" fill="#bbf7d0" stroke="#059669"/><rect x="100" y="185" width="28" height="28" rx="6" fill="#bbf7d0" stroke="#059669"/><rect x="140" y="185" width="28" height="28" rx="6" fill="#e11d48" stroke="#881337" stroke-width="2.5"/>
+<rect x="180" y="185" width="28" height="28" rx="6" fill="#bbf7d0" stroke="#059669"/><rect x="220" y="185" width="28" height="28" rx="6" fill="#bbf7d0" stroke="#059669"/><rect x="260" y="185" width="28" height="28" rx="6" fill="#e11d48" stroke="#881337" stroke-width="2.5"/>
+<text x="74" y="204" font-family="sans-serif" font-size="13" text-anchor="middle" fill="#064e3b">6</text><text x="114" y="204" font-family="sans-serif" font-size="13" text-anchor="middle" fill="#064e3b">12</text><text x="154" y="204" font-family="sans-serif" font-size="13" font-weight="bold" text-anchor="middle" fill="#881337">12</text><text x="194" y="204" font-family="sans-serif" font-size="13" text-anchor="middle" fill="#064e3b">18</text><text x="234" y="204" font-family="sans-serif" font-size="13" text-anchor="middle" fill="#064e3b">24</text><text x="274" y="204" font-family="sans-serif" font-size="13" font-weight="bold" text-anchor="middle" fill="#881337">24</text>
+</g>
+<text x="220" y="252" font-family="sans-serif" font-size="14" font-weight="bold" fill="#b45309" text-anchor="middle">Cùng sáng trở lại sau 12 giây = BCNN(4, 6)</text>
+</svg></div>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-emerald-800 mb-2">Bài tập ví dụ 3 (có lời giải):</p>
+<p>Bạn An cứ $12$ ngày trực nhật một lần, bạn Bình cứ $18$ ngày trực nhật một lần. Hôm nay cả hai bạn cùng trực nhật. Hỏi sau ít nhất bao nhiêu ngày nữa thì cả hai bạn lại cùng trực nhật?</p>
+<p class="mt-2"><strong>Lời giải:</strong> Số ngày ít nhất cần tìm là BCNN($12, 18$). Ta có $12 = 2^2 \cdot 3$; $18 = 2 \cdot 3^2$ nên BCNN($12, 18$) $= 2^2 \cdot 3^2 = 36$. Vậy sau ít nhất $36$ ngày nữa, cả hai bạn lại cùng trực nhật.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">BCNN dùng để <strong>quy đồng mẫu số</strong> các phân số và giải các bài toán tìm thời điểm (số lượng) <strong>nhỏ nhất</strong> mà nhiều sự việc <strong>cùng lặp lại</strong>.</p>
+</div>
+
+<!-- Bài tập vận dụng -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Bài tập vận dụng</h2>
+<div class="bg-violet-50 border border-violet-200 rounded-lg p-4 my-4">
+<ol class="list-decimal ml-6 space-y-2">
+<li>Tìm BCNN($15, 20$).</li>
+<li>Quy đồng mẫu số hai phân số $\frac{3}{10}$ và $\frac{5}{12}$.</li>
+<li>Một số tự nhiên $a$ nhỏ nhất khác $0$ sao cho $a$ ⋮ $8$ và $a$ ⋮ $12$. Tìm $a$.</li>
+</ol>
+<p class="mt-3 text-sm text-slate-600"><strong>Đáp án:</strong> 1) BCNN($15, 20$) $= 60$; 2) $\frac{3}{10} = \frac{18}{60}$, $\frac{5}{12} = \frac{25}{60}$; 3) $a = $ BCNN($8, 12$) $= 24$.</p>
+</div>
+
+<!-- Bảng tóm tắt -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Nội dung</td><td class="border border-slate-300 px-4 py-1">Định nghĩa / Cách làm</td><td class="border border-slate-300 px-4 py-1">Ví dụ</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Bội chung</td><td class="border border-slate-300 px-4 py-1">Bội của tất cả các số đã cho</td><td class="border border-slate-300 px-4 py-1">BC($4, 6$) $= \{0;\ 12;\ 24;\ \dots\}$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">BCNN</td><td class="border border-slate-300 px-4 py-1">Số nhỏ nhất khác $0$ trong các bội chung</td><td class="border border-slate-300 px-4 py-1">BCNN($4, 6$) $= 12$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Cách tìm BCNN</td><td class="border border-slate-300 px-4 py-1">Phân tích → chọn TSNT chung và riêng → tích với số mũ lớn nhất</td><td class="border border-slate-300 px-4 py-1">BCNN($24, 60$) $= 2^3 \cdot 3 \cdot 5 = 120$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Ứng dụng</td><td class="border border-slate-300 px-4 py-1">Quy đồng mẫu số; bài toán lặp lại với chu kì nhỏ nhất</td><td class="border border-slate-300 px-4 py-1">$\frac{5}{12} = \frac{15}{36};\ \frac{7}{18} = \frac{14}{36}$</td></tr>
+</table></div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
