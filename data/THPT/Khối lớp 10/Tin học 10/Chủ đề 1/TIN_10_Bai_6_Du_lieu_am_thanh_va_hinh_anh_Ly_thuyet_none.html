@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 6: Dữ liệu âm thanh và hình ảnh</title>
+    <meta name="lesson-title" content="Bài 6: Dữ liệu âm thanh và hình ảnh">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 6: Dữ liệu âm thanh và hình ảnh</h1>
+            <p class="text-xs text-slate-500 mt-1">Chủ đề 1: Máy tính và xã hội tri thức • Bài 6: Dữ liệu âm thanh và hình ảnh</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 6: Dữ liệu âm thanh và hình ảnh</h1>
+<p class="text-center text-slate-500 italic mb-8">Chủ đề 1: Máy tính và xã hội tri thức • Bài 6: Dữ liệu âm thanh và hình ảnh</p>
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Số hóa âm thanh</h2>
+
+<p>Âm thanh trong tự nhiên là <strong>sóng âm liên tục</strong>. Để lưu trữ trong máy tính, âm thanh phải được <strong>số hóa</strong> gồm hai bước:</p>
+<ol class="list-decimal ml-6 space-y-1 my-3">
+<li><strong>Lấy mẫu:</strong> ghi lại giá trị của sóng âm tại các thời điểm rời rạc, cách đều nhau.</li>
+<li><strong>Mã hóa:</strong> biến mỗi mẫu thành một dãy bit.</li>
+</ol>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Tần số lấy mẫu</strong> (đo bằng <strong>Hz</strong>): số mẫu lấy mỗi giây. Ví dụ chuẩn đĩa CD là 44100 Hz.</li>
+<li><strong>Độ sâu bit:</strong> số bit mã hóa mỗi mẫu. Độ sâu bit càng lớn, âm thanh càng chi tiết.</li>
+<li>Tần số lấy mẫu càng cao, âm thanh càng trung thực nhưng <strong>file càng nặng</strong>.</li>
+</ul>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Công thức tính dung lượng file âm thanh (chưa nén):</p>
+<p class="text-center font-semibold">Dung lượng (bit) = thời gian (giây) × tần số lấy mẫu (Hz) × độ sâu bit × số kênh</p>
+<p class="mt-2"><strong>Định dạng:</strong> WAV lưu gần như nguyên bản (nặng, chất lượng cao); MP3 nén mất dữ liệu (nhẹ, tiện chia sẻ).</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Ảnh số</h2>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">2.1. Điểm ảnh, độ phân giải, độ sâu màu</h3>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Điểm ảnh (pixel):</strong> đơn vị nhỏ nhất của ảnh số.</li>
+<li><strong>Độ phân giải:</strong> số điểm ảnh theo chiều ngang × chiều dọc (ví dụ 800×600).</li>
+<li><strong>Độ sâu màu (độ sâu bit):</strong> số bit mã hóa màu mỗi điểm ảnh. Ảnh 1 bit: 2 màu (đen trắng); ảnh 8 bit: 256 màu; ảnh 24 bit: khoảng 16,7 triệu màu.</li>
+</ul>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">2.2. Mô hình màu RGB</h3>
+<p>Màn hình hiển thị màu bằng cách trộn ba màu cơ bản: <strong>đỏ (Red), xanh lá (Green), xanh dương (Blue)</strong>. Mỗi kênh thường dùng 8 bit (256 mức), ảnh 24 bit = 3 kênh × 8 bit.</p>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">2.3. Ảnh bitmap và ảnh vector</h3>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Tiêu chí</td><td class="border border-slate-300 px-4 py-1">Ảnh bitmap</td><td class="border border-slate-300 px-4 py-1">Ảnh vector</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Cách lưu</td><td class="border border-slate-300 px-4 py-1">Lưới các điểm ảnh</td><td class="border border-slate-300 px-4 py-1">Công thức toán học</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Phóng to</td><td class="border border-slate-300 px-4 py-1">Bị vỡ hạt</td><td class="border border-slate-300 px-4 py-1">Không vỡ hạt</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Ứng dụng</td><td class="border border-slate-300 px-4 py-1">Ảnh chụp (JPG, PNG)</td><td class="border border-slate-300 px-4 py-1">Logo, biển quảng cáo</td></tr>
+</table></div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Công thức tính dung lượng ảnh (chưa nén):</p>
+<p class="text-center font-semibold">Dung lượng (bit) = số điểm ảnh ngang × số điểm ảnh dọc × độ sâu bit</p>
+<p class="mt-2">Ví dụ: ảnh 800×600, 24 bit → 800 × 600 × 24 = 11520000 bit = 1440000 byte.</p>
+</div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Pixel va do phan giai">
+<rect x="2" y="2" width="436" height="176" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="28" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0c4a6e" text-anchor="middle">ĐIỂM ẢNH VÀ ĐỘ PHÂN GIẢI</text>
+<g>
+<rect x="60" y="50" width="120" height="90" fill="#dbeafe" stroke="#0f172a" stroke-width="1.5"/>
+<rect x="60" y="50" width="15" height="15" fill="#ef4444"/>
+<rect x="75" y="50" width="15" height="15" fill="#22c55e"/>
+<rect x="90" y="50" width="15" height="15" fill="#3b82f6"/>
+<rect x="60" y="65" width="15" height="15" fill="#eab308"/>
+<rect x="75" y="65" width="15" height="15" fill="#a855f7"/>
+<rect x="90" y="65" width="15" height="15" fill="#f97316"/>
+<text x="120" y="160" font-family="sans-serif" font-size="11" fill="#475569" text-anchor="middle">Phóng to: thấy các pixel</text>
+</g>
+<text x="280" y="80" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">800 × 600 = 480000 pixel</text>
+<text x="280" y="100" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">Mỗi pixel 24 bit (RGB)</text>
+<text x="280" y="120" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">→ 1440000 byte</text>
+</svg></div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Video số</h2>
+
+<p><strong>Video</strong> là dãy các ảnh tĩnh (khung hình — <strong>frame</strong>) hiển thị liên tiếp, thường 24–30 khung mỗi giây (<strong>fps</strong>). Video chưa nén rất nặng nên luôn được <strong>nén</strong> để lưu trữ và truyền tải.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Âm thanh:</strong> số hóa = lấy mẫu + mã hóa; dung lượng = giây × Hz × bit × kênh; MP3 (nhẹ), WAV (chất lượng cao).</li>
+<li><strong>Ảnh:</strong> pixel, độ phân giải, độ sâu màu; RGB (24 bit ≈ 16,7 triệu màu); bitmap (vỡ hạt) và vector (không vỡ hạt).</li>
+<li><strong>Video:</strong> dãy khung hình (fps); dung lượng rất lớn nên cần nén.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm để kiểm tra nhé! 💪</p>
+
+
+        </div>
+    </div>
+</body>
+</html>
