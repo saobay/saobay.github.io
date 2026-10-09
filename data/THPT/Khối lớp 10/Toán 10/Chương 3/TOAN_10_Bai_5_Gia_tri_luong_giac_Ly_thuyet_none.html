@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 5: Giá trị lượng giác của một góc từ 0° đến 180°</title>
+    <meta name="lesson-title" content="Bài 5: Giá trị lượng giác của một góc từ 0° đến 180°">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 5: Giá trị lượng giác của một góc từ 0° đến 180°</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 1: Mệnh đề và tập hợp • Bài 5: Giá trị lượng giác của một góc từ 0° đến 180°</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 5: Giá trị lượng giác của một góc từ 0° đến 180°</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 3: Hệ thức lượng trong tam giác — Toán 10 (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Định nghĩa -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Giá trị lượng giác của một góc</h2>
+
+<p>Trong mặt phẳng tọa độ $Oxy$, cho nửa đường tròn tâm $O$ bán kính $R = 1$ nằm phía trên trục $Ox$ (gọi là <em>nửa đường tròn đơn vị</em>). Với mỗi góc $\alpha$ ($0^\circ \le \alpha \le 180^\circ$), có duy nhất một điểm $M(x_0; y_0)$ trên nửa đường tròn đơn vị sao cho $\widehat{xOM} = \alpha$.</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-bold text-emerald-800">Định nghĩa</p>
+<ul class="list-disc ml-6 space-y-1 mt-2">
+<li>Tung độ $y_0$ của $M$ gọi là <em>sin</em> của góc $\alpha$, kí hiệu $\sin \alpha = y_0$.</li>
+<li>Hoành độ $x_0$ của $M$ gọi là <em>côsin</em> của góc $\alpha$, kí hiệu $\cos \alpha = x_0$.</li>
+<li>Tỉ số $\dfrac{y_0}{x_0}$ ($x_0 \ne 0$) gọi là <em>tang</em> của góc $\alpha$, kí hiệu $\tan \alpha = \dfrac{\sin \alpha}{\cos \alpha}$.</li>
+<li>Tỉ số $\dfrac{x_0}{y_0}$ ($y_0 \ne 0$) gọi là <em>côtang</em> của góc $\alpha$, kí hiệu $\cot \alpha = \dfrac{\cos \alpha}{\sin \alpha}$.</li>
+</ul>
+</div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Nua duong tron don vi va dinh nghia sin cos">
+<rect x="2" y="2" width="436" height="296" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<line x1="30" y1="230" x2="410" y2="230" stroke="#334155" stroke-width="1.5"/>
+<polygon points="410,230 398,224 398,236" fill="#334155"/>
+<text x="414" y="234" font-family="sans-serif" font-size="14" font-style="italic" fill="#334155">x</text>
+<line x1="220" y1="280" x2="220" y2="30" stroke="#334155" stroke-width="1.5"/>
+<polygon points="220,30 214,42 226,42" fill="#334155"/>
+<text x="226" y="40" font-family="sans-serif" font-size="14" font-style="italic" fill="#334155">y</text>
+<path d="M 90 230 A 130 130 0 0 1 350 230" fill="none" stroke="#1d4ed8" stroke-width="2.5"/>
+<text x="206" y="248" font-family="sans-serif" font-size="13" font-style="italic" fill="#334155">O</text>
+<text x="86" y="248" font-family="sans-serif" font-size="12" fill="#64748b">-1</text>
+<text x="346" y="248" font-family="sans-serif" font-size="12" fill="#64748b">1</text>
+<text x="212" y="96" font-family="sans-serif" font-size="12" fill="#64748b">1</text>
+<line x1="220" y1="230" x2="311" y2="117" stroke="#dc2626" stroke-width="2"/>
+<circle cx="311" cy="117" r="5" fill="#dc2626"/>
+<text x="318" y="112" font-family="sans-serif" font-size="13" fill="#dc2626" font-weight="bold">M(x0; y0)</text>
+<line x1="311" y1="117" x2="311" y2="230" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5,4"/>
+<line x1="311" y1="117" x2="220" y2="117" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5,4"/>
+<path d="M 270 230 A 50 50 0 0 1 257 193" fill="none" stroke="#b45309" stroke-width="2"/>
+<text x="276" y="212" font-family="sans-serif" font-size="13" fill="#b45309" font-style="italic">α</text>
+<text x="300" y="180" font-family="sans-serif" font-size="12" fill="#1d4ed8">sin α = y0</text>
+<text x="240" y="130" font-family="sans-serif" font-size="12" fill="#1d4ed8">cos α = x0</text>
+</svg></div>
+<p class="text-center text-sm text-slate-500 italic">Nửa đường tròn đơn vị: $\sin \alpha = y_0$ (tung độ), $\cos \alpha = x_0$ (hoành độ) của điểm $M$.</p>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Vì $M$ nằm trên nửa đường tròn đơn vị nên $-1 \le \cos \alpha \le 1$ và $0 \le \sin \alpha \le 1$ với mọi $\alpha \in [0^\circ; 180^\circ]$. $\tan \alpha$ xác định khi $\alpha \ne 90^\circ$; $\cot \alpha$ xác định khi $\alpha \ne 0^\circ, 180^\circ$.</p>
+</div>
+
+<!-- 2. Bảng giá trị đặc biệt -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Giá trị lượng giác của các góc đặc biệt</h2>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-3 py-1">$\alpha$</td><td class="border border-slate-300 px-3 py-1">$0^\circ$</td><td class="border border-slate-300 px-3 py-1">$30^\circ$</td><td class="border border-slate-300 px-3 py-1">$45^\circ$</td><td class="border border-slate-300 px-3 py-1">$60^\circ$</td><td class="border border-slate-300 px-3 py-1">$90^\circ$</td><td class="border border-slate-300 px-3 py-1">$120^\circ$</td><td class="border border-slate-300 px-3 py-1">$135^\circ$</td><td class="border border-slate-300 px-3 py-1">$150^\circ$</td><td class="border border-slate-300 px-3 py-1">$180^\circ$</td></tr>
+<tr><td class="border border-slate-300 px-3 py-1 font-semibold bg-sky-50">$\sin \alpha$</td><td class="border border-slate-300 px-3 py-1">$0$</td><td class="border border-slate-300 px-3 py-1">$\frac{1}{2}$</td><td class="border border-slate-300 px-3 py-1">$\frac{\sqrt{2}}{2}$</td><td class="border border-slate-300 px-3 py-1">$\frac{\sqrt{3}}{2}$</td><td class="border border-slate-300 px-3 py-1">$1$</td><td class="border border-slate-300 px-3 py-1">$\frac{\sqrt{3}}{2}$</td><td class="border border-slate-300 px-3 py-1">$\frac{\sqrt{2}}{2}$</td><td class="border border-slate-300 px-3 py-1">$\frac{1}{2}$</td><td class="border border-slate-300 px-3 py-1">$0$</td></tr>
+<tr><td class="border border-slate-300 px-3 py-1 font-semibold bg-sky-50">$\cos \alpha$</td><td class="border border-slate-300 px-3 py-1">$1$</td><td class="border border-slate-300 px-3 py-1">$\frac{\sqrt{3}}{2}$</td><td class="border border-slate-300 px-3 py-1">$\frac{\sqrt{2}}{2}$</td><td class="border border-slate-300 px-3 py-1">$\frac{1}{2}$</td><td class="border border-slate-300 px-3 py-1">$0$</td><td class="border border-slate-300 px-3 py-1">$-\frac{1}{2}$</td><td class="border border-slate-300 px-3 py-1">$-\frac{\sqrt{2}}{2}$</td><td class="border border-slate-300 px-3 py-1">$-\frac{\sqrt{3}}{2}$</td><td class="border border-slate-300 px-3 py-1">$-1$</td></tr>
+<tr><td class="border border-slate-300 px-3 py-1 font-semibold bg-sky-50">$\tan \alpha$</td><td class="border border-slate-300 px-3 py-1">$0$</td><td class="border border-slate-300 px-3 py-1">$\frac{\sqrt{3}}{3}$</td><td class="border border-slate-300 px-3 py-1">$1$</td><td class="border border-slate-300 px-3 py-1">$\sqrt{3}$</td><td class="border border-slate-300 px-3 py-1">||</td><td class="border border-slate-300 px-3 py-1">$-\sqrt{3}$</td><td class="border border-slate-300 px-3 py-1">$-1$</td><td class="border border-slate-300 px-3 py-1">$-\frac{\sqrt{3}}{3}$</td><td class="border border-slate-300 px-3 py-1">$0$</td></tr>
+<tr><td class="border border-slate-300 px-3 py-1 font-semibold bg-sky-50">$\cot \alpha$</td><td class="border border-slate-300 px-3 py-1">||</td><td class="border border-slate-300 px-3 py-1">$\sqrt{3}$</td><td class="border border-slate-300 px-3 py-1">$1$</td><td class="border border-slate-300 px-3 py-1">$\frac{\sqrt{3}}{3}$</td><td class="border border-slate-300 px-3 py-1">$0$</td><td class="border border-slate-300 px-3 py-1">$-\frac{\sqrt{3}}{3}$</td><td class="border border-slate-300 px-3 py-1">$-1$</td><td class="border border-slate-300 px-3 py-1">$-\sqrt{3}$</td><td class="border border-slate-300 px-3 py-1">||</td></tr>
+</table></div>
+<p class="text-center text-sm text-slate-500 italic">Bảng giá trị lượng giác của các góc đặc biệt (||: không xác định).</p>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Mẹo nhớ nhanh</p>
+<p class="mt-1">$\sin$ các góc $0^\circ, 30^\circ, 45^\circ, 60^\circ, 90^\circ$ lần lượt là $\frac{\sqrt{0}}{2}, \frac{\sqrt{1}}{2}, \frac{\sqrt{2}}{2}, \frac{\sqrt{3}}{2}, \frac{\sqrt{4}}{2}$; $\cos$ thì đọc ngược lại. Góc tù ($90^\circ$ đến $180^\circ$) đưa về góc bù (xem mục 3).</p>
+</div>
+
+<!-- 3. Góc bù nhau -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Quan hệ giữa các giá trị lượng giác của hai góc bù nhau</h2>
+
+<p>Hai góc $\alpha$ và $180^\circ - \alpha$ gọi là <em>hai góc bù nhau</em>. Điểm $M$ (ứng với $\alpha$) và $M'$ (ứng với $180^\circ - \alpha$) đối xứng nhau qua trục $Oy$ nên có cùng tung độ, hoành độ đối nhau.</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$\sin(180^\circ - \alpha) = \sin \alpha$$</p>
+<p class="mt-2">$$\cos(180^\circ - \alpha) = -\cos \alpha$$</p>
+<p class="mt-2">$$\tan(180^\circ - \alpha) = -\tan \alpha \quad (\alpha \ne 90^\circ)$$</p>
+<p class="mt-2">$$\cot(180^\circ - \alpha) = -\cot \alpha \quad (\alpha \ne 0^\circ, 180^\circ)$$</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>$\sin 150^\circ = \sin(180^\circ - 30^\circ) = \sin 30^\circ = \frac{1}{2}$.</li>
+<li>$\cos 135^\circ = \cos(180^\circ - 45^\circ) = -\cos 45^\circ = -\frac{\sqrt{2}}{2}$.</li>
+<li>$\tan 120^\circ = \tan(180^\circ - 60^\circ) = -\tan 60^\circ = -\sqrt{3}$.</li>
+</ul>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><strong>"Sin bù nhau thì bằng nhau, cos (tan, cot) bù nhau thì đối nhau."</strong> Đây là chìa khóa để tính giá trị lượng giác của góc tù: đưa về góc nhọn bù với nó.</p>
+</div>
+
+<!-- 4. Dấu -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Dấu của các giá trị lượng giác</h2>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Góc $\alpha$</td><td class="border border-slate-300 px-4 py-1">$0^\circ \lt \alpha \lt 90^\circ$</td><td class="border border-slate-300 px-4 py-1">$90^\circ \lt \alpha \lt 180^\circ$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold bg-sky-50">$\sin \alpha$</td><td class="border border-slate-300 px-4 py-1 text-emerald-600 font-bold">dương</td><td class="border border-slate-300 px-4 py-1 text-emerald-600 font-bold">dương</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold bg-sky-50">$\cos \alpha$</td><td class="border border-slate-300 px-4 py-1 text-emerald-600 font-bold">dương</td><td class="border border-slate-300 px-4 py-1 text-rose-600 font-bold">âm</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold bg-sky-50">$\tan \alpha, \cot \alpha$</td><td class="border border-slate-300 px-4 py-1 text-emerald-600 font-bold">dương</td><td class="border border-slate-300 px-4 py-1 text-rose-600 font-bold">âm</td></tr>
+</table></div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ rút gọn:</p>
+<p>Tính $A = \sin 30^\circ \cdot \cos 60^\circ + \cos 120^\circ$.</p>
+<p class="mt-2"><strong>Lời giải.</strong> $\sin 30^\circ = \frac{1}{2}$, $\cos 60^\circ = \frac{1}{2}$, $\cos 120^\circ = -\cos 60^\circ = -\frac{1}{2}$.</p>
+<p class="mt-1">Vậy $A = \frac{1}{2} \cdot \frac{1}{2} + \left(-\frac{1}{2}\right) = \frac{1}{4} - \frac{1}{2} = -\frac{1}{4}$.</p>
+</div>
+
+<!-- Tổng kết -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Định nghĩa:</strong> trên nửa đường tròn đơn vị, $\sin \alpha = y_0$, $\cos \alpha = x_0$, $\tan \alpha = \frac{\sin \alpha}{\cos \alpha}$, $\cot \alpha = \frac{\cos \alpha}{\sin \alpha}$.</li>
+<li><strong>Góc bù nhau:</strong> $\sin(180^\circ - \alpha) = \sin \alpha$; $\cos, \tan, \cot$ của góc bù thì <strong>đối nhau</strong>.</li>
+<li><strong>Dấu:</strong> $\sin$ luôn không âm; $\cos, \tan, \cot$ dương khi góc nhọn, âm khi góc tù.</li>
+<li><strong>Mẹo:</strong> tính góc tù bằng cách đưa về góc nhọn bù với nó rồi tra bảng.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+</body>
+</html>
