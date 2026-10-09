@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 13: Ứng dụng hình học của tích phân</title>
+    <meta name="lesson-title" content="Bài 13: Ứng dụng hình học của tích phân">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 13: Ứng dụng hình học của tích phân</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 4: Nguyên hàm và tích phân • Bài 13: Ứng dụng hình học của tích phân</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h2>1. Diện tích hình phẳng</h2>
+<p><b>Công thức 1.</b> Diện tích $S$ của hình phẳng giới hạn bởi đồ thị hàm số $y = f(x)$ liên tục trên $[a; b]$, trục hoành và hai đường thẳng $x = a$, $x = b$ là</p>
+<p style="text-align:center">$S = \int_a^b |f(x)|\,dx.$</p>
+<p><b>Chú ý:</b> phải <b>xét dấu</b> của $f(x)$ trên $[a; b]$ (tìm nghiệm của $f(x) = 0$) để phá dấu trị tuyệt đối. Nếu $f(x) \ge 0$ trên $[a; b]$ thì $S = \int_a^b f(x)\,dx$; nếu $f(x) \le 0$ thì $S = -\int_a^b f(x)\,dx$.</p>
+<p><b>Công thức 2.</b> Diện tích hình phẳng giới hạn bởi hai đồ thị $y = f(x)$, $y = g(x)$ và hai đường thẳng $x = a$, $x = b$ là</p>
+<p style="text-align:center">$S = \int_a^b |f(x) - g(x)|\,dx.$</p>
+
+<svg viewBox="0 0 560 260" xmlns="http://www.w3.org/2000/svg" style="max-width:560px;width:100%;height:auto;display:block;margin:12px auto">
+<text x="280" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e40af">Diện tích hình phẳng giới hạn bởi $y = f(x)$</text>
+<line x1="40" y1="200" x2="520" y2="200" stroke="#0f172a" stroke-width="1.5"/>
+<line x1="80" y1="230" x2="80" y2="40" stroke="#0f172a" stroke-width="1.5"/>
+<path d="M 120 200 Q 220 200 260 120 Q 300 40 400 60 L 400 200 Z" fill="#bfdbfe" stroke="#1e40af" stroke-width="2"/>
+<path d="M 120 200 Q 220 200 260 120 Q 300 40 400 60" fill="none" stroke="#dc2626" stroke-width="2.5"/>
+<text x="270" y="170" font-size="13" fill="#1e40af">$S = \int_a^b |f(x)|\,dx$</text>
+<text x="395" y="50" font-size="13" fill="#dc2626">$y = f(x)$</text>
+<text x="115" y="218" font-size="12">$a$</text><text x="395" y="218" font-size="12">$b$</text>
+<text x="505" y="205" font-size="12">$x$</text><text x="70" y="50" font-size="12">$y$</text>
+<text x="80" y="218" font-size="12">$O$</text>
+</svg>
+<p><b>Ví dụ 1.</b> Tính diện tích hình phẳng giới hạn bởi $y = x^2$, trục hoành, $x = 0$, $x = 1$.</p>
+<p><b>Giải.</b> Vì $x^2 \ge 0$ trên $[0; 1]$ nên $S = \int_0^1 x^2\,dx = \frac{1}{3}$.</p>
+<p><b>Ví dụ 2.</b> Tính diện tích hình phẳng giới hạn bởi $y = x$ và $y = x^2$.</p>
+<p><b>Giải.</b> Phương trình hoành độ giao điểm: $x = x^2 \Leftrightarrow x = 0$ hoặc $x = 1$. Trên $(0; 1)$ có $x \ge x^2$ nên $S = \int_0^1 (x - x^2)\,dx = \frac{1}{6}$.</p>
+<p><b>Ví dụ 3 (chú ý dấu).</b> Tính diện tích hình phẳng giới hạn bởi $y = x^2 - 2x$, trục hoành, $x = 0$, $x = 2$.</p>
+<p><b>Giải.</b> Trên $(0; 2)$ có $x^2 - 2x < 0$ nên $S = -\int_0^2 (x^2-2x)\,dx = \frac{4}{3}$. (Nếu quên trị tuyệt đối sẽ được $0$ — sai!)</p>
+
+<h2>2. Thể tích khối tròn xoay</h2>
+<p>Khi quay hình phẳng giới hạn bởi $y = f(x) \ge 0$, trục hoành, $x = a$, $x = b$ quanh trục $Ox$, mỗi lát cắt vuông góc với $Ox$ tại $x$ là hình tròn bán kính $|f(x)|$. Do đó thể tích khối tròn xoay là</p>
+<p style="text-align:center">$V = \pi\int_a^b f^2(x)\,dx.$</p>
+<p><b>Ví dụ 4.</b> Tính thể tích khối tròn xoay khi quay hình phẳng giới hạn bởi $y = x$, trục hoành, $x = 0$, $x = 1$ quanh $Ox$.</p>
+<p><b>Giải.</b> $V = \pi\int_0^1 x^2\,dx = \frac{\pi}{3}$ (đây là khối nón có bán kính đáy $1$, chiều cao $1$).</p>
+<p><b>Ví dụ 5.</b> Tính thể tích khối cầu bán kính $R$.</p>
+<p><b>Giải.</b> Quay nửa đường tròn $y = \sqrt{R^2-x^2}$ ($-R \le x \le R$) quanh $Ox$: $V = \pi\int_{-R}^{R} (R^2-x^2)\,dx = \frac{4}{3}\pi R^3$.</p>
+
+<h2>3. Một số kết quả thường gặp</h2>
+<div class="table-scroll"><table>
+<tr><th>Hình phẳng / khối tròn xoay</th><th>Kết quả</th></tr>
+<tr><td>$S$ giới hạn bởi $y = x^2$, $Ox$, $x = 0$, $x = 1$</td><td>$\frac{1}{3}$</td></tr>
+<tr><td>$S$ giới hạn bởi $y = x$, $y = x^2$</td><td>$\frac{1}{6}$</td></tr>
+<tr><td>$S$ giới hạn bởi $y = \sin x$, $Ox$, $0 \le x \le \pi$</td><td>$2$</td></tr>
+<tr><td>$V$ khi quay $y = x$ ($0 \le x \le 1$) quanh $Ox$</td><td>$\frac{\pi}{3}$</td></tr>
+<tr><td>$V$ khi quay $y = x^2$ ($0 \le x \le 1$) quanh $Ox$</td><td>$\frac{\pi}{5}$</td></tr>
+<tr><td>$V$ khi quay $y = \sqrt{x}$ ($0 \le x \le 1$) quanh $Ox$</td><td>$\frac{\pi}{2}$</td></tr>
+</table></div>
+
+            </div>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
