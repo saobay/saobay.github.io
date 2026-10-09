@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 18: Ứng dụng hiện tượng cảm ứng điện từ</title>
+    <meta name="lesson-title" content="Bài 18: Ứng dụng hiện tượng cảm ứng điện từ">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 18: Ứng dụng hiện tượng cảm ứng điện từ</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 3: Từ trường • Bài 18: Ứng dụng hiện tượng cảm ứng điện từ</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 18: Ứng dụng hiện tượng cảm ứng điện từ</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 3: Từ trường — Vật lí 12 (Kết nối tri thức với cuộc sống)</p>
+
+
+<!-- 1. May bien ap -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Máy biến áp</h2>
+
+<p><strong>Máy biến áp</strong> là thiết bị biến đổi điện áp xoay chiều, hoạt động dựa trên hiện tượng cảm ứng điện từ. Cấu tạo gồm:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Lõi thép</strong> khép kín (dẫn từ tốt).</li>
+<li><strong>Cuộn sơ cấp</strong> ($N_1$ vòng) nối với nguồn điện.</li>
+<li><strong>Cuộn thứ cấp</strong> ($N_2$ vòng) nối với tải tiêu thụ.</li>
+</ul>
+
+<p>Khi đặt điện áp xoay chiều $U_1$ vào cuộn sơ cấp, từ thông biến thiên qua lõi thép làm xuất hiện suất điện động cảm ứng ở cuộn thứ cấp. Tỉ số điện áp:</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p class="text-2xl">$$\frac{U_1}{U_2} = \frac{N_1}{N_2}$$</p>
+<p class="mt-2">$N_2$ lớn hơn $N_1$: <strong>máy tăng áp</strong>; $N_2$ nhỏ hơn $N_1$: <strong>máy hạ áp</strong>.</p>
+</div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="May bien ap">
+<rect x="2" y="2" width="436" height="196" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="26" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0c4a6e" text-anchor="middle">MÁY BIẾN ÁP</text>
+<rect x="150" y="50" width="140" height="110" rx="6" fill="none" stroke="#64748b" stroke-width="8"/>
+<text x="220" y="110" font-family="sans-serif" font-size="11" fill="#64748b" text-anchor="middle">Lõi thép</text>
+<path d="M150,70 q-25,10 -25,35 M150,95 q-25,10 -25,35 M150,120 q-25,10 -25,35" fill="none" stroke="#dc2626" stroke-width="3"/>
+<path d="M290,70 q25,10 25,35 M290,95 q25,10 25,35 M290,120 q25,10 25,35" fill="none" stroke="#2563eb" stroke-width="3"/>
+<text x="100" y="170" font-family="sans-serif" font-size="12" fill="#dc2626" text-anchor="middle">Sơ cấp N1 (U1)</text>
+<text x="340" y="170" font-family="sans-serif" font-size="12" fill="#2563eb" text-anchor="middle">Thứ cấp N2 (U2)</text>
+<text x="220" y="190" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">U1/U2 = N1/N2</text>
+</svg></div>
+
+<!-- 2. Truyen tai dien nang -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Truyền tải điện năng đi xa</h2>
+
+<p>Công suất hao phí trên đường dây: $P_{hp} = I^2R = \frac{P^2R}{U^2}$. Để giảm hao phí, người ta dùng máy <strong>tăng áp</strong> để tăng $U$ trước khi truyền tải (ở Việt Nam lên đến $500$ kV), rồi dùng máy <strong>hạ áp</strong> trước khi đến người dùng.</p>
+
+<!-- 3. Cac ung dung khac -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Các ứng dụng khác</h2>
+
+<div class="table-scroll"><table>
+<tr><th>Ứng dụng</th><th>Nguyên tắc</th></tr>
+<tr><td>Động cơ điện xoay chiều</td><td>Lực từ tác dụng lên khung dây có dòng điện làm quay roto</td></tr>
+<tr><td>Bếp từ</td><td>Dòng điện cảm ứng (dòng Foucault) làm nóng đáy nồi kim loại</td></tr>
+<tr><td>Đàn guitar điện</td><td>Dây đàn dao động làm biến thiên từ thông qua cuộn dây → tín hiệu điện</td></tr>
+<tr><td>Máy phát điện</td><td>Cảm ứng điện từ: cơ năng → điện năng</td></tr>
+<tr><td>Sạc không dây</td><td>Cảm ứng điện từ giữa hai cuộn dây</td></tr>
+</table></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><strong>Máy biến áp:</strong> $U_1/U_2 = N_1/N_2$; chỉ biến đổi <strong>điện áp xoay chiều</strong>, không dùng được với điện một chiều. <strong>Truyền tải điện xa:</strong> tăng áp để giảm hao phí $P_{hp} = P^2R/U^2$.</p>
+</div>
+
+<!-- 4. Vi du -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Ví dụ vận dụng</h2>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 1:</p>
+<p>Một máy biến áp có cuộn sơ cấp $1000$ vòng, cuộn thứ cấp $100$ vòng. Đặt vào cuộn sơ cấp điện áp $220$ V. Tính điện áp ở cuộn thứ cấp (bỏ qua hao phí).</p>
+<p class="mt-2"><strong>Lời giải:</strong> $U_2 = U_1N_2/N_1 = 220 \times 100/1000 = 22$ V (máy hạ áp).</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 2:</p>
+<p>Muốn tăng điện áp từ $220$ V lên $440$ V, cuộn sơ cấp có $500$ vòng thì cuộn thứ cấp cần bao nhiêu vòng?</p>
+<p class="mt-2"><strong>Lời giải:</strong> $N_2 = N_1U_2/U_1 = 500 \times 440/220 = 1000$ vòng.</p>
+</div>
+
+<!-- Tong ket -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Máy biến áp:</strong> lõi thép + cuộn sơ cấp + cuộn thứ cấp; $U_1/U_2 = N_1/N_2$.</li>
+<li>Chỉ dùng với <strong>điện xoay chiều</strong>.</li>
+<li><strong>Truyền tải điện xa:</strong> tăng áp để giảm hao phí.</li>
+<li>Ứng dụng: động cơ điện, bếp từ, đàn guitar điện, sạc không dây.</li>
+</ul>
+</div>
+
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề Vật lí bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
