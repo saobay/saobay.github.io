@@ -510,7 +510,7 @@
                 let tReg = masterDatabase.teachers_registry || {};
                 Object.keys(tReg).forEach(function(tid){
                     let exists = cachedTeachers.some(function(t){ return String(t.id) === String(tid); });
-                    if (!exists) cachedTeachers.push({ id: String(tid), name: (tReg[tid] && tReg[tid].name) || String(tid), subjects: '', classes: '', group: (tReg[tid] && tReg[tid].group) || '' });
+                    if (!exists) cachedTeachers.push({ id: String(tid), name: (tReg[tid] && tReg[tid].name) || String(tid), subjects: '', classes: '', group: (tReg[tid] && tReg[tid].group) || '', role: (tReg[tid] && tReg[tid].role) || 'teacher' });
                 });
             } catch(eReg){}
             cachedStudents = extractStudentList(masterDatabase.students);
@@ -631,7 +631,7 @@
 
             document.getElementById('force-user-name').innerText = user.name || '--';
             document.getElementById('force-user-id').innerText = user.id || '--';
-            document.getElementById('force-user-role').innerText = user.role === 'teacher' ? 'Giáo Viên' : (user.role === 'admin' ? 'Quản Trị Viên' : `Học Sinh (${user.className || ''})`);
+            document.getElementById('force-user-role').innerText = user.role === 'teacher' ? 'Giáo Viên' : (user.role === 'admin' ? 'Quản Trị Viên' : (user.role === 'bgh' ? 'Ban Giám Hiệu' : `Học Sinh (${user.className || ''})`));
             document.getElementById('force-new-pass').value = '';
             document.getElementById('force-confirm-pass').value = '';
             document.getElementById('force-new-pass').focus();
@@ -718,7 +718,7 @@
                 matchedUser = {
                     id: foundTeacher.id,
                     name: foundTeacher.name,
-                    role: 'teacher',
+                    role: foundTeacher.role === 'bgh' ? 'bgh' : 'teacher',
                     subjects: foundTeacher.subjects,
                     classes: foundTeacher.classes,
                     group: foundTeacher.group || ''
@@ -788,6 +788,8 @@
             setTimeout(() => {
                 if (matchedUser.role === 'teacher') {
                     window.location.href = '../teacher/teacher-hub.html';
+                } else if (matchedUser.role === 'bgh') {
+                    window.location.href = '../teacher/bgh-dashboard.html';
                 } else {
                     window.location.href = '../index.html';
                 }
@@ -843,6 +845,8 @@
                 setTimeout(() => {
                     if (forceUser.role === 'teacher') {
                         window.location.href = '../teacher/teacher-hub.html';
+                    } else if (forceUser.role === 'bgh') {
+                        window.location.href = '../teacher/bgh-dashboard.html';
                     } else {
                         window.location.href = '../index.html';
                     }
