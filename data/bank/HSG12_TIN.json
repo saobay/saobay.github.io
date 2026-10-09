@@ -1,0 +1,1407 @@
+{
+ "subject": "TIN",
+ "grade": 12,
+ "updated": "2026-10-09",
+ "questions": [
+  {
+   "id": "HSG12_TIN_0001",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 1,
+   "type": "mcq",
+   "level": "VDC",
+   "q": "Xét đoạn mã sắp xếp chèn sau (mảng a có n = 5 phần tử, chỉ số từ 0):\n\ndem = 0\nVới i chạy từ 1 đến 4:\n    x = a[i]\n    j = i - 1\n    Trong khi j lớn hơn hoặc bằng 0 và a[j] lớn hơn x:\n        a[j + 1] = a[j]\n        j = j - 1\n        dem = dem + 1\n    a[j + 1] = x\n\nVới a = [7, 3, 9, 1, 5], hỏi sau khi thực hiện xong, biến dem bằng bao nhiêu?",
+   "options": [
+    "A. 4",
+    "B. 5",
+    "C. 6",
+    "D. 8"
+   ],
+   "statements": [],
+   "answer": "C",
+   "explain": "Truy vết từng bước (dem đếm số lần dịch chuyển phần tử sang phải):\n- i = 1, x = 3: a[0] = 7 lớn hơn 3 nên dịch 1 lần (dem = 1), mảng thành [3, 7, 9, 1, 5].\n- i = 2, x = 9: a[1] = 7 không lớn hơn 9 nên không dịch (dem = 1).\n- i = 3, x = 1: dịch 9, 7, 3 (3 lần, dem = 4), mảng thành [1, 3, 7, 9, 5].\n- i = 4, x = 5: dịch 9, 7 (2 lần, dem = 6), a[1] = 3 không lớn hơn 5 nên dừng; mảng thành [1, 3, 5, 7, 9].\nTổng cộng dem = 6. Đáp án C.",
+   "points": 0.25,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_1_Bai_tap_none.html",
+   "setName": "Đề 1",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0002",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 1,
+   "type": "mcq",
+   "level": "VDC",
+   "q": "Xét một bước phân hoạch Lomuto của QuickSort trên mảng a = [8, 3, 10, 1, 6, 4] với chốt pivot = a[5] = 4:\n\ni = -1\nVới j chạy từ 0 đến 4:\n    Nếu a[j] nhỏ hơn hoặc bằng pivot:\n        i = i + 1\n        đổi chỗ a[i] và a[j]\nđổi chỗ a[i + 1] và a[5]\n\nHỏi mảng a sau bước phân hoạch và tổng số lần thực hiện lệnh đổi chỗ (kể cả khi đổi một phần tử với chính nó)?",
+   "options": [
+    "A. [3, 1, 4, 8, 6, 10] và 3 lần",
+    "B. [3, 1, 4, 8, 6, 10] và 2 lần",
+    "C. [1, 3, 4, 8, 6, 10] và 3 lần",
+    "D. [3, 1, 8, 4, 6, 10] và 3 lần"
+   ],
+   "statements": [],
+   "answer": "A",
+   "explain": "Truy vết với pivot = 4:\n- j = 0: a[0] = 8 lớn hơn 4, bỏ qua.\n- j = 1: a[1] = 3 nhỏ hơn hoặc bằng 4: i = 0, đổi chỗ a[0] với a[1] (lần 1), mảng thành [3, 8, 10, 1, 6, 4].\n- j = 2: a[2] = 10 lớn hơn 4, bỏ qua.\n- j = 3: a[3] = 1 nhỏ hơn hoặc bằng 4: i = 1, đổi chỗ a[1] với a[3] (lần 2), mảng thành [3, 1, 10, 8, 6, 4].\n- j = 4: a[4] = 6 lớn hơn 4, bỏ qua.\n- Cuối: đổi chỗ a[2] với a[5] (lần 3), mảng thành [3, 1, 4, 8, 6, 10].\nVậy mảng là [3, 1, 4, 8, 6, 10] và có 3 lần đổi chỗ. Đáp án A.",
+   "points": 0.25,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_1_Bai_tap_none.html",
+   "setName": "Đề 1",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0003",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 1,
+   "type": "mcq",
+   "level": "VDC",
+   "q": "Xét đoạn mã:\n\ndem = 0\ni = 1\nTrong khi i nhỏ hơn hoặc bằng n:\n    j = 1\n    Trong khi j nhỏ hơn hoặc bằng n:\n        dem = dem + 1\n        j = j * 2\n    i = i * 2\n\nĐộ phức tạp thời gian của đoạn mã theo n là gì?",
+   "options": [
+    "A. $O(n)$",
+    "B. $O(n \\log n)$",
+    "C. $O((\\log n)^2)$",
+    "D. $O(n^2)$"
+   ],
+   "statements": [],
+   "answer": "C",
+   "explain": "Vòng lặp ngoài: i nhận các giá trị $1, 2, 4, 8, \\dots$ (nhân đôi mỗi lần) nên số lần lặp là $\\lfloor \\log_2 n \\rfloor + 1 = O(\\log n)$. Với mỗi lần lặp ngoài, vòng lặp trong cũng cho j chạy $1, 2, 4, \\dots$ nên cũng lặp $O(\\log n)$ lần. Tổng số lần thực hiện dem = dem + 1 là $O(\\log n) \\times O(\\log n) = O((\\log n)^2)$. Đáp án C.",
+   "points": 0.25,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_1_Bai_tap_none.html",
+   "setName": "Đề 1",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0004",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 1,
+   "type": "mcq",
+   "level": "VDC",
+   "q": "Xét thuật toán tìm kiếm nhị phân trên mảng đã sắp xếp a = [2, 5, 8, 12, 16, 23, 38, 56, 72, 91] để tìm x = 20:\n\ntrai = 0\nphai = 9\ndem = 0\nTrong khi trai nhỏ hơn hoặc bằng phai:\n    dem = dem + 1\n    giua = (trai + phai) // 2\n    Nếu a[giua] bằng x:\n        dừng và in dem\n    Ngược lại nếu a[giua] nhỏ hơn x:\n        trai = giua + 1\n    Ngược lại:\n        phai = giua - 1\n\nBiến dem bằng bao nhiêu khi thuật toán kết thúc (x = 20 không có trong mảng)?",
+   "options": [
+    "A. 2",
+    "B. 3",
+    "C. 4",
+    "D. 5"
+   ],
+   "statements": [],
+   "answer": "B",
+   "explain": "Truy vết (mỗi lần lặp dem tăng 1 trước khi tính giua):\n- Lần 1: trai = 0, phai = 9, giua = 4, a[4] = 16 nhỏ hơn 20 nên trai = 5.\n- Lần 2: trai = 5, phai = 9, giua = 7, a[7] = 56 lớn hơn 20 nên phai = 6.\n- Lần 3: trai = 5, phai = 6, giua = 5, a[5] = 23 lớn hơn 20 nên phai = 4.\n- Kiểm tra điều kiện lặp: trai = 5 lớn hơn phai = 4 nên dừng.\nVậy dem = 3. Đáp án B.",
+   "points": 0.25,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_1_Bai_tap_none.html",
+   "setName": "Đề 1",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0005",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 1,
+   "type": "mcq",
+   "level": "VDC",
+   "q": "Khi trộn hai mảng đã sắp xếp tăng dần a = [1, 5, 9, 13] và b = [2, 6, 7, 10, 14] bằng thuật toán trộn của MergeSort, người ta đếm mỗi lần thực hiện phép so sánh một phần tử của a với một phần tử của b (khi một trong hai mảng đã hết thì chép nốt phần còn lại mà không so sánh nữa). Hỏi tổng số phép so sánh đã thực hiện?",
+   "options": [
+    "A. 7",
+    "B. 8",
+    "C. 9",
+    "D. 10"
+   ],
+   "statements": [],
+   "answer": "B",
+   "explain": "Truy vết quá trình trộn (mỗi lần so sánh a[i] với b[j]):\n1 và 2 so sánh, lấy 1; 5 và 2 so sánh, lấy 2; 5 và 6 so sánh, lấy 5; 9 và 6 so sánh, lấy 6; 9 và 7 so sánh, lấy 7; 9 và 10 so sánh, lấy 9; 13 và 10 so sánh, lấy 10; 13 và 14 so sánh, lấy 13. Mảng a đã hết nên chép nốt 14 mà không so sánh nữa.\nTổng cộng 8 phép so sánh. Đáp án B.",
+   "points": 0.25,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_1_Bai_tap_none.html",
+   "setName": "Đề 1",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0006",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 1,
+   "type": "mcq",
+   "level": "VDC",
+   "q": "Cho mảng a gồm n số nguyên (n có thể tới $10^6$) và số nguyên K. Cần đếm số cặp chỉ số (i, j) với i nhỏ hơn j sao cho a[i] + a[j] = K. Phương án nào sau đây đúng và hiệu quả nhất?",
+   "options": [
+    "A. Duyệt mọi cặp (i, j) bằng hai vòng lặp lồng nhau, độ phức tạp $O(n^2)$: đơn giản và đủ nhanh với n = $10^6$.",
+    "B. Sắp xếp mảng rồi với mỗi phần tử dùng tìm kiếm nhị phân để tìm giá trị K - a[i], độ phức tạp $O(n \\log n)$: đây là cách tối ưu.",
+    "C. Duyệt mảng một lần, dùng bảng băm lưu số lần xuất hiện của các giá trị đã gặp; với mỗi a[j], cộng thêm số lần xuất hiện của giá trị K - a[j]; độ phức tạp trung bình $O(n)$.",
+    "D. Sắp xếp mảng rồi dùng kỹ thuật hai con trỏ, tổng độ phức tạp $O(n)$."
+   ],
+   "statements": [],
+   "answer": "C",
+   "explain": "Phân tích từng phương án:\n- A sai: $n^2 = 10^{12}$ phép tính là không khả thi.\n- B đúng nhưng chưa tối ưu (còn $O(n \\log n)$).\n- D sai: chỉ riêng bước sắp xếp đã tốn $O(n \\log n)$, không thể có tổng $O(n)$.\n- C đúng và tối ưu: mỗi phần tử chỉ cần một lần tra bảng băm $O(1)$ trung bình; vì chỉ đếm các chỉ số i nhỏ hơn j đã duyệt qua nên mỗi cặp được đếm đúng một lần. Đáp án C.",
+   "points": 0.25,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_1_Bai_tap_none.html",
+   "setName": "Đề 1",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0007",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 1,
+   "type": "truefalse",
+   "level": "VDC",
+   "q": "Xét tính đúng, sai của các khẳng định sau về các thuật toán sắp xếp:",
+   "options": [],
+   "statements": [
+    "a) Thuật toán sắp xếp nổi bọt (bản không có cờ hiệu dừng sớm) trên mảng đã sắp xếp tăng dần vẫn thực hiện đúng $n(n-1)/2$ phép so sánh.",
+    "b) Thuật toán QuickSort có độ phức tạp $O(n \\log n)$ trong mọi trường hợp.",
+    "c) Thuật toán MergeSort cần thêm bộ nhớ phụ cỡ $O(n)$.",
+    "d) Với mảng có kích thước rất nhỏ (ví dụ n không vượt quá 20), sắp xếp chèn trong thực tế thường chạy nhanh hơn QuickSort nhờ hằng số ẩn nhỏ và không tốn chi phí đệ quy."
+   ],
+   "answer": [
+    "T",
+    "F",
+    "T",
+    "T"
+   ],
+   "explain": "a) Đúng: bản nổi bọt không có cờ hiệu luôn thực hiện đủ $n(n-1)/2$ phép so sánh bất kể dữ liệu vào.\nb) Sai: QuickSort có trường hợp xấu $O(n^2)$ (ví dụ mảng đã sắp xếp mà luôn chọn chốt là phần tử đầu/cuối).\nc) Đúng: bước trộn cần mảng phụ để chứa kết quả, tốn thêm bộ nhớ $O(n)$.\nd) Đúng: đây chính là lý do các thuật toán sắp xếp lai (như TimSort, Introsort) chuyển sang sắp xếp chèn với đoạn mảng nhỏ.",
+   "points": 1,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_1_Bai_tap_none.html",
+   "setName": "Đề 1",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0008",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 1,
+   "type": "truefalse",
+   "level": "VDC",
+   "q": "Xét tính đúng, sai của các khẳng định sau về tìm kiếm và độ phức tạp:",
+   "options": [],
+   "statements": [
+    "a) Tìm kiếm nhị phân chỉ áp dụng được khi dãy đã được sắp xếp.",
+    "b) Với n đủ lớn, $O(2^n)$ tăng nhanh hơn $O(n!)$.",
+    "c) Thuật toán $O(n \\log n)$ với n = $10^6$ thường chạy xong trong khoảng 1 giây trên máy tính hiện nay, còn thuật toán $O(n^2)$ thì không.",
+    "d) Hằng số ẩn trong ký hiệu $O(1)$ luôn nhỏ hơn hằng số ẩn trong ký hiệu $O(n)$."
+   ],
+   "answer": [
+    "T",
+    "F",
+    "T",
+    "F"
+   ],
+   "explain": "a) Đúng: tìm kiếm nhị phân dựa vào tính có thứ tự để loại bỏ một nửa đoạn tìm kiếm.\nb) Sai: $n!$ tăng nhanh hơn $2^n$ khi n đủ lớn (ví dụ $10! = 3628800$ lớn hơn $2^{10} = 1024$).\nc) Đúng: $10^6 \\log_2 10^6 \\approx 2 \\times 10^7$ phép tính là khả thi trong khoảng 1 giây, còn $10^{12}$ phép tính thì cần hàng giờ.\nd) Sai: ký hiệu O chỉ mô tả tốc độ tăng trưởng tiệm cận, hằng số ẩn của $O(1)$ có thể rất lớn (ví dụ một phép tính $O(1)$ tốn $10^9$ phép tính cơ bản).",
+   "points": 1,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_1_Bai_tap_none.html",
+   "setName": "Đề 1",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0009",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 1,
+   "type": "short",
+   "level": "VDC",
+   "q": "Xét đoạn mã sắp xếp chọn (chỉ đổi chỗ khi tìm được vị trí nhỏ hơn vị trí đang xét):\n\ndem = 0\nVới i chạy từ 0 đến 3:\n    m = i\n    Với j chạy từ i + 1 đến 4:\n        Nếu a[j] nhỏ hơn a[m]:\n            m = j\n    Nếu m khác i:\n        đổi chỗ a[i] và a[m]\n        dem = dem + 1\n\nVới a = [6, 2, 8, 4, 1], hỏi biến dem bằng bao nhiêu khi kết thúc?",
+   "options": [],
+   "statements": [],
+   "answer": "3",
+   "explain": "Truy vết:\n- i = 0: giá trị nhỏ nhất đoạn [0..4] là 1 tại m = 4, khác 0 nên đổi chỗ (dem = 1), mảng thành [1, 2, 8, 4, 6].\n- i = 1: giá trị nhỏ nhất đoạn [1..4] là 2 tại m = 1, trùng i nên không đổi chỗ (dem = 1).\n- i = 2: giá trị nhỏ nhất đoạn [2..4] là 4 tại m = 3, khác 2 nên đổi chỗ (dem = 2), mảng thành [1, 2, 4, 8, 6].\n- i = 3: giá trị nhỏ nhất đoạn [3..4] là 6 tại m = 4, khác 3 nên đổi chỗ (dem = 3), mảng thành [1, 2, 4, 6, 8].\nVậy dem = 3.",
+   "points": 0.5,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_1_Bai_tap_none.html",
+   "setName": "Đề 1",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0010",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 1,
+   "type": "short",
+   "level": "VDC",
+   "q": "Đoạn mã sau in ra giá trị nào?\n\ns = 0\nVới i chạy từ 1 đến 100:\n    Nếu i chia hết cho 3 hoặc i chia hết cho 5:\n        s = s + i\nIn s",
+   "options": [],
+   "statements": [],
+   "answer": "2418",
+   "explain": "s là tổng các số từ 1 đến 100 chia hết cho 3 hoặc chia hết cho 5. Dùng nguyên lý bao hàm - loại trừ:\n- Tổng các bội của 3: $3 \\times (1 + 2 + \\dots + 33) = 3 \\times 561 = 1683$.\n- Tổng các bội của 5: $5 \\times (1 + 2 + \\dots + 20) = 5 \\times 210 = 1050$.\n- Tổng các bội của 15 (bị cộng hai lần): $15 \\times (1 + 2 + \\dots + 6) = 15 \\times 21 = 315$.\nVậy s = 1683 + 1050 - 315 = 2418.",
+   "points": 0.5,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_1_Bai_tap_none.html",
+   "setName": "Đề 1",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0011",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 2,
+   "type": "mcq",
+   "level": "VDC",
+   "q": "Xét hàm đệ quy tính số Fibonacci (dem là biến toàn cục, khởi tạo bằng 0):\n\nF(n):\n    dem = dem + 1\n    Nếu n nhỏ hơn hoặc bằng 1:\n        trả về n\n    Ngược lại:\n        trả về F(n - 1) + F(n - 2)\n\nKhi gọi F(5), biến dem bằng bao nhiêu (tức có bao nhiêu lần gọi hàm F, kể cả lần gọi đầu tiên)?",
+   "options": [
+    "A. 9",
+    "B. 12",
+    "C. 15",
+    "D. 25"
+   ],
+   "statements": [],
+   "answer": "C",
+   "explain": "Cây gọi đệ quy: F(5) gọi F(4) và F(3); F(4) gọi F(3) và F(2); F(3) gọi F(2) và F(1); F(2) gọi F(1) và F(0). Gọi C(n) là số lần gọi hàm khi tính F(n): C(0) = C(1) = 1 và C(n) = 1 + C(n-1) + C(n-2). Tính dần: C(2) = 3, C(3) = 5, C(4) = 9, C(5) = 15. Vậy dem = 15. Đáp án C.",
+   "points": 0.25,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_2_Bai_tap_none.html",
+   "setName": "Đề 2",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0012",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 2,
+   "type": "mcq",
+   "level": "VDC",
+   "q": "Xét thủ tục đệ quy:\n\nF(n):\n    Nếu n lớn hơn 0:\n        F(n // 2)\n        In (n mod 2)   # in liền nhau, không xuống dòng\n\nKhi gọi F(13), dãy ký tự được in ra (liền nhau, không xuống dòng) là gì?",
+   "options": [
+    "A. \"1011\"",
+    "B. \"1101\"",
+    "C. \"1010\"",
+    "D. \"0111\""
+   ],
+   "statements": [],
+   "answer": "B",
+   "explain": "Vì lệnh in đặt SAU lời gọi đệ quy nên các chữ số được in theo thứ tự từ lần gọi sâu nhất trở ra (ngược với thứ tự gọi):\n- F(13) gọi F(6) rồi in 13 mod 2 = 1.\n- F(6) gọi F(3) rồi in 6 mod 2 = 0.\n- F(3) gọi F(1) rồi in 3 mod 2 = 1.\n- F(1) gọi F(0) (không làm gì) rồi in 1 mod 2 = 1.\nThứ tự in: 1, 0, 1, 1, tức \"1101\" — chính là biểu diễn nhị phân của 13. Đáp án B.",
+   "points": 0.25,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_2_Bai_tap_none.html",
+   "setName": "Đề 2",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0013",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 2,
+   "type": "mcq",
+   "level": "VDC",
+   "q": "Xét thủ tục đệ quy giải bài toán Tháp Hà Nội (chuyển n đĩa từ cọc A sang cọc C nhờ cọc trung gian B), biến dem đếm số lần gọi thủ tục:\n\nChuyen(n, A, B, C):\n    dem = dem + 1\n    Nếu n bằng 1:\n        In A, \"sang\", C\n        trả về\n    Chuyen(n - 1, A, C, B)\n    In A, \"sang\", C\n    Chuyen(n - 1, B, A, C)\n\nKhi gọi Chuyen(3, 'A', 'B', 'C'), dem bằng bao nhiêu (dem khởi tạo bằng 0)?",
+   "options": [
+    "A. 5",
+    "B. 6",
+    "C. 7",
+    "D. 8"
+   ],
+   "statements": [],
+   "answer": "C",
+   "explain": "Gọi C(n) là số lần gọi thủ tục khi chuyển n đĩa: C(1) = 1 và C(n) = 1 + 2 × C(n-1) (một lần gọi hiện tại cộng hai lần gọi đệ quy cho n-1 đĩa). Tính dần: C(2) = 1 + 2 × 1 = 3, C(3) = 1 + 2 × 3 = 7. Vậy dem = 7. Đáp án C.",
+   "points": 0.25,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_2_Bai_tap_none.html",
+   "setName": "Đề 2",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0014",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 2,
+   "type": "mcq",
+   "level": "VDC",
+   "q": "Để tính số Fibonacci F(6), người ta dùng kỹ thuật nhớ (memoization): mỗi giá trị F(k) với k từ 0 đến 6 chỉ được tính một lần duy nhất, các lần cần lại thì tra bảng. Hỏi tổng số phép cộng được thực hiện để tính F(6) (không tính các phép cộng, trừ của chỉ số và điều khiển vòng lặp)?",
+   "options": [
+    "A. 4",
+    "B. 5",
+    "C. 8",
+    "D. 15"
+   ],
+   "statements": [],
+   "answer": "B",
+   "explain": "Với memoization, mỗi F(k) (k = 2..6) được tính đúng một lần theo công thức F(k) = F(k-1) + F(k-2), mỗi lần tính tốn đúng 1 phép cộng (hai giá trị F(k-1), F(k-2) đã có sẵn trong bảng). Có 5 giá trị cần tính (F(2) đến F(6)) nên tổng số phép cộng là 5. (So sánh: đệ quy ngây thơ cần tới 15 lần gọi hàm.) Đáp án B.",
+   "points": 0.25,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_2_Bai_tap_none.html",
+   "setName": "Đề 2",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0015",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 2,
+   "type": "mcq",
+   "level": "VDC",
+   "q": "Để tìm đồng thời giá trị lớn nhất và nhỏ nhất của mảng a có n = 8 phần tử, người ta dùng thuật toán chia để trị:\n\nMaxMin(l, r):\n    Nếu l bằng r: trả về (a[l], a[l])\n    Nếu r bằng l + 1:\n        Nếu a[l] lớn hơn a[r]: trả về (a[l], a[r])\n        Ngược lại: trả về (a[r], a[l])\n    mid = (l + r) // 2\n    (max1, min1) = MaxMin(l, mid)\n    (max2, min2) = MaxMin(mid + 1, r)\n    Nếu max1 lớn hơn max2: mx = max1, ngược lại mx = max2\n    Nếu min1 nhỏ hơn min2: mn = min1, ngược lại mn = min2\n    trả về (mx, mn)\n\nHỏi tổng số phép so sánh giữa các phần tử của mảng khi gọi MaxMin(0, 7) là bao nhiêu? (Mỗi lần thực hiện \"nếu ... lớn hơn ...\" hoặc \"nhỏ hơn\" tính là một phép so sánh.)",
+   "options": [
+    "A. 8",
+    "B. 10",
+    "C. 12",
+    "D. 14"
+   ],
+   "statements": [],
+   "answer": "B",
+   "explain": "Gọi T(n) là số phép so sánh với đoạn có n phần tử. Với n = 2: đúng 1 phép so sánh. Với n lớn hơn 2: T(n) = 2 × T(n/2) + 2 (hai bài toán con nửa kích thước cộng 2 phép so sánh để gộp max và min). Tính dần: T(4) = 2 × 1 + 2 = 4, T(8) = 2 × 4 + 2 = 10. (Cách ngây thơ duyệt một lần cần tới 2n - 2 = 14 phép so sánh.) Đáp án B.",
+   "points": 0.25,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_2_Bai_tap_none.html",
+   "setName": "Đề 2",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0016",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 2,
+   "type": "mcq",
+   "level": "VDC",
+   "q": "Cần tính $a^n \\bmod M$ với n có thể tới $10^{18}$ (M cho trước; a, M nguyên dương). Nhận định nào sau đây đúng?",
+   "options": [
+    "A. Dùng vòng lặp nhân a đúng n lần rồi lấy dư cho M: đơn giản và đủ nhanh vì mỗi phép nhân chỉ tốn $O(1)$.",
+    "B. Dùng đệ quy chia để trị: $P(n) = P(n/2)^2 \\bmod M$ khi n chẵn, $P(n) = a \\cdot P(n-1) \\bmod M$ khi n lẻ (với $P(0) = 1$); độ phức tạp $O(\\log n)$ nên khả thi với n = $10^{18}$.",
+    "C. Tính $a^n$ bằng hàm lũy thừa có sẵn của ngôn ngữ rồi lấy dư cho M: nhanh nhất vì hàm có sẵn được tối ưu ở mức thấp.",
+    "D. Không thể tính được vì $a^n$ với n = $10^{18}$ vượt quá mọi kiểu dữ liệu số nguyên."
+   ],
+   "statements": [],
+   "answer": "B",
+   "explain": "Phân tích:\n- A sai: lặp $10^{18}$ lần là không thể (cần hàng chục năm).\n- C sai: $a^n$ tràn số từ rất sớm, hàm lũy thừa số thực còn mất chính xác.\n- D sai: ta không bao giờ cần lưu $a^n$ đầy đủ.\n- B đúng: đây là thuật toán lũy thừa nhị phân; mỗi bước đệ quy giảm n đi khoảng một nửa (trường hợp n lẻ thì n-1 chẵn nên bước sau lại giảm nửa), số phép nhân chỉ cỡ $2\\log_2 n \\approx 120$ với n = $10^{18}$, và mọi phép tính đều lấy dư M nên không tràn số. Đáp án B.",
+   "points": 0.25,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_2_Bai_tap_none.html",
+   "setName": "Đề 2",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0017",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 2,
+   "type": "truefalse",
+   "level": "VDC",
+   "q": "Xét tính đúng, sai của các khẳng định sau về đệ quy:",
+   "options": [],
+   "statements": [
+    "a) Mọi hàm đệ quy đều có thể viết lại thành dạng vòng lặp có dùng ngăn xếp (stack) tường minh.",
+    "b) Đệ quy đuôi (tail recursion) luôn được mọi trình biên dịch tối ưu thành vòng lặp nên không bao giờ gây tràn ngăn xếp.",
+    "c) Thuật toán QuickSort trong trường hợp xấu nhất có độ sâu đệ quy $O(n)$, có thể gây tràn ngăn xếp.",
+    "d) Số lần gọi hàm của thuật toán đệ quy ngây thơ tính số Fibonacci tăng theo hàm mũ theo n."
+   ],
+   "answer": [
+    "T",
+    "F",
+    "T",
+    "T"
+   ],
+   "explain": "a) Đúng: ngăn xếp tường minh mô phỏng chính xác ngăn xếp lời gọi hàm của đệ quy.\nb) Sai: tối ưu đệ quy đuôi phụ thuộc trình biên dịch/ngôn ngữ (ví dụ Python không tối ưu), không phải \"mọi trình biên dịch\" đều làm.\nc) Đúng: khi chốt luôn rơi vào đầu/cuối đoạn (mảng đã sắp xếp), mỗi lần đệ quy chỉ giảm 1 phần tử nên độ sâu đệ quy là $O(n)$.\nd) Đúng: số lần gọi hàm xấp xỉ $2 \\times F(n+1) - 1$, tăng theo hàm mũ (cơ số tỉ lệ vàng $\\approx 1{,}618$).",
+   "points": 1,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_2_Bai_tap_none.html",
+   "setName": "Đề 2",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0018",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 2,
+   "type": "truefalse",
+   "level": "VDC",
+   "q": "Xét tính đúng, sai của các khẳng định sau về chia để trị và quy hoạch động:",
+   "options": [],
+   "statements": [
+    "a) Kỹ thuật chia để trị yêu cầu các bài toán con phải gối lên nhau (có phần chung).",
+    "b) Quy hoạch động áp dụng được khi bài toán có cấu trúc con tối ưu và các bài toán con gối nhau.",
+    "c) Thuật toán tham lam luôn cho nghiệm tối ưu chỉ cần bài toán có cấu trúc con tối ưu.",
+    "d) MergeSort là ví dụ của chia để trị; tính số Fibonacci bằng vòng lặp chỉ lưu hai giá trị trước là ví dụ của quy hoạch động (dạng tối ưu bộ nhớ)."
+   ],
+   "answer": [
+    "F",
+    "T",
+    "F",
+    "T"
+   ],
+   "explain": "a) Sai: chia để trị yêu cầu các bài toán con ĐỘC LẬP (không gối nhau); bài toán con gối nhau là dấu hiệu của quy hoạch động.\nb) Đúng: đó chính là hai điều kiện để quy hoạch động phát huy tác dụng.\nc) Sai: tham lam còn cần thêm tính chất lựa chọn tham lam (lựa chọn tối ưu cục bộ dẫn tới tối ưu toàn cục); ví dụ đổi tiền với hệ xu [1, 3, 4] thì tham lam không tối ưu.\nd) Đúng: MergeSort chia mảng thành hai nửa độc lập; vòng lặp Fibonacci chỉ lưu hai giá trị trước chính là quy hoạch động với bảng được nén còn $O(1)$ bộ nhớ.",
+   "points": 1,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_2_Bai_tap_none.html",
+   "setName": "Đề 2",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0019",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 2,
+   "type": "short",
+   "level": "VDC",
+   "q": "Xét hàm đệ quy (dem là biến toàn cục khởi tạo bằng 0):\n\nG(n):\n    dem = dem + 1\n    Nếu n nhỏ hơn hoặc bằng 1:\n        trả về 1\n    Ngược lại:\n        trả về G(n - 1) + G(n - 2) + G(n - 3)\n\nKhi gọi G(4), dem bằng bao nhiêu (tức có bao nhiêu lần gọi hàm G, kể cả lần gọi đầu tiên)?",
+   "options": [],
+   "statements": [],
+   "answer": "13",
+   "explain": "Gọi C(n) là số lần gọi hàm: C(n) = 1 với n nhỏ hơn hoặc bằng 1 (gồm cả n âm), và C(n) = 1 + C(n-1) + C(n-2) + C(n-3) với n lớn hơn 1.\n- C(2) = 1 + C(1) + C(0) + C(-1) = 1 + 1 + 1 + 1 = 4.\n- C(3) = 1 + C(2) + C(1) + C(0) = 1 + 4 + 1 + 1 = 7.\n- C(4) = 1 + C(3) + C(2) + C(1) = 1 + 7 + 4 + 1 = 13.\nVậy dem = 13.",
+   "points": 0.5,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_2_Bai_tap_none.html",
+   "setName": "Đề 2",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0020",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 2,
+   "type": "short",
+   "level": "VDC",
+   "q": "Xét hàm đệ quy (dem là biến toàn cục khởi tạo bằng 0):\n\nK(n):\n    dem = dem + 1\n    Nếu n bằng 1:\n        trả về 1\n    Nếu n chẵn:\n        trả về K(n // 2)\n    Ngược lại:\n        trả về K(3 * n + 1)\n\nKhi gọi K(6), dem bằng bao nhiêu (tức có bao nhiêu lần gọi hàm K, kể cả lần gọi đầu tiên)?",
+   "options": [],
+   "statements": [],
+   "answer": "9",
+   "explain": "Đây là hàm mô phỏng dãy Collatz. Truy vết các lần gọi: K(6) (6 chẵn) gọi K(3); K(3) (3 lẻ) gọi K(10); K(10) gọi K(5); K(5) gọi K(16); K(16) gọi K(8); K(8) gọi K(4); K(4) gọi K(2); K(2) gọi K(1); K(1) gặp điều kiện dừng. Tổng cộng 9 lần gọi hàm, vậy dem = 9.",
+   "points": 0.5,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_2_Bai_tap_none.html",
+   "setName": "Đề 2",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0021",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 3,
+   "type": "mcq",
+   "level": "VDC",
+   "q": "Có 4 món đồ với trọng lượng w = [2, 3, 4, 5] và giá trị v = [3, 4, 5, 6]. Một chiếc ba lô chịu được trọng lượng tối đa W = 8. Mỗi món đồ chỉ được lấy tối đa một lần (bài toán cái túi 0/1). Hỏi tổng giá trị lớn nhất có thể đạt được là bao nhiêu?",
+   "options": [
+    "A. 9",
+    "B. 10",
+    "C. 11",
+    "D. 12"
+   ],
+   "statements": [],
+   "answer": "B",
+   "explain": "Liệt kê các tập đồ vật có tổng trọng lượng không vượt quá 8:\n- {đồ 1, đồ 4}: trọng lượng 2 + 5 = 7, giá trị 3 + 6 = 9.\n- {đồ 2, đồ 3}: trọng lượng 3 + 4 = 7, giá trị 4 + 5 = 9.\n- {đồ 2, đồ 4}: trọng lượng 3 + 5 = 8, giá trị 4 + 6 = 10.\n- {đồ 1, đồ 2, đồ 3}: trọng lượng 9, vượt quá W nên loại.\n- {đồ 3, đồ 4}: trọng lượng 9, vượt quá W nên loại.\nGiá trị lớn nhất đạt được là 10 (lấy đồ 2 và đồ 4). Đáp án B.",
+   "points": 0.25,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_3_Bai_tap_none.html",
+   "setName": "Đề 3",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0022",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 3,
+   "type": "mcq",
+   "level": "VDC",
+   "q": "Cho dãy số a = [10, 9, 2, 5, 3, 7, 101, 18]. Độ dài của dãy con tăng dài nhất (không nhất thiết liên tục) của a là bao nhiêu?",
+   "options": [
+    "A. 3",
+    "B. 4",
+    "C. 5",
+    "D. 6"
+   ],
+   "statements": [],
+   "answer": "B",
+   "explain": "Gọi dp[i] là độ dài dãy con tăng dài nhất kết thúc tại a[i]: dp = [1, 1, 1, 2, 2, 3, 4, 4]. Ví dụ dp[6] = 4 ứng với dãy con 2, 3, 7, 101 (hoặc 2, 5, 7, 101); dp[7] = 4 ứng với 2, 3, 7, 18. Giá trị lớn nhất là 4. Đáp án B.",
+   "points": 0.25,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_3_Bai_tap_none.html",
+   "setName": "Đề 3",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0023",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 3,
+   "type": "mcq",
+   "level": "VDC",
+   "q": "Cần đổi số tiền 6 bằng các loại xu có mệnh giá [1, 3, 4] (mỗi loại có đủ số lượng), mục tiêu dùng ít xu nhất. Thuật toán tham lam \"mỗi bước lấy đồng xu có mệnh giá lớn nhất không vượt quá số tiền còn lại\" cho kết quả thế nào?",
+   "options": [
+    "A. 3 xu và đây là phương án tối ưu.",
+    "B. 2 xu và đây là phương án tối ưu.",
+    "C. 3 xu nhưng chưa tối ưu; phương án tối ưu chỉ cần 2 xu (3 + 3).",
+    "D. 4 xu nhưng chưa tối ưu; phương án tối ưu chỉ cần 2 xu (3 + 3)."
+   ],
+   "statements": [],
+   "answer": "C",
+   "explain": "Truy vết thuật toán tham lam với số tiền 6: lấy xu 4 (còn 2), lấy xu 1 (còn 1), lấy xu 1 (còn 0) — tổng 3 xu. Nhưng phương án 3 + 3 chỉ cần 2 xu, tốt hơn. Đây là phản ví dụ kinh điển cho thấy thuật toán tham lam đổi tiền KHÔNG luôn tối ưu với mọi hệ tiền xu (nó chỉ đảm bảo tối ưu với các hệ tiền \"chuẩn\" như tiền Việt Nam). Đáp án C.",
+   "points": 0.25,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_3_Bai_tap_none.html",
+   "setName": "Đề 3",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0024",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 3,
+   "type": "mcq",
+   "level": "VDC",
+   "q": "Xét đoạn mã đếm số cách đổi tiền (thứ tự các đồng xu không phân biệt):\n\ndp = [0] * 11\ndp[0] = 1\nVới c trong [1, 2, 5]:\n    Với x chạy từ c đến 10:\n        dp[x] = dp[x] + dp[x - c]\nIn dp[10]\n\nGiá trị in ra là bao nhiêu?",
+   "options": [
+    "A. 8",
+    "B. 10",
+    "C. 12",
+    "D. 27"
+   ],
+   "statements": [],
+   "answer": "B",
+   "explain": "Đây là quy hoạch động đếm số cách đổi tiền xu (mỗi loại xu xét một lần nên thứ tự không phân biệt). Đếm theo số đồng xu 5:\n- 0 đồng xu 5: đổi 10 bằng xu [1, 2] có 6 cách (0..5 đồng xu 2).\n- 1 đồng xu 5: đổi 5 còn lại bằng xu [1, 2] có 3 cách.\n- 2 đồng xu 5: 1 cách.\nTổng cộng 6 + 3 + 1 = 10 cách. Đáp án B.",
+   "points": 0.25,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_3_Bai_tap_none.html",
+   "setName": "Đề 3",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0025",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 3,
+   "type": "mcq",
+   "level": "VDC",
+   "q": "Có 11 hoạt động, mỗi hoạt động có thời gian bắt đầu và kết thúc (bắt đầu, kết thúc): (1,4), (3,5), (0,6), (5,7), (3,9), (5,9), (6,10), (8,11), (8,12), (2,14), (12,16). Cần chọn nhiều hoạt động nhất sao cho không có hai hoạt động nào giao nhau (hoạt động kết thúc tại thời điểm t thì hoạt động khác được phép bắt đầu tại t). Áp dụng thuật toán tham lam \"luôn chọn hoạt động có thời gian kết thúc sớm nhất trong số các hoạt động còn tương thích\", hỏi chọn được tối đa bao nhiêu hoạt động?",
+   "options": [
+    "A. 3",
+    "B. 4",
+    "C. 5",
+    "D. 6"
+   ],
+   "statements": [],
+   "answer": "B",
+   "explain": "Sắp xếp theo giờ kết thúc tăng dần: (1,4), (3,5), (0,6), (5,7), (3,9), (5,9), (6,10), (8,11), (8,12), (2,14), (12,16). Tham lam:\n- Chọn (1,4).\n- Hoạt động tương thích tiếp theo có giờ kết thúc sớm nhất: (5,7) (vì 5 lớn hơn hoặc bằng 4).\n- Tiếp theo: (8,11) (8 lớn hơn hoặc bằng 7).\n- Tiếp theo: (12,16) (12 lớn hơn hoặc bằng 11).\nChọn được 4 hoạt động: (1,4), (5,7), (8,11), (12,16). Đáp án B.",
+   "points": 0.25,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_3_Bai_tap_none.html",
+   "setName": "Đề 3",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0026",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 3,
+   "type": "mcq",
+   "level": "VDC",
+   "q": "Thuật toán quy hoạch động tìm dãy con chung dài nhất (LCS) của hai xâu có độ dài n và m dùng một bảng hai chiều kích thước (n + 1) × (m + 1), mỗi ô tính trong $O(1)$. Với n = m = 1000, bảng này có khoảng bao nhiêu ô nhớ?",
+   "options": [
+    "A. khoảng $2 \\times 10^3$ ô",
+    "B. khoảng $10^6$ ô",
+    "C. khoảng $10^9$ ô",
+    "D. khoảng $10^3$ ô"
+   ],
+   "statements": [],
+   "answer": "B",
+   "explain": "Bảng có kích thước $1001 \\times 1001 = 1002001$ ô, tức khoảng $10^6$ ô nhớ. Mỗi ô thường lưu một số nguyên (4 byte) nên tổng bộ nhớ khoảng 4MB — hoàn toàn khả thi. Đáp án B.",
+   "points": 0.25,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_3_Bai_tap_none.html",
+   "setName": "Đề 3",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0027",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 3,
+   "type": "truefalse",
+   "level": "VDC",
+   "q": "Xét tính đúng, sai của các khẳng định sau về quy hoạch động:",
+   "options": [],
+   "statements": [
+    "a) Bài toán cái túi 0/1 có thể giải tối ưu bằng thuật toán tham lam chọn đồ vật theo tỉ lệ giá trị/trọng lượng giảm dần.",
+    "b) Công thức truy hồi F(n) = F(n-1) + F(n-2) của dãy Fibonacci thể hiện tính chất các bài toán con gối nhau.",
+    "c) Mọi bài toán quy hoạch động đều bắt buộc phải dùng bảng phương án hai chiều.",
+    "d) Thuật toán Floyd-Warshall tìm đường đi ngắn nhất giữa mọi cặp đỉnh có độ phức tạp thời gian $O(n^3)$ với n là số đỉnh."
+   ],
+   "answer": [
+    "F",
+    "T",
+    "F",
+    "T"
+   ],
+   "explain": "a) Sai: tỉ lệ giá trị/trọng lượng chỉ tối ưu cho bài toán cái túi PHÂN SỐ; với 0/1, tham lam có thể sai (ví dụ W = 8 ở câu trên: tham lam theo tỉ lệ sẽ lấy đồ có tỉ lệ cao trước và không đạt tối ưu).\nb) Đúng: để tính F(n) phải tính lại F(n-1), F(n-2) mà các giá trị này gối lên nhau — chính là lý do đệ quy ngây thơ chậm và quy hoạch động hiệu quả.\nc) Sai: nhiều bài toán chỉ cần bảng một chiều (cái túi 0/1) hoặc vài biến (Fibonacci).\nd) Đúng: ba vòng lặp lồng nhau (đỉnh trung gian, đỉnh đầu, đỉnh cuối) nên độ phức tạp là $O(n^3)$.",
+   "points": 1,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_3_Bai_tap_none.html",
+   "setName": "Đề 3",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0028",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 3,
+   "type": "truefalse",
+   "level": "VDC",
+   "q": "Xét tính đúng, sai của các khẳng định sau về thuật toán tham lam:",
+   "options": [],
+   "statements": [
+    "a) Thuật toán Dijkstra tìm đường đi ngắn nhất từ một đỉnh nguồn là một thuật toán tham lam.",
+    "b) Thuật toán Kruskal tìm cây khung nhỏ nhất là một thuật toán tham lam.",
+    "c) Trong bài toán xếp lịch (chọn nhiều hoạt động nhất), chiến lược tham lam \"chọn hoạt động bắt đầu sớm nhất\" luôn cho số hoạt động tối đa.",
+    "d) Thuật toán tham lam đổi tiền luôn cho số xu ít nhất với mọi hệ tiền xu."
+   ],
+   "answer": [
+    "T",
+    "T",
+    "F",
+    "F"
+   ],
+   "explain": "a) Đúng: Dijkstra mỗi bước tham lam chọn đỉnh chưa xét có khoảng cách tạm thời nhỏ nhất.\nb) Đúng: Kruskal mỗi bước tham lam chọn cạnh rẻ nhất không tạo chu trình.\nc) Sai: chiến lược đúng là chọn hoạt động KẾT THÚC sớm nhất; chọn theo giờ bắt đầu sớm nhất có thể cho kết quả kém (ví dụ hoạt động (0,6) bắt đầu sớm nhất nhưng chặn nhiều hoạt động khác).\nd) Sai: phản ví dụ hệ xu [1, 3, 4] với số tiền 6 (tham lam cho 3 xu trong khi tối ưu là 2 xu).",
+   "points": 1,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_3_Bai_tap_none.html",
+   "setName": "Đề 3",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0029",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 3,
+   "type": "short",
+   "level": "VDC",
+   "q": "Một robot đứng tại ô (0, 0) của lưới 3 hàng × 4 cột (hàng 0..2, cột 0..3), cần tới ô (2, 3). Mỗi bước robot chỉ được đi sang phải một ô hoặc xuống dưới một ô. Gọi dp[i][j] là số cách đi tới ô (i, j), với dp[0][j] = dp[i][0] = 1 và dp[i][j] = dp[i-1][j] + dp[i][j-1] (i, j lớn hơn 0). Hỏi dp[2][3] bằng bao nhiêu?",
+   "options": [],
+   "statements": [],
+   "answer": "10",
+   "explain": "Điền bảng dp:\n- Hàng 0: dp[0][0..3] = 1, 1, 1, 1.\n- Hàng 1: dp[1][0] = 1; dp[1][1] = 1 + 1 = 2; dp[1][2] = 1 + 2 = 3; dp[1][3] = 1 + 3 = 4.\n- Hàng 2: dp[2][0] = 1; dp[2][1] = 1 + 2 = 3; dp[2][2] = 3 + 3 = 6; dp[2][3] = 4 + 6 = 10.\nVậy dp[2][3] = 10 (cũng bằng tổ hợp chập 2 của 5: chọn 2 bước xuống trong tổng 5 bước).",
+   "points": 0.5,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_3_Bai_tap_none.html",
+   "setName": "Đề 3",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0030",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 3,
+   "type": "short",
+   "level": "VDC",
+   "q": "Độ dài của dãy con chung dài nhất của hai xâu X = \"ABCBDAB\" và Y = \"BDCABA\" là bao nhiêu? (Dãy con không cần liên tục.)",
+   "options": [],
+   "statements": [],
+   "answer": "4",
+   "explain": "Dùng quy hoạch động LCS: dp[i][j] là độ dài LCS của X[0..i-1] và Y[0..j-1]; nếu hai ký tự cuối bằng nhau thì dp[i][j] = dp[i-1][j-1] + 1, ngược lại dp[i][j] = max(dp[i-1][j], dp[i][j-1]). Điền bảng cho X = \"ABCBDAB\", Y = \"BDCABA\" được dp[7][6] = 4. Một LCS cụ thể là \"BCBA\" (B-C-B-A). Vậy đáp án là 4.",
+   "points": 0.5,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_3_Bai_tap_none.html",
+   "setName": "Đề 3",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0031",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 4,
+   "type": "mcq",
+   "level": "VDC",
+   "q": "Cho đồ thị vô hướng với danh sách kề (đã sắp xếp tăng dần):\n1: [2, 3]; 2: [1, 4, 5]; 3: [1, 6]; 4: [2]; 5: [2, 6]; 6: [3, 5].\nThực hiện thuật toán tìm kiếm theo chiều rộng (BFS) xuất phát từ đỉnh 1, các đỉnh kề được thăm theo thứ tự tăng dần. Thứ tự các đỉnh được thăm (kể cả đỉnh xuất phát) là gì?",
+   "options": [
+    "A. 1, 2, 3, 4, 5, 6",
+    "B. 1, 2, 4, 5, 3, 6",
+    "C. 1, 3, 2, 6, 5, 4",
+    "D. 1, 2, 3, 5, 4, 6"
+   ],
+   "statements": [],
+   "answer": "A",
+   "explain": "Truy vết BFS (hàng đợi):\n- Thăm 1, đưa 2, 3 vào hàng đợi.\n- Lấy 2 ra, các kề chưa thăm là 4, 5 → hàng đợi: 3, 4, 5.\n- Lấy 3 ra, kề chưa thăm là 6 → hàng đợi: 4, 5, 6.\n- Lấy 4, 5, 6 ra: không còn đỉnh kề nào chưa thăm.\nThứ tự thăm: 1, 2, 3, 4, 5, 6. Đáp án A.",
+   "points": 0.25,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_4_Bai_tap_none.html",
+   "setName": "Đề 4",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0032",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 4,
+   "type": "mcq",
+   "level": "VDC",
+   "q": "Với đồ thị ở câu trên (danh sách kề: 1: [2, 3]; 2: [1, 4, 5]; 3: [1, 6]; 4: [2]; 5: [2, 6]; 6: [3, 5]), thực hiện thuật toán tìm kiếm theo chiều sâu (DFS) dạng đệ quy xuất phát từ đỉnh 1, các đỉnh kề được xét theo thứ tự tăng dần. Thứ tự các đỉnh được thăm lần đầu là gì?",
+   "options": [
+    "A. 1, 2, 3, 6, 5, 4",
+    "B. 1, 2, 4, 5, 6, 3",
+    "C. 1, 2, 4, 5, 3, 6",
+    "D. 1, 3, 6, 5, 2, 4"
+   ],
+   "statements": [],
+   "answer": "B",
+   "explain": "Truy vết DFS đệ quy (kề tăng dần):\n- Thăm 1 → kề nhỏ nhất chưa thăm là 2 → thăm 2.\n- Từ 2: kề 1 đã thăm, thăm 4 → từ 4 chỉ có kề 2 đã thăm nên quay lui.\n- Từ 2: kề tiếp chưa thăm là 5 → thăm 5 → kề 6 chưa thăm → thăm 6.\n- Từ 6: kề 3 chưa thăm → thăm 3 → các kề của 3 đều đã thăm nên quay lui dần.\nThứ tự thăm lần đầu: 1, 2, 4, 5, 6, 3. Đáp án B.",
+   "points": 0.25,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_4_Bai_tap_none.html",
+   "setName": "Đề 4",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0033",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 4,
+   "type": "mcq",
+   "level": "VDC",
+   "q": "Cho đồ thị vô hướng có trọng số với các cạnh (u, v, trọng số): (1,2,4), (1,3,2), (2,3,1), (2,4,5), (3,4,8), (3,5,10), (4,5,2), (4,6,6), (5,6,3). Áp dụng thuật toán Dijkstra xuất phát từ đỉnh 1, độ dài đường đi ngắn nhất từ đỉnh 1 tới đỉnh 6 là bao nhiêu?",
+   "options": [
+    "A. 11",
+    "B. 12",
+    "C. 13",
+    "D. 14"
+   ],
+   "statements": [],
+   "answer": "C",
+   "explain": "Truy vết Dijkstra từ đỉnh 1 (khoảng cách tạm thời ban đầu: d1 = 0, còn lại vô cực):\n- Xét 1: d2 = 4, d3 = 2.\n- Xét 3 (nhỏ nhất): d2 = min(4, 2+1) = 3; d4 = 2+8 = 10; d5 = 2+10 = 12.\n- Xét 2: d4 = min(10, 3+5) = 8.\n- Xét 4: d5 = min(12, 8+2) = 10; d6 = 8+6 = 14.\n- Xét 5: d6 = min(14, 10+3) = 13.\nĐường đi ngắn nhất 1 → 3 → 2 → 4 → 5 → 6 có độ dài 2+1+5+2+3 = 13. Đáp án C.",
+   "points": 0.25,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_4_Bai_tap_none.html",
+   "setName": "Đề 4",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0034",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 4,
+   "type": "mcq",
+   "level": "VDC",
+   "q": "Các số 1, 2, 3, 4, 5 được đưa vào một ngăn xếp (stack) theo đúng thứ tự từ 1 tới 5 (mỗi số được push đúng một lần, xen kẽ với các thao tác pop tùy ý). Dãy nào sau đây KHÔNG thể là thứ tự các số được lấy ra (pop)?",
+   "options": [
+    "A. 5, 4, 3, 2, 1",
+    "B. 1, 2, 3, 4, 5",
+    "C. 3, 2, 5, 4, 1",
+    "D. 3, 1, 2, 5, 4"
+   ],
+   "statements": [],
+   "answer": "D",
+   "explain": "Kiểm tra từng dãy:\n- A khả thi: push cả 5 số rồi pop lần lượt.\n- B khả thi: push 1 pop 1, push 2 pop 2, ...\n- C khả thi: push 1, 2, 3; pop 3, pop 2; push 4, 5; pop 5, pop 4, pop 1.\n- D không khả thi: sau khi pop 3 (đã push 1, 2, 3), số 2 đang nằm trên số 1 trong ngăn xếp nên không thể pop 1 trước 2.\nVậy đáp án D.",
+   "points": 0.25,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_4_Bai_tap_none.html",
+   "setName": "Đề 4",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0035",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 4,
+   "type": "mcq",
+   "level": "VDC",
+   "q": "Một cây nhị phân có thứ tự duyệt trước (preorder) là A, B, D, E, C, F và thứ tự duyệt giữa (inorder) là D, B, E, A, F, C. Hỏi thứ tự duyệt sau (postorder) của cây là gì?",
+   "options": [
+    "A. D, E, B, F, C, A",
+    "B. D, B, E, F, C, A",
+    "C. A, B, D, E, C, F",
+    "D. D, E, F, B, C, A"
+   ],
+   "statements": [],
+   "answer": "A",
+   "explain": "Dựng cây từ preorder + inorder:\n- Preorder[0] = A là gốc; trong inorder, A chia cây thành cây con trái [D, B, E] và cây con phải [F, C].\n- Với cây con trái: preorder [B, D, E], gốc là B; inorder [D, B, E] cho nút trái D, nút phải E.\n- Với cây con phải: preorder [C, F], gốc là C; inorder [F, C] cho nút trái F.\nDuyệt sau (trái, phải, gốc): D, E, B, F, C, A. Đáp án A.",
+   "points": 0.25,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_4_Bai_tap_none.html",
+   "setName": "Đề 4",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0036",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 4,
+   "type": "mcq",
+   "level": "VDC",
+   "q": "Cần trộn k danh sách đã sắp xếp tăng dần (tổng cộng n phần tử) thành một danh sách sắp xếp duy nhất bằng cách dùng một min-heap: đưa phần tử đầu của mỗi danh sách vào heap, lặp lại việc lấy phần tử nhỏ nhất ra và đưa phần tử kế tiếp của cùng danh sách vào heap. Độ phức tạp thời gian của cách làm này là bao nhiêu?",
+   "options": [
+    "A. $O(n \\log n)$",
+    "B. $O(n \\log k)$",
+    "C. $O(n \\times k)$",
+    "D. $O(n + k)$"
+   ],
+   "statements": [],
+   "answer": "B",
+   "explain": "Heap luôn chứa đúng k phần tử (một phần tử đầu chưa xử lý của mỗi danh sách) nên mỗi thao tác lấy min và chèn phần tử kế tiếp tốn $O(\\log k)$. Mỗi trong n phần tử được lấy ra và chèn vào đúng một lần, tổng cộng $O(n \\log k)$. (Cách trộn từng cặp một cách ngây thơ tốn $O(nk)$, còn gộp tất cả rồi sắp xếp lại tốn $O(n \\log n)$ — đều kém hơn khi k nhỏ hơn n nhiều.) Đáp án B.",
+   "points": 0.25,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_4_Bai_tap_none.html",
+   "setName": "Đề 4",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0037",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 4,
+   "type": "truefalse",
+   "level": "VDC",
+   "q": "Xét tính đúng, sai của các khẳng định sau về đồ thị:",
+   "options": [],
+   "statements": [
+    "a) Một đồ thị vô hướng liên thông có n đỉnh thì có ít nhất n - 1 cạnh.",
+    "b) Thuật toán BFS trên đồ thị có trọng số dương luôn tìm được đường đi ngắn nhất (theo tổng trọng số) giữa hai đỉnh.",
+    "c) Mọi đồ thị có hướng không chu trình (DAG) đều có ít nhất một đỉnh có bậc vào bằng 0.",
+    "d) Thuật toán Dijkstra cho kết quả đúng với đồ thị có cạnh trọng số âm nhưng không có chu trình âm."
+   ],
+   "answer": [
+    "T",
+    "F",
+    "T",
+    "F"
+   ],
+   "explain": "a) Đúng: cây khung của đồ thị liên thông n đỉnh có đúng n - 1 cạnh, đồ thị gốc phải có ít nhất chừng đó.\nb) Sai: BFS chỉ đảm bảo đường đi ÍT CẠNH nhất (trên đồ thị không trọng số); với trọng số dương phải dùng Dijkstra.\nc) Đúng: nếu mọi đỉnh đều có bậc vào lớn hơn hoặc bằng 1 thì đi ngược theo cạnh vào sẽ tạo chu trình, mâu thuẫn với DAG.\nd) Sai: Dijkstra sai với cạnh âm ngay cả khi không có chu trình âm (tính chất \"đỉnh đã chốt khoảng cách là tối ưu\" không còn đúng); trường hợp này phải dùng Bellman-Ford.",
+   "points": 1,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_4_Bai_tap_none.html",
+   "setName": "Đề 4",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0038",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 4,
+   "type": "truefalse",
+   "level": "VDC",
+   "q": "Xét tính đúng, sai của các khẳng định sau về cấu trúc dữ liệu:",
+   "options": [],
+   "statements": [
+    "a) Ngăn xếp (stack) có thể dùng để kiểm tra tính đúng đắn của một dãy dấu ngoặc.",
+    "b) Hàng đợi (queue) cài đặt bằng hai ngăn xếp vẫn đảm bảo mỗi thao tác enqueue/dequeue có độ phức tạp trung bình (khấu hao) $O(1)$.",
+    "c) Cây tìm kiếm nhị phân (BST) luôn có chiều cao $O(\\log n)$ với n là số nút.",
+    "d) Bảng băm (hash table) với hàm băm tốt và tỉ số tải hợp lý cho phép tìm kiếm với độ phức tạp trung bình $O(1)$."
+   ],
+   "answer": [
+    "T",
+    "T",
+    "F",
+    "T"
+   ],
+   "explain": "a) Đúng: duyệt dãy ngoặc, gặp ngoặc mở thì push, gặp ngoặc đóng thì pop và kiểm tra khớp loại.\nb) Đúng: kỹ thuật hai ngăn xếp (một cho enqueue, một cho dequeue) cho độ phức tạp khấu hao $O(1)$ mỗi thao tác.\nc) Sai: BST chỉ có chiều cao $O(\\log n)$ TRUNG BÌNH với dữ liệu ngẫu nhiên; trường hợp xấu (chèn dãy đã sắp xếp) cây suy biến thành danh sách, cao $O(n)$.\nd) Đúng: với hàm băm tốt và tỉ số tải được kiểm soát (rehash khi đầy), mỗi thao tác băm tốn $O(1)$ trung bình.",
+   "points": 1,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_4_Bai_tap_none.html",
+   "setName": "Đề 4",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0039",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 4,
+   "type": "short",
+   "level": "VDC",
+   "q": "Cho đồ thị vô hướng có 8 đỉnh (đánh số từ 1 tới 8) và các cạnh: (1, 2), (2, 3), (4, 5), (6, 7). Hỏi đồ thị có bao nhiêu thành phần liên thông?",
+   "options": [],
+   "statements": [],
+   "answer": "4",
+   "explain": "Các cạnh nối các đỉnh thành các nhóm: {1, 2, 3} (qua cạnh (1,2), (2,3)), {4, 5}, {6, 7}, và đỉnh 8 đứng một mình (không có cạnh nào). Vậy có 4 thành phần liên thông.",
+   "points": 0.5,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_4_Bai_tap_none.html",
+   "setName": "Đề 4",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0040",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 4,
+   "type": "short",
+   "level": "VDC",
+   "q": "Giá trị của biểu thức hậu tố (mỗi toán hạng và toán tử cách nhau một dấu cách): \"5 1 2 + 4 * + 3 -\" là bao nhiêu?",
+   "options": [],
+   "statements": [],
+   "answer": "14",
+   "explain": "Đánh giá biểu thức hậu tố bằng ngăn xếp (duyệt từ trái sang phải, gặp toán tử thì lấy hai toán hạng trên cùng ra tính):\n- 5, 1, 2 push vào ngăn xếp; gặp +: 1 + 2 = 3.\n- 4 push; gặp *: 3 * 4 = 12.\n- Gặp +: 5 + 12 = 17.\n- 3 push; gặp -: 17 - 3 = 14.\nVậy giá trị là 14.",
+   "points": 0.5,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_4_Bai_tap_none.html",
+   "setName": "Đề 4",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0041",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 5,
+   "type": "mcq",
+   "level": "VDC",
+   "q": "Xét xâu P = \"ABABAC\" (chỉ số từ 0). Hàm tiền tố pi[i] của thuật toán KMP được định nghĩa là độ dài của tiền tố dài nhất của đoạn P[0..i] mà đồng thời cũng là hậu tố của đoạn P[0..i] (không tính cả đoạn). Hỏi pi[4] bằng bao nhiêu?",
+   "options": [
+    "A. 1",
+    "B. 2",
+    "C. 3",
+    "D. 4"
+   ],
+   "statements": [],
+   "answer": "C",
+   "explain": "Xét đoạn P[0..4] = \"ABABA\". Các tiền tố đồng thời là hậu tố (không tính cả đoạn): \"A\" (độ dài 1), \"ABA\" (độ dài 3). Tiền tố dài nhất thỏa mãn có độ dài 3 nên pi[4] = 3. Đáp án C.",
+   "points": 0.25,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_5_Bai_tap_none.html",
+   "setName": "Đề 5",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0042",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 5,
+   "type": "mcq",
+   "level": "VDC",
+   "q": "Xét đoạn mã tìm kiếm mẫu P trong văn bản T bằng thuật toán ngây thơ (kể cả các lần xuất hiện giao nhau):\n\ndem = 0\nVới i chạy từ 0 đến len(T) - len(P):\n    khop = True\n    Với j chạy từ 0 đến len(P) - 1:\n        Nếu T[i + j] khác P[j]:\n            khop = False\n            dừng vòng lặp trong\n    Nếu khop:\n        dem = dem + 1\nIn dem\n\nVới T = \"ABABABA\" và P = \"ABA\", giá trị in ra là bao nhiêu?",
+   "options": [
+    "A. 1",
+    "B. 2",
+    "C. 3",
+    "D. 4"
+   ],
+   "statements": [],
+   "answer": "C",
+   "explain": "len(T) - len(P) = 7 - 3 = 4 nên i chạy từ 0 đến 4. Kiểm tra từng vị trí:\n- i = 0: \"ABA\" khớp.\n- i = 1: \"BAB\" không khớp.\n- i = 2: \"ABA\" khớp.\n- i = 3: \"BAB\" không khớp.\n- i = 4: \"ABA\" khớp.\nCó 3 lần xuất hiện (kể cả giao nhau tại các vị trí 0, 2, 4). Đáp án C.",
+   "points": 0.25,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_5_Bai_tap_none.html",
+   "setName": "Đề 5",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0043",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 5,
+   "type": "mcq",
+   "level": "VDC",
+   "q": "Cho hai bảng:\nHOCSINH(MaHS, HoTen, MaLop) gồm các dòng: (1, 'An', '12A1'), (2, 'Binh', '12A1'), (3, 'Cuong', '12A2'), (4, 'Dung', '12A2'), (5, 'E', '12A1').\nDIEM(MaHS, MaMon, Diem) gồm các dòng: (1, 'Toan', 9), (2, 'Toan', 7), (3, 'Toan', 8), (4, 'Toan', 9), (5, 'Toan', 8).\nXét truy vấn SQL:\n\nSELECT MaLop, COUNT(*) AS SoHS\nFROM HOCSINH\nWHERE MaHS IN (SELECT MaHS FROM DIEM WHERE Diem BETWEEN 8 AND 10)\nGROUP BY MaLop\nHAVING COUNT(*) = 2;\n\nTruy vấn trên trả về kết quả nào?",
+   "options": [
+    "A. Một dòng: ('12A1', 2).",
+    "B. Hai dòng: ('12A1', 2) và ('12A2', 2).",
+    "C. Một dòng: ('12A2', 2).",
+    "D. Ba dòng: ('12A1', 3), ('12A2', 2) và một dòng tổng cộng."
+   ],
+   "statements": [],
+   "answer": "B",
+   "explain": "Phân tích từng mệnh đề:\n- Truy vấn con: các MaHS có Diem trong [8, 10] là {1, 3, 4, 5} (loại MaHS = 2 vì điểm 7).\n- WHERE lọc bảng HOCSINH chỉ còn 4 học sinh: An (12A1), Cuong (12A2), Dung (12A2), E (12A1).\n- GROUP BY MaLop: lớp 12A1 có 2 học sinh (An, E), lớp 12A2 có 2 học sinh (Cuong, Dung).\n- HAVING COUNT(*) = 2 giữ lại cả hai nhóm.\nKết quả: hai dòng ('12A1', 2) và ('12A2', 2). Đáp án B.",
+   "points": 0.25,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_5_Bai_tap_none.html",
+   "setName": "Đề 5",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0044",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 5,
+   "type": "mcq",
+   "level": "VDC",
+   "q": "Cho bảng HOCSINH có 3 dòng với MaHS lần lượt là 1, 2, 3 và bảng DIEM có 3 dòng với MaHS lần lượt là 2, 3, 4. Truy vấn sau trả về bao nhiêu dòng?\n\nSELECT COUNT(*) FROM HOCSINH LEFT JOIN DIEM ON HOCSINH.MaHS = DIEM.MaHS;",
+   "options": [
+    "A. 2",
+    "B. 3",
+    "C. 4",
+    "D. 6"
+   ],
+   "statements": [],
+   "answer": "B",
+   "explain": "LEFT JOIN giữ lại MỌI dòng của bảng trái (HOCSINH):\n- MaHS = 1: không khớp với DIEM nên cho một dòng với các cột DIEM là NULL.\n- MaHS = 2: khớp một dòng DIEM.\n- MaHS = 3: khớp một dòng DIEM.\nTổng cộng 3 dòng (dòng của MaHS = 4 trong DIEM bị loại vì là bảng phải). COUNT(*) = 3. Đáp án B.",
+   "points": 0.25,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_5_Bai_tap_none.html",
+   "setName": "Đề 5",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0045",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 5,
+   "type": "mcq",
+   "level": "VDC",
+   "q": "Xét đoạn mã:\n\ndem = 0\nVới i chạy từ 1 đến n:\n    Với j chạy từ 1 đến i:\n        Với k chạy từ 1 đến j:\n            dem = dem + 1\n\nĐộ phức tạp thời gian của đoạn mã theo n là gì?",
+   "options": [
+    "A. $O(n^2)$",
+    "B. $O(n^3)$",
+    "C. $O(n^2 \\log n)$",
+    "D. $O(2^n)$"
+   ],
+   "statements": [],
+   "answer": "B",
+   "explain": "Số lần thực hiện lệnh trong cùng = tổng $\\sum_{i=1}^{n} \\sum_{j=1}^{i} j = \\sum_{i=1}^{n} i(i+1)/2$. Tổng này bằng $n(n+1)(n+2)/6$ (tổ hợp chập 3 của n+2), là một đa thức bậc 3 theo n. Vậy độ phức tạp là $O(n^3)$. Đáp án B.",
+   "points": 0.25,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_5_Bai_tap_none.html",
+   "setName": "Đề 5",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0046",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 5,
+   "type": "mcq",
+   "level": "VDC",
+   "q": "Cần kiểm tra hai xâu s1, s2 (mỗi xâu dài tới $10^6$ ký tự ASCII) có phải là hoán vị của nhau hay không (tức có cùng đa tập ký tự). Cách làm nào sau đây đúng và hiệu quả nhất?",
+   "options": [
+    "A. Sắp xếp cả hai xâu rồi so sánh từng ký tự: độ phức tạp $O(n \\log n)$, đây là cách tối ưu.",
+    "B. Dùng một mảng đếm tần suất 256 phần tử: duyệt s1 tăng đếm, duyệt s2 giảm đếm, cuối cùng kiểm tra mọi phần tử bằng 0: độ phức tạp $O(n)$, đây là cách tối ưu.",
+    "C. Với mỗi ký tự của s1, đếm số lần xuất hiện của nó trong s2 bằng một vòng lặp: độ phức tạp $O(n)$, đơn giản nhất.",
+    "D. So sánh độ dài hai xâu: nếu bằng nhau thì kết luận chúng là hoán vị của nhau."
+   ],
+   "statements": [],
+   "answer": "B",
+   "explain": "Phân tích:\n- A đúng nhưng chưa tối ưu ($O(n \\log n)$ do sắp xếp).\n- C sai về độ phức tạp: mỗi ký tự của s1 phải duyệt cả s2 nên thực chất là $O(n^2)$.\n- D sai: cùng độ dài chưa đủ (ví dụ \"ab\" và \"cd\").\n- B đúng và tối ưu: hai lần duyệt tuyến tính $O(n)$ cộng một lần kiểm tra mảng 256 phần tử $O(1)$; bộ nhớ phụ chỉ 256 số nguyên. Đáp án B.",
+   "points": 0.25,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_5_Bai_tap_none.html",
+   "setName": "Đề 5",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0047",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 5,
+   "type": "truefalse",
+   "level": "VDC",
+   "q": "Xét tính đúng, sai của các khẳng định sau về thuật toán xử lý xâu:",
+   "options": [],
+   "statements": [
+    "a) Thuật toán KMP tìm kiếm mẫu có độ dài m trong văn bản có độ dài n với độ phức tạp thời gian $O(n + m)$.",
+    "b) Thuật toán tìm kiếm xâu ngây thơ (brute force) trong trường hợp xấu nhất có độ phức tạp $O(n \\times m)$.",
+    "c) Mọi xâu con của một xâu đối xứng (palindrome) đều là xâu đối xứng.",
+    "d) Hàm băm lăn (rolling hash) trong thuật toán Rabin-Karp cho phép so sánh một xâu con trong $O(1)$ sau khi tiền xử lý $O(n)$."
+   ],
+   "answer": [
+    "T",
+    "T",
+    "F",
+    "T"
+   ],
+   "explain": "a) Đúng: KMP tiền xử lý mẫu $O(m)$ rồi duyệt văn bản mỗi ký tự tối đa 2 lần, tổng $O(n + m)$.\nb) Đúng: trường hợp xấu (ví dụ T = \"aaa...a\", P = \"aab\") mỗi vị trí phải so sánh tới m ký tự nên $O(n \\times m)$.\nc) Sai: phản ví dụ xâu \"abba\" là palindrome nhưng xâu con \"abb\" không phải palindrome.\nd) Đúng: rolling hash tính hash của xâu con độ dài m trong $O(1)$ từ hash của xâu con trước đó sau tiền xử lý lũy thừa $O(n)$.",
+   "points": 1,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_5_Bai_tap_none.html",
+   "setName": "Đề 5",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0048",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 5,
+   "type": "truefalse",
+   "level": "VDC",
+   "q": "Xét tính đúng, sai của các khẳng định sau về cơ sở dữ liệu:",
+   "options": [],
+   "statements": [
+    "a) Khóa chính của một bảng không được chứa giá trị NULL và không được có hai dòng trùng khóa chính.",
+    "b) Đưa quan hệ về dạng chuẩn 3 (3NF) loại bỏ hoàn toàn mọi sự dư thừa dữ liệu.",
+    "c) Trong một truy vấn SQL có cả WHERE và GROUP BY, mệnh đề WHERE được thực hiện trước khi nhóm.",
+    "d) Lệnh DELETE FROM HOCSINH (không có mệnh đề WHERE) sẽ xóa luôn cả cấu trúc của bảng HOCSINH."
+   ],
+   "answer": [
+    "T",
+    "F",
+    "T",
+    "F"
+   ],
+   "explain": "a) Đúng: đó chính là hai ràng buộc toàn vẹn của khóa chính (entity integrity).\nb) Sai: 3NF loại bỏ phụ thuộc bắc cầu vào khóa nhưng vẫn có thể còn dư thừa (ví dụ phụ thuộc hàm giữa các thuộc tính không khóa); muốn triệt để hơn cần BCNF hoặc các dạng chuẩn cao hơn.\nc) Đúng: thứ tự logic thực hiện là FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY.\nd) Sai: DELETE không WHERE chỉ xóa toàn bộ DỮ LIỆU (các dòng); cấu trúc bảng vẫn còn, muốn xóa cả cấu trúc phải dùng DROP TABLE.",
+   "points": 1,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_5_Bai_tap_none.html",
+   "setName": "Đề 5",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0049",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 5,
+   "type": "short",
+   "level": "VDC",
+   "q": "Giá trị của biểu thức tiền tố (mỗi toán hạng và toán tử cách nhau một dấu cách): \"+ * 2 3 - 8 4\" là bao nhiêu?",
+   "options": [],
+   "statements": [],
+   "answer": "10",
+   "explain": "Đánh giá biểu thức tiền tố bằng cách duyệt từ phải sang trái với ngăn xếp:\n- 4, 8 push; gặp -: 8 - 4 = 4.\n- 3, 2 push; gặp *: 2 * 3 = 6.\n- Gặp +: 6 + 4 = 10.\n(Chú ý thứ tự toán hạng: với phép trừ, toán hạng TRÁI là 8 (đứng gần toán tử hơn khi duyệt từ phải sang).) Vậy giá trị là 10.",
+   "points": 0.5,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_5_Bai_tap_none.html",
+   "setName": "Đề 5",
+   "created": "2026-10-09"
+  },
+  {
+   "id": "HSG12_TIN_0050",
+   "subject": "TIN",
+   "grade": 12,
+   "chapter": "HSG",
+   "lesson": 5,
+   "type": "short",
+   "level": "VDC",
+   "q": "Đoạn mã sau in ra giá trị nào?\n\nn = 20\nla_nt = [True] * n\nla_nt[0] = False\nla_nt[1] = False\np = 2\nTrong khi p * p nhỏ hơn n:\n    Nếu la_nt[p]:\n        Với i chạy từ p * p đến n - 1, bước nhảy p:\n            la_nt[i] = False\n    p = p + 1\ns = 0\nVới i chạy từ 2 đến n - 1:\n    Nếu la_nt[i]:\n        s = s + i\nIn s",
+   "options": [],
+   "statements": [],
+   "answer": "77",
+   "explain": "Đây là sàng Eratosthenes đánh dấu các hợp số nhỏ hơn 20:\n- p = 2: đánh dấu 4, 6, 8, 10, 12, 14, 16, 18.\n- p = 3: đánh dấu 9, 15 (12, 18 đã bị đánh dấu).\n- p = 4: la_nt[4] đã False nên bỏ qua; điều kiện 4*4 = 16 nhỏ hơn 20 vẫn đúng nhưng không làm gì; p = 5: 5*5 = 25 không nhỏ hơn 20 nên dừng.\nCác số nguyên tố còn lại nhỏ hơn 20: 2, 3, 5, 7, 11, 13, 17, 19. Tổng s = 2+3+5+7+11+13+17+19 = 77.",
+   "points": 0.5,
+   "tags": [
+    "tin",
+    "12",
+    "hsg"
+   ],
+   "source": "data/THPT/Ôn HSG 12/Tin học/TIN_HSG_De_5_Bai_tap_none.html",
+   "setName": "Đề 5",
+   "created": "2026-10-09"
+  }
+ ]
+}
