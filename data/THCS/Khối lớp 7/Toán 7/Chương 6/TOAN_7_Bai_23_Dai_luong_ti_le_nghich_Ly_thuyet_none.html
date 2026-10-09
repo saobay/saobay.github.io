@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 23: Đại lượng tỉ lệ nghịch</title>
+    <meta name="lesson-title" content="Bài 23: Đại lượng tỉ lệ nghịch">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 23: Đại lượng tỉ lệ nghịch</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 6: Tỉ lệ thức và đại lượng tỉ lệ • Bài 23: Đại lượng tỉ lệ nghịch</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<p>Vận tốc và thời gian đi hết một quãng đường, số công nhân và thời gian hoàn thành công việc, ... là những cặp đại lượng mà khi một đại lượng tăng (giảm) bao nhiêu lần thì đại lượng kia lại giảm (tăng) bấy nhiêu lần. Đó là các <strong>đại lượng tỉ lệ nghịch</strong>.</p>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-8">1. Đại lượng tỉ lệ nghịch</h2>
+<div class="bg-amber-50 border-l-4 border-amber-500 rounded-r-xl p-4 my-4">
+    <p class="font-bold text-amber-800 mb-1">📌 Ghi nhớ</p>
+    <p>Nếu đại lượng $y$ liên hệ với đại lượng $x$ theo công thức $y = \dfrac{a}{x}$ hay $xy = a$ (với $a$ là hằng số khác 0) thì ta nói <strong>$y$ tỉ lệ nghịch với $x$ theo hệ số tỉ lệ $a$</strong>.</p>
+    <p>Chú ý: khi $y$ tỉ lệ nghịch với $x$ theo hệ số $a$ thì $x$ cũng tỉ lệ nghịch với $y$ theo hệ số $a$.</p>
+</div>
+
+<div class="bg-sky-50 border-l-4 border-sky-500 rounded-r-xl p-4 my-4">
+    <p class="font-bold text-sky-800 mb-1">Ví dụ 1</p>
+    <p>Một ô tô phải đi quãng đường dài 120 km. Gọi $v$ (km/h) là vận tốc và $t$ (giờ) là thời gian đi hết quãng đường, ta có $v \cdot t = 120$ hay $t = \dfrac{120}{v}$. Vậy $t$ tỉ lệ nghịch với $v$ theo hệ số tỉ lệ 120.</p>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-8">2. Tính chất của đại lượng tỉ lệ nghịch</h2>
+<p>Nếu $y$ tỉ lệ nghịch với $x$ theo hệ số $a$ thì với mỗi giá trị $x_1, x_2, ...$ khác 0 của $x$, ta có các giá trị tương ứng $y_1, y_2, ...$ của $y$ và:</p>
+$$x_1 \cdot y_1 = x_2 \cdot y_2 = \cdots = a; \qquad \frac{x_1}{x_2} = \frac{y_2}{y_1}; \qquad \frac{x_1}{x_3} = \frac{y_3}{y_1}; \quad \cdots$$
+
+<div class="bg-sky-50 border-l-4 border-sky-500 rounded-r-xl p-4 my-4">
+    <p class="font-bold text-sky-800 mb-1">Ví dụ 2</p>
+    <p>Cho $x$ và $y$ là hai đại lượng tỉ lệ nghịch, $x_1 = 12$, $y_1 = 10$, $x_2 = 20$. Tìm $y_2$.</p>
+    <p class="mt-1"><strong>Lời giải:</strong> $x_1 \cdot y_1 = x_2 \cdot y_2$ nên $12 \cdot 10 = 20 \cdot y_2$, suy ra $y_2 = \dfrac{120}{20} = 6$.</p>
+</div>
+
+<div class="svg-fig">
+<svg viewBox="0 0 400 280" xmlns="http://www.w3.org/2000/svg" font-family="system-ui, sans-serif">
+    <line x1="40" y1="250" x2="380" y2="250" stroke="#334155" stroke-width="2"/>
+    <line x1="40" y1="255" x2="40" y2="20" stroke="#334155" stroke-width="2"/>
+    <text x="372" y="242" font-size="13" fill="#334155">x</text>
+    <text x="48" y="32" font-size="13" fill="#334155">y</text>
+    <polyline points="85,34 107.5,106 130,142 152.5,163.6 175,178 220,196 265,206.8 310,214" fill="none" stroke="#f59e0b" stroke-width="3"/>
+    <g fill="#f59e0b">
+        <circle cx="85" cy="34" r="5"/><circle cx="130" cy="142" r="5"/><circle cx="175" cy="178" r="5"/><circle cx="220" cy="196" r="5"/><circle cx="310" cy="214" r="5"/>
+    </g>
+    <g font-size="11" fill="#92400e" font-weight="bold">
+        <text x="60" y="28">(1; 12)</text><text x="136" y="136">(2; 6)</text><text x="181" y="172">(3; 4)</text><text x="226" y="190">(4; 3)</text><text x="290" y="208">(6; 2)</text>
+    </g>
+    <text x="200" y="272" text-anchor="middle" font-size="13" font-weight="bold" fill="#475569">Đồ thị của y = 12/x (x &gt; 0) là một đường cong đi xuống</text>
+</svg>
+<p class="text-center text-xs text-slate-500 mt-1">Đồ thị $y = \dfrac{12}{x}$</p>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-8">3. Bài toán về đại lượng tỉ lệ nghịch</h2>
+<p>Các bước giải tương tự bài toán tỉ lệ thuận, nhưng lập tỉ lệ thức từ tính chất $x_1 \cdot y_1 = x_2 \cdot y_2$ (hay $\dfrac{x_1}{x_2} = \dfrac{y_2}{y_1}$).</p>
+
+<div class="bg-emerald-50 border-l-4 border-emerald-500 rounded-r-xl p-4 my-4">
+    <p class="font-bold text-emerald-800 mb-1">Ví dụ 3 (có lời giải)</p>
+    <p>12 công nhân làm xong một đoạn đường trong 10 ngày (năng suất mỗi người như nhau). Hỏi nếu tăng lên 15 công nhân thì làm xong đoạn đường đó trong bao nhiêu ngày?</p>
+    <p class="mt-2"><strong>Lời giải:</strong> Gọi $x$ (ngày) là thời gian 15 công nhân làm xong ($x > 0$). Số công nhân và số ngày là hai đại lượng tỉ lệ nghịch nên:</p>
+    $$12 \cdot 10 = 15 \cdot x \Rightarrow x = \frac{120}{15} = 8.$$
+    <p>Vậy 15 công nhân làm xong trong 8 ngày.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-500 rounded-r-xl p-4 my-4">
+    <p class="font-bold text-amber-800 mb-1">📌 Ghi nhớ</p>
+    <p>Phân biệt: <strong>tỉ lệ thuận</strong> thì $x$ tăng bao nhiêu lần, $y$ tăng bấy nhiêu lần ($\dfrac{x_1}{x_2} = \dfrac{y_1}{y_2}$); <strong>tỉ lệ nghịch</strong> thì $x$ tăng bao nhiêu lần, $y$ giảm bấy nhiêu lần ($\dfrac{x_1}{x_2} = \dfrac{y_2}{y_1}$).</p>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-8">Tóm tắt</h2>
+<div class="table-scroll">
+<table class="w-full text-sm border border-slate-200 rounded-lg overflow-hidden">
+    <thead><tr class="bg-sky-100">
+        <th class="border border-slate-200 px-3 py-2 text-left">Nội dung</th>
+        <th class="border border-slate-200 px-3 py-2 text-left">Ý chính</th>
+    </tr></thead>
+    <tbody>
+        <tr><td class="border border-slate-200 px-3 py-2 font-semibold">Định nghĩa</td><td class="border border-slate-200 px-3 py-2">$y = \dfrac{a}{x}$ hay $xy = a$ ($a \ne 0$): $y$ tỉ lệ nghịch với $x$ theo hệ số $a$</td></tr>
+        <tr><td class="border border-slate-200 px-3 py-2 font-semibold">Tính chất</td><td class="border border-slate-200 px-3 py-2">$x_1y_1 = x_2y_2 = a$; $\dfrac{x_1}{x_2} = \dfrac{y_2}{y_1}$</td></tr>
+        <tr><td class="border border-slate-200 px-3 py-2 font-semibold">Nhận biết</td><td class="border border-slate-200 px-3 py-2">$x$ tăng (giảm) bao nhiêu lần thì $y$ giảm (tăng) bấy nhiêu lần; tích $xy$ không đổi</td></tr>
+        <tr><td class="border border-slate-200 px-3 py-2 font-semibold">Bài toán</td><td class="border border-slate-200 px-3 py-2">Gọi ẩn → lập $x_1y_1 = x_2y_2$ → giải → kết luận</td></tr>
+    </tbody>
+</table>
+</div>
+</div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
