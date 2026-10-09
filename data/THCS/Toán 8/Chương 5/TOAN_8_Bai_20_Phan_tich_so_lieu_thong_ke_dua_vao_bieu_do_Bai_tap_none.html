@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài tập Bài 20: Phân tích số liệu thống kê dựa vào biểu đồ</title>
+    <meta name="lesson-title" content="Bài tập Bài 20: Phân tích số liệu thống kê dựa vào biểu đồ">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Bài tập</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài tập Bài 20: Phân tích số liệu thống kê dựa vào biểu đồ</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 5: Dữ liệu và biểu đồ • Bài 20: Phân tích số liệu thống kê dựa vào biểu đồ</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="saobay-exam10">
+<script type="application/json" class="saobay-exam10-data">
+{
+ "sets": [
+  {
+   "name": "Đề 1",
+   "questions": [
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Biểu đồ biểu diễn lượng khách tham quan (nghìn lượt) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T1</td><td class=\"border px-2 py-1 text-center\">T2</td><td class=\"border px-2 py-1 text-center\">T3</td><td class=\"border px-2 py-1 text-center\">T4</td><td class=\"border px-2 py-1 text-center\">T5</td><td class=\"border px-2 py-1 text-center\">T6</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Lượng khách tham quan (nghìn lượt)</th><td class=\"border px-2 py-1 text-center\">80</td><td class=\"border px-2 py-1 text-center\">72</td><td class=\"border px-2 py-1 text-center\">65</td><td class=\"border px-2 py-1 text-center\">58</td><td class=\"border px-2 py-1 text-center\">50</td><td class=\"border px-2 py-1 text-center\">44</td></tr></table></div>Chênh lệch giữa giá trị cao nhất và thấp nhất là bao nhiêu? (chỉ ghi số)",
+     "answer": "36",
+     "explain": "80 − 44 = 36."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Biểu đồ biểu diễn lượng khách tham quan (nghìn lượt) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T1</td><td class=\"border px-2 py-1 text-center\">T2</td><td class=\"border px-2 py-1 text-center\">T3</td><td class=\"border px-2 py-1 text-center\">T4</td><td class=\"border px-2 py-1 text-center\">T5</td><td class=\"border px-2 py-1 text-center\">T6</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Lượng khách tham quan (nghìn lượt)</th><td class=\"border px-2 py-1 text-center\">80</td><td class=\"border px-2 py-1 text-center\">72</td><td class=\"border px-2 py-1 text-center\">65</td><td class=\"border px-2 py-1 text-center\">58</td><td class=\"border px-2 py-1 text-center\">50</td><td class=\"border px-2 py-1 text-center\">44</td></tr></table></div>Theo biểu đồ, lượng khách tham quan ở T5 là bao nhiêu?",
+     "options": [
+      "A. 60",
+      "B. 55",
+      "C. 50",
+      "D. 45"
+     ],
+     "answer": "C",
+     "explain": "Đọc biểu đồ tại T5 ta được giá trị 50 nghìn lượt."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Biểu đồ biểu diễn doanh thu (tỉ đồng) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T1</td><td class=\"border px-2 py-1 text-center\">T2</td><td class=\"border px-2 py-1 text-center\">T3</td><td class=\"border px-2 py-1 text-center\">T4</td><td class=\"border px-2 py-1 text-center\">T5</td><td class=\"border px-2 py-1 text-center\">T6</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Doanh thu (tỉ đồng)</th><td class=\"border px-2 py-1 text-center\">20</td><td class=\"border px-2 py-1 text-center\">25</td><td class=\"border px-2 py-1 text-center\">22</td><td class=\"border px-2 py-1 text-center\">30</td><td class=\"border px-2 py-1 text-center\">28</td><td class=\"border px-2 py-1 text-center\">35</td></tr></table></div> Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Giá trị cao nhất là 35 tỉ đồng ở T6.",
+      "Giá trị thấp nhất là 20 tỉ đồng ở T1.",
+      "Ở T1, giá trị là 20 tỉ đồng.",
+      "Đơn vị của số liệu trên biểu đồ là tỉ đồng."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "Đọc biểu đồ: cao nhất 35 ở T6, thấp nhất 20 ở T1; ở T1 giá trị là 20."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Biểu đồ biểu diễn doanh thu (tỉ đồng) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T1</td><td class=\"border px-2 py-1 text-center\">T2</td><td class=\"border px-2 py-1 text-center\">T3</td><td class=\"border px-2 py-1 text-center\">T4</td><td class=\"border px-2 py-1 text-center\">T5</td><td class=\"border px-2 py-1 text-center\">T6</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Doanh thu (tỉ đồng)</th><td class=\"border px-2 py-1 text-center\">20</td><td class=\"border px-2 py-1 text-center\">25</td><td class=\"border px-2 py-1 text-center\">22</td><td class=\"border px-2 py-1 text-center\">30</td><td class=\"border px-2 py-1 text-center\">28</td><td class=\"border px-2 py-1 text-center\">35</td></tr></table></div>Chênh lệch giữa giá trị cao nhất và giá trị thấp nhất là bao nhiêu?",
+     "options": [
+      "A. 15",
+      "B. 20",
+      "C. 25",
+      "D. 10"
+     ],
+     "answer": "A",
+     "explain": "Giá trị cao nhất là 35, thấp nhất là 20 nên chênh lệch là 35 − 20 = 15 tỉ đồng."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Biểu đồ biểu diễn doanh thu (tỉ đồng) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T1</td><td class=\"border px-2 py-1 text-center\">T2</td><td class=\"border px-2 py-1 text-center\">T3</td><td class=\"border px-2 py-1 text-center\">T4</td><td class=\"border px-2 py-1 text-center\">T5</td><td class=\"border px-2 py-1 text-center\">T6</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Doanh thu (tỉ đồng)</th><td class=\"border px-2 py-1 text-center\">20</td><td class=\"border px-2 py-1 text-center\">25</td><td class=\"border px-2 py-1 text-center\">22</td><td class=\"border px-2 py-1 text-center\">30</td><td class=\"border px-2 py-1 text-center\">28</td><td class=\"border px-2 py-1 text-center\">35</td></tr></table></div>Theo biểu đồ, doanh thu ở T1 là bao nhiêu?",
+     "options": [
+      "A. 20",
+      "B. 25",
+      "C. 30",
+      "D. 15"
+     ],
+     "answer": "A",
+     "explain": "Đọc biểu đồ tại T1 ta được giá trị 20 tỉ đồng."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Biểu đồ biểu diễn dân số của xã (nghìn người) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">2015</td><td class=\"border px-2 py-1 text-center\">2017</td><td class=\"border px-2 py-1 text-center\">2019</td><td class=\"border px-2 py-1 text-center\">2021</td><td class=\"border px-2 py-1 text-center\">2023</td><td class=\"border px-2 py-1 text-center\">2025</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Dân số của xã (nghìn người)</th><td class=\"border px-2 py-1 text-center\">12</td><td class=\"border px-2 py-1 text-center\">13</td><td class=\"border px-2 py-1 text-center\">15</td><td class=\"border px-2 py-1 text-center\">18</td><td class=\"border px-2 py-1 text-center\">22</td><td class=\"border px-2 py-1 text-center\">27</td></tr></table></div>Giá trị trung bình mỗi thời điểm là bao nhiêu? (chỉ ghi số)",
+     "answer": "17.8",
+     "explain": "Trung bình = (12 + 13 + 15 + 18 + 22 + 27)/6 = 17.8."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Biểu đồ biểu diễn số học sinh giỏi (học sinh) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">2019</td><td class=\"border px-2 py-1 text-center\">2020</td><td class=\"border px-2 py-1 text-center\">2021</td><td class=\"border px-2 py-1 text-center\">2022</td><td class=\"border px-2 py-1 text-center\">2023</td><td class=\"border px-2 py-1 text-center\">2024</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Số học sinh giỏi (học sinh)</th><td class=\"border px-2 py-1 text-center\">45</td><td class=\"border px-2 py-1 text-center\">52</td><td class=\"border px-2 py-1 text-center\">48</td><td class=\"border px-2 py-1 text-center\">60</td><td class=\"border px-2 py-1 text-center\">66</td><td class=\"border px-2 py-1 text-center\">72</td></tr></table></div>Theo biểu đồ, số học sinh giỏi ở 2021 là bao nhiêu?",
+     "options": [
+      "A. 58",
+      "B. 48",
+      "C. 53",
+      "D. 43"
+     ],
+     "answer": "B",
+     "explain": "Đọc biểu đồ tại 2021 ta được giá trị 48 học sinh."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Biểu đồ biểu diễn doanh thu (tỉ đồng) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T1</td><td class=\"border px-2 py-1 text-center\">T2</td><td class=\"border px-2 py-1 text-center\">T3</td><td class=\"border px-2 py-1 text-center\">T4</td><td class=\"border px-2 py-1 text-center\">T5</td><td class=\"border px-2 py-1 text-center\">T6</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Doanh thu (tỉ đồng)</th><td class=\"border px-2 py-1 text-center\">20</td><td class=\"border px-2 py-1 text-center\">25</td><td class=\"border px-2 py-1 text-center\">22</td><td class=\"border px-2 py-1 text-center\">30</td><td class=\"border px-2 py-1 text-center\">28</td><td class=\"border px-2 py-1 text-center\">35</td></tr></table></div> Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Xu hướng chung của doanh thu là tăng nhưng không đều (tháng 3 và tháng 5 giảm so với tháng trước).",
+      "Tổng các giá trị trên biểu đồ là 160 tỉ đồng.",
+      "Giá trị trung bình mỗi thời điểm là 26.7 tỉ đồng.",
+      "Từ T1 đến T6, doanh thu đã giảm 15 tỉ đồng."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "Tổng = 160, trung bình = 26.7; từ T1 (20) đến T6 (35): tăng 15 tỉ đồng."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Biểu đồ biểu diễn doanh thu (tỉ đồng) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T1</td><td class=\"border px-2 py-1 text-center\">T2</td><td class=\"border px-2 py-1 text-center\">T3</td><td class=\"border px-2 py-1 text-center\">T4</td><td class=\"border px-2 py-1 text-center\">T5</td><td class=\"border px-2 py-1 text-center\">T6</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Doanh thu (tỉ đồng)</th><td class=\"border px-2 py-1 text-center\">20</td><td class=\"border px-2 py-1 text-center\">25</td><td class=\"border px-2 py-1 text-center\">22</td><td class=\"border px-2 py-1 text-center\">30</td><td class=\"border px-2 py-1 text-center\">28</td><td class=\"border px-2 py-1 text-center\">35</td></tr></table></div>Nhận xét nào sau đây là <strong>đúng</strong> về xu hướng thay đổi?",
+     "options": [
+      "A. Xu hướng chung là giảm liên tục",
+      "B. Xu hướng chung là ổn định, không thay đổi",
+      "C. Xu hướng chung là tăng nhưng không đều (tháng 3 và tháng 5 giảm so với tháng trước)",
+      "D. Xu hướng chung là giảm rồi tăng"
+     ],
+     "answer": "C",
+     "explain": "Quan sát biểu đồ: Xu hướng chung là tăng nhưng không đều (tháng 3 và tháng 5 giảm so với tháng trước)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Biểu đồ biểu diễn số học sinh giỏi (học sinh) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">2019</td><td class=\"border px-2 py-1 text-center\">2020</td><td class=\"border px-2 py-1 text-center\">2021</td><td class=\"border px-2 py-1 text-center\">2022</td><td class=\"border px-2 py-1 text-center\">2023</td><td class=\"border px-2 py-1 text-center\">2024</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Số học sinh giỏi (học sinh)</th><td class=\"border px-2 py-1 text-center\">45</td><td class=\"border px-2 py-1 text-center\">52</td><td class=\"border px-2 py-1 text-center\">48</td><td class=\"border px-2 py-1 text-center\">60</td><td class=\"border px-2 py-1 text-center\">66</td><td class=\"border px-2 py-1 text-center\">72</td></tr></table></div>Chênh lệch giữa giá trị cao nhất và giá trị thấp nhất là bao nhiêu?",
+     "options": [
+      "A. 32",
+      "B. 27",
+      "C. 22",
+      "D. 37"
+     ],
+     "answer": "B",
+     "explain": "Giá trị cao nhất là 72, thấp nhất là 45 nên chênh lệch là 72 − 45 = 27 học sinh."
+    }
+   ]
+  },
+  {
+   "name": "Đề 2",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Biểu đồ biểu diễn số sách thư viện cho mượn (quyển) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T9</td><td class=\"border px-2 py-1 text-center\">T10</td><td class=\"border px-2 py-1 text-center\">T11</td><td class=\"border px-2 py-1 text-center\">T12</td><td class=\"border px-2 py-1 text-center\">T1</td><td class=\"border px-2 py-1 text-center\">T2</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Số sách thư viện cho mượn (quyển)</th><td class=\"border px-2 py-1 text-center\">120</td><td class=\"border px-2 py-1 text-center\">135</td><td class=\"border px-2 py-1 text-center\">128</td><td class=\"border px-2 py-1 text-center\">150</td><td class=\"border px-2 py-1 text-center\">142</td><td class=\"border px-2 py-1 text-center\">160</td></tr></table></div>Theo biểu đồ, số sách thư viện cho mượn ở T11 là bao nhiêu?",
+     "options": [
+      "A. 128",
+      "B. 138",
+      "C. 123",
+      "D. 133"
+     ],
+     "answer": "A",
+     "explain": "Đọc biểu đồ tại T11 ta được giá trị 128 quyển."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Biểu đồ biểu diễn dân số của xã (nghìn người) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">2015</td><td class=\"border px-2 py-1 text-center\">2017</td><td class=\"border px-2 py-1 text-center\">2019</td><td class=\"border px-2 py-1 text-center\">2021</td><td class=\"border px-2 py-1 text-center\">2023</td><td class=\"border px-2 py-1 text-center\">2025</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Dân số của xã (nghìn người)</th><td class=\"border px-2 py-1 text-center\">12</td><td class=\"border px-2 py-1 text-center\">13</td><td class=\"border px-2 py-1 text-center\">15</td><td class=\"border px-2 py-1 text-center\">18</td><td class=\"border px-2 py-1 text-center\">22</td><td class=\"border px-2 py-1 text-center\">27</td></tr></table></div>Theo biểu đồ, dân số của xã ở 2023 là bao nhiêu?",
+     "options": [
+      "A. 17",
+      "B. 22",
+      "C. 32",
+      "D. 27"
+     ],
+     "answer": "B",
+     "explain": "Đọc biểu đồ tại 2023 ta được giá trị 22 nghìn người."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Biểu đồ biểu diễn số học sinh giỏi (học sinh) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">2019</td><td class=\"border px-2 py-1 text-center\">2020</td><td class=\"border px-2 py-1 text-center\">2021</td><td class=\"border px-2 py-1 text-center\">2022</td><td class=\"border px-2 py-1 text-center\">2023</td><td class=\"border px-2 py-1 text-center\">2024</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Số học sinh giỏi (học sinh)</th><td class=\"border px-2 py-1 text-center\">45</td><td class=\"border px-2 py-1 text-center\">52</td><td class=\"border px-2 py-1 text-center\">48</td><td class=\"border px-2 py-1 text-center\">60</td><td class=\"border px-2 py-1 text-center\">66</td><td class=\"border px-2 py-1 text-center\">72</td></tr></table></div> Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Giá trị cao nhất là 72 học sinh ở 2024.",
+      "Giá trị thấp nhất là 45 học sinh ở 2019.",
+      "Ở 2019, giá trị là 45 học sinh.",
+      "Đơn vị của số liệu trên biểu đồ là học sinh."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "Đọc biểu đồ: cao nhất 72 ở 2024, thấp nhất 45 ở 2019; ở 2019 giá trị là 45."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Biểu đồ biểu diễn nhiệt độ trung bình (độ C) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T1</td><td class=\"border px-2 py-1 text-center\">T2</td><td class=\"border px-2 py-1 text-center\">T3</td><td class=\"border px-2 py-1 text-center\">T4</td><td class=\"border px-2 py-1 text-center\">T5</td><td class=\"border px-2 py-1 text-center\">T6</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Nhiệt độ trung bình (độ C)</th><td class=\"border px-2 py-1 text-center\">17</td><td class=\"border px-2 py-1 text-center\">19</td><td class=\"border px-2 py-1 text-center\">23</td><td class=\"border px-2 py-1 text-center\">28</td><td class=\"border px-2 py-1 text-center\">31</td><td class=\"border px-2 py-1 text-center\">33</td></tr></table></div>Chênh lệch giữa giá trị cao nhất và giá trị thấp nhất là bao nhiêu?",
+     "options": [
+      "A. 11",
+      "B. 26",
+      "C. 21",
+      "D. 16"
+     ],
+     "answer": "D",
+     "explain": "Giá trị cao nhất là 33, thấp nhất là 17 nên chênh lệch là 33 − 17 = 16 độ C."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Biểu đồ biểu diễn số học sinh giỏi (học sinh) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">2019</td><td class=\"border px-2 py-1 text-center\">2020</td><td class=\"border px-2 py-1 text-center\">2021</td><td class=\"border px-2 py-1 text-center\">2022</td><td class=\"border px-2 py-1 text-center\">2023</td><td class=\"border px-2 py-1 text-center\">2024</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Số học sinh giỏi (học sinh)</th><td class=\"border px-2 py-1 text-center\">45</td><td class=\"border px-2 py-1 text-center\">52</td><td class=\"border px-2 py-1 text-center\">48</td><td class=\"border px-2 py-1 text-center\">60</td><td class=\"border px-2 py-1 text-center\">66</td><td class=\"border px-2 py-1 text-center\">72</td></tr></table></div>Nhận xét nào sau đây là <strong>đúng</strong> về xu hướng thay đổi?",
+     "options": [
+      "A. Xu hướng chung là giảm liên tục",
+      "B. Xu hướng chung là ổn định, không thay đổi",
+      "C. Xu hướng chung là giảm rồi tăng",
+      "D. Xu hướng chung là tăng nhưng không đều (năm 2021 giảm so với năm 2020)"
+     ],
+     "answer": "D",
+     "explain": "Quan sát biểu đồ: Xu hướng chung là tăng nhưng không đều (năm 2021 giảm so với năm 2020)."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Biểu đồ biểu diễn số vụ tai nạn giao thông (vụ) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">Q1</td><td class=\"border px-2 py-1 text-center\">Q2</td><td class=\"border px-2 py-1 text-center\">Q3</td><td class=\"border px-2 py-1 text-center\">Q4</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Số vụ tai nạn giao thông (vụ)</th><td class=\"border px-2 py-1 text-center\">30</td><td class=\"border px-2 py-1 text-center\">24</td><td class=\"border px-2 py-1 text-center\">18</td><td class=\"border px-2 py-1 text-center\">12</td></tr></table></div>Giá trị trung bình mỗi thời điểm là bao nhiêu? (chỉ ghi số)",
+     "answer": "21",
+     "explain": "Trung bình = (30 + 24 + 18 + 12)/4 = 21."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Biểu đồ biểu diễn số học sinh giỏi (học sinh) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">2019</td><td class=\"border px-2 py-1 text-center\">2020</td><td class=\"border px-2 py-1 text-center\">2021</td><td class=\"border px-2 py-1 text-center\">2022</td><td class=\"border px-2 py-1 text-center\">2023</td><td class=\"border px-2 py-1 text-center\">2024</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Số học sinh giỏi (học sinh)</th><td class=\"border px-2 py-1 text-center\">45</td><td class=\"border px-2 py-1 text-center\">52</td><td class=\"border px-2 py-1 text-center\">48</td><td class=\"border px-2 py-1 text-center\">60</td><td class=\"border px-2 py-1 text-center\">66</td><td class=\"border px-2 py-1 text-center\">72</td></tr></table></div> Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Xu hướng chung của số học sinh giỏi là tăng nhưng không đều (năm 2021 giảm so với năm 2020).",
+      "Tổng các giá trị trên biểu đồ là 343 học sinh.",
+      "Giá trị trung bình mỗi thời điểm là 57.2 học sinh.",
+      "Từ 2019 đến 2024, số học sinh giỏi đã giảm 27 học sinh."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "Tổng = 343, trung bình = 57.2; từ 2019 (45) đến 2024 (72): tăng 27 học sinh."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Biểu đồ biểu diễn nhiệt độ trung bình (độ C) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T1</td><td class=\"border px-2 py-1 text-center\">T2</td><td class=\"border px-2 py-1 text-center\">T3</td><td class=\"border px-2 py-1 text-center\">T4</td><td class=\"border px-2 py-1 text-center\">T5</td><td class=\"border px-2 py-1 text-center\">T6</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Nhiệt độ trung bình (độ C)</th><td class=\"border px-2 py-1 text-center\">17</td><td class=\"border px-2 py-1 text-center\">19</td><td class=\"border px-2 py-1 text-center\">23</td><td class=\"border px-2 py-1 text-center\">28</td><td class=\"border px-2 py-1 text-center\">31</td><td class=\"border px-2 py-1 text-center\">33</td></tr></table></div>Theo biểu đồ, nhiệt độ trung bình ở T1 là bao nhiêu?",
+     "options": [
+      "A. 27",
+      "B. 12",
+      "C. 22",
+      "D. 17"
+     ],
+     "answer": "D",
+     "explain": "Đọc biểu đồ tại T1 ta được giá trị 17 độ C."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Biểu đồ biểu diễn nhiệt độ trung bình (độ C) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T1</td><td class=\"border px-2 py-1 text-center\">T2</td><td class=\"border px-2 py-1 text-center\">T3</td><td class=\"border px-2 py-1 text-center\">T4</td><td class=\"border px-2 py-1 text-center\">T5</td><td class=\"border px-2 py-1 text-center\">T6</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Nhiệt độ trung bình (độ C)</th><td class=\"border px-2 py-1 text-center\">17</td><td class=\"border px-2 py-1 text-center\">19</td><td class=\"border px-2 py-1 text-center\">23</td><td class=\"border px-2 py-1 text-center\">28</td><td class=\"border px-2 py-1 text-center\">31</td><td class=\"border px-2 py-1 text-center\">33</td></tr></table></div>Chênh lệch giữa giá trị cao nhất và thấp nhất là bao nhiêu? (chỉ ghi số)",
+     "answer": "16",
+     "explain": "33 − 17 = 16."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Biểu đồ biểu diễn lượng khách tham quan (nghìn lượt) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T1</td><td class=\"border px-2 py-1 text-center\">T2</td><td class=\"border px-2 py-1 text-center\">T3</td><td class=\"border px-2 py-1 text-center\">T4</td><td class=\"border px-2 py-1 text-center\">T5</td><td class=\"border px-2 py-1 text-center\">T6</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Lượng khách tham quan (nghìn lượt)</th><td class=\"border px-2 py-1 text-center\">80</td><td class=\"border px-2 py-1 text-center\">72</td><td class=\"border px-2 py-1 text-center\">65</td><td class=\"border px-2 py-1 text-center\">58</td><td class=\"border px-2 py-1 text-center\">50</td><td class=\"border px-2 py-1 text-center\">44</td></tr></table></div>Chênh lệch giữa giá trị cao nhất và giá trị thấp nhất là bao nhiêu?",
+     "options": [
+      "A. 41",
+      "B. 31",
+      "C. 36",
+      "D. 46"
+     ],
+     "answer": "C",
+     "explain": "Giá trị cao nhất là 80, thấp nhất là 44 nên chênh lệch là 80 − 44 = 36 nghìn lượt."
+    }
+   ]
+  },
+  {
+   "name": "Đề 3",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Biểu đồ biểu diễn số vụ tai nạn giao thông (vụ) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">Q1</td><td class=\"border px-2 py-1 text-center\">Q2</td><td class=\"border px-2 py-1 text-center\">Q3</td><td class=\"border px-2 py-1 text-center\">Q4</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Số vụ tai nạn giao thông (vụ)</th><td class=\"border px-2 py-1 text-center\">30</td><td class=\"border px-2 py-1 text-center\">24</td><td class=\"border px-2 py-1 text-center\">18</td><td class=\"border px-2 py-1 text-center\">12</td></tr></table></div>Theo biểu đồ, số vụ tai nạn giao thông ở Q1 là bao nhiêu?",
+     "options": [
+      "A. 35",
+      "B. 40",
+      "C. 30",
+      "D. 25"
+     ],
+     "answer": "C",
+     "explain": "Đọc biểu đồ tại Q1 ta được giá trị 30 vụ."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Biểu đồ biểu diễn điểm trung bình môn toán (điểm) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">K1</td><td class=\"border px-2 py-1 text-center\">K2</td><td class=\"border px-2 py-1 text-center\">K3</td><td class=\"border px-2 py-1 text-center\">K4</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Điểm trung bình môn Toán (điểm)</th><td class=\"border px-2 py-1 text-center\">6.5</td><td class=\"border px-2 py-1 text-center\">7.0</td><td class=\"border px-2 py-1 text-center\">7.5</td><td class=\"border px-2 py-1 text-center\">8.2</td></tr></table></div>Theo biểu đồ, điểm trung bình môn toán ở K3 là bao nhiêu?",
+     "options": [
+      "A. 2.5",
+      "B. 12.5",
+      "C. 17.5",
+      "D. 7.5"
+     ],
+     "answer": "D",
+     "explain": "Đọc biểu đồ tại K3 ta được giá trị 7.5 điểm."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Biểu đồ biểu diễn điểm trung bình môn toán (điểm) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">K1</td><td class=\"border px-2 py-1 text-center\">K2</td><td class=\"border px-2 py-1 text-center\">K3</td><td class=\"border px-2 py-1 text-center\">K4</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Điểm trung bình môn Toán (điểm)</th><td class=\"border px-2 py-1 text-center\">6.5</td><td class=\"border px-2 py-1 text-center\">7.0</td><td class=\"border px-2 py-1 text-center\">7.5</td><td class=\"border px-2 py-1 text-center\">8.2</td></tr></table></div>Giá trị trung bình mỗi thời điểm là bao nhiêu? (chỉ ghi số)",
+     "answer": "7.3",
+     "explain": "Trung bình = (6.5 + 7.0 + 7.5 + 8.2)/4 = 7.3."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Biểu đồ biểu diễn số sách thư viện cho mượn (quyển) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T9</td><td class=\"border px-2 py-1 text-center\">T10</td><td class=\"border px-2 py-1 text-center\">T11</td><td class=\"border px-2 py-1 text-center\">T12</td><td class=\"border px-2 py-1 text-center\">T1</td><td class=\"border px-2 py-1 text-center\">T2</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Số sách thư viện cho mượn (quyển)</th><td class=\"border px-2 py-1 text-center\">120</td><td class=\"border px-2 py-1 text-center\">135</td><td class=\"border px-2 py-1 text-center\">128</td><td class=\"border px-2 py-1 text-center\">150</td><td class=\"border px-2 py-1 text-center\">142</td><td class=\"border px-2 py-1 text-center\">160</td></tr></table></div>Chênh lệch giữa giá trị cao nhất và giá trị thấp nhất là bao nhiêu?",
+     "options": [
+      "A. 40",
+      "B. 45",
+      "C. 50",
+      "D. 35"
+     ],
+     "answer": "A",
+     "explain": "Giá trị cao nhất là 160, thấp nhất là 120 nên chênh lệch là 160 − 120 = 40 quyển."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Biểu đồ biểu diễn số sách thư viện cho mượn (quyển) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T9</td><td class=\"border px-2 py-1 text-center\">T10</td><td class=\"border px-2 py-1 text-center\">T11</td><td class=\"border px-2 py-1 text-center\">T12</td><td class=\"border px-2 py-1 text-center\">T1</td><td class=\"border px-2 py-1 text-center\">T2</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Số sách thư viện cho mượn (quyển)</th><td class=\"border px-2 py-1 text-center\">120</td><td class=\"border px-2 py-1 text-center\">135</td><td class=\"border px-2 py-1 text-center\">128</td><td class=\"border px-2 py-1 text-center\">150</td><td class=\"border px-2 py-1 text-center\">142</td><td class=\"border px-2 py-1 text-center\">160</td></tr></table></div>Chênh lệch giữa giá trị cao nhất và thấp nhất là bao nhiêu? (chỉ ghi số)",
+     "answer": "40",
+     "explain": "160 − 120 = 40."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Biểu đồ biểu diễn lượng khách tham quan (nghìn lượt) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T1</td><td class=\"border px-2 py-1 text-center\">T2</td><td class=\"border px-2 py-1 text-center\">T3</td><td class=\"border px-2 py-1 text-center\">T4</td><td class=\"border px-2 py-1 text-center\">T5</td><td class=\"border px-2 py-1 text-center\">T6</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Lượng khách tham quan (nghìn lượt)</th><td class=\"border px-2 py-1 text-center\">80</td><td class=\"border px-2 py-1 text-center\">72</td><td class=\"border px-2 py-1 text-center\">65</td><td class=\"border px-2 py-1 text-center\">58</td><td class=\"border px-2 py-1 text-center\">50</td><td class=\"border px-2 py-1 text-center\">44</td></tr></table></div> Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Xu hướng chung của lượng khách tham quan là giảm liên tục qua các tháng.",
+      "Tổng các giá trị trên biểu đồ là 369 nghìn lượt.",
+      "Giá trị trung bình mỗi thời điểm là 61.5 nghìn lượt.",
+      "Từ T1 đến T6, lượng khách tham quan đã giảm 36 nghìn lượt."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "Tổng = 369, trung bình = 61.5; từ T1 (80) đến T6 (44): giảm 36 nghìn lượt."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Biểu đồ biểu diễn dân số của xã (nghìn người) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">2015</td><td class=\"border px-2 py-1 text-center\">2017</td><td class=\"border px-2 py-1 text-center\">2019</td><td class=\"border px-2 py-1 text-center\">2021</td><td class=\"border px-2 py-1 text-center\">2023</td><td class=\"border px-2 py-1 text-center\">2025</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Dân số của xã (nghìn người)</th><td class=\"border px-2 py-1 text-center\">12</td><td class=\"border px-2 py-1 text-center\">13</td><td class=\"border px-2 py-1 text-center\">15</td><td class=\"border px-2 py-1 text-center\">18</td><td class=\"border px-2 py-1 text-center\">22</td><td class=\"border px-2 py-1 text-center\">27</td></tr></table></div>Chênh lệch giữa giá trị cao nhất và giá trị thấp nhất là bao nhiêu?",
+     "options": [
+      "A. 25",
+      "B. 15",
+      "C. 10",
+      "D. 20"
+     ],
+     "answer": "B",
+     "explain": "Giá trị cao nhất là 27, thấp nhất là 12 nên chênh lệch là 27 − 12 = 15 nghìn người."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Biểu đồ biểu diễn lượng khách tham quan (nghìn lượt) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T1</td><td class=\"border px-2 py-1 text-center\">T2</td><td class=\"border px-2 py-1 text-center\">T3</td><td class=\"border px-2 py-1 text-center\">T4</td><td class=\"border px-2 py-1 text-center\">T5</td><td class=\"border px-2 py-1 text-center\">T6</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Lượng khách tham quan (nghìn lượt)</th><td class=\"border px-2 py-1 text-center\">80</td><td class=\"border px-2 py-1 text-center\">72</td><td class=\"border px-2 py-1 text-center\">65</td><td class=\"border px-2 py-1 text-center\">58</td><td class=\"border px-2 py-1 text-center\">50</td><td class=\"border px-2 py-1 text-center\">44</td></tr></table></div>Nhận xét nào sau đây là <strong>đúng</strong> về xu hướng thay đổi?",
+     "options": [
+      "A. Xu hướng chung là giảm liên tục qua các tháng",
+      "B. Xu hướng chung là tăng liên tục",
+      "C. Xu hướng chung là ổn định, không thay đổi",
+      "D. Xu hướng chung là tăng rồi giảm"
+     ],
+     "answer": "A",
+     "explain": "Quan sát biểu đồ: Xu hướng chung là giảm liên tục qua các tháng."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Biểu đồ biểu diễn lượng mưa (mm) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T5</td><td class=\"border px-2 py-1 text-center\">T6</td><td class=\"border px-2 py-1 text-center\">T7</td><td class=\"border px-2 py-1 text-center\">T8</td><td class=\"border px-2 py-1 text-center\">T9</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Lượng mưa (mm)</th><td class=\"border px-2 py-1 text-center\">40</td><td class=\"border px-2 py-1 text-center\">90</td><td class=\"border px-2 py-1 text-center\">150</td><td class=\"border px-2 py-1 text-center\">120</td><td class=\"border px-2 py-1 text-center\">60</td></tr></table></div>Theo biểu đồ, lượng mưa ở T6 là bao nhiêu?",
+     "options": [
+      "A. 90",
+      "B. 95",
+      "C. 85",
+      "D. 100"
+     ],
+     "answer": "A",
+     "explain": "Đọc biểu đồ tại T6 ta được giá trị 90 mm."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Biểu đồ biểu diễn lượng khách tham quan (nghìn lượt) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T1</td><td class=\"border px-2 py-1 text-center\">T2</td><td class=\"border px-2 py-1 text-center\">T3</td><td class=\"border px-2 py-1 text-center\">T4</td><td class=\"border px-2 py-1 text-center\">T5</td><td class=\"border px-2 py-1 text-center\">T6</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Lượng khách tham quan (nghìn lượt)</th><td class=\"border px-2 py-1 text-center\">80</td><td class=\"border px-2 py-1 text-center\">72</td><td class=\"border px-2 py-1 text-center\">65</td><td class=\"border px-2 py-1 text-center\">58</td><td class=\"border px-2 py-1 text-center\">50</td><td class=\"border px-2 py-1 text-center\">44</td></tr></table></div> Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Giá trị cao nhất là 80 nghìn lượt ở T1.",
+      "Giá trị thấp nhất là 44 nghìn lượt ở T6.",
+      "Ở T1, giá trị là 44 nghìn lượt.",
+      "Đơn vị của số liệu trên biểu đồ là nghìn lượt."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "Đọc biểu đồ: cao nhất 80 ở T1, thấp nhất 44 ở T6; ở T1 giá trị là 80."
+    }
+   ]
+  },
+  {
+   "name": "Đề 4",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Biểu đồ biểu diễn nhiệt độ trung bình (độ C) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T1</td><td class=\"border px-2 py-1 text-center\">T2</td><td class=\"border px-2 py-1 text-center\">T3</td><td class=\"border px-2 py-1 text-center\">T4</td><td class=\"border px-2 py-1 text-center\">T5</td><td class=\"border px-2 py-1 text-center\">T6</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Nhiệt độ trung bình (độ C)</th><td class=\"border px-2 py-1 text-center\">17</td><td class=\"border px-2 py-1 text-center\">19</td><td class=\"border px-2 py-1 text-center\">23</td><td class=\"border px-2 py-1 text-center\">28</td><td class=\"border px-2 py-1 text-center\">31</td><td class=\"border px-2 py-1 text-center\">33</td></tr></table></div>Thời điểm nào có giá trị <strong>cao nhất</strong>?",
+     "options": [
+      "A. T1",
+      "B. T6",
+      "C. T2",
+      "D. T3"
+     ],
+     "answer": "B",
+     "explain": "Giá trị cao nhất là 33 độ C ở T6."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Biểu đồ biểu diễn nhiệt độ trung bình (độ C) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T1</td><td class=\"border px-2 py-1 text-center\">T2</td><td class=\"border px-2 py-1 text-center\">T3</td><td class=\"border px-2 py-1 text-center\">T4</td><td class=\"border px-2 py-1 text-center\">T5</td><td class=\"border px-2 py-1 text-center\">T6</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Nhiệt độ trung bình (độ C)</th><td class=\"border px-2 py-1 text-center\">17</td><td class=\"border px-2 py-1 text-center\">19</td><td class=\"border px-2 py-1 text-center\">23</td><td class=\"border px-2 py-1 text-center\">28</td><td class=\"border px-2 py-1 text-center\">31</td><td class=\"border px-2 py-1 text-center\">33</td></tr></table></div> Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Giá trị cao nhất là 33 độ C ở T6.",
+      "Giá trị thấp nhất là 17 độ C ở T1.",
+      "Ở T1, giá trị là 17 độ C.",
+      "Đơn vị của số liệu trên biểu đồ là độ C."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "Đọc biểu đồ: cao nhất 33 ở T6, thấp nhất 17 ở T1; ở T1 giá trị là 17."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Biểu đồ biểu diễn lượng mưa (mm) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T5</td><td class=\"border px-2 py-1 text-center\">T6</td><td class=\"border px-2 py-1 text-center\">T7</td><td class=\"border px-2 py-1 text-center\">T8</td><td class=\"border px-2 py-1 text-center\">T9</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Lượng mưa (mm)</th><td class=\"border px-2 py-1 text-center\">40</td><td class=\"border px-2 py-1 text-center\">90</td><td class=\"border px-2 py-1 text-center\">150</td><td class=\"border px-2 py-1 text-center\">120</td><td class=\"border px-2 py-1 text-center\">60</td></tr></table></div>Giá trị trung bình mỗi thời điểm là bao nhiêu? (chỉ ghi số)",
+     "answer": "92",
+     "explain": "Trung bình = (40 + 90 + 150 + 120 + 60)/5 = 92."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Biểu đồ biểu diễn nhiệt độ trung bình (độ C) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T1</td><td class=\"border px-2 py-1 text-center\">T2</td><td class=\"border px-2 py-1 text-center\">T3</td><td class=\"border px-2 py-1 text-center\">T4</td><td class=\"border px-2 py-1 text-center\">T5</td><td class=\"border px-2 py-1 text-center\">T6</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Nhiệt độ trung bình (độ C)</th><td class=\"border px-2 py-1 text-center\">17</td><td class=\"border px-2 py-1 text-center\">19</td><td class=\"border px-2 py-1 text-center\">23</td><td class=\"border px-2 py-1 text-center\">28</td><td class=\"border px-2 py-1 text-center\">31</td><td class=\"border px-2 py-1 text-center\">33</td></tr></table></div> Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Xu hướng chung của nhiệt độ trung bình là tăng liên tục qua các tháng.",
+      "Tổng các giá trị trên biểu đồ là 151 độ C.",
+      "Giá trị trung bình mỗi thời điểm là 25.2 độ C.",
+      "Từ T1 đến T6, nhiệt độ trung bình đã giảm 16 độ C."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "Tổng = 151, trung bình = 25.2; từ T1 (17) đến T6 (33): tăng 16 độ C."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Biểu đồ biểu diễn điểm trung bình môn toán (điểm) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">K1</td><td class=\"border px-2 py-1 text-center\">K2</td><td class=\"border px-2 py-1 text-center\">K3</td><td class=\"border px-2 py-1 text-center\">K4</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Điểm trung bình môn Toán (điểm)</th><td class=\"border px-2 py-1 text-center\">6.5</td><td class=\"border px-2 py-1 text-center\">7.0</td><td class=\"border px-2 py-1 text-center\">7.5</td><td class=\"border px-2 py-1 text-center\">8.2</td></tr></table></div>Chênh lệch giữa giá trị cao nhất và giá trị thấp nhất là bao nhiêu?",
+     "options": [
+      "A. 5.7",
+      "B. 3.7",
+      "C. 0.5",
+      "D. 1.7"
+     ],
+     "answer": "D",
+     "explain": "Giá trị cao nhất là 8.2, thấp nhất là 6.5 nên chênh lệch là 8.2 − 6.5 = 1.7 điểm."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Biểu đồ biểu diễn số cây xanh được trồng (cây) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">2020</td><td class=\"border px-2 py-1 text-center\">2021</td><td class=\"border px-2 py-1 text-center\">2022</td><td class=\"border px-2 py-1 text-center\">2023</td><td class=\"border px-2 py-1 text-center\">2024</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Số cây xanh được trồng (cây)</th><td class=\"border px-2 py-1 text-center\">200</td><td class=\"border px-2 py-1 text-center\">250</td><td class=\"border px-2 py-1 text-center\">240</td><td class=\"border px-2 py-1 text-center\">300</td><td class=\"border px-2 py-1 text-center\">280</td></tr></table></div>Theo biểu đồ, số cây xanh được trồng ở 2023 là bao nhiêu?",
+     "options": [
+      "A. 305",
+      "B. 300",
+      "C. 295",
+      "D. 310"
+     ],
+     "answer": "B",
+     "explain": "Đọc biểu đồ tại 2023 ta được giá trị 300 cây."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Biểu đồ biểu diễn số vụ tai nạn giao thông (vụ) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">Q1</td><td class=\"border px-2 py-1 text-center\">Q2</td><td class=\"border px-2 py-1 text-center\">Q3</td><td class=\"border px-2 py-1 text-center\">Q4</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Số vụ tai nạn giao thông (vụ)</th><td class=\"border px-2 py-1 text-center\">30</td><td class=\"border px-2 py-1 text-center\">24</td><td class=\"border px-2 py-1 text-center\">18</td><td class=\"border px-2 py-1 text-center\">12</td></tr></table></div>Chênh lệch giữa giá trị cao nhất và giá trị thấp nhất là bao nhiêu?",
+     "options": [
+      "A. 23",
+      "B. 28",
+      "C. 18",
+      "D. 13"
+     ],
+     "answer": "C",
+     "explain": "Giá trị cao nhất là 30, thấp nhất là 12 nên chênh lệch là 30 − 12 = 18 vụ."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Biểu đồ biểu diễn nhiệt độ trung bình (độ C) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T1</td><td class=\"border px-2 py-1 text-center\">T2</td><td class=\"border px-2 py-1 text-center\">T3</td><td class=\"border px-2 py-1 text-center\">T4</td><td class=\"border px-2 py-1 text-center\">T5</td><td class=\"border px-2 py-1 text-center\">T6</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Nhiệt độ trung bình (độ C)</th><td class=\"border px-2 py-1 text-center\">17</td><td class=\"border px-2 py-1 text-center\">19</td><td class=\"border px-2 py-1 text-center\">23</td><td class=\"border px-2 py-1 text-center\">28</td><td class=\"border px-2 py-1 text-center\">31</td><td class=\"border px-2 py-1 text-center\">33</td></tr></table></div>Nhận xét nào sau đây là <strong>đúng</strong> về xu hướng thay đổi?",
+     "options": [
+      "A. Xu hướng chung là giảm liên tục",
+      "B. Xu hướng chung là tăng liên tục qua các tháng",
+      "C. Xu hướng chung là ổn định, không thay đổi",
+      "D. Xu hướng chung là giảm rồi tăng"
+     ],
+     "answer": "B",
+     "explain": "Quan sát biểu đồ: Xu hướng chung là tăng liên tục qua các tháng."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Biểu đồ biểu diễn dân số của xã (nghìn người) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">2015</td><td class=\"border px-2 py-1 text-center\">2017</td><td class=\"border px-2 py-1 text-center\">2019</td><td class=\"border px-2 py-1 text-center\">2021</td><td class=\"border px-2 py-1 text-center\">2023</td><td class=\"border px-2 py-1 text-center\">2025</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Dân số của xã (nghìn người)</th><td class=\"border px-2 py-1 text-center\">12</td><td class=\"border px-2 py-1 text-center\">13</td><td class=\"border px-2 py-1 text-center\">15</td><td class=\"border px-2 py-1 text-center\">18</td><td class=\"border px-2 py-1 text-center\">22</td><td class=\"border px-2 py-1 text-center\">27</td></tr></table></div>Chênh lệch giữa giá trị cao nhất và thấp nhất là bao nhiêu? (chỉ ghi số)",
+     "answer": "15",
+     "explain": "27 − 12 = 15."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Biểu đồ biểu diễn số sách thư viện cho mượn (quyển) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T9</td><td class=\"border px-2 py-1 text-center\">T10</td><td class=\"border px-2 py-1 text-center\">T11</td><td class=\"border px-2 py-1 text-center\">T12</td><td class=\"border px-2 py-1 text-center\">T1</td><td class=\"border px-2 py-1 text-center\">T2</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Số sách thư viện cho mượn (quyển)</th><td class=\"border px-2 py-1 text-center\">120</td><td class=\"border px-2 py-1 text-center\">135</td><td class=\"border px-2 py-1 text-center\">128</td><td class=\"border px-2 py-1 text-center\">150</td><td class=\"border px-2 py-1 text-center\">142</td><td class=\"border px-2 py-1 text-center\">160</td></tr></table></div>Thời điểm nào có giá trị <strong>cao nhất</strong>?",
+     "options": [
+      "A. T9",
+      "B. T10",
+      "C. T2",
+      "D. T11"
+     ],
+     "answer": "C",
+     "explain": "Giá trị cao nhất là 160 quyển ở T2."
+    }
+   ]
+  },
+  {
+   "name": "Đề 5",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Biểu đồ biểu diễn dân số của xã (nghìn người) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">2015</td><td class=\"border px-2 py-1 text-center\">2017</td><td class=\"border px-2 py-1 text-center\">2019</td><td class=\"border px-2 py-1 text-center\">2021</td><td class=\"border px-2 py-1 text-center\">2023</td><td class=\"border px-2 py-1 text-center\">2025</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Dân số của xã (nghìn người)</th><td class=\"border px-2 py-1 text-center\">12</td><td class=\"border px-2 py-1 text-center\">13</td><td class=\"border px-2 py-1 text-center\">15</td><td class=\"border px-2 py-1 text-center\">18</td><td class=\"border px-2 py-1 text-center\">22</td><td class=\"border px-2 py-1 text-center\">27</td></tr></table></div>Thời điểm nào có giá trị <strong>cao nhất</strong>?",
+     "options": [
+      "A. 2015",
+      "B. 2017",
+      "C. 2019",
+      "D. 2025"
+     ],
+     "answer": "D",
+     "explain": "Giá trị cao nhất là 27 nghìn người ở 2025."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Biểu đồ biểu diễn số cây xanh được trồng (cây) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">2020</td><td class=\"border px-2 py-1 text-center\">2021</td><td class=\"border px-2 py-1 text-center\">2022</td><td class=\"border px-2 py-1 text-center\">2023</td><td class=\"border px-2 py-1 text-center\">2024</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Số cây xanh được trồng (cây)</th><td class=\"border px-2 py-1 text-center\">200</td><td class=\"border px-2 py-1 text-center\">250</td><td class=\"border px-2 py-1 text-center\">240</td><td class=\"border px-2 py-1 text-center\">300</td><td class=\"border px-2 py-1 text-center\">280</td></tr></table></div>Giá trị trung bình mỗi thời điểm là bao nhiêu? (chỉ ghi số)",
+     "answer": "254",
+     "explain": "Trung bình = (200 + 250 + 240 + 300 + 280)/5 = 254."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Biểu đồ biểu diễn số vụ tai nạn giao thông (vụ) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">Q1</td><td class=\"border px-2 py-1 text-center\">Q2</td><td class=\"border px-2 py-1 text-center\">Q3</td><td class=\"border px-2 py-1 text-center\">Q4</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Số vụ tai nạn giao thông (vụ)</th><td class=\"border px-2 py-1 text-center\">30</td><td class=\"border px-2 py-1 text-center\">24</td><td class=\"border px-2 py-1 text-center\">18</td><td class=\"border px-2 py-1 text-center\">12</td></tr></table></div>Chênh lệch giữa giá trị cao nhất và thấp nhất là bao nhiêu? (chỉ ghi số)",
+     "answer": "18",
+     "explain": "30 − 12 = 18."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Biểu đồ biểu diễn số sách thư viện cho mượn (quyển) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T9</td><td class=\"border px-2 py-1 text-center\">T10</td><td class=\"border px-2 py-1 text-center\">T11</td><td class=\"border px-2 py-1 text-center\">T12</td><td class=\"border px-2 py-1 text-center\">T1</td><td class=\"border px-2 py-1 text-center\">T2</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Số sách thư viện cho mượn (quyển)</th><td class=\"border px-2 py-1 text-center\">120</td><td class=\"border px-2 py-1 text-center\">135</td><td class=\"border px-2 py-1 text-center\">128</td><td class=\"border px-2 py-1 text-center\">150</td><td class=\"border px-2 py-1 text-center\">142</td><td class=\"border px-2 py-1 text-center\">160</td></tr></table></div>Nhận xét nào sau đây là <strong>đúng</strong> về xu hướng thay đổi?",
+     "options": [
+      "A. Xu hướng chung là giảm liên tục",
+      "B. Xu hướng chung là ổn định, không thay đổi",
+      "C. Xu hướng chung là tăng nhưng không đều",
+      "D. Xu hướng chung là giảm rồi tăng"
+     ],
+     "answer": "C",
+     "explain": "Quan sát biểu đồ: Xu hướng chung là tăng nhưng không đều."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Biểu đồ biểu diễn số cây xanh được trồng (cây) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">2020</td><td class=\"border px-2 py-1 text-center\">2021</td><td class=\"border px-2 py-1 text-center\">2022</td><td class=\"border px-2 py-1 text-center\">2023</td><td class=\"border px-2 py-1 text-center\">2024</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Số cây xanh được trồng (cây)</th><td class=\"border px-2 py-1 text-center\">200</td><td class=\"border px-2 py-1 text-center\">250</td><td class=\"border px-2 py-1 text-center\">240</td><td class=\"border px-2 py-1 text-center\">300</td><td class=\"border px-2 py-1 text-center\">280</td></tr></table></div>Chênh lệch giữa giá trị cao nhất và giá trị thấp nhất là bao nhiêu?",
+     "options": [
+      "A. 105",
+      "B. 100",
+      "C. 95",
+      "D. 110"
+     ],
+     "answer": "B",
+     "explain": "Giá trị cao nhất là 300, thấp nhất là 200 nên chênh lệch là 300 − 200 = 100 cây."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Biểu đồ biểu diễn điểm trung bình môn toán (điểm) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">K1</td><td class=\"border px-2 py-1 text-center\">K2</td><td class=\"border px-2 py-1 text-center\">K3</td><td class=\"border px-2 py-1 text-center\">K4</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Điểm trung bình môn Toán (điểm)</th><td class=\"border px-2 py-1 text-center\">6.5</td><td class=\"border px-2 py-1 text-center\">7.0</td><td class=\"border px-2 py-1 text-center\">7.5</td><td class=\"border px-2 py-1 text-center\">8.2</td></tr></table></div>Thời điểm nào có giá trị <strong>cao nhất</strong>?",
+     "options": [
+      "A. K1",
+      "B. K4",
+      "C. K2",
+      "D. K3"
+     ],
+     "answer": "B",
+     "explain": "Giá trị cao nhất là 8.2 điểm ở K4."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Biểu đồ biểu diễn số sách thư viện cho mượn (quyển) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T9</td><td class=\"border px-2 py-1 text-center\">T10</td><td class=\"border px-2 py-1 text-center\">T11</td><td class=\"border px-2 py-1 text-center\">T12</td><td class=\"border px-2 py-1 text-center\">T1</td><td class=\"border px-2 py-1 text-center\">T2</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Số sách thư viện cho mượn (quyển)</th><td class=\"border px-2 py-1 text-center\">120</td><td class=\"border px-2 py-1 text-center\">135</td><td class=\"border px-2 py-1 text-center\">128</td><td class=\"border px-2 py-1 text-center\">150</td><td class=\"border px-2 py-1 text-center\">142</td><td class=\"border px-2 py-1 text-center\">160</td></tr></table></div> Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Xu hướng chung của số sách thư viện cho mượn là tăng nhưng không đều.",
+      "Tổng các giá trị trên biểu đồ là 835 quyển.",
+      "Giá trị trung bình mỗi thời điểm là 139.2 quyển.",
+      "Từ T9 đến T2, số sách thư viện cho mượn đã giảm 40 quyển."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "Tổng = 835, trung bình = 139.2; từ T9 (120) đến T2 (160): tăng 40 quyển."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Biểu đồ biểu diễn số sách thư viện cho mượn (quyển) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T9</td><td class=\"border px-2 py-1 text-center\">T10</td><td class=\"border px-2 py-1 text-center\">T11</td><td class=\"border px-2 py-1 text-center\">T12</td><td class=\"border px-2 py-1 text-center\">T1</td><td class=\"border px-2 py-1 text-center\">T2</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Số sách thư viện cho mượn (quyển)</th><td class=\"border px-2 py-1 text-center\">120</td><td class=\"border px-2 py-1 text-center\">135</td><td class=\"border px-2 py-1 text-center\">128</td><td class=\"border px-2 py-1 text-center\">150</td><td class=\"border px-2 py-1 text-center\">142</td><td class=\"border px-2 py-1 text-center\">160</td></tr></table></div> Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Giá trị cao nhất là 160 quyển ở T2.",
+      "Giá trị thấp nhất là 120 quyển ở T9.",
+      "Ở T9, giá trị là 120 quyển.",
+      "Đơn vị của số liệu trên biểu đồ là quyển."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "Đọc biểu đồ: cao nhất 160 ở T2, thấp nhất 120 ở T9; ở T9 giá trị là 120."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Biểu đồ biểu diễn lượng mưa (mm) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T5</td><td class=\"border px-2 py-1 text-center\">T6</td><td class=\"border px-2 py-1 text-center\">T7</td><td class=\"border px-2 py-1 text-center\">T8</td><td class=\"border px-2 py-1 text-center\">T9</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Lượng mưa (mm)</th><td class=\"border px-2 py-1 text-center\">40</td><td class=\"border px-2 py-1 text-center\">90</td><td class=\"border px-2 py-1 text-center\">150</td><td class=\"border px-2 py-1 text-center\">120</td><td class=\"border px-2 py-1 text-center\">60</td></tr></table></div>Chênh lệch giữa giá trị cao nhất và giá trị thấp nhất là bao nhiêu?",
+     "options": [
+      "A. 110",
+      "B. 115",
+      "C. 105",
+      "D. 120"
+     ],
+     "answer": "A",
+     "explain": "Giá trị cao nhất là 150, thấp nhất là 40 nên chênh lệch là 150 − 40 = 110 mm."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Biểu đồ biểu diễn số vụ tai nạn giao thông (vụ) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">Q1</td><td class=\"border px-2 py-1 text-center\">Q2</td><td class=\"border px-2 py-1 text-center\">Q3</td><td class=\"border px-2 py-1 text-center\">Q4</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Số vụ tai nạn giao thông (vụ)</th><td class=\"border px-2 py-1 text-center\">30</td><td class=\"border px-2 py-1 text-center\">24</td><td class=\"border px-2 py-1 text-center\">18</td><td class=\"border px-2 py-1 text-center\">12</td></tr></table></div>Thời điểm nào có giá trị <strong>cao nhất</strong>?",
+     "options": [
+      "A. Q1",
+      "B. Q2",
+      "C. Q3",
+      "D. Q4"
+     ],
+     "answer": "A",
+     "explain": "Giá trị cao nhất là 30 vụ ở Q1."
+    }
+   ]
+  },
+  {
+   "name": "Đề 6",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Biểu đồ biểu diễn dân số của xã (nghìn người) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">2015</td><td class=\"border px-2 py-1 text-center\">2017</td><td class=\"border px-2 py-1 text-center\">2019</td><td class=\"border px-2 py-1 text-center\">2021</td><td class=\"border px-2 py-1 text-center\">2023</td><td class=\"border px-2 py-1 text-center\">2025</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Dân số của xã (nghìn người)</th><td class=\"border px-2 py-1 text-center\">12</td><td class=\"border px-2 py-1 text-center\">13</td><td class=\"border px-2 py-1 text-center\">15</td><td class=\"border px-2 py-1 text-center\">18</td><td class=\"border px-2 py-1 text-center\">22</td><td class=\"border px-2 py-1 text-center\">27</td></tr></table></div>Từ 2017 đến 2021, dân số của xã đã thay đổi như thế nào?",
+     "options": [
+      "A. Tăng 10 nghìn người",
+      "B. Giảm 8 nghìn người",
+      "C. Tăng 5 nghìn người",
+      "D. Không thay đổi"
+     ],
+     "answer": "C",
+     "explain": "Từ 13 đến 18: Tăng 5 nghìn người."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Biểu đồ biểu diễn dân số của xã (nghìn người) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">2015</td><td class=\"border px-2 py-1 text-center\">2017</td><td class=\"border px-2 py-1 text-center\">2019</td><td class=\"border px-2 py-1 text-center\">2021</td><td class=\"border px-2 py-1 text-center\">2023</td><td class=\"border px-2 py-1 text-center\">2025</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Dân số của xã (nghìn người)</th><td class=\"border px-2 py-1 text-center\">12</td><td class=\"border px-2 py-1 text-center\">13</td><td class=\"border px-2 py-1 text-center\">15</td><td class=\"border px-2 py-1 text-center\">18</td><td class=\"border px-2 py-1 text-center\">22</td><td class=\"border px-2 py-1 text-center\">27</td></tr></table></div>Nhận xét nào sau đây là <strong>đúng</strong> về xu hướng thay đổi?",
+     "options": [
+      "A. Xu hướng chung là giảm liên tục",
+      "B. Xu hướng chung là ổn định, không thay đổi",
+      "C. Xu hướng chung là giảm rồi tăng",
+      "D. Xu hướng chung là tăng nhanh dần qua các năm"
+     ],
+     "answer": "D",
+     "explain": "Quan sát biểu đồ: Xu hướng chung là tăng nhanh dần qua các năm."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Biểu đồ biểu diễn số sách thư viện cho mượn (quyển) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T9</td><td class=\"border px-2 py-1 text-center\">T10</td><td class=\"border px-2 py-1 text-center\">T11</td><td class=\"border px-2 py-1 text-center\">T12</td><td class=\"border px-2 py-1 text-center\">T1</td><td class=\"border px-2 py-1 text-center\">T2</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Số sách thư viện cho mượn (quyển)</th><td class=\"border px-2 py-1 text-center\">120</td><td class=\"border px-2 py-1 text-center\">135</td><td class=\"border px-2 py-1 text-center\">128</td><td class=\"border px-2 py-1 text-center\">150</td><td class=\"border px-2 py-1 text-center\">142</td><td class=\"border px-2 py-1 text-center\">160</td></tr></table></div>Từ T9 đến T11, số sách thư viện cho mượn đã thay đổi như thế nào?",
+     "options": [
+      "A. Tăng 13 quyển",
+      "B. Tăng 8 quyển",
+      "C. Giảm 11 quyển",
+      "D. Không thay đổi"
+     ],
+     "answer": "B",
+     "explain": "Từ 120 đến 128: Tăng 8 quyển."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Biểu đồ biểu diễn số cây xanh được trồng (cây) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">2020</td><td class=\"border px-2 py-1 text-center\">2021</td><td class=\"border px-2 py-1 text-center\">2022</td><td class=\"border px-2 py-1 text-center\">2023</td><td class=\"border px-2 py-1 text-center\">2024</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Số cây xanh được trồng (cây)</th><td class=\"border px-2 py-1 text-center\">200</td><td class=\"border px-2 py-1 text-center\">250</td><td class=\"border px-2 py-1 text-center\">240</td><td class=\"border px-2 py-1 text-center\">300</td><td class=\"border px-2 py-1 text-center\">280</td></tr></table></div>Thời điểm nào có giá trị <strong>cao nhất</strong>?",
+     "options": [
+      "A. 2020",
+      "B. 2021",
+      "C. 2022",
+      "D. 2023"
+     ],
+     "answer": "D",
+     "explain": "Giá trị cao nhất là 300 cây ở 2023."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Biểu đồ biểu diễn doanh thu (tỉ đồng) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T1</td><td class=\"border px-2 py-1 text-center\">T2</td><td class=\"border px-2 py-1 text-center\">T3</td><td class=\"border px-2 py-1 text-center\">T4</td><td class=\"border px-2 py-1 text-center\">T5</td><td class=\"border px-2 py-1 text-center\">T6</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Doanh thu (tỉ đồng)</th><td class=\"border px-2 py-1 text-center\">20</td><td class=\"border px-2 py-1 text-center\">25</td><td class=\"border px-2 py-1 text-center\">22</td><td class=\"border px-2 py-1 text-center\">30</td><td class=\"border px-2 py-1 text-center\">28</td><td class=\"border px-2 py-1 text-center\">35</td></tr></table></div>Giá trị trung bình mỗi thời điểm là bao nhiêu? (chỉ ghi số)",
+     "answer": "26.7",
+     "explain": "Trung bình = (20 + 25 + 22 + 30 + 28 + 35)/6 = 26.7."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Biểu đồ biểu diễn điểm trung bình môn toán (điểm) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">K1</td><td class=\"border px-2 py-1 text-center\">K2</td><td class=\"border px-2 py-1 text-center\">K3</td><td class=\"border px-2 py-1 text-center\">K4</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Điểm trung bình môn Toán (điểm)</th><td class=\"border px-2 py-1 text-center\">6.5</td><td class=\"border px-2 py-1 text-center\">7.0</td><td class=\"border px-2 py-1 text-center\">7.5</td><td class=\"border px-2 py-1 text-center\">8.2</td></tr></table></div>Chênh lệch giữa giá trị cao nhất và thấp nhất là bao nhiêu? (chỉ ghi số)",
+     "answer": "1.7",
+     "explain": "8.2 − 6.5 = 1.7."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Biểu đồ biểu diễn lượng mưa (mm) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T5</td><td class=\"border px-2 py-1 text-center\">T6</td><td class=\"border px-2 py-1 text-center\">T7</td><td class=\"border px-2 py-1 text-center\">T8</td><td class=\"border px-2 py-1 text-center\">T9</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Lượng mưa (mm)</th><td class=\"border px-2 py-1 text-center\">40</td><td class=\"border px-2 py-1 text-center\">90</td><td class=\"border px-2 py-1 text-center\">150</td><td class=\"border px-2 py-1 text-center\">120</td><td class=\"border px-2 py-1 text-center\">60</td></tr></table></div>Thời điểm nào có giá trị <strong>cao nhất</strong>?",
+     "options": [
+      "A. T5",
+      "B. T6",
+      "C. T7",
+      "D. T8"
+     ],
+     "answer": "C",
+     "explain": "Giá trị cao nhất là 150 mm ở T7."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Biểu đồ biểu diễn dân số của xã (nghìn người) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">2015</td><td class=\"border px-2 py-1 text-center\">2017</td><td class=\"border px-2 py-1 text-center\">2019</td><td class=\"border px-2 py-1 text-center\">2021</td><td class=\"border px-2 py-1 text-center\">2023</td><td class=\"border px-2 py-1 text-center\">2025</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Dân số của xã (nghìn người)</th><td class=\"border px-2 py-1 text-center\">12</td><td class=\"border px-2 py-1 text-center\">13</td><td class=\"border px-2 py-1 text-center\">15</td><td class=\"border px-2 py-1 text-center\">18</td><td class=\"border px-2 py-1 text-center\">22</td><td class=\"border px-2 py-1 text-center\">27</td></tr></table></div> Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Xu hướng chung của dân số của xã là tăng nhanh dần qua các năm.",
+      "Tổng các giá trị trên biểu đồ là 107 nghìn người.",
+      "Giá trị trung bình mỗi thời điểm là 17.8 nghìn người.",
+      "Từ 2015 đến 2025, dân số của xã đã giảm 15 nghìn người."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "Tổng = 107, trung bình = 17.8; từ 2015 (12) đến 2025 (27): tăng 15 nghìn người."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Biểu đồ biểu diễn dân số của xã (nghìn người) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">2015</td><td class=\"border px-2 py-1 text-center\">2017</td><td class=\"border px-2 py-1 text-center\">2019</td><td class=\"border px-2 py-1 text-center\">2021</td><td class=\"border px-2 py-1 text-center\">2023</td><td class=\"border px-2 py-1 text-center\">2025</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Dân số của xã (nghìn người)</th><td class=\"border px-2 py-1 text-center\">12</td><td class=\"border px-2 py-1 text-center\">13</td><td class=\"border px-2 py-1 text-center\">15</td><td class=\"border px-2 py-1 text-center\">18</td><td class=\"border px-2 py-1 text-center\">22</td><td class=\"border px-2 py-1 text-center\">27</td></tr></table></div> Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Giá trị cao nhất là 27 nghìn người ở 2025.",
+      "Giá trị thấp nhất là 12 nghìn người ở 2015.",
+      "Ở 2015, giá trị là 12 nghìn người.",
+      "Đơn vị của số liệu trên biểu đồ là nghìn người."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "Đọc biểu đồ: cao nhất 27 ở 2025, thấp nhất 12 ở 2015; ở 2015 giá trị là 12."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Biểu đồ biểu diễn doanh thu (tỉ đồng) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T1</td><td class=\"border px-2 py-1 text-center\">T2</td><td class=\"border px-2 py-1 text-center\">T3</td><td class=\"border px-2 py-1 text-center\">T4</td><td class=\"border px-2 py-1 text-center\">T5</td><td class=\"border px-2 py-1 text-center\">T6</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Doanh thu (tỉ đồng)</th><td class=\"border px-2 py-1 text-center\">20</td><td class=\"border px-2 py-1 text-center\">25</td><td class=\"border px-2 py-1 text-center\">22</td><td class=\"border px-2 py-1 text-center\">30</td><td class=\"border px-2 py-1 text-center\">28</td><td class=\"border px-2 py-1 text-center\">35</td></tr></table></div>Thời điểm nào có giá trị <strong>cao nhất</strong>?",
+     "options": [
+      "A. T6",
+      "B. T1",
+      "C. T2",
+      "D. T3"
+     ],
+     "answer": "A",
+     "explain": "Giá trị cao nhất là 35 tỉ đồng ở T6."
+    }
+   ]
+  },
+  {
+   "name": "Đề 7",
+   "questions": [
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Biểu đồ biểu diễn số học sinh giỏi (học sinh) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">2019</td><td class=\"border px-2 py-1 text-center\">2020</td><td class=\"border px-2 py-1 text-center\">2021</td><td class=\"border px-2 py-1 text-center\">2022</td><td class=\"border px-2 py-1 text-center\">2023</td><td class=\"border px-2 py-1 text-center\">2024</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Số học sinh giỏi (học sinh)</th><td class=\"border px-2 py-1 text-center\">45</td><td class=\"border px-2 py-1 text-center\">52</td><td class=\"border px-2 py-1 text-center\">48</td><td class=\"border px-2 py-1 text-center\">60</td><td class=\"border px-2 py-1 text-center\">66</td><td class=\"border px-2 py-1 text-center\">72</td></tr></table></div>Giá trị trung bình mỗi thời điểm là bao nhiêu? (chỉ ghi số)",
+     "answer": "57.2",
+     "explain": "Trung bình = (45 + 52 + 48 + 60 + 66 + 72)/6 = 57.2."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Biểu đồ biểu diễn số vụ tai nạn giao thông (vụ) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">Q1</td><td class=\"border px-2 py-1 text-center\">Q2</td><td class=\"border px-2 py-1 text-center\">Q3</td><td class=\"border px-2 py-1 text-center\">Q4</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Số vụ tai nạn giao thông (vụ)</th><td class=\"border px-2 py-1 text-center\">30</td><td class=\"border px-2 py-1 text-center\">24</td><td class=\"border px-2 py-1 text-center\">18</td><td class=\"border px-2 py-1 text-center\">12</td></tr></table></div> Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Xu hướng chung của số vụ tai nạn giao thông là giảm liên tục qua các quý.",
+      "Tổng các giá trị trên biểu đồ là 84 vụ.",
+      "Giá trị trung bình mỗi thời điểm là 21 vụ.",
+      "Từ Q1 đến Q4, số vụ tai nạn giao thông đã giảm 18 vụ."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "Tổng = 84, trung bình = 21; từ Q1 (30) đến Q4 (12): giảm 18 vụ."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Biểu đồ biểu diễn điểm trung bình môn toán (điểm) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">K1</td><td class=\"border px-2 py-1 text-center\">K2</td><td class=\"border px-2 py-1 text-center\">K3</td><td class=\"border px-2 py-1 text-center\">K4</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Điểm trung bình môn Toán (điểm)</th><td class=\"border px-2 py-1 text-center\">6.5</td><td class=\"border px-2 py-1 text-center\">7.0</td><td class=\"border px-2 py-1 text-center\">7.5</td><td class=\"border px-2 py-1 text-center\">8.2</td></tr></table></div>Từ K4 đến K2, điểm trung bình môn toán đã thay đổi như thế nào?",
+     "options": [
+      "A. Giảm 1.2 điểm",
+      "B. Tăng 6.2 điểm",
+      "C. Giảm 4.2 điểm",
+      "D. Không thay đổi"
+     ],
+     "answer": "A",
+     "explain": "Từ 8.2 đến 7.0: Giảm 1.2 điểm."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Biểu đồ biểu diễn số vụ tai nạn giao thông (vụ) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">Q1</td><td class=\"border px-2 py-1 text-center\">Q2</td><td class=\"border px-2 py-1 text-center\">Q3</td><td class=\"border px-2 py-1 text-center\">Q4</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Số vụ tai nạn giao thông (vụ)</th><td class=\"border px-2 py-1 text-center\">30</td><td class=\"border px-2 py-1 text-center\">24</td><td class=\"border px-2 py-1 text-center\">18</td><td class=\"border px-2 py-1 text-center\">12</td></tr></table></div>Từ Q3 đến Q1, số vụ tai nạn giao thông đã thay đổi như thế nào?",
+     "options": [
+      "A. Tăng 17 vụ",
+      "B. Giảm 15 vụ",
+      "C. Không thay đổi",
+      "D. Tăng 12 vụ"
+     ],
+     "answer": "D",
+     "explain": "Từ 18 đến 30: Tăng 12 vụ."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Biểu đồ biểu diễn lượng khách tham quan (nghìn lượt) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T1</td><td class=\"border px-2 py-1 text-center\">T2</td><td class=\"border px-2 py-1 text-center\">T3</td><td class=\"border px-2 py-1 text-center\">T4</td><td class=\"border px-2 py-1 text-center\">T5</td><td class=\"border px-2 py-1 text-center\">T6</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Lượng khách tham quan (nghìn lượt)</th><td class=\"border px-2 py-1 text-center\">80</td><td class=\"border px-2 py-1 text-center\">72</td><td class=\"border px-2 py-1 text-center\">65</td><td class=\"border px-2 py-1 text-center\">58</td><td class=\"border px-2 py-1 text-center\">50</td><td class=\"border px-2 py-1 text-center\">44</td></tr></table></div>Thời điểm nào có giá trị <strong>cao nhất</strong>?",
+     "options": [
+      "A. T2",
+      "B. T3",
+      "C. T1",
+      "D. T4"
+     ],
+     "answer": "C",
+     "explain": "Giá trị cao nhất là 80 nghìn lượt ở T1."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Biểu đồ biểu diễn số vụ tai nạn giao thông (vụ) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">Q1</td><td class=\"border px-2 py-1 text-center\">Q2</td><td class=\"border px-2 py-1 text-center\">Q3</td><td class=\"border px-2 py-1 text-center\">Q4</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Số vụ tai nạn giao thông (vụ)</th><td class=\"border px-2 py-1 text-center\">30</td><td class=\"border px-2 py-1 text-center\">24</td><td class=\"border px-2 py-1 text-center\">18</td><td class=\"border px-2 py-1 text-center\">12</td></tr></table></div>Thời điểm nào có giá trị <strong>thấp nhất</strong>?",
+     "options": [
+      "A. Q1",
+      "B. Q2",
+      "C. Q4",
+      "D. Q3"
+     ],
+     "answer": "C",
+     "explain": "Giá trị thấp nhất là 12 vụ ở Q4."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Biểu đồ biểu diễn lượng mưa (mm) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T5</td><td class=\"border px-2 py-1 text-center\">T6</td><td class=\"border px-2 py-1 text-center\">T7</td><td class=\"border px-2 py-1 text-center\">T8</td><td class=\"border px-2 py-1 text-center\">T9</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Lượng mưa (mm)</th><td class=\"border px-2 py-1 text-center\">40</td><td class=\"border px-2 py-1 text-center\">90</td><td class=\"border px-2 py-1 text-center\">150</td><td class=\"border px-2 py-1 text-center\">120</td><td class=\"border px-2 py-1 text-center\">60</td></tr></table></div>Chênh lệch giữa giá trị cao nhất và thấp nhất là bao nhiêu? (chỉ ghi số)",
+     "answer": "110",
+     "explain": "150 − 40 = 110."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Biểu đồ biểu diễn số vụ tai nạn giao thông (vụ) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">Q1</td><td class=\"border px-2 py-1 text-center\">Q2</td><td class=\"border px-2 py-1 text-center\">Q3</td><td class=\"border px-2 py-1 text-center\">Q4</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Số vụ tai nạn giao thông (vụ)</th><td class=\"border px-2 py-1 text-center\">30</td><td class=\"border px-2 py-1 text-center\">24</td><td class=\"border px-2 py-1 text-center\">18</td><td class=\"border px-2 py-1 text-center\">12</td></tr></table></div> Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Giá trị cao nhất là 30 vụ ở Q1.",
+      "Giá trị thấp nhất là 12 vụ ở Q4.",
+      "Ở Q1, giá trị là 12 vụ.",
+      "Đơn vị của số liệu trên biểu đồ là vụ."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "Đọc biểu đồ: cao nhất 30 ở Q1, thấp nhất 12 ở Q4; ở Q1 giá trị là 30."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Biểu đồ biểu diễn số vụ tai nạn giao thông (vụ) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">Q1</td><td class=\"border px-2 py-1 text-center\">Q2</td><td class=\"border px-2 py-1 text-center\">Q3</td><td class=\"border px-2 py-1 text-center\">Q4</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Số vụ tai nạn giao thông (vụ)</th><td class=\"border px-2 py-1 text-center\">30</td><td class=\"border px-2 py-1 text-center\">24</td><td class=\"border px-2 py-1 text-center\">18</td><td class=\"border px-2 py-1 text-center\">12</td></tr></table></div>Nhận xét nào sau đây là <strong>đúng</strong> về xu hướng thay đổi?",
+     "options": [
+      "A. Xu hướng chung là giảm liên tục qua các quý",
+      "B. Xu hướng chung là tăng liên tục",
+      "C. Xu hướng chung là ổn định, không thay đổi",
+      "D. Xu hướng chung là tăng rồi giảm"
+     ],
+     "answer": "A",
+     "explain": "Quan sát biểu đồ: Xu hướng chung là giảm liên tục qua các quý."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Biểu đồ biểu diễn số học sinh giỏi (học sinh) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">2019</td><td class=\"border px-2 py-1 text-center\">2020</td><td class=\"border px-2 py-1 text-center\">2021</td><td class=\"border px-2 py-1 text-center\">2022</td><td class=\"border px-2 py-1 text-center\">2023</td><td class=\"border px-2 py-1 text-center\">2024</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Số học sinh giỏi (học sinh)</th><td class=\"border px-2 py-1 text-center\">45</td><td class=\"border px-2 py-1 text-center\">52</td><td class=\"border px-2 py-1 text-center\">48</td><td class=\"border px-2 py-1 text-center\">60</td><td class=\"border px-2 py-1 text-center\">66</td><td class=\"border px-2 py-1 text-center\">72</td></tr></table></div>Thời điểm nào có giá trị <strong>cao nhất</strong>?",
+     "options": [
+      "A. 2019",
+      "B. 2024",
+      "C. 2020",
+      "D. 2021"
+     ],
+     "answer": "B",
+     "explain": "Giá trị cao nhất là 72 học sinh ở 2024."
+    }
+   ]
+  },
+  {
+   "name": "Đề 8",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Biểu đồ biểu diễn lượng mưa (mm) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T5</td><td class=\"border px-2 py-1 text-center\">T6</td><td class=\"border px-2 py-1 text-center\">T7</td><td class=\"border px-2 py-1 text-center\">T8</td><td class=\"border px-2 py-1 text-center\">T9</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Lượng mưa (mm)</th><td class=\"border px-2 py-1 text-center\">40</td><td class=\"border px-2 py-1 text-center\">90</td><td class=\"border px-2 py-1 text-center\">150</td><td class=\"border px-2 py-1 text-center\">120</td><td class=\"border px-2 py-1 text-center\">60</td></tr></table></div>Từ T9 đến T6, lượng mưa đã thay đổi như thế nào?",
+     "options": [
+      "A. Tăng 35 mm",
+      "B. Tăng 30 mm",
+      "C. Giảm 33 mm",
+      "D. Không thay đổi"
+     ],
+     "answer": "B",
+     "explain": "Từ 60 đến 90: Tăng 30 mm."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Biểu đồ biểu diễn điểm trung bình môn toán (điểm) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">K1</td><td class=\"border px-2 py-1 text-center\">K2</td><td class=\"border px-2 py-1 text-center\">K3</td><td class=\"border px-2 py-1 text-center\">K4</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Điểm trung bình môn Toán (điểm)</th><td class=\"border px-2 py-1 text-center\">6.5</td><td class=\"border px-2 py-1 text-center\">7.0</td><td class=\"border px-2 py-1 text-center\">7.5</td><td class=\"border px-2 py-1 text-center\">8.2</td></tr></table></div> Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Giá trị cao nhất là 8.2 điểm ở K4.",
+      "Giá trị thấp nhất là 6.5 điểm ở K1.",
+      "Ở K1, giá trị là 6.5 điểm.",
+      "Đơn vị của số liệu trên biểu đồ là điểm."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "Đọc biểu đồ: cao nhất 8.2 ở K4, thấp nhất 6.5 ở K1; ở K1 giá trị là 6.5."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Biểu đồ biểu diễn điểm trung bình môn toán (điểm) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">K1</td><td class=\"border px-2 py-1 text-center\">K2</td><td class=\"border px-2 py-1 text-center\">K3</td><td class=\"border px-2 py-1 text-center\">K4</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Điểm trung bình môn Toán (điểm)</th><td class=\"border px-2 py-1 text-center\">6.5</td><td class=\"border px-2 py-1 text-center\">7.0</td><td class=\"border px-2 py-1 text-center\">7.5</td><td class=\"border px-2 py-1 text-center\">8.2</td></tr></table></div>Nhận xét nào sau đây là <strong>đúng</strong> về xu hướng thay đổi?",
+     "options": [
+      "A. Xu hướng chung là giảm liên tục",
+      "B. Xu hướng chung là tăng liên tục qua các kì",
+      "C. Xu hướng chung là ổn định, không thay đổi",
+      "D. Xu hướng chung là giảm rồi tăng"
+     ],
+     "answer": "B",
+     "explain": "Quan sát biểu đồ: Xu hướng chung là tăng liên tục qua các kì."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Biểu đồ biểu diễn số cây xanh được trồng (cây) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">2020</td><td class=\"border px-2 py-1 text-center\">2021</td><td class=\"border px-2 py-1 text-center\">2022</td><td class=\"border px-2 py-1 text-center\">2023</td><td class=\"border px-2 py-1 text-center\">2024</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Số cây xanh được trồng (cây)</th><td class=\"border px-2 py-1 text-center\">200</td><td class=\"border px-2 py-1 text-center\">250</td><td class=\"border px-2 py-1 text-center\">240</td><td class=\"border px-2 py-1 text-center\">300</td><td class=\"border px-2 py-1 text-center\">280</td></tr></table></div>Từ 2020 đến 2022, số cây xanh được trồng đã thay đổi như thế nào?",
+     "options": [
+      "A. Tăng 45 cây",
+      "B. Giảm 43 cây",
+      "C. Tăng 40 cây",
+      "D. Không thay đổi"
+     ],
+     "answer": "C",
+     "explain": "Từ 200 đến 240: Tăng 40 cây."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Biểu đồ biểu diễn số cây xanh được trồng (cây) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">2020</td><td class=\"border px-2 py-1 text-center\">2021</td><td class=\"border px-2 py-1 text-center\">2022</td><td class=\"border px-2 py-1 text-center\">2023</td><td class=\"border px-2 py-1 text-center\">2024</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Số cây xanh được trồng (cây)</th><td class=\"border px-2 py-1 text-center\">200</td><td class=\"border px-2 py-1 text-center\">250</td><td class=\"border px-2 py-1 text-center\">240</td><td class=\"border px-2 py-1 text-center\">300</td><td class=\"border px-2 py-1 text-center\">280</td></tr></table></div>Chênh lệch giữa giá trị cao nhất và thấp nhất là bao nhiêu? (chỉ ghi số)",
+     "answer": "100",
+     "explain": "300 − 200 = 100."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Biểu đồ biểu diễn điểm trung bình môn toán (điểm) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">K1</td><td class=\"border px-2 py-1 text-center\">K2</td><td class=\"border px-2 py-1 text-center\">K3</td><td class=\"border px-2 py-1 text-center\">K4</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Điểm trung bình môn Toán (điểm)</th><td class=\"border px-2 py-1 text-center\">6.5</td><td class=\"border px-2 py-1 text-center\">7.0</td><td class=\"border px-2 py-1 text-center\">7.5</td><td class=\"border px-2 py-1 text-center\">8.2</td></tr></table></div>Thời điểm nào có giá trị <strong>thấp nhất</strong>?",
+     "options": [
+      "A. K2",
+      "B. K3",
+      "C. K4",
+      "D. K1"
+     ],
+     "answer": "D",
+     "explain": "Giá trị thấp nhất là 6.5 điểm ở K1."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Biểu đồ biểu diễn điểm trung bình môn toán (điểm) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">K1</td><td class=\"border px-2 py-1 text-center\">K2</td><td class=\"border px-2 py-1 text-center\">K3</td><td class=\"border px-2 py-1 text-center\">K4</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Điểm trung bình môn Toán (điểm)</th><td class=\"border px-2 py-1 text-center\">6.5</td><td class=\"border px-2 py-1 text-center\">7.0</td><td class=\"border px-2 py-1 text-center\">7.5</td><td class=\"border px-2 py-1 text-center\">8.2</td></tr></table></div> Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Xu hướng chung của điểm trung bình môn toán là tăng liên tục qua các kì.",
+      "Tổng các giá trị trên biểu đồ là 29.2 điểm.",
+      "Giá trị trung bình mỗi thời điểm là 7.3 điểm.",
+      "Từ K1 đến K4, điểm trung bình môn toán đã giảm 1.7 điểm."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "Tổng = 29.2, trung bình = 7.3; từ K1 (6.5) đến K4 (8.2): tăng 1.7 điểm."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Biểu đồ biểu diễn số cây xanh được trồng (cây) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">2020</td><td class=\"border px-2 py-1 text-center\">2021</td><td class=\"border px-2 py-1 text-center\">2022</td><td class=\"border px-2 py-1 text-center\">2023</td><td class=\"border px-2 py-1 text-center\">2024</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Số cây xanh được trồng (cây)</th><td class=\"border px-2 py-1 text-center\">200</td><td class=\"border px-2 py-1 text-center\">250</td><td class=\"border px-2 py-1 text-center\">240</td><td class=\"border px-2 py-1 text-center\">300</td><td class=\"border px-2 py-1 text-center\">280</td></tr></table></div>Thời điểm nào có giá trị <strong>thấp nhất</strong>?",
+     "options": [
+      "A. 2021",
+      "B. 2020",
+      "C. 2022",
+      "D. 2023"
+     ],
+     "answer": "B",
+     "explain": "Giá trị thấp nhất là 200 cây ở 2020."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Biểu đồ biểu diễn lượng khách tham quan (nghìn lượt) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T1</td><td class=\"border px-2 py-1 text-center\">T2</td><td class=\"border px-2 py-1 text-center\">T3</td><td class=\"border px-2 py-1 text-center\">T4</td><td class=\"border px-2 py-1 text-center\">T5</td><td class=\"border px-2 py-1 text-center\">T6</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Lượng khách tham quan (nghìn lượt)</th><td class=\"border px-2 py-1 text-center\">80</td><td class=\"border px-2 py-1 text-center\">72</td><td class=\"border px-2 py-1 text-center\">65</td><td class=\"border px-2 py-1 text-center\">58</td><td class=\"border px-2 py-1 text-center\">50</td><td class=\"border px-2 py-1 text-center\">44</td></tr></table></div>Giá trị trung bình mỗi thời điểm là bao nhiêu? (chỉ ghi số)",
+     "answer": "61.5",
+     "explain": "Trung bình = (80 + 72 + 65 + 58 + 50 + 44)/6 = 61.5."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Biểu đồ biểu diễn lượng mưa (mm) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T5</td><td class=\"border px-2 py-1 text-center\">T6</td><td class=\"border px-2 py-1 text-center\">T7</td><td class=\"border px-2 py-1 text-center\">T8</td><td class=\"border px-2 py-1 text-center\">T9</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Lượng mưa (mm)</th><td class=\"border px-2 py-1 text-center\">40</td><td class=\"border px-2 py-1 text-center\">90</td><td class=\"border px-2 py-1 text-center\">150</td><td class=\"border px-2 py-1 text-center\">120</td><td class=\"border px-2 py-1 text-center\">60</td></tr></table></div>Thời điểm nào có giá trị <strong>thấp nhất</strong>?",
+     "options": [
+      "A. T5",
+      "B. T6",
+      "C. T7",
+      "D. T8"
+     ],
+     "answer": "A",
+     "explain": "Giá trị thấp nhất là 40 mm ở T5."
+    }
+   ]
+  },
+  {
+   "name": "Đề 9",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Biểu đồ biểu diễn số học sinh giỏi (học sinh) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">2019</td><td class=\"border px-2 py-1 text-center\">2020</td><td class=\"border px-2 py-1 text-center\">2021</td><td class=\"border px-2 py-1 text-center\">2022</td><td class=\"border px-2 py-1 text-center\">2023</td><td class=\"border px-2 py-1 text-center\">2024</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Số học sinh giỏi (học sinh)</th><td class=\"border px-2 py-1 text-center\">45</td><td class=\"border px-2 py-1 text-center\">52</td><td class=\"border px-2 py-1 text-center\">48</td><td class=\"border px-2 py-1 text-center\">60</td><td class=\"border px-2 py-1 text-center\">66</td><td class=\"border px-2 py-1 text-center\">72</td></tr></table></div>Thời điểm nào có giá trị <strong>thấp nhất</strong>?",
+     "options": [
+      "A. 2020",
+      "B. 2021",
+      "C. 2022",
+      "D. 2019"
+     ],
+     "answer": "D",
+     "explain": "Giá trị thấp nhất là 45 học sinh ở 2019."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Biểu đồ biểu diễn doanh thu (tỉ đồng) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T1</td><td class=\"border px-2 py-1 text-center\">T2</td><td class=\"border px-2 py-1 text-center\">T3</td><td class=\"border px-2 py-1 text-center\">T4</td><td class=\"border px-2 py-1 text-center\">T5</td><td class=\"border px-2 py-1 text-center\">T6</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Doanh thu (tỉ đồng)</th><td class=\"border px-2 py-1 text-center\">20</td><td class=\"border px-2 py-1 text-center\">25</td><td class=\"border px-2 py-1 text-center\">22</td><td class=\"border px-2 py-1 text-center\">30</td><td class=\"border px-2 py-1 text-center\">28</td><td class=\"border px-2 py-1 text-center\">35</td></tr></table></div>Thời điểm nào có giá trị <strong>thấp nhất</strong>?",
+     "options": [
+      "A. T2",
+      "B. T3",
+      "C. T1",
+      "D. T4"
+     ],
+     "answer": "C",
+     "explain": "Giá trị thấp nhất là 20 tỉ đồng ở T1."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Biểu đồ biểu diễn lượng mưa (mm) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T5</td><td class=\"border px-2 py-1 text-center\">T6</td><td class=\"border px-2 py-1 text-center\">T7</td><td class=\"border px-2 py-1 text-center\">T8</td><td class=\"border px-2 py-1 text-center\">T9</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Lượng mưa (mm)</th><td class=\"border px-2 py-1 text-center\">40</td><td class=\"border px-2 py-1 text-center\">90</td><td class=\"border px-2 py-1 text-center\">150</td><td class=\"border px-2 py-1 text-center\">120</td><td class=\"border px-2 py-1 text-center\">60</td></tr></table></div> Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Giá trị cao nhất là 150 mm ở T7.",
+      "Giá trị thấp nhất là 40 mm ở T5.",
+      "Ở T5, giá trị là 40 mm.",
+      "Đơn vị của số liệu trên biểu đồ là mm."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "Đọc biểu đồ: cao nhất 150 ở T7, thấp nhất 40 ở T5; ở T5 giá trị là 40."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Biểu đồ biểu diễn nhiệt độ trung bình (độ C) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T1</td><td class=\"border px-2 py-1 text-center\">T2</td><td class=\"border px-2 py-1 text-center\">T3</td><td class=\"border px-2 py-1 text-center\">T4</td><td class=\"border px-2 py-1 text-center\">T5</td><td class=\"border px-2 py-1 text-center\">T6</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Nhiệt độ trung bình (độ C)</th><td class=\"border px-2 py-1 text-center\">17</td><td class=\"border px-2 py-1 text-center\">19</td><td class=\"border px-2 py-1 text-center\">23</td><td class=\"border px-2 py-1 text-center\">28</td><td class=\"border px-2 py-1 text-center\">31</td><td class=\"border px-2 py-1 text-center\">33</td></tr></table></div>Giá trị trung bình mỗi thời điểm là bao nhiêu? (chỉ ghi số)",
+     "answer": "25.2",
+     "explain": "Trung bình = (17 + 19 + 23 + 28 + 31 + 33)/6 = 25.2."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Biểu đồ biểu diễn doanh thu (tỉ đồng) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T1</td><td class=\"border px-2 py-1 text-center\">T2</td><td class=\"border px-2 py-1 text-center\">T3</td><td class=\"border px-2 py-1 text-center\">T4</td><td class=\"border px-2 py-1 text-center\">T5</td><td class=\"border px-2 py-1 text-center\">T6</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Doanh thu (tỉ đồng)</th><td class=\"border px-2 py-1 text-center\">20</td><td class=\"border px-2 py-1 text-center\">25</td><td class=\"border px-2 py-1 text-center\">22</td><td class=\"border px-2 py-1 text-center\">30</td><td class=\"border px-2 py-1 text-center\">28</td><td class=\"border px-2 py-1 text-center\">35</td></tr></table></div>Chênh lệch giữa giá trị cao nhất và thấp nhất là bao nhiêu? (chỉ ghi số)",
+     "answer": "15",
+     "explain": "35 − 20 = 15."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Biểu đồ biểu diễn số học sinh giỏi (học sinh) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">2019</td><td class=\"border px-2 py-1 text-center\">2020</td><td class=\"border px-2 py-1 text-center\">2021</td><td class=\"border px-2 py-1 text-center\">2022</td><td class=\"border px-2 py-1 text-center\">2023</td><td class=\"border px-2 py-1 text-center\">2024</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Số học sinh giỏi (học sinh)</th><td class=\"border px-2 py-1 text-center\">45</td><td class=\"border px-2 py-1 text-center\">52</td><td class=\"border px-2 py-1 text-center\">48</td><td class=\"border px-2 py-1 text-center\">60</td><td class=\"border px-2 py-1 text-center\">66</td><td class=\"border px-2 py-1 text-center\">72</td></tr></table></div>Từ 2020 đến 2022, số học sinh giỏi đã thay đổi như thế nào?",
+     "options": [
+      "A. Tăng 8 học sinh",
+      "B. Tăng 13 học sinh",
+      "C. Giảm 11 học sinh",
+      "D. Không thay đổi"
+     ],
+     "answer": "A",
+     "explain": "Từ 52 đến 60: Tăng 8 học sinh."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Biểu đồ biểu diễn lượng mưa (mm) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T5</td><td class=\"border px-2 py-1 text-center\">T6</td><td class=\"border px-2 py-1 text-center\">T7</td><td class=\"border px-2 py-1 text-center\">T8</td><td class=\"border px-2 py-1 text-center\">T9</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Lượng mưa (mm)</th><td class=\"border px-2 py-1 text-center\">40</td><td class=\"border px-2 py-1 text-center\">90</td><td class=\"border px-2 py-1 text-center\">150</td><td class=\"border px-2 py-1 text-center\">120</td><td class=\"border px-2 py-1 text-center\">60</td></tr></table></div>Nhận xét nào sau đây là <strong>đúng</strong> về xu hướng thay đổi?",
+     "options": [
+      "A. Xu hướng chung là giảm rồi tăng",
+      "B. Xu hướng chung là tăng liên tục",
+      "C. Xu hướng chung là tăng rồi giảm, cao nhất vào tháng 7",
+      "D. Xu hướng chung là giảm liên tục"
+     ],
+     "answer": "C",
+     "explain": "Quan sát biểu đồ: Xu hướng chung là tăng rồi giảm, cao nhất vào tháng 7."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Biểu đồ biểu diễn lượng mưa (mm) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T5</td><td class=\"border px-2 py-1 text-center\">T6</td><td class=\"border px-2 py-1 text-center\">T7</td><td class=\"border px-2 py-1 text-center\">T8</td><td class=\"border px-2 py-1 text-center\">T9</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Lượng mưa (mm)</th><td class=\"border px-2 py-1 text-center\">40</td><td class=\"border px-2 py-1 text-center\">90</td><td class=\"border px-2 py-1 text-center\">150</td><td class=\"border px-2 py-1 text-center\">120</td><td class=\"border px-2 py-1 text-center\">60</td></tr></table></div> Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Xu hướng chung của lượng mưa là tăng rồi giảm, cao nhất vào tháng 7.",
+      "Tổng các giá trị trên biểu đồ là 460 mm.",
+      "Giá trị trung bình mỗi thời điểm là 92 mm.",
+      "Từ T5 đến T9, lượng mưa đã giảm 20 mm."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "Tổng = 460, trung bình = 92; từ T5 (40) đến T9 (60): tăng 20 mm."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Biểu đồ biểu diễn doanh thu (tỉ đồng) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T1</td><td class=\"border px-2 py-1 text-center\">T2</td><td class=\"border px-2 py-1 text-center\">T3</td><td class=\"border px-2 py-1 text-center\">T4</td><td class=\"border px-2 py-1 text-center\">T5</td><td class=\"border px-2 py-1 text-center\">T6</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Doanh thu (tỉ đồng)</th><td class=\"border px-2 py-1 text-center\">20</td><td class=\"border px-2 py-1 text-center\">25</td><td class=\"border px-2 py-1 text-center\">22</td><td class=\"border px-2 py-1 text-center\">30</td><td class=\"border px-2 py-1 text-center\">28</td><td class=\"border px-2 py-1 text-center\">35</td></tr></table></div>Từ T1 đến T3, doanh thu đã thay đổi như thế nào?",
+     "options": [
+      "A. Tăng 7 tỉ đồng",
+      "B. Giảm 5 tỉ đồng",
+      "C. Không thay đổi",
+      "D. Tăng 2 tỉ đồng"
+     ],
+     "answer": "D",
+     "explain": "Từ 20 đến 22: Tăng 2 tỉ đồng."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Biểu đồ biểu diễn lượng khách tham quan (nghìn lượt) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T1</td><td class=\"border px-2 py-1 text-center\">T2</td><td class=\"border px-2 py-1 text-center\">T3</td><td class=\"border px-2 py-1 text-center\">T4</td><td class=\"border px-2 py-1 text-center\">T5</td><td class=\"border px-2 py-1 text-center\">T6</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Lượng khách tham quan (nghìn lượt)</th><td class=\"border px-2 py-1 text-center\">80</td><td class=\"border px-2 py-1 text-center\">72</td><td class=\"border px-2 py-1 text-center\">65</td><td class=\"border px-2 py-1 text-center\">58</td><td class=\"border px-2 py-1 text-center\">50</td><td class=\"border px-2 py-1 text-center\">44</td></tr></table></div>Thời điểm nào có giá trị <strong>thấp nhất</strong>?",
+     "options": [
+      "A. T6",
+      "B. T1",
+      "C. T2",
+      "D. T3"
+     ],
+     "answer": "A",
+     "explain": "Giá trị thấp nhất là 44 nghìn lượt ở T6."
+    }
+   ]
+  },
+  {
+   "name": "Đề 10",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Biểu đồ biểu diễn dân số của xã (nghìn người) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">2015</td><td class=\"border px-2 py-1 text-center\">2017</td><td class=\"border px-2 py-1 text-center\">2019</td><td class=\"border px-2 py-1 text-center\">2021</td><td class=\"border px-2 py-1 text-center\">2023</td><td class=\"border px-2 py-1 text-center\">2025</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Dân số của xã (nghìn người)</th><td class=\"border px-2 py-1 text-center\">12</td><td class=\"border px-2 py-1 text-center\">13</td><td class=\"border px-2 py-1 text-center\">15</td><td class=\"border px-2 py-1 text-center\">18</td><td class=\"border px-2 py-1 text-center\">22</td><td class=\"border px-2 py-1 text-center\">27</td></tr></table></div>Thời điểm nào có giá trị <strong>thấp nhất</strong>?",
+     "options": [
+      "A. 2017",
+      "B. 2019",
+      "C. 2021",
+      "D. 2015"
+     ],
+     "answer": "D",
+     "explain": "Giá trị thấp nhất là 12 nghìn người ở 2015."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Biểu đồ biểu diễn lượng khách tham quan (nghìn lượt) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T1</td><td class=\"border px-2 py-1 text-center\">T2</td><td class=\"border px-2 py-1 text-center\">T3</td><td class=\"border px-2 py-1 text-center\">T4</td><td class=\"border px-2 py-1 text-center\">T5</td><td class=\"border px-2 py-1 text-center\">T6</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Lượng khách tham quan (nghìn lượt)</th><td class=\"border px-2 py-1 text-center\">80</td><td class=\"border px-2 py-1 text-center\">72</td><td class=\"border px-2 py-1 text-center\">65</td><td class=\"border px-2 py-1 text-center\">58</td><td class=\"border px-2 py-1 text-center\">50</td><td class=\"border px-2 py-1 text-center\">44</td></tr></table></div>Từ T3 đến T5, lượng khách tham quan đã thay đổi như thế nào?",
+     "options": [
+      "A. Tăng 20 nghìn lượt",
+      "B. Giảm 15 nghìn lượt",
+      "C. Giảm 18 nghìn lượt",
+      "D. Không thay đổi"
+     ],
+     "answer": "B",
+     "explain": "Từ 65 đến 50: Giảm 15 nghìn lượt."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Biểu đồ biểu diễn số cây xanh được trồng (cây) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">2020</td><td class=\"border px-2 py-1 text-center\">2021</td><td class=\"border px-2 py-1 text-center\">2022</td><td class=\"border px-2 py-1 text-center\">2023</td><td class=\"border px-2 py-1 text-center\">2024</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Số cây xanh được trồng (cây)</th><td class=\"border px-2 py-1 text-center\">200</td><td class=\"border px-2 py-1 text-center\">250</td><td class=\"border px-2 py-1 text-center\">240</td><td class=\"border px-2 py-1 text-center\">300</td><td class=\"border px-2 py-1 text-center\">280</td></tr></table></div> Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Xu hướng chung của số cây xanh được trồng là tăng nhưng không đều.",
+      "Tổng các giá trị trên biểu đồ là 1270 cây.",
+      "Giá trị trung bình mỗi thời điểm là 254 cây.",
+      "Từ 2020 đến 2024, số cây xanh được trồng đã giảm 80 cây."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "Tổng = 1270, trung bình = 254; từ 2020 (200) đến 2024 (280): tăng 80 cây."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Biểu đồ biểu diễn số học sinh giỏi (học sinh) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">2019</td><td class=\"border px-2 py-1 text-center\">2020</td><td class=\"border px-2 py-1 text-center\">2021</td><td class=\"border px-2 py-1 text-center\">2022</td><td class=\"border px-2 py-1 text-center\">2023</td><td class=\"border px-2 py-1 text-center\">2024</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Số học sinh giỏi (học sinh)</th><td class=\"border px-2 py-1 text-center\">45</td><td class=\"border px-2 py-1 text-center\">52</td><td class=\"border px-2 py-1 text-center\">48</td><td class=\"border px-2 py-1 text-center\">60</td><td class=\"border px-2 py-1 text-center\">66</td><td class=\"border px-2 py-1 text-center\">72</td></tr></table></div>Chênh lệch giữa giá trị cao nhất và thấp nhất là bao nhiêu? (chỉ ghi số)",
+     "answer": "27",
+     "explain": "72 − 45 = 27."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Biểu đồ biểu diễn số cây xanh được trồng (cây) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">2020</td><td class=\"border px-2 py-1 text-center\">2021</td><td class=\"border px-2 py-1 text-center\">2022</td><td class=\"border px-2 py-1 text-center\">2023</td><td class=\"border px-2 py-1 text-center\">2024</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Số cây xanh được trồng (cây)</th><td class=\"border px-2 py-1 text-center\">200</td><td class=\"border px-2 py-1 text-center\">250</td><td class=\"border px-2 py-1 text-center\">240</td><td class=\"border px-2 py-1 text-center\">300</td><td class=\"border px-2 py-1 text-center\">280</td></tr></table></div> Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Giá trị cao nhất là 300 cây ở 2023.",
+      "Giá trị thấp nhất là 200 cây ở 2020.",
+      "Ở 2020, giá trị là 200 cây.",
+      "Đơn vị của số liệu trên biểu đồ là cây."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "Đọc biểu đồ: cao nhất 300 ở 2023, thấp nhất 200 ở 2020; ở 2020 giá trị là 200."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Biểu đồ biểu diễn số cây xanh được trồng (cây) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">2020</td><td class=\"border px-2 py-1 text-center\">2021</td><td class=\"border px-2 py-1 text-center\">2022</td><td class=\"border px-2 py-1 text-center\">2023</td><td class=\"border px-2 py-1 text-center\">2024</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Số cây xanh được trồng (cây)</th><td class=\"border px-2 py-1 text-center\">200</td><td class=\"border px-2 py-1 text-center\">250</td><td class=\"border px-2 py-1 text-center\">240</td><td class=\"border px-2 py-1 text-center\">300</td><td class=\"border px-2 py-1 text-center\">280</td></tr></table></div>Nhận xét nào sau đây là <strong>đúng</strong> về xu hướng thay đổi?",
+     "options": [
+      "A. Xu hướng chung là giảm liên tục",
+      "B. Xu hướng chung là ổn định, không thay đổi",
+      "C. Xu hướng chung là giảm rồi tăng",
+      "D. Xu hướng chung là tăng nhưng không đều"
+     ],
+     "answer": "D",
+     "explain": "Quan sát biểu đồ: Xu hướng chung là tăng nhưng không đều."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Biểu đồ biểu diễn số sách thư viện cho mượn (quyển) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T9</td><td class=\"border px-2 py-1 text-center\">T10</td><td class=\"border px-2 py-1 text-center\">T11</td><td class=\"border px-2 py-1 text-center\">T12</td><td class=\"border px-2 py-1 text-center\">T1</td><td class=\"border px-2 py-1 text-center\">T2</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Số sách thư viện cho mượn (quyển)</th><td class=\"border px-2 py-1 text-center\">120</td><td class=\"border px-2 py-1 text-center\">135</td><td class=\"border px-2 py-1 text-center\">128</td><td class=\"border px-2 py-1 text-center\">150</td><td class=\"border px-2 py-1 text-center\">142</td><td class=\"border px-2 py-1 text-center\">160</td></tr></table></div>Thời điểm nào có giá trị <strong>thấp nhất</strong>?",
+     "options": [
+      "A. T10",
+      "B. T11",
+      "C. T9",
+      "D. T12"
+     ],
+     "answer": "C",
+     "explain": "Giá trị thấp nhất là 120 quyển ở T9."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Biểu đồ biểu diễn nhiệt độ trung bình (độ C) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T1</td><td class=\"border px-2 py-1 text-center\">T2</td><td class=\"border px-2 py-1 text-center\">T3</td><td class=\"border px-2 py-1 text-center\">T4</td><td class=\"border px-2 py-1 text-center\">T5</td><td class=\"border px-2 py-1 text-center\">T6</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Nhiệt độ trung bình (độ C)</th><td class=\"border px-2 py-1 text-center\">17</td><td class=\"border px-2 py-1 text-center\">19</td><td class=\"border px-2 py-1 text-center\">23</td><td class=\"border px-2 py-1 text-center\">28</td><td class=\"border px-2 py-1 text-center\">31</td><td class=\"border px-2 py-1 text-center\">33</td></tr></table></div>Thời điểm nào có giá trị <strong>thấp nhất</strong>?",
+     "options": [
+      "A. T2",
+      "B. T1",
+      "C. T3",
+      "D. T4"
+     ],
+     "answer": "B",
+     "explain": "Giá trị thấp nhất là 17 độ C ở T1."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Biểu đồ biểu diễn nhiệt độ trung bình (độ C) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T1</td><td class=\"border px-2 py-1 text-center\">T2</td><td class=\"border px-2 py-1 text-center\">T3</td><td class=\"border px-2 py-1 text-center\">T4</td><td class=\"border px-2 py-1 text-center\">T5</td><td class=\"border px-2 py-1 text-center\">T6</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Nhiệt độ trung bình (độ C)</th><td class=\"border px-2 py-1 text-center\">17</td><td class=\"border px-2 py-1 text-center\">19</td><td class=\"border px-2 py-1 text-center\">23</td><td class=\"border px-2 py-1 text-center\">28</td><td class=\"border px-2 py-1 text-center\">31</td><td class=\"border px-2 py-1 text-center\">33</td></tr></table></div>Từ T4 đến T6, nhiệt độ trung bình đã thay đổi như thế nào?",
+     "options": [
+      "A. Tăng 10 độ C",
+      "B. Giảm 8 độ C",
+      "C. Tăng 5 độ C",
+      "D. Không thay đổi"
+     ],
+     "answer": "C",
+     "explain": "Từ 28 đến 33: Tăng 5 độ C."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Biểu đồ biểu diễn số sách thư viện cho mượn (quyển) qua các thời điểm:<br><div class=\"table-scroll\"><table class=\"w-full text-sm border-collapse\"><tr class=\"bg-sky-100\"><th class=\"border px-2 py-1\">Thời điểm</th><td class=\"border px-2 py-1 text-center\">T9</td><td class=\"border px-2 py-1 text-center\">T10</td><td class=\"border px-2 py-1 text-center\">T11</td><td class=\"border px-2 py-1 text-center\">T12</td><td class=\"border px-2 py-1 text-center\">T1</td><td class=\"border px-2 py-1 text-center\">T2</td></tr><tr><th class=\"border px-2 py-1 bg-sky-100\">Số sách thư viện cho mượn (quyển)</th><td class=\"border px-2 py-1 text-center\">120</td><td class=\"border px-2 py-1 text-center\">135</td><td class=\"border px-2 py-1 text-center\">128</td><td class=\"border px-2 py-1 text-center\">150</td><td class=\"border px-2 py-1 text-center\">142</td><td class=\"border px-2 py-1 text-center\">160</td></tr></table></div>Giá trị trung bình mỗi thời điểm là bao nhiêu? (chỉ ghi số)",
+     "answer": "139.2",
+     "explain": "Trung bình = (120 + 135 + 128 + 150 + 142 + 160)/6 = 139.2."
+    }
+   ]
+  }
+ ]
+}
+</script>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
