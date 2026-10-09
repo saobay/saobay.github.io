@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài tập cuối chương 5</title>
+    <meta name="lesson-title" content="Bài tập cuối chương 5">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài tập cuối chương 5</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 5: Phương pháp tọa độ trong không gian • Bài tập cuối chương 5</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h2>1. Sơ đồ tóm tắt chương 5</h2>
+<div class="table-scroll"><table>
+<tr><th>Nội dung</th><th>Công thức chính</th></tr>
+<tr><td>PT mặt phẳng qua $M_0$, VTPT $\vec{n} = (A;B;C)$</td><td>$A(x-x_0)+B(y-y_0)+C(z-z_0) = 0$</td></tr>
+<tr><td>PT tổng quát của mặt phẳng</td><td>$Ax+By+Cz+D = 0$</td></tr>
+<tr><td>PT mặt phẳng theo đoạn chắn</td><td>$\frac{x}{a}+\frac{y}{b}+\frac{z}{c} = 1$</td></tr>
+<tr><td>Khoảng cách từ $M_0$ đến $(P)$</td><td>$d = \frac{|Ax_0+By_0+Cz_0+D|}{\sqrt{A^2+B^2+C^2}}$</td></tr>
+<tr><td>PT tham số của đường thẳng</td><td>$\begin{cases} x = x_0+at \\ y = y_0+bt \\ z = z_0+ct \end{cases}$</td></tr>
+<tr><td>PT chính tắc của đường thẳng</td><td>$\frac{x-x_0}{a}=\frac{y-y_0}{b}=\frac{z-z_0}{c}$</td></tr>
+<tr><td>Góc giữa hai đường thẳng</td><td>$\cos\varphi = \frac{|\vec{u_1}\cdot\vec{u_2}|}{|\vec{u_1}||\vec{u_2}|}$</td></tr>
+<tr><td>Góc giữa đường thẳng và mặt phẳng</td><td>$\sin\varphi = \frac{|\vec{u}\cdot\vec{n}|}{|\vec{u}||\vec{n}|}$</td></tr>
+<tr><td>Góc giữa hai mặt phẳng</td><td>$\cos\varphi = \frac{|\vec{n_1}\cdot\vec{n_2}|}{|\vec{n_1}||\vec{n_2}|}$</td></tr>
+<tr><td>PT mặt cầu tâm $I(a;b;c)$, bán kính $R$</td><td>$(x-a)^2+(y-b)^2+(z-c)^2 = R^2$</td></tr>
+<tr><td>Điều kiện $x^2+y^2+z^2-2ax-2by-2cz+d = 0$ là mặt cầu</td><td>$a^2+b^2+c^2-d > 0$; $R = \sqrt{a^2+b^2+c^2-d}$</td></tr>
+</table></div>
+
+<h2>2. Ví dụ tổng hợp</h2>
+<p><b>Ví dụ 1.</b> Viết phương trình mặt phẳng $(P)$ đi qua $A(1; 0; 0)$, $B(0; 2; 0)$, $C(0; 0; 3)$.</p>
+<p><b>Giải.</b> Theo đoạn chắn: $\frac{x}{1}+\frac{y}{2}+\frac{z}{3} = 1$, hay $6x+3y+2z-6 = 0$.</p>
+<p><b>Ví dụ 2.</b> Cho $d: \frac{x-1}{2}=\frac{y}{-1}=\frac{z-3}{1}$ và $(P): 2x-y+z = 0$. Tính góc giữa $d$ và $(P)$.</p>
+<p><b>Giải.</b> $\sin\varphi = \frac{|4+1+1|}{\sqrt{6}\cdot\sqrt{6}} = 1$ nên $\varphi = 90^\circ$.</p>
+<p><b>Ví dụ 3.</b> Viết phương trình mặt cầu đường kính $AB$ với $A(1; 2; 3)$, $B(3; 4; 5)$.</p>
+<p><b>Giải.</b> Trung điểm $I(2; 3; 4)$, $R^2 = \frac{AB^2}{4} = 3$. Phương trình: $(x-2)^2+(y-3)^2+(z-4)^2 = 3$.</p>
+<p><b>Ví dụ 4.</b> Xét vị trí tương đối của $(P): x+y+z = 0$ và $(S): (x-1)^2+(y-1)^2+(z-1)^2 = 3$.</p>
+<p><b>Giải.</b> $d(I,(P)) = \frac{3}{\sqrt{3}} = \sqrt{3} = R$ nên $(P)$ tiếp xúc $(S)$.</p>
+
+            </div>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
