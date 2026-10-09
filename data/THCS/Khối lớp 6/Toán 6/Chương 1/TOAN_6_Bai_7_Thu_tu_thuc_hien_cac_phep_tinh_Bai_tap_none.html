@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài tập Bài 7: Thứ tự thực hiện các phép tính</title>
+    <meta name="lesson-title" content="Bài tập Bài 7: Thứ tự thực hiện các phép tính">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Bài tập</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài tập Bài 7: Thứ tự thực hiện các phép tính</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 1: Tập hợp các số tự nhiên • Bài 7: Thứ tự thực hiện các phép tính</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="saobay-exam10">
+<script type="application/json" class="saobay-exam10-data">
+{
+  "sets": [
+    {
+      "name": "Đề 1",
+      "questions": [
+        {"type": "mcq", "level": "NB", "q": "Trong biểu thức $12 + 5 \\times 3$, phép tính nào được thực hiện trước?", "options": ["A. $12 + 5$", "B. $5 \\times 3$", "C. $12 \\times 3$", "D. Cả hai phép tính cùng lúc"], "answer": "B", "explain": "Phép nhân có mức ưu tiên cao hơn phép cộng nên $5 \\times 3$ được tính trước: $12 + 15 = 27$."},
+        {"type": "mcq", "level": "NB", "q": "Kết quả của biểu thức $40 - 12 + 8$ là:", "options": ["A. $20$", "B. $36$", "C. $28$", "D. $44$"], "answer": "B", "explain": "Phép trừ và phép cộng cùng mức ưu tiên nên tính từ trái sang phải: $40 - 12 = 28$, rồi $28 + 8 = 36$."},
+        {"type": "mcq", "level": "TH", "q": "Giá trị của biểu thức $2^3 + 4 \\times 5$ là:", "options": ["A. $48$", "B. $28$", "C. $60$", "D. $32$"], "answer": "B", "explain": "Tính lũy thừa trước: $2^3 = 8$. Rồi tính nhân: $4 \\times 5 = 20$. Cuối cùng cộng: $8 + 20 = 28$."},
+        {"type": "mcq", "level": "TH", "q": "Giá trị của biểu thức $60 : (12 - 7)$ là:", "options": ["A. $5$", "B. $11$", "C. $12$", "D. $53$"], "answer": "C", "explain": "Tính trong ngoặc tròn trước: $12 - 7 = 5$. Rồi chia: $60 : 5 = 12$."},
+        {"type": "mcq", "level": "VD", "q": "Giá trị của biểu thức $100 - [ 25 + (15 - 8) \\times 2 ]$ là:", "options": ["A. $61$", "B. $89$", "C. $136$", "D. $47$"], "answer": "A", "explain": "Ngoặc tròn: $15 - 8 = 7$. Trong ngoặc vuông, nhân trước cộng sau: $7 \\times 2 = 14$, rồi $25 + 14 = 39$. Cuối cùng: $100 - 39 = 61$."},
+        {"type": "mcq", "level": "TH", "q": "Trong biểu thức $5 + 3^2 \\times 2$, phép tính được thực hiện trước tiên là:", "options": ["A. $5 + 3$", "B. $3^2$", "C. $3 \\times 2$", "D. $5 \\times 2$"], "answer": "B", "explain": "Lũy thừa có mức ưu tiên cao nhất nên $3^2$ được tính trước tiên, rồi đến phép nhân, cuối cùng là phép cộng."},
+        {"type": "truefalse", "level": "VD", "q": "Bạn An tính $18 - 6 : 3 + 2$ như sau: bước 1 tính $6 : 3 = 2$, bước 2 tính $18 - 2 = 16$, bước 3 tính $16 + 2 = 18$. Xét tính đúng, sai của các khẳng định sau:", "statements": ["a) Thứ tự các bước An thực hiện là đúng.", "b) Kết quả $18$ của An là đúng.", "c) Nếu tính $18 - (6 : 3 + 2)$ thì kết quả là $14$.", "d) Kết quả của $18 - 6 : 3$ là $4$."], "answer": ["T", "T", "T", "F"], "explain": "a) Đúng: chia trước, rồi trừ và cộng từ trái sang phải. b) Đúng: $18 - 2 + 2 = 18$. c) Đúng: $6 : 3 = 2$, $2 + 2 = 4$, $18 - 4 = 14$. d) Sai: $18 - 6 : 3 = 18 - 2 = 16$, không phải $4$."},
+        {"type": "truefalse", "level": "NB", "q": "Xét tính đúng, sai của các khẳng định sau:", "statements": ["a) Trong biểu thức không có ngoặc, lũy thừa được thực hiện trước nhân và chia.", "b) Trong biểu thức không có ngoặc, cộng và trừ được thực hiện trước nhân và chia.", "c) Các phép tính cùng mức ưu tiên được thực hiện từ trái sang phải.", "d) Ngoặc vuông $[ ]$ được thực hiện trước ngoặc tròn $( )$."], "answer": ["T", "F", "T", "F"], "explain": "a) Đúng. b) Sai: nhân và chia có mức ưu tiên cao hơn cộng và trừ. c) Đúng. d) Sai: ngoặc tròn $( )$ được tính trước ngoặc vuông $[ ]$."},
+        {"type": "short", "level": "VDC", "q": "Tính giá trị của biểu thức $120 : \\{ 6 \\times [ 30 - (11 + 9) ] \\}$.", "answer": "2", "explain": "Ngoặc tròn: $11 + 9 = 20$. Ngoặc vuông: $30 - 20 = 10$. Ngoặc nhọn: $6 \\times 10 = 60$. Cuối cùng: $120 : 60 = 2$."},
+        {"type": "short", "level": "VDC", "q": "Tìm $x$, biết $(x - 4) \\times 5 + 2^3 = 43$.", "answer": "11", "explain": "Tính $2^3 = 8$ trước, ta được $(x - 4) \\times 5 + 8 = 43$. Suy ra $(x - 4) \\times 5 = 35$, nên $x - 4 = 7$ và $x = 11$."}
+      ]
+    },
+    {
+      "name": "Đề 2",
+      "questions": [
+        {"type": "mcq", "level": "NB", "q": "Trong biểu thức $7 \\times 8 - 4$, phép tính được thực hiện trước là:", "options": ["A. $7 \\times 8$", "B. $8 - 4$", "C. $7 - 4$", "D. Cả hai phép tính cùng lúc"], "answer": "A", "explain": "Phép nhân có mức ưu tiên cao hơn phép trừ nên $7 \\times 8$ được tính trước: $56 - 4 = 52$."},
+        {"type": "mcq", "level": "NB", "q": "Kết quả của $48 : 6 \\times 2$ là:", "options": ["A. $4$", "B. $16$", "C. $8$", "D. $24$"], "answer": "B", "explain": "Phép chia và phép nhân cùng mức ưu tiên nên tính từ trái sang phải: $48 : 6 = 8$, rồi $8 \\times 2 = 16$. Chú ý không được tính $6 \\times 2$ trước."},
+        {"type": "mcq", "level": "TH", "q": "Giá trị của biểu thức $3^2 \\times 4 - 10$ là:", "options": ["A. $26$", "B. $62$", "C. $44$", "D. $22$"], "answer": "A", "explain": "Lũy thừa trước: $3^2 = 9$. Rồi nhân: $9 \\times 4 = 36$. Cuối cùng trừ: $36 - 10 = 26$."},
+        {"type": "mcq", "level": "TH", "q": "Giá trị của biểu thức $72 : [ 9 \\times (6 - 4) ]$ là:", "options": ["A. $4$", "B. $16$", "C. $2$", "D. $36$"], "answer": "A", "explain": "Ngoặc tròn: $6 - 4 = 2$. Ngoặc vuông: $9 \\times 2 = 18$. Cuối cùng: $72 : 18 = 4$."},
+        {"type": "mcq", "level": "VD", "q": "Tìm $x$, biết $2x + 3^2 = 31$.", "options": ["A. $8$", "B. $10$", "C. $11$", "D. $13$"], "answer": "C", "explain": "Tính $3^2 = 9$ trước, ta được $2x + 9 = 31$. Suy ra $2x = 22$ nên $x = 11$."},
+        {"type": "mcq", "level": "TH", "q": "Trong biểu thức $20 + 4 \\times 3 - 2^2$, phép tính được thực hiện cuối cùng là:", "options": ["A. $20 + 4$", "B. $32 - 4$", "C. $4 \\times 3$", "D. $2^2$"], "answer": "B", "explain": "Thứ tự: $2^2 = 4$ trước, rồi $4 \\times 3 = 12$, rồi cộng trừ từ trái sang phải: $20 + 12 = 32$, cuối cùng $32 - 4 = 28$."},
+        {"type": "truefalse", "level": "VD", "q": "Xét biểu thức $50 - 4 \\times 2^3$. Xét tính đúng, sai của các khẳng định sau:", "statements": ["a) Phép tính được thực hiện trước tiên là $2^3$.", "b) Kết quả của biểu thức là $18$.", "c) Biểu thức $(50 - 4) \\times 2^3$ có kết quả bằng biểu thức đã cho.", "d) $50 - 4 \\times 2^3 = 46 \\times 8 = 368$."], "answer": ["T", "T", "F", "F"], "explain": "a) Đúng: lũy thừa có mức ưu tiên cao nhất. b) Đúng: $50 - 4 \\times 8 = 50 - 32 = 18$. c) Sai: $(50 - 4) \\times 2^3 = 46 \\times 8 = 368$, khác $18$. d) Sai: không được tính $50 - 4$ trước phép nhân."},
+        {"type": "truefalse", "level": "NB", "q": "Hãy xét tính đúng, sai của các khẳng định sau đây:", "statements": ["a) $2 + 3 \\times 4 = 20$.", "b) $2 \\times 3 + 4 = 10$.", "c) $(2 + 3) \\times 4 = 20$.", "d) $2^2 + 3 = 7$."], "answer": ["F", "T", "T", "T"], "explain": "a) Sai: $2 + 3 \\times 4 = 2 + 12 = 14$. b) Đúng: $6 + 4 = 10$. c) Đúng: tính trong ngoặc trước, $5 \\times 4 = 20$. d) Đúng: $4 + 3 = 7$."},
+        {"type": "short", "level": "VDC", "q": "Tính giá trị của biểu thức $15 \\times 2^3 - [ 90 : (9 + 6) + 4 ]$.", "answer": "110", "explain": "Lũy thừa: $2^3 = 8$, rồi $15 \\times 8 = 120$. Ngoặc tròn: $9 + 6 = 15$. Ngoặc vuông: $90 : 15 = 6$, rồi $6 + 4 = 10$. Cuối cùng: $120 - 10 = 110$."},
+        {"type": "short", "level": "VDC", "q": "Tìm $x$, biết $5 \\times (x + 6) - 4^2 = 44$.", "answer": "6", "explain": "Tính $4^2 = 16$ trước, ta được $5 \\times (x + 6) - 16 = 44$. Suy ra $5 \\times (x + 6) = 60$, nên $x + 6 = 12$ và $x = 6$."}
+      ]
+    },
+    {
+      "name": "Đề 3",
+      "questions": [
+        {"type": "mcq", "level": "NB", "q": "Trong biểu thức $9 - 2 + 7$, thứ tự thực hiện đúng là:", "options": ["A. Tính $9 - 2$ trước, rồi cộng $7$", "B. Tính $2 + 7$ trước, rồi lấy $9$ trừ đi", "C. Tính đồng thời cả hai phép tính", "D. Tính $9 + 7$ trước, rồi trừ $2$"], "answer": "A", "explain": "Phép trừ và phép cộng cùng mức ưu tiên nên tính từ trái sang phải: $9 - 2 = 7$, rồi $7 + 7 = 14$."},
+        {"type": "mcq", "level": "NB", "q": "Kết quả của $3 \\times 4 + 2 \\times 5$ là:", "options": ["A. $70$", "B. $22$", "C. $32$", "D. $42$"], "answer": "B", "explain": "Nhân trước, cộng sau: $3 \\times 4 = 12$ và $2 \\times 5 = 10$, rồi $12 + 10 = 22$."},
+        {"type": "mcq", "level": "TH", "q": "Giá trị của biểu thức $5^2 - 3 \\times 2^2$ là:", "options": ["A. $13$", "B. $52$", "C. $28$", "D. $88$"], "answer": "A", "explain": "Lũy thừa trước: $5^2 = 25$ và $2^2 = 4$. Rồi nhân: $3 \\times 4 = 12$. Cuối cùng trừ: $25 - 12 = 13$."},
+        {"type": "mcq", "level": "TH", "q": "Giá trị của biểu thức $36 + [ 12 - (9 - 5) ]$ là:", "options": ["A. $44$", "B. $20$", "C. $40$", "D. $52$"], "answer": "A", "explain": "Ngoặc tròn: $9 - 5 = 4$. Ngoặc vuông: $12 - 4 = 8$. Cuối cùng: $36 + 8 = 44$."},
+        {"type": "mcq", "level": "VD", "q": "Bạn Mai tính $10 + 2 \\times 3^2 = 12 \\times 9 = 108$. Chỗ sai của Mai là:", "options": ["A. Tính $3^2$ sai kết quả", "B. Cộng $10 + 2$ trước khi nhân", "C. Nhân $2 \\times 3$ trước khi tính lũy thừa", "D. Mai tính đúng, không sai chỗ nào"], "answer": "B", "explain": "Mai đã cộng $10 + 2$ trước là sai. Đúng phải tính lũy thừa $3^2 = 9$ trước, rồi nhân $2 \\times 9 = 18$, cuối cùng $10 + 18 = 28$."},
+        {"type": "mcq", "level": "TH", "q": "Trong biểu thức $84 : [ 3 + (10 - 6) \\times 2 ]$, phép tính được thực hiện trước tiên là:", "options": ["A. $84 : 3$", "B. $10 - 6$", "C. $3 + 10$", "D. $3 + 4$"], "answer": "B", "explain": "Ngoặc tròn trong cùng được tính trước tiên: $10 - 6 = 4$, rồi mới tính tiếp trong ngoặc vuông."},
+        {"type": "truefalse", "level": "VD", "q": "Xét biểu thức $200 : [ 10 \\times (5 + 15 : 3) ]$. Xét tính đúng, sai của các khẳng định sau:", "statements": ["a) Phép tính được làm trước tiên là $5 + 15$.", "b) Trong ngoặc tròn có kết quả là $10$.", "c) Trong ngoặc vuông có kết quả là $20$.", "d) Kết quả cuối cùng của biểu thức là $2$."], "answer": ["F", "T", "F", "T"], "explain": "a) Sai: trong ngoặc tròn, chia trước cộng sau nên $15 : 3 = 5$ làm trước. b) Đúng: $5 + 5 = 10$. c) Sai: $10 \\times 10 = 100$. d) Đúng: $200 : 100 = 2$."},
+        {"type": "truefalse", "level": "NB", "q": "Đánh giá tính đúng, sai của các khẳng định sau:", "statements": ["a) Trong $6 + 8 : 2$, phép cộng được thực hiện trước.", "b) $6 + 8 : 2 = 10$.", "c) $(6 + 8) : 2 = 7$.", "d) $2^3$ có giá trị bằng $6$."], "answer": ["F", "T", "T", "F"], "explain": "a) Sai: phép chia có mức ưu tiên cao hơn nên $8 : 2$ làm trước. b) Đúng: $6 + 4 = 10$. c) Đúng: tính trong ngoặc trước, $14 : 2 = 7$. d) Sai: $2^3 = 8$."},
+        {"type": "short", "level": "VDC", "q": "Tính giá trị của biểu thức $\\{ 96 - [ 4 \\times (12 - 7) + 10 ] \\} : 3$.", "answer": "22", "explain": "Ngoặc tròn: $12 - 7 = 5$. Ngoặc vuông: nhân trước cộng sau, $4 \\times 5 = 20$, rồi $20 + 10 = 30$. Ngoặc nhọn: $96 - 30 = 66$. Cuối cùng: $66 : 3 = 22$."},
+        {"type": "short", "level": "VDC", "q": "Tìm $x$, biết $2^x = 20 + 60 : 5$.", "answer": "5", "explain": "Vế phải tính chia trước cộng sau: $60 : 5 = 12$, rồi $20 + 12 = 32$. Ta được $2^x = 32 = 2^5$ nên $x = 5$."}
+      ]
+    },
+    {
+      "name": "Đề 4",
+      "questions": [
+        {"type": "mcq", "level": "NB", "q": "Trong biểu thức $15 : 3 + 7$, phép tính được thực hiện trước là:", "options": ["A. $15 : 3$", "B. $3 + 7$", "C. $15 + 7$", "D. Cả hai phép tính cùng lúc"], "answer": "A", "explain": "Phép chia có mức ưu tiên cao hơn phép cộng nên $15 : 3$ được tính trước: $5 + 7 = 12$."},
+        {"type": "mcq", "level": "NB", "q": "Kết quả của $25 - 5 \\times 2 + 3$ là:", "options": ["A. $18$", "B. $43$", "C. $33$", "D. $13$"], "answer": "A", "explain": "Nhân trước: $5 \\times 2 = 10$. Rồi trừ và cộng từ trái sang phải: $25 - 10 = 15$, rồi $15 + 3 = 18$."},
+        {"type": "mcq", "level": "TH", "q": "Giá trị của biểu thức $4^3 : 8 + 5 \\times 2$ là:", "options": ["A. $18$", "B. $26$", "C. $42$", "D. $74$"], "answer": "A", "explain": "Lũy thừa trước: $4^3 = 64$. Rồi chia và nhân: $64 : 8 = 8$, $5 \\times 2 = 10$. Cuối cùng cộng: $8 + 10 = 18$."},
+        {"type": "mcq", "level": "TH", "q": "Giá trị của biểu thức $\\{ 40 - [ 18 - (7 + 3) ] \\}$ là:", "options": ["A. $32$", "B. $12$", "C. $48$", "D. $8$"], "answer": "A", "explain": "Ngoặc tròn: $7 + 3 = 10$. Ngoặc vuông: $18 - 10 = 8$. Ngoặc nhọn: $40 - 8 = 32$."},
+        {"type": "mcq", "level": "VD", "q": "Giá trị của biểu thức $(6 + 4) \\times 3^2 - 50 : 5$ là:", "options": ["A. $80$", "B. $40$", "C. $70$", "D. $90$"], "answer": "A", "explain": "Ngoặc tròn: $6 + 4 = 10$. Lũy thừa: $3^2 = 9$. Rồi nhân và chia: $10 \\times 9 = 90$, $50 : 5 = 10$. Cuối cùng trừ: $90 - 10 = 80$."},
+        {"type": "mcq", "level": "TH", "q": "Trong biểu thức $2 + 5^2 \\times 3$, phép tính được thực hiện thứ hai là:", "options": ["A. $2 + 5$", "B. $5^2$", "C. $25 \\times 3$", "D. $2 \\times 3$"], "answer": "C", "explain": "Thứ tự: $5^2 = 25$ trước tiên, rồi $25 \\times 3 = 75$ là thứ hai, cuối cùng $2 + 75 = 77$."},
+        {"type": "truefalse", "level": "VD", "q": "Xét biểu thức $13 \\times 2^2 - (15 - 5) : 2$. Xét tính đúng, sai của các khẳng định sau:", "statements": ["a) Kết quả trong ngoặc tròn là $10$.", "b) $2^2$ có giá trị là $4$.", "c) Kết quả của biểu thức là $47$.", "d) Phép tính $10 : 2$ được thực hiện sau phép tính $52 - 5$."], "answer": ["T", "T", "T", "F"], "explain": "a) Đúng: $15 - 5 = 10$. b) Đúng: $2^2 = 4$. c) Đúng: $13 \\times 4 - 10 : 2 = 52 - 5 = 47$. d) Sai: phép chia có mức ưu tiên cao hơn phép trừ nên $10 : 2$ làm trước $52 - 5$."},
+        {"type": "truefalse", "level": "NB", "q": "Xác định tính đúng, sai của mỗi khẳng định sau:", "statements": ["a) $100 : 10 : 2 = 5$.", "b) $100 : (10 : 2) = 20$.", "c) Hai biểu thức trên có kết quả bằng nhau.", "d) $100 : 10 \\times 2 = 20$."], "answer": ["T", "T", "F", "T"], "explain": "a) Đúng: tính từ trái sang phải, $10 : 2 = 5$. b) Đúng: tính trong ngoặc trước, $100 : 5 = 20$. c) Sai: $5$ khác $20$. d) Đúng: $10 \\times 2 = 20$."},
+        {"type": "short", "level": "VDC", "q": "Tính giá trị của biểu thức $2^4 \\times 3 - \\{ 50 : [ 15 - (8 - 3) ] \\}$.", "answer": "43", "explain": "Lũy thừa: $2^4 = 16$, rồi $16 \\times 3 = 48$. Ngoặc tròn: $8 - 3 = 5$. Ngoặc vuông: $15 - 5 = 10$. Ngoặc nhọn: $50 : 10 = 5$. Cuối cùng: $48 - 5 = 43$."},
+        {"type": "short", "level": "VDC", "q": "Tìm $x$, biết $x : 4 + 3 \\times 5 = 28$.", "answer": "52", "explain": "Nhân trước cộng sau: $3 \\times 5 = 15$, ta được $x : 4 + 15 = 28$. Suy ra $x : 4 = 13$ nên $x = 52$."}
+      ]
+    },
+    {
+      "name": "Đề 5",
+      "questions": [
+        {"type": "mcq", "level": "NB", "q": "Kết quả của $8 + 24 : 6 - 3$ là:", "options": ["A. $9$", "B. $7$", "C. $5$", "D. $11$"], "answer": "A", "explain": "Chia trước: $24 : 6 = 4$. Rồi cộng và trừ từ trái sang phải: $8 + 4 = 12$, rồi $12 - 3 = 9$."},
+        {"type": "mcq", "level": "NB", "q": "Trong biểu thức $30 - (12 + 4) : 2$, phép tính được thực hiện trước tiên là:", "options": ["A. $30 - 12$", "B. $12 + 4$", "C. $16 : 2$", "D. $30 - 16$"], "answer": "B", "explain": "Ngoặc tròn được tính trước tiên: $12 + 4 = 16$, rồi mới chia $16 : 2 = 8$, cuối cùng $30 - 8 = 22$."},
+        {"type": "mcq", "level": "TH", "q": "Giá trị của biểu thức $7^2 - 4^2 + 10$ là:", "options": ["A. $43$", "B. $33$", "C. $23$", "D. $53$"], "answer": "A", "explain": "Lũy thừa trước: $7^2 = 49$ và $4^2 = 16$. Rồi trừ và cộng từ trái sang phải: $49 - 16 = 33$, rồi $33 + 10 = 43$."},
+        {"type": "mcq", "level": "TH", "q": "Giá trị của biểu thức $18 \\times [ 100 - (25 + 15) ] : 6$ là:", "options": ["A. $180$", "B. $1080$", "C. $30$", "D. $240$"], "answer": "A", "explain": "Ngoặc tròn: $25 + 15 = 40$. Ngoặc vuông: $100 - 40 = 60$. Rồi nhân và chia từ trái sang phải: $18 \\times 60 = 1080$, rồi $1080 : 6 = 180$."},
+        {"type": "mcq", "level": "VD", "q": "Bạn Nam tính $36 : 6 \\times 3 = 36 : 18 = 2$. Nhận xét nào sau đây là đúng?", "options": ["A. Nam tính đúng", "B. Nam sai vì phải tính $36 : 6$ trước, kết quả đúng là $18$", "C. Nam sai vì phải tính $18 : 3$ trước", "D. Kết quả đúng phải là $12$"], "answer": "B", "explain": "Phép chia và phép nhân cùng mức ưu tiên nên phải tính từ trái sang phải: $36 : 6 = 6$, rồi $6 \\times 3 = 18$. Nam đã tính $6 \\times 3$ trước là sai."},
+        {"type": "mcq", "level": "TH", "q": "Trong biểu thức $5 \\times 4 - 3^2 + 6 : 2$, phép tính được thực hiện trước tiên là:", "options": ["A. $5 \\times 4$", "B. $3^2$", "C. $6 : 2$", "D. $20 - 9$"], "answer": "B", "explain": "Lũy thừa có mức ưu tiên cao nhất nên $3^2$ được tính trước tiên, rồi mới đến các phép nhân và chia."},
+        {"type": "truefalse", "level": "VD", "q": "Xét biểu thức $64 - 3 \\times 4^2 + 2$. Xét tính đúng, sai của các khẳng định sau:", "statements": ["a) Phép tính được thực hiện đầu tiên là $4^2$.", "b) Kết quả của biểu thức là $18$.", "c) Nếu tính $(64 - 3) \\times 4^2 + 2$ thì được $978$.", "d) $64 - 3 \\times 4^2 + 2 = 64 - 3 \\times 18$."], "answer": ["T", "T", "T", "F"], "explain": "a) Đúng: lũy thừa có mức ưu tiên cao nhất. b) Đúng: $64 - 3 \\times 16 + 2 = 64 - 48 + 2 = 18$. c) Đúng: $61 \\times 16 + 2 = 976 + 2 = 978$. d) Sai: $4^2 = 16$, không phải $18$."},
+        {"type": "truefalse", "level": "NB", "q": "Cho các khẳng định sau, xét tính đúng, sai:", "statements": ["a) $5 + 5 \\times 0 = 10$.", "b) $5 \\times 5 + 0 = 25$.", "c) $(5 + 5) \\times 0 = 0$.", "d) $0 + 5 \\times 5 = 25$."], "answer": ["F", "T", "T", "T"], "explain": "a) Sai: nhân trước cộng sau, $5 + 0 = 5$. b) Đúng: $25 + 0 = 25$. c) Đúng: tính trong ngoặc trước, $10 \\times 0 = 0$. d) Đúng: $0 + 25 = 25$."},
+        {"type": "short", "level": "VDC", "q": "Tính giá trị của biểu thức $\\{ 200 - [ 3 \\times (4^2 - 6) + 5 ] \\} : 5$.", "answer": "33", "explain": "Ngoặc tròn: $4^2 = 16$, rồi $16 - 6 = 10$. Ngoặc vuông: nhân trước cộng sau, $3 \\times 10 = 30$, rồi $30 + 5 = 35$. Ngoặc nhọn: $200 - 35 = 165$. Cuối cùng: $165 : 5 = 33$."},
+        {"type": "short", "level": "VDC", "q": "Tìm $x$, biết $(2x - 8) : 4 = 3^2 - 2^3$.", "answer": "6", "explain": "Vế phải tính lũy thừa trước: $3^2 - 2^3 = 9 - 8 = 1$. Ta được $(2x - 8) : 4 = 1$, suy ra $2x - 8 = 4$, nên $2x = 12$ và $x = 6$."}
+      ]
+    }
+,
+    {
+      "name": "Đề 6",
+      "questions": [
+        {"type": "mcq", "level": "NB", "q": "Trong biểu thức $20 - 5 - 3$, thứ tự thực hiện đúng là:", "options": ["A. Tính $20 - 5$ trước, rồi trừ $3$", "B. Tính $5 - 3$ trước, rồi lấy $20$ trừ đi", "C. Tính $20 - 3$ trước, rồi trừ $5$", "D. Tính đồng thời cả hai phép trừ"], "answer": "A", "explain": "Các phép trừ cùng mức ưu tiên nên tính từ trái sang phải: $20 - 5 = 15$, rồi $15 - 3 = 12$."},
+        {"type": "mcq", "level": "NB", "q": "Kết quả của $4 \\times 5 - 3 \\times 2$ là:", "options": ["A. $14$", "B. $34$", "C. $28$", "D. $4$"], "answer": "A", "explain": "Nhân trước, trừ sau: $4 \\times 5 = 20$ và $3 \\times 2 = 6$, rồi $20 - 6 = 14$."},
+        {"type": "mcq", "level": "TH", "q": "Giá trị của biểu thức $10^2 : 5^2 + 3 \\times 4$ là:", "options": ["A. $16$", "B. $60$", "C. $28$", "D. $52$"], "answer": "A", "explain": "Lũy thừa trước: $10^2 = 100$ và $5^2 = 25$. Rồi chia và nhân: $100 : 25 = 4$, $3 \\times 4 = 12$. Cuối cùng cộng: $4 + 12 = 16$."},
+        {"type": "mcq", "level": "TH", "q": "Giá trị của biểu thức $48 : \\{ 8 + [ 25 - (13 + 8) ] \\}$ là:", "options": ["A. $4$", "B. $12$", "C. $6$", "D. $2$"], "answer": "A", "explain": "Ngoặc tròn: $13 + 8 = 21$. Ngoặc vuông: $25 - 21 = 4$. Ngoặc nhọn: $8 + 4 = 12$. Cuối cùng: $48 : 12 = 4$."},
+        {"type": "mcq", "level": "VD", "q": "Tìm $x$, biết $x - 2^3 = 5 \\times 4 - 6$.", "options": ["A. $20$", "B. $22$", "C. $30$", "D. $14$"], "answer": "B", "explain": "Vế phải: nhân trước trừ sau, $5 \\times 4 = 20$, rồi $20 - 6 = 14$. Vế trái: $2^3 = 8$. Ta được $x - 8 = 14$ nên $x = 22$."},
+        {"type": "mcq", "level": "TH", "q": "Trong biểu thức $9 + 2 \\times (7 - 4)^2$, phép tính được thực hiện cuối cùng là:", "options": ["A. $7 - 4$", "B. $3^2$", "C. $2 \\times 9$", "D. $9 + 18$"], "answer": "D", "explain": "Thứ tự: ngoặc tròn $(7 - 4) = 3$ trước, rồi lũy thừa $3^2 = 9$, rồi nhân $2 \\times 9 = 18$, cuối cùng cộng $9 + 18 = 27$."},
+        {"type": "truefalse", "level": "VD", "q": "Xét biểu thức $90 : 3^2 + (20 - 12) \\times 2$. Xét tính đúng, sai của các khẳng định sau:", "statements": ["a) Lũy thừa $3^2$ được tính trước phép nhân và phép cộng.", "b) Kết quả trong ngoặc tròn là $8$.", "c) Kết quả của biểu thức là $26$.", "d) $90 : 3^2 = 30$."], "answer": ["T", "T", "T", "F"], "explain": "a) Đúng: lũy thừa có mức ưu tiên cao nhất. b) Đúng: $20 - 12 = 8$. c) Đúng: $90 : 9 + 8 \\times 2 = 10 + 16 = 26$. d) Sai: $90 : 3^2 = 90 : 9 = 10$, không phải $30$."},
+        {"type": "truefalse", "level": "NB", "q": "Xét xem mỗi khẳng định sau đây đúng hay sai:", "statements": ["a) $1 + 2 + 3 + 4 = 4 + 3 + 2 + 1$.", "b) $10 - 3 - 2 = 10 - (3 + 2)$.", "c) $10 - (3 - 2) = 10 - 3 - 2$.", "d) $2 \\times 3 \\times 4 = 4 \\times 3 \\times 2$."], "answer": ["T", "T", "F", "T"], "explain": "a) Đúng: phép cộng có tính chất giao hoán. b) Đúng: vế trái $(10 - 3) - 2 = 5$, vế phải $10 - 5 = 5$. c) Sai: vế trái $10 - 1 = 9$, vế phải $5$. d) Đúng: phép nhân có tính chất giao hoán."},
+        {"type": "short", "level": "VDC", "q": "Tính giá trị của biểu thức $3 \\times [ 5^2 - 2 \\times (11 - 6) ] + 10$.", "answer": "55", "explain": "Ngoặc tròn: $11 - 6 = 5$. Ngoặc vuông: lũy thừa trước $5^2 = 25$, rồi nhân $2 \\times 5 = 10$, rồi trừ $25 - 10 = 15$. Tiếp theo: $3 \\times 15 = 45$. Cuối cùng: $45 + 10 = 55$."},
+        {"type": "short", "level": "VDC", "q": "Tìm $x$, biết $4^x - 2 \\times 5 = 54$.", "answer": "3", "explain": "Nhân trước trừ sau: $2 \\times 5 = 10$, ta được $4^x - 10 = 54$. Suy ra $4^x = 64 = 4^3$ nên $x = 3$."}
+      ]
+    },
+    {
+      "name": "Đề 7",
+      "questions": [
+        {"type": "mcq", "level": "NB", "q": "Biểu thức $50 - 10 : 5 + 3 \\times 2$ có bao nhiêu phép tính được thực hiện trước phép cộng cuối cùng?", "options": ["A. $1$ phép tính", "B. $2$ phép tính", "C. $3$ phép tính", "D. Không có phép tính nào"], "answer": "C", "explain": "Nhân và chia có mức ưu tiên cao hơn: $10 : 5 = 2$ và $3 \\times 2 = 6$ làm trước. Biểu thức còn $50 - 2 + 6$, trừ và cộng cùng mức nên $50 - 2$ làm trước phép cộng cuối. Vậy có 3 phép tính làm trước phép cộng cuối."},
+        {"type": "mcq", "level": "NB", "q": "Kết quả của $12 + 3 \\times 0 - 5$ là:", "options": ["A. $7$", "B. $10$", "C. $0$", "D. $55$"], "answer": "A", "explain": "Nhân trước: $3 \\times 0 = 0$. Rồi cộng và trừ từ trái sang phải: $12 + 0 = 12$, rồi $12 - 5 = 7$."},
+        {"type": "mcq", "level": "TH", "q": "Giá trị của biểu thức $(48 - 18) : 6 + 2^3$ là:", "options": ["A. $13$", "B. $48$", "C. $40$", "D. $29$"], "answer": "A", "explain": "Ngoặc tròn: $48 - 18 = 30$. Lũy thừa: $2^3 = 8$. Rồi chia: $30 : 6 = 5$. Cuối cùng cộng: $5 + 8 = 13$."},
+        {"type": "mcq", "level": "TH", "q": "Giá trị của biểu thức $[ 60 - 4 \\times (9 + 2) ] : 2$ là:", "options": ["A. $8$", "B. $38$", "C. $16$", "D. $22$"], "answer": "A", "explain": "Ngoặc tròn: $9 + 2 = 11$. Ngoặc vuông: nhân trước trừ sau, $4 \\times 11 = 44$, rồi $60 - 44 = 16$. Cuối cùng: $16 : 2 = 8$."},
+        {"type": "mcq", "level": "VD", "q": "Giá trị của biểu thức $2 \\times 3^2 - 4 \\times (5 - 2)$ là:", "options": ["A. $6$", "B. $42$", "C. $24$", "D. $30$"], "answer": "A", "explain": "Lũy thừa: $3^2 = 9$, rồi $2 \\times 9 = 18$. Ngoặc tròn: $5 - 2 = 3$, rồi $4 \\times 3 = 12$. Cuối cùng trừ: $18 - 12 = 6$."},
+        {"type": "mcq", "level": "TH", "q": "Trong biểu thức $\\{ 12 + [ 8 - (5 - 2) ] \\} \\times 3$, phép tính được thực hiện trước tiên là:", "options": ["A. $5 - 2$", "B. $8 - 3$", "C. $12 + 5$", "D. $17 \\times 3$"], "answer": "A", "explain": "Ngoặc tròn trong cùng được tính trước tiên: $5 - 2 = 3$, rồi mới tính tiếp ngoặc vuông rồi ngoặc nhọn."},
+        {"type": "truefalse", "level": "VD", "q": "Xét biểu thức $150 - 2 \\times [ 30 - (3^2 + 6) ]$. Xét tính đúng, sai của các khẳng định sau:", "statements": ["a) Phép tính được làm trước tiên là $3^2$.", "b) Trong ngoặc tròn có kết quả là $15$.", "c) Trong ngoặc vuông có kết quả là $15$.", "d) Kết quả cuối cùng của biểu thức là $105$."], "answer": ["T", "T", "T", "F"], "explain": "a) Đúng: trong ngoặc tròn trong cùng, lũy thừa làm trước. b) Đúng: $9 + 6 = 15$. c) Đúng: $30 - 15 = 15$. d) Sai: $150 - 2 \\times 15 = 150 - 30 = 120$."},
+        {"type": "truefalse", "level": "NB", "q": "Nhận xét tính đúng, sai của các khẳng định sau:", "statements": ["a) $7 - 2 \\times 3 = 15$.", "b) $(7 - 2) \\times 3 = 15$.", "c) $7 - (2 \\times 3) = 1$.", "d) $7 \\times 2 - 3 = 11$."], "answer": ["F", "T", "T", "T"], "explain": "a) Sai: nhân trước trừ sau, $7 - 6 = 1$. b) Đúng: tính trong ngoặc trước, $5 \\times 3 = 15$. c) Đúng: $7 - 6 = 1$. d) Đúng: $14 - 3 = 11$."},
+        {"type": "short", "level": "VDC", "q": "Tính giá trị của biểu thức $5^3 : 5^2 + 3 \\times \\{ 20 - [ 8 + (9 - 4) ] \\}$.", "answer": "26", "explain": "Lũy thừa và chia: $5^3 : 5^2 = 125 : 25 = 5$. Ngoặc tròn: $9 - 4 = 5$. Ngoặc vuông: $8 + 5 = 13$. Ngoặc nhọn: $20 - 13 = 7$, rồi $3 \\times 7 = 21$. Cuối cùng: $5 + 21 = 26$."},
+        {"type": "short", "level": "VDC", "q": "Tìm $x$, biết $3 \\times (x - 5) + 4^2 = 55$.", "answer": "18", "explain": "Tính $4^2 = 16$ trước, ta được $3 \\times (x - 5) + 16 = 55$. Suy ra $3 \\times (x - 5) = 39$, nên $x - 5 = 13$ và $x = 18$."}
+      ]
+    },
+    {
+      "name": "Đề 8",
+      "questions": [
+        {"type": "mcq", "level": "NB", "q": "Trong biểu thức $4^2 + 6 \\times 2$, phép tính nào được làm trước?", "options": ["A. $4 + 6$", "B. $4^2$", "C. $6 \\times 2$", "D. $10 + 12$"], "answer": "B", "explain": "Lũy thừa có mức ưu tiên cao nhất nên $4^2$ được làm trước: $16 + 12 = 28$."},
+        {"type": "mcq", "level": "NB", "q": "Kết quả của $60 - 20 - 10 - 5$ là:", "options": ["A. $25$", "B. $35$", "C. $45$", "D. $55$"], "answer": "A", "explain": "Các phép trừ cùng mức ưu tiên nên tính từ trái sang phải: $60 - 20 = 40$, $40 - 10 = 30$, $30 - 5 = 25$."},
+        {"type": "mcq", "level": "TH", "q": "Giá trị của biểu thức $6^2 : 4 + 5 \\times 3 - 2$ là:", "options": ["A. $22$", "B. $31$", "C. $40$", "D. $13$"], "answer": "A", "explain": "Lũy thừa trước: $6^2 = 36$. Rồi chia và nhân: $36 : 4 = 9$, $5 \\times 3 = 15$. Cuối cùng cộng và trừ từ trái sang phải: $9 + 15 = 24$, rồi $24 - 2 = 22$."},
+        {"type": "mcq", "level": "TH", "q": "Giá trị của biểu thức $(2^3 + 12) : (9 - 5)$ là:", "options": ["A. $5$", "B. $11$", "C. $8$", "D. $20$"], "answer": "A", "explain": "Ngoặc tròn thứ nhất: lũy thừa trước, $2^3 = 8$, rồi $8 + 12 = 20$. Ngoặc tròn thứ hai: $9 - 5 = 4$. Cuối cùng: $20 : 4 = 5$."},
+        {"type": "mcq", "level": "VD", "q": "Bạn Hoa tính $5 + 4 \\times 3^2 = 9 \\times 3^2 = 9 \\times 9 = 81$. Kết quả đúng của biểu thức là:", "options": ["A. $41$", "B. $81$", "C. $45$", "D. $121$"], "answer": "A", "explain": "Hoa đã cộng $5 + 4$ trước là sai. Đúng phải tính lũy thừa $3^2 = 9$ trước, rồi nhân $4 \\times 9 = 36$, cuối cùng $5 + 36 = 41$."},
+        {"type": "mcq", "level": "TH", "q": "Trong biểu thức $96 : [ 8 \\times (2 + 2^2) ]$, sau khi tính xong ngoặc tròn $(2 + 2^2) = 6$ thì thực hiện tiếp phép tính nào?", "options": ["A. $8 \\times 6$", "B. $96 : 8$", "C. $96 : 48$", "D. $2 + 4$"], "answer": "A", "explain": "Sau ngoặc tròn là ngoặc vuông $[8 \\times 6]$, tính nhân trước: $8 \\times 6 = 48$, rồi cuối cùng $96 : 48 = 2$."},
+        {"type": "truefalse", "level": "VD", "q": "Xét biểu thức $7 \\times (10 - 2^3) + 5^2$. Xét tính đúng, sai của các khẳng định sau:", "statements": ["a) Trong ngoặc tròn, $2^3$ được tính trước $10 - 8$.", "b) Ngoặc tròn có kết quả là $2$.", "c) Kết quả của biểu thức là $39$.", "d) Phép tính $14 + 25$ được thực hiện trước $7 \\times 2$."], "answer": ["T", "T", "T", "F"], "explain": "a) Đúng: lũy thừa có mức ưu tiên cao trong ngoặc. b) Đúng: $10 - 8 = 2$. c) Đúng: $7 \\times 2 + 25 = 14 + 25 = 39$. d) Sai: phép nhân có mức ưu tiên cao hơn phép cộng nên $7 \\times 2$ làm trước."},
+        {"type": "truefalse", "level": "NB", "q": "Kiểm tra tính đúng, sai của các khẳng định sau:", "statements": ["a) $3^2 \\times 2 = 18$.", "b) $3 \\times 2^2 = 36$.", "c) $(3 \\times 2)^2 = 36$.", "d) $3^2 + 2^2 = 13$."], "answer": ["T", "F", "T", "T"], "explain": "a) Đúng: $9 \\times 2 = 18$. b) Sai: lũy thừa trước, $3 \\times 4 = 12$. c) Đúng: tính trong ngoặc trước, $6^2 = 36$. d) Đúng: $9 + 4 = 13$."},
+        {"type": "short", "level": "VDC", "q": "Tính giá trị của biểu thức $\\{ 7 \\times [ 50 - 3 \\times (2^3 + 2) ] \\} : 10$.", "answer": "14", "explain": "Ngoặc tròn: $2^3 = 8$, rồi $8 + 2 = 10$. Ngoặc vuông: nhân trước trừ sau, $3 \\times 10 = 30$, rồi $50 - 30 = 20$. Ngoặc nhọn: $7 \\times 20 = 140$. Cuối cùng: $140 : 10 = 14$."},
+        {"type": "short", "level": "VDC", "q": "Tìm $x$, biết $2 \\times (3^x - 5) = 44$.", "answer": "3", "explain": "Chia cả hai vế cho $2$ (làm ngược phép nhân): $3^x - 5 = 22$. Suy ra $3^x = 27 = 3^3$ nên $x = 3$."}
+      ]
+    },
+    {
+      "name": "Đề 9",
+      "questions": [
+        {"type": "mcq", "level": "NB", "q": "Kết quả của $9 \\times 5 - 30 : 6$ là:", "options": ["A. $40$", "B. $70$", "C. $10$", "D. $15$"], "answer": "A", "explain": "Nhân và chia trước: $9 \\times 5 = 45$ và $30 : 6 = 5$. Rồi trừ: $45 - 5 = 40$."},
+        {"type": "mcq", "level": "NB", "q": "Trong biểu thức $(15 + 5) \\times 2 - 8$, phép tính được thực hiện trước tiên là:", "options": ["A. $15 + 5$", "B. $20 \\times 2$", "C. $40 - 8$", "D. $5 \\times 2$"], "answer": "A", "explain": "Ngoặc tròn được tính trước tiên: $15 + 5 = 20$, rồi nhân $20 \\times 2 = 40$, cuối cùng $40 - 8 = 32$."},
+        {"type": "mcq", "level": "TH", "q": "Giá trị của biểu thức $3 \\times 2^3 + 5^2 - 10$ là:", "options": ["A. $39$", "B. $49$", "C. $29$", "D. $59$"], "answer": "A", "explain": "Lũy thừa trước: $2^3 = 8$ và $5^2 = 25$. Rồi nhân: $3 \\times 8 = 24$. Cuối cùng cộng và trừ từ trái sang phải: $24 + 25 = 49$, rồi $49 - 10 = 39$."},
+        {"type": "mcq", "level": "TH", "q": "Giá trị của biểu thức $120 - 2 \\times [ 40 - (6 + 14) ]$ là:", "options": ["A. $80$", "B. $1600$", "C. $40$", "D. $2000$"], "answer": "A", "explain": "Ngoặc tròn: $6 + 14 = 20$. Ngoặc vuông: $40 - 20 = 20$. Rồi nhân: $2 \\times 20 = 40$. Cuối cùng trừ: $120 - 40 = 80$."},
+        {"type": "mcq", "level": "VD", "q": "Tìm $x$, biết $(x + 12) : 3 = 2^3 + 2$.", "options": ["A. $12$", "B. $18$", "C. $22$", "D. $30$"], "answer": "B", "explain": "Vế phải: lũy thừa trước, $2^3 = 8$, rồi $8 + 2 = 10$. Ta được $(x + 12) : 3 = 10$, suy ra $x + 12 = 30$ nên $x = 18$."},
+        {"type": "mcq", "level": "TH", "q": "Biểu thức $36 : 4 + 5 \\times 3 - 2^3$ có giá trị bằng:", "options": ["A. $16$", "B. $46$", "C. $10$", "D. $31$"], "answer": "A", "explain": "Lũy thừa trước: $2^3 = 8$. Rồi chia và nhân: $36 : 4 = 9$, $5 \\times 3 = 15$. Cuối cùng cộng và trừ từ trái sang phải: $9 + 15 = 24$, rồi $24 - 8 = 16$."},
+        {"type": "truefalse", "level": "VD", "q": "Xét biểu thức $(30 - 2 \\times 5) \\times (4 + 3^2)$. Xét tính đúng, sai của các khẳng định sau:", "statements": ["a) Trong ngoặc tròn thứ nhất, phép nhân được tính trước phép trừ.", "b) Ngoặc tròn thứ nhất có kết quả là $20$.", "c) Ngoặc tròn thứ hai có kết quả là $13$.", "d) Kết quả của biểu thức là $200$."], "answer": ["T", "T", "T", "F"], "explain": "a) Đúng: nhân có mức ưu tiên cao hơn trừ. b) Đúng: $30 - 10 = 20$. c) Đúng: $4 + 9 = 13$. d) Sai: $20 \\times 13 = 260$, không phải $200$."},
+        {"type": "truefalse", "level": "NB", "q": "Xét tính đúng, sai của các khẳng định sau đây:", "statements": ["a) $10 + 2 \\times 5 = 20$.", "b) $2 \\times 5 + 10 = 30$.", "c) $10 \\times 2 + 5 = 25$.", "d) $(10 + 2) \\times 5 = 60$."], "answer": ["T", "F", "T", "T"], "explain": "a) Đúng: $10 + 10 = 20$. b) Sai: $10 + 10 = 20$, không phải $30$. c) Đúng: $20 + 5 = 25$. d) Đúng: tính trong ngoặc trước, $12 \\times 5 = 60$."},
+        {"type": "short", "level": "VDC", "q": "Tính giá trị của biểu thức $100 : \\{ 2 \\times [ 40 - (5^2 - 10) ] \\} + 7$.", "answer": "9", "explain": "Ngoặc tròn: $5^2 = 25$, rồi $25 - 10 = 15$. Ngoặc vuông: $40 - 15 = 25$. Ngoặc nhọn: $2 \\times 25 = 50$. Rồi chia: $100 : 50 = 2$. Cuối cùng cộng: $2 + 7 = 9$."},
+        {"type": "short", "level": "VDC", "q": "Tìm $x$, biết $5^x + 4 \\times 3 = 137$.", "answer": "3", "explain": "Nhân trước cộng sau: $4 \\times 3 = 12$, ta được $5^x + 12 = 137$. Suy ra $5^x = 125 = 5^3$ nên $x = 3$."}
+      ]
+    },
+    {
+      "name": "Đề 10",
+      "questions": [
+        {"type": "mcq", "level": "NB", "q": "Kết quả của $14 + 6 : 2 \\times 3$ là:", "options": ["A. $23$", "B. $30$", "C. $10$", "D. $29$"], "answer": "A", "explain": "Chia và nhân trước, từ trái sang phải: $6 : 2 = 3$, rồi $3 \\times 3 = 9$. Cuối cùng cộng: $14 + 9 = 23$."},
+        {"type": "mcq", "level": "NB", "q": "Trong biểu thức $2^3 - 5 + 10 : 2$, phép tính được thực hiện trước tiên là:", "options": ["A. $2^3$", "B. $8 - 5$", "C. $10 : 2$", "D. $3 + 5$"], "answer": "A", "explain": "Lũy thừa có mức ưu tiên cao nhất nên $2^3$ được tính trước tiên, rồi mới đến chia, trừ và cộng."},
+        {"type": "mcq", "level": "TH", "q": "Giá trị của biểu thức $(7^2 - 19) : (2^2 + 1)$ là:", "options": ["A. $6$", "B. $10$", "C. $15$", "D. $30$"], "answer": "A", "explain": "Ngoặc tròn thứ nhất: $7^2 = 49$, rồi $49 - 19 = 30$. Ngoặc tròn thứ hai: $2^2 = 4$, rồi $4 + 1 = 5$. Cuối cùng: $30 : 5 = 6$."},
+        {"type": "mcq", "level": "TH", "q": "Giá trị của biểu thức $4 \\times \\{ 25 - [ 30 - (12 + 8) ] \\}$ là:", "options": ["A. $60$", "B. $20$", "C. $100$", "D. $40$"], "answer": "A", "explain": "Ngoặc tròn: $12 + 8 = 20$. Ngoặc vuông: $30 - 20 = 10$. Ngoặc nhọn: $25 - 10 = 15$. Cuối cùng nhân: $4 \\times 15 = 60$."},
+        {"type": "mcq", "level": "VD", "q": "Tìm $x$ (số tự nhiên), biết $x^2 - 3 \\times 4 = 13$.", "options": ["A. $4$", "B. $5$", "C. $6$", "D. $25$"], "answer": "B", "explain": "Nhân trước trừ sau: $3 \\times 4 = 12$, ta được $x^2 - 12 = 13$. Suy ra $x^2 = 25 = 5^2$ nên $x = 5$."},
+        {"type": "mcq", "level": "TH", "q": "Trong biểu thức $8 + 4 \\times 2^2 - 10 : 5$, phép tính được thực hiện thứ hai là:", "options": ["A. $2^2$", "B. $4 \\times 4$", "C. $10 : 5$", "D. $8 + 16$"], "answer": "B", "explain": "Thứ tự: $2^2 = 4$ trước tiên, rồi nhân và chia từ trái sang phải nên $4 \\times 4 = 16$ là thứ hai, tiếp theo $10 : 5 = 2$."},
+        {"type": "truefalse", "level": "VD", "q": "Xét biểu thức $81 : 3^2 \\times 2 + (15 - 3 \\times 2)$. Xét tính đúng, sai của các khẳng định sau:", "statements": ["a) Trong ngoặc tròn, phép nhân $3 \\times 2$ được thực hiện trước phép trừ.", "b) Ngoặc tròn có kết quả là $9$.", "c) $81 : 3^2$ có kết quả là $9$.", "d) Kết quả của biểu thức là $18$."], "answer": ["T", "T", "T", "F"], "explain": "a) Đúng: nhân có mức ưu tiên cao hơn trừ. b) Đúng: $15 - 6 = 9$. c) Đúng: $81 : 9 = 9$. d) Sai: $9 \\times 2 + 9 = 18 + 9 = 27$, không phải $18$."},
+        {"type": "truefalse", "level": "NB", "q": "Đánh giá xem mỗi khẳng định sau đúng hay sai:", "statements": ["a) $4 + 16 : 4 = 8$.", "b) $(4 + 16) : 4 = 5$.", "c) $16 : 4 + 4 = 8$.", "d) $4 + 4 \\times 4 = 32$."], "answer": ["T", "T", "T", "F"], "explain": "a) Đúng: $4 + 4 = 8$. b) Đúng: tính trong ngoặc trước, $20 : 4 = 5$. c) Đúng: $4 + 4 = 8$. d) Sai: nhân trước cộng sau, $4 + 16 = 20$."},
+        {"type": "short", "level": "VDC", "q": "Tính giá trị của biểu thức $\\{ 6^2 : [ 45 - (28 + 2^3) ] \\} + 8$.", "answer": "12", "explain": "Ngoặc tròn: $2^3 = 8$, rồi $28 + 8 = 36$. Ngoặc vuông: $45 - 36 = 9$. Ngoặc nhọn: $6^2 = 36$, rồi $36 : 9 = 4$. Cuối cùng: $4 + 8 = 12$."},
+        {"type": "short", "level": "VDC", "q": "Tìm $x$, biết $3 \\times 2^x - 10 = 38$.", "answer": "4", "explain": "Cộng $10$ vào hai vế (làm ngược phép trừ): $3 \\times 2^x = 48$. Chia hai vế cho $3$: $2^x = 16 = 2^4$ nên $x = 4$."}
+      ]
+    }
+  ]
+}
+</script>
+</div>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
