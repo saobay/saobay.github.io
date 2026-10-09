@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 9: Khoảng biến thiên và khoảng tứ phân vị</title>
+    <meta name="lesson-title" content="Bài 9: Khoảng biến thiên và khoảng tứ phân vị">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 9: Khoảng biến thiên và khoảng tứ phân vị</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 3: Các số đặc trưng đo mức độ phân tán cho mẫu số liệu ghép nhóm • Bài 9</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h2>1. Khoảng biến thiên</h2>
+<p><b>Định nghĩa.</b> Cho mẫu số liệu ghép nhóm. <b>Khoảng biến thiên</b>, kí hiệu là $R$, là hiệu số giữa giá trị lớn nhất và giá trị nhỏ nhất của mẫu số liệu đó, tức là</p>
+<p style="text-align:center">$R = \text{(giá trị lớn nhất)} - \text{(giá trị nhỏ nhất)}.$</p>
+<p>Đối với mẫu số liệu ghép nhóm, ta quy ước: giá trị lớn nhất là <b>đầu mút phải</b> của nhóm cuối cùng, giá trị nhỏ nhất là <b>đầu mút trái</b> của nhóm đầu tiên.</p>
+<p><b>Ý nghĩa.</b> Khoảng biến thiên đo độ chênh lệch giữa giá trị lớn nhất và nhỏ nhất — cho biết <b>độ phân tán tổng thể</b> của mẫu số liệu. Tuy nhiên $R$ chỉ dùng hai giá trị ở hai đầu mút nên <b>rất nhạy cảm với giá trị bất thường</b> (outlier).</p>
+
+<h2>2. Khoảng tứ phân vị</h2>
+<p>Để đo mức độ phân tán mà <b>ít bị ảnh hưởng bởi các giá trị bất thường</b>, người ta dùng <b>khoảng tứ phân vị</b>.</p>
+<h3>a) Các tứ phân vị của mẫu số liệu ghép nhóm</h3>
+<p>Giả sử mẫu số liệu ghép nhóm có $k$ nhóm với tần số lần lượt là $n_1, n_2, \dots, n_k$ và cỡ mẫu $n = n_1 + \dots + n_k$.</p>
+<ul>
+<li><b>Tứ phân vị thứ hai $Q_2$</b> chính là <b>trung vị</b> của mẫu số liệu.</li>
+<li><b>Tứ phân vị thứ nhất $Q_1$</b>: gọi $p$ là vị trí của $Q_1$ trong dãy số liệu đã sắp xếp. Với mẫu ghép nhóm, $Q_1$ thuộc nhóm $[a_p; a_{p+1})$ chứa giá trị ở vị trí $\frac{n}{4}$, và được tính bằng công thức nội suy:
+<p style="text-align:center">$Q_1 = a_p + \dfrac{\frac{n}{4} - (n_1 + \dots + n_{p-1})}{n_p} \cdot (a_{p+1} - a_p).$</p></li>
+<li><b>Tứ phân vị thứ ba $Q_3$</b>: tương tự, $Q_3$ thuộc nhóm chứa giá trị ở vị trí $\frac{3n}{4}$, với công thức:
+<p style="text-align:center">$Q_3 = a_p + \dfrac{\frac{3n}{4} - (n_1 + \dots + n_{p-1})}{n_p} \cdot (a_{p+1} - a_p).$</p></li>
+</ul>
+<p><b>Định nghĩa.</b> <b>Khoảng tứ phân vị</b> của mẫu số liệu ghép nhóm, kí hiệu $\Delta_Q$, là hiệu số giữa tứ phân vị thứ ba $Q_3$ và tứ phân vị thứ nhất $Q_1$, tức là</p>
+<p style="text-align:center">$\Delta_Q = Q_3 - Q_1.$</p>
+<p><b>Ý nghĩa.</b> Khoảng tứ phân vị là khoảng biến thiên của <b>50% số liệu chính giữa</b> của mẫu. Nó đo mức độ phân tán của phần lớn số liệu mà <b>ít bị ảnh hưởng bởi các giá trị quá nhỏ hoặc quá lớn</b>.</p>
+
+<svg viewBox="0 0 560 200" xmlns="http://www.w3.org/2000/svg" style="max-width:560px;width:100%;height:auto;display:block;margin:12px auto">
+<text x="280" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e40af">Hộp (boxplot) minh họa các tứ phân vị</text>
+<line x1="60" y1="120" x2="500" y2="120" stroke="#0f172a" stroke-width="1.5"/>
+<g font-size="12" fill="#334155" text-anchor="middle">
+<circle cx="110" cy="120" r="4" fill="#0f172a"/>
+<line x1="110" y1="100" x2="110" y2="140" stroke="#0f172a" stroke-width="1.5"/>
+<rect x="210" y="90" width="140" height="60" fill="#bfdbfe" stroke="#1e40af" stroke-width="2"/>
+<line x1="290" y1="90" x2="290" y2="150" stroke="#dc2626" stroke-width="3"/>
+<line x1="210" y1="120" x2="110" y2="120" stroke="#1e40af" stroke-width="1.5"/>
+<line x1="350" y1="120" x2="460" y2="120" stroke="#1e40af" stroke-width="1.5"/>
+<circle cx="460" cy="120" r="4" fill="#0f172a"/>
+<line x1="460" y1="100" x2="460" y2="140" stroke="#0f172a" stroke-width="1.5"/>
+<text x="110" y="168">min</text>
+<text x="210" y="168">$Q_1$</text>
+<text x="290" y="168">$Q_2$</text>
+<text x="350" y="168">$Q_3$</text>
+<text x="460" y="168">max</text>
+</g>
+<text x="280" y="195" text-anchor="middle" font-size="12" fill="#1e40af">$\Delta_Q = Q_3 - Q_1$ là độ dài của hộp</text>
+</svg>
+<h2>3. Ví dụ minh họa</h2>
+<div class="table-scroll"><table>
+<tr><th>Nhóm</th><td>$[10; 20)$</td><td>$[20; 30)$</td><td>$[30; 40)$</td><td>$[40; 50)$</td></tr>
+<tr><th>Tần số</th><td>$4$</td><td>$8$</td><td>$12$</td><td>$6$</td></tr>
+</table></div>
+<p><b>a) Khoảng biến thiên:</b> $R = 50 - 10 = 40$.</p>
+<p><b>b) Khoảng tứ phân vị:</b> Cỡ mẫu $n = 4 + 8 + 12 + 6 = 30$.</p>
+<ul>
+<li>$Q_1$: vị trí $\frac{n}{4} = 7{,}5$. Tần số tích lũy: nhóm 1 là $4 < 7{,}5$, nhóm 2 là $4 + 8 = 12 \ge 7{,}5$ nên $Q_1$ thuộc nhóm $[20; 30)$:
+$Q_1 = 20 + \dfrac{7{,}5 - 4}{8} \cdot 10 = 24{,}375$.</li>
+<li>$Q_2$ (trung vị): vị trí $\frac{n}{2} = 15 \in [30; 40)$ (vì $4+8 = 12 < 15 \le 24$):
+$Q_2 = 30 + \dfrac{15 - 12}{12} \cdot 10 = 32{,}5$.</li>
+<li>$Q_3$: vị trí $\frac{3n}{4} = 22{,}5 \in [30; 40)$:
+$Q_3 = 30 + \dfrac{22{,}5 - 12}{12} \cdot 10 = 38{,}75$.</li>
+</ul>
+<p>Vậy $\Delta_Q = Q_3 - Q_1 = 38{,}75 - 24{,}375 = 14{,}375$.</p>
+<p><b>Nhận xét:</b> $R = 40$ phản ánh toàn bộ độ trải của số liệu, còn $\Delta_Q = 14{,}375$ cho biết 50% số liệu chính giữa chỉ trải trong khoảng dài khoảng $14{,}4$ đơn vị — mẫu số liệu tương đối tập trung ở giữa.</p>
+
+            </div>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
