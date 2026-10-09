@@ -175,6 +175,30 @@ let me=null, db=null, allScores=[];
 function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 async function fetchJson(url){ let r=await fetch(url); if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); }
 
+// FIX 2026-10-09: lay DS GV tu assignments (giong trang admin) + gop teachers_registry
+// (truoc day chi doc teachers_registry nen thieu GV)
+function getAllTeachers(){
+    let map = {};
+    (db.assignments||[]).forEach(a=>{
+        (a.teachers||'').split(',').forEach(tStr=>{
+            tStr = tStr.trim(); if(!tStr) return;
+            let m = tStr.match(/^(.*?)\s*\((\d+)\)$/);
+            let id, name;
+            if(m){ name=m[1].trim(); id=m[2].trim(); }
+            else { id=tStr; name=tStr; }
+            if(!map[id]) map[id]={id:id, name:name, subjects:[], group:'', role:'teacher'};
+            if(a.subject && map[id].subjects.indexOf(a.subject)<0) map[id].subjects.push(a.subject);
+        });
+    });
+    let tReg = db.teachers_registry||{};
+    Object.keys(tReg).forEach(tid=>{
+        let r = tReg[tid]||{};
+        if(map[tid]){ map[tid].role = r.role||'teacher'; if(r.group) map[tid].group=r.group; }
+        else map[tid]={id:String(tid), name:r.name||String(tid), subjects:[], group:r.group||'', role:r.role||'teacher'};
+    });
+    return Object.values(map).sort((a,b)=>a.name.localeCompare(b.name,'vi'));
+}
+
 // ---- Auth ----
 function checkAuth(){
     try { me = JSON.parse(localStorage.getItem('saobay_user')||'null'); } catch(e){}
@@ -213,12 +237,11 @@ let pwList=[];
 function renderPasswordTab(){
     pwList=[];
     let pw = db.passwords||{};
-    let teachers = db.teachers_registry||{};
     let students = db.students||{};
-    Object.keys(teachers).forEach(id=>{
-        let t=teachers[id];
+    getAllTeachers().forEach(t=>{
+        let id=t.id;
         let changed = pw[id] && pw[id]!=='12345678';
-        pwList.push({name:t.name||id, id:id, role:'Giáo viên', group:t.group||'', changed:!!changed});
+        pwList.push({name:t.name||id, id:id, role:'Giáo viên', group:(t.subjects||[]).join(', ')||t.group||'', changed:!!changed});
     });
     Object.keys(students).forEach(cls=>{
         (students[cls]||[]).forEach(st=>{
@@ -315,9 +338,8 @@ function renderStudentTable(){
 
 // ---- Tab 3: Teachers ----
 function renderTeacherTab(){
-    let teachers = db.teachers_registry||{};
-    let tids = Object.keys(teachers);
-    document.getElementById('tch-total').textContent=tids.length;
+    let teachers = getAllTeachers();
+    document.getElementById('tch-total').textContent=teachers.length;
     // Dem de theo nguoi tao (tu exam meta neu co)
     let byTeacher={};
     allScores.forEach(s=>{
@@ -329,10 +351,10 @@ function renderTeacherTab(){
     document.getElementById('tch-exams').textContent=te;
     document.getElementById('tch-graded').textContent=allScores.length;
     let h='';
-    tids.sort().forEach(id=>{
-        let t=teachers[id], b=byTeacher[id]||{exams:{},graded:0};
+    teachers.forEach(t=>{
+        let id=t.id, b=byTeacher[id]||{exams:{},graded:0};
         h+='<tr class="border-t hover:bg-slate-50"><td class="px-3 py-2 font-semibold">'+esc(t.name||id)+'</td>'
-            +'<td class="px-3 py-2 text-slate-500">'+esc(t.subject||t.group||'')+'</td>'
+            +'<td class="px-3 py-2 text-slate-500">'+esc((t.subjects||[]).join(', ')||t.group||'')+'</td>'
             +'<td class="px-3 py-2 text-right">'+Object.keys(b.exams).length+'</td>'
             +'<td class="px-3 py-2 text-right">'+b.graded+'</td></tr>';
     });
