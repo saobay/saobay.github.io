@@ -1,0 +1,1486 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài tập Bài 18: Ứng dụng công nghệ vi sinh trong phòng trừ sâu, bệnh hại cây trồng</title>
+    <meta name="lesson-title" content="Bài tập Bài 18: Ứng dụng công nghệ vi sinh trong phòng trừ sâu, bệnh hại cây trồng">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Bài tập</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài tập Bài 18: Ứng dụng công nghệ vi sinh trong phòng trừ sâu, bệnh hại cây trồng</h1>
+            <p class="text-xs text-slate-500 mt-1">Trồng trọt • Bài 18: Ứng dụng công nghệ vi sinh trong phòng trừ sâu, bệnh hại cây trồng</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="saobay-exam10">
+<script type="application/json" class="saobay-exam10-data">
+{
+  "sets": [
+    {
+      "name": "Đề 1",
+      "questions": [
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Chế phẩm Bt được sản xuất từ vi sinh vật nào?",
+          "options": [
+            "A. Vi khuẩn Bacillus thuringiensis.",
+            "B. Nấm Trichoderma.",
+            "C. Virus NPV.",
+            "D. Nấm Beauveria bassiana."
+          ],
+          "answer": "A",
+          "explain": "Chế phẩm Bt từ vi khuẩn Bacillus thuringiensis sinh tinh thể độc tố.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Chế phẩm Bt có tác dụng phòng trừ đối tượng nào?",
+          "options": [
+            "A. Các loại sâu ăn lá như sâu tơ, sâu xanh, sâu khoang.",
+            "B. Nấm gây bệnh thối rễ.",
+            "C. Vi khuẩn gây bệnh bạc lá.",
+            "D. Bệnh virus xoăn lá."
+          ],
+          "answer": "A",
+          "explain": "Bt diệt sâu ăn lá thuộc bộ cánh vảy; không có tác dụng với nấm, vi khuẩn, virus gây bệnh cây.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Cơ chế gây chết sâu của chế phẩm Bt là",
+          "options": [
+            "A. tinh thể độc tố tan trong ruột sâu, phá huỷ thành ruột làm sâu ngừng ăn rồi chết.",
+            "B. vi khuẩn Bt ăn thịt sâu từ bên ngoài.",
+            "C. Bt làm sâu bị ngạt thở.",
+            "D. Bt khiến sâu không đẻ được trứng."
+          ],
+          "answer": "A",
+          "explain": "Độc tố Bt phá huỷ thành ruột sâu sau khi sâu ăn phải; sâu ngừng ăn rồi chết sau vài ngày.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Ưu điểm nổi bật của chế phẩm Bt so với thuốc hoá học là",
+          "options": [
+            "A. an toàn với người, thiên địch và không để lại tồn dư độc hại.",
+            "B. diệt sâu nhanh ngay sau khi phun vài phút.",
+            "C. diệt được mọi loại sâu bệnh.",
+            "D. giá thành luôn rẻ hơn mọi loại thuốc."
+          ],
+          "answer": "A",
+          "explain": "Bt an toàn, không tồn dư; nhược điểm là tác dụng chậm hơn thuốc hoá học.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "VD",
+          "q": "Vườn rau bị sâu tơ ăn lá ở mức nhẹ, nông dân muốn rau an toàn. Giải pháp tốt nhất là",
+          "options": [
+            "A. phun chế phẩm Bt vào chiều mát, theo dõi thêm.",
+            "B. phun thuốc hoá học liều cao.",
+            "C. nhổ bỏ toàn bộ vườn rau.",
+            "D. không làm gì."
+          ],
+          "answer": "A",
+          "explain": "Bt an toàn cho rau, phun chiều mát tránh nắng gắt diệt vi khuẩn; mức nhẹ chưa cần thuốc hoá học.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "VDC",
+          "q": "Vì sao nên phun chế phẩm Bt vào chiều mát thay vì giữa trưa nắng gắt?",
+          "options": [
+            "A. Vì tia tử ngoại và nhiệt độ cao buổi trưa tiêu diệt vi khuẩn Bt, làm giảm hiệu quả.",
+            "B. Vì sâu chỉ ăn lá vào chiều mát.",
+            "C. Vì buổi trưa nông dân bận nghỉ.",
+            "D. Vì thuốc Bt chỉ tan trong nước lạnh."
+          ],
+          "answer": "A",
+          "explain": "Vi sinh vật dễ bị tia UV, nhiệt cao tiêu diệt; phun chiều mát giúp Bt tồn tại, phát huy tác dụng.",
+          "points": 0.25
+        },
+        {
+          "type": "truefalse",
+          "level": "TH",
+          "q": "Xét tính đúng, sai của các khẳng định sau về chế phẩm Bt:",
+          "statements": [
+            "a) Chế phẩm Bt được sản xuất từ vi khuẩn Bacillus thuringiensis.",
+            "b) Bt diệt sâu ăn lá nhờ tinh thể độc tố phá huỷ ruột sâu.",
+            "c) Chế phẩm Bt an toàn với người và thiên địch.",
+            "d) Chế phẩm Bt có thể dùng để trừ nấm bệnh hại rễ."
+          ],
+          "answer": [
+            "T",
+            "T",
+            "T",
+            "F"
+          ],
+          "explain": "a), b), c) Đúng. d) Sai: Bt chỉ trừ sâu ăn lá, không trừ được nấm bệnh hại rễ.",
+          "points": 1
+        },
+        {
+          "type": "truefalse",
+          "level": "VD",
+          "q": "Xét tính đúng, sai của các khẳng định sau về sử dụng chế phẩm vi sinh:",
+          "statements": [
+            "a) Nên phun chế phẩm vi sinh vào chiều mát để tránh nắng gắt.",
+            "b) Chế phẩm vi sinh có tác dụng chậm nên cần dùng sớm, dùng phòng ngừa.",
+            "c) Có thể pha chung chế phẩm vi sinh với thuốc trừ nấm hoá học mạnh.",
+            "d) Chế phẩm vi sinh cần bảo quản nơi khô mát, tránh ánh sáng trực tiếp."
+          ],
+          "answer": [
+            "T",
+            "T",
+            "F",
+            "T"
+          ],
+          "explain": "a), b), d) Đúng. c) Sai: thuốc hoá học diệt khuẩn, diệt nấm mạnh sẽ tiêu diệt vi sinh vật có ích.",
+          "points": 1
+        },
+        {
+          "type": "short",
+          "level": "NB",
+          "q": "Viết đầy đủ tên khoa học của vi khuẩn dùng sản xuất chế phẩm Bt.",
+          "answer": "Bacillus thuringiensis",
+          "explain": "Chế phẩm Bt từ vi khuẩn Bacillus thuringiensis.",
+          "points": 0.5
+        },
+        {
+          "type": "short",
+          "level": "VDC",
+          "q": "Giải thích vì sao chế phẩm Bt \"ít gây tính kháng\" ở sâu hại hơn thuốc hoá học.",
+          "answer": "Vì độc tố Bt tác động theo cơ chế sinh học đặc hiệu, khó hình thành kháng; đồng thời Bt an toàn nên ít bị lạm dụng như thuốc hoá học",
+          "explain": "Cơ chế độc tố sinh học đặc hiệu khó gây kháng; việc dùng đúng, không lạm dụng cũng hạn chế kháng thuốc.",
+          "points": 0.5
+        }
+      ]
+    },
+    {
+      "name": "Đề 2",
+      "questions": [
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Nấm Trichoderma sống chủ yếu ở đâu?",
+          "options": [
+            "A. Trong đất.",
+            "B. Trên lá cây.",
+            "C. Trong thân cây.",
+            "D. Trong không khí."
+          ],
+          "answer": "A",
+          "explain": "Trichoderma là nấm có ích sống trong đất, đối kháng với nấm gây bệnh hại rễ.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Nấm Trichoderma có tác dụng gì?",
+          "options": [
+            "A. Kí sinh, tiêu diệt nấm gây bệnh hại rễ và phân huỷ chất hữu cơ.",
+            "B. Gây bệnh thối rễ cho cây trồng.",
+            "C. Ăn thịt sâu ăn lá.",
+            "D. Truyền bệnh virus cho cây."
+          ],
+          "answer": "A",
+          "explain": "Trichoderma đối kháng nấm bệnh hại rễ, phân huỷ hữu cơ, kích thích rễ phát triển.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Cơ chế đối kháng nấm bệnh của Trichoderma KHÔNG bao gồm",
+          "options": [
+            "A. chích hút nhựa cây trồng.",
+            "B. kí sinh, tiêu diệt nấm gây bệnh.",
+            "C. cạnh tranh dinh dưỡng, không gian sống.",
+            "D. tiết kháng sinh, enzyme ức chế nấm bệnh."
+          ],
+          "answer": "A",
+          "explain": "Trichoderma kí sinh nấm bệnh, cạnh tranh và tiết kháng sinh; không chích hút nhựa cây.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Cách sử dụng chế phẩm Trichoderma phổ biến là",
+          "options": [
+            "A. trộn với phân chuồng ủ hoai để bón lót hoặc ủ phân hữu cơ.",
+            "B. phun lên lá vào giữa trưa.",
+            "C. pha chung với thuốc trừ nấm hoá học.",
+            "D. rắc trực tiếp lên bông lúa."
+          ],
+          "answer": "A",
+          "explain": "Trichoderma sống trong đất nên trộn với phân hữu cơ bón lót, ủ phân là cách dùng đúng.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "VD",
+          "q": "Vườn ươm cây giống hay bị thối rễ, héo cây con. Biện pháp vi sinh phù hợp là",
+          "options": [
+            "A. trộn chế phẩm Trichoderma với phân chuồng hoai để bón lót.",
+            "B. phun chế phẩm Bt lên lá.",
+            "C. phun thuốc trừ sâu.",
+            "D. tưới đẫm nước mỗi ngày."
+          ],
+          "answer": "A",
+          "explain": "Thối rễ do nấm bệnh trong đất – Trichoderma là chế phẩm phù hợp; Bt chỉ trừ sâu ăn lá.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "VDC",
+          "q": "Ngoài trừ nấm bệnh, Trichoderma còn có lợi ích nào cho cây trồng?",
+          "options": [
+            "A. Phân huỷ chất hữu cơ, kích thích rễ phát triển, giúp cây khoẻ hơn.",
+            "B. Giúp cây ra hoa sớm hơn một tháng.",
+            "C. Làm tăng độ pH của đất.",
+            "D. Diệt được cả sâu ăn lá."
+          ],
+          "answer": "A",
+          "explain": "Trichoderma phân huỷ hữu cơ thành dinh dưỡng dễ tiêu, kích thích rễ – cây khoẻ, tăng đề kháng.",
+          "points": 0.25
+        },
+        {
+          "type": "truefalse",
+          "level": "TH",
+          "q": "Xét tính đúng, sai của các khẳng định sau về nấm Trichoderma:",
+          "statements": [
+            "a) Trichoderma là nấm có ích sống trong đất.",
+            "b) Trichoderma kí sinh, tiêu diệt nấm gây bệnh hại rễ.",
+            "c) Trichoderma giúp phân huỷ chất hữu cơ trong đất.",
+            "d) Trichoderma là tác nhân gây bệnh đạo ôn hại lúa."
+          ],
+          "answer": [
+            "T",
+            "T",
+            "T",
+            "F"
+          ],
+          "explain": "a), b), c) Đúng. d) Sai: Trichoderma có ích; đạo ôn do nấm Pyricularia oryzae gây ra.",
+          "points": 1
+        },
+        {
+          "type": "truefalse",
+          "level": "VD",
+          "q": "Xét tính đúng, sai của các khẳng định sau về sử dụng nấm Trichoderma:",
+          "statements": [
+            "a) Nên trộn Trichoderma với phân chuồng ủ hoai để bón lót.",
+            "b) Trichoderma giúp cây con giảm bệnh thối rễ, héo vàng.",
+            "c) Có thể pha chung Trichoderma với thuốc trừ nấm hoá học mạnh.",
+            "d) Trichoderma phù hợp với hướng sản xuất nông nghiệp hữu cơ."
+          ],
+          "answer": [
+            "T",
+            "T",
+            "F",
+            "T"
+          ],
+          "explain": "a), b), d) Đúng. c) Sai: thuốc trừ nấm hoá học diệt cả nấm Trichoderma có ích.",
+          "points": 1
+        },
+        {
+          "type": "short",
+          "level": "NB",
+          "q": "Nấm Trichoderma có khả năng đối kháng với loại vi sinh vật gây hại nào?",
+          "answer": "Nấm gây bệnh",
+          "explain": "Trichoderma đối kháng, kí sinh lên nấm gây bệnh hại cây trồng (như nấm thối rễ, héo vàng).",
+          "points": 0.5
+        },
+        {
+          "type": "short",
+          "level": "VDC",
+          "q": "Vì sao ủ phân chuồng với chế phẩm Trichoderma giúp phân tốt hơn?",
+          "answer": "Vì Trichoderma phân huỷ nhanh chất hữu cơ, đồng thời tiêu diệt nấm bệnh trong phân, tạo phân sạch, giàu dinh dưỡng",
+          "explain": "Trichoderma đẩy nhanh phân huỷ hữu cơ, diệt nấm bệnh, tạo phân hữu cơ vi sinh chất lượng cao.",
+          "points": 0.5
+        }
+      ]
+    },
+    {
+      "name": "Đề 3",
+      "questions": [
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Nấm Beauveria bassiana có tác dụng gì?",
+          "options": [
+            "A. Kí sinh, gây chết côn trùng gây hại như rầy, rệp, bọ trĩ.",
+            "B. Gây bệnh cho cây lúa.",
+            "C. Phân huỷ chất hữu cơ trong đất.",
+            "D. Cố định đạm cho cây trồng."
+          ],
+          "answer": "A",
+          "explain": "Beauveria bassiana (nấm trắng) kí sinh côn trùng, trừ rầy, rệp, bọ trĩ, sâu non...",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Khi côn trùng bị nấm Beauveria kí sinh chết đi, bên ngoài xác thường có",
+          "options": [
+            "A. lớp sợi nấm màu trắng phủ bên ngoài.",
+            "B. lớp vảy màu vàng.",
+            "C. mùi hôi thối nồng nặc.",
+            "D. không có dấu hiệu gì."
+          ],
+          "answer": "A",
+          "explain": "Nấm mọc sợi trắng phủ xác côn trùng (nấm trắng), phát tán bào tử lây sang con khác.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Cơ chế gây chết côn trùng của nấm Beauveria là",
+          "options": [
+            "A. bào tử nảy mầm xuyên qua da, phát triển bên trong làm côn trùng chết.",
+            "B. nấm tiết độc tố vào lá cây.",
+            "C. nấm ăn hết lá làm côn trùng chết đói.",
+            "D. nấm làm côn trùng không đẻ trứng được."
+          ],
+          "answer": "A",
+          "explain": "Bào tử nấm xâm nhập qua da côn trùng, phát triển bên trong gây chết.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Ưu điểm của nấm Beauveria so với thuốc hoá học trong trừ rầy, rệp là",
+          "options": [
+            "A. an toàn, có thể lây lan tự nhiên sang côn trùng khác, hiệu quả kéo dài.",
+            "B. diệt côn trùng ngay tức thì.",
+            "C. diệt được mọi loại sâu bệnh.",
+            "D. không phụ thuộc thời tiết."
+          ],
+          "answer": "A",
+          "explain": "Nấm kí sinh lây lan tự nhiên, hiệu quả kéo dài, an toàn; nhược điểm là tác dụng chậm.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "VD",
+          "q": "Ruộng lúa bị rầy nâu ở mức trung bình, nông dân muốn hạn chế thuốc hoá học. Có thể dùng",
+          "options": [
+            "A. chế phẩm nấm Beauveria hoặc Metarhizium phun vào chiều mát.",
+            "B. chế phẩm Bt phun lên lá.",
+            "C. nấm Trichoderma trộn đất.",
+            "D. virus NPV."
+          ],
+          "answer": "A",
+          "explain": "Beauveria/Metarhizium kí sinh rầy; Bt và NPV chỉ trừ sâu ăn lá bộ cánh vảy; Trichoderma trừ nấm bệnh rễ.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "VDC",
+          "q": "Vì sao nấm Beauveria hiệu quả cao trong điều kiện ẩm độ cao?",
+          "options": [
+            "A. Vì ẩm độ cao giúp bào tử nấm nảy mầm, xâm nhập tốt vào cơ thể côn trùng.",
+            "B. Vì ẩm độ cao làm côn trùng yếu đi.",
+            "C. Vì nấm chỉ sống được trong nước.",
+            "D. Vì ẩm độ cao làm thuốc hoá học mất tác dụng."
+          ],
+          "answer": "A",
+          "explain": "Bào tử nấm cần ẩm độ để nảy mầm; khô hạn làm giảm hiệu quả – đó là tính phụ thuộc môi trường của chế phẩm vi sinh.",
+          "points": 0.25
+        },
+        {
+          "type": "truefalse",
+          "level": "TH",
+          "q": "Xét tính đúng, sai của các khẳng định sau về nấm kí sinh côn trùng:",
+          "statements": [
+            "a) Beauveria bassiana và Metarhizium là nấm kí sinh côn trùng.",
+            "b) Nấm xâm nhập qua da, phát triển bên trong làm côn trùng chết.",
+            "c) Xác côn trùng chết có lớp sợi nấm phủ bên ngoài.",
+            "d) Nấm Beauveria gây bệnh nguy hiểm cho người."
+          ],
+          "answer": [
+            "T",
+            "T",
+            "T",
+            "F"
+          ],
+          "explain": "a), b), c) Đúng. d) Sai: nấm kí sinh côn trùng an toàn với người.",
+          "points": 1
+        },
+        {
+          "type": "truefalse",
+          "level": "VD",
+          "q": "Xét tính đúng, sai của các khẳng định sau về hiệu quả của nấm kí sinh côn trùng:",
+          "statements": [
+            "a) Nấm Beauveria có thể trừ được rầy, rệp, bọ trĩ.",
+            "b) Nấm kí sinh có khả năng lây lan tự nhiên trong quần thể côn trùng.",
+            "c) Hiệu quả của nấm phụ thuộc vào ẩm độ môi trường.",
+            "d) Nấm Beauveria cho hiệu quả nhanh như thuốc hoá học."
+          ],
+          "answer": [
+            "T",
+            "T",
+            "T",
+            "F"
+          ],
+          "explain": "a), b), c) Đúng. d) Sai: chế phẩm vi sinh tác dụng chậm hơn thuốc hoá học.",
+          "points": 1
+        },
+        {
+          "type": "short",
+          "level": "NB",
+          "q": "Nấm Metarhizium còn được gọi là nấm màu gì?",
+          "answer": "Nấm xanh",
+          "explain": "Metarhizium là nấm xanh kí sinh côn trùng (Beauveria là nấm trắng).",
+          "points": 0.5
+        },
+        {
+          "type": "short",
+          "level": "VDC",
+          "q": "Nêu một đối tượng mà nấm Beauveria KHÔNG có tác dụng phòng trừ.",
+          "answer": "Nấm bệnh hại cây trồng (hoặc: sâu ăn lá đã có Bt đặc hiệu hơn)",
+          "explain": "Beauveria kí sinh côn trùng, không trừ được nấm bệnh hại cây; mỗi chế phẩm có đối tượng đặc hiệu riêng.",
+          "points": 0.5
+        }
+      ]
+    },
+    {
+      "name": "Đề 4",
+      "questions": [
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "NPV là viết tắt của",
+          "options": [
+            "A. Nuclear Polyhedrosis Virus – virus đa diện nhân.",
+            "B. Natural Plant Vaccine – vắc xin thực vật tự nhiên.",
+            "C. Nitrogen Phosphorus Vitamin – đạm lân vitamin.",
+            "D. New Pest Virus – virus sâu bệnh mới."
+          ],
+          "answer": "A",
+          "explain": "NPV = Nuclear Polyhedrosis Virus, virus gây bệnh cho sâu hại bộ cánh vảy.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Virus NPV có đặc điểm nổi bật là",
+          "options": [
+            "A. tính đặc hiệu cao, chỉ gây bệnh cho loài sâu mục tiêu, rất an toàn.",
+            "B. gây bệnh cho mọi loài động vật.",
+            "C. gây bệnh cho cả cây trồng.",
+            "D. lây sang người qua đường ăn uống."
+          ],
+          "answer": "A",
+          "explain": "NPV đặc hiệu với sâu mục tiêu, an toàn tuyệt đối với người, động vật, thiên địch.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Sâu bị nhiễm virus NPV sẽ",
+          "options": [
+            "A. ngừng ăn, mềm nhũn rồi chết; xác vỡ ra phát tán virus.",
+            "B. hoá nhộng nhanh hơn.",
+            "C. đẻ nhiều trứng hơn.",
+            "D. biến thành bướm ngay."
+          ],
+          "answer": "A",
+          "explain": "Virus nhân lên làm sâu ngừng ăn, mềm nhũn, chết; xác phát tán virus lây lan.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Ưu điểm chung lớn nhất của các chế phẩm vi sinh (Bt, Trichoderma, Beauveria, NPV) là",
+          "options": [
+            "A. an toàn với người, thiên địch, môi trường và không tồn dư độc hại.",
+            "B. tác dụng nhanh như thuốc hoá học.",
+            "C. diệt được mọi đối tượng sâu bệnh.",
+            "D. bảo quản được rất lâu, không cần điều kiện gì."
+          ],
+          "answer": "A",
+          "explain": "An toàn, không tồn dư là ưu điểm chung; hạn chế chung là tác dụng chậm, phụ thuộc môi trường.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "VD",
+          "q": "Để phòng trừ sâu khoang hại rau bằng virus NPV, cần lưu ý",
+          "options": [
+            "A. phun sớm khi sâu còn non, vào chiều mát để virus phát huy hiệu quả.",
+            "B. phun khi sâu đã lớn, sắp hoá nhộng.",
+            "C. pha chung với thuốc trừ sâu hoá học.",
+            "D. phun giữa trưa nắng gắt."
+          ],
+          "answer": "A",
+          "explain": "Dùng sớm (sâu non), chiều mát; không pha chung thuốc hoá học; tránh nắng gắt.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "VDC",
+          "q": "Vì sao virus NPV được đánh giá là \"vũ khí sinh học\" lý tưởng trong nông nghiệp hữu cơ?",
+          "options": [
+            "A. Vì đặc hiệu cao với sâu hại, tuyệt đối an toàn, không tồn dư, phù hợp tiêu chuẩn hữu cơ.",
+            "B. Vì diệt được cả cỏ dại.",
+            "C. Vì giúp cây tăng năng suất gấp đôi.",
+            "D. Vì không cần phun, tự bay đến ruộng."
+          ],
+          "answer": "A",
+          "explain": "NPV đáp ứng tiêu chuẩn hữu cơ: đặc hiệu, an toàn, không tồn dư, thân thiện môi trường.",
+          "points": 0.25
+        },
+        {
+          "type": "truefalse",
+          "level": "TH",
+          "q": "Xét tính đúng, sai của các khẳng định sau về virus NPV:",
+          "statements": [
+            "a) NPV là virus gây bệnh cho sâu hại thuộc bộ cánh vảy.",
+            "b) Sâu nhiễm NPV ngừng ăn, mềm nhũn rồi chết.",
+            "c) NPV có tính đặc hiệu cao, an toàn với người và thiên địch.",
+            "d) NPV có thể gây bệnh cho cây trồng."
+          ],
+          "answer": [
+            "T",
+            "T",
+            "T",
+            "F"
+          ],
+          "explain": "a), b), c) Đúng. d) Sai: NPV chỉ gây bệnh cho sâu hại, không gây bệnh cho cây.",
+          "points": 1
+        },
+        {
+          "type": "truefalse",
+          "level": "VD",
+          "q": "Xét tính đúng, sai của các khẳng định sau về phổ tác dụng:",
+          "statements": [
+            "a) Chế phẩm Bt đặc hiệu với sâu ăn lá bộ cánh vảy.",
+            "b) Trichoderma đặc hiệu với nấm bệnh hại rễ trong đất.",
+            "c) Beauveria đặc hiệu với côn trùng gây hại.",
+            "d) Một chế phẩm vi sinh diệt được mọi loại sâu, bệnh hại."
+          ],
+          "answer": [
+            "T",
+            "T",
+            "T",
+            "F"
+          ],
+          "explain": "a), b), c) Đúng: mỗi chế phẩm có phổ hẹp, đặc hiệu. d) Sai: đó chính là hạn chế (phổ hẹp) của chế phẩm vi sinh.",
+          "points": 1
+        },
+        {
+          "type": "short",
+          "level": "NB",
+          "q": "Virus NPV gây bệnh cho đối tượng nào?",
+          "answer": "Sâu hại",
+          "explain": "NPV là virus gây bệnh cho sâu hại (bộ cánh vảy), đặc hiệu cao.",
+          "points": 0.5
+        },
+        {
+          "type": "short",
+          "level": "VDC",
+          "q": "Giải thích vì sao chế phẩm vi sinh \"phù hợp với nông nghiệp hữu cơ\".",
+          "answer": "Vì có nguồn gốc tự nhiên, an toàn, không tồn dư hoá chất, thân thiện môi trường",
+          "explain": "Tiêu chuẩn hữu cơ cấm/cấm hạn chế hoá chất; chế phẩm vi sinh tự nhiên, an toàn nên phù hợp.",
+          "points": 0.5
+        }
+      ]
+    },
+    {
+      "name": "Đề 5",
+      "questions": [
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Hạn chế chung lớn nhất của các chế phẩm vi sinh là",
+          "options": [
+            "A. tác dụng chậm hơn thuốc hoá học.",
+            "B. gây ô nhiễm môi trường nặng.",
+            "C. để lại tồn dư độc hại.",
+            "D. diệt cả thiên địch."
+          ],
+          "answer": "A",
+          "explain": "Vi sinh tác dụng chậm (sâu chết sau vài ngày); ưu điểm là an toàn, không tồn dư.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Hiệu quả của chế phẩm vi sinh phụ thuộc nhiều vào",
+          "options": [
+            "A. điều kiện môi trường (nhiệt độ, ẩm độ, ánh sáng).",
+            "B. giá bán của chế phẩm.",
+            "C. màu sắc bao bì.",
+            "D. thời gian trong ngày phun thuốc hoá học."
+          ],
+          "answer": "A",
+          "explain": "Vi sinh vật nhạy cảm với nhiệt độ, ẩm độ, tia UV nên hiệu quả phụ thuộc môi trường.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Vì sao chế phẩm vi sinh ít gây tính kháng ở sâu, bệnh hại?",
+          "options": [
+            "A. Vì cơ chế tác động sinh học phức tạp, đặc hiệu, khó hình thành kháng.",
+            "B. Vì sâu bệnh sợ mùi của chế phẩm.",
+            "C. Vì chế phẩm vi sinh rất đắt.",
+            "D. Vì sâu bệnh không tiếp xúc với chế phẩm."
+          ],
+          "answer": "A",
+          "explain": "Cơ chế sinh học đặc hiệu, phức tạp khiến sâu bệnh khó hình thành tính kháng như với thuốc hoá học.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Để khắc phục nhược điểm \"tác dụng chậm\" của chế phẩm vi sinh, cần",
+          "options": [
+            "A. dùng sớm, dùng phòng ngừa khi sâu bệnh mới chớm.",
+            "B. tăng liều gấp nhiều lần.",
+            "C. pha chung với thuốc hoá học.",
+            "D. phun khi sâu bệnh đã nặng."
+          ],
+          "answer": "A",
+          "explain": "Dùng sớm, phòng ngừa từ đầu là cách khắc phục tác dụng chậm; tăng liều không đúng kĩ thuật.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "VD",
+          "q": "Một nông dân phun Bt khi sâu tơ đã lớn, ăn trụi lá rau rồi mới phun. Kết quả kém vì",
+          "options": [
+            "A. Bt tác dụng chậm, phun muộn khi sâu đã gây hại nặng thì không cứu vãn được.",
+            "B. Bt không có tác dụng với sâu tơ.",
+            "C. sâu tơ đã kháng Bt.",
+            "D. Bt chỉ dùng cho cây lúa."
+          ],
+          "answer": "A",
+          "explain": "Phun muộn, sai thời điểm là lỗi phổ biến; chế phẩm vi sinh cần dùng sớm khi sâu còn non.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "VDC",
+          "q": "So sánh chi phí lâu dài giữa \"thuốc hoá học\" và \"chế phẩm vi sinh + IPM\". Nhận định đúng là",
+          "options": [
+            "A. vi sinh + IPM ban đầu cần kĩ thuật nhưng lâu dài giảm chi phí thuốc, bền vững hơn.",
+            "B. thuốc hoá học luôn rẻ hơn trong mọi trường hợp.",
+            "C. chế phẩm vi sinh luôn đắt hơn và kém hiệu quả.",
+            "D. không thể so sánh được."
+          ],
+          "answer": "A",
+          "explain": "IPM + vi sinh giảm dần lệ thuộc thuốc, bảo vệ thiên địch, hiệu quả kinh tế lâu dài tốt hơn.",
+          "points": 0.25
+        },
+        {
+          "type": "truefalse",
+          "level": "TH",
+          "q": "Xét tính đúng, sai của các khẳng định sau về ưu điểm chế phẩm vi sinh:",
+          "statements": [
+            "a) An toàn với người, thiên địch và môi trường.",
+            "b) Không để lại tồn dư độc hại trên nông sản.",
+            "c) Ít gây tính kháng ở sâu, bệnh hại.",
+            "d) Có thể tự nhân lên, lây lan, hiệu quả kéo dài."
+          ],
+          "answer": [
+            "T",
+            "T",
+            "T",
+            "T"
+          ],
+          "explain": "Cả 4 đều đúng: các ưu điểm nổi bật của chế phẩm vi sinh.",
+          "points": 1
+        },
+        {
+          "type": "truefalse",
+          "level": "VD",
+          "q": "Xét tính đúng, sai của các khẳng định sau về hạn chế chế phẩm vi sinh:",
+          "statements": [
+            "a) Tác dụng chậm hơn thuốc hoá học.",
+            "b) Hiệu quả phụ thuộc điều kiện môi trường.",
+            "c) Phổ tác dụng hẹp, đặc hiệu với từng đối tượng.",
+            "d) Gây ô nhiễm môi trường nghiêm trọng."
+          ],
+          "answer": [
+            "T",
+            "T",
+            "T",
+            "F"
+          ],
+          "explain": "a), b), c) Đúng: các hạn chế cần khắc phục. d) Sai: vi sinh an toàn, thân thiện môi trường.",
+          "points": 1
+        },
+        {
+          "type": "short",
+          "level": "NB",
+          "q": "Nêu một hạn chế của chế phẩm vi sinh so với thuốc hoá học.",
+          "answer": "Tác dụng chậm",
+          "explain": "Các hạn chế: tác dụng chậm, phụ thuộc môi trường, phổ hẹp, khó bảo quản (một đáp án đúng).",
+          "points": 0.5
+        },
+        {
+          "type": "short",
+          "level": "VDC",
+          "q": "Vì sao \"phổ tác dụng hẹp\" vừa là ưu điểm vừa là hạn chế của chế phẩm vi sinh?",
+          "answer": "Ưu điểm: đặc hiệu nên an toàn với sinh vật khác; hạn chế: một chế phẩm chỉ trừ được ít đối tượng, phải phối hợp nhiều loại",
+          "explain": "Đặc hiệu cao nên an toàn (ưu điểm) nhưng mỗi chế phẩm chỉ trị được vài đối tượng, cần phối hợp (hạn chế).",
+          "points": 0.5
+        }
+      ]
+    },
+    {
+      "name": "Đề 6",
+      "questions": [
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Công nghệ vi sinh trong phòng trừ sâu bệnh là",
+          "options": [
+            "A. nghiên cứu, sản xuất chế phẩm vi sinh vật có ích để phòng trừ sâu, bệnh hại.",
+            "B. dùng thuốc hoá học diệt vi sinh vật.",
+            "C. dùng vi sinh vật gây bệnh cho cây trồng.",
+            "D. chiếu xạ để diệt vi sinh vật."
+          ],
+          "answer": "A",
+          "explain": "Công nghệ vi sinh ứng dụng vi sinh vật có ích (Bt, Trichoderma, Beauveria, NPV...) trừ sâu bệnh.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Chế phẩm vi sinh thuộc nhóm biện pháp phòng trừ nào trong IPM?",
+          "options": [
+            "A. Sinh học.",
+            "B. Hoá học.",
+            "C. Vật lí – cơ giới.",
+            "D. Canh tác."
+          ],
+          "answer": "A",
+          "explain": "Chế phẩm vi sinh là biện pháp sinh học.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Vì sao không nên pha chung chế phẩm vi sinh với thuốc trừ nấm hoá học?",
+          "options": [
+            "A. Vì thuốc trừ nấm sẽ tiêu diệt cả nấm, vi khuẩn có ích trong chế phẩm.",
+            "B. Vì hai loại không hoà tan với nhau.",
+            "C. Vì pha chung làm tăng giá thành.",
+            "D. Vì pháp luật cấm pha chung."
+          ],
+          "answer": "A",
+          "explain": "Thuốc hoá học diệt cả vi sinh vật có ích, làm mất tác dụng của chế phẩm.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Bảo quản chế phẩm vi sinh đúng cách là",
+          "options": [
+            "A. nơi khô mát, tránh ánh sáng trực tiếp, dùng trong thời hạn sử dụng.",
+            "B. phơi nắng cho khô.",
+            "C. để nơi ẩm ướt, nóng.",
+            "D. mở bao bì để thoáng khí lâu ngày."
+          ],
+          "answer": "A",
+          "explain": "Vi sinh vật dễ chết bởi nhiệt, UV, ẩm không phù hợp; cần bảo quản khô mát, đúng hạn.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "VD",
+          "q": "Một cửa hàng bán chế phẩm Bt đã hết hạn sử dụng. Nông dân mua về phun, hiệu quả kém vì",
+          "options": [
+            "A. vi khuẩn Bt đã chết hoặc giảm hoạt lực, không còn đủ khả năng gây bệnh cho sâu.",
+            "B. Bt hết hạn biến thành chất độc cho cây.",
+            "C. sâu đã quen với Bt hết hạn.",
+            "D. Bt hết hạn chỉ trừ được nấm."
+          ],
+          "answer": "A",
+          "explain": "Chế phẩm hết hạn mất hoạt lực; cần kiểm tra hạn sử dụng khi mua.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "VDC",
+          "q": "Trong mô hình rau an toàn, vì sao người ta ưu tiên chế phẩm vi sinh hơn thuốc hoá học?",
+          "options": [
+            "A. Vì rau thu hoạch thường xuyên, ngắn ngày; vi sinh không tồn dư, đảm bảo an toàn thực phẩm.",
+            "B. Vì chế phẩm vi sinh rẻ hơn rất nhiều.",
+            "C. Vì thuốc hoá học không trừ được sâu rau.",
+            "D. Vì rau không bị sâu bệnh."
+          ],
+          "answer": "A",
+          "explain": "Rau ngắn ngày, thu hoạch liên tục nên thời gian cách li quan trọng; vi sinh không tồn dư, an toàn.",
+          "points": 0.25
+        },
+        {
+          "type": "truefalse",
+          "level": "TH",
+          "q": "Xét tính đúng, sai của các khẳng định sau về nguyên tắc sử dụng:",
+          "statements": [
+            "a) Nên dùng chế phẩm vi sinh sớm, khi sâu bệnh mới chớm.",
+            "b) Nên phun vào chiều mát, tránh nắng gắt.",
+            "c) Cần chọn chế phẩm đúng đối tượng sâu, bệnh.",
+            "d) Nên phun chế phẩm vi sinh giữa trưa nắng để khô nhanh."
+          ],
+          "answer": [
+            "T",
+            "T",
+            "T",
+            "F"
+          ],
+          "explain": "a), b), c) Đúng. d) Sai: nắng gắt tiêu diệt vi sinh vật, giảm hiệu quả.",
+          "points": 1
+        },
+        {
+          "type": "truefalse",
+          "level": "VD",
+          "q": "Xét tính đúng, sai của các khẳng định sau về vị trí của chế phẩm vi sinh trong IPM:",
+          "statements": [
+            "a) Chế phẩm vi sinh là biện pháp sinh học trong IPM.",
+            "b) Có thể phối hợp chế phẩm vi sinh với bẫy đèn, thiên địch.",
+            "c) Chế phẩm vi sinh thay thế hoàn toàn mọi biện pháp khác.",
+            "d) Dùng vi sinh giúp giảm lượng thuốc hoá học phải dùng."
+          ],
+          "answer": [
+            "T",
+            "T",
+            "F",
+            "T"
+          ],
+          "explain": "a), b), d) Đúng. c) Sai: vi sinh là một hợp phần, cần phối hợp các biện pháp IPM khác.",
+          "points": 1
+        },
+        {
+          "type": "short",
+          "level": "NB",
+          "q": "Chế phẩm vi sinh nên được phun vào thời điểm nào trong ngày?",
+          "answer": "Chiều mát",
+          "explain": "Phun chiều mát (sau 16 giờ) tránh tia tử ngoại, nhiệt cao tiêu diệt vi sinh vật.",
+          "points": 0.5
+        },
+        {
+          "type": "short",
+          "level": "VDC",
+          "q": "Giải thích vì sao \"dùng sớm, dùng phòng ngừa\" là nguyên tắc quan trọng với chế phẩm vi sinh.",
+          "answer": "Vì chế phẩm tác dụng chậm, cần thời gian để vi sinh vật nhân lên, gây bệnh cho sâu; dùng muộn không kịp ngăn thiệt hại",
+          "explain": "Vi sinh cần thời gian xâm nhập, nhân lên; dùng sớm khi sâu bệnh mới chớm mới kịp ngăn chặn.",
+          "points": 0.5
+        }
+      ]
+    },
+    {
+      "name": "Đề 7",
+      "questions": [
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Đối tượng nào sau đây phù hợp để dùng chế phẩm Bt?",
+          "options": [
+            "A. Sâu tơ hại rau.",
+            "B. Nấm thối rễ.",
+            "C. Vi khuẩn bạc lá.",
+            "D. Rầy nâu."
+          ],
+          "answer": "A",
+          "explain": "Bt trừ sâu ăn lá bộ cánh vảy (sâu tơ); không trừ nấm, vi khuẩn, rầy chích hút.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Đối tượng nào sau đây phù hợp để dùng nấm Trichoderma?",
+          "options": [
+            "A. Nấm gây thối rễ, héo vàng trong đất.",
+            "B. Sâu cuốn lá lúa.",
+            "C. Rầy nâu hại lúa.",
+            "D. Bọ trĩ hại rau."
+          ],
+          "answer": "A",
+          "explain": "Trichoderma đối kháng nấm bệnh trong đất; sâu, rầy, bọ trĩ dùng Bt, Beauveria.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Chọn chế phẩm đúng cho ruộng lúa bị rầy nâu:",
+          "options": [
+            "A. Nấm Beauveria hoặc Metarhizium.",
+            "B. Chế phẩm Bt.",
+            "C. Nấm Trichoderma.",
+            "D. Virus NPV."
+          ],
+          "answer": "A",
+          "explain": "Rầy là côn trùng chích hút – dùng nấm kí sinh côn trùng; Bt/NPV chỉ trừ sâu ăn lá.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Chọn chế phẩm đúng cho vườn ươm bị nấm thối rễ:",
+          "options": [
+            "A. Nấm Trichoderma.",
+            "B. Chế phẩm Bt.",
+            "C. Virus NPV.",
+            "D. Nấm Beauveria."
+          ],
+          "answer": "A",
+          "explain": "Thối rễ do nấm bệnh trong đất – Trichoderma là lựa chọn đúng.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "VD",
+          "q": "Một nông dân dùng Bt để trừ rầy nâu nhưng không hiệu quả. Nguyên nhân là",
+          "options": [
+            "A. dùng sai đối tượng: Bt chỉ trừ sâu ăn lá, không trừ được rầy chích hút.",
+            "B. Bt đã hết tác dụng với mọi sâu.",
+            "C. rầy nâu đã kháng mọi chế phẩm.",
+            "D. Bt chỉ dùng được cho cây lúa."
+          ],
+          "answer": "A",
+          "explain": "Sai đối tượng là lỗi phổ biến; rầy chích hút cần nấm Beauveria/Metarhizium.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "VDC",
+          "q": "Thiết kế phác đồ vi sinh cho vườn rau bị cả sâu tơ và bệnh thối rễ:",
+          "options": [
+            "A. phun Bt trừ sâu tơ + bón Trichoderma trừ nấm thối rễ, phối hợp bẫy dính, vệ sinh vườn.",
+            "B. chỉ phun Bt cho cả hai.",
+            "C. chỉ bón Trichoderma cho cả hai.",
+            "D. phun thuốc hoá học phổ rộng."
+          ],
+          "answer": "A",
+          "explain": "Mỗi đối tượng cần chế phẩm đặc hiệu riêng, phối hợp biện pháp IPM khác.",
+          "points": 0.25
+        },
+        {
+          "type": "truefalse",
+          "level": "TH",
+          "q": "Xét tính đúng, sai của các khẳng định sau (chọn đúng chế phẩm):",
+          "statements": [
+            "a) Sâu ăn lá: dùng chế phẩm Bt.",
+            "b) Nấm bệnh hại rễ: dùng Trichoderma.",
+            "c) Rầy, rệp, bọ trĩ: dùng nấm Beauveria.",
+            "d) Mọi sâu bệnh đều dùng chung một chế phẩm Bt."
+          ],
+          "answer": [
+            "T",
+            "T",
+            "T",
+            "F"
+          ],
+          "explain": "a), b), c) Đúng: đúng đối tượng. d) Sai: mỗi chế phẩm có phổ hẹp, đặc hiệu riêng.",
+          "points": 1
+        },
+        {
+          "type": "truefalse",
+          "level": "VD",
+          "q": "Xét tính đúng, sai của các khẳng định sau về phối hợp chế phẩm vi sinh:",
+          "statements": [
+            "a) Dùng sai đối tượng làm chế phẩm vi sinh kém hiệu quả.",
+            "b) Phối hợp nhiều chế phẩm đúng đối tượng cho hiệu quả tổng hợp tốt.",
+            "c) Chế phẩm vi sinh cần kết hợp với biện pháp IPM khác.",
+            "d) Chỉ cần một chế phẩm vi sinh là đủ cho mọi tình huống."
+          ],
+          "answer": [
+            "T",
+            "T",
+            "T",
+            "F"
+          ],
+          "explain": "a), b), c) Đúng. d) Sai: cần phối hợp nhiều biện pháp, nhiều chế phẩm đúng đối tượng.",
+          "points": 1
+        },
+        {
+          "type": "short",
+          "level": "NB",
+          "q": "Để trừ rầy nâu bằng biện pháp vi sinh, nên dùng chế phẩm nào?",
+          "answer": "Nấm Beauveria",
+          "explain": "Nấm Beauveria (hoặc Metarhizium) kí sinh rầy nâu; chấp nhận: nấm Beauveria bassiana.",
+          "points": 0.5
+        },
+        {
+          "type": "short",
+          "level": "VDC",
+          "q": "Nêu hai lỗi thường gặp khi nông dân sử dụng chế phẩm vi sinh.",
+          "answer": "Dùng sai đối tượng; phun giữa trưa nắng gắt; dùng quá muộn khi sâu bệnh đã nặng; pha chung với thuốc hoá học",
+          "explain": "Các lỗi phổ biến: sai đối tượng, sai thời điểm (trưa nắng, quá muộn), pha chung thuốc hoá học (nêu hai là đủ).",
+          "points": 0.5
+        }
+      ]
+    },
+    {
+      "name": "Đề 8",
+      "questions": [
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Vi sinh vật có ích trong phòng trừ sâu bệnh có khả năng",
+          "options": [
+            "A. tự nhân lên, lây lan trong tự nhiên giúp hiệu quả kéo dài.",
+            "B. tự biến mất ngay sau khi phun.",
+            "C. gây ô nhiễm nguồn nước.",
+            "D. diệt cả cây trồng."
+          ],
+          "answer": "A",
+          "explain": "Vi sinh vật tự nhân lên, lây lan (như NPV, Beauveria) nên hiệu quả kéo dài, giảm số lần xử lí.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Nông nghiệp hữu cơ ưa chuộng chế phẩm vi sinh vì",
+          "options": [
+            "A. có nguồn gốc tự nhiên, an toàn, không tồn dư hoá chất.",
+            "B. diệt sâu bệnh nhanh nhất.",
+            "C. không cần kĩ thuật sử dụng.",
+            "D. giá thành rẻ nhất."
+          ],
+          "answer": "A",
+          "explain": "Tiêu chuẩn hữu cơ hạn chế hoá chất; chế phẩm vi sinh tự nhiên, an toàn nên phù hợp.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "So với thuốc hoá học, chế phẩm vi sinh \"thân thiện môi trường\" hơn vì",
+          "options": [
+            "A. không gây ô nhiễm đất, nước, không diệt sinh vật có ích.",
+            "B. có mùi thơm dễ chịu.",
+            "C. không cần bao bì.",
+            "D. tự phân huỷ trong vài phút."
+          ],
+          "answer": "A",
+          "explain": "Vi sinh đặc hiệu, không ô nhiễm, bảo vệ thiên địch – thân thiện môi trường.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Trong các phát biểu sau, phát biểu đúng về chế phẩm vi sinh là",
+          "options": [
+            "A. an toàn nhưng tác dụng chậm, cần dùng sớm và đúng kĩ thuật.",
+            "B. diệt sâu bệnh ngay lập tức sau khi phun.",
+            "C. dùng càng nhiều càng tốt.",
+            "D. không cần bảo quản đặc biệt."
+          ],
+          "answer": "A",
+          "explain": "Đúng bản chất: an toàn, chậm, cần dùng sớm, đúng kĩ thuật, bảo quản đúng.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "VD",
+          "q": "Một trang trại rau hữu cơ bị sâu xanh hại. Biện pháp phù hợp với tiêu chuẩn hữu cơ là",
+          "options": [
+            "A. phun chế phẩm Bt kết hợp bẫy đèn, bắt sâu tay.",
+            "B. phun thuốc hoá học phổ rộng.",
+            "C. phun thuốc trừ cỏ.",
+            "D. bỏ mặc không xử lí."
+          ],
+          "answer": "A",
+          "explain": "Hữu cơ cho phép chế phẩm vi sinh + biện pháp vật lí, cơ giới; cấm thuốc hoá học tổng hợp.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "VDC",
+          "q": "Vì sao chế phẩm vi sinh góp phần \"phát triển nông nghiệp bền vững\"?",
+          "options": [
+            "A. Vì giảm hoá chất, bảo vệ hệ sinh thái, an toàn thực phẩm và hiệu quả lâu dài.",
+            "B. Vì giúp nông dân không cần làm gì.",
+            "C. Vì diệt sạch mọi sinh vật.",
+            "D. Vì tăng năng suất gấp ba lần."
+          ],
+          "answer": "A",
+          "explain": "Bền vững = ít hoá chất + bảo vệ sinh thái + an toàn thực phẩm + lâu dài.",
+          "points": 0.25
+        },
+        {
+          "type": "truefalse",
+          "level": "TH",
+          "q": "Xét tính đúng, sai của các khẳng định sau về vai trò của công nghệ vi sinh:",
+          "statements": [
+            "a) Công nghệ vi sinh tạo ra chế phẩm thay thế dần thuốc hoá học.",
+            "b) Chế phẩm vi sinh góp phần sản xuất nông sản an toàn.",
+            "c) Vi sinh vật có ích giúp bảo vệ môi trường.",
+            "d) Công nghệ vi sinh chỉ dùng trong phòng thí nghiệm, không ứng dụng thực tế."
+          ],
+          "answer": [
+            "T",
+            "T",
+            "T",
+            "F"
+          ],
+          "explain": "a), b), c) Đúng. d) Sai: chế phẩm vi sinh đã ứng dụng rộng rãi trong sản xuất.",
+          "points": 1
+        },
+        {
+          "type": "truefalse",
+          "level": "VD",
+          "q": "Xét tính đúng, sai của các khẳng định sau về kĩ thuật sử dụng chế phẩm vi sinh:",
+          "statements": [
+            "a) Phun Bt chiều mát giúp vi khuẩn sống sót, phát huy tác dụng.",
+            "b) Trộn Trichoderma với phân hữu cơ giúp phòng nấm bệnh hại rễ.",
+            "c) Dùng NPV sớm khi sâu còn non cho hiệu quả cao.",
+            "d) Chế phẩm vi sinh nên phun lúc nắng gắt để nhanh khô."
+          ],
+          "answer": [
+            "T",
+            "T",
+            "T",
+            "F"
+          ],
+          "explain": "a), b), c) Đúng: đúng kĩ thuật. d) Sai: nắng gắt tiêu diệt vi sinh vật.",
+          "points": 1
+        },
+        {
+          "type": "short",
+          "level": "NB",
+          "q": "Chế phẩm vi sinh thuộc nhóm biện pháp nào trong IPM?",
+          "answer": "Sinh học",
+          "explain": "Chế phẩm vi sinh (Bt, Trichoderma, Beauveria, NPV) thuộc nhóm biện pháp sinh học.",
+          "points": 0.5
+        },
+        {
+          "type": "short",
+          "level": "VDC",
+          "q": "Nêu hai ưu điểm khiến chế phẩm vi sinh ngày càng được ưa chuộng.",
+          "answer": "An toàn với người và môi trường; không tồn dư độc hại trên nông sản; ít gây kháng thuốc",
+          "explain": "Các ưu điểm: an toàn, không tồn dư, ít kháng thuốc, hiệu quả kéo dài, phù hợp hữu cơ (nêu hai là đủ).",
+          "points": 0.5
+        }
+      ]
+    },
+    {
+      "name": "Đề 9",
+      "questions": [
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Tinh thể độc tố của vi khuẩn Bt có tác dụng khi",
+          "options": [
+            "A. sâu ăn phải lá có phun chế phẩm, độc tố tan trong ruột sâu.",
+            "B. phun trực tiếp lên thân sâu.",
+            "C. rắc xuống đất.",
+            "D. hoà vào nước tưới."
+          ],
+          "answer": "A",
+          "explain": "Sâu phải ăn phải độc tố Bt thì độc tố mới tan trong ruột, phá huỷ thành ruột.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Nấm Trichoderma được trộn với gì để bón lót hiệu quả?",
+          "options": [
+            "A. Phân chuồng ủ hoai hoặc giá thể hữu cơ.",
+            "B. Thuốc trừ nấm hoá học.",
+            "C. Vôi bột nồng độ cao.",
+            "D. Phân đạm nguyên chất."
+          ],
+          "answer": "A",
+          "explain": "Trộn với phân hữu cơ hoai giúp Trichoderma phát triển tốt trong đất.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Vì sao sâu ăn phải Bt thường chết sau vài ngày chứ không chết ngay?",
+          "options": [
+            "A. Vì độc tố cần thời gian tan trong ruột, phá huỷ dần thành ruột.",
+            "B. Vì Bt không có độc tố.",
+            "C. Vì sâu nhịn ăn vài ngày mới chết đói.",
+            "D. Vì Bt chỉ có tác dụng vào ban đêm."
+          ],
+          "answer": "A",
+          "explain": "Cơ chế sinh học cần thời gian – đó là tính \"tác dụng chậm\" của chế phẩm vi sinh.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Dấu hiệu nhận biết côn trùng chết do nấm Beauveria là",
+          "options": [
+            "A. xác côn trùng cứng lại, phủ lớp sợi nấm trắng bên ngoài.",
+            "B. xác côn trùng mềm nhũn, có mùi hôi.",
+            "C. côn trùng biến mất hoàn toàn.",
+            "D. côn trùng chuyển màu xanh lá."
+          ],
+          "answer": "A",
+          "explain": "Nấm trắng phủ xác (Beauveria); mềm nhũn là dấu hiệu của virus NPV.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "VD",
+          "q": "Phân biệt sâu chết do Bt và do virus NPV qua dấu hiệu ngoài:",
+          "options": [
+            "A. Bt: sâu ngừng ăn, teo dần; NPV: sâu mềm nhũn, xác vỡ ra.",
+            "B. cả hai đều làm sâu cứng như đá.",
+            "C. không thể phân biệt được.",
+            "D. Bt làm sâu phình to, NPV làm sâu teo lại."
+          ],
+          "answer": "A",
+          "explain": "Bt phá huỷ ruột làm sâu teo, ngừng ăn; NPV làm sâu mềm nhũn, xác vỡ phát tán virus.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "VDC",
+          "q": "Một kĩ sư nông nghiệp tư vấn: \"Dùng Bt phải phun ướt đều mặt lá, nhất là mặt dưới.\" Vì sao?",
+          "options": [
+            "A. Vì sâu non thường ẩn nấp, ăn ở mặt dưới lá; phun ướt đều đảm bảo sâu ăn phải độc tố.",
+            "B. Vì Bt chỉ tan ở mặt dưới lá.",
+            "C. Vì mặt trên lá không cần phun.",
+            "D. Vì phun mặt dưới giúp lá xanh hơn."
+          ],
+          "answer": "A",
+          "explain": "\"Đúng cách\": sâu phải ăn phải độc tố nên cần phun ướt đều, đặc biệt nơi sâu tập trung.",
+          "points": 0.25
+        },
+        {
+          "type": "truefalse",
+          "level": "TH",
+          "q": "Xét tính đúng, sai của các khẳng định sau về kĩ thuật sử dụng:",
+          "statements": [
+            "a) Phun Bt cần ướt đều mặt lá để sâu ăn phải độc tố.",
+            "b) Nên phun chế phẩm vi sinh vào chiều mát.",
+            "c) Không pha chung chế phẩm vi sinh với thuốc hoá học mạnh.",
+            "d) Chế phẩm vi sinh phun một lần là trừ được mọi lứa sâu."
+          ],
+          "answer": [
+            "T",
+            "T",
+            "T",
+            "F"
+          ],
+          "explain": "a), b), c) Đúng. d) Sai: cần theo dõi và có thể phun nhắc lại theo hướng dẫn.",
+          "points": 1
+        },
+        {
+          "type": "truefalse",
+          "level": "VD",
+          "q": "Xét tính đúng, sai của các khẳng định sau về cơ chế tác dụng của các chế phẩm:",
+          "statements": [
+            "a) Sâu phải ăn phải độc tố Bt thì chế phẩm mới có tác dụng.",
+            "b) Nấm Beauveria xâm nhập qua da côn trùng.",
+            "c) Virus NPV lây lan qua xác sâu bệnh vỡ ra.",
+            "d) Trichoderma diệt sâu ăn lá rất hiệu quả."
+          ],
+          "answer": [
+            "T",
+            "T",
+            "T",
+            "F"
+          ],
+          "explain": "a), b), c) Đúng: cơ chế tác dụng của từng chế phẩm. d) Sai: Trichoderma trừ nấm bệnh hại rễ, không trừ sâu ăn lá.",
+          "points": 1
+        },
+        {
+          "type": "short",
+          "level": "NB",
+          "q": "Sâu ăn phải chế phẩm Bt sẽ có biểu hiện gì trước khi chết?",
+          "answer": "Ngừng ăn",
+          "explain": "Độc tố phá huỷ ruột làm sâu ngừng ăn, teo dần rồi chết sau vài ngày.",
+          "points": 0.5
+        },
+        {
+          "type": "short",
+          "level": "VDC",
+          "q": "Vì sao \"phun ướt đều\" là yêu cầu kĩ thuật quan trọng khi dùng chế phẩm Bt?",
+          "answer": "Vì sâu phải ăn phải lá có độc tố Bt mới chết; phun không đều, sót chỗ thì sâu ở chỗ sót không bị diệt",
+          "explain": "Bt tác động qua đường tiêu hoá nên phải đảm bảo sâu ăn phải; phun ướt đều, đúng cách quyết định hiệu quả.",
+          "points": 0.5
+        }
+      ]
+    },
+    {
+      "name": "Đề 10",
+      "questions": [
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Trong các chế phẩm sau, chế phẩm nào trừ được nấm bệnh hại rễ?",
+          "options": [
+            "A. Nấm Trichoderma.",
+            "B. Chế phẩm Bt.",
+            "C. Virus NPV.",
+            "D. Nấm Beauveria."
+          ],
+          "answer": "A",
+          "explain": "Trichoderma đối kháng nấm bệnh hại rễ; Bt/NPV trừ sâu ăn lá; Beauveria trừ côn trùng.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Trong các chế phẩm sau, chế phẩm nào có tính đặc hiệu cao nhất với sâu hại bộ cánh vảy?",
+          "options": [
+            "A. Virus NPV.",
+            "B. Nấm Trichoderma.",
+            "C. Phân vi sinh.",
+            "D. Chế phẩm EM."
+          ],
+          "answer": "A",
+          "explain": "NPV đặc hiệu với sâu bộ cánh vảy, an toàn tuyệt đối với sinh vật khác.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Nhận định đúng về mối quan hệ giữa chế phẩm vi sinh và IPM là",
+          "options": [
+            "A. chế phẩm vi sinh là một hợp phần quan trọng của biện pháp sinh học trong IPM.",
+            "B. chế phẩm vi sinh thay thế hoàn toàn IPM.",
+            "C. IPM không cần chế phẩm vi sinh.",
+            "D. chế phẩm vi sinh thuộc biện pháp hoá học."
+          ],
+          "answer": "A",
+          "explain": "Chế phẩm vi sinh là hợp phần của biện pháp sinh học trong hệ thống IPM tổng hợp.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Để tăng hiệu quả của chế phẩm vi sinh, nên phối hợp với",
+          "options": [
+            "A. bẫy đèn, thiên địch, vệ sinh đồng ruộng và các biện pháp IPM khác.",
+            "B. thuốc hoá học liều cao.",
+            "C. bỏ hoang ruộng.",
+            "D. tưới nước duy nhất."
+          ],
+          "answer": "A",
+          "explain": "Phối hợp IPM giúp khắc phục nhược điểm (chậm, phổ hẹp) của chế phẩm vi sinh.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "VD",
+          "q": "Một hợp tác xã rau an toàn xây dựng quy trình: giống kháng – bẫy dính – Bt – Trichoderma – thăm đồng thường xuyên. Đây là",
+          "options": [
+            "A. mô hình IPM ứng dụng công nghệ vi sinh sản xuất rau an toàn.",
+            "B. mô hình chỉ dùng thuốc hoá học.",
+            "C. mô hình trồng rau không cần phòng trừ.",
+            "D. mô hình tốn kém không hiệu quả."
+          ],
+          "answer": "A",
+          "explain": "Quy trình phối hợp đầy đủ các hợp phần IPM, trong đó vi sinh (Bt, Trichoderma) là nòng cốt sinh học.",
+          "points": 0.25
+        },
+        {
+          "type": "mcq",
+          "level": "VDC",
+          "q": "Tổng kết: vì sao công nghệ vi sinh được coi là hướng đi tất yếu của phòng trừ sâu bệnh trong tương lai?",
+          "options": [
+            "A. Vì đáp ứng đồng thời yêu cầu năng suất, an toàn thực phẩm, bảo vệ môi trường và phát triển bền vững.",
+            "B. Vì công nghệ vi sinh rẻ nhất.",
+            "C. Vì không cần nông dân tham gia.",
+            "D. Vì diệt được mọi sâu bệnh ngay lập tức."
+          ],
+          "answer": "A",
+          "explain": "Vi sinh đáp ứng mục tiêu kép: hiệu quả phòng trừ + an toàn + bền vững – xu thế tất yếu.",
+          "points": 0.25
+        },
+        {
+          "type": "truefalse",
+          "level": "TH",
+          "q": "Xét tính đúng, sai của các khẳng định sau (tổng hợp: các chế phẩm):",
+          "statements": [
+            "a) Bt trừ sâu ăn lá; Trichoderma trừ nấm bệnh hại rễ.",
+            "b) Beauveria trừ côn trùng; NPV đặc hiệu với sâu bộ cánh vảy.",
+            "c) Chế phẩm vi sinh an toàn, không tồn dư độc hại.",
+            "d) Chế phẩm vi sinh tác dụng nhanh như thuốc hoá học."
+          ],
+          "answer": [
+            "T",
+            "T",
+            "T",
+            "F"
+          ],
+          "explain": "a), b), c) Đúng. d) Sai: vi sinh tác dụng chậm hơn thuốc hoá học.",
+          "points": 1
+        },
+        {
+          "type": "truefalse",
+          "level": "VD",
+          "q": "Xét tính đúng, sai của các khẳng định sau (tổng hợp: sử dụng và phối hợp):",
+          "statements": [
+            "a) Nên dùng chế phẩm vi sinh sớm, phun chiều mát, đúng đối tượng.",
+            "b) Không pha chung chế phẩm vi sinh với thuốc hoá học mạnh.",
+            "c) Chế phẩm vi sinh cần phối hợp với các biện pháp IPM khác.",
+            "d) Một chế phẩm vi sinh dùng được cho mọi loại sâu, bệnh."
+          ],
+          "answer": [
+            "T",
+            "T",
+            "T",
+            "F"
+          ],
+          "explain": "a), b), c) Đúng. d) Sai: phổ hẹp, mỗi chế phẩm đặc hiệu với từng đối tượng.",
+          "points": 1
+        },
+        {
+          "type": "short",
+          "level": "NB",
+          "q": "Nêu tên một chế phẩm vi sinh trừ sâu ăn lá.",
+          "answer": "Chế phẩm Bt",
+          "explain": "Chế phẩm Bt (hoặc virus NPV) trừ sâu ăn lá (chấp nhận một đáp án đúng).",
+          "points": 0.5
+        },
+        {
+          "type": "short",
+          "level": "VDC",
+          "q": "Nêu hai việc làm thể hiện ứng dụng công nghệ vi sinh trong thực tế sản xuất.",
+          "answer": "Phun chế phẩm Bt trừ sâu ăn lá; ủ phân chuồng với nấm Trichoderma phòng nấm bệnh hại rễ",
+          "explain": "Các ứng dụng: phun Bt/NPV trừ sâu, dùng Trichoderma ủ phân, bón lót; phun Beauveria trừ rầy rệp (nêu hai là đủ).",
+          "points": 0.5
+        }
+      ]
+    }
+  ]
+}
+</script>
+</div>
+        </div>
+    </div>
+</body>
+</html>
