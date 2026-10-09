@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 10: Tiên đề Euclid. Tính chất của hai đường thẳng song song</title>
+    <meta name="lesson-title" content="Bài 10: Tiên đề Euclid. Tính chất của hai đường thẳng song song">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 10: Tiên đề Euclid. Tính chất của hai đường thẳng song song</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 3: Góc và đường thẳng song song • Bài 10: Tiên đề Euclid. Tính chất của hai đường thẳng song song</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-6">1. Ti&ecirc;n &#273;&#7873; Euclid v&#7873; &#273;&#432;&#7901;ng th&#7859;ng song song</h2>
+<div class="bg-amber-50 border border-amber-300 rounded-xl p-4">
+<p class="font-semibold text-amber-900">&#128161; Ti&ecirc;n &#273;&#7873; Euclid:</p>
+<p>Qua m&#7897;t &#273;i&#7875;m n&#7857;m ngo&agrave;i m&#7897;t &#273;&#432;&#7901;ng th&#7859;ng, <strong>ch&#7881; c&oacute; m&#7897;t</strong> &#273;&#432;&#7901;ng th&#7859;ng song song v&#7899;i &#273;&#432;&#7901;ng th&#7859;ng &#273;&oacute;.</p>
+</div>
+<div class="svg-fig">
+<svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tien de Euclid">
+<line x1="40" y1="170" x2="360" y2="170" stroke="#0f172a" stroke-width="2"/>
+<line x1="60" y1="70" x2="340" y2="70" stroke="#0284c7" stroke-width="2"/>
+<circle cx="200" cy="70" r="5" fill="#dc2626"/>
+<text x="28" y="176" font-size="16" font-style="italic">a</text>
+<text x="346" y="76" font-size="16" font-style="italic" fill="#0284c7">b</text>
+<text x="208" y="66" font-size="16" font-style="italic" fill="#dc2626">M</text>
+<text x="60" y="220" font-size="14" fill="#475569">Ch&#7881; c&oacute; m&#7897;t &#273;&#432;&#7901;ng th&#7859;ng b qua M song song v&#7899;i a</text>
+</svg>
+<p class="text-center text-sm text-slate-500 mt-1">H&igrave;nh 1. Minh h&#7885;a ti&ecirc;n &#273;&#7873; Euclid</p>
+</div>
+<p><em>Nh&#7853;n x&eacute;t:</em> N&#7871;u &#273;i&#7875;m $M$ n&#7857;m ngo&agrave;i &#273;&#432;&#7901;ng th&#7859;ng $a$ th&igrave; &#273;&#432;&#7901;ng th&#7859;ng &#273;i qua $M$ v&agrave; song song v&#7899;i $a$ l&agrave; <strong>duy nh&#7845;t</strong>.</p>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-6">2. T&iacute;nh ch&#7845;t c&#7911;a hai &#273;&#432;&#7901;ng th&#7859;ng song song</h2>
+<div class="bg-amber-50 border border-amber-300 rounded-xl p-4">
+<p class="font-semibold text-amber-900">&#128161; Ghi nh&#7899; (t&iacute;nh ch&#7845;t):</p>
+<p>N&#7871;u m&#7897;t &#273;&#432;&#7901;ng th&#7859;ng c&#7855;t <strong>hai &#273;&#432;&#7901;ng th&#7859;ng song song</strong> th&igrave;:</p>
+<ul class="list-disc pl-6 mt-1 space-y-1">
+<li>Hai g&oacute;c <strong>so le trong b&#7857;ng nhau</strong>;</li>
+<li>Hai g&oacute;c <strong>&#273;&#7891;ng v&#7883; b&#7857;ng nhau</strong>.</li>
+</ul>
+</div>
+<div class="svg-fig">
+<svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tinh chat hai duong thang song song">
+<line x1="40" y1="90" x2="360" y2="90" stroke="#0284c7" stroke-width="2"/>
+<line x1="40" y1="190" x2="360" y2="190" stroke="#0284c7" stroke-width="2"/>
+<line x1="140" y1="40" x2="260" y2="240" stroke="#0f172a" stroke-width="2"/>
+<circle cx="170" cy="90" r="4" fill="#0f172a"/>
+<circle cx="230" cy="190" r="4" fill="#0f172a"/>
+<path d="M 196 90 A 26 26 0 0 1 183.4 112.3" fill="none" stroke="#dc2626" stroke-width="2.5"/>
+<path d="M 204 190 A 26 26 0 0 1 216.6 167.7" fill="none" stroke="#dc2626" stroke-width="2.5"/>
+<path d="M 156.6 67.7 A 26 26 0 0 1 196 90" fill="none" stroke="#7c3aed" stroke-width="2.5"/>
+<path d="M 216.6 167.7 A 26 26 0 0 1 256 190" fill="none" stroke="#7c3aed" stroke-width="2.5"/>
+<text x="28" y="96" font-size="16" font-style="italic" fill="#0284c7">a</text>
+<text x="28" y="196" font-size="16" font-style="italic" fill="#0284c7">b</text>
+<text x="264" y="248" font-size="16" font-style="italic">c</text>
+<text x="196" y="116" font-size="13" fill="#dc2626">A4</text>
+<text x="200" y="168" font-size="13" fill="#dc2626">B2</text>
+<text x="196" y="66" font-size="13" fill="#7c3aed">A1</text>
+<text x="258" y="166" font-size="13" fill="#7c3aed">B1</text>
+<text x="80" y="240" font-size="14" fill="#475569">$\widehat{A_4}=\widehat{B_2}$; $\widehat{A_1}=\widehat{B_1}$ (v&igrave; $a \parallel b$)</text>
+</svg>
+<p class="text-center text-sm text-slate-500 mt-1">H&igrave;nh 2. T&iacute;nh ch&#7845;t c&#7911;a hai &#273;&#432;&#7901;ng th&#7859;ng song song</p>
+</div>
+<div class="bg-sky-50 border border-sky-200 rounded-xl p-4">
+<p class="font-semibold text-sky-900">V&iacute; d&#7909;:</p>
+<p>Cho $a \parallel b$, &#273;&#432;&#7901;ng th&#7859;ng $c$ c&#7855;t $a$, $b$ v&agrave; $\widehat{A_1} = 60^\circ$. Khi &#273;&oacute; $\widehat{B_1} = 60^\circ$ (&#273;&#7891;ng v&#7883;), $\widehat{B_2} = 60^\circ$ (so le trong v&#7899;i $\widehat{A_4} = 60^\circ$ v&igrave; &#273;&#7889;i &#273;&#7881;nh v&#7899;i $\widehat{A_1}$).</p>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-6">3. M&#7897;t s&#7889; t&iacute;nh ch&#7845;t suy ra</h2>
+<ul class="list-disc pl-6 space-y-2">
+<li>Hai g&oacute;c <strong>trong c&ugrave;ng ph&iacute;a b&ugrave; nhau</strong>: n&#7871;u $c$ c&#7855;t hai &#273;&#432;&#7901;ng th&#7859;ng song song $a$, $b$ th&igrave; hai g&oacute;c trong c&ugrave;ng ph&iacute;a c&oacute; t&#7893;ng b&#7857;ng $180^\circ$.</li>
+<li><strong>T&iacute;nh ch&#7845;t b&#7855;c c&#7847;u:</strong> n&#7871;u $a \parallel b$ v&agrave; $b \parallel c$ th&igrave; $a \parallel c$.</li>
+<li>Hai &#273;&#432;&#7901;ng th&#7859;ng ph&acirc;n bi&#7879;t <strong>c&ugrave;ng vu&ocirc;ng g&oacute;c</strong> v&#7899;i m&#7897;t &#273;&#432;&#7901;ng th&#7859;ng th&#7913; ba th&igrave; ch&uacute;ng <strong>song song</strong> v&#7899;i nhau.</li>
+</ul>
+<div class="svg-fig">
+<svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hai duong thang cung vuong goc">
+<line x1="120" y1="40" x2="120" y2="200" stroke="#0284c7" stroke-width="2"/>
+<line x1="280" y1="40" x2="280" y2="200" stroke="#0284c7" stroke-width="2"/>
+<line x1="60" y1="120" x2="340" y2="120" stroke="#0f172a" stroke-width="2"/>
+<rect x="120" y="120" width="12" height="12" fill="none" stroke="#dc2626" stroke-width="2"/>
+<rect x="268" y="120" width="12" height="12" fill="none" stroke="#dc2626" stroke-width="2"/>
+<text x="108" y="30" font-size="16" font-style="italic" fill="#0284c7">a</text>
+<text x="268" y="30" font-size="16" font-style="italic" fill="#0284c7">b</text>
+<text x="344" y="126" font-size="16" font-style="italic">c</text>
+<text x="130" y="210" font-size="14" fill="#16a34a" font-weight="bold">$a \perp c,\ b \perp c \Rightarrow a \parallel b$</text>
+</svg>
+<p class="text-center text-sm text-slate-500 mt-1">H&igrave;nh 3. C&ugrave;ng vu&ocirc;ng g&oacute;c v&#7899;i $c$ th&igrave; $a \parallel b$</p>
+</div>
+<div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4">
+<p class="font-semibold text-emerald-900">B&agrave;i t&#7853;p v&iacute; d&#7909;:</p>
+<p>Cho $a \parallel b$ v&agrave; $\widehat{A_3} = 75^\circ$. T&iacute;nh $\widehat{B_1}$ (so le trong v&#7899;i $\widehat{A_3}$) v&agrave; $\widehat{B_3}$ (trong c&ugrave;ng ph&iacute;a v&#7899;i $\widehat{A_3}$).</p>
+<p class="mt-2"><em>L&#7901;i gi&#7843;i:</em> V&igrave; $a \parallel b$ n&ecirc;n $\widehat{B_1} = \widehat{A_3} = 75^\circ$ (so le trong). $\widehat{B_3}$ trong c&ugrave;ng ph&iacute;a v&#7899;i $\widehat{A_3}$ n&ecirc;n $\widehat{B_3} = 180^\circ - 75^\circ = 105^\circ$.</p>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-6">4. T&oacute;m t&#7855;t</h2>
+<div class="table-scroll"><table class="w-full text-sm border border-slate-300">
+<thead><tr class="bg-sky-100"><th class="border border-slate-300 px-3 py-2">N&#7897;i dung</th><th class="border border-slate-300 px-3 py-2">Ph&aacute;t bi&#7875;u</th></tr></thead>
+<tbody>
+<tr><td class="border border-slate-300 px-3 py-2">Ti&ecirc;n &#273;&#7873; Euclid</td><td class="border border-slate-300 px-3 py-2">Qua &#273;i&#7875;m ngo&agrave;i &#273;&#432;&#7901;ng th&#7859;ng, ch&#7881; c&oacute; m&#7897;t &#273;&#432;&#7901;ng th&#7859;ng song song v&#7899;i n&oacute;</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2">T&iacute;nh ch&#7845;t ($c$ c&#7855;t $a \parallel b$)</td><td class="border border-slate-300 px-3 py-2">So le trong b&#7857;ng nhau; &#273;&#7891;ng v&#7883; b&#7857;ng nhau; trong c&ugrave;ng ph&iacute;a b&ugrave; nhau</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2">B&#7855;c c&#7847;u</td><td class="border border-slate-300 px-3 py-2">$a \parallel b,\ b \parallel c \Rightarrow a \parallel c$</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2">C&ugrave;ng vu&ocirc;ng g&oacute;c</td><td class="border border-slate-300 px-3 py-2">$a \perp c,\ b \perp c \Rightarrow a \parallel b$</td></tr>
+</tbody></table></div>
+</div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
