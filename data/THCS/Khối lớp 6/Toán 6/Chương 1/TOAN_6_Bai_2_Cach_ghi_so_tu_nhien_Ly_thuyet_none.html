@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 2: Cách ghi số tự nhiên</title>
+    <meta name="lesson-title" content="Bài 2: Cách ghi số tự nhiên">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 2: Cách ghi số tự nhiên</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 1: Tập hợp các số tự nhiên • Bài 2: Cách ghi số tự nhiên</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 2: Cách ghi số tự nhiên</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 1: Tập hợp các số tự nhiên — Toán 6 (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Hệ thập phân -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Hệ thập phân</h2>
+
+<p>Để ghi các số tự nhiên, người ta dùng <strong>hệ thập phân</strong> với <strong>10 chữ số</strong>:</p>
+<p class="text-center text-lg font-bold text-sky-700 my-3 tracking-widest">$0,\ 1,\ 2,\ 3,\ 4,\ 5,\ 6,\ 7,\ 8,\ 9$</p>
+
+<p><strong>Nguyên tắc của hệ thập phân:</strong> cứ <strong>10 đơn vị</strong> ở một hàng thì bằng <strong>1 đơn vị</strong> ở hàng liền trước nó. Nói cách khác, mỗi đơn vị ở hàng trước gấp 10 lần đơn vị ở hàng sau:</p>
+<p class="text-center my-3">$1$ nghìn $= 10$ trăm $= 100$ chục $= 1000$ đơn vị.</p>
+
+<p>Khi viết một số tự nhiên có nhiều chữ số, ta viết các chữ số <strong>từ hàng cao nhất xuống hàng thấp nhất</strong> (từ trái sang phải). Chữ số $0$ đứng ở đầu số không có giá trị nên ta bỏ đi.</p>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">1.1. Giá trị của chữ số theo vị trí</h3>
+
+<p>Trong một số tự nhiên, mỗi chữ số ở <strong>vị trí khác nhau</strong> thì có <strong>giá trị khác nhau</strong>. Giá trị của một chữ số bằng:</p>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p class="font-semibold text-emerald-800">chữ số $\times$ giá trị của hàng mà nó đứng</p>
+</div>
+
+<p>Các hàng của số tự nhiên (từ phải sang trái): <strong>hàng đơn vị, hàng chục, hàng trăm, hàng nghìn, hàng chục nghìn, hàng trăm nghìn, ...</strong></p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bảng phân tích số 2345 theo hàng">
+<rect x="2" y="2" width="436" height="206" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="26" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0c4a6e" text-anchor="middle">Phân tích số 2 345 theo hàng</text>
+<rect x="20" y="38" width="400" height="34" rx="6" fill="#e0f2fe"/>
+<text x="30" y="60" font-family="sans-serif" font-size="12" font-weight="bold" fill="#0c4a6e">Chữ số</text>
+<text x="140" y="60" font-family="sans-serif" font-size="15" font-weight="bold" fill="#0284c7" text-anchor="middle">2</text>
+<text x="240" y="60" font-family="sans-serif" font-size="15" font-weight="bold" fill="#0284c7" text-anchor="middle">3</text>
+<text x="330" y="60" font-family="sans-serif" font-size="15" font-weight="bold" fill="#0284c7" text-anchor="middle">4</text>
+<text x="405" y="60" font-family="sans-serif" font-size="15" font-weight="bold" fill="#0284c7" text-anchor="middle">5</text>
+<rect x="20" y="74" width="400" height="34" rx="6" fill="#ecfdf5"/>
+<text x="30" y="96" font-family="sans-serif" font-size="12" font-weight="bold" fill="#065f46">Hàng</text>
+<text x="140" y="96" font-family="sans-serif" font-size="12" fill="#065f46" text-anchor="middle">nghìn</text>
+<text x="240" y="96" font-family="sans-serif" font-size="12" fill="#065f46" text-anchor="middle">trăm</text>
+<text x="330" y="96" font-family="sans-serif" font-size="12" fill="#065f46" text-anchor="middle">chục</text>
+<text x="405" y="96" font-family="sans-serif" font-size="12" fill="#065f46" text-anchor="middle">đơn vị</text>
+<rect x="20" y="110" width="400" height="34" rx="6" fill="#fef9c3"/>
+<text x="30" y="132" font-family="sans-serif" font-size="12" font-weight="bold" fill="#854d0e">Giá trị</text>
+<text x="140" y="132" font-family="sans-serif" font-size="12" font-weight="bold" fill="#854d0e" text-anchor="middle">2 000</text>
+<text x="240" y="132" font-family="sans-serif" font-size="12" font-weight="bold" fill="#854d0e" text-anchor="middle">300</text>
+<text x="330" y="132" font-family="sans-serif" font-size="12" font-weight="bold" fill="#854d0e" text-anchor="middle">40</text>
+<text x="405" y="132" font-family="sans-serif" font-size="12" font-weight="bold" fill="#854d0e" text-anchor="middle">5</text>
+<text x="220" y="170" font-family="sans-serif" font-size="12" font-weight="bold" fill="#0c4a6e" text-anchor="middle">2 345 = 2 × 1 000 + 3 × 100 + 4 × 10 + 5</text>
+<text x="220" y="192" font-family="sans-serif" font-size="11" fill="#64748b" text-anchor="middle">Giá trị mỗi chữ số = chữ số × giá trị của hàng</text>
+</svg></div>
+
+<p>Một cách viết gọn thường dùng trong sách giáo khoa: với số có ba chữ số $\overline{abc}$ (chữ số $a \ne 0$):</p>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$\overline{abc} = a \times 100 + b \times 10 + c$$</p>
+</div>
+<p>Ví dụ: $\overline{507} = 5 \times 100 + 0 \times 10 + 7 = 507$.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 1:</p>
+<p>Viết số $40\,608$ thành tổng giá trị các hàng.</p>
+<p class="mt-2"><em>Lời giải:</em> $40\,608 = 4 \times 10\,000 + 0 \times 1\,000 + 6 \times 100 + 0 \times 10 + 8$.<br>Chữ số $4$ thuộc hàng chục nghìn nên có giá trị $40\,000$; chữ số $6$ thuộc hàng trăm nên có giá trị $600$.</p>
+</div>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">1.2. Cách đọc số tự nhiên</h3>
+
+<p>Để đọc số tự nhiên có nhiều chữ số, ta <strong>tách số thành từng nhóm 3 chữ số</strong> (tính từ phải sang trái). Mỗi nhóm gọi là một <strong>lớp</strong>:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Lớp đơn vị:</strong> gồm hàng đơn vị, hàng chục, hàng trăm;</li>
+<li><strong>Lớp nghìn:</strong> gồm hàng nghìn, hàng chục nghìn, hàng trăm nghìn;</li>
+<li><strong>Lớp triệu:</strong> gồm hàng triệu, hàng chục triệu, hàng trăm triệu; ...</li>
+</ul>
+
+<p><strong>Cách đọc:</strong> đọc số của từng lớp rồi thêm <strong>tên lớp</strong> vào sau (lớp đơn vị thì không cần đọc tên lớp).</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 2:</p>
+<p>Đọc số $12\,345\,678$.</p>
+<p class="mt-2"><em>Lời giải:</em> Tách thành 3 lớp: <strong>12</strong> (lớp triệu) | <strong>345</strong> (lớp nghìn) | <strong>678</strong> (lớp đơn vị).<br>Đọc là: <strong>"mười hai triệu ba trăm bốn mươi lăm nghìn sáu trăm bảy mươi tám"</strong>.</p>
+</div>
+
+<p><strong>Một vài lưu ý khi đọc:</strong></p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Chữ số $0$ ở hàng trăm đọc là <strong>"không trăm"</strong>: $5\,089$ đọc là "năm nghìn <strong>không trăm</strong> tám mươi chín".</li>
+<li>Chữ số $0$ ở hàng chục đọc là <strong>"linh"</strong>: $7\,506$ đọc là "bảy nghìn năm trăm <strong>linh</strong> sáu".</li>
+<li>Chữ số $1$ ở hàng đơn vị sau hàng chục đọc là <strong>"mốt"</strong>: $21$ đọc là "hai mươi <strong>mốt</strong>".</li>
+<li>Chữ số $5$ ở hàng đơn vị sau hàng chục đọc là <strong>"lăm"</strong>: $15$ đọc là "mười <strong>lăm</strong>".</li>
+</ul>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Hệ thập phân dùng 10 chữ số $0$–$9$. Giá trị của mỗi chữ số <strong>phụ thuộc vào vị trí</strong> (hàng) của nó: giá trị $=$ chữ số $\times$ giá trị của hàng. Đọc số nhiều chữ số bằng cách tách thành từng lớp (đơn vị, nghìn, triệu, ...) từ phải sang trái.</p>
+</div>
+
+<!-- 2. Số La Mã -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Số La Mã</h2>
+
+<p>Ngoài hệ thập phân, người La Mã cổ đại dùng các <strong>chữ cái in hoa</strong> để ghi số. Cách ghi này vẫn còn được dùng ngày nay (trên mặt đồng hồ, đánh số chương mục, ...). Hệ La Mã dùng <strong>7 kí hiệu</strong>:</p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bảy kí hiệu số La Mã">
+<rect x="2" y="2" width="436" height="146" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="26" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0c4a6e" text-anchor="middle">Bảy kí hiệu số La Mã</text>
+<rect x="14" y="38" width="52" height="44" rx="6" fill="#0284c7"/><text x="40" y="66" font-family="sans-serif" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">I</text>
+<rect x="74" y="38" width="52" height="44" rx="6" fill="#0284c7"/><text x="100" y="66" font-family="sans-serif" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">V</text>
+<rect x="134" y="38" width="52" height="44" rx="6" fill="#0284c7"/><text x="160" y="66" font-family="sans-serif" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">X</text>
+<rect x="194" y="38" width="52" height="44" rx="6" fill="#0284c7"/><text x="220" y="66" font-family="sans-serif" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">L</text>
+<rect x="254" y="38" width="52" height="44" rx="6" fill="#0284c7"/><text x="280" y="66" font-family="sans-serif" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">C</text>
+<rect x="314" y="38" width="52" height="44" rx="6" fill="#0284c7"/><text x="340" y="66" font-family="sans-serif" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">D</text>
+<rect x="374" y="38" width="52" height="44" rx="6" fill="#0284c7"/><text x="400" y="66" font-family="sans-serif" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">M</text>
+<rect x="14" y="90" width="52" height="38" rx="6" fill="#fef9c3"/><text x="40" y="115" font-family="sans-serif" font-size="14" font-weight="bold" fill="#854d0e" text-anchor="middle">1</text>
+<rect x="74" y="90" width="52" height="38" rx="6" fill="#fef9c3"/><text x="100" y="115" font-family="sans-serif" font-size="14" font-weight="bold" fill="#854d0e" text-anchor="middle">5</text>
+<rect x="134" y="90" width="52" height="38" rx="6" fill="#fef9c3"/><text x="160" y="115" font-family="sans-serif" font-size="14" font-weight="bold" fill="#854d0e" text-anchor="middle">10</text>
+<rect x="194" y="90" width="52" height="38" rx="6" fill="#fef9c3"/><text x="220" y="115" font-family="sans-serif" font-size="14" font-weight="bold" fill="#854d0e" text-anchor="middle">50</text>
+<rect x="254" y="90" width="52" height="38" rx="6" fill="#fef9c3"/><text x="280" y="115" font-family="sans-serif" font-size="14" font-weight="bold" fill="#854d0e" text-anchor="middle">100</text>
+<rect x="314" y="90" width="52" height="38" rx="6" fill="#fef9c3"/><text x="340" y="115" font-family="sans-serif" font-size="14" font-weight="bold" fill="#854d0e" text-anchor="middle">500</text>
+<rect x="374" y="90" width="52" height="38" rx="6" fill="#fef9c3"/><text x="400" y="115" font-family="sans-serif" font-size="13" font-weight="bold" fill="#854d0e" text-anchor="middle">1 000</text>
+</svg></div>
+
+<p>Tức là: $I = 1$, $V = 5$, $X = 10$, $L = 50$, $C = 100$, $D = 500$, $M = 1\,000$.</p>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">2.1. Quy tắc cộng</h3>
+
+<p>Khi các kí hiệu được viết <strong>từ lớn đến nhỏ</strong> (từ trái sang phải), giá trị của số La Mã bằng <strong>tổng</strong> giá trị các kí hiệu:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>$XX = 10 + 10 = 20$;</li>
+<li>$XVI = 10 + 5 + 1 = 16$;</li>
+<li>$DCLXVI = 500 + 100 + 50 + 10 + 5 + 1 = 666$.</li>
+</ul>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">2.2. Quy tắc trừ</h3>
+
+<p>Khi một kí hiệu <strong>nhỏ hơn đứng trước</strong> một kí hiệu <strong>lớn hơn</strong>, giá trị của cặp đó được tính bằng <strong>hiệu</strong> (lấy số lớn trừ số nhỏ). Chỉ ba kí hiệu <strong>$I, X, C$</strong> được dùng để "trừ":</p>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Cặp trừ</td><td class="border border-slate-300 px-4 py-1">Cách tính</td><td class="border border-slate-300 px-4 py-1">Giá trị</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-bold text-sky-700">$IV$</td><td class="border border-slate-300 px-4 py-1">$5 - 1$</td><td class="border border-slate-300 px-4 py-1 font-bold">$4$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-bold text-sky-700">$IX$</td><td class="border border-slate-300 px-4 py-1">$10 - 1$</td><td class="border border-slate-300 px-4 py-1 font-bold">$9$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-bold text-sky-700">$XL$</td><td class="border border-slate-300 px-4 py-1">$50 - 10$</td><td class="border border-slate-300 px-4 py-1 font-bold">$40$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-bold text-sky-700">$XC$</td><td class="border border-slate-300 px-4 py-1">$100 - 10$</td><td class="border border-slate-300 px-4 py-1 font-bold">$90$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-bold text-sky-700">$CD$</td><td class="border border-slate-300 px-4 py-1">$500 - 100$</td><td class="border border-slate-300 px-4 py-1 font-bold">$400$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-bold text-sky-700">$CM$</td><td class="border border-slate-300 px-4 py-1">$1\,000 - 100$</td><td class="border border-slate-300 px-4 py-1 font-bold">$900$</td></tr>
+</table></div>
+
+<p><strong>Ví dụ:</strong> $XLIV = XL + IV = 40 + 4 = 44$; $XCIX = XC + IX = 90 + 9 = 99$.</p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tia số các số La Mã từ I đến XII">
+<rect x="2" y="2" width="436" height="146" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="24" font-family="sans-serif" font-size="13" font-weight="bold" fill="#0c4a6e" text-anchor="middle">Tia số: các số La Mã từ I đến XII</text>
+<line x1="16" y1="70" x2="424" y2="70" stroke="#0284c7" stroke-width="2.5"/>
+<polygon points="424,70 410,64 410,76" fill="#0284c7"/>
+<g font-family="sans-serif" font-size="10" fill="#0c4a6e" text-anchor="middle">
+<line x1="24" y1="64" x2="24" y2="76" stroke="#0284c7" stroke-width="2"/><text x="24" y="94">O</text><text x="24" y="58" fill="#64748b">0</text>
+<line x1="57" y1="64" x2="57" y2="76" stroke="#0284c7" stroke-width="2"/><text x="57" y="94">I</text><text x="57" y="58" fill="#64748b">1</text>
+<line x1="90" y1="64" x2="90" y2="76" stroke="#0284c7" stroke-width="2"/><text x="90" y="94">II</text><text x="90" y="58" fill="#64748b">2</text>
+<line x1="123" y1="64" x2="123" y2="76" stroke="#0284c7" stroke-width="2"/><text x="123" y="94">III</text><text x="123" y="58" fill="#64748b">3</text>
+<line x1="156" y1="64" x2="156" y2="76" stroke="#0284c7" stroke-width="2"/><text x="156" y="94" fill="#b91c1c" font-weight="bold">IV</text><text x="156" y="58" fill="#64748b">4</text>
+<line x1="189" y1="64" x2="189" y2="76" stroke="#0284c7" stroke-width="2"/><text x="189" y="94">V</text><text x="189" y="58" fill="#64748b">5</text>
+<line x1="222" y1="64" x2="222" y2="76" stroke="#0284c7" stroke-width="2"/><text x="222" y="94">VI</text><text x="222" y="58" fill="#64748b">6</text>
+<line x1="255" y1="64" x2="255" y2="76" stroke="#0284c7" stroke-width="2"/><text x="255" y="94">VII</text><text x="255" y="58" fill="#64748b">7</text>
+<line x1="288" y1="64" x2="288" y2="76" stroke="#0284c7" stroke-width="2"/><text x="288" y="94">VIII</text><text x="288" y="58" fill="#64748b">8</text>
+<line x1="321" y1="64" x2="321" y2="76" stroke="#0284c7" stroke-width="2"/><text x="321" y="94" fill="#b91c1c" font-weight="bold">IX</text><text x="321" y="58" fill="#64748b">9</text>
+<line x1="354" y1="64" x2="354" y2="76" stroke="#0284c7" stroke-width="2"/><text x="354" y="94">X</text><text x="354" y="58" fill="#64748b">10</text>
+<line x1="387" y1="64" x2="387" y2="76" stroke="#0284c7" stroke-width="2"/><text x="387" y="94">XI</text><text x="387" y="58" fill="#64748b">11</text>
+<line x1="420" y1="64" x2="420" y2="76" stroke="#0284c7" stroke-width="2"/><text x="420" y="94">XII</text><text x="420" y="58" fill="#64748b">12</text>
+</g>
+<text x="220" y="128" font-family="sans-serif" font-size="11" fill="#64748b" text-anchor="middle">Mỗi đơn vị trên tia số ứng với một đơn vị giá trị (IV, IX dùng quy tắc trừ)</text>
+</svg></div>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">2.3. Bảng đổi số thường gặp</h3>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Số thập phân</td><td class="border border-slate-300 px-4 py-1">Số La Mã</td><td class="border border-slate-300 px-4 py-1">Số thập phân</td><td class="border border-slate-300 px-4 py-1">Số La Mã</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">$1$</td><td class="border border-slate-300 px-4 py-1 font-bold text-sky-700">$I$</td><td class="border border-slate-300 px-4 py-1">$19$</td><td class="border border-slate-300 px-4 py-1 font-bold text-sky-700">$XIX$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">$4$</td><td class="border border-slate-300 px-4 py-1 font-bold text-sky-700">$IV$</td><td class="border border-slate-300 px-4 py-1">$40$</td><td class="border border-slate-300 px-4 py-1 font-bold text-sky-700">$XL$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">$9$</td><td class="border border-slate-300 px-4 py-1 font-bold text-sky-700">$IX$</td><td class="border border-slate-300 px-4 py-1">$49$</td><td class="border border-slate-300 px-4 py-1 font-bold text-sky-700">$XLIX$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">$12$</td><td class="border border-slate-300 px-4 py-1 font-bold text-sky-700">$XII$</td><td class="border border-slate-300 px-4 py-1">$90$</td><td class="border border-slate-300 px-4 py-1 font-bold text-sky-700">$XC$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">$14$</td><td class="border border-slate-300 px-4 py-1 font-bold text-sky-700">$XIV$</td><td class="border border-slate-300 px-4 py-1">$400$</td><td class="border border-slate-300 px-4 py-1 font-bold text-sky-700">$CD$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">$16$</td><td class="border border-slate-300 px-4 py-1 font-bold text-sky-700">$XVI$</td><td class="border border-slate-300 px-4 py-1">$900$</td><td class="border border-slate-300 px-4 py-1 font-bold text-sky-700">$CM$</td></tr>
+</table></div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 3 (đổi La Mã sang thập phân):</p>
+<p>Đổi số La Mã $XXIX$ sang số thập phân.</p>
+<p class="mt-2"><em>Lời giải:</em> $XXIX = XX + IX = (10 + 10) + (10 - 1) = 20 + 9 = 29$.</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 4 (đổi thập phân sang La Mã):</p>
+<p>Viết số $49$ bằng số La Mã.</p>
+<p class="mt-2"><em>Lời giải:</em> $49 = 40 + 9 = XL + IX =$ <strong>$XLIX$</strong>.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<ul class="list-disc ml-6 space-y-1 mt-1">
+<li>Bảy kí hiệu La Mã: $I = 1$, $V = 5$, $X = 10$, $L = 50$, $C = 100$, $D = 500$, $M = 1\,000$.</li>
+<li><strong>Quy tắc cộng:</strong> kí hiệu viết từ lớn đến nhỏ thì <strong>cộng</strong> giá trị ($XVI = 16$).</li>
+<li><strong>Quy tắc trừ:</strong> kí hiệu nhỏ ($I, X, C$) đứng trước kí hiệu lớn hơn thì <strong>trừ</strong> giá trị ($IV = 4$, $IX = 9$, $XL = 40$, $XC = 90$, $CD = 400$, $CM = 900$).</li>
+<li>Hệ La Mã <strong>không có kí hiệu cho số 0</strong>.</li>
+</ul>
+</div>
+
+<!-- Bài tập ví dụ -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Bài tập ví dụ (có lời giải)</h2>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Bài 1.</p>
+<p>a) Chữ số $5$ trong số $5\,327$ thuộc hàng nào và có giá trị bằng bao nhiêu?</p>
+<p>b) Viết số $5\,327$ thành tổng giá trị các hàng.</p>
+<p class="mt-2"><em>Lời giải:</em></p>
+<p>a) Chữ số $5$ đứng ở vị trí thứ tư tính từ phải sang nên thuộc <strong>hàng nghìn</strong>, có giá trị $5 \times 1\,000 = 5\,000$.</p>
+<p>b) $5\,327 = 5 \times 1\,000 + 3 \times 100 + 2 \times 10 + 7$.</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Bài 2.</p>
+<p>a) Đổi số La Mã $XLV$ sang số thập phân.</p>
+<p>b) Viết số $94$ bằng số La Mã.</p>
+<p class="mt-2"><em>Lời giải:</em></p>
+<p>a) $XLV = XL + V = (50 - 10) + 5 = 40 + 5 = 45$.</p>
+<p>b) $94 = 90 + 4 = XC + IV =$ <strong>$XCIV$</strong>.</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Bài 3.</p>
+<p>Trong các cách viết sau, cách nào đúng, cách nào sai? Giải thích.</p>
+<p>a) Số $4$ viết là $IIII$.&emsp;b) Số $14$ viết là $XIIII$.&emsp;c) Số $14$ viết là $XIV$.</p>
+<p class="mt-2"><em>Lời giải:</em></p>
+<p>a) <strong>Sai</strong>: theo quy tắc trừ, số $4$ viết là $IV$ (không viết $4$ chữ $I$ liền nhau).</p>
+<p>b) <strong>Sai</strong>: số $14$ phải viết là $XIV$ (phần $4$ cuối viết $IV$ chứ không phải $IIII$).</p>
+<p>c) <strong>Đúng</strong>: $XIV = 10 + (5 - 1) = 14$.</p>
+</div>
+
+<!-- Tổng kết -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Hệ thập phân:</strong> dùng 10 chữ số $0$–$9$; 10 đơn vị ở một hàng bằng 1 đơn vị ở hàng liền trước.</li>
+<li><strong>Giá trị theo vị trí:</strong> giá trị của chữ số $=$ chữ số $\times$ giá trị của hàng (đơn vị, chục, trăm, nghìn, ...).</li>
+<li><strong>Đọc số:</strong> tách thành từng lớp 3 chữ số từ phải sang (lớp đơn vị, lớp nghìn, lớp triệu, ...), đọc từng lớp kèm tên lớp.</li>
+<li><strong>Số La Mã:</strong> $I=1$, $V=5$, $X=10$, $L=50$, $C=100$, $D=500$, $M=1\,000$.</li>
+<li><strong>Quy tắc cộng:</strong> viết từ lớn đến nhỏ thì cộng giá trị ($XX = 20$).</li>
+<li><strong>Quy tắc trừ:</strong> $I, X, C$ đứng trước kí hiệu lớn hơn thì trừ ($IV=4$, $IX=9$, $XL=40$, $XC=90$, $CD=400$, $CM=900$).</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
