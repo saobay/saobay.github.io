@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay | Ma nguon thuoc nen tang hoc tap SAOBAY | Nghiem cam sao chep duoi moi hinh thuc -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 19: Bài toán tìm kiếm</title>
+    <meta name="lesson-title" content="Bài 19: Bài toán tìm kiếm">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 19: Bài toán tìm kiếm</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 6: Kĩ thuật lập trình • Bài 19: Bài toán tìm kiếm</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 19: Bài toán tìm kiếm</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 6: Kĩ thuật lập trình — sách Kết nối tri thức với cuộc sống</p>
+
+<!-- 1. Bài toán tìm kiếm -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Bài toán tìm kiếm</h2>
+
+<p><strong>Phát biểu bài toán:</strong> Cho dãy số <code>a</code> gồm <code>n</code> phần tử và một giá trị <code>x</code>. Hãy tìm <strong>chỉ số <code>i</code></strong> sao cho <code>a[i] == x</code>; nếu không có phần tử nào bằng <code>x</code> thì thông báo <strong>không tìm thấy</strong>.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Cho <code>a = [4, 2, 9, 7, 5]</code> và <code>x = 7</code> thì đáp án là chỉ số <strong>3</strong> (vì <code>a[3] == 7</code>). Nếu <code>x = 6</code> thì đáp án là <strong>không tìm thấy</strong>.</p>
+</div>
+
+<p>Có hai thuật toán kinh điển giải bài toán này: <strong>tìm kiếm tuần tự</strong> (áp dụng cho mọi dãy) và <strong>tìm kiếm nhị phân</strong> (áp dụng cho dãy đã sắp xếp, nhanh hơn nhiều).</p>
+
+<!-- 2. Tìm kiếm tuần tự -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Tìm kiếm tuần tự (Linear Search)</h2>
+
+<p><strong>Ý tưởng:</strong> Duyệt lần lượt từng phần tử của dãy <strong>từ đầu đến cuối</strong>, so sánh mỗi phần tử với <code>x</code>. Gặp phần tử bằng <code>x</code> thì dừng và trả về chỉ số; duyệt hết dãy mà không gặp thì kết luận không tìm thấy.</p>
+
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2">def tim_kiem_tuan_tu(a, x):
+    for i in range(len(a)):
+        if a[i] == x:
+            return i      # tìm thấy: trả về chỉ số
+    return -1             # hết dãy: không tìm thấy
+
+a = [4, 2, 9, 7, 5]
+print(tim_kiem_tuan_tu(a, 7))   # 3
+print(tim_kiem_tuan_tu(a, 6))   # -1</pre>
+
+<p><strong>Đánh giá:</strong></p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Trường hợp tốt nhất: <code>x</code> ở đầu dãy — chỉ cần <strong>1</strong> lần so sánh.</li>
+<li>Trường hợp xấu nhất: <code>x</code> không có trong dãy — cần <strong>n</strong> lần so sánh.</li>
+<li>Độ phức tạp thời gian: <strong>O(n)</strong>.</li>
+<li>Ưu điểm: áp dụng được cho <strong>mọi dãy</strong>, không cần sắp xếp trước.</li>
+</ul>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Tìm kiếm tuần tự <strong>không yêu cầu dãy sắp xếp</strong>, nhưng trong trường hợp xấu nhất phải duyệt <strong>cả n phần tử</strong> — chậm khi <code>n</code> lớn.</p>
+</div>
+
+<!-- 3. Tìm kiếm nhị phân -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Tìm kiếm nhị phân (Binary Search)</h2>
+
+<p><strong>Điều kiện:</strong> dãy <code>a</code> đã được <strong>sắp xếp tăng dần</strong>.</p>
+
+<p><strong>Ý tưởng:</strong> Mỗi bước xét phần tử ở <strong>giữa</strong> khoảng đang tìm. Nhờ dãy đã sắp xếp, ta biết <code>x</code> (nếu có) chỉ có thể nằm ở <strong>một nửa</strong> khoảng — nửa còn lại bị <strong>loại bỏ</strong>. Lặp lại cho đến khi tìm thấy hoặc khoảng tìm kiếm rỗng.</p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Minh hoa tim kiem nhi phan">
+<rect x="2" y="2" width="436" height="196" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="26" font-family="sans-serif" font-size="13" font-weight="bold" fill="#0c4a6e" text-anchor="middle">Tìm x = 23 trong dãy đã sắp xếp</text>
+<g font-family="monospace" font-size="12" text-anchor="middle">
+<rect x="24" y="44" width="46" height="34" rx="5" fill="#e0f2fe" stroke="#0284c7"/><text x="47" y="66" fill="#0c4a6e">2</text>
+<rect x="74" y="44" width="46" height="34" rx="5" fill="#e0f2fe" stroke="#0284c7"/><text x="97" y="66" fill="#0c4a6e">5</text>
+<rect x="124" y="44" width="46" height="34" rx="5" fill="#e0f2fe" stroke="#0284c7"/><text x="147" y="66" fill="#0c4a6e">8</text>
+<rect x="174" y="44" width="46" height="34" rx="5" fill="#fef3c7" stroke="#d97706" stroke-width="2"/><text x="197" y="66" fill="#92400e">12</text>
+<rect x="224" y="44" width="46" height="34" rx="5" fill="#e0f2fe" stroke="#0284c7"/><text x="247" y="66" fill="#0c4a6e">16</text>
+<rect x="274" y="44" width="46" height="34" rx="5" fill="#e0f2fe" stroke="#0284c7"/><text x="297" y="66" fill="#0c4a6e">23</text>
+<rect x="324" y="44" width="46" height="34" rx="5" fill="#e0f2fe" stroke="#0284c7"/><text x="347" y="66" fill="#0c4a6e">38</text>
+<rect x="374" y="44" width="46" height="34" rx="5" fill="#e0f2fe" stroke="#0284c7"/><text x="397" y="66" fill="#0c4a6e">56</text>
+</g>
+<text x="220" y="104" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">Bước 1: xét giữa (chỉ số 3, giá trị 12) → 23 nằm ở nửa phải</text>
+<g font-family="monospace" font-size="12" text-anchor="middle">
+<rect x="224" y="120" width="46" height="34" rx="5" fill="#f1f5f9" stroke="#cbd5e1"/><text x="247" y="142" fill="#94a3b8">16</text>
+<rect x="274" y="120" width="46" height="34" rx="5" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/><text x="297" y="142" fill="#166534">23</text>
+<rect x="324" y="120" width="46" height="34" rx="5" fill="#f1f5f9" stroke="#cbd5e1"/><text x="347" y="142" fill="#94a3b8">38</text>
+<rect x="374" y="120" width="46" height="34" rx="5" fill="#f1f5f9" stroke="#cbd5e1"/><text x="397" y="142" fill="#94a3b8">56</text>
+</g>
+<text x="220" y="178" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">Bước 2: xét giữa nửa phải (chỉ số 5, giá trị 23) → tìm thấy!</text>
+</svg></div>
+
+<p><strong>Ví dụ trace:</strong> tìm <code>x = 23</code> trong <code>a = [2, 5, 8, 12, 16, 23, 38, 56]</code> (8 phần tử):</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Bước 1: khoảng [0, 7], giữa là chỉ số 3 (<code>a[3] = 12</code>). Vì dãy tăng dần và <code>12 != 23</code>, <code>x</code> chỉ có thể ở <strong>nửa phải</strong> → khoảng mới [4, 7].</li>
+<li>Bước 2: khoảng [4, 7], giữa là chỉ số 5 (<code>a[5] = 23</code>). <code>a[5] == x</code> → <strong>tìm thấy tại chỉ số 5</strong>.</li>
+</ul>
+<p>Chỉ cần <strong>2 lần so sánh</strong> thay vì 6 lần như tìm kiếm tuần tự!</p>
+
+<p>Trong Python, thư viện <code>bisect</code> hỗ trợ tìm kiếm nhị phân mà không cần tự cài đặt:</p>
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2">import bisect
+a = [2, 5, 8, 12, 16, 23, 38, 56]
+x = 23
+vt = bisect.bisect_left(a, x)   # vị trí của x trong dãy đã sắp xếp
+if vt != len(a) and a[vt] == x:
+    print("Tìm thấy tại chỉ số", vt)   # 5
+else:
+    print("Không tìm thấy")</pre>
+
+<p><strong>Đánh giá:</strong> mỗi bước loại bỏ một nửa số phần tử, nên số lần so sánh tối đa xấp xỉ $\log_2 n$. Độ phức tạp thời gian: <strong>O($\log n$)</strong> — nhanh vượt trội khi <code>n</code> lớn (với $n = 1\,000\,000$ chỉ cần tối đa 20 lần so sánh).</p>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Tìm kiếm nhị phân <strong>bắt buộc dãy đã sắp xếp</strong>. Mỗi bước <strong>loại một nửa</strong> khoảng tìm kiếm nên chỉ cần O($\log n$) lần so sánh.</p>
+</div>
+
+<!-- 4. So sánh -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. So sánh hai thuật toán</h2>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-sm my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Tiêu chí</td><td class="border border-slate-300 px-4 py-1">Tìm kiếm tuần tự</td><td class="border border-slate-300 px-4 py-1">Tìm kiếm nhị phân</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Điều kiện dãy</td><td class="border border-slate-300 px-4 py-1">Mọi dãy</td><td class="border border-slate-300 px-4 py-1">Dãy đã sắp xếp</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Số lần so sánh (xấu nhất)</td><td class="border border-slate-300 px-4 py-1">$n$</td><td class="border border-slate-300 px-4 py-1">$\log_2 n$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Độ phức tạp</td><td class="border border-slate-300 px-4 py-1">O($n$)</td><td class="border border-slate-300 px-4 py-1">O($\log n$)</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Khi nào dùng</td><td class="border border-slate-300 px-4 py-1">Dãy nhỏ, chưa sắp xếp</td><td class="border border-slate-300 px-4 py-1">Dãy lớn, đã sắp xếp</td></tr>
+</table></div>
+
+<!-- Tóm tắt -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Bài toán tìm kiếm:</strong> cho dãy <code>a</code> và giá trị <code>x</code>, tìm chỉ số <code>i</code> sao cho <code>a[i] == x</code>.</li>
+<li><strong>Tuần tự:</strong> duyệt từ đầu đến cuối, O($n$), dùng cho mọi dãy.</li>
+<li><strong>Nhị phân:</strong> dãy phải <strong>sắp xếp</strong>; mỗi bước xét giữa và <strong>loại một nửa</strong>, O($\log n$).</li>
+<li>Với $n = 1\,000\,000$: tuần tự xấu nhất $1\,000\,000$ lần so sánh, nhị phân chỉ cần tối đa <strong>20</strong> lần.</li>
+<li>Python có sẵn <code>bisect.bisect_left(a, x)</code> cho tìm kiếm nhị phân.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">
+(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok){if(document.body){document.body.innerHTML='<div style="font-family:system-ui,sans-serif;max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff"><h2 style="color:#0f172a;margin-top:0">© SAOBAY — Trường THPT Sào Báy</h2><p style="color:#475569">Nội dung này chỉ được hiển thị tại địa chỉ chính thức <b>saobay.github.io</b>.</p><p style="color:#475569">Vui lòng truy cập đúng địa chỉ để học tập.</p></div>';}else{document.write("SAOBAY: truy cap tai saobay.github.io");}}catch(e){}})();
+</script>
+</body>
+</html>
