@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài tập Bài 37: Hình đồng dạng</title>
+    <meta name="lesson-title" content="Bài tập Bài 37: Hình đồng dạng">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Bài tập</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài tập Bài 37: Hình đồng dạng</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 9: Tam giác đồng dạng • Bài 37: Hình đồng dạng</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="saobay-exam10">
+<script type="application/json" class="saobay-exam10-data">
+{
+ "sets": [
+  {
+   "name": "Đề 1",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Cho $V_{(O, -2)}$ biến đoạn thẳng $AB = 5$ cm thành $A'B'$. Độ dài đoạn thẳng $A'B'$ là:",
+     "options": [
+      "A. $5$ cm",
+      "B. $-10$ cm (sai vì độ dài không âm)",
+      "C. $7$ cm",
+      "D. $10$ cm"
+     ],
+     "answer": "D",
+     "explain": "$A'B' = |-2| \\times AB = 2 \\times 5 = 10$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Phép vị tự biến điểm $O$ (tâm vị tự) thành:",
+     "options": [
+      "A. không xác định",
+      "B. điểm $O'$ khác $O$",
+      "C. điểm đối xứng với $O$",
+      "D. chính nó"
+     ],
+     "answer": "D",
+     "explain": "$\\overrightarrow{OO'} = k \\cdot \\overrightarrow{OO} = \\vec{0}$ nên $O' \\equiv O$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Hai hình đồng dạng có diện tích lần lượt là $8$ cm$^2$ và $72$ cm$^2$ (hình thứ hai là ảnh của hình thứ nhất qua phép vị tự tỉ số $k > 0$). Giá trị của $k$ là:",
+     "options": [
+      "A. $3$",
+      "B. $9$",
+      "C. $1$",
+      "D. $4$"
+     ],
+     "answer": "A",
+     "explain": "Tỉ số diện tích bằng $k^2 = \\frac{72}{8} = 9$ nên $k = 3$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Phép vị tự $V_{(O, k)}$ ($k > 0$) biến đoạn thẳng $AB = 4$ cm thành đoạn thẳng $A'B' = 20$ cm. Tìm $k$. (Điền số)",
+     "answer": "5",
+     "explain": "$k = \\frac{A'B'}{AB} = \\frac{20}{4} = 5$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Phép vị tự $V_{(O, -1)}$ chính là:",
+     "options": [
+      "A. phép vị tự tỉ số 2",
+      "B. phép đối xứng trục",
+      "C. phép đồng nhất",
+      "D. phép đối xứng tâm $O$"
+     ],
+     "answer": "D",
+     "explain": "$\\overrightarrow{OM'} = -\\overrightarrow{OM}$ nghĩa là $O$ là trung điểm của $MM'$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Phép vị tự tâm $O$ tỉ số $k$ (kí hiệu $V_{(O, k)}$) biến điểm $M$ thành điểm $M'$ thỏa mãn:",
+     "options": [
+      "A. $OM' = OM + k$",
+      "B. $\\overrightarrow{M'O} = k \\cdot \\overrightarrow{MO}$",
+      "C. $\\overrightarrow{OM'} = k \\cdot \\overrightarrow{OM}$",
+      "D. $\\overrightarrow{OM'} = \\overrightarrow{OM}$"
+     ],
+     "answer": "C",
+     "explain": "Đó là định nghĩa phép vị tự."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Trong mặt phẳng tọa độ, $V_{(O, 3)}$ ($O$ là gốc tọa độ), $A(2; 2)$, $A' = V_{(O, 3)}(A)$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $A'(6; 6)$.",
+      "b) Hoành độ của $A'$ là $5$.",
+      "c) $OA' = 3 \\cdot OA$.",
+      "d) $A'$ và $A$ nằm cùng phía so với $O$."
+     ],
+     "answer": [
+      "T",
+      "F",
+      "T",
+      "T"
+     ],
+     "explain": "a) Đúng. b) Sai — hoành độ là $3 \\times 2 = 6$. c) Đúng. d) Đúng — vì $3 > 0$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Cho $V_{(O, 3)}$ biến đoạn thẳng $AB = 4$ cm thành đoạn thẳng $A'B'$. Tính $A'B'$ (đơn vị: cm). (Điền số)",
+     "answer": "12",
+     "explain": "$A'B' = |3| \\times AB = 3 \\times 4 = 12$ (cm)."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Trong mặt phẳng tọa độ, $V_{(O, 3)}$ ($O$ là gốc tọa độ), $A(2; 3)$, $A' = V_{(O, 3)}(A)$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $A'(6; 9)$.",
+      "b) Hoành độ của $A'$ là $5$.",
+      "c) $OA' = 3 \\cdot OA$.",
+      "d) $A'$ và $A$ nằm cùng phía so với $O$."
+     ],
+     "answer": [
+      "T",
+      "F",
+      "T",
+      "T"
+     ],
+     "explain": "a) Đúng. b) Sai — hoành độ là $3 \\times 2 = 6$. c) Đúng. d) Đúng — vì $3 > 0$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong mặt phẳng tọa độ, $V_{(O, 3)}$ ($O$ là gốc tọa độ) biến điểm $M(1; 1)$ thành điểm $M'$ có tọa độ:",
+     "options": [
+      "A. $(3; 3)$",
+      "B. $(4; 4)$",
+      "C. $(3; 1)$",
+      "D. $(1; 1)$"
+     ],
+     "answer": "A",
+     "explain": "$\\overrightarrow{OM'} = 3\\overrightarrow{OM}$ nên $M'(3 \\times 1; 3 \\times 1) = (3; 3)$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 2",
+   "questions": [
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Trong mặt phẳng tọa độ, $V_{(O, 2)}$ ($O$ là gốc tọa độ), $A(2; 2)$, $A' = V_{(O, 2)}(A)$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $A'(4; 4)$.",
+      "b) Hoành độ của $A'$ là $4$.",
+      "c) $OA' = 2 \\cdot OA$.",
+      "d) $A'$ và $A$ nằm cùng phía so với $O$."
+     ],
+     "answer": [
+      "T",
+      "F",
+      "T",
+      "T"
+     ],
+     "explain": "a) Đúng. b) Sai — hoành độ là $2 \\times 2 = 4$. c) Đúng. d) Đúng — vì $2 > 0$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho $V_{(O, -2)}$, $A' = V_{(O, -2)}(A)$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $A'$ nằm trên tia đối của tia $OA$.",
+      "b) $OA' = 2 \\cdot OA$.",
+      "c) $V_{(O, -2)}$ biến đoạn $AB$ thành đoạn $A'B'$ với $A'B' = -2 \\cdot AB$.",
+      "d) $V_{(O, -2)}$ là phép đối xứng tâm $O$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "F"
+     ],
+     "explain": "a), b) Đúng. c) Sai — $A'B' = |-2| \\cdot AB = 2 \\cdot AB$ (độ dài không âm). d) Sai — chỉ $k = -1$ mới là đối xứng tâm."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong mặt phẳng tọa độ, $V_{(O, 3)}$ ($O$ là gốc tọa độ) biến điểm $M(2; 1)$ thành điểm $M'$ có tọa độ:",
+     "options": [
+      "A. $(2; 1)$",
+      "B. $(5; 4)$",
+      "C. $(6; 1)$",
+      "D. $(6; 3)$"
+     ],
+     "answer": "D",
+     "explain": "$\\overrightarrow{OM'} = 3\\overrightarrow{OM}$ nên $M'(3 \\times 2; 3 \\times 1) = (6; 3)$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Qua phép vị tự, độ dài đoạn thẳng:",
+     "options": [
+      "A. tăng $k^2$ lần",
+      "B. không đổi",
+      "C. giảm $|k|$ lần",
+      "D. tăng $|k|$ lần (nhân với $|k|$)"
+     ],
+     "answer": "D",
+     "explain": "Tính chất phép vị tự: $A'B' = |k| \\cdot AB$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Hình $H$ có diện tích $18$ cm$^2$. Gọi $H' = V_{(O, 2)}(H)$. Diện tích của hình $H'$ là:",
+     "options": [
+      "A. $72$ cm$^2$",
+      "B. $90$ cm$^2$",
+      "C. $36$ cm$^2$",
+      "D. $18$ cm$^2$"
+     ],
+     "answer": "A",
+     "explain": "Diện tích tăng $k^2 = 4$ lần: $S' = 4 \\times 18 = 72$ (cm$^2$)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Phép vị tự tỉ số $k = -1$ chính là:",
+     "options": [
+      "A. phép quay",
+      "B. phép đồng nhất",
+      "C. phép đối xứng tâm $O$",
+      "D. phép đối xứng trục"
+     ],
+     "answer": "C",
+     "explain": "Với $k = -1$: $\\overrightarrow{OM'} = -\\overrightarrow{OM}$, tức $O$ là trung điểm của $MM'$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Trong mặt phẳng tọa độ, $V_{(O, 2)}$ ($O$ là gốc tọa độ) biến điểm $A(2; 2)$ thành $A'$. Tính hoành độ của $A'$. (Điền số)",
+     "answer": "4",
+     "explain": "Hoành độ của $A'$ là $2 \\times 2 = 4$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Trong mặt phẳng tọa độ, $V_{(O, -3)}$ ($O$ là gốc tọa độ) biến điểm $A(3; 2)$ thành điểm $A'$ có tọa độ:",
+     "options": [
+      "A. $(-9; -6)$",
+      "B. $(-3; -2)$",
+      "C. $(3; 2)$",
+      "D. $(9; 6)$"
+     ],
+     "answer": "A",
+     "explain": "$A'(-3 \\times 3; -3 \\times 2) = (-9; -6)$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Trong mặt phẳng tọa độ, $V_{(O, -2)}$ ($O$ là gốc tọa độ) biến điểm $A(2; 2)$ thành điểm $A'$ có tọa độ:",
+     "options": [
+      "A. $(-2; -2)$",
+      "B. $(4; 4)$",
+      "C. $(2; 2)$",
+      "D. $(-4; -4)$"
+     ],
+     "answer": "D",
+     "explain": "$A'(-2 \\times 2; -2 \\times 2) = (-4; -4)$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Hai hình đồng dạng có diện tích lần lượt là $18$ cm$^2$ và $72$ cm$^2$ (hình thứ hai là ảnh của hình thứ nhất qua phép vị tự tỉ số $k > 0$). Tìm $k$. (Điền số)",
+     "answer": "2",
+     "explain": "$k^2 = \\frac{72}{18} = 4$ nên $k = 2$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 3",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Hình $H'$ gọi là đồng dạng với hình $H$ nếu:",
+     "options": [
+      "A. $H'$ là ảnh của $H$ qua phép đối xứng trục",
+      "B. $H'$ nằm trong $H$",
+      "C. $H'$ có diện tích bằng $H$",
+      "D. $H'$ là ảnh của $H$ qua một phép vị tự"
+     ],
+     "answer": "D",
+     "explain": "Đó là định nghĩa hình đồng dạng."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Trong mặt phẳng tọa độ, $V_{(O, 2)}$ ($O$ là gốc tọa độ), $A(1; 2)$, $A' = V_{(O, 2)}(A)$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $A'(2; 4)$.",
+      "b) Hoành độ của $A'$ là $3$.",
+      "c) $OA' = 2 \\cdot OA$.",
+      "d) $A'$ và $A$ nằm cùng phía so với $O$."
+     ],
+     "answer": [
+      "T",
+      "F",
+      "T",
+      "T"
+     ],
+     "explain": "a) Đúng. b) Sai — hoành độ là $2 \\times 1 = 2$. c) Đúng. d) Đúng — vì $2 > 0$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Cho $V_{(O, -2)}$ biến đoạn thẳng $AB = 6$ cm thành $A'B'$. Độ dài đoạn thẳng $A'B'$ là:",
+     "options": [
+      "A. $-12$ cm (sai vì độ dài không âm)",
+      "B. $12$ cm",
+      "C. $8$ cm",
+      "D. $6$ cm"
+     ],
+     "answer": "B",
+     "explain": "$A'B' = |-2| \\times AB = 2 \\times 6 = 12$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Hai hình vuông bất kì thì:",
+     "options": [
+      "A. có diện tích bằng nhau",
+      "B. đồng dạng với nhau",
+      "C. không đồng dạng",
+      "D. bằng nhau"
+     ],
+     "answer": "B",
+     "explain": "Mọi hình vuông đều là ảnh của nhau qua phép vị tự (kết hợp dời hình)."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Trong mặt phẳng tọa độ, $V_{(O, 3)}$ ($O$ là gốc tọa độ), $A(1; 2)$, $A' = V_{(O, 3)}(A)$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $A'(3; 6)$.",
+      "b) Hoành độ của $A'$ là $4$.",
+      "c) $OA' = 3 \\cdot OA$.",
+      "d) $A'$ và $A$ nằm cùng phía so với $O$."
+     ],
+     "answer": [
+      "T",
+      "F",
+      "T",
+      "T"
+     ],
+     "explain": "a) Đúng. b) Sai — hoành độ là $3 \\times 1 = 3$. c) Đúng. d) Đúng — vì $3 > 0$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Cho $V_{(O, 2)}$ biến đoạn thẳng $AB = 6$ cm thành đoạn thẳng $A'B'$. Tính $A'B'$ (đơn vị: cm). (Điền số)",
+     "answer": "12",
+     "explain": "$A'B' = |2| \\times AB = 2 \\times 6 = 12$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Cho $V_{(O, -3)}$ biến đoạn thẳng $AB = 4$ cm thành $A'B'$. Độ dài đoạn thẳng $A'B'$ là:",
+     "options": [
+      "A. $-12$ cm (sai vì độ dài không âm)",
+      "B. $7$ cm",
+      "C. $4$ cm",
+      "D. $12$ cm"
+     ],
+     "answer": "D",
+     "explain": "$A'B' = |-3| \\times AB = 3 \\times 4 = 12$ (cm)."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Trong mặt phẳng tọa độ, $V_{(O, -2)}$ ($O$ là gốc tọa độ) biến điểm $A(3; 1)$ thành $A'$. Tính tổng hoành độ và tung độ của $A'$. (Điền số)",
+     "answer": "-8",
+     "explain": "$A'(-6; -2)$ nên tổng là $-6 + (-2) = -8$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Hai hình đồng dạng có diện tích lần lượt là $18$ cm$^2$ và $450$ cm$^2$ (hình thứ hai là ảnh của hình thứ nhất qua phép vị tự tỉ số $k > 0$). Giá trị của $k$ là:",
+     "options": [
+      "A. $25$",
+      "B. $6$",
+      "C. $5$",
+      "D. $1$"
+     ],
+     "answer": "C",
+     "explain": "Tỉ số diện tích bằng $k^2 = \\frac{450}{18} = 25$ nên $k = 5$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong mặt phẳng tọa độ, $V_{(O, 2)}$ ($O$ là gốc tọa độ) biến điểm $M(1; 2)$ thành điểm $M'$ có tọa độ:",
+     "options": [
+      "A. $(2; 2)$",
+      "B. $(3; 4)$",
+      "C. $(1; 2)$",
+      "D. $(2; 4)$"
+     ],
+     "answer": "D",
+     "explain": "$\\overrightarrow{OM'} = 2\\overrightarrow{OM}$ nên $M'(2 \\times 1; 2 \\times 2) = (2; 4)$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 4",
+   "questions": [
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Phép vị tự $V_{(O, k)}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $V_{(O, 1)}$ là phép đồng nhất.",
+      "b) $V_{(O, -1)}$ là phép đối xứng tâm $O$.",
+      "c) $V_{(O, k)}$ biến điểm $O$ thành chính nó.",
+      "d) $V_{(O, 0)}$ là phép vị tự hợp lệ."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b), c) Đúng. d) Sai — định nghĩa yêu cầu $k \\ne 0$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong mặt phẳng tọa độ, $V_{(O, 2)}$ ($O$ là gốc tọa độ) biến điểm $M(3; 1)$ thành điểm $M'$ có tọa độ:",
+     "options": [
+      "A. $(6; 2)$",
+      "B. $(3; 1)$",
+      "C. $(6; 1)$",
+      "D. $(5; 3)$"
+     ],
+     "answer": "A",
+     "explain": "$\\overrightarrow{OM'} = 2\\overrightarrow{OM}$ nên $M'(2 \\times 3; 2 \\times 1) = (6; 2)$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Trong mặt phẳng tọa độ, $V_{(O, -2)}$ ($O$ là gốc tọa độ) biến điểm $A(1; 2)$ thành $A'$. Tính tổng hoành độ và tung độ của $A'$. (Điền số)",
+     "answer": "-6",
+     "explain": "$A'(-2; -4)$ nên tổng là $-2 + (-4) = -6$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Trong mặt phẳng tọa độ, $V_{(O, 3)}$ ($O$ là gốc tọa độ) biến điểm $A(3; 1)$ thành $A'$. Tính hoành độ của $A'$. (Điền số)",
+     "answer": "9",
+     "explain": "Hoành độ của $A'$ là $3 \\times 3 = 9$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho $V_{(O, 3)}$ biến đoạn thẳng $AB = 4$ cm thành đoạn thẳng $A'B'$. Độ dài đoạn thẳng $A'B'$ là:",
+     "options": [
+      "A. $12$ cm",
+      "B. $7$ cm",
+      "C. $4$ cm",
+      "D. $13$ cm"
+     ],
+     "answer": "A",
+     "explain": "$A'B' = |3| \\times AB = 3 \\times 4 = 12$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ có diện tích $5$ cm$^2$. Gọi $A'B'C'$ là ảnh của $ABC$ qua $V_{(O, 4)}$. Diện tích tam giác $A'B'C'$ là:",
+     "options": [
+      "A. $20$ cm$^2$",
+      "B. $21$ cm$^2$",
+      "C. $5$ cm$^2$",
+      "D. $80$ cm$^2$"
+     ],
+     "answer": "D",
+     "explain": "$S' = k^2 \\cdot S = 16 \\times 5 = 80$ (cm$^2$)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Trong mặt phẳng tọa độ, $V_{(O, 4)}$ ($O$ là gốc tọa độ) biến điểm $A(2; 1)$ thành điểm $A'$ có tọa độ:",
+     "options": [
+      "A. $(4; 8)$",
+      "B. $(2; 1)$",
+      "C. $(6; 5)$",
+      "D. $(8; 4)$"
+     ],
+     "answer": "D",
+     "explain": "$A'(4 \\times 2; 4 \\times 1) = (8; 4)$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho $V_{(O, 2)}$ biến đoạn thẳng $AB = 4$ cm thành đoạn thẳng $A'B'$. Độ dài đoạn thẳng $A'B'$ là:",
+     "options": [
+      "A. $4$ cm",
+      "B. $8$ cm",
+      "C. $6$ cm",
+      "D. $9$ cm"
+     ],
+     "answer": "B",
+     "explain": "$A'B' = |2| \\times AB = 2 \\times 4 = 8$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Trong mặt phẳng tọa độ, $V_{(O, 4)}$ ($O$ là gốc tọa độ) biến điểm $A(1; 2)$ thành điểm $A'$ có tọa độ:",
+     "options": [
+      "A. $(1; 2)$",
+      "B. $(8; 4)$",
+      "C. $(4; 8)$",
+      "D. $(5; 6)$"
+     ],
+     "answer": "C",
+     "explain": "$A'(4 \\times 1; 4 \\times 2) = (4; 8)$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho hình vuông $ABCD$ cạnh $5$ cm, $A'B'C'D' = V_{(O, 2)}(ABCD)$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $A'B'C'D'$ là hình vuông cạnh $10$ cm.",
+      "b) Diện tích $A'B'C'D'$ gấp 2 lần diện tích $ABCD$.",
+      "c) Diện tích $A'B'C'D'$ bằng $100$ cm$^2$.",
+      "d) Chu vi $A'B'C'D'$ gấp 4 lần chu vi $ABCD$."
+     ],
+     "answer": [
+      "T",
+      "F",
+      "T",
+      "F"
+     ],
+     "explain": "a) Đúng. b) Sai — gấp $k^2 = 4$ lần. c) Đúng. d) Sai — gấp $|k| = 2$ lần."
+    }
+   ]
+  },
+  {
+   "name": "Đề 5",
+   "questions": [
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Cho $V_{(O, 3)}$ và đoạn thẳng $AB = 4$ cm, $A'B'$ là ảnh của $AB$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $A'B' = 12$ cm.",
+      "b) $\\overrightarrow{OA'} = 3\\overrightarrow{OA}$ với $A' = V_{(O, 3)}(A)$.",
+      "c) Phép vị tự biến đường thẳng thành đường thẳng song song hoặc trùng với nó.",
+      "d) Độ dài đoạn thẳng tăng $k^2$ lần qua phép vị tự tỉ số $k$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b) Đúng. c) Đúng. d) Sai — độ dài tăng $|k| = 3$ lần, diện tích mới tăng $k^2$ lần."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ có diện tích $10$ cm$^2$. Gọi $A'B'C'$ là ảnh của $ABC$ qua $V_{(O, 3)}$. Diện tích tam giác $A'B'C'$ là:",
+     "options": [
+      "A. $30$ cm$^2$",
+      "B. $19$ cm$^2$",
+      "C. $10$ cm$^2$",
+      "D. $90$ cm$^2$"
+     ],
+     "answer": "D",
+     "explain": "$S' = k^2 \\cdot S = 9 \\times 10 = 90$ (cm$^2$)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Trong mặt phẳng tọa độ, $V_{(O, 3)}$ ($O$ là gốc tọa độ) biến điểm $A(2; 1)$ thành điểm $A'$ có tọa độ:",
+     "options": [
+      "A. $(6; 3)$",
+      "B. $(5; 4)$",
+      "C. $(2; 1)$",
+      "D. $(3; 6)$"
+     ],
+     "answer": "A",
+     "explain": "$A'(3 \\times 2; 3 \\times 1) = (6; 3)$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho $V_{(O, 3)}$ biến đoạn thẳng $AB = 5$ cm thành đoạn thẳng $A'B'$. Độ dài đoạn thẳng $A'B'$ là:",
+     "options": [
+      "A. $5$ cm",
+      "B. $15$ cm",
+      "C. $8$ cm",
+      "D. $16$ cm"
+     ],
+     "answer": "B",
+     "explain": "$A'B' = |3| \\times AB = 3 \\times 5 = 15$ (cm)."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Hai hình đồng dạng có diện tích lần lượt là $18$ cm$^2$ và $162$ cm$^2$ (hình thứ hai là ảnh của hình thứ nhất qua phép vị tự tỉ số $k > 0$). Tìm $k$. (Điền số)",
+     "answer": "3",
+     "explain": "$k^2 = \\frac{162}{18} = 9$ nên $k = 3$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho $V_{(O, 2)}$, biết $OA = 6$ cm. Với $A' = V_{(O, 2)}(A)$, độ dài đoạn thẳng $OA'$ là:",
+     "options": [
+      "A. $12$ cm",
+      "B. $11$ cm",
+      "C. $8$ cm",
+      "D. $6$ cm"
+     ],
+     "answer": "A",
+     "explain": "$OA' = 2 \\times OA = 2 \\times 6 = 12$ (cm)."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho hình vuông $ABCD$ cạnh $4$ cm, $A'B'C'D' = V_{(O, 2)}(ABCD)$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $A'B'C'D'$ là hình vuông cạnh $8$ cm.",
+      "b) Diện tích $A'B'C'D'$ gấp 2 lần diện tích $ABCD$.",
+      "c) Diện tích $A'B'C'D'$ bằng $64$ cm$^2$.",
+      "d) Chu vi $A'B'C'D'$ gấp 4 lần chu vi $ABCD$."
+     ],
+     "answer": [
+      "T",
+      "F",
+      "T",
+      "F"
+     ],
+     "explain": "a) Đúng. b) Sai — gấp $k^2 = 4$ lần. c) Đúng. d) Sai — gấp $|k| = 2$ lần."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Hình $H$ có diện tích $12$ cm$^2$. Gọi $H' = V_{(O, 3)}(H)$. Tính diện tích của $H'$ (đơn vị: cm$^2$). (Điền số)",
+     "answer": "108",
+     "explain": "$S' = k^2 \\times S = 9 \\times 12 = 108$ (cm$^2$)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Hình $H$ có chu vi $20$ cm. Gọi $H' = V_{(O, 2)}(H)$. Chu vi của hình $H'$ là:",
+     "options": [
+      "A. $80$ cm",
+      "B. $20$ cm",
+      "C. $40$ cm",
+      "D. $22$ cm"
+     ],
+     "answer": "C",
+     "explain": "Chu vi tăng $|k| = 2$ lần: $C' = 2 \\times 20 = 40$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Phép vị tự tỉ số $k = 1$ là:",
+     "options": [
+      "A. phép đối xứng tâm",
+      "B. phép quay $90^\\circ$",
+      "C. phép tịnh tiến",
+      "D. phép đồng nhất (mọi điểm biến thành chính nó)"
+     ],
+     "answer": "D",
+     "explain": "Với $k = 1$: $\\overrightarrow{OM'} = \\overrightarrow{OM}$ nên $M' \\equiv M$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 6",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Hình $H$ có diện tích $12$ cm$^2$. Gọi $H' = V_{(O, 3)}(H)$. Diện tích của hình $H'$ là:",
+     "options": [
+      "A. $12$ cm$^2$",
+      "B. $108$ cm$^2$",
+      "C. $120$ cm$^2$",
+      "D. $36$ cm$^2$"
+     ],
+     "answer": "B",
+     "explain": "Diện tích tăng $k^2 = 9$ lần: $S' = 9 \\times 12 = 108$ (cm$^2$)."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Trong mặt phẳng tọa độ, $V_{(O, 2)}$ ($O$ là gốc tọa độ), $A(1; 3)$, $A' = V_{(O, 2)}(A)$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $A'(2; 6)$.",
+      "b) Hoành độ của $A'$ là $3$.",
+      "c) $OA' = 2 \\cdot OA$.",
+      "d) $A'$ và $A$ nằm cùng phía so với $O$."
+     ],
+     "answer": [
+      "T",
+      "F",
+      "T",
+      "T"
+     ],
+     "explain": "a) Đúng. b) Sai — hoành độ là $2 \\times 1 = 2$. c) Đúng. d) Đúng — vì $2 > 0$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Trong mặt phẳng tọa độ, $V_{(O, -2)}$ ($O$ là gốc tọa độ), $A(3; 1)$, $A' = V_{(O, -2)}(A)$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $A'(-6; -2)$.",
+      "b) Tổng hoành độ và tung độ của $A'$ bằng $-8$.",
+      "c) $A'$ và $A$ nằm khác phía so với $O$.",
+      "d) $OA' = -2 \\cdot OA$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a) Đúng. b) Đúng — $-6 + (-2) = -8$. c) Đúng — vì $k = -2 < 0$. d) Sai — $OA' = |-2| \\cdot OA = 2 \\cdot OA$ (độ dài không âm)."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Cho $V_{(O, 3)}$ biến đoạn thẳng $AB = 5$ cm thành đoạn thẳng $A'B'$. Tính $A'B'$ (đơn vị: cm). (Điền số)",
+     "answer": "15",
+     "explain": "$A'B' = |3| \\times AB = 3 \\times 5 = 15$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Hình $H$ có chu vi $20$ cm. Gọi $H' = V_{(O, 3)}(H)$. Chu vi của hình $H'$ là:",
+     "options": [
+      "A. $180$ cm",
+      "B. $60$ cm",
+      "C. $23$ cm",
+      "D. $20$ cm"
+     ],
+     "answer": "B",
+     "explain": "Chu vi tăng $|k| = 3$ lần: $C' = 3 \\times 20 = 60$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong mặt phẳng tọa độ, $V_{(O, 2)}$ ($O$ là gốc tọa độ) biến điểm $M(2; 2)$ thành điểm $M'$ có tọa độ:",
+     "options": [
+      "A. $(4; 2)$",
+      "B. $(6; 4)$",
+      "C. $(4; 4)$",
+      "D. $(2; 2)$"
+     ],
+     "answer": "C",
+     "explain": "$\\overrightarrow{OM'} = 2\\overrightarrow{OM}$ nên $M'(2 \\times 2; 2 \\times 2) = (4; 4)$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho $V_{(O, 3)}$, biết $OA = 4$ cm. Với $A' = V_{(O, 3)}(A)$, độ dài đoạn thẳng $OA'$ là:",
+     "options": [
+      "A. $11$ cm",
+      "B. $7$ cm",
+      "C. $12$ cm",
+      "D. $4$ cm"
+     ],
+     "answer": "C",
+     "explain": "$OA' = 3 \\times OA = 3 \\times 4 = 12$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho $V_{(O, 4)}$ biến đoạn thẳng $AB = 3$ cm thành đoạn thẳng $A'B'$. Độ dài đoạn thẳng $A'B'$ là:",
+     "options": [
+      "A. $7$ cm",
+      "B. $13$ cm",
+      "C. $12$ cm",
+      "D. $3$ cm"
+     ],
+     "answer": "C",
+     "explain": "$A'B' = |4| \\times AB = 4 \\times 3 = 12$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Thực hiện liên tiếp phép vị tự $V_{(O, 2)}$ rồi $V_{(O, 4)}$ (cùng tâm $O$) tương đương với phép vị tự:",
+     "options": [
+      "A. $V_{(O, 4)}$",
+      "B. $V_{(O, 8)}$",
+      "C. $V_{(O, 6)}$",
+      "D. $V_{(O, 2)}$"
+     ],
+     "answer": "B",
+     "explain": "$\\overrightarrow{OM''} = 4 \\cdot 2\\overrightarrow{OM} = 8\\overrightarrow{OM}$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Phép vị tự $V_{(O, k)}$ ($k > 0$) biến đoạn thẳng $AB = 5$ cm thành đoạn thẳng $A'B' = 20$ cm. Tìm $k$. (Điền số)",
+     "answer": "4",
+     "explain": "$k = \\frac{A'B'}{AB} = \\frac{20}{5} = 4$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 7",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Trong mặt phẳng tọa độ, $V_{(O, -2)}$ ($O$ là gốc tọa độ) biến điểm $A(3; 2)$ thành điểm $A'$ có tọa độ:",
+     "options": [
+      "A. $(6; 4)$",
+      "B. $(-3; -2)$",
+      "C. $(3; 2)$",
+      "D. $(-6; -4)$"
+     ],
+     "answer": "D",
+     "explain": "$A'(-2 \\times 3; -2 \\times 2) = (-6; -4)$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Thực hiện liên tiếp phép vị tự $V_{(O, 3)}$ rồi $V_{(O, 2)}$ (cùng tâm $O$) tương đương với phép vị tự:",
+     "options": [
+      "A. $V_{(O, 6)}$",
+      "B. $V_{(O, 5)}$",
+      "C. $V_{(O, 2)}$",
+      "D. $V_{(O, 3)}$"
+     ],
+     "answer": "A",
+     "explain": "$\\overrightarrow{OM''} = 2 \\cdot 3\\overrightarrow{OM} = 6\\overrightarrow{OM}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Trong mặt phẳng tọa độ, $V_{(O, -2)}$ ($O$ là gốc tọa độ) biến điểm $A(2; 1)$ thành điểm $A'$ có tọa độ:",
+     "options": [
+      "A. $(-2; -1)$",
+      "B. $(-4; -2)$",
+      "C. $(4; 2)$",
+      "D. $(2; 1)$"
+     ],
+     "answer": "B",
+     "explain": "$A'(-2 \\times 2; -2 \\times 1) = (-4; -2)$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho $V_{(O, 3)}$ biến đoạn thẳng $AB = 3$ cm thành đoạn thẳng $A'B'$. Độ dài đoạn thẳng $A'B'$ là:",
+     "options": [
+      "A. $6$ cm",
+      "B. $3$ cm",
+      "C. $10$ cm",
+      "D. $9$ cm"
+     ],
+     "answer": "D",
+     "explain": "$A'B' = |3| \\times AB = 3 \\times 3 = 9$ (cm)."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Cho $V_{(O, 3)}$ và đoạn thẳng $AB = 5$ cm, $A'B'$ là ảnh của $AB$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $A'B' = 15$ cm.",
+      "b) $\\overrightarrow{OA'} = 3\\overrightarrow{OA}$ với $A' = V_{(O, 3)}(A)$.",
+      "c) Phép vị tự biến đường thẳng thành đường thẳng song song hoặc trùng với nó.",
+      "d) Độ dài đoạn thẳng tăng $k^2$ lần qua phép vị tự tỉ số $k$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b) Đúng. c) Đúng. d) Sai — độ dài tăng $|k| = 3$ lần, diện tích mới tăng $k^2$ lần."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong mặt phẳng tọa độ, $V_{(O, 3)}$ ($O$ là gốc tọa độ) biến điểm $M(1; 3)$ thành điểm $M'$ có tọa độ:",
+     "options": [
+      "A. $(3; 3)$",
+      "B. $(3; 9)$",
+      "C. $(4; 6)$",
+      "D. $(1; 3)$"
+     ],
+     "answer": "B",
+     "explain": "$\\overrightarrow{OM'} = 3\\overrightarrow{OM}$ nên $M'(3 \\times 1; 3 \\times 3) = (3; 9)$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Cho $V_{(O, 2)}$ biến đoạn thẳng $AB = 5$ cm thành đoạn thẳng $A'B'$. Tính $A'B'$ (đơn vị: cm). (Điền số)",
+     "answer": "10",
+     "explain": "$A'B' = |2| \\times AB = 2 \\times 5 = 10$ (cm)."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Phép vị tự $V_{(O, k)}$ ($k > 0$) biến đoạn thẳng $AB = 4$ cm thành đoạn thẳng $A'B' = 12$ cm. Tìm $k$. (Điền số)",
+     "answer": "3",
+     "explain": "$k = \\frac{A'B'}{AB} = \\frac{12}{4} = 3$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho $V_{(O, 4)}$, biết $OA = 4$ cm. Với $A' = V_{(O, 4)}(A)$, độ dài đoạn thẳng $OA'$ là:",
+     "options": [
+      "A. $8$ cm",
+      "B. $15$ cm",
+      "C. $16$ cm",
+      "D. $4$ cm"
+     ],
+     "answer": "C",
+     "explain": "$OA' = 4 \\times OA = 4 \\times 4 = 16$ (cm)."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Trong mặt phẳng tọa độ, $V_{(O, 3)}$ ($O$ là gốc tọa độ), $A(1; 3)$, $A' = V_{(O, 3)}(A)$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $A'(3; 9)$.",
+      "b) Hoành độ của $A'$ là $4$.",
+      "c) $OA' = 3 \\cdot OA$.",
+      "d) $A'$ và $A$ nằm cùng phía so với $O$."
+     ],
+     "answer": [
+      "T",
+      "F",
+      "T",
+      "T"
+     ],
+     "explain": "a) Đúng. b) Sai — hoành độ là $3 \\times 1 = 3$. c) Đúng. d) Đúng — vì $3 > 0$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 8",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Cho $V_{(O, -2)}$ biến đoạn thẳng $AB = 4$ cm thành $A'B'$. Độ dài đoạn thẳng $A'B'$ là:",
+     "options": [
+      "A. $8$ cm",
+      "B. $4$ cm",
+      "C. $-8$ cm (sai vì độ dài không âm)",
+      "D. $6$ cm"
+     ],
+     "answer": "A",
+     "explain": "$A'B' = |-2| \\times AB = 2 \\times 4 = 8$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong mặt phẳng tọa độ, $V_{(O, 3)}$ ($O$ là gốc tọa độ) biến điểm $M(2; 2)$ thành điểm $M'$ có tọa độ:",
+     "options": [
+      "A. $(6; 6)$",
+      "B. $(5; 5)$",
+      "C. $(6; 2)$",
+      "D. $(2; 2)$"
+     ],
+     "answer": "A",
+     "explain": "$\\overrightarrow{OM'} = 3\\overrightarrow{OM}$ nên $M'(3 \\times 2; 3 \\times 2) = (6; 6)$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Trong mặt phẳng tọa độ, $V_{(O, -3)}$ ($O$ là gốc tọa độ) biến điểm $A(4; 2)$ thành điểm $A'$ có tọa độ:",
+     "options": [
+      "A. $(-4; -2)$",
+      "B. $(4; 2)$",
+      "C. $(-12; -6)$",
+      "D. $(12; 6)$"
+     ],
+     "answer": "C",
+     "explain": "$A'(-3 \\times 4; -3 \\times 2) = (-12; -6)$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Trong mặt phẳng tọa độ, $V_{(O, -2)}$ ($O$ là gốc tọa độ) biến điểm $A(3; 2)$ thành $A'$. Tính tổng hoành độ và tung độ của $A'$. (Điền số)",
+     "answer": "-10",
+     "explain": "$A'(-6; -4)$ nên tổng là $-6 + (-4) = -10$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong mặt phẳng tọa độ, $V_{(O, 3)}$ ($O$ là gốc tọa độ) biến điểm $M(3; 2)$ thành điểm $M'$ có tọa độ:",
+     "options": [
+      "A. $(9; 2)$",
+      "B. $(6; 5)$",
+      "C. $(3; 2)$",
+      "D. $(9; 6)$"
+     ],
+     "answer": "D",
+     "explain": "$\\overrightarrow{OM'} = 3\\overrightarrow{OM}$ nên $M'(3 \\times 3; 3 \\times 2) = (9; 6)$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho $V_{(O, 3)}$, biết $OA = 5$ cm. Với $A' = V_{(O, 3)}(A)$, độ dài đoạn thẳng $OA'$ là:",
+     "options": [
+      "A. $14$ cm",
+      "B. $8$ cm",
+      "C. $5$ cm",
+      "D. $15$ cm"
+     ],
+     "answer": "D",
+     "explain": "$OA' = 3 \\times OA = 3 \\times 5 = 15$ (cm)."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Trong mặt phẳng tọa độ, $V_{(O, 3)}$ ($O$ là gốc tọa độ) biến điểm $A(3; 2)$ thành $A'$. Tính hoành độ của $A'$. (Điền số)",
+     "answer": "9",
+     "explain": "Hoành độ của $A'$ là $3 \\times 3 = 9$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Trong mặt phẳng tọa độ, $V_{(O, -2)}$ ($O$ là gốc tọa độ), $A(3; 2)$, $A' = V_{(O, -2)}(A)$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $A'(-6; -4)$.",
+      "b) Tổng hoành độ và tung độ của $A'$ bằng $-10$.",
+      "c) $A'$ và $A$ nằm khác phía so với $O$.",
+      "d) $OA' = -2 \\cdot OA$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a) Đúng. b) Đúng — $-6 + (-4) = -10$. c) Đúng — vì $k = -2 < 0$. d) Sai — $OA' = |-2| \\cdot OA = 2 \\cdot OA$ (độ dài không âm)."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Hình đồng dạng. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Hình $H'$ là ảnh của hình $H$ qua một phép vị tự thì $H'$ đồng dạng với $H$.",
+      "b) Hai hình vuông bất kì luôn đồng dạng với nhau.",
+      "c) Hai hình chữ nhật bất kì luôn đồng dạng với nhau.",
+      "d) Hai đường tròn bất kì luôn đồng dạng với nhau."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "a), b) Đúng. c) Sai — hai hình chữ nhật chỉ đồng dạng khi các cạnh tỉ lệ. d) Đúng — mọi đường tròn đều đồng dạng."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Trong mặt phẳng tọa độ, $V_{(O, 3)}$ ($O$ là gốc tọa độ) biến điểm $A(2; 2)$ thành điểm $A'$ có tọa độ:",
+     "options": [
+      "A. $(8; 6)$",
+      "B. $(6; 6)$",
+      "C. $(5; 5)$",
+      "D. $(2; 2)$"
+     ],
+     "answer": "B",
+     "explain": "$A'(3 \\times 2; 3 \\times 2) = (6; 6)$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 9",
+   "questions": [
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho hình vuông $ABCD$ cạnh $3$ cm, $A'B'C'D' = V_{(O, 3)}(ABCD)$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $A'B'C'D'$ là hình vuông cạnh $9$ cm.",
+      "b) Diện tích $A'B'C'D'$ gấp 3 lần diện tích $ABCD$.",
+      "c) Diện tích $A'B'C'D'$ bằng $81$ cm$^2$.",
+      "d) Chu vi $A'B'C'D'$ gấp 9 lần chu vi $ABCD$."
+     ],
+     "answer": [
+      "T",
+      "F",
+      "T",
+      "F"
+     ],
+     "explain": "a) Đúng. b) Sai — gấp $k^2 = 9$ lần. c) Đúng. d) Sai — gấp $|k| = 3$ lần."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Cho $V_{(O, -3)}$ biến đoạn thẳng $AB = 5$ cm thành $A'B'$. Độ dài đoạn thẳng $A'B'$ là:",
+     "options": [
+      "A. $5$ cm",
+      "B. $15$ cm",
+      "C. $8$ cm",
+      "D. $-15$ cm (sai vì độ dài không âm)"
+     ],
+     "answer": "B",
+     "explain": "$A'B' = |-3| \\times AB = 3 \\times 5 = 15$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho $V_{(O, 2)}$, biết $OA = 5$ cm. Với $A' = V_{(O, 2)}(A)$, độ dài đoạn thẳng $OA'$ là:",
+     "options": [
+      "A. $7$ cm",
+      "B. $9$ cm",
+      "C. $5$ cm",
+      "D. $10$ cm"
+     ],
+     "answer": "D",
+     "explain": "$OA' = 2 \\times OA = 2 \\times 5 = 10$ (cm)."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Hình $H$ có diện tích $10$ cm$^2$. Gọi $H' = V_{(O, 3)}(H)$. Tính diện tích của $H'$ (đơn vị: cm$^2$). (Điền số)",
+     "answer": "90",
+     "explain": "$S' = k^2 \\times S = 9 \\times 10 = 90$ (cm$^2$)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Trong mặt phẳng tọa độ, $V_{(O, 2)}$ ($O$ là gốc tọa độ) biến điểm $A(2; 1)$ thành điểm $A'$ có tọa độ:",
+     "options": [
+      "A. $(2; 4)$",
+      "B. $(4; 2)$",
+      "C. $(4; 3)$",
+      "D. $(2; 1)$"
+     ],
+     "answer": "B",
+     "explain": "$A'(2 \\times 2; 2 \\times 1) = (4; 2)$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Hai hình đồng dạng có diện tích lần lượt là $8$ cm$^2$ và $200$ cm$^2$ (hình thứ hai là ảnh của hình thứ nhất qua phép vị tự tỉ số $k > 0$). Tìm $k$. (Điền số)",
+     "answer": "5",
+     "explain": "$k^2 = \\frac{200}{8} = 25$ nên $k = 5$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Trong mặt phẳng tọa độ, $V_{(O, -3)}$ ($O$ là gốc tọa độ) biến điểm $A(3; 1)$ thành điểm $A'$ có tọa độ:",
+     "options": [
+      "A. $(9; 3)$",
+      "B. $(-3; -1)$",
+      "C. $(-9; -3)$",
+      "D. $(3; 1)$"
+     ],
+     "answer": "C",
+     "explain": "$A'(-3 \\times 3; -3 \\times 1) = (-9; -3)$."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Trong mặt phẳng tọa độ, $V_{(O, 2)}$ ($O$ là gốc tọa độ), $A(2; 3)$, $A' = V_{(O, 2)}(A)$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $A'(4; 6)$.",
+      "b) Hoành độ của $A'$ là $4$.",
+      "c) $OA' = 2 \\cdot OA$.",
+      "d) $A'$ và $A$ nằm cùng phía so với $O$."
+     ],
+     "answer": [
+      "T",
+      "F",
+      "T",
+      "T"
+     ],
+     "explain": "a) Đúng. b) Sai — hoành độ là $2 \\times 2 = 4$. c) Đúng. d) Đúng — vì $2 > 0$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong mặt phẳng tọa độ, $V_{(O, 3)}$ ($O$ là gốc tọa độ) biến điểm $M(2; 3)$ thành điểm $M'$ có tọa độ:",
+     "options": [
+      "A. $(6; 9)$",
+      "B. $(2; 3)$",
+      "C. $(5; 6)$",
+      "D. $(6; 3)$"
+     ],
+     "answer": "A",
+     "explain": "$\\overrightarrow{OM'} = 3\\overrightarrow{OM}$ nên $M'(3 \\times 2; 3 \\times 3) = (6; 9)$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho $V_{(O, 3)}$, biết $OA = 6$ cm. Với $A' = V_{(O, 3)}(A)$, độ dài đoạn thẳng $OA'$ là:",
+     "options": [
+      "A. $6$ cm",
+      "B. $17$ cm",
+      "C. $9$ cm",
+      "D. $18$ cm"
+     ],
+     "answer": "D",
+     "explain": "$OA' = 3 \\times OA = 3 \\times 6 = 18$ (cm)."
+    }
+   ]
+  },
+  {
+   "name": "Đề 10",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho $V_{(O, 4)}$, biết $OA = 6$ cm. Với $A' = V_{(O, 4)}(A)$, độ dài đoạn thẳng $OA'$ là:",
+     "options": [
+      "A. $23$ cm",
+      "B. $24$ cm",
+      "C. $6$ cm",
+      "D. $10$ cm"
+     ],
+     "answer": "B",
+     "explain": "$OA' = 4 \\times OA = 4 \\times 6 = 24$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong mặt phẳng tọa độ, $V_{(O, 3)}$ ($O$ là gốc tọa độ) biến điểm $M(3; 3)$ thành điểm $M'$ có tọa độ:",
+     "options": [
+      "A. $(9; 9)$",
+      "B. $(6; 6)$",
+      "C. $(3; 3)$",
+      "D. $(9; 3)$"
+     ],
+     "answer": "A",
+     "explain": "$\\overrightarrow{OM'} = 3\\overrightarrow{OM}$ nên $M'(3 \\times 3; 3 \\times 3) = (9; 9)$."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Cho $V_{(O, 2)}$ và đoạn thẳng $AB = 5$ cm, $A'B'$ là ảnh của $AB$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $A'B' = 10$ cm.",
+      "b) $\\overrightarrow{OA'} = 2\\overrightarrow{OA}$ với $A' = V_{(O, 2)}(A)$.",
+      "c) Phép vị tự biến đường thẳng thành đường thẳng song song hoặc trùng với nó.",
+      "d) Độ dài đoạn thẳng tăng $k^2$ lần qua phép vị tự tỉ số $k$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b) Đúng. c) Đúng. d) Sai — độ dài tăng $|k| = 2$ lần, diện tích mới tăng $k^2$ lần."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Trong mặt phẳng tọa độ, $V_{(O, -2)}$ ($O$ là gốc tọa độ) biến điểm $A(4; 1)$ thành điểm $A'$ có tọa độ:",
+     "options": [
+      "A. $(4; 1)$",
+      "B. $(8; 2)$",
+      "C. $(-8; -2)$",
+      "D. $(-4; -1)$"
+     ],
+     "answer": "C",
+     "explain": "$A'(-2 \\times 4; -2 \\times 1) = (-8; -2)$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho $V_{(O, 2)}$, biết $OA = 4$ cm. Với $A' = V_{(O, 2)}(A)$, độ dài đoạn thẳng $OA'$ là:",
+     "options": [
+      "A. $7$ cm",
+      "B. $6$ cm",
+      "C. $4$ cm",
+      "D. $8$ cm"
+     ],
+     "answer": "D",
+     "explain": "$OA' = 2 \\times OA = 2 \\times 4 = 8$ (cm)."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Hai hình đồng dạng có diện tích lần lượt là $2$ cm$^2$ và $18$ cm$^2$ (hình thứ hai là ảnh của hình thứ nhất qua phép vị tự tỉ số $k > 0$). Tìm $k$. (Điền số)",
+     "answer": "3",
+     "explain": "$k^2 = \\frac{18}{2} = 9$ nên $k = 3$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Trong mặt phẳng tọa độ, $V_{(O, 2)}$ ($O$ là gốc tọa độ) biến điểm $A(2; 1)$ thành $A'$. Tính hoành độ của $A'$. (Điền số)",
+     "answer": "4",
+     "explain": "Hoành độ của $A'$ là $2 \\times 2 = 4$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Trong mặt phẳng tọa độ, $V_{(O, -2)}$ ($O$ là gốc tọa độ), $A(2; 2)$, $A' = V_{(O, -2)}(A)$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $A'(-4; -4)$.",
+      "b) Tổng hoành độ và tung độ của $A'$ bằng $-8$.",
+      "c) $A'$ và $A$ nằm khác phía so với $O$.",
+      "d) $OA' = -2 \\cdot OA$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a) Đúng. b) Đúng — $-4 + (-4) = -8$. c) Đúng — vì $k = -2 < 0$. d) Sai — $OA' = |-2| \\cdot OA = 2 \\cdot OA$ (độ dài không âm)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Hình $H$ có diện tích $12$ cm$^2$. Gọi $H' = V_{(O, 2)}(H)$. Diện tích của hình $H'$ là:",
+     "options": [
+      "A. $48$ cm$^2$",
+      "B. $60$ cm$^2$",
+      "C. $12$ cm$^2$",
+      "D. $24$ cm$^2$"
+     ],
+     "answer": "A",
+     "explain": "Diện tích tăng $k^2 = 4$ lần: $S' = 4 \\times 12 = 48$ (cm$^2$)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Hình $H$ có chu vi $10$ cm. Gọi $H' = V_{(O, 2)}(H)$. Chu vi của hình $H'$ là:",
+     "options": [
+      "A. $20$ cm",
+      "B. $12$ cm",
+      "C. $10$ cm",
+      "D. $40$ cm"
+     ],
+     "answer": "A",
+     "explain": "Chu vi tăng $|k| = 2$ lần: $C' = 2 \\times 10 = 20$ (cm)."
+    }
+   ]
+  }
+ ]
+}
+</script>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
