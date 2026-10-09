@@ -112,6 +112,29 @@
             if (rj.status !== 'success') throw new Error(rj.message || 'Proxy báo lỗi');
         }
 
+        // Cap nhat used.is voi co che thu lai khi xung dot SHA (409)
+        // modifyFn(db) thuc hien thay doi len db, duoc goi lai sau moi lan fetch moi
+        async function assignUpdateUsed(modifyFn, message, maxRetries){
+            maxRetries = maxRetries || 3;
+            let lastErr = null;
+            for (let attempt = 0; attempt < maxRetries; attempt++){
+                let db = await assignFetchUsed();
+                modifyFn(db);
+                try {
+                    await assignPushUsed(db, message);
+                    return db;
+                } catch(e){
+                    lastErr = e;
+                    let msg = String(e.message || '');
+                    // Chi thu lai khi loi 409 (SHA xung dot)
+                    if (msg.indexOf('409') < 0) throw e;
+                    // Doi chut truoc khi thu lai
+                    await new Promise(function(r){ setTimeout(r, 1000 + attempt*1000); });
+                }
+            }
+            throw lastErr || new Error('Không đẩy được sau ' + maxRetries + ' lần thử.');
+        }
+
         function openAssignManager(){
             if (!assignIsAdmin()){ alert('Chỉ admin mới được quản lý phân công chuyên môn.'); return; }
             let old = document.getElementById('assign-modal');
