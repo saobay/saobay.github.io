@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 22: Đại lượng tỉ lệ thuận</title>
+    <meta name="lesson-title" content="Bài 22: Đại lượng tỉ lệ thuận">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 22: Đại lượng tỉ lệ thuận</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 6: Tỉ lệ thức và đại lượng tỉ lệ • Bài 22: Đại lượng tỉ lệ thuận</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<p>Quãng đường đi được và thời gian đi (khi vận tốc không đổi), số tiền phải trả và số hàng mua (khi giá không đổi), ... là những cặp đại lượng mà khi một đại lượng tăng (giảm) bao nhiêu lần thì đại lượng kia cũng tăng (giảm) bấy nhiêu lần. Đó là các <strong>đại lượng tỉ lệ thuận</strong>.</p>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-8">1. Đại lượng tỉ lệ thuận</h2>
+<div class="bg-amber-50 border-l-4 border-amber-500 rounded-r-xl p-4 my-4">
+    <p class="font-bold text-amber-800 mb-1">📌 Ghi nhớ</p>
+    <p>Nếu đại lượng $y$ liên hệ với đại lượng $x$ theo công thức $y = kx$ (với $k$ là hằng số khác 0) thì ta nói <strong>$y$ tỉ lệ thuận với $x$ theo hệ số tỉ lệ $k$</strong>.</p>
+    <p>Chú ý: khi $y$ tỉ lệ thuận với $x$ theo hệ số $k$ thì $x$ cũng tỉ lệ thuận với $y$ theo hệ số $\dfrac{1}{k}$.</p>
+</div>
+
+<div class="bg-sky-50 border-l-4 border-sky-500 rounded-r-xl p-4 my-4">
+    <p class="font-bold text-sky-800 mb-1">Ví dụ 1</p>
+    <p>Một ô tô chuyển động đều với vận tốc 40 km/h. Quãng đường $s$ (km) đi được trong thời gian $t$ (giờ) là $s = 40t$. Vậy $s$ tỉ lệ thuận với $t$ theo hệ số tỉ lệ 40.</p>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-8">2. Tính chất của đại lượng tỉ lệ thuận</h2>
+<p>Nếu $y$ tỉ lệ thuận với $x$ theo hệ số $k$ thì với mỗi giá trị $x_1, x_2, ...$ khác 0 của $x$, ta có các giá trị tương ứng $y_1 = kx_1$, $y_2 = kx_2$, ... và:</p>
+$$\frac{y_1}{x_1} = \frac{y_2}{x_2} = \cdots = k; \qquad \frac{x_1}{x_2} = \frac{y_1}{y_2}; \qquad \frac{x_1}{x_3} = \frac{y_1}{y_3}; \quad \cdots$$
+
+<div class="bg-sky-50 border-l-4 border-sky-500 rounded-r-xl p-4 my-4">
+    <p class="font-bold text-sky-800 mb-1">Ví dụ 2</p>
+    <p>Cho $x$ và $y$ là hai đại lượng tỉ lệ thuận, $x_1 = 2$, $y_1 = 6$, $x_2 = 5$. Tìm $y_2$.</p>
+    <p class="mt-1"><strong>Lời giải:</strong> $\dfrac{x_1}{x_2} = \dfrac{y_1}{y_2}$ nên $\dfrac{2}{5} = \dfrac{6}{y_2}$, suy ra $y_2 = \dfrac{5 \cdot 6}{2} = 15$.</p>
+</div>
+
+<div class="svg-fig">
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" font-family="system-ui, sans-serif">
+    <line x1="40" y1="260" x2="380" y2="260" stroke="#334155" stroke-width="2"/>
+    <line x1="40" y1="265" x2="40" y2="30" stroke="#334155" stroke-width="2"/>
+    <text x="372" y="252" font-size="13" fill="#334155">x</text>
+    <text x="48" y="42" font-size="13" fill="#334155">y</text>
+    <line x1="40" y1="260" x2="340" y2="40" stroke="#0ea5e9" stroke-width="3"/>
+    <g fill="#0ea5e9">
+        <circle cx="100" cy="216" r="5"/><circle cx="160" cy="172" r="5"/><circle cx="220" cy="128" r="5"/>
+    </g>
+    <g font-size="12" fill="#0c4a6e" font-weight="bold">
+        <text x="106" y="210">(1; 2)</text><text x="166" y="166">(2; 4)</text><text x="226" y="122">(3; 6)</text>
+    </g>
+    <g font-size="11" fill="#64748b" text-anchor="middle">
+        <text x="100" y="276">1</text><text x="160" y="276">2</text><text x="220" y="276">3</text>
+        <text x="30" y="220">2</text><text x="30" y="176">4</text><text x="30" y="132">6</text>
+    </g>
+    <text x="200" y="296" text-anchor="middle" font-size="13" font-weight="bold" fill="#475569">Đồ thị của đại lượng tỉ lệ thuận y = 2x là đường thẳng qua gốc tọa độ</text>
+</svg>
+<p class="text-center text-xs text-slate-500 mt-1">Đồ thị y = 2x</p>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-8">3. Bài toán về đại lượng tỉ lệ thuận</h2>
+<p>Các bước giải bài toán thực tế về đại lượng tỉ lệ thuận:</p>
+<ol class="list-decimal pl-6 space-y-1">
+    <li><strong>Bước 1:</strong> Gọi ẩn và đặt điều kiện; xác định hai đại lượng tỉ lệ thuận.</li>
+    <li><strong>Bước 2:</strong> Lập tỉ lệ thức từ tính chất $\dfrac{x_1}{x_2} = \dfrac{y_1}{y_2}$.</li>
+    <li><strong>Bước 3:</strong> Giải tìm ẩn và kết luận (đối chiếu điều kiện).</li>
+</ol>
+
+<div class="bg-emerald-50 border-l-4 border-emerald-500 rounded-r-xl p-4 my-4">
+    <p class="font-bold text-emerald-800 mb-1">Ví dụ 3 (có lời giải)</p>
+    <p>Mua 4 kg đường hết 72 000 đồng. Hỏi mua 7 kg đường cùng loại hết bao nhiêu tiền?</p>
+    <p class="mt-2"><strong>Lời giải:</strong> Gọi $x$ (đồng) là số tiền mua 7 kg đường ($x > 0$). Số tiền và số kilôgam đường là hai đại lượng tỉ lệ thuận nên:</p>
+    $$\frac{4}{7} = \frac{72000}{x} \Rightarrow x = \frac{7 \cdot 72000}{4} = 126000.$$
+    <p>Vậy mua 7 kg đường hết 126 000 đồng.</p>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-8">Tóm tắt</h2>
+<div class="table-scroll">
+<table class="w-full text-sm border border-slate-200 rounded-lg overflow-hidden">
+    <thead><tr class="bg-sky-100">
+        <th class="border border-slate-200 px-3 py-2 text-left">Nội dung</th>
+        <th class="border border-slate-200 px-3 py-2 text-left">Ý chính</th>
+    </tr></thead>
+    <tbody>
+        <tr><td class="border border-slate-200 px-3 py-2 font-semibold">Định nghĩa</td><td class="border border-slate-200 px-3 py-2">$y = kx$ ($k \ne 0$): $y$ tỉ lệ thuận với $x$ theo hệ số $k$</td></tr>
+        <tr><td class="border border-slate-200 px-3 py-2 font-semibold">Tính chất</td><td class="border border-slate-200 px-3 py-2">$\dfrac{y_1}{x_1} = \dfrac{y_2}{x_2} = k$; $\dfrac{x_1}{x_2} = \dfrac{y_1}{y_2}$</td></tr>
+        <tr><td class="border border-slate-200 px-3 py-2 font-semibold">Nhận biết</td><td class="border border-slate-200 px-3 py-2">$x$ tăng (giảm) bao nhiêu lần thì $y$ cũng tăng (giảm) bấy nhiêu lần</td></tr>
+        <tr><td class="border border-slate-200 px-3 py-2 font-semibold">Bài toán</td><td class="border border-slate-200 px-3 py-2">Gọi ẩn → lập tỉ lệ thức $\dfrac{x_1}{x_2} = \dfrac{y_1}{y_2}$ → giải → kết luận</td></tr>
+    </tbody>
+</table>
+</div>
+</div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
