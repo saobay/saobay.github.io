@@ -1491,6 +1491,108 @@
             }
         }
 
+
+        // DUYỆT ĐĂNG KÝ (2026-10-10): tạo password + hồ sơ thật cho TK được duyệt
+        // Fix lỗi: trước đây chỉ đổi status mà không tạo TK thật → user không đăng nhập được
+        async function approveRegistration(regId) {
+            try {
+                if (!Array.isArray(masterDatabase.registrations)) {
+                    showToast('Không có danh sách đăng ký!', 'error');
+                    return;
+                }
+                let reg = masterDatabase.registrations.find(function(r){ return String(r.id) === String(regId); });
+                if (!reg) {
+                    showToast('Không tìm thấy đăng ký!', 'error');
+                    return;
+                }
+                if (reg.status === 'approved') {
+                    showToast('Đăng ký này đã được duyệt trước đó.', 'info');
+                    return;
+                }
+                
+                let rid = String(reg.id);
+                let rname = reg.name || rid;
+                let role = reg.role_requested || 'student';
+                let regPw = reg.password || '';
+                
+                // 1. Tạo/cập nhật mật khẩu
+                // Ưu tiên MK đã lưu lúc đăng ký; nếu không có, dùng MK mặc định và bắt đổi khi đăng nhập
+                if (!masterDatabase.passwords) masterDatabase.passwords = {};
+                if (regPw) {
+                    masterDatabase.passwords[rid] = regPw;
+                } else if (!masterDatabase.passwords[rid]) {
+                    // Không có MK trong registration → dùng mặc định, user phải đổi khi đăng nhập lần đầu
+                    masterDatabase.passwords[rid] = '12345678';
+                }
+                
+                // 2. Tạo hồ sơ user
+                if (role === 'teacher') {
+                    if (!masterDatabase.teachers_registry || Array.isArray(masterDatabase.teachers_registry)) {
+                        masterDatabase.teachers_registry = {};
+                    }
+                    if (!masterDatabase.teachers_registry[rid]) {
+                        masterDatabase.teachers_registry[rid] = {
+                            name: rname,
+                            group: 'Trải nghiệm',
+                            role: 'teacher',
+                            note: reg.note || ''
+                        };
+                    }
+                } else {
+                    if (!masterDatabase.students) masterDatabase.students = {};
+                    if (!Array.isArray(masterDatabase.students['Trải nghiệm'])) {
+                        masterDatabase.students['Trải nghiệm'] = [];
+                    }
+                    let arr = masterDatabase.students['Trải nghiệm'];
+                    let exists = arr.some(function(s){ return String(s.id) === rid; });
+                    if (!exists) {
+                        arr.push({ id: rid, name: rname, dob: '' });
+                    }
+                }
+                
+                // 3. Đánh dấu đã duyệt
+                reg.status = 'approved';
+                reg.decided_at = new Date().toISOString();
+                try {
+                    let cu = JSON.parse(localStorage.getItem('saobay_user') || '{}');
+                    reg.decided_by = cu.name || 'Admin';
+                } catch(e) { reg.decided_by = 'Admin'; }
+                
+                // 4. Lưu lên GitHub
+                await saveMasterDatabaseToGit('Admin duyet dang ky: ' + rname + ' (' + rid + ')');
+                
+                // 5. Refresh cache local
+                await loadMasterDatabase();
+                if (typeof renderAdminTable === 'function') renderAdminTable();
+                if (typeof updateAdminStats === 'function') updateAdminStats();
+                
+                showToast('Đã duyệt và tạo tài khoản cho "' + rname + '"!', 'success');
+            } catch(err) {
+                showToast('Lỗi khi duyệt đăng ký: ' + err.message, 'error');
+            }
+        }
+
+        // TỪ CHỐI ĐĂNG KÝ
+        async function rejectRegistration(regId) {
+            try {
+                if (!Array.isArray(masterDatabase.registrations)) return;
+                let reg = masterDatabase.registrations.find(function(r){ return String(r.id) === String(regId); });
+                if (!reg) return;
+                if (!confirm('Từ chối đăng ký của "' + (reg.name || reg.id) + '"?')) return;
+                reg.status = 'rejected';
+                reg.decided_at = new Date().toISOString();
+                try {
+                    let cu = JSON.parse(localStorage.getItem('saobay_user') || '{}');
+                    reg.decided_by = cu.name || 'Admin';
+                } catch(e) { reg.decided_by = 'Admin'; }
+                await saveMasterDatabaseToGit('Admin tu choi dang ky: ' + (reg.name || reg.id));
+                if (typeof renderAdminTable === 'function') renderAdminTable();
+                showToast('Đã từ chối đăng ký.', 'info');
+            } catch(err) {
+                showToast('Lỗi: ' + err.message, 'error');
+            }
+        }
+
         // MỞ MODAL ĐỔI MK TÙY CHỌN
         function openEditPassModal(accId) {
             let all = [...cachedTeachers, ...cachedStudents];
