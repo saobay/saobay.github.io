@@ -22,13 +22,13 @@
         // admin tạo tay -> theo lựa chọn (mặc định 3 tháng cho HS, không thời hạn cho GV)
         function calcExpiryDays(role, userId, db, chosenDays){
             if (chosenDays !== undefined && chosenDays !== null && chosenDays !== '') return chosenDays === 'unlimited' ? null : parseInt(chosenDays, 10);
-            if (role === 'teacher'){
+            if (role === 'teacher' || role === 'bgh'){
                 let inSchool = false;
                 (db.assignments || []).forEach(function(a){
                     if (String(a.teachers || '').indexOf(String(userId)) >= 0) inSchool = true;
                 });
                 if (inSchool) return null; // GV trường: không thời hạn
-                return null; // GV do admin tạo: mặc định không thời hạn (admin đổi được)
+                return null; // GV/BGH do admin tạo: mặc định không thời hạn (admin đổi được)
             }
             // student
             let inSchool = false;
@@ -66,7 +66,7 @@
             var isTrial = UNASSIGNED === 'Trải nghiệm';
             if (o.role === 'teacher'){
                 if (!db.teachers_registry || Array.isArray(db.teachers_registry)) db.teachers_registry = {};
-                db.teachers_registry[o.id] = { name: o.name, group: UNASSIGNED, note: o.note || '' };
+                db.teachers_registry[o.id] = { name: o.name, group: UNASSIGNED, note: o.note || '', role: o.role };
             } else {
                 if (!db.students) db.students = {};
                 if (!Array.isArray(db.students[UNASSIGNED])) db.students[UNASSIGNED] = [];
@@ -78,7 +78,7 @@
             await assignPushUsed(db, 'Tạo tài khoản ' + (o.role === 'teacher' ? 'giáo viên' : 'học sinh') + ': ' + o.name + ' (' + o.id + ')');
             let expDb = await assignFetchExpiry();
             expDb[o.id] = { expires_at: expiryDateISO(expDays),
-                type: o.role === 'teacher' ? 'teacher' : (expDays === 365 ? 'school_student' : (expDays === 90 ? 'trial' : 'custom')),
+                type: (o.role === 'teacher' || o.role === 'bgh') ? o.role : (expDays === 365 ? 'school_student' : (expDays === 90 ? 'trial' : 'custom')),
                 created_at: new Date().toISOString(), created_by: myUname() };
             await assignPushExpiry(expDb, 'Cấp thời hạn TK ' + o.id + (expDays ? ' [' + expDays + ' ngày]' : ' [không thời hạn]'));
             return true;
@@ -435,7 +435,8 @@
             let expVal = expSel ? expSel.value : '';
             if (!name || id.length < 9){ alert('Nhập họ tên và mã đăng nhập (9-12 số).'); return; }
             if (role === 'student' && !cls){ alert('Học sinh cần nhập lớp.'); return; }
-            if (!confirm('Tạo tài khoản ' + (role === 'teacher' ? 'giáo viên' : 'học sinh') + ' "' + name + '" (' + id + ')?')) return;
+            let roleName = role === 'teacher' ? 'giáo viên' : (role === 'bgh' ? 'Ban Giám Hiệu' : 'học sinh');
+            if (!confirm('Tạo tài khoản ' + roleName + ' "' + name + '" (' + id + ')?')) return;
             try {
                 await createUserAccount({ id: id, name: name, role: role, className: cls, expiryDays: expVal || undefined });
                 if (typeof showToast === 'function') showToast('Đã tạo tài khoản cho ' + name, 'success');
