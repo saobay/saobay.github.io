@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 14: Thực hành: Xác định khối lượng riêng</title>
+    <meta name="lesson-title" content="Bài 14: Thực hành: Xác định khối lượng riêng">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 14: Thực hành: Xác định khối lượng riêng</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 3: Khối lượng riêng và áp suất • Bài 14: Thực hành: Xác định khối lượng riêng</p>
+        </div>
+        <div class="content-body space-y-4">
+<div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 14: Thực hành: Xác định khối lượng riêng</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 3: Khối lượng riêng và áp suất (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Mục đích -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Mục đích thí nghiệm</h2>
+
+<p>Ở Bài 13 ta đã học công thức $D = \dfrac{m}{V}$. Trong bài thực hành này, ta sẽ <strong>tự tay xác định khối lượng riêng</strong> của:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>một <strong>vật rắn</strong> (ví dụ: hòn đá, thỏi kim loại);</li>
+<li>một <strong>chất lỏng</strong> (ví dụ: nước muối).</li>
+</ul>
+
+<p>Muốn vậy, ta cần đo <strong>khối lượng</strong> $m$ và <strong>thể tích</strong> $V$ của mẫu vật, rồi tính $D = m/V$ và <strong>đối chiếu với bảng số liệu</strong> để nhận biết chất liệu.</p>
+
+<!-- 2. Dụng cụ -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Dụng cụ thí nghiệm</h2>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Dụng cụ</td><td class="border border-slate-300 px-4 py-1">Dùng để</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Cân (cân đồng hồ hoặc cân điện tử)</td><td class="border border-slate-300 px-4 py-1">Đo khối lượng $m$ của vật</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Bình chia độ (ống đong)</td><td class="border border-slate-300 px-4 py-1">Đo thể tích $V$ của chất lỏng và vật rắn</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Bình tràn (nếu có)</td><td class="border border-slate-300 px-4 py-1">Đo thể tích vật rắn to hơn bình chia độ</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Giá đỡ, dây treo mảnh</td><td class="border border-slate-300 px-4 py-1">Thả vật rắn chìm hẳn vào nước</td></tr>
+</table></div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Do the tich hon da bang binh chia do">
+<rect x="2" y="2" width="436" height="256" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="28" font-family="sans-serif" font-size="16" font-weight="bold" fill="#0f172a" text-anchor="middle">Đo thể tích hòn đá bằng bình chia độ</text>
+<rect x="60" y="55" width="110" height="150" rx="6" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+<rect x="60" y="120" width="110" height="85" rx="6" fill="#7dd3fc" opacity="0.7"/>
+<text x="115" y="160" font-family="sans-serif" font-size="14" fill="#0c4a6e" text-anchor="middle">V₁ = 150 ml</text>
+<text x="115" y="228" font-family="sans-serif" font-size="13" fill="#475569" text-anchor="middle">Trước khi thả đá</text>
+<rect x="270" y="55" width="110" height="150" rx="6" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+<rect x="270" y="90" width="110" height="115" rx="6" fill="#7dd3fc" opacity="0.7"/>
+<ellipse cx="325" cy="160" rx="28" ry="20" fill="#94a3b8" stroke="#475569" stroke-width="2"/>
+<text x="325" y="130" font-family="sans-serif" font-size="14" fill="#0c4a6e" text-anchor="middle">V₂ = 210 ml</text>
+<text x="325" y="228" font-family="sans-serif" font-size="13" fill="#475569" text-anchor="middle">Sau khi thả đá</text>
+<text x="220" y="250" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0369a1" text-anchor="middle">V(đá) = V₂ − V₁ = 60 ml = 60 cm³</text>
+</svg></div>
+
+<!-- 3. Các bước -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Các bước tiến hành</h2>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">Thí nghiệm 1: Xác định khối lượng riêng của hòn đá</h3>
+<ol class="list-decimal ml-6 space-y-2 my-3">
+<li><strong>Đo khối lượng:</strong> dùng cân đo khối lượng $m$ của hòn đá (đơn vị: gam).</li>
+<li><strong>Đo thể tích:</strong> đổ nước vào bình chia độ, đọc thể tích $V_1$; thả nhẹ hòn đá chìm hẳn vào nước, đọc thể tích $V_2$. Thể tích hòn đá: $$V = V_2 - V_1$$</li>
+<li><strong>Tính:</strong> $D = \dfrac{m}{V}$ (đổi ra kg/m³ nếu cần).</li>
+<li><strong>Nhận xét:</strong> đối chiếu với bảng khối lượng riêng để đoán chất liệu hòn đá.</li>
+</ol>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">Thí nghiệm 2: Xác định khối lượng riêng của nước muối</h3>
+<ol class="list-decimal ml-6 space-y-2 my-3">
+<li><strong>Cân bình rỗng:</strong> đặt bình chia độ rỗng lên cân, đọc khối lượng $m_1$.</li>
+<li><strong>Đổ nước muối</strong> vào bình, đọc thể tích $V$.</li>
+<li><strong>Cân lại:</strong> cân bình chứa nước muối, đọc khối lượng $m_2$. Khối lượng nước muối: $$m = m_2 - m_1$$</li>
+<li><strong>Tính:</strong> $D = \dfrac{m}{V}$.</li>
+</ol>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Xác định $D$ của <strong>vật rắn</strong>: $V = V_2 - V_1$ (độ dâng mực nước). Xác định $D$ của <strong>chất lỏng</strong>: $m = m_2 - m_1$ (trừ khối lượng bình). Cuối cùng đều dùng $D = m/V$.</p>
+</div>
+
+<!-- 4. Xử lí số liệu -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Xử lí số liệu và báo cáo</h2>
+
+<p>Kết quả đo được ghi vào bảng, mỗi đại lượng nên <strong>đo 3 lần</strong> rồi lấy <strong>giá trị trung bình</strong> để giảm sai số ngẫu nhiên:</p>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Lần đo</td><td class="border border-slate-300 px-4 py-1">$m$ (g)</td><td class="border border-slate-300 px-4 py-1">$V_1$ (ml)</td><td class="border border-slate-300 px-4 py-1">$V_2$ (ml)</td><td class="border border-slate-300 px-4 py-1">$V = V_2 - V_1$ (cm³)</td><td class="border border-slate-300 px-4 py-1">$D$ (g/cm³)</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">1</td><td class="border border-slate-300 px-4 py-1">156</td><td class="border border-slate-300 px-4 py-1">150</td><td class="border border-slate-300 px-4 py-1">210</td><td class="border border-slate-300 px-4 py-1">60</td><td class="border border-slate-300 px-4 py-1">2,6</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">2</td><td class="border border-slate-300 px-4 py-1">156</td><td class="border border-slate-300 px-4 py-1">150</td><td class="border border-slate-300 px-4 py-1">208</td><td class="border border-slate-300 px-4 py-1">58</td><td class="border border-slate-300 px-4 py-1">2,69</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">3</td><td class="border border-slate-300 px-4 py-1">155</td><td class="border border-slate-300 px-4 py-1">150</td><td class="border border-slate-300 px-4 py-1">209</td><td class="border border-slate-300 px-4 py-1">59</td><td class="border border-slate-300 px-4 py-1">2,63</td></tr>
+<tr class="bg-emerald-50 font-semibold"><td class="border border-slate-300 px-4 py-1">Trung bình</td><td class="border border-slate-300 px-4 py-1">—</td><td class="border border-slate-300 px-4 py-1">—</td><td class="border border-slate-300 px-4 py-1">—</td><td class="border border-slate-300 px-4 py-1">59</td><td class="border border-slate-300 px-4 py-1">2,64</td></tr>
+</table></div>
+
+<p><strong>Nhận xét mẫu:</strong> $D \approx 2{,}64\ \text{g/cm}^3 = 2\,640\ \text{kg/m}^3$, gần với khối lượng riêng của đá (khoảng $2\,600\ \text{kg/m}^3$) — hòn đá có thể là đá vôi/đá hoa.</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-emerald-800 mb-2">Bài tập ví dụ (có lời giải):</p>
+<p>Bình chia độ rỗng nặng $80\ \text{g}$. Đổ $120\ \text{ml}$ nước muối vào, cân được $200\ \text{g}$. Tính khối lượng riêng của nước muối.</p>
+<p class="mt-2"><strong>Lời giải:</strong> $m = 200 - 80 = 120\ \text{g}$; $V = 120\ \text{ml} = 120\ \text{cm}^3$.</p>
+<p class="text-center text-lg my-2">$$D = \frac{120}{120} = 1\ \text{g/cm}^3 = 1\,000\ \text{kg/m}^3$$</p>
+</div>
+
+<!-- 5. Lưu ý -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">5. Lưu ý khi làm thí nghiệm</h2>
+
+<ul class="list-disc ml-6 space-y-2 my-3">
+<li><strong>Đọc mực chất lỏng:</strong> mắt đặt <strong>ngang</strong> với mặt thoáng của chất lỏng, đọc theo <strong>đáy của mặt khum</strong> (với nước).</li>
+<li><strong>Thả vật nhẹ nhàng</strong> để nước không bắn ra ngoài; vật phải <strong>chìm hẳn</strong> trong nước.</li>
+<li><strong>Hiệu chỉnh cân</strong> về 0 trước khi đo; không để nước dính vào đĩa cân điện tử.</li>
+<li><strong>Sai số:</strong> vạch chia của bình chia độ càng nhỏ thì phép đo càng chính xác; đo lặp lại 3 lần lấy trung bình.</li>
+<li><strong>An toàn:</strong> cẩn thận khi cầm bình thủy tinh; lau khô tay và dụng cụ sau thí nghiệm.</li>
+</ul>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Quy trình chung: <strong>đo $m$ bằng cân → đo $V$ bằng bình chia độ → tính $D = m/V$ → đối chiếu bảng số liệu</strong>. Đo 3 lần lấy trung bình để giảm sai số.</p>
+</div>
+
+<!-- Tóm tắt -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Mẫu vật</td><td class="border border-slate-300 px-4 py-1">Đo khối lượng</td><td class="border border-slate-300 px-4 py-1">Đo thể tích</td><td class="border border-slate-300 px-4 py-1">Tính D</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Vật rắn (hòn đá)</td><td class="border border-slate-300 px-4 py-1">Cân trực tiếp: $m$</td><td class="border border-slate-300 px-4 py-1">$V = V_2 - V_1$</td><td class="border border-slate-300 px-4 py-1" rowspan="2">$D = \dfrac{m}{V}$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Chất lỏng (nước muối)</td><td class="border border-slate-300 px-4 py-1">$m = m_2 - m_1$ (trừ vỏ bình)</td><td class="border border-slate-300 px-4 py-1">Đọc trực tiếp trên bình</td></tr>
+</table></div>
+
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){{try{{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){{document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}}}catch(e){{}}}})();</script>
+</body>
+</html>
