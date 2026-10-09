@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 17: Vị trí tương đối của hai đường tròn</title>
+    <meta name="lesson-title" content="Bài 17: Vị trí tương đối của hai đường tròn">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 17: Vị trí tương đối của hai đường tròn</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 5: Đường tròn • Bài 17: Vị trí tương đối của hai đường tròn</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 17: Vị trí tương đối của hai đường tròn</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 5: Đường tròn (Kết nối tri thức với cuộc sống)</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Năm vị trí tương đối của hai đường tròn</h2>
+<p>Cho hai đường tròn $(O; R)$ và $(O'; r)$ với $R \ge r$, đặt $d = OO'$ là khoảng cách giữa hai tâm. Có <strong>năm</strong> vị trí tương đối:</p>
+<div class="table-scroll"><table class="w-full border-collapse text-sm text-center">
+<tr><th class="border border-slate-300 px-4 py-1 bg-sky-50">Vị trí tương đối</th><th class="border border-slate-300 px-4 py-1 bg-sky-50">Số điểm chung</th><th class="border border-slate-300 px-4 py-1 bg-sky-50">Quan hệ $d$ với $R$, $r$</th></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Hai đường tròn <strong>ở ngoài nhau</strong></td><td class="border border-slate-300 px-4 py-1">$0$</td><td class="border border-slate-300 px-4 py-1">$d &gt; R + r$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Hai đường tròn <strong>tiếp xúc ngoài</strong></td><td class="border border-slate-300 px-4 py-1">$1$</td><td class="border border-slate-300 px-4 py-1">$d = R + r$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Hai đường tròn <strong>cắt nhau</strong></td><td class="border border-slate-300 px-4 py-1">$2$</td><td class="border border-slate-300 px-4 py-1">$|R - r| &lt; d &lt; R + r$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Hai đường tròn <strong>tiếp xúc trong</strong></td><td class="border border-slate-300 px-4 py-1">$1$</td><td class="border border-slate-300 px-4 py-1">$d = |R - r|$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Đường tròn $(O)$ <strong>đựng</strong> đường tròn $(O')$</td><td class="border border-slate-300 px-4 py-1">$0$</td><td class="border border-slate-300 px-4 py-1">$d &lt; |R - r|$</td></tr>
+</table></div>
+<div class="svg-fig">
+<svg viewBox="0 0 400 420" xmlns="http://www.w3.org/2000/svg">
+  <g>
+    <circle cx="90" cy="55" r="34" fill="none" stroke="#0369a1" stroke-width="2.5"/>
+    <circle cx="230" cy="55" r="24" fill="none" stroke="#dc2626" stroke-width="2.5"/>
+    <text x="60" y="115" font-size="13" font-weight="bold" fill="#0f172a">ở ngoài nhau</text>
+    <text x="82" y="132" font-size="12" fill="#475569">d &gt; R + r</text>
+  </g>
+  <g>
+    <circle cx="90" cy="195" r="34" fill="none" stroke="#0369a1" stroke-width="2.5"/>
+    <circle cx="148" cy="195" r="24" fill="none" stroke="#dc2626" stroke-width="2.5"/>
+    <circle cx="124" cy="195" r="4" fill="#16a34a"/>
+    <text x="60" y="255" font-size="13" font-weight="bold" fill="#0f172a">tiếp xúc ngoài</text>
+    <text x="82" y="272" font-size="12" fill="#475569">d = R + r</text>
+  </g>
+  <g>
+    <circle cx="290" cy="195" r="34" fill="none" stroke="#0369a1" stroke-width="2.5"/>
+    <circle cx="330" cy="195" r="24" fill="none" stroke="#dc2626" stroke-width="2.5"/>
+    <text x="268" y="255" font-size="13" font-weight="bold" fill="#0f172a">cắt nhau (2 điểm)</text>
+    <text x="262" y="272" font-size="12" fill="#475569">|R − r| &lt; d &lt; R + r</text>
+  </g>
+  <g>
+    <circle cx="110" cy="340" r="40" fill="none" stroke="#0369a1" stroke-width="2.5"/>
+    <circle cx="126" cy="340" r="24" fill="none" stroke="#dc2626" stroke-width="2.5"/>
+    <circle cx="150" cy="340" r="4" fill="#16a34a"/>
+    <text x="60" y="400" font-size="13" font-weight="bold" fill="#0f172a">tiếp xúc trong</text>
+    <text x="80" y="417" font-size="12" fill="#475569">d = |R − r|</text>
+  </g>
+  <g>
+    <circle cx="300" cy="340" r="44" fill="none" stroke="#0369a1" stroke-width="2.5"/>
+    <circle cx="300" cy="340" r="20" fill="none" stroke="#dc2626" stroke-width="2.5"/>
+    <text x="272" y="400" font-size="13" font-weight="bold" fill="#0f172a">đựng nhau</text>
+    <text x="282" y="417" font-size="12" fill="#475569">d &lt; |R − r|</text>
+  </g>
+</svg>
+<p class="text-center text-sm text-slate-500 italic">Năm vị trí tương đối của hai đường tròn (O; R) và (O'; r)</p>
+</div>
+<div class="bg-amber-50 border-l-4 border-amber-400 p-3 my-3 rounded-r-lg">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p>Chìa khóa là <strong>so sánh $d$ với $R+r$ và $|R-r|$</strong>: ngoài nhau ($d &gt; R+r$) → tiếp xúc ngoài ($d = R+r$) → cắt nhau ($|R-r| &lt; d &lt; R+r$) → tiếp xúc trong ($d = |R-r|$) → đựng nhau ($d &lt; |R-r|$). Hai vị trí <strong>tiếp xúc</strong> đều có đúng 1 điểm chung.</p>
+</div>
+<p class="font-bold">Ví dụ 1 (có lời giải):</p>
+<p>Cho hai đường tròn $(O; 5\text{ cm})$ và $(O'; 3\text{ cm})$. Xét vị trí tương đối của chúng khi: a) $OO' = 10\text{ cm}$; b) $OO' = 8\text{ cm}$; c) $OO' = 4\text{ cm}$; d) $OO' = 2\text{ cm}$; e) $OO' = 1\text{ cm}$.</p>
+<p><strong>Lời giải:</strong> $R + r = 8$, $|R - r| = 2$. a) $10 &gt; 8$: <strong>ở ngoài nhau</strong>. b) $8 = 8$: <strong>tiếp xúc ngoài</strong>. c) $2 &lt; 4 &lt; 8$: <strong>cắt nhau</strong>. d) $2 = 2$: <strong>tiếp xúc trong</strong>. e) $1 &lt; 2$: <strong>đựng nhau</strong>.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Tính chất của đường nối tâm</h2>
+<ul class="list-disc ml-6 my-2">
+<li>Đường thẳng nối hai tâm ($OO'$) là <strong>trục đối xứng</strong> của hình gồm hai đường tròn.</li>
+<li>Nếu hai đường tròn <strong>tiếp xúc nhau</strong> thì <strong>tiếp điểm nằm trên đường nối tâm</strong>.</li>
+<li>Nếu hai đường tròn <strong>cắt nhau</strong> tại $A$, $B$ thì đường nối tâm $OO'$ là <strong>đường trung trực</strong> của dây chung $AB$.</li>
+</ul>
+<p class="font-bold">Ví dụ 2 (có lời giải):</p>
+<p>Hai đường tròn $(O; 6\text{ cm})$ và $(O'; 4\text{ cm})$ tiếp xúc ngoài. Tính $OO'$ và cho biết tiếp điểm nằm ở đâu.</p>
+<p><strong>Lời giải:</strong> Tiếp xúc ngoài nên $OO' = R + r = 6 + 4 = 10$ (cm). Tiếp điểm nằm trên đoạn thẳng $OO'$.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="table-scroll"><table class="w-full border-collapse text-sm">
+<tr><th class="border border-slate-300 px-4 py-1 bg-sky-50">Vị trí</th><th class="border border-slate-300 px-4 py-1 bg-sky-50">Điểm chung</th><th class="border border-slate-300 px-4 py-1 bg-sky-50">Điều kiện ($d=OO'$)</th></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Ở ngoài nhau</td><td class="border border-slate-300 px-4 py-1">$0$</td><td class="border border-slate-300 px-4 py-1">$d &gt; R+r$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Tiếp xúc ngoài</td><td class="border border-slate-300 px-4 py-1">$1$</td><td class="border border-slate-300 px-4 py-1">$d = R+r$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Cắt nhau</td><td class="border border-slate-300 px-4 py-1">$2$</td><td class="border border-slate-300 px-4 py-1">$|R-r| &lt; d &lt; R+r$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Tiếp xúc trong</td><td class="border border-slate-300 px-4 py-1">$1$</td><td class="border border-slate-300 px-4 py-1">$d = |R-r|$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Đựng nhau</td><td class="border border-slate-300 px-4 py-1">$0$</td><td class="border border-slate-300 px-4 py-1">$d &lt; |R-r|$</td></tr>
+</table></div>
+<p class="mt-3"><strong>Tính chất đường nối tâm:</strong> là trục đối xứng; đi qua tiếp điểm (khi tiếp xúc); là trung trực của dây chung (khi cắt nhau).</p>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
