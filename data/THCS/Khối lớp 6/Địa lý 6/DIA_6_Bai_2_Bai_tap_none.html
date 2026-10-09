@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 2: Bản đồ - Phương tiện thể hiện bề mặt Trái Đất - Bài tập</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: system-ui, sans-serif; padding: 16px; line-height: 1.6; }
+        .question { background: white; padding: 16px; margin: 12px 0; border-radius: 8px; border: 1px solid #e2e8f0; }
+        .options label { display: block; padding: 8px; margin: 4px 0; background: #f8fafc; border-radius: 4px; cursor: pointer; }
+        .options label:hover { background: #e0f2fe; }
+    </style>
+</head>
+<body class="bg-slate-50">
+<div class="max-w-3xl mx-auto">
+<h1 class="text-2xl font-bold mb-4">Bài 2: Bản đồ - Phương tiện thể hiện bề mặt Trái Đất - Bài tập</h1>
+
+<div class="question">
+<p class="font-semibold mb-2">Câu 1: Bản đồ là gì?</p>
+<div class="options">
+<label><input type="radio" name="q1" value="A"> A. Ảnh chụp từ vệ tinh</label>
+<label><input type="radio" name="q1" value="B"> B. Hình vẽ thu nhỏ bề mặt Trái Đất theo tỉ lệ</label>
+<label><input type="radio" name="q1" value="C"> C. Mô hình 3D</label>
+<label><input type="radio" name="q1" value="D"> D. Tranh vẽ phong cảnh</label>
+</div>
+<button onclick="checkAnswer('q1', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q1" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 2: Tỉ lệ 1:1.000.000 nghĩa là:</p>
+<div class="options">
+<label><input type="radio" name="q2" value="A"> A. 1cm = 1km thực tế</label>
+<label><input type="radio" name="q2" value="B"> B. 1cm = 10km thực tế</label>
+<label><input type="radio" name="q2" value="C"> C. 1cm = 100km thực tế</label>
+<label><input type="radio" name="q2" value="D"> D. 1cm = 1000km thực tế</label>
+</div>
+<button onclick="checkAnswer('q2', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q2" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 3: Kí hiệu nào dùng để thể hiện thành phố?</p>
+<div class="options">
+<label><input type="radio" name="q3" value="A"> A. Kí hiệu điểm</label>
+<label><input type="radio" name="q3" value="B"> B. Kí hiệu đường</label>
+<label><input type="radio" name="q3" value="C"> C. Kí hiệu diện tích</label>
+<label><input type="radio" name="q3" value="D"> D. Kí hiệu màu</label>
+</div>
+<button onclick="checkAnswer('q3', 'A')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q3" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 4: Sông ngòi thường được thể hiện bằng:</p>
+<div class="options">
+<label><input type="radio" name="q4" value="A"> A. Kí hiệu điểm</label>
+<label><input type="radio" name="q4" value="B"> B. Kí hiệu đường</label>
+<label><input type="radio" name="q4" value="C"> C. Kí hiệu diện tích</label>
+<label><input type="radio" name="q4" value="D"> D. Chữ viết</label>
+</div>
+<button onclick="checkAnswer('q4', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q4" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 5: Rừng cây thường được thể hiện bằng:</p>
+<div class="options">
+<label><input type="radio" name="q5" value="A"> A. Kí hiệu điểm</label>
+<label><input type="radio" name="q5" value="B"> B. Kí hiệu đường</label>
+<label><input type="radio" name="q5" value="C"> C. Kí hiệu diện tích</label>
+<label><input type="radio" name="q5" value="D"> D. Kí hiệu màu</label>
+</div>
+<button onclick="checkAnswer('q5', 'C')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q5" class="mt-2"></div>
+</div>
+</div>
+<script>
+function checkAnswer(qid, correct) {
+    const selected = document.querySelector(`input[name="${qid}"]:checked`);
+    const feedback = document.getElementById(`fb-${qid}`);
+    if (!selected) { feedback.innerHTML = '<span class="text-orange-600">Hãy chọn đáp án!</span>'; return; }
+    if (selected.value === correct) {
+        feedback.innerHTML = '<span class="text-green-600 font-bold">✓ Đúng!</span>';
+    } else {
+        feedback.innerHTML = '<span class="text-red-600">✗ Chưa đúng. Đáp án đúng: ' + correct + '</span>';
+    }
+}
+</script>
+</body>
+</html>
