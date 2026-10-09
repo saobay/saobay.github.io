@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 23: Một số lệnh làm việc với dữ liệu danh sách</title>
+    <meta name="lesson-title" content="Bài 23: Một số lệnh làm việc với dữ liệu danh sách">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 23: Một số lệnh làm việc với dữ liệu danh sách</h1>
+            <p class="text-xs text-slate-500 mt-1">Chủ đề 5: Giải quyết vấn đề với sự trợ giúp của máy tính • Bài 23: Một số lệnh làm việc với dữ liệu danh sách</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 23: Một số lệnh làm việc với dữ liệu danh sách</h1>
+<p class="text-center text-slate-500 italic mb-8">Chủ đề 5: Giải quyết vấn đề với sự trợ giúp của máy tính</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Thêm, chèn, xóa phần tử</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Lệnh</td><td class="border border-slate-300 px-4 py-1">Tác dụng</td><td class="border border-slate-300 px-4 py-1">Ví dụ</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><code>append(x)</code></td><td class="border border-slate-300 px-4 py-1">Thêm x vào <strong>cuối</strong> danh sách</td><td class="border border-slate-300 px-4 py-1"><code>[1,2].append(3)</code> thành <code>[1,2,3]</code></td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><code>insert(i, x)</code></td><td class="border border-slate-300 px-4 py-1">Chèn x vào <strong>vị trí i</strong></td><td class="border border-slate-300 px-4 py-1"><code>[1,2].insert(0,9)</code> thành <code>[9,1,2]</code></td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><code>remove(x)</code></td><td class="border border-slate-300 px-4 py-1">Xóa phần tử <strong>bằng x đầu tiên</strong></td><td class="border border-slate-300 px-4 py-1"><code>[1,2,1].remove(1)</code> thành <code>[2,1]</code></td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><code>pop(i)</code></td><td class="border border-slate-300 px-4 py-1">Xóa và trả về phần tử ở <strong>chỉ số i</strong> (mặc định cuối)</td><td class="border border-slate-300 px-4 py-1"><code>[1,2,3].pop()</code> trả về 3</td></tr>
+</table></div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Sắp xếp và đảo ngược</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Lệnh</td><td class="border border-slate-300 px-4 py-1">Tác dụng</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><code>sort()</code></td><td class="border border-slate-300 px-4 py-1">Sắp xếp <strong>tăng dần</strong> ngay trên danh sách</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><code>sort(reverse=True)</code></td><td class="border border-slate-300 px-4 py-1">Sắp xếp <strong>giảm dần</strong></td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><code>reverse()</code></td><td class="border border-slate-300 px-4 py-1">Đảo ngược thứ tự các phần tử</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><code>sorted(a)</code></td><td class="border border-slate-300 px-4 py-1">Trả về danh sách mới đã sắp xếp, <strong>giữ nguyên</strong> a</td></tr>
+</table></div>
+<div class="bg-amber-50 border border-amber-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-amber-800 mb-1">Chú ý:</p>
+<p class="text-sm"><code>sort()</code> thay đổi trực tiếp danh sách và <strong>không trả về</strong> gì cả, nên không viết <code>a = a.sort()</code>. Muốn giữ danh sách gốc thì dùng <code>sorted(a)</code>.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Các lệnh thường dùng khác</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Lệnh / toán tử</td><td class="border border-slate-300 px-4 py-1">Tác dụng</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><code>len(a)</code></td><td class="border border-slate-300 px-4 py-1">Số phần tử của danh sách</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><code>max(a)</code>, <code>min(a)</code>, <code>sum(a)</code></td><td class="border border-slate-300 px-4 py-1">Lớn nhất, nhỏ nhất, tổng các phần tử</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><code>a.count(x)</code></td><td class="border border-slate-300 px-4 py-1">Đếm số lần x xuất hiện</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><code>a.index(x)</code></td><td class="border border-slate-300 px-4 py-1">Chỉ số đầu tiên của x</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><code>x in a</code></td><td class="border border-slate-300 px-4 py-1">Kiểm tra x có trong danh sách không</td></tr>
+</table></div>
+<pre class="bg-slate-900 text-green-300 rounded-lg p-4 my-4 overflow-x-auto text-sm"><code>diem = [7, 9, 8, 9, 6]
+print("Số điểm 9:", diem.count(9))
+diem.sort()
+print("Tăng dần:", diem)
+print("Cao nhất:", max(diem))</code></pre>
+
+</div>
+        </div>
+    </div>
+</body>
+</html>
