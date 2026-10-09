@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 28: Phạm vi của biến</title>
+    <meta name="lesson-title" content="Bài 28: Phạm vi của biến">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 28: Phạm vi của biến</h1>
+            <p class="text-xs text-slate-500 mt-1">Chủ đề 5: Giải quyết vấn đề với sự trợ giúp của máy tính • Bài 28: Phạm vi của biến</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 28: Phạm vi của biến</h1>
+<p class="text-center text-slate-500 italic mb-8">Chủ đề 5: Giải quyết vấn đề với sự trợ giúp của máy tính</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Biến toàn cục và biến cục bộ</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Loại biến</td><td class="border border-slate-300 px-4 py-1">Khai báo ở đâu</td><td class="border border-slate-300 px-4 py-1">Dùng được ở đâu</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><strong>Toàn cục</strong></td><td class="border border-slate-300 px-4 py-1">Ngoài mọi hàm</td><td class="border border-slate-300 px-4 py-1">Mọi nơi (kể cả trong hàm, chỉ để đọc)</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><strong>Cục bộ</strong></td><td class="border border-slate-300 px-4 py-1">Trong thân hàm</td><td class="border border-slate-300 px-4 py-1">Chỉ trong hàm đó</td></tr>
+</table></div>
+<pre class="bg-slate-900 text-green-300 rounded-lg p-4 my-4 overflow-x-auto text-sm"><code>x = 5  # toàn cục
+
+def f():
+    y = 9  # cục bộ, chỉ dùng trong f
+    print(x)  # đọc được biến toàn cục: in 5
+
+f()
+print(x)  # 5, không bị đổi
+# print(y)  # LỖI: y không tồn tại ngoài hàm</code></pre>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Quy tắc LEGB</h2>
+<p>Khi gặp một tên biến trong hàm, Python tìm theo thứ tự:</p>
+<div class="svg-fig"><svg viewBox="0 0 430 170" xmlns="http://www.w3.org/2000/svg">
+<rect x="115" y="10" width="200" height="30" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+<text x="215" y="30" text-anchor="middle" font-size="13" font-weight="bold" fill="#14532d">L - Cục bộ (Local)</text>
+<polygon points="215,40 215,52" stroke="#64748b" stroke-width="2"/>
+<polygon points="210,47 215,54 220,47" fill="#64748b"/>
+<rect x="115" y="54" width="200" height="30" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+<text x="215" y="74" text-anchor="middle" font-size="13" font-weight="bold" fill="#0c4a6e">E - Hàm bao ngoài (Enclosing)</text>
+<polygon points="215,84 215,96" stroke="#64748b" stroke-width="2"/>
+<polygon points="210,91 215,98 220,91" fill="#64748b"/>
+<rect x="115" y="98" width="200" height="30" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+<text x="215" y="118" text-anchor="middle" font-size="13" font-weight="bold" fill="#92400e">G - Toàn cục (Global)</text>
+<polygon points="215,128 215,140" stroke="#64748b" stroke-width="2"/>
+<polygon points="210,135 215,142 220,135" fill="#64748b"/>
+<rect x="115" y="142" width="200" height="24" rx="8" fill="#f1f5f9" stroke="#64748b" stroke-width="2"/>
+<text x="215" y="159" text-anchor="middle" font-size="12" fill="#475569">B - Có sẵn (Built-in)</text>
+</svg></div>
+<p>Nghĩa là: biến <strong>cục bộ</strong> được ưu tiên trước; nếu trùng tên với biến toàn cục, trong hàm sẽ dùng biến cục bộ.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Lệnh global</h2>
+<p>Mặc định, gán giá trị cho một tên biến <strong>trong hàm</strong> sẽ tạo ra <strong>biến cục bộ mới</strong>, không làm đổi biến toàn cục cùng tên. Muốn hàm <strong>thay đổi được biến toàn cục</strong>, phải khai báo <code>global</code>:</p>
+<pre class="bg-slate-900 text-green-300 rounded-lg p-4 my-4 overflow-x-auto text-sm"><code>dem = 0
+
+def tang():
+    global dem
+    dem = dem + 1
+
+tang(); tang()
+print(dem)  # 2</code></pre>
+<div class="bg-amber-50 border border-amber-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-amber-800 mb-1">Lời khuyên:</p>
+<p class="text-sm">Hạn chế dùng <code>global</code>. Cách tốt hơn là truyền dữ liệu vào hàm qua <strong>tham số</strong> và nhận kết quả qua <code>return</code> — chương trình sẽ rõ ràng và ít lỗi hơn.</p>
+</div>
+
+</div>
+        </div>
+    </div>
+</body>
+</html>
