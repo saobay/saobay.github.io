@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 21: Moment lực. Cân bằng của vật rắn</title>
+    <meta name="lesson-title" content="Bài 21: Moment lực. Cân bằng của vật rắn">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 21: Moment lực. Cân bằng của vật rắn</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 3: Động lực học • Bài 21: Moment lực. Cân bằng của vật rắn</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 21: Moment lực. Cân bằng của vật rắn</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 3: Động lực học — Vật lí 10 (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Moment lực -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Moment lực</h2>
+
+<p>Muốn mở một cánh cửa, ta đẩy càng xa bản lề thì càng dễ mở — cùng một lực nhưng tác dụng làm quay <strong>phụ thuộc vào vị trí đặt lực</strong>. Đại lượng đặc trưng cho tác dụng làm quay của lực gọi là <em>moment lực</em>.</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-emerald-800 mb-1">Định nghĩa:</p>
+<p><em>Moment lực</em> đối với một trục quay là đại lượng đặc trưng cho tác dụng làm quay của lực, được đo bằng <strong>tích của lực với khoảng cách từ trục quay đến giá của lực</strong>:</p>
+<p class="mt-2 text-center text-lg">$$M = F \cdot d$$</p>
+</div>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>$d$ gọi là <em>tay đòn</em> của lực: khoảng cách từ <strong>trục quay</strong> đến <strong>giá của lực</strong> (không phải đến điểm đặt lực);</li>
+<li>Đơn vị của moment lực là <strong>niutơn nhân mét</strong> (N.m);</li>
+<li>Lực có giá <strong>đi qua trục quay</strong> ($d = 0$) thì moment bằng 0 — không có tác dụng làm quay.</li>
+</ul>
+
+<div class="svg-fig"><svg viewBox="0 0 440 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Moment lực khi đẩy cửa">
+<rect x="2" y="2" width="436" height="226" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<defs><marker id="ah7" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="context-stroke"/></marker></defs>
+<rect x="90" y="40" width="16" height="150" rx="4" fill="#94a3b8"/>
+<text x="72" y="125" font-family="sans-serif" font-size="12" fill="#475569" transform="rotate(-90 78 125)">bản lề (trục quay)</text>
+<rect x="106" y="55" width="220" height="120" rx="4" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+<line x1="106" y1="115" x2="326" y2="115" stroke="#0284c7" stroke-width="1" stroke-dasharray="5,4"/>
+<line x1="106" y1="60" x2="106" y2="170" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="5,4"/>
+<line x1="106" y1="115" x2="326" y2="115" stroke="#0f172a" stroke-width="1.5"/>
+<text x="200" y="108" font-family="sans-serif" font-size="14" font-style="italic" fill="#0f172a">d (tay đòn)</text>
+<line x1="326" y1="115" x2="326" y2="60" stroke="#16a34a" stroke-width="2.5" marker-end="url(#ah7)"/>
+<text x="332" y="90" font-family="sans-serif" font-size="15" font-style="italic" font-weight="bold" fill="#16a34a">F</text>
+<path d="M 250 150 A 60 60 0 0 1 200 190" fill="none" stroke="#b45309" stroke-width="2" marker-end="url(#ah7)"/>
+<text x="255" y="200" font-family="sans-serif" font-size="12" fill="#b45309">chiều quay</text>
+<text x="90" y="215" font-family="sans-serif" font-size="12" fill="#475569">Đẩy càng xa bản lề (d lớn) thì moment càng lớn, càng dễ mở cửa</text>
+</svg></div>
+
+<!-- 2. Quy tắc moment -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Quy tắc moment</h2>
+
+<p>Đối với vật rắn có <strong>trục quay cố định</strong>, muốn vật cân bằng (không quay) thì:</p>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p class="font-semibold text-emerald-800 mb-1">Quy tắc moment:</p>
+<p>Tổng các moment lực có xu hướng làm vật quay theo <strong>chiều kim đồng hồ</strong> phải bằng tổng các moment lực có xu hướng làm vật quay <strong>ngược chiều kim đồng hồ</strong>.</p>
+<p class="mt-2">$$\sum M_{\text{cùng chiều}} = \sum M_{\text{ngược chiều}}$$</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ: bập bênh</p>
+<p>Hai bạn nặng $P_1$, $P_2$ ngồi hai bên trục quay, cách trục các khoảng $d_1$, $d_2$. Bập bênh cân bằng nằm ngang khi $P_1 d_1 = P_2 d_2$. Bạn nào nhẹ hơn phải ngồi xa trục quay hơn.</p>
+</div>
+
+<!-- 3. Ngẫu lực -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Ngẫu lực</h2>
+
+<p><strong>Định nghĩa:</strong> <em>Ngẫu lực</em> là hệ hai lực <strong>song song, ngược chiều, có độ lớn bằng nhau</strong> và cùng tác dụng vào một vật.</p>
+<p>Ngẫu lực <strong>không gây ra chuyển động tịnh tiến</strong> (hợp lực bằng 0) mà chỉ có tác dụng <strong>làm quay vật</strong>. Moment của ngẫu lực:</p>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$M = F \cdot d$$</p>
+</div>
+<p>trong đó $d$ là khoảng cách giữa hai giá của hai lực. Moment của ngẫu lực <strong>không phụ thuộc</strong> vào vị trí của trục quay.</p>
+<p>Ví dụ: vặn vô lăng, vặn vòi nước, dùng tua vít — đều là tác dụng ngẫu lực.</p>
+
+<!-- 4. Điều kiện cân bằng tổng quát -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Điều kiện cân bằng tổng quát của vật rắn</h2>
+
+<p>Muốn một vật rắn <strong>cân bằng</strong> (không chuyển động tịnh tiến và không quay) thì phải đồng thời thỏa mãn:</p>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$\sum \vec{F} = \vec{0} \qquad \text{và} \qquad \sum M = 0$$</p>
+</div>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>$\sum \vec{F} = \vec{0}$: tổng hợp lực bằng 0 — vật không chuyển động tịnh tiến;</li>
+<li>$\sum M = 0$: tổng moment bằng 0 — vật không quay.</li>
+</ul>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ (có lời giải):</p>
+<p>Một thanh AB nhẹ dài $1$ m có trục quay tại O cách đầu A $0{,}4$ m. Treo vật nặng $P_1 = 120$ N tại A. Cần treo tại B vật nặng bao nhiêu để thanh cân bằng nằm ngang?</p>
+<p class="mt-2"><strong>Lời giải:</strong> Tay đòn của $P_2$ là $d_2 = 1 - 0{,}4 = 0{,}6$ m. Quy tắc moment: $P_1 d_1 = P_2 d_2$, suy ra $P_2 = \frac{120 \cdot 0{,}4}{0{,}6} = 80$ N.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Moment lực $M = F \cdot d$ — muốn tăng tác dụng làm quay thì tăng lực $F$ hoặc tăng tay đòn $d$. Vật rắn cân bằng khi <strong>vừa hết hợp lực, vừa hết tổng moment</strong>.</p>
+</div>
+
+<!-- Tổng kết -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li>Moment lực: $M = F \cdot d$ (N.m); $d$ là khoảng cách từ trục quay đến giá của lực.</li>
+<li>Quy tắc moment: tổng moment quay cùng chiều kim đồng hồ = tổng moment quay ngược chiều.</li>
+<li>Ngẫu lực: hai lực song song, ngược chiều, cùng độ lớn; $M = F \cdot d$, chỉ gây quay.</li>
+<li>Vật rắn cân bằng khi $\sum \vec{F} = \vec{0}$ và $\sum M = 0$.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+        </div>
+    </div>
+</body>
+</html>
