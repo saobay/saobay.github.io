@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài tập Bài 1: Tập hợp các số hữu tỉ</title>
+    <meta name="lesson-title" content="Bài tập Bài 1: Tập hợp các số hữu tỉ">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Bài tập</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài tập Bài 1: Tập hợp các số hữu tỉ</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 1: Số hữu tỉ • Bài 1: Tập hợp các số hữu tỉ</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="saobay-exam10">
+<script type="application/json" class="saobay-exam10-data">
+{
+ "sets": [
+  {
+   "name": "Đề 1",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Số nào sau đây KHÔNG phải là số hữu tỉ?",
+     "options": [
+      "A. $-4$",
+      "B. $0{,}25$",
+      "C. $\\frac{5}{0}$",
+      "D. $-\\frac{2}{9}$"
+     ],
+     "answer": "C",
+     "explain": "Phân số phải có mẫu khác $0$ nên $\\\\frac{5}{0}$ không phải số hữu tỉ."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tập hợp các số hữu tỉ được kí hiệu là",
+     "options": [
+      "A. $\\mathbb{N}$",
+      "B. $\\mathbb{Z}$",
+      "C. $\\mathbb{Q}$",
+      "D. $\\mathbb{R}$"
+     ],
+     "answer": "C",
+     "explain": "Tập hợp các số hữu tỉ kí hiệu là $\\\\mathbb{Q}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Số đối của $-\\\\frac{3}{5}$ là",
+     "options": [
+      "A. $\\frac{3}{5}$",
+      "B. $-\\frac{5}{3}$",
+      "C. $\\frac{5}{3}$",
+      "D. $-\\frac{3}{5}$"
+     ],
+     "answer": "A",
+     "explain": "Số đối của $\\\\frac{a}{b}$ là $-\\\\frac{a}{b}$, nên số đối của $-\\\\frac{3}{5}$ là $\\\\frac{3}{5}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "So sánh $-\\\\frac{2}{3}$ và $-\\\\frac{1}{2}$. Khẳng định đúng là",
+     "options": [
+      "A. $-\\frac{2}{3} > -\\frac{1}{2}$",
+      "B. $-\\frac{2}{3} < -\\frac{1}{2}$",
+      "C. $-\\frac{2}{3} = -\\frac{1}{2}$",
+      "D. Không so sánh được"
+     ],
+     "answer": "B",
+     "explain": "$-\\\\frac{2}{3} = \\\\frac{-4}{6}$, $-\\\\frac{1}{2} = \\\\frac{-3}{6}$; vì $-4 < -3$ nên $-\\\\frac{2}{3} < -\\\\frac{1}{2}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Trên trục số, điểm biểu diễn số $\\\\frac{3}{4}$",
+     "options": [
+      "A. nằm bên trái gốc $O$",
+      "B. nằm bên phải gốc $O$, cách $O$ một đoạn bằng $\\frac{3}{4}$ đơn vị",
+      "C. trùng với gốc $O$",
+      "D. nằm bên phải gốc $O$, cách $O$ một đoạn bằng $3$ đơn vị"
+     ],
+     "answer": "B",
+     "explain": "Số dương được biểu diễn bên phải gốc $O$, cách $O$ đúng $\\\\frac{3}{4}$ đơn vị."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Số nào sau đây là số hữu tỉ âm?",
+     "options": [
+      "A. $\\frac{2}{3}$",
+      "B. $-0{,}5$",
+      "C. $0$",
+      "D. $\\frac{7}{4}$"
+     ],
+     "answer": "B",
+     "explain": "Số hữu tỉ âm là số nhỏ hơn $0$; $-0{,}5 < 0$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho số hữu tỉ $x = -\\\\frac{5}{8}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $x$ là số hữu tỉ âm.",
+      "b) Số đối của $x$ là $\\frac{5}{8}$.",
+      "c) $x > 0$.",
+      "d) $x = -0{,}625$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "$x = -\\\\frac{5}{8} < 0$ nên là số hữu tỉ âm; số đối là $\\\\frac{5}{8}$; $-\\\\frac{5}{8} = -0{,}625$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho $a = -\\\\frac{7}{12}$ và $b = -\\\\frac{5}{9}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $a = \\frac{-21}{36}$ và $b = \\frac{-20}{36}$.",
+      "b) $a > b$.",
+      "c) Số đối của $a$ lớn hơn số đối của $b$.",
+      "d) Cả $a$ và $b$ đều nhỏ hơn $0$."
+     ],
+     "answer": [
+      "T",
+      "F",
+      "T",
+      "T"
+     ],
+     "explain": "$a = \\\\frac{-21}{36} < \\\\frac{-20}{36} = b$; số đối của $a$ là $\\\\frac{7}{12} = \\\\frac{21}{36} > \\\\frac{20}{36} = \\\\frac{5}{9}$ là số đối của $b$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Viết số thập phân $0{,}75$ dưới dạng phân số tối giản $\\\\frac{a}{b}$ ($b > 0$). Tính $a + b$.",
+     "answer": "7",
+     "explain": "$0{,}75 = \\\\frac{3}{4}$ nên $a + b = 3 + 4 = 7$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Sắp xếp các số $-\\\\frac{3}{4}$; $\\\\frac{1}{2}$; $0$; $-\\\\frac{5}{6}$ theo thứ tự tăng dần. Số đứng ở vị trí thứ hai là $\\\\frac{a}{b}$ (tối giản). Viết đáp án dưới dạng a/b.",
+     "answer": "-3/4",
+     "explain": "$-\\\\frac{5}{6} \\\\approx -0{,}83 < -\\\\frac{3}{4} = -0{,}75 < 0 < \\\\frac{1}{2}$; số thứ hai là $-\\\\frac{3}{4}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 2",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. Mọi số nguyên đều là số hữu tỉ.",
+      "B. Mọi số hữu tỉ đều là số nguyên.",
+      "C. $0$ không là số hữu tỉ.",
+      "D. $\\frac{3}{0}$ là số hữu tỉ."
+     ],
+     "answer": "A",
+     "explain": "Mỗi số nguyên $a$ viết được dưới dạng $\\\\frac{a}{1}$ nên là số hữu tỉ."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Số hữu tỉ nào sau đây bằng $2$?",
+     "options": [
+      "A. $\\frac{2}{1}$",
+      "B. $\\frac{1}{2}$",
+      "C. $\\frac{-2}{1}$",
+      "D. $\\frac{4}{3}$"
+     ],
+     "answer": "A",
+     "explain": "$\\\\frac{2}{1} = 2$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Số đối của $\\\\frac{7}{9}$ là",
+     "options": [
+      "A. $-\\frac{7}{9}$",
+      "B. $\\frac{9}{7}$",
+      "C. $-\\frac{9}{7}$",
+      "D. $\\frac{7}{9}$"
+     ],
+     "answer": "A",
+     "explain": "Số đối của $\\\\frac{7}{9}$ là $-\\\\frac{7}{9}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Số nào sau đây lớn nhất?",
+     "options": [
+      "A. $-\\frac{1}{4}$",
+      "B. $0$",
+      "C. $\\frac{1}{5}$",
+      "D. $-\\frac{1}{2}$"
+     ],
+     "answer": "C",
+     "explain": "$\\\\frac{1}{5} > 0 > -\\\\frac{1}{4} > -\\\\frac{1}{2}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Phân số nào biểu diễn số hữu tỉ $-0{,}6$?",
+     "options": [
+      "A. $-\\frac{3}{5}$",
+      "B. $-\\frac{2}{3}$",
+      "C. $\\frac{3}{5}$",
+      "D. $-\\frac{1}{2}$"
+     ],
+     "answer": "A",
+     "explain": "$-0{,}6 = -\\\\frac{6}{10} = -\\\\frac{3}{5}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Giữa hai số hữu tỉ $-\\\\frac{1}{3}$ và $\\\\frac{1}{3}$ có bao nhiêu số nguyên?",
+     "options": [
+      "A. $0$",
+      "B. $1$",
+      "C. $2$",
+      "D. Vô số"
+     ],
+     "answer": "B",
+     "explain": "Số nguyên duy nhất thỏa mãn $-\\\\frac{1}{3} < x < \\\\frac{1}{3}$ là $x = 0$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho $x = \\\\frac{4}{7}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $x$ là số hữu tỉ dương.",
+      "b) $x > \\frac{1}{2}$.",
+      "c) Số đối của $x$ là $-\\frac{4}{7}$.",
+      "d) $x < 0$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$\\\\frac{4}{7} \\\\approx 0{,}57 > \\\\frac{1}{2} > 0$; số đối là $-\\\\frac{4}{7}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Trên trục số, điểm $A$ biểu diễn $-\\\\frac{3}{2}$, điểm $B$ biểu diễn $\\\\frac{1}{2}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Điểm $A$ nằm bên trái gốc $O$.",
+      "b) Điểm $B$ nằm bên phải gốc $O$.",
+      "c) $A$ và $B$ đối xứng với nhau qua gốc $O$.",
+      "d) Khoảng cách từ $A$ đến $O$ lớn hơn khoảng cách từ $B$ đến $O$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "Số đối của $-\\\\frac{3}{2}$ là $\\\\frac{3}{2} \\\\ne \\\\frac{1}{2}$; $|-\\\\frac{3}{2}| > |\\\\frac{1}{2}|$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Số đối của $-\\\\frac{11}{6}$ là $\\\\frac{a}{b}$ (phân số tối giản, $b > 0$). Tính $a + b$.",
+     "answer": "17",
+     "explain": "Số đối là $\\\\frac{11}{6}$ nên $a + b = 11 + 6 = 17$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Có bao nhiêu số hữu tỉ có dạng $\\\\frac{a}{5}$ với $a$ nguyên thỏa mãn $-1 < \\\\frac{a}{5} < 1$?",
+     "answer": "9",
+     "explain": "$-5 < a < 5$ nên $a \\\\in \\\\{-4;-3;-2;-1;0;1;2;3;4\\\\}$: $9$ giá trị."
+    }
+   ]
+  },
+  {
+   "name": "Đề 3",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Kí hiệu $\\\\mathbb{Q}$ là tập hợp các số",
+     "options": [
+      "A. tự nhiên",
+      "B. nguyên",
+      "C. hữu tỉ",
+      "D. thực"
+     ],
+     "answer": "C",
+     "explain": "$\\\\mathbb{Q}$ là tập hợp các số hữu tỉ."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Khẳng định đúng về số $0$ là",
+     "options": [
+      "A. $0$ là số hữu tỉ vì $0 = \\frac{0}{1}$.",
+      "B. $0$ không viết được dưới dạng phân số.",
+      "C. $0$ là số hữu tỉ dương.",
+      "D. $0$ là số hữu tỉ âm."
+     ],
+     "answer": "A",
+     "explain": "$0 = \\\\frac{0}{1}$ nên $0$ là số hữu tỉ; $0$ không dương cũng không âm."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "So sánh $\\\\frac{5}{6}$ và $\\\\frac{6}{7}$. Khẳng định đúng là",
+     "options": [
+      "A. $\\frac{5}{6} > \\frac{6}{7}$",
+      "B. $\\frac{5}{6} < \\frac{6}{7}$",
+      "C. $\\frac{5}{6} = \\frac{6}{7}$",
+      "D. Không so sánh được"
+     ],
+     "answer": "B",
+     "explain": "$\\\\frac{5}{6} = \\\\frac{35}{42} < \\\\frac{36}{42} = \\\\frac{6}{7}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Số hữu tỉ nào sau đây là số dương?",
+     "options": [
+      "A. $-\\frac{3}{4}$",
+      "B. $-\\frac{1}{2}$",
+      "C. $\\frac{5}{8}$",
+      "D. $0$"
+     ],
+     "answer": "C",
+     "explain": "Số hữu tỉ dương là số lớn hơn $0$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Số hữu tỉ $-\\\\frac{8}{12}$ viết dưới dạng tối giản là",
+     "options": [
+      "A. $-\\frac{2}{3}$",
+      "B. $-\\frac{4}{6}$",
+      "C. $\\frac{2}{3}$",
+      "D. $-\\frac{8}{12}$"
+     ],
+     "answer": "A",
+     "explain": "$-\\\\frac{8}{12} = -\\\\frac{8:4}{12:4} = -\\\\frac{2}{3}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Số nguyên $x$ thỏa mãn $-\\\\frac{3}{4} < x < \\\\frac{1}{2}$ là",
+     "options": [
+      "A. $0$",
+      "B. $-1$",
+      "C. $1$",
+      "D. Không có số nào"
+     ],
+     "answer": "A",
+     "explain": "Số nguyên duy nhất trong khoảng $(-0{,}75;\\\\ 0{,}5)$ là $0$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho các số $-\\\\frac{2}{5}$; $\\\\frac{3}{4}$; $0$; $-\\\\frac{7}{2}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Có $2$ số hữu tỉ âm.",
+      "b) Số lớn nhất là $\\frac{3}{4}$.",
+      "c) Số đối của $-\\frac{7}{2}$ là $\\frac{7}{2}$.",
+      "d) $0$ là số hữu tỉ dương."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "Hai số âm là $-\\\\frac{2}{5}$ và $-\\\\frac{7}{2}$; $\\\\frac{3}{4} > 0 >$ các số âm; $0$ không dương không âm."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho $m = -\\\\frac{4}{5}$ và $n = -\\\\frac{3}{4}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $m < n$.",
+      "b) Số đối của $m$ nhỏ hơn số đối của $n$.",
+      "c) Cả $m$ và $n$ đều lớn hơn $-1$.",
+      "d) Điểm biểu diễn $m$ nằm bên trái điểm biểu diễn $n$."
+     ],
+     "answer": [
+      "T",
+      "F",
+      "T",
+      "T"
+     ],
+     "explain": "$m = \\\\frac{-16}{20} < \\\\frac{-15}{20} = n$; số đối của $m$ là $\\\\frac{4}{5} > \\\\frac{3}{4}$ là số đối của $n$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Viết $-2{,}5$ dưới dạng phân số tối giản $-\\\\frac{a}{b}$ ($a, b$ nguyên dương). Tính $a - b$.",
+     "answer": "3",
+     "explain": "$-2{,}5 = -\\\\frac{5}{2}$ nên $a - b = 5 - 2 = 3$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tìm số nguyên $n$ lớn nhất thỏa mãn $\\\\frac{n}{6} < -\\\\frac{1}{2}$.",
+     "answer": "-4",
+     "explain": "$\\\\frac{n}{6} < \\\\frac{-3}{6}$ nên $n < -3$; số nguyên lớn nhất là $-4$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 4",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong các số sau, số nào KHÔNG thuộc tập hợp $\\\\mathbb{Q}$?",
+     "options": [
+      "A. $3{,}14$",
+      "B. $-\\frac{11}{3}$",
+      "C. $\\frac{0}{5}$",
+      "D. $\\frac{7}{0}$"
+     ],
+     "answer": "D",
+     "explain": "Mẫu số phải khác $0$ nên $\\\\frac{7}{0}$ không thuộc $\\\\mathbb{Q}$; $\\\\frac{0}{5} = 0 \\\\in \\\\mathbb{Q}$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Hai số được gọi là đối nhau nếu",
+     "options": [
+      "A. tổng của chúng bằng $0$",
+      "B. tích của chúng bằng $1$",
+      "C. chúng bằng nhau",
+      "D. chúng cùng dấu"
+     ],
+     "answer": "A",
+     "explain": "Hai số đối nhau có tổng bằng $0$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Số đối của $0$ là",
+     "options": [
+      "A. $0$",
+      "B. $1$",
+      "C. $-1$",
+      "D. Không có"
+     ],
+     "answer": "A",
+     "explain": "$0 + 0 = 0$ nên số đối của $0$ là chính nó."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "So sánh $-\\\\frac{5}{8}$ và $-\\\\frac{3}{5}$. Khẳng định đúng là",
+     "options": [
+      "A. $-\\frac{5}{8} > -\\frac{3}{5}$",
+      "B. $-\\frac{5}{8} < -\\frac{3}{5}$",
+      "C. $-\\frac{5}{8} = -\\frac{3}{5}$",
+      "D. Không so sánh được"
+     ],
+     "answer": "B",
+     "explain": "$-\\\\frac{5}{8} = \\\\frac{-25}{40} < \\\\frac{-24}{40} = -\\\\frac{3}{5}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Điểm biểu diễn số $-1{,}5$ trên trục số nằm",
+     "options": [
+      "A. giữa $0$ và $-1$",
+      "B. giữa $-1$ và $-2$",
+      "C. giữa $-2$ và $-3$",
+      "D. bên phải gốc $O$"
+     ],
+     "answer": "B",
+     "explain": "$-2 < -1{,}5 < -1$ nên điểm biểu diễn nằm giữa $-1$ và $-2$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Số nguyên nào sau đây có thể là số hữu tỉ $x$ thỏa mãn $-\\\\frac{5}{4} < x < -\\\\frac{2}{3}$?",
+     "options": [
+      "A. $-1$",
+      "B. $0$",
+      "C. $-2$",
+      "D. $1$"
+     ],
+     "answer": "A",
+     "explain": "$-1{,}25 < x < -0{,}67$; số nguyên duy nhất trong khoảng là $-1$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho $p = \\\\frac{7}{3}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $p > 2$.",
+      "b) $p$ là số hữu tỉ dương.",
+      "c) Số đối của $p$ là $-\\frac{7}{3}$.",
+      "d) $p < \\frac{7}{4}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$\\\\frac{7}{3} \\\\approx 2{,}33 > 2 > \\\\frac{7}{4} = 1{,}75$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho $a = \\\\frac{2}{9}$ và $b = \\\\frac{1}{4}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $a < b$.",
+      "b) $a$ và $b$ đều là số hữu tỉ dương.",
+      "c) Số đối của $a$ lớn hơn số đối của $b$.",
+      "d) $a$ viết được dưới dạng số thập phân vô hạn tuần hoàn."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "$a = \\\\frac{8}{36} < \\\\frac{9}{36} = b$; số đối của $a$ là $-\\\\frac{2}{9} < -\\\\frac{1}{4}$ là số đối của $b$; $\\\\frac{2}{9} = 0{,}(2)$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Cho $A = \\\\frac{8}{11}$ và $B = \\\\frac{9}{13}$. Số lớn hơn viết dưới dạng phân số tối giản $\\\\frac{a}{b}$. Tính $a - b$.",
+     "answer": "-3",
+     "explain": "$\\\\frac{8}{11} = \\\\frac{104}{143} > \\\\frac{99}{143} = \\\\frac{9}{13}$ nên $a - b = 8 - 11 = -3$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tìm số hữu tỉ $x$ có mẫu bằng $12$, nằm giữa $-\\\\frac{1}{3}$ và $\\\\frac{1}{4}$, biết tử số của $x$ là số nguyên âm lớn nhất có thể. Tử số của $x$ là",
+     "answer": "-1",
+     "explain": "$\\\\frac{-4}{12} < \\\\frac{a}{12} < \\\\frac{3}{12}$ nên $-4 < a < 3$; số nguyên âm lớn nhất là $a = -1$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 5",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong các số sau, số nào là số hữu tỉ dương?",
+     "options": [
+      "A. $-\\frac{1}{3}$",
+      "B. $0$",
+      "C. $\\frac{2}{7}$",
+      "D. $-5$"
+     ],
+     "answer": "C",
+     "explain": "Số hữu tỉ dương là số lớn hơn $0$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Số hữu tỉ $-\\\\frac{9}{4}$ được biểu diễn bởi điểm nằm",
+     "options": [
+      "A. bên phải gốc $O$",
+      "B. bên trái gốc $O$",
+      "C. tại gốc $O$",
+      "D. không biểu diễn được trên trục số"
+     ],
+     "answer": "B",
+     "explain": "Số âm được biểu diễn bởi điểm nằm bên trái gốc $O$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Số đối của $-0{,}25$ là",
+     "options": [
+      "A. $0{,}25$",
+      "B. $-4$",
+      "C. $4$",
+      "D. $-0{,}25$"
+     ],
+     "answer": "A",
+     "explain": "Số đối của $-0{,}25$ là $0{,}25$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Sắp xếp các số $-\\\\frac{1}{2}$; $\\\\frac{1}{4}$; $0$; $-\\\\frac{3}{4}$ theo thứ tự tăng dần. Dãy nào đúng?",
+     "options": [
+      "A. $-\\frac{3}{4} < -\\frac{1}{2} < 0 < \\frac{1}{4}$",
+      "B. $-\\frac{1}{2} < -\\frac{3}{4} < 0 < \\frac{1}{4}$",
+      "C. $-\\frac{3}{4} < 0 < -\\frac{1}{2} < \\frac{1}{4}$",
+      "D. $\\frac{1}{4} < 0 < -\\frac{1}{2} < -\\frac{3}{4}$"
+     ],
+     "answer": "A",
+     "explain": "$-\\\\frac{3}{4} = -0{,}75 < -\\\\frac{1}{2} = -0{,}5 < 0 < \\\\frac{1}{4}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Phân số nào bằng $\\\\frac{6}{-8}$?",
+     "options": [
+      "A. $\\frac{3}{4}$",
+      "B. $-\\frac{3}{4}$",
+      "C. $-\\frac{6}{8}$",
+      "D. $\\frac{6}{8}$"
+     ],
+     "answer": "B",
+     "explain": "$\\\\frac{6}{-8} = -\\\\frac{6}{8} = -\\\\frac{3}{4}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Nếu $\\\\frac{a}{b}$ là số hữu tỉ âm với $b > 0$ thì $a$ là số",
+     "options": [
+      "A. dương",
+      "B. âm",
+      "C. bằng $0$",
+      "D. không xác định được"
+     ],
+     "answer": "B",
+     "explain": "Phân số âm với mẫu dương thì tử phải âm."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho $x = -1{,}2$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $x = -\\frac{6}{5}$.",
+      "b) $x$ là số hữu tỉ âm.",
+      "c) Số đối của $x$ là $1{,}2$.",
+      "d) $x > -1$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$-1{,}2 = -\\\\frac{12}{10} = -\\\\frac{6}{5} < -1$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho ba số $a = -\\\\frac{2}{3}$; $b = -\\\\frac{1}{2}$; $c = \\\\frac{1}{3}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $a < b < c$.",
+      "b) Số đối của $b$ là $\\frac{1}{2}$.",
+      "c) $a$ là số nhỏ nhất.",
+      "d) $c$ là số hữu tỉ âm."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$-\\\\frac{2}{3} \\\\approx -0{,}67 < -\\\\frac{1}{2} = -0{,}5 < \\\\frac{1}{3}$; $c > 0$ nên là số hữu tỉ dương."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Rút gọn phân số $-\\\\frac{15}{25}$ được phân số tối giản $\\\\frac{a}{b}$ ($b > 0$). Tính $a + b$.",
+     "answer": "2",
+     "explain": "$-\\\\frac{15}{25} = -\\\\frac{3}{5}$ nên $a + b = -3 + 5 = 2$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Có bao nhiêu số nguyên $n$ thỏa mãn $-\\\\frac{7}{3} < \\\\frac{n}{2} < \\\\frac{5}{4}$?",
+     "answer": "7",
+     "explain": "$-\\\\frac{14}{3} < n < \\\\frac{5}{2}$, tức $-4{,}67 < n < 2{,}5$; $n \\\\in \\\\{-4;-3;-2;-1;0;1;2\\\\}$: $7$ giá trị."
+    }
+   ]
+  },
+  {
+   "name": "Đề 6",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Số thập phân $0{,}75$ là số hữu tỉ vì",
+     "options": [
+      "A. viết được dưới dạng $\\frac{3}{4}$",
+      "B. là số nguyên",
+      "C. là số vô tỉ",
+      "D. không viết được dưới dạng phân số"
+     ],
+     "answer": "A",
+     "explain": "$0{,}75 = \\\\frac{3}{4}$ nên là số hữu tỉ."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Điểm biểu diễn số đối của $\\\\frac{2}{5}$ là điểm biểu diễn số",
+     "options": [
+      "A. $-\\frac{2}{5}$",
+      "B. $\\frac{5}{2}$",
+      "C. $-\\frac{5}{2}$",
+      "D. $\\frac{2}{5}$"
+     ],
+     "answer": "A",
+     "explain": "Số đối của $\\\\frac{2}{5}$ là $-\\\\frac{2}{5}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "So sánh $0$ và $-\\\\frac{3}{7}$. Khẳng định đúng là",
+     "options": [
+      "A. $0 > -\\frac{3}{7}$",
+      "B. $0 < -\\frac{3}{7}$",
+      "C. $0 = -\\frac{3}{7}$",
+      "D. Không so sánh được"
+     ],
+     "answer": "A",
+     "explain": "Mọi số hữu tỉ âm đều nhỏ hơn $0$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Số nào sau đây nằm giữa $\\\\frac{1}{3}$ và $\\\\frac{1}{2}$?",
+     "options": [
+      "A. $\\frac{1}{4}$",
+      "B. $\\frac{5}{12}$",
+      "C. $\\frac{2}{3}$",
+      "D. $\\frac{1}{6}$"
+     ],
+     "answer": "B",
+     "explain": "$\\\\frac{1}{3} = \\\\frac{4}{12} < \\\\frac{5}{12} < \\\\frac{6}{12} = \\\\frac{1}{2}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Cho số hữu tỉ $x = \\\\frac{-a}{b}$ với $a, b$ là các số nguyên dương. Khẳng định đúng là",
+     "options": [
+      "A. $x$ là số hữu tỉ dương",
+      "B. $x$ là số hữu tỉ âm",
+      "C. $x = 0$",
+      "D. $x$ là số nguyên"
+     ],
+     "answer": "B",
+     "explain": "Tử âm, mẫu dương nên $x$ là số hữu tỉ âm."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Cho $a < b$ là hai số hữu tỉ. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. $-a < -b$",
+      "B. $-a > -b$",
+      "C. $a = -b$",
+      "D. Không so sánh được $-a$ và $-b$"
+     ],
+     "answer": "B",
+     "explain": "Nhân hai vế của $a < b$ với $-1$ thì đổi chiều: $-a > -b$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho $y = \\\\frac{5}{6}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $y$ là số hữu tỉ dương.",
+      "b) $y < 1$.",
+      "c) Số đối của $y$ là $-\\frac{5}{6}$.",
+      "d) $y = 0{,}8(3)$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$\\\\frac{5}{6} \\\\approx 0{,}83 < 1$; $\\\\frac{5}{6} = 0{,}8333\\\\dots = 0{,}8(3)$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Trên trục số, xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Điểm biểu diễn $-\\frac{2}{3}$ nằm bên trái điểm biểu diễn $-\\frac{1}{3}$.",
+      "b) Điểm biểu diễn $0{,}5$ và $-0{,}5$ đối xứng với nhau qua gốc $O$.",
+      "c) Điểm biểu diễn $\\frac{7}{5}$ nằm bên phải điểm biểu diễn $\\frac{6}{5}$.",
+      "d) Điểm biểu diễn $-\\frac{4}{3}$ nằm giữa $-1$ và $-2$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$-\\\\frac{2}{3} < -\\\\frac{1}{3}$; $0{,}5$ và $-0{,}5$ là hai số đối nhau; $\\\\frac{7}{5} > \\\\frac{6}{5}$; $-2 < -\\\\frac{4}{3} \\\\approx -1{,}33 < -1$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tìm số hữu tỉ nhỏ nhất trong các số $-\\\\frac{7}{8}$; $-\\\\frac{5}{6}$; $-\\\\frac{9}{10}$; $-\\\\frac{2}{3}$, viết dưới dạng phân số tối giản $\\\\frac{a}{b}$. Tính $a + b$.",
+     "answer": "1",
+     "explain": "$-\\\\frac{9}{10} = -0{,}9$ là nhỏ nhất; $a + b = -9 + 10 = 1$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Cho $a, b$ là các số nguyên, $b > 0$ thỏa mãn $\\\\frac{a}{b} = \\\\frac{-12}{18}$ ở dạng rút gọn. Tính $a + b$.",
+     "answer": "1",
+     "explain": "$\\\\frac{-12}{18} = -\\\\frac{2}{3}$ nên $a = -2, b = 3$; $a + b = 1$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 7",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Số nào sau đây là số hữu tỉ?",
+     "options": [
+      "A. $0{,}(5)$",
+      "B. $\\pi$",
+      "C. $\\sqrt{3}$",
+      "D. $0{,}1010010001\\dots$"
+     ],
+     "answer": "A",
+     "explain": "Số thập phân vô hạn tuần hoàn $0{,}(5)$ là số hữu tỉ."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Số đối của $\\\\frac{3}{-7}$ là",
+     "options": [
+      "A. $-\\frac{3}{7}$",
+      "B. $\\frac{3}{7}$",
+      "C. $\\frac{7}{3}$",
+      "D. $-\\frac{7}{3}$"
+     ],
+     "answer": "B",
+     "explain": "$\\\\frac{3}{-7} = -\\\\frac{3}{7}$ nên số đối là $\\\\frac{3}{7}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "So sánh $-\\\\frac{11}{12}$ và $-\\\\frac{5}{6}$. Khẳng định đúng là",
+     "options": [
+      "A. $-\\frac{11}{12} > -\\frac{5}{6}$",
+      "B. $-\\frac{11}{12} < -\\frac{5}{6}$",
+      "C. $-\\frac{11}{12} = -\\frac{5}{6}$",
+      "D. Không so sánh được"
+     ],
+     "answer": "B",
+     "explain": "$-\\\\frac{5}{6} = \\\\frac{-10}{12} > \\\\frac{-11}{12} = -\\\\frac{11}{12}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Trong các số sau, số lớn nhất là",
+     "options": [
+      "A. $\\frac{3}{8}$",
+      "B. $\\frac{1}{2}$",
+      "C. $\\frac{5}{12}$",
+      "D. $\\frac{1}{3}$"
+     ],
+     "answer": "B",
+     "explain": "Quy đồng mẫu $24$: $\\\\frac{9}{24}; \\\\frac{12}{24}; \\\\frac{10}{24}; \\\\frac{8}{24}$; lớn nhất là $\\\\frac{12}{24} = \\\\frac{1}{2}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Số hữu tỉ nào sau đây có điểm biểu diễn nằm bên phải gốc $O$ trên trục số?",
+     "options": [
+      "A. $-\\frac{2}{3}$",
+      "B. $-1$",
+      "C. $0{,}4$",
+      "D. $-0{,}1$"
+     ],
+     "answer": "C",
+     "explain": "Số dương được biểu diễn bên phải gốc $O$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Cho $x$ là số hữu tỉ thỏa mãn $-x > 0$. Khẳng định đúng là",
+     "options": [
+      "A. $x > 0$",
+      "B. $x < 0$",
+      "C. $x = 0$",
+      "D. Không xác định được dấu của $x$"
+     ],
+     "answer": "B",
+     "explain": "$-x > 0$ nên $x < 0$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho $z = -\\\\frac{9}{4}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $z$ là số hữu tỉ âm.",
+      "b) $z < -2$.",
+      "c) Số đối của $z$ là $\\frac{9}{4}$.",
+      "d) $z > -3$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$-\\\\frac{9}{4} = -2{,}25$; $-3 < -2{,}25 < -2$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho $m = \\\\frac{3}{5}$ và $n = \\\\frac{7}{10}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $m < n$.",
+      "b) Số đối của $m$ là $-\\frac{3}{5}$.",
+      "c) $m$ viết được dưới dạng $0{,}6$.",
+      "d) Điểm biểu diễn $n$ nằm bên phải điểm biểu diễn $m$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$m = \\\\frac{6}{10} < \\\\frac{7}{10} = n$; $\\\\frac{3}{5} = 0{,}6$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Số hữu tỉ $\\\\frac{7}{-8}$ có số đối là $\\\\frac{a}{b}$ ($b > 0$, tối giản). Tính $a + b$.",
+     "answer": "15",
+     "explain": "Số đối là $\\\\frac{7}{8}$ nên $a + b = 7 + 8 = 15$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tìm số nguyên $x$ nhỏ nhất thỏa mãn $\\\\frac{x}{4} > -\\\\frac{5}{3}$.",
+     "answer": "-6",
+     "explain": "$\\\\frac{x}{4} > -\\\\frac{5}{3}$ nên $x > -\\\\frac{20}{3} \\\\approx -6{,}67$; số nguyên nhỏ nhất là $-6$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 8",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Khẳng định nào sau đây sai?",
+     "options": [
+      "A. $-5 \\in \\mathbb{Q}$",
+      "B. $0 \\in \\mathbb{Q}$",
+      "C. $2{,}5 \\in \\mathbb{Q}$",
+      "D. $\\frac{1}{0} \\in \\mathbb{Q}$"
+     ],
+     "answer": "D",
+     "explain": "Mẫu số phải khác $0$ nên $\\\\frac{1}{0}$ không thuộc $\\\\mathbb{Q}$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Số hữu tỉ dương là số hữu tỉ",
+     "options": [
+      "A. lớn hơn $0$",
+      "B. nhỏ hơn $0$",
+      "C. bằng $0$",
+      "D. là số nguyên"
+     ],
+     "answer": "A",
+     "explain": "Số hữu tỉ dương là số lớn hơn $0$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "So sánh $\\\\frac{4}{-9}$ và $-\\\\frac{3}{7}$. Khẳng định đúng là",
+     "options": [
+      "A. $\\frac{4}{-9} > -\\frac{3}{7}$",
+      "B. $\\frac{4}{-9} < -\\frac{3}{7}$",
+      "C. $\\frac{4}{-9} = -\\frac{3}{7}$",
+      "D. Không so sánh được"
+     ],
+     "answer": "B",
+     "explain": "$\\\\frac{4}{-9} = \\\\frac{-28}{63} < \\\\frac{-27}{63} = -\\\\frac{3}{7}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Điểm biểu diễn số $\\\\frac{5}{3}$ nằm giữa hai số nguyên nào?",
+     "options": [
+      "A. $1$ và $2$",
+      "B. $2$ và $3$",
+      "C. $0$ và $1$",
+      "D. $-1$ và $0$"
+     ],
+     "answer": "A",
+     "explain": "$1 < \\\\frac{5}{3} \\\\approx 1{,}67 < 2$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Biết số đối của số hữu tỉ $a$ là $-a$. Nếu $a = -\\\\frac{2}{7}$ thì $-a$ bằng",
+     "options": [
+      "A. $\\frac{2}{7}$",
+      "B. $-\\frac{2}{7}$",
+      "C. $\\frac{7}{2}$",
+      "D. $-\\frac{7}{2}$"
+     ],
+     "answer": "A",
+     "explain": "$-a = -(-\\\\frac{2}{7}) = \\\\frac{2}{7}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Cho $\\\\frac{a}{b} < \\\\frac{c}{d}$ với $b, d > 0$. Khẳng định nào sau đây chắc chắn đúng?",
+     "options": [
+      "A. $a < c$",
+      "B. $ad < bc$",
+      "C. $b < d$",
+      "D. $a + c < b + d$"
+     ],
+     "answer": "B",
+     "explain": "Quy đồng mẫu dương: $\\\\frac{ad}{bd} < \\\\frac{bc}{bd}$ nên $ad < bc$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho $t = -0{,}75$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $t = -\\frac{3}{4}$.",
+      "b) $t$ là số hữu tỉ âm.",
+      "c) Số đối của $t$ là $0{,}75$.",
+      "d) $t > -1$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$-0{,}75 = -\\\\frac{3}{4}$; $-1 < -0{,}75 < 0$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho $a = -\\\\frac{5}{6}$ và $b = -\\\\frac{4}{5}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $a < b$.",
+      "b) Số đối của $a$ là $\\frac{5}{6}$.",
+      "c) Cả hai số đều lớn hơn $-1$.",
+      "d) $a = -0{,}8(3)$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$a = \\\\frac{-25}{30} < \\\\frac{-24}{30} = b$; $-1 < -\\\\frac{5}{6}$; $-\\\\frac{5}{6} = -0{,}8333\\\\dots = -0{,}8(3)$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Phân số $\\\\frac{18}{-24}$ viết dưới dạng tối giản $\\\\frac{a}{b}$ ($b > 0$). Tính $b - a$.",
+     "answer": "7",
+     "explain": "$\\\\frac{18}{-24} = -\\\\frac{3}{4}$ nên $b - a = 4 - (-3) = 7$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Có bao nhiêu phân số $\\\\frac{a}{8}$ ($a$ nguyên) nằm giữa $-\\\\frac{1}{2}$ và $\\\\frac{3}{4}$?",
+     "answer": "9",
+     "explain": "$-\\\\frac{4}{8} < \\\\frac{a}{8} < \\\\frac{6}{8}$ nên $-4 < a < 6$; $a \\\\in \\\\{-3;\\\\dots;5\\\\}$: $9$ giá trị."
+    }
+   ]
+  },
+  {
+   "name": "Đề 9",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Số hữu tỉ nào sau đây bằng $-1$?",
+     "options": [
+      "A. $\\frac{1}{-1}$",
+      "B. $\\frac{-1}{1}$",
+      "C. Cả A và B đều đúng",
+      "D. Không có số nào"
+     ],
+     "answer": "C",
+     "explain": "$\\\\frac{1}{-1} = \\\\frac{-1}{1} = -1$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trên trục số, số hữu tỉ càng lớn thì điểm biểu diễn của nó",
+     "options": [
+      "A. càng nằm về phía bên phải",
+      "B. càng nằm về phía bên trái",
+      "C. càng gần gốc $O$",
+      "D. càng xa gốc $O$"
+     ],
+     "answer": "A",
+     "explain": "Điểm biểu diễn số lớn hơn nằm bên phải điểm biểu diễn số nhỏ hơn."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "So sánh $-\\\\frac{2}{9}$ và $-\\\\frac{1}{5}$. Khẳng định đúng là",
+     "options": [
+      "A. $-\\frac{2}{9} > -\\frac{1}{5}$",
+      "B. $-\\frac{2}{9} < -\\frac{1}{5}$",
+      "C. $-\\frac{2}{9} = -\\frac{1}{5}$",
+      "D. Không so sánh được"
+     ],
+     "answer": "B",
+     "explain": "$-\\\\frac{2}{9} = \\\\frac{-10}{45} < \\\\frac{-9}{45} = -\\\\frac{1}{5}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Số nào sau đây KHÔNG phải là số hữu tỉ âm?",
+     "options": [
+      "A. $-\\frac{3}{5}$",
+      "B. $-0{,}2$",
+      "C. $0$",
+      "D. $-7$"
+     ],
+     "answer": "C",
+     "explain": "$0$ không là số hữu tỉ âm cũng không là số hữu tỉ dương."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Viết số $1{,}2$ dưới dạng phân số tối giản được",
+     "options": [
+      "A. $\\frac{6}{5}$",
+      "B. $\\frac{12}{10}$",
+      "C. $\\frac{3}{2}$",
+      "D. $\\frac{5}{6}$"
+     ],
+     "answer": "A",
+     "explain": "$1{,}2 = \\\\frac{12}{10} = \\\\frac{6}{5}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Nếu $a$ là số hữu tỉ âm, $b$ là số hữu tỉ dương thì",
+     "options": [
+      "A. $a > b$",
+      "B. $a < b$",
+      "C. $a = b$",
+      "D. Không so sánh được $a$ và $b$"
+     ],
+     "answer": "B",
+     "explain": "Số âm luôn nhỏ hơn số dương: $a < 0 < b$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho $u = \\\\frac{8}{5}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $u > 1$.",
+      "b) $u$ là số hữu tỉ dương.",
+      "c) Số đối của $u$ là $-\\frac{8}{5}$.",
+      "d) $u < 2$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$\\\\frac{8}{5} = 1{,}6$; $1 < 1{,}6 < 2$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Xét các số $-\\\\frac{3}{2}$; $-1$; $-\\\\frac{1}{2}$; $0$; $\\\\frac{1}{2}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Có $3$ số hữu tỉ âm.",
+      "b) Số nhỏ nhất là $-\\frac{3}{2}$.",
+      "c) Số đối của $-1$ là $1$.",
+      "d) Các số đã được sắp xếp theo thứ tự tăng dần."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$-\\\\frac{3}{2} < -1 < -\\\\frac{1}{2} < 0 < \\\\frac{1}{2}$; ba số âm là $-\\\\frac{3}{2}, -1, -\\\\frac{1}{2}$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Tìm tử số của phân số tối giản bằng $\\\\frac{10}{15}$.",
+     "answer": "2",
+     "explain": "$\\\\frac{10}{15} = \\\\frac{2}{3}$ nên tử số là $2$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Cho $a, b$ nguyên dương, phân số $\\\\frac{a}{b}$ tối giản và $\\\\frac{a}{b} = \\\\frac{24}{36}$. Tính $a + b$.",
+     "answer": "5",
+     "explain": "$\\\\frac{24}{36} = \\\\frac{2}{3}$ nên $a + b = 2 + 3 = 5$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 10",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Số hữu tỉ là số viết được dưới dạng",
+     "options": [
+      "A. $\\frac{a}{b}$ với $a, b \\in \\mathbb{Z}$, $b \\ne 0$",
+      "B. $\\frac{a}{b}$ với $a, b \\in \\mathbb{N}$",
+      "C. $\\sqrt{a}$ với $a \\ge 0$",
+      "D. $a + b$ với $a, b \\in \\mathbb{Z}$"
+     ],
+     "answer": "A",
+     "explain": "Định nghĩa: số hữu tỉ viết được dưới dạng $\\\\frac{a}{b}$ với $a, b \\\\in \\\\mathbb{Z}$, $b \\\\ne 0$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Số đối của $-5$ là",
+     "options": [
+      "A. $5$",
+      "B. $-5$",
+      "C. $\\frac{1}{5}$",
+      "D. $-\\frac{1}{5}$"
+     ],
+     "answer": "A",
+     "explain": "Số đối của $-5$ là $5$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "So sánh $\\\\frac{7}{12}$ và $\\\\frac{2}{3}$. Khẳng định đúng là",
+     "options": [
+      "A. $\\frac{7}{12} > \\frac{2}{3}$",
+      "B. $\\frac{7}{12} < \\frac{2}{3}$",
+      "C. $\\frac{7}{12} = \\frac{2}{3}$",
+      "D. Không so sánh được"
+     ],
+     "answer": "B",
+     "explain": "$\\\\frac{2}{3} = \\\\frac{8}{12} > \\\\frac{7}{12}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Số hữu tỉ nào sau đây có điểm biểu diễn nằm giữa $0$ và $1$?",
+     "options": [
+      "A. $\\frac{5}{4}$",
+      "B. $-\\frac{1}{2}$",
+      "C. $\\frac{3}{5}$",
+      "D. $\\frac{7}{5}$"
+     ],
+     "answer": "C",
+     "explain": "$0 < \\\\frac{3}{5} < 1$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Số $0{,}(6)$ là số hữu tỉ vì",
+     "options": [
+      "A. bằng $\\frac{2}{3}$",
+      "B. là số nguyên",
+      "C. là số vô tỉ",
+      "D. không viết được dưới dạng phân số"
+     ],
+     "answer": "A",
+     "explain": "$0{,}(6) = 0{,}666\\\\dots = \\\\frac{2}{3}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Cho $-3 < x < 3$ với $x$ là số nguyên. Có bao nhiêu giá trị của $x$ là số hữu tỉ?",
+     "options": [
+      "A. $5$",
+      "B. $6$",
+      "C. $7$",
+      "D. Vô số"
+     ],
+     "answer": "A",
+     "explain": "Mọi số nguyên đều là số hữu tỉ; $x \\\\in \\\\{-2;-1;0;1;2\\\\}$: $5$ giá trị."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho $v = -\\\\frac{7}{2}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $v$ là số hữu tỉ âm.",
+      "b) $v = -3{,}5$.",
+      "c) Số đối của $v$ là $\\frac{7}{2}$.",
+      "d) $v > -4$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$-\\\\frac{7}{2} = -3{,}5$; $-4 < -3{,}5 < 0$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho $p = \\\\frac{5}{9}$ và $q = \\\\frac{4}{7}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $p > q$.",
+      "b) Cả $p$ và $q$ đều nhỏ hơn $1$.",
+      "c) Số đối của $p$ lớn hơn số đối của $q$.",
+      "d) $p$ viết được dưới dạng $0{,}(5)$."
+     ],
+     "answer": [
+      "F",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$p = \\\\frac{35}{63} < \\\\frac{36}{63} = q$; $-\\\\frac{5}{9} = \\\\frac{-35}{63} > \\\\frac{-36}{63} = -\\\\frac{4}{7}$; $\\\\frac{5}{9} = 0{,}555\\\\dots = 0{,}(5)$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Sắp xếp $-\\\\frac{4}{5}$; $-\\\\frac{7}{9}$; $-\\\\frac{5}{6}$ theo thứ tự giảm dần. Phân số đứng đầu là $\\\\frac{a}{b}$ (tối giản). Tính $a + b$.",
+     "answer": "2",
+     "explain": "$-\\\\frac{7}{9} \\\\approx -0{,}78 > -\\\\frac{4}{5} = -0{,}8 > -\\\\frac{5}{6} \\\\approx -0{,}83$; $a + b = -7 + 9 = 2$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tìm số nguyên $n$ nhỏ nhất sao cho $\\\\frac{n}{5} > \\\\frac{7}{4}$.",
+     "answer": "9",
+     "explain": "$\\\\frac{n}{5} > \\\\frac{7}{4}$ nên $n > \\\\frac{35}{4} = 8{,}75$; số nguyên nhỏ nhất là $9$."
+    }
+   ]
+  }
+ ]
+}
+</script>
+</div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
