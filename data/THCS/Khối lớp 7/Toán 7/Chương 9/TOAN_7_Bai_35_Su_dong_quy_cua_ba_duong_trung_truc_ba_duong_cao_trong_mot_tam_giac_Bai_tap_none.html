@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài tập Bài 35: Sự đồng quy của ba đường trung trực, ba đường cao trong một tam giác</title>
+    <meta name="lesson-title" content="Bài tập Bài 35: Sự đồng quy của ba đường trung trực, ba đường cao trong một tam giác">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Bài tập</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài tập Bài 35: Sự đồng quy của ba đường trung trực, ba đường cao trong một tam giác</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 9: Quan hệ giữa các yếu tố trong một tam giác • Bài 35: Sự đồng quy của ba đường trung trực, ba đường cao trong một tam giác</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="saobay-exam10">
+<script type="application/json" class="saobay-exam10-data">
+{
+ "sets": [
+  {
+   "name": "Đề 1",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Đường thẳng vuông góc với một đoạn thẳng tại trung điểm của nó được gọi là gì?",
+     "options": [
+      "A. Đường trung trực của đoạn thẳng",
+      "B. Đường phân giác của đoạn thẳng",
+      "C. Đường cao của đoạn thẳng",
+      "D. Đường trung bình của đoạn thẳng"
+     ],
+     "answer": "A",
+     "explain": "Đó là định nghĩa đường trung trực của một đoạn thẳng."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Ba đường trung trực của một tam giác đồng quy tại một điểm. Điểm này có tính chất gì?",
+     "options": [
+      "A. Cách đều ba đỉnh của tam giác",
+      "B. Cách đều ba cạnh của tam giác",
+      "C. Là trung điểm của cạnh lớn nhất",
+      "D. Nằm ngoài tam giác"
+     ],
+     "answer": "A",
+     "explain": "Ba đường trung trực đồng quy tại điểm cách đều ba đỉnh của tam giác."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "$O$ là giao điểm ba đường trung trực của tam giác $ABC$, $OA = 5\\text{ cm}$. Tính $OB$.",
+     "options": [
+      "A. $5\text{ cm}$",
+      "B. $10\text{ cm}$",
+      "C. $2,5\text{ cm}$",
+      "D. Không xác định được"
+     ],
+     "answer": "A",
+     "explain": "$O$ cách đều ba đỉnh nên $OA = OB = OC = 5\\text{ (cm)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Đoạn thẳng vuông góc kẻ từ một đỉnh của tam giác đến cạnh đối diện được gọi là gì?",
+     "options": [
+      "A. Đường cao của tam giác",
+      "B. Đường trung tuyến của tam giác",
+      "C. Đường phân giác của tam giác",
+      "D. Đường trung trực của tam giác"
+     ],
+     "answer": "A",
+     "explain": "Đó là định nghĩa đường cao của tam giác."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Trực tâm của tam giác $ABC$ vuông tại $A$ là điểm nào?",
+     "options": [
+      "A. Đỉnh $A$",
+      "B. Trung điểm của $BC$",
+      "C. Điểm nằm ngoài tam giác",
+      "D. Trọng tâm của tam giác"
+     ],
+     "answer": "A",
+     "explain": "Hai cạnh $AB$, $AC$ là hai đường cao nên chúng cắt nhau tại $A$; trực tâm trùng với đỉnh góc vuông."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Cho tam giác $ABC$ có $AB = 6\\text{ cm}$, $AC = 8\\text{ cm}$, $BC = 10\\text{ cm}$. Gọi $O$ là giao điểm ba đường trung trực của tam giác. Tính $OA$.",
+     "options": [
+      "A. $6\text{ cm}$",
+      "B. $5\text{ cm}$",
+      "C. $8\text{ cm}$",
+      "D. $10\text{ cm}$"
+     ],
+     "answer": "B",
+     "explain": "$6^2+8^2 = 10^2$ nên tam giác vuông tại $A$; $O$ là trung điểm của $BC$ nên $OA = \\frac{BC}{2} = 5\\text{ (cm)}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "$O$ là giao điểm ba đường trung trực của tam giác $ABC$ với $OA = 7\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $OB = 7\text{ cm}$.",
+      "b) $OC = 7\text{ cm}$.",
+      "c) $O$ cách đều ba cạnh của tam giác.",
+      "d) $O$ là tâm đường tròn ngoại tiếp tam giác $ABC$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "$O$ cách đều ba đỉnh nên $OA=OB=OC$; $O$ là tâm đường tròn ngoại tiếp; $O$ không cách đều ba cạnh."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "$H$ là trực tâm của tam giác $ABC$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $H$ là giao điểm của ba đường cao.",
+      "b) Nếu tam giác $ABC$ vuông tại $A$ thì $H$ trùng với $A$.",
+      "c) Nếu tam giác $ABC$ tù thì $H$ nằm ngoài tam giác.",
+      "d) $H$ luôn nằm trong tam giác $ABC$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b), c) đúng theo định nghĩa và chú ý; d) sai vì tam giác tù có trực tâm nằm ngoài."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tam giác $ABC$ có $O$ là giao điểm ba đường trung trực, $OB = 9\\text{ cm}$, $BC = 10\\text{ cm}$. Tính chu vi của tam giác $OBC$ (đơn vị: cm).",
+     "answer": "28",
+     "explain": "$OB = OC = 9\\text{ (cm)}$ nên chu vi $OBC = 9+9+10 = 28\\text{ (cm)}$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Cho tam giác $ABC$ có ba đường cao $AD$, $BE$, $CF$ đồng quy tại $H$. Biết $HD = 3\\text{ cm}$, $AD = 9\\text{ cm}$. Tính $AH$ (đơn vị: cm).",
+     "answer": "6",
+     "explain": "$AH = AD - HD = 9 - 3 = 6\\text{ (cm)}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 2",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Mỗi tam giác có bao nhiêu đường trung trực?",
+     "options": [
+      "A. $1$",
+      "B. $2$",
+      "C. $3$",
+      "D. $6$"
+     ],
+     "answer": "C",
+     "explain": "Mỗi cạnh của tam giác cho một đường trung trực nên có $3$ đường trung trực."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Ba đường cao của một tam giác đồng quy tại điểm nào?",
+     "options": [
+      "A. Trực tâm",
+      "B. Trọng tâm",
+      "C. Điểm cách đều ba cạnh",
+      "D. Trung điểm của cạnh lớn nhất"
+     ],
+     "answer": "A",
+     "explain": "Điểm đồng quy của ba đường cao gọi là trực tâm của tam giác."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Điểm $O$ cách đều ba đỉnh của tam giác $ABC$ là giao điểm của ba đường nào?",
+     "options": [
+      "A. Ba đường trung trực",
+      "B. Ba đường phân giác",
+      "C. Ba đường trung tuyến",
+      "D. Ba đường cao"
+     ],
+     "answer": "A",
+     "explain": "Giao điểm ba đường trung trực cách đều ba đỉnh của tam giác."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Cho tam giác $ABC$ tù tại $A$. Trực tâm $H$ của tam giác nằm ở đâu?",
+     "options": [
+      "A. Trong tam giác",
+      "B. Ngoài tam giác",
+      "C. Trùng với $A$",
+      "D. Là trung điểm của $BC$"
+     ],
+     "answer": "B",
+     "explain": "Với tam giác tù, trực tâm nằm ngoài tam giác."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tam giác $ABC$ có hai đường cao $BE$ và $CF$ cắt nhau tại $H$. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. $H$ là trực tâm của tam giác $ABC$",
+      "B. $H$ là trọng tâm của tam giác $ABC$",
+      "C. $H$ là trung điểm của $BC$",
+      "D. $H$ nằm ngoài tam giác"
+     ],
+     "answer": "A",
+     "explain": "Giao điểm hai đường cao chính là trực tâm (đường cao thứ ba cũng đi qua $H$)."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Cho tam giác $ABC$ có $AB = 5\\text{ cm}$, $AC = 12\\text{ cm}$, $BC = 13\\text{ cm}$. Gọi $H$ là trực tâm của tam giác. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. $H$ trùng với đỉnh $A$",
+      "B. $H$ là trung điểm của $BC$",
+      "C. $H$ nằm ngoài tam giác $ABC$",
+      "D. $AH = 5\\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "$5^2+12^2 = 13^2$ nên tam giác vuông tại $A$; trực tâm của tam giác vuông trùng với đỉnh góc vuông, tức $H$ trùng $A$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho tam giác $ABC$ nhọn, $H$ là trực tâm. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $H$ nằm trong tam giác $ABC$.",
+      "b) $H$ là giao điểm của ba đường cao.",
+      "c) $AH \\perp BC$.",
+      "d) $H$ là trung điểm của $BC$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b), c) đúng; d) sai."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Cho tam giác $MNP$ vuông tại $M$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Trực tâm của tam giác là $M$.",
+      "b) Hai đường cao của tam giác là $MN$ và $MP$.",
+      "c) Đường cao kẻ từ $N$ là đoạn $NM$.",
+      "d) Trực tâm nằm ngoài tam giác."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "Tam giác vuông tại $M$: hai cạnh góc vuông là hai đường cao, trực tâm trùng $M$ (nằm trong tam giác)."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "$O$ là giao điểm ba đường trung trực của tam giác $ABC$. Biết $OA = OB = OC = 10\\text{ cm}$, $BC = 12\\text{ cm}$. Gọi $M$ là trung điểm của $BC$. Tính $OM$ (đơn vị: cm).",
+     "answer": "8",
+     "explain": "$OM \\perp BC$ và $OM = \\sqrt{OB^2-BM^2} = \\sqrt{100-36} = 8\\text{ (cm)}$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Tam giác $ABC$ có trực tâm $H$ trùng với đỉnh $A$. Tính số đo góc $A$ (đơn vị: độ).",
+     "answer": "90",
+     "explain": "Trực tâm trùng với đỉnh $A$ khi tam giác vuông tại $A$, tức $\\widehat{A} = 90^\\circ$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 3",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Giao điểm $O$ của ba đường trung trực trong một tam giác là tâm của đường tròn nào?",
+     "options": [
+      "A. Đường tròn ngoại tiếp tam giác",
+      "B. Đường tròn nội tiếp tam giác",
+      "C. Đường tròn tâm $O$ bán kính tùy ý",
+      "D. Không phải tâm của đường tròn nào"
+     ],
+     "answer": "A",
+     "explain": "$O$ cách đều ba đỉnh nên là tâm đường tròn đi qua ba đỉnh — đường tròn ngoại tiếp."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Mỗi tam giác có bao nhiêu đường cao?",
+     "options": [
+      "A. $1$",
+      "B. $2$",
+      "C. $3$",
+      "D. $6$"
+     ],
+     "answer": "C",
+     "explain": "Mỗi đỉnh của tam giác cho một đường cao nên có $3$ đường cao."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Cho $D$ là trung điểm của $BC$. Đường thẳng đi qua $D$ và vuông góc với $BC$ là đường gì của đoạn $BC$?",
+     "options": [
+      "A. Đường trung trực của $BC$",
+      "B. Đường phân giác của $BC$",
+      "C. Đường cao của $BC$",
+      "D. Đường trung bình của $BC$"
+     ],
+     "answer": "A",
+     "explain": "Đường thẳng vuông góc với đoạn $BC$ tại trung điểm $D$ là đường trung trực của $BC$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Trực tâm của một tam giác nhọn nằm ở vị trí nào?",
+     "options": [
+      "A. Trong tam giác",
+      "B. Ngoài tam giác",
+      "C. Trùng với một đỉnh",
+      "D. Trên một cạnh"
+     ],
+     "answer": "A",
+     "explain": "Với tam giác nhọn, trực tâm nằm trong tam giác."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ cân tại $A$, $M$ là trung điểm của $BC$. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. $AM$ chỉ là đường trung tuyến",
+      "B. $AM$ là đường trung trực của $BC$",
+      "C. $AM$ song song với $BC$",
+      "D. $M$ là trực tâm"
+     ],
+     "answer": "B",
+     "explain": "Trong tam giác cân tại $A$, đường trung tuyến $AM$ đồng thời là đường cao nên $AM$ là đường trung trực của $BC$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Cho tam giác $ABC$ có $O$ là giao điểm ba đường trung trực, $OA = 13\\text{ cm}$, $BC = 10\\text{ cm}$. Gọi $M$ là trung điểm của $BC$. Tính khoảng cách từ $O$ đến $BC$.",
+     "options": [
+      "A. $12\text{ cm}$",
+      "B. $5\text{ cm}$",
+      "C. $8\text{ cm}$",
+      "D. $10\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "Khoảng cách từ $O$ đến $BC$ là $OM = \\sqrt{OB^2-BM^2} = \\sqrt{169-25} = 12\\text{ (cm)}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ đều; $G$ là trọng tâm, $H$ là trực tâm, $O$ là giao điểm ba đường trung trực, $I$ là giao điểm ba đường phân giác. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Bốn điểm $G$, $H$, $O$, $I$ trùng nhau.",
+      "b) Điểm trùng nhau cách đều ba đỉnh của tam giác.",
+      "c) Điểm trùng nhau cách đều ba cạnh của tam giác.",
+      "d) Điểm trùng nhau nằm ngoài tam giác."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "Tam giác đều: bốn điểm trùng nhau tại tâm, vừa cách đều ba đỉnh vừa cách đều ba cạnh, nằm trong tam giác."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho tam giác $ABC$ có $AB = AC$, $O$ là giao điểm ba đường trung trực. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $O$ nằm trên đường trung trực của $BC$.",
+      "b) $OB = OC$.",
+      "c) $O$ là trung điểm của $BC$.",
+      "d) Đường thẳng $AO$ vuông góc với $BC$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "$O$ thuộc mọi đường trung trực nên a) đúng; $OB=OC$; $AO$ là đường trung trực của $BC$ nên vuông góc với $BC$; $O$ không phải trung điểm $BC$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Tam giác $ABC$ vuông tại $A$ có $AB = 6\\text{ cm}$, $AC = 8\\text{ cm}$. Gọi $O$ là giao điểm ba đường trung trực của tam giác. Tính $OB$ (đơn vị: cm).",
+     "answer": "5",
+     "explain": "$BC = 10\\text{ (cm)}$; $O$ là trung điểm của $BC$ nên $OB = 5\\text{ (cm)}$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tam giác $ABC$ có $H$ là trực tâm, $AH$ cắt $BC$ tại $D$. Biết $AD = 15\\text{ cm}$, $HD = 5\\text{ cm}$. Tính khoảng cách từ $A$ đến $H$ (đơn vị: cm).",
+     "answer": "10",
+     "explain": "$AH = AD - HD = 15 - 5 = 10\\text{ (cm)}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 4",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Đường trung trực của đoạn $AB$ là đường thẳng nào?",
+     "options": [
+      "A. Vuông góc với $AB$ tại trung điểm của $AB$",
+      "B. Đi qua $A$ và vuông góc với $AB$",
+      "C. Đi qua trung điểm của $AB$ và song song với $AB$",
+      "D. Nối $A$ với $B$"
+     ],
+     "answer": "A",
+     "explain": "Đó là định nghĩa đường trung trực của đoạn thẳng."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Điểm đồng quy của ba đường cao trong một tam giác được gọi là gì?",
+     "options": [
+      "A. Trực tâm",
+      "B. Trọng tâm",
+      "C. Tâm đường tròn ngoại tiếp",
+      "D. Điểm cách đều ba cạnh"
+     ],
+     "answer": "A",
+     "explain": "Điểm đồng quy của ba đường cao gọi là trực tâm."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Mọi điểm nằm trên đường trung trực của đoạn $AB$ có tính chất gì?",
+     "options": [
+      "A. Cách đều $A$ và $B$",
+      "B. Là trung điểm của $AB$",
+      "C. Nằm trên đoạn $AB$",
+      "D. Cách $A$ gấp đôi cách $B$"
+     ],
+     "answer": "A",
+     "explain": "Tính chất đường trung trực: mọi điểm trên đó cách đều hai đầu đoạn thẳng."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Cho tam giác $ABC$ có $H$ là trực tâm. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. $AH \\perp BC$",
+      "B. $AH$ song song với $BC$",
+      "C. $H$ là trung điểm của $BC$",
+      "D. $AH = BC$"
+     ],
+     "answer": "A",
+     "explain": "$AH$ nằm trên đường cao xuất phát từ $A$ nên $AH \\perp BC$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tam giác $ABC$ vuông tại $A$, $M$ là trung điểm của $BC$. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. $M$ là trực tâm của tam giác",
+      "B. $M$ là giao điểm ba đường trung trực của tam giác",
+      "C. $M$ là giao điểm ba đường phân giác",
+      "D. $M$ nằm ngoài tam giác"
+     ],
+     "answer": "B",
+     "explain": "Tam giác vuông tại $A$ có tâm đường tròn ngoại tiếp (giao điểm ba đường trung trực) là trung điểm $M$ của cạnh huyền $BC$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Cho tam giác $ABC$ nhọn có hai đường cao $BD$ và $CE$ cắt nhau tại $H$. Biết $\\widehat{A} = 60^\\circ$. Tính $\\widehat{BHC}$.",
+     "options": [
+      "A. $60^\\circ$",
+      "B. $120^\\circ$",
+      "C. $90^\\circ$",
+      "D. $150^\\circ$"
+     ],
+     "answer": "B",
+     "explain": "Tứ giác $AEHD$ có $\\widehat{AEH} = \\widehat{ADH} = 90^\\circ$ nên $\\widehat{EHD} = 180^\\circ - \\widehat{A} = 120^\\circ$; $\\widehat{BHC}$ đối đỉnh với $\\widehat{EHD}$ nên bằng $120^\\circ$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho $O$ là giao điểm ba đường trung trực của tam giác $ABC$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $OA = OB = OC$.",
+      "b) $O$ cách đều ba đỉnh của tam giác.",
+      "c) $O$ luôn nằm trong tam giác $ABC$.",
+      "d) Mọi điểm trên đường trung trực của $AB$ cách đều $A$ và $B$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "a), b), d) đúng; c) sai vì với tam giác tù, $O$ nằm ngoài tam giác."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Cho tam giác $ABC$ tù tại $B$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Trực tâm của tam giác nằm ngoài tam giác.",
+      "b) Giao điểm ba đường trung trực nằm ngoài tam giác.",
+      "c) Trực tâm trùng với đỉnh $B$.",
+      "d) Chân đường cao kẻ từ $B$ nằm trong đoạn $AC$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "Tam giác tù: trực tâm và giao điểm ba đường trung trực đều nằm ngoài; c) sai (trực tâm trùng đỉnh góc vuông mới đúng)."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Cho tam giác $ABC$ có $O$ là giao điểm ba đường trung trực. Biết $OA = 15\\text{ cm}$, khoảng cách từ $O$ đến $BC$ bằng $9\\text{ cm}$. Tính $BC$ (đơn vị: cm).",
+     "answer": "24",
+     "explain": "Gọi $M$ là trung điểm $BC$: $BM = \\sqrt{OB^2-OM^2} = \\sqrt{225-81} = 12\\text{ (cm)}$, suy ra $BC = 24\\text{ (cm)}$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tam giác $ABC$ nhọn có trực tâm $H$. Biết $\\widehat{A} = 50^\\circ$. Tính $\\widehat{BHC}$ (đơn vị: độ).",
+     "answer": "130",
+     "explain": "$\\widehat{BHC} = 180^\\circ - \\widehat{A} = 130^\\circ$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 5",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Phát biểu nào sau đây là SAI?",
+     "options": [
+      "A. Ba đường trung trực của một tam giác đồng quy tại điểm cách đều ba đỉnh.",
+      "B. Ba đường cao của một tam giác đồng quy tại trực tâm.",
+      "C. Trực tâm của tam giác vuông là đỉnh góc vuông.",
+      "D. Giao điểm ba đường trung trực cách đều ba cạnh của tam giác."
+     ],
+     "answer": "D",
+     "explain": "A, B, C đúng; D sai vì giao điểm ba đường trung trực cách đều ba đỉnh (điểm cách đều ba cạnh là giao điểm ba đường phân giác)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tâm đường tròn ngoại tiếp của một tam giác là giao điểm của ba đường nào?",
+     "options": [
+      "A. Ba đường trung trực",
+      "B. Ba đường phân giác",
+      "C. Ba đường trung tuyến",
+      "D. Ba đường cao"
+     ],
+     "answer": "A",
+     "explain": "Tâm đường tròn ngoại tiếp (đi qua ba đỉnh) là giao điểm ba đường trung trực."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Cho tam giác $ABC$, $D$ là trung điểm của $AB$. Đường thẳng đi qua $D$ và vuông góc với $AB$ là đường gì của đoạn $AB$?",
+     "options": [
+      "A. Đường trung trực của $AB$",
+      "B. Đường cao của $AB$",
+      "C. Đường phân giác của $AB$",
+      "D. Đường trung tuyến của $AB$"
+     ],
+     "answer": "A",
+     "explain": "Đường thẳng vuông góc với $AB$ tại trung điểm $D$ là đường trung trực của $AB$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $ABC$ có đường cao $AH$ ($H \\in BC$). Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. $AH \\perp BC$",
+      "B. $H$ là trung điểm của $BC$",
+      "C. $AH$ là đường phân giác của góc $A$",
+      "D. $AH = BC$"
+     ],
+     "answer": "A",
+     "explain": "Đường cao $AH$ vuông góc với $BC$ tại $H$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ đều. Trực tâm $H$ chia đường cao $AD$ theo tỉ số $AH:HD$ bằng bao nhiêu?",
+     "options": [
+      "A. $1:1$",
+      "B. $2:1$",
+      "C. $1:2$",
+      "D. $3:1$"
+     ],
+     "answer": "B",
+     "explain": "Tam giác đều: trực tâm trùng trọng tâm nên $AH:HD = 2:1$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Cho tam giác $ABC$ nhọn có trực tâm $H$. Biết $\\widehat{B} = 70^\\circ$, $\\widehat{C} = 60^\\circ$. Tính $\\widehat{BHC}$.",
+     "options": [
+      "A. $110^\\circ$",
+      "B. $130^\\circ$",
+      "C. $120^\\circ$",
+      "D. $100^\\circ$"
+     ],
+     "answer": "B",
+     "explain": "$\\widehat{A} = 180^\\circ-70^\\circ-60^\\circ = 50^\\circ$; $\\widehat{BHC} = 180^\\circ-\\widehat{A} = 130^\\circ$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ vuông tại $A$, $O$ là trung điểm của $BC$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $O$ là giao điểm ba đường trung trực của tam giác.",
+      "b) $OA = OB = OC$.",
+      "c) $O$ là trực tâm của tam giác.",
+      "d) Trực tâm của tam giác là $A$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "a), b), d) đúng; c) sai vì trực tâm của tam giác vuông là đỉnh góc vuông $A$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho $H$ là trực tâm của tam giác $ABC$ nhọn. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $H$ nằm trong tam giác $ABC$.",
+      "b) $H$ là giao điểm của ba đường cao.",
+      "c) $\\widehat{BHC} = 180^\\circ - \\widehat{A}$.",
+      "d) $H$ cách đều ba đỉnh của tam giác."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b), c) đúng; d) sai (điểm cách đều ba đỉnh là giao điểm ba đường trung trực)."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Cho tam giác $ABC$ có $O$ là giao điểm ba đường trung trực, $M$ là trung điểm của $AB$. Biết $OA = 25\\text{ cm}$, $OM = 7\\text{ cm}$. Tính $AB$ (đơn vị: cm).",
+     "answer": "48",
+     "explain": "$AM = \\sqrt{OA^2-OM^2} = \\sqrt{625-49} = 24\\text{ (cm)}$, suy ra $AB = 48\\text{ (cm)}$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ nhọn có trực tâm $H$. Biết $\\widehat{A} = 60^\\circ$. Tính $\\widehat{BHC}$ (đơn vị: độ).",
+     "answer": "120",
+     "explain": "$\\widehat{BHC} = 180^\\circ - 60^\\circ = 120^\\circ$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 6",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Đường cao của một tam giác là đoạn thẳng như thế nào?",
+     "options": [
+      "A. Vuông góc kẻ từ một đỉnh đến cạnh đối diện",
+      "B. Nối một đỉnh với trung điểm của cạnh đối diện",
+      "C. Chia một góc của tam giác thành hai phần bằng nhau",
+      "D. Vuông góc với một cạnh tại trung điểm của nó"
+     ],
+     "answer": "A",
+     "explain": "Đó là định nghĩa đường cao của tam giác."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Giao điểm của ba đường trung trực trong một tam giác cách đều yếu tố nào?",
+     "options": [
+      "A. Ba đỉnh của tam giác",
+      "B. Ba cạnh của tam giác",
+      "C. Ba đường cao",
+      "D. Ba trung điểm các cạnh"
+     ],
+     "answer": "A",
+     "explain": "Giao điểm ba đường trung trực cách đều ba đỉnh của tam giác."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Cho tam giác $ABC$ có $O$ là giao điểm ba đường trung trực, $OA = 12\\text{ cm}$. Biết $AB = 10\\text{ cm}$. Tính chu vi của tam giác $OAB$.",
+     "options": [
+      "A. $22\text{ cm}$",
+      "B. $32\text{ cm}$",
+      "C. $34\text{ cm}$",
+      "D. $24\text{ cm}$"
+     ],
+     "answer": "C",
+     "explain": "$OA = OB = 12\\text{ (cm)}$ nên chu vi $OAB = 12+12+10 = 34\\text{ (cm)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Trực tâm $H$ của tam giác $ABC$ thỏa mãn $AH \\perp BC$, $BH \\perp AC$. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. $CH \\perp AB$",
+      "B. $CH$ song song với $AB$",
+      "C. $H$ là trung điểm của $AB$",
+      "D. $CH = AB$"
+     ],
+     "answer": "A",
+     "explain": "Ba đường cao đồng quy tại $H$ nên đường thẳng qua $C$ và $H$ cũng là đường cao: $CH \\perp AB$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ có $M$ là trung điểm của $BC$, $AM \\perp BC$. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. $AM$ là đường phân giác của góc $B$",
+      "B. $AM$ là đường trung trực của $BC$",
+      "C. $M$ là trực tâm của tam giác",
+      "D. $AM$ song song với $BC$"
+     ],
+     "answer": "B",
+     "explain": "$AM$ vuông góc với $BC$ tại trung điểm $M$ nên $AM$ là đường trung trực của $BC$ (tam giác cân tại $A$)."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Cho tam giác $ABC$ có $AB = 13\\text{ cm}$, $AC = 15\\text{ cm}$, $BC = 14\\text{ cm}$. Tính độ dài đường cao $AH$ ($H \\in BC$).",
+     "options": [
+      "A. $10\text{ cm}$",
+      "B. $12\text{ cm}$",
+      "C. $13\text{ cm}$",
+      "D. $11\text{ cm}$"
+     ],
+     "answer": "B",
+     "explain": "Nửa chu vi $p = 21$; diện tích $S = \\sqrt{21\\cdot 8\\cdot 6\\cdot 7} = 84\\text{ (cm}^2\\text{)}$; $AH = \\frac{2S}{BC} = \\frac{168}{14} = 12\\text{ (cm)}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho tam giác $ABC$ có $D$, $E$, $F$ lần lượt là trung điểm của $BC$, $CA$, $AB$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Các đường trung trực của tam giác $ABC$ đồng quy tại một điểm.",
+      "b) Giao điểm đó cách đều ba đỉnh $A$, $B$, $C$.",
+      "c) Đường trung trực của $BC$ đi qua $D$ và vuông góc với $BC$.",
+      "d) Giao điểm ba đường trung trực chính là trọng tâm của tam giác."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b), c) đúng; d) sai (trọng tâm là giao điểm ba đường trung tuyến)."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Cho tam giác $ABC$, $H$ là trực tâm. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Nếu tam giác $ABC$ nhọn thì $H$ nằm trong tam giác.",
+      "b) Nếu tam giác $ABC$ vuông thì $H$ là đỉnh góc vuông.",
+      "c) Nếu tam giác $ABC$ tù thì $H$ nằm ngoài tam giác.",
+      "d) $H$ luôn là trung điểm của một đường cao."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b), c) đúng theo chú ý trong bài; d) sai."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Tam giác $ABC$ vuông tại $A$, $M$ là trung điểm của $BC$. Biết $BC = 26\\text{ cm}$. Tính $AM$ (đơn vị: cm).",
+     "answer": "13",
+     "explain": "Trung tuyến ứng với cạnh huyền bằng nửa cạnh huyền: $AM = \\frac{BC}{2} = 13\\text{ (cm)}$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tam giác $ABC$ tù tại $A$ với $\\widehat{A} = 110^\\circ$, trực tâm $H$ nằm ngoài tam giác. Tính $\\widehat{BHC}$ (đơn vị: độ).",
+     "answer": "70",
+     "explain": "Gọi $E$, $F$ là chân hai đường cao: tứ giác $AEHF$ có hai góc vuông nên $\\widehat{EHF} = 180^\\circ-110^\\circ = 70^\\circ$; $\\widehat{BHC}$ đối đỉnh với $\\widehat{EHF}$ nên bằng $70^\\circ$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 7",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trực tâm của một tam giác là giao điểm của ba đường nào?",
+     "options": [
+      "A. Ba đường cao",
+      "B. Ba đường trung tuyến",
+      "C. Ba đường phân giác",
+      "D. Ba đường trung trực"
+     ],
+     "answer": "A",
+     "explain": "Trực tâm là điểm đồng quy của ba đường cao."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Đường trung trực của một tam giác là đường trung trực của yếu tố nào?",
+     "options": [
+      "A. Một cạnh của tam giác",
+      "B. Một góc của tam giác",
+      "C. Một đường cao",
+      "D. Một đường phân giác"
+     ],
+     "answer": "A",
+     "explain": "Đường trung trực của tam giác là đường trung trực của một cạnh của nó."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Cho tam giác $ABC$ vuông tại $A$. Giao điểm ba đường trung trực của tam giác là điểm nào?",
+     "options": [
+      "A. Đỉnh $A$",
+      "B. Trung điểm của $BC$",
+      "C. Trọng tâm của tam giác",
+      "D. Điểm nằm ngoài tam giác"
+     ],
+     "answer": "B",
+     "explain": "Tam giác vuông có tâm đường tròn ngoại tiếp là trung điểm của cạnh huyền $BC$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Cho $H$ là trực tâm của tam giác $ABC$ nhọn. Biết $\\widehat{A} = 80^\\circ$. Tính $\\widehat{BHC}$.",
+     "options": [
+      "A. $80^\\circ$",
+      "B. $90^\\circ$",
+      "C. $100^\\circ$",
+      "D. $120^\\circ$"
+     ],
+     "answer": "C",
+     "explain": "$\\widehat{BHC} = 180^\\circ - \\widehat{A} = 100^\\circ$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ có ba đường cao $AD$, $BE$, $CF$. Biết $AD = BE$. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. $AB = AC$",
+      "B. $AC = BC$",
+      "C. $AB = BC$",
+      "D. Tam giác $ABC$ đều"
+     ],
+     "answer": "B",
+     "explain": "$S = \\frac{1}{2}\\cdot BC\\cdot AD = \\frac{1}{2}\\cdot AC\\cdot BE$; $AD = BE$ nên $BC = AC$ (tam giác cân tại $C$)."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Cho tam giác $ABC$ nhọn có trực tâm $H$, $D$ là chân đường cao kẻ từ $A$. Biết $BD = 9\\text{ cm}$, $CD = 16\\text{ cm}$. Tính $AD$.",
+     "options": [
+      "A. $10\text{ cm}$",
+      "B. $11\text{ cm}$",
+      "C. $12\text{ cm}$",
+      "D. $13\text{ cm}$"
+     ],
+     "answer": "C",
+     "explain": "Hệ thức lượng trong tam giác vuông: $AD^2 = BD\\cdot CD = 144$, suy ra $AD = 12\\text{ (cm)}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ cân tại $A$, $M$ là trung điểm của $BC$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $AM$ là đường trung trực của $BC$.",
+      "b) $AM$ là đường cao của tam giác.",
+      "c) Giao điểm ba đường trung trực nằm trên $AM$.",
+      "d) Trực tâm của tam giác nằm trên $AM$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "Tam giác cân tại $A$: đường trung tuyến $AM$ đồng thời là đường cao, đường trung trực; trực tâm và giao điểm ba đường trung trực đều nằm trên $AM$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho $O$ là giao điểm ba đường trung trực của tam giác $ABC$ vuông tại $A$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $O$ là trung điểm của $BC$.",
+      "b) $OA = OB = OC$.",
+      "c) $O$ nằm trên $BC$.",
+      "d) $O$ là trực tâm của tam giác."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b), c) đúng; d) sai vì trực tâm của tam giác vuông tại $A$ là $A$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tam giác $ABC$ có $AB = AC = 17\\text{ cm}$, $BC = 16\\text{ cm}$. Gọi $M$ là trung điểm của $BC$. Tính $AM$ (đơn vị: cm).",
+     "answer": "15",
+     "explain": "$BM = 8\\text{ (cm)}$, $AM \\perp BC$ nên $AM = \\sqrt{17^2-8^2} = \\sqrt{225} = 15\\text{ (cm)}$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Cho tam giác $ABC$ nhọn có trực tâm $H$. Biết $\\widehat{BHC} = 140^\\circ$. Tính $\\widehat{A}$ (đơn vị: độ).",
+     "answer": "40",
+     "explain": "$\\widehat{A} = 180^\\circ - \\widehat{BHC} = 40^\\circ$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 8",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho đoạn $AB$, $M$ là trung điểm của $AB$. Đường trung trực của $AB$ là đường thẳng nào?",
+     "options": [
+      "A. Đi qua $M$ và vuông góc với $AB$",
+      "B. Đi qua $A$ và vuông góc với $AB$",
+      "C. Đi qua $M$ và song song với $AB$",
+      "D. Là chính đoạn $AB$"
+     ],
+     "answer": "A",
+     "explain": "Đường trung trực vuông góc với đoạn thẳng tại trung điểm của nó."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Ba đường cao của một tam giác có tính chất nào sau đây?",
+     "options": [
+      "A. Đồng quy tại trực tâm",
+      "B. Song song với nhau",
+      "C. Đồng quy tại trọng tâm",
+      "D. Không có điểm chung"
+     ],
+     "answer": "A",
+     "explain": "Ba đường cao đồng quy tại trực tâm của tam giác."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "$O$ là giao điểm ba đường trung trực của tam giác $ABC$, $OA = OB = 7\\text{ cm}$. Tính $OC$.",
+     "options": [
+      "A. $7\text{ cm}$",
+      "B. $14\text{ cm}$",
+      "C. $3,5\text{ cm}$",
+      "D. Không xác định được"
+     ],
+     "answer": "A",
+     "explain": "$O$ cách đều ba đỉnh nên $OC = OA = OB = 7\\text{ (cm)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $ABC$ có $AH$ là đường cao ($H \\in BC$), $BK$ là đường cao ($K \\in AC$). Giao điểm của $AH$ và $BK$ là điểm nào?",
+     "options": [
+      "A. Trực tâm của tam giác",
+      "B. Trọng tâm của tam giác",
+      "C. Trung điểm của $AB$",
+      "D. Điểm cách đều ba cạnh"
+     ],
+     "answer": "A",
+     "explain": "Giao điểm hai đường cao chính là trực tâm."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ vuông tại $A$ có $AB = 8\\text{ cm}$, $AC = 6\\text{ cm}$. Gọi $O$ là tâm đường tròn ngoại tiếp tam giác. Tính bán kính đường tròn ngoại tiếp.",
+     "options": [
+      "A. $5\text{ cm}$",
+      "B. $8\text{ cm}$",
+      "C. $6\text{ cm}$",
+      "D. $10\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "$BC = 10\\text{ (cm)}$; bán kính $R = \\frac{BC}{2} = 5\\text{ (cm)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Cho tam giác $ABC$ có $AB = 15\\text{ cm}$, $AC = 20\\text{ cm}$, $BC = 25\\text{ cm}$. Tính độ dài đường cao $AH$ ($H \\in BC$).",
+     "options": [
+      "A. $10\text{ cm}$",
+      "B. $12\text{ cm}$",
+      "C. $15\text{ cm}$",
+      "D. $14\text{ cm}$"
+     ],
+     "answer": "B",
+     "explain": "$15^2+20^2 = 25^2$ nên tam giác vuông tại $A$; $S = \\frac{1}{2}\\cdot 15\\cdot 20 = 150$; $AH = \\frac{2S}{BC} = \\frac{300}{25} = 12\\text{ (cm)}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho tam giác $ABC$ có $O$ là giao điểm ba đường trung trực. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Nếu tam giác $ABC$ nhọn thì $O$ nằm trong tam giác.",
+      "b) Nếu tam giác $ABC$ vuông thì $O$ là trung điểm của cạnh huyền.",
+      "c) Nếu tam giác $ABC$ tù thì $O$ nằm ngoài tam giác.",
+      "d) $O$ luôn là trung điểm của một cạnh."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b), c) đúng; d) sai (chỉ đúng khi tam giác vuông)."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Cho tam giác $DEF$ có trực tâm $H$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $H$ là giao điểm của ba đường cao.",
+      "b) Nếu tam giác $DEF$ đều thì $H$ là tâm của tam giác.",
+      "c) Đường thẳng qua $D$ và $H$ vuông góc với $EF$.",
+      "d) $H$ cách đều ba đỉnh của tam giác."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b), c) đúng; d) sai (điểm cách đều ba đỉnh là giao điểm ba đường trung trực)."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ có $O$ là giao điểm ba đường trung trực. Biết chu vi của tam giác $OBC$ bằng $32\\text{ cm}$, $BC = 12\\text{ cm}$. Tính $OB$ (đơn vị: cm).",
+     "answer": "10",
+     "explain": "$OB = OC$ nên $2\\cdot OB + 12 = 32$, suy ra $OB = 10\\text{ (cm)}$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Tam giác $ABC$ nhọn có trực tâm $H$, $D$ là chân đường cao kẻ từ $A$. Biết $AD = 20\\text{ cm}$, $HD = 8\\text{ cm}$. Tính $AH$ (đơn vị: cm).",
+     "answer": "12",
+     "explain": "$AH = AD - HD = 20 - 8 = 12\\text{ (cm)}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 9",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Điểm $O$ thỏa mãn $OA = OB = OC$ với tam giác $ABC$ là giao điểm của ba đường nào?",
+     "options": [
+      "A. Ba đường trung trực",
+      "B. Ba đường phân giác",
+      "C. Ba đường trung tuyến",
+      "D. Ba đường cao"
+     ],
+     "answer": "A",
+     "explain": "Điểm cách đều ba đỉnh là giao điểm ba đường trung trực."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Đoạn $AH$ với $H \\in BC$ và $AH \\perp BC$ được gọi là gì của tam giác $ABC$?",
+     "options": [
+      "A. Đường cao",
+      "B. Đường trung tuyến",
+      "C. Đường phân giác",
+      "D. Đường trung trực"
+     ],
+     "answer": "A",
+     "explain": "Đó là định nghĩa đường cao xuất phát từ $A$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Cho tam giác $ABC$ tù tại $C$. Chân đường cao kẻ từ $A$ nằm ở vị trí nào?",
+     "options": [
+      "A. Trong đoạn $BC$",
+      "B. Ngoài đoạn $BC$ (trên đường thẳng $BC$)",
+      "C. Trùng với $B$",
+      "D. Trùng với $C$"
+     ],
+     "answer": "B",
+     "explain": "Tam giác tù tại $C$: hai đường cao xuất phát từ $A$, $B$ có chân nằm ngoài đoạn thẳng chứa cạnh đối diện."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Giao điểm ba đường trung trực của một tam giác vuông là điểm nào?",
+     "options": [
+      "A. Trung điểm của cạnh huyền",
+      "B. Đỉnh góc vuông",
+      "C. Trọng tâm của tam giác",
+      "D. Điểm nằm ngoài tam giác"
+     ],
+     "answer": "A",
+     "explain": "Tâm đường tròn ngoại tiếp tam giác vuông là trung điểm của cạnh huyền."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ vuông tại $A$, $AH$ là đường cao ($H \\in BC$). Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. Trực tâm của tam giác là $A$",
+      "B. Trực tâm của tam giác là $H$",
+      "C. $H$ là trung điểm của $BC$",
+      "D. $AH$ là đường trung trực của $BC$"
+     ],
+     "answer": "A",
+     "explain": "Trực tâm của tam giác vuông là đỉnh góc vuông, tức điểm $A$ (không phải chân đường cao $H$)."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Cho tam giác $ABC$ vuông tại $A$ có $AB = 6\\text{ cm}$, $AC = 8\\text{ cm}$. Gọi $O$ là trung điểm của $BC$ (giao điểm ba đường trung trực), $H$ là trực tâm. Tính $OH$.",
+     "options": [
+      "A. $4\text{ cm}$",
+      "B. $5\text{ cm}$",
+      "C. $6\text{ cm}$",
+      "D. $10\text{ cm}$"
+     ],
+     "answer": "B",
+     "explain": "$H$ trùng với $A$; $O$ là trung điểm $BC$ nên $OH = OA = \\frac{BC}{2} = \\frac{10}{2} = 5\\text{ (cm)}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ có $AB = AC$, $H$ là trực tâm, $O$ là giao điểm ba đường trung trực. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $H$ và $O$ đều nằm trên đường cao xuất phát từ $A$.",
+      "b) $H$ trùng với $O$ chỉ khi tam giác $ABC$ đều.",
+      "c) $H$ luôn nằm trong tam giác $ABC$.",
+      "d) $O$ luôn nằm trong tam giác $ABC$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "F"
+     ],
+     "explain": "Tam giác cân tại $A$: $H$, $O$ cùng nằm trên trục đối xứng; $H\\equiv O$ khi đều; c), d) sai vì tam giác có thể tù."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Cho tam giác $MNP$ tù tại $M$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Trực tâm của tam giác nằm ngoài tam giác.",
+      "b) Chân đường cao kẻ từ $N$ nằm ngoài đoạn $MP$.",
+      "c) Giao điểm ba đường trung trực nằm ngoài tam giác.",
+      "d) Trực tâm trùng với đỉnh $M$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b), c) đúng; d) sai (trực tâm trùng đỉnh góc vuông mới đúng)."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Cho tam giác $ABC$ vuông tại $A$, $O$ là trung điểm của $BC$. Biết $AB = 12\\text{ cm}$, $AC = 16\\text{ cm}$. Tính $OA$ (đơn vị: cm).",
+     "answer": "10",
+     "explain": "$BC = 20\\text{ (cm)}$; $OA = \\frac{BC}{2} = 10\\text{ (cm)}$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tam giác $ABC$ có trực tâm $H$, $D$ là chân đường cao kẻ từ $B$ xuống $AC$. Biết $BD = 18\\text{ cm}$, $HD = 6\\text{ cm}$. Tính $BH$ (đơn vị: cm).",
+     "answer": "12",
+     "explain": "$BH = BD - HD = 18 - 6 = 12\\text{ (cm)}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 10",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Phát biểu nào sau đây đúng?",
+     "options": [
+      "A. Giao điểm ba đường trung trực cách đều ba cạnh của tam giác",
+      "B. Giao điểm ba đường trung trực cách đều ba đỉnh của tam giác",
+      "C. Trực tâm cách đều ba đỉnh của tam giác",
+      "D. Trọng tâm cách đều ba cạnh của tam giác"
+     ],
+     "answer": "B",
+     "explain": "B đúng; A sai (điểm cách đều ba cạnh là giao điểm ba đường phân giác); C, D sai."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trực tâm của một tam giác tù nằm ở vị trí nào?",
+     "options": [
+      "A. Trong tam giác",
+      "B. Ngoài tam giác",
+      "C. Trùng với đỉnh góc tù",
+      "D. Là trung điểm của cạnh lớn nhất"
+     ],
+     "answer": "B",
+     "explain": "Với tam giác tù, trực tâm nằm ngoài tam giác."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Cho tam giác $ABC$ có $O$ là giao điểm ba đường trung trực. Biết $OA = 8\\text{ cm}$. Tính khoảng cách từ $O$ đến đỉnh $C$.",
+     "options": [
+      "A. $8\text{ cm}$",
+      "B. $16\text{ cm}$",
+      "C. $4\text{ cm}$",
+      "D. Không xác định được"
+     ],
+     "answer": "A",
+     "explain": "$O$ cách đều ba đỉnh nên $OC = OA = 8\\text{ (cm)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $ABC$ nhọn có $H$ là trực tâm. Biết $\\widehat{A} = 70^\\circ$. Tính $\\widehat{BHC}$.",
+     "options": [
+      "A. $70^\\circ$",
+      "B. $90^\\circ$",
+      "C. $110^\\circ$",
+      "D. $140^\\circ$"
+     ],
+     "answer": "C",
+     "explain": "$\\widehat{BHC} = 180^\\circ - \\widehat{A} = 110^\\circ$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ có $H$ là trực tâm, $AH$ cắt $BC$ tại $D$. Biết $\\widehat{BAD} = 30^\\circ$. Tính $\\widehat{ABC}$.",
+     "options": [
+      "A. $60^\\circ$",
+      "B. $30^\\circ$",
+      "C. $90^\\circ$",
+      "D. $45^\\circ$"
+     ],
+     "answer": "A",
+     "explain": "Tam giác $ABD$ vuông tại $D$ nên $\\widehat{ABC} = 90^\\circ - \\widehat{BAD} = 60^\\circ$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Cho tam giác $ABC$ đều cạnh $8\\text{ cm}$. Gọi $O$ là giao điểm ba đường trung trực, $H$ là trực tâm. Tính $OH$.",
+     "options": [
+      "A. $0\text{ cm}$",
+      "B. $4\text{ cm}$",
+      "C. $8\text{ cm}$",
+      "D. $2\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "Tam giác đều: trực tâm trùng với giao điểm ba đường trung trực nên $OH = 0\\text{ (cm)}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$, $O$ là giao điểm ba đường trung trực, $H$ là trực tâm. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Với tam giác nhọn, $O$ và $H$ đều nằm trong tam giác.",
+      "b) Với tam giác vuông, $O$ là trung điểm cạnh huyền còn $H$ là đỉnh góc vuông.",
+      "c) Với tam giác tù, $O$ và $H$ đều nằm ngoài tam giác.",
+      "d) $O$ và $H$ luôn trùng nhau."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b), c) đúng; d) sai (chỉ trùng nhau khi tam giác đều)."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho tam giác $ABC$ có $AB < AC$, $O$ là giao điểm ba đường trung trực. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $OA = OB = OC$.",
+      "b) $O$ cách đều ba đỉnh của tam giác.",
+      "c) Nếu tam giác $ABC$ vuông tại $A$ thì $O$ là trung điểm của $BC$.",
+      "d) $O$ cách đều ba cạnh của tam giác."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b), c) đúng; d) sai."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ có $O$ là tâm đường tròn ngoại tiếp, $OA = 13\\text{ cm}$. Tính đường kính của đường tròn ngoại tiếp tam giác $ABC$ (đơn vị: cm).",
+     "answer": "26",
+     "explain": "Đường kính $= 2\\cdot OA = 26\\text{ (cm)}$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Tam giác $ABC$ có $H$ là trực tâm, $AH$ cắt $BC$ tại $D$. Biết $AD = 24\\text{ cm}$, $HD = 10\\text{ cm}$. Tính $AH$ (đơn vị: cm).",
+     "answer": "14",
+     "explain": "$AH = AD - HD = 24 - 10 = 14\\text{ (cm)}$."
+    }
+   ]
+  }
+ ]
+}
+</script>
+</div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
