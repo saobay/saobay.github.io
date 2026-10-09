@@ -10,7 +10,7 @@
   .tab-btn.active { background: #1d4ed8; color: #fff; }
   canvas { touch-action: pan-y; display: block; }
   .big-btn { min-height: 52px; }
-canvas{height:auto !important;max-width:100%;}
+canvas{max-width:100%;display:block;}
 </style>
 </head>
 <body class="bg-slate-100 min-h-screen">
@@ -142,12 +142,16 @@ document.querySelectorAll('.tab-btn').forEach(function(b){
 function fitCanvas(cv){
   var r = cv.getBoundingClientRect(), d = window.devicePixelRatio || 1;
   var H = parseInt(cv.getAttribute('height')) || 300;
-  if (!r.width || !cv.offsetParent){
+  if (!r.width || r.width < 10 || !cv.offsetParent){
     return {ctx: cv.getContext('2d'), w: 360, h: H, hidden: true};
   }
-  cv.width = r.width * d; cv.height = H * d;
+  var W = Math.round(r.width);
+  cv.width = Math.round(W * d);
+  cv.height = Math.round(H * d);
+  cv.style.width = W + 'px';
+  cv.style.height = H + 'px';
   var ctx = cv.getContext('2d'); ctx.setTransform(d,0,0,d,0,0);
-  return {ctx: ctx, w: r.width, h: H, hidden: false};
+  return {ctx: ctx, w: W, h: H, hidden: false};
 }
 window.__refits = window.__refits || [];
 
