@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 14: Phép cộng và phép trừ số nguyên</title>
+    <meta name="lesson-title" content="Bài 14: Phép cộng và phép trừ số nguyên">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 14: Phép cộng và phép trừ số nguyên</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 3: Số nguyên • Bài 14: Phép cộng và phép trừ số nguyên</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 14: Phép cộng và phép trừ số nguyên</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 3: Số nguyên (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Cộng hai số nguyên cùng dấu -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Cộng hai số nguyên cùng dấu</h2>
+
+<p>Trước hết, ta nhắc lại khái niệm <strong>giá trị tuyệt đối</strong> của một số nguyên: giá trị tuyệt đối của số nguyên $a$ là <strong>khoảng cách</strong> từ điểm $a$ đến điểm $0$ trên trục số, kí hiệu là $|a|$.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>$|-5| = 5$ (điểm $-5$ cách điểm $0$ năm đơn vị);</li>
+<li>$|5| = 5$; $|0| = 0$.</li>
+</ul>
+</div>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">Cộng hai số nguyên dương</h3>
+<p>Cộng hai số nguyên dương chính là <strong>cộng hai số tự nhiên</strong> khác $0$ đã học ở tiểu học. Ví dụ: $3 + 5 = 8$.</p>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">Cộng hai số nguyên âm</h3>
+<p>Muốn cộng hai số nguyên âm, ta <strong>cộng hai giá trị tuyệt đối</strong> của chúng rồi <strong>đặt dấu $-$</strong> trước kết quả.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>$(-7) + (-5) = -(7 + 5) = -12$.</p>
+<p class="mt-2">Thực tế: nhiệt độ buổi sáng là $-2^{\circ}C$, đến buổi tối giảm thêm $3^{\circ}C$ thì nhiệt độ buổi tối là $(-2) + (-3) = -5^{\circ}C$.</p>
+</div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Minh hoa phep cong (-3) + (-5) = -8 tren truc so">
+<rect x="2" y="2" width="436" height="186" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="30" font-family="sans-serif" font-size="15" font-weight="bold" fill="#0369a1" text-anchor="middle">(-3) + (-5) = -8</text>
+<line x1="30" y1="120" x2="410" y2="120" stroke="#0f172a" stroke-width="2"/>
+<g font-family="sans-serif" font-size="13" font-weight="bold" text-anchor="middle">
+<line x1="70" y1="114" x2="70" y2="126" stroke="#0f172a" stroke-width="2"/><text x="70" y="145" fill="#64748b">-10</text>
+<line x1="120" y1="114" x2="120" y2="126" stroke="#0f172a" stroke-width="2"/><text x="120" y="145" fill="#64748b">-8</text>
+<line x1="170" y1="114" x2="170" y2="126" stroke="#0f172a" stroke-width="2"/><text x="170" y="145" fill="#64748b">-6</text>
+<line x1="220" y1="114" x2="220" y2="126" stroke="#0f172a" stroke-width="2"/><text x="220" y="145" fill="#64748b">-4</text>
+<line x1="270" y1="114" x2="270" y2="126" stroke="#0f172a" stroke-width="2"/><text x="270" y="145" fill="#64748b">-2</text>
+<line x1="320" y1="114" x2="320" y2="126" stroke="#0f172a" stroke-width="2"/><text x="320" y="145" fill="#e11d48">0</text>
+</g>
+<path d="M 295 100 Q 257 60 220 100" fill="none" stroke="#0284c7" stroke-width="2.5"/>
+<polygon points="220,100 228,92 230,104" fill="#0284c7"/>
+<text x="257" y="72" font-family="sans-serif" font-size="13" font-weight="bold" fill="#0284c7" text-anchor="middle">-3</text>
+<path d="M 195 100 Q 158 55 120 100" fill="none" stroke="#e11d48" stroke-width="2.5"/>
+<polygon points="120,100 128,92 130,104" fill="#e11d48"/>
+<text x="158" y="68" font-family="sans-serif" font-size="13" font-weight="bold" fill="#e11d48" text-anchor="middle">-5</text>
+<text x="220" y="170" font-family="sans-serif" font-size="13" fill="#475569" text-anchor="middle">Từ 0 đi sang trái 3 rồi đi tiếp sang trái 5, dừng ở -8</text>
+</svg></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Cộng hai số nguyên âm: <strong>cộng hai giá trị tuyệt đối</strong> rồi đặt <strong>dấu $-$</strong> trước kết quả. Tổng của hai số nguyên âm là một <strong>số nguyên âm</strong>.</p>
+</div>
+
+<!-- 2. Cộng hai số nguyên khác dấu -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Cộng hai số nguyên khác dấu</h2>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">Tổng của hai số đối nhau</h3>
+<p>Hai số đối nhau có tổng bằng $0$. Ví dụ: $(-8) + 8 = 0$; $5 + (-5) = 0$.</p>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">Quy tắc cộng hai số nguyên khác dấu không đối nhau</h3>
+<p>Muốn cộng hai số nguyên khác dấu không đối nhau, ta lấy <strong>số có giá trị tuyệt đối lớn hơn trừ</strong> số có giá trị tuyệt đối nhỏ hơn, rồi <strong>đặt dấu của số có giá trị tuyệt đối lớn hơn</strong> trước kết quả.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>$(-10) + 6 = -(10 - 6) = -4$ (vì $|-10| \gt |6|$, đặt dấu $-$);</li>
+<li>$8 + (-3) = +(8 - 3) = 5$ (vì $|8| \gt |-3|$, đặt dấu $+$).</li>
+</ul>
+</div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Minh hoa phep cong (-10) + 6 = -4 tren truc so">
+<rect x="2" y="2" width="436" height="186" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="30" font-family="sans-serif" font-size="15" font-weight="bold" fill="#0369a1" text-anchor="middle">(-10) + 6 = -4</text>
+<line x1="30" y1="120" x2="410" y2="120" stroke="#0f172a" stroke-width="2"/>
+<g font-family="sans-serif" font-size="13" font-weight="bold" text-anchor="middle">
+<line x1="60" y1="114" x2="60" y2="126" stroke="#0f172a" stroke-width="2"/><text x="60" y="145" fill="#64748b">-12</text>
+<line x1="120" y1="114" x2="120" y2="126" stroke="#0f172a" stroke-width="2"/><text x="120" y="145" fill="#64748b">-8</text>
+<line x1="180" y1="114" x2="180" y2="126" stroke="#0f172a" stroke-width="2"/><text x="180" y="145" fill="#64748b">-4</text>
+<line x1="240" y1="114" x2="240" y2="126" stroke="#0f172a" stroke-width="2"/><text x="240" y="145" fill="#e11d48">0</text>
+<line x1="300" y1="114" x2="300" y2="126" stroke="#0f172a" stroke-width="2"/><text x="300" y="145" fill="#059669">4</text>
+<line x1="360" y1="114" x2="360" y2="126" stroke="#0f172a" stroke-width="2"/><text x="360" y="145" fill="#059669">8</text>
+</g>
+<path d="M 225 100 Q 140 45 60 100" fill="none" stroke="#e11d48" stroke-width="2.5"/>
+<polygon points="60,100 68,92 70,104" fill="#e11d48"/>
+<text x="142" y="62" font-family="sans-serif" font-size="13" font-weight="bold" fill="#e11d48" text-anchor="middle">-10</text>
+<path d="M 75 100 Q 128 60 180 100" fill="none" stroke="#0284c7" stroke-width="2.5"/>
+<polygon points="180,100 172,92 170,104" fill="#0284c7"/>
+<text x="128" y="78" font-family="sans-serif" font-size="13" font-weight="bold" fill="#0284c7" text-anchor="middle">+6</text>
+<text x="220" y="170" font-family="sans-serif" font-size="13" fill="#475569" text-anchor="middle">Đi sang trái 10 rồi quay lại sang phải 6, dừng ở -4</text>
+</svg></div>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-emerald-800 mb-2">Bài tập ví dụ 1 (có lời giải):</p>
+<p>Tính $(-25) + 17$.</p>
+<p class="mt-2"><strong>Lời giải:</strong> $|-25| = 25 \gt |17| = 17$ nên $(-25) + 17 = -(25 - 17) = -8$.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Hai số đối nhau cộng lại bằng $0$. Cộng hai số khác dấu không đối nhau: lấy <strong>giá trị tuyệt đối lớn trừ giá trị tuyệt đối nhỏ</strong>, đặt <strong>dấu của số có giá trị tuyệt đối lớn hơn</strong>.</p>
+</div>
+
+<!-- 3. Tính chất của phép cộng -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Tính chất của phép cộng số nguyên</h2>
+
+<p>Phép cộng các số nguyên cũng có các tính chất như phép cộng các số tự nhiên:</p>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Tính chất</td><td class="border border-slate-300 px-4 py-1">Nội dung</td><td class="border border-slate-300 px-4 py-1">Ví dụ</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Giao hoán</td><td class="border border-slate-300 px-4 py-1">$a + b = b + a$</td><td class="border border-slate-300 px-4 py-1">$(-3) + 5 = 5 + (-3)$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Kết hợp</td><td class="border border-slate-300 px-4 py-1">$(a + b) + c = a + (b + c)$</td><td class="border border-slate-300 px-4 py-1">$[(-7) + 7] + 4 = (-7) + (7 + 4)$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Cộng với $0$</td><td class="border border-slate-300 px-4 py-1">$a + 0 = 0 + a = a$</td><td class="border border-slate-300 px-4 py-1">$(-9) + 0 = -9$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Cộng với số đối</td><td class="border border-slate-300 px-4 py-1">$a + (-a) = 0$</td><td class="border border-slate-300 px-4 py-1">$12 + (-12) = 0$</td></tr>
+</table></div>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-emerald-800 mb-2">Bài tập ví dụ 2 (có lời giải):</p>
+<p>Tính nhanh $(-17) + 25 + (-3) + 17$.</p>
+<p class="mt-2"><strong>Lời giải:</strong> Nhóm các số đối nhau lại với nhau:</p>
+<p class="text-center text-lg my-2">$$(-17) + 25 + (-3) + 17 = [(-17) + 17] + [25 + (-3)] = 0 + 22 = 22$$</p>
+</div>
+
+<!-- 4. Phép trừ số nguyên -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Phép trừ số nguyên</h2>
+
+<p>Muốn <strong>trừ</strong> số nguyên $a$ cho số nguyên $b$, ta <strong>cộng $a$ với số đối của $b$</strong>:</p>
+<p class="text-center text-lg my-2">$$a - b = a + (-b)$$</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>$5 - 8 = 5 + (-8) = -3$;</li>
+<li>$(-4) - (-6) = (-4) + 6 = 2$;</li>
+<li>$7 - (-3) = 7 + 3 = 10$;</li>
+<li>$(-9) - 5 = (-9) + (-5) = -14$.</li>
+</ul>
+</div>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-emerald-800 mb-2">Bài tập ví dụ 3 (có lời giải):</p>
+<p>Nhiệt độ ở Sa Pa lúc 5 giờ sáng là $-2^{\circ}C$, đến 12 giờ trưa tăng $7^{\circ}C$. Hỏi nhiệt độ lúc 12 giờ trưa ở Sa Pa là bao nhiêu? Buổi chiều nhiệt độ giảm $4^{\circ}C$ so với buổi trưa, hỏi nhiệt độ buổi chiều là bao nhiêu?</p>
+<p class="mt-2"><strong>Lời giải:</strong></p>
+<ul class="list-disc ml-6 space-y-1 mt-1">
+<li>Nhiệt độ lúc 12 giờ trưa: $(-2) + 7 = 5^{\circ}C$;</li>
+<li>Nhiệt độ buổi chiều: $5 - 4 = 1^{\circ}C$.</li>
+</ul>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><strong>Quy tắc trừ:</strong> $a - b = a + (-b)$ — trừ một số chính là cộng với số đối của nó. Mọi phép trừ số nguyên đều thực hiện được.</p>
+</div>
+
+<!-- Bảng tóm tắt -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Phép tính</td><td class="border border-slate-300 px-4 py-1">Quy tắc</td><td class="border border-slate-300 px-4 py-1">Ví dụ</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Cộng hai số cùng dấu âm</td><td class="border border-slate-300 px-4 py-1">Cộng hai $|\ |$, đặt dấu $-$</td><td class="border border-slate-300 px-4 py-1">$(-6) + (-9) = -15$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Cộng hai số khác dấu</td><td class="border border-slate-300 px-4 py-1">$|\ |$ lớn trừ $|\ |$ nhỏ, giữ dấu của số $|\ |$ lớn</td><td class="border border-slate-300 px-4 py-1">$(-10) + 4 = -6$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Hai số đối nhau</td><td class="border border-slate-300 px-4 py-1">Tổng bằng $0$</td><td class="border border-slate-300 px-4 py-1">$(-11) + 11 = 0$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Phép trừ</td><td class="border border-slate-300 px-4 py-1">$a - b = a + (-b)$</td><td class="border border-slate-300 px-4 py-1">$3 - 9 = 3 + (-9) = -6$</td></tr>
+</table></div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
