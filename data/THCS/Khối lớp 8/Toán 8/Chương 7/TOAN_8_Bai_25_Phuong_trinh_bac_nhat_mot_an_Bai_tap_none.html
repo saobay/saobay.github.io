@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài tập Bài 25: Phương trình bậc nhất một ẩn</title>
+    <meta name="lesson-title" content="Bài tập Bài 25: Phương trình bậc nhất một ẩn">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Bài tập</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài tập Bài 25: Phương trình bậc nhất một ẩn</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 7: Phương trình bậc nhất và hàm số bậc nhất • Bài 25: Phương trình bậc nhất một ẩn</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="saobay-exam10">
+<script type="application/json" class="saobay-exam10-data">
+{
+ "sets": [
+  {
+   "name": "Đề 1",
+   "questions": [
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tìm nghiệm của phương trình $7x+3=52$. (chỉ ghi số)",
+     "answer": "7",
+     "explain": "$7x+3=52\\iff 7x=49\\iff x=7$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Phương trình nào sau đây là <strong>phương trình bậc nhất một ẩn</strong>?",
+     "options": [
+      "A. $\\frac{1}{x}+2=0$",
+      "B. $5x-10=0$",
+      "C. $0x-7=0$",
+      "D. $0x+5=0$"
+     ],
+     "answer": "B",
+     "explain": "$5x-10=0$ có dạng $ax+b=0$ với $a\\ne 0$; các phương trình còn lại không thỏa mãn."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Giải phương trình $4x-4=0$.",
+     "options": [
+      "A. $x=1$",
+      "B. $x=2$",
+      "C. $x=0$",
+      "D. $x=-1$"
+     ],
+     "answer": "A",
+     "explain": "$4x-4=0 \\iff 4x=4 \\iff x=1$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tìm nghiệm của phương trình $2(x+2)=-2$. (chỉ ghi số)",
+     "answer": "-3",
+     "explain": "$2(x+2)=-2\\iff x+2=-1\\iff x=-3$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Giải phương trình $3x+27=0$.",
+     "options": [
+      "A. $x=-8$",
+      "B. $x=-9$",
+      "C. $x=-10$",
+      "D. $x=9$"
+     ],
+     "answer": "B",
+     "explain": "$3x+27=0 \\iff 3x=-27 \\iff x=-9$."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Cho phương trình $3x-12=0$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Đây là phương trình bậc nhất một ẩn.",
+      "Hệ số $a=3$, hằng số $b=-12$.",
+      "Nghiệm của phương trình là $x=4$.",
+      "$x=3$ là nghiệm của phương trình."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$3x-12=0$ có dạng $ax+b=0$ ($a=3\\ne 0$); $3x=12$ nên $x=4$; thử $x=3$: $9-12=-3\\ne 0$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Giải phương trình $3x+9=0$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "$3x+9=0\\iff 3x=-9$.",
+      "Nghiệm của phương trình là $x=-3$.",
+      "$x=3$ cũng là nghiệm.",
+      "Phương trình có đúng một nghiệm."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "$3x=-9$ nên $x=-3$; phương trình bậc nhất có nghiệm duy nhất."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Phương trình nào sau đây là <strong>phương trình bậc nhất một ẩn</strong>?",
+     "options": [
+      "A. $\\frac{1}{x}+2=0$",
+      "B. $0x+5=0$",
+      "C. $-x+7=0$",
+      "D. $x^2+2x=0$"
+     ],
+     "answer": "C",
+     "explain": "$-x+7=0$ có dạng $ax+b=0$ với $a\\ne 0$; các phương trình còn lại không thỏa mãn."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Phương trình nào sau đây là <strong>phương trình bậc nhất một ẩn</strong>?",
+     "options": [
+      "A. $2x+3=0$",
+      "B. $2x+3y-1=0$",
+      "C. $0x+5=0$",
+      "D. $0x+0=0$"
+     ],
+     "answer": "A",
+     "explain": "$2x+3=0$ có chỉ chứa một ẩn $x$ với bậc 1; các phương trình còn lại không thỏa mãn."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Giải phương trình $3(x+2)=24$.",
+     "options": [
+      "A. $x=6$",
+      "B. $x=7$",
+      "C. $x=5$",
+      "D. $x=8$"
+     ],
+     "answer": "A",
+     "explain": "$3(x+2)=24 \\iff x+2=8 \\iff x=6$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 2",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Giải phương trình $4(x+6)=32$.",
+     "options": [
+      "A. $x=3$",
+      "B. $x=2$",
+      "C. $x=1$",
+      "D. $x=8$"
+     ],
+     "answer": "B",
+     "explain": "$4(x+6)=32 \\iff x+6=8 \\iff x=2$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tìm nghiệm của phương trình $6x+3=-27+x$. (chỉ ghi số)",
+     "answer": "-6",
+     "explain": "$6x+3=-27+x\\iff 5x=-30\\iff x=-6$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tìm nghiệm của phương trình $4x-3=-15$. (chỉ ghi số)",
+     "answer": "-3",
+     "explain": "$4x-3=-15\\iff 4x=-12\\iff x=-3$."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Cho phương trình $0x+5=0$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Đây là phương trình bậc nhất một ẩn.",
+      "Phương trình vô nghiệm.",
+      "$x=5$ là nghiệm của phương trình.",
+      "$a=0$ nên không phải phương trình bậc nhất."
+     ],
+     "answer": [
+      "F",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "$a=0$ nên không phải phương trình bậc nhất; $0x+5=0$ vô nghiệm vì $5\\ne 0$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Giải phương trình $5x-25=0$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "$5x-25=0\\iff 5x=25$.",
+      "Nghiệm của phương trình là $x=5$.",
+      "Thử lại $x=5$: $25-25=0$.",
+      "$x=-5$ là nghiệm."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$x=5$; thử $x=-5$: $-25-25=-50\\ne 0$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Giải phương trình $2x+12=0$.",
+     "options": [
+      "A. $x=-5$",
+      "B. $x=-7$",
+      "C. $x=-6$",
+      "D. $x=6$"
+     ],
+     "answer": "C",
+     "explain": "$2x+12=0 \\iff 2x=-12 \\iff x=-6$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Phương trình nào sau đây là <strong>phương trình bậc nhất một ẩn</strong>?",
+     "options": [
+      "A. $\\sqrt{x}+1=0$",
+      "B. $3(x-2)=0$",
+      "C. $x^3=8$",
+      "D. $2x+3y=0$"
+     ],
+     "answer": "B",
+     "explain": "$3(x-2)=0$ có là phương trình bậc nhất một ẩn; các phương trình còn lại không thỏa mãn."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Phương trình nào sau đây là <strong>phương trình bậc nhất một ẩn</strong>?",
+     "options": [
+      "A. $x^2+2x=0$",
+      "B. $2x+3y-1=0$",
+      "C. $x^2-1=0$",
+      "D. $4x=12$"
+     ],
+     "answer": "D",
+     "explain": "$4x=12$ có dạng $ax+b=0$ với $a\\ne 0$; các phương trình còn lại không thỏa mãn."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Giải phương trình $5x+15=0$.",
+     "options": [
+      "A. $x=-2$",
+      "B. $x=-4$",
+      "C. $x=3$",
+      "D. $x=-3$"
+     ],
+     "answer": "D",
+     "explain": "$5x+15=0 \\iff 5x=-15 \\iff x=-3$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Phương trình nào sau đây là <strong>phương trình bậc nhất một ẩn</strong>?",
+     "options": [
+      "A. $\\frac{x}{2}+1=0$",
+      "B. $x^2+2x=0$",
+      "C. $x^2-1=0$",
+      "D. $0x+0=0$"
+     ],
+     "answer": "A",
+     "explain": "$\\frac{x}{2}+1=0$ có dạng $ax+b=0$ với $a\\ne 0$; các phương trình còn lại không thỏa mãn."
+    }
+   ]
+  },
+  {
+   "name": "Đề 3",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Phương trình nào sau đây là <strong>phương trình bậc nhất một ẩn</strong>?",
+     "options": [
+      "A. $\\sqrt{x}+1=0$",
+      "B. $x^3=8$",
+      "C. $-5x-15=0$",
+      "D. $0x-7=0$"
+     ],
+     "answer": "C",
+     "explain": "$-5x-15=0$ có là phương trình bậc nhất một ẩn; các phương trình còn lại không thỏa mãn."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Giải phương trình $2(x+8)=20$.",
+     "options": [
+      "A. $x=3$",
+      "B. $x=1$",
+      "C. $x=2$",
+      "D. $x=10$"
+     ],
+     "answer": "C",
+     "explain": "$2(x+8)=20 \\iff x+8=10 \\iff x=2$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Giải phương trình $2(x+3)=10$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Bỏ ngoặc được $2x+6=10$.",
+      "$2x+6=10\\iff 2x=4$.",
+      "Nghiệm của phương trình là $x=2$.",
+      "$x=3$ là nghiệm."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$2x=4$ nên $x=2$; thử $x=3$: $2\\cdot 6=12\\ne 10$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Phương trình nào sau đây là <strong>phương trình bậc nhất một ẩn</strong>?",
+     "options": [
+      "A. $\\sqrt{x}+1=0$",
+      "B. $x^2-1=0$",
+      "C. $x^2+2x=0$",
+      "D. $x-9=0$"
+     ],
+     "answer": "D",
+     "explain": "$x-9=0$ có chỉ chứa một ẩn $x$ với bậc 1; các phương trình còn lại không thỏa mãn."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Phương trình nào sau đây là <strong>phương trình bậc nhất một ẩn</strong>?",
+     "options": [
+      "A. $7x+14=0$",
+      "B. $x^2+2x=0$",
+      "C. $x^3=8$",
+      "D. $2x+3y-1=0$"
+     ],
+     "answer": "A",
+     "explain": "$7x+14=0$ có dạng $ax+b=0$ với $a\\ne 0$; các phương trình còn lại không thỏa mãn."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Giải phương trình $5x-40=0$.",
+     "options": [
+      "A. $x=8$",
+      "B. $x=9$",
+      "C. $x=7$",
+      "D. $x=-8$"
+     ],
+     "answer": "A",
+     "explain": "$5x-40=0 \\iff 5x=40 \\iff x=8$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Giải phương trình $7x-49=0$.",
+     "options": [
+      "A. $x=8$",
+      "B. $x=7$",
+      "C. $x=6$",
+      "D. $x=-7$"
+     ],
+     "answer": "B",
+     "explain": "$7x-49=0 \\iff 7x=49 \\iff x=7$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tìm nghiệm của phương trình $2(x+9)=8$. (chỉ ghi số)",
+     "answer": "-5",
+     "explain": "$2(x+9)=8\\iff x+9=4\\iff x=-5$."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Cho phương trình $x^2-4=0$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Đây là phương trình bậc nhất một ẩn.",
+      "Phương trình có hai nghiệm $x=2$ và $x=-2$.",
+      "Đây là phương trình bậc hai một ẩn.",
+      "Nghiệm của phương trình là $x=2$."
+     ],
+     "answer": [
+      "F",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$x^2-4=0$ là phương trình bậc hai; nó có hai nghiệm $\\pm 2$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tìm nghiệm của phương trình $9x+5=-76$. (chỉ ghi số)",
+     "answer": "-9",
+     "explain": "$9x+5=-76\\iff 9x=-81\\iff x=-9$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 4",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Giải phương trình $3(x+5)=9$.",
+     "options": [
+      "A. $x=-1$",
+      "B. $x=-3$",
+      "C. $x=3$",
+      "D. $x=-2$"
+     ],
+     "answer": "D",
+     "explain": "$3(x+5)=9 \\iff x+5=3 \\iff x=-2$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Nghiệm của phương trình $3x-12=0$ là",
+     "options": [
+      "A. $x=5$",
+      "B. $x=3$",
+      "C. $x=4$",
+      "D. $x=6$"
+     ],
+     "answer": "C",
+     "explain": "Thử lại: thay $x=4$ vào vế trái được $$3\\cdot 4-12=0$$, đúng nên $x=4$ là nghiệm."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tìm nghiệm của phương trình $6x+6=-34+x$. (chỉ ghi số)",
+     "answer": "-8",
+     "explain": "$6x+6=-34+x\\iff 5x=-40\\iff x=-8$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Giải phương trình $9x-72=0$.",
+     "options": [
+      "A. $x=9$",
+      "B. $x=7$",
+      "C. $x=8$",
+      "D. $x=-8$"
+     ],
+     "answer": "C",
+     "explain": "$9x-72=0 \\iff 9x=72 \\iff x=8$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Giải phương trình $4x+7=19$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "$4x+7=19\\iff 4x=12$.",
+      "Nghiệm của phương trình là $x=3$.",
+      "Chuyển $7$ sang vế phải thành $-7$.",
+      "$x=4$ là nghiệm."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$4x=12$ nên $x=3$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Nghiệm của phương trình $2x+6=0$ là",
+     "options": [
+      "A. $x=-2$",
+      "B. $x=-3$",
+      "C. $x=-4$",
+      "D. $x=-1$"
+     ],
+     "answer": "B",
+     "explain": "Thử lại: thay $x=-3$ vào vế trái được $$2\\cdot(-3)+6=0$$, đúng nên $x=-3$ là nghiệm."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Phương trình nào sau đây là <strong>phương trình bậc nhất một ẩn</strong>?",
+     "options": [
+      "A. $x^3=8$",
+      "B. $10-2x=0$",
+      "C. $0x+0=0$",
+      "D. $2x+3y=0$"
+     ],
+     "answer": "B",
+     "explain": "$10-2x=0$ có chỉ chứa một ẩn $x$ với bậc 1; các phương trình còn lại không thỏa mãn."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Cho phương trình $-2x+10=0$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Đây là phương trình bậc nhất một ẩn.",
+      "Nghiệm của phương trình là $x=5$.",
+      "$x=-5$ là nghiệm của phương trình.",
+      "Hệ số $a=-2$, hằng số $b=10$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "$-2x+10=0\\iff 2x=10\\iff x=5$; thử $x=-5$: $10+10=20\\ne 0$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Giải phương trình $8x-40=0$.",
+     "options": [
+      "A. $x=6$",
+      "B. $x=4$",
+      "C. $x=-5$",
+      "D. $x=5$"
+     ],
+     "answer": "D",
+     "explain": "$8x-40=0 \\iff 8x=40 \\iff x=5$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tìm nghiệm của phương trình $3x+5=8$. (chỉ ghi số)",
+     "answer": "1",
+     "explain": "$3x+5=8\\iff 3x=3\\iff x=1$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 5",
+   "questions": [
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Cho phương trình $7x+21=0$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Nghiệm của phương trình là $x=-3$.",
+      "$x=3$ là nghiệm của phương trình.",
+      "Đây là phương trình bậc nhất một ẩn.",
+      "$7x+21=0\\iff x=-3$."
+     ],
+     "answer": [
+      "T",
+      "F",
+      "T",
+      "T"
+     ],
+     "explain": "$7x=-21$ nên $x=-3$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tìm nghiệm của phương trình $2x+0=-18$. (chỉ ghi số)",
+     "answer": "-9",
+     "explain": "$2x+0=-18\\iff 2x=-18\\iff x=-9$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tìm nghiệm của phương trình $5(x+1)=-20$. (chỉ ghi số)",
+     "answer": "-5",
+     "explain": "$5(x+1)=-20\\iff x+1=-4\\iff x=-5$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Nghiệm của phương trình $5x+15=0$ là",
+     "options": [
+      "A. $x=-2$",
+      "B. $x=-4$",
+      "C. $x=-1$",
+      "D. $x=-3$"
+     ],
+     "answer": "D",
+     "explain": "Thử lại: thay $x=-3$ vào vế trái được $$5\\cdot(-3)+15=0$$, đúng nên $x=-3$ là nghiệm."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Giải phương trình $9x+27=0$.",
+     "options": [
+      "A. $x=-3$",
+      "B. $x=-2$",
+      "C. $x=-4$",
+      "D. $x=3$"
+     ],
+     "answer": "A",
+     "explain": "$9x+27=0 \\iff 9x=-27 \\iff x=-3$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Giải phương trình $9x-27=0$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Chia cả hai vế cho $9$ được $x-3=0$.",
+      "Nghiệm của phương trình là $x=3$.",
+      "$x=-3$ là nghiệm.",
+      "Phương trình tương đương với $x=3$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "$x-3=0$ nên $x=3$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Nghiệm của phương trình $4x-20=0$ là",
+     "options": [
+      "A. $x=5$",
+      "B. $x=6$",
+      "C. $x=4$",
+      "D. $x=7$"
+     ],
+     "answer": "A",
+     "explain": "Thử lại: thay $x=5$ vào vế trái được $$4\\cdot 5-20=0$$, đúng nên $x=5$ là nghiệm."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Nghiệm của phương trình $x-7=0$ là",
+     "options": [
+      "A. $x=8$",
+      "B. $x=7$",
+      "C. $x=6$",
+      "D. $x=9$"
+     ],
+     "answer": "B",
+     "explain": "Thử lại: thay $x=7$ vào vế trái được $$7-7=0$$, đúng nên $x=7$ là nghiệm."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Giải phương trình $4(x+5)=0$.",
+     "options": [
+      "A. $x=-5$",
+      "B. $x=-4$",
+      "C. $x=-6$",
+      "D. $x=0$"
+     ],
+     "answer": "A",
+     "explain": "$4(x+5)=0 \\iff x+5=0 \\iff x=-5$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Giải phương trình $5x-10=0$.",
+     "options": [
+      "A. $x=3$",
+      "B. $x=2$",
+      "C. $x=1$",
+      "D. $x=-2$"
+     ],
+     "answer": "B",
+     "explain": "$5x-10=0 \\iff 5x=10 \\iff x=2$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 6",
+   "questions": [
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Cho phương trình $4x-16=0$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Nghiệm của phương trình là $x=4$.",
+      "Thử lại: $4\\cdot 4-16=0$.",
+      "$x=-4$ là nghiệm của phương trình.",
+      "Phương trình có nghiệm duy nhất."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "$4x=16$ nên $x=4$; phương trình bậc nhất luôn có nghiệm duy nhất."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Nghiệm của phương trình $2x-14=0$ là",
+     "options": [
+      "A. $x=7$",
+      "B. $x=8$",
+      "C. $x=6$",
+      "D. $x=9$"
+     ],
+     "answer": "A",
+     "explain": "Thử lại: thay $x=7$ vào vế trái được $$2\\cdot 7-14=0$$, đúng nên $x=7$ là nghiệm."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Nghiệm của phương trình $-x+9=0$ là",
+     "options": [
+      "A. $x=10$",
+      "B. $x=8$",
+      "C. $x=9$",
+      "D. $x=11$"
+     ],
+     "answer": "C",
+     "explain": "Thử lại: thay $x=9$ vào vế trái được $$-9+9=0$$, đúng nên $x=9$ là nghiệm."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Nghiệm của phương trình $6x+18=0$ là",
+     "options": [
+      "A. $x=-2$",
+      "B. $x=-4$",
+      "C. $x=-1$",
+      "D. $x=-3$"
+     ],
+     "answer": "D",
+     "explain": "Thử lại: thay $x=-3$ vào vế trái được $$6\\cdot(-3)+18=0$$, đúng nên $x=-3$ là nghiệm."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Giải phương trình $7x+0=-56$.",
+     "options": [
+      "A. $x=-7$",
+      "B. $x=-9$",
+      "C. $x=-8$",
+      "D. $x=8$"
+     ],
+     "answer": "C",
+     "explain": "$7x+0=-56 \\iff 7x=-56 \\iff x=-8$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tìm nghiệm của phương trình $3x+7=-11$. (chỉ ghi số)",
+     "answer": "-6",
+     "explain": "$3x+7=-11\\iff 3x=-18\\iff x=-6$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tìm nghiệm của phương trình $4x+7=22+x$. (chỉ ghi số)",
+     "answer": "5",
+     "explain": "$4x+7=22+x\\iff 3x=15\\iff x=5$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Giải phương trình $6x-18=0$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "$6x-18=0\\iff 6x=18$.",
+      "Nghiệm của phương trình là $x=3$.",
+      "Thử lại $x=3$: $18-18=0$.",
+      "$x=-3$ là nghiệm."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$x=3$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Giải phương trình $8x-7=17$.",
+     "options": [
+      "A. $x=4$",
+      "B. $x=3$",
+      "C. $x=2$",
+      "D. $x=-3$"
+     ],
+     "answer": "B",
+     "explain": "$8x-7=17 \\iff 8x=24 \\iff x=3$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Giải phương trình $4x+3=12+x$.",
+     "options": [
+      "A. $x=4$",
+      "B. $x=2$",
+      "C. $x=3$",
+      "D. $x=-3$"
+     ],
+     "answer": "C",
+     "explain": "$4x+3=12+x \\iff 3x=9 \\iff x=3$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 7",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Giải phương trình $3x+3=11+x$.",
+     "options": [
+      "A. $x=5$",
+      "B. $x=3$",
+      "C. $x=-4$",
+      "D. $x=4$"
+     ],
+     "answer": "D",
+     "explain": "$3x+3=11+x \\iff 2x=8 \\iff x=4$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Giải phương trình $5x+6=-14$.",
+     "options": [
+      "A. $x=-3$",
+      "B. $x=-5$",
+      "C. $x=4$",
+      "D. $x=-4$"
+     ],
+     "answer": "D",
+     "explain": "$5x+6=-14 \\iff 5x=-20 \\iff x=-4$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Giải phương trình $3(x-2)=12$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Bỏ ngoặc được $3x-6=12$.",
+      "$3x-6=12\\iff 3x=18$.",
+      "Nghiệm của phương trình là $x=6$.",
+      "$x=4$ là nghiệm."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$3x=18$ nên $x=6$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Nghiệm của phương trình $10x+30=0$ là",
+     "options": [
+      "A. $x=-2$",
+      "B. $x=-3$",
+      "C. $x=-4$",
+      "D. $x=-1$"
+     ],
+     "answer": "B",
+     "explain": "Thử lại: thay $x=-3$ vào vế trái được $$10\\cdot(-3)+30=0$$, đúng nên $x=-3$ là nghiệm."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Cho phương trình $9-3x=0$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Viết lại được $-3x+9=0$.",
+      "Hệ số $a=-3$, hằng số $b=9$.",
+      "Nghiệm của phương trình là $x=3$.",
+      "$x=-3$ là nghiệm của phương trình."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$-3x+9=0\\iff 3x=9\\iff x=3$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tìm nghiệm của phương trình $3(x+9)=3$. (chỉ ghi số)",
+     "answer": "-8",
+     "explain": "$3(x+9)=3\\iff x+9=1\\iff x=-8$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong phương trình $3x-12=0$, hệ số $a$ và hằng số $b$ là",
+     "options": [
+      "A. $a=1$, $b=1$",
+      "B. $a=0$, $b=0$",
+      "C. $a=3$, $b=-12$",
+      "D. $a=-1$, $b=1$"
+     ],
+     "answer": "C",
+     "explain": "Viết phương trình về dạng $ax+b=0$: $a=3$, $b=-12$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Giải phương trình $9x-9=-27$.",
+     "options": [
+      "A. $x=-2$",
+      "B. $x=-1$",
+      "C. $x=-3$",
+      "D. $x=2$"
+     ],
+     "answer": "A",
+     "explain": "$9x-9=-27 \\iff 9x=-18 \\iff x=-2$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tìm nghiệm của phương trình $9x+7=-65$. (chỉ ghi số)",
+     "answer": "-8",
+     "explain": "$9x+7=-65\\iff 9x=-72\\iff x=-8$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Nghiệm của phương trình $7x-21=0$ là",
+     "options": [
+      "A. $x=4$",
+      "B. $x=2$",
+      "C. $x=3$",
+      "D. $x=5$"
+     ],
+     "answer": "C",
+     "explain": "Thử lại: thay $x=3$ vào vế trái được $$7\\cdot 3-21=0$$, đúng nên $x=3$ là nghiệm."
+    }
+   ]
+  },
+  {
+   "name": "Đề 8",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Giải phương trình $5x+6=18+x$.",
+     "options": [
+      "A. $x=3$",
+      "B. $x=4$",
+      "C. $x=2$",
+      "D. $x=-3$"
+     ],
+     "answer": "A",
+     "explain": "$5x+6=18+x \\iff 4x=12 \\iff x=3$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Giải phương trình $8x+16=0$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "$8x+16=0\\iff 8x=-16$.",
+      "Nghiệm của phương trình là $x=-2$.",
+      "$x=2$ là nghiệm.",
+      "Chia cả hai vế cho $8$ được $x+2=0$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "$x=-2$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Giải phương trình $7x+2=-5$.",
+     "options": [
+      "A. $x=0$",
+      "B. $x=-2$",
+      "C. $x=-1$",
+      "D. $x=1$"
+     ],
+     "answer": "C",
+     "explain": "$7x+2=-5 \\iff 7x=-7 \\iff x=-1$."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Cho phương trình $2x+3y=0$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Đây là phương trình bậc nhất một ẩn.",
+      "Đây là phương trình bậc nhất hai ẩn.",
+      "Phương trình có vô số nghiệm.",
+      "$x=0$ là nghiệm duy nhất."
+     ],
+     "answer": [
+      "F",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$2x+3y=0$ có hai ẩn nên là phương trình bậc nhất hai ẩn, có vô số nghiệm."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Giải phương trình $7x-9=26$.",
+     "options": [
+      "A. $x=6$",
+      "B. $x=5$",
+      "C. $x=4$",
+      "D. $x=-5$"
+     ],
+     "answer": "B",
+     "explain": "$7x-9=26 \\iff 7x=35 \\iff x=5$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong phương trình $-2x+9=0$, hệ số $a$ và hằng số $b$ là",
+     "options": [
+      "A. $a=-2$, $b=9$",
+      "B. $a=1$, $b=1$",
+      "C. $a=0$, $b=0$",
+      "D. $a=-1$, $b=1$"
+     ],
+     "answer": "A",
+     "explain": "Viết phương trình về dạng $ax+b=0$: $a=-2$, $b=9$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong phương trình $5x+7=0$, hệ số $a$ và hằng số $b$ là",
+     "options": [
+      "A. $a=1$, $b=1$",
+      "B. $a=0$, $b=0$",
+      "C. $a=-1$, $b=1$",
+      "D. $a=5$, $b=7$"
+     ],
+     "answer": "D",
+     "explain": "Viết phương trình về dạng $ax+b=0$: $a=5$, $b=7$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tìm nghiệm của phương trình $3x+8=-4+x$. (chỉ ghi số)",
+     "answer": "-6",
+     "explain": "$3x+8=-4+x\\iff 2x=-12\\iff x=-6$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong phương trình $x-4=0$, hệ số $a$ và hằng số $b$ là",
+     "options": [
+      "A. $a=1$, $b=1$",
+      "B. $a=1$, $b=-4$",
+      "C. $a=0$, $b=0$",
+      "D. $a=-1$, $b=1$"
+     ],
+     "answer": "B",
+     "explain": "Viết phương trình về dạng $ax+b=0$: $a=1$, $b=-4$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tìm nghiệm của phương trình $6x+5=-49$. (chỉ ghi số)",
+     "answer": "-9",
+     "explain": "$6x+5=-49\\iff 6x=-54\\iff x=-9$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 9",
+   "questions": [
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tìm nghiệm của phương trình $9x+7=-11$. (chỉ ghi số)",
+     "answer": "-2",
+     "explain": "$9x+7=-11\\iff 9x=-18\\iff x=-2$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Giải phương trình $3x+1=-1+x$.",
+     "options": [
+      "A. $x=0$",
+      "B. $x=-1$",
+      "C. $x=-2$",
+      "D. $x=1$"
+     ],
+     "answer": "B",
+     "explain": "$3x+1=-1+x \\iff 2x=-2 \\iff x=-1$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong phương trình $-x-6=0$, hệ số $a$ và hằng số $b$ là",
+     "options": [
+      "A. $a=1$, $b=1$",
+      "B. $a=0$, $b=0$",
+      "C. $a=-1$, $b=1$",
+      "D. $a=-1$, $b=-6$"
+     ],
+     "answer": "D",
+     "explain": "Viết phương trình về dạng $ax+b=0$: $a=-1$, $b=-6$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Giải phương trình $7x-3=-45$.",
+     "options": [
+      "A. $x=-5$",
+      "B. $x=-7$",
+      "C. $x=6$",
+      "D. $x=-6$"
+     ],
+     "answer": "D",
+     "explain": "$7x-3=-45 \\iff 7x=-42 \\iff x=-6$."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Cho phương trình $5x+0=0$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Đây là phương trình bậc nhất một ẩn.",
+      "Nghiệm của phương trình là $x=0$.",
+      "$x=5$ là nghiệm của phương trình.",
+      "Hằng số $b=0$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "$5x=0$ nên $x=0$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Giải phương trình $3x-8=-26$.",
+     "options": [
+      "A. $x=-6$",
+      "B. $x=-5$",
+      "C. $x=-7$",
+      "D. $x=6$"
+     ],
+     "answer": "A",
+     "explain": "$3x-8=-26 \\iff 3x=-18 \\iff x=-6$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Giải phương trình $5x+10=2x+19$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Chuyển vế được $5x-2x=19-10$.",
+      "$3x=9$.",
+      "Nghiệm của phương trình là $x=3$.",
+      "$x=-3$ là nghiệm."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$3x=9$ nên $x=3$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong phương trình $4x=0$, hệ số $a$ và hằng số $b$ là",
+     "options": [
+      "A. $a=4$, $b=0$",
+      "B. $a=1$, $b=1$",
+      "C. $a=0$, $b=0$",
+      "D. $a=-1$, $b=1$"
+     ],
+     "answer": "A",
+     "explain": "Viết phương trình về dạng $ax+b=0$: $a=4$, $b=0$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tìm nghiệm của phương trình $2(x+8)=0$. (chỉ ghi số)",
+     "answer": "-8",
+     "explain": "$2(x+8)=0\\iff x+8=0\\iff x=-8$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong phương trình $10x+25=0$, hệ số $a$ và hằng số $b$ là",
+     "options": [
+      "A. $a=1$, $b=1$",
+      "B. $a=0$, $b=0$",
+      "C. $a=10$, $b=25$",
+      "D. $a=-1$, $b=1$"
+     ],
+     "answer": "C",
+     "explain": "Viết phương trình về dạng $ax+b=0$: $a=10$, $b=25$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 10",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong phương trình $7-3x=0$, hệ số $a$ và hằng số $b$ là",
+     "options": [
+      "A. $a=1$, $b=1$",
+      "B. $a=-3$, $b=7$",
+      "C. $a=0$, $b=0$",
+      "D. $a=-1$, $b=1$"
+     ],
+     "answer": "B",
+     "explain": "Viết phương trình về dạng $ax+b=0$: $a=-3$, $b=7$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tìm nghiệm của phương trình $5x+2=6+x$. (chỉ ghi số)",
+     "answer": "1",
+     "explain": "$5x+2=6+x\\iff 4x=4\\iff x=1$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Giải phương trình $8x-8=-24$.",
+     "options": [
+      "A. $x=-1$",
+      "B. $x=-2$",
+      "C. $x=-3$",
+      "D. $x=2$"
+     ],
+     "answer": "B",
+     "explain": "$8x-8=-24 \\iff 8x=-16 \\iff x=-2$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Giải phương trình $6x+5=-5+x$.",
+     "options": [
+      "A. $x=-1$",
+      "B. $x=-3$",
+      "C. $x=-2$",
+      "D. $x=2$"
+     ],
+     "answer": "C",
+     "explain": "$6x+5=-5+x \\iff 5x=-10 \\iff x=-2$."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Cho phương trình $12-4x=0$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Nghiệm của phương trình là $x=3$.",
+      "$12-4x=0\\iff 4x=12$.",
+      "$x=-3$ là nghiệm của phương trình.",
+      "Thử lại $x=3$: $12-12=0$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "$4x=12$ nên $x=3$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong phương trình $-8x+16=0$, hệ số $a$ và hằng số $b$ là",
+     "options": [
+      "A. $a=1$, $b=1$",
+      "B. $a=0$, $b=0$",
+      "C. $a=-1$, $b=1$",
+      "D. $a=-8$, $b=16$"
+     ],
+     "answer": "D",
+     "explain": "Viết phương trình về dạng $ax+b=0$: $a=-8$, $b=16$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Giải phương trình $7x-14=0$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "$7x-14=0\\iff 7x=14$.",
+      "Nghiệm của phương trình là $x=2$.",
+      "$x=-2$ là nghiệm.",
+      "Phương trình có nghiệm duy nhất $x=2$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "$x=2$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong phương trình $12x-36=0$, hệ số $a$ và hằng số $b$ là",
+     "options": [
+      "A. $a=1$, $b=1$",
+      "B. $a=0$, $b=0$",
+      "C. $a=12$, $b=-36$",
+      "D. $a=-1$, $b=1$"
+     ],
+     "answer": "C",
+     "explain": "Viết phương trình về dạng $ax+b=0$: $a=12$, $b=-36$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tìm nghiệm của phương trình $2x-7=-9$. (chỉ ghi số)",
+     "answer": "-1",
+     "explain": "$2x-7=-9\\iff 2x=-2\\iff x=-1$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Giải phương trình $8x+2=58$.",
+     "options": [
+      "A. $x=8$",
+      "B. $x=6$",
+      "C. $x=7$",
+      "D. $x=-7$"
+     ],
+     "answer": "C",
+     "explain": "$8x+2=58 \\iff 8x=56 \\iff x=7$."
+    }
+   ]
+  }
+ ]
+}
+</script>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
