@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 8: Tổng và hiệu của hai vectơ</title>
+    <meta name="lesson-title" content="Bài 8: Tổng và hiệu của hai vectơ">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 8: Tổng và hiệu của hai vectơ</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 1: Mệnh đề và tập hợp • Bài 8: Tổng và hiệu của hai vectơ</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 8: Tổng và hiệu của hai vectơ</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 4: Vectơ — Toán 10 (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Tổng -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Tổng của hai vectơ</h2>
+
+<p><strong>Định nghĩa:</strong> cho hai vectơ $\vec{a}, \vec{b}$. Lấy một điểm $A$ tùy ý, vẽ $\overrightarrow{AB} = \vec{a}$, $\overrightarrow{BC} = \vec{b}$. Vectơ $\overrightarrow{AC}$ được gọi là <em>tổng</em> của hai vectơ $\vec{a}$ và $\vec{b}$, kí hiệu $\vec{a} + \vec{b}$.</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-bold text-emerald-800">Quy tắc ba điểm</p>
+<p class="text-center mt-2">$$\overrightarrow{AB} + \overrightarrow{BC} = \overrightarrow{AC}$$</p>
+<p class="mt-2 text-sm text-slate-600">với ba điểm $A, B, C$ bất kì ("điểm cuối của vectơ trước trùng điểm đầu của vectơ sau").</p>
+</div>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-bold text-emerald-800">Quy tắc hình bình hành</p>
+<p class="mt-2">Nếu $ABCD$ là hình bình hành thì: $$\overrightarrow{AB} + \overrightarrow{AD} = \overrightarrow{AC}$$</p>
+<p class="mt-2 text-sm text-slate-600">(tổng hai vectơ chung điểm đầu bằng vectơ đường chéo xuất phát từ điểm đầu chung đó).</p>
+</div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Quy tac ba diem va quy tac hinh binh hanh">
+<rect x="2" y="2" width="436" height="246" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="60" y="30" font-family="sans-serif" font-size="13" font-weight="bold" fill="#1d4ed8">Quy tắc ba điểm</text>
+<line x1="60" y1="120" x2="150" y2="60" stroke="#1d4ed8" stroke-width="2.5"/>
+<polygon points="150,60 138,62 144,74" fill="#1d4ed8"/>
+<line x1="150" y1="60" x2="230" y2="130" stroke="#1d4ed8" stroke-width="2.5"/>
+<polygon points="230,130 218,126 220,140" fill="#1d4ed8"/>
+<line x1="60" y1="120" x2="230" y2="130" stroke="#dc2626" stroke-width="2.5" stroke-dasharray="8,5"/>
+<polygon points="230,130 216,130 222,140" fill="#dc2626"/>
+<circle cx="60" cy="120" r="4" fill="#1d4ed8"/><text x="46" y="140" font-family="sans-serif" font-size="12" fill="#1d4ed8">A</text>
+<circle cx="150" cy="60" r="4" fill="#1d4ed8"/><text x="146" y="48" font-family="sans-serif" font-size="12" fill="#1d4ed8">B</text>
+<circle cx="230" cy="130" r="4" fill="#1d4ed8"/><text x="236" y="134" font-family="sans-serif" font-size="12" fill="#1d4ed8">C</text>
+<text x="100" y="160" font-family="sans-serif" font-size="12" fill="#dc2626">AB + BC = AC</text>
+<text x="270" y="30" font-family="sans-serif" font-size="13" font-weight="bold" fill="#059669">Quy tắc hình bình hành</text>
+<polygon points="280,120 380,120 350,190 250,190" fill="none" stroke="#059669" stroke-width="2"/>
+<line x1="280" y1="120" x2="380" y2="120" stroke="#059669" stroke-width="2.5"/>
+<polygon points="380,120 368,114 368,126" fill="#059669"/>
+<line x1="280" y1="120" x2="250" y2="190" stroke="#059669" stroke-width="2.5"/>
+<polygon points="250,190 258,178 246,180" fill="#059669"/>
+<line x1="280" y1="120" x2="350" y2="190" stroke="#dc2626" stroke-width="2.5" stroke-dasharray="8,5"/>
+<polygon points="350,190 338,184 340,196" fill="#dc2626"/>
+<text x="268" y="114" font-family="sans-serif" font-size="12" fill="#059669">A</text>
+<text x="386" y="124" font-family="sans-serif" font-size="12" fill="#059669">B</text>
+<text x="356" y="206" font-family="sans-serif" font-size="12" fill="#059669">C</text>
+<text x="238" y="206" font-family="sans-serif" font-size="12" fill="#059669">D</text>
+<text x="300" y="222" font-family="sans-serif" font-size="12" fill="#dc2626">AB + AD = AC</text>
+</svg></div>
+
+<p><strong>Tính chất của phép cộng vectơ</strong> (giống phép cộng số): với mọi $\vec{a}, \vec{b}, \vec{c}$:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Tính giao hoán: $\vec{a} + \vec{b} = \vec{b} + \vec{a}$.</li>
+<li>Tính kết hợp: $(\vec{a} + \vec{b}) + \vec{c} = \vec{a} + (\vec{b} + \vec{c})$.</li>
+<li>Cộng với vectơ-không: $\vec{a} + \vec{0} = \vec{a}$.</li>
+</ul>
+
+<!-- 2. Hiệu -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Hiệu của hai vectơ</h2>
+
+<p><strong>Định nghĩa:</strong> <em>hiệu</em> của hai vectơ $\vec{a}$ và $\vec{b}$ là tổng của $\vec{a}$ với vectơ đối của $\vec{b}$, kí hiệu $\vec{a} - \vec{b}$:</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$\vec{a} - \vec{b} = \vec{a} + (-\vec{b})$$</p>
+</div>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-bold text-emerald-800">Quy tắc trừ</p>
+<p class="text-center mt-2">$$\overrightarrow{AB} - \overrightarrow{AC} = \overrightarrow{CB}$$</p>
+<p class="mt-2 text-sm text-slate-600">với ba điểm $A, B, C$ bất kì ("trừ hai vectơ chung điểm đầu thì lấy điểm cuối trừ nhau, giữ nguyên thứ tự").</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>$\overrightarrow{AB} - \overrightarrow{AD} = \overrightarrow{DB}$ (quy tắc trừ).</li>
+<li>$\overrightarrow{MN} + \overrightarrow{NP} = \overrightarrow{MP}$ (quy tắc ba điểm).</li>
+<li>$\overrightarrow{AB} + \overrightarrow{BA} = \vec{0}$.</li>
+</ul>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><strong>Quy tắc ba điểm</strong> (cộng): "cuối – đầu nối tiếp" $\overrightarrow{AB} + \overrightarrow{BC} = \overrightarrow{AC}$. <strong>Quy tắc trừ</strong>: "chung điểm đầu" $\overrightarrow{AB} - \overrightarrow{AC} = \overrightarrow{CB}$ — kết quả lấy <strong>điểm cuối trừ nhau</strong> (B trừ C được $\overrightarrow{CB}$).</p>
+</div>
+
+<!-- 3. Áp dụng -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Áp dụng: trung điểm và trọng tâm</h2>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li>$I$ là trung điểm của $AB$ $\Leftrightarrow$ $\overrightarrow{IA} + \overrightarrow{IB} = \vec{0}$.</li>
+<li>Với mọi điểm $M$: $\overrightarrow{MA} + \overrightarrow{MB} = 2\overrightarrow{MI}$ (với $I$ là trung điểm $AB$).</li>
+<li>$G$ là trọng tâm tam giác $ABC$ $\Leftrightarrow$ $\overrightarrow{GA} + \overrightarrow{GB} + \overrightarrow{GC} = \vec{0}$.</li>
+</ul>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ: Rút gọn $\overrightarrow{AB} + \overrightarrow{CD} + \overrightarrow{BC} + \overrightarrow{DE}$.</p>
+<p class="mt-2"><strong>Lời giải.</strong> Sắp xếp lại theo quy tắc ba điểm:</p>
+<p class="text-center mt-1">$\overrightarrow{AB} + \overrightarrow{BC} + \overrightarrow{CD} + \overrightarrow{DE} = \overrightarrow{AE}$.</p>
+<p class="mt-1">(Mẹo: "nối đuôi nhau" các vectơ rồi lấy điểm đầu của vectơ đầu và điểm cuối của vectơ cuối.)</p>
+</div>
+
+<!-- Tổng kết -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Quy tắc ba điểm:</strong> $\overrightarrow{AB} + \overrightarrow{BC} = \overrightarrow{AC}$.</li>
+<li><strong>Quy tắc hình bình hành:</strong> $ABCD$ là hình bình hành $\Rightarrow$ $\overrightarrow{AB} + \overrightarrow{AD} = \overrightarrow{AC}$.</li>
+<li><strong>Quy tắc trừ:</strong> $\overrightarrow{AB} - \overrightarrow{AC} = \overrightarrow{CB}$.</li>
+<li><strong>Trung điểm:</strong> $\overrightarrow{IA} + \overrightarrow{IB} = \vec{0}$; $\overrightarrow{MA} + \overrightarrow{MB} = 2\overrightarrow{MI}$.</li>
+<li><strong>Trọng tâm:</strong> $\overrightarrow{GA} + \overrightarrow{GB} + \overrightarrow{GC} = \vec{0}$.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+</body>
+</html>
