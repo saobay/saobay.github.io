@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 13: Các số đặc trưng đo xu thế trung tâm</title>
+    <meta name="lesson-title" content="Bài 13: Các số đặc trưng đo xu thế trung tâm">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 13: Các số đặc trưng đo xu thế trung tâm</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 5: Các số đặc trưng của mẫu số liệu không ghép nhóm • Bài 13: Các số đặc trưng đo xu thế trung tâm</p>
+        </div>
+        <div class="content-body space-y-4">
+            <h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 13: Các số đặc trưng đo xu thế trung tâm</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 5: Các số đặc trưng của mẫu số liệu không ghép nhóm</p>
+
+<p>Các số đặc trưng đo <strong>xu thế trung tâm</strong> cho biết vị trí "trung tâm" của mẫu số liệu — giá trị đại diện, điển hình cho cả mẫu. Bài này học bốn số đặc trưng: <strong>số trung bình, trung vị, tứ phân vị, mốt</strong>.</p>
+
+<!-- 1. Số trung bình -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Số trung bình</h2>
+
+<p>Cho mẫu số liệu $x_1, x_2, \dots, x_n$. <strong>Số trung bình</strong> (trung bình cộng) của mẫu, kí hiệu $\overline{x}$, là:</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$\overline{x} = \frac{x_1 + x_2 + \dots + x_n}{n}$$</p>
+</div>
+
+<p>Nếu mẫu cho dưới dạng <strong>bảng tần số</strong> (giá trị $x_i$ xuất hiện $m_i$ lần, $n = m_1 + \dots + m_k$) thì:</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$\overline{x} = \frac{m_1x_1 + m_2x_2 + \dots + m_kx_k}{n}$$</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Điểm kiểm tra của 5 bạn: $7;\, 8;\, 6;\, 9;\, 10$. Số trung bình:</p>
+<p class="text-center mt-2">$$\overline{x} = \frac{7 + 8 + 6 + 9 + 10}{5} = \frac{40}{5} = 8$$</p>
+<p class="mt-2">Ví dụ với bảng tần số — số con của 20 hộ gia đình:</p>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Số con ($x_i$)</td><td class="border border-slate-300 px-4 py-1">$0$</td><td class="border border-slate-300 px-4 py-1">$1$</td><td class="border border-slate-300 px-4 py-1">$2$</td><td class="border border-slate-300 px-4 py-1">$3$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold bg-sky-50">Tần số ($m_i$)</td><td class="border border-slate-300 px-4 py-1">$2$</td><td class="border border-slate-300 px-4 py-1">$8$</td><td class="border border-slate-300 px-4 py-1">$7$</td><td class="border border-slate-300 px-4 py-1">$3$</td></tr>
+</table></div>
+<p class="text-center mt-2">$$\overline{x} = \frac{2\cdot 0 + 8\cdot 1 + 7\cdot 2 + 3\cdot 3}{20} = \frac{31}{20} = 1{,}55$$</p>
+</div>
+
+<p><strong>Ý nghĩa:</strong> số trung bình là giá trị "cân bằng" của mẫu. <strong>Hạn chế:</strong> số trung bình rất <strong>nhạy với giá trị bất thường</strong> (quá lớn hoặc quá nhỏ) — một giá trị cực đoan có thể kéo trung bình lệch hẳn.</p>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Số trung bình dùng mọi giá trị của mẫu nên chịu ảnh hưởng mạnh của các giá trị bất thường. Khi mẫu có giá trị cực đoan, nên dùng <strong>trung vị</strong> làm đại diện.</p>
+</div>
+
+<!-- 2. Trung vị -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Trung vị</h2>
+
+<p><strong>Định nghĩa:</strong> Sắp xếp mẫu số liệu theo thứ tự <strong>không giảm</strong>. <em>Trung vị</em> (kí hiệu $M_e$) là giá trị <strong>đứng giữa</strong> dãy:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Nếu $n$ <strong>lẻ</strong>: trung vị là giá trị ở <strong>chính giữa</strong> (vị trí thứ $\frac{n+1}{2}$).</li>
+<li>Nếu $n$ <strong>chẵn</strong>: trung vị là <strong>trung bình cộng</strong> của hai giá trị chính giữa (vị trí thứ $\frac{n}{2}$ và $\frac{n}{2}+1$).</li>
+</ul>
+
+<div class="svg-fig"><svg viewBox="0 0 440 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Minh hoa trung vi">
+<rect x="2" y="2" width="436" height="166" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="28" font-family="sans-serif" font-size="13" fill="#334155" text-anchor="middle" font-weight="bold">Dãy đã sắp xếp: 3  5  6  7  8  9  12 (n = 7, lẻ)</text>
+<g font-family="sans-serif" font-size="14" text-anchor="middle">
+<circle cx="60" cy="70" r="20" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"/><text x="60" y="75" fill="#0c4a6e">3</text>
+<circle cx="115" cy="70" r="20" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"/><text x="115" y="75" fill="#0c4a6e">5</text>
+<circle cx="170" cy="70" r="20" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"/><text x="170" y="75" fill="#0c4a6e">6</text>
+<circle cx="225" cy="70" r="22" fill="#1d4ed8" stroke="#1e3a8a" stroke-width="2"/><text x="225" y="76" fill="#ffffff" font-weight="bold">7</text>
+<circle cx="282" cy="70" r="20" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"/><text x="282" y="75" fill="#0c4a6e">8</text>
+<circle cx="337" cy="70" r="20" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"/><text x="337" y="75" fill="#0c4a6e">9</text>
+<circle cx="392" cy="70" r="20" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"/><text x="392" y="75" fill="#0c4a6e">12</text>
+</g>
+<line x1="225" y1="96" x2="225" y2="120" stroke="#b91c1c" stroke-width="2" stroke-dasharray="5,4"/>
+<text x="225" y="140" font-family="sans-serif" font-size="13" fill="#b91c1c" text-anchor="middle" font-weight="bold">Trung vị Me = 7 (vị trí thứ 4)</text>
+<text x="220" y="160" font-family="sans-serif" font-size="11" fill="#64748b" text-anchor="middle">3 giá trị nhỏ hơn • 3 giá trị lớn hơn</text>
+</svg></div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>Mẫu $3;\, 5;\, 6;\, 7;\, 8;\, 9;\, 12$ ($n = 7$ lẻ): $M_e = 7$.</li>
+<li>Mẫu $4;\, 6;\, 8;\, 10$ ($n = 4$ chẵn): $M_e = \dfrac{6 + 8}{2} = 7$.</li>
+<li>Lương 9 nhân viên (triệu đồng): $5;\, 5{,}5;\, 6;\, 6;\, 6{,}5;\, 7;\, 7{,}5;\, 8;\, 50$ (giám đốc). Số trung bình $\overline{x} \approx 11{,}28$ bị "kéo" lên rất cao, còn trung vị $M_e = 6{,}5$ phản ánh đúng mức lương điển hình. 👉 Đây là ưu điểm lớn của trung vị!</li>
+</ul>
+</div>
+
+<p><strong>Ý nghĩa:</strong> trung vị chia mẫu thành hai nửa có số lượng bằng nhau và <strong>không bị ảnh hưởng</strong> bởi các giá trị bất thường.</p>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Nhớ <strong>sắp xếp</strong> trước khi tìm trung vị! $n$ lẻ → lấy giá trị chính giữa; $n$ chẵn → trung bình cộng hai giá trị chính giữa.</p>
+</div>
+
+<!-- 3. Tứ phân vị -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Tứ phân vị</h2>
+
+<p><em>Tứ phân vị</em> là ba giá trị $Q_1, Q_2, Q_3$ chia mẫu số liệu (đã sắp xếp) thành <strong>bốn phần có số lượng bằng nhau</strong>:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>$Q_2$ chính là <strong>trung vị</strong> $M_e$.</li>
+<li>$Q_1$ là <strong>trung vị của nửa số liệu bên trái</strong> $Q_2$.</li>
+<li>$Q_3$ là <strong>trung vị của nửa số liệu bên phải</strong> $Q_2$.</li>
+</ul>
+<p><strong>Chú ý:</strong> nếu $n$ lẻ thì khi lấy nửa trái/phải ta <strong>không tính</strong> giá trị $Q_2$ ở giữa.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Mẫu đã sắp xếp: $2;\, 4;\, 5;\, 7;\, 8;\, 10;\, 11;\, 13;\, 15$ ($n = 9$).</p>
+<ul class="list-disc ml-6 space-y-1 mt-2">
+<li>$Q_2 = 8$ (vị trí thứ 5).</li>
+<li>Nửa trái (không tính $Q_2$): $2;\, 4;\, 5;\, 7$ → $Q_1 = \dfrac{4 + 5}{2} = 4{,}5$.</li>
+<li>Nửa phải (không tính $Q_2$): $10;\, 11;\, 13;\, 15$ → $Q_3 = \dfrac{11 + 13}{2} = 12$.</li>
+</ul>
+<p class="mt-2">Ví dụ $n$ chẵn — mẫu: $1;\, 3;\, 4;\, 6;\, 7;\, 9;\, 10;\, 12$ ($n = 8$):</p>
+<ul class="list-disc ml-6 space-y-1 mt-2">
+<li>$Q_2 = \dfrac{6 + 7}{2} = 6{,}5$.</li>
+<li>Nửa trái: $1;\, 3;\, 4;\, 6$ → $Q_1 = \dfrac{3 + 4}{2} = 3{,}5$.</li>
+<li>Nửa phải: $7;\, 9;\, 10;\, 12$ → $Q_3 = \dfrac{9 + 10}{2} = 9{,}5$.</li>
+</ul>
+</div>
+
+<p><strong>Ý nghĩa:</strong> $Q_1, Q_2, Q_3$ cho biết sự phân bố của số liệu: khoảng $25\%$ số liệu nhỏ hơn $Q_1$, $50\%$ nhỏ hơn $Q_2$, $75\%$ nhỏ hơn $Q_3$. Tứ phân vị là nền tảng để tính <strong>khoảng tứ phân vị</strong> ở Bài 14.</p>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">$Q_2 = M_e$. $Q_1, Q_3$ là trung vị của hai nửa (bỏ $Q_2$ đi nếu $n$ lẻ). Thứ tự luôn là $Q_1 \le Q_2 \le Q_3$.</p>
+</div>
+
+<!-- 4. Mốt -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Mốt</h2>
+
+<p><strong>Định nghĩa:</strong> <em>Mốt</em> của mẫu số liệu (kí hiệu $M_0$) là <strong>giá trị có tần số lớn nhất</strong> (xuất hiện nhiều lần nhất).</p>
+
+<p><strong>Chú ý:</strong> một mẫu số liệu có thể có <strong>nhiều mốt</strong> (khi nhiều giá trị cùng có tần số lớn nhất bằng nhau).</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>Cỡ giày bán được trong ngày: $38;\, 39;\, 39;\, 40;\, 39;\, 41;\, 40;\, 39$ → cỡ $39$ xuất hiện $4$ lần (nhiều nhất) nên $M_0 = 39$. Cửa hàng sẽ nhập nhiều cỡ $39$ nhất. 👟</li>
+<li>Mẫu $2;\, 3;\, 3;\, 5;\, 5;\, 7$: cả $3$ và $5$ đều xuất hiện $2$ lần → có hai mốt $M_0 \in \{3;\, 5\}$.</li>
+</ul>
+</div>
+
+<p><strong>Ý nghĩa:</strong> mốt cho biết giá trị "phổ biến nhất", rất hữu ích với số liệu <strong>định tính</strong> (màu sắc ưa thích, cỡ áo bán chạy...) mà số trung bình không tính được.</p>
+
+<!-- 5. Lựa chọn -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">5. Nên dùng số đặc trưng nào?</h2>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Số đặc trưng</td><td class="border border-slate-300 px-4 py-1">Ưu điểm</td><td class="border border-slate-300 px-4 py-1">Nhược điểm</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Số trung bình $\overline{x}$</td><td class="border border-slate-300 px-4 py-1">Dùng mọi giá trị của mẫu</td><td class="border border-slate-300 px-4 py-1">Nhạy với giá trị bất thường</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Trung vị $M_e$</td><td class="border border-slate-300 px-4 py-1">Không bị ảnh hưởng bởi giá trị bất thường</td><td class="border border-slate-300 px-4 py-1">Bỏ qua độ lớn cụ thể các giá trị</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Mốt $M_0$</td><td class="border border-slate-300 px-4 py-1">Dùng được cho số liệu định tính</td><td class="border border-slate-300 px-4 py-1">Có thể có nhiều mốt hoặc khó xác định</td></tr>
+</table></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Mẫu "sạch" (không có giá trị cực đoan) → dùng <strong>số trung bình</strong>. Mẫu có giá trị bất thường (lương giám đốc, điểm 0 vì bỏ thi...) → dùng <strong>trung vị</strong>. Muốn biết cái gì "phổ biến nhất" → dùng <strong>mốt</strong>.</p>
+</div>
+
+<!-- Tổng kết -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Số trung bình:</strong> $\overline{x} = \dfrac{x_1 + \dots + x_n}{n}$ (bảng tần số: $\overline{x} = \dfrac{m_1x_1 + \dots + m_kx_k}{n}$); nhạy với giá trị bất thường.</li>
+<li><strong>Trung vị</strong> $M_e$: giá trị đứng giữa dãy đã sắp xếp ($n$ chẵn thì lấy trung bình cộng hai giá trị giữa); không bị ảnh hưởng bởi giá trị bất thường.</li>
+<li><strong>Tứ phân vị:</strong> $Q_2 = M_e$; $Q_1, Q_3$ là trung vị của nửa trái/phải (bỏ $Q_2$ nếu $n$ lẻ).</li>
+<li><strong>Mốt</strong> $M_0$: giá trị có tần số lớn nhất; có thể có nhiều mốt; dùng tốt cho số liệu định tính.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+</body>
+</html>
