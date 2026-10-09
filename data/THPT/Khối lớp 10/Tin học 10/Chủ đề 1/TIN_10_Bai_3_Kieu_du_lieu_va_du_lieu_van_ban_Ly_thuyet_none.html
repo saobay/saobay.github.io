@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 3: Một số kiểu dữ liệu và dữ liệu văn bản</title>
+    <meta name="lesson-title" content="Bài 3: Một số kiểu dữ liệu và dữ liệu văn bản">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 3: Một số kiểu dữ liệu và dữ liệu văn bản</h1>
+            <p class="text-xs text-slate-500 mt-1">Chủ đề 1: Máy tính và xã hội tri thức • Bài 3: Một số kiểu dữ liệu và dữ liệu văn bản</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 3: Một số kiểu dữ liệu và dữ liệu văn bản</h1>
+<p class="text-center text-slate-500 italic mb-8">Chủ đề 1: Máy tính và xã hội tri thức • Bài 3: Một số kiểu dữ liệu và dữ liệu văn bản</p>
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Kiểu dữ liệu</h2>
+
+<p><strong>Định nghĩa:</strong> <em>Kiểu dữ liệu</em> là cách phân loại dữ liệu theo <strong>tính chất</strong> và các <strong>phép xử lí</strong> được phép thực hiện trên dữ liệu đó.</p>
+
+<p>Các kiểu dữ liệu cơ bản:</p>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Kiểu dữ liệu</td><td class="border border-slate-300 px-4 py-1">Ví dụ</td><td class="border border-slate-300 px-4 py-1">Phép xử lí tiêu biểu</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Số nguyên</td><td class="border border-slate-300 px-4 py-1">-25, 0, 100</td><td class="border border-slate-300 px-4 py-1">Cộng, trừ, nhân, chia, so sánh</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Số thực</td><td class="border border-slate-300 px-4 py-1">3.14, -0.5</td><td class="border border-slate-300 px-4 py-1">Các phép tính số học</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Kí tự</td><td class="border border-slate-300 px-4 py-1">A, 7, ?</td><td class="border border-slate-300 px-4 py-1">Đơn vị nhỏ nhất của văn bản</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Xâu kí tự (văn bản)</td><td class="border border-slate-300 px-4 py-1">“Tin học”</td><td class="border border-slate-300 px-4 py-1">Nối xâu, so sánh, đếm kí tự</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Lôgic</td><td class="border border-slate-300 px-4 py-1">Đúng, Sai</td><td class="border border-slate-300 px-4 py-1">Lưu trạng thái hai giá trị</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Ngày tháng</td><td class="border border-slate-300 px-4 py-1">09/10/2026</td><td class="border border-slate-300 px-4 py-1">Tính khoảng thời gian, sắp xếp</td></tr>
+</table></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Chú ý</p>
+<ul class="list-disc ml-6 space-y-1 mt-1">
+<li>Trong tin học, số thực viết phần thập phân bằng <strong>dấu chấm</strong> (3.14), không dùng dấu phẩy.</li>
+<li>“123” trong ngoặc kép là <strong>văn bản</strong>, không phải số — không dùng để tính toán.</li>
+<li>Chọn kiểu dữ liệu phải phù hợp <strong>bản chất thông tin</strong>: điểm số dùng kiểu số để tính trung bình; số điện thoại (bắt đầu bằng 0, không tính toán) dùng kiểu văn bản.</li>
+</ul>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Mã hóa dữ liệu văn bản</h2>
+
+<p>Để lưu trữ được trong máy tính, mỗi <strong>kí tự</strong> phải được mã hóa thành một <strong>dãy bit</strong> theo một <em>bảng mã</em> — bảng quy ước tương ứng giữa kí tự và dãy bit.</p>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Bảng mã</td><td class="border border-slate-300 px-4 py-1">Số bit mỗi kí tự</td><td class="border border-slate-300 px-4 py-1">Số kí tự mã hóa được</td><td class="border border-slate-300 px-4 py-1">Ghi chú</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">ASCII gốc</td><td class="border border-slate-300 px-4 py-1">7</td><td class="border border-slate-300 px-4 py-1">128</td><td class="border border-slate-300 px-4 py-1">Chữ cái, chữ số tiếng Anh</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">ASCII mở rộng</td><td class="border border-slate-300 px-4 py-1">8</td><td class="border border-slate-300 px-4 py-1">256</td><td class="border border-slate-300 px-4 py-1">Thêm kí tự đặc biệt</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Unicode (UTF-8)</td><td class="border border-slate-300 px-4 py-1">1–4 byte</td><td class="border border-slate-300 px-4 py-1">Mọi ngôn ngữ</td><td class="border border-slate-300 px-4 py-1">Chuẩn toàn cầu hiện nay</td></tr>
+</table></div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ về mã ASCII:</p>
+<p>Các chữ cái in hoa A đến Z có mã liên tiếp từ 65 đến 90; chữ số 0 đến 9 có mã từ 48 đến 57. Biết mã của A là 65 thì mã của C là 67.</p>
+<p class="mt-2"><strong>Vì sao tiếng Việt cần Unicode?</strong> ASCII chỉ có 128 kí tự cơ bản, không bao gồm các chữ có dấu tiếng Việt (à, á, ạ...). Unicode mã hóa được kí tự của mọi ngôn ngữ nên hiển thị đúng tiếng Việt có dấu.</p>
+</div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="So do ma hoa van ban">
+<rect x="2" y="2" width="436" height="186" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="28" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0c4a6e" text-anchor="middle">MÃ HÓA VĂN BẢN</text>
+<rect x="30" y="45" width="110" height="52" rx="8" fill="#0ea5e9"/>
+<text x="85" y="67" font-family="sans-serif" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">Kí tự</text>
+<text x="85" y="84" font-family="sans-serif" font-size="11" fill="#e0f2fe" text-anchor="middle">Ví dụ: A, à, 7</text>
+<polygon points="146,71 162,63 162,79" fill="#64748b"/>
+<rect x="165" y="45" width="110" height="52" rx="8" fill="#8b5cf6"/>
+<text x="220" y="67" font-family="sans-serif" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">Bảng mã</text>
+<text x="220" y="84" font-family="sans-serif" font-size="11" fill="#ede9fe" text-anchor="middle">ASCII / Unicode</text>
+<polygon points="281,71 297,63 297,79" fill="#64748b"/>
+<rect x="300" y="45" width="110" height="52" rx="8" fill="#10b981"/>
+<text x="355" y="67" font-family="sans-serif" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">Dãy bit</text>
+<text x="355" y="84" font-family="sans-serif" font-size="11" fill="#d1fae5" text-anchor="middle">Ví dụ: 01000001</text>
+<text x="220" y="125" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">Kí tự “A” → mã ASCII 65 → dãy bit 01000001</text>
+<rect x="60" y="140" width="320" height="34" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="220" y="162" font-family="sans-serif" font-size="11" fill="#92400e" text-anchor="middle">Mở file sai bảng mã → chữ lạ (lỗi phông)</text>
+</svg></div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Gõ tiếng Việt trên máy tính</h2>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Cần <strong>bộ gõ tiếng Việt</strong> (phổ biến nhất là <strong>Unikey</strong>) với kiểu gõ <strong>Telex</strong> hoặc <strong>VNI</strong>.</li>
+<li>Cần <strong>phông chữ hỗ trợ Unicode</strong> mới hiển thị đúng chữ có dấu.</li>
+<li>Mở file sai bảng mã sẽ hiện <strong>chữ lạ</strong> — khắc phục bằng cách chọn lại bảng mã Unicode khi mở.</li>
+</ul>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Kiểu dữ liệu:</strong> số nguyên, số thực, kí tự, xâu kí tự, lôgic, ngày tháng — mỗi kiểu có phép xử lí riêng.</li>
+<li><strong>Mã hóa văn bản:</strong> mỗi kí tự → dãy bit theo bảng mã; ASCII (8 bit, 256 kí tự), Unicode (mọi ngôn ngữ).</li>
+<li><strong>Tiếng Việt</strong> cần bộ gõ + phông Unicode; sai bảng mã gây lỗi chữ lạ.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm để kiểm tra nhé! 💪</p>
+
+
+        </div>
+    </div>
+</body>
+</html>
