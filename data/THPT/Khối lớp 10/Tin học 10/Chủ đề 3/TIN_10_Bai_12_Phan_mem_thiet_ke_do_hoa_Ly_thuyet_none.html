@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 12: Phần mềm thiết kế đồ họa</title>
+    <meta name="lesson-title" content="Bài 12: Phần mềm thiết kế đồ họa">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 12: Phần mềm thiết kế đồ họa</h1>
+            <p class="text-xs text-slate-500 mt-1">Chủ đề 4: Ứng dụng tin học • Bài 12: Phần mềm thiết kế đồ họa</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 12: Phần mềm thiết kế đồ họa</h1>
+<p class="text-center text-slate-500 italic mb-8">Chủ đề 4: Ứng dụng tin học • Bài 12: Phần mềm thiết kế đồ họa</p>
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Hai loại đồ họa máy tính</h2>
+
+<p>Đồ họa máy tính được chia thành hai loại chính: <strong>đồ họa raster</strong> (bitmap) và <strong>đồ họa vector</strong>.</p>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">1.1. Đồ họa raster</h3>
+<p>Ảnh raster được cấu tạo từ một lưới các <strong>điểm ảnh (pixel)</strong>; mỗi pixel lưu một màu sắc. Khi phóng to quá mức, ta sẽ nhìn thấy từng ô pixel vuông vức — hiện tượng <strong>vỡ ảnh (răng cưa)</strong>. Ảnh raster có độ chi tiết cao, màu sắc phong phú nên phù hợp với ảnh chụp, tranh vẽ phức tạp; nhược điểm là dung lượng thường lớn và phóng to bị vỡ.</p>
+<p>Các định dạng raster phổ biến: <strong>PNG, JPEG (JPG), BMP, GIF</strong>. Phần mềm raster tiêu biểu: Paint, Photoshop, GIMP.</p>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">1.2. Đồ họa vector</h3>
+<p>Ảnh vector được định nghĩa bằng các <strong>đối tượng hình học</strong> (điểm, đoạn thẳng, đường cong, đa giác, hình tròn...) và các <strong>công thức toán học</strong> mô tả chúng. Máy tính vẽ lại hình từ công thức ở mọi tỉ lệ nên <strong>phóng to bao nhiêu cũng không bị vỡ</strong>, file thường rất nhẹ. Mỗi đối tượng là độc lập: có thể chọn, di chuyển, tô màu, thay đổi kích thước riêng mà không ảnh hưởng đối tượng khác.</p>
+<p>Đồ họa vector phù hợp với logo, biểu tượng, sơ đồ, chữ nghệ thuật, minh họa. Định dạng vector phổ biến: <strong>SVG, AI, CDR, EPS</strong>. Phần mềm vector tiêu biểu: Inkscape, Adobe Illustrator, CorelDRAW.</p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="So sánh đồ họa raster và vector">
+<rect x="2" y="2" width="436" height="236" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="110" y="28" font-family="sans-serif" font-size="14" font-weight="bold" fill="#b91c1c" text-anchor="middle">RASTER (pixel)</text>
+<text x="330" y="28" font-family="sans-serif" font-size="14" font-weight="bold" fill="#15803d" text-anchor="middle">VECTOR (đối tượng)</text>
+<g>
+<rect x="40" y="45" width="140" height="100" fill="#ffffff" stroke="#94a3b8"/>
+<g fill="#f87171"><rect x="48" y="53" width="16" height="16"/><rect x="64" y="53" width="16" height="16"/><rect x="80" y="53" width="16" height="16" fill="#fca5a5"/><rect x="96" y="53" width="16" height="16" fill="#fca5a5"/><rect x="48" y="69" width="16" height="16"/><rect x="64" y="69" width="16" height="16" fill="#ef4444"/><rect x="80" y="69" width="16" height="16" fill="#ef4444"/><rect x="96" y="69" width="16" height="16"/><rect x="48" y="85" width="16" height="16" fill="#fca5a5"/><rect x="64" y="85" width="16" height="16"/><rect x="80" y="85" width="16" height="16"/><rect x="96" y="85" width="16" height="16" fill="#fca5a5"/></g>
+<text x="110" y="165" font-family="sans-serif" font-size="11" fill="#64748b" text-anchor="middle">Phóng to: lộ ô vuông,</text>
+<text x="110" y="180" font-family="sans-serif" font-size="11" fill="#64748b" text-anchor="middle">ảnh bị vỡ, răng cưa</text>
+</g>
+<g>
+<rect x="260" y="45" width="140" height="100" fill="#ffffff" stroke="#94a3b8"/>
+<circle cx="330" cy="95" r="34" fill="#86efac" stroke="#15803d" stroke-width="3"/>
+<text x="330" y="165" font-family="sans-serif" font-size="11" fill="#64748b" text-anchor="middle">Phóng to: vẽ lại từ</text>
+<text x="330" y="180" font-family="sans-serif" font-size="11" fill="#64748b" text-anchor="middle">công thức, vẫn sắc nét</text>
+</g>
+<rect x="30" y="195" width="380" height="30" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="220" y="215" font-family="sans-serif" font-size="12" fill="#92400e" text-anchor="middle">Logo, biển hiệu khổ lớn → ưu tiên đồ họa vector</text>
+</svg></div>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Tiêu chí</td><td class="border border-slate-300 px-4 py-1">Raster</td><td class="border border-slate-300 px-4 py-1">Vector</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Đơn vị cấu tạo</td><td class="border border-slate-300 px-4 py-1">Điểm ảnh (pixel)</td><td class="border border-slate-300 px-4 py-1">Đối tượng hình học + công thức</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Phóng to</td><td class="border border-slate-300 px-4 py-1">Bị vỡ, răng cưa</td><td class="border border-slate-300 px-4 py-1">Không vỡ, luôn sắc nét</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Dung lượng</td><td class="border border-slate-300 px-4 py-1">Thường lớn</td><td class="border border-slate-300 px-4 py-1">Thường nhỏ</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Chỉnh sửa</td><td class="border border-slate-300 px-4 py-1">Theo vùng điểm ảnh</td><td class="border border-slate-300 px-4 py-1">Từng đối tượng độc lập</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Phù hợp</td><td class="border border-slate-300 px-4 py-1">Ảnh chụp, tranh chi tiết</td><td class="border border-slate-300 px-4 py-1">Logo, biểu tượng, sơ đồ</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Định dạng</td><td class="border border-slate-300 px-4 py-1">PNG, JPEG, BMP, GIF</td><td class="border border-slate-300 px-4 py-1">SVG, AI, CDR, EPS</td></tr>
+</table></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Raster = <strong>lưới pixel</strong> (phóng to vỡ); Vector = <strong>đối tượng + công thức</strong> (phóng to không vỡ). Logo, biển hiệu khổ lớn nên dùng vector.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Phần mềm Inkscape</h2>
+
+<p><strong>Inkscape</strong> là phần mềm thiết kế đồ họa vector <strong>miễn phí, mã nguồn mở</strong>, chạy trên Windows, macOS và Linux. Trang chủ: <strong>inkscape.org</strong>. Định dạng file gốc của Inkscape là <strong>SVG</strong> (chuẩn mở, trình duyệt web cũng mở được).</p>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Miễn phí, hợp pháp:</strong> học sinh có thể tải và sử dụng mà không tốn phí bản quyền.</li>
+<li><strong>Đa nền tảng:</strong> cùng một file SVG mở được trên nhiều hệ điều hành.</li>
+<li><strong>Xuất đa định dạng:</strong> từ bản vẽ vector có thể xuất ra PNG, JPEG, PDF để chia sẻ, in ấn.</li>
+</ul>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Màn hình làm việc của Inkscape</h2>
+
+<div class="svg-fig"><svg viewBox="0 0 440 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Màn hình làm việc Inkscape">
+<rect x="2" y="2" width="436" height="246" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<rect x="12" y="12" width="416" height="24" rx="6" fill="#1e3a8a"/>
+<text x="220" y="29" font-family="sans-serif" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">Thanh menu: File, Edit, View, Layer, Object, Path, Text...</text>
+<rect x="12" y="42" width="52" height="150" rx="6" fill="#e0f2fe" stroke="#0284c7"/>
+<text x="38" y="60" font-family="sans-serif" font-size="10" font-weight="bold" fill="#0369a1" text-anchor="middle">Thanh</text>
+<text x="38" y="73" font-family="sans-serif" font-size="10" font-weight="bold" fill="#0369a1" text-anchor="middle">công cụ</text>
+<circle cx="38" cy="95" r="9" fill="#fbbf24"/><rect x="29" y="112" width="18" height="18" fill="#60a5fa"/><text x="38" y="150" font-family="sans-serif" font-size="14" fill="#0369a1" text-anchor="middle">T</text>
+<rect x="70" y="42" width="290" height="150" rx="6" fill="#ffffff" stroke="#94a3b8" stroke-dasharray="5,4"/>
+<text x="215" y="112" font-family="sans-serif" font-size="13" fill="#94a3b8" text-anchor="middle">Vùng vẽ (canvas)</text>
+<text x="215" y="130" font-family="sans-serif" font-size="11" fill="#cbd5e1" text-anchor="middle">trang giấy + đối tượng</text>
+<rect x="366" y="42" width="62" height="150" rx="6" fill="#f1f5f9" stroke="#94a3b8"/>
+<text x="397" y="110" font-family="sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Thuộc</text>
+<text x="397" y="124" font-family="sans-serif" font-size="10" fill="#64748b" text-anchor="middle">tính</text>
+<rect x="12" y="198" width="416" height="20" rx="6" fill="#fef3c7" stroke="#f59e0b"/>
+<text x="220" y="212" font-family="sans-serif" font-size="11" fill="#92400e" text-anchor="middle">Thanh màu (palette) — bấm để chọn màu tô, viền</text>
+<rect x="12" y="222" width="416" height="20" rx="6" fill="#e2e8f0"/>
+<text x="220" y="236" font-family="sans-serif" font-size="11" fill="#475569" text-anchor="middle">Thanh trạng thái — gợi ý thao tác, tọa độ con trỏ</text>
+</svg></div>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Thanh menu:</strong> chứa các lệnh File (tệp), Edit (sửa), View (xem), Object (đối tượng), Path (đường), Text (văn bản)...</li>
+<li><strong>Thanh công cụ (toolbox)</strong> bên trái: các công cụ chọn, vẽ hình, vẽ đường, văn bản, tô màu...</li>
+<li><strong>Vùng vẽ (canvas)</strong> ở giữa: hiển thị trang giấy và các đối tượng đồ họa.</li>
+<li><strong>Thanh màu (palette)</strong> phía dưới: bấm để chọn nhanh màu tô, màu viền.</li>
+<li><strong>Thanh trạng thái</strong> dưới cùng: gợi ý thao tác, tọa độ con trỏ, thông tin đối tượng đang chọn.</li>
+</ul>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Các thao tác cơ bản với tệp bản vẽ</h2>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Thao tác</td><td class="border border-slate-300 px-4 py-1">Lệnh</td><td class="border border-slate-300 px-4 py-1">Phím tắt</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Tạo tài liệu mới</td><td class="border border-slate-300 px-4 py-1">File → New</td><td class="border border-slate-300 px-4 py-1">Ctrl+N</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Mở file đã lưu</td><td class="border border-slate-300 px-4 py-1">File → Open</td><td class="border border-slate-300 px-4 py-1">Ctrl+O</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Lưu file (định dạng SVG)</td><td class="border border-slate-300 px-4 py-1">File → Save</td><td class="border border-slate-300 px-4 py-1">Ctrl+S</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Thiết lập trang giấy</td><td class="border border-slate-300 px-4 py-1">File → Document Properties</td><td class="border border-slate-300 px-4 py-1">Ctrl+Shift+D</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Xuất thành ảnh PNG</td><td class="border border-slate-300 px-4 py-1">File → Export PNG Image</td><td class="border border-slate-300 px-4 py-1">Ctrl+Shift+E</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Hoàn tác / Làm lại</td><td class="border border-slate-300 px-4 py-1">Edit → Undo / Redo</td><td class="border border-slate-300 px-4 py-1">Ctrl+Z / Ctrl+Shift+Z</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Thoát phần mềm</td><td class="border border-slate-300 px-4 py-1">File → Quit</td><td class="border border-slate-300 px-4 py-1">Ctrl+Q</td></tr>
+</table></div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Phân biệt Save và Export:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li><strong>Save (Ctrl+S):</strong> lưu file <strong>làm việc</strong> định dạng SVG — giữ nguyên mọi đối tượng để mở ra chỉnh sửa tiếp.</li>
+<li><strong>Export (Ctrl+Shift+E):</strong> tạo file <strong>thành phẩm</strong> (PNG, PDF...) để chia sẻ, in ấn — không chỉnh sửa từng đối tượng được nữa.</li>
+</ul>
+<p class="mt-2">Khi xuất PNG có thể chọn <strong>vùng xuất</strong> (cả trang — Page, cả bản vẽ — Drawing, vùng đang chọn — Selection) và <strong>độ phân giải</strong>: ảnh xem trên màn hình chỉ cần 72–96 DPI, ảnh in chất lượng cao cần khoảng 300 DPI.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<ul class="list-disc ml-6 space-y-1 mt-1">
+<li>Luôn <strong>giữ file SVG gốc</strong> để chỉnh sửa; xuất thêm PNG/PDF tùy mục đích sử dụng.</li>
+<li><strong>Lưu thường xuyên</strong> (Ctrl+S) trong quá trình vẽ để tránh mất dữ liệu.</li>
+<li>Đặt tên file gợi nhớ, sắp xếp đối tượng gọn gàng khi bản vẽ phức tạp.</li>
+</ul>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Raster:</strong> lưới pixel, phóng to bị vỡ, file nặng — phù hợp ảnh chụp. <strong>Vector:</strong> đối tượng + công thức, phóng to không vỡ, file nhẹ — phù hợp logo, sơ đồ.</li>
+<li><strong>Inkscape:</strong> phần mềm đồ họa vector miễn phí, mã nguồn mở, đa nền tảng; file gốc định dạng <strong>SVG</strong>.</li>
+<li>Màn hình gồm: thanh menu, thanh công cụ (trái), vùng vẽ canvas (giữa), thanh màu palette (dưới), thanh trạng thái.</li>
+<li><strong>Save</strong> lưu file làm việc SVG; <strong>Export</strong> tạo thành phẩm PNG/PDF; in ấn cần khoảng 300 DPI.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+
+        </div>
+    </div>
+</body>
+</html>
