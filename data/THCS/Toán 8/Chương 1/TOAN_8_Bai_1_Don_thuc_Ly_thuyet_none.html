@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 1: Đơn thức</title>
+    <meta name="lesson-title" content="Bài 1: Đơn thức">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 1: Đơn thức</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 1: Đa thức • Bài 1: Đơn thức</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+
+<p>Trong thực tế, nhiều đại lượng được biểu diễn bằng các biểu thức đại số. Chẳng hạn, diện tích của hình chữ nhật có chiều dài $a$ và chiều rộng $b$ là $S = ab$; quãng đường đi được trong $t$ giờ với vận tốc $v$ (không đổi) là $s = vt$. Những biểu thức chỉ gồm tích của các số và các biến như $ab$, $vt$, $3x^2y$ được gọi là <strong>đơn thức</strong>.</p>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-6">1. Đơn thức và đơn thức thu gọn</h2>
+
+<p><strong>Đơn thức</strong> là biểu thức đại số chỉ gồm một số, hoặc một biến, hoặc một tích giữa các số và các biến.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-bold text-sky-800 mb-2">Ví dụ 1</p>
+<p>Trong các biểu thức sau, biểu thức nào là đơn thức?</p>
+<p class="text-center my-2">$3x^2y$; &nbsp; $x + y$; &nbsp; $\dfrac{2}{x}$; &nbsp; $-5$; &nbsp; $\sqrt{x}$; &nbsp; $0{,}4ab^2$</p>
+<p><strong>Lời giải.</strong> Các biểu thức $3x^2y$, $-5$, $0{,}4ab^2$ là đơn thức.</p>
+<ul class="list-disc ml-6 mt-1">
+<li>$x + y$ không phải đơn thức vì là <em>tổng</em> của hai biến;</li>
+<li>$\dfrac{2}{x}$ không phải đơn thức vì biến $x$ nằm ở mẫu số;</li>
+<li>$\sqrt{x}$ không phải đơn thức vì chứa căn thức của biến.</li>
+</ul>
+</div>
+
+<p><strong>Đơn thức thu gọn</strong> là đơn thức chỉ gồm tích của một số với các biến, mà mỗi biến đã được nâng lên lũy thừa với số mũ nguyên dương (mỗi biến chỉ xuất hiện một lần).</p>
+<p>Trong một đơn thức thu gọn:</p>
+<ul class="list-disc ml-6">
+<li><strong>Hệ số</strong> là phần số;</li>
+<li><strong>Phần biến</strong> là phần còn lại (tích các biến với số mũ của chúng).</li>
+</ul>
+
+<div class="svg-fig">
+<svg viewBox="0 0 420 252" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Phan tich don thuc 5x mu 2 y mu 3">
+<text x="210" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#0f172a">Phân tích đơn thức 5x²y³</text>
+<text x="210" y="80" text-anchor="middle" font-size="36" font-weight="700" fill="#0284c7">5x<tspan baseline-shift="super" font-size="22">2</tspan>y<tspan baseline-shift="super" font-size="22">3</tspan></text>
+<line x1="150" y1="94" x2="85" y2="118" stroke="#94a3b8" stroke-width="2"/>
+<line x1="210" y1="94" x2="210" y2="118" stroke="#94a3b8" stroke-width="2"/>
+<line x1="270" y1="94" x2="335" y2="118" stroke="#94a3b8" stroke-width="2"/>
+<rect x="30" y="120" width="110" height="88" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+<text x="85" y="147" text-anchor="middle" font-size="14" font-weight="700" fill="#92400e">Hệ số</text>
+<text x="85" y="174" text-anchor="middle" font-size="24" font-weight="700" fill="#b45309">5</text>
+<text x="85" y="196" text-anchor="middle" font-size="11" fill="#92400e">(phần số)</text>
+<rect x="155" y="120" width="110" height="88" rx="10" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+<text x="210" y="147" text-anchor="middle" font-size="14" font-weight="700" fill="#075985">Phần biến</text>
+<text x="210" y="174" text-anchor="middle" font-size="24" font-weight="700" fill="#0369a1">x²y³</text>
+<text x="210" y="196" text-anchor="middle" font-size="11" fill="#075985">(phần còn lại)</text>
+<rect x="280" y="120" width="110" height="88" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+<text x="335" y="147" text-anchor="middle" font-size="14" font-weight="700" fill="#166534">Bậc</text>
+<text x="335" y="174" text-anchor="middle" font-size="24" font-weight="700" fill="#15803d">5</text>
+<text x="335" y="196" text-anchor="middle" font-size="11" fill="#166534">(2 + 3 = 5)</text>
+<text x="210" y="234" text-anchor="middle" font-size="12" fill="#64748b">Bậc = tổng các số mũ của các biến</text>
+</svg>
+</div>
+
+<p><strong>Bậc của một đơn thức</strong> là tổng các số mũ của tất cả các biến trong đơn thức thu gọn đó.</p>
+<ul class="list-disc ml-6">
+<li>Số thực khác $0$ là đơn thức bậc $0$ (ví dụ: đơn thức $7$ có bậc $0$).</li>
+<li>Số $0$ được coi là đơn thức <strong>không có bậc</strong>.</li>
+</ul>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-bold text-sky-800 mb-2">Ví dụ 2</p>
+<p>Thu gọn đơn thức $A = 2x^2 \cdot 3xy$, rồi xác định hệ số, phần biến và bậc của $A$.</p>
+<p><strong>Lời giải.</strong> $A = 2x^2 \cdot 3xy = (2 \cdot 3)(x^2 \cdot x)y = 6x^3y.$</p>
+<p>Vậy $A$ thu gọn là $6x^3y$; hệ số là $6$; phần biến là $x^3y$; bậc của $A$ là $3 + 1 = 4$.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-r-lg my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<ul class="list-disc ml-6 mt-1 text-amber-900">
+<li>Đơn thức là biểu thức đại số chỉ gồm một số, hoặc một biến, hoặc một tích giữa các số và các biến.</li>
+<li>Đơn thức thu gọn chỉ gồm tích của một số với các biến (mỗi biến nâng lên lũy thừa với số mũ nguyên dương).</li>
+<li>Hệ số là phần số; phần biến là phần còn lại; bậc là tổng các số mũ của các biến.</li>
+<li>Muốn tìm bậc của một đơn thức, phải <strong>thu gọn</strong> đơn thức đó trước.</li>
+</ul>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-6">2. Đơn thức đồng dạng</h2>
+
+<p><strong>Đơn thức đồng dạng</strong> là hai đơn thức (thu gọn) với hệ số khác $0$ và có cùng phần biến.</p>
+<p><strong>Cộng, trừ các đơn thức đồng dạng:</strong> ta cộng, trừ các hệ số với nhau và giữ nguyên phần biến.</p>
+
+<div class="svg-fig">
+<svg viewBox="0 0 420 252" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Don thuc dong dang">
+<text x="210" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#0f172a">Đơn thức đồng dạng: cùng phần biến x²y</text>
+<rect x="25" y="42" width="100" height="66" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+<text x="75" y="84" text-anchor="middle" font-size="21" font-weight="700" fill="#15803d">3x²y</text>
+<rect x="160" y="42" width="100" height="66" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+<text x="210" y="84" text-anchor="middle" font-size="21" font-weight="700" fill="#15803d">−5x²y</text>
+<rect x="295" y="42" width="100" height="66" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+<text x="345" y="84" text-anchor="middle" font-size="21" font-weight="700" fill="#15803d">x²y</text>
+<text x="210" y="134" text-anchor="middle" font-size="13" fill="#15803d">Ba đơn thức cùng phần biến x²y nên đồng dạng với nhau ✓</text>
+<rect x="160" y="148" width="100" height="66" rx="10" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+<text x="210" y="190" text-anchor="middle" font-size="21" font-weight="700" fill="#b91c1c">2xy²</text>
+<text x="210" y="238" text-anchor="middle" font-size="13" fill="#b91c1c">2xy² có phần biến khác nên không đồng dạng ✗</text>
+</svg>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-bold text-sky-800 mb-2">Ví dụ 3</p>
+<p>Tính $M = 5x^2y - 2x^2y + 7x^2y$.</p>
+<p><strong>Lời giải.</strong> Các đơn thức $5x^2y$, $-2x^2y$, $7x^2y$ đều có phần biến $x^2y$ nên đồng dạng với nhau. Do đó:</p>
+<p class="text-center my-2">$M = (5 - 2 + 7)x^2y = 10x^2y.$</p>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-6">3. Nhân đơn thức và tính giá trị của đơn thức</h2>
+
+<p><strong>Nhân các đơn thức:</strong> ta nhân các hệ số với nhau và nhân các phần biến với nhau, rồi thu gọn kết quả.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-bold text-sky-800 mb-2">Ví dụ 4</p>
+<p>Rút gọn đơn thức $P = (-2x^2y) \cdot 3xy^2$, rồi tính giá trị của $P$ tại $x = 1$, $y = -1$.</p>
+<p><strong>Lời giải.</strong></p>
+<p>$P = (-2x^2y) \cdot 3xy^2 = [(-2) \cdot 3](x^2 \cdot x)(y \cdot y^2) = -6x^3y^3.$</p>
+<p>Thay $x = 1$, $y = -1$ vào $P$:</p>
+<p class="text-center my-2">$P = -6 \cdot 1^3 \cdot (-1)^3 = -6 \cdot 1 \cdot (-1) = 6.$</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-r-lg my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<ul class="list-disc ml-6 mt-1 text-amber-900">
+<li>Hai đơn thức đồng dạng: hệ số khác $0$ và có <strong>cùng phần biến</strong>.</li>
+<li>Cộng (trừ) các đơn thức đồng dạng: cộng (trừ) các hệ số, <strong>giữ nguyên phần biến</strong>.</li>
+<li>Nhân các đơn thức: nhân hệ số với hệ số, nhân phần biến với nhau rồi thu gọn.</li>
+<li>Tính giá trị của đơn thức tại các giá trị cho trước của biến: thay số vào rồi thực hiện phép tính.</li>
+</ul>
+</div>
+
+
+            </div>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
