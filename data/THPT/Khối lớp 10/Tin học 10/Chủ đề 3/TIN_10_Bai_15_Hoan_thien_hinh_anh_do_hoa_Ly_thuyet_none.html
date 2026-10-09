@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 15: Hoàn thiện hình ảnh đồ họa</title>
+    <meta name="lesson-title" content="Bài 15: Hoàn thiện hình ảnh đồ họa">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 15: Hoàn thiện hình ảnh đồ họa</h1>
+            <p class="text-xs text-slate-500 mt-1">Chủ đề 4: Ứng dụng tin học • Bài 15: Hoàn thiện hình ảnh đồ họa</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 15: Hoàn thiện hình ảnh đồ họa</h1>
+<p class="text-center text-slate-500 italic mb-8">Chủ đề 4: Ứng dụng tin học • Bài 15: Hoàn thiện hình ảnh đồ họa</p>
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Màu chuyển sắc (Gradient)</h2>
+
+<p><strong>Gradient</strong> là dải màu chuyển mượt mà từ màu này sang màu khác, giúp sản phẩm sinh động hơn màu phẳng. Công cụ <strong>Gradient (Ctrl+F1 hoặc G)</strong> tạo hai kiểu chuyển sắc:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Linear (tuyến tính):</strong> chuyển màu theo một hướng thẳng (ví dụ từ trái sang phải, từ trên xuống dưới).</li>
+<li><strong>Radial (xuyên tâm):</strong> màu tỏa từ tâm ra ngoài (ví dụ tâm sáng, viền tối).</li>
+</ul>
+
+<div class="svg-fig"><svg viewBox="0 0 440 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hai loại gradient">
+<defs>
+<linearGradient id="lg" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#bae6fd"/><stop offset="1" stop-color="#0369a1"/></linearGradient>
+<radialGradient id="rg" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#fef9c3"/><stop offset="1" stop-color="#b45309"/></radialGradient>
+</defs>
+<rect x="2" y="2" width="436" height="186" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<rect x="30" y="30" width="170" height="90" rx="10" fill="url(#lg)"/>
+<text x="115" y="150" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">Linear: theo hướng thẳng</text>
+<circle cx="325" cy="75" r="45" fill="url(#rg)"/>
+<text x="325" y="150" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">Radial: tỏa từ tâm</text>
+<rect x="30" y="160" width="380" height="22" rx="8" fill="#eff6ff" stroke="#0284c7" stroke-width="1.5"/>
+<text x="220" y="176" font-family="sans-serif" font-size="11" fill="#0369a1" text-anchor="middle">Stop: điểm dừng màu — bấm đúp lên dải gradient để thêm</text>
+</svg></div>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Stop (điểm dừng màu):</strong> xác định màu tại từng vị trí trên dải chuyển sắc. <strong>Bấm đúp</strong> lên dải gradient để thêm stop; chọn stop rồi nhấn Delete để xóa.</li>
+<li>Mỗi stop chỉnh được <strong>màu sắc</strong> và <strong>độ trong suốt (opacity)</strong>: opacity 0 là trong suốt hoàn toàn, 100 là đậm đặc.</li>
+<li>Dùng công cụ Gradient <strong>kéo trực tiếp trên đối tượng</strong> để đổi hướng, vị trí tâm và phạm vi chuyển sắc.</li>
+</ul>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Sao chép thuộc tính và bộ lọc</h2>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">2.1. Sao chép kiểu dáng</h3>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Edit → Copy</strong> đối tượng mẫu, chọn đối tượng đích rồi <strong>Edit → Paste Style (Ctrl+Shift+V)</strong>: dán kiểu (màu tô, viền) sang đối tượng khác — giúp các đối tượng đồng nhất nhanh chóng.</li>
+<li><strong>Dropper (F7):</strong> bấm vào đối tượng bất kì để lấy màu của nó.</li>
+</ul>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">2.2. Bộ lọc (Filters)</h3>
+<p>Menu <strong>Filters</strong> chứa các hiệu ứng: làm <strong>mờ (blur)</strong>, <strong>đổ bóng (Drop Shadow)</strong>, ánh sáng, biến dạng nghệ thuật... Ví dụ: <strong>Filters → Shadows and Glows → Drop Shadow</strong> tạo bóng đổ giúp đối tượng nổi khối, có chiều sâu.</p>
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Lưu ý khi dùng hiệu ứng</p>
+<p class="mt-1">Hiệu ứng nên dùng <strong>có chủ đích, vừa phải</strong>. Lạm dụng quá nhiều bộ lọc làm sản phẩm rối mắt, file nặng và hiển thị chậm.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Làm việc với lớp (Layer)</h2>
+
+<p><strong>Lớp (layer)</strong> như các tờ giấy trong chồng lên nhau: mỗi lớp chứa một nhóm đối tượng, lớp trên che lớp dưới ở chỗ chồng lấp. Bảng <strong>Layers (Ctrl+Shift+L)</strong> dùng để quản lí:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Layer → Add Layer:</strong> thêm lớp mới; <strong>đặt tên</strong> gợi nhớ (nền, tiêu đề, logo...).</li>
+<li><strong>Ẩn/hiện</strong> (biểu tượng con mắt): tạm ẩn lớp để tập trung làm việc với lớp khác.</li>
+<li><strong>Khóa</strong> (biểu tượng ổ khóa): bảo vệ lớp đã hoàn thiện khỏi bị sửa nhầm.</li>
+<li><strong>Kéo thả</strong> để thay đổi thứ tự lớp; cắt (Ctrl+X) rồi chọn lớp đích và dán (Ctrl+V) để chuyển đối tượng sang lớp khác.</li>
+</ul>
+<p><strong>Thói quen tốt:</strong> tổ chức lớp theo thứ tự logic từ dưới lên (nền → nội dung → tiêu đề/logo), đặt tên rõ ràng, khóa lớp đã xong.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Công cụ hỗ trợ căn chỉnh chính xác</h2>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Lưới (grid)</strong> và <strong>đường gióng (guide)</strong>: kéo từ thước ra, giúp căn thẳng hàng, đều nhau.</li>
+<li><strong>Chế độ bắt dính (snap):</strong> tự động hút đối tượng vào lưới, đường gióng hoặc mép đối tượng khác — đặt vị trí nhanh và chính xác.</li>
+<li>Xem bản vẽ ở <strong>100% (phím 1)</strong> để đánh giá đúng kích thước thật trước khi in.</li>
+</ul>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">5. Hoàn thiện và xuất bản sản phẩm</h2>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">5.1. Quy trình thiết kế</h3>
+<p><strong>Lên ý tưởng → phác thảo → vẽ chi tiết → tô màu, hiệu ứng → kiểm tra → xuất bản.</strong> Trước khi xuất bản cần kiểm tra: <strong>chính tả</strong>, căn chỉnh, màu sắc, bố cục tổng thể; chừa <strong>lề an toàn</strong> để khi in cắt xén không mất nội dung.</p>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">5.2. Chọn định dạng xuất phù hợp</h3>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Mục đích</td><td class="border border-slate-300 px-4 py-1">Định dạng</td><td class="border border-slate-300 px-4 py-1">Lưu ý</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Chỉnh sửa về sau</td><td class="border border-slate-300 px-4 py-1">SVG (file gốc)</td><td class="border border-slate-300 px-4 py-1">Luôn giữ lại</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Đăng web, mạng xã hội</td><td class="border border-slate-300 px-4 py-1">PNG, JPEG</td><td class="border border-slate-300 px-4 py-1">DPI 72–96 là đủ</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">In ấn</td><td class="border border-slate-300 px-4 py-1">PDF, PNG</td><td class="border border-slate-300 px-4 py-1">DPI khoảng 300; in thử trước</td></tr>
+</table></div>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">5.3. Tôn trọng bản quyền</h3>
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p>Khi dùng ảnh, font chữ, ý tưởng của người khác trong thiết kế: chỉ dùng tài nguyên <strong>miễn phí hoặc được cho phép</strong> (giấy phép rõ ràng), <strong>ghi nguồn</strong> khi cần. Sao chép tác phẩm của người khác mà không xin phép là <strong>vi phạm bản quyền</strong>. Tác phẩm do chính mình vẽ, chụp thì mình là chủ sở hữu.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<ul class="list-disc ml-6 space-y-1 mt-1">
+<li>Gradient (Ctrl+F1): linear theo hướng thẳng, radial tỏa từ tâm; stop xác định màu từng vị trí.</li>
+<li>Paste Style (Ctrl+Shift+V) sao chép kiểu; Filters tạo hiệu ứng (mờ, bóng đổ) — dùng vừa phải.</li>
+<li>Layer (Ctrl+Shift+L): tổ chức theo lớp, đặt tên, khóa lớp đã xong.</li>
+<li>Hoàn thiện: kiểm tra chính tả, bố cục → xuất đúng định dạng (SVG giữ lại, PNG web, PDF/PNG 300 DPI để in).</li>
+<li>Tôn trọng bản quyền tài nguyên sử dụng trong thiết kế.</li>
+</ul>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Gradient:</strong> chuyển sắc tuyến tính (linear) và xuyên tâm (radial); stop + opacity tạo hiệu ứng phong phú.</li>
+<li><strong>Hiệu ứng:</strong> sao chép kiểu (Paste Style), bộ lọc (blur, drop shadow) — dùng có chừng mực.</li>
+<li><strong>Lớp:</strong> tổ chức bản vẽ phức tạp, đặt tên, khóa, ẩn/hiện lớp.</li>
+<li><strong>Xuất bản:</strong> đúng quy trình, kiểm tra kĩ, chọn định dạng và DPI phù hợp, tôn trọng bản quyền.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+
+        </div>
+    </div>
+</body>
+</html>
