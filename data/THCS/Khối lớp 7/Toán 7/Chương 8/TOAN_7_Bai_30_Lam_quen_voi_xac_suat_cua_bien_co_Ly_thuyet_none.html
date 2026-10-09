@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 30: Làm quen với xác suất của biến cố</title>
+    <meta name="lesson-title" content="Bài 30: Làm quen với xác suất của biến cố">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 30: Làm quen với xác suất của biến cố</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 8: Làm quen với biến cố và xác suất của biến cố • Bài 30: Làm quen với xác suất của biến cố</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<p class="text-slate-600">Ta đã biết phân loại biến cố thành chắc chắn, không thể và ngẫu nhiên. Nhưng với biến cố ngẫu nhiên, "khả năng xảy ra" của các biến cố khác nhau là khác nhau: gieo xúc xắc được mặt 6 chấm khó hơn được mặt chẵn. Bài này giới thiệu <strong>xác suất</strong> — con số đo khả năng xảy ra của một biến cố.</p>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-8 mb-4">1. Xác suất của biến cố ngẫu nhiên</h2>
+<p>Xét một trò chơi (thí nghiệm) mà các kết quả có thể xảy ra là <strong>đồng khả năng</strong> (khả năng xuất hiện như nhau). Với một biến cố $A$, <strong>xác suất</strong> của biến cố $A$, kí hiệu $P(A)$, được tính bởi:</p>
+<p class="text-center font-serif text-lg">$$P(A) = \frac{\text{Số kết quả thuận lợi cho } A}{\text{Tổng số các kết quả có thể xảy ra}}$$</p>
+<div class="bg-sky-50 border border-sky-200 rounded-xl p-4 my-4">
+<p class="font-bold text-sky-800 mb-2">Ví dụ 1</p>
+<p>Gieo một con xúc xắc. Tính xác suất của biến cố $A$: "Xuất hiện mặt 6 chấm".</p>
+<p><em>Giải.</em> Có $6$ kết quả có thể (mặt 1 đến 6 chấm), đồng khả năng; chỉ có $1$ kết quả thuận lợi cho $A$ (mặt 6 chấm). Vậy $P(A) = \frac{1}{6}$.</p>
+<p class="mt-2"><strong>Ví dụ 2.</strong> Tung một đồng xu. Xác suất của biến cố "Xuất hiện mặt sấp" là $\frac{1}{2}$ (1 kết quả thuận lợi trên tổng 2 kết quả đồng khả năng).</p>
+</div>
+<div class="bg-amber-50 border border-amber-300 rounded-xl p-4 my-4">
+<p class="font-bold text-amber-800 mb-2">📌 Ghi nhớ</p>
+<ul class="list-disc pl-5 space-y-1">
+<li>$P(A) = \dfrac{\text{số kết quả thuận lợi}}{\text{tổng số kết quả}}$, áp dụng khi các kết quả <strong>đồng khả năng</strong>.</li>
+<li>$0 \le P(A) \le 1$: xác suất càng gần $1$ thì biến cố càng <strong>dễ</strong> xảy ra; càng gần $0$ thì càng <strong>khó</strong> xảy ra.</li>
+<li>$P(\text{biến cố chắc chắn}) = 1$; $P(\text{biến cố không thể}) = 0$.</li>
+</ul>
+</div>
+
+<div class="svg-fig">
+<svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Vong quay xac suat">
+<text x="200" y="25" text-anchor="middle" font-size="16" font-weight="bold" fill="#0f172a">Vòng quay 8 ô bằng nhau, 3 ô tô màu</text>
+<g transform="translate(200,125)">
+<circle r="85" fill="#f8fafc" stroke="#0f172a" stroke-width="2"/>
+<path d="M0,0 L0,-85 A85,85 0 0 1 60,-60 Z" fill="#38bdf6" stroke="#0f172a"/>
+<path d="M0,0 L60,-60 A85,85 0 0 1 85,0 Z" fill="#f8fafc" stroke="#0f172a"/>
+<path d="M0,0 L85,0 A85,85 0 0 1 60,60 Z" fill="#38bdf6" stroke="#0f172a"/>
+<path d="M0,0 L60,60 A85,85 0 0 1 0,85 Z" fill="#f8fafc" stroke="#0f172a"/>
+<path d="M0,0 L0,85 A85,85 0 0 1 -60,60 Z" fill="#f8fafc" stroke="#0f172a"/>
+<path d="M0,0 L-60,60 A85,85 0 0 1 -85,0 Z" fill="#f8fafc" stroke="#0f172a"/>
+<path d="M0,0 L-85,0 A85,85 0 0 1 -60,-60 Z" fill="#38bdf6" stroke="#0f172a"/>
+<path d="M0,0 L-60,-60 A85,85 0 0 1 0,-85 Z" fill="#f8fafc" stroke="#0f172a"/>
+<circle r="10" fill="#0f172a"/>
+<path d="M0,-95 L-8,-112 L8,-112 Z" fill="#dc2626"/>
+</g>
+<text x="200" y="228" text-anchor="middle" font-size="14" fill="#475569">P(mũi tên dừng ở ô tô màu) = 3/8</text>
+</svg>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-8 mb-4">2. Một số ví dụ tính xác suất</h2>
+<div class="bg-sky-50 border border-sky-200 rounded-xl p-4 my-4">
+<p class="font-bold text-sky-800 mb-2">Ví dụ 3</p>
+<p>Một hộp có $4$ quả bóng: $2$ đỏ, $2$ xanh (các quả bóng giống hệt nhau ngoài màu sắc). Lấy ngẫu nhiên $1$ quả. Tính xác suất của biến cố $B$: "Lấy được bóng màu đỏ".</p>
+<p><em>Giải.</em> Có $4$ kết quả đồng khả năng; $2$ kết quả thuận lợi cho $B$. Vậy $P(B) = \frac{2}{4} = \frac{1}{2}$.</p>
+<p class="mt-2"><strong>Ví dụ 4.</strong> Gieo một con xúc xắc. Tính xác suất của biến cố $C$: "Xuất hiện mặt có số chấm là số chẵn".</p>
+<p><em>Giải.</em> Các mặt chẵn: $2, 4, 6$ — có $3$ kết quả thuận lợi trên tổng $6$ kết quả. Vậy $P(C) = \frac{3}{6} = \frac{1}{2}$.</p>
+</div>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4 my-4">
+<p class="font-bold text-emerald-800 mb-2">Bài tập ví dụ (có lời giải)</p>
+<p><strong>Bài 1.</strong> Rút ngẫu nhiên $1$ quân bài từ bộ bài $52$ quân. Tính xác suất rút được quân Át.</p>
+<p><em>Lời giải.</em> Có $52$ kết quả đồng khả năng; $4$ quân Át là kết quả thuận lợi. $P = \frac{4}{52} = \frac{1}{13}$.</p>
+<p class="mt-3"><strong>Bài 2.</strong> Gieo một con xúc xắc. Trong hai biến cố $A$: "Xuất hiện mặt 1 chấm" và $B$: "Xuất hiện mặt có số chấm lớn hơn 4", biến cố nào dễ xảy ra hơn? Vì sao?</p>
+<p><em>Lời giải.</em> $P(A) = \frac{1}{6}$; $B$ có $2$ kết quả thuận lợi (mặt 5, 6) nên $P(B) = \frac{2}{6} = \frac{1}{3} > P(A)$. Vậy $B$ dễ xảy ra hơn $A$.</p>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-8 mb-4">Tóm tắt bài học</h2>
+<div class="table-scroll">
+<table class="w-full text-sm border-collapse">
+<thead><tr class="bg-sky-100"><th class="border border-sky-200 px-3 py-2 text-left">Nội dung</th><th class="border border-sky-200 px-3 py-2 text-left">Kiến thức trọng tâm</th><th class="border border-sky-200 px-3 py-2 text-left">Ví dụ</th></tr></thead>
+<tbody>
+<tr><td class="border border-slate-200 px-3 py-2 font-semibold">Xác suất</td><td class="border border-slate-200 px-3 py-2">$P(A) = \dfrac{\text{số kết quả thuận lợi}}{\text{tổng số kết quả}}$ (các kết quả đồng khả năng)</td><td class="border border-slate-200 px-3 py-2">Gieo xúc xắc được mặt 6 chấm: $\frac{1}{6}$</td></tr>
+<tr class="bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-semibold">Phạm vi</td><td class="border border-slate-200 px-3 py-2">$0 \le P(A) \le 1$; gần $1$: dễ xảy ra; gần $0$: khó xảy ra</td><td class="border border-slate-200 px-3 py-2">Tung đồng xu được mặt sấp: $\frac{1}{2}$</td></tr>
+<tr><td class="border border-slate-200 px-3 py-2 font-semibold">Hai mốc đặc biệt</td><td class="border border-slate-200 px-3 py-2">$P(\text{chắc chắn}) = 1$; $P(\text{không thể}) = 0$</td><td class="border border-slate-200 px-3 py-2">Xúc xắc ra mặt 7 chấm: $0$</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
