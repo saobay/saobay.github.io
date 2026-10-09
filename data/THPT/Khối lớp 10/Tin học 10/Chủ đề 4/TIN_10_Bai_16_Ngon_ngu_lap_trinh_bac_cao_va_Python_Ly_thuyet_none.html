@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 16: Ngôn ngữ lập trình bậc cao và Python</title>
+    <meta name="lesson-title" content="Bài 16: Ngôn ngữ lập trình bậc cao và Python">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 16: Ngôn ngữ lập trình bậc cao và Python</h1>
+            <p class="text-xs text-slate-500 mt-1">Chủ đề 5: Giải quyết vấn đề với sự trợ giúp của máy tính • Bài 16: Ngôn ngữ lập trình bậc cao và Python</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 16: Ngôn ngữ lập trình bậc cao và Python</h1>
+<p class="text-center text-slate-500 italic mb-8">Chủ đề 5: Giải quyết vấn đề với sự trợ giúp của máy tính</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Ngôn ngữ lập trình bậc cao</h2>
+<p><strong>Ngôn ngữ lập trình bậc cao</strong> là ngôn ngữ gần với ngôn ngữ tự nhiên của con người, giúp lập trình viên dễ đọc, dễ viết và dễ hiểu. Ví dụ: <strong>Python, C++, Java, Pascal</strong>.</p>
+<p>Ngược lại, <strong>ngôn ngữ máy</strong> chỉ gồm các dãy số 0 và 1 mà bộ xử lí hiểu trực tiếp, nhưng con người rất khó đọc.</p>
+<p>Chương trình viết bằng ngôn ngữ bậc cao gọi là <strong>chương trình nguồn</strong>. Muốn máy thực hiện được, phải dùng <strong>chương trình dịch</strong> để chuyển thành ngôn ngữ máy.</p>
+<div class="svg-fig"><svg viewBox="0 0 430 150" xmlns="http://www.w3.org/2000/svg">
+<rect x="10" y="55" width="120" height="44" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+<text x="70" y="73" text-anchor="middle" font-size="13" font-weight="bold" fill="#0c4a6e">Chương trình</text>
+<text x="70" y="90" text-anchor="middle" font-size="13" font-weight="bold" fill="#0c4a6e">nguồn</text>
+<polygon points="130,77 170,77 170,70 185,77 170,84 170,77" fill="#0284c7"/>
+<rect x="185" y="55" width="120" height="44" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+<text x="245" y="73" text-anchor="middle" font-size="13" font-weight="bold" fill="#92400e">Chương trình</text>
+<text x="245" y="90" text-anchor="middle" font-size="13" font-weight="bold" fill="#92400e">dịch</text>
+<polygon points="305,77 345,77 345,70 360,77 345,84 345,77" fill="#0284c7"/>
+<rect x="360" y="55" width="60" height="44" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+<text x="390" y="73" text-anchor="middle" font-size="12" font-weight="bold" fill="#14532d">Ngôn</text>
+<text x="390" y="90" text-anchor="middle" font-size="12" font-weight="bold" fill="#14532d">ngữ máy</text>
+<text x="215" y="30" text-anchor="middle" font-size="13" fill="#475569">Quá trình dịch chương trình</text>
+<text x="215" y="130" text-anchor="middle" font-size="12" fill="#64748b">Ví dụ: Python, C++ &#8594; dịch &#8594; 0 và 1</text>
+</svg></div>
+<p>Có hai cách dịch chính:</p>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Cách dịch</td><td class="border border-slate-300 px-4 py-1">Đặc điểm</td><td class="border border-slate-300 px-4 py-1">Ví dụ</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Biên dịch</td><td class="border border-slate-300 px-4 py-1">Dịch toàn bộ chương trình trước, rồi mới chạy</td><td class="border border-slate-300 px-4 py-1">C++, Pascal</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Thông dịch</td><td class="border border-slate-300 px-4 py-1">Dịch và chạy từng lệnh một</td><td class="border border-slate-300 px-4 py-1">Python</td></tr>
+</table></div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Ngôn ngữ lập trình Python</h2>
+<p><strong>Python</strong> do <strong>Guido van Rossum</strong> tạo ra, là ngôn ngữ bậc cao kiểu <strong>thông dịch</strong>, có cú pháp đơn giản, gần với ngôn ngữ tự nhiên nên rất phù hợp cho người mới học lập trình.</p>
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Đặc điểm nổi bật của Python:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>Cú pháp đơn giản, dễ đọc, dễ học.</li>
+<li>Dùng <strong>thụt đầu dòng</strong> để phân định khối lệnh (không dùng ngoặc nhọn).</li>
+<li>Không cần khai báo kiểu dữ liệu của biến trước khi dùng.</li>
+<li>Có hai chế độ làm việc: <strong>gõ lệnh trực tiếp</strong> (dấu nhắc <code>...</code> ba dấu lớn hơn) và <strong>soạn thảo</strong> (viết chương trình vào tệp rồi chạy).</li>
+</ul>
+</div>
+<p>Ví dụ chương trình Python đầu tiên:</p>
+<pre class="bg-slate-900 text-green-300 rounded-lg p-4 my-4 overflow-x-auto text-sm"><code>print("Xin chào các bạn!")</code></pre>
+<p>Khi chạy, màn hình in ra: <code>Xin chào các bạn!</code></p>
+<div class="bg-amber-50 border border-amber-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-amber-800 mb-1">Ghi nhớ:</p>
+<p class="text-sm">Muốn chạy chương trình Python, máy tính phải được cài đặt <strong>trình thông dịch Python</strong>. Tệp mã nguồn Python thường có phần mở rộng là <strong>.py</strong>.</p>
+</div>
+
+</div>
+        </div>
+    </div>
+</body>
+</html>
