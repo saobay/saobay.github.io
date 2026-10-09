@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 24: Bảng tần số, tần số tương đối ghép nhóm và biểu đồ</title>
+    <meta name="lesson-title" content="Bài 24: Bảng tần số, tần số tương đối ghép nhóm và biểu đồ">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 24: Bảng tần số, tần số tương đối ghép nhóm và biểu đồ</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 7: Tần số và tần số tương đối • Bài 24: Bảng tần số, tần số tương đối ghép nhóm và biểu đồ</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 24: Bảng tần số, tần số tương đối ghép nhóm và biểu đồ</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 7: Tần số và tần số tương đối (Kết nối tri thức với cuộc sống)</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Bảng tần số ghép nhóm</h2>
+<p>Khi mẫu số liệu có nhiều giá trị khác nhau (đặc biệt là số liệu liên tục như chiều cao, cân nặng, thời gian...), ta <strong>ghép</strong> các giá trị gần nhau thành từng <strong>nhóm</strong> có dạng $[a; b)$ (gồm các số liệu lớn hơn hoặc bằng $a$ và nhỏ hơn $b$).</p>
+<ul class="list-disc pl-6 my-2">
+<li><strong>Tần số của một nhóm</strong> là số số liệu thuộc nhóm đó;</li>
+<li><strong>Bảng tần số ghép nhóm</strong> liệt kê các nhóm và tần số của mỗi nhóm;</li>
+<li><strong>Giá trị đại diện</strong> của nhóm $[a; b)$ là trung bình cộng của hai đầu mút: $c = \frac{a+b}{2}$.</li>
+</ul>
+<div class="bg-amber-50 border-l-4 border-amber-400 p-3 my-3 rounded-r-lg">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p>Tổng tần số các nhóm vẫn bằng <strong>cỡ mẫu</strong> $n$. Giá trị đại diện $c = \frac{a+b}{2}$ dùng để "đại diện" cho cả nhóm khi tính toán.</p>
+</div>
+<p class="font-bold">Ví dụ 1 (có lời giải):</p>
+<p>Chiều cao (cm) của 40 học sinh được ghép thành 5 nhóm: $[150;155)$ có 4 bạn, $[155;160)$ có 10 bạn, $[160;165)$ có 14 bạn, $[165;170)$ có 8 bạn, $[170;175)$ có 4 bạn. Tìm giá trị đại diện của nhóm $[160;165)$ và kiểm tra cỡ mẫu.</p>
+<p><strong>Lời giải:</strong> Giá trị đại diện của nhóm $[160;165)$ là $c = \frac{160+165}{2} = 162{,}5$ (cm). Tổng tần số: $4+10+14+8+4 = 40 = n$ ✔</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Bảng tần số tương đối ghép nhóm</h2>
+<p>Tương tự Bài 23, <strong>tần số tương đối của một nhóm</strong> được tính bằng công thức:</p>
+<p>$$f = \frac{m}{n} \times 100\%,$$</p>
+<p>trong đó $m$ là tần số của nhóm, $n$ là cỡ mẫu. <strong>Bảng tần số tương đối ghép nhóm</strong> liệt kê các nhóm và tần số tương đối của mỗi nhóm; tổng các tần số tương đối bằng $100\%$.</p>
+<p class="font-bold">Ví dụ 2 (có lời giải):</p>
+<p>Với mẫu số liệu chiều cao ở Ví dụ 1 ($n = 40$), tính tần số tương đối của nhóm $[155;160)$.</p>
+<p><strong>Lời giải:</strong> Nhóm $[155;160)$ có tần số $m = 10$ nên tần số tương đối là $\frac{10}{40}\times 100\% = 25\%$.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Biểu đồ tần số tương đối ghép nhóm dạng cột</h2>
+<p>Để biểu diễn bảng tần số (tương đối) ghép nhóm, ta vẽ <strong>biểu đồ dạng cột</strong>: trục ngang là các <strong>nhóm</strong>, trục đứng là <strong>tần số</strong> (hoặc <strong>tần số tương đối</strong>), mỗi nhóm được vẽ một cột có chiều cao tương ứng.</p>
+<div class="svg-fig">
+<svg viewBox="0 0 420 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bieu do tan so tuong doi ghep nhom">
+<text x="210" y="18" text-anchor="middle" font-size="14" font-weight="bold" fill="#0c4a6e">Tần số tương đối chiều cao HS (%, n = 40)</text>
+<line x1="48" y1="20" x2="48" y2="225" stroke="#334155" stroke-width="2"/>
+<line x1="48" y1="225" x2="410" y2="225" stroke="#334155" stroke-width="2"/>
+<text x="32" y="228" font-size="11" fill="#475569">0</text>
+<text x="24" y="178" font-size="11" fill="#475569">10%</text>
+<text x="24" y="128" font-size="11" fill="#475569">20%</text>
+<text x="24" y="78" font-size="11" fill="#475569">30%</text>
+<text x="24" y="28" font-size="11" fill="#475569">40%</text>
+<text x="12" y="125" font-size="11" fill="#475569" transform="rotate(-90 12 125)">Tỉ lệ (%)</text>
+<rect x="62" y="175" width="52" height="50" fill="#34d399" stroke="#059669"/>
+<rect x="130" y="100" width="52" height="125" fill="#34d399" stroke="#059669"/>
+<rect x="198" y="50" width="52" height="175" fill="#34d399" stroke="#059669"/>
+<rect x="266" y="125" width="52" height="100" fill="#34d399" stroke="#059669"/>
+<rect x="334" y="175" width="52" height="50" fill="#34d399" stroke="#059669"/>
+<text x="88" y="169" text-anchor="middle" font-size="11" font-weight="bold" fill="#064e3b">10%</text>
+<text x="156" y="94" text-anchor="middle" font-size="11" font-weight="bold" fill="#064e3b">25%</text>
+<text x="224" y="44" text-anchor="middle" font-size="11" font-weight="bold" fill="#064e3b">35%</text>
+<text x="292" y="119" text-anchor="middle" font-size="11" font-weight="bold" fill="#064e3b">20%</text>
+<text x="360" y="169" text-anchor="middle" font-size="11" font-weight="bold" fill="#064e3b">10%</text>
+<text x="88" y="242" text-anchor="middle" font-size="10" fill="#334155">[150;155)</text>
+<text x="156" y="242" text-anchor="middle" font-size="10" fill="#334155">[155;160)</text>
+<text x="224" y="242" text-anchor="middle" font-size="10" fill="#334155">[160;165)</text>
+<text x="292" y="242" text-anchor="middle" font-size="10" fill="#334155">[165;170)</text>
+<text x="360" y="242" text-anchor="middle" font-size="10" fill="#334155">[170;175)</text>
+<text x="229" y="264" text-anchor="middle" font-size="12" fill="#475569">Chiều cao (cm)</text>
+</svg>
+</div>
+<div class="bg-amber-50 border-l-4 border-amber-400 p-3 my-3 rounded-r-lg">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p>Đọc biểu đồ ghép nhóm: mỗi cột ứng với một <strong>khoảng</strong> giá trị, không phải một giá trị đơn lẻ. Cột cao nhất cho biết nhóm có nhiều số liệu nhất.</p>
+</div>
+<p class="font-bold">Ví dụ 3 (có lời giải):</p>
+<p>Dựa vào biểu đồ trên, có bao nhiêu học sinh có chiều cao từ 160 cm trở lên?</p>
+<p><strong>Lời giải:</strong> Các nhóm từ 160 cm trở lên là $[160;165)$, $[165;170)$, $[170;175)$ với tần số tương đối $35\%, 20\%, 10\%$. Số học sinh: $\frac{35+20+10}{100}\times 40 = 26$ bạn.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="table-scroll"><table class="w-full border-collapse text-sm">
+<tr><th class="border border-slate-300 px-4 py-1 bg-sky-50">Nội dung</th><th class="border border-slate-300 px-4 py-1 bg-sky-50">Công thức</th><th class="border border-slate-300 px-4 py-1 bg-sky-50">Ví dụ</th></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Nhóm $[a; b)$</td><td class="border border-slate-300 px-4 py-1">Gồm các số liệu $\ge a$ và nhỏ hơn $b$</td><td class="border border-slate-300 px-4 py-1">$[160;165)$: từ 160 cm đến dưới 165 cm</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Giá trị đại diện của nhóm</td><td class="border border-slate-300 px-4 py-1">$c = \frac{a+b}{2}$</td><td class="border border-slate-300 px-4 py-1">$c = \frac{160+165}{2} = 162{,}5$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Tần số tương đối của nhóm</td><td class="border border-slate-300 px-4 py-1">$f = \frac{m}{n}\times 100\%$</td><td class="border border-slate-300 px-4 py-1">$\frac{10}{40}\times 100\% = 25\%$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Biểu đồ ghép nhóm dạng cột</td><td class="border border-slate-300 px-4 py-1">Trục ngang: các nhóm; trục đứng: tần số / tần số tương đối</td><td class="border border-slate-300 px-4 py-1">Nhóm $[160;165)$ có cột cao nhất (35%)</td></tr>
+</table></div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
