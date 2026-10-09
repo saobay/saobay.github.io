@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 20: Phân tích số liệu thống kê dựa vào biểu đồ</title>
+    <meta name="lesson-title" content="Bài 20: Phân tích số liệu thống kê dựa vào biểu đồ">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 20: Phân tích số liệu thống kê dựa vào biểu đồ</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 5: Dữ liệu và biểu đồ • Bài 20: Phân tích số liệu thống kê dựa vào biểu đồ</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<p>Sau khi biểu diễn dữ liệu bằng bảng, biểu đồ, ta cần <strong>phân tích số liệu</strong> để rút ra những nhận xét, kết luận có ý nghĩa. Bài học này hướng dẫn cách đọc và phân tích biểu đồ một cách khoa học.</p>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-6">1. Đọc biểu đồ</h2>
+<p>Khi đọc biểu đồ, cần xác định:</p>
+<ul class="list-disc pl-6 space-y-1">
+<li><strong>Đối tượng</strong> được biểu diễn (trục ngang thường ghi các đối tượng/thời điểm).</li>
+<li><strong>Số liệu</strong> tương ứng với mỗi đối tượng (trục dọc ghi số liệu, đơn vị).</li>
+<li><strong>Chú thích</strong> (nếu có): mỗi hình/kí hiệu ứng với bao nhiêu đơn vị.</li>
+</ul>
+
+<div class="bg-sky-50 border border-sky-200 rounded-xl p-4 mt-3">
+<p class="font-bold text-sky-800">📌 Ví dụ 1</p>
+<p>Biểu đồ đoạn thẳng dưới đây biểu diễn doanh thu (tỉ đồng) của một cửa hàng qua 6 tháng đầu năm:</p>
+</div>
+<div class="svg-fig">
+<svg viewBox="0 0 420 260" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,sans-serif">
+<text x="210" y="18" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Doanh thu 6 tháng đầu năm (tỉ đồng)</text>
+<line x1="55" y1="215" x2="405" y2="215" stroke="#334155" stroke-width="2"/>
+<line x1="55" y1="215" x2="55" y2="30" stroke="#334155" stroke-width="2"/>
+<line x1="55" y1="168" x2="405" y2="168" stroke="#e2e8f0"/><text x="48" y="172" font-size="10" text-anchor="end" fill="#64748b">20</text>
+<line x1="55" y1="136" x2="405" y2="136" stroke="#e2e8f0"/><text x="48" y="140" font-size="10" text-anchor="end" fill="#64748b">25</text>
+<line x1="55" y1="104" x2="405" y2="104" stroke="#e2e8f0"/><text x="48" y="108" font-size="10" text-anchor="end" fill="#64748b">30</text>
+<line x1="55" y1="72" x2="405" y2="72" stroke="#e2e8f0"/><text x="48" y="76" font-size="10" text-anchor="end" fill="#64748b">35</text>
+<polyline points="65,168 129,136 193,155 257,104 321,117 385,72" fill="none" stroke="#0ea5e9" stroke-width="3"/>
+<circle cx="65" cy="168" r="5" fill="#0ea5e9"/><text x="65" y="190" text-anchor="middle" font-size="11" fill="#0f172a">T1</text>
+<circle cx="129" cy="136" r="5" fill="#0ea5e9"/><text x="129" y="190" text-anchor="middle" font-size="11" fill="#0f172a">T2</text>
+<circle cx="193" cy="155" r="5" fill="#0ea5e9"/><text x="193" y="190" text-anchor="middle" font-size="11" fill="#0f172a">T3</text>
+<circle cx="257" cy="104" r="5" fill="#0ea5e9"/><text x="257" y="190" text-anchor="middle" font-size="11" fill="#0f172a">T4</text>
+<circle cx="321" cy="117" r="5" fill="#0ea5e9"/><text x="321" y="190" text-anchor="middle" font-size="11" fill="#0f172a">T5</text>
+<circle cx="385" cy="72" r="5" fill="#0ea5e9"/><text x="385" y="190" text-anchor="middle" font-size="11" fill="#0f172a">T6</text>
+<text x="65" y="160" text-anchor="middle" font-size="10" fill="#0369a1">20</text>
+<text x="385" y="64" text-anchor="middle" font-size="10" fill="#0369a1">35</text>
+</svg>
+</div>
+<p>Đọc biểu đồ ta biết: tháng 1 doanh thu 20 tỉ đồng, tháng 2 là 25 tỉ đồng, tháng 3 là 22 tỉ đồng, tháng 4 là 30 tỉ đồng, tháng 5 là 28 tỉ đồng, tháng 6 là 35 tỉ đồng.</p>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-6">2. So sánh và nhận xét xu hướng</h2>
+<p>Từ biểu đồ, ta có thể:</p>
+<ul class="list-disc pl-6 space-y-1">
+<li><strong>So sánh</strong> các đối tượng: đối tượng nào lớn nhất/nhỏ nhất, chênh lệch bao nhiêu.</li>
+<li><strong>Nhận xét xu hướng</strong> thay đổi theo thời gian: tăng, giảm hay ổn định; tăng/giảm đều hay không đều.</li>
+</ul>
+<div class="bg-sky-50 border border-sky-200 rounded-xl p-4 mt-3">
+<p class="font-bold text-sky-800">📌 Ví dụ 2</p>
+<p>Từ biểu đồ trên: doanh thu <strong>cao nhất</strong> ở tháng 6 (35 tỉ đồng), <strong>thấp nhất</strong> ở tháng 1 (20 tỉ đồng). Nhìn chung doanh thu có xu hướng <strong>tăng</strong> nhưng <strong>không đều</strong> (tháng 3 và tháng 5 giảm so với tháng trước đó).</p>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-6">3. Phát hiện và dự đoán</h2>
+<ul class="list-disc pl-6 space-y-1">
+<li><strong>Phát hiện dữ liệu bất thường:</strong> điểm tăng/giảm đột biến cần được chú ý, tìm hiểu nguyên nhân.</li>
+<li><strong>Dự đoán:</strong> dựa vào xu hướng để dự đoán giá trị trong tương lai (chỉ mang tính tham khảo).</li>
+<li><strong>Tính toán:</strong> có thể tính tổng, trung bình, tỉ lệ % từ số liệu trên biểu đồ.</li>
+</ul>
+
+<div class="bg-sky-50 border border-sky-200 rounded-xl p-4 mt-3">
+<p class="font-bold text-sky-800">📌 Ví dụ 3</p>
+<p>Tổng doanh thu 6 tháng là $20+25+22+30+28+35=160$ (tỉ đồng), trung bình mỗi tháng là $160:6 \approx 26{,}7$ (tỉ đồng). Tháng 4 tăng mạnh từ 22 lên 30 tỉ đồng — cửa hàng nên tìm hiểu nguyên nhân để phát huy.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 rounded-r-xl p-4 mt-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<ul class="list-disc pl-6 space-y-1">
+<li><strong>Đọc biểu đồ:</strong> xác định đối tượng, số liệu, đơn vị và chú thích.</li>
+<li><strong>So sánh:</strong> tìm giá trị lớn nhất/nhỏ nhất và chênh lệch giữa các đối tượng.</li>
+<li><strong>Xu hướng:</strong> tăng/giảm/ổn định; đều hay không đều theo thời gian.</li>
+<li><strong>Phân tích sâu:</strong> phát hiện điểm bất thường, tính tổng/trung bình/tỉ lệ %, dự đoán xu hướng.</li>
+</ul>
+</div>
+
+
+            </div>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
