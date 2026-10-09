@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài tập Bài 33: Quan hệ giữa ba cạnh của một tam giác</title>
+    <meta name="lesson-title" content="Bài tập Bài 33: Quan hệ giữa ba cạnh của một tam giác">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Bài tập</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài tập Bài 33: Quan hệ giữa ba cạnh của một tam giác</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 9: Quan hệ giữa các yếu tố trong một tam giác • Bài 33: Quan hệ giữa ba cạnh của một tam giác</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="saobay-exam10">
+<script type="application/json" class="saobay-exam10-data">
+{
+ "sets": [
+  {
+   "name": "Đề 1",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong một tam giác, tổng độ dài hai cạnh bất kì so với độ dài cạnh còn lại thì như thế nào?",
+     "options": [
+      "A. Luôn lớn hơn",
+      "B. Luôn nhỏ hơn",
+      "C. Luôn bằng",
+      "D. Không so sánh được"
+     ],
+     "answer": "A",
+     "explain": "Định lí (bất đẳng thức tam giác): trong một tam giác, tổng độ dài hai cạnh bất kì bao giờ cũng lớn hơn độ dài cạnh còn lại."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Bộ ba độ dài nào sau đây có thể là độ dài ba cạnh của một tam giác?",
+     "options": [
+      "A. $2\text{ cm}, 3\text{ cm}, 4\text{ cm}$",
+      "B. $2\text{ cm}, 3\text{ cm}, 5\text{ cm}$",
+      "C. $2\text{ cm}, 3\text{ cm}, 6\text{ cm}$",
+      "D. $1\text{ cm}, 2\text{ cm}, 3\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "Chỉ có $2+3 > 4$; các bộ còn lại có tổng hai số nhỏ không lớn hơn số lớn nhất."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Cho tam giác $ABC$ có $AB = 7\\text{ cm}$, $AC = 4\\text{ cm}$. Cạnh $BC$ thỏa mãn điều kiện nào sau đây?",
+     "options": [
+      "A. $3\text{ cm} < BC < 11\text{ cm}$",
+      "B. $BC > 11\text{ cm}$",
+      "C. $BC < 3\text{ cm}$",
+      "D. $BC = 7\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "$|AB-AC| < BC < AB+AC$, tức $3\\text{ cm} < BC < 11\\text{ cm}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Ba đoạn thẳng có độ dài $5\\text{ cm}$, $12\\text{ cm}$, $13\\text{ cm}$ có thể là ba cạnh của một tam giác không?",
+     "options": [
+      "A. Có, vì $5+12 > 13$",
+      "B. Không, vì $5+12 < 13$",
+      "C. Không, vì $5+13 < 12$",
+      "D. Không xác định được"
+     ],
+     "answer": "A",
+     "explain": "$5+12 = 17 > 13$, $5+13 > 12$, $12+13 > 5$ nên ba đoạn tạo thành tam giác (vuông)."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Một tam giác cân có độ dài hai cạnh là $3\\text{ cm}$ và $7\\text{ cm}$. Độ dài cạnh còn lại là bao nhiêu?",
+     "options": [
+      "A. $3\text{ cm}$",
+      "B. $7\text{ cm}$",
+      "C. $3\text{ cm}$ hoặc $7\text{ cm}$",
+      "D. Không xác định được"
+     ],
+     "answer": "B",
+     "explain": "Cạnh còn lại là $3$ hoặc $7$; nếu bằng $3$ thì $3+3 < 7$ (loại). Vậy cạnh còn lại bằng $7\\text{ cm}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Tam giác $ABC$ có $AB = 5\\text{ cm}$, $AC = 9\\text{ cm}$. Biết $BC$ là số nguyên tố. Có bao nhiêu giá trị của $BC$ thỏa mãn?",
+     "options": [
+      "A. $3$",
+      "B. $5$",
+      "C. $4$",
+      "D. $6$"
+     ],
+     "answer": "C",
+     "explain": "$|9-5| < BC < 9+5$, tức $4 < BC < 14$. Các số nguyên tố trong khoảng: $5, 7, 11, 13$ — có $4$ giá trị."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Ba đoạn thẳng $3\text{ cm}, 4\text{ cm}, 5\text{ cm}$ tạo thành một tam giác.",
+      "b) Ba đoạn thẳng $2\text{ cm}, 4\text{ cm}, 7\text{ cm}$ tạo thành một tam giác.",
+      "c) Trong một tam giác, hiệu độ dài hai cạnh bất kì luôn nhỏ hơn độ dài cạnh còn lại.",
+      "d) Ba đoạn thẳng $5\text{ cm}, 5\text{ cm}, 10\text{ cm}$ tạo thành một tam giác."
+     ],
+     "answer": [
+      "T",
+      "F",
+      "T",
+      "F"
+     ],
+     "explain": "a) đúng ($3+4>5$); b) sai ($2+4<7$); c) đúng (hệ quả); d) sai ($5+5=10$)."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho tam giác $ABC$ có $AB = 6\\text{ cm}$, $AC = 10\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $4\text{ cm} < BC < 16\text{ cm}$.",
+      "b) $BC$ có thể bằng $4\text{ cm}$.",
+      "c) $BC$ có thể bằng $16\text{ cm}$.",
+      "d) $BC$ có thể bằng $12\text{ cm}$."
+     ],
+     "answer": [
+      "T",
+      "F",
+      "F",
+      "T"
+     ],
+     "explain": "$|10-6| < BC < 10+6$ nên $4 < BC < 16$; $BC$ không thể bằng $4$ hay $16$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tam giác $ABC$ có $AB = 8\\text{ cm}$, $AC = 5\\text{ cm}$. Tìm độ dài lớn nhất có thể của cạnh $BC$, biết $BC$ là số nguyên (đơn vị: cm).",
+     "answer": "12",
+     "explain": "$|8-5| < BC < 8+5$, tức $3 < BC < 13$; $BC$ nguyên lớn nhất là $12\\text{ (cm)}$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Ba đoạn thẳng có độ dài $4\\text{ cm}$, $9\\text{ cm}$ và $x\\text{ cm}$ tạo thành một tam giác. Tìm giá trị nguyên nhỏ nhất của $x$ (đơn vị: cm).",
+     "answer": "6",
+     "explain": "$|9-4| < x < 9+4$, tức $5 < x < 13$; $x$ nguyên nhỏ nhất là $6$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 2",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Hệ quả của bất đẳng thức tam giác phát biểu rằng: trong một tam giác, hiệu độ dài hai cạnh bất kì thì như thế nào so với độ dài cạnh còn lại?",
+     "options": [
+      "A. Luôn nhỏ hơn",
+      "B. Luôn lớn hơn",
+      "C. Luôn bằng",
+      "D. Không so sánh được"
+     ],
+     "answer": "A",
+     "explain": "Hệ quả: trong một tam giác, hiệu độ dài hai cạnh bất kì bao giờ cũng nhỏ hơn độ dài cạnh còn lại."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Bộ ba độ dài nào sau đây KHÔNG thể là độ dài ba cạnh của một tam giác?",
+     "options": [
+      "A. $4\text{ cm}, 5\text{ cm}, 6\text{ cm}$",
+      "B. $3\text{ cm}, 5\text{ cm}, 9\text{ cm}$",
+      "C. $6\text{ cm}, 8\text{ cm}, 10\text{ cm}$",
+      "D. $7\text{ cm}, 7\text{ cm}, 7\text{ cm}$"
+     ],
+     "answer": "B",
+     "explain": "$3+5 = 8 < 9$ nên bộ ba $3, 5, 9$ không tạo thành tam giác; các bộ còn lại đều thỏa."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $MNP$ có $MN = 3\\text{ cm}$, $MP = 8\\text{ cm}$. Cạnh $NP$ thỏa mãn điều kiện nào?",
+     "options": [
+      "A. $5\text{ cm} < NP < 11\text{ cm}$",
+      "B. $NP > 11\text{ cm}$",
+      "C. $NP < 5\text{ cm}$",
+      "D. $NP = 8\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "$|8-3| < NP < 8+3$, tức $5\\text{ cm} < NP < 11\\text{ cm}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Cho tam giác $ABC$ có $AB + AC > BC$, $AB + BC > AC$, $AC + BC > AB$. Đây chính là nội dung của định lí nào?",
+     "options": [
+      "A. Bất đẳng thức tam giác",
+      "B. Định lí Pythagore",
+      "C. Quan hệ giữa góc và cạnh đối diện",
+      "D. Tính chất đường trung tuyến"
+     ],
+     "answer": "A",
+     "explain": "Đó chính là bất đẳng thức tam giác."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tam giác cân $ABC$ cân tại $A$ có $AB = 9\\text{ cm}$, $BC = 4\\text{ cm}$. Tính chu vi của tam giác.",
+     "options": [
+      "A. $17\text{ cm}$",
+      "B. $13\text{ cm}$",
+      "C. $22\text{ cm}$",
+      "D. Không xác định được"
+     ],
+     "answer": "C",
+     "explain": "$AC = AB = 9\\text{ (cm)}$ ($9+9>4$, $9+4>9$ thỏa mãn). Chu vi $= 9+9+4 = 22\\text{ (cm)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Có bao nhiêu tam giác có độ dài ba cạnh là các số nguyên với hai cạnh đã biết là $5\\text{ cm}$ và $9\\text{ cm}$?",
+     "options": [
+      "A. $8$",
+      "B. $9$",
+      "C. $10$",
+      "D. $11$"
+     ],
+     "answer": "B",
+     "explain": "Gọi cạnh thứ ba là $x$: $|9-5| < x < 9+5$, tức $4 < x < 14$. $x$ nguyên: $5,6,\\dots,13$ — có $9$ giá trị."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Xét tính đúng sai của các khẳng định sau về các bộ ba độ dài (đơn vị cm).",
+     "statements": [
+      "a) Bộ $(2, 3, 4)$ tạo thành một tam giác.",
+      "b) Bộ $(1, 5, 6)$ tạo thành một tam giác.",
+      "c) Bộ $(4, 4, 9)$ tạo thành một tam giác.",
+      "d) Trong ba bộ trên, chỉ có $(2, 3, 4)$ tạo thành tam giác."
+     ],
+     "answer": [
+      "T",
+      "F",
+      "F",
+      "T"
+     ],
+     "explain": "a) đúng ($2+3>4$); b) sai ($1+5=6$); c) sai ($4+4<9$); d) đúng."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho tam giác $DEF$ có $DE = 5\\text{ cm}$, $DF = 12\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $7\text{ cm} < EF < 17\text{ cm}$.",
+      "b) $EF$ có thể bằng $7\text{ cm}$.",
+      "c) $EF$ có thể bằng $17\text{ cm}$.",
+      "d) $EF$ có thể bằng $10\text{ cm}$."
+     ],
+     "answer": [
+      "T",
+      "F",
+      "F",
+      "T"
+     ],
+     "explain": "$|12-5| < EF < 12+5$ nên $7 < EF < 17$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Tam giác $ABC$ có chu vi $20\\text{ cm}$, $AB = 7\\text{ cm}$, $AC = 8\\text{ cm}$. Tính độ dài cạnh $BC$ (đơn vị: cm).",
+     "answer": "5",
+     "explain": "$BC = 20-7-8 = 5\\text{ (cm)}$ (thỏa $7+5>8$)."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tìm số nguyên $x$ lớn nhất sao cho ba đoạn thẳng $6\\text{ cm}$, $10\\text{ cm}$, $x\\text{ cm}$ tạo thành một tam giác.",
+     "answer": "15",
+     "explain": "$|10-6| < x < 10+6$, tức $4 < x < 16$; $x$ nguyên lớn nhất là $15$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 3",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong tam giác $ABC$, bất đẳng thức nào sau đây luôn đúng?",
+     "options": [
+      "A. $AB + AC > BC$",
+      "B. $AB + AC < BC$",
+      "C. $AB = AC + BC$",
+      "D. $AB - AC > BC$"
+     ],
+     "answer": "A",
+     "explain": "Theo bất đẳng thức tam giác: $AB + AC > BC$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Ba đoạn thẳng có độ dài $6\\text{ cm}$, $8\\text{ cm}$, $10\\text{ cm}$ có tạo thành một tam giác không?",
+     "options": [
+      "A. Có",
+      "B. Không",
+      "C. Chỉ khi sắp xếp lại",
+      "D. Không xác định được"
+     ],
+     "answer": "A",
+     "explain": "$6+8 > 10$, $6+10 > 8$, $8+10 > 6$ nên tạo thành tam giác."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $ABC$ có $AB = 10\\text{ cm}$, $BC = 4\\text{ cm}$. Cạnh $AC$ thỏa mãn điều kiện nào?",
+     "options": [
+      "A. $6\text{ cm} < AC < 14\text{ cm}$",
+      "B. $AC > 14\text{ cm}$",
+      "C. $AC < 6\text{ cm}$",
+      "D. $AC = 10\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "$|10-4| < AC < 10+4$, tức $6\\text{ cm} < AC < 14\\text{ cm}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Cho $a$, $b$, $c$ là độ dài ba cạnh của một tam giác. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. $c > a + b$",
+      "B. $|a - b| < c$",
+      "C. $c = a + b$",
+      "D. $a > b + c$"
+     ],
+     "answer": "B",
+     "explain": "Theo hệ quả của bất đẳng thức tam giác: $|a-b| < c < a+b$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Một tam giác có hai cạnh là $2\\text{ cm}$ và $5\\text{ cm}$, cạnh thứ ba là số nguyên lẻ. Có bao nhiêu tam giác như vậy?",
+     "options": [
+      "A. $1$",
+      "B. $2$",
+      "C. $3$",
+      "D. $0$"
+     ],
+     "answer": "A",
+     "explain": "Gọi cạnh thứ ba là $x$: $3 < x < 7$; $x$ nguyên lẻ nên $x = 5$ — có $1$ tam giác."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Tam giác $ABC$ có $AB = 4\\text{ cm}$, $AC = 6\\text{ cm}$, $BC = x\\text{ cm}$ ($x$ nguyên). Biết tam giác $ABC$ cân. Có bao nhiêu giá trị của $x$ thỏa mãn?",
+     "options": [
+      "A. $1$",
+      "B. $2$",
+      "C. $3$",
+      "D. $0$"
+     ],
+     "answer": "B",
+     "explain": "Cân nên $x = 4$ hoặc $x = 6$; cả hai đều thỏa ($4+4>6$, $4+6>6$). Có $2$ giá trị."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Cho tam giác $ABC$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $AB < AC + BC$.",
+      "b) $BC > AB + AC$.",
+      "c) $|AB - AC| < BC$.",
+      "d) $AB + AC = BC$ có thể xảy ra."
+     ],
+     "answer": [
+      "T",
+      "F",
+      "T",
+      "F"
+     ],
+     "explain": "a), c) đúng theo định lí và hệ quả; b), d) sai vì tổng hai cạnh luôn lớn hơn cạnh còn lại."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Xét tính đúng sai của các khẳng định sau về các bộ ba $(5, 5, 8)$, $(3, 3, 7)$, $(6, 6, 6)$ (đơn vị cm).",
+     "statements": [
+      "a) Bộ $(5, 5, 8)$ tạo thành một tam giác cân.",
+      "b) Bộ $(3, 3, 7)$ tạo thành một tam giác.",
+      "c) Bộ $(6, 6, 6)$ tạo thành một tam giác đều.",
+      "d) Cả ba bộ trên đều tạo thành tam giác."
+     ],
+     "answer": [
+      "T",
+      "F",
+      "T",
+      "F"
+     ],
+     "explain": "a) đúng ($5+5>8$, cân); b) sai ($3+3<7$); c) đúng; d) sai."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Một tam giác cân có chu vi $24\\text{ cm}$, cạnh đáy dài $10\\text{ cm}$. Tính độ dài cạnh bên (đơn vị: cm).",
+     "answer": "7",
+     "explain": "Cạnh bên $= (24-10):2 = 7\\text{ (cm)}$ (thỏa $7+7>10$)."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Hai cạnh của một tam giác là $7\\text{ cm}$ và $12\\text{ cm}$. Tìm độ dài nguyên nhỏ nhất có thể của cạnh thứ ba (đơn vị: cm).",
+     "answer": "6",
+     "explain": "Cạnh thứ ba $> |12-7| = 5$ nên giá trị nguyên nhỏ nhất là $6$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 4",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Phát biểu nào sau đây là SAI?",
+     "options": [
+      "A. Trong một tam giác, tổng độ dài hai cạnh bất kì luôn lớn hơn độ dài cạnh còn lại.",
+      "B. Trong một tam giác, hiệu độ dài hai cạnh bất kì luôn nhỏ hơn độ dài cạnh còn lại.",
+      "C. Ba đoạn thẳng $2\text{ cm}, 3\text{ cm}, 4\text{ cm}$ tạo thành một tam giác.",
+      "D. Ba đoạn thẳng $1\text{ cm}, 2\text{ cm}, 3\text{ cm}$ tạo thành một tam giác."
+     ],
+     "answer": "D",
+     "explain": "A, B, C đúng; D sai vì $1+2 = 3$ (không lớn hơn $3$)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Ba số nào sau đây có thể là độ dài ba cạnh của một tam giác?",
+     "options": [
+      "A. $1, 1, 2$",
+      "B. $3, 4, 8$",
+      "C. $5, 6, 7$",
+      "D. $2, 5, 8$"
+     ],
+     "answer": "C",
+     "explain": "Chỉ có $5+6 > 7$ (và các tổng còn lại cũng lớn hơn cạnh thứ ba)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $DEF$ có $DE = 9\\text{ cm}$, $EF = 5\\text{ cm}$. Cạnh $DF$ thỏa mãn điều kiện nào?",
+     "options": [
+      "A. $4\text{ cm} < DF < 14\text{ cm}$",
+      "B. $DF > 14\text{ cm}$",
+      "C. $DF < 4\text{ cm}$",
+      "D. $DF = 9\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "$|9-5| < DF < 9+5$, tức $4\\text{ cm} < DF < 14\\text{ cm}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Cho tam giác $ABC$ có $AB = 5\\text{ cm}$, $AC = 5\\text{ cm}$, $BC = 9\\text{ cm}$. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. Ba đoạn không tạo thành tam giác",
+      "B. Ba đoạn tạo thành một tam giác cân",
+      "C. $BC > AB + AC$",
+      "D. $|AB - AC| > BC$"
+     ],
+     "answer": "B",
+     "explain": "$5+5 > 9$ nên tạo thành tam giác; $AB = AC$ nên cân tại $A$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tam giác $ABC$ có $AB = 6\\text{ cm}$, $AC = 10\\text{ cm}$, $BC$ là số nguyên chẵn. Có bao nhiêu giá trị của $BC$ thỏa mãn?",
+     "options": [
+      "A. $4$",
+      "B. $6$",
+      "C. $5$",
+      "D. $7$"
+     ],
+     "answer": "C",
+     "explain": "$4 < BC < 16$; $BC$ chẵn: $6, 8, 10, 12, 14$ — có $5$ giá trị."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Độ dài ba cạnh của một tam giác là ba số nguyên liên tiếp và chu vi tam giác bằng $21\\text{ cm}$. Tìm độ dài cạnh lớn nhất.",
+     "options": [
+      "A. $7\text{ cm}$",
+      "B. $8\text{ cm}$",
+      "C. $9\text{ cm}$",
+      "D. $6\text{ cm}$"
+     ],
+     "answer": "B",
+     "explain": "Gọi ba cạnh là $x-1, x, x+1$: $3x = 21 \\Rightarrow x = 7$. Ba cạnh $6, 7, 8$ (thỏa $6+7>8$); cạnh lớn nhất $8\\text{ cm}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Gọi $x$ là độ dài cạnh thứ ba của tam giác có hai cạnh là $8\\text{ cm}$ và $15\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $x = 7\text{ cm}$ thỏa mãn.",
+      "b) $x = 23\text{ cm}$ thỏa mãn.",
+      "c) $x = 10\text{ cm}$ thỏa mãn.",
+      "d) $x = 20\text{ cm}$ thỏa mãn."
+     ],
+     "answer": [
+      "F",
+      "F",
+      "T",
+      "T"
+     ],
+     "explain": "$7 < x < 23$ nên chỉ $x = 10$ và $x = 20$ thỏa mãn."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ có $AB = 12\\text{ cm}$, $AC = 5\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $BC > 7\text{ cm}$.",
+      "b) $BC < 17\text{ cm}$.",
+      "c) $BC$ có thể bằng $10\text{ cm}$.",
+      "d) $BC$ có thể bằng $7\text{ cm}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$7 < BC < 17$; $BC = 10$ thỏa mãn, $BC = 7$ không thỏa mãn."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tam giác cân tại $B$ có $BA = BC = 8\\text{ cm}$, $AC = 15\\text{ cm}$. Tính chu vi của tam giác (đơn vị: cm).",
+     "answer": "31",
+     "explain": "Chu vi $= 8+8+15 = 31\\text{ (cm)}$ ($8+8>15$ nên tam giác tồn tại)."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Ba cạnh của một tam giác có độ dài là $9\\text{ cm}$, $15\\text{ cm}$ và $x\\text{ cm}$ ($x$ nguyên). Tìm giá trị nhỏ nhất của $x$ (đơn vị: cm).",
+     "answer": "7",
+     "explain": "$x > |15-9| = 6$ nên $x$ nguyên nhỏ nhất là $7$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 5",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Nhận xét $|AB - AC| < BC < AB + AC$ trong tam giác $ABC$ được suy ra từ đâu?",
+     "options": [
+      "A. Từ bất đẳng thức tam giác và hệ quả của nó",
+      "B. Từ định lí Pythagore",
+      "C. Từ tính chất đường trung tuyến",
+      "D. Từ quan hệ giữa góc và cạnh đối diện"
+     ],
+     "answer": "A",
+     "explain": "Đó là cách viết gọn của bất đẳng thức tam giác ($BC < AB+AC$) và hệ quả ($|AB-AC| < BC$)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Ba đoạn thẳng có độ dài $10\\text{ cm}$, $15\\text{ cm}$, $20\\text{ cm}$ có tạo thành một tam giác không?",
+     "options": [
+      "A. Có",
+      "B. Không",
+      "C. Chỉ khi là tam giác vuông",
+      "D. Không xác định được"
+     ],
+     "answer": "A",
+     "explain": "$10+15 > 20$ (và các tổng còn lại cũng thỏa) nên tạo thành tam giác."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Một tam giác có hai cạnh là $11\\text{ cm}$ và $4\\text{ cm}$. Cạnh thứ ba $x$ thỏa mãn điều kiện nào?",
+     "options": [
+      "A. $7\text{ cm} < x < 15\text{ cm}$",
+      "B. $x > 15\text{ cm}$",
+      "C. $x < 7\text{ cm}$",
+      "D. $x = 11\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "$|11-4| < x < 11+4$, tức $7\\text{ cm} < x < 15\\text{ cm}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Cho tam giác $ABC$ có $AB = 3\\text{ cm}$, $BC = 7\\text{ cm}$, $AC$ là số nguyên. Giá trị lớn nhất có thể của $AC$ là bao nhiêu?",
+     "options": [
+      "A. $10\text{ cm}$",
+      "B. $9\text{ cm}$",
+      "C. $8\text{ cm}$",
+      "D. $11\text{ cm}$"
+     ],
+     "answer": "B",
+     "explain": "$|7-3| < AC < 7+3$, tức $4 < AC < 10$; $AC$ nguyên lớn nhất là $9\\text{ (cm)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Một tam giác cân có cạnh bên $10\\text{ cm}$, cạnh đáy $18\\text{ cm}$. Tính chu vi của tam giác.",
+     "options": [
+      "A. $38\text{ cm}$",
+      "B. $28\text{ cm}$",
+      "C. $46\text{ cm}$",
+      "D. Không tồn tại tam giác"
+     ],
+     "answer": "A",
+     "explain": "$10+10 > 18$ nên tam giác tồn tại; chu vi $= 10+10+18 = 38\\text{ (cm)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Có bao nhiêu bộ ba số nguyên $(a, b, c)$ với $a \\le b \\le c$ và $a + b + c = 15$ là độ dài ba cạnh của một tam giác?",
+     "options": [
+      "A. $6$",
+      "B. $7$",
+      "C. $8$",
+      "D. $5$"
+     ],
+     "answer": "B",
+     "explain": "Cần $a+b > c$, tức $15-c > c \\Rightarrow c \\le 7$. Liệt kê: $c=7$: $(1,7,7),(2,6,7),(3,5,7),(4,4,7)$; $c=6$: $(3,6,6),(4,5,6)$; $c=5$: $(5,5,5)$ — tổng $7$ bộ."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho một tam giác có hai cạnh là $7\\text{ cm}$ và $10\\text{ cm}$. Xét tính đúng sai của các khẳng định sau về cạnh thứ ba.",
+     "statements": [
+      "a) Cạnh thứ ba lớn hơn $3\text{ cm}$.",
+      "b) Cạnh thứ ba nhỏ hơn $17\text{ cm}$.",
+      "c) Cạnh thứ ba có thể bằng $3\text{ cm}$.",
+      "d) Cạnh thứ ba có thể bằng $17\text{ cm}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "F"
+     ],
+     "explain": "$3 < x < 17$ nên a), b) đúng; c), d) sai."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho tam giác $MNP$ có $MN = 4\\text{ cm}$, $MP = 4\\text{ cm}$, $NP = 7\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Ba đoạn tạo thành một tam giác.",
+      "b) Tam giác $MNP$ cân tại $M$.",
+      "c) $NP < MN + MP$.",
+      "d) $|MN - MP| < NP$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$4+4>7$ nên tạo thành tam giác cân tại $M$; c), d) đúng theo định lí và hệ quả."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tam giác $ABC$ có $AB = 13\\text{ cm}$, $AC = 7\\text{ cm}$, $BC$ là số nguyên. Tìm giá trị lớn nhất của $BC$ (đơn vị: cm).",
+     "answer": "19",
+     "explain": "$BC < 13+7 = 20$ nên $BC$ nguyên lớn nhất là $19$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Một tam giác có hai cạnh là $6\\text{ cm}$ và $14\\text{ cm}$, cạnh còn lại là số nguyên chia hết cho $5$ và lớn nhất có thể. Tìm độ dài cạnh đó (đơn vị: cm).",
+     "answer": "15",
+     "explain": "$8 < x < 20$; $x$ chia hết cho $5$ và lớn nhất nên $x = 15$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 6",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong tam giác $ABC$, điều kiện nào sau đây là SAI?",
+     "options": [
+      "A. $AB + BC > AC$",
+      "B. $AB + AC > BC$",
+      "C. $AC + BC > AB$",
+      "D. $AB > AC + BC$"
+     ],
+     "answer": "D",
+     "explain": "A, B, C đúng theo bất đẳng thức tam giác; D sai vì tổng hai cạnh luôn lớn hơn cạnh còn lại."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Ba đoạn thẳng có độ dài $9\\text{ cm}$, $12\\text{ cm}$, $15\\text{ cm}$ có tạo thành một tam giác không?",
+     "options": [
+      "A. Có",
+      "B. Không",
+      "C. Chỉ khi là tam giác đều",
+      "D. Không xác định được"
+     ],
+     "answer": "A",
+     "explain": "$9+12 > 15$ (và các tổng còn lại cũng thỏa) nên tạo thành tam giác (vuông)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $ABC$ có $AB = 14\\text{ cm}$, $AC = 9\\text{ cm}$. Cạnh $BC$ thỏa mãn điều kiện nào?",
+     "options": [
+      "A. $5\text{ cm} < BC < 23\text{ cm}$",
+      "B. $BC > 23\text{ cm}$",
+      "C. $BC < 5\text{ cm}$",
+      "D. $BC = 14\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "$|14-9| < BC < 14+9$, tức $5\\text{ cm} < BC < 23\\text{ cm}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Gọi $x$ là độ dài cạnh thứ ba của tam giác có hai cạnh là $20\\text{ cm}$ và $12\\text{ cm}$. Bất đẳng thức nào sau đây đúng?",
+     "options": [
+      "A. $8\text{ cm} < x < 32\text{ cm}$",
+      "B. $x > 32\text{ cm}$",
+      "C. $x < 8\text{ cm}$",
+      "D. $x = 20\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "$|20-12| < x < 20+12$, tức $8\\text{ cm} < x < 32\\text{ cm}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tam giác đều có cạnh $a$ ($a > 0$). Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. Ba cạnh $a, a, a$ luôn tạo thành một tam giác",
+      "B. Chỉ tạo thành tam giác khi $a > 10$",
+      "C. Không bao giờ tạo thành tam giác",
+      "D. Chỉ tạo thành tam giác khi $a$ là số nguyên"
+     ],
+     "answer": "A",
+     "explain": "$a + a > a$ với mọi $a > 0$ nên ba cạnh bằng nhau luôn tạo thành tam giác."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Tam giác $ABC$ vuông tại $A$ có $AB = 6\\text{ cm}$, $AC = 8\\text{ cm}$, $BC = 10\\text{ cm}$. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. Ba cạnh thỏa mãn bất đẳng thức tam giác",
+      "B. $AB + AC < BC$",
+      "C. $|AB - AC| > BC$",
+      "D. Ba đoạn không tạo thành tam giác"
+     ],
+     "answer": "A",
+     "explain": "$6+8 > 10$, $|6-8| < 10$ nên ba cạnh thỏa mãn bất đẳng thức tam giác."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho tam giác $ABC$ có $AB = 5\\text{ cm}$, $BC = 5\\text{ cm}$, $CA = 8\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Ba đoạn tạo thành một tam giác cân.",
+      "b) $5 + 5 > 8$.",
+      "c) $|5 - 5| < 8$.",
+      "d) Chu vi tam giác bằng $18\text{ cm}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "Cả bốn khẳng định đều đúng ($5+5>8$, tam giác cân tại $B$, chu vi $18\\text{ cm}$)."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho một tam giác có hai cạnh là $4\\text{ cm}$ và $9\\text{ cm}$, cạnh thứ ba là $x$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $x > 5\text{ cm}$.",
+      "b) $x < 13\text{ cm}$.",
+      "c) $x = 5\text{ cm}$ thỏa mãn.",
+      "d) $x = 13\text{ cm}$ thỏa mãn."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "F"
+     ],
+     "explain": "$5 < x < 13$ nên a), b) đúng; c), d) sai."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tam giác $ABC$ có $AB = 11\\text{ cm}$, $AC = 11\\text{ cm}$, $BC = 20\\text{ cm}$. Tính chu vi của tam giác (đơn vị: cm).",
+     "answer": "42",
+     "explain": "Chu vi $= 11+11+20 = 42\\text{ (cm)}$ ($11+11>20$ nên tam giác tồn tại)."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tìm số nguyên $x$ lớn nhất để ba đoạn thẳng $5\\text{ cm}$, $12\\text{ cm}$, $x\\text{ cm}$ tạo thành một tam giác vuông.",
+     "answer": "13",
+     "explain": "$x < 17$. Thử Pythagore: $5^2+12^2 = 13^2$ nên $x = 13$ cho tam giác vuông (lớn nhất thỏa)."
+    }
+   ]
+  },
+  {
+   "name": "Đề 7",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Bất đẳng thức tam giác phát biểu về mối quan hệ nào?",
+     "options": [
+      "A. Tổng độ dài hai cạnh bất kì luôn lớn hơn độ dài cạnh còn lại",
+      "B. Tổng ba góc của tam giác bằng $180^\\circ$",
+      "C. Cạnh huyền là cạnh lớn nhất",
+      "D. Đường trung tuyến bằng nửa cạnh huyền"
+     ],
+     "answer": "A",
+     "explain": "Đó chính là phát biểu của định lí bất đẳng thức tam giác."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Ba số $8, 15, 17$ có thể là độ dài ba cạnh của một tam giác không?",
+     "options": [
+      "A. Có",
+      "B. Không",
+      "C. Chỉ khi là tam giác cân",
+      "D. Không xác định được"
+     ],
+     "answer": "A",
+     "explain": "$8+15 > 17$ (và các tổng còn lại cũng thỏa) nên tạo thành tam giác (vuông)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $MNP$ có $MN = 16\\text{ cm}$, $NP = 7\\text{ cm}$. Cạnh $MP$ thỏa mãn điều kiện nào?",
+     "options": [
+      "A. $9\text{ cm} < MP < 23\text{ cm}$",
+      "B. $MP > 23\text{ cm}$",
+      "C. $MP < 9\text{ cm}$",
+      "D. $MP = 16\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "$|16-7| < MP < 16+7$, tức $9\\text{ cm} < MP < 23\\text{ cm}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Cho tam giác $ABC$ có $AB = 6\\text{ cm}$, $AC = 6\\text{ cm}$, $BC = 11\\text{ cm}$. Đây là tam giác gì?",
+     "options": [
+      "A. Tam giác vuông",
+      "B. Tam giác cân tại $A$",
+      "C. Tam giác đều",
+      "D. Không tạo thành tam giác"
+     ],
+     "answer": "B",
+     "explain": "$6+6 > 11$ nên tạo thành tam giác; $AB = AC$ nên cân tại $A$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Một tam giác có hai cạnh là $9\\text{ cm}$ và $4\\text{ cm}$, cạnh thứ ba là số nguyên tố. Có bao nhiêu giá trị của cạnh thứ ba?",
+     "options": [
+      "A. $2$",
+      "B. $3$",
+      "C. $1$",
+      "D. $4$"
+     ],
+     "answer": "A",
+     "explain": "$5 < x < 13$; $x$ nguyên tố: $7, 11$ — có $2$ giá trị."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Tam giác $ABC$ có $AB = 7\\text{ cm}$, $AC = 11\\text{ cm}$, $BC = x\\text{ cm}$ ($x$ nguyên). Biết chu vi tam giác là số chẵn. Có bao nhiêu giá trị của $x$ thỏa mãn?",
+     "options": [
+      "A. $5$",
+      "B. $6$",
+      "C. $7$",
+      "D. $13$"
+     ],
+     "answer": "B",
+     "explain": "$4 < x < 18$, $x$ nguyên: $5,\\dots,17$ ($13$ giá trị). Chu vi $= 18+x$ chẵn $\\Rightarrow x$ chẵn: $6,8,10,12,14,16$ — có $6$ giá trị."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Xét tính đúng sai của các khẳng định sau về các bộ ba $(2, 5, 6)$, $(2, 5, 10)$, $(5, 6, 10)$, $(2, 6, 10)$ (đơn vị cm).",
+     "statements": [
+      "a) Bộ $(2, 5, 6)$ tạo thành một tam giác.",
+      "b) Bộ $(2, 5, 10)$ tạo thành một tam giác.",
+      "c) Bộ $(5, 6, 10)$ tạo thành một tam giác.",
+      "d) Bộ $(2, 6, 10)$ tạo thành một tam giác."
+     ],
+     "answer": [
+      "T",
+      "F",
+      "T",
+      "F"
+     ],
+     "explain": "a) đúng ($2+5>6$); b) sai ($2+5<10$); c) đúng ($5+6>10$); d) sai ($2+6<10$)."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ cân tại $A$ có $AB = AC = 13\\text{ cm}$, $BC = 10\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $13 + 13 > 10$.",
+      "b) Chu vi tam giác bằng $36\text{ cm}$.",
+      "c) $|13 - 13| < 10$.",
+      "d) $BC$ là cạnh lớn nhất."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b), c) đúng; d) sai vì $13 > 10$ nên cạnh bên mới là cạnh lớn nhất."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Một tam giác có hai cạnh là $15\\text{ cm}$ và $8\\text{ cm}$, cạnh thứ ba là số nguyên nhỏ nhất có thể. Tìm độ dài cạnh đó (đơn vị: cm).",
+     "answer": "8",
+     "explain": "Cạnh thứ ba $> |15-8| = 7$ nên số nguyên nhỏ nhất là $8$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ có $AB = 6\\text{ cm}$, $AC = 10\\text{ cm}$. Biết $BC$ là số nguyên lẻ lớn nhất có thể. Tính chu vi của tam giác (đơn vị: cm).",
+     "answer": "31",
+     "explain": "$BC < 16$, $BC$ lẻ lớn nhất là $15$; chu vi $= 6+10+15 = 31\\text{ (cm)}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 8",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Hệ quả của bất đẳng thức tam giác phát biểu điều gì?",
+     "options": [
+      "A. Hiệu độ dài hai cạnh bất kì luôn nhỏ hơn độ dài cạnh còn lại",
+      "B. Hiệu độ dài hai cạnh bất kì luôn lớn hơn độ dài cạnh còn lại",
+      "C. Tổng ba cạnh luôn bằng hai lần cạnh lớn nhất",
+      "D. Tích hai cạnh luôn lớn hơn cạnh còn lại"
+     ],
+     "answer": "A",
+     "explain": "Đó chính là hệ quả của bất đẳng thức tam giác."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Ba đoạn thẳng có độ dài $3\\text{ cm}$, $7\\text{ cm}$, $11\\text{ cm}$ có tạo thành một tam giác không?",
+     "options": [
+      "A. Có",
+      "B. Không",
+      "C. Chỉ khi sắp xếp lại",
+      "D. Không xác định được"
+     ],
+     "answer": "B",
+     "explain": "$3+7 = 10 < 11$ nên ba đoạn không tạo thành tam giác."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $ABC$ có $AB = 17\\text{ cm}$, $BC = 8\\text{ cm}$. Cạnh $AC$ thỏa mãn điều kiện nào?",
+     "options": [
+      "A. $9\text{ cm} < AC < 25\text{ cm}$",
+      "B. $AC > 25\text{ cm}$",
+      "C. $AC < 9\text{ cm}$",
+      "D. $AC = 17\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "$|17-8| < AC < 17+8$, tức $9\\text{ cm} < AC < 25\\text{ cm}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Trong các bộ ba độ dài sau, bộ nào tạo thành một tam giác?",
+     "options": [
+      "A. $4\text{ cm}, 4\text{ cm}, 8\text{ cm}$",
+      "B. $5\text{ cm}, 9\text{ cm}, 15\text{ cm}$",
+      "C. $7\text{ cm}, 10\text{ cm}, 12\text{ cm}$",
+      "D. $6\text{ cm}, 6\text{ cm}, 12\text{ cm}$"
+     ],
+     "answer": "C",
+     "explain": "Chỉ có $7+10 > 12$; các bộ còn lại đều có tổng hai số nhỏ không lớn hơn số lớn nhất."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Một tam giác cân có cạnh đáy $12\\text{ cm}$, cạnh bên $7\\text{ cm}$. Tam giác này có tồn tại không?",
+     "options": [
+      "A. Có, vì $7+7 > 12$",
+      "B. Không, vì $7+7 < 12$",
+      "C. Không, vì $12 > 7$",
+      "D. Không xác định được"
+     ],
+     "answer": "A",
+     "explain": "$7+7 = 14 > 12$ nên tam giác tồn tại."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Cho tam giác $ABC$ có $AB = 8\\text{ cm}$, $AC = 15\\text{ cm}$. Biết $BC$ nguyên và tam giác $ABC$ tù tại $A$. Tìm giá trị lớn nhất của $BC$.",
+     "options": [
+      "A. $20\text{ cm}$",
+      "B. $21\text{ cm}$",
+      "C. $22\text{ cm}$",
+      "D. $23\text{ cm}$"
+     ],
+     "answer": "C",
+     "explain": "Tù tại $A$: $BC^2 > 8^2+15^2 = 289 \\Rightarrow BC > 17$; lại có $BC < 23$. $BC$ nguyên lớn nhất là $22$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho tam giác $DEF$ có $DE = 6\\text{ cm}$, $DF = 6\\text{ cm}$, $EF = 11\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Ba đoạn tạo thành một tam giác.",
+      "b) Tam giác $DEF$ cân tại $D$.",
+      "c) $6 + 6 > 11$.",
+      "d) $EF$ là cạnh nhỏ nhất."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$6+6>11$ nên tạo thành tam giác cân tại $D$; $EF$ là cạnh lớn nhất nên d) sai."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Gọi $x$ là độ dài cạnh thứ ba của tam giác có hai cạnh là $10\\text{ cm}$ và $24\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $x = 14\text{ cm}$ thỏa mãn.",
+      "b) $x = 34\text{ cm}$ thỏa mãn.",
+      "c) Giá trị nguyên nhỏ nhất của $x$ là $15\text{ cm}$.",
+      "d) Giá trị nguyên lớn nhất của $x$ là $33\text{ cm}$."
+     ],
+     "answer": [
+      "F",
+      "F",
+      "T",
+      "T"
+     ],
+     "explain": "$14 < x < 34$; $x$ nguyên nhỏ nhất $15$, lớn nhất $33$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tam giác $ABC$ có $AB = 9\\text{ cm}$, $BC = 12\\text{ cm}$, $AC$ là số nguyên nhỏ nhất có thể. Tính chu vi của tam giác (đơn vị: cm).",
+     "answer": "25",
+     "explain": "$AC > |12-9| = 3$ nên $AC$ nguyên nhỏ nhất là $4$; chu vi $= 9+12+4 = 25\\text{ (cm)}$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Ba cạnh của một tam giác là ba số tự nhiên liên tiếp có tổng bằng $18$. Tìm độ dài cạnh ngắn nhất (đơn vị: cm).",
+     "answer": "5",
+     "explain": "Gọi ba cạnh là $x-1, x, x+1$: $3x = 18 \\Rightarrow x = 6$. Ba cạnh $5, 6, 7$ (thỏa $5+6>7$); cạnh ngắn nhất $5$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 9",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho tam giác $ABC$. Khẳng định nào sau đây luôn đúng?",
+     "options": [
+      "A. $AB + BC > AC$",
+      "B. $AB + BC < AC$",
+      "C. $AB + BC = AC$",
+      "D. $AB > BC + AC$"
+     ],
+     "answer": "A",
+     "explain": "Theo bất đẳng thức tam giác: $AB + BC > AC$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Ba số $5, 12, 13$ có thể là độ dài ba cạnh của một tam giác không?",
+     "options": [
+      "A. Có",
+      "B. Không",
+      "C. Chỉ khi là tam giác đều",
+      "D. Không xác định được"
+     ],
+     "answer": "A",
+     "explain": "$5+12 > 13$ (và các tổng còn lại cũng thỏa) nên tạo thành tam giác (vuông)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Một tam giác có hai cạnh là $13\\text{ cm}$ và $7\\text{ cm}$, cạnh thứ ba là số nguyên. Giá trị nhỏ nhất của cạnh thứ ba là bao nhiêu?",
+     "options": [
+      "A. $7\text{ cm}$",
+      "B. $6\text{ cm}$",
+      "C. $8\text{ cm}$",
+      "D. $5\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "Cạnh thứ ba $> |13-7| = 6$ nên số nguyên nhỏ nhất là $7$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Cho tam giác $ABC$ có $AB = AC = 10\\text{ cm}$, $BC = 19\\text{ cm}$. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. Ba đoạn tạo thành một tam giác cân",
+      "B. Ba đoạn không tạo thành tam giác",
+      "C. $BC > AB + AC$",
+      "D. $|AB - AC| > BC$"
+     ],
+     "answer": "A",
+     "explain": "$10+10 > 19$ nên tạo thành tam giác; $AB = AC$ nên cân tại $A$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Một tam giác có chu vi $15\\text{ cm}$, hai cạnh là $4\\text{ cm}$ và $6\\text{ cm}$. Độ dài cạnh còn lại là bao nhiêu?",
+     "options": [
+      "A. $4\text{ cm}$",
+      "B. $5\text{ cm}$",
+      "C. $6\text{ cm}$",
+      "D. $7\text{ cm}$"
+     ],
+     "answer": "B",
+     "explain": "Cạnh còn lại $= 15-4-6 = 5\\text{ (cm)}$ (thỏa $4+5>6$)."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Có bao nhiêu số nguyên $x$ để ba đoạn thẳng $10\\text{ cm}$, $18\\text{ cm}$, $x\\text{ cm}$ tạo thành một tam giác cân?",
+     "options": [
+      "A. $1$",
+      "B. $2$",
+      "C. $3$",
+      "D. $0$"
+     ],
+     "answer": "B",
+     "explain": "Cân nên $x = 10$ ($10+10>18$ thỏa) hoặc $x = 18$ ($10+18>18$ thỏa) — có $2$ giá trị."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ có $AB = 7\\text{ cm}$, $AC = 24\\text{ cm}$, $BC = 25\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Ba đoạn tạo thành một tam giác vuông.",
+      "b) $7 + 24 > 25$.",
+      "c) $|24 - 7| < 25$.",
+      "d) Chu vi tam giác bằng $56\text{ cm}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$7^2+24^2 = 25^2$ nên vuông; b), c) đúng theo định lí và hệ quả; chu vi $56\\text{ cm}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho một tam giác có hai cạnh là $9\\text{ cm}$ và $12\\text{ cm}$. Xét tính đúng sai của các khẳng định sau về cạnh thứ ba.",
+     "statements": [
+      "a) Cạnh thứ ba lớn hơn $3\text{ cm}$.",
+      "b) Cạnh thứ ba nhỏ hơn $21\text{ cm}$.",
+      "c) Nếu cạnh thứ ba bằng $21\text{ cm}$ thì tạo thành tam giác.",
+      "d) Nếu cạnh thứ ba bằng $3\text{ cm}$ thì tạo thành tam giác."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "F"
+     ],
+     "explain": "$3 < x < 21$ nên a), b) đúng; c), d) sai."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tam giác $ABC$ cân tại $A$ có chu vi $30\\text{ cm}$, $AB = 12\\text{ cm}$. Tính độ dài cạnh $BC$ (đơn vị: cm).",
+     "answer": "6",
+     "explain": "$BC = 30-12-12 = 6\\text{ (cm)}$ (thỏa $12+6>12$)."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Tìm số nguyên $x$ nhỏ nhất để ba đoạn thẳng $8\\text{ cm}$, $15\\text{ cm}$, $x\\text{ cm}$ là độ dài ba cạnh của một tam giác.",
+     "answer": "8",
+     "explain": "$x > |15-8| = 7$ nên $x$ nguyên nhỏ nhất là $8$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 10",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Ba đoạn thẳng tạo thành một tam giác khi nào?",
+     "options": [
+      "A. Tổng độ dài hai đoạn bất kì luôn lớn hơn độ dài đoạn còn lại",
+      "B. Tổng độ dài hai đoạn bất kì luôn nhỏ hơn độ dài đoạn còn lại",
+      "C. Tổng độ dài hai đoạn bất kì luôn bằng độ dài đoạn còn lại",
+      "D. Tích độ dài hai đoạn bất kì lớn hơn độ dài đoạn còn lại"
+     ],
+     "answer": "A",
+     "explain": "Đó chính là điều kiện (bất đẳng thức tam giác) để ba đoạn thẳng tạo thành một tam giác."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Ba đoạn thẳng có độ dài $6\\text{ cm}$, $8\\text{ cm}$, $14\\text{ cm}$ có tạo thành một tam giác không?",
+     "options": [
+      "A. Có",
+      "B. Không",
+      "C. Chỉ khi là tam giác vuông",
+      "D. Không xác định được"
+     ],
+     "answer": "B",
+     "explain": "$6+8 = 14$ (không lớn hơn $14$) nên ba đoạn không tạo thành tam giác."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $DEF$ có $DE = 21\\text{ cm}$, $DF = 13\\text{ cm}$. Cạnh $EF$ thỏa mãn điều kiện nào?",
+     "options": [
+      "A. $8\text{ cm} < EF < 34\text{ cm}$",
+      "B. $EF > 34\text{ cm}$",
+      "C. $EF < 8\text{ cm}$",
+      "D. $EF = 21\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "$|21-13| < EF < 21+13$, tức $8\\text{ cm} < EF < 34\\text{ cm}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Cho tam giác $ABC$ có $AB = 5\\text{ cm}$, $AC = 12\\text{ cm}$, $BC = 13\\text{ cm}$. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. $AB + AC > BC$",
+      "B. $AB + AC < BC$",
+      "C. $AB + AC = BC$",
+      "D. $|AB - AC| > BC$"
+     ],
+     "answer": "A",
+     "explain": "$5+12 = 17 > 13$ nên bất đẳng thức tam giác được thỏa mãn."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Một tam giác có hai cạnh là $8\\text{ cm}$ và $15\\text{ cm}$, cạnh thứ ba là số nguyên. Có bao nhiêu giá trị của cạnh thứ ba?",
+     "options": [
+      "A. $14$",
+      "B. $16$",
+      "C. $15$",
+      "D. $17$"
+     ],
+     "answer": "C",
+     "explain": "$7 < x < 23$; $x$ nguyên: $8, 9, \\dots, 22$ — có $15$ giá trị."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Tam giác $ABC$ có $AB = 5\\text{ cm}$, $AC = 7\\text{ cm}$, $BC = x\\text{ cm}$ ($x$ nguyên). Diện tích tam giác lớn nhất khi $x$ bằng bao nhiêu?",
+     "options": [
+      "A. $8$",
+      "B. $9$",
+      "C. $10$",
+      "D. $11$"
+     ],
+     "answer": "B",
+     "explain": "$S = \\frac{1}{2}\\cdot AB\\cdot AC\\cdot\\sin A \\le \\frac{35}{2}$, đẳng thức khi $\\widehat{A} = 90^\\circ$, lúc đó $BC = \\sqrt{74} \\approx 8{,}6$; $x$ nguyên tạo thành tam giác gần nhất là $9$."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Cho tam giác $MNP$ đều cạnh $6\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $6 + 6 > 6$.",
+      "b) Chu vi tam giác bằng $18\text{ cm}$.",
+      "c) $|6 - 6| < 6$.",
+      "d) Tổng độ dài hai cạnh bằng độ dài cạnh còn lại."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b), c) đúng; d) sai vì tổng hai cạnh ($12$) lớn hơn cạnh còn lại ($6$)."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho tam giác $ABC$ có $AB = 11\\text{ cm}$, $AC = 11\\text{ cm}$, $BC = 21\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Ba đoạn tạo thành một tam giác.",
+      "b) Tam giác $ABC$ cân tại $A$.",
+      "c) Chu vi tam giác bằng $43\text{ cm}$.",
+      "d) $BC < AB + AC$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$11+11>21$ nên tạo thành tam giác cân tại $A$, chu vi $43\\text{ cm}$; cả bốn khẳng định đều đúng."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tam giác $ABC$ có $AB = 10\\text{ cm}$, $AC = 6\\text{ cm}$. Tìm số nguyên lớn nhất của $BC$ để tam giác $ABC$ tù tại $A$ (đơn vị: cm).",
+     "answer": "15",
+     "explain": "Tù tại $A$: $BC^2 > 10^2+6^2 = 136 \\Rightarrow BC > 11{,}6$; lại có $BC < 16$. $BC$ nguyên lớn nhất là $15$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Ba cạnh của một tam giác là $x$, $x+1$, $x+2$ ($x$ nguyên dương). Tìm $x$ nhỏ nhất để ba đoạn tạo thành một tam giác.",
+     "answer": "2",
+     "explain": "Cần $x + (x+1) > x+2 \\Rightarrow x > 1$; $x$ nguyên dương nhỏ nhất là $2$ (ba cạnh $2, 3, 4$ thỏa $2+3>4$)."
+    }
+   ]
+  }
+ ]
+}
+</script>
+</div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
