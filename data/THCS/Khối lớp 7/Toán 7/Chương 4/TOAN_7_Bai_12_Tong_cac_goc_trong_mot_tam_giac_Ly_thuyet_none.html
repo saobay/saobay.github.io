@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 12: Tổng các góc trong một tam giác</title>
+    <meta name="lesson-title" content="Bài 12: Tổng các góc trong một tam giác">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 12: Tổng các góc trong một tam giác</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 4: Tam giác bằng nhau • Bài 12: Tổng các góc trong một tam giác</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-6">1. T&#7893;ng ba g&oacute;c trong m&#7897;t tam gi&aacute;c</h2>
+<div class="bg-amber-50 border border-amber-300 rounded-xl p-4">
+<p class="font-semibold text-amber-900">&#128161; Ghi nh&#7899; (&#273;&#7883;nh l&iacute;):</p>
+<p><strong>T&#7893;ng ba g&oacute;c trong m&#7897;t tam gi&aacute;c b&#7857;ng $180^\circ$.</strong></p>
+<p class="mt-1">Trong tam gi&aacute;c $ABC$: $\widehat{A} + \widehat{B} + \widehat{C} = 180^\circ$.</p>
+</div>
+<div class="svg-fig">
+<svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tong ba goc tam giac">
+<polygon points="200,60 80,200 320,200" fill="#e0f2fe" stroke="#0f172a" stroke-width="2"/>
+<path d="M 218.2 81.3 A 28 28 0 0 1 181.8 81.3" fill="none" stroke="#0284c7" stroke-width="2"/>
+<path d="M 98.2 178.7 A 28 28 0 0 1 108 200" fill="none" stroke="#0284c7" stroke-width="2"/>
+<path d="M 292 200 A 28 28 0 0 1 301.8 178.7" fill="none" stroke="#0284c7" stroke-width="2"/>
+<text x="192" y="48" font-size="17" font-style="italic" font-weight="bold">A</text>
+<text x="66" y="220" font-size="17" font-style="italic" font-weight="bold">B</text>
+<text x="326" y="220" font-size="17" font-style="italic" font-weight="bold">C</text>
+<text x="120" y="228" font-size="15" fill="#0c4a6e">$\widehat{A}+\widehat{B}+\widehat{C}=180^\circ$</text>
+</svg>
+<p class="text-center text-sm text-slate-500 mt-1">H&igrave;nh 1. T&#7893;ng ba g&oacute;c trong tam gi&aacute;c $ABC$</p>
+</div>
+<div class="bg-sky-50 border border-sky-200 rounded-xl p-4">
+<p class="font-semibold text-sky-900">V&iacute; d&#7909;:</p>
+<p>Tam gi&aacute;c $ABC$ c&oacute; $\widehat{A} = 50^\circ$, $\widehat{B} = 60^\circ$. Khi &#273;&oacute; $\widehat{C} = 180^\circ - 50^\circ - 60^\circ = 70^\circ$.</p>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-6">2. Tam gi&aacute;c vu&ocirc;ng</h2>
+<p>Tam gi&aacute;c <strong>vu&ocirc;ng</strong> l&agrave; tam gi&aacute;c c&oacute; m&#7897;t g&oacute;c vu&ocirc;ng. Trong tam gi&aacute;c vu&ocirc;ng, hai g&oacute;c nh&#7885;n <strong>ph&#7909; nhau</strong> (t&#7893;ng b&#7857;ng $90^\circ$).</p>
+<div class="svg-fig">
+<svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tam giac vuong">
+<polygon points="120,60 120,200 300,200" fill="#fef3c7" stroke="#0f172a" stroke-width="2"/>
+<rect x="120" y="60" width="16" height="16" fill="none" stroke="#dc2626" stroke-width="2"/>
+<text x="104" y="52" font-size="17" font-style="italic" font-weight="bold">A</text>
+<text x="104" y="222" font-size="17" font-style="italic" font-weight="bold">B</text>
+<text x="306" y="222" font-size="17" font-style="italic" font-weight="bold">C</text>
+<text x="150" y="228" font-size="15" fill="#92400e">$\widehat{B}+\widehat{C}=90^\circ$</text>
+</svg>
+<p class="text-center text-sm text-slate-500 mt-1">H&igrave;nh 2. Tam gi&aacute;c $ABC$ vu&ocirc;ng t&#7841;i $A$</p>
+</div>
+<div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4">
+<p class="font-semibold text-emerald-900">B&agrave;i t&#7853;p v&iacute; d&#7909;:</p>
+<p>Tam gi&aacute;c $MNP$ vu&ocirc;ng t&#7841;i $M$, bi&#7871;t $\widehat{N} = 35^\circ$. T&iacute;nh $\widehat{P}$.</p>
+<p class="mt-2"><em>L&#7901;i gi&#7843;i:</em> Hai g&oacute;c nh&#7885;n ph&#7909; nhau n&ecirc;n $\widehat{P} = 90^\circ - 35^\circ = 55^\circ$.</p>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-6">3. G&oacute;c ngo&agrave;i c&#7911;a tam gi&aacute;c</h2>
+<p><strong>G&oacute;c ngo&agrave;i</strong> c&#7911;a tam gi&aacute;c l&agrave; g&oacute;c <strong>k&#7873; b&ugrave;</strong> v&#7899;i m&#7897;t g&oacute;c trong c&#7911;a tam gi&aacute;c &#273;&oacute;.</p>
+<div class="bg-amber-50 border border-amber-300 rounded-xl p-4">
+<p class="font-semibold text-amber-900">&#128161; Ghi nh&#7899; (t&iacute;nh ch&#7845;t):</p>
+<p><strong>M&#7897;i g&oacute;c ngo&agrave;i c&#7911;a m&#7897;t tam gi&aacute;c b&#7857;ng t&#7893;ng hai g&oacute;c trong kh&ocirc;ng k&#7873; v&#7899;i n&oacute;.</strong></p>
+</div>
+<div class="svg-fig">
+<svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Goc ngoai tam giac">
+<polygon points="200,60 80,200 320,200" fill="#e0f2fe" stroke="#0f172a" stroke-width="2"/>
+<line x1="320" y1="200" x2="382" y2="200" stroke="#0f172a" stroke-width="2"/>
+<path d="M 299.2 175.7 A 32 32 0 0 1 352 200" fill="none" stroke="#dc2626" stroke-width="2.5"/>
+<text x="192" y="48" font-size="17" font-style="italic" font-weight="bold">A</text>
+<text x="66" y="220" font-size="17" font-style="italic" font-weight="bold">B</text>
+<text x="300" y="192" font-size="17" font-style="italic" font-weight="bold">C</text>
+<text x="384" y="206" font-size="16" font-style="italic">D</text>
+<text x="150" y="228" font-size="15" fill="#b91c1c">G&oacute;c ngo&agrave;i $\widehat{ACD}=\widehat{A}+\widehat{B}$</text>
+</svg>
+<p class="text-center text-sm text-slate-500 mt-1">H&igrave;nh 3. $\widehat{ACD}$ l&agrave; g&oacute;c ngo&agrave;i t&#7841;i &#273;&#7881;nh $C$</p>
+</div>
+<div class="bg-sky-50 border border-sky-200 rounded-xl p-4">
+<p class="font-semibold text-sky-900">V&iacute; d&#7909;:</p>
+<p>Tam gi&aacute;c $ABC$ c&oacute; $\widehat{A} = 40^\circ$, $\widehat{B} = 55^\circ$. G&oacute;c ngo&agrave;i t&#7841;i $C$ b&#7857;ng $\widehat{A} + \widehat{B} = 95^\circ$.</p>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-6">4. T&oacute;m t&#7855;t</h2>
+<div class="table-scroll"><table class="w-full text-sm border border-slate-300">
+<thead><tr class="bg-sky-100"><th class="border border-slate-300 px-3 py-2">N&#7897;i dung</th><th class="border border-slate-300 px-3 py-2">Kh&#7853;ng &#273;&#7883;nh</th></tr></thead>
+<tbody>
+<tr><td class="border border-slate-300 px-3 py-2">T&#7893;ng ba g&oacute;c trong tam gi&aacute;c</td><td class="border border-slate-300 px-3 py-2">$\widehat{A}+\widehat{B}+\widehat{C}=180^\circ$</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2">Tam gi&aacute;c vu&ocirc;ng</td><td class="border border-slate-300 px-3 py-2">Hai g&oacute;c nh&#7885;n ph&#7909; nhau (t&#7893;ng $90^\circ$)</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2">G&oacute;c ngo&agrave;i</td><td class="border border-slate-300 px-3 py-2">B&#7857;ng t&#7893;ng hai g&oacute;c trong kh&ocirc;ng k&#7873; v&#7899;i n&oacute;</td></tr>
+</tbody></table></div>
+</div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
