@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài tập Đề 5 — Ôn HSG 12</title>
+    <meta name="lesson-title" content="Bài tập Đề 5 — Ôn HSG 12">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Bài tập</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài tập Đề 5 — Ôn HSG 12</h1>
+            <p class="text-xs text-slate-500 mt-1">Ôn HSG 12 • Tin học</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="saobay-exam10">
+<script type="application/json" class="saobay-exam10-data">
+{"sets": [{"name": "Đề 5", "questions": [{"type": "mcq", "level": "VDC", "q": "Xét xâu P = \"ABABAC\" (chỉ số từ 0). Hàm tiền tố pi[i] của thuật toán KMP được định nghĩa là độ dài của tiền tố dài nhất của đoạn P[0..i] mà đồng thời cũng là hậu tố của đoạn P[0..i] (không tính cả đoạn). Hỏi pi[4] bằng bao nhiêu?", "options": ["A. 1", "B. 2", "C. 3", "D. 4"], "answer": "C", "explain": "Xét đoạn P[0..4] = \"ABABA\". Các tiền tố đồng thời là hậu tố (không tính cả đoạn): \"A\" (độ dài 1), \"ABA\" (độ dài 3). Tiền tố dài nhất thỏa mãn có độ dài 3 nên pi[4] = 3. Đáp án C.", "points": 0.25}, {"type": "mcq", "level": "VDC", "q": "Xét đoạn mã tìm kiếm mẫu P trong văn bản T bằng thuật toán ngây thơ (kể cả các lần xuất hiện giao nhau):\n\ndem = 0\nVới i chạy từ 0 đến len(T) - len(P):\n    khop = True\n    Với j chạy từ 0 đến len(P) - 1:\n        Nếu T[i + j] khác P[j]:\n            khop = False\n            dừng vòng lặp trong\n    Nếu khop:\n        dem = dem + 1\nIn dem\n\nVới T = \"ABABABA\" và P = \"ABA\", giá trị in ra là bao nhiêu?", "options": ["A. 1", "B. 2", "C. 3", "D. 4"], "answer": "C", "explain": "len(T) - len(P) = 7 - 3 = 4 nên i chạy từ 0 đến 4. Kiểm tra từng vị trí:\n- i = 0: \"ABA\" khớp.\n- i = 1: \"BAB\" không khớp.\n- i = 2: \"ABA\" khớp.\n- i = 3: \"BAB\" không khớp.\n- i = 4: \"ABA\" khớp.\nCó 3 lần xuất hiện (kể cả giao nhau tại các vị trí 0, 2, 4). Đáp án C.", "points": 0.25}, {"type": "mcq", "level": "VDC", "q": "Cho hai bảng:\nHOCSINH(MaHS, HoTen, MaLop) gồm các dòng: (1, 'An', '12A1'), (2, 'Binh', '12A1'), (3, 'Cuong', '12A2'), (4, 'Dung', '12A2'), (5, 'E', '12A1').\nDIEM(MaHS, MaMon, Diem) gồm các dòng: (1, 'Toan', 9), (2, 'Toan', 7), (3, 'Toan', 8), (4, 'Toan', 9), (5, 'Toan', 8).\nXét truy vấn SQL:\n\nSELECT MaLop, COUNT(*) AS SoHS\nFROM HOCSINH\nWHERE MaHS IN (SELECT MaHS FROM DIEM WHERE Diem BETWEEN 8 AND 10)\nGROUP BY MaLop\nHAVING COUNT(*) = 2;\n\nTruy vấn trên trả về kết quả nào?", "options": ["A. Một dòng: ('12A1', 2).", "B. Hai dòng: ('12A1', 2) và ('12A2', 2).", "C. Một dòng: ('12A2', 2).", "D. Ba dòng: ('12A1', 3), ('12A2', 2) và một dòng tổng cộng."], "answer": "B", "explain": "Phân tích từng mệnh đề:\n- Truy vấn con: các MaHS có Diem trong [8, 10] là {1, 3, 4, 5} (loại MaHS = 2 vì điểm 7).\n- WHERE lọc bảng HOCSINH chỉ còn 4 học sinh: An (12A1), Cuong (12A2), Dung (12A2), E (12A1).\n- GROUP BY MaLop: lớp 12A1 có 2 học sinh (An, E), lớp 12A2 có 2 học sinh (Cuong, Dung).\n- HAVING COUNT(*) = 2 giữ lại cả hai nhóm.\nKết quả: hai dòng ('12A1', 2) và ('12A2', 2). Đáp án B.", "points": 0.25}, {"type": "mcq", "level": "VDC", "q": "Cho bảng HOCSINH có 3 dòng với MaHS lần lượt là 1, 2, 3 và bảng DIEM có 3 dòng với MaHS lần lượt là 2, 3, 4. Truy vấn sau trả về bao nhiêu dòng?\n\nSELECT COUNT(*) FROM HOCSINH LEFT JOIN DIEM ON HOCSINH.MaHS = DIEM.MaHS;", "options": ["A. 2", "B. 3", "C. 4", "D. 6"], "answer": "B", "explain": "LEFT JOIN giữ lại MỌI dòng của bảng trái (HOCSINH):\n- MaHS = 1: không khớp với DIEM nên cho một dòng với các cột DIEM là NULL.\n- MaHS = 2: khớp một dòng DIEM.\n- MaHS = 3: khớp một dòng DIEM.\nTổng cộng 3 dòng (dòng của MaHS = 4 trong DIEM bị loại vì là bảng phải). COUNT(*) = 3. Đáp án B.", "points": 0.25}, {"type": "mcq", "level": "VDC", "q": "Xét đoạn mã:\n\ndem = 0\nVới i chạy từ 1 đến n:\n    Với j chạy từ 1 đến i:\n        Với k chạy từ 1 đến j:\n            dem = dem + 1\n\nĐộ phức tạp thời gian của đoạn mã theo n là gì?", "options": ["A. $O(n^2)$", "B. $O(n^3)$", "C. $O(n^2 \\log n)$", "D. $O(2^n)$"], "answer": "B", "explain": "Số lần thực hiện lệnh trong cùng = tổng $\\sum_{i=1}^{n} \\sum_{j=1}^{i} j = \\sum_{i=1}^{n} i(i+1)/2$. Tổng này bằng $n(n+1)(n+2)/6$ (tổ hợp chập 3 của n+2), là một đa thức bậc 3 theo n. Vậy độ phức tạp là $O(n^3)$. Đáp án B.", "points": 0.25}, {"type": "mcq", "level": "VDC", "q": "Cần kiểm tra hai xâu s1, s2 (mỗi xâu dài tới $10^6$ ký tự ASCII) có phải là hoán vị của nhau hay không (tức có cùng đa tập ký tự). Cách làm nào sau đây đúng và hiệu quả nhất?", "options": ["A. Sắp xếp cả hai xâu rồi so sánh từng ký tự: độ phức tạp $O(n \\log n)$, đây là cách tối ưu.", "B. Dùng một mảng đếm tần suất 256 phần tử: duyệt s1 tăng đếm, duyệt s2 giảm đếm, cuối cùng kiểm tra mọi phần tử bằng 0: độ phức tạp $O(n)$, đây là cách tối ưu.", "C. Với mỗi ký tự của s1, đếm số lần xuất hiện của nó trong s2 bằng một vòng lặp: độ phức tạp $O(n)$, đơn giản nhất.", "D. So sánh độ dài hai xâu: nếu bằng nhau thì kết luận chúng là hoán vị của nhau."], "answer": "B", "explain": "Phân tích:\n- A đúng nhưng chưa tối ưu ($O(n \\log n)$ do sắp xếp).\n- C sai về độ phức tạp: mỗi ký tự của s1 phải duyệt cả s2 nên thực chất là $O(n^2)$.\n- D sai: cùng độ dài chưa đủ (ví dụ \"ab\" và \"cd\").\n- B đúng và tối ưu: hai lần duyệt tuyến tính $O(n)$ cộng một lần kiểm tra mảng 256 phần tử $O(1)$; bộ nhớ phụ chỉ 256 số nguyên. Đáp án B.", "points": 0.25}, {"type": "truefalse", "level": "VDC", "q": "Xét tính đúng, sai của các khẳng định sau về thuật toán xử lý xâu:", "statements": ["a) Thuật toán KMP tìm kiếm mẫu có độ dài m trong văn bản có độ dài n với độ phức tạp thời gian $O(n + m)$.", "b) Thuật toán tìm kiếm xâu ngây thơ (brute force) trong trường hợp xấu nhất có độ phức tạp $O(n \\times m)$.", "c) Mọi xâu con của một xâu đối xứng (palindrome) đều là xâu đối xứng.", "d) Hàm băm lăn (rolling hash) trong thuật toán Rabin-Karp cho phép so sánh một xâu con trong $O(1)$ sau khi tiền xử lý $O(n)$."], "answer": ["T", "T", "F", "T"], "explain": "a) Đúng: KMP tiền xử lý mẫu $O(m)$ rồi duyệt văn bản mỗi ký tự tối đa 2 lần, tổng $O(n + m)$.\nb) Đúng: trường hợp xấu (ví dụ T = \"aaa...a\", P = \"aab\") mỗi vị trí phải so sánh tới m ký tự nên $O(n \\times m)$.\nc) Sai: phản ví dụ xâu \"abba\" là palindrome nhưng xâu con \"abb\" không phải palindrome.\nd) Đúng: rolling hash tính hash của xâu con độ dài m trong $O(1)$ từ hash của xâu con trước đó sau tiền xử lý lũy thừa $O(n)$.", "points": 1}, {"type": "truefalse", "level": "VDC", "q": "Xét tính đúng, sai của các khẳng định sau về cơ sở dữ liệu:", "statements": ["a) Khóa chính của một bảng không được chứa giá trị NULL và không được có hai dòng trùng khóa chính.", "b) Đưa quan hệ về dạng chuẩn 3 (3NF) loại bỏ hoàn toàn mọi sự dư thừa dữ liệu.", "c) Trong một truy vấn SQL có cả WHERE và GROUP BY, mệnh đề WHERE được thực hiện trước khi nhóm.", "d) Lệnh DELETE FROM HOCSINH (không có mệnh đề WHERE) sẽ xóa luôn cả cấu trúc của bảng HOCSINH."], "answer": ["T", "F", "T", "F"], "explain": "a) Đúng: đó chính là hai ràng buộc toàn vẹn của khóa chính (entity integrity).\nb) Sai: 3NF loại bỏ phụ thuộc bắc cầu vào khóa nhưng vẫn có thể còn dư thừa (ví dụ phụ thuộc hàm giữa các thuộc tính không khóa); muốn triệt để hơn cần BCNF hoặc các dạng chuẩn cao hơn.\nc) Đúng: thứ tự logic thực hiện là FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY.\nd) Sai: DELETE không WHERE chỉ xóa toàn bộ DỮ LIỆU (các dòng); cấu trúc bảng vẫn còn, muốn xóa cả cấu trúc phải dùng DROP TABLE.", "points": 1}, {"type": "short", "level": "VDC", "q": "Giá trị của biểu thức tiền tố (mỗi toán hạng và toán tử cách nhau một dấu cách): \"+ * 2 3 - 8 4\" là bao nhiêu?", "answer": "10", "explain": "Đánh giá biểu thức tiền tố bằng cách duyệt từ phải sang trái với ngăn xếp:\n- 4, 8 push; gặp -: 8 - 4 = 4.\n- 3, 2 push; gặp *: 2 * 3 = 6.\n- Gặp +: 6 + 4 = 10.\n(Chú ý thứ tự toán hạng: với phép trừ, toán hạng TRÁI là 8 (đứng gần toán tử hơn khi duyệt từ phải sang).) Vậy giá trị là 10.", "points": 0.5}, {"type": "short", "level": "VDC", "q": "Đoạn mã sau in ra giá trị nào?\n\nn = 20\nla_nt = [True] * n\nla_nt[0] = False\nla_nt[1] = False\np = 2\nTrong khi p * p nhỏ hơn n:\n    Nếu la_nt[p]:\n        Với i chạy từ p * p đến n - 1, bước nhảy p:\n            la_nt[i] = False\n    p = p + 1\ns = 0\nVới i chạy từ 2 đến n - 1:\n    Nếu la_nt[i]:\n        s = s + i\nIn s", "answer": "77", "explain": "Đây là sàng Eratosthenes đánh dấu các hợp số nhỏ hơn 20:\n- p = 2: đánh dấu 4, 6, 8, 10, 12, 14, 16, 18.\n- p = 3: đánh dấu 9, 15 (12, 18 đã bị đánh dấu).\n- p = 4: la_nt[4] đã False nên bỏ qua; điều kiện 4*4 = 16 nhỏ hơn 20 vẫn đúng nhưng không làm gì; p = 5: 5*5 = 25 không nhỏ hơn 20 nên dừng.\nCác số nguyên tố còn lại nhỏ hơn 20: 2, 3, 5, 7, 11, 13, 17, 19. Tổng s = 2+3+5+7+11+13+17+19 = 77.", "points": 0.5}]}]}
+</script>
+</div>
+        </div>
+    </div>
+</body>
+</html>
