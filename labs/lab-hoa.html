@@ -124,6 +124,8 @@ document.querySelectorAll('.tab-btn').forEach(function(b){
     document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.add('hidden'); });
     document.getElementById('tab-' + b.dataset.tab).classList.remove('hidden');
     if (window.__fitAll) { try { window.__fitAll(); } catch(e){} }
+    var _rf = window.__tabRefresh && window.__tabRefresh[b.dataset.tab];
+    if (_rf) { try { _rf(); } catch(e){} }
     var rf = window.__tabRefresh[b.dataset.tab];
     if (rf) { try { rf(); } catch(e){} }
   });
@@ -132,11 +134,12 @@ function fitCanvas(cv){
   var hAttr = parseInt(cv.getAttribute('height')) || 300;
   cv.style.height = hAttr + 'px';
   var r = cv.getBoundingClientRect(), d = window.devicePixelRatio || 1;
-  if (r.width < 10) return null; // tab dang an -> chua ve (2026-10-09)
+  if (r.width < 10) return null; // tab an -> bo qua
   cv.width = Math.max(1, Math.round(r.width * d)); cv.height = Math.round(hAttr * d);
   var ctx = cv.getContext('2d'); ctx.setTransform(d,0,0,d,0,0);
   return {ctx: ctx, w: r.width, h: hAttr};
 }
+window.__tabRefresh = window.__tabRefresh || {};
 // Dang ky ham khoi tao lai khi mo tab
 window.__tabRefresh = window.__tabRefresh || {};
 
