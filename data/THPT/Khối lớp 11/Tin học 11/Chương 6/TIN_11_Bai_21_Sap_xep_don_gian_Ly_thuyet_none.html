@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay | Ma nguon thuoc nen tang hoc tap SAOBAY | Nghiem cam sao chep duoi moi hinh thuc -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 21: Các thuật toán sắp xếp đơn giản</title>
+    <meta name="lesson-title" content="Bài 21: Các thuật toán sắp xếp đơn giản">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 21: Các thuật toán sắp xếp đơn giản</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 6: Kĩ thuật lập trình • Bài 21: Các thuật toán sắp xếp đơn giản</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 21: Các thuật toán sắp xếp đơn giản</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 6: Kĩ thuật lập trình — sách Kết nối tri thức với cuộc sống</p>
+
+<!-- 1. Bài toán sắp xếp -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Bài toán sắp xếp</h2>
+
+<p><strong>Phát biểu:</strong> Cho dãy <code>a</code> gồm <code>n</code> phần tử. Hãy sắp xếp lại các phần tử theo thứ tự <strong>tăng dần</strong> (hoặc giảm dần).</p>
+
+<p>Ví dụ: <code>[5, 2, 8, 1]</code> sắp xếp tăng dần thành <code>[1, 2, 5, 8]</code>.</p>
+
+<p>Bài này học ba thuật toán sắp xếp đơn giản: <strong>nổi bọt</strong>, <strong>chọn</strong> và <strong>chèn</strong>. Cả ba đều có độ phức tạp thời gian <strong>O($n^2$)</strong> trong trường hợp xấu nhất.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ghi chú về code mẫu trong bài:</p>
+<p>Để hiển thị đúng trên web, các đoạn code mẫu <strong>không dùng trực tiếp</strong> các toán tử so sánh mà diễn đạt việc "a lớn hơn b" bằng <code>a != min(a, b)</code> (nếu <code>a</code> khác giá trị nhỏ nhất trong hai số thì <code>a</code> là số lớn hơn). Khi lập trình thực tế, em có thể viết gọn bằng toán tử so sánh thông thường.</p>
+</div>
+
+<!-- 2. Sắp xếp nổi bọt -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Sắp xếp nổi bọt (Bubble Sort)</h2>
+
+<p><strong>Ý tưởng:</strong> Lặp đi lặp lại việc <strong>so sánh từng cặp phần tử kề nhau</strong>; nếu chúng <strong>sai thứ tự</strong> (phần tử trước lớn hơn phần tử sau) thì <strong>đổi chỗ</strong>. Sau mỗi lượt duyệt, phần tử lớn nhất sẽ "nổi" lên cuối dãy như bọt nước.</p>
+
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2">def sap_xep_noi_bot(a):
+    n = len(a)
+    for i in range(n):
+        for j in range(n - 1 - i):
+            # nếu a[j] lớn hơn a[j+1] thì đổi chỗ
+            if a[j] != min(a[j], a[j + 1]):
+                a[j], a[j + 1] = a[j + 1], a[j]
+
+a = [5, 2, 8, 1]
+sap_xep_noi_bot(a)
+print(a)   # [1, 2, 5, 8]</pre>
+
+<p><strong>Ví dụ trace</strong> với <code>a = [5, 2, 8, 1]</code>:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Lượt 1: so sánh (5,2) đổi → [2,5,8,1]; so sánh (5,8) giữ nguyên; so sánh (8,1) đổi → <strong>[2,5,1,8]</strong> (số 8 về cuối).</li>
+<li>Lượt 2: so sánh (2,5) giữ nguyên; so sánh (5,1) đổi → <strong>[2,1,5,8]</strong> (số 5 về đúng chỗ).</li>
+<li>Lượt 3: so sánh (2,1) đổi → <strong>[1,2,5,8]</strong>. Dãy đã sắp xếp xong.</li>
+</ul>
+
+<p><strong>Đánh giá:</strong> số lượt tối đa là <code>n - 1</code>; mỗi lượt duyệt qua các cặp kề. Độ phức tạp <strong>O($n^2$)</strong>. Nếu một lượt không có đổi chỗ nào thì dãy đã sắp xếp xong và có thể dừng sớm.</p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Minh hoa sap xep noi bot">
+<rect x="2" y="2" width="436" height="146" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="26" font-family="sans-serif" font-size="13" font-weight="bold" fill="#0c4a6e" text-anchor="middle">Nổi bọt: sau lượt 1, số lớn nhất "nổi" lên cuối</text>
+<g font-family="monospace" font-size="13" text-anchor="middle">
+<rect x="40" y="48" width="52" height="36" rx="5" fill="#e0f2fe" stroke="#0284c7"/><text x="66" y="72" fill="#0c4a6e">2</text>
+<rect x="98" y="48" width="52" height="36" rx="5" fill="#e0f2fe" stroke="#0284c7"/><text x="124" y="72" fill="#0c4a6e">5</text>
+<rect x="156" y="48" width="52" height="36" rx="5" fill="#e0f2fe" stroke="#0284c7"/><text x="182" y="72" fill="#0c4a6e">1</text>
+<rect x="214" y="48" width="52" height="36" rx="5" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/><text x="240" y="72" fill="#166534">8</text>
+</g>
+<text x="300" y="72" font-family="sans-serif" font-size="12" fill="#166534">← đã đúng vị trí</text>
+<g font-family="monospace" font-size="13" text-anchor="middle">
+<rect x="40" y="96" width="52" height="36" rx="5" fill="#f1f5f9" stroke="#cbd5e1"/><text x="66" y="120" fill="#94a3b8">5</text>
+<rect x="98" y="96" width="52" height="36" rx="5" fill="#f1f5f9" stroke="#cbd5e1"/><text x="124" y="120" fill="#94a3b8">2</text>
+<rect x="156" y="96" width="52" height="36" rx="5" fill="#f1f5f9" stroke="#cbd5e1"/><text x="182" y="120" fill="#94a3b8">8</text>
+<rect x="214" y="96" width="52" height="36" rx="5" fill="#f1f5f9" stroke="#cbd5e1"/><text x="240" y="120" fill="#94a3b8">1</text>
+</g>
+<text x="300" y="120" font-family="sans-serif" font-size="12" fill="#94a3b8">← trước lượt 1</text>
+</svg></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Nổi bọt: <strong>so sánh cặp kề, sai thứ tự thì đổi chỗ</strong>. Sau lượt thứ <code>k</code>, <code>k</code> phần tử lớn nhất đã về đúng vị trí cuối dãy.</p>
+</div>
+<!-- 3. Sắp xếp chọn -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Sắp xếp chọn (Selection Sort)</h2>
+
+<p><strong>Ý tưởng:</strong> Chia dãy thành hai phần: phần <strong>đã sắp xếp</strong> ở đầu và phần <strong>chưa sắp xếp</strong> ở sau. Mỗi lượt, <strong>chọn phần tử nhỏ nhất</strong> trong phần chưa sắp xếp rồi <strong>đổi chỗ</strong> nó với phần tử đầu của phần chưa sắp xếp.</p>
+
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2">def sap_xep_chon(a):
+    n = len(a)
+    for i in range(n):
+        # vị trí của phần tử nhỏ nhất từ i trở về sau
+        k = a.index(min(a[i:]), i)
+        a[i], a[k] = a[k], a[i]
+
+a = [5, 2, 8, 1]
+sap_xep_chon(a)
+print(a)   # [1, 2, 5, 8]</pre>
+
+<p><strong>Ví dụ trace</strong> với <code>a = [5, 2, 8, 1]</code>:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Lượt 1 (i = 0): nhỏ nhất trong [5,2,8,1] là 1 (ở chỉ số 3), đổi chỗ với a[0] → <strong>[1,2,8,5]</strong>.</li>
+<li>Lượt 2 (i = 1): nhỏ nhất trong [2,8,5] là 2 (đã đúng chỗ) → <strong>[1,2,8,5]</strong>.</li>
+<li>Lượt 3 (i = 2): nhỏ nhất trong [8,5] là 5 (ở chỉ số 3), đổi chỗ với a[2] → <strong>[1,2,5,8]</strong>.</li>
+</ul>
+
+<p><strong>Đánh giá:</strong> mỗi lượt tìm min trong phần chưa sắp xếp nên tổng số phép so sánh xấp xỉ $n^2/2$. Độ phức tạp <strong>O($n^2$)</strong>. Ưu điểm: số lần đổi chỗ ít (tối đa $n - 1$ lần).</p>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Sắp xếp chọn: mỗi lượt <strong>chọn phần tử nhỏ nhất</strong> của phần chưa sắp xếp đưa về <strong>đầu</strong> phần đó. Sau lượt thứ <code>k</code>, <code>k</code> phần tử đầu đã đúng vị trí.</p>
+</div>
+
+<!-- 4. Sắp xếp chèn -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Sắp xếp chèn (Insertion Sort)</h2>
+
+<p><strong>Ý tưởng:</strong> Xem phần đầu dãy là dãy con <strong>đã sắp xếp</strong>. Lần lượt lấy từng phần tử ở phần sau và <strong>chèn</strong> nó vào <strong>đúng vị trí</strong> trong dãy con đã sắp xếp (dời các phần tử lớn hơn sang phải để lấy chỗ).</p>
+
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2">def sap_xep_chen(a):
+    n = len(a)
+    for i in range(1, n):
+        key = a[i]
+        j = i
+        # dời các phần tử lớn hơn key sang phải một vị trí
+        while j != 0 and a[j - 1] != min(a[j - 1], key):
+            a[j] = a[j - 1]
+            j = j - 1
+        a[j] = key
+
+a = [5, 2, 8, 1]
+sap_xep_chen(a)
+print(a)   # [1, 2, 5, 8]</pre>
+
+<p><strong>Ví dụ trace</strong> với <code>a = [5, 2, 8, 1]</code>:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>i = 1, key = 2: dời 5 sang phải, chèn 2 vào đầu → <strong>[2,5,8,1]</strong>.</li>
+<li>i = 2, key = 8: 8 đã lớn hơn mọi phần tử trước nó, giữ nguyên → <strong>[2,5,8,1]</strong>.</li>
+<li>i = 3, key = 1: dời 8, 5, 2 sang phải, chèn 1 vào đầu → <strong>[1,2,5,8]</strong>.</li>
+</ul>
+
+<p><strong>Đánh giá:</strong> trường hợp xấu nhất (dãy giảm dần) phải dời nhiều phần tử nên độ phức tạp <strong>O($n^2$)</strong>; trường hợp tốt nhất (dãy đã sắp xếp) chỉ cần O($n$).</p>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Sắp xếp chèn: <strong>chèn từng phần tử</strong> vào đúng vị trí trong phần đầu đã sắp xếp. Giống cách xếp bài trên tay khi chơi bài.</p>
+</div>
+
+<!-- 5. So sánh -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">5. So sánh ba thuật toán</h2>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-sm my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Thuật toán</td><td class="border border-slate-300 px-4 py-1">Ý tưởng chính</td><td class="border border-slate-300 px-4 py-1">Độ phức tạp (xấu nhất)</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Nổi bọt</td><td class="border border-slate-300 px-4 py-1">So sánh cặp kề, sai thì đổi chỗ</td><td class="border border-slate-300 px-4 py-1">O($n^2$)</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Chọn</td><td class="border border-slate-300 px-4 py-1">Chọn min đưa về đầu phần chưa sắp</td><td class="border border-slate-300 px-4 py-1">O($n^2$)</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Chèn</td><td class="border border-slate-300 px-4 py-1">Chèn vào đúng vị trí trong phần đã sắp</td><td class="border border-slate-300 px-4 py-1">O($n^2$)</td></tr>
+</table></div>
+
+<!-- Tóm tắt -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Bài toán sắp xếp:</strong> đưa dãy về thứ tự tăng (hoặc giảm) dần.</li>
+<li><strong>Nổi bọt:</strong> so sánh cặp kề, đổi chỗ khi sai thứ tự; phần tử lớn nhất "nổi" lên cuối mỗi lượt.</li>
+<li><strong>Chọn:</strong> mỗi lượt chọn phần tử nhỏ nhất trong phần chưa sắp xếp đưa về đầu.</li>
+<li><strong>Chèn:</strong> chèn từng phần tử vào đúng vị trí trong phần đầu đã sắp xếp.</li>
+<li>Cả ba đều có độ phức tạp <strong>O($n^2$)</strong> trong trường hợp xấu nhất — chỉ phù hợp với <code>n</code> nhỏ.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">
+(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok){if(document.body){document.body.innerHTML='<div style="font-family:system-ui,sans-serif;max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff"><h2 style="color:#0f172a;margin-top:0">© SAOBAY — Trường THPT Sào Báy</h2><p style="color:#475569">Nội dung này chỉ được hiển thị tại địa chỉ chính thức <b>saobay.github.io</b>.</p><p style="color:#475569">Vui lòng truy cập đúng địa chỉ để học tập.</p></div>';}else{document.write("SAOBAY: truy cap tai saobay.github.io");}}catch(e){}})();
+</script>
+</body>
+</html>
