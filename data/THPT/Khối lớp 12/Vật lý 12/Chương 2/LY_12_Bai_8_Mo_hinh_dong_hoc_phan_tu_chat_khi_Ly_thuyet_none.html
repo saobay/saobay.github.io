@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 8: Mô hình động học phân tử chất khí</title>
+    <meta name="lesson-title" content="Bài 8: Mô hình động học phân tử chất khí">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 8: Mô hình động học phân tử chất khí</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 2: Khí lí tưởng • Bài 8: Mô hình động học phân tử chất khí</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 8: Mô hình động học phân tử chất khí</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 2: Khí lí tưởng — Vật lí 12 (Kết nối tri thức với cuộc sống)</p>
+
+
+<!-- 1. Mo hinh dong hoc phan tu -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Mô hình động học phân tử chất khí</h2>
+
+<p>Để giải thích các tính chất của chất khí, người ta xây dựng <strong>mô hình động học phân tử</strong> với các nội dung chính:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Chất khí được cấu tạo từ các <strong>phân tử</strong> (nguyên tử).</li>
+<li>Các phân tử chuyển động <strong>hỗn loạn, không ngừng</strong>; nhiệt độ càng cao, phân tử chuyển động càng nhanh.</li>
+<li>Khi chuyển động, các phân tử <strong>va chạm</strong> với nhau và va chạm với thành bình; va chạm là <strong>đàn hồi</strong> (tổng động năng bảo toàn).</li>
+<li><strong>Kích thước</strong> của phân tử <strong>rất nhỏ</strong> so với khoảng cách giữa các phân tử.</li>
+<li>Giữa các va chạm, <strong>lực tương tác</strong> giữa các phân tử là <strong>không đáng kể</strong>.</li>
+</ul>
+
+<div class="svg-fig"><svg viewBox="0 0 440 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Phan tu khi chuyen dong hon loan va cham thanh binh">
+<rect x="2" y="2" width="436" height="206" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="26" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0c4a6e" text-anchor="middle">PHÂN TỬ KHÍ CHUYỂN ĐỘNG HỖN LOẠN, VA CHẠM THÀNH BÌNH</text>
+<rect x="90" y="50" width="260" height="120" rx="8" fill="#eff6ff" stroke="#0369a1" stroke-width="2.5"/>
+<circle cx="140" cy="90" r="8" fill="#f59e0b"/><line x1="140" y1="90" x2="170" y2="70" stroke="#b45309" stroke-width="2"/>
+<circle cx="200" cy="130" r="8" fill="#f59e0b"/><line x1="200" y1="130" x2="230" y2="150" stroke="#b45309" stroke-width="2"/>
+<circle cx="260" cy="80" r="8" fill="#f59e0b"/><line x1="260" y1="80" x2="290" y2="100" stroke="#b45309" stroke-width="2"/>
+<circle cx="300" cy="140" r="8" fill="#f59e0b"/><line x1="300" y1="140" x2="330" y2="120" stroke="#b45309" stroke-width="2"/>
+<circle cx="170" cy="150" r="8" fill="#f59e0b"/><line x1="170" y1="150" x2="150" y2="168" stroke="#b45309" stroke-width="2"/>
+<polygon points="330,116 342,124 330,132" fill="#dc2626"/>
+<text x="365" y="128" font-family="sans-serif" font-size="12" fill="#b91c1c">va chạm</text>
+<text x="365" y="144" font-family="sans-serif" font-size="12" fill="#b91c1c">tạo áp suất</text>
+<text x="220" y="192" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">Áp suất chất khí do va chạm của phân tử lên thành bình gây ra</text>
+</svg></div>
+
+<!-- 2. Khi li tuong -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Khí lí tưởng</h2>
+
+<p><strong>Định nghĩa:</strong> <em>khí lí tưởng</em> là chất khí tuân theo <strong>đúng</strong> mô hình động học phân tử và các định luật chất khí (Boyle, Charles, phương trình trạng thái).</p>
+
+<p>Trong thực tế <strong>không có</strong> khí lí tưởng tuyệt đối, nhưng ở điều kiện <strong>áp suất thấp</strong> và <strong>nhiệt độ cao</strong> (so với nhiệt độ hoá lỏng), các khí thực như oxygen, nitrogen, helium... tuân theo gần đúng các định luật của khí lí tưởng.</p>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Mô hình động học phân tử có 5 ý: (1) cấu tạo từ phân tử; (2) chuyển động hỗn loạn không ngừng; (3) va chạm đàn hồi; (4) kích thước phân tử rất nhỏ so với khoảng cách; (5) lực tương tác không đáng kể giữa các va chạm. Khí lí tưởng ≈ khí thực ở <strong>áp suất thấp, nhiệt độ cao</strong>.</p>
+</div>
+
+<!-- 3. Ap suat chat khi -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Áp suất của chất khí</h2>
+
+<p>Theo mô hình động học phân tử, <strong>áp suất</strong> của chất khí lên thành bình là do <strong>va chạm</strong> của các phân tử khí lên thành bình gây ra.</p>
+
+<p>Áp suất càng lớn khi:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Mật độ phân tử</strong> càng lớn (càng nhiều phân tử va chạm lên thành bình trong một đơn vị thời gian);</li>
+<li>Các phân tử chuyển động <strong>càng nhanh</strong> (nhiệt độ càng cao), va chạm càng mạnh.</li>
+</ul>
+
+<!-- 4. Vi du -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Ví dụ vận dụng</h2>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 1:</p>
+<p>Vì sao bơm xe đạp lâu thì ống bơm nóng lên và khí trong lốp căng hơn?</p>
+<p class="mt-2"><strong>Lời giải:</strong> Bơm thêm khí làm <strong>mật độ phân tử</strong> trong lốp tăng → số va chạm lên thành lốp tăng → áp suất tăng (lốp căng). Đồng thời công nén khí làm nội năng khí tăng nên ống bơm nóng lên.</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 2:</p>
+<p>Vì sao không nên để bình gas gần lửa?</p>
+<p class="mt-2"><strong>Lời giải:</strong> Nhiệt độ tăng làm phân tử khí chuyển động nhanh hơn, va chạm mạnh hơn → áp suất trong bình tăng cao, có thể gây nổ bình gas.</p>
+</div>
+
+<!-- Tong ket -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Mô hình động học phân tử:</strong> phân tử chuyển động hỗn loạn không ngừng, va chạm đàn hồi, kích thước rất nhỏ so với khoảng cách, lực tương tác không đáng kể.</li>
+<li><strong>Khí lí tưởng:</strong> tuân theo đúng mô hình và các định luật; khí thực ≈ khí lí tưởng ở áp suất thấp, nhiệt độ cao.</li>
+<li><strong>Áp suất</strong> do va chạm phân tử lên thành bình; tăng khi mật độ phân tử tăng hoặc nhiệt độ tăng.</li>
+</ul>
+</div>
+
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề Vật lí bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
