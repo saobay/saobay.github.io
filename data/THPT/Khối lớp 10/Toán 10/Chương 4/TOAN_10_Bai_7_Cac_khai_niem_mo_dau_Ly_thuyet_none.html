@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 7: Các khái niệm mở đầu</title>
+    <meta name="lesson-title" content="Bài 7: Các khái niệm mở đầu">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 7: Các khái niệm mở đầu</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 1: Mệnh đề và tập hợp • Bài 7: Các khái niệm mở đầu</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 7: Các khái niệm mở đầu</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 4: Vectơ — Toán 10 (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Khái niệm vectơ -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Khái niệm vectơ</h2>
+
+<p><strong>Định nghĩa:</strong> <em>Vectơ</em> là một đoạn thẳng có <strong>hướng</strong>. Vectơ có điểm đầu $A$, điểm cuối $B$ được kí hiệu là $\overrightarrow{AB}$ (đọc là "vectơ AB").</p>
+
+<p>Vectơ còn được kí hiệu bằng một chữ cái in thường có mũi tên ở trên, ví dụ $\vec{a}, \vec{b}, \vec{x}, \vec{y}, \dots$</p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Minh hoa vecto AB">
+<rect x="2" y="2" width="436" height="196" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<line x1="80" y1="120" x2="300" y2="60" stroke="#1d4ed8" stroke-width="3"/>
+<polygon points="300,60 282,58 290,74" fill="#1d4ed8"/>
+<circle cx="80" cy="120" r="6" fill="#1d4ed8"/>
+<circle cx="300" cy="60" r="6" fill="#dc2626"/>
+<text x="62" y="145" font-family="sans-serif" font-size="15" font-weight="bold" fill="#1d4ed8">A</text>
+<text x="308" y="55" font-family="sans-serif" font-size="15" font-weight="bold" fill="#dc2626">B</text>
+<text x="190" y="80" font-family="sans-serif" font-size="15" font-style="italic" fill="#1d4ed8">vectơ AB</text>
+<text x="70" y="180" font-family="sans-serif" font-size="13" fill="#64748b">Điểm đầu A (xanh) &#8594; điểm cuối B (đỏ): hướng của vectơ</text>
+</svg></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Vectơ $\overrightarrow{AB}$ <strong>khác</strong> vectơ $\overrightarrow{BA}$: hai vectơ này có cùng độ dài nhưng <strong>ngược hướng</strong> nhau. Thứ tự điểm đầu – điểm cuối quyết định hướng của vectơ!</p>
+</div>
+
+<!-- 2. Vectơ-không -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Vectơ-không</h2>
+
+<p><strong>Định nghĩa:</strong> vectơ có điểm đầu và điểm cuối <strong>trùng nhau</strong> gọi là <em>vectơ-không</em>, kí hiệu là $\vec{0}$.</p>
+
+<p>Quy ước: vectơ-không có độ dài bằng $0$ và <strong>cùng hướng, cùng phương với mọi vectơ</strong>.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Với điểm $M$ bất kì, $\overrightarrow{MM} = \vec{0}$. Vectơ-không cùng phương với $\overrightarrow{AB}$ và cũng cùng hướng với $\overrightarrow{AB}$.</p>
+</div>
+
+<!-- 3. Cùng phương, cùng hướng -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Hai vectơ cùng phương, cùng hướng, ngược hướng</h2>
+
+<p><strong>Định nghĩa:</strong> đường thẳng đi qua điểm đầu và điểm cuối của một vectơ được gọi là <em>giá</em> của vectơ đó.</p>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Hai vectơ được gọi là <em>cùng phương</em> nếu giá của chúng <strong>song song hoặc trùng nhau</strong>.</li>
+<li>Hai vectơ cùng phương được gọi là <em>cùng hướng</em> nếu chúng chỉ về cùng một phía; <em>ngược hướng</em> nếu chúng chỉ về hai phía ngược nhau.</li>
+</ul>
+
+<div class="svg-fig"><svg viewBox="0 0 440 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Minh hoa vecto cung phuong cung huong nguoc huong">
+<rect x="2" y="2" width="436" height="256" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<line x1="40" y1="70" x2="400" y2="70" stroke="#94a3b8" stroke-width="1" stroke-dasharray="6,4"/>
+<line x1="40" y1="180" x2="400" y2="180" stroke="#94a3b8" stroke-width="1" stroke-dasharray="6,4"/>
+<line x1="80" y1="70" x2="200" y2="70" stroke="#1d4ed8" stroke-width="3"/>
+<polygon points="200,70 188,64 188,76" fill="#1d4ed8"/>
+<text x="130" y="58" font-family="sans-serif" font-size="13" font-style="italic" fill="#1d4ed8">a</text>
+<line x1="250" y1="70" x2="370" y2="70" stroke="#1d4ed8" stroke-width="3"/>
+<polygon points="370,70 358,64 358,76" fill="#1d4ed8"/>
+<text x="300" y="58" font-family="sans-serif" font-size="13" font-style="italic" fill="#1d4ed8">b</text>
+<text x="150" y="100" font-family="sans-serif" font-size="12" fill="#15803d">a, b cùng phương, cùng hướng</text>
+<line x1="80" y1="180" x2="200" y2="180" stroke="#b45309" stroke-width="3"/>
+<polygon points="200,180 188,174 188,186" fill="#b45309"/>
+<text x="130" y="168" font-family="sans-serif" font-size="13" font-style="italic" fill="#b45309">c</text>
+<line x1="370" y1="180" x2="250" y2="180" stroke="#b45309" stroke-width="3"/>
+<polygon points="250,180 262,174 262,186" fill="#b45309"/>
+<text x="300" y="168" font-family="sans-serif" font-size="13" font-style="italic" fill="#b45309">d</text>
+<text x="150" y="210" font-family="sans-serif" font-size="12" fill="#b45309">c, d cùng phương, ngược hướng</text>
+<text x="60" y="245" font-family="sans-serif" font-size="12" fill="#64748b">Đường nét đứt là giá của các vectơ</text>
+</svg></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><strong>Cùng phương</strong> chỉ nói về "đường thẳng chứa vectơ" (song song hoặc trùng). Muốn xét cùng hướng hay ngược hướng thì hai vectơ phải <strong>cùng phương trước đã</strong>. Hai vectơ không cùng phương thì không nói cùng hướng hay ngược hướng!</p>
+</div>
+
+<!-- 4. Độ dài -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Độ dài của vectơ</h2>
+
+<p><strong>Định nghĩa:</strong> <em>độ dài</em> của vectơ $\overrightarrow{AB}$ là độ dài đoạn thẳng $AB$, kí hiệu là $|\overrightarrow{AB}|$ (đọc là "độ dài vectơ AB"). Độ dài của vectơ $\vec{a}$ kí hiệu là $|\vec{a}|$.</p>
+
+<p>Như vậy $|\overrightarrow{AB}| = AB$ và $|\vec{0}| = 0$.</p>
+
+<!-- 5. Bằng nhau, đối nhau -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">5. Hai vectơ bằng nhau. Vectơ đối nhau</h2>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-bold text-emerald-800">Định nghĩa</p>
+<ul class="list-disc ml-6 space-y-1 mt-2">
+<li>Hai vectơ $\vec{a}$ và $\vec{b}$ được gọi là <em>bằng nhau</em>, kí hiệu $\vec{a} = \vec{b}$, nếu chúng <strong>cùng hướng và cùng độ dài</strong>.</li>
+<li>Hai vectơ $\vec{a}$ và $\vec{b}$ được gọi là <em>đối nhau</em> nếu chúng <strong>ngược hướng và cùng độ dài</strong>. Vectơ đối của $\vec{a}$ kí hiệu là $-\vec{a}$; vectơ đối của $\overrightarrow{AB}$ là $\overrightarrow{BA}$.</li>
+</ul>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Cho hình bình hành $ABCD$ tâm $O$. Khi đó:</p>
+<ul class="list-disc ml-6 space-y-1 mt-2">
+<li>$\overrightarrow{AB} = \overrightarrow{DC}$ (cùng hướng, cùng độ dài).</li>
+<li>$\overrightarrow{OA} = \overrightarrow{CO}$; vectơ đối của $\overrightarrow{OA}$ là $\overrightarrow{OC}$.</li>
+<li>$\overrightarrow{AB}$ và $\overrightarrow{CD}$ là hai vectơ đối nhau.</li>
+</ul>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Hai vectơ bằng nhau thì <strong>không cần chung điểm đầu</strong> — chỉ cần cùng hướng và cùng độ dài. Đây là điểm khác biệt lớn nhất của vectơ so với đoạn thẳng!</p>
+</div>
+
+<!-- Tổng kết -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Vectơ</strong> $\overrightarrow{AB}$: đoạn thẳng có hướng, điểm đầu $A$, điểm cuối $B$.</li>
+<li><strong>Vectơ-không</strong> $\vec{0}$: điểm đầu trùng điểm cuối; cùng phương, cùng hướng với mọi vectơ.</li>
+<li><strong>Cùng phương:</strong> giá song song hoặc trùng nhau. Cùng phương rồi mới xét <strong>cùng hướng / ngược hướng</strong>.</li>
+<li><strong>Độ dài:</strong> $|\overrightarrow{AB}| = AB$.</li>
+<li><strong>Bằng nhau:</strong> cùng hướng + cùng độ dài. <strong>Đối nhau:</strong> ngược hướng + cùng độ dài (vectơ đối của $\vec{a}$ là $-\vec{a}$).</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+</body>
+</html>
