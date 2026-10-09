@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 17: Tính chất đường phân giác của tam giác</title>
+    <meta name="lesson-title" content="Bài 17: Tính chất đường phân giác của tam giác">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 17: Tính chất đường phân giác của tam giác</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 4: Định lí Thalès • Bài 17: Tính chất đường phân giác của tam giác</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3">1. Tính chất đường phân giác của tam giác</H2>
+<p><strong>Định lí.</strong> Trong tam giác, đường phân giác của một góc chia cạnh đối diện thành hai đoạn thẳng tỉ lệ với hai cạnh kề hai đoạn ấy.</p>
+<p>Trong hình vẽ, $AD$ là đường phân giác của $\widehat{A}$ ($D \in BC$) thì:
+$$\frac{DB}{DC} = \frac{AB}{AC} \quad \text{hay} \quad \frac{DB}{AB} = \frac{DC}{AC}.$$
+</p>
+<div class="svg-fig">
+<svg viewBox="0 0 340 300" xmlns="http://www.w3.org/2000/svg">
+<polygon points="100,60 60,260 280,260" fill="#e0f2fe" stroke="#0284c7" stroke-width="2.5" stroke-linejoin="round"/>
+<line x1="100" y1="60" x2="155" y2="260" stroke="#dc2626" stroke-width="2.5"/>
+<path d="M94,89 A30,30 0 0 0 108,89" fill="none" stroke="#dc2626" stroke-width="2"/>
+<path d="M108,89 A30,30 0 0 0 120,82" fill="none" stroke="#dc2626" stroke-width="2"/>
+<circle cx="155" cy="260" r="4.5" fill="#dc2626"/>
+<text x="94" y="47" font-size="17" font-weight="bold" fill="#0f172a">A</text>
+<text x="43" y="267" font-size="17" font-weight="bold" fill="#0f172a">B</text>
+<text x="285" y="267" font-size="17" font-weight="bold" fill="#0f172a">C</text>
+<text x="150" y="283" font-size="16" font-weight="bold" fill="#dc2626">D</text>
+<text x="52" y="170" font-size="14" fill="#0f172a">AB</text>
+<text x="215" y="170" font-size="14" fill="#0f172a">AC</text>
+<text x="95" y="283" font-size="14" fill="#0f172a">BD</text>
+<text x="215" y="283" font-size="14" fill="#0f172a">DC</text>
+</svg>
+<p class="text-center text-sm text-slate-500 mt-1">Hình 1. $AD$ là phân giác của $\widehat{A}$: $\dfrac{DB}{DC} = \dfrac{AB}{AC}$</p>
+</div>
+<div class="bg-sky-50 border border-sky-200 rounded-xl p-4 my-4">
+<p class="font-bold text-sky-800 mb-2">📌 Ví dụ 1</p>
+<p>Cho tam giác $ABC$ có $AB = 6$ cm, $AC = 9$ cm. Đường phân giác của góc $A$ cắt $BC$ tại $D$ sao cho $BD = 4$ cm. Tính $DC$.</p>
+<p><em>Giải.</em> Vì $AD$ là đường phân giác của $\widehat{A}$ nên theo tính chất đường phân giác:
+$$\frac{DB}{DC} = \frac{AB}{AC} \Rightarrow \frac{4}{DC} = \frac{6}{9}.$$
+Suy ra $DC = \dfrac{4 \cdot 9}{6} = 6$ (cm).<br>
+Do đó $BC = BD + DC = 4 + 6 = 10$ (cm).</p>
+</div>
+<div class="svg-fig">
+<svg viewBox="0 0 340 300" xmlns="http://www.w3.org/2000/svg">
+<polygon points="100,60 60,260 280,260" fill="#e0f2fe" stroke="#0284c7" stroke-width="2.5" stroke-linejoin="round"/>
+<line x1="100" y1="60" x2="155" y2="260" stroke="#dc2626" stroke-width="2.5"/>
+<path d="M94,89 A30,30 0 0 0 108,89" fill="none" stroke="#dc2626" stroke-width="2"/>
+<path d="M108,89 A30,30 0 0 0 120,82" fill="none" stroke="#dc2626" stroke-width="2"/>
+<circle cx="155" cy="260" r="4.5" fill="#dc2626"/>
+<text x="52" y="170" font-size="14" fill="#0f172a">6 cm</text>
+<text x="215" y="170" font-size="14" fill="#0f172a">9 cm</text>
+<text x="88" y="283" font-size="14" fill="#0f172a">4 cm</text>
+<text x="208" y="283" font-size="14" font-weight="bold" fill="#dc2626">DC = ?</text>
+<text x="94" y="47" font-size="17" font-weight="bold" fill="#0f172a">A</text>
+<text x="43" y="267" font-size="17" font-weight="bold" fill="#0f172a">B</text>
+<text x="285" y="267" font-size="17" font-weight="bold" fill="#0f172a">C</text>
+<text x="150" y="283" font-size="16" font-weight="bold" fill="#dc2626">D</text>
+</svg>
+<p class="text-center text-sm text-slate-500 mt-1">Hình 2. Minh họa Ví dụ 1: $DC = 6$ cm</p>
+</div>
+<div class="bg-amber-50 border-l-4 border-amber-400 rounded-r-xl p-4 my-4">
+<p class="font-bold text-amber-800 mb-2">📌 Ghi nhớ</p>
+<ul class="list-disc pl-5 space-y-1">
+<li>Trong tam giác, đường phân giác của một góc chia cạnh đối diện thành hai đoạn thẳng <strong>tỉ lệ với hai cạnh kề</strong> hai đoạn ấy.</li>
+<li>$AD$ là phân giác của $\widehat{A}$ ($D \in BC$) thì $\dfrac{DB}{DC} = \dfrac{AB}{AC}$.</li>
+</ul>
+</div>
+
+
+            </div>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
