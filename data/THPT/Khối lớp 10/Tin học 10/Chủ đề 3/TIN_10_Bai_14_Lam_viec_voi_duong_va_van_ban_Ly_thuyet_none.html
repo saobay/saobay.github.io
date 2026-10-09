@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 14: Làm việc với đối tượng đường và văn bản</title>
+    <meta name="lesson-title" content="Bài 14: Làm việc với đối tượng đường và văn bản">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 14: Làm việc với đối tượng đường và văn bản</h1>
+            <p class="text-xs text-slate-500 mt-1">Chủ đề 4: Ứng dụng tin học • Bài 14: Làm việc với đối tượng đường và văn bản</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 14: Làm việc với đối tượng đường và văn bản</h1>
+<p class="text-center text-slate-500 italic mb-8">Chủ đề 4: Ứng dụng tin học • Bài 14: Làm việc với đối tượng đường và văn bản</p>
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Vẽ đường bằng công cụ Bézier</h2>
+
+<p>Công cụ <strong>Bézier (Shift+F6 hoặc phím B)</strong> là công cụ vẽ đường thẳng và đường cong chủ lực trong Inkscape. Cách vẽ:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Bấm chuột đơn</strong> từng điểm: tạo <strong>nút góc</strong> (corner), các nút nối nhau bằng <strong>đoạn thẳng</strong>.</li>
+<li><strong>Bấm chuột rồi kéo</strong> (không thả ngay): tạo <strong>nút trơn</strong> (smooth) có <strong>tay cầm điều khiển</strong>, tạo <strong>đoạn cong</strong> mượt mà.</li>
+<li>Nhấn <strong>Enter</strong>: kết thúc và giữ lại đường đã vẽ. Nhấn <strong>Esc</strong>: hủy bỏ đường đang vẽ.</li>
+<li>Giữ <strong>Ctrl</strong> khi bấm điểm tiếp theo: khóa hướng theo phương chuẩn (ngang, dọc, chéo 45°).</li>
+<li>Bấm điểm cuối <strong>trùng vào điểm đầu</strong>: khép kín đường thành hình kín (tô được màu nền).</li>
+</ul>
+
+<div class="svg-fig"><svg viewBox="0 0 440 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Nút góc và nút trơn">
+<rect x="2" y="2" width="436" height="206" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="110" y="28" font-family="sans-serif" font-size="13" font-weight="bold" fill="#b91c1c" text-anchor="middle">Nút góc (bấm đơn)</text>
+<polyline points="40,60 110,60 110,130 180,130" fill="none" stroke="#1e3a8a" stroke-width="3"/>
+<rect x="35" y="55" width="10" height="10" fill="#1e3a8a"/><rect x="105" y="55" width="10" height="10" fill="#1e3a8a"/><rect x="105" y="125" width="10" height="10" fill="#1e3a8a"/><rect x="175" y="125" width="10" height="10" fill="#1e3a8a"/>
+<text x="110" y="165" font-family="sans-serif" font-size="11" fill="#64748b" text-anchor="middle">Nối bằng đoạn thẳng,</text>
+<text x="110" y="180" font-family="sans-serif" font-size="11" fill="#64748b" text-anchor="middle">tạo góc nhọn</text>
+<text x="330" y="28" font-family="sans-serif" font-size="13" font-weight="bold" fill="#15803d" text-anchor="middle">Nút trơn (bấm-kéo)</text>
+<path d="M 260 130 C 290 60, 340 60, 400 130" fill="none" stroke="#15803d" stroke-width="3"/>
+<circle cx="260" cy="130" r="5" fill="#15803d"/><circle cx="400" cy="130" r="5" fill="#15803d"/>
+<line x1="260" y1="130" x2="290" y2="80" stroke="#94a3b8" stroke-dasharray="4,3"/><circle cx="290" cy="80" r="4" fill="none" stroke="#94a3b8" stroke-width="2"/>
+<line x1="400" y1="130" x2="370" y2="80" stroke="#94a3b8" stroke-dasharray="4,3"/><circle cx="370" cy="80" r="4" fill="none" stroke="#94a3b8" stroke-width="2"/>
+<text x="330" y="165" font-family="sans-serif" font-size="11" fill="#64748b" text-anchor="middle">Có tay cầm điều khiển,</text>
+<text x="330" y="180" font-family="sans-serif" font-size="11" fill="#64748b" text-anchor="middle">đoạn cong mượt mà</text>
+</svg></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Bí quyết vẽ cong đẹp</p>
+<p class="mt-1">Dùng <strong>ít nút nhưng đặt đúng chỗ</strong> (tại các điểm đổi hướng), ưu tiên <strong>nút trơn</strong> và chỉnh <strong>tay cầm</strong> cẩn thận. Tay cầm càng dài, đoạn cong càng mạnh. Tránh đặt quá nhiều nút bừa bãi vì đường sẽ gãy khúc.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Chỉnh sửa nút với công cụ Node</h2>
+
+<p>Công cụ <strong>Node (F2)</strong> cho phép can thiệp chi tiết vào từng nút của đường:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Kéo nút:</strong> thay đổi hình dạng đường.</li>
+<li><strong>Bấm đúp lên đường:</strong> thêm nút mới tại vị trí đó.</li>
+<li><strong>Chọn nút + Delete:</strong> xóa nút (đường nối lại qua các nút còn lại).</li>
+<li><strong>Chuyển loại nút:</strong> đổi qua lại giữa nút góc và nút trơn trên thanh thuộc tính.</li>
+<li><strong>Kéo khung:</strong> chọn nhiều nút để di chuyển, xóa đồng loạt.</li>
+<li><strong>Nối khép kín:</strong> chọn hai nút đầu mút rồi nối lại để khép kín đường (đường kín mới tô được màu nền Fill).</li>
+</ul>
+<p><strong>Lưu ý:</strong> đường <strong>hở</strong> chỉ hiển thị viền (Stroke), không tô được nền; đường <strong>khép kín</strong> mới tô được Fill.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Chuyển đối tượng thành đường và các phép toán đường</h2>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">3.1. Object to Path</h3>
+<p>Lệnh <strong>Path → Object to Path (Ctrl+Shift+C)</strong> chuyển hình cơ bản, văn bản thành đường để chỉnh sửa từng nút. Ví dụ: muốn uốn cong một hình chữ nhật theo ý riêng, trước hết phải chuyển nó thành đường.</p>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">3.2. Các phép toán đường (menu Path)</h3>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Phép toán</td><td class="border border-slate-300 px-4 py-1">Tác dụng</td><td class="border border-slate-300 px-4 py-1">Ví dụ</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Union (hợp)</td><td class="border border-slate-300 px-4 py-1">Gộp các hình chồng lấp thành một đường duy nhất</td><td class="border border-slate-300 px-4 py-1">Gộp các mảnh thành logo</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Difference (trừ)</td><td class="border border-slate-300 px-4 py-1">Trừ hình nằm trên khỏi hình nằm dưới</td><td class="border border-slate-300 px-4 py-1">Mặt trăng khuyết, vành khăn</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Intersection (giao)</td><td class="border border-slate-300 px-4 py-1">Giữ lại phần giao nhau của các hình</td><td class="border border-slate-300 px-4 py-1">Lấy phần chung hai hình</td></tr>
+</table></div>
+<p>Cách dùng: <strong>chọn đồng thời</strong> các đối tượng rồi chọn phép toán trong menu Path. Lưu ý: phép toán đường chỉ làm việc với đối tượng dạng đường (văn bản cần chuyển thành đường trước).</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Làm việc với văn bản</h2>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">4.1. Gõ và định dạng chữ</h3>
+<p>Công cụ <strong>Text (F8 hoặc T)</strong>: bấm lên vùng vẽ rồi gõ nội dung. Trên thanh thuộc tính chỉnh được <strong>font chữ, cỡ chữ, kiểu chữ</strong> (đậm, nghiêng), màu sắc, căn lề. Khối văn bản là đối tượng vector: di chuyển, co giãn, xoay, tô màu như các đối tượng khác.</p>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">4.2. Văn bản trên đường cong</h3>
+<p>Lệnh <strong>Text → Put on Path</strong> đặt văn bản chạy dọc theo một đường cong có sẵn. Các bước:</p>
+<ol class="list-decimal ml-6 space-y-1 my-3">
+<li>Vẽ đường dẫn (ví dụ đường tròn, đường cong).</li>
+<li>Gõ văn bản cần đặt.</li>
+<li>Chọn cả văn bản và đường dẫn, vào <strong>Text → Put on Path</strong>.</li>
+</ol>
+<p>Chữ sẽ bám theo đường: tạo hiệu ứng chữ cong, chữ tròn quanh con dấu, logo. Sau đó vẫn gõ sửa nội dung, đổi font được; có thể ẩn viền của đường dẫn đi. Muốn trả chữ về dạng thẳng: <strong>Text → Remove from Path</strong>.</p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Chữ trên đường cong">
+<rect x="2" y="2" width="436" height="166" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<path id="duongtron" d="M 110 125 A 45 45 0 1 1 109.9 125" fill="none" stroke="#cbd5e1" stroke-dasharray="5,4"/>
+<text font-family="sans-serif" font-size="15" font-weight="bold" fill="#1e3a8a"><textPath href="#duongtron" startOffset="4">CHÚC MỪNG NĂM MỚI ★ CHÚC MỪNG NĂM MỚI ★</textPath></text>
+<text x="110" y="132" font-family="sans-serif" font-size="26" text-anchor="middle">🎉</text>
+<text x="330" y="40" font-family="sans-serif" font-size="13" font-weight="bold" fill="#0369a1" text-anchor="middle">Các bước Put on Path</text>
+<text x="330" y="65" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">1. Vẽ đường dẫn (đường tròn)</text>
+<text x="330" y="85" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">2. Gõ văn bản</text>
+<text x="330" y="105" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">3. Chọn cả hai → Text → Put on Path</text>
+<text x="330" y="130" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">4. Ẩn viền đường dẫn nếu cần</text>
+<text x="330" y="152" font-family="sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">Remove from Path: trả chữ về dạng thẳng</text>
+</svg></div>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">4.3. Chuyển chữ thành đường khi gửi in</h3>
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p>File SVG chỉ <strong>tham chiếu tên font</strong>; máy khác thiếu font sẽ hiển thị sai. Trước khi gửi nhà in, nên <strong>chuyển văn bản thành đường</strong> (Path → Object to Path): chữ thành hình vector thuần túy, hiển thị đúng trên mọi máy. <strong>Nhớ kiểm tra chính tả trước khi chuyển</strong> vì sau đó không gõ sửa được nữa, và nên giữ lại một bản chưa chuyển để sửa sau này.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<ul class="list-disc ml-6 space-y-1 mt-1">
+<li>Bézier (Shift+F6/B): bấm đơn = nút góc (thẳng), bấm-kéo = nút trơn (cong); Enter kết thúc, Esc hủy.</li>
+<li>Node (F2): kéo nút, bấm đúp thêm nút, Delete xóa nút, chuyển loại nút.</li>
+<li>Ctrl+Shift+C: chuyển đối tượng thành đường; Union gộp, Difference trừ, Intersection lấy giao.</li>
+<li>Text (F8): gõ và định dạng chữ; Put on Path cho chữ chạy theo đường cong.</li>
+<li>Gửi in: chuyển chữ thành đường để không lỗi font (kiểm tra chính tả trước).</li>
+</ul>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Vẽ đường:</strong> Bézier với nút góc (thẳng) và nút trơn (cong, có tay cầm); đường kín mới tô được nền.</li>
+<li><strong>Chỉnh nút:</strong> công cụ Node (F2) — thêm, xóa, di chuyển, chuyển loại nút.</li>
+<li><strong>Phép toán đường:</strong> Object to Path (Ctrl+Shift+C), Union, Difference, Intersection.</li>
+<li><strong>Văn bản:</strong> công cụ Text (F8); Put on Path đặt chữ theo đường cong; chuyển chữ thành đường trước khi gửi in.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+
+        </div>
+    </div>
+</body>
+</html>
