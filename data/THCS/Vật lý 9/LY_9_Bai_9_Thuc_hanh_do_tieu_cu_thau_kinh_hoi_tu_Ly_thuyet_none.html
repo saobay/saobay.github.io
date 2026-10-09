@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 9: Thực hành đo tiêu cự của thấu kính hội tụ</title>
+    <meta name="lesson-title" content="Bài 9: Thực hành đo tiêu cự của thấu kính hội tụ">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 9: Thực hành đo tiêu cự của thấu kính hội tụ</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 2: Ánh sáng • Bài 9: Thực hành đo tiêu cự của thấu kính hội tụ</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 9: Thực hành đo tiêu cự của thấu kính hội tụ</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 2: Ánh sáng (Kết nối tri thức)</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Mục đích và dụng cụ</h2>
+
+<p><strong>Mục đích:</strong> đo được <strong>tiêu cự</strong> của một thấu kính hội tụ bằng phương pháp tạo ảnh thật của vật ở xa.</p>
+
+<p><strong>Dụng cụ thí nghiệm:</strong></p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Một thấu kính hội tụ cần đo tiêu cự;</li>
+<li>Vật sáng ở xa: cửa sổ lớp học, cây ngoài sân (hoặc ngọn nến, bóng đèn đặt xa);</li>
+<li>Màn hứng ảnh (tấm bìa trắng);</li>
+<li>Thước đo độ dài (chia đến mm);</li>
+<li>Giá quang học để giữ thấu kính, vật và màn thẳng hàng.</li>
+</ul>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Cơ sở lí thuyết</h2>
+
+<p>Vật ở <strong>rất xa</strong> thấu kính hội tụ ($d$ rất lớn so với $f$) cho <strong>ảnh thật</strong> hiện <strong>gần như tại tiêu điểm</strong> $F$ của thấu kính. Do đó, khi ảnh của vật ở xa hiện <strong>rõ nét nhất</strong> trên màn, khoảng cách từ thấu kính đến màn <strong>xấp xỉ bằng tiêu cự</strong> $f$ cần đo.</p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="So do thi nghiem do tieu cu thau kinh hoi tu">
+<rect x="2" y="2" width="436" height="276" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<line x1="20" y1="140" x2="420" y2="140" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="6,4"/>
+<path d="M 175 70 Q 158 140 175 210 Q 192 140 175 70 Z" fill="#bae6fd" opacity="0.7" stroke="#0284c7" stroke-width="2.5"/>
+<text x="175" y="240" font-family="sans-serif" font-size="13" fill="#0369a1" text-anchor="middle">thấu kính</text>
+<rect x="330" y="90" width="10" height="100" rx="3" fill="#f8fafc" stroke="#64748b" stroke-width="2"/>
+<text x="335" y="215" font-family="sans-serif" font-size="13" fill="#475569" text-anchor="middle">màn</text>
+<line x1="30" y1="100" x2="300" y2="132" stroke="#eab308" stroke-width="2.5"/>
+<line x1="30" y1="140" x2="300" y2="140" stroke="#eab308" stroke-width="2.5"/>
+<line x1="30" y1="180" x2="300" y2="148" stroke="#eab308" stroke-width="2.5"/>
+<circle cx="300" cy="140" r="5" fill="#e11d48"/>
+<text x="60" y="60" font-family="sans-serif" font-size="13" fill="#475569">vật ở rất xa</text>
+<text x="300" y="165" font-family="sans-serif" font-size="14" font-weight="bold" fill="#e11d48" text-anchor="middle">F</text>
+<line x1="175" y1="250" x2="335" y2="250" stroke="#0284c7" stroke-width="2"/>
+<line x1="175" y1="243" x2="175" y2="257" stroke="#0284c7" stroke-width="2"/>
+<line x1="335" y1="243" x2="335" y2="257" stroke="#0284c7" stroke-width="2"/>
+<text x="255" y="270" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0284c7" text-anchor="middle">khoảng cách ≈ f</text>
+</svg></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><strong>Cơ sở lí thuyết:</strong> vật ở rất xa cho ảnh thật tại tiêu điểm. Khi ảnh rõ nét nhất trên màn, khoảng cách thấu kính – màn <strong>xấp xỉ bằng tiêu cự</strong> $f$.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Các bước tiến hành</h2>
+
+<ol class="list-decimal ml-6 space-y-2 my-3">
+<li>Lắp thấu kính, màn lên giá quang học; hướng thấu kính về phía vật ở xa (cửa sổ, cây ngoài sân).</li>
+<li>Điều chỉnh vị trí màn (tiến, lùi) cho đến khi ảnh của vật ở xa hiện <strong>rõ nét nhất</strong> trên màn.</li>
+<li>Dùng thước đo khoảng cách từ thấu kính đến màn, ghi kết quả vào bảng.</li>
+<li>Lặp lại các bước trên <strong>3 lần</strong>, tính giá trị <strong>trung bình</strong> làm kết quả đo tiêu cự.</li>
+</ol>
+
+<p><strong>Bảng kết quả mẫu:</strong></p>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Lần đo</td><td class="border border-slate-300 px-4 py-1">1</td><td class="border border-slate-300 px-4 py-1">2</td><td class="border border-slate-300 px-4 py-1">3</td><td class="border border-slate-300 px-4 py-1">Trung bình</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Khoảng cách thấu kính – màn (cm)</td><td class="border border-slate-300 px-4 py-1">11,8</td><td class="border border-slate-300 px-4 py-1">12,1</td><td class="border border-slate-300 px-4 py-1">12,0</td><td class="border border-slate-300 px-4 py-1">12,0</td></tr>
+</table></div>
+<p>Kết luận: tiêu cự của thấu kính khoảng $f \approx 12{,}0\ \text{cm}$.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Lưu ý khi thực hành</h2>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Nên làm trong <strong>phòng hơi tối</strong>, dùng <strong>màn trắng</strong> để quan sát ảnh rõ hơn.</li>
+<li>Thấu kính phải <strong>sạch, không bị xước</strong>; giá đỡ chắc chắn.</li>
+<li>Đo <strong>nhiều lần</strong> lấy trung bình để giảm sai số ngẫu nhiên.</li>
+<li><strong>An toàn:</strong> cẩn thận với lửa khi dùng nến; không nhìn trực tiếp vào chùm sáng mạnh hội tụ qua thấu kính.</li>
+</ul>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><strong>Các bước:</strong> hướng thấu kính về vật ở xa → điều chỉnh màn đến khi ảnh <strong>rõ nét nhất</strong> → đo khoảng cách thấu kính – màn → lặp lại <strong>3 lần</strong>, lấy <strong>trung bình</strong>.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Nội dung</td><td class="border border-slate-300 px-4 py-1">Chi tiết</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Mục đích</td><td class="border border-slate-300 px-4 py-1">Đo tiêu cự thấu kính hội tụ</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Cơ sở</td><td class="border border-slate-300 px-4 py-1">Vật ở xa cho ảnh thật tại tiêu điểm</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Cách đo</td><td class="border border-slate-300 px-4 py-1">Khoảng cách thấu kính – màn khi ảnh rõ nét nhất ≈ f; đo 3 lần lấy trung bình</td></tr>
+</table></div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+</div>
+        </div>
+    </div>
+
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
