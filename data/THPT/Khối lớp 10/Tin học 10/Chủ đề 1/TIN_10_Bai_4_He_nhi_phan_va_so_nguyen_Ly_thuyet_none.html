@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 4: Hệ nhị phân và dữ liệu số nguyên</title>
+    <meta name="lesson-title" content="Bài 4: Hệ nhị phân và dữ liệu số nguyên">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 4: Hệ nhị phân và dữ liệu số nguyên</h1>
+            <p class="text-xs text-slate-500 mt-1">Chủ đề 1: Máy tính và xã hội tri thức • Bài 4: Hệ nhị phân và dữ liệu số nguyên</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 4: Hệ nhị phân và dữ liệu số nguyên</h1>
+<p class="text-center text-slate-500 italic mb-8">Chủ đề 1: Máy tính và xã hội tri thức • Bài 4: Hệ nhị phân và dữ liệu số nguyên</p>
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Hệ đếm</h2>
+
+<p><strong>Định nghĩa:</strong> <em>Hệ đếm</em> là tập hợp các kí hiệu và quy tắc dùng để biểu diễn số. <em>Cơ số</em> của hệ đếm là số kí hiệu được dùng.</p>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Hệ đếm</td><td class="border border-slate-300 px-4 py-1">Cơ số</td><td class="border border-slate-300 px-4 py-1">Các kí hiệu</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Thập phân</td><td class="border border-slate-300 px-4 py-1">10</td><td class="border border-slate-300 px-4 py-1">0, 1, 2, ..., 9</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Nhị phân</td><td class="border border-slate-300 px-4 py-1">2</td><td class="border border-slate-300 px-4 py-1">0, 1</td></tr>
+</table></div>
+
+<p>Trong hệ nhị phân, mỗi vị trí có <strong>trọng số là lũy thừa của 2</strong>: ..., 16, 8, 4, 2, 1 (từ trái sang phải).</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Chuyển đổi giữa hệ thập phân và hệ nhị phân</h2>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">2.1. Nhị phân → thập phân</h3>
+<p>Cộng các trọng số (lũy thừa của 2) tại các vị trí có bit 1.</p>
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Số nhị phân $1011 = 1 \times 8 + 0 \times 4 + 1 \times 2 + 1 \times 1 = 8 + 2 + 1 = 11$ trong hệ thập phân.</p>
+</div>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">2.2. Thập phân → nhị phân</h3>
+<p><strong>Quy tắc:</strong> chia liên tiếp số thập phân cho 2, ghi lại các số dư; đọc các số dư theo thứ tự <strong>ngược lại</strong> (từ dưới lên).</p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Doi 13 sang nhi phan">
+<rect x="2" y="2" width="436" height="206" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="28" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0c4a6e" text-anchor="middle">ĐỔI 13 SANG HỆ NHỊ PHÂN</text>
+<text x="60" y="62" font-family="monospace" font-size="13" fill="#0f172a">13 : 2 = 6 dư 1</text>
+<text x="60" y="88" font-family="monospace" font-size="13" fill="#0f172a">6 : 2 = 3 dư 0</text>
+<text x="60" y="114" font-family="monospace" font-size="13" fill="#0f172a">3 : 2 = 1 dư 1</text>
+<text x="60" y="140" font-family="monospace" font-size="13" fill="#0f172a">1 : 2 = 0 dư 1 ← dừng</text>
+<line x1="260" y1="50" x2="260" y2="140" stroke="#f59e0b" stroke-width="2"/>
+<polygon points="252,52 268,52 260,64" fill="#f59e0b"/>
+<text x="330" y="70" font-family="sans-serif" font-size="12" fill="#92400e">Đọc ngược</text>
+<text x="330" y="88" font-family="sans-serif" font-size="12" fill="#92400e">từ dưới lên</text>
+<rect x="290" y="110" width="110" height="40" rx="8" fill="#10b981"/>
+<text x="345" y="136" font-family="monospace" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">1101</text>
+<text x="220" y="182" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">13 = 8 + 4 + 1 → 1101</text>
+</svg></div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Phép cộng trong hệ nhị phân</h2>
+
+<p>Bảng cộng nhị phân: $0 + 0 = 0$; $0 + 1 = 1$; <strong>$1 + 1 = 10$</strong> (viết 0 nhớ 1).</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ: $101 + 11$</p>
+<p>Cột phải: $1 + 1 = 10$ → viết 0 nhớ 1. Cột giữa: $0 + 1 + 1$ (nhớ) $= 10$ → viết 0 nhớ 1. Cột trái: $1 + 1$ (nhớ) $= 10$ → viết 10. Kết quả: $1000$ (kiểm tra: $5 + 3 = 8$ ✓).</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Biểu diễn số nguyên trong máy tính</h2>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Số nguyên được biểu diễn bằng <strong>dãy bit có độ dài cố định</strong>: 8 bit, 16 bit, 32 bit...</li>
+<li>Với $n$ bit, biểu diễn được $2^n$ giá trị khác nhau.</li>
+<li><strong>Số nguyên không dấu</strong> 8 bit: từ 0 đến 255.</li>
+<li><strong>Số nguyên có dấu</strong>: bit cao nhất (bên trái nhất) làm <strong>bit dấu</strong> — 0 là số không âm, 1 là số âm. Với 8 bit có dấu: từ $-128$ đến $127$.</li>
+</ul>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<ul class="list-disc ml-6 space-y-1 mt-1">
+<li>$n$ bit → $2^n$ giá trị; số không dấu $n$ bit lớn nhất là $2^n - 1$.</li>
+<li>Khi kết quả vượt quá phạm vi biểu diễn sẽ xảy ra <strong>tràn số</strong> (ví dụ 8 bit không dấu: $255 + 1$ bị tràn).</li>
+</ul>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Hệ nhị phân:</strong> cơ số 2, chỉ dùng 0 và 1; trọng số các vị trí là lũy thừa của 2.</li>
+<li><strong>Chuyển đổi:</strong> nhị phân → thập phân: cộng trọng số của bit 1; thập phân → nhị phân: chia liên tiếp cho 2, đọc số dư ngược lại.</li>
+<li><strong>Cộng nhị phân:</strong> $1 + 1 = 10$ (nhớ 1).</li>
+<li><strong>Số nguyên</strong> biểu diễn bằng dãy bit cố định; 8 bit không dấu: 0–255; 8 bit có dấu: $-128$–$127$.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm để kiểm tra nhé! 💪</p>
+
+
+        </div>
+    </div>
+</body>
+</html>
