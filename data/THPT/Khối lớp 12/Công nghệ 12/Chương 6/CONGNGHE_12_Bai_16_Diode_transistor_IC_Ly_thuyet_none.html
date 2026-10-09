@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 16: Diode, transistor và mạch tích hợp IC</title>
+    <meta name="lesson-title" content="Bài 16: Diode, transistor và mạch tích hợp IC">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 16: Diode, transistor và mạch tích hợp IC</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 6: Các linh kiện điện tử • Bài 16: Diode, transistor và mạch tích hợp IC</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 16: Diode, transistor và mạch tích hợp IC</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 6: Các linh kiện điện tử — Công nghệ 12 (Kết nối tri thức với cuộc sống)</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Diode</h2>
+
+<p><strong>Diode</strong> là linh kiện <strong>tích cực</strong> làm từ chất bán dẫn, chỉ cho dòng điện đi qua <strong>một chiều</strong>: dẫn khi <strong>phân cực thuận</strong> (anode dương hơn cathode), chặn khi <strong>phân cực ngược</strong>. Điện áp thuận của diode silic khoảng <strong>0,7 V</strong>.</p>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Diode chỉnh lưu:</strong> biến dòng xoay chiều thành dòng một chiều.</li>
+<li><strong>Diode zener:</strong> ổn định điện áp (làm việc ở chế độ phân cực ngược).</li>
+<li><strong>LED:</strong> diode phát quang; cần <strong>điện trở hạn dòng</strong> mắc nối tiếp.</li>
+<li><strong>Diode quang (photodiode):</strong> biến ánh sáng thành điện năng — dùng làm cảm biến.</li>
+<li><strong>Diode bảo vệ:</strong> chống đấu ngược cực nguồn.</li>
+</ul>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>LED 2 V – 20 mA mắc vào nguồn 5 V cần điện trở hạn dòng $R = (5 - 2)/0{,}02 = 150\,Ω$.<br>
+Mạch chỉnh lưu cầu dùng <strong>4 diode</strong>; sau chỉnh lưu dùng <strong>tụ lọc</strong> làm phẳng điện áp, IC <strong>7805</strong> ổn áp 5 V.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Transistor</h2>
+
+<p><strong>Transistor</strong> là linh kiện tích cực có <strong>ba cực</strong>: B (gốc – base), C (góp – collector), E (phát – emitter); có hai loại <strong>NPN</strong> và <strong>PNP</strong>.</p>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Khuếch đại:</strong> dòng điện nhỏ ở cực B điều khiển dòng điện lớn ở cực C: $I_C = \beta \times I_B$.</li>
+<li><strong>Công tắc điện tử:</strong> chế độ <strong>bão hòa</strong> (dẫn hoàn toàn – đóng) và <strong>ngắt</strong> (không dẫn – mở).</li>
+<li><strong>MOSFET:</strong> transistor trường, điều khiển bằng <strong>điện áp</strong> ở cực cổng; dùng trong nguồn xung, điều khiển động cơ.</li>
+<li>Ứng dụng: điều khiển rơle, động cơ, LED từ vi điều khiển.</li>
+</ul>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Mạch tích hợp IC</h2>
+
+<p><strong>IC</strong> tích hợp nhiều linh kiện (diode, transistor, điện trở...) trên một đế bán dẫn nhỏ, giúp mạch <strong>nhỏ gọn, tin cậy, giá rẻ</strong>; nhược điểm là khó sửa chữa, công suất hạn chế.</p>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>IC tương tự:</strong> xử lí tín hiệu tương tự — ví dụ 741 (khuếch đại thuật toán).</li>
+<li><strong>IC số:</strong> xử lí tín hiệu số — ví dụ 7400 (cổng logic).</li>
+<li><strong>Lưu ý:</strong> chống <strong>tĩnh điện</strong> khi tiếp xúc với IC.</li>
+</ul>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><strong>Diode</strong> một chiều (thuận dẫn, ngược chặn). <strong>Transistor</strong> khuếch đại ($I_C = \beta I_B$) và đóng cắt (bão hòa – ngắt). <strong>IC</strong> tích hợp nhiều linh kiện: nhỏ gọn, tin cậy.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Diode:</strong> một chiều; loại chỉnh lưu, zener, LED, quang.</li>
+<li><strong>Transistor:</strong> ba cực B, C, E; khuếch đại và công tắc điện tử.</li>
+<li><strong>IC:</strong> tích hợp nhiều linh kiện; loại tương tự và số.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
