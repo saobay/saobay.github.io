@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 21: Đường tròn trong mặt phẳng tọa độ</title>
+    <meta name="lesson-title" content="Bài 21: Đường tròn trong mặt phẳng tọa độ">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 21: Đường tròn trong mặt phẳng tọa độ</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 7: Phương pháp tọa độ trong mặt phẳng • Bài 21: Đường tròn trong mặt phẳng tọa độ</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 21: Đường tròn trong mặt phẳng tọa độ</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 7: Phương pháp tọa độ trong mặt phẳng — Toán 10 (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. PT duong tron -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Phương trình đường tròn</h2>
+
+<p>Trong mặt phẳng $Oxy$, đường tròn $(C)$ tâm $I(a; b)$, bán kính $R$ là tập hợp các điểm $M(x; y)$ sao cho $IM = R$.</p>
+<p>Bình phương hai vế $IM = R$, ta được <em>phương trình đường tròn</em>:</p>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$(x - a)^2 + (y - b)^2 = R^2$$</p>
+<p class="text-sm text-slate-600 mt-1">tâm $I(a; b)$, bán kính $R > 0$.</p>
+</div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Đường tròn tâm I bán kính R và tiếp tuyến">
+<rect x="2" y="2" width="436" height="246" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<line x1="30" y1="220" x2="30" y2="15" stroke="#94a3b8" stroke-width="1.5"/><polygon points="30,8 25,20 35,20" fill="#94a3b8"/>
+<line x1="20" y1="210" x2="420" y2="210" stroke="#94a3b8" stroke-width="1.5"/><polygon points="428,210 416,205 416,215" fill="#94a3b8"/>
+<text x="22" y="228" font-size="12" fill="#64748b">O</text>
+<circle cx="220" cy="120" r="80" fill="none" stroke="#1d4ed8" stroke-width="2.5"/>
+<circle cx="220" cy="120" r="5" fill="#dc2626"/>
+<text x="228" y="112" font-size="14" font-weight="bold" fill="#dc2626">I(a; b)</text>
+<line x1="220" y1="120" x2="290" y2="120" stroke="#16a34a" stroke-width="2" stroke-dasharray="6,4"/>
+<text x="248" y="112" font-size="13" fill="#16a34a" font-style="italic">R</text>
+<circle cx="290" cy="120" r="5" fill="#ea580c"/>
+<text x="296" y="140" font-size="13" font-weight="bold" fill="#ea580c">M₀</text>
+<line x1="290" y1="30" x2="290" y2="210" stroke="#ea580c" stroke-width="2.5"/>
+<text x="296" y="50" font-size="13" fill="#ea580c">tiếp tuyến tại M₀</text>
+<text x="120" y="238" font-size="12" fill="#475569">(C): (x − a)² + (y − b)² = R²</text>
+</svg></div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Viết phương trình đường tròn tâm $I(2; -3)$, bán kính $R = 5$.</p>
+<p class="mt-2"><strong>Lời giải:</strong> $$(x - 2)^2 + (y + 3)^2 = 25.$$</p>
+<p class="mt-1 text-sm text-slate-600">Chú ý dấu: $y - (-3) = y + 3$; $R^2 = 25$ (nhiều bạn quên bình phương!).</p>
+</div>
+
+<!-- 2. Dang khai trien -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Dạng khai triển của phương trình đường tròn</h2>
+
+<p>Khai triển $(x - a)^2 + (y - b)^2 = R^2$ ta được dạng:</p>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$x^2 + y^2 - 2ax - 2by + c = 0$$</p>
+<p class="text-sm text-slate-600 mt-1">với $c = a^2 + b^2 - R^2$.</p>
+</div>
+
+<p><strong>Ngược lại:</strong> phương trình $x^2 + y^2 - 2ax - 2by + c = 0$ là phương trình đường tròn <strong>khi và chỉ khi</strong>:</p>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$a^2 + b^2 - c > 0$$</p>
+</div>
+<p>Khi đó tâm $I(a; b)$ và bán kính $R = \sqrt{a^2 + b^2 - c}$.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Xác định tâm và bán kính của $(C): x^2 + y^2 - 4x + 6y - 12 = 0$.</p>
+<p class="mt-2"><strong>Lời giải:</strong> $2a = 4 \Rightarrow a = 2$; $2b = -6 \Rightarrow b = -3$; $c = -12$.</p>
+<p>$a^2 + b^2 - c = 4 + 9 + 12 = 25 > 0$ nên đây là đường tròn tâm $I(2; -3)$, bán kính $R = \sqrt{25} = 5$.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Mẹo tách hệ số: từ $-2ax$ suy ra $a = \frac{\text{hệ số của } x}{-2}$. Ví dụ $-4x \Rightarrow a = \frac{-4}{-2} = 2$; $+6y \Rightarrow b = \frac{6}{-2} = -3$. Luôn kiểm tra điều kiện $a^2 + b^2 - c > 0$ trước khi kết luận!</p>
+</div>
+
+<!-- 3. Tiep tuyen -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Phương trình tiếp tuyến của đường tròn</h2>
+
+<p>Cho đường tròn $(C): (x - a)^2 + (y - b)^2 = R^2$ và điểm $M_0(x_0; y_0)$ <strong>thuộc</strong> $(C)$. Tiếp tuyến của $(C)$ tại $M_0$ có phương trình:</p>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$(x_0 - a)(x - a) + (y_0 - b)(y - b) = R^2$$</p>
+</div>
+<p><strong>Cách nhớ:</strong> "tách đôi" — mỗi $(x - a)^2$ thành $(x_0 - a)(x - a)$, mỗi $(y - b)^2$ thành $(y_0 - b)(y - b)$.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Viết phương trình tiếp tuyến của $(C): (x - 1)^2 + (y + 2)^2 = 25$ tại điểm $M_0(4; 2)$ (kiểm tra $M_0 \in (C)$).</p>
+<p class="mt-2"><strong>Lời giải:</strong> Tâm $I(1; -2)$, $R^2 = 25$. Áp dụng công thức "tách đôi":</p>
+<p>$$(4 - 1)(x - 1) + (2 + 2)(y + 2) = 25 \Leftrightarrow 3(x - 1) + 4(y + 2) = 25$$</p>
+<p>$$\Leftrightarrow 3x + 4y - 20 = 0.$$</p>
+</div>
+
+<!-- Tom tat -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Dạng chính tắc:</strong> $(x - a)^2 + (y - b)^2 = R^2$ — tâm $I(a; b)$, bán kính $R$.</li>
+<li><strong>Dạng khai triển:</strong> $x^2 + y^2 - 2ax - 2by + c = 0$ với điều kiện $a^2 + b^2 - c > 0$; tâm $I(a; b)$, $R = \sqrt{a^2 + b^2 - c}$.</li>
+<li><strong>Tiếp tuyến</strong> tại $M_0(x_0; y_0) \in (C)$: $(x_0 - a)(x - a) + (y_0 - b)(y - b) = R^2$ (quy tắc "tách đôi").</li>
+<li><strong>Đường tròn đường kính</strong> $AB$: tâm là trung điểm $AB$, bán kính $R = \frac{AB}{2}$.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+
+</div>
+
+        </div>
+    </div>
+</body>
+</html>
