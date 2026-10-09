@@ -80,6 +80,7 @@
 
   /* ===== sim: pitago ===== */
 #tab-pit input[type=range]{accent-color:#7c3aed;}
+canvas{height:auto !important;max-width:100%;}
 </style>
 </head>
 <body class="bg-slate-100 min-h-screen">
@@ -614,6 +615,11 @@ window.__fitAll = refitCanvases;
   function setupCanvas(cv){
     var dpr = window.devicePixelRatio || 1;
     var w = cv.clientWidth, h = cv.clientHeight;
+    if (!w || !h || !cv.offsetParent){
+      // Canvas dang an: giu nguyen kich thuoc cu, tra ve fallback an toan
+      var H0 = parseInt(cv.getAttribute('height')) || 300;
+      return {ctx: cv.getContext("2d"), w: 360, h: H0};
+    }
     cv.width = Math.round(w*dpr); cv.height = Math.round(h*dpr);
     var ctx = cv.getContext("2d");
     ctx.setTransform(dpr,0,0,dpr,0,0);
