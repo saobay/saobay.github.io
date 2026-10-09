@@ -785,7 +785,17 @@ window.__fitAll = refitCanvases;
     state.theta = 0; state.playing = false;
     playBtn.textContent = "▶ Chạy"; draw();
   });
-  window.addEventListener("resize", draw);
+  (function(){
+  var rT, lastW = 0;
+  window.addEventListener("resize", function(){
+    clearTimeout(rT);
+    rT = setTimeout(function(){
+      var el = document.getElementById("sin-graph");
+      var w = el ? el.getBoundingClientRect().width : 0;
+      if (Math.abs(w - lastW) > 5) { lastW = w; draw(); }
+    }, 200);
+  });
+})();
   draw();
 window.__sinFit=draw;
 })();</script>
@@ -1307,7 +1317,16 @@ function netPlayTo(target){
   });
   document.getElementById('net-play').onclick=function(){netPlayTo(NET.t<0.5?1:0);};
   document.getElementById('net-view-reset').onclick=function(){NET.yaw=-0.65;NET.pitch=0.55;netDraw();};
-  window.addEventListener('resize',function(){netFit();netDraw();});
+  (function(){
+  var rT, lastW = 0;
+  window.addEventListener('resize', function(){
+    clearTimeout(rT);
+    rT = setTimeout(function(){
+      var w = cv.getBoundingClientRect().width;
+      if (Math.abs(w - lastW) > 5) { lastW = w; netFit(); netDraw(); }
+    }, 200);
+  });
+})();
   netBuildSolidBtns();netSelect(0);
 })();
 </script>
@@ -1469,7 +1488,16 @@ function fit(){
   draw();
 }
 window.__pitFit=fit;   // hub page calls this when its tab becomes visible
-window.addEventListener('resize',fit);
+(function(){
+  var rT, lastW = 0;
+  window.addEventListener('resize', function(){
+    clearTimeout(rT);
+    rT = setTimeout(function(){
+      var w = cv.getBoundingClientRect().width;
+      if (Math.abs(w - lastW) > 5) { lastW = w; fit(); }
+    }, 200);
+  });
+})();
 document.getElementById('pit-a-val').textContent=fmtV(a);
 document.getElementById('pit-b-val').textContent=fmtV(b);
 fit();updateEq();updateCaption();updatePlayBtn();
