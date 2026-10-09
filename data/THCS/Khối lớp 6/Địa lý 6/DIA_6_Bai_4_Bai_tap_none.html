@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 4: Phương hướng trên bản đồ - Kinh độ, vĩ độ - Bài tập</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: system-ui, sans-serif; padding: 16px; line-height: 1.6; }
+        .question { background: white; padding: 16px; margin: 12px 0; border-radius: 8px; border: 1px solid #e2e8f0; }
+        .options label { display: block; padding: 8px; margin: 4px 0; background: #f8fafc; border-radius: 4px; cursor: pointer; }
+        .options label:hover { background: #e0f2fe; }
+    </style>
+</head>
+<body class="bg-slate-50">
+<div class="max-w-3xl mx-auto">
+<h1 class="text-2xl font-bold mb-4">Bài 4: Phương hướng trên bản đồ - Kinh độ, vĩ độ - Bài tập</h1>
+
+<div class="question">
+<p class="font-semibold mb-2">Câu 1: Trên bản đồ, hướng Bắc thường ở phía:</p>
+<div class="options">
+<label><input type="radio" name="q1" value="A"> A. Dưới</label>
+<label><input type="radio" name="q1" value="B"> B. Trên</label>
+<label><input type="radio" name="q1" value="C"> C. Trái</label>
+<label><input type="radio" name="q1" value="D"> D. Phải</label>
+</div>
+<button onclick="checkAnswer('q1', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q1" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 2: Kinh tuyến gốc đi qua:</p>
+<div class="options">
+<label><input type="radio" name="q2" value="A"> A. Paris</label>
+<label><input type="radio" name="q2" value="B"> B. Greenwich (Anh)</label>
+<label><input type="radio" name="q2" value="C"> C. Hà Nội</label>
+<label><input type="radio" name="q2" value="D"> D. New York</label>
+</div>
+<button onclick="checkAnswer('q2', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q2" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 3: Vĩ tuyến gốc là:</p>
+<div class="options">
+<label><input type="radio" name="q3" value="A"> A. Chí tuyến Bắc</label>
+<label><input type="radio" name="q3" value="B"> B. Chí tuyến Nam</label>
+<label><input type="radio" name="q3" value="C"> C. Đường xích đạo</label>
+<label><input type="radio" name="q3" value="D"> D. Vòng cực</label>
+</div>
+<button onclick="checkAnswer('q3', 'C')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q3" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 4: Tọa độ địa lý gồm:</p>
+<div class="options">
+<label><input type="radio" name="q4" value="A"> A. Kinh độ và vĩ độ</label>
+<label><input type="radio" name="q4" value="B"> B. Độ cao và độ sâu</label>
+<label><input type="radio" name="q4" value="C"> C. Nhiệt độ và độ ẩm</label>
+<label><input type="radio" name="q4" value="D"> D. Áp suất và gió</label>
+</div>
+<button onclick="checkAnswer('q4', 'A')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q4" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 5: Đường nối hai cực được gọi là:</p>
+<div class="options">
+<label><input type="radio" name="q5" value="A"> A. Vĩ tuyến</label>
+<label><input type="radio" name="q5" value="B"> B. Kinh tuyến</label>
+<label><input type="radio" name="q5" value="C"> C. Xích đạo</label>
+<label><input type="radio" name="q5" value="D"> D. Chí tuyến</label>
+</div>
+<button onclick="checkAnswer('q5', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q5" class="mt-2"></div>
+</div>
+</div>
+<script>
+function checkAnswer(qid, correct) {
+    const selected = document.querySelector(`input[name="${qid}"]:checked`);
+    const feedback = document.getElementById(`fb-${qid}`);
+    if (!selected) { feedback.innerHTML = '<span class="text-orange-600">Hãy chọn đáp án!</span>'; return; }
+    if (selected.value === correct) {
+        feedback.innerHTML = '<span class="text-green-600 font-bold">✓ Đúng!</span>';
+    } else {
+        feedback.innerHTML = '<span class="text-red-600">✗ Chưa đúng. Đáp án đúng: ' + correct + '</span>';
+    }
+}
+</script>
+</body>
+</html>
