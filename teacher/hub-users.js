@@ -166,14 +166,24 @@
                 } catch(e){ userMgrTab('trial'); }
             })();
             // Cap nhat badge Chua phan nhom
+            // FIX 2026-10-09: loai GV da co trong phan cong (tu dong vao nhom) va GV da vao Trai nghiem
             (async function(){
                 try {
                     let db = await assignFetchUsed();
                     let _ug = getUnassignedGroup(db);
                     let n = ((db.students && db.students[_ug]) || []).length;
+                    let _assignedIds = {};
+                    (db.assignments || []).forEach(function(a){
+                        String(a.teachers || '').split(',').forEach(function(ts){
+                            let mm = String(ts).trim().match(/\((\d+)\)\s*$/);
+                            if (mm) _assignedIds[mm[1]] = true;
+                        });
+                    });
                     Object.keys(db.teachers_registry || {}).forEach(function(tid){
                         let t = db.teachers_registry[tid];
-                        if (!t.group || t.group === _ug || t.group === 'Chưa phân nhóm lớp') n++;
+                        if (_assignedIds[String(tid)]) return; // da co trong phan cong -> tu dong vao nhom
+                        if ((t.group || '') === 'Trải nghiệm') return; // da vao Trai nghiem -> co nhom roi
+                        if (!t.group || t.group === _ug || t.group === 'Chưa phân nhóm lớp' || t.group === 'Chờ phân công lớp') n++;
                     });
                     let b = document.getElementById('um-unassigned-count');
                     if (b) b.textContent = n ? String(n) : '';
@@ -474,10 +484,21 @@ async function deleteTrialAccount(uid, isTeacher){
                 // HS chua phan nhom
                 let unSt = (db.students && db.students[_ug2]) || [];
                 // GV chua phan nhom (gom ca ten cu)
+                // FIX 2026-10-09: loai GV da co trong phan cong chuyen mon (tu dong vao nhom theo mon/lop)
+                // va GV da vao nhom Trai nghiem (da co nhom that su)
                 let unTv = [];
+                let _assignedIds2 = {};
+                (db.assignments || []).forEach(function(a){
+                    String(a.teachers || '').split(',').forEach(function(ts){
+                        let mm = String(ts).trim().match(/\((\d+)\)\s*$/);
+                        if (mm) _assignedIds2[mm[1]] = true;
+                    });
+                });
                 Object.keys(db.teachers_registry || {}).forEach(function(tid){
                     let t = db.teachers_registry[tid];
-                    if (!t.group || t.group === _ug2 || t.group === 'Chưa phân nhóm lớp' || t.group === 'Trải nghiệm') unTv.push({ id: tid, name: t.name, requested: t.note });
+                    if (_assignedIds2[String(tid)]) return; // GV truong: tu dong vao nhom theo phan cong
+                    if ((t.group || '') === 'Trải nghiệm') return; // da vao Trai nghiem: co nhom roi
+                    if (!t.group || t.group === _ug2 || t.group === 'Chưa phân nhóm lớp' || t.group === 'Chờ phân công lớp') unTv.push({ id: tid, name: t.name, requested: t.note });
                 });
                 // Danh sach lop hien co (de chon)
                 let classes = Object.keys(db.students || {}).filter(function(c){ return c !== _ug2 && c !== 'Chưa phân nhóm lớp' && c !== 'Trải nghiệm' && c !== 'Chờ phân công lớp'; }).sort();
