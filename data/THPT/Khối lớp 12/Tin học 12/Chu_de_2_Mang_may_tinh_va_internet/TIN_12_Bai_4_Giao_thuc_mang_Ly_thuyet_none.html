@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 4: Giao thức mạng</title>
+    <meta name="lesson-title" content="Bài 4: Giao thức mạng">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 4: Giao thức mạng</h1>
+            <p class="text-xs text-slate-500 mt-1">Chủ đề 2: Mạng máy tính và internet • Bài 4: Giao thức mạng</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 4: Giao thức mạng</h1>
+<p class="text-center text-slate-500 italic mb-8">Chủ đề 2: Mạng máy tính và internet — Kết nối tri thức với cuộc sống</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Khái niệm giao thức mạng</h2>
+<p><strong>Giao thức mạng</strong> (protocol) là tập hợp các <strong>quy tắc, quy ước</strong> về khuôn dạng dữ liệu và cách thức các thiết bị <strong>trao đổi thông tin</strong> với nhau. Cũng như hai người muốn trò chuyện phải dùng chung một ngôn ngữ, các thiết bị muốn "hiểu" nhau phải tuân theo cùng một giao thức.</p>
+<p>Tập hợp các giao thức có liên quan, phối hợp với nhau gọi là <strong>bộ giao thức</strong>. Bộ giao thức phổ biến nhất của Internet là <strong>TCP/IP</strong>.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Mô hình OSI và bộ giao thức TCP/IP</h2>
+<p><strong>Mô hình OSI</strong> có 7 tầng. <strong>Bộ giao thức TCP/IP</strong> — nền tảng của Internet — được tổ chức thành 4 tầng, tương ứng gần đúng với các tầng của OSI:</p>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 my-2 text-sm">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-3 py-2">Tầng TCP/IP</td><td class="border border-slate-300 px-3 py-2">Tương ứng OSI</td><td class="border border-slate-300 px-3 py-2">Nhiệm vụ</td><td class="border border-slate-300 px-3 py-2">Giao thức tiêu biểu</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">Ứng dụng</td><td class="border border-slate-300 px-3 py-2">7, 6, 5</td><td class="border border-slate-300 px-3 py-2">Cung cấp dịch vụ cho người dùng</td><td class="border border-slate-300 px-3 py-2">HTTP, FTP, SMTP, DNS, DHCP</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">Giao vận</td><td class="border border-slate-300 px-3 py-2">4</td><td class="border border-slate-300 px-3 py-2">Vận chuyển dữ liệu giữa các máy</td><td class="border border-slate-300 px-3 py-2"><strong>TCP, UDP</strong></td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">Internet</td><td class="border border-slate-300 px-3 py-2">3</td><td class="border border-slate-300 px-3 py-2">Đánh địa chỉ và định tuyến gói tin</td><td class="border border-slate-300 px-3 py-2"><strong>IP</strong></td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">Truy cập mạng</td><td class="border border-slate-300 px-3 py-2">2, 1</td><td class="border border-slate-300 px-3 py-2">Truyền dữ liệu trên đường truyền vật lí</td><td class="border border-slate-300 px-3 py-2">Ethernet, Wi-Fi</td></tr>
+</table></div>
+<div class="svg-fig"><svg viewBox="0 0 440 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cac tang TCP IP">
+<rect x="2" y="2" width="436" height="226" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="26" font-family="sans-serif" font-size="14" font-weight="bold" fill="#1e3a8a" text-anchor="middle">BỘ GIAO THỨC TCP/IP (4 TẦNG)</text>
+<rect x="90" y="44" width="260" height="36" rx="8" fill="#0284c7"/><text x="220" y="67" font-family="sans-serif" font-size="13" font-weight="bold" fill="#fff" text-anchor="middle">Ứng dụng — HTTP, DNS, DHCP...</text>
+<rect x="90" y="88" width="260" height="36" rx="8" fill="#15803d"/><text x="220" y="111" font-family="sans-serif" font-size="13" font-weight="bold" fill="#fff" text-anchor="middle">Giao vận — TCP, UDP</text>
+<rect x="90" y="132" width="260" height="36" rx="8" fill="#b45309"/><text x="220" y="155" font-family="sans-serif" font-size="13" font-weight="bold" fill="#fff" text-anchor="middle">Internet — IP (đánh địa chỉ, định tuyến)</text>
+<rect x="90" y="176" width="260" height="36" rx="8" fill="#6d28d9"/><text x="220" y="199" font-family="sans-serif" font-size="13" font-weight="bold" fill="#fff" text-anchor="middle">Truy cập mạng — Ethernet, Wi-Fi</text>
+</svg></div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Địa chỉ IP</h2>
+<ul class="list-disc ml-6 space-y-2 my-3">
+<li><strong>Địa chỉ IPv4</strong> dài <strong>32 bit</strong>, thường viết dưới dạng 4 nhóm số thập phân (mỗi nhóm 1 byte, từ 0 đến 255) cách nhau bằng dấu chấm, ví dụ <em>192.168.1.10</em>.</li>
+<li>Địa chỉ IP gồm 2 phần: <strong>địa chỉ mạng</strong> (netid) và <strong>địa chỉ máy</strong> (hostid), phân định bởi <strong>mặt nạ mạng</strong> (subnet mask).</li>
+<li>Phân lớp địa chỉ IPv4 (theo octet đầu):</li>
+</ul>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 my-2 text-sm">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-3 py-2">Lớp</td><td class="border border-slate-300 px-3 py-2">Octet đầu</td><td class="border border-slate-300 px-3 py-2">Mặt nạ mặc định</td><td class="border border-slate-300 px-3 py-2">Dùng cho</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">A</td><td class="border border-slate-300 px-3 py-2">1 – 126</td><td class="border border-slate-300 px-3 py-2">255.0.0.0 (/8)</td><td class="border border-slate-300 px-3 py-2">Mạng rất lớn</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">B</td><td class="border border-slate-300 px-3 py-2">128 – 191</td><td class="border border-slate-300 px-3 py-2">255.255.0.0 (/16)</td><td class="border border-slate-300 px-3 py-2">Mạng trung bình</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">C</td><td class="border border-slate-300 px-3 py-2">192 – 223</td><td class="border border-slate-300 px-3 py-2">255.255.255.0 (/24)</td><td class="border border-slate-300 px-3 py-2">Mạng nhỏ (phổ biến nhất)</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">D</td><td class="border border-slate-300 px-3 py-2">224 – 239</td><td class="border border-slate-300 px-3 py-2">—</td><td class="border border-slate-300 px-3 py-2">Địa chỉ multicast (nhóm)</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">E</td><td class="border border-slate-300 px-3 py-2">240 – 255</td><td class="border border-slate-300 px-3 py-2">—</td><td class="border border-slate-300 px-3 py-2">Dự trữ, nghiên cứu</td></tr>
+</table></div>
+<ul class="list-disc ml-6 space-y-2 my-3">
+<li>Trong mỗi mạng: địa chỉ có phần host <strong>toàn bit 0</strong> là <strong>địa chỉ mạng</strong>, địa chỉ có phần host <strong>toàn bit 1</strong> là <strong>địa chỉ quảng bá</strong> — cả hai <strong>không gán</strong> cho máy. Số máy dùng được trong mạng có n bit host là <strong>2^n − 2</strong>.</li>
+<li><strong>IPv6</strong> dài <strong>128 bit</strong>, viết dạng hexa (ví dụ <em>2001:0db8::1</em>), ra đời do IPv4 cạn kiệt.</li>
+</ul>
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ tính toán:</p>
+<p>Mạng 192.168.1.0/24: mặt nạ 255.255.255.0, 8 bit host → số máy dùng được là 2^8 − 2 = <strong>254</strong> (từ 192.168.1.1 đến 192.168.1.254). Địa chỉ mạng: 192.168.1.0; địa chỉ quảng bá: 192.168.1.255.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. TCP và UDP</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 my-2 text-sm">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-3 py-2">Tiêu chí</td><td class="border border-slate-300 px-3 py-2">TCP</td><td class="border border-slate-300 px-3 py-2">UDP</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2">Kết nối</td><td class="border border-slate-300 px-3 py-2"><strong>Có</strong> (bắt tay trước khi gửi)</td><td class="border border-slate-300 px-3 py-2"><strong>Không</strong> (gửi ngay)</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2">Độ tin cậy</td><td class="border border-slate-300 px-3 py-2"><strong>Cao</strong>: đảm bảo đến nơi, đủ, đúng thứ tự</td><td class="border border-slate-300 px-3 py-2"><strong>Thấp</strong>: có thể mất, trùng, lộn xộn</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2">Tốc độ</td><td class="border border-slate-300 px-3 py-2">Chậm hơn</td><td class="border border-slate-300 px-3 py-2"><strong>Nhanh</strong> hơn</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2">Ứng dụng</td><td class="border border-slate-300 px-3 py-2">Web, email, truyền file</td><td class="border border-slate-300 px-3 py-2">Video trực tuyến, game, DNS</td></tr>
+</table></div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">5. Một số giao thức tầng ứng dụng</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 my-2 text-sm">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-3 py-2">Giao thức</td><td class="border border-slate-300 px-3 py-2">Chức năng</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">DNS</td><td class="border border-slate-300 px-3 py-2"><strong>Phân giải tên miền thành địa chỉ IP</strong> (ví dụ gõ tên web được trả về IP).</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">DHCP</td><td class="border border-slate-300 px-3 py-2"><strong>Cấp phát địa chỉ IP động tự động</strong> cho thiết bị khi vào mạng.</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">HTTP / HTTPS</td><td class="border border-slate-300 px-3 py-2">Truyền tải trang web; <strong>HTTPS có mã hóa</strong>, an toàn hơn.</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">FTP</td><td class="border border-slate-300 px-3 py-2">Truyền tải tệp tin giữa các máy.</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">SMTP / POP3 / IMAP</td><td class="border border-slate-300 px-3 py-2">Gửi (SMTP) và nhận (POP3/IMAP) <strong>thư điện tử</strong>.</td></tr>
+</table></div>
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Mẹo nhớ: <strong>DNS</strong> — "Dịch tên thành số" (tên miền → IP); <strong>DHCP</strong> — "Cấp IP tự động"; <strong>TCP</strong> — "Tin cậy, Chậm"; <strong>UDP</strong> — "nhanh, Đơn giản". Lớp IP nhìn <strong>octet đầu</strong>: 1–126 A, 128–191 B, 192–223 C.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Giao thức</strong> là tập quy tắc trao đổi thông tin; <strong>TCP/IP</strong> là bộ giao thức của Internet gồm 4 tầng: Ứng dụng, Giao vận, Internet, Truy cập mạng.</li>
+<li><strong>IPv4</strong>: 32 bit; phân lớp A (1–126), B (128–191), C (192–223); số máy dùng được là 2^n − 2; <strong>IPv6</strong>: 128 bit.</li>
+<li><strong>TCP</strong>: tin cậy, có kết nối; <strong>UDP</strong>: nhanh, không đảm bảo.</li>
+<li><strong>DNS</strong>: tên miền → IP; <strong>DHCP</strong>: cấp IP động; <strong>HTTP(S)</strong>: web; <strong>FTP</strong>: truyền file; <strong>SMTP/POP3/IMAP</strong>: email.</li>
+</ul>
+</div>
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
