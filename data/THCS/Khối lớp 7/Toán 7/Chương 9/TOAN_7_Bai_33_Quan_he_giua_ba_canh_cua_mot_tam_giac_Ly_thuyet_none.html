@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 33: Quan hệ giữa ba cạnh của một tam giác</title>
+    <meta name="lesson-title" content="Bài 33: Quan hệ giữa ba cạnh của một tam giác">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 33: Quan hệ giữa ba cạnh của một tam giác</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 9: Quan hệ giữa các yếu tố trong một tam giác • Bài 33: Quan hệ giữa ba cạnh của một tam giác</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3">1. Bất đẳng thức tam giác</h2>
+<p>Lấy ba thanh nhựa có độ dài lần lượt $2\text{ cm}$, $3\text{ cm}$ và $6\text{ cm}$ rồi thử ghép thành một tam giác — ta thấy <strong>không thể</strong> ghép được (Hình 1). Nhưng với ba thanh $3\text{ cm}$, $4\text{ cm}$, $5\text{ cm}$ thì ghép được một tam giác. Vì sao?</p>
+<div class="svg-fig">
+<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ba doan thang 2cm 3cm 6cm khong ghep duoc tam giac">
+  <line x1="40" y1="80" x2="100" y2="80" stroke="#dc2626" stroke-width="6"/>
+  <line x1="40" y1="120" x2="130" y2="120" stroke="#dc2626" stroke-width="6"/>
+  <line x1="40" y1="160" x2="220" y2="160" stroke="#dc2626" stroke-width="6"/>
+  <text x="230" y="84" font-size="15">2 cm</text>
+  <text x="230" y="124" font-size="15">3 cm</text>
+  <text x="230" y="164" font-size="15">6 cm</text>
+  <text x="40" y="40" font-size="16" font-weight="bold" fill="#dc2626">2 + 3 &lt; 6: không tạo thành tam giác</text>
+  <text x="40" y="196" font-size="14" fill="#64748b">Hai đoạn ngắn xếp chồng lên nhau vẫn "với" không tới đầu đoạn dài.</text>
+</svg>
+<p class="text-center text-sm text-slate-500 mt-1">Hình 1. $2 + 3 &lt; 6$ nên ba đoạn thẳng không tạo thành tam giác</p>
+</div>
+<div class="bg-amber-50 border border-amber-200 rounded-xl p-4">
+  <p class="font-bold text-amber-800">📌 Ghi nhớ — Định lí (bất đẳng thức tam giác)</p>
+  <p class="mt-1">Trong một tam giác, <strong>tổng độ dài hai cạnh bất kì bao giờ cũng lớn hơn độ dài cạnh còn lại</strong>.</p>
+  <p class="mt-1">Với tam giác $ABC$: $AB + AC &gt; BC$; $AB + BC &gt; AC$; $AC + BC &gt; AB$.</p>
+</div>
+<div class="bg-sky-50 border border-sky-200 rounded-xl p-4">
+  <p class="font-bold text-sky-800">Ví dụ 1.</p>
+  <p>Ba đoạn thẳng có độ dài $4\text{ cm}$, $5\text{ cm}$, $9\text{ cm}$ có thể là ba cạnh của một tam giác không? Vì sao?</p>
+  <p class="font-semibold text-sky-800 mt-2">Lời giải:</p>
+  <p>$4 + 5 = 9$, không lớn hơn $9$ nên ba đoạn thẳng không thể là ba cạnh của một tam giác (vi phạm bất đẳng thức tam giác).</p>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3">2. Hệ quả của bất đẳng thức tam giác</h2>
+<div class="bg-amber-50 border border-amber-200 rounded-xl p-4">
+  <p class="font-bold text-amber-800">📌 Ghi nhớ — Hệ quả</p>
+  <p class="mt-1">Trong một tam giác, <strong>hiệu độ dài hai cạnh bất kì bao giờ cũng nhỏ hơn độ dài cạnh còn lại</strong>.</p>
+</div>
+<div class="bg-amber-50 border border-amber-200 rounded-xl p-4">
+  <p class="font-bold text-amber-800">📌 Ghi nhớ — Nhận xét</p>
+  <p class="mt-1">Trong tam giác $ABC$ ta luôn có:</p>
+  <p class="mt-1 text-center text-lg">$$|AB - AC| &lt; BC &lt; AB + AC$$</p>
+</div>
+<div class="svg-fig">
+<svg viewBox="0 0 400 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tam giac ABC voi cac canh a b c">
+  <polygon points="200,30 70,200 340,200" fill="#f0f9ff" stroke="#0284c7" stroke-width="2.5"/>
+  <text x="200" y="22" font-size="18" font-weight="bold" text-anchor="middle">A</text>
+  <text x="58" y="218" font-size="18" font-weight="bold" text-anchor="middle">B</text>
+  <text x="352" y="218" font-size="18" font-weight="bold" text-anchor="middle">C</text>
+  <text x="120" y="120" font-size="16" fill="#0284c7" font-weight="bold">c</text>
+  <text x="272" y="120" font-size="16" fill="#0284c7" font-weight="bold">b</text>
+  <text x="200" y="222" font-size="16" fill="#0284c7" font-weight="bold">a</text>
+  <text x="200" y="60" font-size="14" fill="#64748b" text-anchor="middle">|b − c| &lt; a &lt; b + c</text>
+</svg>
+<p class="text-center text-sm text-slate-500 mt-1">Hình 2. Quan hệ giữa ba cạnh $a, b, c$ của tam giác</p>
+</div>
+<div class="bg-sky-50 border border-sky-200 rounded-xl p-4">
+  <p class="font-bold text-sky-800">Ví dụ 2.</p>
+  <p>Cho tam giác $ABC$ có $AB = 7\text{ cm}$, $AC = 4\text{ cm}$. Tìm khoảng giá trị của cạnh $BC$.</p>
+  <p class="font-semibold text-sky-800 mt-2">Lời giải:</p>
+  <p>Theo nhận xét: $|AB - AC| &lt; BC &lt; AB + AC$, tức $|7 - 4| &lt; BC &lt; 7 + 4$.</p>
+  <p>Vậy $3\text{ cm} &lt; BC &lt; 11\text{ cm}$.</p>
+</div>
+<div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4">
+  <p class="font-bold text-emerald-800">Bài tập ví dụ.</p>
+  <p>Một tam giác cân có độ dài hai cạnh là $3\text{ cm}$ và $7\text{ cm}$. Tính độ dài cạnh còn lại (tức chu vi của tam giác).</p>
+  <p class="font-semibold text-emerald-800 mt-2">Lời giải:</p>
+  <p>Gọi cạnh còn lại là $x$. Vì tam giác cân có hai cạnh $3\text{ cm}$ và $7\text{ cm}$ nên $x = 3$ hoặc $x = 7$.<br>
+  – Nếu $x = 3$: $3 + 3 = 6 &lt; 7$, vi phạm bất đẳng thức tam giác (loại).<br>
+  – Nếu $x = 7$: $3 + 7 &gt; 7$ thỏa mãn.<br>
+  Vậy cạnh còn lại dài $7\text{ cm}$, chu vi tam giác là $3 + 7 + 7 = 17\text{ cm}$.</p>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3">Tóm tắt</h2>
+<div class="table-scroll">
+<table class="w-full text-sm border-collapse border border-slate-300">
+  <thead><tr class="bg-sky-100">
+    <th class="border border-slate-300 px-3 py-2">Nội dung</th>
+    <th class="border border-slate-300 px-3 py-2">Phát biểu</th>
+  </tr></thead>
+  <tbody>
+    <tr><td class="border border-slate-300 px-3 py-2 font-semibold">Bất đẳng thức tam giác</td><td class="border border-slate-300 px-3 py-2">Trong một tam giác, tổng độ dài hai cạnh bất kì bao giờ cũng lớn hơn độ dài cạnh còn lại.</td></tr>
+    <tr><td class="border border-slate-300 px-3 py-2 font-semibold">Hệ quả</td><td class="border border-slate-300 px-3 py-2">Trong một tam giác, hiệu độ dài hai cạnh bất kì bao giờ cũng nhỏ hơn độ dài cạnh còn lại.</td></tr>
+    <tr><td class="border border-slate-300 px-3 py-2 font-semibold">Nhận xét</td><td class="border border-slate-300 px-3 py-2">$|AB - AC| &lt; BC &lt; AB + AC$.</td></tr>
+  </tbody>
+</table>
+</div>
+
+</div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
