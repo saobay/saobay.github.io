@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 17: Dấu của tam thức bậc hai</title>
+    <meta name="lesson-title" content="Bài 17: Dấu của tam thức bậc hai">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 17: Dấu của tam thức bậc hai</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 6: Hàm số, đồ thị và ứng dụng • Bài 17: Dấu của tam thức bậc hai</p>
+        </div>
+        <div class="content-body space-y-4">
+            <h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 17: Dấu của tam thức bậc hai</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 6: Hàm số, đồ thị và ứng dụng</p>
+
+<!-- 1. Tam thức bậc hai -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Tam thức bậc hai</h2>
+
+<p><strong>Định nghĩa:</strong> <em>Tam thức bậc hai</em> (đối với $x$) là biểu thức có dạng:</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$f(x) = ax^2 + bx + c$$</p>
+<p class="mt-1">trong đó $a, b, c$ là các hằng số và <strong>$a \ne 0$</strong>.</p>
+</div>
+
+<p><strong>Nghiệm</strong> của tam thức bậc hai là nghiệm của phương trình $ax^2 + bx + c = 0$ (tức giao điểm của parabol $y = f(x)$ với trục hoành).</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>$f(x) = x^2 - 3x + 2$ là tam thức bậc hai, có hai nghiệm $x = 1$ và $x = 2$.</li>
+<li>$f(x) = x^2 - 2x + 1 = (x-1)^2$ là tam thức bậc hai, có nghiệm kép $x = 1$.</li>
+<li>$f(x) = x^2 + 1$ là tam thức bậc hai, vô nghiệm.</li>
+<li>$f(x) = 2x + 1$ <strong>không</strong> phải tam thức bậc hai.</li>
+</ul>
+</div>
+
+<!-- 2. Định lí về dấu -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Định lí về dấu của tam thức bậc hai</h2>
+
+<p>Cho tam thức bậc hai $f(x) = ax^2 + bx + c$ ($a \ne 0$), $\Delta = b^2 - 4ac$:</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li>Nếu <strong>$\Delta \lt 0$</strong> thì $f(x)$ <strong>cùng dấu với $a$</strong> với mọi $x \in \mathbb{R}$.</li>
+<li>Nếu <strong>$\Delta = 0$</strong> thì $f(x)$ <strong>cùng dấu với $a$</strong> với mọi $x \ne -\dfrac{b}{2a}$ và $f\left(-\dfrac{b}{2a}\right) = 0$.</li>
+<li>Nếu <strong>$\Delta \gt 0$</strong> thì $f(x)$ có hai nghiệm phân biệt $x_1 \lt x_2$ và:
+<ul class="list-disc ml-6 mt-1">
+<li>$f(x)$ <strong>cùng dấu với $a$</strong> khi $x \lt x_1$ hoặc $x \gt x_2$ ("ngoài cùng");</li>
+<li>$f(x)$ <strong>trái dấu với $a$</strong> khi $x_1 \lt x \lt x_2$ ("trong trái").</li>
+</ul></li>
+</ul>
+</div>
+
+<p class="text-center font-semibold text-sky-700 my-3">Mẹo nhớ: "Trong trái — ngoài cùng" (dấu của $a$)</p>
+
+<div class="flex flex-wrap justify-center gap-3 my-4">
+<div class="svg-fig" style="max-width:200px"><svg viewBox="0 0 200 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Delta lon hon 0">
+<rect x="2" y="2" width="196" height="166" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<line x1="10" y1="120" x2="190" y2="120" stroke="#334155" stroke-width="1.5"/>
+<line x1="100" y1="160" x2="100" y2="10" stroke="#334155" stroke-width="1.5"/>
+<path d="M91.6,54.2 L93.6,59.8 L95.6,65.2 L97.6,70.3 L99.7,75.2 L101.7,79.9 L103.7,84.3 L105.7,88.5 L107.7,92.5 L109.7,96.3 L111.8,99.8 L113.8,103.1 L115.8,106.2 L117.8,109.1 L119.8,111.7 L121.8,114.1 L123.9,116.3 L125.9,118.2 L127.9,119.9 L129.9,121.4 L131.9,122.6 L133.9,123.7 L136.0,124.5 L138.0,125.0 L140.0,125.4 L142.0,125.5 L144.0,125.4 L146.0,125.0 L148.0,124.5 L150.1,123.7 L152.1,122.6 L154.1,121.4 L156.1,119.9 L158.1,118.2 L160.1,116.3 L162.2,114.1 L164.2,111.7 L166.2,109.1 L168.2,106.2 L170.2,103.1 L172.2,99.8 L174.3,96.3 L176.3,92.5 L178.3,88.5 L180.3,84.3 L182.3,79.9 L184.3,75.2 L186.4,70.3 L188.4,65.2 L190.4,59.8 L192.4,54.2" fill="none" stroke="#1d4ed8" stroke-width="2.5"/>
+<circle cx="128" cy="120" r="4" fill="#b91c1c"/><circle cx="156" cy="120" r="4" fill="#b91c1c"/>
+<text x="100" y="165" font-family="sans-serif" font-size="11" fill="#334155" text-anchor="middle">Δ > 0: cắt Ox tại 2 điểm</text>
+</svg></div>
+<div class="svg-fig" style="max-width:200px"><svg viewBox="0 0 200 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Delta bang 0">
+<rect x="2" y="2" width="196" height="166" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<line x1="10" y1="120" x2="190" y2="120" stroke="#334155" stroke-width="1.5"/>
+<line x1="100" y1="160" x2="100" y2="10" stroke="#334155" stroke-width="1.5"/>
+<path d="M77.6,48.7 L79.6,54.3 L81.6,59.7 L83.6,64.8 L85.7,69.7 L87.7,74.4 L89.7,78.8 L91.7,83.0 L93.7,87.0 L95.7,90.8 L97.8,94.3 L99.8,97.6 L101.8,100.7 L103.8,103.6 L105.8,106.2 L107.8,108.6 L109.9,110.8 L111.9,112.7 L113.9,114.4 L115.9,115.9 L117.9,117.1 L119.9,118.2 L122.0,119.0 L124.0,119.5 L126.0,119.9 L128.0,120.0 L130.0,119.9 L132.0,119.5 L134.0,119.0 L136.1,118.2 L138.1,117.1 L140.1,115.9 L142.1,114.4 L144.1,112.7 L146.1,110.8 L148.2,108.6 L150.2,106.2 L152.2,103.6 L154.2,100.7 L156.2,97.6 L158.2,94.3 L160.3,90.8 L162.3,87.0 L164.3,83.0 L166.3,78.8 L168.3,74.4 L170.3,69.7 L172.4,64.8 L174.4,59.7 L176.4,54.3 L178.4,48.7" fill="none" stroke="#1d4ed8" stroke-width="2.5"/>
+<circle cx="128" cy="120" r="4" fill="#b91c1c"/>
+<text x="100" y="165" font-family="sans-serif" font-size="11" fill="#334155" text-anchor="middle">Δ = 0: tiếp xúc Ox</text>
+</svg></div>
+<div class="svg-fig" style="max-width:200px"><svg viewBox="0 0 200 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Delta nho hon 0">
+<rect x="2" y="2" width="196" height="166" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<line x1="10" y1="120" x2="190" y2="120" stroke="#334155" stroke-width="1.5"/>
+<line x1="100" y1="160" x2="100" y2="10" stroke="#334155" stroke-width="1.5"/>
+<path d="M38.4,-8.5 L40.9,-0.1 L43.3,7.9 L45.8,15.5 L48.3,22.9 L50.7,29.9 L53.2,36.5 L55.6,42.8 L58.1,48.8 L60.6,54.4 L63.0,59.7 L65.5,64.6 L68.0,69.2 L70.4,73.5 L72.9,77.4 L75.4,81.0 L77.8,84.2 L80.3,87.1 L82.8,89.7 L85.2,91.9 L87.7,93.7 L90.1,95.3 L92.6,96.5 L95.1,97.3 L97.5,97.8 L100.0,98.0 L102.5,97.8 L104.9,97.3 L107.4,96.5 L109.9,95.3 L112.3,93.7 L114.8,91.9 L117.2,89.7 L119.7,87.1 L122.2,84.2 L124.6,81.0 L127.1,77.4 L129.6,73.5 L132.0,69.2 L134.5,64.6 L137.0,59.7 L139.4,54.4 L141.9,48.8 L144.4,42.8 L146.8,36.5 L149.3,29.9 L151.7,22.9 L154.2,15.5 L156.7,7.9 L159.1,-0.1 L161.6,-8.5" fill="none" stroke="#1d4ed8" stroke-width="2.5"/>
+<text x="100" y="165" font-family="sans-serif" font-size="11" fill="#334155" text-anchor="middle">Δ âm: không cắt Ox</text>
+</svg></div>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Nhìn vào parabol: phần đồ thị <strong>nằm trên</strong> $Ox$ ứng với $f(x) \gt 0$, <strong>nằm dưới</strong> $Ox$ ứng với $f(x) \lt 0$. Quy tắc "trong trái ngoài cùng" chỉ dùng khi <strong>$\Delta \gt 0$</strong>.</p>
+</div>
+
+<!-- 3. Bảng xét dấu -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Bảng xét dấu của tam thức bậc hai</h2>
+
+<p>Để xét dấu $f(x)$, ta lập bảng với các mốc là nghiệm (nếu có):</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ: xét dấu $f(x) = x^2 - 3x + 2$.</p>
+<p>Có $a = 1 \gt 0$, $\Delta = 9 - 8 = 1 \gt 0$, hai nghiệm $x_1 = 1 \lt x_2 = 2$.</p>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">$x$</td><td class="border border-slate-300 px-4 py-1">$-\infty$</td><td class="border border-slate-300 px-4 py-1">$1$</td><td class="border border-slate-300 px-4 py-1">$2$</td><td class="border border-slate-300 px-4 py-1">$+\infty$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">$f(x)$</td><td class="border border-slate-300 px-4 py-1">+</td><td class="border border-slate-300 px-4 py-1">$0$</td><td class="border border-slate-300 px-4 py-1">−</td><td class="border border-slate-300 px-4 py-1">$0$</td><td class="border border-slate-300 px-4 py-1">+</td></tr>
+</table></div>
+<p class="mt-2">Kết luận: $f(x) \gt 0$ khi $x \lt 1$ hoặc $x \gt 2$; $f(x) \lt 0$ khi $1 \lt x \lt 2$; $f(x) = 0$ khi $x = 1$ hoặc $x = 2$.</p>
+</div>
+
+<!-- 4. BPT bậc hai -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Giải bất phương trình bậc hai</h2>
+
+<p><em>Bất phương trình bậc hai</em> là bất phương trình có dạng $ax^2 + bx + c \gt 0$ (hoặc $\ge 0$, $\lt 0$, $\le 0$) với $a \ne 0$. Cách giải:</p>
+<ol class="list-decimal ml-6 space-y-1 my-3">
+<li><strong>Bước 1:</strong> Xét dấu tam thức $f(x) = ax^2 + bx + c$ (tìm nghiệm, lập bảng xét dấu).</li>
+<li><strong>Bước 2:</strong> Dựa vào dấu của $f(x)$ để kết luận tập nghiệm.</li>
+</ol>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 1:</p>
+<p>Giải $x^2 - 3x + 2 \lt 0$.</p>
+<p class="mt-2">Tam thức $f(x) = x^2 - 3x + 2$ có hai nghiệm $1$ và $2$, $a = 1 \gt 0$ nên $f(x) \lt 0$ khi $x$ ở "trong" hai nghiệm. Vậy tập nghiệm là $(1;\, 2)$.</p>
+<p class="font-semibold text-sky-800 mb-2 mt-4">Ví dụ 2:</p>
+<p>Giải $-x^2 + 2x + 3 \ge 0$.</p>
+<p class="mt-2">Tam thức có $a = -1 \lt 0$, $\Delta = 16 \gt 0$, hai nghiệm $x = -1$ và $x = 3$. $f(x) \ge 0$ khi $x$ "trong" hai nghiệm (vì trong trái dấu với $a$). Vậy tập nghiệm là $[-1;\, 3]$.</p>
+<p class="font-semibold text-sky-800 mb-2 mt-4">Ví dụ 3:</p>
+<p>Giải $x^2 - 2x + 5 \gt 0$.</p>
+<p class="mt-2">Tam thức có $a = 1 \gt 0$, $\Delta = 4 - 20 = -16 \lt 0$ nên $f(x) \gt 0$ với mọi $x$. Vậy tập nghiệm là $\mathbb{R}$.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Quy trình 2 bước: <strong>xét dấu tam thức</strong> → <strong>đọc tập nghiệm</strong> theo chiều bất phương trình. Chú ý phân biệt $\gt$ (khoảng mở) với $\ge$ (lấy cả nghiệm, khoảng đóng).</p>
+</div>
+
+<!-- Tổng kết -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Tam thức bậc hai:</strong> $f(x) = ax^2 + bx + c$ ($a \ne 0$).</li>
+<li><strong>Định lí về dấu:</strong> $\Delta \lt 0$: cùng dấu $a$ mọi $x$; $\Delta = 0$: cùng dấu $a$ (trừ nghiệm kép); $\Delta \gt 0$: "trong trái, ngoài cùng" (dấu của $a$).</li>
+<li><strong>Bảng xét dấu:</strong> mốc là các nghiệm, điền dấu $+$/− theo định lí.</li>
+<li><strong>Giải BPT bậc hai:</strong> xét dấu tam thức rồi kết luận tập nghiệm theo chiều của bất phương trình.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+</body>
+</html>
