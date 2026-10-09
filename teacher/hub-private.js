@@ -53,6 +53,17 @@
             for (let i = 0; i < 6; i++) s += c[Math.floor(Math.random() * c.length)];
             return s;
         }
+        // FIX 2026-10-10: Tag phân biệt chủ lớp — GV trường: {id_truong}_{ten_gv}, TK tự do: TD_{sdt}
+        // Mục đích: 2 GV khác nhau cùng đặt tên lớp "10A1" vẫn phân biệt được.
+        function pvOwnerTag(){
+            let id = (typeof currentUser !== 'undefined' && currentUser && currentUser.id) ? String(currentUser.id) : '';
+            let name = (typeof currentUser !== 'undefined' && currentUser && currentUser.name) ? currentUser.name : 'GV';
+            let isPhone = /^0\d{8,11}$/.test(id);   // SĐT VN: bắt đầu bằng 0
+            let isEmail = id.indexOf('@') >= 0;
+            if (isPhone || isEmail) return 'TD_' + id;   // TK tự do
+            if (id) return id + '_' + name;               // GV trường (ID trường)
+            return 'TD_' + name;
+        }
         function pvMyClasses(){
             let isAdmin = currentUser.role === 'admin';
             return pvClasses.filter(function(c){
@@ -77,9 +88,10 @@
             let html = '';
             mine.forEach(function(c){
                 let nS = (c.students || []).length;
+                let tag = c.owner_tag ? '<span class="text-[10px] bg-slate-100 border border-slate-200 text-slate-600 rounded px-1.5 py-0.5 ml-1 font-mono">' + escHtml(c.owner_tag) + '</span>' : '';
                 html += '<div class="bg-white border border-violet-200 rounded-xl p-3">'
                     + '<div class="flex items-center justify-between mb-2">'
-                    + '<div><p class="font-bold text-sm text-slate-800">' + escHtml(c.name) + '</p>'
+                    + '<div><p class="font-bold text-sm text-slate-800">' + escHtml(c.name) + tag + '</p>'
                     + '<p class="text-[11px] text-slate-500">Mã vào lớp: <b class="text-violet-700 font-mono">' + escHtml(c.join_code) + '</b> · ' + nS + ' học sinh</p></div>'
                     + '<div class="flex gap-1.5">'
                     + '<button onclick="pvSelectFolder(\'' + c.id + '\')" class="text-[11px] font-bold text-white bg-violet-600 hover:bg-violet-700 px-2.5 py-1.5 rounded-lg" title="Chọn thư mục này để đẩy bài"><i class="fa-solid fa-folder-open mr-1"></i>Đẩy bài vào lớp</button>'
@@ -107,9 +119,11 @@
             if (!name){ alert('Nhập tên lớp.'); return; }
             if (!pvLoaded) pvClasses = await pvFetchClasses();
             let id = 'lop_' + Date.now().toString(36);
+            let ownerTag = pvOwnerTag();  // FIX 2026-10-10: tag phân biệt chủ lớp
             pvClasses.push({
                 id: id, name: name,
                 teacher_id: currentUser.id, teacher_name: currentUser.name,
+                owner_tag: ownerTag,
                 join_code: pvGenCode(), students: [],
                 created_at: new Date().toISOString()
             });
@@ -141,6 +155,8 @@
             let c = pvClasses.find(function(x){ return x.id === classId; });
             if (!c) return;
             c.students = c.students || [];
+            // Đính chính 2026-10-10: GV thêm HS SỐ LƯỢNG TÙY Ý, không giới hạn.
+            // HS chưa vào nhóm nào → mặc định ở nhóm "Trải nghiệm" (không thống kê điểm).
             c.students.push({ id: 'hs_' + Date.now().toString(36), name: nm, class: '' });
             try { await pvSaveClasses(); renderPrivateClasses(); } catch(e){ alert('Lỗi: ' + e.message); }
         }
