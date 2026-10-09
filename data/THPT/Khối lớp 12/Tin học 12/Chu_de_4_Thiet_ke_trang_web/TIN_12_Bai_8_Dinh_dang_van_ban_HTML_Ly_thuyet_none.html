@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 8: Định dạng văn bản</title>
+    <meta name="lesson-title" content="Bài 8: Định dạng văn bản">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 8: Định dạng văn bản</h1>
+            <p class="text-xs text-slate-500 mt-1">Chủ đề 4: Giải quyết vấn đề với sự trợ giúp của máy tính • Bài 8: Định dạng văn bản</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 8: Định dạng văn bản</h1>
+<p class="text-center text-slate-500 italic mb-8">Chủ đề 4: Giải quyết vấn đề với sự trợ giúp của máy tính — Kết nối tri thức với cuộc sống</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Tiêu đề và đoạn văn</h2>
+<ul class="list-disc ml-6 space-y-2 my-3">
+<li><strong>Tiêu đề</strong>: các thẻ <em>&lt;h1&gt;</em> đến <em>&lt;h6&gt;</em> tạo 6 cấp tiêu đề, <strong>h1 lớn nhất</strong>, h6 nhỏ nhất. Mỗi trang nên có <strong>một thẻ h1</strong> duy nhất cho tiêu đề chính.</li>
+<li><strong>Đoạn văn</strong>: thẻ <em>&lt;p&gt;</em> tạo một đoạn văn bản (khối), tự động có khoảng cách trên dưới với các khối khác.</li>
+<li>Trình duyệt <strong>gộp nhiều dấu cách, dấu ngắt dòng</strong> liên tiếp trong mã thành <strong>một dấu cách</strong> duy nhất khi hiển thị.</li>
+</ul>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Định dạng chữ cơ bản</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 my-2 text-sm">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-3 py-2">Thẻ</td><td class="border border-slate-300 px-3 py-2">Tác dụng</td><td class="border border-slate-300 px-3 py-2">Ghi chú</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">&lt;b&gt;</td><td class="border border-slate-300 px-3 py-2"><strong>In đậm</strong></td><td class="border border-slate-300 px-3 py-2" rowspan="2">Thuần trình bày</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">&lt;i&gt;</td><td class="border border-slate-300 px-3 py-2"><em>In nghiêng</em></td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">&lt;strong&gt;</td><td class="border border-slate-300 px-3 py-2"><strong>In đậm + nhấn mạnh</strong></td><td class="border border-slate-300 px-3 py-2" rowspan="2">Mang <strong>ý nghĩa ngữ nghĩa</strong> (quan trọng / cần nhấn giọng)</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">&lt;em&gt;</td><td class="border border-slate-300 px-3 py-2"><em>In nghiêng + nhấn mạnh</em></td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">&lt;u&gt;</td><td class="border border-slate-300 px-3 py-2"><u>Gạch chân</u></td><td class="border border-slate-300 px-3 py-2">Dễ nhầm với liên kết — dùng hạn chế</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">&lt;mark&gt;</td><td class="border border-slate-300 px-3 py-2"><mark>Đánh dấu nổi bật</mark> (nền vàng)</td><td class="border border-slate-300 px-3 py-2">Như bút dạ quang</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">&lt;sup&gt; / &lt;sub&gt;</td><td class="border border-slate-300 px-3 py-2">Chỉ số trên / chỉ số dưới</td><td class="border border-slate-300 px-3 py-2">Ví dụ x<sup>2</sup>, H<sub>2</sub>O</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">&lt;del&gt; / &lt;s&gt;</td><td class="border border-slate-300 px-3 py-2"><del>Gạch ngang</del> (nội dung bị xóa)</td><td class="border border-slate-300 px-3 py-2">del mang nghĩa "đã xóa"</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">&lt;code&gt;</td><td class="border border-slate-300 px-3 py-2"><code>Chữ đơn cách</code> (mã nguồn)</td><td class="border border-slate-300 px-3 py-2">Hiển thị mã lệnh, code</td></tr>
+</table></div>
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<pre class="bg-slate-900 text-slate-100 rounded-lg p-4 overflow-x-auto text-sm my-2"><code>&lt;p&gt;Đây là &lt;strong&gt;nội dung quan trọng&lt;/strong&gt; cần &lt;em&gt;lưu ý&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Công thức nước: H&lt;sub&gt;2&lt;/sub&gt;O; diện tích: x&lt;sup&gt;2&lt;/sup&gt;.&lt;/p&gt;</code></pre>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. strong/em khác b/i ở điểm nào?</h2>
+<p>Về <strong>hiển thị</strong>, <em>&lt;strong&gt;</em> giống <em>&lt;b&gt;</em> (đậm), <em>&lt;em&gt;</em> giống <em>&lt;i&gt;</em> (nghiêng). Điểm khác là về <strong>ý nghĩa</strong>:</p>
+<ul class="list-disc ml-6 space-y-2 my-3">
+<li><em>&lt;strong&gt;</em>: nội dung <strong>quan trọng</strong>; <em>&lt;em&gt;</em>: nội dung cần <strong>nhấn giọng</strong> — công cụ tìm kiếm và trình đọc màn hình (cho người khiếm thị) hiểu được sự nhấn mạnh này.</li>
+<li><em>&lt;b&gt;</em>, <em>&lt;i&gt;</em>: chỉ thay đổi <strong>hình thức</strong> trình bày, không mang ý nghĩa nhấn mạnh.</li>
+</ul>
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Muốn nhấn mạnh ý nghĩa: dùng <strong>strong/em</strong>. Chỉ muốn chữ đậm/nghiêng cho đẹp: dùng <strong>b/i</strong>. Tránh dùng <strong>u</strong> (gạch chân) vì dễ nhầm với liên kết.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Tiêu đề</strong>: h1 (lớn nhất) đến h6 (nhỏ nhất); <strong>đoạn văn</strong>: p; trình duyệt gộp nhiều dấu cách thành một.</li>
+<li><strong>b</strong>: đậm; <strong>i</strong>: nghiêng (thuần trình bày). <strong>strong</strong>: đậm + quan trọng; <strong>em</strong>: nghiêng + nhấn giọng (có ý nghĩa ngữ nghĩa).</li>
+<li><strong>u</strong>: gạch chân (hạn chế dùng); <strong>mark</strong>: đánh dấu nổi bật; <strong>sup/sub</strong>: chỉ số trên/dưới; <strong>del/s</strong>: gạch ngang; <strong>code</strong>: chữ đơn cách hiển thị mã.</li>
+</ul>
+</div>
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
