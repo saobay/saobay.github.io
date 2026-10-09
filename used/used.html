@@ -1135,7 +1135,7 @@
                     tr.innerHTML = `
                         <td class="p-3 text-center text-slate-400 font-bold">${startIndex + idx + 1}</td>
                         <td class="p-3 font-mono font-bold text-slate-700">${acc.id}</td>
-                        <td class="p-3 font-bold text-slate-900">${acc.name}</td>
+                        <td class="p-3 font-bold text-slate-900">${acc.name}${(currentAdminTab === 'teachers' && acc.role === 'bgh') ? ' <span class="text-[10px] bg-violet-600 text-white px-1.5 py-0.5 rounded-full font-bold ml-1">BGH</span>' : ''}</td>
                         <td class="p-3">${extraInfo}</td>
                         <td class="p-3">
                             <span class="inline-flex items-center text-[10px] font-bold px-2.5 py-1 rounded-full border ${st.badgeClass}">
@@ -1143,13 +1143,17 @@
                             </span>
                         </td>
                         <td class="p-3 text-center">
-                            <div class="flex items-center justify-center space-x-1.5">
+                            <div class="flex items-center justify-center space-x-1.5 flex-wrap gap-y-1">
                                 <button type="button" onclick="handleResetAccountPassword('${acc.id}')" title="Đặt lại về mật khẩu mặc định 12345678" class="bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 text-xs px-2.5 py-1.5 rounded-lg font-bold transition flex items-center">
                                     <i class="fa-solid fa-rotate-left mr-1"></i> Reset 12345678
                                 </button>
                                 <button type="button" onclick="openEditPassModal('${acc.id}')" title="Đổi mật khẩu theo ý muốn" class="bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 text-xs px-2.5 py-1.5 rounded-lg font-bold transition flex items-center">
                                     <i class="fa-solid fa-pen-to-square mr-1"></i> Đổi MK
                                 </button>
+                                ${(currentAdminTab === 'teachers') ? `
+                                <button type="button" onclick="toggleBghRole('${acc.id}', '${(acc.name||'').replace(/'/g,"")}')" title="${acc.role === 'bgh' ? 'Gỡ khỏi Ban Giám Hiệu' : 'Cho vào Ban Giám Hiệu'}" class="${acc.role === 'bgh' ? 'bg-violet-600 hover:bg-violet-700 text-white' : 'bg-violet-50 hover:bg-violet-100 text-violet-700'} border border-violet-200 text-xs px-2.5 py-1.5 rounded-lg font-bold transition flex items-center">
+                                    <i class="fa-solid fa-building-columns mr-1"></i> ${acc.role === 'bgh' ? 'Gỡ BGH' : 'Cho vào BGH'}
+                                </button>` : ''}
                             </div>
                         </td>
                     `;
@@ -1169,6 +1173,32 @@
         function nextPage() { if (currentPage < totalAvailablePages) { currentPage++; renderAdminTable(); } }
 
         // RESET MẬT KHẨU VỀ MẶC ĐỊNH 12345678
+        // TICH/GỠ BAN GIÁM HIỆU cho giáo viên
+        async function toggleBghRole(accId, accName) {
+            try {
+                let tReg = masterDatabase.teachers_registry || {};
+                let entry = tReg[accId];
+                // Tim theo id hoac theo ten (phong khi id khac)
+                if (!entry) {
+                    let found = Object.keys(tReg).find(k => String(k) === String(accId));
+                    if (found) { accId = found; entry = tReg[found]; }
+                }
+                let isBgh = entry && entry.role === 'bgh';
+                if (!confirm((isBgh ? 'GỠ' : 'CHO VÀO') + ' Ban Giám Hiệu cho:\n"' + accName + '" (Mã: ' + accId + ')?\n\n' + (isBgh ? 'Người này sẽ trở lại thành Giáo viên thường.' : 'Người này sẽ xem được toàn trường, tất cả các môn (không xem lớp học thêm).'))) return;
+                if (!tReg[accId]) tReg[accId] = { name: accName };
+                tReg[accId].role = isBgh ? 'teacher' : 'bgh';
+                masterDatabase.teachers_registry = tReg;
+                await saveMasterDatabaseToGit((isBgh ? 'Gỡ BGH: ' : 'Cho vào BGH: ') + accName + ' (' + accId + ')');
+                // Cap nhat cache local
+                let ct = cachedTeachers.find(t => String(t.id) === String(accId));
+                if (ct) ct.role = tReg[accId].role;
+                showToast((isBgh ? 'Đã gỡ khỏi' : 'Đã cho vào') + ' Ban Giám Hiệu: ' + accName, 'success');
+                renderAdminTable();
+            } catch(err) {
+                showToast('Lỗi: ' + err.message, 'error');
+            }
+        }
+
         async function handleResetAccountPassword(accId) {
             let all = [...cachedTeachers, ...cachedStudents];
             let acc = all.find(a => String(a.id) === String(accId));
