@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay | Ma nguon thuoc nen tang hoc tap SAOBAY | Nghiem cam sao chep duoi moi hinh thuc -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 28: Thiết kế chương trình theo mô đun</title>
+    <meta name="lesson-title" content="Bài 28: Thiết kế chương trình theo mô đun">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 28: Thiết kế chương trình theo mô đun</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 6: Kĩ thuật lập trình • Bài 28: Thiết kế chương trình theo mô đun</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 28: Thiết kế chương trình theo mô đun</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 6: Kĩ thuật lập trình — sách Kết nối tri thức với cuộc sống</p>
+
+<!-- 1. Mô đun là gì -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Mô đun là gì?</h2>
+
+<p><strong>Mô đun (module)</strong> là một <strong>đơn vị chương trình độc lập</strong> thực hiện một chức năng xác định. Trong Python, mô đun thường được thể hiện bằng một <strong>hàm</strong> (function).</p>
+
+<p><strong>Thiết kế chương trình theo mô đun</strong> là chia chương trình thành các mô đun (hàm), mỗi hàm làm một việc rõ ràng; chương trình chính chỉ <strong>gọi các hàm</strong> theo đúng trình tự.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ: chương trình tính trung bình lớp</p>
+<ul class="list-disc ml-6 space-y-1">
+<li><code>nhap_diem()</code>: nhập và trả về bảng điểm.</li>
+<li><code>tinh_trung_binh(diem)</code>: nhận bảng điểm, trả về mảng trung bình.</li>
+<li><code>tim_gioi_nhat(tb)</code>: nhận mảng trung bình, trả về chỉ số giỏi nhất.</li>
+<li>Chương trình chính: gọi lần lượt ba hàm trên rồi in kết quả.</li>
+</ul>
+</div>
+
+<!-- 2. Hàm trong Python -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Hàm trong Python: tham số và giá trị trả về</h2>
+
+<p>Cú pháp định nghĩa hàm:</p>
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2">def ten_ham(tham_so_1, tham_so_2):
+    # thân hàm: các lệnh xử lí
+    return ket_qua</pre>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Tham số (parameter):</strong> dữ liệu đầu vào của hàm, khai báo trong ngoặc đơn.</li>
+<li><strong>Giá trị trả về:</strong> kết quả hàm gửi lại cho nơi gọi, bằng lệnh <code>return</code>.</li>
+<li><strong>Đối số (argument):</strong> giá trị cụ thể truyền vào khi gọi hàm.</li>
+</ul>
+
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2">def tinh_tong(a):
+    s = 0
+    for x in a:
+        s = s + x
+    return s
+
+diem = [8, 7, 9]
+print(tinh_tong(diem))  # 24 (diem là đối số, a là tham số)</pre>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Hàm không có <code>return</code> sẽ trả về <code>None</code>. Biến tạo trong hàm là <strong>biến cục bộ</strong>, không dùng được bên ngoài hàm.</p>
+</div>
+
+<!-- 3. Nguyên tắc thiết kế mô đun -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Nguyên tắc thiết kế mô đun tốt</h2>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-sm my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Nguyên tắc</td><td class="border border-slate-300 px-4 py-1">Ý nghĩa</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Một mô đun — một việc</td><td class="border border-slate-300 px-4 py-1">Mỗi hàm chỉ làm một chức năng rõ ràng</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Độc lập</td><td class="border border-slate-300 px-4 py-1">Hàm ít phụ thuộc vào hàm khác và biến toàn cục</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Giao tiếp rõ ràng</td><td class="border border-slate-300 px-4 py-1">Vào/ra của hàm qua tham số và giá trị trả về</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Tên gợi nhớ</td><td class="border border-slate-300 px-4 py-1">Tên hàm nói rõ chức năng, ví dụ <code>tinh_trung_binh</code></td></tr>
+</table></div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="So do mo dun">
+<rect x="2" y="2" width="436" height="196" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="26" font-family="sans-serif" font-size="13" font-weight="bold" fill="#0c4a6e" text-anchor="middle">Chương trình chính gọi các mô đun</text>
+<rect x="140" y="45" width="160" height="36" rx="8" fill="#0284c7"/><text x="220" y="68" font-family="sans-serif" font-size="12" fill="#fff" text-anchor="middle">Chương trình chính</text>
+<line x1="170" y1="81" x2="90" y2="110" stroke="#64748b" stroke-width="1.5"/><line x1="220" y1="81" x2="220" y2="110" stroke="#64748b" stroke-width="1.5"/><line x1="270" y1="81" x2="350" y2="110" stroke="#64748b" stroke-width="1.5"/>
+<rect x="30" y="110" width="120" height="34" rx="8" fill="#38bdf8"/><text x="90" y="131" font-family="sans-serif" font-size="11" fill="#0c4a6e" text-anchor="middle">nhap_diem()</text>
+<rect x="160" y="110" width="120" height="34" rx="8" fill="#38bdf8"/><text x="220" y="131" font-family="sans-serif" font-size="11" fill="#0c4a6e" text-anchor="middle">tinh_trung_binh()</text>
+<rect x="290" y="110" width="120" height="34" rx="8" fill="#38bdf8"/><text x="350" y="131" font-family="sans-serif" font-size="11" fill="#0c4a6e" text-anchor="middle">tim_gioi_nhat()</text>
+<text x="220" y="170" font-family="sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">Mỗi hàm: một việc rõ ràng, vào/ra qua tham số và return</text>
+</svg></div>
+
+<!-- 4. Ví dụ đầy đủ -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Ví dụ đầy đủ: chương trình quản lí điểm theo mô đun</h2>
+
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2">def nhap_diem(n, m):
+    diem = []
+    for i in range(n):
+        diem.append(list(map(float, input().split())))
+    return diem
+
+def tinh_trung_binh(diem):
+    tb = []
+    for row in diem:
+        s = 0
+        for x in row:
+            s = s + x
+        tb.append(s / len(row))
+    return tb
+
+def tim_gioi_nhat(tb):
+    vmax = tb[0]
+    vt = 0
+    for i in range(1, len(tb)):
+        if tb[i] == max(tb[i], vmax) and tb[i] != vmax:
+            vmax = tb[i]
+            vt = i
+    return vt
+
+# Chương trình chính
+n = int(input())
+m = int(input())
+diem = nhap_diem(n, m)
+tb = tinh_trung_binh(diem)
+print("Giỏi nhất:", tim_gioi_nhat(tb))</pre>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">⚠️ Lỗi thường gặp</p>
+<ul class="list-disc ml-6 space-y-1 mt-1">
+<li>Quên <code>return</code> nên hàm trả về <code>None</code>.</li>
+<li>Dùng biến cục bộ bên ngoài hàm → lỗi <code>NameError</code>.</li>
+<li>Truyền sai số lượng đối số khi gọi hàm → lỗi <code>TypeError</code>.</li>
+<li>Đặt tên hàm trùng với hàm có sẵn (ví dụ <code>sum</code>, <code>max</code>).</li>
+</ul>
+</div>
+
+<!-- Tóm tắt -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Mô đun:</strong> đơn vị chương trình độc lập, trong Python thường là một hàm.</li>
+<li><strong>Hàm:</strong> nhận dữ liệu qua <strong>tham số</strong>, trả kết quả bằng <strong>return</strong>.</li>
+<li><strong>Nguyên tắc:</strong> một mô đun một việc; độc lập; giao tiếp qua tham số/return; tên gợi nhớ.</li>
+<li><strong>Lợi ích:</strong> dễ hiểu, dễ kiểm thử từng hàm, tái sử dụng.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">
+(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok){if(document.body){document.body.innerHTML='<div style="font-family:system-ui,sans-serif;max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff"><h2 style="color:#0f172a;margin-top:0">© SAOBAY — Trường THPT Sào Báy</h2><p style="color:#475569">Nội dung này chỉ được hiển thị tại địa chỉ chính thức <b>saobay.github.io</b>.</p><p style="color:#475569">Vui lòng truy cập đúng địa chỉ để học tập.</p></div>';}else{document.write("SAOBAY: truy cap tai saobay.github.io");}}catch(e){}})();
+</script>
+</body>
+</html>
