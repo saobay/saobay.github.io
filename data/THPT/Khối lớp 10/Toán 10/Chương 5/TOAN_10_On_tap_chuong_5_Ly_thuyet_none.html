@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ôn tập chương 5</title>
+    <meta name="lesson-title" content="Ôn tập chương 5">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Ôn tập chương 5</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 5: Các số đặc trưng của mẫu số liệu không ghép nhóm • Ôn tập chương 5</p>
+        </div>
+        <div class="content-body space-y-4">
+            <h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Ôn tập chương 5</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 5: Các số đặc trưng của mẫu số liệu không ghép nhóm</p>
+
+<p>Chương 5 gồm ba bài: <strong>Bài 12</strong> (Số gần đúng và sai số), <strong>Bài 13</strong> (Các số đặc trưng đo xu thế trung tâm), <strong>Bài 14</strong> (Các số đặc trưng đo độ phân tán). Dưới đây là toàn bộ kiến thức cần nhớ + ví dụ tổng hợp.</p>
+
+<!-- I. Bài 12 -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">I. Số gần đúng và sai số (Bài 12)</h2>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Khái niệm</td><td class="border border-slate-300 px-4 py-1">Công thức / Quy tắc</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Sai số tuyệt đối</td><td class="border border-slate-300 px-4 py-1">$\Delta_a = |\overline{a} - a|$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Độ chính xác $d$</td><td class="border border-slate-300 px-4 py-1">$\Delta_a \le d$, viết $\overline{a} = a \pm d$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Sai số tương đối</td><td class="border border-slate-300 px-4 py-1">$\delta_a = \dfrac{\Delta_a}{|\overline{a}|} \le \dfrac{d}{|a|}$ (càng nhỏ càng tốt)</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Hàng quy tròn</td><td class="border border-slate-300 px-4 py-1">Hàng thấp nhất mà $d$ nhỏ hơn một đơn vị của hàng đó</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Quy tắc làm tròn</td><td class="border border-slate-300 px-4 py-1">Chữ số sau hàng quy tròn $\lt 5$: giữ nguyên; $\ge 5$: cộng $1$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Chữ số chắc</td><td class="border border-slate-300 px-4 py-1">Nửa đơn vị của hàng đó $\ge d$ (không nhỏ hơn sai số tuyệt đối)</td></tr>
+</table></div>
+
+<!-- II. Bài 13 -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">II. Các số đặc trưng đo xu thế trung tâm (Bài 13)</h2>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Số đặc trưng</td><td class="border border-slate-300 px-4 py-1">Cách xác định</td><td class="border border-slate-300 px-4 py-1">Lưu ý</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Số trung bình $\overline{x}$</td><td class="border border-slate-300 px-4 py-1">$\dfrac{x_1+\dots+x_n}{n}$ (bảng tần số: $\dfrac{m_1x_1+\dots+m_kx_k}{n}$)</td><td class="border border-slate-300 px-4 py-1">Nhạy với giá trị bất thường</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Trung vị $M_e$</td><td class="border border-slate-300 px-4 py-1">Sắp xếp rồi lấy giá trị giữa ($n$ chẵn: trung bình cộng 2 giá trị giữa)</td><td class="border border-slate-300 px-4 py-1">Không bị ảnh hưởng bởi giá trị bất thường</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Tứ phân vị</td><td class="border border-slate-300 px-4 py-1">$Q_2 = M_e$; $Q_1, Q_3$ là trung vị hai nửa (bỏ $Q_2$ nếu $n$ lẻ)</td><td class="border border-slate-300 px-4 py-1">$Q_1 \le Q_2 \le Q_3$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Mốt $M_0$</td><td class="border border-slate-300 px-4 py-1">Giá trị có tần số lớn nhất</td><td class="border border-slate-300 px-4 py-1">Có thể nhiều mốt; dùng tốt cho số liệu định tính</td></tr>
+</table></div>
+
+<!-- III. Bài 14 -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">III. Các số đặc trưng đo độ phân tán (Bài 14)</h2>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Số đặc trưng</td><td class="border border-slate-300 px-4 py-1">Công thức</td><td class="border border-slate-300 px-4 py-1">Lưu ý</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Khoảng biến thiên $R$</td><td class="border border-slate-300 px-4 py-1">$x_{\max} - x_{\min}$</td><td class="border border-slate-300 px-4 py-1">Đơn giản nhưng nhạy với giá trị bất thường</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Khoảng tứ phân vị $\Delta_Q$</td><td class="border border-slate-300 px-4 py-1">$Q_3 - Q_1$</td><td class="border border-slate-300 px-4 py-1">Đo $50\%$ số liệu giữa; miễn nhiễm giá trị bất thường</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Phương sai $s^2$</td><td class="border border-slate-300 px-4 py-1">$\dfrac{\sum (x_i-\overline{x})^2}{n}$</td><td class="border border-slate-300 px-4 py-1">Càng lớn càng phân tán; đơn vị là bình phương đơn vị gốc</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Độ lệch chuẩn $s$</td><td class="border border-slate-300 px-4 py-1">$\sqrt{s^2}$</td><td class="border border-slate-300 px-4 py-1">Cùng đơn vị với số liệu gốc</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Giá trị bất thường</td><td class="border border-slate-300 px-4 py-1">Ngoài $[Q_1-1{,}5\Delta_Q;\, Q_3+1{,}5\Delta_Q]$</td><td class="border border-slate-300 px-4 py-1">Biểu đồ hộp chấm riêng các giá trị này</td></tr>
+</table></div>
+
+<!-- IV. Ví dụ tổng hợp -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">IV. Ví dụ tổng hợp</h2>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 1 (Bài 12):</p>
+<p>Một học sinh đo chiều dài bàn học được $a = 1{,}20\,\text{m}$ với độ chính xác $d = 0{,}02\,\text{m}$.</p>
+<ul class="list-disc ml-6 space-y-1 mt-2">
+<li>Giá trị đúng $\overline{a} \in [1{,}18;\, 1{,}22]$.</li>
+<li>Sai số tương đối $\delta_a \le \dfrac{0{,}02}{1{,}20} \approx 1{,}67\%$.</li>
+<li>Số quy tròn: $d = 0{,}02$ nên hàng quy tròn là hàng phần mười → $1{,}2\,\text{m}$.</li>
+</ul>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 2 (Bài 13 + 14):</p>
+<p>Điểm kiểm tra của 8 bạn: $5;\, 6;\, 7;\, 7;\, 8;\, 8;\, 9;\, 10$.</p>
+<ul class="list-disc ml-6 space-y-1 mt-2">
+<li>Số trung bình: $\overline{x} = 60/8 = 7{,}5$.</li>
+<li>Trung vị: $n = 8$ chẵn → $M_e = (7 + 8)/2 = 7{,}5$.</li>
+<li>Tứ phân vị: $Q_1 = (6 + 7)/2 = 6{,}5$; $Q_3 = (8 + 9)/2 = 8{,}5$; $\Delta_Q = 2$.</li>
+<li>Mốt: $M_0 \in \{7;\, 8\}$ (mỗi giá trị xuất hiện $2$ lần).</li>
+<li>Khoảng biến thiên: $R = 10 - 5 = 5$.</li>
+<li>Phương sai: các bình phương độ lệch $6{,}25;\,2{,}25;\,0{,}25;\,0{,}25;\,0{,}25;\,0{,}25;\,2{,}25;\,6{,}25$ tổng $18$ → $s^2 = 18/8 = 2{,}25$; $s = 1{,}5$.</li>
+<li>Không có giá trị bất thường (hàng rào $[6{,}5 - 3;\, 8{,}5 + 3] = [3{,}5;\, 11{,}5]$).</li>
+</ul>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Mẹo làm bài trắc nghiệm chương 5</p>
+<ul class="list-disc ml-6 space-y-1 mt-1">
+<li>Thấy "độ chính xác $d$" + "số quy tròn": tìm hàng của $d$ rồi <strong>dịch sang trái một hàng</strong>.</li>
+<li>Thấy "đại diện", "điển hình" + số liệu có giá trị lạ: chọn <strong>trung vị</strong>.</li>
+<li>Thấy "phân tán", "đồng đều", "ổn định": so sánh <strong>$s$ hoặc $s^2$</strong> (nhỏ hơn = đều hơn).</li>
+<li>Thấy "bất thường": tính $Q_1, Q_3, \Delta_Q$ rồi kiểm tra <strong>hàng rào $1{,}5\Delta_Q$</strong>.</li>
+<li>Tính phương sai: nhớ <strong>bình phương độ lệch rồi mới lấy trung bình</strong>, mẫu số là $n$.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+</body>
+</html>
