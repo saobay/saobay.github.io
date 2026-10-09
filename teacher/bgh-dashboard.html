@@ -192,6 +192,7 @@ function showTab(name){
     document.querySelectorAll('.tab-panel').forEach(p=>p.classList.add('hidden'));
     document.getElementById('tab-'+name).classList.remove('hidden');
 }
+window.showTab = showTab; // FIX 2026-10-09: expose ra global cho onclick
 
 // ---- Load data ----
 async function loadAll(){
