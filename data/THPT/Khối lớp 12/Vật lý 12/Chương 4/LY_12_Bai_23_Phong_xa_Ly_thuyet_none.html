@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 23: Phóng xạ</title>
+    <meta name="lesson-title" content="Bài 23: Phóng xạ">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 23: Phóng xạ</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 4: Vật lí hạt nhân • Bài 23: Phóng xạ</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 23: Phóng xạ</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 4: Vật lí hạt nhân — Vật lí 12 (Kết nối tri thức với cuộc sống)</p>
+
+
+<!-- 1. Hien tuong phong xa -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Hiện tượng phóng xạ</h2>
+
+<p><strong>Phóng xạ</strong> là hiện tượng hạt nhân nguyên tử <strong>tự phát</strong> phân rã, phát ra các tia phóng xạ và biến thành hạt nhân khác.</p>
+
+<p>Các tia phóng xạ chính:</p>
+<div class="table-scroll"><table>
+<tr><th>Tia</th><th>Bản chất</th><th>Khả năng đâm xuyên</th></tr>
+<tr><td>Alpha ($\alpha$)</td><td>Hạt nhân $^{4}_{2}$He</td><td>Yếu (bị chặn bởi tờ giấy)</td></tr>
+<tr><td>Beta trừ ($\beta^-$)</td><td>Electron ($^{0}_{-1}$e)</td><td>Trung bình (bị chặn bởi tấm nhôm mỏng)</td></tr>
+<tr><td>Beta cộng ($\beta^+$)</td><td>Positron ($^{0}_{+1}$e)</td><td>Trung bình</td></tr>
+<tr><td>Gamma ($\gamma$)</td><td>Sóng điện từ (photon năng lượng cao)</td><td>Mạnh (cần chì dày để chặn)</td></tr>
+</table></div>
+
+<!-- 2. Dinh luat phong xa -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Định luật phóng xạ</h2>
+
+<p>Số hạt nhân còn lại sau thời gian $t$:</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p class="text-2xl">$$N = N_0 \cdot 2^{-t/T} \quad \text{hay} \quad m = m_0 \cdot 2^{-t/T}$$</p>
+<p class="mt-2">$T$: <strong>chu kì bán rã</strong> — thời gian để một nửa số hạt nhân phân rã.</p>
+</div>
+
+<p><strong>Độ phóng xạ</strong> $H$ (số phân rã mỗi giây): $H = \lambda N$, đơn vị <strong>becquerel</strong> (Bq). $1$ Bq = $1$ phân rã/s.</p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Do thi dinh luat phong xa">
+<rect x="2" y="2" width="436" height="196" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="26" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0c4a6e" text-anchor="middle">ĐỒ THỊ ĐỊNH LUẬT PHÓNG XẠ</text>
+<line x1="60" y1="170" x2="400" y2="170" stroke="#333" stroke-width="2"/>
+<line x1="60" y1="170" x2="60" y2="40" stroke="#333" stroke-width="2"/>
+<text x="410" y="166" font-family="sans-serif" font-size="13" fill="#333">t</text>
+<text x="46" y="46" font-family="sans-serif" font-size="13" fill="#333">N</text>
+<path d="M60,50 Q140,60 180,110 Q220,150 400,165" fill="none" stroke="#dc2626" stroke-width="3"/>
+<line x1="180" y1="110" x2="180" y2="170" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5,4"/>
+<line x1="60" y1="110" x2="180" y2="110" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5,4"/>
+<text x="180" y="188" font-family="sans-serif" font-size="11" fill="#475569" text-anchor="middle">T</text>
+<text x="30" y="114" font-family="sans-serif" font-size="11" fill="#475569">N0/2</text>
+<text x="30" y="54" font-family="sans-serif" font-size="11" fill="#475569">N0</text>
+<text x="220" y="192" font-family="sans-serif" font-size="11" fill="#475569" text-anchor="middle">Sau mỗi chu kì T, số hạt nhân giảm một nửa</text>
+</svg></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><strong>Phóng xạ</strong> là quá trình <strong>tự phát</strong>, không điều khiển được bằng tác động bên ngoài (nhiệt độ, áp suất). $N = N_0 \cdot 2^{-t/T}$. Tia $\alpha$ đâm xuyên yếu nhất, tia $\gamma$ mạnh nhất.</p>
+</div>
+
+<!-- 3. Vi du -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Ví dụ vận dụng</h2>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 1:</p>
+<p>Ban đầu có $800$ g chất phóng xạ có chu kì bán rã $T$. Sau $2T$, khối lượng còn lại là bao nhiêu?</p>
+<p class="mt-2"><strong>Lời giải:</strong> $m = m_0 \cdot 2^{-t/T} = 800 \cdot 2^{-2} = 800/4 = 200$ g.</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 2:</p>
+<p>$^{238}_{92}$U phân rã alpha thành hạt nhân con X. Xác định X.</p>
+<p class="mt-2"><strong>Lời giải:</strong> Tia $\alpha$ là $^{4}_{2}$He.<br>
+Bảo toàn $A$: $238 = 4 + A_X \Rightarrow A_X = 234$.<br>
+Bảo toàn $Z$: $92 = 2 + Z_X \Rightarrow Z_X = 90$. Vậy X là $^{234}_{90}$Th.</p>
+</div>
+
+<!-- Tong ket -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Phóng xạ:</strong> hạt nhân tự phân rã, phát tia $\alpha, \beta, \gamma$.</li>
+<li><strong>Định luật phóng xạ:</strong> $N = N_0 \cdot 2^{-t/T}$; $T$ là chu kì bán rã.</li>
+<li><strong>Độ phóng xạ:</strong> $H = \lambda N$; đơn vị becquerel (Bq).</li>
+<li>Phóng xạ là quá trình <strong>tự phát</strong>, không phụ thuộc tác động bên ngoài.</li>
+</ul>
+</div>
+
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề Vật lí bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
