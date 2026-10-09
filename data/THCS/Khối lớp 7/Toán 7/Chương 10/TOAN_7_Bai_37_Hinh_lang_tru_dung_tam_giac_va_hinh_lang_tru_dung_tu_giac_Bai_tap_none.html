@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài tập Bài 37: Hình lăng trụ đứng tam giác và hình lăng trụ đứng tứ giác</title>
+    <meta name="lesson-title" content="Bài tập Bài 37: Hình lăng trụ đứng tam giác và hình lăng trụ đứng tứ giác">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Bài tập</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài tập Bài 37: Hình lăng trụ đứng tam giác và hình lăng trụ đứng tứ giác</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 10: Một số hình khối trong thực tiễn • Bài 37: Hình lăng trụ đứng tam giác và hình lăng trụ đứng tứ giác</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="saobay-exam10">
+<script type="application/json" class="saobay-exam10-data">
+{
+ "sets": [
+  {
+   "name": "Đề 1",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Hình lăng trụ đứng tam giác có bao nhiêu mặt?",
+     "options": [
+      "A. $4$",
+      "B. $5$",
+      "C. $6$",
+      "D. $9$"
+     ],
+     "answer": "B",
+     "explain": "Hình lăng trụ đứng tam giác có $5$ mặt ($2$ mặt đáy $+$ $3$ mặt bên)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Các mặt bên của hình lăng trụ đứng là những hình gì?",
+     "options": [
+      "A. Hình chữ nhật",
+      "B. Hình tam giác",
+      "C. Hình vuông",
+      "D. Hình bình hành bất kì"
+     ],
+     "answer": "A",
+     "explain": "Các mặt bên của hình lăng trụ đứng đều là hình chữ nhật."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Diện tích xung quanh của hình lăng trụ đứng có chu vi đáy $24\\text{ cm}$, chiều cao $10\\text{ cm}$ bằng bao nhiêu?",
+     "options": [
+      "A. $120\\text{ cm}^2$",
+      "B. $240\\text{ cm}^2$",
+      "C. $480\\text{ cm}^2$",
+      "D. $34\\text{ cm}^2$"
+     ],
+     "answer": "B",
+     "explain": "$S_{xq} = C_{\\text{đáy}}\\cdot h = 24\\cdot 10 = 240\\text{ (cm}^2\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Thể tích của hình lăng trụ đứng có diện tích đáy $30\\text{ cm}^2$, chiều cao $12\\text{ cm}$ bằng bao nhiêu?",
+     "options": [
+      "A. $42\\text{ cm}^3$",
+      "B. $180\\text{ cm}^3$",
+      "C. $360\\text{ cm}^3$",
+      "D. $720\\text{ cm}^3$"
+     ],
+     "answer": "C",
+     "explain": "$V = S_{\\text{đáy}}\\cdot h = 30\\cdot 12 = 360\\text{ (cm}^3\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Một hình lăng trụ đứng tam giác có đáy là tam giác với ba cạnh $6\\text{ cm}$, $8\\text{ cm}$, $10\\text{ cm}$; chiều cao của lăng trụ là $15\\text{ cm}$. Tính diện tích xung quanh.",
+     "options": [
+      "A. $360\\text{ cm}^2$",
+      "B. $240\\text{ cm}^2$",
+      "C. $720\\text{ cm}^2$",
+      "D. $180\\text{ cm}^2$"
+     ],
+     "answer": "A",
+     "explain": "$C_{\\text{đáy}} = 6+8+10 = 24\\text{ (cm)}$; $S_{xq} = 24\\cdot 15 = 360\\text{ (cm}^2\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Một lều trại có dạng hình lăng trụ đứng tam giác. Đáy là tam giác vuông với hai cạnh góc vuông $3\\text{ m}$, $4\\text{ m}$; chiều dài của lều là $5\\text{ m}$. Tính thể tích phần không gian bên trong lều.",
+     "options": [
+      "A. $60\\text{ m}^3$",
+      "B. $30\\text{ m}^3$",
+      "C. $12\\text{ m}^3$",
+      "D. $20\\text{ m}^3$"
+     ],
+     "answer": "B",
+     "explain": "$S_{\\text{đáy}} = \\frac{1}{2}\\cdot 3\\cdot 4 = 6\\text{ (m}^2\\text{)}$; $V = 6\\cdot 5 = 30\\text{ (m}^3\\text{)}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho hình lăng trụ đứng tam giác có chu vi đáy $30\\text{ cm}$, diện tích đáy $30\\text{ cm}^2$, chiều cao $10\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Diện tích xung quanh bằng $300\\text{ cm}^2$.",
+      "b) Thể tích bằng $300\\text{ cm}^3$.",
+      "c) Diện tích toàn phần bằng $360\\text{ cm}^2$.",
+      "d) Hình có $5$ mặt."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$S_{xq} = 300$; $V = 300$; $S_{tp} = 300+60 = 360$; lăng trụ đứng tam giác có $5$ mặt."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Xét tính đúng sai của các khẳng định sau về hình lăng trụ đứng tứ giác.",
+     "statements": [
+      "a) Hình có $8$ đỉnh.",
+      "b) Hình có $12$ cạnh.",
+      "c) Hình có $6$ mặt.",
+      "d) Hai mặt đáy là hình chữ nhật."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b), c) đúng; d) sai vì hai mặt đáy là tứ giác (không nhất thiết là hình chữ nhật)."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Một hình lăng trụ đứng có chu vi đáy $36\\text{ cm}$, chiều cao $8\\text{ cm}$. Tính diện tích xung quanh của hình (đơn vị: $\\text{cm}^2$).",
+     "answer": "288",
+     "explain": "$S_{xq} = 36\\cdot 8 = 288\\text{ (cm}^2\\text{)}$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Một hình lăng trụ đứng tam giác có diện tích đáy $24\\text{ cm}^2$, chiều cao $10\\text{ cm}$. Tính thể tích của hình (đơn vị: $\\text{cm}^3$).",
+     "answer": "240",
+     "explain": "$V = 24\\cdot 10 = 240\\text{ (cm}^3\\text{)}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 2",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Hình lăng trụ đứng tứ giác có bao nhiêu đỉnh?",
+     "options": [
+      "A. $5$",
+      "B. $6$",
+      "C. $8$",
+      "D. $12$"
+     ],
+     "answer": "C",
+     "explain": "Hình lăng trụ đứng tứ giác có $8$ đỉnh."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Hai mặt đáy của hình lăng trụ đứng thì như thế nào với nhau?",
+     "options": [
+      "A. Bằng nhau",
+      "B. Mặt này gấp đôi mặt kia",
+      "C. Không liên quan",
+      "D. Vuông góc với nhau"
+     ],
+     "answer": "A",
+     "explain": "Hai mặt đáy của hình lăng trụ đứng là hai đa giác bằng nhau."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Công thức tính diện tích xung quanh của hình lăng trụ đứng là gì?",
+     "options": [
+      "A. $S_{xq} = C_{\\text{đáy}}\\cdot h$",
+      "B. $S_{xq} = S_{\\text{đáy}}\\cdot h$",
+      "C. $S_{xq} = 2\\cdot C_{\\text{đáy}}\\cdot h$",
+      "D. $S_{xq} = C_{\\text{đáy}} + h$"
+     ],
+     "answer": "A",
+     "explain": "$S_{xq} = C_{\\text{đáy}}\\cdot h$ (chu vi đáy nhân với chiều cao)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Công thức tính thể tích của hình lăng trụ đứng là gì?",
+     "options": [
+      "A. $V = S_{\\text{đáy}}\\cdot h$",
+      "B. $V = C_{\\text{đáy}}\\cdot h$",
+      "C. $V = 2\\cdot S_{\\text{đáy}}\\cdot h$",
+      "D. $V = S_{\\text{đáy}} + h$"
+     ],
+     "answer": "A",
+     "explain": "$V = S_{\\text{đáy}}\\cdot h$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Một hình lăng trụ đứng tứ giác có đáy là hình vuông cạnh $5\\text{ cm}$, chiều cao $12\\text{ cm}$. Tính diện tích xung quanh của hình.",
+     "options": [
+      "A. $60\\text{ cm}^2$",
+      "B. $240\\text{ cm}^2$",
+      "C. $300\\text{ cm}^2$",
+      "D. $120\\text{ cm}^2$"
+     ],
+     "answer": "B",
+     "explain": "$C_{\\text{đáy}} = 4\\cdot 5 = 20\\text{ (cm)}$; $S_{xq} = 20\\cdot 12 = 240\\text{ (cm}^2\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Một bể cá hình lăng trụ đứng có đáy là tam giác vuông với hai cạnh góc vuông $60\\text{ cm}$, $80\\text{ cm}$; chiều cao của lăng trụ là $100\\text{ cm}$. Tính thể tích của bể (đơn vị: lít).",
+     "options": [
+      "A. $24000$ lít",
+      "B. $480$ lít",
+      "C. $240$ lít",
+      "D. $24$ lít"
+     ],
+     "answer": "C",
+     "explain": "$S_{\\text{đáy}} = \\frac{1}{2}\\cdot 60\\cdot 80 = 2400\\text{ (cm}^2\\text{)}$; $V = 240000\\text{ cm}^3 = 240$ lít."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho hình lăng trụ đứng có đáy là tam giác đều cạnh $6\\text{ cm}$, chiều cao $10\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Chu vi đáy bằng $18\\text{ cm}$.",
+      "b) Diện tích xung quanh bằng $180\\text{ cm}^2$.",
+      "c) Hình có $9$ cạnh.",
+      "d) Thể tích bằng $180\\text{ cm}^3$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$C_{\\text{đáy}} = 18$; $S_{xq} = 180$; có $9$ cạnh; $V = S_{\\text{đáy}}\\cdot 10 = 90\\sqrt{3}\\text{ cm}^3 \\ne 180$."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Xét tính đúng sai của các khẳng định sau về hình lăng trụ đứng.",
+     "statements": [
+      "a) Các mặt bên đều là hình chữ nhật.",
+      "b) Các cạnh bên bằng nhau.",
+      "c) Chiều cao bằng độ dài cạnh bên.",
+      "d) Mặt đáy là hình chữ nhật."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b), c) đúng; d) sai vì mặt đáy là đa giác (tam giác hoặc tứ giác), không nhất thiết là hình chữ nhật."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Một hình lăng trụ đứng tam giác có đáy là tam giác với chu vi $42\\text{ cm}$, chiều cao $15\\text{ cm}$. Tính diện tích xung quanh của hình (đơn vị: $\\text{cm}^2$).",
+     "answer": "630",
+     "explain": "$S_{xq} = 42\\cdot 15 = 630\\text{ (cm}^2\\text{)}$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Một hình lăng trụ đứng có thể tích $500\\text{ cm}^3$, chiều cao $20\\text{ cm}$. Tính diện tích đáy của hình (đơn vị: $\\text{cm}^2$).",
+     "answer": "25",
+     "explain": "$S_{\\text{đáy}} = \\frac{V}{h} = \\frac{500}{20} = 25\\text{ (cm}^2\\text{)}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 3",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Hình lăng trụ đứng tam giác có bao nhiêu đỉnh?",
+     "options": [
+      "A. $5$",
+      "B. $6$",
+      "C. $8$",
+      "D. $9$"
+     ],
+     "answer": "B",
+     "explain": "Hình lăng trụ đứng tam giác có $6$ đỉnh."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Chiều cao của hình lăng trụ đứng là gì?",
+     "options": [
+      "A. Khoảng cách giữa hai mặt đáy (bằng độ dài cạnh bên)",
+      "B. Độ dài đường chéo của mặt đáy",
+      "C. Chu vi của mặt đáy",
+      "D. Diện tích của mặt bên"
+     ],
+     "answer": "A",
+     "explain": "Chiều cao của hình lăng trụ đứng là khoảng cách giữa hai mặt đáy, bằng độ dài cạnh bên."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Diện tích toàn phần của hình lăng trụ đứng có diện tích xung quanh $200\\text{ cm}^2$, diện tích đáy $30\\text{ cm}^2$ bằng bao nhiêu?",
+     "options": [
+      "A. $230\\text{ cm}^2$",
+      "B. $260\\text{ cm}^2$",
+      "C. $360\\text{ cm}^2$",
+      "D. $430\\text{ cm}^2$"
+     ],
+     "answer": "B",
+     "explain": "$S_{tp} = S_{xq} + 2\\cdot S_{\\text{đáy}} = 200 + 60 = 260\\text{ (cm}^2\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Hình lăng trụ đứng tam giác có bao nhiêu cạnh?",
+     "options": [
+      "A. $5$",
+      "B. $6$",
+      "C. $9$",
+      "D. $12$"
+     ],
+     "answer": "C",
+     "explain": "Hình lăng trụ đứng tam giác có $9$ cạnh."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Một hình lăng trụ đứng có đáy là hình chữ nhật với hai kích thước $8\\text{ cm}$, $6\\text{ cm}$; chiều cao $10\\text{ cm}$. Tính thể tích của hình.",
+     "options": [
+      "A. $480\\text{ cm}^3$",
+      "B. $280\\text{ cm}^3$",
+      "C. $960\\text{ cm}^3$",
+      "D. $48\\text{ cm}^3$"
+     ],
+     "answer": "A",
+     "explain": "$S_{\\text{đáy}} = 8\\cdot 6 = 48\\text{ (cm}^2\\text{)}$; $V = 48\\cdot 10 = 480\\text{ (cm}^3\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Một cột bê tông hình lăng trụ đứng tứ giác có đáy là hình vuông cạnh $40\\text{ cm}$, chiều cao cột $3\\text{ m}$. Tính thể tích của cột.",
+     "options": [
+      "A. $0,48\\text{ m}^3$",
+      "B. $4,8\\text{ m}^3$",
+      "C. $0,16\\text{ m}^3$",
+      "D. $1,44\\text{ m}^3$"
+     ],
+     "answer": "A",
+     "explain": "$S_{\\text{đáy}} = 0,4^2 = 0,16\\text{ (m}^2\\text{)}$; $V = 0,16\\cdot 3 = 0,48\\text{ (m}^3\\text{)}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho hình lăng trụ đứng tam giác $ABC.A'B'C'$ có chu vi đáy $21\\text{ cm}$, diện tích đáy $20\\text{ cm}^2$, chiều cao $12\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Diện tích xung quanh bằng $252\\text{ cm}^2$.",
+      "b) Thể tích bằng $240\\text{ cm}^3$.",
+      "c) Diện tích toàn phần bằng $292\\text{ cm}^2$.",
+      "d) Hình có $6$ đỉnh."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$S_{xq} = 21\\cdot 12 = 252$; $V = 20\\cdot 12 = 240$; $S_{tp} = 252+40 = 292$; có $6$ đỉnh."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho hình lăng trụ đứng tứ giác có đáy là hình thoi cạnh $5\\text{ cm}$, chiều cao $8\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Chu vi đáy bằng $20\\text{ cm}$.",
+      "b) Diện tích xung quanh bằng $160\\text{ cm}^2$.",
+      "c) Các mặt bên là những hình chữ nhật bằng nhau.",
+      "d) Hình có $5$ mặt."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$C_{\\text{đáy}} = 20$; $S_{xq} = 160$; $4$ mặt bên đều là hình chữ nhật $5\\text{ cm}\\times 8\\text{ cm}$; hình có $6$ mặt."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Một hình lăng trụ đứng có diện tích xung quanh $420\\text{ cm}^2$, chu vi đáy $28\\text{ cm}$. Tính chiều cao của hình (đơn vị: cm).",
+     "answer": "15",
+     "explain": "$h = \\frac{420}{28} = 15\\text{ (cm)}$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Đáy của một hình lăng trụ đứng là tam giác vuông có hai cạnh góc vuông $9\\text{ cm}$, $12\\text{ cm}$; chiều cao của lăng trụ là $20\\text{ cm}$. Tính thể tích của hình (đơn vị: $\\text{cm}^3$).",
+     "answer": "1080",
+     "explain": "$S_{\\text{đáy}} = \\frac{1}{2}\\cdot 9\\cdot 12 = 54\\text{ (cm}^2\\text{)}$; $V = 54\\cdot 20 = 1080\\text{ (cm}^3\\text{)}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 4",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Phát biểu nào sau đây là SAI?",
+     "options": [
+      "A. Hình lăng trụ đứng tam giác có $5$ mặt.",
+      "B. Các mặt bên của hình lăng trụ đứng đều là hình chữ nhật.",
+      "C. Hình lăng trụ đứng tứ giác có $8$ đỉnh.",
+      "D. Hai mặt đáy của hình lăng trụ đứng không bằng nhau."
+     ],
+     "answer": "D",
+     "explain": "A, B, C đúng; D sai vì hai mặt đáy của hình lăng trụ đứng bằng nhau."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Diện tích toàn phần của hình lăng trụ đứng được tính bằng công thức nào?",
+     "options": [
+      "A. $S_{tp} = S_{xq} + 2\\cdot S_{\\text{đáy}}$",
+      "B. $S_{tp} = S_{xq} + S_{\\text{đáy}}$",
+      "C. $S_{tp} = 2\\cdot S_{xq} + S_{\\text{đáy}}$",
+      "D. $S_{tp} = S_{xq}\\cdot S_{\\text{đáy}}$"
+     ],
+     "answer": "A",
+     "explain": "$S_{tp} = S_{xq} + 2\\cdot S_{\\text{đáy}}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Diện tích xung quanh của hình lăng trụ đứng có chu vi đáy $18\\text{ cm}$, chiều cao $7\\text{ cm}$ bằng bao nhiêu?",
+     "options": [
+      "A. $126\\text{ cm}^2$",
+      "B. $63\\text{ cm}^2$",
+      "C. $252\\text{ cm}^2$",
+      "D. $25\\text{ cm}^2$"
+     ],
+     "answer": "A",
+     "explain": "$S_{xq} = 18\\cdot 7 = 126\\text{ (cm}^2\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Hình lăng trụ đứng tứ giác có bao nhiêu mặt bên?",
+     "options": [
+      "A. $2$",
+      "B. $4$",
+      "C. $6$",
+      "D. $8$"
+     ],
+     "answer": "B",
+     "explain": "Hình lăng trụ đứng tứ giác có $4$ mặt bên (và $2$ mặt đáy)."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Một hình lăng trụ đứng tam giác có đáy là tam giác đều cạnh $10\\text{ cm}$, chiều cao $12\\text{ cm}$. Tính diện tích xung quanh của hình.",
+     "options": [
+      "A. $120\\text{ cm}^2$",
+      "B. $240\\text{ cm}^2$",
+      "C. $360\\text{ cm}^2$",
+      "D. $300\\text{ cm}^2$"
+     ],
+     "answer": "C",
+     "explain": "$C_{\\text{đáy}} = 30\\text{ (cm)}$; $S_{xq} = 30\\cdot 12 = 360\\text{ (cm}^2\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Một máng nước có dạng hình lăng trụ đứng, đáy là tam giác vuông với hai cạnh góc vuông $30\\text{ cm}$, $40\\text{ cm}$; chiều dài của máng là $2\\text{ m}$. Tính thể tích nước khi máng đầy (đơn vị: lít).",
+     "options": [
+      "A. $120$ lít",
+      "B. $12$ lít",
+      "C. $1200$ lít",
+      "D. $60$ lít"
+     ],
+     "answer": "A",
+     "explain": "$S_{\\text{đáy}} = \\frac{1}{2}\\cdot 0,3\\cdot 0,4 = 0,06\\text{ (m}^2\\text{)}$; $V = 0,06\\cdot 2 = 0,12\\text{ m}^3 = 120$ lít."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho hình lăng trụ đứng có đáy là hình bình hành với hai cạnh $6\\text{ cm}$, $8\\text{ cm}$; chiều cao ứng với cạnh $6\\text{ cm}$ là $5\\text{ cm}$; chiều cao của lăng trụ là $10\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Chu vi đáy bằng $28\\text{ cm}$.",
+      "b) Diện tích xung quanh bằng $280\\text{ cm}^2$.",
+      "c) Thể tích bằng $300\\text{ cm}^3$.",
+      "d) Diện tích toàn phần bằng $340\\text{ cm}^2$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$C_{\\text{đáy}} = 28$; $S_{xq} = 280$; $S_{\\text{đáy}} = 6\\cdot 5 = 30$, $V = 300$; $S_{tp} = 340$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho hình lăng trụ đứng tam giác có các cạnh đáy $5\\text{ cm}$, $5\\text{ cm}$, $6\\text{ cm}$; chiều cao $7\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Chu vi đáy bằng $16\\text{ cm}$.",
+      "b) Diện tích xung quanh bằng $112\\text{ cm}^2$.",
+      "c) Hình có $5$ mặt.",
+      "d) Thể tích bằng $84\\text{ cm}^3$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$C_{\\text{đáy}} = 16$; $S_{xq} = 112$; đáy là tam giác cân, chiều cao ứng với cạnh $6$ là $4$, $S_{\\text{đáy}} = 12$, $V = 84$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Một hình lăng trụ đứng tứ giác có diện tích đáy $50\\text{ cm}^2$, chiều cao $9\\text{ cm}$. Tính thể tích của hình (đơn vị: $\\text{cm}^3$).",
+     "answer": "450",
+     "explain": "$V = 50\\cdot 9 = 450\\text{ (cm}^3\\text{)}$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Một hình lăng trụ đứng có diện tích toàn phần $400\\text{ cm}^2$, diện tích xung quanh $280\\text{ cm}^2$. Tính diện tích đáy của hình (đơn vị: $\\text{cm}^2$).",
+     "answer": "60",
+     "explain": "$S_{\\text{đáy}} = \\frac{400-280}{2} = 60\\text{ (cm}^2\\text{)}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 5",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Hình lăng trụ đứng tam giác có tổng số đỉnh và số mặt là bao nhiêu?",
+     "options": [
+      "A. $10$",
+      "B. $11$",
+      "C. $12$",
+      "D. $14$"
+     ],
+     "answer": "B",
+     "explain": "Hình lăng trụ đứng tam giác có $6$ đỉnh và $5$ mặt, tổng là $11$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Các mặt bên của hình lăng trụ đứng tam giác là những hình gì?",
+     "options": [
+      "A. $3$ hình chữ nhật",
+      "B. $3$ hình tam giác",
+      "C. $2$ hình chữ nhật",
+      "D. $3$ hình vuông"
+     ],
+     "answer": "A",
+     "explain": "Hình lăng trụ đứng tam giác có $3$ mặt bên đều là hình chữ nhật."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Thể tích của hình lăng trụ đứng có diện tích đáy $45\\text{ cm}^2$, chiều cao $8\\text{ cm}$ bằng bao nhiêu?",
+     "options": [
+      "A. $53\\text{ cm}^3$",
+      "B. $360\\text{ cm}^3$",
+      "C. $720\\text{ cm}^3$",
+      "D. $180\\text{ cm}^3$"
+     ],
+     "answer": "B",
+     "explain": "$V = 45\\cdot 8 = 360\\text{ (cm}^3\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Diện tích xung quanh của hình lăng trụ đứng tứ giác có đáy là hình vuông cạnh $9\\text{ cm}$, chiều cao $5\\text{ cm}$ bằng bao nhiêu?",
+     "options": [
+      "A. $180\\text{ cm}^2$",
+      "B. $90\\text{ cm}^2$",
+      "C. $405\\text{ cm}^2$",
+      "D. $45\\text{ cm}^2$"
+     ],
+     "answer": "A",
+     "explain": "$C_{\\text{đáy}} = 36\\text{ (cm)}$; $S_{xq} = 36\\cdot 5 = 180\\text{ (cm}^2\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Một hình lăng trụ đứng tam giác có đáy là tam giác vuông với cạnh huyền $13\\text{ cm}$, một cạnh góc vuông $5\\text{ cm}$; chiều cao của lăng trụ là $10\\text{ cm}$. Tính diện tích xung quanh.",
+     "options": [
+      "A. $180\\text{ cm}^2$",
+      "B. $300\\text{ cm}^2$",
+      "C. $600\\text{ cm}^2$",
+      "D. $150\\text{ cm}^2$"
+     ],
+     "answer": "B",
+     "explain": "Cạnh góc vuông còn lại $= 12\\text{ (cm)}$; $C_{\\text{đáy}} = 30$; $S_{xq} = 300\\text{ (cm}^2\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Một khối kim loại hình lăng trụ đứng tam giác có diện tích đáy $60\\text{ cm}^2$, chiều cao $25\\text{ cm}$. Biết khối lượng riêng của kim loại là $7,8\\text{ g/cm}^3$. Tính khối lượng của khối kim loại.",
+     "options": [
+      "A. $11,7\\text{ kg}$",
+      "B. $117\text{ kg}$",
+      "C. $1,17\text{ kg}$",
+      "D. $1170\text{ g}$"
+     ],
+     "answer": "A",
+     "explain": "$V = 60\\cdot 25 = 1500\\text{ (cm}^3\\text{)}$; $m = 1500\\cdot 7,8 = 11700\\text{ g} = 11,7\\text{ kg}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho hình lăng trụ đứng có đáy là tam giác với ba cạnh $9\\text{ cm}$, $12\\text{ cm}$, $15\\text{ cm}$; chiều cao $20\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Đáy là tam giác vuông.",
+      "b) Diện tích đáy bằng $54\\text{ cm}^2$.",
+      "c) Diện tích xung quanh bằng $720\\text{ cm}^2$.",
+      "d) Thể tích bằng $1080\\text{ cm}^3$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$9^2+12^2 = 15^2$ nên đáy vuông; $S_{\\text{đáy}} = 54$; $S_{xq} = 36\\cdot 20 = 720$; $V = 1080$."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Xét tính đúng sai của các khẳng định sau về số mặt của hình lăng trụ đứng.",
+     "statements": [
+      "a) Hình lăng trụ đứng tam giác có $5$ mặt.",
+      "b) Hình lăng trụ đứng tứ giác có $6$ mặt.",
+      "c) Số mặt bên bằng số cạnh của đa giác đáy.",
+      "d) Hình lăng trụ đứng tam giác có $6$ mặt."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b), c) đúng; d) sai (lăng trụ đứng tam giác có $5$ mặt)."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Một hình lăng trụ đứng có chu vi đáy $50\\text{ cm}$, diện tích xung quanh $750\\text{ cm}^2$. Tính chiều cao của hình (đơn vị: cm).",
+     "answer": "15",
+     "explain": "$h = \\frac{750}{50} = 15\\text{ (cm)}$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Một hình lăng trụ đứng có thể tích $720\\text{ cm}^3$, diện tích đáy $48\\text{ cm}^2$. Tính chiều cao của hình (đơn vị: cm).",
+     "answer": "15",
+     "explain": "$h = \\frac{720}{48} = 15\\text{ (cm)}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 6",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Hai mặt đáy của hình lăng trụ đứng nằm trên hai mặt phẳng như thế nào với nhau?",
+     "options": [
+      "A. Song song",
+      "B. Vuông góc",
+      "C. Cắt nhau",
+      "D. Trùng nhau"
+     ],
+     "answer": "A",
+     "explain": "Hai mặt đáy của hình lăng trụ đứng nằm trên hai mặt phẳng song song."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Hình lăng trụ đứng tứ giác có bao nhiêu cạnh?",
+     "options": [
+      "A. $8$",
+      "B. $9$",
+      "C. $12$",
+      "D. $16$"
+     ],
+     "answer": "C",
+     "explain": "Hình lăng trụ đứng tứ giác có $12$ cạnh."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Diện tích toàn phần của hình lăng trụ đứng có diện tích xung quanh $350\\text{ cm}^2$, diện tích đáy $40\\text{ cm}^2$ bằng bao nhiêu?",
+     "options": [
+      "A. $390\\text{ cm}^2$",
+      "B. $430\\text{ cm}^2$",
+      "C. $700\\text{ cm}^2$",
+      "D. $470\\text{ cm}^2$"
+     ],
+     "answer": "B",
+     "explain": "$S_{tp} = 350 + 2\\cdot 40 = 430\\text{ (cm}^2\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Diện tích xung quanh của hình lăng trụ đứng tam giác có chu vi đáy $36\\text{ cm}$, chiều cao $11\\text{ cm}$ bằng bao nhiêu?",
+     "options": [
+      "A. $47\\text{ cm}^2$",
+      "B. $198\\text{ cm}^2$",
+      "C. $396\\text{ cm}^2$",
+      "D. $792\\text{ cm}^2$"
+     ],
+     "answer": "C",
+     "explain": "$S_{xq} = 36\\cdot 11 = 396\\text{ (cm}^2\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Một hình lăng trụ đứng có đáy là hình thang với đáy lớn $10\\text{ cm}$, đáy bé $6\\text{ cm}$, chiều cao của hình thang $4\\text{ cm}$; chiều cao của lăng trụ là $12\\text{ cm}$. Tính thể tích của hình.",
+     "options": [
+      "A. $384\\text{ cm}^3$",
+      "B. $192\\text{ cm}^3$",
+      "C. $768\\text{ cm}^3$",
+      "D. $320\\text{ cm}^3$"
+     ],
+     "answer": "A",
+     "explain": "$S_{\\text{đáy}} = \\frac{(10+6)\\cdot 4}{2} = 32\\text{ (cm}^2\\text{)}$; $V = 32\\cdot 12 = 384\\text{ (cm}^3\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Cho hình lăng trụ đứng tam giác $ABC.A'B'C'$ có $AB = 6\\text{ cm}$, $AC = 8\\text{ cm}$, $BC = 10\\text{ cm}$, $AA' = 12\\text{ cm}$. Tính diện tích xung quanh của hình.",
+     "options": [
+      "A. $144\\text{ cm}^2$",
+      "B. $288\\text{ cm}^2$",
+      "C. $576\\text{ cm}^2$",
+      "D. $240\\text{ cm}^2$"
+     ],
+     "answer": "B",
+     "explain": "$C_{\\text{đáy}} = 24\\text{ (cm)}$; $S_{xq} = 24\\cdot 12 = 288\\text{ (cm}^2\\text{)}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho hình lăng trụ đứng tứ giác $ABCD.A'B'C'D'$ có đáy là hình chữ nhật $5\\text{ cm}\\times 12\\text{ cm}$, chiều cao $8\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Chu vi đáy bằng $34\\text{ cm}$.",
+      "b) Diện tích xung quanh bằng $272\\text{ cm}^2$.",
+      "c) Diện tích đáy bằng $60\\text{ cm}^2$.",
+      "d) Thể tích bằng $480\\text{ cm}^3$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$C_{\\text{đáy}} = 34$; $S_{xq} = 272$; $S_{\\text{đáy}} = 60$; $V = 480$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho hình lăng trụ đứng tam giác có chiều cao $15\\text{ cm}$, đáy là tam giác cân với cạnh bên $13\\text{ cm}$, cạnh đáy $10\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Chu vi đáy bằng $36\\text{ cm}$.",
+      "b) Diện tích xung quanh bằng $540\\text{ cm}^2$.",
+      "c) Thể tích bằng $900\\text{ cm}^3$.",
+      "d) Diện tích toàn phần bằng $660\\text{ cm}^2$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$C_{\\text{đáy}} = 36$; $S_{xq} = 540$; chiều cao của tam giác đáy là $12$, $S_{\\text{đáy}} = 60$, $V = 900$; $S_{tp} = 660$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Một hình lăng trụ đứng có diện tích đáy $75\\text{ cm}^2$, thể tích $900\\text{ cm}^3$. Tính chiều cao của hình (đơn vị: cm).",
+     "answer": "12",
+     "explain": "$h = \\frac{900}{75} = 12\\text{ (cm)}$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tính diện tích xung quanh của hình lăng trụ đứng tứ giác có đáy là hình thoi cạnh $13\\text{ cm}$, chiều cao $20\\text{ cm}$ (đơn vị: $\\text{cm}^2$).",
+     "answer": "1040",
+     "explain": "$C_{\\text{đáy}} = 4\\cdot 13 = 52\\text{ (cm)}$; $S_{xq} = 52\\cdot 20 = 1040\\text{ (cm}^2\\text{)}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 7",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Đáy của hình lăng trụ đứng tứ giác là hình gì?",
+     "options": [
+      "A. Tứ giác",
+      "B. Tam giác",
+      "C. Hình chữ nhật",
+      "D. Hình tròn"
+     ],
+     "answer": "A",
+     "explain": "Đáy của hình lăng trụ đứng tứ giác là một tứ giác."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Các cạnh bên của hình lăng trụ đứng có tính chất gì?",
+     "options": [
+      "A. Bằng nhau và vuông góc với mặt đáy",
+      "B. Đôi một khác nhau",
+      "C. Song song với mặt đáy",
+      "D. Nằm trong mặt đáy"
+     ],
+     "answer": "A",
+     "explain": "Các cạnh bên của hình lăng trụ đứng bằng nhau và vuông góc với mặt đáy."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Một hình lăng trụ đứng có thể tích $1000\\text{ cm}^3$, chiều cao $25\\text{ cm}$. Tính diện tích đáy của hình.",
+     "options": [
+      "A. $40\\text{ cm}^2$",
+      "B. $250\\text{ cm}^2$",
+      "C. $25\\text{ cm}^2$",
+      "D. $400\\text{ cm}^2$"
+     ],
+     "answer": "A",
+     "explain": "$S_{\\text{đáy}} = \\frac{1000}{25} = 40\\text{ (cm}^2\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Diện tích xung quanh của hình lăng trụ đứng có đáy là hình bình hành với các cạnh $7\\text{ cm}$, $9\\text{ cm}$; chiều cao $10\\text{ cm}$ bằng bao nhiêu?",
+     "options": [
+      "A. $160\\text{ cm}^2$",
+      "B. $320\\text{ cm}^2$",
+      "C. $630\\text{ cm}^2$",
+      "D. $1600\\text{ cm}^2$"
+     ],
+     "answer": "B",
+     "explain": "$C_{\\text{đáy}} = 2(7+9) = 32\\text{ (cm)}$; $S_{xq} = 32\\cdot 10 = 320\\text{ (cm}^2\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Một hình lăng trụ đứng tam giác có diện tích đáy $48\\text{ cm}^2$, diện tích xung quanh $360\\text{ cm}^2$, chiều cao $12\\text{ cm}$. Tính diện tích toàn phần của hình.",
+     "options": [
+      "A. $408\\text{ cm}^2$",
+      "B. $456\\text{ cm}^2$",
+      "C. $540\\text{ cm}^2$",
+      "D. $504\\text{ cm}^2$"
+     ],
+     "answer": "B",
+     "explain": "$S_{tp} = S_{xq} + 2\\cdot S_{\\text{đáy}} = 360 + 96 = 456\\text{ (cm}^2\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Thể tích của hình lăng trụ đứng tam giác có đáy là tam giác với ba cạnh $13\\text{ cm}$, $14\\text{ cm}$, $15\\text{ cm}$ và chiều cao $10\\text{ cm}$ bằng bao nhiêu?",
+     "options": [
+      "A. $840\\text{ cm}^3$",
+      "B. $420\\text{ cm}^3$",
+      "C. $1680\\text{ cm}^3$",
+      "D. $210\\text{ cm}^3$"
+     ],
+     "answer": "A",
+     "explain": "Nửa chu vi đáy $p = 21$; $S_{\\text{đáy}} = \\sqrt{21\\cdot 8\\cdot 7\\cdot 6} = 84\\text{ (cm}^2\\text{)}$; $V = 840\\text{ (cm}^3\\text{)}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho hình lăng trụ đứng có đáy là tam giác đều cạnh $4\\text{ cm}$, chiều cao $9\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Chu vi đáy bằng $12\\text{ cm}$.",
+      "b) Diện tích xung quanh bằng $108\\text{ cm}^2$.",
+      "c) Hình có $9$ cạnh.",
+      "d) Diện tích đáy bằng $4\\sqrt{3}\\text{ cm}^2$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$C_{\\text{đáy}} = 12$; $S_{xq} = 108$; $S_{\\text{đáy}} = \\frac{4^2\\sqrt{3}}{4} = 4\\sqrt{3}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Cho hình lăng trụ đứng tứ giác có đáy là hình vuông cạnh $a$, chiều cao $h$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Chu vi đáy bằng $4a$.",
+      "b) Diện tích xung quanh bằng $4ah$.",
+      "c) Thể tích bằng $a^2h$.",
+      "d) Diện tích toàn phần bằng $4ah + 2a^2$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "Cả bốn công thức đều đúng."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Một hình lăng trụ đứng tam giác có chiều cao $18\\text{ cm}$, thể tích $540\\text{ cm}^3$. Tính diện tích đáy của hình (đơn vị: $\\text{cm}^2$).",
+     "answer": "30",
+     "explain": "$S_{\\text{đáy}} = \\frac{540}{18} = 30\\text{ (cm}^2\\text{)}$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Một hình lăng trụ đứng tứ giác có đáy là hình chữ nhật $12\\text{ cm}\\times 9\\text{ cm}$, chiều cao $15\\text{ cm}$. Tính diện tích xung quanh của hình (đơn vị: $\\text{cm}^2$).",
+     "answer": "630",
+     "explain": "$C_{\\text{đáy}} = 42\\text{ (cm)}$; $S_{xq} = 42\\cdot 15 = 630\\text{ (cm}^2\\text{)}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 8",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Hình lăng trụ đứng có mấy loại mặt?",
+     "options": [
+      "A. $1$ loại",
+      "B. $2$ loại (mặt đáy và mặt bên)",
+      "C. $3$ loại",
+      "D. $4$ loại"
+     ],
+     "answer": "B",
+     "explain": "Hình lăng trụ đứng gồm $2$ loại mặt: mặt đáy và mặt bên."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Đáy của hình lăng trụ đứng tam giác là hình gì?",
+     "options": [
+      "A. Tam giác",
+      "B. Tứ giác",
+      "C. Hình chữ nhật",
+      "D. Hình tròn"
+     ],
+     "answer": "A",
+     "explain": "Đáy của hình lăng trụ đứng tam giác là tam giác."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Một hình lăng trụ đứng có diện tích xung quanh $480\\text{ cm}^2$, chiều cao $16\\text{ cm}$. Tính chu vi đáy của hình.",
+     "options": [
+      "A. $30\\text{ cm}$",
+      "B. $60\\text{ cm}$",
+      "C. $7680\\text{ cm}$",
+      "D. $15\\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "$C_{\\text{đáy}} = \\frac{480}{16} = 30\\text{ (cm)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Thể tích của hình lăng trụ đứng tứ giác có đáy là hình vuông cạnh $7\\text{ cm}$, chiều cao $9\\text{ cm}$ bằng bao nhiêu?",
+     "options": [
+      "A. $63\\text{ cm}^3$",
+      "B. $252\\text{ cm}^3$",
+      "C. $441\\text{ cm}^3$",
+      "D. $567\\text{ cm}^3$"
+     ],
+     "answer": "C",
+     "explain": "$V = 7^2\\cdot 9 = 441\\text{ (cm}^3\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Một hình lăng trụ đứng tam giác có chu vi đáy $48\\text{ cm}$, diện tích xung quanh $768\\text{ cm}^2$. Tính chiều cao của hình.",
+     "options": [
+      "A. $8\text{ cm}$",
+      "B. $16\text{ cm}$",
+      "C. $32\text{ cm}$",
+      "D. $12\text{ cm}$"
+     ],
+     "answer": "B",
+     "explain": "$h = \\frac{768}{48} = 16\\text{ (cm)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Một bể bơi mini có dạng hình lăng trụ đứng, đáy là tam giác vuông với hai cạnh góc vuông $3\\text{ m}$, $4\\text{ m}$; chiều dài của bể là $6\\text{ m}$. Bể chứa tối đa bao nhiêu mét khối nước?",
+     "options": [
+      "A. $36\\text{ m}^3$",
+      "B. $72\\text{ m}^3$",
+      "C. $18\\text{ m}^3$",
+      "D. $12\\text{ m}^3$"
+     ],
+     "answer": "A",
+     "explain": "$S_{\\text{đáy}} = \\frac{1}{2}\\cdot 3\\cdot 4 = 6\\text{ (m}^2\\text{)}$; $V = 6\\cdot 6 = 36\\text{ (m}^3\\text{)}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho hình lăng trụ đứng tam giác $ABC.A'B'C'$ có $AB = 7\\text{ cm}$, $BC = 24\\text{ cm}$, $CA = 25\\text{ cm}$, chiều cao $10\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Đáy là tam giác vuông.",
+      "b) Diện tích đáy bằng $84\\text{ cm}^2$.",
+      "c) Diện tích xung quanh bằng $560\\text{ cm}^2$.",
+      "d) Thể tích bằng $840\\text{ cm}^3$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$7^2+24^2 = 25^2$ nên đáy vuông; $S_{\\text{đáy}} = 84$; $S_{xq} = 56\\cdot 10 = 560$; $V = 840$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho hình lăng trụ đứng tứ giác có đáy là hình thang cân với đáy lớn $12\\text{ cm}$, đáy bé $8\\text{ cm}$, chiều cao của hình thang $3\\text{ cm}$, cạnh bên $5\\text{ cm}$; chiều cao của lăng trụ là $10\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Diện tích đáy bằng $30\\text{ cm}^2$.",
+      "b) Chu vi đáy bằng $30\\text{ cm}$.",
+      "c) Diện tích xung quanh bằng $300\\text{ cm}^2$.",
+      "d) Thể tích bằng $300\\text{ cm}^3$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$S_{\\text{đáy}} = \\frac{(12+8)\\cdot 3}{2} = 30$; $C_{\\text{đáy}} = 30$; $S_{xq} = 300$; $V = 300$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Một hình lăng trụ đứng có diện tích xung quanh $600\\text{ cm}^2$, diện tích toàn phần $720\\text{ cm}^2$. Tính diện tích đáy của hình (đơn vị: $\\text{cm}^2$).",
+     "answer": "60",
+     "explain": "$S_{\\text{đáy}} = \\frac{720-600}{2} = 60\\text{ (cm}^2\\text{)}$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Một hình lăng trụ đứng tam giác có diện tích đáy $36\\text{ cm}^2$, chiều cao $25\\text{ cm}$. Tính thể tích của hình (đơn vị: $\\text{cm}^3$).",
+     "answer": "900",
+     "explain": "$V = 36\\cdot 25 = 900\\text{ (cm}^3\\text{)}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 9",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong hình lăng trụ đứng, cạnh bên so với mặt đáy như thế nào?",
+     "options": [
+      "A. Vuông góc",
+      "B. Song song",
+      "C. Cắt nhau tại một góc $45^\\circ$",
+      "D. Trùng nhau"
+     ],
+     "answer": "A",
+     "explain": "Các cạnh bên của hình lăng trụ đứng vuông góc với mặt đáy."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Hình lăng trụ đứng tam giác có bao nhiêu mặt bên?",
+     "options": [
+      "A. $2$",
+      "B. $3$",
+      "C. $5$",
+      "D. $6$"
+     ],
+     "answer": "B",
+     "explain": "Hình lăng trụ đứng tam giác có $3$ mặt bên."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Diện tích toàn phần của hình lăng trụ đứng tam giác có diện tích xung quanh $240\\text{ cm}^2$, diện tích đáy $24\\text{ cm}^2$ bằng bao nhiêu?",
+     "options": [
+      "A. $264\\text{ cm}^2$",
+      "B. $288\\text{ cm}^2$",
+      "C. $480\\text{ cm}^2$",
+      "D. $2640\\text{ cm}^2$"
+     ],
+     "answer": "B",
+     "explain": "$S_{tp} = 240 + 2\\cdot 24 = 288\\text{ (cm}^2\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Một hình lăng trụ đứng có chiều cao $30\\text{ cm}$, thể tích $1500\\text{ cm}^3$. Tính diện tích đáy của hình.",
+     "options": [
+      "A. $50\\text{ cm}^2$",
+      "B. $45\\text{ cm}^2$",
+      "C. $45000\\text{ cm}^2$",
+      "D. $53\\text{ cm}^2$"
+     ],
+     "answer": "A",
+     "explain": "$S_{\\text{đáy}} = \\frac{1500}{30} = 50\\text{ (cm}^2\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Đáy của một hình lăng trụ đứng là hình thoi có hai đường chéo $12\\text{ cm}$ và $16\\text{ cm}$; chiều cao của lăng trụ là $20\\text{ cm}$. Tính thể tích của hình.",
+     "options": [
+      "A. $960\\text{ cm}^3$",
+      "B. $1920\\text{ cm}^3$",
+      "C. $1440\\text{ cm}^3$",
+      "D. $3840\\text{ cm}^3$"
+     ],
+     "answer": "B",
+     "explain": "$S_{\\text{đáy}} = \\frac{12\\cdot 16}{2} = 96\\text{ (cm}^2\\text{)}$; $V = 96\\cdot 20 = 1920\\text{ (cm}^3\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Một trụ bê tông hình lăng trụ đứng có đáy là tam giác vuông với ba cạnh $3\\text{ m}$, $4\\text{ m}$, $5\\text{ m}$; chiều cao của trụ là $6\\text{ m}$. Người ta sơn toàn bộ mặt ngoài của trụ. Diện tích cần sơn là bao nhiêu?",
+     "options": [
+      "A. $72\\text{ m}^2$",
+      "B. $84\\text{ m}^2$",
+      "C. $78\\text{ m}^2$",
+      "D. $90\\text{ m}^2$"
+     ],
+     "answer": "B",
+     "explain": "$S_{tp} = C_{\\text{đáy}}\\cdot h + 2\\cdot S_{\\text{đáy}} = 12\\cdot 6 + 2\\cdot 6 = 84\\text{ (m}^2\\text{)}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho hình lăng trụ đứng có đáy là hình chữ nhật $9\\text{ cm}\\times 12\\text{ cm}$, chiều cao $15\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Chu vi đáy bằng $42\\text{ cm}$.",
+      "b) Diện tích xung quanh bằng $630\\text{ cm}^2$.",
+      "c) Thể tích bằng $1620\\text{ cm}^3$.",
+      "d) Diện tích toàn phần bằng $846\\text{ cm}^2$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$C_{\\text{đáy}} = 42$; $S_{xq} = 630$; $V = 108\\cdot 15 = 1620$; $S_{tp} = 630+216 = 846$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho hình lăng trụ đứng tam giác có đáy là tam giác cân với cạnh bên $10\\text{ cm}$, cạnh đáy $12\\text{ cm}$; chiều cao $14\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Chu vi đáy bằng $32\\text{ cm}$.",
+      "b) Diện tích xung quanh bằng $448\\text{ cm}^2$.",
+      "c) Thể tích bằng $672\\text{ cm}^3$.",
+      "d) Hình có $6$ đỉnh."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$C_{\\text{đáy}} = 32$; $S_{xq} = 448$; chiều cao tam giác đáy là $8$, $S_{\\text{đáy}} = 48$, $V = 672$; có $6$ đỉnh."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Một hình lăng trụ đứng tứ giác có đáy là hình bình hành với diện tích đáy $120\\text{ cm}^2$, chiều cao $11\\text{ cm}$. Tính thể tích của hình (đơn vị: $\\text{cm}^3$).",
+     "answer": "1320",
+     "explain": "$V = 120\\cdot 11 = 1320\\text{ (cm}^3\\text{)}$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Một hình lăng trụ đứng tam giác có chu vi đáy $60\\text{ cm}$, chiều cao $22\\text{ cm}$. Tính diện tích xung quanh của hình (đơn vị: $\\text{cm}^2$).",
+     "answer": "1320",
+     "explain": "$S_{xq} = 60\\cdot 22 = 1320\\text{ (cm}^2\\text{)}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 10",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Công thức $S_{xq} = C_{\\text{đáy}}\\cdot h$ dùng để tính diện tích xung quanh của hình nào?",
+     "options": [
+      "A. Hình lăng trụ đứng",
+      "B. Hình hộp chữ nhật",
+      "C. Hình lập phương",
+      "D. Hình chóp"
+     ],
+     "answer": "A",
+     "explain": "Đó là công thức diện tích xung quanh của hình lăng trụ đứng."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Thể tích của hình lăng trụ đứng bằng gì?",
+     "options": [
+      "A. $S_{\\text{đáy}}\\cdot h$",
+      "B. $C_{\\text{đáy}}\\cdot h$",
+      "C. $2\\cdot S_{\\text{đáy}}\\cdot h$",
+      "D. $S_{\\text{đáy}} + h$"
+     ],
+     "answer": "A",
+     "explain": "$V = S_{\\text{đáy}}\\cdot h$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Hình lăng trụ đứng tứ giác có bao nhiêu mặt?",
+     "options": [
+      "A. $4$",
+      "B. $5$",
+      "C. $6$",
+      "D. $8$"
+     ],
+     "answer": "C",
+     "explain": "Hình lăng trụ đứng tứ giác có $6$ mặt ($2$ đáy $+$ $4$ mặt bên)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Diện tích xung quanh của hình lăng trụ đứng có đáy là tam giác đều cạnh $12\\text{ cm}$, chiều cao $8\\text{ cm}$ bằng bao nhiêu?",
+     "options": [
+      "A. $96\\text{ cm}^2$",
+      "B. $288\\text{ cm}^2$",
+      "C. $576\\text{ cm}^2$",
+      "D. $144\\text{ cm}^2$"
+     ],
+     "answer": "B",
+     "explain": "$C_{\\text{đáy}} = 36\\text{ (cm)}$; $S_{xq} = 36\\cdot 8 = 288\\text{ (cm}^2\\text{)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Một hình lăng trụ đứng có thể tích $1200\\text{ cm}^3$, chiều cao $15\\text{ cm}$. Tính diện tích đáy của hình.",
+     "options": [
+      "A. $80\\text{ cm}^3$",
+      "B. $18000\\text{ cm}^2$",
+      "C. $80\\text{ cm}^2$",
+      "D. $90\\text{ cm}^2$"
+     ],
+     "answer": "C",
+     "explain": "$S_{\\text{đáy}} = \\frac{1200}{15} = 80\\text{ (cm}^2\\text{)}$ (chú ý đơn vị diện tích)."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Cho hình lăng trụ đứng tam giác có đáy là tam giác với ba cạnh $20\\text{ cm}$, $21\\text{ cm}$, $29\\text{ cm}$; chiều cao $10\\text{ cm}$. Tính diện tích xung quanh của hình.",
+     "options": [
+      "A. $350\\text{ cm}^2$",
+      "B. $700\\text{ cm}^2$",
+      "C. $1400\\text{ cm}^2$",
+      "D. $2100\\text{ cm}^2$"
+     ],
+     "answer": "B",
+     "explain": "$C_{\\text{đáy}} = 70\\text{ (cm)}$; $S_{xq} = 70\\cdot 10 = 700\\text{ (cm}^2\\text{)}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho hình lăng trụ đứng tứ giác có đáy là hình vuông cạnh $11\\text{ cm}$, chiều cao $13\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Chu vi đáy bằng $44\\text{ cm}$.",
+      "b) Diện tích xung quanh bằng $572\\text{ cm}^2$.",
+      "c) Thể tích bằng $1573\\text{ cm}^3$.",
+      "d) Diện tích toàn phần bằng $814\\text{ cm}^2$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$C_{\\text{đáy}} = 44$; $S_{xq} = 572$; $V = 121\\cdot 13 = 1573$; $S_{tp} = 572+242 = 814$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho hình lăng trụ đứng tam giác $ABC.A'B'C'$ có $AB = 8\\text{ cm}$, $AC = 15\\text{ cm}$, $BC = 17\\text{ cm}$, $AA' = 9\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Đáy là tam giác vuông.",
+      "b) Diện tích đáy bằng $60\\text{ cm}^2$.",
+      "c) Diện tích xung quanh bằng $360\\text{ cm}^2$.",
+      "d) Thể tích bằng $540\\text{ cm}^3$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$8^2+15^2 = 17^2$ nên đáy vuông; $S_{\\text{đáy}} = 60$; $S_{xq} = 40\\cdot 9 = 360$; $V = 540$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Một hình lăng trụ đứng có diện tích xung quanh $900\\text{ cm}^2$, chu vi đáy $45\\text{ cm}$. Tính chiều cao của hình (đơn vị: cm).",
+     "answer": "20",
+     "explain": "$h = \\frac{900}{45} = 20\\text{ (cm)}$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Đáy của một hình lăng trụ đứng là tam giác vuông có diện tích $150\\text{ cm}^2$, chiều cao của lăng trụ là $18\\text{ cm}$. Tính thể tích của hình (đơn vị: $\\text{cm}^3$).",
+     "answer": "2700",
+     "explain": "$V = 150\\cdot 18 = 2700\\text{ (cm}^3\\text{)}$."
+    }
+   ]
+  }
+ ]
+}
+</script>
+</div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
