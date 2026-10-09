@@ -130,7 +130,7 @@ body{font-family:system-ui,-apple-system,sans-serif}
         } catch(e){
             document.getElementById('assign-info').innerHTML = '<span class="text-rose-600">Không tải được phân công chuyên môn.</span>';
         }
-        if (sessionUser && sessionUser.role !== 'admin'){
+        if (sessionUser && sessionUser.role !== 'admin' && sessionUser.role !== 'bgh'){
             let uname = norm(sessionUser.name), uid = String(sessionUser.id || '');
             assigns = assigns.filter(function(a){
                 let t = String(a.teachers || '');
@@ -140,9 +140,10 @@ body{font-family:system-ui,-apple-system,sans-serif}
         mySubjects = assigns;
         let info = document.getElementById('assign-info');
         if (!assigns.length){
-            info.innerHTML = sessionUser && sessionUser.role !== 'admin'
+            let isPriv = sessionUser && (sessionUser.role === 'admin' || sessionUser.role === 'bgh');
+            info.innerHTML = !isPriv
                 ? '<i class="fa-solid fa-circle-info mr-1"></i>Bạn chưa được phân công môn nào (liên hệ admin).'
-                : '<i class="fa-solid fa-circle-info mr-1"></i>Chế độ admin: xem tất cả các đề thi.';
+                : '<i class="fa-solid fa-circle-info mr-1"></i>Chế độ ' + (sessionUser.role === 'bgh' ? 'Ban Giám Hiệu' : 'admin') + ': xem tất cả các đề thi.';
         } else {
             let uniq = {};
             assigns.forEach(function(a){ uniq[a.subject + ' (lớp ' + a.class + ')'] = 1; });
@@ -160,7 +161,7 @@ body{font-family:system-ui,-apple-system,sans-serif}
         return m ? { subject: norm(m[1]), grade: parseInt(m[2], 10) } : { subject: '', grade: 0 };
     }
     function myExamFilter(exam){
-        if (!sessionUser || sessionUser.role === 'admin') return true;
+        if (!sessionUser || sessionUser.role === 'admin' || sessionUser.role === 'bgh') return true; // BGH xem tat ca cac mon
         if (!mySubjects.length) return false;
         let sg = (exam && (exam.subject || exam.grade))
             ? { subject: norm(exam.subject), grade: parseInt(exam.grade, 10) || 0 }
