@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 23: Quy tắc đếm</title>
+    <meta name="lesson-title" content="Bài 23: Quy tắc đếm">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 23: Quy tắc đếm</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 8: Đại số tổ hợp • Bài 23: Quy tắc đếm</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 23: Quy tắc đếm</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 8: Đại số tổ hợp — Toán 10 (Kết nối tri thức với cuộc sống)</p>
+
+<p>Nhiều bài toán thực tế cần đếm số cách thực hiện một công việc: lập mật khẩu, biển số xe, chọn đội hình... Hai công cụ cơ bản nhất là <strong>quy tắc cộng</strong> và <strong>quy tắc nhân</strong>.</p>
+
+<!-- 1. Quy tac cong -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Quy tắc cộng</h2>
+
+<p><strong>Quy tắc:</strong> Một công việc được hoàn thành bởi <strong>một trong hai</strong> phương án <em>loại trừ lẫn nhau</em>:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>phương án 1 có $m$ cách thực hiện;</li>
+<li>phương án 2 có $n$ cách thực hiện;</li>
+</ul>
+<p>thì công việc đó có <strong>$m + n$</strong> cách thực hiện.</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$m \text{ cách } + n \text{ cách } \Rightarrow m + n \text{ cách}$$</p>
+<p class="text-sm text-slate-600 mt-1">Mở rộng: $m_1 + m_2 + \dots + m_k$ cách cho $k$ phương án loại trừ nhau.</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Trên giá sách có $5$ cuốn truyện tranh và $7$ cuốn tiểu thuyết. Bạn An muốn chọn <strong>một</strong> cuốn để đọc. Hỏi có bao nhiêu cách chọn?</p>
+<p class="mt-2"><strong>Lời giải:</strong> Hai phương án loại trừ nhau (chọn truyện tranh <em>hoặc</em> tiểu thuyết) nên có $5 + 7 = 12$ cách.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Từ khóa của quy tắc cộng là <strong>"hoặc"</strong> — các phương án <strong>loại trừ lẫn nhau</strong> (chọn cái này thì thôi cái kia). Nếu các phương án "chồng lấn" nhau thì không cộng trực tiếp được!</p>
+</div>
+
+<!-- 2. Quy tac nhan -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Quy tắc nhân</h2>
+
+<p><strong>Quy tắc:</strong> Một công việc được hoàn thành bởi <strong>hai công đoạn liên tiếp</strong>:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>công đoạn 1 có $m$ cách thực hiện;</li>
+<li>công đoạn 2 có $n$ cách thực hiện;</li>
+</ul>
+<p>thì công việc đó có <strong>$m \times n$</strong> cách thực hiện.</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$m \text{ cách } \times n \text{ cách } \Rightarrow m \times n \text{ cách}$$</p>
+<p class="text-sm text-slate-600 mt-1">Mở rộng: $m_1 \times m_2 \times \dots \times m_k$ cách cho $k$ công đoạn liên tiếp.</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Bạn Bình có $3$ chiếc áo và $4$ chiếc quần. Mỗi bộ quần áo gồm <strong>một áo và một quần</strong>. Hỏi có bao nhiêu bộ quần áo khác nhau?</p>
+<p class="mt-2"><strong>Lời giải:</strong> Chọn áo có $3$ cách, chọn quần có $4$ cách; hai công đoạn liên tiếp nên có $3 \times 4 = 12$ bộ.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Từ khóa của quy tắc nhân là <strong>"và"</strong> — công việc gồm nhiều <strong>công đoạn nối tiếp</strong> nhau (làm xong công đoạn 1 <em>rồi</em> làm công đoạn 2). Mẹo phân biệt: "hoặc" → cộng, "và / rồi" → nhân.</p>
+</div>
+
+<!-- 3. So do hinh cay -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Sơ đồ hình cây</h2>
+
+<p><em>Sơ đồ hình cây</em> là cách liệt kê trực quan mọi trường hợp: mỗi "cành" là một công đoạn, mỗi "nhánh" là một cách chọn. Số "lá" cuối cùng chính là số cách thực hiện.</p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Sơ đồ hình cây tung đồng xu hai lần">
+<rect x="2" y="2" width="436" height="246" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="28" font-size="14" font-weight="bold" fill="#0f172a" text-anchor="middle">Tung đồng xu 2 lần liên tiếp</text>
+<circle cx="60" cy="120" r="16" fill="#1e3a8a"/><text x="60" y="126" font-size="12" fill="#fff" text-anchor="middle">BĐ</text>
+<circle cx="170" cy="70" r="16" fill="#15803d"/><text x="170" y="76" font-size="12" fill="#fff" text-anchor="middle">S</text>
+<circle cx="170" cy="170" r="16" fill="#b91c1c"/><text x="170" y="176" font-size="12" fill="#fff" text-anchor="middle">N</text>
+<line x1="76" y1="112" x2="154" y2="76" stroke="#64748b" stroke-width="2"/>
+<line x1="76" y1="128" x2="154" y2="164" stroke="#64748b" stroke-width="2"/>
+<circle cx="300" cy="45" r="15" fill="#f59e0b"/><text x="300" y="50" font-size="11" fill="#fff" text-anchor="middle">SS</text>
+<circle cx="300" cy="100" r="15" fill="#f59e0b"/><text x="300" y="105" font-size="11" fill="#fff" text-anchor="middle">SN</text>
+<circle cx="300" cy="145" r="15" fill="#f59e0b"/><text x="300" y="150" font-size="11" fill="#fff" text-anchor="middle">NS</text>
+<circle cx="300" cy="200" r="15" fill="#f59e0b"/><text x="300" y="205" font-size="11" fill="#fff" text-anchor="middle">NN</text>
+<line x1="186" y1="64" x2="285" y2="48" stroke="#64748b" stroke-width="2"/>
+<line x1="186" y1="76" x2="285" y2="97" stroke="#64748b" stroke-width="2"/>
+<line x1="186" y1="164" x2="285" y2="148" stroke="#64748b" stroke-width="2"/>
+<line x1="186" y1="176" x2="285" y2="197" stroke="#64748b" stroke-width="2"/>
+<text x="115" y="90" font-size="11" fill="#475569">Lần 1</text>
+<text x="240" y="120" font-size="11" fill="#475569">Lần 2</text>
+<text x="360" y="125" font-size="12" font-weight="bold" fill="#0f172a">4 kết quả</text>
+<text x="360" y="143" font-size="11" fill="#64748b">= 2 × 2</text>
+</svg></div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Một hộp có $2$ bi đỏ (Đ) và $3$ bi xanh (X). Lấy ngẫu nhiên <strong>lần lượt</strong> $2$ viên (lấy xong viên 1 rồi mới lấy viên 2, không hoàn lại). Vẽ sơ đồ cây và đếm số kết quả.</p>
+<p class="mt-2"><strong>Lời giải:</strong> Lần 1 có $5$ nhánh (Đ$_1$, Đ$_2$, X$_1$, X$_2$, X$_3$); mỗi nhánh lần 1 tỏa ra $4$ nhánh lần 2. Tổng số "lá": $5 \times 4 = 20$ kết quả — đúng bằng quy tắc nhân.</p>
+</div>
+
+<!-- 4. Ket hop -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Kết hợp hai quy tắc</h2>
+
+<p>Nhiều bài toán cần dùng <strong>cả hai</strong> quy tắc: chia công việc thành các <em>trường hợp</em> loại trừ nhau (cộng), mỗi trường hợp lại gồm các <em>công đoạn</em> liên tiếp (nhân).</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Có bao nhiêu số tự nhiên có $2$ chữ số <strong>chẵn</strong>?</p>
+<p class="mt-2"><strong>Lời giải:</strong> Gọi số cần tìm là $\overline{ab}$ ($a \ne 0$, $b$ chẵn).</p>
+<ul class="list-disc ml-6 mt-1 space-y-1">
+<li>Trường hợp 1: $b = 0$ — $a$ có $9$ cách, $b$ có $1$ cách: $9 \times 1 = 9$ số.</li>
+<li>Trường hợp 2: $b \in \{2, 4, 6, 8\}$ — $a$ có $9$ cách, $b$ có $4$ cách: $9 \times 4 = 36$ số.</li>
+</ul>
+<p class="mt-1">Hai trường hợp loại trừ nhau nên tổng cộng $9 + 36 = 45$ số.</p>
+</div>
+
+<!-- Tom tat -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Quy tắc cộng:</strong> phương án loại trừ nhau ("hoặc") → $m + n$ cách.</li>
+<li><strong>Quy tắc nhân:</strong> công đoạn liên tiếp ("và / rồi") → $m \times n$ cách.</li>
+<li><strong>Sơ đồ hình cây:</strong> liệt kê trực quan; số lá $=$ số cách (khớp với quy tắc nhân).</li>
+<li>Bài toán phức tạp: <strong>chia trường hợp</strong> (cộng) rồi tính mỗi trường hợp bằng <strong>nhân</strong>.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+
+</div>
+
+        </div>
+    </div>
+</body>
+</html>
