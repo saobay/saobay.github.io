@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài tập cuối chương 6</title>
+    <meta name="lesson-title" content="Bài tập cuối chương 6">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài tập cuối chương 6</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 6: Xác suất có điều kiện • Bài tập cuối chương 6</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h2>1. Sơ đồ tóm tắt chương 6</h2>
+<div class="table-scroll"><table>
+<tr><th>Nội dung</th><th>Công thức chính</th></tr>
+<tr><td>Xác suất có điều kiện</td><td>$P(A|B) = \frac{P(AB)}{P(B)}$ ($P(B) > 0$)</td></tr>
+<tr><td>Công thức nhân</td><td>$P(AB) = P(A)P(B|A) = P(B)P(A|B)$</td></tr>
+<tr><td>Độc lập</td><td>$P(A|B) = P(A)$, hay $P(AB) = P(A)P(B)$</td></tr>
+<tr><td>Quy tắc bù (với $B$ cố định)</td><td>$P(\bar{A}|B) = 1 - P(A|B)$</td></tr>
+<tr><td>Xác suất toàn phần</td><td>$P(A) = \sum_i P(B_i)P(A|B_i)$</td></tr>
+<tr><td>Bayes</td><td>$P(B_k|A) = \frac{P(B_k)P(A|B_k)}{\sum_i P(B_i)P(A|B_i)}$</td></tr>
+</table></div>
+
+<h2>2. Ví dụ tổng hợp</h2>
+<p><b>Ví dụ 1.</b> Hộp có $3$ đỏ, $2$ xanh. Bốc $2$ bi không hoàn lại. Tính xác suất được $1$ đỏ $1$ xanh.</p>
+<p><b>Giải.</b> $P = \frac{3}{5}\cdot\frac{2}{4} + \frac{2}{5}\cdot\frac{3}{4} = \frac{3}{5}$.</p>
+<p><b>Ví dụ 2.</b> Hai hộp: hộp I ($2$ đỏ $3$ xanh), hộp II ($4$ đỏ $1$ xanh). Chọn ngẫu nhiên một hộp rồi bốc $1$ bi.</p>
+<p>a) Tính xác suất được bi đỏ.</p>
+<p>b) Biết đã bốc được bi đỏ, tính xác suất đã chọn hộp II.</p>
+<p><b>Giải.</b> a) $P(Đ) = \frac{1}{2}\cdot\frac{2}{5} + \frac{1}{2}\cdot\frac{4}{5} = \frac{3}{5}$. b) Bayes: $P(\text{II}|Đ) = \frac{\frac{1}{2}\cdot\frac{4}{5}}{3/5} = \frac{2}{3}$.</p>
+<p><b>Ví dụ 3.</b> Tỉ lệ mắc bệnh trong dân số là $1\%$. Xét nghiệm cho kết quả dương tính với xác suất $95\%$ ở người bệnh và $5\%$ ở người không bệnh. Một người có kết quả dương tính; tính xác suất người đó thực sự mắc bệnh.</p>
+<p><b>Giải.</b> $P = \frac{0{,}01\cdot 0{,}95}{0{,}01\cdot 0{,}95 + 0{,}99\cdot 0{,}05} = \frac{19}{119} \approx 16\%$. (Nghịch lý: dù xét nghiệm khá tốt, xác suất mắc bệnh vẫn thấp do tỉ lệ bệnh trong dân số rất nhỏ.)</p>
+
+            </div>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
