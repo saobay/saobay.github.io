@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 9: Chuyển động thẳng biến đổi đều</title>
+    <meta name="lesson-title" content="Bài 9: Chuyển động thẳng biến đổi đều">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+<!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay | Ma nguon thuoc nen tang hoc tap SAOBAY | Nghiem cam sao chep duoi moi hinh thuc -->
+<script data-saobay-guard="1">
+(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok){if(document.body){document.body.innerHTML='<div style="font-family:system-ui,sans-serif;max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff"><h2 style="color:#0f172a;margin-top:0">© SAOBAY — Trường THPT Sào Báy</h2><p style="color:#475569">Nội dung này chỉ được hiển thị tại địa chỉ chính thức <b>saobay.github.io</b>.</p><p style="color:#475569">Vui lòng truy cập đúng địa chỉ để học tập.</p></div>';}else{document.write("SAOBAY: truy cap tai saobay.github.io");}}catch(e){}})();
+</script>
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 9: Chuyển động thẳng biến đổi đều</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 2: Động học • Bài 9: Chuyển động thẳng biến đổi đều</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 9: Chuyển động thẳng biến đổi đều</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 2: Động học — Vật lí 10 (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Định nghĩa -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Định nghĩa</h2>
+
+<p><strong>Định nghĩa:</strong> <em>Chuyển động thẳng biến đổi đều</em> là chuyển động thẳng có <strong>gia tốc không đổi</strong> theo thời gian.</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Nhanh dần đều:</strong> $a$ không đổi và cùng chiều với $v$.</li>
+<li><strong>Chậm dần đều:</strong> $a$ không đổi và ngược chiều với $v$.</li>
+</ul>
+
+<!-- 2. Công thức vận tốc -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Công thức vận tốc</h2>
+
+<p>Từ $a = \frac{v - v_0}{t}$, suy ra:</p>
+<p>$$v = v_0 + at$$</p>
+<p>Trong đó $v_0$ là vận tốc đầu (lúc $t = 0$), $v$ là vận tốc lúc $t$, $a$ là gia tốc.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Một xe khởi hành với $v_0 = 0$, gia tốc $a = 2$ m/s$^2$. Sau 5 s, vận tốc của xe là $v = 0 + 2 \times 5 = 10$ m/s.</p>
+</div>
+
+<!-- 3. Đồ thị v-t -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Đồ thị vận tốc – thời gian</h2>
+
+<p>Vì $v = v_0 + at$ là hàm bậc nhất của $t$ nên đồ thị $v$ – $t$ là <strong>đường thẳng xiên</strong>:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Độ dốc</strong> của đường thẳng = <strong>gia tốc</strong> $a$.</li>
+<li><strong>Diện tích</strong> hình thang giới hạn bởi đường $v$ – $t$ và trục $t$ = <strong>độ dịch chuyển</strong>.</li>
+<li>Đường <strong>dốc lên</strong> → $a$ cùng dấu $v$ (nhanh dần); <strong>dốc xuống</strong> → ngược dấu (chậm dần).</li>
+</ul>
+
+<div class="svg-fig"><svg viewBox="0 0 440 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Đồ thị v-t của chuyển động nhanh dần đều">
+<rect x="2" y="2" width="436" height="246" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<line x1="50" y1="200" x2="410" y2="200" stroke="#1e293b" stroke-width="2"/>
+<polygon points="410,200 398,194 398,206" fill="#1e293b"/>
+<line x1="50" y1="200" x2="50" y2="20" stroke="#1e293b" stroke-width="2"/>
+<polygon points="50,20 44,32 56,32" fill="#1e293b"/>
+<text x="415" y="218" font-family="sans-serif" font-size="14" font-style="italic" fill="#1e293b">t</text>
+<text x="30" y="30" font-family="sans-serif" font-size="14" font-style="italic" fill="#1e293b">v</text>
+<polygon points="50,160 330,60 330,200 50,200" fill="#bae6fd" opacity="0.7"/>
+<line x1="50" y1="160" x2="330" y2="60" stroke="#0284c7" stroke-width="3"/>
+<line x1="50" y1="160" x2="50" y2="200" stroke="#0284c7" stroke-width="2" stroke-dasharray="6,4"/>
+<line x1="330" y1="60" x2="330" y2="200" stroke="#0284c7" stroke-width="2" stroke-dasharray="6,4"/>
+<text x="36" y="164" font-family="sans-serif" font-size="12" fill="#0369a1">v₀</text>
+<text x="336" y="64" font-family="sans-serif" font-size="12" fill="#0369a1">v</text>
+<text x="190" y="150" font-family="sans-serif" font-size="12" font-weight="bold" fill="#0369a1" text-anchor="middle">diện tích hình thang = độ dịch chuyển</text>
+<text x="200" y="90" font-family="sans-serif" font-size="12" fill="#dc2626">độ dốc = a</text>
+<text x="220" y="236" font-family="sans-serif" font-size="12" font-style="italic" fill="#475569" text-anchor="middle">Đồ thị v–t của chuyển động nhanh dần đều</text>
+</svg></div>
+
+<!-- 4. Công thức độ dịch chuyển -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Công thức tính độ dịch chuyển</h2>
+
+<p>Từ diện tích hình thang trên đồ thị $v$ – $t$, ta có:</p>
+<p>$$d = v_0t + \frac{1}{2}at^2$$</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Xe khởi hành ($v_0 = 0$) với $a = 2$ m/s$^2$. Sau 5 s, độ dịch chuyển của xe là $d = 0 \times 5 + \frac{1}{2} \times 2 \times 5^2 = 25$ m.</p>
+</div>
+
+<!-- 5. Công thức độc lập thời gian -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">5. Công thức độc lập với thời gian</h2>
+
+<p>Khử $t$ từ hai công thức trên, ta được công thức liên hệ giữa vận tốc và độ dịch chuyển <strong>không chứa thời gian</strong>:</p>
+<p>$$v^2 - v_0^2 = 2ad$$</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Một xe đang chạy 20 m/s thì phanh với gia tốc $-4$ m/s$^2$. Quãng đường phanh cho đến khi dừng ($v = 0$) là: $0^2 - 20^2 = 2 \times (-4) \times d$, suy ra $d = 50$ m.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Khi nào dùng công thức nào?</p>
+<ul class="list-disc ml-6 space-y-1 mt-1">
+<li>Biết $v_0, a, t$, tìm $v$ → dùng $v = v_0 + at$.</li>
+<li>Biết $v_0, a, t$, tìm $d$ → dùng $d = v_0t + \frac{1}{2}at^2$.</li>
+<li><strong>Không biết $t$</strong> (hoặc không cần tìm $t$) → dùng $v^2 - v_0^2 = 2ad$.</li>
+<li>Chú ý <strong>dấu</strong>: chọn chiều dương, $v_0, v, a, d$ mang dấu theo chiều đã chọn.</li>
+</ul>
+</div>
+
+<!-- 6. Đồ thị a-t -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">6. Đồ thị gia tốc – thời gian</h2>
+
+<p>Vì gia tốc không đổi nên đồ thị $a$ – $t$ là <strong>đường thẳng nằm ngang</strong> (nằm trên trục $t$ nếu $a$ dương, nằm dưới nếu $a$ âm).</p>
+
+<!-- Tổng kết -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Định nghĩa:</strong> chuyển động thẳng có gia tốc không đổi.</li>
+<li>$v = v_0 + at$</li>
+<li>$d = v_0t + \frac{1}{2}at^2$</li>
+<li>$v^2 - v_0^2 = 2ad$ (không chứa $t$)</li>
+<li><strong>Đồ thị $v$ – $t$:</strong> đường thẳng xiên; độ dốc = $a$; diện tích = $d$.</li>
+<li><strong>Đồ thị $a$ – $t$:</strong> đường nằm ngang.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+</body>
+</html>
