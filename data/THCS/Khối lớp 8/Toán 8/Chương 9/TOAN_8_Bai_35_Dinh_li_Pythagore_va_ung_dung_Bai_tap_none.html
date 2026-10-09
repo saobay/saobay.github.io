@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài tập Bài 35: Định lí Pythagore và ứng dụng</title>
+    <meta name="lesson-title" content="Bài tập Bài 35: Định lí Pythagore và ứng dụng">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Bài tập</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài tập Bài 35: Định lí Pythagore và ứng dụng</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 9: Tam giác đồng dạng • Bài 35: Định lí Pythagore và ứng dụng</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="saobay-exam10">
+<script type="application/json" class="saobay-exam10-data">
+{
+ "sets": [
+  {
+   "name": "Đề 1",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Hình chữ nhật có chiều dài 9 cm, chiều rộng 12 cm. Độ dài đường chéo của hình chữ nhật là:",
+     "options": [
+      "A. $10$ cm",
+      "B. $18$ cm",
+      "C. $21$ cm",
+      "D. $15$ cm"
+     ],
+     "answer": "D",
+     "explain": "Đường chéo $d$ thỏa $d^2 = 9^2 + 12^2 = 81 + 144 = 225$ nên $d = 15$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tam giác $MNP$ vuông tại $M$ có $MN = 12$ cm, $MP = 16$ cm. Độ dài cạnh $NP$ là:",
+     "options": [
+      "A. $4$ cm",
+      "B. $22$ cm",
+      "C. $28$ cm",
+      "D. $20$ cm"
+     ],
+     "answer": "D",
+     "explain": "$NP^2 = 12^2 + 16^2 = 400$ nên $NP = 20$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Sân hình chữ nhật có chiều dài 8 m, chiều rộng 6 m. Bạn An đi theo đường chéo của sân. Quãng đường bạn An đi là:",
+     "options": [
+      "A. $2$ m",
+      "B. $13$ m",
+      "C. $14$ m",
+      "D. $10$ m"
+     ],
+     "answer": "D",
+     "explain": "Đường chéo $d$ thỏa $d^2 = 6^2 + 8^2 = 100$ nên $d = 10$ (m)."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Một chiếc thang dài 13 m dựa vào tường. Biết đầu thang cách mặt đất 12 m. Hỏi chân thang cách chân tường bao nhiêu mét? (Điền số)",
+     "answer": "5",
+     "explain": "Gọi $x$ là khoảng cách cần tìm: $x^2 + 12^2 = 13^2$, suy ra $x^2 = 25$, vậy $x = 5$ (m)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $ABC$ vuông tại $A$ có $AB = 20$ cm, $BC = 29$ cm (cạnh huyền). Độ dài cạnh $AC$ là:",
+     "options": [
+      "A. $41$ cm",
+      "B. $21$ cm",
+      "C. $9$ cm",
+      "D. $25$ cm"
+     ],
+     "answer": "B",
+     "explain": "$AC^2 = 29^2 - 20^2 = 441$ nên $AC = 21$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Định lí Pythagore phát biểu rằng: trong một tam giác vuông,",
+     "options": [
+      "A. cạnh huyền bằng tổng hai cạnh góc vuông",
+      "B. bình phương cạnh huyền bằng hiệu các bình phương của hai cạnh góc vuông",
+      "C. bình phương cạnh huyền bằng tổng các bình phương của hai cạnh góc vuông",
+      "D. bình phương một cạnh góc vuông bằng tổng bình phương cạnh huyền và cạnh góc vuông còn lại"
+     ],
+     "answer": "C",
+     "explain": "Nội dung định lí Pythagore: $a^2 + b^2 = c^2$."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Tam giác $MNP$ có $MN = 7$ cm, $NP = 24$ cm, $PM = 25$ cm. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $7^2 + 24^2 = 25^2$.",
+      "b) Tam giác $MNP$ là tam giác vuông.",
+      "c) Tam giác $MNP$ vuông tại $P$.",
+      "d) Tam giác $MNP$ vuông tại $N$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "a) Đúng. b) Đúng — định lí Pythagore đảo. c) Sai — góc vuông đối diện cạnh dài nhất $PM$. d) Đúng."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tam giác $ABC$ vuông tại $A$ có $AB = 15$ cm, $AC = 20$ cm. Tính $BC$ (đơn vị: cm). (Điền số)",
+     "answer": "25",
+     "explain": "$BC^2 = 15^2 + 20^2 = 625$ nên $BC = 25$ (cm)."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Hình chữ nhật $ABCD$ có $AB = 6$ cm, $BC = 8$ cm. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Tam giác $ABC$ vuông tại $B$.",
+      "b) $AC^2 = AB^2 + BC^2$.",
+      "c) $AC = 10$ cm.",
+      "d) $AC = 14$ cm."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b) Đúng. c) Đúng — $AC^2 = 36 + 64 = 100$. d) Sai."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Định lí Pythagore đảo phát biểu rằng:",
+     "options": [
+      "A. mọi tam giác có ba cạnh tỉ lệ đều là tam giác vuông",
+      "B. nếu một tam giác là tam giác vuông thì bình phương cạnh huyền bằng tổng bình phương hai cạnh góc vuông",
+      "C. nếu một tam giác có bình phương của một cạnh bằng tổng các bình phương của hai cạnh còn lại thì tam giác đó là tam giác vuông",
+      "D. tam giác có ba góc nhọn là tam giác vuông"
+     ],
+     "answer": "C",
+     "explain": "Đó là nội dung định lí Pythagore đảo."
+    }
+   ]
+  },
+  {
+   "name": "Đề 2",
+   "questions": [
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Tam giác $MNP$ có $MN = 6$ cm, $NP = 8$ cm, $PM = 10$ cm. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $6^2 + 8^2 = 10^2$.",
+      "b) Tam giác $MNP$ là tam giác vuông.",
+      "c) Tam giác $MNP$ vuông tại $P$.",
+      "d) Tam giác $MNP$ vuông tại $N$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "a) Đúng. b) Đúng — định lí Pythagore đảo. c) Sai — góc vuông đối diện cạnh dài nhất $PM$. d) Đúng."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Tam giác $ABC$ có $AB = 5$ cm, $BC = 6$ cm, $CA = 7$ cm. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $5^2 + 6^2 = 7^2$.",
+      "b) Tam giác $ABC$ là tam giác vuông.",
+      "c) $5^2 + 6^2 > 7^2$.",
+      "d) Tam giác $ABC$ không vuông."
+     ],
+     "answer": [
+      "F",
+      "F",
+      "T",
+      "T"
+     ],
+     "explain": "a) Sai — $25 + 36 = 61 \\ne 49$. b) Sai. c) Đúng. d) Đúng."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tam giác $ABC$ vuông tại $B$ có $AB = 8$ cm, $AC = 17$ cm (cạnh huyền). Độ dài cạnh $BC$ là:",
+     "options": [
+      "A. $15$ cm",
+      "B. $9$ cm",
+      "C. $23$ cm",
+      "D. $17$ cm"
+     ],
+     "answer": "A",
+     "explain": "$BC^2 = AC^2 - AB^2 = 289 - 64 = 225$ nên $BC = 15$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tam giác $MNP$ vuông tại $M$ có $MN = 6$ cm, $MP = 8$ cm. Độ dài cạnh $NP$ là:",
+     "options": [
+      "A. $12$ cm",
+      "B. $2$ cm",
+      "C. $10$ cm",
+      "D. $14$ cm"
+     ],
+     "answer": "C",
+     "explain": "$NP^2 = 6^2 + 8^2 = 100$ nên $NP = 10$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $ABC$ vuông tại $A$ có $AB = 12$ cm, $AC = 35$ cm. Độ dài cạnh $BC$ là:",
+     "options": [
+      "A. $37$ cm",
+      "B. $35$ cm",
+      "C. $23$ cm",
+      "D. $47$ cm"
+     ],
+     "answer": "A",
+     "explain": "$BC^2 = 12^2 + 35^2 = 1369$ nên $BC = 37$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tam giác $ABC$ vuông tại $B$ có $AB = 7$ cm, $AC = 25$ cm (cạnh huyền). Độ dài cạnh $BC$ là:",
+     "options": [
+      "A. $26$ cm",
+      "B. $18$ cm",
+      "C. $24$ cm",
+      "D. $31$ cm"
+     ],
+     "answer": "C",
+     "explain": "$BC^2 = AC^2 - AB^2 = 625 - 49 = 576$ nên $BC = 24$ (cm)."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tam giác $DEF$ vuông tại $D$ có $EF = 29$ cm (cạnh huyền), $DE = 20$ cm. Tính $DF$ (đơn vị: cm). (Điền số)",
+     "answer": "21",
+     "explain": "$DF^2 = 29^2 - 20^2 = 441$ nên $DF = 21$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tam giác cân có cạnh bên 15 cm, cạnh đáy 18 cm. Độ dài đường cao ứng với cạnh đáy là:",
+     "options": [
+      "A. $6$ cm",
+      "B. $14$ cm",
+      "C. $12$ cm",
+      "D. $11$ cm"
+     ],
+     "answer": "C",
+     "explain": "Đường cao chia đôi cạnh đáy thành hai đoạn $9$ cm. Theo định lí Pythagore: $h^2 = 15^2 - 9^2 = 144$ nên $h = 12$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Hình chữ nhật có chiều dài 8 cm, chiều rộng 6 cm. Độ dài đường chéo của hình chữ nhật là:",
+     "options": [
+      "A. $14$ cm",
+      "B. $10$ cm",
+      "C. $2$ cm",
+      "D. $12$ cm"
+     ],
+     "answer": "B",
+     "explain": "Đường chéo $d$ thỏa $d^2 = 6^2 + 8^2 = 100$ nên $d = 10$ (cm)."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tam giác cân có cạnh bên 15 cm và cạnh đáy 18 cm. Tính độ dài đường cao ứng với cạnh đáy (đơn vị: cm). (Điền số)",
+     "answer": "12",
+     "explain": "Đường cao chia đôi cạnh đáy thành hai đoạn $9$ cm. $h^2 = 15^2 - 9^2 = 144$ nên $h = 12$ (cm)."
+    }
+   ]
+  },
+  {
+   "name": "Đề 3",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tam giác $ABC$ vuông tại $A$. Hệ thức nào sau đây đúng?",
+     "options": [
+      "A. $AC^2 = AB^2 + BC^2$",
+      "B. $AB^2 = BC^2 + AC^2$",
+      "C. $BC = AB + AC$",
+      "D. $BC^2 = AB^2 + AC^2$"
+     ],
+     "answer": "D",
+     "explain": "$BC$ là cạnh huyền nên $BC^2 = AB^2 + AC^2$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Tam giác $ABC$ vuông tại $B$ có $AB = 20$ cm, $AC = 29$ cm (cạnh huyền). Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $BC^2 = AC^2 - AB^2$.",
+      "b) $BC = 21$ cm.",
+      "c) $BC = 9$ cm.",
+      "d) $AB^2 + BC^2 = AC^2$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "a) Đúng. b) Đúng — $BC^2 = 841 - 400 = 441$. c) Sai. d) Đúng."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $DEF$ vuông tại $D$ có $EF = 17$ cm (cạnh huyền), $DE = 8$ cm. Độ dài cạnh $DF$ là:",
+     "options": [
+      "A. $15$ cm",
+      "B. $9$ cm",
+      "C. $18$ cm",
+      "D. $8$ cm"
+     ],
+     "answer": "A",
+     "explain": "$DF^2 = 17^2 - 8^2 = 225$ nên $DF = 15$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tam giác $DEF$ vuông tại $D$ có $DE = 3$ cm, $EF = 5$ cm (cạnh huyền). Độ dài cạnh $DF$ là:",
+     "options": [
+      "A. $5$ cm",
+      "B. $2$ cm",
+      "C. $4$ cm",
+      "D. $3$ cm"
+     ],
+     "answer": "C",
+     "explain": "$DF^2 = EF^2 - DE^2 = 25 - 9 = 16$ nên $DF = 4$ (cm)."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Định lí Pythagore và định lí Pythagore đảo. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Trong tam giác vuông, $a^2 + b^2 = c^2$ ($c$ là cạnh huyền).",
+      "b) Tam giác có $a^2 + b^2 = c^2$ thì vuông tại góc đối diện cạnh $c$.",
+      "c) Mọi tam giác có ba cạnh là 3, 4, 5 (cùng đơn vị) đều vuông.",
+      "d) Tam giác có ba cạnh 2, 3, 4 (cùng đơn vị) là tam giác vuông."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b), c) Đúng. d) Sai — $2^2 + 3^2 = 13 \\ne 16 = 4^2$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tam giác $ABC$ vuông tại $A$ có $AB = 9$ cm, $AC = 12$ cm. Tính $BC$ (đơn vị: cm). (Điền số)",
+     "answer": "15",
+     "explain": "$BC^2 = 9^2 + 12^2 = 225$ nên $BC = 15$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $DEF$ vuông tại $D$ có $EF = 29$ cm (cạnh huyền), $DE = 20$ cm. Độ dài cạnh $DF$ là:",
+     "options": [
+      "A. $9$ cm",
+      "B. $24$ cm",
+      "C. $21$ cm",
+      "D. $20$ cm"
+     ],
+     "answer": "C",
+     "explain": "$DF^2 = 29^2 - 20^2 = 441$ nên $DF = 21$ (cm)."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Hình vuông có cạnh 8 cm. Tính độ dài đường chéo của hình vuông (đơn vị: cm). (Điền đáp án dạng $a\\sqrt{b}$)",
+     "answer": "$8\\sqrt{2}$",
+     "explain": "Đường chéo $d$ thỏa $d^2 = 8^2 + 8^2 = 128 = 64 \\times 2$ nên $d = 8\\sqrt{2}$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Sân hình chữ nhật có chiều dài 16 m, chiều rộng 12 m. Bạn An đi theo đường chéo của sân. Quãng đường bạn An đi là:",
+     "options": [
+      "A. $28$ m",
+      "B. $23$ m",
+      "C. $20$ m",
+      "D. $4$ m"
+     ],
+     "answer": "C",
+     "explain": "Đường chéo $d$ thỏa $d^2 = 12^2 + 16^2 = 400$ nên $d = 20$ (m)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Bộ ba số nào sau đây là bộ ba số Pythagore?",
+     "options": [
+      "A. $(5; 6; 7)$",
+      "B. $(3; 4; 5)$",
+      "C. $(4; 5; 6)$",
+      "D. $(2; 3; 4)$"
+     ],
+     "answer": "B",
+     "explain": "$3^2 + 4^2 = 25 = 5^2$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 4",
+   "questions": [
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Tam giác $MNP$ có $MN = 8$ cm, $NP = 15$ cm, $PM = 17$ cm. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $8^2 + 15^2 = 17^2$.",
+      "b) Tam giác $MNP$ là tam giác vuông.",
+      "c) Tam giác $MNP$ vuông tại $P$.",
+      "d) Tam giác $MNP$ vuông tại $N$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "a) Đúng. b) Đúng — định lí Pythagore đảo. c) Sai — góc vuông đối diện cạnh dài nhất $PM$. d) Đúng."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tam giác $DEF$ vuông tại $D$ có $DE = 9$ cm, $EF = 15$ cm (cạnh huyền). Độ dài cạnh $DF$ là:",
+     "options": [
+      "A. $9$ cm",
+      "B. $6$ cm",
+      "C. $12$ cm",
+      "D. $13$ cm"
+     ],
+     "answer": "C",
+     "explain": "$DF^2 = EF^2 - DE^2 = 225 - 81 = 144$ nên $DF = 12$ (cm)."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tam giác cân có cạnh bên 13 cm và cạnh đáy 10 cm. Tính độ dài đường cao ứng với cạnh đáy (đơn vị: cm). (Điền số)",
+     "answer": "12",
+     "explain": "Đường cao chia đôi cạnh đáy thành hai đoạn $5$ cm. $h^2 = 13^2 - 5^2 = 144$ nên $h = 12$ (cm)."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tam giác $DEF$ vuông tại $D$ có $EF = 37$ cm (cạnh huyền), $DE = 12$ cm. Tính $DF$ (đơn vị: cm). (Điền số)",
+     "answer": "35",
+     "explain": "$DF^2 = 37^2 - 12^2 = 1225$ nên $DF = 35$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tam giác $ABC$ vuông tại $A$ có $AB = 12$ cm, $AC = 16$ cm. Độ dài cạnh $BC$ là:",
+     "options": [
+      "A. $20$ cm",
+      "B. $96$ cm",
+      "C. $28$ cm",
+      "D. $19$ cm"
+     ],
+     "answer": "A",
+     "explain": "$BC^2 = 12^2 + 16^2 = 144 + 256 = 400$ nên $BC = 20$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tam giác $ABC$ vuông tại $A$, đường cao $AH$. Biết $AB = 12$ cm, $AC = 16$ cm. Độ dài cạnh $BC$ là:",
+     "options": [
+      "A. $20$ cm",
+      "B. $4$ cm",
+      "C. $17$ cm",
+      "D. $28$ cm"
+     ],
+     "answer": "A",
+     "explain": "$BC^2 = 12^2 + 16^2 = 400$ nên $BC = 20$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $DEF$ vuông tại $D$ có $EF = 37$ cm (cạnh huyền), $DE = 12$ cm. Độ dài cạnh $DF$ là:",
+     "options": [
+      "A. $38$ cm",
+      "B. $25$ cm",
+      "C. $35$ cm",
+      "D. $12$ cm"
+     ],
+     "answer": "C",
+     "explain": "$DF^2 = 37^2 - 12^2 = 1225$ nên $DF = 35$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tam giác $ABC$ vuông tại $A$ có $AB = 3$ cm, $AC = 4$ cm. Độ dài cạnh $BC$ là:",
+     "options": [
+      "A. $4$ cm",
+      "B. $5$ cm",
+      "C. $7$ cm",
+      "D. $6$ cm"
+     ],
+     "answer": "B",
+     "explain": "$BC^2 = 3^2 + 4^2 = 9 + 16 = 25$ nên $BC = 5$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $MNP$ có $MN = 7$ cm, $NP = 24$ cm, $PM = 25$ cm. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. Tam giác $MNP$ vuông tại $P$",
+      "B. Tam giác $MNP$ vuông tại $M$",
+      "C. Tam giác $MNP$ vuông tại $N$",
+      "D. Tam giác $MNP$ không vuông"
+     ],
+     "answer": "C",
+     "explain": "$7^2 + 24^2 = 625 = 25^2$ nên tam giác vuông tại $N$ (góc đối diện cạnh dài nhất $PM$)."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Tam giác $ABC$ vuông tại $B$ có $AB = 5$ cm, $AC = 13$ cm (cạnh huyền). Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $BC^2 = AC^2 - AB^2$.",
+      "b) $BC = 12$ cm.",
+      "c) $BC = 8$ cm.",
+      "d) $AB^2 + BC^2 = AC^2$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "a) Đúng. b) Đúng — $BC^2 = 169 - 25 = 144$. c) Sai. d) Đúng."
+    }
+   ]
+  },
+  {
+   "name": "Đề 5",
+   "questions": [
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Tam giác $ABC$ vuông tại $A$ có $AB = 5$ cm, $AC = 12$ cm. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $BC^2 = AB^2 + AC^2$.",
+      "b) $BC = 13$ cm.",
+      "c) $AB^2 = BC^2 + AC^2$.",
+      "d) $BC = 17$ cm."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "F"
+     ],
+     "explain": "a) Đúng — định lí Pythagore. b) Đúng — $BC^2 = 169$. c) Sai. d) Sai."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Bạn Bình đi 5 km về phía đông rồi đi tiếp 12 km về phía bắc. Khoảng cách từ điểm xuất phát đến vị trí hiện tại của bạn Bình là:",
+     "options": [
+      "A. $7$ km",
+      "B. $13$ km",
+      "C. $15$ km",
+      "D. $17$ km"
+     ],
+     "answer": "B",
+     "explain": "Quãng đường tạo thành tam giác vuông: khoảng cách $= \\sqrt{5^2 + 12^2} = \\sqrt{169} = 13$ (km)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $MNP$ có $MN = 20$ cm, $NP = 21$ cm, $PM = 29$ cm. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. Tam giác $MNP$ vuông tại $P$",
+      "B. Tam giác $MNP$ vuông tại $N$",
+      "C. Tam giác $MNP$ không vuông",
+      "D. Tam giác $MNP$ vuông tại $M$"
+     ],
+     "answer": "B",
+     "explain": "$20^2 + 21^2 = 841 = 29^2$ nên tam giác vuông tại $N$ (góc đối diện cạnh dài nhất $PM$)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tam giác có ba cạnh $9$ cm, $12$ cm, $15$ cm. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. Không xác định được",
+      "B. Tam giác vuông (vì $9^2 + 12^2 = 15^2$)",
+      "C. Tam giác nhọn",
+      "D. Tam giác tù"
+     ],
+     "answer": "B",
+     "explain": "$9^2 + 12^2 = 81 + 144 = 225 = 15^2$ nên theo định lí Pythagore đảo, tam giác vuông."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Một chiếc thang dài 41 m dựa vào tường. Biết đầu thang cách mặt đất 40 m. Hỏi chân thang cách chân tường bao nhiêu mét? (Điền số)",
+     "answer": "9",
+     "explain": "Gọi $x$ là khoảng cách cần tìm: $x^2 + 40^2 = 41^2$, suy ra $x^2 = 81$, vậy $x = 9$ (m)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tam giác $ABC$ vuông tại $B$ có $AB = 5$ cm, $AC = 13$ cm (cạnh huyền). Độ dài cạnh $BC$ là:",
+     "options": [
+      "A. $8$ cm",
+      "B. $14$ cm",
+      "C. $12$ cm",
+      "D. $17$ cm"
+     ],
+     "answer": "C",
+     "explain": "$BC^2 = AC^2 - AB^2 = 169 - 25 = 144$ nên $BC = 12$ (cm)."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Tam giác $ABC$ vuông tại $B$ có $AB = 8$ cm, $AC = 17$ cm (cạnh huyền). Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $BC^2 = AC^2 - AB^2$.",
+      "b) $BC = 15$ cm.",
+      "c) $BC = 9$ cm.",
+      "d) $AB^2 + BC^2 = AC^2$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "a) Đúng. b) Đúng — $BC^2 = 289 - 64 = 225$. c) Sai. d) Đúng."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Hình chữ nhật có chiều dài 15 cm và chiều rộng 8 cm. Tính độ dài đường chéo (đơn vị: cm). (Điền số)",
+     "answer": "17",
+     "explain": "Đường chéo $d$ thỏa $d^2 = 15^2 + 8^2 = 289$ nên $d = 17$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $ABC$ vuông tại $A$ có $AB = 9$ cm, $AC = 40$ cm. Độ dài cạnh $BC$ là:",
+     "options": [
+      "A. $31$ cm",
+      "B. $49$ cm",
+      "C. $41$ cm",
+      "D. $39$ cm"
+     ],
+     "answer": "C",
+     "explain": "$BC^2 = 9^2 + 40^2 = 1681$ nên $BC = 41$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tam giác có ba cạnh $3$ cm, $4$ cm, $5$ cm. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. Tam giác tù",
+      "B. Tam giác nhọn",
+      "C. Không xác định được",
+      "D. Tam giác vuông (vì $3^2 + 4^2 = 5^2$)"
+     ],
+     "answer": "D",
+     "explain": "$3^2 + 4^2 = 9 + 16 = 25 = 5^2$ nên theo định lí Pythagore đảo, tam giác vuông."
+    }
+   ]
+  },
+  {
+   "name": "Đề 6",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Hình chữ nhật có chiều dài 15 cm, chiều rộng 8 cm. Độ dài đường chéo của hình chữ nhật là:",
+     "options": [
+      "A. $23$ cm",
+      "B. $17$ cm",
+      "C. $7$ cm",
+      "D. $19$ cm"
+     ],
+     "answer": "B",
+     "explain": "Đường chéo $d$ thỏa $d^2 = 8^2 + 15^2 = 289$ nên $d = 17$ (cm)."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Tam giác $MNP$ có $MN = 3$ cm, $NP = 4$ cm, $PM = 5$ cm. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $3^2 + 4^2 = 5^2$.",
+      "b) Tam giác $MNP$ là tam giác vuông.",
+      "c) Tam giác $MNP$ vuông tại $P$.",
+      "d) Tam giác $MNP$ vuông tại $N$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "a) Đúng. b) Đúng — định lí Pythagore đảo. c) Sai — góc vuông đối diện cạnh dài nhất $PM$. d) Đúng."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Tam giác cân $ABC$ ($AB = AC = 15$ cm) có cạnh đáy $BC = 18$ cm, đường cao $AH$ ($H$ thuộc $BC$). Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $H$ là trung điểm của $BC$.",
+      "b) $AH^2 = AB^2 - BH^2$.",
+      "c) $AH = 12$ cm.",
+      "d) $AH = 6$ cm."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a) Đúng. b) Đúng — tam giác $ABH$ vuông tại $H$. c) Đúng — $AH^2 = 15^2 - 9^2 = 144$. d) Sai."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tam giác $ABC$ vuông tại $A$ có $AB = 20$ cm, $AC = 15$ cm. Tính $BC$ (đơn vị: cm). (Điền số)",
+     "answer": "25",
+     "explain": "$BC^2 = 20^2 + 15^2 = 625$ nên $BC = 25$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $DEF$ vuông tại $D$ có $EF = 25$ cm (cạnh huyền), $DE = 7$ cm. Độ dài cạnh $DF$ là:",
+     "options": [
+      "A. $18$ cm",
+      "B. $27$ cm",
+      "C. $24$ cm",
+      "D. $7$ cm"
+     ],
+     "answer": "C",
+     "explain": "$DF^2 = 25^2 - 7^2 = 576$ nên $DF = 24$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong tam giác vuông, cạnh huyền là:",
+     "options": [
+      "A. cạnh bằng tổng hai cạnh góc vuông",
+      "B. cạnh dài nhất, nằm đối diện với góc vuông",
+      "C. cạnh kề với góc vuông bất kì",
+      "D. cạnh ngắn nhất"
+     ],
+     "answer": "B",
+     "explain": "Cạnh huyền đối diện góc vuông và là cạnh dài nhất."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tam giác $ABC$ vuông tại $A$ có $AB = 9$ cm, $AC = 12$ cm. Độ dài cạnh $BC$ là:",
+     "options": [
+      "A. $21$ cm",
+      "B. $15$ cm",
+      "C. $14$ cm",
+      "D. $54$ cm"
+     ],
+     "answer": "B",
+     "explain": "$BC^2 = 9^2 + 12^2 = 81 + 144 = 225$ nên $BC = 15$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tam giác $DEF$ vuông tại $D$ có $DE = 6$ cm, $EF = 10$ cm (cạnh huyền). Độ dài cạnh $DF$ là:",
+     "options": [
+      "A. $4$ cm",
+      "B. $9$ cm",
+      "C. $6$ cm",
+      "D. $8$ cm"
+     ],
+     "answer": "D",
+     "explain": "$DF^2 = EF^2 - DE^2 = 100 - 36 = 64$ nên $DF = 8$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Một chiếc thang dài 13 m dựa vào tường, chân thang cách chân tường 5 m. Đầu thang cách mặt đất:",
+     "options": [
+      "A. $13$ m",
+      "B. $12$ m",
+      "C. $8$ m",
+      "D. $17$ m"
+     ],
+     "answer": "B",
+     "explain": "Gọi $x$ là chiều cao: $x^2 + 5^2 = 13^2$, suy ra $x^2 = 144$, vậy $x = 12$ (m)."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Một chiếc thang dài 25 m dựa vào tường. Biết đầu thang cách mặt đất 24 m. Hỏi chân thang cách chân tường bao nhiêu mét? (Điền số)",
+     "answer": "7",
+     "explain": "Gọi $x$ là khoảng cách cần tìm: $x^2 + 24^2 = 25^2$, suy ra $x^2 = 49$, vậy $x = 7$ (m)."
+    }
+   ]
+  },
+  {
+   "name": "Đề 7",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $ABC$ vuông tại $A$ có $AB = 8$ cm, $BC = 17$ cm (cạnh huyền). Độ dài cạnh $AC$ là:",
+     "options": [
+      "A. $15$ cm",
+      "B. $23$ cm",
+      "C. $9$ cm",
+      "D. $19$ cm"
+     ],
+     "answer": "A",
+     "explain": "$AC^2 = 17^2 - 8^2 = 225$ nên $AC = 15$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tam giác $ABC$ vuông tại $A$, đường cao $AH$. Biết $AB = 9$ cm, $AC = 12$ cm. Độ dài cạnh $BC$ là:",
+     "options": [
+      "A. $15$ cm",
+      "B. $21$ cm",
+      "C. $3$ cm",
+      "D. $12$ cm"
+     ],
+     "answer": "A",
+     "explain": "$BC^2 = 9^2 + 12^2 = 225$ nên $BC = 15$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $ABC$ vuông tại $A$ có $AB = 7$ cm, $BC = 25$ cm (cạnh huyền). Độ dài cạnh $AC$ là:",
+     "options": [
+      "A. $18$ cm",
+      "B. $28$ cm",
+      "C. $24$ cm",
+      "D. $31$ cm"
+     ],
+     "answer": "C",
+     "explain": "$AC^2 = 25^2 - 7^2 = 576$ nên $AC = 24$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tam giác có ba cạnh $5$ cm, $12$ cm, $13$ cm. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. Tam giác vuông (vì $5^2 + 12^2 = 13^2$)",
+      "B. Tam giác nhọn",
+      "C. Tam giác tù",
+      "D. Không xác định được"
+     ],
+     "answer": "A",
+     "explain": "$5^2 + 12^2 = 25 + 144 = 169 = 13^2$ nên theo định lí Pythagore đảo, tam giác vuông."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Tam giác $ABC$ vuông tại $A$ có $AB = 8$ cm, $AC = 15$ cm. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $BC^2 = AB^2 + AC^2$.",
+      "b) $BC = 17$ cm.",
+      "c) $AB^2 = BC^2 + AC^2$.",
+      "d) $BC = 23$ cm."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "F"
+     ],
+     "explain": "a) Đúng — định lí Pythagore. b) Đúng — $BC^2 = 289$. c) Sai. d) Sai."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tam giác $ABC$ vuông tại $A$ có $AB = 5$ cm, $AC = 12$ cm. Độ dài cạnh $BC$ là:",
+     "options": [
+      "A. $13$ cm",
+      "B. $12$ cm",
+      "C. $17$ cm",
+      "D. $30$ cm"
+     ],
+     "answer": "A",
+     "explain": "$BC^2 = 5^2 + 12^2 = 25 + 144 = 169$ nên $BC = 13$ (cm)."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tam giác $DEF$ vuông tại $D$ có $EF = 41$ cm (cạnh huyền), $DE = 9$ cm. Tính $DF$ (đơn vị: cm). (Điền số)",
+     "answer": "40",
+     "explain": "$DF^2 = 41^2 - 9^2 = 1600$ nên $DF = 40$ (cm)."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Một chiếc thang dài 65 m dựa vào tường. Biết đầu thang cách mặt đất 63 m. Hỏi chân thang cách chân tường bao nhiêu mét? (Điền số)",
+     "answer": "16",
+     "explain": "Gọi $x$ là khoảng cách cần tìm: $x^2 + 63^2 = 65^2$, suy ra $x^2 = 256$, vậy $x = 16$ (m)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tam giác có ba cạnh $6$ cm, $8$ cm, $10$ cm. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. Không xác định được",
+      "B. Tam giác nhọn",
+      "C. Tam giác vuông (vì $6^2 + 8^2 = 10^2$)",
+      "D. Tam giác tù"
+     ],
+     "answer": "C",
+     "explain": "$6^2 + 8^2 = 36 + 64 = 100 = 10^2$ nên theo định lí Pythagore đảo, tam giác vuông."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Tam giác cân $ABC$ ($AB = AC = 17$ cm) có cạnh đáy $BC = 16$ cm, đường cao $AH$ ($H$ thuộc $BC$). Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $H$ là trung điểm của $BC$.",
+      "b) $AH^2 = AB^2 - BH^2$.",
+      "c) $AH = 15$ cm.",
+      "d) $AH = 9$ cm."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a) Đúng. b) Đúng — tam giác $ABH$ vuông tại $H$. c) Đúng — $AH^2 = 17^2 - 8^2 = 225$. d) Sai."
+    }
+   ]
+  },
+  {
+   "name": "Đề 8",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $ABC$ vuông tại $A$ có $AB = 20$ cm, $AC = 21$ cm. Độ dài cạnh $BC$ là:",
+     "options": [
+      "A. $27$ cm",
+      "B. $41$ cm",
+      "C. $1$ cm",
+      "D. $29$ cm"
+     ],
+     "answer": "D",
+     "explain": "$BC^2 = 20^2 + 21^2 = 841$ nên $BC = 29$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tam giác $DEF$ vuông tại $D$ có $DE = 7$ cm, $EF = 25$ cm (cạnh huyền). Độ dài cạnh $DF$ là:",
+     "options": [
+      "A. $25$ cm",
+      "B. $7$ cm",
+      "C. $18$ cm",
+      "D. $24$ cm"
+     ],
+     "answer": "D",
+     "explain": "$DF^2 = EF^2 - DE^2 = 625 - 49 = 576$ nên $DF = 24$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tam giác cân có cạnh bên 10 cm, cạnh đáy 12 cm. Độ dài đường cao ứng với cạnh đáy là:",
+     "options": [
+      "A. $4$ cm",
+      "B. $8$ cm",
+      "C. $10$ cm",
+      "D. $7$ cm"
+     ],
+     "answer": "B",
+     "explain": "Đường cao chia đôi cạnh đáy thành hai đoạn $6$ cm. Theo định lí Pythagore: $h^2 = 10^2 - 6^2 = 64$ nên $h = 8$ (cm)."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Một chiếc thang dài 17 m dựa vào tường. Biết đầu thang cách mặt đất 15 m. Hỏi chân thang cách chân tường bao nhiêu mét? (Điền số)",
+     "answer": "8",
+     "explain": "Gọi $x$ là khoảng cách cần tìm: $x^2 + 15^2 = 17^2$, suy ra $x^2 = 64$, vậy $x = 8$ (m)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tam giác $ABC$ vuông tại $A$ có $AB = 8$ cm, $AC = 15$ cm. Độ dài cạnh $BC$ là:",
+     "options": [
+      "A. $23$ cm",
+      "B. $60$ cm",
+      "C. $16$ cm",
+      "D. $17$ cm"
+     ],
+     "answer": "D",
+     "explain": "$BC^2 = 8^2 + 15^2 = 64 + 225 = 289$ nên $BC = 17$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tam giác $ABC$ vuông tại $A$ có $AB = 6$ cm, $AC = 8$ cm. Độ dài cạnh $BC$ là:",
+     "options": [
+      "A. $24$ cm",
+      "B. $14$ cm",
+      "C. $10$ cm",
+      "D. $9$ cm"
+     ],
+     "answer": "C",
+     "explain": "$BC^2 = 6^2 + 8^2 = 36 + 64 = 100$ nên $BC = 10$ (cm)."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Hình chữ nhật có chiều dài 12 cm và chiều rộng 9 cm. Tính độ dài đường chéo (đơn vị: cm). (Điền số)",
+     "answer": "15",
+     "explain": "Đường chéo $d$ thỏa $d^2 = 9^2 + 12^2 = 225$ nên $d = 15$ (cm)."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Tam giác $ABC$ vuông tại $B$ có $AB = 7$ cm, $AC = 25$ cm (cạnh huyền). Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $BC^2 = AC^2 - AB^2$.",
+      "b) $BC = 24$ cm.",
+      "c) $BC = 18$ cm.",
+      "d) $AB^2 + BC^2 = AC^2$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "a) Đúng. b) Đúng — $BC^2 = 625 - 49 = 576$. c) Sai. d) Đúng."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Tam giác $ABC$ vuông tại $A$ có $AB = 7$ cm, $AC = 24$ cm. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $BC^2 = AB^2 + AC^2$.",
+      "b) $BC = 25$ cm.",
+      "c) $AB^2 = BC^2 + AC^2$.",
+      "d) $BC = 31$ cm."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "F"
+     ],
+     "explain": "a) Đúng — định lí Pythagore. b) Đúng — $BC^2 = 625$. c) Sai. d) Sai."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $ABC$ vuông tại $A$ có $AB = 9$ cm, $BC = 41$ cm (cạnh huyền). Độ dài cạnh $AC$ là:",
+     "options": [
+      "A. $44$ cm",
+      "B. $32$ cm",
+      "C. $40$ cm",
+      "D. $49$ cm"
+     ],
+     "answer": "C",
+     "explain": "$AC^2 = 41^2 - 9^2 = 1600$ nên $AC = 40$ (cm)."
+    }
+   ]
+  },
+  {
+   "name": "Đề 9",
+   "questions": [
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Tam giác cân $ABC$ ($AB = AC = 13$ cm) có cạnh đáy $BC = 10$ cm, đường cao $AH$ ($H$ thuộc $BC$). Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $H$ là trung điểm của $BC$.",
+      "b) $AH^2 = AB^2 - BH^2$.",
+      "c) $AH = 12$ cm.",
+      "d) $AH = 8$ cm."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a) Đúng. b) Đúng — tam giác $ABH$ vuông tại $H$. c) Đúng — $AH^2 = 13^2 - 5^2 = 144$. d) Sai."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $MNP$ có $MN = 8$ cm, $NP = 15$ cm, $PM = 17$ cm. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. Tam giác $MNP$ không vuông",
+      "B. Tam giác $MNP$ vuông tại $N$",
+      "C. Tam giác $MNP$ vuông tại $M$",
+      "D. Tam giác $MNP$ vuông tại $P$"
+     ],
+     "answer": "B",
+     "explain": "$8^2 + 15^2 = 289 = 17^2$ nên tam giác vuông tại $N$ (góc đối diện cạnh dài nhất $PM$)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tam giác có ba cạnh $7$ cm, $24$ cm, $25$ cm. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. Tam giác tù",
+      "B. Không xác định được",
+      "C. Tam giác nhọn",
+      "D. Tam giác vuông (vì $7^2 + 24^2 = 25^2$)"
+     ],
+     "answer": "D",
+     "explain": "$7^2 + 24^2 = 49 + 576 = 625 = 25^2$ nên theo định lí Pythagore đảo, tam giác vuông."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tam giác $ABC$ vuông tại $A$ có $AB = 12$ cm, $AC = 16$ cm. Tính $BC$ (đơn vị: cm). (Điền số)",
+     "answer": "20",
+     "explain": "$BC^2 = 12^2 + 16^2 = 400$ nên $BC = 20$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Hình chữ nhật có chiều dài 12 cm, chiều rộng 5 cm. Độ dài đường chéo của hình chữ nhật là:",
+     "options": [
+      "A. $13$ cm",
+      "B. $7$ cm",
+      "C. $17$ cm",
+      "D. $15$ cm"
+     ],
+     "answer": "A",
+     "explain": "Đường chéo $d$ thỏa $d^2 = 5^2 + 12^2 = 169$ nên $d = 13$ (cm)."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tam giác cân có cạnh bên 17 cm và cạnh đáy 16 cm. Tính độ dài đường cao ứng với cạnh đáy (đơn vị: cm). (Điền số)",
+     "answer": "15",
+     "explain": "Đường cao chia đôi cạnh đáy thành hai đoạn $8$ cm. $h^2 = 17^2 - 8^2 = 225$ nên $h = 15$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Bạn Bình đi 9 km về phía đông rồi đi tiếp 12 km về phía bắc. Khoảng cách từ điểm xuất phát đến vị trí hiện tại của bạn Bình là:",
+     "options": [
+      "A. $21$ km",
+      "B. $15$ km",
+      "C. $3$ km",
+      "D. $17$ km"
+     ],
+     "answer": "B",
+     "explain": "Quãng đường tạo thành tam giác vuông: khoảng cách $= \\sqrt{9^2 + 12^2} = \\sqrt{225} = 15$ (km)."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Tam giác $ABC$ vuông tại $A$ có $AB = 6$ cm, $AC = 8$ cm. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $BC^2 = AB^2 + AC^2$.",
+      "b) $BC = 10$ cm.",
+      "c) $AB^2 = BC^2 + AC^2$.",
+      "d) $BC = 14$ cm."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "F"
+     ],
+     "explain": "a) Đúng — định lí Pythagore. b) Đúng — $BC^2 = 100$. c) Sai. d) Sai."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tam giác $MNP$ vuông tại $M$ có $MN = 9$ cm, $MP = 12$ cm. Độ dài cạnh $NP$ là:",
+     "options": [
+      "A. $15$ cm",
+      "B. $17$ cm",
+      "C. $3$ cm",
+      "D. $21$ cm"
+     ],
+     "answer": "A",
+     "explain": "$NP^2 = 9^2 + 12^2 = 225$ nên $NP = 15$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tam giác $DEF$ vuông tại $D$ có $DE = 5$ cm, $EF = 13$ cm (cạnh huyền). Độ dài cạnh $DF$ là:",
+     "options": [
+      "A. $12$ cm",
+      "B. $8$ cm",
+      "C. $5$ cm",
+      "D. $13$ cm"
+     ],
+     "answer": "A",
+     "explain": "$DF^2 = EF^2 - DE^2 = 169 - 25 = 144$ nên $DF = 12$ (cm)."
+    }
+   ]
+  },
+  {
+   "name": "Đề 10",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tam giác có ba cạnh $8$ cm, $15$ cm, $17$ cm. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. Tam giác tù",
+      "B. Tam giác nhọn",
+      "C. Tam giác vuông (vì $8^2 + 15^2 = 17^2$)",
+      "D. Không xác định được"
+     ],
+     "answer": "C",
+     "explain": "$8^2 + 15^2 = 64 + 225 = 289 = 17^2$ nên theo định lí Pythagore đảo, tam giác vuông."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tam giác $DEF$ vuông tại $D$ có $DE = 8$ cm, $EF = 17$ cm (cạnh huyền). Độ dài cạnh $DF$ là:",
+     "options": [
+      "A. $15$ cm",
+      "B. $16$ cm",
+      "C. $8$ cm",
+      "D. $9$ cm"
+     ],
+     "answer": "A",
+     "explain": "$DF^2 = EF^2 - DE^2 = 289 - 64 = 225$ nên $DF = 15$ (cm)."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Tam giác $MNP$ có $MN = 9$ cm, $NP = 12$ cm, $PM = 15$ cm. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $9^2 + 12^2 = 15^2$.",
+      "b) Tam giác $MNP$ là tam giác vuông.",
+      "c) Tam giác $MNP$ vuông tại $P$.",
+      "d) Tam giác $MNP$ vuông tại $N$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "a) Đúng. b) Đúng — định lí Pythagore đảo. c) Sai — góc vuông đối diện cạnh dài nhất $PM$. d) Đúng."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tam giác cân có cạnh bên 13 cm, cạnh đáy 10 cm. Độ dài đường cao ứng với cạnh đáy là:",
+     "options": [
+      "A. $8$ cm",
+      "B. $14$ cm",
+      "C. $12$ cm",
+      "D. $11$ cm"
+     ],
+     "answer": "C",
+     "explain": "Đường cao chia đôi cạnh đáy thành hai đoạn $5$ cm. Theo định lí Pythagore: $h^2 = 13^2 - 5^2 = 144$ nên $h = 12$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tam giác $DEF$ vuông tại $D$ có $DE = 12$ cm, $EF = 20$ cm (cạnh huyền). Độ dài cạnh $DF$ là:",
+     "options": [
+      "A. $12$ cm",
+      "B. $16$ cm",
+      "C. $8$ cm",
+      "D. $17$ cm"
+     ],
+     "answer": "B",
+     "explain": "$DF^2 = EF^2 - DE^2 = 400 - 144 = 256$ nên $DF = 16$ (cm)."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tam giác cân có cạnh bên 10 cm và cạnh đáy 12 cm. Tính độ dài đường cao ứng với cạnh đáy (đơn vị: cm). (Điền số)",
+     "answer": "8",
+     "explain": "Đường cao chia đôi cạnh đáy thành hai đoạn $6$ cm. $h^2 = 10^2 - 6^2 = 64$ nên $h = 8$ (cm)."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Hình chữ nhật có chiều dài 16 cm và chiều rộng 12 cm. Tính độ dài đường chéo (đơn vị: cm). (Điền số)",
+     "answer": "20",
+     "explain": "Đường chéo $d$ thỏa $d^2 = 12^2 + 16^2 = 400$ nên $d = 20$ (cm)."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Tam giác $ABC$ vuông tại $B$ có $AB = 9$ cm, $AC = 41$ cm (cạnh huyền). Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $BC^2 = AC^2 - AB^2$.",
+      "b) $BC = 40$ cm.",
+      "c) $BC = 32$ cm.",
+      "d) $AB^2 + BC^2 = AC^2$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "a) Đúng. b) Đúng — $BC^2 = 1681 - 81 = 1600$. c) Sai. d) Đúng."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Hình chữ nhật có chiều dài 20 cm, chiều rộng 15 cm. Độ dài đường chéo của hình chữ nhật là:",
+     "options": [
+      "A. $35$ cm",
+      "B. $25$ cm",
+      "C. $27$ cm",
+      "D. $5$ cm"
+     ],
+     "answer": "B",
+     "explain": "Đường chéo $d$ thỏa $d^2 = 20^2 + 15^2 = 625$ nên $d = 25$ (cm)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Hình chữ nhật có chiều dài 12 cm, chiều rộng 9 cm. Độ dài đường chéo của hình chữ nhật là:",
+     "options": [
+      "A. $21$ cm",
+      "B. $15$ cm",
+      "C. $17$ cm",
+      "D. $3$ cm"
+     ],
+     "answer": "B",
+     "explain": "Đường chéo $d$ thỏa $d^2 = 9^2 + 12^2 = 225$ nên $d = 15$ (cm)."
+    }
+   ]
+  }
+ ]
+}
+</script>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
