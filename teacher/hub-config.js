@@ -53,6 +53,11 @@
 
             document.getElementById('user-display-name').innerText = currentUser.name;
             document.getElementById('user-total-score').innerText = currentUser.score;
+            // Hien badge Ban Giam Hieu thay cho "Thanh vien"
+            if (currentUser.role === 'bgh') {
+                let lvl = document.getElementById('user-level-tag');
+                if (lvl) lvl.innerHTML = '<i class="fa-solid fa-building-columns mr-1"></i>Ban Giám Hiệu';
+            }
 
             if (currentUser.role === 'admin') {
                 document.getElementById('admin-settings-btn')?.classList.remove('hidden');
@@ -101,6 +106,8 @@
                             if (p === 'backup' || p.startsWith('backup/')) return false;
                             if (p === 'data/bank' || p.startsWith('data/bank/')) return false; // Bank tu dong trich, khong phai noi day bai
                             if (p === 'data/scores' || p.startsWith('data/scores/')) return false; // Diem thi, khong phai noi day bai
+                            if (p === 'data/private' || p.startsWith('data/private/')) return false; // Lop hoc them rieng tu
+                            if (p === 'data/reports' || p.startsWith('data/reports/')) return false; // Bao cao loi
                             if (p === 'teacher' || p.startsWith('teacher/')) return false;
                             if (p === 'used' || p.startsWith('used/')) return false;
                             if (p === 'tienganh6' || p.startsWith('tienganh6/')) return false;
