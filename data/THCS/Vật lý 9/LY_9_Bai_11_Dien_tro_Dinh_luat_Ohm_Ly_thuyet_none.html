@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 11: Điện trở. Định luật Ohm</title>
+    <meta name="lesson-title" content="Bài 11: Điện trở. Định luật Ohm">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 11: Điện trở. Định luật Ohm</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 3: Điện • Bài 11: Điện trở. Định luật Ohm</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 11: Điện trở. Định luật Ohm</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 3: Điện (Kết nối tri thức)</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Điện trở của dây dẫn</h2>
+
+<p><strong>Điện trở</strong> của dây dẫn là đại lượng đặc trưng cho <strong>mức độ cản trở dòng điện</strong> của dây dẫn. Điện trở kí hiệu là $R$, đơn vị là <strong>ôm</strong> (kí hiệu $\Omega$). Ngoài ra còn dùng các ước số: $1\ \text{k}\Omega = 1000\ \Omega$, $1\ \text{M}\Omega = 1\,000\,000\ \Omega$.</p>
+
+<p>Điện trở của một dây dẫn được xác định bằng công thức:</p>
+<p class="text-center text-lg my-2">$$R = \frac{U}{I}$$</p>
+<p>Trong đó $U$ là hiệu điện thế đặt vào hai đầu dây (V), $I$ là cường độ dòng điện chạy qua dây (A).</p>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><strong>Điện trở</strong> đặc trưng cho mức độ cản trở dòng điện: $R = \dfrac{U}{I}$. Đơn vị: <strong>ôm ($\Omega$)</strong>.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Định luật Ohm</h2>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Định luật Ohm:</p>
+<p>Cường độ dòng điện chạy qua dây dẫn <strong>tỉ lệ thuận</strong> với hiệu điện thế đặt vào hai đầu dây và <strong>tỉ lệ nghịch</strong> với điện trở của dây.</p>
+<p class="text-center text-lg my-2">$$I = \frac{U}{R}$$</p>
+</div>
+
+<p>Từ công thức trên suy ra: $U = I \cdot R$ và $R = \dfrac{U}{I}$. Định luật Ohm đúng với các vật dẫn kim loại ở <strong>nhiệt độ không đổi</strong> (gọi là vật dẫn Ohm).</p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="So do mach dien do dien tro gom nguon ampe ke von ke">
+<rect x="2" y="2" width="436" height="256" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<rect x="60" y="60" width="320" height="140" rx="8" fill="none" stroke="#64748b" stroke-width="2.5"/>
+<rect x="185" y="120" width="70" height="26" rx="4" fill="#fff" stroke="#0284c7" stroke-width="2.5"/>
+<text x="220" y="139" font-family="sans-serif" font-size="15" font-weight="bold" fill="#0284c7" text-anchor="middle">R</text>
+<circle cx="120" cy="200" r="20" fill="#fff" stroke="#0284c7" stroke-width="2.5"/>
+<text x="120" y="207" font-family="sans-serif" font-size="16" font-weight="bold" fill="#0284c7" text-anchor="middle">A</text>
+<circle cx="320" cy="60" r="20" fill="#fff" stroke="#0284c7" stroke-width="2.5"/>
+<text x="320" y="67" font-family="sans-serif" font-size="16" font-weight="bold" fill="#0284c7" text-anchor="middle">V</text>
+<line x1="60" y1="130" x2="80" y2="130" stroke="#64748b" stroke-width="3"/>
+<line x1="60" y1="150" x2="80" y2="150" stroke="#64748b" stroke-width="5"/>
+<text x="45" y="145" font-family="sans-serif" font-size="13" fill="#475569">nguồn</text>
+<text x="220" y="235" font-family="sans-serif" font-size="13" fill="#475569" text-anchor="middle">Ampe kế mắc nối tiếp, vôn kế mắc song song với R</text>
+</svg></div>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-emerald-800 mb-2">Bài tập ví dụ 1 (có lời giải):</p>
+<p>Đặt hiệu điện thế $U = 12\ \text{V}$ vào hai đầu một dây dẫn, dòng điện qua dây là $I = 3\ \text{A}$. Tính điện trở của dây dẫn.</p>
+<p class="mt-2"><strong>Lời giải:</strong> $R = \dfrac{U}{I} = \dfrac{12}{3} = 4\ \Omega$.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><strong>Định luật Ohm:</strong> $I = \dfrac{U}{R}$. Cường độ dòng điện tỉ lệ thuận với hiệu điện thế, tỉ lệ nghịch với điện trở.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Điện trở suất. Công thức tính điện trở của dây dẫn</h2>
+
+<p>Điện trở của dây dẫn phụ thuộc vào <strong>vật liệu</strong> làm dây, <strong>chiều dài</strong> $l$ và <strong>tiết diện</strong> $S$ của dây:</p>
+<p class="text-center text-lg my-2">$$R = \rho \cdot \frac{l}{S}$$</p>
+<p>Trong đó $\rho$ là <strong>điện trở suất</strong> của vật liệu (đơn vị $\Omega \cdot \text{m}$), đặc trưng cho khả năng cản trở dòng điện của vật liệu đó.</p>
+
+<p>Một số giá trị điện trở suất (ở $20°C$): bạc $1{,}6 \times 10^{-8}\ \Omega\cdot\text{m}$; đồng $1{,}7 \times 10^{-8}\ \Omega\cdot\text{m}$; nhôm $2{,}8 \times 10^{-8}\ \Omega\cdot\text{m}$; sắt $12 \times 10^{-8}\ \Omega\cdot\text{m}$; nicrom $1{,}1 \times 10^{-6}\ \Omega\cdot\text{m}$. Điện trở suất của kim loại <strong>tăng khi nhiệt độ tăng</strong>.</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-emerald-800 mb-2">Bài tập ví dụ 2 (có lời giải):</p>
+<p>Một dây đồng dài $100\ \text{m}$, tiết diện $1\ \text{mm}^2$. Tính điện trở của dây ($\rho = 1{,}7 \times 10^{-8}\ \Omega\cdot\text{m}$).</p>
+<p class="mt-2"><strong>Lời giải:</strong> Đổi $S = 1\ \text{mm}^2 = 10^{-6}\ \text{m}^2$.<br>
+$R = \rho \cdot \dfrac{l}{S} = 1{,}7 \times 10^{-8} \times \dfrac{100}{10^{-6}} = 1{,}7\ \Omega$.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><strong>Điện trở của dây dẫn:</strong> $R = \rho \cdot \dfrac{l}{S}$. Dây càng <strong>dài</strong> thì $R$ càng lớn; tiết diện càng <strong>lớn</strong> thì $R$ càng nhỏ; $\rho$ càng lớn thì $R$ càng lớn.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Nội dung</td><td class="border border-slate-300 px-4 py-1">Công thức / Phát biểu</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Điện trở</td><td class="border border-slate-300 px-4 py-1">$R = \dfrac{U}{I}$ (đơn vị: ôm $\Omega$)</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Định luật Ohm</td><td class="border border-slate-300 px-4 py-1">$I = \dfrac{U}{R}$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Điện trở của dây dẫn</td><td class="border border-slate-300 px-4 py-1">$R = \rho \cdot \dfrac{l}{S}$</td></tr>
+</table></div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+</div>
+        </div>
+    </div>
+
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
