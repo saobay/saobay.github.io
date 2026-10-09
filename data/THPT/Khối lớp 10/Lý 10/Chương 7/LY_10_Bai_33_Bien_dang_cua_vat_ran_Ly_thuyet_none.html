@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 33: Biến dạng của vật rắn</title>
+    <meta name="lesson-title" content="Bài 33: Biến dạng của vật rắn">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 33: Biến dạng của vật rắn</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 7: Biến dạng của vật rắn. Áp suất chất lỏng • Bài 33: Biến dạng của vật rắn</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 33: Biến dạng của vật rắn</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 7: Biến dạng của vật rắn. Áp suất chất lỏng — Vật lí 10 (Kết nối tri thức với cuộc sống)</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Biến dạng của vật rắn</h2>
+
+<p><strong>Biến dạng</strong> là sự <strong>thay đổi hình dạng và kích thước</strong> của vật rắn dưới tác dụng của ngoại lực. Các dạng biến dạng cơ bản: <strong>kéo, nén, uốn, xoắn, cắt</strong>.</p>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Biến dạng đàn hồi:</strong> khi thôi tác dụng lực, vật <strong>trở lại</strong> hình dạng ban đầu (ví dụ: lò xo, dây cao su).</li>
+<li><strong>Biến dạng dẻo</strong> (biến dạng vĩnh viễn): khi thôi tác dụng lực, vật <strong>không trở lại</strong> hình dạng ban đầu (ví dụ: đất sét).</li>
+<li><strong>Giới hạn đàn hồi:</strong> giới hạn mà trong đó vật còn giữ được tính đàn hồi; vượt quá giới hạn này vật bị biến dạng dẻo hoặc phá hủy.</li>
+</ul>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Lực đàn hồi và định luật Hooke</h2>
+
+<p>Khi vật bị biến dạng đàn hồi, xuất hiện <strong>lực đàn hồi</strong> có hướng <strong>ngược chiều biến dạng</strong>, có xu hướng đưa vật về trạng thái không biến dạng.</p>
+
+<p><strong>Định luật Hooke:</strong> <em>Trong giới hạn đàn hồi, lực đàn hồi của lò xo tỉ lệ thuận với độ biến dạng của lò xo</em>:</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$F = k|\Delta l|$$</p>
+<p class="mt-1 text-sm text-slate-600">$k$: độ cứng (hệ số đàn hồi) của lò xo — đơn vị $\text{N/m}$; $|\Delta l| = |l - l_0|$: độ biến dạng</p>
+</div>
+
+<p><strong>Ý nghĩa độ cứng $k$:</strong> đặc trưng cho khả năng chống lại biến dạng — lò xo càng cứng ($k$ càng lớn) thì càng khó bị biến dạng. Độ cứng phụ thuộc vào <strong>vật liệu</strong> và <strong>kích thước</strong> của lò xo (lò xo càng dài thì càng mềm).</p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Lò xo biến dạng và lực đàn hồi">
+<rect x="2" y="2" width="436" height="176" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<rect x="30" y="30" width="12" height="120" fill="#94a3b8"/>
+<polyline points="42,60 60,50 60,70 78,50 78,70 96,50 96,70 114,50 114,70 132,60" fill="none" stroke="#2563eb" stroke-width="2.5"/>
+<rect x="132" y="48" width="26" height="24" rx="4" fill="#fde68a" stroke="#d97706" stroke-width="2"/>
+<line x1="158" y1="60" x2="200" y2="60" stroke="#dc2626" stroke-width="2.5"/>
+<polygon points="200,60 190,54 190,66" fill="#dc2626"/>
+<text x="205" y="64" font-family="sans-serif" font-size="13" font-weight="bold" fill="#dc2626">F kéo</text>
+<line x1="145" y1="100" x2="110" y2="100" stroke="#16a34a" stroke-width="2.5"/>
+<polygon points="110,100 120,94 120,106" fill="#16a34a"/>
+<text x="60" y="104" font-family="sans-serif" font-size="13" font-weight="bold" fill="#16a34a">F đàn hồi</text>
+<text x="220" y="60" font-family="sans-serif" font-size="14" fill="#1e293b">F = k|Δl|</text>
+<text x="220" y="85" font-family="sans-serif" font-size="13" fill="#475569">Lực đàn hồi ngược chiều biến dạng</text>
+<text x="220" y="110" font-family="sans-serif" font-size="13" fill="#475569">k: N/m — càng lớn càng cứng</text>
+</svg></div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Ứng dụng</h2>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Lực kế:</strong> đo lực dựa trên định luật Hooke.</li>
+<li><strong>Giảm xóc</strong> xe máy, ô tô: hấp thụ chấn động.</li>
+<li>Lò xo trong bút bi, đệm, ghế sofa...</li>
+</ul>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ mẫu:</p>
+<p>Treo vật khối lượng $0,4\ \text{kg}$ vào lò xo thì lò xo dãn $8\ \text{cm}$ (lấy $g = 10\ \text{m/s}^2$). Tính độ cứng của lò xo.</p>
+<p class="mt-2"><strong>Lời giải:</strong> Khi cân bằng: $k|\Delta l| = mg$. $k = \dfrac{0,4 \cdot 10}{0,08} = 50\ \text{N/m}$.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><strong>Biến dạng đàn hồi:</strong> trở lại hình dạng ban đầu khi thôi lực. <strong>Định luật Hooke:</strong> $F = k|\Delta l|$ (trong giới hạn đàn hồi). <strong>Độ cứng</strong> $k$ (N/m): càng lớn càng khó biến dạng.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Biến dạng:</strong> thay đổi hình dạng, kích thước dưới tác dụng của ngoại lực (kéo, nén, uốn, xoắn, cắt).</li>
+<li><strong>Đàn hồi:</strong> trở lại như cũ khi thôi lực; <strong>dẻo:</strong> không trở lại; <strong>giới hạn đàn hồi:</strong> giới hạn còn giữ tính đàn hồi.</li>
+<li><strong>Lực đàn hồi</strong> ngược chiều biến dạng; <strong>định luật Hooke:</strong> $F = k|\Delta l|$.</li>
+<li><strong>Độ cứng</strong> $k$ (N/m) đặc trưng cho khả năng chống biến dạng.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+</body>
+</html>
