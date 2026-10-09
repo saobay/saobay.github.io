@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 21: Câu lệnh lặp while</title>
+    <meta name="lesson-title" content="Bài 21: Câu lệnh lặp while">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 21: Câu lệnh lặp while</h1>
+            <p class="text-xs text-slate-500 mt-1">Chủ đề 5: Giải quyết vấn đề với sự trợ giúp của máy tính • Bài 21: Câu lệnh lặp while</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 21: Câu lệnh lặp while</h1>
+<p class="text-center text-slate-500 italic mb-8">Chủ đề 5: Giải quyết vấn đề với sự trợ giúp của máy tính</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Câu lệnh lặp while</h2>
+<p>Lệnh <code>while</code> lặp lại khối lệnh <strong>khi điều kiện còn đúng</strong>, dùng khi <strong>chưa biết trước số lần lặp</strong>.</p>
+<pre class="bg-slate-900 text-green-300 rounded-lg p-4 my-4 overflow-x-auto text-sm"><code>while điều_kiện:
+    khối lệnh lặp</code></pre>
+<p>Ví dụ: nhập số cho đến khi nhập đúng số 0 thì dừng:</p>
+<pre class="bg-slate-900 text-green-300 rounded-lg p-4 my-4 overflow-x-auto text-sm"><code>n = int(input("Nhập một số (0 để dừng): "))
+while n != 0:
+    print("Bạn vừa nhập", n)
+    n = int(input("Nhập một số (0 để dừng): "))
+print("Kết thúc!")</code></pre>
+<div class="bg-amber-50 border border-amber-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-amber-800 mb-1">Cảnh báo: lặp vô hạn</p>
+<p class="text-sm">Nếu quên cập nhật biến trong điều kiện, vòng lặp <code>while</code> có thể <strong>không bao giờ dừng</strong> (lặp vô hạn) — đây là một lỗi lôgic. Luôn đảm bảo điều kiện sẽ sai sau một số lần lặp hữu hạn.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Lệnh break và continue</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Lệnh</td><td class="border border-slate-300 px-4 py-1">Tác dụng</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><code>break</code></td><td class="border border-slate-300 px-4 py-1">Thoát khỏi vòng lặp ngay lập tức</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><code>continue</code></td><td class="border border-slate-300 px-4 py-1">Bỏ qua phần còn lại, nhảy sang lần lặp tiếp theo</td></tr>
+</table></div>
+<pre class="bg-slate-900 text-green-300 rounded-lg p-4 my-4 overflow-x-auto text-sm"><code>for i in range(10):
+    if i == 5:
+        break      # dừng khi i bằng 5
+    if i % 2 == 0:
+        continue   # bỏ qua số chẵn
+    print(i)       # chỉ in 1, 3</code></pre>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. So sánh for và while</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Tiêu chí</td><td class="border border-slate-300 px-4 py-1"><code>for</code></td><td class="border border-slate-300 px-4 py-1"><code>while</code></td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Số lần lặp</td><td class="border border-slate-300 px-4 py-1">Biết trước</td><td class="border border-slate-300 px-4 py-1">Chưa biết trước, theo điều kiện</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Nguy cơ</td><td class="border border-slate-300 px-4 py-1">Ít bị lặp vô hạn</td><td class="border border-slate-300 px-4 py-1">Dễ lặp vô hạn nếu sai điều kiện</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Ví dụ dùng</td><td class="border border-slate-300 px-4 py-1">Tính tổng 1..n, in bảng cửu chương</td><td class="border border-slate-300 px-4 py-1">Nhập đến khi đúng, thuật toán Euclid</td></tr>
+</table></div>
+
+</div>
+        </div>
+    </div>
+</body>
+</html>
