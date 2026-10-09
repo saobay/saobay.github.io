@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài tập Đề 4 — Ôn HSG 12</title>
+    <meta name="lesson-title" content="Bài tập Đề 4 — Ôn HSG 12">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Bài tập</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài tập Đề 4 — Ôn HSG 12</h1>
+            <p class="text-xs text-slate-500 mt-1">Ôn HSG 12 • Tin học</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="saobay-exam10">
+<script type="application/json" class="saobay-exam10-data">
+{"sets": [{"name": "Đề 4", "questions": [{"type": "mcq", "level": "VDC", "q": "Cho đồ thị vô hướng với danh sách kề (đã sắp xếp tăng dần):\n1: [2, 3]; 2: [1, 4, 5]; 3: [1, 6]; 4: [2]; 5: [2, 6]; 6: [3, 5].\nThực hiện thuật toán tìm kiếm theo chiều rộng (BFS) xuất phát từ đỉnh 1, các đỉnh kề được thăm theo thứ tự tăng dần. Thứ tự các đỉnh được thăm (kể cả đỉnh xuất phát) là gì?", "options": ["A. 1, 2, 3, 4, 5, 6", "B. 1, 2, 4, 5, 3, 6", "C. 1, 3, 2, 6, 5, 4", "D. 1, 2, 3, 5, 4, 6"], "answer": "A", "explain": "Truy vết BFS (hàng đợi):\n- Thăm 1, đưa 2, 3 vào hàng đợi.\n- Lấy 2 ra, các kề chưa thăm là 4, 5 → hàng đợi: 3, 4, 5.\n- Lấy 3 ra, kề chưa thăm là 6 → hàng đợi: 4, 5, 6.\n- Lấy 4, 5, 6 ra: không còn đỉnh kề nào chưa thăm.\nThứ tự thăm: 1, 2, 3, 4, 5, 6. Đáp án A.", "points": 0.25}, {"type": "mcq", "level": "VDC", "q": "Với đồ thị ở câu trên (danh sách kề: 1: [2, 3]; 2: [1, 4, 5]; 3: [1, 6]; 4: [2]; 5: [2, 6]; 6: [3, 5]), thực hiện thuật toán tìm kiếm theo chiều sâu (DFS) dạng đệ quy xuất phát từ đỉnh 1, các đỉnh kề được xét theo thứ tự tăng dần. Thứ tự các đỉnh được thăm lần đầu là gì?", "options": ["A. 1, 2, 3, 6, 5, 4", "B. 1, 2, 4, 5, 6, 3", "C. 1, 2, 4, 5, 3, 6", "D. 1, 3, 6, 5, 2, 4"], "answer": "B", "explain": "Truy vết DFS đệ quy (kề tăng dần):\n- Thăm 1 → kề nhỏ nhất chưa thăm là 2 → thăm 2.\n- Từ 2: kề 1 đã thăm, thăm 4 → từ 4 chỉ có kề 2 đã thăm nên quay lui.\n- Từ 2: kề tiếp chưa thăm là 5 → thăm 5 → kề 6 chưa thăm → thăm 6.\n- Từ 6: kề 3 chưa thăm → thăm 3 → các kề của 3 đều đã thăm nên quay lui dần.\nThứ tự thăm lần đầu: 1, 2, 4, 5, 6, 3. Đáp án B.", "points": 0.25}, {"type": "mcq", "level": "VDC", "q": "Cho đồ thị vô hướng có trọng số với các cạnh (u, v, trọng số): (1,2,4), (1,3,2), (2,3,1), (2,4,5), (3,4,8), (3,5,10), (4,5,2), (4,6,6), (5,6,3). Áp dụng thuật toán Dijkstra xuất phát từ đỉnh 1, độ dài đường đi ngắn nhất từ đỉnh 1 tới đỉnh 6 là bao nhiêu?", "options": ["A. 11", "B. 12", "C. 13", "D. 14"], "answer": "C", "explain": "Truy vết Dijkstra từ đỉnh 1 (khoảng cách tạm thời ban đầu: d1 = 0, còn lại vô cực):\n- Xét 1: d2 = 4, d3 = 2.\n- Xét 3 (nhỏ nhất): d2 = min(4, 2+1) = 3; d4 = 2+8 = 10; d5 = 2+10 = 12.\n- Xét 2: d4 = min(10, 3+5) = 8.\n- Xét 4: d5 = min(12, 8+2) = 10; d6 = 8+6 = 14.\n- Xét 5: d6 = min(14, 10+3) = 13.\nĐường đi ngắn nhất 1 → 3 → 2 → 4 → 5 → 6 có độ dài 2+1+5+2+3 = 13. Đáp án C.", "points": 0.25}, {"type": "mcq", "level": "VDC", "q": "Các số 1, 2, 3, 4, 5 được đưa vào một ngăn xếp (stack) theo đúng thứ tự từ 1 tới 5 (mỗi số được push đúng một lần, xen kẽ với các thao tác pop tùy ý). Dãy nào sau đây KHÔNG thể là thứ tự các số được lấy ra (pop)?", "options": ["A. 5, 4, 3, 2, 1", "B. 1, 2, 3, 4, 5", "C. 3, 2, 5, 4, 1", "D. 3, 1, 2, 5, 4"], "answer": "D", "explain": "Kiểm tra từng dãy:\n- A khả thi: push cả 5 số rồi pop lần lượt.\n- B khả thi: push 1 pop 1, push 2 pop 2, ...\n- C khả thi: push 1, 2, 3; pop 3, pop 2; push 4, 5; pop 5, pop 4, pop 1.\n- D không khả thi: sau khi pop 3 (đã push 1, 2, 3), số 2 đang nằm trên số 1 trong ngăn xếp nên không thể pop 1 trước 2.\nVậy đáp án D.", "points": 0.25}, {"type": "mcq", "level": "VDC", "q": "Một cây nhị phân có thứ tự duyệt trước (preorder) là A, B, D, E, C, F và thứ tự duyệt giữa (inorder) là D, B, E, A, F, C. Hỏi thứ tự duyệt sau (postorder) của cây là gì?", "options": ["A. D, E, B, F, C, A", "B. D, B, E, F, C, A", "C. A, B, D, E, C, F", "D. D, E, F, B, C, A"], "answer": "A", "explain": "Dựng cây từ preorder + inorder:\n- Preorder[0] = A là gốc; trong inorder, A chia cây thành cây con trái [D, B, E] và cây con phải [F, C].\n- Với cây con trái: preorder [B, D, E], gốc là B; inorder [D, B, E] cho nút trái D, nút phải E.\n- Với cây con phải: preorder [C, F], gốc là C; inorder [F, C] cho nút trái F.\nDuyệt sau (trái, phải, gốc): D, E, B, F, C, A. Đáp án A.", "points": 0.25}, {"type": "mcq", "level": "VDC", "q": "Cần trộn k danh sách đã sắp xếp tăng dần (tổng cộng n phần tử) thành một danh sách sắp xếp duy nhất bằng cách dùng một min-heap: đưa phần tử đầu của mỗi danh sách vào heap, lặp lại việc lấy phần tử nhỏ nhất ra và đưa phần tử kế tiếp của cùng danh sách vào heap. Độ phức tạp thời gian của cách làm này là bao nhiêu?", "options": ["A. $O(n \\log n)$", "B. $O(n \\log k)$", "C. $O(n \\times k)$", "D. $O(n + k)$"], "answer": "B", "explain": "Heap luôn chứa đúng k phần tử (một phần tử đầu chưa xử lý của mỗi danh sách) nên mỗi thao tác lấy min và chèn phần tử kế tiếp tốn $O(\\log k)$. Mỗi trong n phần tử được lấy ra và chèn vào đúng một lần, tổng cộng $O(n \\log k)$. (Cách trộn từng cặp một cách ngây thơ tốn $O(nk)$, còn gộp tất cả rồi sắp xếp lại tốn $O(n \\log n)$ — đều kém hơn khi k nhỏ hơn n nhiều.) Đáp án B.", "points": 0.25}, {"type": "truefalse", "level": "VDC", "q": "Xét tính đúng, sai của các khẳng định sau về đồ thị:", "statements": ["a) Một đồ thị vô hướng liên thông có n đỉnh thì có ít nhất n - 1 cạnh.", "b) Thuật toán BFS trên đồ thị có trọng số dương luôn tìm được đường đi ngắn nhất (theo tổng trọng số) giữa hai đỉnh.", "c) Mọi đồ thị có hướng không chu trình (DAG) đều có ít nhất một đỉnh có bậc vào bằng 0.", "d) Thuật toán Dijkstra cho kết quả đúng với đồ thị có cạnh trọng số âm nhưng không có chu trình âm."], "answer": ["T", "F", "T", "F"], "explain": "a) Đúng: cây khung của đồ thị liên thông n đỉnh có đúng n - 1 cạnh, đồ thị gốc phải có ít nhất chừng đó.\nb) Sai: BFS chỉ đảm bảo đường đi ÍT CẠNH nhất (trên đồ thị không trọng số); với trọng số dương phải dùng Dijkstra.\nc) Đúng: nếu mọi đỉnh đều có bậc vào lớn hơn hoặc bằng 1 thì đi ngược theo cạnh vào sẽ tạo chu trình, mâu thuẫn với DAG.\nd) Sai: Dijkstra sai với cạnh âm ngay cả khi không có chu trình âm (tính chất \"đỉnh đã chốt khoảng cách là tối ưu\" không còn đúng); trường hợp này phải dùng Bellman-Ford.", "points": 1}, {"type": "truefalse", "level": "VDC", "q": "Xét tính đúng, sai của các khẳng định sau về cấu trúc dữ liệu:", "statements": ["a) Ngăn xếp (stack) có thể dùng để kiểm tra tính đúng đắn của một dãy dấu ngoặc.", "b) Hàng đợi (queue) cài đặt bằng hai ngăn xếp vẫn đảm bảo mỗi thao tác enqueue/dequeue có độ phức tạp trung bình (khấu hao) $O(1)$.", "c) Cây tìm kiếm nhị phân (BST) luôn có chiều cao $O(\\log n)$ với n là số nút.", "d) Bảng băm (hash table) với hàm băm tốt và tỉ số tải hợp lý cho phép tìm kiếm với độ phức tạp trung bình $O(1)$."], "answer": ["T", "T", "F", "T"], "explain": "a) Đúng: duyệt dãy ngoặc, gặp ngoặc mở thì push, gặp ngoặc đóng thì pop và kiểm tra khớp loại.\nb) Đúng: kỹ thuật hai ngăn xếp (một cho enqueue, một cho dequeue) cho độ phức tạp khấu hao $O(1)$ mỗi thao tác.\nc) Sai: BST chỉ có chiều cao $O(\\log n)$ TRUNG BÌNH với dữ liệu ngẫu nhiên; trường hợp xấu (chèn dãy đã sắp xếp) cây suy biến thành danh sách, cao $O(n)$.\nd) Đúng: với hàm băm tốt và tỉ số tải được kiểm soát (rehash khi đầy), mỗi thao tác băm tốn $O(1)$ trung bình.", "points": 1}, {"type": "short", "level": "VDC", "q": "Cho đồ thị vô hướng có 8 đỉnh (đánh số từ 1 tới 8) và các cạnh: (1, 2), (2, 3), (4, 5), (6, 7). Hỏi đồ thị có bao nhiêu thành phần liên thông?", "answer": "4", "explain": "Các cạnh nối các đỉnh thành các nhóm: {1, 2, 3} (qua cạnh (1,2), (2,3)), {4, 5}, {6, 7}, và đỉnh 8 đứng một mình (không có cạnh nào). Vậy có 4 thành phần liên thông.", "points": 0.5}, {"type": "short", "level": "VDC", "q": "Giá trị của biểu thức hậu tố (mỗi toán hạng và toán tử cách nhau một dấu cách): \"5 1 2 + 4 * + 3 -\" là bao nhiêu?", "answer": "14", "explain": "Đánh giá biểu thức hậu tố bằng ngăn xếp (duyệt từ trái sang phải, gặp toán tử thì lấy hai toán hạng trên cùng ra tính):\n- 5, 1, 2 push vào ngăn xếp; gặp +: 1 + 2 = 3.\n- 4 push; gặp *: 3 * 4 = 12.\n- Gặp +: 5 + 12 = 17.\n- 3 push; gặp -: 17 - 3 = 14.\nVậy giá trị là 14.", "points": 0.5}]}]}
+</script>
+</div>
+        </div>
+    </div>
+</body>
+</html>
