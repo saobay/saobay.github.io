@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay | Ma nguon thuoc nen tang hoc tap SAOBAY | Nghiem cam sao chep duoi moi hinh thuc -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 23: Kiểm thử và đánh giá chương trình</title>
+    <meta name="lesson-title" content="Bài 23: Kiểm thử và đánh giá chương trình">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 23: Kiểm thử và đánh giá chương trình</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 6: Kĩ thuật lập trình • Bài 23: Kiểm thử và đánh giá chương trình</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 23: Kiểm thử và đánh giá chương trình</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 6: Kĩ thuật lập trình — sách Kết nối tri thức với cuộc sống</p>
+
+<!-- 1. Kiểm thử chương trình là gì -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Kiểm thử chương trình là gì?</h2>
+
+<p><strong>Kiểm thử</strong> là quá trình <strong>chạy chương trình với các bộ dữ liệu test</strong> để <strong>phát hiện lỗi</strong>. Một <em>ca kiểm thử</em> (test case) gồm <strong>dữ liệu đầu vào</strong> và <strong>kết quả mong đợi</strong> (đáp án đúng đã biết trước). Nếu kết quả thực tế khớp với mong đợi, ca test được xem là <strong>đạt</strong> (pass); ngược lại là <strong>không đạt</strong> (fail).</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Kiểm thử hàm tính tổng các phần tử của mảng: đầu vào <code>[1, 2, 3]</code>, kết quả mong đợi <code>6</code>. Nếu chương trình in ra <code>6</code> thì đạt, in ra số khác thì không đạt.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Kiểm thử giúp <strong>phát hiện lỗi</strong> nhưng <strong>không chứng minh</strong> được chương trình hết lỗi — có thể còn những trường hợp chưa được test.</p>
+</div>
+
+<!-- 2. Các loại lỗi -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Các loại lỗi chương trình</h2>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-sm my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Loại lỗi</td><td class="border border-slate-300 px-4 py-1">Biểu hiện</td><td class="border border-slate-300 px-4 py-1">Ví dụ</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><strong>Lỗi cú pháp</strong></td><td class="border border-slate-300 px-4 py-1">Vi phạm quy tắc ngôn ngữ, chương trình không chạy được</td><td class="border border-slate-300 px-4 py-1">Thiếu dấu <code>:</code> sau <code>if</code>, sai thụt lề</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><strong>Lỗi runtime</strong></td><td class="border border-slate-300 px-4 py-1">Xảy ra trong khi chạy, chương trình dừng đột ngột</td><td class="border border-slate-300 px-4 py-1">Chia cho 0, truy cập <code>a[5]</code> khi mảng chỉ có 3 phần tử</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><strong>Lỗi logic</strong></td><td class="border border-slate-300 px-4 py-1">Chương trình chạy xong nhưng cho kết quả sai</td><td class="border border-slate-300 px-4 py-1">Tính tổng mà khởi tạo <code>s = 1</code>, vòng lặp vô hạn</td></tr>
+</table></div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ phân biệt:</p>
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2"># Lỗi cú pháp: thiếu dấu : (máy báo lỗi ngay)
+if x != 0
+    print(x)
+
+# Lỗi runtime: chia cho 0 khi chạy (máy dừng đột ngột)
+print(10 / 0)
+
+# Lỗi logic: chạy được nhưng sai (phải khởi tạo s = 0)
+s = 1
+for x in [1, 2, 3]:
+    s = s + x
+print(s)   # in ra 7 thay vì 6</pre>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><strong>Cú pháp:</strong> không chạy được (máy báo ngay). <strong>Runtime:</strong> đang chạy thì dừng đột ngột. <strong>Logic:</strong> chạy xong nhưng <strong>kết quả sai</strong> — khó phát hiện nhất, phải nhờ kiểm thử.</p>
+</div>
+
+<!-- 3. Thiết kế bộ dữ liệu test -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Thiết kế bộ dữ liệu test</h2>
+
+<p>Một bộ test tốt cần bao phủ nhiều trường hợp:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Trường hợp thông thường:</strong> dữ liệu điển hình, ví dụ mảng <code>[3, 1, 2]</code>.</li>
+<li><strong>Trường hợp biên:</strong> giá trị ở biên miền dữ liệu, ví dụ <code>n = 0</code>, <code>n = 1</code>, mảng rỗng, phần tử đầu/cuối.</li>
+<li><strong>Trường hợp đặc biệt:</strong> dữ liệu gây khó, ví dụ mảng đã sắp xếp, mảng ngược, các phần tử bằng nhau, số âm.</li>
+</ul>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ — test hàm tìm giá trị lớn nhất của mảng:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li><code>[1, 5, 3]</code> → mong đợi <code>5</code> (thông thường)</li>
+<li><code>[7]</code> → mong đợi <code>7</code> (biên: một phần tử)</li>
+<li><code>[]</code> → cần xử lý riêng (biên: rỗng)</li>
+<li><code>[-5, -1, -3]</code> → mong đợi <code>-1</code> (đặc biệt: toàn số âm)</li>
+</ul>
+</div>
+
+<p>Trong Python, câu lệnh <code>assert</code> giúp kiểm tra nhanh một điều kiện trong khi test:</p>
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2">def tong(a):
+    s = 0
+    for x in a:
+        s = s + x
+    return s
+
+assert tong([1, 2, 3]) == 6   # đúng: không báo gì
+assert tong([]) == 0          # đúng: mảng rỗng cho tổng 0</pre>
+<p>Nếu điều kiện sau <code>assert</code> sai, Python báo lỗi ngay — đó là một ca test không đạt.</p>
+
+<!-- 4. Đánh giá chương trình -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Đánh giá chương trình</h2>
+
+<p>Một chương trình tốt được đánh giá trên ba tiêu chí:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Tính đúng đắn:</strong> cho kết quả đúng với mọi đầu vào hợp lệ — tiêu chí quan trọng nhất.</li>
+<li><strong>Tính hiệu quả:</strong> chạy nhanh, tốn ít bộ nhớ (độ phức tạp thời gian/không gian thấp) — quan trọng khi dữ liệu lớn.</li>
+<li><strong>Tính dễ đọc, dễ bảo trì:</strong> tên biến rõ ràng, có chú thích, chia hàm hợp lý — giúp dễ sửa lỗi và nâng cấp sau này.</li>
+</ul>
+
+<p>Ngoài ra, sau mỗi lần <strong>sửa lỗi</strong> hoặc <strong>chỉnh sửa code</strong>, cần <strong>kiểm thử hồi quy</strong> (chạy lại toàn bộ bộ test) để đảm bảo chỗ sửa không làm hỏng những phần đang chạy đúng.</p>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Đánh giá chương trình qua 3 tiêu chí: <strong>đúng đắn</strong> (quan trọng nhất), <strong>hiệu quả</strong> (nhanh, ít tốn bộ nhớ), <strong>dễ đọc, dễ bảo trì</strong>. Sửa code xong phải <strong>test hồi quy</strong>.</p>
+</div>
+
+<!-- Tóm tắt -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Kiểm thử:</strong> chạy chương trình với các ca test (đầu vào + kết quả mong đợi) để phát hiện lỗi.</li>
+<li><strong>Ba loại lỗi:</strong> cú pháp (không chạy được), runtime (dừng đột ngột khi chạy), logic (kết quả sai).</li>
+<li><strong>Bộ test tốt:</strong> bao phủ trường hợp thông thường, biên và đặc biệt.</li>
+<li><strong>Công cụ:</strong> <code>assert</code> để kiểm tra nhanh; test tự động để chạy hàng loạt.</li>
+<li><strong>Đánh giá:</strong> đúng đắn, hiệu quả, dễ đọc/dễ bảo trì; sửa xong phải kiểm thử hồi quy.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">
+(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok){if(document.body){document.body.innerHTML='<div style="font-family:system-ui,sans-serif;max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff"><h2 style="color:#0f172a;margin-top:0">© SAOBAY — Trường THPT Sào Báy</h2><p style="color:#475569">Nội dung này chỉ được hiển thị tại địa chỉ chính thức <b>saobay.github.io</b>.</p><p style="color:#475569">Vui lòng truy cập đúng địa chỉ để học tập.</p></div>';}else{document.write("SAOBAY: truy cap tai saobay.github.io");}}catch(e){}})();
+</script>
+</body>
+</html>
