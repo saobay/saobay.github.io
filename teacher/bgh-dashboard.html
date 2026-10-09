@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ban Giám Hiệu - SAOBAY</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+body{font-family:system-ui,-apple-system,sans-serif}
+.tab-btn.active{background:#1e40af;color:#fff}
+.stat-card{transition:transform .15s}
+.stat-card:hover{transform:translateY(-2px)}
+</style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+<div class="max-w-6xl mx-auto px-3 py-4">
+    <!-- Header -->
+    <div class="flex flex-wrap items-center gap-2 mb-4">
+        <h1 class="text-xl font-black text-slate-900"><i class="fa-solid fa-building-columns text-blue-700 mr-2"></i>Ban Giám Hiệu</h1>
+        <span id="user-badge" class="text-xs text-slate-500"></span>
+        <a href="../index.html" class="ml-auto text-xs font-bold text-blue-700 hover:underline"><i class="fa-solid fa-house mr-1"></i>Trang chủ</a>
+    </div>
+
+    <div id="login-warn" class="hidden bg-amber-50 border border-amber-200 rounded-xl p-4 text-sm text-amber-900 mb-4">
+        Bạn chưa đăng nhập với tài khoản Ban Giám Hiệu. <a href="../used/used.html" class="font-bold underline">Đăng nhập tại đây</a>.
+    </div>
+
+    <!-- Tabs -->
+    <div id="tabs" class="hidden flex flex-wrap gap-2 mb-4">
+        <button onclick="showTab('password')" data-tab="password" class="tab-btn active px-4 py-2 rounded-xl bg-white shadow font-bold text-sm"><i class="fa-solid fa-key mr-1"></i>Mật khẩu</button>
+        <button onclick="showTab('students')" data-tab="students" class="tab-btn px-4 py-2 rounded-xl bg-white shadow font-bold text-sm"><i class="fa-solid fa-user-graduate mr-1"></i>Học tập</button>
+        <button onclick="showTab('teachers')" data-tab="teachers" class="tab-btn px-4 py-2 rounded-xl bg-white shadow font-bold text-sm"><i class="fa-solid fa-chalkboard-user mr-1"></i>Giảng dạy</button>
+        <button onclick="showTab('scores')" data-tab="scores" class="tab-btn px-4 py-2 rounded-xl bg-white shadow font-bold text-sm"><i class="fa-solid fa-chart-column mr-1"></i>Điểm số</button>
+    </div>
+
+    <!-- Tab: Password status -->
+    <div id="tab-password" class="tab-panel">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+            <div class="stat-card bg-white rounded-xl p-4 shadow border-l-4 border-rose-500">
+                <p class="text-xs text-slate-500 font-bold">Chưa đổi MK</p>
+                <p id="pw-not-changed" class="text-2xl font-black text-rose-600">-</p>
+            </div>
+            <div class="stat-card bg-white rounded-xl p-4 shadow border-l-4 border-emerald-500">
+                <p class="text-xs text-slate-500 font-bold">Đã đổi MK</p>
+                <p id="pw-changed" class="text-2xl font-black text-emerald-600">-</p>
+            </div>
+            <div class="stat-card bg-white rounded-xl p-4 shadow border-l-4 border-blue-500">
+                <p class="text-xs text-slate-500 font-bold">Tổng GV</p>
+                <p id="pw-teachers" class="text-2xl font-black text-blue-600">-</p>
+            </div>
+            <div class="stat-card bg-white rounded-xl p-4 shadow border-l-4 border-violet-500">
+                <p class="text-xs text-slate-500 font-bold">Tổng HS</p>
+                <p id="pw-students" class="text-2xl font-black text-violet-600">-</p>
+            </div>
+        </div>
+        <div class="bg-white rounded-xl shadow overflow-hidden">
+            <div class="p-3 border-b flex flex-wrap items-center gap-2">
+                <h2 class="font-black text-sm text-slate-700">Danh sách chưa đổi mật khẩu mặc định</h2>
+                <input id="pw-search" oninput="renderPwTable()" placeholder="Tìm tên/mã..." class="ml-auto text-xs border rounded-lg px-2 py-1.5">
+            </div>
+            <div class="overflow-x-auto max-h-[60vh] overflow-y-auto">
+                <table class="w-full text-xs">
+                    <thead class="bg-slate-100 text-slate-600 sticky top-0"><tr>
+                        <th class="px-3 py-2 text-left">Họ tên</th><th class="px-3 py-2 text-left">Mã</th>
+                        <th class="px-3 py-2 text-left">Vai trò</th><th class="px-3 py-2 text-left">Lớp/Nhóm</th>
+                        <th class="px-3 py-2 text-left">Trạng thái</th>
+                    </tr></thead>
+                    <tbody id="pw-tbody"><tr><td colspan="5" class="px-3 py-4 text-center text-slate-400 italic">Đang tải...</td></tr></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab: Student activity -->
+    <div id="tab-students" class="tab-panel hidden">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+            <div class="stat-card bg-white rounded-xl p-4 shadow border-l-4 border-blue-500">
+                <p class="text-xs text-slate-500 font-bold">HS đã nộp bài</p>
+                <p id="st-active" class="text-2xl font-black text-blue-600">-</p>
+            </div>
+            <div class="stat-card bg-white rounded-xl p-4 shadow border-l-4 border-emerald-500">
+                <p class="text-xs text-slate-500 font-bold">Tổng bài nộp</p>
+                <p id="st-submissions" class="text-2xl font-black text-emerald-600">-</p>
+            </div>
+            <div class="stat-card bg-white rounded-xl p-4 shadow border-l-4 border-amber-500">
+                <p class="text-xs text-slate-500 font-bold">Điểm TB</p>
+                <p id="st-avg" class="text-2xl font-black text-amber-600">-</p>
+            </div>
+            <div class="stat-card bg-white rounded-xl p-4 shadow border-l-4 border-violet-500">
+                <p class="text-xs text-slate-500 font-bold">Lớp có HS hoạt động</p>
+                <p id="st-classes" class="text-2xl font-black text-violet-600">-</p>
+            </div>
+        </div>
+        <div class="bg-white rounded-xl shadow overflow-hidden">
+            <div class="p-3 border-b flex flex-wrap items-center gap-2">
+                <h2 class="font-black text-sm text-slate-700">Hoạt động theo lớp</h2>
+                <select id="st-class-filter" onchange="renderStudentTable()" class="ml-auto text-xs border rounded-lg px-2 py-1.5 font-semibold"><option value="">Tất cả các lớp</option></select>
+            </div>
+            <div class="overflow-x-auto max-h-[60vh] overflow-y-auto">
+                <table class="w-full text-xs">
+                    <thead class="bg-slate-100 text-slate-600 sticky top-0"><tr>
+                        <th class="px-3 py-2 text-left">Lớp</th><th class="px-3 py-2 text-right">Số HS nộp</th>
+                        <th class="px-3 py-2 text-right">Tổng bài</th><th class="px-3 py-2 text-right">Điểm TB</th>
+                    </tr></thead>
+                    <tbody id="st-tbody"><tr><td colspan="4" class="px-3 py-4 text-center text-slate-400 italic">Đang tải...</td></tr></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab: Teacher activity -->
+    <div id="tab-teachers" class="tab-panel hidden">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+            <div class="stat-card bg-white rounded-xl p-4 shadow border-l-4 border-blue-500">
+                <p class="text-xs text-slate-500 font-bold">GV trong trường</p>
+                <p id="tch-total" class="text-2xl font-black text-blue-600">-</p>
+            </div>
+            <div class="stat-card bg-white rounded-xl p-4 shadow border-l-4 border-emerald-500">
+                <p class="text-xs text-slate-500 font-bold">GV đã giao đề</p>
+                <p id="tch-active" class="text-2xl font-black text-emerald-600">-</p>
+            </div>
+            <div class="stat-card bg-white rounded-xl p-4 shadow border-l-4 border-amber-500">
+                <p class="text-xs text-slate-500 font-bold">Tổng đề đã giao</p>
+                <p id="tch-exams" class="text-2xl font-black text-amber-600">-</p>
+            </div>
+            <div class="stat-card bg-white rounded-xl p-4 shadow border-l-4 border-violet-500">
+                <p class="text-xs text-slate-500 font-bold">Tổng bài đã chấm</p>
+                <p id="tch-graded" class="text-2xl font-black text-violet-600">-</p>
+            </div>
+        </div>
+        <div class="bg-white rounded-xl shadow overflow-hidden">
+            <div class="p-3 border-b"><h2 class="font-black text-sm text-slate-700">Hoạt động từng giáo viên</h2></div>
+            <div class="overflow-x-auto max-h-[60vh] overflow-y-auto">
+                <table class="w-full text-xs">
+                    <thead class="bg-slate-100 text-slate-600 sticky top-0"><tr>
+                        <th class="px-3 py-2 text-left">Giáo viên</th><th class="px-3 py-2 text-left">Môn</th>
+                        <th class="px-3 py-2 text-right">Đề đã giao</th><th class="px-3 py-2 text-right">Bài đã chấm</th>
+                    </tr></thead>
+                    <tbody id="tch-tbody"><tr><td colspan="4" class="px-3 py-4 text-center text-slate-400 italic">Đang tải...</td></tr></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab: Scores -->
+    <div id="tab-scores" class="tab-panel hidden">
+        <div class="grid md:grid-cols-3 gap-4">
+            <div class="md:col-span-1">
+                <h2 class="text-sm font-black text-slate-700 mb-2">Đề thi (lớp chính khóa)</h2>
+                <div id="exam-list" class="space-y-2 max-h-[70vh] overflow-y-auto pr-1">
+                    <p class="text-xs text-slate-400 italic">Đang tải...</p>
+                </div>
+            </div>
+            <div class="md:col-span-2">
+                <div class="flex flex-wrap items-center gap-2 mb-2">
+                    <h2 id="result-title" class="text-sm font-black text-slate-700">Chọn một đề thi để xem thống kê</h2>
+                    <select id="class-filter" class="hidden ml-auto text-xs border rounded-lg px-2 py-1.5 font-semibold"><option value="">Tất cả các lớp</option></select>
+                </div>
+                <div id="result-body" class="bg-white border border-slate-200 rounded-xl overflow-hidden">
+                    <p class="text-xs text-slate-400 italic p-4">Chưa chọn đề thi.</p>
+                </div>
+                <p class="text-[11px] text-slate-400 mt-2"><i class="fa-solid fa-lock mr-1"></i>BGH chỉ xem điểm các lớp chính khóa, không xem lớp học thêm.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+(function(){
+'use strict';
+const OWNER='saobay', REPO='saobay.github.io', BRANCH='main';
+let me=null, db=null, allScores=[];
+
+function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+async function fetchJson(url){ let r=await fetch(url); if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); }
+
+// ---- Auth ----
+function checkAuth(){
+    try { me = JSON.parse(localStorage.getItem('saobay_user')||'null'); } catch(e){}
+    if (!me || (me.role!=='bgh' && me.role!=='admin')){
+        document.getElementById('login-warn').classList.remove('hidden');
+        return false;
+    }
+    document.getElementById('user-badge').textContent = me.name + ' (Ban Giám Hiệu)';
+    document.getElementById('tabs').classList.remove('hidden');
+    document.getElementById('tabs').classList.add('flex');
+    return true;
+}
+function showTab(name){
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active', b.dataset.tab===name));
+    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.add('hidden'));
+    document.getElementById('tab-'+name).classList.remove('hidden');
+}
+
+// ---- Load data ----
+async function loadAll(){
+    // 1. User DB
+    let r = await fetch('https://raw.githubusercontent.com/'+OWNER+'/'+REPO+'/'+BRANCH+'/used/used.is?t='+Date.now());
+    let txt = await r.text();
+    try { db = JSON.parse(txt); } catch(e){ db = {}; }
+    renderPasswordTab();
+    // 2. Scores
+    await loadScores();
+    renderStudentTab();
+    renderTeacherTab();
+    renderScoreTab();
+}
+
+// ---- Tab 1: Password ----
+let pwList=[];
+function renderPasswordTab(){
+    pwList=[];
+    let pw = db.passwords||{};
+    let teachers = db.teachers_registry||{};
+    let students = db.students||{};
+    Object.keys(teachers).forEach(id=>{
+        let t=teachers[id];
+        let changed = pw[id] && pw[id]!=='12345678';
+        pwList.push({name:t.name||id, id:id, role:'Giáo viên', group:t.group||'', changed:!!changed});
+    });
+    Object.keys(students).forEach(cls=>{
+        (students[cls]||[]).forEach(st=>{
+            let sid = st.id||st.code||'';
+            if(!sid) return;
+            let changed = pw[sid] && pw[sid]!=='12345678';
+            pwList.push({name:st.name||sid, id:sid, role:'Học sinh', group:cls, changed:!!changed});
+        });
+    });
+    let nc = pwList.filter(x=>!x.changed).length;
+    document.getElementById('pw-not-changed').textContent = nc;
+    document.getElementById('pw-changed').textContent = pwList.length - nc;
+    document.getElementById('pw-teachers').textContent = Object.keys(teachers).length;
+    let sc = 0; Object.keys(students).forEach(c=>sc+=(students[c]||[]).length);
+    document.getElementById('pw-students').textContent = sc;
+    renderPwTable();
+}
+function renderPwTable(){
+    let q = (document.getElementById('pw-search').value||'').toLowerCase();
+    let list = pwList.filter(x=>!x.changed).filter(x=>!q || (x.name+' '+x.id).toLowerCase().includes(q));
+    let h='';
+    if(!list.length) h='<tr><td colspan="5" class="px-3 py-4 text-center text-emerald-600 font-bold">Tất cả đã đổi mật khẩu! 🎉</td></tr>';
+    list.slice(0,200).forEach(x=>{
+        h+='<tr class="border-t hover:bg-slate-50"><td class="px-3 py-2 font-semibold">'+esc(x.name)+'</td>'
+            +'<td class="px-3 py-2 text-slate-500">'+esc(x.id)+'</td>'
+            +'<td class="px-3 py-2">'+esc(x.role)+'</td>'
+            +'<td class="px-3 py-2">'+esc(x.group)+'</td>'
+            +'<td class="px-3 py-2"><span class="bg-rose-100 text-rose-700 px-2 py-0.5 rounded-full font-bold">Chưa đổi</span></td></tr>';
+    });
+    if(list.length>200) h+='<tr><td colspan="5" class="px-3 py-2 text-center text-slate-400">... và '+(list.length-200)+' người nữa</td></tr>';
+    document.getElementById('pw-tbody').innerHTML=h;
+}
+
+// ---- Scores data ----
+async function loadScores(){
+    try {
+        let tree = await fetchJson('https://api.github.com/repos/'+OWNER+'/'+REPO+'/contents/data/scores?ref='+BRANCH);
+        let files = tree.filter(f=>f.name.endsWith('.json')).slice(0,60);
+        for(let f of files){
+            try {
+                let j = await fetchJson(f.download_url);
+                let arr = Array.isArray(j)?j:(j.results||j.data||[]);
+                arr.forEach(x=>{ x._exam = f.name.replace('.json',''); });
+                allScores = allScores.concat(arr);
+            } catch(e){}
+        }
+    } catch(e){}
+}
+
+// ---- Tab 2: Students ----
+function renderStudentTab(){
+    let byClass={};
+    allScores.forEach(s=>{
+        let c = s.student_class||s.class||'(chưa rõ lớp)';
+        if(!byClass[c]) byClass[c]={students:{}, total:0, sum:0, cnt:0};
+        let n = s.student_name||s.name||'?';
+        byClass[c].students[n]=1;
+        byClass[c].total++;
+        if(typeof s.score==='number'){ byClass[c].sum+=s.score; byClass[c].cnt++; }
+    });
+    let classes = Object.keys(byClass).sort();
+    let totalActive=0, totalSub=0, totalSum=0, totalCnt=0;
+    classes.forEach(c=>{ totalActive+=Object.keys(byClass[c].students).length; totalSub+=byClass[c].total; totalSum+=byClass[c].sum; totalCnt+=byClass[c].cnt; });
+    document.getElementById('st-active').textContent=totalActive;
+    document.getElementById('st-submissions').textContent=totalSub;
+    document.getElementById('st-avg').textContent=totalCnt? (totalSum/totalCnt).toFixed(1):'-';
+    document.getElementById('st-classes').textContent=classes.length;
+    let sel=document.getElementById('st-class-filter');
+    sel.innerHTML='<option value="">Tất cả các lớp</option>'+classes.map(c=>'<option>'+esc(c)+'</option>').join('');
+    renderStudentTable();
+}
+function renderStudentTable(){
+    let f=document.getElementById('st-class-filter').value;
+    let byClass={};
+    allScores.forEach(s=>{
+        let c=s.student_class||s.class||'(chưa rõ lớp)';
+        if(f && c!==f) return;
+        if(!byClass[c]) byClass[c]={students:{}, total:0, sum:0, cnt:0};
+        byClass[c].students[s.student_name||s.name||'?']=1;
+        byClass[c].total++;
+        if(typeof s.score==='number'){ byClass[c].sum+=s.score; byClass[c].cnt++; }
+    });
+    let h='';
+    Object.keys(byClass).sort().forEach(c=>{
+        let b=byClass[c];
+        h+='<tr class="border-t hover:bg-slate-50"><td class="px-3 py-2 font-bold">'+esc(c)+'</td>'
+            +'<td class="px-3 py-2 text-right">'+Object.keys(b.students).length+'</td>'
+            +'<td class="px-3 py-2 text-right">'+b.total+'</td>'
+            +'<td class="px-3 py-2 text-right font-bold text-blue-700">'+(b.cnt?(b.sum/b.cnt).toFixed(1):'-')+'</td></tr>';
+    });
+    if(!h) h='<tr><td colspan="4" class="px-3 py-4 text-center text-slate-400 italic">Chưa có dữ liệu.</td></tr>';
+    document.getElementById('st-tbody').innerHTML=h;
+}
+
+// ---- Tab 3: Teachers ----
+function renderTeacherTab(){
+    let teachers = db.teachers_registry||{};
+    let tids = Object.keys(teachers);
+    document.getElementById('tch-total').textContent=tids.length;
+    // Dem de theo nguoi tao (tu exam meta neu co)
+    let byTeacher={};
+    allScores.forEach(s=>{
+        let t = s.teacher_id||s.teacher||s.created_by||'';
+        if(t){ if(!byTeacher[t]) byTeacher[t]={exams:{}, graded:0}; byTeacher[t].exams[s._exam]=1; byTeacher[t].graded++; }
+    });
+    document.getElementById('tch-active').textContent=Object.keys(byTeacher).length;
+    let te=0; Object.keys(byTeacher).forEach(t=>te+=Object.keys(byTeacher[t].exams).length);
+    document.getElementById('tch-exams').textContent=te;
+    document.getElementById('tch-graded').textContent=allScores.length;
+    let h='';
+    tids.sort().forEach(id=>{
+        let t=teachers[id], b=byTeacher[id]||{exams:{},graded:0};
+        h+='<tr class="border-t hover:bg-slate-50"><td class="px-3 py-2 font-semibold">'+esc(t.name||id)+'</td>'
+            +'<td class="px-3 py-2 text-slate-500">'+esc(t.subject||t.group||'')+'</td>'
+            +'<td class="px-3 py-2 text-right">'+Object.keys(b.exams).length+'</td>'
+            +'<td class="px-3 py-2 text-right">'+b.graded+'</td></tr>';
+    });
+    if(!h) h='<tr><td colspan="4" class="px-3 py-4 text-center text-slate-400 italic">Chưa có dữ liệu.</td></tr>';
+    document.getElementById('tch-tbody').innerHTML=h;
+}
+
+// ---- Tab 4: Scores (school classes only, NO extra classes) ----
+let exams=[], curResults=[], curExamId='';
+function renderScoreTab(){
+    let byExam={};
+    allScores.forEach(s=>{ if(!byExam[s._exam]) byExam[s._exam]=[]; byExam[s._exam].push(s); });
+    exams=Object.keys(byExam).sort();
+    let h='';
+    exams.forEach(e=>{
+        h+='<button onclick="selectExam(\''+e.replace(/'/g,"\\'")+'\')" data-exam="'+esc(e)+'" class="exam-item w-full text-left bg-white border rounded-xl px-3 py-2.5 text-xs font-bold hover:border-indigo-400">'
+            +esc(e)+' <span class="text-slate-400 font-normal">('+byExam[e].length+')</span></button>';
+    });
+    if(!h) h='<p class="text-xs text-slate-400 italic">Chưa có bài nộp nào.</p>';
+    document.getElementById('exam-list').innerHTML=h;
+}
+window.selectExam=function(eid){
+    curExamId=eid;
+    document.querySelectorAll('.exam-item').forEach(b=>b.classList.toggle('active', b.dataset.exam===eid));
+    curResults=allScores.filter(s=>s._exam===eid);
+    document.getElementById('result-title').textContent=eid+' ('+curResults.length+' bài)';
+    let classes={};
+    curResults.forEach(r=>{ if(r.student_class) classes[r.student_class]=1; });
+    let cls=Object.keys(classes).sort();
+    let cf=document.getElementById('class-filter');
+    cf.innerHTML='<option value="">Tất cả các lớp ('+cls.length+')</option>'+cls.map(c=>'<option>'+esc(c)+'</option>').join('');
+    cf.classList.remove('hidden');
+    cf.onchange=renderScoreTable;
+    renderScoreTable();
+};
+function renderScoreTable(){
+    let f=document.getElementById('class-filter').value;
+    let rows=curResults.filter(r=>!f||r.student_class===f);
+    let sum=0,cnt=0; rows.forEach(r=>{ if(typeof r.score==='number'){sum+=r.score;cnt++;} });
+    let h='<div class="p-3 bg-slate-50 border-b text-xs flex flex-wrap gap-4">'
+        +'<span>Số bài: <b>'+rows.length+'</b></span>'
+        +'<span>Điểm TB: <b class="text-blue-700">'+(cnt?(sum/cnt).toFixed(2):'-')+'</b></span></div>'
+        +'<div class="overflow-x-auto max-h-[50vh] overflow-y-auto"><table class="w-full text-xs"><thead class="bg-slate-100 sticky top-0"><tr>'
+        +'<th class="px-2 py-2 text-left">STT</th><th class="px-2 py-2 text-left">Họ tên</th><th class="px-2 py-2 text-left">Lớp</th>'
+        +'<th class="px-2 py-2 text-right">Điểm</th><th class="px-2 py-2 text-left">Nộp lúc</th></tr></thead><tbody>';
+    rows.forEach((r,i)=>{
+        h+='<tr class="border-t hover:bg-slate-50"><td class="px-2 py-2">'+(i+1)+'</td>'
+            +'<td class="px-2 py-2 font-semibold">'+esc(r.student_name||r.name||'?')+'</td>'
+            +'<td class="px-2 py-2">'+esc(r.student_class||'')+'</td>'
+            +'<td class="px-2 py-2 text-right font-bold text-blue-700">'+(r.score!=null?r.score:'-')+'</td>'
+            +'<td class="px-2 py-2 text-slate-500">'+esc(r.submitted_at||r.time||'')+'</td></tr>';
+    });
+    h+='</tbody></table></div>';
+    document.getElementById('result-body').innerHTML=h;
+}
+
+// ---- Init ----
+if(checkAuth()){ loadAll().catch(e=>{ console.error(e); }); }
+})();
+</script>
+</body>
+</html>
