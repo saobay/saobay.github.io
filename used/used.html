@@ -778,6 +778,26 @@
 
             await loadMasterDatabase();
 
+            // FIX 2026-10-10: TK vừa đăng ký xong (pending) — cho đăng nhập ngay không cần đợi CDN lan truyền.
+            // register.html chỉ lưu pending SAU KHI verify TK thực sự có trong DB server nên an toàn.
+            let pendingLogin = null;
+            try {
+                let pr = JSON.parse(localStorage.getItem('saobay_pending_reg') || 'null');
+                if (pr && pr.phone && pr.passB64 && (Date.now() - (pr.ts || 0)) < 24*3600*1000){
+                    let loginNorm = usernameInput.includes('@') ? usernameInput.toLowerCase() : usernameInput.replace(/\D/g, '');
+                    if (loginNorm && loginNorm === pr.phone){
+                        let inputB64 = '';
+                        try { inputB64 = btoa(unescape(encodeURIComponent(passwordInput))); } catch(e){}
+                        if (inputB64 && inputB64 === pr.passB64){
+                            pendingLogin = { id: pr.phone, name: pr.name || pr.phone,
+                                role: pr.role === 'teacher' ? 'teacher' : 'student',
+                                group: 'Trải nghiệm', phone: pr.phone, className: 'Trải nghiệm',
+                                _pendingLogin: true };
+                        }
+                    }
+                }
+            } catch(e){}
+
             // 0. Kiểm tra thời hạn tài khoản (2026-10-09) - file riêng used/account_expiry.json
             let expiryDbCache = null;
             async function getExpiryDb(){
@@ -852,6 +872,8 @@
                 }
             }
 
+            if (!matchedUser && pendingLogin) matchedUser = pendingLogin;
+
             if (!matchedUser) {
                 showToast('Không tìm thấy tài khoản! Vui lòng kiểm tra Mã định danh hoặc SĐT.', 'error');
                 return;
@@ -868,16 +890,18 @@
             }
 
             // 4. Kiểm tra mật khẩu
+            let isPendingLogin = !!(matchedUser && matchedUser._pendingLogin);
             let passStatus = getAccountPasswordStatus(matchedUser.id);
             let expectedPass = passStatus.isCustom ? passStatus.password : '12345678';
 
-            if (passwordInput !== expectedPass) {
+            if (!isPendingLogin && passwordInput !== expectedPass) {
                 showToast('Mật khẩu không chính xác!', 'error');
                 return;
             }
 
             // 5. NẾU LẦN ĐẦU ĐĂNG NHẬP (MẬT KHẨU MẶC ĐỊNH 12345678) -> BẮT BUỘC ĐỔI MẬT KHẨU NGAY!
-            if (!passStatus.isCustom || passwordInput === '12345678') {
+            // (bỏ qua khi pending login vì MK vừa đặt đã được verify ở trên)
+            if (!isPendingLogin && (!passStatus.isCustom || passwordInput === '12345678')) {
                 matchedUser.mustChangePassword = true;
                 sessionStorage.setItem('saobay_force_user', JSON.stringify(matchedUser));
                 showForceChangePasswordView(matchedUser);
