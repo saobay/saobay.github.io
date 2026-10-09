@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 14: Các số đặc trưng đo độ phân tán</title>
+    <meta name="lesson-title" content="Bài 14: Các số đặc trưng đo độ phân tán">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 14: Các số đặc trưng đo độ phân tán</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 5: Các số đặc trưng của mẫu số liệu không ghép nhóm • Bài 14: Các số đặc trưng đo độ phân tán</p>
+        </div>
+        <div class="content-body space-y-4">
+            <h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 14: Các số đặc trưng đo độ phân tán</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 5: Các số đặc trưng của mẫu số liệu không ghép nhóm</p>
+
+<p>Các số đo <strong>xu thế trung tâm</strong> (Bài 13) cho biết giá trị "điển hình", nhưng hai mẫu có cùng số trung bình vẫn có thể <strong>phân tán rất khác nhau</strong>. Bài này học các số đặc trưng đo <strong>độ phân tán</strong>: khoảng biến thiên, khoảng tứ phân vị, phương sai, độ lệch chuẩn.</p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Minh hoa do phan tan">
+<rect x="2" y="2" width="436" height="186" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="26" font-family="sans-serif" font-size="13" fill="#334155" text-anchor="middle" font-weight="bold">Hai mẫu có cùng số trung bình = 10</text>
+<text x="70" y="58" font-family="sans-serif" font-size="12" fill="#15803d" text-anchor="middle" font-weight="bold">Mẫu A (ít phân tán)</text>
+<line x1="130" y1="52" x2="410" y2="52" stroke="#cbd5e1" stroke-width="1.5"/>
+<g fill="#15803d">
+<circle cx="200" cy="52" r="6"/><circle cx="220" cy="52" r="6"/><circle cx="240" cy="52" r="6"/><circle cx="260" cy="52" r="6"/><circle cx="280" cy="52" r="6"/>
+</g>
+<text x="70" y="110" font-family="sans-serif" font-size="12" fill="#b91c1c" text-anchor="middle" font-weight="bold">Mẫu B (phân tán nhiều)</text>
+<line x1="130" y1="104" x2="410" y2="104" stroke="#cbd5e1" stroke-width="1.5"/>
+<g fill="#b91c1c">
+<circle cx="140" cy="104" r="6"/><circle cx="190" cy="104" r="6"/><circle cx="240" cy="104" r="6"/><circle cx="320" cy="104" r="6"/><circle cx="400" cy="104" r="6"/>
+</g>
+<text x="220" y="140" font-family="sans-serif" font-size="12" fill="#334155" text-anchor="middle">Mẫu B phân tán hơn hẳn mẫu A</text>
+<text x="220" y="162" font-family="sans-serif" font-size="12" fill="#334155" text-anchor="middle">dù số trung bình bằng nhau → cần số đo độ phân tán!</text>
+</svg></div>
+
+<!-- 1. Khoảng biến thiên -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Khoảng biến thiên và khoảng tứ phân vị</h2>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">1.1. Khoảng biến thiên</h3>
+
+<p><strong>Định nghĩa:</strong> <em>Khoảng biến thiên</em> (hay biên độ), kí hiệu $R$, là hiệu giữa giá trị lớn nhất và giá trị nhỏ nhất của mẫu:</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$R = x_{\max} - x_{\min}$$</p>
+</div>
+
+<p><strong>Ý nghĩa:</strong> khoảng biến thiên càng lớn thì mẫu số liệu càng phân tán (càng không đồng đều).</p>
+<p><strong>Nhận xét:</strong> dễ tính nhưng <strong>bỏ qua thông tin</strong> của các giá trị ở giữa và rất <strong>nhạy với giá trị bất thường</strong>.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Nhiệt độ cao nhất các ngày trong tuần (°C): $28;\, 30;\, 29;\, 31;\, 30;\, 45;\, 29$. Khoảng biến thiên $R = 45 - 28 = 17$. Giá trị $45$ (có thể do đo sai) đã "thổi phồng" $R$ — đây chính là điểm yếu của khoảng biến thiên.</p>
+</div>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">1.2. Khoảng tứ phân vị</h3>
+
+<p><strong>Định nghĩa:</strong> <em>Khoảng tứ phân vị</em> (hay độ trải giữa), kí hiệu $\Delta_Q$, là hiệu giữa tứ phân vị thứ ba và tứ phân vị thứ nhất:</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$\Delta_Q = Q_3 - Q_1$$</p>
+</div>
+
+<p><strong>Ý nghĩa:</strong> $\Delta_Q$ là khoảng biến thiên của <strong>$50\%$ số liệu chính giữa</strong> của mẫu; $\Delta_Q$ càng lớn thì mẫu càng phân tán.</p>
+<p><strong>Nhận xét:</strong> khoảng tứ phân vị <strong>không bị ảnh hưởng</strong> bởi các giá trị bất thường (vì chỉ dùng nửa giữa của số liệu).</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Với mẫu nhiệt độ trên, sắp xếp: $28;\, 29;\, 29;\, 30;\, 30;\, 31;\, 45$. Ta có $Q_1 = 29$, $Q_3 = 31$ nên $\Delta_Q = 31 - 29 = 2$. Trong khi $R = 17$ bị giá trị $45$ làm méo mó, $\Delta_Q = 2$ cho thấy $50\%$ số liệu chính giữa rất đồng đều — đánh giá trung thực hơn nhiều!</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">$R = x_{\max} - x_{\min}$ (nhanh nhưng nhạy với giá trị lạ); $\Delta_Q = Q_3 - Q_1$ (đo $50\%$ số liệu giữa, "miễn nhiễm" với giá trị bất thường).</p>
+</div>
+
+<!-- 2. Phương sai và độ lệch chuẩn -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Phương sai và độ lệch chuẩn</h2>
+
+<p>Khoảng biến thiên và khoảng tứ phân vị chỉ dùng một vài giá trị của mẫu. <em>Phương sai</em> và <em>độ lệch chuẩn</em> sử dụng <strong>thông tin của tất cả</strong> các giá trị.</p>
+
+<p>Cho mẫu số liệu $x_1, x_2, \dots, x_n$ có số trung bình $\overline{x}$. <em>Độ lệch</em> của mỗi giá trị là $x_i - \overline{x}$.</p>
+
+<p><strong>Định nghĩa:</strong></p>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p><strong>Phương sai:</strong> $$s^2 = \frac{(x_1 - \overline{x})^2 + (x_2 - \overline{x})^2 + \dots + (x_n - \overline{x})^2}{n}$$</p>
+<p class="mt-3"><strong>Độ lệch chuẩn:</strong> $$s = \sqrt{s^2}$$</p>
+</div>
+
+<p><strong>Chú ý</strong> (mẫu cho dưới dạng bảng tần số, $n = m_1 + \dots + m_k$):</p>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$s^2 = \frac{m_1(x_1 - \overline{x})^2 + m_2(x_2 - \overline{x})^2 + \dots + m_k(x_k - \overline{x})^2}{n}$$</p>
+</div>
+
+<p><strong>Ý nghĩa:</strong> phương sai và độ lệch chuẩn càng lớn thì số liệu càng phân tán. Độ lệch chuẩn có <strong>cùng đơn vị</strong> với số liệu gốc nên dễ cảm nhận hơn phương sai.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ (tính từng bước):</p>
+<p>Mẫu: $2;\, 4;\, 6;\, 8$ ($n = 4$).</p>
+<ul class="list-disc ml-6 space-y-1 mt-2">
+<li><strong>Bước 1:</strong> $\overline{x} = (2 + 4 + 6 + 8)/4 = 5$.</li>
+<li><strong>Bước 2:</strong> các độ lệch: $-3;\, -1;\, 1;\, 3$; bình phương: $9;\, 1;\, 1;\, 9$.</li>
+<li><strong>Bước 3:</strong> $s^2 = (9 + 1 + 1 + 9)/4 = 20/4 = 5$; $s = \sqrt{5} \approx 2{,}24$.</li>
+</ul>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Phương sai là <strong>trung bình cộng của các bình phương độ lệch</strong> (mẫu số là $n$). Độ lệch chuẩn $s = \sqrt{s^2}$ — nhớ lấy căn! Số liệu càng phân tán thì $s^2$ và $s$ càng lớn.</p>
+</div>
+
+<!-- 3. Biểu đồ hộp -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Phát hiện số liệu bất thường bằng biểu đồ hộp</h2>
+
+<p><strong>Giá trị bất thường</strong> là những giá trị quá lớn hoặc quá nhỏ so với đa số các giá trị khác của mẫu.</p>
+
+<p>Quy tắc phát hiện: một giá trị $x$ được coi là <strong>bất thường</strong> nếu:</p>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$x \lt Q_1 - 1{,}5\,\Delta_Q \quad \text{hoặc} \quad x \gt Q_3 + 1{,}5\,\Delta_Q$$</p>
+</div>
+
+<p><strong>Biểu đồ hộp</strong> (box plot) tóm tắt năm số: giá trị nhỏ nhất, $Q_1$, $Q_2$, $Q_3$, giá trị lớn nhất (sau khi đã loại các giá trị bất thường — chúng được vẽ thành các điểm riêng).</p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bieu do hop">
+<rect x="2" y="2" width="436" height="166" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="26" font-family="sans-serif" font-size="13" fill="#334155" text-anchor="middle" font-weight="bold">Biểu đồ hộp của mẫu: 28 29 29 30 30 31 45</text>
+<line x1="40" y1="90" x2="400" y2="90" stroke="#94a3b8" stroke-width="1.5"/>
+<line x1="120" y1="90" x2="180" y2="90" stroke="#1d4ed8" stroke-width="2"/>
+<line x1="280" y1="90" x2="330" y2="90" stroke="#1d4ed8" stroke-width="2"/>
+<rect x="180" y="65" width="100" height="50" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/>
+<line x1="230" y1="65" x2="230" y2="115" stroke="#b91c1c" stroke-width="3"/>
+<line x1="120" y1="78" x2="120" y2="102" stroke="#1d4ed8" stroke-width="2.5"/>
+<line x1="330" y1="78" x2="330" y2="102" stroke="#1d4ed8" stroke-width="2.5"/>
+<circle cx="395" cy="90" r="6" fill="#b91c1c"/>
+<g font-family="sans-serif" font-size="11" text-anchor="middle" fill="#334155">
+<text x="120" y="130">min = 28</text>
+<text x="180" y="130">Q1 = 29</text>
+<text x="230" y="148">Q2 = 30</text>
+<text x="280" y="130">Q3 = 31</text>
+<text x="330" y="130">max = 31</text>
+<text x="395" y="130" fill="#b91c1c" font-weight="bold">45 (bất thường)</text>
+</g>
+</svg></div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Mẫu nhiệt độ: $28;\, 29;\, 29;\, 30;\, 30;\, 31;\, 45$ có $Q_1 = 29$, $Q_3 = 31$, $\Delta_Q = 2$.</p>
+<ul class="list-disc ml-6 space-y-1 mt-2">
+<li>$Q_3 + 1{,}5\,\Delta_Q = 31 + 3 = 34$; $Q_1 - 1{,}5\,\Delta_Q = 29 - 3 = 26$.</li>
+<li>Giá trị $45 \gt 34$ nên là <strong>giá trị bất thường</strong> (có thể do đo sai). Các giá trị còn lại đều bình thường.</li>
+</ul>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Công thức "hàng rào": $[Q_1 - 1{,}5\Delta_Q;\; Q_3 + 1{,}5\Delta_Q]$ — giá trị nào nằm ngoài hàng rào là <strong>bất thường</strong>. Biểu đồ hộp vẽ 5 số tóm tắt + chấm riêng các giá trị bất thường.</p>
+</div>
+
+<!-- Tổng kết -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Khoảng biến thiên:</strong> $R = x_{\max} - x_{\min}$ — đơn giản nhưng nhạy với giá trị bất thường.</li>
+<li><strong>Khoảng tứ phân vị:</strong> $\Delta_Q = Q_3 - Q_1$ — đo $50\%$ số liệu chính giữa, không bị ảnh hưởng bởi giá trị bất thường.</li>
+<li><strong>Phương sai:</strong> $s^2 = \dfrac{\sum (x_i - \overline{x})^2}{n}$; <strong>độ lệch chuẩn:</strong> $s = \sqrt{s^2}$ — càng lớn thì số liệu càng phân tán.</li>
+<li><strong>Giá trị bất thường:</strong> nằm ngoài $[Q_1 - 1{,}5\Delta_Q;\; Q_3 + 1{,}5\Delta_Q]$; biểu đồ hộp tóm tắt 5 số + chấm riêng giá trị bất thường.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+</body>
+</html>
