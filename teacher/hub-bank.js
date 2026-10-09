@@ -74,6 +74,15 @@
         }
 
         async function bankApiRead(bankPath){
+            // FIX 2026-10-09: bank la public nen doc qua raw.githubusercontent.com, KHONG can token
+            // (truoc day bat buoc token -> GV khong phai admin khong dung duoc)
+            try {
+                let rawUrl = 'https://raw.githubusercontent.com/' + GITHUB_CONFIG.owner + '/' + GITHUB_CONFIG.repo
+                    + '/' + GITHUB_CONFIG.branch + '/' + getEncodedGitHubPath(bankPath);
+                let rr = await fetch(rawUrl);
+                if (rr.status === 404) return { notFound: true };
+                if (rr.ok) return { sha: null, data: JSON.parse(await rr.text()) };
+            } catch(eRaw){}
             let token = getGithubToken();
             if (!token) return { error: 'no-token' };
             let apiUrl = 'https://api.github.com/repos/' + GITHUB_CONFIG.owner + '/' + GITHUB_CONFIG.repo
