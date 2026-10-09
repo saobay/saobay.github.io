@@ -792,22 +792,49 @@
         function renderStatsOverview() {
             let container = document.getElementById('stats-overview-container');
             if (!container) return;
+            let isBgh = typeof currentUser !== 'undefined' && currentUser && currentUser.role === 'bgh';
+            if (isBgh) {
+                // BGH: thong ke toan truong (hoc sinh + giao vien), khong thi dua diem ca nhan
+                container.innerHTML = `
+                    <div class="bg-violet-50 border border-violet-200 rounded-2xl p-4 mb-4">
+                        <div class="font-bold text-violet-900 mb-1"><i class="fa-solid fa-building-columns mr-2"></i>Thống kê toàn trường</div>
+                        <div class="text-xs text-violet-700">Hoạt động học tập của học sinh và hoạt động giảng dạy của giáo viên trên toàn trường.</div>
+                        <a href="bgh-dashboard.html" class="inline-block mt-2 bg-violet-600 hover:bg-violet-700 text-white text-xs font-bold px-4 py-2 rounded-lg">
+                            <i class="fa-solid fa-chart-line mr-1"></i> Mở trang thống kê BGH chi tiết
+                        </a>
+                    </div>
+                    <div id="bgh-quick-stats" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-white border border-slate-200 p-4 rounded-2xl shadow-sm">
+                            <div class="text-xs font-bold uppercase text-slate-500">Học sinh</div>
+                            <div class="text-2xl font-black mt-1 text-slate-800">--</div>
+                            <div class="text-[10px] text-slate-400 mt-1">Xem chi tiết ở trang BGH</div>
+                        </div>
+                        <div class="bg-white border border-slate-200 p-4 rounded-2xl shadow-sm">
+                            <div class="text-xs font-bold uppercase text-slate-500">Giáo viên</div>
+                            <div class="text-2xl font-black mt-1 text-slate-800">--</div>
+                            <div class="text-[10px] text-slate-400 mt-1">Xem chi tiết ở trang BGH</div>
+                        </div>
+                        <div class="bg-white border border-slate-200 p-4 rounded-2xl shadow-sm">
+                            <div class="text-xs font-bold uppercase text-slate-500">Điểm trung bình</div>
+                            <div class="text-2xl font-black mt-1 text-slate-800">--</div>
+                            <div class="text-[10px] text-slate-400 mt-1">Lớp chính khóa</div>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            // GV thuong: bo thi dua diem ca nhan, chi hien dong gop hoc lieu
             container.innerHTML = `
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div class="bg-gradient-to-br from-blue-600 to-indigo-700 text-white p-4 rounded-2xl shadow">
-                        <div class="text-xs font-bold uppercase text-blue-200">Tổng điểm tích lũy</div>
-                        <div class="text-3xl font-black mt-2">${currentUser.score || 0} điểm</div>
-                        <div class="text-[10px] text-blue-200 mt-1">Đạt danh hiệu: Giáo viên Tích cực</div>
-                    </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="bg-gradient-to-br from-emerald-600 to-teal-700 text-white p-4 rounded-2xl shadow">
-                        <div class="text-xs font-bold uppercase text-emerald-200">Bài học đã xuất bản</div>
-                        <div class="text-3xl font-black mt-2">25 bài</div>
-                        <div class="text-[10px] text-emerald-200 mt-1">Gồm Lý thuyết & Đề thi trên Git</div>
+                        <div class="text-xs font-bold uppercase text-emerald-200">Bài học đã đóng góp</div>
+                        <div class="text-3xl font-black mt-2">-- bài</div>
+                        <div class="text-[10px] text-emerald-200 mt-1">Gồm Lý thuyết & Đề thi</div>
                     </div>
-                    <div class="bg-gradient-to-br from-amber-500 to-orange-600 text-white p-4 rounded-2xl shadow">
-                        <div class="text-xs font-bold uppercase text-amber-200">Tỷ lệ tương tác</div>
-                        <div class="text-3xl font-black mt-2">100%</div>
-                        <div class="text-[10px] text-amber-200 mt-1">Học sinh truy cập trực tiếp</div>
+                    <div class="bg-gradient-to-br from-blue-600 to-indigo-700 text-white p-4 rounded-2xl shadow">
+                        <div class="text-xs font-bold uppercase text-blue-200">Học sinh đã học</div>
+                        <div class="text-3xl font-black mt-2">--</div>
+                        <div class="text-[10px] text-blue-200 mt-1">Lượt truy cập bài của bạn</div>
                     </div>
                 </div>
             `;
