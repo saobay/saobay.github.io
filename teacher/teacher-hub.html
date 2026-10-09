@@ -75,6 +75,10 @@
                 <i class="fa-solid fa-chart-column mr-1"></i> Bảng Điểm
             </a>
 
+            <button onclick="openMyAccount()" title="Tài khoản của tôi - cài đặt SĐT đăng nhập" class="bg-slate-600 hover:bg-slate-500 text-white font-bold text-xs px-3 py-2 rounded-lg transition flex items-center shadow">
+                <i class="fa-solid fa-user-gear mr-1"></i> Tài Khoản
+            </button>
+
             <a href="../index.html" class="bg-blue-800 hover:bg-blue-700 text-white text-xs px-3 py-2 rounded-lg font-medium transition flex items-center">
                 <i class="fa-solid fa-house mr-1"></i> Trang Chủ
             </a>
@@ -1224,5 +1228,140 @@
     <script src="hub-word.js?v=20261008_3"></script>
     <script src="hub-private.js?v=20261009_1"></script>
     <script src="hub-reports.js?v=20261009_1"></script>
+
+    <!-- Modal Tài khoản của tôi - cài đặt SĐT đăng nhập (2026-10-09) -->
+    <div id="my-account-modal" class="hidden fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/50">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 space-y-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between border-b pb-3">
+                <h3 class="font-black text-slate-800 text-sm"><i class="fa-solid fa-user-gear text-blue-600 mr-2"></i>Tài Khoản Của Tôi</h3>
+                <button onclick="closeMyAccount()" class="text-slate-400 hover:text-slate-600 text-xl leading-none">&times;</button>
+            </div>
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-2 text-sm">
+                <div class="flex justify-between"><span class="text-slate-500 font-bold text-xs">Họ tên:</span><span id="ma-name" class="font-bold text-slate-800 text-xs"></span></div>
+                <div class="flex justify-between"><span class="text-slate-500 font-bold text-xs">Mã định danh:</span><span id="ma-id" class="font-bold text-slate-800 text-xs"></span></div>
+                <div class="flex justify-between"><span class="text-slate-500 font-bold text-xs">Vai trò:</span><span id="ma-role" class="font-bold text-slate-800 text-xs"></span></div>
+            </div>
+            <div class="border-t pt-4">
+                <h4 class="font-bold text-slate-700 text-xs mb-2"><i class="fa-solid fa-phone text-emerald-600 mr-1"></i>SĐT Đăng Nhập</h4>
+                <p class="text-[11px] text-slate-500 mb-3">Dùng SĐT để <b>đăng nhập thay cho mã định danh</b> (dễ nhớ hơn). Quản lý điểm/lớp vẫn theo mã định danh của bạn.</p>
+                <div class="mb-3">
+                    <label class="block text-xs font-bold text-slate-600 mb-1">SĐT hiện tại</label>
+                    <p id="ma-phone-current" class="text-sm font-semibold text-slate-800 bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5">Chưa có</p>
+                </div>
+                <div class="mb-3">
+                    <label class="block text-xs font-bold text-slate-600 mb-1">SĐT mới <span class="font-normal text-slate-400">(10 số, bắt đầu bằng 0)</span></label>
+                    <input type="tel" id="ma-phone-input" placeholder="VD: 0912345678" maxlength="11" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm font-semibold focus:ring-2 focus:ring-blue-500 outline-none"/>
+                </div>
+                <p id="ma-phone-msg" class="text-xs text-center min-h-[1rem] mb-2"></p>
+                <button id="ma-phone-save" onclick="saveMyPhone()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow transition">Lưu SĐT</button>
+            </div>
+        </div>
+    </div>
+    <script>
+    function openMyAccount(){
+        try {
+            var u = null;
+            try { u = JSON.parse(localStorage.getItem('saobay_user') || 'null'); } catch(e){}
+            if (!u || !u.id) { alert('Vui lòng đăng nhập trước.'); return; }
+            document.getElementById('ma-name').innerText = u.name || '';
+            document.getElementById('ma-id').innerText = u.id || '';
+            var roleTxt = u.role === 'admin' ? 'Quản trị viên' : (u.role === 'bgh' ? 'Ban Giám Hiệu' : (u.role === 'teacher' ? 'Giáo viên' : 'Học sinh'));
+            document.getElementById('ma-role').innerText = roleTxt;
+            document.getElementById('ma-phone-current').innerText = u.phone || 'Chưa có';
+            document.getElementById('ma-phone-input').value = u.phone || '';
+            document.getElementById('ma-phone-msg').innerText = '';
+            document.getElementById('my-account-modal').classList.remove('hidden');
+        } catch(e){ alert('Lỗi: ' + e.message); }
+    }
+    function closeMyAccount(){
+        document.getElementById('my-account-modal').classList.add('hidden');
+    }
+    async function saveMyPhone(){
+        var msg = document.getElementById('ma-phone-msg');
+        var btn = document.getElementById('ma-phone-save');
+        var input = document.getElementById('ma-phone-input');
+        var newPhone = (input.value || '').trim().replace(/\D/g, '');
+        msg.className = 'text-xs text-center min-h-[1rem] mb-2';
+        msg.innerText = '';
+        if (!/^0\d{9}$/.test(newPhone)) {
+            msg.innerText = 'SĐT phải có 10 số và bắt đầu bằng 0.';
+            msg.classList.add('text-rose-600');
+            return;
+        }
+        var u = null;
+        try { u = JSON.parse(localStorage.getItem('saobay_user') || 'null'); } catch(e){}
+        if (!u || !u.id) { msg.innerText = 'Vui lòng đăng nhập trước.'; msg.classList.add('text-rose-600'); return; }
+        var uid = String(u.id);
+        btn.disabled = true;
+        btn.innerText = 'Đang lưu...';
+        try {
+            var GAS_URL = 'https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec';
+            var saved = false, lastErr = null;
+            for (var attempt = 0; attempt < 3 && !saved; attempt++) {
+                var res = await fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/used/used.is?t=' + Date.now());
+                if (!res.ok) throw new Error('Không tải được dữ liệu.');
+                var db = await res.json();
+                // Kiểm tra trùng SĐT
+                var dup = false;
+                Object.keys(db.teachers_registry || {}).forEach(function(tid){
+                    if (String(tid) !== uid && String((db.teachers_registry[tid]||{}).phone) === newPhone) dup = true;
+                });
+                if (!dup && db.students) {
+                    Object.keys(db.students).forEach(function(cls){
+                        (db.students[cls]||[]).forEach(function(s){
+                            if (String(s.id) !== uid && String(s.phone) === newPhone) dup = true;
+                        });
+                    });
+                }
+                if (dup) throw new Error('SĐT này đã được tài khoản khác sử dụng.');
+                var found = false;
+                if (db.teachers_registry && db.teachers_registry[uid]) {
+                    db.teachers_registry[uid].phone = newPhone;
+                    found = true;
+                }
+                if (!found && db.students) {
+                    Object.keys(db.students).forEach(function(cls){
+                        (db.students[cls]||[]).forEach(function(s){
+                            if (String(s.id) === uid) { s.phone = newPhone; found = true; }
+                        });
+                    });
+                }
+                if (!found) throw new Error('Không tìm thấy tài khoản trong cơ sở dữ liệu.');
+                var pushRes = await fetch(GAS_URL, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'text/plain;charset=utf-8'},
+                    body: JSON.stringify({
+                        type: 'PUSH_TO_GITHUB',
+                        filePath: 'used/used.is',
+                        content: JSON.stringify(db),
+                        commitMessage: 'GV tự cập nhật SĐT qua Teacher Hub: ' + (u.name || uid),
+                        title: 'Cập nhật SĐT',
+                        author: u.name || uid
+                    })
+                });
+                var rj = await pushRes.json();
+                if (rj && rj.status === 'success') { saved = true; break; }
+                var emsg = String((rj && rj.message) || '');
+                if (emsg.indexOf('409') < 0) throw new Error(emsg || 'Lưu thất bại.');
+                lastErr = new Error(emsg || 'Xung đột, đang thử lại...');
+                await new Promise(function(r){ setTimeout(r, 1200); });
+            }
+            if (!saved) throw lastErr || new Error('Không lưu được, vui lòng thử lại.');
+            u.phone = newPhone;
+            localStorage.setItem('saobay_user', JSON.stringify(u));
+            try { if (typeof currentUser !== 'undefined') currentUser.phone = newPhone; } catch(e){}
+            document.getElementById('ma-phone-current').innerText = newPhone;
+            msg.innerText = 'Đã lưu SĐT thành công! Lần sau bạn có thể đăng nhập bằng SĐT này.';
+            msg.classList.add('text-emerald-600');
+            setTimeout(closeMyAccount, 1500);
+        } catch(e){
+            msg.innerText = 'Lỗi: ' + (e.message || e);
+            msg.classList.add('text-rose-600');
+        } finally {
+            btn.disabled = false;
+            btn.innerText = 'Lưu SĐT';
+        }
+    }
+    </script>
 </body>
 </html>
