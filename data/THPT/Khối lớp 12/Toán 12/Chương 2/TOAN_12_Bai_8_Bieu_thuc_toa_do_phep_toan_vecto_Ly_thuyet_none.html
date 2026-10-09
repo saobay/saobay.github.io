@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 8: Biểu thức tọa độ của các phép toán vectơ</title>
+    <meta name="lesson-title" content="Bài 8: Biểu thức tọa độ của các phép toán vectơ">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 8: Biểu thức tọa độ của các phép toán vectơ</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 2: Vectơ và hệ trục tọa độ trong không gian • Bài 8: Biểu thức tọa độ của các phép toán vectơ</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 8: Biểu thức tọa độ của các phép toán vectơ</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 2: Vectơ và hệ trục tọa độ trong không gian — Kết nối tri thức với cuộc sống</p>
+
+<!-- 1. Cộng trừ nhân số -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Cộng, trừ và nhân số với vectơ</h2>
+
+<p>Trong không gian $Oxyz$, cho $\vec{a} = (x_1; y_1; z_1)$ và $\vec{b} = (x_2; y_2; z_2)$:</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li>$\vec{a} + \vec{b} = (x_1 + x_2;\ y_1 + y_2;\ z_1 + z_2)$</li>
+<li>$\vec{a} - \vec{b} = (x_1 - x_2;\ y_1 - y_2;\ z_1 - z_2)$</li>
+<li>$k\vec{a} = (kx_1;\ ky_1;\ kz_1)$ với $k \in \mathbb{R}$</li>
+</ul>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 1:</p>
+<p>Cho $\vec{a} = (1; 2; 3)$, $\vec{b} = (-1; 0; 2)$. Tính $2\vec{a} - \vec{b}$.</p>
+<p class="mt-2"><strong>Giải:</strong> $2\vec{a} = (2; 4; 6)$, suy ra $2\vec{a} - \vec{b} = (2-(-1); 4-0; 6-2) = (3; 4; 4)$.</p>
+</div>
+
+<!-- 2. Tích vô hướng -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Tích vô hướng của hai vectơ</h2>
+
+<p><strong>Định nghĩa (dạng tọa độ):</strong></p>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$\vec{a} \cdot \vec{b} = x_1x_2 + y_1y_2 + z_1z_2$$</p>
+</div>
+
+<p><strong>Tính chất:</strong> tích vô hướng có tính giao hoán ($\vec{a} \cdot \vec{b} = \vec{b} \cdot \vec{a}$), phân phối với phép cộng, và $\vec{a} \cdot \vec{a} = |\vec{a}|^2$.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 2:</p>
+<p>Cho $\vec{a} = (2; -3; 1)$, $\vec{b} = (1; 2; -2)$. Tính $\vec{a} \cdot \vec{b}$ và $(\vec{a} + \vec{b}) \cdot \vec{b}$.</p>
+<p class="mt-2"><strong>Giải:</strong> $\vec{a} \cdot \vec{b} = 2 \times 1 + (-3) \times 2 + 1 \times (-2) = 2 - 6 - 2 = -6$.<br>
+$\vec{a} + \vec{b} = (3; -1; -1)$, nên $(\vec{a}+\vec{b}) \cdot \vec{b} = 3 \times 1 + (-1) \times 2 + (-1) \times (-2) = 3 - 2 + 2 = 3$.</p>
+</div>
+
+<!-- 3. Độ dài -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Độ dài của vectơ</h2>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$|\vec{a}| = \sqrt{x^2 + y^2 + z^2} \qquad \text{với } \vec{a} = (x; y; z)$$</p>
+</div>
+
+<p><strong>Hệ quả:</strong> Khoảng cách giữa hai điểm $A(x_A; y_A; z_A)$, $B(x_B; y_B; z_B)$ là $AB = |\vec{AB}| = \sqrt{(x_B-x_A)^2 + (y_B-y_A)^2 + (z_B-z_A)^2}$.</p>
+
+<!-- 4. Góc -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Góc giữa hai vectơ</h2>
+
+<p>Cho hai vectơ $\vec{a}, \vec{b}$ khác $\vec{0}$. Gọi $\varphi$ là góc giữa chúng ($0^\circ \le \varphi \le 180^\circ$):</p>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$\cos\varphi = \frac{\vec{a} \cdot \vec{b}}{|\vec{a}| \cdot |\vec{b}|} = \frac{x_1x_2 + y_1y_2 + z_1z_2}{\sqrt{x_1^2+y_1^2+z_1^2} \cdot \sqrt{x_2^2+y_2^2+z_2^2}}$$</p>
+</div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Góc giữa hai vectơ">
+<rect x="2" y="2" width="436" height="196" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<line x1="120" y1="150" x2="330" y2="150" stroke="#1d4ed8" stroke-width="3"/>
+<polygon points="330,150 314,144 314,156" fill="#1d4ed8"/>
+<line x1="120" y1="150" x2="270" y2="60" stroke="#15803d" stroke-width="3"/>
+<polygon points="270,60 256,68 262,80" fill="#15803d"/>
+<path d="M 200 150 A 80 80 0 0 0 185 108" fill="none" stroke="#b91c1c" stroke-width="2"/>
+<text x="196" y="132" font-family="sans-serif" font-size="16" font-style="italic" fill="#b91c1c">φ</text>
+<text x="230" y="172" font-family="sans-serif" font-size="14" font-style="italic" fill="#1d4ed8">a</text>
+<text x="200" y="100" font-family="sans-serif" font-size="14" font-style="italic" fill="#15803d">b</text>
+<text x="120" y="172" font-family="sans-serif" font-size="13" fill="#475569">cos φ = (a·b)/(|a|·|b|)</text>
+<text x="220" y="192" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">Tích vô hướng dương: góc nhọn; bằng 0: vuông góc; âm: góc tù</text>
+</svg></div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 3:</p>
+<p>Cho $\vec{a} = (1; 0; 0)$, $\vec{b} = (1; 1; 0)$. Tính góc giữa $\vec{a}$ và $\vec{b}$.</p>
+<p class="mt-2"><strong>Giải:</strong> $\cos\varphi = \dfrac{1 \times 1 + 0 \times 1 + 0 \times 0}{1 \times \sqrt{2}} = \dfrac{1}{\sqrt{2}} = \dfrac{\sqrt{2}}{2}$, suy ra $\varphi = 45^\circ$.</p>
+</div>
+
+<!-- 5. Vuông góc, cùng phương -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">5. Điều kiện vuông góc và cùng phương</h2>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Vuông góc:</strong> $\vec{a} \perp \vec{b} \iff \vec{a} \cdot \vec{b} = 0 \iff x_1x_2 + y_1y_2 + z_1z_2 = 0$.</li>
+<li><strong>Cùng phương:</strong> $\vec{a}$ cùng phương $\vec{b}$ ($\vec{b} \ne \vec{0}$) $\iff$ tồn tại $k$ sao cho $\vec{a} = k\vec{b}$ $\iff$ các thành phần tương ứng tỉ lệ.</li>
+</ul>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 4:</p>
+<p>a) Tìm $m$ để $\vec{a} = (m; 2; 3)$ vuông góc với $\vec{b} = (1; m; 1)$.<br>
+b) Tìm $m$ để $\vec{c} = (2; 4; m)$ cùng phương với $\vec{d} = (1; 2; 3)$.</p>
+<p class="mt-2"><strong>Giải:</strong><br>
+a) $\vec{a} \cdot \vec{b} = m + 2m + 3 = 3m + 3 = 0$, suy ra $m = -1$.<br>
+b) $\dfrac{2}{1} = \dfrac{4}{2} = \dfrac{m}{3} = 2$, suy ra $m = 6$.</p>
+</div>
+
+<!-- 6. Ứng dụng -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">6. Ứng dụng: chứng minh quan hệ hình học</h2>
+
+<p>Biểu thức tọa độ giúp chuyển các quan hệ hình học thành phép tính đại số:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Chứng minh ba điểm thẳng hàng: $\vec{AB}$ cùng phương $\vec{AC}$.</li>
+<li>Chứng minh tam giác vuông: tích vô hướng của hai vectơ cạnh bằng $0$.</li>
+<li>Tìm đỉnh thứ tư của hình bình hành: $D = A + C - B$.</li>
+<li>Bài toán thực tế: xác định vị trí máy bay, lực tác dụng lên giá đỡ, ...</li>
+</ul>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 5 (thực tế):</p>
+<p>Trong không gian $Oxyz$ (đơn vị km), ra đa phát hiện máy bay bay từ $A(800; 500; 7)$ đến $B(940; 550; 8)$ trong $25$ phút với vận tốc và hướng không đổi. Tìm tọa độ máy bay sau $25$ phút bay tiếp theo.</p>
+<p class="mt-2"><strong>Giải:</strong> Gọi $C(x; y; z)$ là vị trí cần tìm. Vì hướng không đổi và thời gian bay bằng nhau nên $\vec{BC} = \vec{AB} = (140; 50; 1)$. Suy ra $C = (940+140; 550+50; 8+1) = (1080; 600; 9)$.</p>
+</div>
+
+<!-- Tổng kết -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Cộng/trừ:</strong> cộng/trừ từng thành phần; <strong>nhân số:</strong> $k\vec{a} = (kx; ky; kz)$.</li>
+<li><strong>Tích vô hướng:</strong> $\vec{a} \cdot \vec{b} = x_1x_2 + y_1y_2 + z_1z_2$.</li>
+<li><strong>Độ dài:</strong> $|\vec{a}| = \sqrt{x^2+y^2+z^2}$.</li>
+<li><strong>Góc:</strong> $\cos\varphi = \dfrac{\vec{a}\cdot\vec{b}}{|\vec{a}||\vec{b}|}$.</li>
+<li><strong>Vuông góc</strong> $\iff$ tích vô hướng bằng $0$; <strong>cùng phương</strong> $\iff$ tọa độ tỉ lệ.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+            </div>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
