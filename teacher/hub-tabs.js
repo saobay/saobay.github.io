@@ -23,6 +23,23 @@
             // Panel builder (ngan hang de) mo mem o che do bank
             let bp = document.getElementById('exam-builder-panel');
             if (bp){ bp.classList.remove('hidden'); bp.classList.toggle('open', mode === 'bank'); }
+            // Toggle che do con (chi hien o che do de thi)
+            let subToggle = document.getElementById('exam-submode-toggle');
+            if (subToggle) subToggle.classList.toggle('hidden', !isExam);
+            if (isExam) {
+                // Mac dinh mo che do "Tao de moi" khi vao tab de thi
+                switchExamSubMode('create');
+            } else {
+                // Ve theory mode: dam bao form hien (reset sub-mode)
+                let boxC = document.getElementById('bo-tao-prompt-box');
+                let boxE = document.getElementById('exam-form-box');
+                if (boxC) boxC.classList.remove('hidden');
+                if (boxE) boxE.classList.remove('hidden');
+                let bp = document.getElementById('exam-builder-panel');
+                let dp = document.getElementById('direct-panel');
+                if (bp) bp.style.display = '';
+                if (dp) dp.style.display = '';
+            }
             // Panel day truc tiep mo mem o che do direct
             let dp = document.getElementById('direct-panel');
             if (dp){ dp.classList.remove('hidden'); dp.classList.toggle('open', mode === 'direct'); }
@@ -33,6 +50,36 @@
             refreshPushSubmitBtn();
             updateScorePreview();
         }
+        // ========================================================
+        // 2 CHE DO CON TRONG TAB DE THI: Tao de moi / Soan tay (2026-10-09)
+        // ========================================================
+        let currentExamSubMode = 'create'; // 'create' | 'edit'
+
+        function switchExamSubMode(mode) {
+            currentExamSubMode = mode;
+            let isCreate = (mode === 'create');
+            let base = 'flex-1 px-3 py-2 rounded-lg text-xs font-bold transition flex items-center justify-center ';
+            let onC = 'bg-violet-700 text-white shadow';
+            let onE = 'bg-indigo-700 text-white shadow';
+            let off = 'bg-slate-100 text-slate-600 hover:bg-slate-200';
+            let bC = document.getElementById('exam-submode-create');
+            let bE = document.getElementById('exam-submode-edit');
+            if (bC) bC.className = base + (isCreate ? onC : off);
+            if (bE) bE.className = base + (isCreate ? off : onE);
+
+            // Create mode: hiện khung tạo prompt (ma trận), ẩn form soạn
+            // Edit mode: ẩn khung tạo prompt, hiện form soạn/đẩy
+            let boxC = document.getElementById('bo-tao-prompt-box');
+            let boxE = document.getElementById('exam-form-box');
+            if (boxC) boxC.classList.toggle('hidden', !isCreate);
+            if (boxE) boxE.classList.toggle('hidden', isCreate);
+            // Panel builder (bank) và direct panel chỉ hiện ở chế độ edit
+            let bp = document.getElementById('exam-builder-panel');
+            let dp = document.getElementById('direct-panel');
+            if (bp) bp.style.display = isCreate ? 'none' : '';
+            if (dp) dp.style.display = isCreate ? 'none' : '';
+        }
+
         // Alias cu (tuong thich)
         function switchPushTab(mode){ switchPushMode(mode === 'exam' ? 'direct' : 'theory'); }
         function toggleDirectPanel(){ switchPushMode('direct'); }
