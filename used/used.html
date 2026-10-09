@@ -280,7 +280,7 @@
 
                 <!-- Lọc trạng thái mật khẩu -->
                 <div>
-                    <select id="admin-status-filter" onchange="handleAdminSearch()" class="px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <select id="admin-status-filter" onchange="handleAdminSearch()" oninput="handleAdminSearch()" class="px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
                         <option value="">Tất cả trạng thái MK</option>
                         <option value="custom">Đã đổi mật khẩu riêng</option>
                         <option value="default">Dùng MK mặc định (12345678)</option>
@@ -506,11 +506,18 @@
 
             cachedTeachers = extractTeacherList(masterDatabase.assignments);
             // Gop giao vien tao tu hub (teachers_registry) - 2026-10-08
+            // FIX 2026-10-09: cap nhat role BGH cho GV da co trong assignments
             try {
                 let tReg = masterDatabase.teachers_registry || {};
                 Object.keys(tReg).forEach(function(tid){
-                    let exists = cachedTeachers.some(function(t){ return String(t.id) === String(tid); });
-                    if (!exists) cachedTeachers.push({ id: String(tid), name: (tReg[tid] && tReg[tid].name) || String(tid), subjects: '', classes: '', group: (tReg[tid] && tReg[tid].group) || '', role: (tReg[tid] && tReg[tid].role) || 'teacher' });
+                    let regRole = (tReg[tid] && tReg[tid].role) || 'teacher';
+                    let existing = cachedTeachers.find(function(t){ return String(t.id) === String(tid); });
+                    if (existing) {
+                        existing.role = regRole;
+                        if (tReg[tid] && tReg[tid].group) existing.group = tReg[tid].group;
+                    } else {
+                        cachedTeachers.push({ id: String(tid), name: (tReg[tid] && tReg[tid].name) || String(tid), subjects: '', classes: '', group: (tReg[tid] && tReg[tid].group) || '', role: regRole });
+                    }
                 });
             } catch(eReg){}
             cachedStudents = extractStudentList(masterDatabase.students);
@@ -1086,8 +1093,10 @@
                     try {
                         let tReg = masterDatabase.teachers_registry || {};
                         Object.keys(tReg).forEach(function(tid){
-                            let exists = cachedTeachers.some(function(t){ return String(t.id) === String(tid); });
-                            if (!exists) cachedTeachers.push({ id: String(tid), name: (tReg[tid] && tReg[tid].name) || String(tid), subjects: '', classes: '', group: (tReg[tid] && tReg[tid].group) || '', role: (tReg[tid] && tReg[tid].role) || 'teacher' });
+                            let regRole = (tReg[tid] && tReg[tid].role) || 'teacher';
+                            let existing = cachedTeachers.find(function(t){ return String(t.id) === String(tid); });
+                            if (existing) { existing.role = regRole; }
+                            else cachedTeachers.push({ id: String(tid), name: (tReg[tid] && tReg[tid].name) || String(tid), subjects: '', classes: '', group: (tReg[tid] && tReg[tid].group) || '', role: regRole });
                         });
                     } catch(eReg){}
                 }
