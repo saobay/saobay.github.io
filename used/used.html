@@ -1295,6 +1295,7 @@
                 let pageItems = filteredList.slice(startIndex, startIndex + PAGE_SIZE);
 
                 pageItems.forEach((acc, idx) => {
+                    let safeId = String(acc.id == null ? '' : acc.id).replace(/'/g, '');
                     let st = getAccountPasswordStatus(acc.id);
                     let extraInfo = (currentAdminTab === 'teachers')
                         ? `<div class="truncate max-w-xs" title="${acc.subjects || ''} | ${acc.classes || ''}"><span class="text-blue-700 font-semibold">${acc.subjects || '--'}</span> <span class="text-slate-400 text-[10px]">(${acc.classes || ''})</span></div>`
@@ -1302,6 +1303,7 @@
 
                     let tr = document.createElement('tr');
                     tr.className = "hover:bg-blue-50/50 transition border-b border-slate-100";
+                    try {
                     tr.innerHTML = `
                         <td class="p-3 text-center text-slate-400 font-bold">${startIndex + idx + 1}</td>
                         <td class="p-3 font-mono font-bold text-slate-700">${acc.id}</td>
@@ -1310,23 +1312,27 @@
                         <td class="p-3">
                             <span class="inline-flex items-center text-[10px] font-bold px-2.5 py-1 rounded-full border ${st.badgeClass}">
                                 <i class="fa-solid ${st.isCustom ? 'fa-lock' : 'fa-key'} mr-1"></i> ${st.statusText}
-                            </span>
+                            </span>${st.isCustom ? `<button type="button" onclick="viewAccountPassword('${safeId}')" title="Xem mật khẩu thực" class="ml-1.5 text-amber-600 hover:text-amber-800 text-base leading-none" style="vertical-align:middle">\uD83D\uDC41\uFE0F</button>` : ''}
                         </td>
                         <td class="p-3 text-center">
                             <div class="flex items-center justify-center space-x-1.5 flex-wrap gap-y-1">
-                                <button type="button" onclick="handleResetAccountPassword('${acc.id}')" title="Đặt lại về mật khẩu mặc định 12345678" class="bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 text-xs px-2.5 py-1.5 rounded-lg font-bold transition flex items-center">
+                                <button type="button" onclick="handleResetAccountPassword('${safeId}')" title="Đặt lại về mật khẩu mặc định 12345678" class="bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 text-xs px-2.5 py-1.5 rounded-lg font-bold transition flex items-center">
                                     <i class="fa-solid fa-rotate-left mr-1"></i> Reset 12345678
                                 </button>
-                                <button type="button" onclick="openEditPassModal('${acc.id}')" title="Đổi mật khẩu theo ý muốn" class="bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 text-xs px-2.5 py-1.5 rounded-lg font-bold transition flex items-center">
+                                <button type="button" onclick="openEditPassModal('${safeId}')" title="Đổi mật khẩu theo ý muốn" class="bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 text-xs px-2.5 py-1.5 rounded-lg font-bold transition flex items-center">
                                     <i class="fa-solid fa-pen-to-square mr-1"></i> Đổi MK
                                 </button>
+                                <button type="button" onclick="deleteAccount('${safeId}')" title="Xóa tài khoản (không thể hoàn tác)" class="bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs px-2.5 py-1.5 rounded-lg font-bold transition flex items-center">
+                                    <i class="fa-solid fa-trash mr-1"></i> Xóa
+                                </button>
                                 ${(currentAdminTab === 'teachers') ? `
-                                <button type="button" onclick="toggleBghRole('${acc.id}', '${(acc.name||'').replace(/'/g,"")}')" title="${acc.role === 'bgh' ? 'Gỡ khỏi Ban Giám Hiệu' : 'Cho vào Ban Giám Hiệu'}" class="${acc.role === 'bgh' ? 'bg-violet-600 hover:bg-violet-700 text-white' : 'bg-violet-50 hover:bg-violet-100 text-violet-700'} border border-violet-200 text-xs px-2.5 py-1.5 rounded-lg font-bold transition flex items-center">
+                                <button type="button" onclick="toggleBghRole('${safeId}', '${(acc.name||'').replace(/'/g,"")}')" title="${acc.role === 'bgh' ? 'Gỡ khỏi Ban Giám Hiệu' : 'Cho vào Ban Giám Hiệu'}" class="${acc.role === 'bgh' ? 'bg-violet-600 hover:bg-violet-700 text-white' : 'bg-violet-50 hover:bg-violet-100 text-violet-700'} border border-violet-200 text-xs px-2.5 py-1.5 rounded-lg font-bold transition flex items-center">
                                     <i class="fa-solid fa-building-columns mr-1"></i> ${acc.role === 'bgh' ? 'Gỡ BGH' : 'Cho vào BGH'}
                                 </button>` : ''}
                             </div>
                         </td>
                     `;
+                    } catch(rowErr) { console.warn('Bỏ qua dòng lỗi khi render:', safeId, rowErr); return; }
                     tbody.appendChild(tr);
                 });
             } catch(err) {
@@ -1398,6 +1404,69 @@
                 renderAdminTable();
             } catch(err) {
                 showToast('Lỗi khi đặt lại mật khẩu: ' + err.message, 'error');
+            }
+        }
+
+        // XEM MẬT KHẨU THỰC (2026-10-09): admin bấm nút mắt để xem MK đã giải mã base64
+        function viewAccountPassword(accId) {
+            try {
+                let all = [...(cachedTeachers || []), ...(cachedStudents || [])];
+                let acc = all.find(a => String(a.id) === String(accId));
+                let accName = acc ? acc.name : accId;
+                let st = getAccountPasswordStatus(accId);
+                let pw = st.isCustom ? st.password : '12345678';
+                prompt('Mật khẩu của "' + accName + '" (ID: ' + accId + '):', pw == null ? '' : String(pw));
+            } catch(err) {
+                showToast('Lỗi khi xem mật khẩu: ' + err.message, 'error');
+            }
+        }
+
+        // XÓA TÀI KHOẢN (2026-10-09): xóa khỏi passwords, teachers_registry, students, registrations, expiry
+        async function removeAccountExpiry(accId) {
+            try {
+                let r = await fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/used/account_expiry.json?t=' + Date.now());
+                let expDb = r.ok ? await r.json() : {};
+                if (expDb && expDb[accId]) {
+                    delete expDb[accId];
+                    await fetch(API_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                        body: JSON.stringify({ type: 'PUSH_TO_GITHUB', filePath: 'used/account_expiry.json', content: JSON.stringify(expDb, null, 2), commitMessage: 'Admin xoa han tai khoan ' + accId })
+                    });
+                }
+            } catch(e) { console.warn('Không xóa được hạn tài khoản:', e); }
+        }
+
+        async function deleteAccount(accId) {
+            let all = [...(cachedTeachers || []), ...(cachedStudents || [])];
+            let acc = all.find(a => String(a.id) === String(accId));
+            let accName = acc ? acc.name : accId;
+            if (!confirm('Xóa tài khoản "' + accName + '" (Mã ID: ' + accId + ')?\n\nHành động này KHÔNG THỂ hoàn tác!')) return;
+            try {
+                if (masterDatabase.passwords) delete masterDatabase.passwords[accId];
+                if (masterDatabase.teachers_registry && masterDatabase.teachers_registry[accId]) delete masterDatabase.teachers_registry[accId];
+                if (masterDatabase.students) {
+                    Object.keys(masterDatabase.students).forEach(function(cls){
+                        let arr = masterDatabase.students[cls];
+                        if (Array.isArray(arr)) masterDatabase.students[cls] = arr.filter(function(s){ return String(s.id) !== String(accId); });
+                    });
+                }
+                if (Array.isArray(masterDatabase.registrations)) {
+                    masterDatabase.registrations = masterDatabase.registrations.filter(function(r){ return String(r.id) !== String(accId); });
+                }
+                try {
+                    let cp = localStorage.getItem('saobay_passwords_cache');
+                    if (cp) { let p = JSON.parse(cp); if (p[accId]) { delete p[accId]; localStorage.setItem('saobay_passwords_cache', JSON.stringify(p)); } }
+                } catch(eCache){}
+                await removeAccountExpiry(accId);
+                await saveMasterDatabaseToGit('Admin xoa tai khoan ' + accName + ' (' + accId + ')');
+                cachedTeachers = (cachedTeachers || []).filter(function(t){ return String(t.id) !== String(accId); });
+                cachedStudents = (cachedStudents || []).filter(function(s){ return String(s.id) !== String(accId); });
+                showToast('Đã xóa tài khoản "' + accName + '"!', 'success');
+                updateAdminStats();
+                renderAdminTable();
+            } catch(err) {
+                showToast('Lỗi khi xóa tài khoản: ' + err.message, 'error');
             }
         }
 
