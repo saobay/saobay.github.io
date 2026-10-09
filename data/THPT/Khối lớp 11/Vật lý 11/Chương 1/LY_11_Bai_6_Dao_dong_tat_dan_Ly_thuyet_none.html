@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay | Ma nguon thuoc nen tang hoc tap SAOBAY | Nghiem cam sao chep duoi moi hinh thuc -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 6: Dao động tắt dần. Dao động cưỡng bức. Hiện tượng cộng hưởng</title>
+    <meta name="lesson-title" content="Bài 6: Dao động tắt dần. Dao động cưỡng bức. Hiện tượng cộng hưởng">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 6: Dao động tắt dần. Dao động cưỡng bức. Hiện tượng cộng hưởng</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 1: Dao động • Bài 6: Dao động tắt dần. Dao động cưỡng bức. Hiện tượng cộng hưởng</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 1: Mệnh đề</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương I: Mệnh đề và tập hợp — Toán 10 (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Mệnh đề -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Mệnh đề</h2>
+
+<p><strong>Định nghĩa:</strong> <em>Mệnh đề</em> là một câu khẳng định <strong>đúng</strong> hoặc <strong>sai</strong>. Một mệnh đề không thể vừa đúng vừa sai.</p>
+
+<p>Người ta thường dùng các chữ cái in hoa $P, Q, R, \dots$ để kí hiệu mệnh đề.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>"Hà Nội là thủ đô của Việt Nam." là một <strong>mệnh đề đúng</strong>.</li>
+<li>"$2 + 3 = 5$." là một <strong>mệnh đề đúng</strong>.</li>
+<li>"$\sqrt{2}$ là số hữu tỉ." là một <strong>mệnh đề sai</strong>.</li>
+<li>"$15$ chia hết cho $4$." là một <strong>mệnh đề sai</strong>.</li>
+</ul>
+</div>
+
+<p><strong>Không phải mệnh đề:</strong> các câu hỏi, câu cảm thán, câu mệnh lệnh, và các câu mà ta chưa thể khẳng định đúng hay sai.</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>"Hôm nay trời đẹp quá!" (câu cảm thán)</li>
+<li>"Bạn tên là gì?" (câu hỏi)</li>
+<li>"Hãy làm bài tập về nhà!" (câu mệnh lệnh)</li>
+<li>"$x + 2 = 5$." — chưa biết $x$ nên chưa khẳng định được đúng hay sai (đây là <em>mệnh đề chứa biến</em>, xem mục 2).</li>
+</ul>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Mệnh đề phải là câu <strong>khẳng định</strong> và phải <strong>xác định được</strong> tính đúng hoặc sai. Chỉ cần một trong hai: đúng <em>hoặc</em> sai, không có trường hợp thứ ba.</p>
+</div>
+
+<!-- 2. Mệnh đề chứa biến -->
+<div class="svg-fig"><svg viewBox="0 0 440 225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Sơ đồ khái niệm mệnh đề">
+<rect x="2" y="2" width="436" height="221" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<rect x="160" y="12" width="120" height="38" rx="8" fill="#1e3a8a"/>
+<text x="220" y="37" font-family="sans-serif" font-size="15" font-weight="bold" fill="#ffffff" text-anchor="middle">MỆNH ĐỀ</text>
+<line x1="192" y1="50" x2="112" y2="96" stroke="#64748b" stroke-width="2"/>
+<line x1="248" y1="50" x2="328" y2="96" stroke="#64748b" stroke-width="2"/>
+<rect x="42" y="96" width="140" height="54" rx="8" fill="#15803d"/>
+<text x="112" y="119" font-family="sans-serif" font-size="13" font-weight="bold" fill="#ffffff" text-anchor="middle">Khẳng định ĐÚNG</text>
+<text x="112" y="138" font-family="sans-serif" font-size="11" fill="#dcfce7" text-anchor="middle">Ví dụ: &#8220;2 + 3 = 5&#8221;</text>
+<rect x="258" y="96" width="140" height="54" rx="8" fill="#b91c1c"/>
+<text x="328" y="119" font-family="sans-serif" font-size="13" font-weight="bold" fill="#ffffff" text-anchor="middle">Khẳng định SAI</text>
+<text x="328" y="138" font-family="sans-serif" font-size="11" fill="#fee2e2" text-anchor="middle">Ví dụ: &#8220;5 là số chẵn&#8221;</text>
+<rect x="60" y="168" width="320" height="42" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="220" y="194" font-family="sans-serif" font-size="12" fill="#92400e" text-anchor="middle">Mệnh đề chứa biến (có x, y, n&#8230;) &#8594; chưa phải mệnh đề</text>
+</svg></div>
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Mệnh đề chứa biến</h2>
+
+<p><strong>Định nghĩa:</strong> <em>Mệnh đề chứa biến</em> là một câu khẳng định chứa <strong>biến số</strong> (thường kí hiệu $x, y, n, \dots$). Khi chưa thay biến bằng một giá trị cụ thể, ta chưa thể khẳng định nó đúng hay sai, nên nó <strong>chưa phải</strong> là mệnh đề.</p>
+
+<p>Khi thay biến bằng một giá trị cụ thể, mệnh đề chứa biến trở thành một mệnh đề (đúng hoặc sai). Ta thường kí hiệu mệnh đề chứa biến là $P(x), Q(x), P(n), \dots$</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Xét mệnh đề chứa biến $P(x)$: "$x + 2 = 5$".</p>
+<ul class="list-disc ml-6 space-y-1 mt-2">
+<li>$P(3)$: "$3 + 2 = 5$" là mệnh đề <strong>đúng</strong>.</li>
+<li>$P(0)$: "$0 + 2 = 5$" là mệnh đề <strong>sai</strong>.</li>
+</ul>
+<p class="mt-2">Ví dụ khác: $Q(n)$: "$n$ chia hết cho $3$". Khi đó $Q(9)$ đúng, còn $Q(10)$ sai.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Mệnh đề chứa biến <strong>không phải</strong> là mệnh đề. Nó chỉ trở thành mệnh đề (đúng hoặc sai) sau khi ta <strong>thay biến bằng giá trị cụ thể</strong>.</p>
+</div>
+
+<!-- 3. Phủ định -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Phủ định của một mệnh đề</h2>
+
+<p><strong>Định nghĩa:</strong> Mỗi mệnh đề $P$ đều có một <em>mệnh đề phủ định</em>, kí hiệu là $\overline{P}$ (đọc là "không $P$"). Mệnh đề $\overline{P}$ <strong>đúng</strong> khi $P$ <strong>sai</strong>, và <strong>sai</strong> khi $P$ <strong>đúng</strong>.</p>
+
+<p>Nói cách khác, phủ định của một mệnh đề là mệnh đề có tính đúng sai <strong>ngược lại</strong>.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>$P$: "$5$ là số nguyên tố." (đúng) — phủ định $\overline{P}$: "$5$ <strong>không phải</strong> là số nguyên tố." (sai).</li>
+<li>$Q$: "$\pi$ là số hữu tỉ." (sai) — phủ định $\overline{Q}$: "$\pi$ <strong>không phải</strong> là số hữu tỉ." (đúng).</li>
+<li>$R$: "$2024$ là năm nhuận." (đúng) — phủ định $\overline{R}$: "$2024$ <strong>không phải</strong> là năm nhuận." (sai).</li>
+</ul>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Để phủ định một mệnh đề, ta thêm (hoặc bớt) từ <strong>"không"</strong> / <strong>"không phải"</strong> một cách hợp lí. $\overline{P}$ luôn có tính đúng sai <strong>ngược</strong> với $P$.</p>
+</div>
+
+<!-- 4. Mệnh đề kéo theo -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Mệnh đề kéo theo</h2>
+
+<p><strong>Định nghĩa:</strong> Mệnh đề <em>"Nếu $P$ thì $Q$"</em> được gọi là <em>mệnh đề kéo theo</em>, kí hiệu là $P \Rightarrow Q$.</p>
+
+<p>Mệnh đề $P \Rightarrow Q$ chỉ <strong>sai</strong> khi $P$ <strong>đúng</strong> và $Q$ <strong>sai</strong>. Trong các trường hợp còn lại, $P \Rightarrow Q$ đều <strong>đúng</strong>.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Bảng chân trị của $P \Rightarrow Q$:</p>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">$P$</td><td class="border border-slate-300 px-4 py-1">$Q$</td><td class="border border-slate-300 px-4 py-1">$P \Rightarrow Q$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Đúng</td><td class="border border-slate-300 px-4 py-1">Đúng</td><td class="border border-slate-300 px-4 py-1 font-bold text-emerald-600">Đúng</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Đúng</td><td class="border border-slate-300 px-4 py-1">Sai</td><td class="border border-slate-300 px-4 py-1 font-bold text-rose-600">Sai</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Sai</td><td class="border border-slate-300 px-4 py-1">Đúng</td><td class="border border-slate-300 px-4 py-1 font-bold text-emerald-600">Đúng</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Sai</td><td class="border border-slate-300 px-4 py-1">Sai</td><td class="border border-slate-300 px-4 py-1 font-bold text-emerald-600">Đúng</td></tr>
+</table></div>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>"Nếu $12$ chia hết cho $6$ thì $12$ chia hết cho $3$." — $P$ đúng, $Q$ đúng nên mệnh đề kéo theo <strong>đúng</strong>.</li>
+<li>"Nếu $5 > 3$ thì $2 > 7$." — $P$ đúng, $Q$ sai nên mệnh đề kéo theo <strong>sai</strong>.</li>
+<li>"Nếu $3 > 5$ thì $2 > 7$." — $P$ sai nên mệnh đề kéo theo <strong>đúng</strong> (dù $Q$ cũng sai).</li>
+</ul>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Mẹo nhớ nhanh: <strong>"Đúng kéo theo Sai là Sai"</strong> — $P \Rightarrow Q$ sai duy nhất khi $P$ đúng mà $Q$ sai. Khi $P$ đã sai thì $P \Rightarrow Q$ luôn đúng, không cần xét $Q$.</p>
+</div>
+
+<!-- 5. Mệnh đề đảo -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">5. Mệnh đề đảo</h2>
+
+<p><strong>Định nghĩa:</strong> Mệnh đề $Q \Rightarrow P$ được gọi là <em>mệnh đề đảo</em> của mệnh đề $P \Rightarrow Q$.</p>
+
+<p><strong>Chú ý quan trọng:</strong> mệnh đề đảo <strong>đúng không có nghĩa</strong> mệnh đề gốc đúng, và ngược lại. Tính đúng sai của $P \Rightarrow Q$ và $Q \Rightarrow P$ <strong>độc lập</strong> với nhau.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Xét $P \Rightarrow Q$: "Nếu $n$ chia hết cho $6$ thì $n$ chia hết cho $3$." — mệnh đề này <strong>đúng</strong>.</p>
+<p class="mt-2">Mệnh đề đảo $Q \Rightarrow P$: "Nếu $n$ chia hết cho $3$ thì $n$ chia hết cho $6$." — mệnh đề này <strong>sai</strong> (ví dụ $n = 9$ chia hết cho $3$ nhưng không chia hết cho $6$).</p>
+<p class="mt-2">Ví dụ khác: "Nếu $n$ chia hết cho $4$ thì $n$ là số chẵn." (đúng) có mệnh đề đảo "Nếu $n$ là số chẵn thì $n$ chia hết cho $4$." (sai, ví dụ $n = 6$).</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Mệnh đề đảo chỉ đơn giản là <strong>đổi vai trò</strong> của $P$ và $Q$. Đừng nhầm: đảo đúng $\nRightarrow$ gốc đúng.</p>
+</div>
+
+<!-- 6. Mệnh đề tương đương -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">6. Mệnh đề tương đương</h2>
+
+<p><strong>Định nghĩa:</strong> Mệnh đề <em>"$P$ khi và chỉ khi $Q$"</em> được gọi là <em>mệnh đề tương đương</em>, kí hiệu là $P \Leftrightarrow Q$.</p>
+
+<p>Mệnh đề $P \Leftrightarrow Q$ <strong>đúng</strong> khi $P$ và $Q$ <strong>cùng đúng hoặc cùng sai</strong>; <strong>sai</strong> khi một trong hai đúng và một trong hai sai.</p>
+
+<p>Nói cách khác, $P \Leftrightarrow Q$ đúng khi cả hai mệnh đề kéo theo $P \Rightarrow Q$ và $Q \Rightarrow P$ đều đúng.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>"$n$ chia hết cho $6$ <strong>khi và chỉ khi</strong> $n$ vừa chia hết cho $2$ vừa chia hết cho $3$." — mệnh đề <strong>đúng</strong>.</li>
+<li>"Tam giác $ABC$ đều <strong>khi và chỉ khi</strong> tam giác $ABC$ có ba góc bằng $60^\circ$." — mệnh đề <strong>đúng</strong>.</li>
+<li>"$x = 2$ <strong>khi và chỉ khi</strong> $x^2 = 4$." — mệnh đề <strong>sai</strong> (vì $x = -2$ cũng thỏa $x^2 = 4$).</li>
+</ul>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">$P \Leftrightarrow Q$ đúng $\Leftrightarrow$ $P, Q$ <strong>"cùng phe"</strong> (cùng đúng hoặc cùng sai). Cụm từ nhận diện: <strong>"khi và chỉ khi"</strong>, <strong>"điều kiện cần và đủ"</strong>.</p>
+</div>
+
+<!-- 7. ∀ và ∃ -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">7. Mệnh đề chứa kí hiệu $\forall$ và $\exists$</h2>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">7.1. Kí hiệu $\forall$ và $\exists$</h3>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Kí hiệu $\forall$ đọc là <strong>"với mọi"</strong>: $\forall x \in X, P(x)$ nghĩa là <em>mọi</em> phần tử $x$ thuộc tập $X$ đều làm cho $P(x)$ đúng.</li>
+<li>Kí hiệu $\exists$ đọc là <strong>"tồn tại"</strong> (có ít nhất một): $\exists x \in X, P(x)$ nghĩa là <em>có ít nhất một</em> phần tử $x$ thuộc tập $X$ làm cho $P(x)$ đúng.</li>
+</ul>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>"$\forall x \in \mathbb{R}, x^2 \ge 0$." là mệnh đề <strong>đúng</strong> (bình phương mọi số thực đều không âm).</li>
+<li>"$\forall n \in \mathbb{N}, n + 1 > n$." là mệnh đề <strong>đúng</strong>.</li>
+<li>"$\exists x \in \mathbb{R}, x^2 = 2$." là mệnh đề <strong>đúng</strong> (ví dụ $x = \sqrt{2}$).</li>
+<li>"$\exists n \in \mathbb{N}, n^2 = 3$." là mệnh đề <strong>sai</strong> (không có số tự nhiên nào bình phương bằng $3$).</li>
+</ul>
+</div>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">7.2. Phủ định của mệnh đề chứa $\forall$ và $\exists$</h3>
+
+<p>Quy tắc phủ định: <strong>đổi $\forall$ thành $\exists$</strong> (và ngược lại), đồng thời <strong>phủ định phần mệnh đề phía sau</strong>:</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$\overline{\forall x \in X, P(x)} \quad \text{là} \quad \exists x \in X, \overline{P(x)}$$</p>
+<p class="mt-2">$$\overline{\exists x \in X, P(x)} \quad \text{là} \quad \forall x \in X, \overline{P(x)}$$</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>$P$: "$\forall x \in \mathbb{R}, x^2 + 1 > 0$." (đúng) — phủ định: "$\exists x \in \mathbb{R}, x^2 + 1 \le 0$." (sai).</li>
+<li>$Q$: "$\exists n \in \mathbb{N}, 2n = 5$." (sai) — phủ định: "$\forall n \in \mathbb{N}, 2n \ne 5$." (đúng).</li>
+<li>$R$: "$\forall x \in \mathbb{R}, |x| \ge x$." (đúng) — phủ định: "$\exists x \in \mathbb{R}, |x| < x$." (sai).</li>
+</ul>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Công thức "2 đổi": <strong>đổi lượng từ</strong> ($\forall \leftrightarrow \exists$) và <strong>đổi dấu</strong> của bất đẳng thức/đẳng thức phía sau ($=$ thành $\ne$, $>$ thành $\le$, $<$ thành $\ge$, ...). Hai chỗ đều phải đổi thì mới ra đúng phủ định!</p>
+</div>
+
+<!-- Tổng kết -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Mệnh đề:</strong> câu khẳng định xác định được đúng hoặc sai.</li>
+<li><strong>Mệnh đề chứa biến</strong> $P(x)$: chưa phải mệnh đề; thay $x$ bằng giá trị cụ thể mới thành mệnh đề.</li>
+<li><strong>Phủ định</strong> $\overline{P}$: đúng sai ngược với $P$.</li>
+<li><strong>Kéo theo</strong> $P \Rightarrow Q$: sai duy nhất khi "$P$ đúng, $Q$ sai".</li>
+<li><strong>Đảo</strong> của $P \Rightarrow Q$ là $Q \Rightarrow P$ (đúng sai độc lập).</li>
+<li><strong>Tương đương</strong> $P \Leftrightarrow Q$: đúng khi $P, Q$ cùng đúng hoặc cùng sai.</li>
+<li><strong>$\forall$</strong> = với mọi; <strong>$\exists$</strong> = tồn tại ít nhất một.</li>
+<li><strong>Phủ định có lượng từ:</strong> $\overline{\forall \dots} = \exists \dots \overline{(\dots)}$ và $\overline{\exists \dots} = \forall \dots \overline{(\dots)}$.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 6: Dao động tắt dần. Dao động cưỡng bức. Hiện tượng cộng hưởng</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 1: Dao động (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Tắt dần -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Dao động tắt dần</h2>
+
+<p><strong>Định nghĩa:</strong> <em>Dao động tắt dần</em> là dao động có <strong>biên độ giảm dần theo thời gian</strong>.</p>
+
+<p><strong>Nguyên nhân:</strong> do tác dụng của <strong>lực ma sát, lực cản</strong> của môi trường. Một phần cơ năng chuyển thành nhiệt năng làm nóng vật và môi trường, nên cơ năng (và biên độ) giảm dần.</p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 260" xmlns="http://www.w3.org/200/svg" role="img" aria-label="Do thi dao dong tat dan">
+<rect x="2" y="2" width="436" height="256" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="26" font-family="sans-serif" font-size="13" font-weight="bold" fill="#1e3a8a" text-anchor="middle">Đồ thị dao động tắt dần</text>
+<line x1="40" y1="130" x2="420" y2="130" stroke="#334155" stroke-width="1.2"/>
+<text x="424" y="134" font-family="sans-serif" font-size="13" font-style="italic" fill="#334155">t</text>
+<line x1="60" y1="30" x2="60" y2="240" stroke="#334155" stroke-width="1.2"/>
+<text x="44" y="44" font-family="sans-serif" font-size="13" font-style="italic" fill="#334155">x</text>
+<path d="M60.0,50.0 L64.0,52.0 L68.0,54.0 L72.0,56.0 L76.0,57.9 L80.0,59.7 L84.0,61.5 L88.0,63.3 L92.0,65.0 L96.0,66.6 L100.0,68.2 L104.0,69.8 L108.0,71.4 L112.0,72.9 L116.0,74.3 L120.0,75.7 L124.0,77.1 L128.0,78.5 L132.0,79.8 L136.0,81.1 L140.0,82.3 L144.0,83.5 L148.0,84.7 L152.0,85.9 L156.0,87.0 L160.0,88.1 L164.0,89.2 L168.0,90.2 L172.0,91.2 L176.0,92.2 L180.0,93.2 L184.0,94.1 L188.0,95.1 L192.0,95.9 L196.0,96.8 L200.0,97.7 L204.0,98.5 L208.0,99.3 L212.0,100.1 L216.0,100.8 L220.0,101.6 L224.0,102.3 L228.0,103.0 L232.0,103.7 L236.0,104.4 L240.0,105.0 L244.0,105.7 L248.0,106.3 L252.0,106.9 L256.0,107.5 L260.0,108.1 L264.0,108.6 L268.0,109.2 L272.0,109.7 L276.0,110.2 L280.0,110.7 L284.0,111.2 L288.0,111.7 L292.0,112.2 L296.0,112.6 L300.0,113.1 L304.0,113.5 L308.0,113.9 L312.0,114.3 L316.0,114.7 L320.0,115.1 L324.0,115.5 L328.0,115.9 L332.0,116.2 L336.0,116.6 L340.0,116.9 L344.0,117.3 L348.0,117.6 L352.0,117.9 L356.0,118.2 L360.0,118.5 L364.0,118.8 L368.0,119.1 L372.0,119.4 L376.0,119.6 L380.0,119.9 L384.0,120.2 L388.0,120.4 L392.0,120.7 L396.0,120.9 L400.0,121.1" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5,4"/>
+<path d="M60.0,210.0 L64.0,208.0 L68.0,206.0 L72.0,204.0 L76.0,202.1 L80.0,200.3 L84.0,198.5 L88.0,196.7 L92.0,195.0 L96.0,193.4 L100.0,191.8 L104.0,190.2 L108.0,188.6 L112.0,187.1 L116.0,185.7 L120.0,184.3 L124.0,182.9 L128.0,181.5 L132.0,180.2 L136.0,178.9 L140.0,177.7 L144.0,176.5 L148.0,175.3 L152.0,174.1 L156.0,173.0 L160.0,171.9 L164.0,170.8 L168.0,169.8 L172.0,168.8 L176.0,167.8 L180.0,166.8 L184.0,165.9 L188.0,164.9 L192.0,164.1 L196.0,163.2 L200.0,162.3 L204.0,161.5 L208.0,160.7 L212.0,159.9 L216.0,159.2 L220.0,158.4 L224.0,157.7 L228.0,157.0 L232.0,156.3 L236.0,155.6 L240.0,155.0 L244.0,154.3 L248.0,153.7 L252.0,153.1 L256.0,152.5 L260.0,151.9 L264.0,151.4 L268.0,150.8 L272.0,150.3 L276.0,149.8 L280.0,149.3 L284.0,148.8 L288.0,148.3 L292.0,147.8 L296.0,147.4 L300.0,146.9 L304.0,146.5 L308.0,146.1 L312.0,145.7 L316.0,145.3 L320.0,144.9 L324.0,144.5 L328.0,144.1 L332.0,143.8 L336.0,143.4 L340.0,143.1 L344.0,142.7 L348.0,142.4 L352.0,142.1 L356.0,141.8 L360.0,141.5 L364.0,141.2 L368.0,140.9 L372.0,140.6 L376.0,140.4 L380.0,140.1 L384.0,139.8 L388.0,139.6 L392.0,139.3 L396.0,139.1 L400.0,138.9" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5,4"/>
+<path d="M60.0,50.0 L64.0,55.4 L68.0,66.9 L72.0,83.2 L76.0,102.7 L80.0,123.5 L84.0,143.8 L88.0,161.9 L92.0,176.4 L96.0,186.2 L100.0,190.7 L104.0,189.8 L108.0,183.9 L112.0,173.6 L116.0,160.2 L120.0,144.8 L124.0,129.0 L128.0,114.1 L132.0,101.2 L136.0,91.5 L140.0,85.5 L144.0,83.7 L148.0,85.8 L152.0,91.7 L156.0,100.5 L160.0,111.3 L164.0,123.2 L168.0,135.1 L172.0,146.0 L176.0,154.9 L180.0,161.3 L184.0,164.7 L188.0,164.9 L192.0,162.2 L196.0,156.8 L200.0,149.5 L204.0,140.8 L208.0,131.7 L212.0,122.9 L216.0,115.1 L220.0,109.0 L224.0,105.0 L228.0,103.3 L232.0,104.0 L236.0,106.9 L240.0,111.6 L244.0,117.6 L248.0,124.4 L252.0,131.3 L256.0,137.7 L260.0,143.2 L264.0,147.3 L268.0,149.7 L272.0,150.3 L276.0,149.1 L280.0,146.4 L284.0,142.4 L288.0,137.5 L292.0,132.3 L296.0,127.1 L300.0,122.5 L304.0,118.7 L308.0,116.0 L312.0,114.7 L316.0,114.8 L320.0,116.1 L324.0,118.6 L328.0,121.9 L332.0,125.7 L336.0,129.8 L340.0,133.6 L344.0,136.9 L348.0,139.5 L352.0,141.1 L356.0,141.7 L360.0,141.3 L364.0,139.9 L368.0,137.8 L372.0,135.1 L376.0,132.1 L380.0,129.1 L384.0,126.3 L388.0,123.9 L392.0,122.3 L396.0,121.3 L400.0,121.1" fill="none" stroke="#2563eb" stroke-width="2.5"/>
+<text x="300" y="60" font-family="sans-serif" font-size="12" fill="#64748b">biên độ giảm dần</text>
+<text x="120" y="230" font-family="sans-serif" font-size="12" fill="#334155">Lực cản càng lớn → tắt dần càng nhanh</text>
+</svg></div>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Lực cản càng lớn, dao động tắt dần càng <strong>nhanh</strong>.</li>
+<li>Dao động tắt dần <strong>không phải</strong> dao động điều hòa (biên độ thay đổi).</li>
+<li>Nếu tắt dần chậm, chu kì coi như <strong>không đổi</strong> và bằng chu kì riêng.</li>
+</ul>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Mọi dao động trong thực tế đều tắt dần nếu không được bù năng lượng. Muốn duy trì dao động, phải <strong>cung cấp thêm năng lượng</strong> để bù lại phần mất mát do ma sát — đó là <em>dao động duy trì</em> (ví dụ: con lắc đồng hồ được dây cót tiếp năng lượng).</p>
+</div>
+
+<!-- 2. Cưỡng bức -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Dao động cưỡng bức</h2>
+
+<p><strong>Định nghĩa:</strong> <em>Dao động cưỡng bức</em> là dao động chịu tác dụng của một <strong>ngoại lực cưỡng bức biến đổi tuần hoàn</strong> theo thời gian, ví dụ $F = F_0\cos(\Omega t)$.</p>
+
+<p><strong>Đặc điểm</strong> (ở giai đoạn ổn định):</p>
+<ul class="list-disc ml-6 space-y-2 my-3">
+<li>Dao động cưỡng bức là <strong>dao động điều hòa</strong>.</li>
+<li><strong>Tần số</strong> của dao động cưỡng bức <strong>bằng tần số của ngoại lực</strong> ($f = f_{ngoại\ lực}$), không phải tần số riêng.</li>
+<li><strong>Biên độ</strong> của dao động cưỡng bức <strong>không đổi</strong> theo thời gian (ngoại lực bù đắp năng lượng mất mát); biên độ phụ thuộc vào biên độ ngoại lực $F_0$ và <strong>độ chênh lệch</strong> giữa tần số ngoại lực với tần số riêng $|f - f_0|$.</li>
+</ul>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>Người ngồi trên võng được bạn đẩy đều tay: võng dao động cưỡng bức với tần số bằng nhịp đẩy.</li>
+<li>Khung xe máy rung khi động cơ hoạt động: chịu ngoại lực tuần hoàn từ pittông.</li>
+</ul>
+</div>
+
+<!-- 3. Cộng hưởng -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Hiện tượng cộng hưởng</h2>
+
+<p><strong>Định nghĩa:</strong> <em>Hiện tượng cộng hưởng</em> là hiện tượng <strong>biên độ</strong> của dao động cưỡng bức <strong>tăng đến giá trị cực đại</strong> khi <strong>tần số của ngoại lực bằng tần số riêng</strong> của hệ:</p>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$f = f_0 \quad \text{(điều kiện cộng hưởng)}$$</p>
+</div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 280" xmlns="http://www.w3.org/200/svg" role="img" aria-label="Do thi cong huong">
+<rect x="2" y="2" width="436" height="276" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="26" font-family="sans-serif" font-size="13" font-weight="bold" fill="#1e3a8a" text-anchor="middle">Biên độ dao động cưỡng bức theo tần số ngoại lực</text>
+<line x1="40" y1="230" x2="420" y2="230" stroke="#334155" stroke-width="1.5"/>
+<polygon points="420,230 410,225 410,235" fill="#334155"/>
+<text x="400" y="250" font-family="sans-serif" font-size="13" font-style="italic" fill="#334155">f</text>
+<line x1="60" y1="40" x2="60" y2="240" stroke="#334155" stroke-width="1.5"/>
+<polygon points="60,40 55,50 65,50" fill="#334155"/>
+<text x="44" y="54" font-family="sans-serif" font-size="13" font-style="italic" fill="#334155">A</text>
+<path d="M60.0,203.3 L63.4,203.3 L66.8,203.3 L70.2,203.2 L73.6,203.2 L77.0,203.1 L80.4,202.9 L83.8,202.8 L87.2,202.6 L90.6,202.5 L94.0,202.2 L97.4,202.0 L100.8,201.7 L104.2,201.4 L107.6,201.1 L111.0,200.7 L114.4,200.3 L117.8,199.9 L121.2,199.4 L124.6,198.9 L128.0,198.3 L131.4,197.7 L134.8,197.1 L138.2,196.3 L141.6,195.5 L145.0,194.6 L148.4,193.7 L151.8,192.6 L155.2,191.5 L158.6,190.2 L162.0,188.8 L165.4,187.2 L168.8,185.5 L172.2,183.6 L175.6,181.4 L179.0,178.9 L182.4,176.1 L185.8,173.0 L189.2,169.3 L192.6,165.1 L196.0,160.2 L199.4,154.4 L202.8,147.6 L206.2,139.5 L209.6,129.7 L213.0,118.1 L216.4,104.7 L219.8,89.8 L223.2,75.4 L226.6,70.0 L230.0,70.0 L233.4,71.4 L236.8,86.1 L240.2,102.9 L243.6,118.8 L247.0,132.7 L250.4,144.3 L253.8,154.0 L257.2,162.0 L260.6,168.8 L264.0,174.5 L267.4,179.3 L270.8,183.5 L274.2,187.1 L277.6,190.2 L281.0,193.0 L284.4,195.5 L287.8,197.6 L291.2,199.6 L294.6,201.4 L298.0,202.9 L301.4,204.4 L304.8,205.7 L308.2,206.9 L311.6,208.0 L315.0,209.0 L318.4,210.0 L321.8,210.9 L325.2,211.7 L328.6,212.4 L332.0,213.1 L335.4,213.8 L338.8,214.4 L342.2,215.0 L345.6,215.5 L349.0,216.0 L352.4,216.5 L355.8,217.0 L359.2,217.4 L362.6,217.8 L366.0,218.2 L369.4,218.6 L372.8,218.9 L376.2,219.2 L379.6,219.6 L383.0,219.9 L386.4,220.1 L389.8,220.4 L393.2,220.7 L396.6,220.9 L400.0,221.2" fill="none" stroke="#dc2626" stroke-width="2.5"/>
+<line x1="230" y1="70" x2="230" y2="230" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5,4"/>
+<text x="222" y="250" font-family="sans-serif" font-size="12" fill="#334155">f₀</text>
+<text x="236" y="90" font-family="sans-serif" font-size="12" fill="#b91c1c">cộng hưởng:</text>
+<text x="236" y="106" font-family="sans-serif" font-size="12" fill="#b91c1c">A cực đại khi f = f₀</text>
+<text x="90" y="250" font-family="sans-serif" font-size="12" fill="#334155">f &lt; f₀: A tăng dần</text>
+<text x="300" y="250" font-family="sans-serif" font-size="12" fill="#334155">f &gt; f₀: A giảm dần</text>
+<text x="90" y="268" font-family="sans-serif" font-size="11" fill="#64748b">Lực cản càng nhỏ → đỉnh cộng hưởng càng cao và nhọn</text>
+</svg></div>
+
+<p>Giải thích: khi $f = f_0$, ngoại lực luôn <strong>cùng chiều chuyển động</strong> nên truyền năng lượng cho hệ hiệu quả nhất, biên độ tăng đến cực đại.</p>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">Ứng dụng và tác hại</h3>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Ứng dụng (có lợi)</td><td class="border border-slate-300 px-4 py-1">Tác hại và cách khắc phục</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Hộp đàn ghi-ta, violon khuếch đại âm thanh</td><td class="border border-slate-300 px-4 py-1">Cầu rung mạnh, có thể gãy khi đoàn quân bước đều (quy định đi không đều bước qua cầu)</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Mạch chọn sóng radio, tivi</td><td class="border border-slate-300 px-4 py-1">Máy móc rung mạnh khi tốc độ quay trùng tần số riêng</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Lò vi sóng làm nóng thức ăn</td><td class="border border-slate-300 px-4 py-1">Khắc phục: thay đổi $f_0$ của hệ hoặc tần số ngoại lực để tránh $f = f_0$; tăng ma sát (giảm chấn)</td></tr>
+</table></div>
+
+<!-- 4. So sánh -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. So sánh các loại dao động</h2>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 my-2 text-center">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Loại dao động</td><td class="border border-slate-300 px-4 py-1">Ngoại lực</td><td class="border border-slate-300 px-4 py-1">Tần số</td><td class="border border-slate-300 px-4 py-1">Biên độ</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Tự do (tắt dần)</td><td class="border border-slate-300 px-4 py-1">Không</td><td class="border border-slate-300 px-4 py-1">$\approx f_0$</td><td class="border border-slate-300 px-4 py-1">Giảm dần</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Duy trì</td><td class="border border-slate-300 px-4 py-1">Bù năng lượng</td><td class="border border-slate-300 px-4 py-1">$f_0$</td><td class="border border-slate-300 px-4 py-1">Không đổi</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Cưỡng bức</td><td class="border border-slate-300 px-4 py-1">Tuần hoàn</td><td class="border border-slate-300 px-4 py-1">$f_{ngoại\ lực}$</td><td class="border border-slate-300 px-4 py-1">Không đổi (ổn định)</td></tr>
+</table></div>
+
+<!-- Tóm tắt -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Dao động tắt dần:</strong> biên độ (và cơ năng) giảm dần do ma sát, lực cản; không phải DĐĐH.</li>
+<li><strong>Dao động duy trì:</strong> được bù năng lượng để giữ biên độ không đổi, tần số bằng tần số riêng.</li>
+<li><strong>Dao động cưỡng bức:</strong> chịu ngoại lực tuần hoàn; ở trạng thái ổn định là DĐĐH với tần số bằng tần số ngoại lực, biên độ không đổi.</li>
+<li><strong>Cộng hưởng:</strong> $f = f_0$ thì biên độ cưỡng bức cực đại; có ứng dụng (hộp đàn, radio) và tác hại (gãy cầu, máy rung) — khắc phục bằng cách tránh $f = f_0$ hoặc tăng ma sát.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">
+(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok){if(document.body){document.body.innerHTML='<div style="font-family:system-ui,sans-serif;max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff"><h2 style="color:#0f172a;margin-top:0">© SAOBAY — Trường THPT Sào Báy</h2><p style="color:#475569">Nội dung này chỉ được hiển thị tại địa chỉ chính thức <b>saobay.github.io</b>.</p><p style="color:#475569">Vui lòng truy cập đúng địa chỉ để học tập.</p></div>';}else{document.write("SAOBAY: truy cap tai saobay.github.io");}}catch(e){}})();
+</script>
+</body>
+</html>
