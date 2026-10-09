@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 4: Thứ tự thực hiện các phép tính. Quy tắc chuyển vế</title>
+    <meta name="lesson-title" content="Bài 4: Thứ tự thực hiện các phép tính. Quy tắc chuyển vế">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 4: Thứ tự thực hiện các phép tính. Quy tắc chuyển vế</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 1: Số hữu tỉ • Bài 4: Thứ tự thực hiện các phép tính. Quy tắc chuyển vế</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+            <h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-6">1. Thứ tự thực hiện các phép tính</h2>
+            <p>Đối với số hữu tỉ, thứ tự thực hiện các phép tính cũng giống như đối với số nguyên:</p>
+            <div class="bg-sky-50 border border-sky-200 rounded-xl p-4">
+                <p class="font-bold text-sky-800 mb-2">📌 Quy tắc</p>
+                <ul class="list-disc pl-5 space-y-1">
+                    <li><strong>Biểu thức không có dấu ngoặc:</strong> thực hiện <strong>lũy thừa</strong> trước, rồi đến <strong>nhân và chia</strong>, cuối cùng là <strong>cộng và trừ</strong>.</li>
+                    <li><strong>Biểu thức có dấu ngoặc:</strong> thực hiện trong ngoặc <strong>tròn</strong> $(\ )$ trước, rồi đến ngoặc <strong>vuông</strong> $[\ ]$, cuối cùng là ngoặc <strong>nhọn</strong> $\{\ \}$.</li>
+                </ul>
+            </div>
+            <div class="bg-sky-50 border border-sky-200 rounded-xl p-4">
+                <p class="font-bold text-sky-800 mb-2">🧮 Ví dụ 1</p>
+                <p>Tính: a) $\frac{1}{2} + \frac{1}{3} \cdot \frac{3}{4}$; b) $\left(\frac{1}{2} + \frac{1}{3}\right) \cdot \frac{3}{4}$.</p>
+                <p class="mt-2"><em>Lời giải.</em></p>
+                <p>a) Nhân trước, cộng sau: $\frac{1}{2} + \frac{1}{3} \cdot \frac{3}{4} = \frac{1}{2} + \frac{1}{4} = \frac{3}{4}$.</p>
+                <p>b) Trong ngoặc trước: $\left(\frac{1}{2} + \frac{1}{3}\right) \cdot \frac{3}{4} = \frac{5}{6} \cdot \frac{3}{4} = \frac{5}{8}$.</p>
+            </div>
+            <div class="svg-fig">
+                <svg viewBox="0 0 430 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="So do thu tu thuc hien phep tinh">
+                    <text x="215" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#0f172a">Thứ tự thực hiện phép tính</text>
+                    <rect x="20" y="40" width="110" height="44" rx="10" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+                    <text x="75" y="66" text-anchor="middle" font-size="14" font-weight="bold" fill="#0c4a6e">Lũy thừa</text>
+                    <text x="148" y="68" font-size="20" fill="#0f172a">→</text>
+                    <rect x="160" y="40" width="110" height="44" rx="10" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+                    <text x="215" y="66" text-anchor="middle" font-size="14" font-weight="bold" fill="#92400e">Nhân, chia</text>
+                    <text x="288" y="68" font-size="20" fill="#0f172a">→</text>
+                    <rect x="300" y="40" width="110" height="44" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+                    <text x="355" y="66" text-anchor="middle" font-size="14" font-weight="bold" fill="#14532d">Cộng, trừ</text>
+                    <rect x="60" y="96" width="310" height="40" rx="10" fill="#f1f5f9" stroke="#64748b" stroke-width="2"/>
+                    <text x="215" y="121" text-anchor="middle" font-size="14" fill="#334155">Có ngoặc: ( ) → [ ] → { }</text>
+                </svg>
+                <p class="text-center text-sm text-slate-500 mt-1">Sơ đồ thứ tự thực hiện các phép tính</p>
+            </div>
+
+            <h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-6">2. Quy tắc chuyển vế</h2>
+            <p>Khi <strong>chuyển một số hạng</strong> từ vế này sang vế kia của một đẳng thức, ta phải <strong>đổi dấu</strong> số hạng đó: dấu "$+$" đổi thành dấu "$-$", dấu "$-$" đổi thành dấu "$+$".</p>
+            <p class="text-center text-lg">$$x + a = b \quad \Rightarrow \quad x = b - a \qquad ; \qquad x - a = b \quad \Rightarrow \quad x = b + a$$</p>
+            <div class="svg-fig">
+                <svg viewBox="0 0 430 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Minh hoa quy tac chuyen ve">
+                    <line x1="215" y1="20" x2="215" y2="45" stroke="#0f172a" stroke-width="3"/>
+                    <line x1="80" y1="45" x2="350" y2="45" stroke="#0f172a" stroke-width="3"/>
+                    <line x1="110" y1="45" x2="110" y2="70" stroke="#0f172a" stroke-width="2"/>
+                    <line x1="320" y1="45" x2="320" y2="70" stroke="#0f172a" stroke-width="2"/>
+                    <path d="M60 70 L160 70 L150 105 L70 105 Z" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+                    <path d="M270 70 L370 70 L360 105 L280 105 Z" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+                    <text x="110" y="92" text-anchor="middle" font-size="15" font-weight="bold" fill="#0c4a6e">x + 2</text>
+                    <text x="320" y="92" text-anchor="middle" font-size="15" font-weight="bold" fill="#92400e">5</text>
+                    <text x="215" y="130" text-anchor="middle" font-size="14" fill="#0f172a">Chuyển +2 sang vế phải thành −2: x = 5 − 2 = 3</text>
+                </svg>
+                <p class="text-center text-sm text-slate-500 mt-1">Minh họa quy tắc chuyển vế như một chiếc cân thăng bằng</p>
+            </div>
+            <div class="bg-amber-50 border border-amber-300 rounded-xl p-4">
+                <p class="font-bold text-amber-800 mb-2">📌 Ghi nhớ</p>
+                <ul class="list-disc pl-5 space-y-1">
+                    <li>Đẳng thức $a + b = c$ cho ta: $a = c - b$ và $b = c - a$.</li>
+                    <li>Đẳng thức $a - b = c$ cho ta: $a = c + b$.</li>
+                    <li>Khi chuyển vế, nhớ <strong>đổi dấu</strong> số hạng được chuyển.</li>
+                </ul>
+            </div>
+            <div class="bg-sky-50 border border-sky-200 rounded-xl p-4">
+                <p class="font-bold text-sky-800 mb-2">🧮 Ví dụ 2</p>
+                <p>Tìm $x$, biết: a) $x + \frac{3}{4} = 1$; b) $x - \frac{2}{5} = -\frac{1}{2}$.</p>
+                <p class="mt-2"><em>Lời giải.</em></p>
+                <p>a) $x + \frac{3}{4} = 1 \Rightarrow x = 1 - \frac{3}{4} = \frac{1}{4}$.</p>
+                <p>b) $x - \frac{2}{5} = -\frac{1}{2} \Rightarrow x = -\frac{1}{2} + \frac{2}{5} = -\frac{5}{10} + \frac{4}{10} = -\frac{1}{10}$.</p>
+            </div>
+            <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4">
+                <p class="font-bold text-emerald-800 mb-2">✍️ Bài tập ví dụ (có lời giải)</p>
+                <p><strong>Đề bài.</strong> Tìm $x$, biết $\frac{2}{3} - x = \frac{1}{6}$.</p>
+                <p class="mt-2"><strong>Lời giải.</strong> Chuyển $x$ sang vế phải và $\frac{1}{6}$ sang vế trái (đổi dấu cả hai):</p>
+                <p>$\frac{2}{3} - \frac{1}{6} = x \Rightarrow x = \frac{4}{6} - \frac{1}{6} = \frac{3}{6} = \frac{1}{2}$.</p>
+                <p>Vậy $x = \frac{1}{2}$.</p>
+            </div>
+
+            <h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-6">3. Tóm tắt bài học</h2>
+            <div class="table-scroll">
+                <table class="w-full text-sm border-collapse border border-slate-300">
+                    <thead>
+                        <tr class="bg-sky-100">
+                            <th class="border border-slate-300 px-3 py-2 text-left">Nội dung</th>
+                            <th class="border border-slate-300 px-3 py-2 text-left">Kiến thức trọng tâm</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td class="border border-slate-300 px-3 py-2 font-semibold">Thứ tự không ngoặc</td><td class="border border-slate-300 px-3 py-2">Lũy thừa → Nhân, chia → Cộng, trừ</td></tr>
+                        <tr><td class="border border-slate-300 px-3 py-2 font-semibold">Thứ tự có ngoặc</td><td class="border border-slate-300 px-3 py-2">$( ) \to [ ] \to \{ \}$</td></tr>
+                        <tr><td class="border border-slate-300 px-3 py-2 font-semibold">Quy tắc chuyển vế</td><td class="border border-slate-300 px-3 py-2">Chuyển vế đổi dấu: $x + a = b \Rightarrow x = b - a$</td></tr>
+                        <tr><td class="border border-slate-300 px-3 py-2 font-semibold">Ứng dụng</td><td class="border border-slate-300 px-3 py-2">Tìm $x$ trong đẳng thức bằng cách chuyển vế</td></tr>
+                    </tbody>
+                </table>
+            </div>
+</div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
