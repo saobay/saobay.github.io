@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay | Ma nguon thuoc nen tang hoc tap SAOBAY | Nghiem cam sao chep duoi moi hinh thuc -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 13: Cơ sở dữ liệu quan hệ</title>
+    <meta name="lesson-title" content="Bài 13: Cơ sở dữ liệu quan hệ">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 13: Cơ sở dữ liệu quan hệ</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 4: Giới thiệu các hệ cơ sở dữ liệu • Bài 13: Cơ sở dữ liệu quan hệ</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 13: Cơ sở dữ liệu quan hệ</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 4: Giới thiệu các hệ cơ sở dữ liệu — sách Kết nối tri thức với cuộc sống</p>
+
+<!-- 1. Mô hình dữ liệu quan hệ -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Mô hình dữ liệu quan hệ</h2>
+
+<p><strong>Mô hình dữ liệu quan hệ</strong> tổ chức dữ liệu thành các <strong>bảng</strong> (còn gọi là <em>quan hệ</em>). Mỗi bảng gồm các <strong>hàng</strong> và <strong>cột</strong>:</p>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Hàng</strong> (bản ghi, bộ dữ liệu): mô tả một đối tượng cụ thể. Ví dụ: một học sinh.</li>
+<li><strong>Cột</strong> (thuộc tính, trường): mô tả một đặc trưng của đối tượng. Ví dụ: họ tên, lớp.</li>
+<li><strong>Ô</strong> (giá trị): giao của một hàng và một cột, chứa một giá trị dữ liệu cụ thể.</li>
+</ul>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-sm my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">MaHS</td><td class="border border-slate-300 px-4 py-1">Hoten</td><td class="border border-slate-300 px-4 py-1">Ngaysinh</td><td class="border border-slate-300 px-4 py-1">Lop</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">HS01</td><td class="border border-slate-300 px-4 py-1">An</td><td class="border border-slate-300 px-4 py-1">12/03/2010</td><td class="border border-slate-300 px-4 py-1">11A1</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">HS02</td><td class="border border-slate-300 px-4 py-1">Binh</td><td class="border border-slate-300 px-4 py-1">25/07/2010</td><td class="border border-slate-300 px-4 py-1">11A1</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">HS03</td><td class="border border-slate-300 px-4 py-1">Cuong</td><td class="border border-slate-300 px-4 py-1">03/11/2010</td><td class="border border-slate-300 px-4 py-1">11A2</td></tr>
+</table></div>
+<p class="text-center text-sm text-slate-500">Bảng HOCSINH: 3 hàng (3 học sinh), 4 cột (4 thuộc tính)</p>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Trong mô hình quan hệ: <strong>bảng</strong> = quan hệ, <strong>hàng</strong> = bản ghi (một đối tượng), <strong>cột</strong> = thuộc tính (một đặc trưng), <strong>ô</strong> = một giá trị cụ thể.</p>
+</div>
+
+<!-- 2. Khóa chính và khóa ngoài -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Khóa chính và khóa ngoài</h2>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">2.1. Khóa chính (Primary Key)</h3>
+
+<p><strong>Khóa chính</strong> là một cột (hoặc tập hợp cột) có giá trị <strong>phân biệt duy nhất</strong> mỗi hàng trong bảng, dùng để <strong>nhận diện</strong> từng bản ghi. Giá trị khóa chính <strong>không được trùng lặp</strong> và <strong>không được để trống</strong>.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Trong bảng HOCSINH, cột <code>MaHS</code> là khóa chính vì mỗi học sinh có một mã khác nhau. Cột <code>Hoten</code> không thể làm khóa chính vì có thể có hai học sinh trùng tên.</p>
+</div>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">2.2. Khóa ngoài (Foreign Key)</h3>
+
+<p><strong>Khóa ngoài</strong> là một cột trong bảng này <strong>tham chiếu</strong> tới <strong>khóa chính</strong> của bảng khác, dùng để <strong>liên kết</strong> dữ liệu giữa các bảng.</p>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-sm my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">MaHS</td><td class="border border-slate-300 px-4 py-1">Mon</td><td class="border border-slate-300 px-4 py-1">Diem</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">HS01</td><td class="border border-slate-300 px-4 py-1">Toán</td><td class="border border-slate-300 px-4 py-1">9.0</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">HS01</td><td class="border border-slate-300 px-4 py-1">Văn</td><td class="border border-slate-300 px-4 py-1">8.0</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">HS02</td><td class="border border-slate-300 px-4 py-1">Toán</td><td class="border border-slate-300 px-4 py-1">7.5</td></tr>
+</table></div>
+<p class="text-center text-sm text-slate-500">Bảng DIEM: cột MaHS là khóa ngoài tham chiếu tới bảng HOCSINH</p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Lien ket khoa ngoai">
+<rect x="2" y="2" width="436" height="166" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<rect x="20" y="30" width="170" height="110" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"/>
+<text x="105" y="52" font-family="sans-serif" font-size="13" font-weight="bold" fill="#0c4a6e" text-anchor="middle">HOCSINH</text>
+<text x="105" y="74" font-family="monospace" font-size="12" fill="#0c4a6e" text-anchor="middle">MaHS (khóa chính)</text>
+<text x="105" y="94" font-family="monospace" font-size="12" fill="#475569" text-anchor="middle">Hoten</text>
+<text x="105" y="114" font-family="monospace" font-size="12" fill="#475569" text-anchor="middle">Lop</text>
+<rect x="250" y="30" width="170" height="110" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+<text x="335" y="52" font-family="sans-serif" font-size="13" font-weight="bold" fill="#92400e" text-anchor="middle">DIEM</text>
+<text x="335" y="74" font-family="monospace" font-size="12" fill="#92400e" text-anchor="middle">MaHS (khóa ngoài)</text>
+<text x="335" y="94" font-family="monospace" font-size="12" fill="#475569" text-anchor="middle">Mon</text>
+<text x="335" y="114" font-family="monospace" font-size="12" fill="#475569" text-anchor="middle">Diem</text>
+<line x1="190" y1="70" x2="250" y2="70" stroke="#dc2626" stroke-width="2" marker-end="url(#arr)"/>
+<defs><marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="none" stroke="#dc2626" stroke-width="1.5"/></marker></defs>
+<text x="220" y="60" font-family="sans-serif" font-size="11" fill="#dc2626" text-anchor="middle">tham chiếu</text>
+<text x="220" y="150" font-family="sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">Một học sinh có nhiều điểm</text>
+</svg></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><strong>Khóa chính:</strong> duy nhất, không trống — dùng để nhận diện bản ghi. <strong>Khóa ngoài:</strong> tham chiếu tới khóa chính của bảng khác — dùng để liên kết các bảng.</p>
+</div>
+<!-- 3. Liên kết giữa các bảng -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Liên kết giữa các bảng</h2>
+
+<p>Nhờ khóa ngoài, các bảng trong CSDL quan hệ được <strong>liên kết</strong> với nhau thành một thể thống nhất, tránh lưu trùng lặp dữ liệu.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Thay vì ghi cả họ tên, lớp vào bảng DIEM (gây trùng lặp), ta chỉ lưu <code>MaHS</code>. Khi cần biết điểm của học sinh nào, hệ quản trị sẽ <strong>kết nối</strong> bảng DIEM với bảng HOCSINH qua <code>MaHS</code> để lấy họ tên. Đây là mối liên kết <strong>một-nhiều</strong>: một học sinh có nhiều điểm.</p>
+</div>
+
+<p>Các kiểu liên kết phổ biến:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Một-một:</strong> một bản ghi bảng này ứng với một bản ghi bảng kia (ví dụ: một học sinh — một hồ sơ sức khỏe).</li>
+<li><strong>Một-nhiều:</strong> một bản ghi bảng này ứng với nhiều bản ghi bảng kia (ví dụ: một lớp — nhiều học sinh).</li>
+<li><strong>Nhiều-nhiều:</strong> nhiều bản ghi bảng này ứng với nhiều bản ghi bảng kia (ví dụ: học sinh — môn học; cần bảng trung gian).</li>
+</ul>
+
+<!-- 4. Ràng buộc toàn vẹn -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Ràng buộc toàn vẹn</h2>
+
+<p>Để dữ liệu luôn <strong>đúng đắn và nhất quán</strong>, CSDL quan hệ áp dụng các <strong>ràng buộc toàn vẹn</strong>:</p>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Ràng buộc miền giá trị:</strong> giá trị của mỗi cột phải thuộc kiểu dữ liệu và miền cho phép (ví dụ: điểm số từ 0 đến 10).</li>
+<li><strong>Ràng buộc khóa chính:</strong> giá trị khóa chính không trùng, không trống.</li>
+<li><strong>Ràng buộc khóa ngoài (toàn vẹn tham chiếu):</strong> giá trị khóa ngoài phải <strong>tồn tại</strong> trong cột khóa chính của bảng được tham chiếu. Ví dụ: không thể thêm điểm cho mã học sinh không có trong bảng HOCSINH.</li>
+</ul>
+
+<div class="bg-rose-50 border-l-4 border-rose-400 p-4 my-4">
+<p class="font-bold text-rose-800">⚠️ Ví dụ vi phạm:</p>
+<p class="mt-1">Thêm vào bảng DIEM hàng <code>(HS99, Toán, 8.0)</code> trong khi bảng HOCSINH không có học sinh mã HS99 — hệ quản trị sẽ <strong>từ chối</strong> vì vi phạm ràng buộc khóa ngoài.</p>
+</div>
+
+<!-- Tóm tắt -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Mô hình quan hệ:</strong> dữ liệu tổ chức thành các <strong>bảng</strong>; hàng = bản ghi, cột = thuộc tính, ô = giá trị.</li>
+<li><strong>Khóa chính:</strong> phân biệt duy nhất mỗi hàng; không trùng, không trống.</li>
+<li><strong>Khóa ngoài:</strong> tham chiếu tới khóa chính bảng khác; tạo liên kết giữa các bảng.</li>
+<li><strong>Liên kết:</strong> một-một, một-nhiều, nhiều-nhiều (tránh trùng lặp dữ liệu).</li>
+<li><strong>Ràng buộc toàn vẹn:</strong> miền giá trị, khóa chính, khóa ngoài — giữ dữ liệu đúng đắn, nhất quán.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">
+(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok){if(document.body){document.body.innerHTML='<div style="font-family:system-ui,sans-serif;max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff"><h2 style="color:#0f172a;margin-top:0">© SAOBAY — Trường THPT Sào Báy</h2><p style="color:#475569">Nội dung này chỉ được hiển thị tại địa chỉ chính thức <b>saobay.github.io</b>.</p><p style="color:#475569">Vui lòng truy cập đúng địa chỉ để học tập.</p></div>';}else{document.write("SAOBAY: truy cap tai saobay.github.io");}}catch(e){}})();
+</script>
+</body>
+</html>
