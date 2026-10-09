@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 27: Máy tính và Khoa học dữ liệu</title>
+    <meta name="lesson-title" content="Bài 27: Máy tính và Khoa học dữ liệu">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 27: Máy tính và Khoa học dữ liệu</h1>
+            <p class="text-xs text-slate-500 mt-1">Chủ đề 7: Học máy, Khoa học dữ liệu và mô phỏng • Bài 27: Máy tính và Khoa học dữ liệu</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 27: Máy tính và Khoa học dữ liệu</h1>
+<p class="text-center text-slate-500 italic mb-8">Chủ đề 7: Học máy, Khoa học dữ liệu và mô phỏng — Kết nối tri thức với cuộc sống</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Máy tính hỗ trợ khoa học dữ liệu</h2>
+<p>Máy tính giúp xử lý <strong>lượng dữ liệu lớn</strong> nhanh chóng, chính xác và <strong>tự động lặp lại</strong>. <strong>Python</strong> là ngôn ngữ phổ biến với các thư viện như <em>pandas</em> (bảng dữ liệu), <em>matplotlib</em> (vẽ biểu đồ).</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Ví dụ: phân tích điểm bằng Python</h2>
+<p>Cho danh sách điểm Toán của một lớp, tính điểm trung bình và đếm số HS đạt từ 8 trở lên:</p>
+<pre class="bg-slate-900 text-slate-100 rounded-lg p-4 overflow-x-auto text-sm my-4"><code>diem = [7.5, 8.0, 9.0, 6.5, 8.5, 5.0, 7.0, 9.5]
+tong = 0
+dem = 0
+for d in diem:
+    tong = tong + d
+    if d &gt;= 8:
+        dem = dem + 1
+trung_binh = tong / len(diem)
+print(trung_binh)
+print(dem)</code></pre>
+<p><strong>Trace</strong>: <em>tong</em> cộng dồn 8 số = 61.0; <em>dem</em> đếm các số lớn hơn hoặc bằng 8: 8.0, 9.0, 8.5, 9.5 → 4. <em>trung_binh</em> = 61.0 / 8 = 7.625. Chương trình in ra <strong>7.625</strong> rồi <strong>4</strong>.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Các thao tác cơ bản</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 my-2 text-sm">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-3 py-2">Thao tác</td><td class="border border-slate-300 px-3 py-2">Cách làm trong Python</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2">Tính tổng</td><td class="border border-slate-300 px-3 py-2"><em>sum(diem)</em> hoặc vòng lặp cộng dồn</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2">Đếm theo điều kiện</td><td class="border border-slate-300 px-3 py-2">Vòng lặp + <em>if</em>, tăng biến đếm</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2">Tìm lớn nhất / nhỏ nhất</td><td class="border border-slate-300 px-3 py-2"><em>max(diem)</em> / <em>min(diem)</em></td></tr>
+<tr><td class="border border-slate-300 px-3 py-2">Sắp xếp</td><td class="border border-slate-300 px-3 py-2"><em>sorted(diem)</em></td></tr>
+<tr><td class="border border-slate-300 px-3 py-2">Vẽ biểu đồ</td><td class="border border-slate-300 px-3 py-2">Thư viện <em>matplotlib</em></td></tr>
+</table></div>
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Máy tính xử lý dữ liệu <strong>lớn, nhanh, tự động</strong>. Python: <strong>pandas</strong> (bảng), <strong>matplotlib</strong> (biểu đồ). Thao tác cơ bản: <strong>tổng, đếm có điều kiện, max/min, sắp xếp</strong> — trace kĩ từng bước khi đọc code.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Máy tính + KHDL</strong>: xử lý dữ liệu lớn nhanh, chính xác, tự động.</li>
+<li><strong>Python</strong>: ngôn ngữ phổ biến; <em>pandas</em> xử lý bảng, <em>matplotlib</em> vẽ biểu đồ.</li>
+<li><strong>Thao tác</strong>: tính tổng, đếm theo điều kiện, max/min, sắp xếp; đọc code bằng cách <strong>trace từng bước</strong>.</li>
+</ul>
+</div>
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
