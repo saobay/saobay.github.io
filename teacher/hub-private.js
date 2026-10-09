@@ -13,25 +13,39 @@
                 return j.classes || [];
             } catch(e){ return []; }
         }
+        // FIX 2026-10-10: dung GAS proxy thay vi token ca nhan — GV nao cung tao lop duoc
+        var PV_GAS_URL = (typeof API_URL !== 'undefined') ? API_URL : 'https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec';
+        async function pvGasPush(filePath, content, commitMessage, title){
+            var author = (typeof currentUser !== 'undefined' && currentUser) ? (currentUser.name || currentUser.id) : 'GV';
+            var lastErr = null;
+            for (var attempt = 0; attempt < 3; attempt++){
+                var pushRes = await fetch(PV_GAS_URL, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'text/plain;charset=utf-8'},
+                    body: JSON.stringify({
+                        type: 'PUSH_TO_GITHUB',
+                        filePath: filePath,
+                        content: content,
+                        commitMessage: commitMessage,
+                        title: title,
+                        author: author
+                    })
+                });
+                var rj = await pushRes.json();
+                if (rj && rj.status === 'success') return true;
+                var emsg = String((rj && rj.message) || '');
+                if (emsg.indexOf('409') < 0) throw new Error(emsg || 'Lưu thất bại.');
+                lastErr = new Error(emsg || 'Xung đột, đang thử lại...');
+                await new Promise(function(r){ setTimeout(r, 1200); });
+            }
+            throw lastErr || new Error('Không lưu được, vui lòng thử lại.');
+        }
         async function pvSaveClasses(){
             let content = JSON.stringify({ classes: pvClasses, updated: new Date().toISOString() }, null, 1);
             let path = 'data/private/classes.json';
-            // Lay SHA hien tai
-            let sha = '';
-            try {
-                let gr = await fetch('https://api.github.com/repos/' + GITHUB_CONFIG.owner + '/' + GITHUB_CONFIG.repo + '/contents/' + getEncodedGitHubPath(path) + '?ref=' + GITHUB_CONFIG.branch, {
-                    headers: { 'Authorization': 'token ' + getGithubToken() }
-                });
-                if (gr.ok){ let gj = await gr.json(); sha = gj.sha || ''; }
-            } catch(e){}
-            let body = { message: 'Cap nhat lop hoc them (' + currentUser.name + ')', content: utf8ToBase64(content), branch: GITHUB_CONFIG.branch };
-            if (sha) body.sha = sha;
-            let pr = await fetch('https://api.github.com/repos/' + GITHUB_CONFIG.owner + '/' + GITHUB_CONFIG.repo + '/contents/' + getEncodedGitHubPath(path), {
-                method: 'PUT',
-                headers: { 'Authorization': 'token ' + getGithubToken(), 'Content-Type': 'application/json' },
-                body: JSON.stringify(body)
-            });
-            if (!pr.ok) throw new Error('GitHub API ' + pr.status);
+            await pvGasPush(path, content,
+                'Cap nhat lop hoc them (' + ((typeof currentUser !== 'undefined' && currentUser && currentUser.name) || 'GV') + ')',
+                'Cap nhat lop hoc them');
             return true;
         }
         function pvGenCode(){
@@ -111,12 +125,9 @@
         }
         async function pvEnsureFolder(classId){
             let path = 'data/private/' + classId + '/.gitkeep';
-            let body = { message: 'Tao thu muc lop hoc them ' + classId, content: utf8ToBase64(''), branch: GITHUB_CONFIG.branch };
-            await fetch('https://api.github.com/repos/' + GITHUB_CONFIG.owner + '/' + GITHUB_CONFIG.repo + '/contents/' + getEncodedGitHubPath(path), {
-                method: 'PUT',
-                headers: { 'Authorization': 'token ' + getGithubToken(), 'Content-Type': 'application/json' },
-                body: JSON.stringify(body)
-            });
+            await pvGasPush(path, '',
+                'Tao thu muc lop hoc them ' + classId,
+                'Tao thu muc lop');
         }
         async function pvDeleteClass(id){
             if (!confirm('Xóa lớp này? Bài đã đẩy trong thư mục lớp vẫn giữ nguyên.')) return;
