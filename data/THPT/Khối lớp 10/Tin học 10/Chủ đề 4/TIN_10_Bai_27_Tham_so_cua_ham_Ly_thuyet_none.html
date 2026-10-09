@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 27: Tham số của hàm</title>
+    <meta name="lesson-title" content="Bài 27: Tham số của hàm">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 27: Tham số của hàm</h1>
+            <p class="text-xs text-slate-500 mt-1">Chủ đề 5: Giải quyết vấn đề với sự trợ giúp của máy tính • Bài 27: Tham số của hàm</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 27: Tham số của hàm</h1>
+<p class="text-center text-slate-500 italic mb-8">Chủ đề 5: Giải quyết vấn đề với sự trợ giúp của máy tính</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Truyền đối số theo vị trí và theo từ khóa</h2>
+<p>Mặc định, đối số được gán cho tham số <strong>theo vị trí</strong> (đối số thứ nhất cho tham số thứ nhất...). Cũng có thể truyền <strong>theo từ khóa</strong> bằng cách chỉ rõ tên tham số:</p>
+<pre class="bg-slate-900 text-green-300 rounded-lg p-4 my-4 overflow-x-auto text-sm"><code>def gioi_thieu(ten, tuoi):
+    print(ten, "học lớp 10,", tuoi, "tuổi")
+
+gioi_thieu("An", 16)            # theo vị trí
+gioi_thieu(tuoi=16, ten="An")  # theo từ khóa (đổi thứ tự được)</code></pre>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Tham số mặc định</h2>
+<p>Tham số có thể có <strong>giá trị mặc định</strong> ngay trong định nghĩa. Khi gọi hàm mà không truyền đối số cho nó, Python tự dùng giá trị mặc định.</p>
+<pre class="bg-slate-900 text-green-300 rounded-lg p-4 my-4 overflow-x-auto text-sm"><code>def luy_thua(a, n=2):
+    return a ** n
+
+print(luy_thua(5))      # 25 (n mặc định là 2)
+print(luy_thua(2, 3))   # 8</code></pre>
+<div class="bg-amber-50 border border-amber-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-amber-800 mb-1">Quy tắc:</p>
+<p class="text-sm">Tham số có giá trị mặc định phải <strong>đứng sau</strong> các tham số bắt buộc. Ví dụ <code>def f(a, b=5)</code> đúng, <code>def f(a=5, b)</code> sai.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Tham số không xác định số lượng (*args)</h2>
+<p>Thêm dấu <code>*</code> trước tên tham số để hàm nhận <strong>số lượng đối số tùy ý</strong>; các đối số được gom thành một bộ dữ liệu:</p>
+<pre class="bg-slate-900 text-green-300 rounded-lg p-4 my-4 overflow-x-auto text-sm"><code>def tong(*args):
+    s = 0
+    for x in args:
+        s = s + x
+    return s
+
+print(tong(1, 2))       # 3
+print(tong(1, 2, 3, 4)) # 10</code></pre>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Loại tham số</td><td class="border border-slate-300 px-4 py-1">Cách truyền</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Thông thường</td><td class="border border-slate-300 px-4 py-1">Theo vị trí (mặc định) hoặc theo từ khóa</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Mặc định</td><td class="border border-slate-300 px-4 py-1">Có thể bỏ qua, dùng giá trị sẵn có</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><code>*args</code></td><td class="border border-slate-300 px-4 py-1">Số lượng tùy ý</td></tr>
+</table></div>
+
+</div>
+        </div>
+    </div>
+</body>
+</html>
