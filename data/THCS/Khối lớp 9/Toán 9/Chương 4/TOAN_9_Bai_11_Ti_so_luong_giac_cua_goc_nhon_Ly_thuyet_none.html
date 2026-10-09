@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 11: Tỉ số lượng giác của góc nhọn</title>
+    <meta name="lesson-title" content="Bài 11: Tỉ số lượng giác của góc nhọn">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 11: Tỉ số lượng giác của góc nhọn</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 4: Hệ thức lượng trong tam giác vuông • Bài 11: Tỉ số lượng giác của góc nhọn</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 11: Tỉ số lượng giác của góc nhọn</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 4: Hệ thức lượng trong tam giác vuông (Kết nối tri thức với cuộc sống)</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Khái niệm tỉ số lượng giác của góc nhọn</h2>
+<p>Xét tam giác $ABC$ vuông tại $A$. Với góc nhọn $B$:</p>
+<ul class="list-disc ml-6 my-2">
+<li>Cạnh $AC$ là <strong>cạnh đối</strong> của góc $B$ (nằm đối diện góc $B$);</li>
+<li>Cạnh $AB$ là <strong>cạnh kề</strong> của góc $B$ (cùng với cạnh huyền tạo thành góc $B$);</li>
+<li>Cạnh $BC$ là <strong>cạnh huyền</strong> (cạnh dài nhất, đối diện góc vuông).</li>
+</ul>
+<p>Bốn <strong>tỉ số lượng giác</strong> của góc nhọn $B$ được định nghĩa:</p>
+<div class="table-scroll"><table class="w-full border-collapse text-sm">
+<tr><th class="border border-slate-300 px-4 py-1 bg-sky-50">Tỉ số</th><th class="border border-slate-300 px-4 py-1 bg-sky-50">Kí hiệu</th><th class="border border-slate-300 px-4 py-1 bg-sky-50">Định nghĩa</th></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Sin</td><td class="border border-slate-300 px-4 py-1">$\sin B$</td><td class="border border-slate-300 px-4 py-1">$\sin B = \dfrac{\text{cạnh đối}}{\text{cạnh huyền}} = \dfrac{AC}{BC}$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Côsin</td><td class="border border-slate-300 px-4 py-1">$\cos B$</td><td class="border border-slate-300 px-4 py-1">$\cos B = \dfrac{\text{cạnh kề}}{\text{cạnh huyền}} = \dfrac{AB}{BC}$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Tang</td><td class="border border-slate-300 px-4 py-1">$\tan B$</td><td class="border border-slate-300 px-4 py-1">$\tan B = \dfrac{\text{cạnh đối}}{\text{cạnh kề}} = \dfrac{AC}{AB}$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Côtang</td><td class="border border-slate-300 px-4 py-1">$\cot B$</td><td class="border border-slate-300 px-4 py-1">$\cot B = \dfrac{\text{cạnh kề}}{\text{cạnh đối}} = \dfrac{AB}{AC}$</td></tr>
+</table></div>
+<div class="svg-fig">
+<svg viewBox="0 0 380 262" xmlns="http://www.w3.org/2000/svg">
+  <polygon points="80,200 80,50 320,200" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2.5"/>
+  <path d="M80,188 h12 v12" fill="none" stroke="#1d4ed8" stroke-width="2"/>
+  <path d="M80,72 A22,22 0 0 1 98.7,61.7" fill="none" stroke="#dc2626" stroke-width="2.5"/>
+  <path d="M296,200 A24,24 0 0 1 299.6,187.3" fill="none" stroke="#16a34a" stroke-width="2.5"/>
+  <text x="70" y="44" font-size="17" font-weight="bold" fill="#0f172a">B</text>
+  <text x="64" y="220" font-size="17" font-weight="bold" fill="#0f172a">A</text>
+  <text x="326" y="220" font-size="17" font-weight="bold" fill="#0f172a">C</text>
+  <text x="104" y="58" font-size="14" font-weight="bold" fill="#dc2626">góc B</text>
+  <text x="272" y="192" font-size="14" font-weight="bold" fill="#16a34a">góc C</text>
+  <text x="54" y="125" font-size="14" fill="#1d4ed8" transform="rotate(-90 54 125)" text-anchor="middle">cạnh kề</text>
+  <text x="200" y="226" font-size="14" fill="#1d4ed8" text-anchor="middle">cạnh đối (của góc B)</text>
+  <text x="200" y="108" font-size="14" fill="#1d4ed8" transform="rotate(32 200 108)" text-anchor="middle">cạnh huyền</text>
+</svg>
+<p class="text-center text-sm text-slate-500 italic">Tam giác ABC vuông tại A: cạnh đối, cạnh kề của góc nhọn B và cạnh huyền</p>
+</div>
+<div class="bg-amber-50 border-l-4 border-amber-400 p-3 my-3 rounded-r-lg">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p>Tỉ số lượng giác của góc nhọn luôn <strong>dương</strong>; $\sin$ và $\cos$ của góc nhọn luôn <strong>nhỏ hơn 1</strong>. Muốn nhớ nhanh: <em>“Sin đi học, Cos không hư, Tan đoàn kết”</em> — Sin = Đối/Huyền, Cos = Kề/Huyền, Tan = Đối/Kề.</p>
+</div>
+<p class="font-bold">Ví dụ 1 (có lời giải):</p>
+<p>Cho tam giác $ABC$ vuông tại $A$ có $AB = 3$, $AC = 4$, $BC = 5$. Tính các tỉ số lượng giác của góc $B$.</p>
+<p><strong>Lời giải:</strong> Cạnh đối của góc $B$ là $AC = 4$, cạnh kề là $AB = 3$, cạnh huyền là $BC = 5$. Vậy
+$\sin B = \dfrac{4}{5}$; $\cos B = \dfrac{3}{5}$; $\tan B = \dfrac{4}{3}$; $\cot B = \dfrac{3}{4}$.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Tỉ số lượng giác của các góc đặc biệt</h2>
+<p>Với các góc $30^\circ$, $45^\circ$, $60^\circ$ ta có bảng giá trị cần thuộc lòng:</p>
+<div class="table-scroll"><table class="w-full border-collapse text-sm text-center">
+<tr><th class="border border-slate-300 px-4 py-1 bg-sky-50"></th><th class="border border-slate-300 px-4 py-1 bg-sky-50">$30^\circ$</th><th class="border border-slate-300 px-4 py-1 bg-sky-50">$45^\circ$</th><th class="border border-slate-300 px-4 py-1 bg-sky-50">$60^\circ$</th></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-bold">$\sin$</td><td class="border border-slate-300 px-4 py-1">$\dfrac{1}{2}$</td><td class="border border-slate-300 px-4 py-1">$\dfrac{\sqrt{2}}{2}$</td><td class="border border-slate-300 px-4 py-1">$\dfrac{\sqrt{3}}{2}$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-bold">$\cos$</td><td class="border border-slate-300 px-4 py-1">$\dfrac{\sqrt{3}}{2}$</td><td class="border border-slate-300 px-4 py-1">$\dfrac{\sqrt{2}}{2}$</td><td class="border border-slate-300 px-4 py-1">$\dfrac{1}{2}$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-bold">$\tan$</td><td class="border border-slate-300 px-4 py-1">$\dfrac{\sqrt{3}}{3}$</td><td class="border border-slate-300 px-4 py-1">$1$</td><td class="border border-slate-300 px-4 py-1">$\sqrt{3}$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-bold">$\cot$</td><td class="border border-slate-300 px-4 py-1">$\sqrt{3}$</td><td class="border border-slate-300 px-4 py-1">$1$</td><td class="border border-slate-300 px-4 py-1">$\dfrac{\sqrt{3}}{3}$</td></tr>
+</table></div>
+<p>Bảng này suy ra từ hai tam giác đặc biệt: tam giác vuông cân (hai góc $45^\circ$) và nửa tam giác đều (góc $30^\circ$ – $60^\circ$):</p>
+<div class="svg-fig">
+<svg viewBox="0 0 400 262" xmlns="http://www.w3.org/2000/svg">
+  <polygon points="90,210 90,70 332,210" fill="#fef3c7" stroke="#b45309" stroke-width="2.5"/>
+  <path d="M90,198 h12 v12" fill="none" stroke="#b45309" stroke-width="2"/>
+  <path d="M90,94 A24,24 0 0 1 110.7,82" fill="none" stroke="#dc2626" stroke-width="2.5"/>
+  <path d="M306,210 A26,26 0 0 1 309.5,197" fill="none" stroke="#16a34a" stroke-width="2.5"/>
+  <text x="76" y="62" font-size="17" font-weight="bold" fill="#0f172a">B</text>
+  <text x="74" y="230" font-size="17" font-weight="bold" fill="#0f172a">A</text>
+  <text x="338" y="230" font-size="17" font-weight="bold" fill="#0f172a">C</text>
+  <text x="116" y="88" font-size="15" font-weight="bold" fill="#dc2626">60°</text>
+  <text x="278" y="200" font-size="15" font-weight="bold" fill="#16a34a">30°</text>
+  <text x="66" y="140" font-size="15" fill="#b45309" transform="rotate(-90 66 140)" text-anchor="middle">1</text>
+  <text x="211" y="234" font-size="15" fill="#b45309" text-anchor="middle">√3</text>
+  <text x="211" y="122" font-size="15" fill="#b45309" transform="rotate(30 211 122)" text-anchor="middle">2</text>
+</svg>
+<p class="text-center text-sm text-slate-500 italic">Nửa tam giác đều: cạnh đối diện góc 30° bằng nửa cạnh huyền — nguồn gốc bảng giá trị đặc biệt</p>
+</div>
+<p class="font-bold">Ví dụ 2 (có lời giải):</p>
+<p>Tính giá trị của biểu thức $A = 2\sin 30^\circ + 3\cos 60^\circ$.</p>
+<p><strong>Lời giải:</strong> $\sin 30^\circ = \dfrac{1}{2}$, $\cos 60^\circ = \dfrac{1}{2}$ nên $A = 2\cdot\dfrac{1}{2} + 3\cdot\dfrac{1}{2} = 1 + \dfrac{3}{2} = \dfrac{5}{2}$.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Một số tính chất và sử dụng máy tính cầm tay</h2>
+<p>Với $\alpha$ là góc nhọn, ta có các hệ thức quan trọng:</p>
+<ul class="list-disc ml-6 my-2">
+<li>$\sin^2\alpha + \cos^2\alpha = 1$;</li>
+<li>$\tan\alpha = \dfrac{\sin\alpha}{\cos\alpha}$; $\cot\alpha = \dfrac{\cos\alpha}{\sin\alpha}$;</li>
+<li>$\tan\alpha \cdot \cot\alpha = 1$.</li>
+</ul>
+<p>Nếu $\alpha$ và $\beta$ là hai góc <strong>phụ nhau</strong> ($\alpha + \beta = 90^\circ$) thì:</p>
+<p class="text-center">$\sin\alpha = \cos\beta$; $\cos\alpha = \sin\beta$; $\tan\alpha = \cot\beta$; $\cot\alpha = \tan\beta$.</p>
+<p>Có thể dùng máy tính cầm tay để tính tỉ số lượng giác của một góc (ví dụ $\sin 25^\circ \approx 0{,}4226$) hoặc tìm góc khi biết tỉ số (ví dụ $\sin\alpha = 0{,}5$ thì $\alpha = 30^\circ$).</p>
+<div class="bg-amber-50 border-l-4 border-amber-400 p-3 my-3 rounded-r-lg">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p>$\sin^2\alpha + \cos^2\alpha = 1$ là “chìa khóa” để tìm $\sin$ khi biết $\cos$ (và ngược lại). Hai góc phụ nhau thì <strong>sin góc này bằng cos góc kia</strong>.</p>
+</div>
+<p class="font-bold">Ví dụ 3 (có lời giải):</p>
+<p>Cho góc nhọn $\alpha$ có $\sin\alpha = \dfrac{3}{5}$. Tính $\cos\alpha$.</p>
+<p><strong>Lời giải:</strong> $\cos^2\alpha = 1 - \sin^2\alpha = 1 - \dfrac{9}{25} = \dfrac{16}{25}$. Vì $\alpha$ nhọn nên $\cos\alpha > 0$, suy ra $\cos\alpha = \dfrac{4}{5}$.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="table-scroll"><table class="w-full border-collapse text-sm">
+<tr><th class="border border-slate-300 px-4 py-1 bg-sky-50">Nội dung</th><th class="border border-slate-300 px-4 py-1 bg-sky-50">Công thức</th><th class="border border-slate-300 px-4 py-1 bg-sky-50">Ví dụ</th></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Định nghĩa (tam giác $ABC$ vuông tại $A$)</td><td class="border border-slate-300 px-4 py-1">$\sin B=\frac{AC}{BC}$; $\cos B=\frac{AB}{BC}$; $\tan B=\frac{AC}{AB}$; $\cot B=\frac{AB}{AC}$</td><td class="border border-slate-300 px-4 py-1">$AB=3,AC=4,BC=5$: $\sin B=\frac{4}{5}$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Góc đặc biệt</td><td class="border border-slate-300 px-4 py-1">$\sin30^\circ=\cos60^\circ=\frac12$; $\tan45^\circ=1$; $\sin60^\circ=\frac{\sqrt3}{2}$</td><td class="border border-slate-300 px-4 py-1">$2\sin30^\circ+2\cos60^\circ=2$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Tính chất</td><td class="border border-slate-300 px-4 py-1">$\sin^2\alpha+\cos^2\alpha=1$; $\tan\alpha\cdot\cot\alpha=1$; $\alpha+\beta=90^\circ \Rightarrow \sin\alpha=\cos\beta$</td><td class="border border-slate-300 px-4 py-1">$\sin\alpha=\frac35 \Rightarrow \cos\alpha=\frac45$</td></tr>
+</table></div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
