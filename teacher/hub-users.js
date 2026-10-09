@@ -16,6 +16,29 @@
         function myUname(){ try { return String((currentUser && currentUser.name) || ''); } catch(e){ return ''; } }
         function uEsc(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
+        // ---- SĐT đăng nhập (2026-10-09): alias đăng nhập song song với ID ----
+        function normalizePhoneHub(input){
+            let d = String(input || '').replace(/\D/g, '');
+            if (d.length === 11 && d.indexOf('84') === 0) d = '0' + d.slice(2);
+            return d;
+        }
+        function findPhoneOwnerHub(db, phoneNorm, excludeId){
+            let owner = null;
+            let tr = (db && db.teachers_registry) || {};
+            Object.keys(tr).forEach(function(tid){
+                if (String(tid) !== String(excludeId) && tr[tid] && tr[tid].phone === phoneNorm)
+                    owner = (tr[tid].name || tid) + ' (' + tid + ')';
+            });
+            let sts = (db && db.students) || {};
+            Object.keys(sts).forEach(function(cl){
+                (sts[cl] || []).forEach(function(st){
+                    if (String(st.id) !== String(excludeId) && st.phone === phoneNorm)
+                        owner = (st.name || st.id) + ' (' + st.id + ')';
+                });
+            });
+            return owner;
+        }
+
         // ---- Tính thời hạn tài khoản (2026-10-09) ----
         // Quy tắc: GV trường Sào Báy (có trong phân công) -> không thời hạn;
         // HS có mã trong DB trường -> 1 năm; HS ngoài/tự đăng ký -> 3 tháng dùng thử;
@@ -84,11 +107,20 @@
                  if (o.role === 'teacher' || o.role === 'bgh'){
                      if (!db.teachers_registry || Array.isArray(db.teachers_registry)) db.teachers_registry = {};
                      db.teachers_registry[o.id] = { name: o.name, group: targetGroup, note: o.note || '', role: o.role };
+                     if (_phoneNorm) db.teachers_registry[o.id].phone = _phoneNorm;
                  } else {
                      if (!isSchoolAccount) {
                          if (!db.students) db.students = {};
                          if (!Array.isArray(db.students[UNASSIGNED])) db.students[UNASSIGNED] = [];
-                         db.students[UNASSIGNED].push({ id: o.id, name: o.name, dob: '' });
+                         let _st = { id: o.id, name: o.name, dob: '' };
+                         if (_phoneNorm) _st.phone = _phoneNorm;
+                         db.students[UNASSIGNED].push(_st);
+                     } else {
+                         Object.keys(db.students || {}).forEach(function(_c){
+                             (db.students[_c] || []).forEach(function(_st2){
+                                 if (String(_st2.id) === String(o.id) && _phoneNorm) _st2.phone = _phoneNorm;
+                             });
+                         });
                      }
                  }
             }, 'Tạo tài khoản ' + _rn + ': ' + o.name + ' (' + o.id + ')');
@@ -171,14 +203,14 @@
                 // Tim ten + vai tro + nhom
                 function findName(uid){
                     let tr = db.teachers_registry || {};
-                    if (tr[uid]) return { name: tr[uid].name, role: 'GV', group: tr[uid].group || UNASSIGNED_GROUP, isTeacher: true };
+                    if (tr[uid]) return { name: tr[uid].name, role: 'GV', group: tr[uid].group || UNASSIGNED_GROUP, isTeacher: true, phone: tr[uid].phone || '' };
                     let out = null;
                     Object.keys(db.students || {}).forEach(function(c){
                         (db.students[c] || []).forEach(function(st){
-                            if (String(st.id) === String(uid)) out = { name: st.name, role: 'HS', group: c, isTeacher: false };
+                            if (String(st.id) === String(uid)) out = { name: st.name, role: 'HS', group: c, isTeacher: false, phone: st.phone || '' };
                         });
                     });
-                    return out || { name: '(chưa rõ)', role: '?', group: '?', isTeacher: false };
+                    return out || { name: '(chưa rõ)', role: '?', group: '?', isTeacher: false, phone: '' };
                 }
                 let h = '<div class="space-y-2">';
                 ids.forEach(function(uid){
@@ -189,7 +221,8 @@
                         : '<span class="bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded">' + uEsc(info.group) + '</span>';
                     h += '<div class="border border-slate-200 rounded-xl p-3 flex flex-wrap items-center gap-2 text-xs">'
                         + '<div class="flex-1 min-w-[160px]"><p class="font-black text-slate-800">' + uEsc(info.name) + ' <span class="font-normal text-slate-400">(' + uEsc(uid) + ')</span></p>'
-                        + '<p class="text-slate-500">' + uEsc(info.role) + ' • ' + grpBadge + ' • Hạn: ' + fmtExpiry(e.expires_at) + '</p></div>'
+                        + '<p class="text-slate-500">' + uEsc(info.role) + ' • ' + grpBadge + ' • Hạn: ' + fmtExpiry(e.expires_at) + (info.phone ? ' • <span class="text-teal-700 font-bold">📱 ' + uEsc(info.phone) + '</span>' : '') + '</p></div>'
+                        + '<button onclick="setUserPhone(\'' + uEsc(uid) + '\",' + (info.isTeacher ? 'true' : 'false') + ')" title="Thêm/sửa SĐT đăng nhập" class="bg-teal-600 hover:bg-teal-700 text-white font-bold px-3 py-1.5 rounded-lg">📱 SĐT</button>'
                         + '<button onclick="changeUserGroup(\'' + uEsc(uid) + '\",' + (info.isTeacher ? 'true' : 'false') + ')" class="bg-slate-500 hover:bg-slate-600 text-white font-bold px-3 py-1.5 rounded-lg">Đổi nhóm</button>'
                         + '<button onclick="extendAccount(\'' + uEsc(uid) + '\')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-3 py-1.5 rounded-lg">Gia hạn</button>'
                         + '</div>';
@@ -215,6 +248,52 @@
                 userMgrLoadList();
             } catch(e){ alert('Lỗi: ' + (e.message || e)); }
         }
+        // ---- SĐT đăng nhập (2026-10-09): admin thêm/sửa SĐT cho từng TK ----
+        async function setUserPhone(uid, isTeacher){
+            try {
+                let db = await assignFetchUsed();
+                let cur = '';
+                if (isTeacher) {
+                    cur = (db.teachers_registry && db.teachers_registry[uid] && db.teachers_registry[uid].phone) || '';
+                } else {
+                    Object.keys(db.students || {}).forEach(function(c){
+                        (db.students[c] || []).forEach(function(st){
+                            if (String(st.id) === String(uid)) cur = st.phone || cur;
+                        });
+                    });
+                }
+                let input = prompt('SĐT đăng nhập cho ' + uid + ' (để trống để xóa):', cur || '');
+                if (input === null) return;
+                input = String(input).trim();
+                let norm = '';
+                if (input) {
+                    norm = normalizePhoneHub(input);
+                    if (!/^0\d{9}$/.test(norm)) { alert('SĐT không hợp lệ! Phải là 10 số bắt đầu bằng 0.'); return; }
+                    let dup = findPhoneOwnerHub(db, norm, uid);
+                    if (dup) { alert('SĐT này đã được dùng cho tài khoản: ' + dup); return; }
+                }
+                await assignUpdateUsed(function(db2){
+                    if (isTeacher) {
+                        if (!db2.teachers_registry) db2.teachers_registry = {};
+                        if (!db2.teachers_registry[uid]) db2.teachers_registry[uid] = { name: uid };
+                        if (norm) db2.teachers_registry[uid].phone = norm;
+                        else delete db2.teachers_registry[uid].phone;
+                    } else {
+                        Object.keys(db2.students || {}).forEach(function(c){
+                            (db2.students[c] || []).forEach(function(st){
+                                if (String(st.id) === String(uid)) {
+                                    if (norm) st.phone = norm; else delete st.phone;
+                                }
+                            });
+                        });
+                    }
+                }, (norm ? 'Thêm SĐT ' + norm : 'Xóa SĐT') + ' cho TK ' + uid);
+                if (typeof showToast === 'function') showToast('Đã lưu SĐT cho ' + uid, 'success');
+                else alert('Đã lưu SĐT cho ' + uid);
+                userMgrLoadList();
+            } catch(e){ alert('Lỗi: ' + (e.message || e)); }
+        }
+
 
         // ===== QUAN LY TAI KHOAN TRAI NGHIEM (2026-10-09) =====
 var trialFilter = 'all';
@@ -573,6 +652,8 @@ async function deleteTrialAccount(uid, isTeacher){
                 + '<input id="uc-name" class="mt-1 w-full border rounded-lg px-3 py-2.5" placeholder="VD: Nguyễn Văn A"></div>'
                 + '<div><label class="text-xs font-bold text-slate-600">Mã đăng nhập (SĐT/Zalo) *</label>'
                 + '<input id="uc-id" inputmode="numeric" class="mt-1 w-full border rounded-lg px-3 py-2.5" placeholder="VD: 0912345678"></div>'
+                + '<div><label class="text-xs font-bold text-slate-600">SĐT đăng nhập <span class="font-normal text-slate-400">(không bắt buộc — để đăng nhập bằng SĐT)</span></label>'
+                + '<input id="uc-phone" inputmode="tel" class="mt-1 w-full border rounded-lg px-3 py-2.5" placeholder="VD: 0912345678"></div>'
                 + '<div><label class="text-xs font-bold text-slate-600">Vai trò *</label>'
                 + '<select id="uc-role" onchange="document.getElementById(\'uc-class-row\').classList.toggle(\'hidden\', this.value !== \'student\')" class="mt-1 w-full border rounded-lg px-3 py-2.5 font-semibold">'
                 + '<option value="teacher">Giáo viên</option><option value="student">Học sinh</option></select></div>'
@@ -593,6 +674,12 @@ async function deleteTrialAccount(uid, isTeacher){
         async function createAccountNow(){
             let name = document.getElementById('uc-name').value.trim();
             let id = document.getElementById('uc-id').value.replace(/\D/g, '');
+            let phoneRaw = document.getElementById('uc-phone').value.trim();
+            let phone = '';
+            if (phoneRaw) {
+                phone = normalizePhoneHub(phoneRaw);
+                if (!/^0\d{9}$/.test(phone)) { alert('SĐT không hợp lệ! Phải là 10 số bắt đầu bằng 0.'); return; }
+            }
             let role = document.getElementById('uc-role').value;
             let cls = document.getElementById('uc-class').value.trim().toUpperCase();
             let expSel = document.getElementById('uc-expiry');
@@ -602,7 +689,7 @@ async function deleteTrialAccount(uid, isTeacher){
             let roleName = role === 'teacher' ? 'giáo viên' : (role === 'bgh' ? 'Ban Giám Hiệu' : 'học sinh');
             if (!confirm('Tạo tài khoản ' + roleName + ' "' + name + '" (' + id + ')?')) return;
             try {
-                await createUserAccount({ id: id, name: name, role: role, className: cls, expiryDays: expVal || undefined });
+                await createUserAccount({ id: id, name: name, role: role, className: cls, expiryDays: expVal || undefined, phone: phone || undefined });
                 if (typeof showToast === 'function') showToast('Đã tạo tài khoản cho ' + name, 'success');
                 else alert('Đã tạo tài khoản cho ' + name);
                 userMgrRenderCreate();
