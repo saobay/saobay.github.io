@@ -142,18 +142,25 @@ body{font-family:system-ui,-apple-system,sans-serif}
         }
         mySubjects = assigns;
         let info = document.getElementById('assign-info');
-        if (!assigns.length){
-            let isPriv = sessionUser && (sessionUser.role === 'admin' || sessionUser.role === 'bgh');
-            info.innerHTML = !isPriv
-                ? '<i class="fa-solid fa-circle-info mr-1"></i>Bạn chưa được phân công môn nào (liên hệ admin).'
-                : '<i class="fa-solid fa-circle-info mr-1"></i>Chế độ ' + (sessionUser.role === 'bgh' ? 'Ban Giám Hiệu' : 'admin') + ': xem tất cả các đề thi.';
+        let isPriv = sessionUser && (sessionUser.role === 'admin' || sessionUser.role === 'bgh');
+        if (isPriv){
+            // Admin/BGH: an han dong phan cong roi mat, chi hien che do xem
+            info.innerHTML = '<i class="fa-solid fa-circle-info mr-1"></i>Chế độ ' + (sessionUser.role === 'bgh' ? 'Ban Giám Hiệu' : 'admin') + ': xem tất cả các đề thi.';
+            info.style.display = '';
+        } else if (!assigns.length){
+            info.innerHTML = '<i class="fa-solid fa-circle-info mr-1"></i>Bạn chưa được phân công môn nào (liên hệ admin).';
+            info.style.display = '';
         } else {
             let uniq = {};
             assigns.forEach(function(a){ uniq[a.subject + ' (lớp ' + a.class + ')'] = 1; });
             let parts = Object.keys(uniq);
-            customClasses.forEach(function(c){ parts.push('Lớp riêng: ' + c.name); });
+            // Gioi han hien thi toi da 10 muc, con lai gon vao "..."
+            let shown = parts.slice(0, 10);
+            let more = parts.length - shown.length;
+            customClasses.forEach(function(c){ shown.push('Lớp riêng: ' + c.name); });
             info.innerHTML = '<i class="fa-solid fa-clipboard-check text-indigo-600 mr-1"></i><b>Phân công của bạn:</b> '
-                + esc(parts.join(' • '));
+                + esc(shown.join(' • ')) + (more > 0 ? ' <span class="text-slate-400">• ... (+' + more + ')</span>' : '');
+            info.style.display = '';
         }
         // 2. liệt kê đề thi có bài nộp
         await loadExams();
