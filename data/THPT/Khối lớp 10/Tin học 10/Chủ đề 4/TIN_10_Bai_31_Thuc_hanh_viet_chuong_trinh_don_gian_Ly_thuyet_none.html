@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 31: Thực hành viết chương trình đơn giản</title>
+    <meta name="lesson-title" content="Bài 31: Thực hành viết chương trình đơn giản">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 31: Thực hành viết chương trình đơn giản</h1>
+            <p class="text-xs text-slate-500 mt-1">Chủ đề 5: Giải quyết vấn đề với sự trợ giúp của máy tính • Bài 31: Thực hành viết chương trình đơn giản</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 31: Thực hành viết chương trình đơn giản</h1>
+<p class="text-center text-slate-500 italic mb-8">Chủ đề 5: Giải quyết vấn đề với sự trợ giúp của máy tính</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Quy trình giải bài toán trên máy tính</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Bước</td><td class="border border-slate-300 px-4 py-1">Nội dung</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">1. Xác định bài toán</td><td class="border border-slate-300 px-4 py-1">Rõ <strong>dữ liệu vào</strong> (input) và <strong>kết quả ra</strong> (output)</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">2. Mô tả thuật toán</td><td class="border border-slate-300 px-4 py-1">Liệt kê các bước hoặc vẽ <strong>sơ đồ khối</strong></td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">3. Viết chương trình</td><td class="border border-slate-300 px-4 py-1">Cài đặt thuật toán bằng ngôn ngữ lập trình</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">4. Kiểm thử</td><td class="border border-slate-300 px-4 py-1">Chạy với dữ liệu mẫu (thường + biên), sửa lỗi nếu có</td></tr>
+</table></div>
+<p><strong>Thuật toán</strong> là dãy các bước <strong>hữu hạn, rõ ràng</strong> để giải một bài toán. Có thể mô tả bằng lời (liệt kê bước) hoặc bằng <strong>sơ đồ khối</strong>:</p>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Hình vẽ</td><td class="border border-slate-300 px-4 py-1">Ý nghĩa</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Hình chữ nhật</td><td class="border border-slate-300 px-4 py-1">Thao tác xử lí, tính toán</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Hình thoi</td><td class="border border-slate-300 px-4 py-1">Kiểm tra điều kiện, rẽ nhánh</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Hình bình hành</td><td class="border border-slate-300 px-4 py-1">Nhập dữ liệu vào / xuất kết quả ra</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Mũi tên</td><td class="border border-slate-300 px-4 py-1">Hướng thực hiện các bước</td></tr>
+</table></div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Ví dụ hoàn chỉnh: đếm học sinh giỏi</h2>
+<p><strong>Bài toán:</strong> Nhập số học sinh và điểm từng bạn, đếm xem có bao nhiêu bạn đạt điểm giỏi (từ 8 trở lên).</p>
+<p><strong>Thuật toán:</strong> Nhập n; lặp n lần nhập điểm; mỗi lần điểm từ 8 trở lên thì tăng biến đếm; in biến đếm.</p>
+<pre class="bg-slate-900 text-green-300 rounded-lg p-4 my-4 overflow-x-auto text-sm"><code>n = int(input("Số học sinh: "))
+dem = 0
+for i in range(n):
+    d = float(input("Nhập điểm: "))
+    if d &gt;= 8:
+        dem = dem + 1
+print("Số học sinh giỏi:", dem)</code></pre>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Kinh nghiệm thực hành</h2>
+<ul class="list-disc ml-6 space-y-1 my-2">
+<li><strong>Đúng trước, đẹp sau</strong>: chạy đúng là yêu cầu đầu tiên, rồi mới tối ưu.</li>
+<li>Đặt <strong>tên biến gợi nhớ</strong>, viết <strong>chú thích</strong> (bắt đầu bằng <code>#</code>) ở chỗ khó.</li>
+<li>Chương trình dài nên <strong>chia thành các hàm nhỏ</strong>, mỗi hàm một việc.</li>
+<li>Viết từng phần và <strong>kiểm thử dần</strong>; test cả dữ liệu biên.</li>
+<li>Chọn đúng cấu trúc: biết trước số lần dùng <code>for</code>, chưa biết dùng <code>while</code>, rẽ nhánh dùng <code>if</code>.</li>
+</ul>
+
+</div>
+        </div>
+    </div>
+</body>
+</html>
