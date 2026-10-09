@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 35: Sự đồng quy của ba đường trung trực, ba đường cao trong một tam giác</title>
+    <meta name="lesson-title" content="Bài 35: Sự đồng quy của ba đường trung trực, ba đường cao trong một tam giác">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 35: Sự đồng quy của ba đường trung trực, ba đường cao trong một tam giác</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 9: Quan hệ giữa các yếu tố trong một tam giác • Bài 35: Sự đồng quy của ba đường trung trực, ba đường cao trong một tam giác</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3">1. Sự đồng quy của ba đường trung trực</h2>
+<p>Đường thẳng vuông góc với một đoạn thẳng tại <strong>trung điểm</strong> của nó gọi là <strong>đường trung trực</strong> của đoạn thẳng đó. Mỗi cạnh của tam giác có một đường trung trực, nên mỗi tam giác có <strong>ba đường trung trực</strong>.</p>
+<div class="svg-fig">
+<svg viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ba duong trung truc dong quy tai O cach deu ba dinh">
+  <polygon points="180,40 60,260 340,260" fill="#f0f9ff" stroke="#0284c7" stroke-width="2.5"/>
+  <line x1="185" y1="15" x2="215" y2="305" stroke="#16a34a" stroke-width="2" stroke-dasharray="7,5"/>
+  <line x1="70" y1="120" x2="170" y2="200" stroke="#16a34a" stroke-width="2" stroke-dasharray="7,5"/>
+  <line x1="330" y1="120" x2="230" y2="200" stroke="#16a34a" stroke-width="2" stroke-dasharray="7,5"/>
+  <rect x="112" y="138" width="16" height="16" fill="none" stroke="#16a34a" stroke-width="1.5" transform="rotate(24 120 146)"/>
+  <rect x="268" y="138" width="16" height="16" fill="none" stroke="#16a34a" stroke-width="1.5" transform="rotate(-24 276 146)"/>
+  <rect x="192" y="252" width="16" height="16" fill="none" stroke="#16a34a" stroke-width="1.5"/>
+  <circle cx="200" cy="160" r="6" fill="#dc2626"/>
+  <circle cx="200" cy="160" r="128" fill="none" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="6,5"/>
+  <text x="180" y="32" font-size="18" font-weight="bold" text-anchor="middle">A</text>
+  <text x="48" y="278" font-size="18" font-weight="bold" text-anchor="middle">B</text>
+  <text x="352" y="278" font-size="18" font-weight="bold" text-anchor="middle">C</text>
+  <text x="212" y="164" font-size="17" font-weight="bold" fill="#dc2626">O</text>
+  <text x="225" y="60" font-size="13" fill="#16a34a">đường trung trực</text>
+  <text x="60" y="310" font-size="13" fill="#dc2626">O là tâm đường tròn ngoại tiếp tam giác ABC</text>
+</svg>
+<p class="text-center text-sm text-slate-500 mt-1">Hình 1. Ba đường trung trực đồng quy tại $O$; $O$ cách đều ba đỉnh</p>
+</div>
+<div class="bg-amber-50 border border-amber-200 rounded-xl p-4">
+  <p class="font-bold text-amber-800">📌 Ghi nhớ — Định lí</p>
+  <p class="mt-1">Ba đường trung trực của một tam giác <strong>đồng quy tại một điểm</strong>. Điểm này <strong>cách đều ba đỉnh</strong> của tam giác.</p>
+  <p class="mt-1"><strong>Chú ý:</strong> Giao điểm $O$ của ba đường trung trực là <strong>tâm đường tròn ngoại tiếp</strong> tam giác (đường tròn đi qua ba đỉnh của tam giác).</p>
+</div>
+<div class="bg-sky-50 border border-sky-200 rounded-xl p-4">
+  <p class="font-bold text-sky-800">Ví dụ 1.</p>
+  <p>$O$ là giao điểm ba đường trung trực của tam giác $ABC$. Biết $OA = 5\text{ cm}$. Tính $OB$ và $OC$.</p>
+  <p class="font-semibold text-sky-800 mt-2">Lời giải:</p>
+  <p>$O$ cách đều ba đỉnh của tam giác nên $OA = OB = OC = 5\text{ cm}$.</p>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3">2. Sự đồng quy của ba đường cao</h2>
+<p>Đoạn thẳng vuông góc kẻ từ một đỉnh đến cạnh đối diện gọi là một <strong>đường cao</strong> của tam giác. Mỗi tam giác có <strong>ba đường cao</strong>.</p>
+<div class="svg-fig">
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ba duong cao dong quy tai truc tam H">
+  <polygon points="140,40 60,250 360,250" fill="#f0f9ff" stroke="#0284c7" stroke-width="2.5"/>
+  <line x1="140" y1="40" x2="140" y2="250" stroke="#ea580c" stroke-width="2"/>
+  <line x1="60" y1="250" x2="196" y2="91" stroke="#ea580c" stroke-width="2"/>
+  <line x1="360" y1="250" x2="101" y2="137" stroke="#ea580c" stroke-width="2"/>
+  <rect x="140" y="226" width="18" height="18" fill="none" stroke="#ea580c" stroke-width="1.5"/>
+  <circle cx="140" cy="152" r="6" fill="#dc2626"/>
+  <text x="140" y="32" font-size="18" font-weight="bold" text-anchor="middle">A</text>
+  <text x="48" y="268" font-size="18" font-weight="bold" text-anchor="middle">B</text>
+  <text x="372" y="268" font-size="18" font-weight="bold" text-anchor="middle">C</text>
+  <text x="152" y="156" font-size="17" font-weight="bold" fill="#dc2626">H</text>
+  <text x="150" y="200" font-size="13" fill="#ea580c">đường cao</text>
+  <text x="90" y="290" font-size="13" fill="#64748b">H là trực tâm của tam giác ABC</text>
+</svg>
+<p class="text-center text-sm text-slate-500 mt-1">Hình 2. Ba đường cao đồng quy tại trực tâm $H$</p>
+</div>
+<div class="bg-amber-50 border border-amber-200 rounded-xl p-4">
+  <p class="font-bold text-amber-800">📌 Ghi nhớ — Định lí</p>
+  <p class="mt-1">Ba đường cao của một tam giác <strong>đồng quy tại một điểm</strong>. Điểm đồng quy này gọi là <strong>trực tâm</strong> của tam giác.</p>
+  <p class="mt-1"><strong>Chú ý:</strong></p>
+  <ul class="list-disc pl-6 mt-1 space-y-1">
+    <li>Với tam giác <strong>vuông</strong>, trực tâm chính là <strong>đỉnh góc vuông</strong>.</li>
+    <li>Với tam giác <strong>tù</strong>, trực tâm <strong>nằm ngoài</strong> tam giác.</li>
+  </ul>
+</div>
+<div class="bg-sky-50 border border-sky-200 rounded-xl p-4">
+  <p class="font-bold text-sky-800">Ví dụ 2.</p>
+  <p>Xác định trực tâm của tam giác $ABC$ vuông tại $A$.</p>
+  <p class="font-semibold text-sky-800 mt-2">Lời giải:</p>
+  <p>Hai cạnh $AB$ và $AC$ vuông góc với nhau nên chúng chính là hai đường cao của tam giác. Hai đường cao này cắt nhau tại $A$. Vậy trực tâm của tam giác vuông $ABC$ là đỉnh $A$.</p>
+</div>
+<div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4">
+  <p class="font-bold text-emerald-800">Bài tập ví dụ.</p>
+  <p>Cho tam giác đều $ABC$. Gọi $G$ là trọng tâm, $H$ là trực tâm, $O$ là giao điểm ba đường trung trực, $I$ là giao điểm ba đường phân giác của tam giác. Nhận xét vị trí của bốn điểm $G, H, O, I$.</p>
+  <p class="font-semibold text-emerald-800 mt-2">Lời giải:</p>
+  <p>Trong tam giác đều, đường trung tuyến đồng thời là đường cao, đường phân giác và đường trung trực ứng với mỗi đỉnh. Do đó bốn điểm $G, H, O, I$ <strong>trùng nhau</strong> tại một điểm — gọi là <strong>tâm</strong> của tam giác đều.</p>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3">Tóm tắt</h2>
+<div class="table-scroll">
+<table class="w-full text-sm border-collapse border border-slate-300">
+  <thead><tr class="bg-sky-100">
+    <th class="border border-slate-300 px-3 py-2">Đường</th>
+    <th class="border border-slate-300 px-3 py-2">Điểm đồng quy</th>
+    <th class="border border-slate-300 px-3 py-2">Tính chất</th>
+  </tr></thead>
+  <tbody>
+    <tr><td class="border border-slate-300 px-3 py-2 font-semibold">Ba đường trung trực</td><td class="border border-slate-300 px-3 py-2">Điểm $O$ (tâm đường tròn ngoại tiếp)</td><td class="border border-slate-300 px-3 py-2">$O$ cách đều ba đỉnh: $OA = OB = OC$.</td></tr>
+    <tr><td class="border border-slate-300 px-3 py-2 font-semibold">Ba đường cao</td><td class="border border-slate-300 px-3 py-2">Trực tâm $H$</td><td class="border border-slate-300 px-3 py-2">Tam giác vuông: $H$ là đỉnh góc vuông; tam giác tù: $H$ nằm ngoài tam giác.</td></tr>
+    <tr><td class="border border-slate-300 px-3 py-2 font-semibold">Tam giác đều</td><td class="border border-slate-300 px-3 py-2">Tâm tam giác</td><td class="border border-slate-300 px-3 py-2">Trọng tâm, trực tâm, $O$, $I$ trùng nhau.</td></tr>
+  </tbody>
+</table>
+</div>
+
+</div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
