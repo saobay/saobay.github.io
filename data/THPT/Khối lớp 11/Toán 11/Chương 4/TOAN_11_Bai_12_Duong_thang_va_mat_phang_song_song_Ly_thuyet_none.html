@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay | Ma nguon thuoc nen tang hoc tap SAOBAY | Nghiem cam sao chep duoi moi hinh thuc -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 12: Đường thẳng và mặt phẳng song song</title>
+    <meta name="lesson-title" content="Bài 12: Đường thẳng và mặt phẳng song song">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 12: Đường thẳng và mặt phẳng song song</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 4: Quan hệ song song trong không gian</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 12: Đường thẳng và mặt phẳng song song</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 4: Quan hệ song song trong không gian — Toán 11 (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Định nghĩa -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Định nghĩa</h2>
+
+<p><strong>Định nghĩa:</strong> Đường thẳng $d$ gọi là <em>song song</em> với mặt phẳng $(P)$ nếu chúng <strong>không có điểm chung</strong>. Kí hiệu: $d \parallel (P)$.</p>
+
+<p>Đường thẳng và mặt phẳng có ba vị trí tương đối:</p>
+
+<div class="table-scroll">
+<table class="w-full border-collapse my-4 text-sm md:text-base">
+<thead>
+<tr class="bg-sky-100">
+<th class="border border-sky-300 px-3 py-2">Vị trí</th>
+<th class="border border-sky-300 px-3 py-2">Số điểm chung</th>
+<th class="border border-sky-300 px-3 py-2">Kí hiệu</th>
+</tr>
+</thead>
+<tbody>
+<tr><td class="border border-sky-300 px-3 py-2">$d$ <strong>cắt</strong> $(P)$</td><td class="border border-sky-300 px-3 py-2 text-center">1</td><td class="border border-sky-300 px-3 py-2 text-center">—</td></tr>
+<tr><td class="border border-sky-300 px-3 py-2">$d$ <strong>nằm trong</strong> $(P)$</td><td class="border border-sky-300 px-3 py-2 text-center">Vô số</td><td class="border border-sky-300 px-3 py-2 text-center">$d \subset (P)$</td></tr>
+<tr><td class="border border-sky-300 px-3 py-2">$d$ <strong>song song</strong> $(P)$</td><td class="border border-sky-300 px-3 py-2 text-center">0</td><td class="border border-sky-300 px-3 py-2 text-center">$d \parallel (P)$</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="svg-fig">
+<svg viewBox="0 0 300 190" class="w-full max-w-md mx-auto">
+<polygon points="40,150 260,150 220,90 10,90" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+<text x="150" y="75" text-anchor="middle" font-style="italic" font-size="16">(P)</text>
+<line x1="60" y1="40" x2="250" y2="40" stroke="#dc2626" stroke-width="2.5"/>
+<text x="255" y="44" font-size="14">d</text>
+<text x="150" y="130" text-anchor="middle" font-size="13" fill="#dc2626">d ∥ (P): không có điểm chung</text>
+</svg>
+<p class="text-center text-sm text-slate-500 italic mt-2">Đường thẳng song song với mặt phẳng</p>
+</div>
+
+<!-- 2. Điều kiện và tính chất -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Điều kiện và tính chất</h2>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Điều kiện (dấu hiệu nhận biết):</p>
+<p>Nếu đường thẳng $d$ <strong>không nằm trong</strong> mặt phẳng $(P)$ và $d$ <strong>song song</strong> với một đường thẳng $d'$ nằm trong $(P)$ thì $d \parallel (P)$.</p>
+<p class="mt-2 text-sm">Tóm tắt: $\begin{cases} d \not\subset (P) \\ d \parallel d' \subset (P) \end{cases} \Rightarrow d \parallel (P)$.</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Tính chất 1:</p>
+<p>Cho đường thẳng $d$ song song với mặt phẳng $(P)$. Nếu mặt phẳng $(Q)$ chứa $d$ và cắt $(P)$ theo giao tuyến $d'$ thì $d \parallel d'$.</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Tính chất 2:</p>
+<p>Nếu đường thẳng $d$ song song với mặt phẳng $(P)$ thì mọi mặt phẳng chứa $d$ mà cắt $(P)$ đều cắt $(P)$ theo giao tuyến song song với $d$.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ví dụ</p>
+<p class="mt-1">Cho tứ diện $ABCD$, $M, N$ lần lượt là trung điểm của $AB, AC$. Vì $MN$ là đường trung bình của tam giác $ABC$ nên $MN \parallel BC \subset (BCD)$ và $MN \not\subset (BCD)$. Do đó $MN \parallel (BCD)$.</p>
+</div>
+
+<!-- 3. Ứng dụng chứng minh -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Phương pháp chứng minh đường thẳng song song với mặt phẳng</h2>
+
+<p>Để chứng minh $d \parallel (P)$, ta thường thực hiện hai bước:</p>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Bước 1:</strong> Chỉ ra $d$ không nằm trong $(P)$.</li>
+<li><strong>Bước 2:</strong> Tìm một đường thẳng $d'$ nằm trong $(P)$ sao cho $d \parallel d'$ (thường dùng đường trung bình hoặc định lí Thales đảo).</li>
+</ul>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Lỗi thường gặp</p>
+<p class="mt-1">Nhiều bạn quên kiểm tra điều kiện $d \not\subset (P)$. Nếu $d$ nằm trong $(P)$ thì không thể kết luận $d \parallel (P)$ dù $d$ có song song với một đường thẳng khác trong $(P)$.</p>
+</div>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">
+(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok){if(document.body){document.body.innerHTML='<div style="font-family:system-ui,sans-serif;max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff"><h2 style="color:#0f172a;margin-top:0">© SAOBAY — Trường THPT Sào Báy</h2><p style="color:#475569">Nội dung này chỉ được hiển thị tại địa chỉ chính thức <b>saobay.github.io</b>.</p><p style="color:#475569">Vui lòng truy cập đúng địa chỉ để học tập.</p></div>';}else{document.write("SAOBAY: truy cap tai saobay.github.io");}}catch(e){}})();
+</script>
+</body>
+</html>
