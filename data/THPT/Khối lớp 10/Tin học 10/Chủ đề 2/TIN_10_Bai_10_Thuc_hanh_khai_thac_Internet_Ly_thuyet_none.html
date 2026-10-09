@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 10: Thực hành khai thác tài nguyên trên Internet</title>
+    <meta name="lesson-title" content="Bài 10: Thực hành khai thác tài nguyên trên Internet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 10: Thực hành khai thác tài nguyên trên Internet</h1>
+            <p class="text-xs text-slate-500 mt-1">Chủ đề 2: Mạng máy tính và Internet • Bài 10: Thực hành khai thác tài nguyên trên Internet</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 10: Thực hành khai thác tài nguyên trên Internet</h1>
+<p class="text-center text-slate-500 italic mb-8">Chủ đề 2: Mạng máy tính và Internet • Bài 10: Thực hành khai thác tài nguyên trên Internet</p>
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Tìm kiếm thông tin hiệu quả</h2>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">1.1. Từ khóa</h3>
+<p>Nhập <strong>từ khóa</strong> cụ thể, đúng chính tả vào công cụ tìm kiếm. Từ khóa càng cụ thể, kết quả càng chính xác.</p>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">1.2. Toán tử tìm kiếm</h3>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Toán tử</td><td class="border border-slate-300 px-4 py-1">Tác dụng</td><td class="border border-slate-300 px-4 py-1">Ví dụ</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">“cụm từ”</td><td class="border border-slate-300 px-4 py-1">Tìm chính xác cụm từ</td><td class="border border-slate-300 px-4 py-1">“an toàn mạng”</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">filetype:</td><td class="border border-slate-300 px-4 py-1">Lọc theo định dạng file</td><td class="border border-slate-300 px-4 py-1">đề thi filetype:pdf</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">site:</td><td class="border border-slate-300 px-4 py-1">Giới hạn trong một trang web</td><td class="border border-slate-300 px-4 py-1">tuyển sinh site:moet.gov.vn</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">-từ</td><td class="border border-slate-300 px-4 py-1">Loại bỏ từ không mong muốn</td><td class="border border-slate-300 px-4 py-1">nấu ăn -chay</td></tr>
+</table></div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Đánh giá độ tin cậy của thông tin</h2>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Kiểm tra trước khi tin</p>
+<ul class="list-disc ml-6 space-y-1 mt-1">
+<li>Ưu tiên <strong>nguồn chính thức</strong>: cơ quan nhà nước, tổ chức uy tín, nhà xuất bản.</li>
+<li><strong>Đối chiếu nhiều nguồn</strong> khi thông tin quan trọng hoặc mâu thuẫn.</li>
+<li>Xem <strong>tác giả, thời gian đăng</strong>; số liệu phải có nguồn gốc rõ ràng.</li>
+<li>Cảnh giác với tiêu đề giật gân, nội dung không ghi nguồn.</li>
+</ul>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Khai thác tài nguyên số</h2>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Thư viện số:</strong> kho sách, tài liệu điện tử truy cập qua mạng.</li>
+<li><strong>Học liệu mở:</strong> tài liệu miễn phí cho cộng đồng học tập — dùng phải <strong>ghi nguồn</strong>.</li>
+<li><strong>Kho ảnh, nhạc miễn phí bản quyền:</strong> dùng hợp pháp cho bài thuyết trình, video.</li>
+<li><strong>Khóa học trực tuyến (MOOC), diễn đàn:</strong> học kĩ năng mới, hỏi đáp kiến thức.</li>
+<li><strong>Từ điển trực tuyến:</strong> tra từ nhanh, có phát âm và ví dụ.</li>
+</ul>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Lưu trữ, chia sẻ và làm việc cộng tác</h2>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Đám mây:</strong> lưu file trực tuyến, truy cập mọi nơi; chia sẻ qua liên kết; cài đặt quyền phù hợp.</li>
+<li><strong>Cộng tác trực tuyến:</strong> nhiều người cùng sửa một tài liệu; phân công rõ ràng, trao đổi thường xuyên.</li>
+<li><strong>Email:</strong> tiêu đề rõ ràng, kiểm tra người nhận và file đính kèm; đặt tên file khoa học.</li>
+<li>Tải file từ nguồn uy tín, <strong>quét virus</strong> trước khi mở; sắp xếp thư mục gọn gàng.</li>
+</ul>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Đạo đức khi khai thác</p>
+<ul class="list-disc ml-6 space-y-1 mt-1">
+<li><strong>Ghi nguồn</strong> khi dùng tài liệu của người khác — sao chép không ghi nguồn là <strong>đạo văn</strong>.</li>
+<li>Tôn trọng <strong>bản quyền</strong>: không dùng ảnh, nhạc có bản quyền khi chưa được phép.</li>
+</ul>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Tìm kiếm:</strong> từ khóa cụ thể + toán tử (“”, filetype:, site:, -).</li>
+<li><strong>Đánh giá:</strong> nguồn chính thức, đối chiếu đa nguồn, kiểm tra tác giả và thời gian.</li>
+<li><strong>Tài nguyên:</strong> thư viện số, học liệu mở, kho miễn phí bản quyền, MOOC.</li>
+<li><strong>Cộng tác:</strong> đám mây, chia sẻ link, phân quyền; email chuyên nghiệp.</li>
+<li><strong>Đạo đức:</strong> ghi nguồn, tôn trọng bản quyền, không đạo văn.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm để kiểm tra nhé! 💪</p>
+
+
+        </div>
+    </div>
+</body>
+</html>
