@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài tập Bài 2: Giá trị lớn nhất và giá trị nhỏ nhất của hàm số</title>
+    <meta name="lesson-title" content="Bài tập Bài 2: Giá trị lớn nhất và giá trị nhỏ nhất của hàm số">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Bài tập</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài tập Bài 2: Giá trị lớn nhất và giá trị nhỏ nhất của hàm số</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 1: Ứng dụng đạo hàm để khảo sát và vẽ đồ thị của hàm số • Bài 2: Giá trị lớn nhất và giá trị nhỏ nhất của hàm số</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="saobay-exam10">
+<script type="application/json" class="saobay-exam10-data">
+{
+ "sets": [
+  {
+   "name": "Đề 1",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tìm giá trị nhỏ nhất của hàm số $y = x^3 - 3x + 2$ trên đoạn $[0; 2]$.",
+     "options": [
+      "A. $0$",
+      "B. $2$",
+      "C. $4$",
+      "D. $-2$"
+     ],
+     "answer": "A",
+     "explain": "$y' = 3x^2 - 3 = 3(x^2 - 1)$; $y' = 0 \\Leftrightarrow x = \\pm 1$. Trên $(0; 2)$ có điểm tới hạn $x = 1$. Tính $f(0) = 2$, $f(1) = 0$, $f(2) = 4$. So sánh: $\\min\\{2; 0; 4\\} = 0$. Vậy GTNN bằng $0$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Số $M$ được gọi là giá trị lớn nhất của hàm số $y = f(x)$ trên tập $D$ nếu",
+     "options": [
+      "A. $f(x) \\le M$ với mọi $x \\in D$ và tồn tại $x_0 \\in D$ sao cho $f(x_0) = M$",
+      "B. $f(x) \\ge M$ với mọi $x \\in D$",
+      "C. $f(x) \\lt M$ với mọi $x \\in D$",
+      "D. $f(x) = M$ với mọi $x \\in D$"
+     ],
+     "answer": "A",
+     "explain": "Theo định nghĩa SGK: $M$ là GTLN của $f$ trên $D$ khi $f(x) \\le M$ với mọi $x \\in D$ và tồn tại $x_0 \\in D$ sao cho $f(x_0) = M$ (tức $M$ phải đạt được).",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tìm giá trị lớn nhất của hàm số $y = -x^4 + 4x^2 - 3$ trên $\\mathbb{R}$.",
+     "options": [
+      "A. $1$",
+      "B. $-3$",
+      "C. $3$",
+      "D. $0$"
+     ],
+     "answer": "A",
+     "explain": "$y' = -4x^3 + 8x = -4x(x^2 - 2)$; $y' = 0 \\Leftrightarrow x = 0$ hoặc $x = \\pm\\sqrt{2}$. Lập bảng biến thiên: $y$ đạt cực đại bằng $1$ tại $x = \\pm\\sqrt{2}$ và $y \\to -\\infty$ khi $x \\to \\pm\\infty$. Vậy GTLN trên $\\mathbb{R}$ bằng $1$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tìm giá trị lớn nhất của hàm số $y = \\sin x$ trên đoạn $[0; \\pi]$.",
+     "options": [
+      "A. $0$",
+      "B. $1$",
+      "C. $-1$",
+      "D. $\\frac{\\pi}{2}$"
+     ],
+     "answer": "B",
+     "explain": "Hàm số $y = \\sin x$ liên tục trên $[0; \\pi]$. $y' = \\cos x = 0 \\Leftrightarrow x = \\frac{\\pi}{2} \\in (0; \\pi)$. $f(0) = 0$, $f\\left(\\frac{\\pi}{2}\\right) = 1$, $f(\\pi) = 0$. Vậy GTLN bằng $1$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Cho hàm số $y = x^3 - 3x^2 + m$ trên đoạn $[-1; 1]$. Biết giá trị lớn nhất của hàm số bằng $5$. Tìm $m$.",
+     "options": [
+      "A. $5$",
+      "B. $9$",
+      "C. $1$",
+      "D. $3$"
+     ],
+     "answer": "A",
+     "explain": "$y' = 3x^2 - 6x = 3x(x - 2)$; trên $(-1; 1)$ có điểm tới hạn $x = 0$. $f(-1) = m - 4$, $f(0) = m$, $f(1) = m - 2$. So sánh: GTLN $= m$. Theo giả thiết $m = 5$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Tìm giá trị lớn nhất của hàm số $y = \\frac{x + 2}{x - 1}$ trên đoạn $[2; 4]$.",
+     "options": [
+      "A. $2$",
+      "B. $3$",
+      "C. $4$",
+      "D. $6$"
+     ],
+     "answer": "C",
+     "explain": "Tập xác định chứa $[2; 4]$. $y' = \\frac{(x - 1) - (x + 2)}{(x - 1)^2} = \\frac{-3}{(x - 1)^2} \\lt 0$ với mọi $x \\ne 1$, nên hàm số nghịch biến trên $[2; 4]$. Do đó GTLN đạt tại $x = 2$: $f(2) = \\frac{4}{1} = 4$.",
+     "points": 0.25
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Cho hàm số $y = x^2 - 4x + 3$ trên đoạn $[0; 4]$. Xét tính đúng, sai của các khẳng định sau:",
+     "statements": [
+      "a) Giá trị nhỏ nhất của hàm số bằng $-1$.",
+      "b) Giá trị lớn nhất của hàm số bằng $4$.",
+      "c) Giá trị nhỏ nhất đạt được tại $x = 2$.",
+      "d) Giá trị lớn nhất đạt được tại $x = 0$ và $x = 4$."
+     ],
+     "answer": [
+      "T",
+      "F",
+      "T",
+      "T"
+     ],
+     "explain": "$y' = 2x - 4 = 0 \\Leftrightarrow x = 2$. $f(0) = 3$, $f(2) = -1$, $f(4) = 3$. Vậy GTNN $= -1$ (tại $x = 2$), GTLN $= 3$ (tại $x = 0$ và $x = 4$). Do đó a) đúng, b) sai, c) đúng, d) đúng.",
+     "points": 1
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho hàm số $y = \\sqrt{4 - x^2}$ trên đoạn $[-2; 2]$. Xét tính đúng, sai của các khẳng định sau:",
+     "statements": [
+      "a) Giá trị lớn nhất của hàm số bằng $2$.",
+      "b) Giá trị nhỏ nhất của hàm số bằng $-2$.",
+      "c) Hàm số đạt giá trị lớn nhất tại $x = 0$.",
+      "d) Hàm số không có giá trị nhỏ nhất trên $[-2; 2]$."
+     ],
+     "answer": [
+      "T",
+      "F",
+      "T",
+      "F"
+     ],
+     "explain": "$y' = \\frac{-x}{\\sqrt{4 - x^2}} = 0 \\Leftrightarrow x = 0$. $f(-2) = 0$, $f(0) = 2$, $f(2) = 0$. Vậy GTLN $= 2$ (tại $x = 0$), GTNN $= 0$ (tại $x = \\pm 2$). Do đó a) đúng, b) sai, c) đúng, d) sai.",
+     "points": 1
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tìm giá trị nhỏ nhất của hàm số $y = 2x^3 - 3x^2 - 12x + 5$ trên đoạn $[-2; 2]$.",
+     "answer": "-15",
+     "explain": "$y' = 6x^2 - 6x - 12 = 6(x - 2)(x + 1)$; trên $(-2; 2)$ có điểm tới hạn $x = -1$. $f(-2) = -16 - 12 + 24 + 5 = 1$, $f(-1) = -2 - 3 + 12 + 5 = 12$, $f(2) = 16 - 12 - 24 + 5 = -15$. Vậy GTNN $= -15$.",
+     "points": 0.5
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Một mảnh vườn hình chữ nhật có chu vi $36$ m. Diện tích lớn nhất của mảnh vườn bằng bao nhiêu mét vuông?",
+     "answer": "81",
+     "explain": "Gọi chiều dài là $x$ (m), $0 \\lt x \\lt 18$ thì chiều rộng là $18 - x$ (m). Diện tích $S(x) = x(18 - x) = -x^2 + 18x$. $S'(x) = 18 - 2x = 0 \\Leftrightarrow x = 9$. $S$ đạt GTLN tại $x = 9$: $S(9) = 81$. Vậy diện tích lớn nhất là $81$ m$^2$.",
+     "points": 0.5
+    }
+   ]
+  },
+  {
+   "name": "Đề 2",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tìm giá trị lớn nhất của hàm số $y = x^2 - 2x - 3$ trên đoạn $[0; 3]$.",
+     "options": [
+      "A. $0$",
+      "B. $-3$",
+      "C. $-4$",
+      "D. $3$"
+     ],
+     "answer": "A",
+     "explain": "$y' = 2x - 2 = 0 \\Leftrightarrow x = 1$. $f(0) = -3$, $f(1) = -4$, $f(3) = 9 - 6 - 3 = 0$. So sánh: $\\max\\{-3; -4; 0\\} = 0$. Vậy GTLN bằng $0$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. Mọi hàm số liên tục trên đoạn $[a; b]$ đều có giá trị lớn nhất và giá trị nhỏ nhất trên đoạn đó",
+      "B. Mọi hàm số đều có giá trị lớn nhất trên $\\mathbb{R}$",
+      "C. Hàm số liên tục trên khoảng $(a; b)$ luôn có giá trị lớn nhất",
+      "D. Hàm số có đạo hàm tại mọi điểm thì luôn có giá trị nhỏ nhất"
+     ],
+     "answer": "A",
+     "explain": "Đây là định lí về sự tồn tại GTLN, GTNN: hàm số liên tục trên đoạn $[a; b]$ luôn có GTLN và GTNN trên đoạn đó. Các khẳng định còn lại đều sai (ví dụ $y = x$ trên $\\mathbb{R}$ không có GTLN, GTNN).",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tìm giá trị nhỏ nhất của hàm số $y = x^3 - 3x^2$ trên đoạn $[-1; 3]$.",
+     "options": [
+      "A. $0$",
+      "B. $-4$",
+      "C. $-2$",
+      "D. $4$"
+     ],
+     "answer": "B",
+     "explain": "$y' = 3x^2 - 6x = 3x(x - 2)$; trên $(-1; 3)$ có hai điểm tới hạn $x = 0$, $x = 2$. $f(-1) = -4$, $f(0) = 0$, $f(2) = -4$, $f(3) = 0$. Vậy GTNN $= -4$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tìm giá trị nhỏ nhất của hàm số $y = \\cos x$ trên đoạn $[0; \\pi]$.",
+     "options": [
+      "A. $1$",
+      "B. $0$",
+      "C. $-1$",
+      "D. $-2$"
+     ],
+     "answer": "C",
+     "explain": "$y' = -\\sin x = 0 \\Leftrightarrow x = 0$ hoặc $x = \\pi$ (trong $[0; \\pi]$); không có điểm tới hạn trong $(0; \\pi)$. $f(0) = 1$, $f(\\pi) = -1$. Vậy GTNN $= -1$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tìm giá trị nhỏ nhất của hàm số $y = \\frac{2x + 1}{x + 2}$ trên đoạn $[0; 2]$.",
+     "options": [
+      "A. $\\frac{1}{2}$",
+      "B. $\\frac{5}{4}$",
+      "C. $1$",
+      "D. $2$"
+     ],
+     "answer": "A",
+     "explain": "$y' = \\frac{2(x + 2) - (2x + 1)}{(x + 2)^2} = \\frac{3}{(x + 2)^2} \\gt 0$ với mọi $x \\ne -2$, nên hàm số đồng biến trên $[0; 2]$. GTNN đạt tại $x = 0$: $f(0) = \\frac{1}{2}$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Tìm giá trị nhỏ nhất của hàm số $y = x + \\frac{4}{x}$ với $x \\gt 0$.",
+     "options": [
+      "A. $2$",
+      "B. $4$",
+      "C. $8$",
+      "D. Không tồn tại giá trị nhỏ nhất"
+     ],
+     "answer": "B",
+     "explain": "$y' = 1 - \\frac{4}{x^2} = 0 \\Leftrightarrow x = 2$ (vì $x \\gt 0$). $\\lim_{x \\to 0^+} y = +\\infty$, $\\lim_{x \\to +\\infty} y = +\\infty$. Bảng biến thiên cho thấy $y$ giảm trên $(0; 2)$, tăng trên $(2; +\\infty)$ nên $\\min_{(0; +\\infty)} y = f(2) = 4$.",
+     "points": 0.25
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Cho hàm số $y = -x^2 + 4x + 1$ trên đoạn $[0; 5]$. Xét tính đúng, sai của các khẳng định sau:",
+     "statements": [
+      "a) Giá trị lớn nhất của hàm số bằng $9$.",
+      "b) Giá trị nhỏ nhất của hàm số bằng $1$.",
+      "c) Giá trị lớn nhất đạt được tại $x = 2$.",
+      "d) Giá trị nhỏ nhất đạt được tại $x = 0$."
+     ],
+     "answer": [
+      "T",
+      "F",
+      "T",
+      "F"
+     ],
+     "explain": "$y' = -2x + 4 = 0 \\Leftrightarrow x = 2$. $f(0) = 1$, $f(2) = 9$, $f(5) = -4$. Vậy GTLN $= 9$ (tại $x = 2$), GTNN $= -4$ (tại $x = 5$). Do đó a) đúng, b) sai, c) đúng, d) sai.",
+     "points": 1
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho hàm số $y = \\frac{1}{x^2 + 1}$ trên $\\mathbb{R}$. Xét tính đúng, sai của các khẳng định sau:",
+     "statements": [
+      "a) Giá trị lớn nhất của hàm số bằng $1$.",
+      "b) Giá trị lớn nhất đạt được tại $x = 0$.",
+      "c) Giá trị nhỏ nhất của hàm số bằng $0$.",
+      "d) Hàm số không có giá trị nhỏ nhất trên $\\mathbb{R}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "$y' = \\frac{-2x}{(x^2 + 1)^2} = 0 \\Leftrightarrow x = 0$; $f(0) = 1$ là cực đại. Vì $0 \\lt \\frac{1}{x^2 + 1} \\le 1$ với mọi $x$ và $\\lim_{x \\to \\pm\\infty} y = 0$ nhưng không có $x$ nào để $y = 0$, nên GTLN $= 1$ (tại $x = 0$) và hàm số không có GTNN trên $\\mathbb{R}$. Do đó a) đúng, b) đúng, c) sai, d) đúng.",
+     "points": 1
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Cho hàm số $y = x^3 - 3x + m$ trên đoạn $[0; 2]$. Biết giá trị nhỏ nhất của hàm số bằng $1$. Tìm $m$.",
+     "answer": "3",
+     "explain": "$y' = 3x^2 - 3 = 0 \\Leftrightarrow x = \\pm 1$; trên $(0; 2)$ có điểm tới hạn $x = 1$. $f(0) = m$, $f(1) = m - 2$, $f(2) = m + 2$. Vậy GTNN $= m - 2$. Theo giả thiết $m - 2 = 1$, suy ra $m = 3$.",
+     "points": 0.5
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tổng của hai số dương bằng $10$. Tích lớn nhất của hai số đó bằng bao nhiêu?",
+     "answer": "25",
+     "explain": "Gọi số thứ nhất là $x$, $0 \\lt x \\lt 10$, số thứ hai là $10 - x$. Tích $P(x) = x(10 - x) = -x^2 + 10x$. $P'(x) = 10 - 2x = 0 \\Leftrightarrow x = 5$. $P$ đạt GTLN tại $x = 5$: $P(5) = 25$.",
+     "points": 0.5
+    }
+   ]
+  },
+  {
+   "name": "Đề 3",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tìm giá trị nhỏ nhất của hàm số $y = x^4 - 2x^2 + 2$ trên đoạn $[-1; 1]$.",
+     "options": [
+      "A. $1$",
+      "B. $2$",
+      "C. $0$",
+      "D. $-1$"
+     ],
+     "answer": "A",
+     "explain": "$y' = 4x^3 - 4x = 4x(x^2 - 1)$; trên $(-1; 1)$ có điểm tới hạn $x = 0$. $f(-1) = 1$, $f(0) = 2$, $f(1) = 1$. Vậy GTNN $= 1$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Điểm tới hạn của hàm số $y = f(x)$ là điểm $x_0$ mà tại đó",
+     "options": [
+      "A. $f'(x_0) = 0$ hoặc $f'(x_0)$ không xác định (và hàm số xác định tại $x_0$)",
+      "B. $f(x_0) = 0$",
+      "C. $f''(x_0) = 0$",
+      "D. hàm số không xác định tại $x_0$"
+     ],
+     "answer": "A",
+     "explain": "Theo SGK, $x_0$ là điểm tới hạn của $f$ nếu $f$ xác định tại $x_0$ và $f'(x_0) = 0$ hoặc $f'$ không xác định tại $x_0$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tìm giá trị lớn nhất của hàm số $y = \\sqrt{2x + 6}$ trên đoạn $[-2; 5]$.",
+     "options": [
+      "A. $\\sqrt{2}$",
+      "B. $4$",
+      "C. $\\sqrt{6}$",
+      "D. $2$"
+     ],
+     "answer": "B",
+     "explain": "Hàm số xác định khi $2x + 6 \\ge 0 \\Leftrightarrow x \\ge -3$, chứa đoạn $[-2; 5]$. $y' = \\frac{1}{\\sqrt{2x + 6}} \\gt 0$ nên hàm số đồng biến trên $[-2; 5]$. GTLN đạt tại $x = 5$: $f(5) = \\sqrt{16} = 4$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tìm giá trị nhỏ nhất của hàm số $y = \\sin x$ trên đoạn $\\left[\\frac{\\pi}{2}; \\pi\\right]$.",
+     "options": [
+      "A. $1$",
+      "B. $0$",
+      "C. $-1$",
+      "D. $\\frac{\\sqrt{2}}{2}$"
+     ],
+     "answer": "B",
+     "explain": "$y' = \\cos x \\lt 0$ trên $\\left(\\frac{\\pi}{2}; \\pi\\right)$ nên hàm số nghịch biến. GTNN đạt tại $x = \\pi$: $f(\\pi) = 0$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tìm giá trị lớn nhất của hàm số $y = -x^3 + 3x^2 - 2$ trên đoạn $[0; 3]$.",
+     "options": [
+      "A. $2$",
+      "B. $-2$",
+      "C. $0$",
+      "D. $3$"
+     ],
+     "answer": "A",
+     "explain": "$y' = -3x^2 + 6x = -3x(x - 2)$; trên $(0; 3)$ có điểm tới hạn $x = 2$. $f(0) = -2$, $f(2) = -8 + 12 - 2 = 2$, $f(3) = -27 + 27 - 2 = -2$. Vậy GTLN $= 2$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Tìm giá trị lớn nhất của hàm số $y = \\sin^2 x + \\cos x$ trên đoạn $[0; \\pi]$.",
+     "options": [
+      "A. $1$",
+      "B. $\\frac{5}{4}$",
+      "C. $\\frac{3}{4}$",
+      "D. $2$"
+     ],
+     "answer": "B",
+     "explain": "$y' = 2\\sin x\\cos x - \\sin x = \\sin x(2\\cos x - 1)$. Trên $(0; \\pi)$: $y' = 0 \\Leftrightarrow \\cos x = \\frac{1}{2} \\Leftrightarrow x = \\frac{\\pi}{3}$. $f(0) = 1$, $f\\left(\\frac{\\pi}{3}\\right) = \\frac{3}{4} + \\frac{1}{2} = \\frac{5}{4}$, $f(\\pi) = -1$. Vậy GTLN $= \\frac{5}{4}$.",
+     "points": 0.25
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Cho hàm số $y = 2x + 1$ trên đoạn $[1; 4]$. Xét tính đúng, sai của các khẳng định sau:",
+     "statements": [
+      "a) Giá trị lớn nhất của hàm số bằng $9$.",
+      "b) Giá trị nhỏ nhất của hàm số bằng $3$.",
+      "c) Giá trị lớn nhất đạt được tại $x = 4$.",
+      "d) Giá trị nhỏ nhất đạt được tại $x = 4$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "Hàm số đồng biến trên $\\mathbb{R}$ ($y' = 2 \\gt 0$). Trên $[1; 4]$: GTNN $= f(1) = 3$ (tại $x = 1$), GTLN $= f(4) = 9$ (tại $x = 4$). Do đó a) đúng, b) đúng, c) đúng, d) sai.",
+     "points": 1
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho hàm số $y = x^3 - 3x$ trên đoạn $[-2; 2]$. Xét tính đúng, sai của các khẳng định sau:",
+     "statements": [
+      "a) Giá trị lớn nhất của hàm số bằng $2$.",
+      "b) Giá trị nhỏ nhất của hàm số bằng $-2$.",
+      "c) Giá trị lớn nhất đạt được tại $x = -1$ và $x = 2$.",
+      "d) Giá trị nhỏ nhất chỉ đạt được tại $x = 1$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$y' = 3x^2 - 3 = 0 \\Leftrightarrow x = \\pm 1$. $f(-2) = -2$, $f(-1) = 2$, $f(1) = -2$, $f(2) = 2$. Vậy GTLN $= 2$ (tại $x = -1$ và $x = 2$), GTNN $= -2$ (tại $x = -2$ và $x = 1$). Do đó a) đúng, b) đúng, c) đúng, d) sai (GTNN còn đạt tại $x = -2$).",
+     "points": 1
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tìm giá trị nhỏ nhất của hàm số $y = x^4 - 4x^2 + 3$ trên đoạn $[0; 3]$.",
+     "answer": "-1",
+     "explain": "$y' = 4x^3 - 8x = 4x(x^2 - 2)$; trên $(0; 3)$ có điểm tới hạn $x = \\sqrt{2}$. $f(0) = 3$, $f(\\sqrt{2}) = 4 - 8 + 3 = -1$, $f(3) = 81 - 36 + 3 = 48$. Vậy GTNN $= -1$.",
+     "points": 0.5
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Người ta làm một chiếc hộp không nắp hình hộp chữ nhật có đáy là hình vuông, thể tích $32$ m$^3$. Diện tích vật liệu cần dùng ít nhất bằng bao nhiêu mét vuông?",
+     "answer": "48",
+     "explain": "Gọi cạnh đáy là $x$ (m), chiều cao là $h$ (m). Ta có $x^2 h = 32$, suy ra $h = \\frac{32}{x^2}$. Diện tích vật liệu $S(x) = x^2 + 4xh = x^2 + \\frac{128}{x}$, $x \\gt 0$. $S'(x) = 2x - \\frac{128}{x^2} = 0 \\Leftrightarrow x^3 = 64 \\Leftrightarrow x = 4$. $S$ đạt GTNN tại $x = 4$: $S(4) = 16 + 32 = 48$. Vậy cần ít nhất $48$ m$^2$.",
+     "points": 0.5
+    }
+   ]
+  },
+  {
+   "name": "Đề 4",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tìm giá trị lớn nhất của hàm số $y = -2x^2 + 8x - 5$ trên đoạn $[0; 4]$.",
+     "options": [
+      "A. $3$",
+      "B. $-5$",
+      "C. $8$",
+      "D. $5$"
+     ],
+     "answer": "A",
+     "explain": "$y' = -4x + 8 = 0 \\Leftrightarrow x = 2$. $f(0) = -5$, $f(2) = -8 + 16 - 5 = 3$, $f(4) = -32 + 32 - 5 = -5$. Vậy GTLN $= 3$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Để tìm giá trị lớn nhất và giá trị nhỏ nhất của hàm số liên tục trên đoạn $[a; b]$, ta thực hiện",
+     "options": [
+      "A. tính giá trị của hàm số tại các điểm tới hạn trong $(a; b)$ và tại hai đầu mút $a$, $b$ rồi so sánh",
+      "B. chỉ tính giá trị của hàm số tại hai đầu mút $a$ và $b$",
+      "C. chỉ giải phương trình $f'(x) = 0$",
+      "D. vẽ đồ thị rồi ước lượng bằng mắt"
+     ],
+     "answer": "A",
+     "explain": "Đúng quy tắc SGK: tìm điểm tới hạn trong $(a; b)$, tính $f$ tại đó và tại $a$, $b$, rồi so sánh để lấy số lớn nhất (GTLN) và số nhỏ nhất (GTNN).",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tìm giá trị lớn nhất của hàm số $y = \\frac{x - 1}{x + 1}$ trên đoạn $[0; 3]$.",
+     "options": [
+      "A. $-1$",
+      "B. $\\frac{1}{2}$",
+      "C. $1$",
+      "D. $0$"
+     ],
+     "answer": "B",
+     "explain": "$y' = \\frac{(x + 1) - (x - 1)}{(x + 1)^2} = \\frac{2}{(x + 1)^2} \\gt 0$ với mọi $x \\ne -1$, nên hàm số đồng biến trên $[0; 3]$. GTLN đạt tại $x = 3$: $f(3) = \\frac{2}{4} = \\frac{1}{2}$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tìm giá trị lớn nhất của hàm số $y = x + \\sqrt{4 - x^2}$ trên đoạn $[-2; 2]$.",
+     "options": [
+      "A. $2$",
+      "B. $2\\sqrt{2}$",
+      "C. $-2$",
+      "D. $\\sqrt{2}$"
+     ],
+     "answer": "B",
+     "explain": "$y' = 1 - \\frac{x}{\\sqrt{4 - x^2}} = 0 \\Leftrightarrow \\sqrt{4 - x^2} = x \\Leftrightarrow x = \\sqrt{2}$ (do $x \\ge 0$). $f(-2) = -2$, $f(\\sqrt{2}) = 2\\sqrt{2}$, $f(2) = 2$. Vậy GTLN $= 2\\sqrt{2}$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tìm giá trị lớn nhất của hàm số $y = x^3 - 6x^2 + 9x + 1$ trên đoạn $[0; 4]$.",
+     "options": [
+      "A. $1$",
+      "B. $3$",
+      "C. $5$",
+      "D. $9$"
+     ],
+     "answer": "C",
+     "explain": "$y' = 3x^2 - 12x + 9 = 3(x - 1)(x - 3)$; trên $(0; 4)$ có hai điểm tới hạn $x = 1$, $x = 3$. $f(0) = 1$, $f(1) = 5$, $f(3) = 1$, $f(4) = 5$. Vậy GTLN $= 5$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Tìm giá trị lớn nhất của hàm số $y = |x^2 - 4x + 3|$ trên đoạn $[0; 4]$.",
+     "options": [
+      "A. $1$",
+      "B. $3$",
+      "C. $4$",
+      "D. $0$"
+     ],
+     "answer": "B",
+     "explain": "Đặt $g(x) = x^2 - 4x + 3 = (x - 1)(x - 3)$, có hai nghiệm $x = 1$, $x = 3$ trên $[0; 4]$. $|g(x)|$ đạt GTLN tại một trong các điểm $x = 0$, $x = 1$, $x = 2$, $x = 3$, $x = 4$. $|g(0)| = 3$, $|g(1)| = 0$, $|g(2)| = 1$, $|g(3)| = 0$, $|g(4)| = 3$. Vậy GTLN $= 3$.",
+     "points": 0.25
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Cho hàm số $y = 3 - x^2$ trên đoạn $[-2; 2]$. Xét tính đúng, sai của các khẳng định sau:",
+     "statements": [
+      "a) Giá trị lớn nhất của hàm số bằng $3$.",
+      "b) Giá trị nhỏ nhất của hàm số bằng $-1$.",
+      "c) Giá trị lớn nhất đạt được tại $x = 0$.",
+      "d) Giá trị nhỏ nhất đạt được tại $x = 0$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$y' = -2x = 0 \\Leftrightarrow x = 0$. $f(-2) = -1$, $f(0) = 3$, $f(2) = -1$. Vậy GTLN $= 3$ (tại $x = 0$), GTNN $= -1$ (tại $x = \\pm 2$). Do đó a) đúng, b) đúng, c) đúng, d) sai.",
+     "points": 1
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho hàm số $y = x^3$ trên đoạn $[-1; 2]$. Xét tính đúng, sai của các khẳng định sau:",
+     "statements": [
+      "a) Giá trị nhỏ nhất của hàm số bằng $-1$.",
+      "b) Giá trị lớn nhất của hàm số bằng $8$.",
+      "c) Hàm số đồng biến trên $[-1; 2]$.",
+      "d) Giá trị lớn nhất đạt được tại $x = -1$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$y' = 3x^2 \\ge 0$ với mọi $x$ nên hàm số đồng biến trên $[-1; 2]$. GTNN $= f(-1) = -1$, GTLN $= f(2) = 8$ (đạt tại $x = 2$). Do đó a) đúng, b) đúng, c) đúng, d) sai.",
+     "points": 1
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tìm giá trị lớn nhất của hàm số $y = -x^4 + 2x^2 + 3$ trên đoạn $[-2; 2]$.",
+     "answer": "4",
+     "explain": "$y' = -4x^3 + 4x = -4x(x^2 - 1)$; trên $(-2; 2)$ có ba điểm tới hạn $x = -1$, $x = 0$, $x = 1$. $f(-2) = -5$, $f(-1) = 4$, $f(0) = 3$, $f(1) = 4$, $f(2) = -5$. Vậy GTLN $= 4$.",
+     "points": 0.5
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tìm giá trị lớn nhất của hàm số $y = x(10 - x)^2$ trên đoạn $[0; 10]$.",
+     "answer": "$\\frac{4000}{27}$",
+     "explain": "$y' = (10 - x)^2 + x \\cdot 2(10 - x)(-1) = (10 - x)(10 - 3x)$. Trên $(0; 10)$: $y' = 0 \\Leftrightarrow x = \\frac{10}{3}$. $f(0) = 0$, $f\\left(\\frac{10}{3}\\right) = \\frac{10}{3} \\cdot \\left(\\frac{20}{3}\\right)^2 = \\frac{4000}{27}$, $f(10) = 0$. Vậy GTLN $= \\frac{4000}{27}$.",
+     "points": 0.5
+    }
+   ]
+  },
+  {
+   "name": "Đề 5",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tìm giá trị nhỏ nhất của hàm số $y = 2x^3 - 3x^2$ trên đoạn $[0; 2]$.",
+     "options": [
+      "A. $-1$",
+      "B. $0$",
+      "C. $4$",
+      "D. $-2$"
+     ],
+     "answer": "A",
+     "explain": "$y' = 6x^2 - 6x = 6x(x - 1)$; trên $(0; 2)$ có điểm tới hạn $x = 1$. $f(0) = 0$, $f(1) = -1$, $f(2) = 4$. Vậy GTNN $= -1$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Để tìm giá trị lớn nhất, giá trị nhỏ nhất của hàm số trên một khoảng $(a; b)$, ta dựa vào",
+     "options": [
+      "A. bảng biến thiên của hàm số và các giới hạn tại hai đầu mút của khoảng",
+      "B. giá trị của hàm số tại hai đầu mút $a$ và $b$",
+      "C. chỉ nghiệm của phương trình $f'(x) = 0$",
+      "D. không thể tìm được GTLN, GTNN trên khoảng"
+     ],
+     "answer": "A",
+     "explain": "Trên khoảng, hàm số liên tục chưa chắc có GTLN/GTNN nên phải lập bảng biến thiên kết hợp với giới hạn tại hai đầu mút (kể cả $\\pm\\infty$) rồi mới kết luận.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tìm giá trị nhỏ nhất của hàm số $y = x^4 - 4x^2 + 5$ trên đoạn $[-2; 2]$.",
+     "options": [
+      "A. $1$",
+      "B. $5$",
+      "C. $4$",
+      "D. $0$"
+     ],
+     "answer": "A",
+     "explain": "$y' = 4x^3 - 8x = 4x(x^2 - 2)$; trên $(-2; 2)$ có ba điểm tới hạn $x = 0$, $x = \\pm\\sqrt{2}$. $f(-2) = 5$, $f(-\\sqrt{2}) = 1$, $f(0) = 5$, $f(\\sqrt{2}) = 1$, $f(2) = 5$. Vậy GTNN $= 1$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tìm giá trị nhỏ nhất của hàm số $y = \\sqrt{x^2 + 1}$ trên $\\mathbb{R}$.",
+     "options": [
+      "A. $0$",
+      "B. $1$",
+      "C. $-1$",
+      "D. Không tồn tại giá trị nhỏ nhất"
+     ],
+     "answer": "B",
+     "explain": "$y' = \\frac{x}{\\sqrt{x^2 + 1}} = 0 \\Leftrightarrow x = 0$. Bảng biến thiên: $y$ giảm trên $(-\\infty; 0)$, tăng trên $(0; +\\infty)$, $\\lim_{x \\to \\pm\\infty} y = +\\infty$. Vậy GTNN $= f(0) = 1$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tìm giá trị lớn nhất của hàm số $y = \\frac{x^2 + 3}{x^2 + 1}$ trên $\\mathbb{R}$.",
+     "options": [
+      "A. $1$",
+      "B. $2$",
+      "C. $3$",
+      "D. $4$"
+     ],
+     "answer": "C",
+     "explain": "$y = \\frac{x^2 + 3}{x^2 + 1} = 1 + \\frac{2}{x^2 + 1}$. Vì $x^2 + 1 \\ge 1$ nên $\\frac{2}{x^2 + 1} \\le 2$, dấu bằng xảy ra khi $x = 0$. Vậy GTLN $= 1 + 2 = 3$ (đạt tại $x = 0$).",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Tìm giá trị nhỏ nhất của hàm số $y = \\sin x + \\sqrt{3}\\cos x$ trên đoạn $[0; \\pi]$.",
+     "options": [
+      "A. $2$",
+      "B. $\\sqrt{3}$",
+      "C. $-\\sqrt{3}$",
+      "D. $1$"
+     ],
+     "answer": "C",
+     "explain": "$y = 2\\sin\\left(x + \\frac{\\pi}{3}\\right)$. $y' = 2\\cos\\left(x + \\frac{\\pi}{3}\\right) = 0 \\Leftrightarrow x + \\frac{\\pi}{3} = \\frac{\\pi}{2}$ hoặc $x + \\frac{\\pi}{3} = \\frac{3\\pi}{2}$; trên $(0; \\pi)$ có điểm tới hạn $x = \\frac{\\pi}{6}$. $f(0) = \\sqrt{3}$, $f\\left(\\frac{\\pi}{6}\\right) = 2$, $f(\\pi) = -\\sqrt{3}$. Vậy GTNN $= -\\sqrt{3}$.",
+     "points": 0.25
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Cho hàm số $y = x^2 + 1$ trên đoạn $[-1; 2]$. Xét tính đúng, sai của các khẳng định sau:",
+     "statements": [
+      "a) Giá trị nhỏ nhất của hàm số bằng $1$.",
+      "b) Giá trị lớn nhất của hàm số bằng $5$.",
+      "c) Giá trị nhỏ nhất đạt được tại $x = 0$.",
+      "d) Giá trị lớn nhất đạt được tại $x = -1$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$y' = 2x = 0 \\Leftrightarrow x = 0$. $f(-1) = 2$, $f(0) = 1$, $f(2) = 5$. Vậy GTNN $= 1$ (tại $x = 0$), GTLN $= 5$ (tại $x = 2$). Do đó a) đúng, b) đúng, c) đúng, d) sai.",
+     "points": 1
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho hàm số $y = -x^3 + 3x$ trên đoạn $[-2; 2]$. Xét tính đúng, sai của các khẳng định sau:",
+     "statements": [
+      "a) Giá trị lớn nhất của hàm số bằng $2$.",
+      "b) Giá trị nhỏ nhất của hàm số bằng $-2$.",
+      "c) Giá trị lớn nhất đạt được tại $x = -2$ và $x = 1$.",
+      "d) Giá trị nhỏ nhất đạt được tại $x = 2$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$y' = -3x^2 + 3 = 0 \\Leftrightarrow x = \\pm 1$. $f(-2) = 2$, $f(-1) = -2$, $f(1) = 2$, $f(2) = -2$. Vậy GTLN $= 2$ (tại $x = -2$ và $x = 1$), GTNN $= -2$ (tại $x = -1$ và $x = 2$). Do đó a) đúng, b) đúng, c) đúng, d) sai (GTNN còn đạt tại $x = -1$).",
+     "points": 1
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tìm giá trị lớn nhất của hàm số $y = \\frac{3x + 1}{x - 2}$ trên đoạn $[3; 5]$.",
+     "answer": "10",
+     "explain": "$y' = \\frac{3(x - 2) - (3x + 1)}{(x - 2)^2} = \\frac{-7}{(x - 2)^2} \\lt 0$ với mọi $x \\ne 2$, nên hàm số nghịch biến trên $[3; 5]$. GTLN đạt tại $x = 3$: $f(3) = \\frac{10}{1} = 10$.",
+     "points": 0.5
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Một trang trại cần rào một mảnh đất hình chữ nhật có diện tích $200$ m$^2$, trong đó một cạnh giáp bờ sông không cần rào. Chiều dài hàng rào ngắn nhất bằng bao nhiêu mét?",
+     "answer": "40",
+     "explain": "Gọi $x$ (m) là độ dài hai cạnh vuông góc với bờ sông, $y$ (m) là cạnh song song với bờ sông. Ta có $xy = 200$, suy ra $y = \\frac{200}{x}$. Chiều dài hàng rào $L(x) = 2x + y = 2x + \\frac{200}{x}$, $x \\gt 0$. $L'(x) = 2 - \\frac{200}{x^2} = 0 \\Leftrightarrow x = 10$. $L$ đạt GTNN tại $x = 10$: $L(10) = 20 + 20 = 40$. Vậy hàng rào ngắn nhất dài $40$ m.",
+     "points": 0.5
+    }
+   ]
+  },
+  {
+   "name": "Đề 6",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tìm giá trị lớn nhất của hàm số $y = -x^3 + 3x^2$ trên đoạn $[0; 2]$.",
+     "options": [
+      "A. $0$",
+      "B. $4$",
+      "C. $2$",
+      "D. $-4$"
+     ],
+     "answer": "B",
+     "explain": "$y' = -3x^2 + 6x = -3x(x - 2)$; trên $(0; 2)$ không có điểm tới hạn (nghiệm $x = 0$, $x = 2$ là đầu mút). $f(0) = 0$, $f(2) = -8 + 12 = 4$. Vậy GTLN $= 4$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Nếu $M$ là giá trị lớn nhất của hàm số $y = f(x)$ trên tập $D$ thì",
+     "options": [
+      "A. $f(x) \\le M$ với mọi $x \\in D$",
+      "B. $f(x) \\ge M$ với mọi $x \\in D$",
+      "C. $f(x) = M$ với mọi $x \\in D$",
+      "D. $f(x) \\lt M$ với mọi $x \\in D$"
+     ],
+     "answer": "A",
+     "explain": "Theo định nghĩa GTLN: $f(x) \\le M$ với mọi $x \\in D$ và tồn tại $x_0 \\in D$ sao cho $f(x_0) = M$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tìm giá trị nhỏ nhất của hàm số $y = \\frac{2x - 1}{x + 1}$ trên đoạn $[0; 2]$.",
+     "options": [
+      "A. $-1$",
+      "B. $1$",
+      "C. $0$",
+      "D. $2$"
+     ],
+     "answer": "A",
+     "explain": "$y' = \\frac{2(x + 1) - (2x - 1)}{(x + 1)^2} = \\frac{3}{(x + 1)^2} \\gt 0$ với mọi $x \\ne -1$, nên hàm số đồng biến trên $[0; 2]$. GTNN đạt tại $x = 0$: $f(0) = -1$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tìm giá trị lớn nhất của hàm số $y = \\cos^2 x$ trên đoạn $[0; \\pi]$.",
+     "options": [
+      "A. $0$",
+      "B. $1$",
+      "C. $2$",
+      "D. $\\frac{1}{2}$"
+     ],
+     "answer": "B",
+     "explain": "$y' = -2\\cos x\\sin x = -\\sin 2x = 0 \\Leftrightarrow x = 0$, $x = \\frac{\\pi}{2}$, $x = \\pi$ (trong $[0; \\pi]$). $f(0) = 1$, $f\\left(\\frac{\\pi}{2}\\right) = 0$, $f(\\pi) = 1$. Vậy GTLN $= 1$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Cho hàm số $y = x^2 - 4x + m$ trên đoạn $[0; 5]$. Biết giá trị lớn nhất của hàm số bằng $6$. Tìm $m$.",
+     "options": [
+      "A. $1$",
+      "B. $5$",
+      "C. $11$",
+      "D. $3$"
+     ],
+     "answer": "A",
+     "explain": "$y' = 2x - 4 = 0 \\Leftrightarrow x = 2$. $f(0) = m$, $f(2) = m - 4$, $f(5) = 25 - 20 + m = m + 5$. So sánh: GTLN $= m + 5$. Theo giả thiết $m + 5 = 6$, suy ra $m = 1$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Tìm giá trị lớn nhất của hàm số $y = \\sqrt{x} + \\sqrt{4 - x}$ trên đoạn $[0; 4]$.",
+     "options": [
+      "A. $2$",
+      "B. $2\\sqrt{2}$",
+      "C. $4$",
+      "D. $\\sqrt{2}$"
+     ],
+     "answer": "B",
+     "explain": "$y' = \\frac{1}{2\\sqrt{x}} - \\frac{1}{2\\sqrt{4 - x}} = 0 \\Leftrightarrow \\sqrt{x} = \\sqrt{4 - x} \\Leftrightarrow x = 2$. $f(0) = 2$, $f(2) = 2\\sqrt{2}$, $f(4) = 2$. Vậy GTLN $= 2\\sqrt{2}$.",
+     "points": 0.25
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Cho hàm số $y = -3x + 2$ trên đoạn $[0; 2]$. Xét tính đúng, sai của các khẳng định sau:",
+     "statements": [
+      "a) Giá trị lớn nhất của hàm số bằng $2$.",
+      "b) Giá trị nhỏ nhất của hàm số bằng $-4$.",
+      "c) Giá trị lớn nhất đạt được tại $x = 2$.",
+      "d) Giá trị nhỏ nhất đạt được tại $x = 0$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "F"
+     ],
+     "explain": "Hàm số nghịch biến trên $\\mathbb{R}$ ($y' = -3 \\lt 0$). Trên $[0; 2]$: GTLN $= f(0) = 2$ (tại $x = 0$), GTNN $= f(2) = -4$ (tại $x = 2$). Do đó a) đúng, b) đúng, c) sai, d) sai.",
+     "points": 1
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho hàm số $y = x^4$ trên đoạn $[-1; 2]$. Xét tính đúng, sai của các khẳng định sau:",
+     "statements": [
+      "a) Giá trị nhỏ nhất của hàm số bằng $0$.",
+      "b) Giá trị lớn nhất của hàm số bằng $16$.",
+      "c) Giá trị nhỏ nhất đạt được tại $x = 0$.",
+      "d) Giá trị lớn nhất đạt được tại $x = -1$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$y' = 4x^3 = 0 \\Leftrightarrow x = 0$. $f(-1) = 1$, $f(0) = 0$, $f(2) = 16$. Vậy GTNN $= 0$ (tại $x = 0$), GTLN $= 16$ (tại $x = 2$). Do đó a) đúng, b) đúng, c) đúng, d) sai.",
+     "points": 1
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tìm giá trị nhỏ nhất của hàm số $y = -x^3 + 3x + 1$ trên đoạn $[-2; 0]$.",
+     "answer": "-1",
+     "explain": "$y' = -3x^2 + 3 = 0 \\Leftrightarrow x = \\pm 1$; trên $(-2; 0)$ có điểm tới hạn $x = -1$. $f(-2) = 8 - 6 + 1 = 3$, $f(-1) = 1 - 3 + 1 = -1$, $f(0) = 1$. Vậy GTNN $= -1$.",
+     "points": 0.5
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Lợi nhuận (triệu đồng) khi sản xuất $x$ nghìn sản phẩm ($0 \\le x \\le 40$) được cho bởi $P(x) = -x^2 + 40x - 300$. Lợi nhuận lớn nhất bằng bao nhiêu triệu đồng?",
+     "answer": "100",
+     "explain": "$P'(x) = -2x + 40 = 0 \\Leftrightarrow x = 20 \\in [0; 40]$. $P(0) = -300$, $P(20) = -400 + 800 - 300 = 100$, $P(40) = -300$. Vậy lợi nhuận lớn nhất là $100$ triệu đồng.",
+     "points": 0.5
+    }
+   ]
+  },
+  {
+   "name": "Đề 7",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tìm giá trị lớn nhất của hàm số $y = x^3 + 3x^2 - 2$ trên đoạn $[-2; 0]$.",
+     "options": [
+      "A. $2$",
+      "B. $-2$",
+      "C. $0$",
+      "D. $4$"
+     ],
+     "answer": "A",
+     "explain": "$y' = 3x^2 + 6x = 3x(x + 2)$; trên $(-2; 0)$ không có điểm tới hạn (nghiệm $x = -2$, $x = 0$ là đầu mút). $f(-2) = -8 + 12 - 2 = 2$, $f(0) = -2$. Vậy GTLN $= 2$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Nếu $m$ là giá trị nhỏ nhất của hàm số $y = f(x)$ trên tập $D$ thì",
+     "options": [
+      "A. tồn tại $x_0 \\in D$ sao cho $f(x_0) = m$",
+      "B. $f(x) \\gt m$ với mọi $x \\in D$",
+      "C. $f(x) = m$ với mọi $x \\in D$",
+      "D. không tồn tại $x_0 \\in D$ sao cho $f(x_0) = m$"
+     ],
+     "answer": "A",
+     "explain": "Theo định nghĩa GTNN: $f(x) \\ge m$ với mọi $x \\in D$ và tồn tại $x_0 \\in D$ sao cho $f(x_0) = m$ (giá trị $m$ phải đạt được).",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tìm giá trị nhỏ nhất của hàm số $y = x^2 - 6x + 8$ trên đoạn $[1; 5]$.",
+     "options": [
+      "A. $3$",
+      "B. $-1$",
+      "C. $1$",
+      "D. $-3$"
+     ],
+     "answer": "B",
+     "explain": "$y' = 2x - 6 = 0 \\Leftrightarrow x = 3$. $f(1) = 3$, $f(3) = 9 - 18 + 8 = -1$, $f(5) = 25 - 30 + 8 = 3$. Vậy GTNN $= -1$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tìm giá trị lớn nhất của hàm số $y = \\sin 2x$ trên đoạn $\\left[0; \\frac{\\pi}{2}\\right]$.",
+     "options": [
+      "A. $0$",
+      "B. $1$",
+      "C. $2$",
+      "D. $-1$"
+     ],
+     "answer": "B",
+     "explain": "$y' = 2\\cos 2x = 0 \\Leftrightarrow 2x = \\frac{\\pi}{2} \\Leftrightarrow x = \\frac{\\pi}{4} \\in \\left(0; \\frac{\\pi}{2}\\right)$. $f(0) = 0$, $f\\left(\\frac{\\pi}{4}\\right) = 1$, $f\\left(\\frac{\\pi}{2}\\right) = 0$. Vậy GTLN $= 1$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tìm giá trị lớn nhất của hàm số $y = \\frac{x + 3}{x - 2}$ trên đoạn $[4; 6]$.",
+     "options": [
+      "A. $\\frac{9}{4}$",
+      "B. $\\frac{7}{2}$",
+      "C. $3$",
+      "D. $4$"
+     ],
+     "answer": "B",
+     "explain": "$y' = \\frac{(x - 2) - (x + 3)}{(x - 2)^2} = \\frac{-5}{(x - 2)^2} \\lt 0$ với mọi $x \\ne 2$, nên hàm số nghịch biến trên $[4; 6]$. GTLN đạt tại $x = 4$: $f(4) = \\frac{7}{2}$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Tìm giá trị lớn nhất của hàm số $y = x\\sqrt{4 - x^2}$ trên đoạn $[-2; 2]$.",
+     "options": [
+      "A. $-2$",
+      "B. $0$",
+      "C. $2$",
+      "D. $4$"
+     ],
+     "answer": "C",
+     "explain": "Tập xác định $D = [-2; 2]$. $y' = \\sqrt{4 - x^2} - \\frac{x^2}{\\sqrt{4 - x^2}} = \\frac{4 - 2x^2}{\\sqrt{4 - x^2}}$. $y' = 0 \\Leftrightarrow x = \\pm\\sqrt{2}$. $f(-2) = 0$, $f(-\\sqrt{2}) = -2$, $f(\\sqrt{2}) = 2$, $f(2) = 0$. Vậy GTLN $= 2$.",
+     "points": 0.25
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Cho hàm số $y = 5x - 3$ trên đoạn $[1; 3]$. Xét tính đúng, sai của các khẳng định sau:",
+     "statements": [
+      "a) Giá trị nhỏ nhất của hàm số bằng $2$.",
+      "b) Giá trị lớn nhất của hàm số bằng $12$.",
+      "c) Giá trị nhỏ nhất đạt được tại $x = 1$.",
+      "d) Giá trị lớn nhất đạt được tại $x = 1$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "Hàm số đồng biến trên $\\mathbb{R}$ ($y' = 5 \\gt 0$). Trên $[1; 3]$: GTNN $= f(1) = 2$ (tại $x = 1$), GTLN $= f(3) = 12$ (tại $x = 3$). Do đó a) đúng, b) đúng, c) đúng, d) sai.",
+     "points": 1
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho hàm số $y = \\frac{x^2 - 1}{x^2 + 1}$ trên đoạn $[0; 2]$. Xét tính đúng, sai của các khẳng định sau:",
+     "statements": [
+      "a) Giá trị nhỏ nhất của hàm số bằng $-1$.",
+      "b) Giá trị lớn nhất của hàm số bằng $\\frac{3}{5}$.",
+      "c) Hàm số đồng biến trên $[0; 2]$.",
+      "d) Giá trị lớn nhất đạt được tại $x = 0$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$y' = \\frac{2x(x^2 + 1) - 2x(x^2 - 1)}{(x^2 + 1)^2} = \\frac{4x}{(x^2 + 1)^2} \\ge 0$ trên $[0; 2]$ nên hàm số đồng biến. $f(0) = -1$, $f(2) = \\frac{3}{5}$. Vậy GTNN $= -1$, GTLN $= \\frac{3}{5}$ (tại $x = 2$). Do đó a) đúng, b) đúng, c) đúng, d) sai.",
+     "points": 1
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tìm giá trị nhỏ nhất của hàm số $y = 2x^3 - 3x^2 - 36x + 10$ trên đoạn $[-4; 4]$.",
+     "answer": "-71",
+     "explain": "$y' = 6x^2 - 6x - 36 = 6(x - 3)(x + 2)$; trên $(-4; 4)$ có hai điểm tới hạn $x = -2$, $x = 3$. $f(-4) = -22$, $f(-2) = 54$, $f(3) = -71$, $f(4) = -54$. Vậy GTNN $= -71$.",
+     "points": 0.5
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Một chiếc hộp kín hình hộp chữ nhật có đáy là hình vuông, thể tích $8$ m$^3$. Diện tích toàn phần nhỏ nhất của chiếc hộp bằng bao nhiêu mét vuông?",
+     "answer": "24",
+     "explain": "Gọi cạnh đáy là $x$ (m), chiều cao là $h$ (m). Ta có $x^2 h = 8$, suy ra $h = \\frac{8}{x^2}$. Diện tích toàn phần $S(x) = 2x^2 + 4xh = 2x^2 + \\frac{32}{x}$, $x \\gt 0$. $S'(x) = 4x - \\frac{32}{x^2} = 0 \\Leftrightarrow x^3 = 8 \\Leftrightarrow x = 2$. $S$ đạt GTNN tại $x = 2$: $S(2) = 8 + 16 = 24$. Vậy diện tích nhỏ nhất là $24$ m$^2$.",
+     "points": 0.5
+    }
+   ]
+  },
+  {
+   "name": "Đề 8",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tìm giá trị lớn nhất của hàm số $y = -x^2 + 2x + 3$ trên đoạn $[0; 3]$.",
+     "options": [
+      "A. $3$",
+      "B. $4$",
+      "C. $0$",
+      "D. $5$"
+     ],
+     "answer": "B",
+     "explain": "$y' = -2x + 2 = 0 \\Leftrightarrow x = 1$. $f(0) = 3$, $f(1) = 4$, $f(3) = -9 + 6 + 3 = 0$. Vậy GTLN $= 4$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho hàm số $y = f(x)$ liên tục trên $[a; b]$ và có duy nhất một điểm tới hạn $x_1$ trong $(a; b)$. Khi đó giá trị lớn nhất của $f$ trên $[a; b]$ là",
+     "options": [
+      "A. $\\max\\{f(a); f(b); f(x_1)\\}$",
+      "B. $f(x_1)$",
+      "C. $\\max\\{f(a); f(b)\\}$",
+      "D. $f(a) + f(b)$"
+     ],
+     "answer": "A",
+     "explain": "Theo quy tắc tìm GTLN trên đoạn: so sánh giá trị của $f$ tại tất cả các điểm tới hạn trong $(a; b)$ và tại hai đầu mút $a$, $b$; số lớn nhất chính là GTLN.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tìm giá trị lớn nhất của hàm số $y = x^3 - 12x + 5$ trên đoạn $[-3; 3]$.",
+     "options": [
+      "A. $14$",
+      "B. $21$",
+      "C. $-11$",
+      "D. $5$"
+     ],
+     "answer": "B",
+     "explain": "$y' = 3x^2 - 12 = 0 \\Leftrightarrow x = \\pm 2$. $f(-3) = 14$, $f(-2) = 21$, $f(2) = -11$, $f(3) = -4$. Vậy GTLN $= 21$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tìm giá trị nhỏ nhất của hàm số $y = \\sqrt{9 - x^2}$ trên đoạn $[0; 3]$.",
+     "options": [
+      "A. $3$",
+      "B. $0$",
+      "C. $9$",
+      "D. $\\sqrt{3}$"
+     ],
+     "answer": "B",
+     "explain": "$y' = \\frac{-x}{\\sqrt{9 - x^2}} \\le 0$ trên $(0; 3)$ nên hàm số nghịch biến trên $[0; 3]$. GTNN đạt tại $x = 3$: $f(3) = 0$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Cho hàm số $y = x^2 + 4x + m$ trên đoạn $[-2; 2]$. Biết giá trị lớn nhất của hàm số bằng $12$. Tìm $m$.",
+     "options": [
+      "A. $0$",
+      "B. $4$",
+      "C. $8$",
+      "D. $12$"
+     ],
+     "answer": "A",
+     "explain": "$y' = 2x + 4 = 0 \\Leftrightarrow x = -2$ (là đầu mút trái). $f(-2) = m - 4$, $f(2) = m + 12$. GTLN $= m + 12$. Theo giả thiết $m + 12 = 12$, suy ra $m = 0$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Tìm giá trị nhỏ nhất của hàm số $y = x^4 - 8x^2 + 3$ trên đoạn $[-3; 3]$.",
+     "options": [
+      "A. $12$",
+      "B. $3$",
+      "C. $-13$",
+      "D. $-16$"
+     ],
+     "answer": "C",
+     "explain": "$y' = 4x^3 - 16x = 4x(x^2 - 4)$; trên $(-3; 3)$ có ba điểm tới hạn $x = 0$, $x = \\pm 2$. $f(-3) = 12$, $f(-2) = -13$, $f(0) = 3$, $f(2) = -13$, $f(3) = 12$. Vậy GTNN $= -13$.",
+     "points": 0.25
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Cho hàm số $y = x^2 - 2$ trên đoạn $[-2; 1]$. Xét tính đúng, sai của các khẳng định sau:",
+     "statements": [
+      "a) Giá trị nhỏ nhất của hàm số bằng $-2$.",
+      "b) Giá trị lớn nhất của hàm số bằng $2$.",
+      "c) Giá trị nhỏ nhất đạt được tại $x = 0$.",
+      "d) Giá trị lớn nhất đạt được tại $x = 1$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$y' = 2x = 0 \\Leftrightarrow x = 0$. $f(-2) = 2$, $f(0) = -2$, $f(1) = -1$. Vậy GTNN $= -2$ (tại $x = 0$), GTLN $= 2$ (tại $x = -2$). Do đó a) đúng, b) đúng, c) đúng, d) sai.",
+     "points": 1
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho hàm số $y = 2\\cos x + 1$ trên đoạn $[0; \\pi]$. Xét tính đúng, sai của các khẳng định sau:",
+     "statements": [
+      "a) Giá trị lớn nhất của hàm số bằng $3$.",
+      "b) Giá trị nhỏ nhất của hàm số bằng $-1$.",
+      "c) Giá trị lớn nhất đạt được tại $x = 0$.",
+      "d) Giá trị nhỏ nhất đạt được tại $x = 0$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$y' = -2\\sin x \\le 0$ trên $(0; \\pi)$ nên hàm số nghịch biến trên $[0; \\pi]$. GTLN $= f(0) = 3$ (tại $x = 0$), GTNN $= f(\\pi) = -1$ (tại $x = \\pi$). Do đó a) đúng, b) đúng, c) đúng, d) sai.",
+     "points": 1
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tìm giá trị nhỏ nhất của hàm số $y = \\frac{2x^2 + 1}{x^2 + 2}$ trên $\\mathbb{R}$.",
+     "answer": "$\\frac{1}{2}$",
+     "explain": "$y = \\frac{2x^2 + 1}{x^2 + 2} = 2 - \\frac{3}{x^2 + 2}$. Vì $x^2 + 2 \\ge 2$ nên $\\frac{3}{x^2 + 2} \\le \\frac{3}{2}$, suy ra $y \\ge 2 - \\frac{3}{2} = \\frac{1}{2}$, dấu bằng xảy ra khi $x = 0$. Vậy GTNN $= \\frac{1}{2}$.",
+     "points": 0.5
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Một viên đá được ném thẳng đứng lên cao với độ cao (mét) sau $t$ giây là $h(t) = 20t - 5t^2$ ($t \\ge 0$). Độ cao lớn nhất mà viên đá đạt được bằng bao nhiêu mét?",
+     "answer": "20",
+     "explain": "$h'(t) = 20 - 10t = 0 \\Leftrightarrow t = 2$. $h(0) = 0$, $h(2) = 40 - 20 = 20$, và $\\lim_{t \\to +\\infty} h(t) = -\\infty$. Bảng biến thiên cho thấy $h$ đạt GTLN tại $t = 2$: $h(2) = 20$. Vậy độ cao lớn nhất là $20$ m.",
+     "points": 0.5
+    }
+   ]
+  },
+  {
+   "name": "Đề 9",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tìm giá trị lớn nhất của hàm số $y = 3x^2 - 6x + 1$ trên đoạn $[0; 3]$.",
+     "options": [
+      "A. $1$",
+      "B. $-2$",
+      "C. $10$",
+      "D. $7$"
+     ],
+     "answer": "C",
+     "explain": "$y' = 6x - 6 = 0 \\Leftrightarrow x = 1$. $f(0) = 1$, $f(1) = -2$, $f(3) = 27 - 18 + 1 = 10$. Vậy GTLN $= 10$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong các khẳng định sau về giá trị lớn nhất, giá trị nhỏ nhất của hàm số, khẳng định đúng là",
+     "options": [
+      "A. Mọi hàm số đều có giá trị lớn nhất trên $\\mathbb{R}$",
+      "B. Hàm số liên tục trên đoạn $[a; b]$ luôn có giá trị lớn nhất và giá trị nhỏ nhất trên đoạn đó",
+      "C. Hàm số có giá trị lớn nhất thì đạo hàm phải bằng $0$ tại mọi điểm",
+      "D. Hàm số không liên tục vẫn luôn có giá trị lớn nhất trên đoạn"
+     ],
+     "answer": "B",
+     "explain": "Đây là định lí về sự tồn tại GTLN, GTNN của hàm số liên tục trên một đoạn. Các khẳng định còn lại đều sai.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tìm giá trị lớn nhất của hàm số $y = -x^4 + 8x^2 - 5$ trên đoạn $[-3; 3]$.",
+     "options": [
+      "A. $11$",
+      "B. $-5$",
+      "C. $-14$",
+      "D. $16$"
+     ],
+     "answer": "A",
+     "explain": "$y' = -4x^3 + 16x = -4x(x^2 - 4)$; trên $(-3; 3)$ có ba điểm tới hạn $x = 0$, $x = \\pm 2$. $f(-3) = -14$, $f(-2) = 11$, $f(0) = -5$, $f(2) = 11$, $f(3) = -14$. Vậy GTLN $= 11$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tìm giá trị lớn nhất của hàm số $y = |x|$ trên đoạn $[-2; 3]$.",
+     "options": [
+      "A. $0$",
+      "B. $2$",
+      "C. $3$",
+      "D. $-2$"
+     ],
+     "answer": "C",
+     "explain": "Hàm số $y = |x|$ liên tục trên $[-2; 3]$, có điểm tới hạn $x = 0$ (đạo hàm không xác định). $f(-2) = 2$, $f(0) = 0$, $f(3) = 3$. Vậy GTLN $= 3$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tìm giá trị nhỏ nhất của hàm số $y = \\frac{4x + 3}{x + 1}$ trên đoạn $[0; 3]$.",
+     "options": [
+      "A. $3$",
+      "B. $\\frac{15}{4}$",
+      "C. $4$",
+      "D. $\\frac{4}{3}$"
+     ],
+     "answer": "A",
+     "explain": "$y' = \\frac{4(x + 1) - (4x + 3)}{(x + 1)^2} = \\frac{1}{(x + 1)^2} \\gt 0$ với mọi $x \\ne -1$, nên hàm số đồng biến trên $[0; 3]$. GTNN đạt tại $x = 0$: $f(0) = 3$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Tìm giá trị lớn nhất của hàm số $y = x - 2\\sin x$ trên đoạn $[0; \\pi]$.",
+     "options": [
+      "A. $0$",
+      "B. $\\pi$",
+      "C. $\\frac{\\pi}{3}$",
+      "D. $2\\pi$"
+     ],
+     "answer": "B",
+     "explain": "$y' = 1 - 2\\cos x = 0 \\Leftrightarrow \\cos x = \\frac{1}{2} \\Leftrightarrow x = \\frac{\\pi}{3} \\in (0; \\pi)$. $f(0) = 0$, $f\\left(\\frac{\\pi}{3}\\right) = \\frac{\\pi}{3} - \\sqrt{3} \\lt 0$, $f(\\pi) = \\pi$. Vậy GTLN $= \\pi$.",
+     "points": 0.25
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Cho hàm số $y = 4 - x^2$ trên đoạn $[0; 3]$. Xét tính đúng, sai của các khẳng định sau:",
+     "statements": [
+      "a) Giá trị lớn nhất của hàm số bằng $4$.",
+      "b) Giá trị nhỏ nhất của hàm số bằng $-5$.",
+      "c) Giá trị lớn nhất đạt được tại $x = 0$.",
+      "d) Giá trị nhỏ nhất đạt được tại $x = 0$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$y' = -2x = 0 \\Leftrightarrow x = 0$. $f(0) = 4$, $f(3) = -5$. Vậy GTLN $= 4$ (tại $x = 0$), GTNN $= -5$ (tại $x = 3$). Do đó a) đúng, b) đúng, c) đúng, d) sai.",
+     "points": 1
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho hàm số $y = x^3 - x^2 - x + 1$ trên đoạn $[-1; 2]$. Xét tính đúng, sai của các khẳng định sau:",
+     "statements": [
+      "a) Giá trị lớn nhất của hàm số bằng $3$.",
+      "b) Giá trị nhỏ nhất của hàm số bằng $0$.",
+      "c) Giá trị lớn nhất đạt được tại $x = 2$.",
+      "d) Giá trị nhỏ nhất chỉ đạt được tại $x = 1$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$y' = 3x^2 - 2x - 1 = (3x + 1)(x - 1)$; trên $(-1; 2)$ có hai điểm tới hạn $x = -\\frac{1}{3}$, $x = 1$. $f(-1) = 0$, $f\\left(-\\frac{1}{3}\\right) = \\frac{32}{27}$, $f(1) = 0$, $f(2) = 3$. Vậy GTLN $= 3$ (tại $x = 2$), GTNN $= 0$ (tại $x = -1$ và $x = 1$). Do đó a) đúng, b) đúng, c) đúng, d) sai.",
+     "points": 1
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tìm giá trị nhỏ nhất của hàm số $y = x^3 - 3x^2 + 3x - 1$ trên đoạn $[0; 2]$.",
+     "answer": "-1",
+     "explain": "$y = (x - 1)^3$ nên $y' = 3(x - 1)^2 \\ge 0$ với mọi $x$; hàm số đồng biến trên $[0; 2]$. GTNN đạt tại $x = 0$: $f(0) = -1$.",
+     "points": 0.5
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Một hình chữ nhật có diện tích $48$ m$^2$. Chu vi nhỏ nhất của hình chữ nhật đó bằng bao nhiêu mét?",
+     "answer": "$16\\sqrt{3}$",
+     "explain": "Gọi chiều dài là $x$ (m), $x \\gt 0$, chiều rộng là $\\frac{48}{x}$ (m). Chu vi $P(x) = 2\\left(x + \\frac{48}{x}\\right)$. $P'(x) = 2\\left(1 - \\frac{48}{x^2}\\right) = 0 \\Leftrightarrow x = \\sqrt{48} = 4\\sqrt{3}$. $P$ đạt GTNN tại $x = 4\\sqrt{3}$: $P(4\\sqrt{3}) = 2 \\cdot 8\\sqrt{3} = 16\\sqrt{3}$. Vậy chu vi nhỏ nhất là $16\\sqrt{3}$ m.",
+     "points": 0.5
+    }
+   ]
+  },
+  {
+   "name": "Đề 10",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tìm giá trị lớn nhất của hàm số $y = x^2 + 4x + 3$ trên đoạn $[-3; 1]$.",
+     "options": [
+      "A. $0$",
+      "B. $-1$",
+      "C. $8$",
+      "D. $3$"
+     ],
+     "answer": "C",
+     "explain": "$y' = 2x + 4 = 0 \\Leftrightarrow x = -2$. $f(-3) = 9 - 12 + 3 = 0$, $f(-2) = 4 - 8 + 3 = -1$, $f(1) = 1 + 4 + 3 = 8$. Vậy GTLN $= 8$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho hàm số $y = f(x)$ liên tục trên $[a; b]$ và $f'(x) \\gt 0$ với mọi $x \\in (a; b)$. Khi đó",
+     "options": [
+      "A. GTLN đạt tại $x = a$, GTNN đạt tại $x = b$",
+      "B. GTLN đạt tại $x = b$, GTNN đạt tại $x = a$",
+      "C. GTLN và GTNN đều đạt tại các điểm tới hạn",
+      "D. hàm số không có GTLN, GTNN trên $[a; b]$"
+     ],
+     "answer": "B",
+     "explain": "Vì $f'(x) \\gt 0$ trên $(a; b)$ nên $f$ đồng biến trên $[a; b]$: GTNN $= f(a)$ (tại $x = a$), GTLN $= f(b)$ (tại $x = b$).",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tìm giá trị lớn nhất của hàm số $y = 2x^3 + 3x^2 - 12x + 1$ trên đoạn $[-3; 2]$.",
+     "options": [
+      "A. $10$",
+      "B. $21$",
+      "C. $-6$",
+      "D. $5$"
+     ],
+     "answer": "B",
+     "explain": "$y' = 6x^2 + 6x - 12 = 6(x + 2)(x - 1)$; trên $(-3; 2)$ có hai điểm tới hạn $x = -2$, $x = 1$. $f(-3) = 10$, $f(-2) = 21$, $f(1) = -6$, $f(2) = 5$. Vậy GTLN $= 21$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tìm giá trị nhỏ nhất của hàm số $y = 3\\sin x - 4\\sin^3 x$ trên đoạn $\\left[0; \\frac{\\pi}{2}\\right]$.",
+     "options": [
+      "A. $1$",
+      "B. $0$",
+      "C. $-1$",
+      "D. $\\frac{\\sqrt{3}}{2}$"
+     ],
+     "answer": "C",
+     "explain": "$y = \\sin 3x$. $y' = 3\\cos 3x = 0 \\Leftrightarrow 3x = \\frac{\\pi}{2} \\Leftrightarrow x = \\frac{\\pi}{6} \\in \\left(0; \\frac{\\pi}{2}\\right)$. $f(0) = 0$, $f\\left(\\frac{\\pi}{6}\\right) = 1$, $f\\left(\\frac{\\pi}{2}\\right) = \\sin\\frac{3\\pi}{2} = -1$. Vậy GTNN $= -1$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tìm giá trị lớn nhất của hàm số $y = \\sqrt{x + 2} + \\sqrt{6 - x}$ trên đoạn $[-2; 6]$.",
+     "options": [
+      "A. $2\\sqrt{2}$",
+      "B. $4$",
+      "C. $2$",
+      "D. $8$"
+     ],
+     "answer": "B",
+     "explain": "$y' = \\frac{1}{2\\sqrt{x + 2}} - \\frac{1}{2\\sqrt{6 - x}} = 0 \\Leftrightarrow \\sqrt{x + 2} = \\sqrt{6 - x} \\Leftrightarrow x = 2$. $f(-2) = \\sqrt{8} = 2\\sqrt{2}$, $f(2) = 2 + 2 = 4$, $f(6) = \\sqrt{8} = 2\\sqrt{2}$. Vậy GTLN $= 4$.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Cho hàm số $y = x^3 - 3mx + 2$ trên đoạn $[0; 1]$ với $m \\gt 0$. Biết giá trị nhỏ nhất của hàm số bằng $1$. Tìm $m$.",
+     "options": [
+      "A. $\\frac{\\sqrt[3]{2}}{2}$",
+      "B. $\\frac{2}{3}$",
+      "C. $1$",
+      "D. $\\frac{1}{2}$"
+     ],
+     "answer": "A",
+     "explain": "$y' = 3x^2 - 3m = 0 \\Leftrightarrow x = \\sqrt{m}$ (vì $x \\ge 0$). Nếu $m \\ge 1$ thì $y' \\le 0$ trên $[0; 1]$, GTNN $= f(1) = 3 - 3m = 1 \\Leftrightarrow m = \\frac{2}{3} \\lt 1$ (loại). Nếu $0 \\lt m \\lt 1$ thì $x = \\sqrt{m} \\in (0; 1)$ là điểm cực tiểu, GTNN $= f(\\sqrt{m}) = 2 - 2m\\sqrt{m}$. Cho $2 - 2m\\sqrt{m} = 1 \\Leftrightarrow m\\sqrt{m} = \\frac{1}{2} \\Leftrightarrow m^3 = \\frac{1}{4} \\Leftrightarrow m = \\frac{\\sqrt[3]{2}}{2}$ (thỏa $0 \\lt m \\lt 1$).",
+     "points": 0.25
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Cho hàm số $y = 2x^2 + 1$ trên đoạn $[-1; 1]$. Xét tính đúng, sai của các khẳng định sau:",
+     "statements": [
+      "a) Giá trị nhỏ nhất của hàm số bằng $1$.",
+      "b) Giá trị lớn nhất của hàm số bằng $3$.",
+      "c) Giá trị nhỏ nhất đạt được tại $x = 0$.",
+      "d) Giá trị lớn nhất đạt được tại $x = 0$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$y' = 4x = 0 \\Leftrightarrow x = 0$. $f(-1) = 3$, $f(0) = 1$, $f(1) = 3$. Vậy GTNN $= 1$ (tại $x = 0$), GTLN $= 3$ (tại $x = \\pm 1$). Do đó a) đúng, b) đúng, c) đúng, d) sai.",
+     "points": 1
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho hàm số $y = -2x^3 + 6x^2 - 4$ trên đoạn $[0; 3]$. Xét tính đúng, sai của các khẳng định sau:",
+     "statements": [
+      "a) Giá trị lớn nhất của hàm số bằng $4$.",
+      "b) Giá trị nhỏ nhất của hàm số bằng $-4$.",
+      "c) Giá trị lớn nhất đạt được tại $x = 2$.",
+      "d) Giá trị nhỏ nhất đạt được tại $x = 0$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$y' = -6x^2 + 12x = -6x(x - 2)$; trên $(0; 3)$ có điểm tới hạn $x = 2$. $f(0) = -4$, $f(2) = -16 + 24 - 4 = 4$, $f(3) = -54 + 54 - 4 = -4$. Vậy GTLN $= 4$ (tại $x = 2$), GTNN $= -4$ (tại $x = 0$ và $x = 3$). Do đó a) đúng, b) đúng, c) đúng, d) sai (GTNN còn đạt tại $x = 3$).",
+     "points": 1
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tìm giá trị lớn nhất của hàm số $y = x + \\sqrt{1 - x^2}$ trên đoạn $[-1; 1]$.",
+     "answer": "$\\sqrt{2}$",
+     "explain": "Tập xác định $D = [-1; 1]$. $y' = 1 - \\frac{x}{\\sqrt{1 - x^2}} = 0 \\Leftrightarrow \\sqrt{1 - x^2} = x \\Leftrightarrow x = \\frac{\\sqrt{2}}{2}$ (do $x \\ge 0$). $f(-1) = -1$, $f\\left(\\frac{\\sqrt{2}}{2}\\right) = \\sqrt{2}$, $f(1) = 1$. Vậy GTLN $= \\sqrt{2}$.",
+     "points": 0.5
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Chi phí trung bình (nghìn đồng) khi sản xuất $x$ sản phẩm ($1 \\le x \\le 20$) là $c(x) = x + \\frac{100}{x}$. Chi phí trung bình mỗi sản phẩm nhỏ nhất bằng bao nhiêu nghìn đồng?",
+     "answer": "20",
+     "explain": "$c'(x) = 1 - \\frac{100}{x^2} = 0 \\Leftrightarrow x = 10 \\in [1; 20]$. $c(1) = 101$, $c(10) = 10 + 10 = 20$, $c(20) = 25$. Vậy chi phí trung bình nhỏ nhất là $20$ nghìn đồng.",
+     "points": 0.5
+    }
+   ]
+  }
+ ]
+}
+</script>
+</div>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
