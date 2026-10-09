@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 15: Hàm số</title>
+    <meta name="lesson-title" content="Bài 15: Hàm số">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 15: Hàm số</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 6: Hàm số, đồ thị và ứng dụng • Bài 15: Hàm số</p>
+        </div>
+        <div class="content-body space-y-4">
+            <h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 15: Hàm số</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 6: Hàm số, đồ thị và ứng dụng</p>
+
+<!-- 1. Khái niệm hàm số -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Khái niệm hàm số</h2>
+
+<p><strong>Định nghĩa:</strong> Nếu với mỗi giá trị của $x$ thuộc tập hợp số $D$ có <strong>một và chỉ một</strong> giá trị tương ứng của $y$ thuộc tập số thực $\mathbb{R}$ thì ta có một <em>hàm số</em>.</p>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>$x$ gọi là <strong>biến số</strong>, $y$ gọi là <strong>hàm số</strong> của $x$.</li>
+<li>Tập hợp $D$ gọi là <strong>tập xác định</strong> của hàm số.</li>
+<li>Tập hợp tất cả các giá trị $y$ nhận được gọi là <strong>tập giá trị</strong> của hàm số.</li>
+<li>Ta thường kí hiệu hàm số là $y = f(x)$; giá trị của hàm số tại $x = a$ kí hiệu là $f(a)$.</li>
+</ul>
+
+<p><strong>Nhận xét:</strong> một hàm số có thể được cho bằng <strong>bảng</strong>, bằng <strong>biểu đồ</strong>, bằng <strong>công thức</strong> hoặc mô tả bằng <strong>lời</strong>.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>Bảng nhiệt độ theo giờ trong ngày cho ta một hàm số: mỗi giờ tương ứng với một và chỉ một nhiệt độ.</li>
+<li>$y = 2x + 1$: với mỗi $x \in \mathbb{R}$ có duy nhất một $y$ → đây là hàm số với tập xác định $D = \mathbb{R}$.</li>
+<li>$y = \dfrac{1}{x}$: với mỗi $x \ne 0$ có duy nhất một $y$ → là hàm số với $D = \mathbb{R} \setminus \{0\}$.</li>
+<li>Quan hệ "$y$ là ước của $x$" <strong>không</strong> phải hàm số (một $x$ có nhiều $y$ tương ứng).</li>
+</ul>
+</div>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">Tìm tập xác định của hàm số cho bằng công thức</h3>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Hàm đa thức (ví dụ $y = 3x^2 - 2x + 1$): $D = \mathbb{R}$.</li>
+<li>Hàm phân thức $y = \dfrac{P(x)}{Q(x)}$: hàm số xác định khi <strong>$Q(x) \ne 0$</strong>.</li>
+<li>Hàm chứa căn $y = \sqrt{P(x)}$: hàm số xác định khi <strong>$P(x) \ge 0$</strong>.</li>
+</ul>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>$y = \dfrac{2x + 1}{x - 3}$ xác định khi $x - 3 \ne 0$, tức $D = \mathbb{R} \setminus \{3\}$.</li>
+<li>$y = \sqrt{2x - 4}$ xác định khi $2x - 4 \ge 0$, tức $D = [2;\, +\infty)$.</li>
+<li>$y = \dfrac{1}{\sqrt{x + 1}}$ xác định khi $x + 1 \gt 0$, tức $D = (-1;\, +\infty)$.</li>
+</ul>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Hàm số = "mỗi $x$ cho <strong>đúng một</strong> $y$". Tìm TXĐ: mẫu <strong>khác 0</strong>, biểu thức trong căn bậc hai <strong>không âm</strong>.</p>
+</div>
+
+<!-- 2. Đồ thị -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Đồ thị của hàm số</h2>
+
+<p><strong>Định nghĩa:</strong> <em>Đồ thị</em> của hàm số $y = f(x)$ xác định trên tập $D$ là tập hợp tất cả các điểm $M(x;\, f(x))$ trên mặt phẳng tọa độ với mọi $x$ thuộc $D$.</p>
+
+<p>Nói cách khác: điểm $M(x_0;\, y_0)$ thuộc đồ thị của hàm số $y = f(x)$ khi và chỉ khi <strong>$y_0 = f(x_0)$</strong>.</p>
+
+<div class="svg-fig"><svg viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Do thi ham so y bang x binh phuong">
+<rect x="2" y="2" width="396" height="316" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<line x1="20" y1="270" x2="390" y2="270" stroke="#334155" stroke-width="1.8"/>
+<polygon points="390,270 380,264 380,276" fill="#334155"/>
+<line x1="200" y1="310" x2="200" y2="15" stroke="#334155" stroke-width="1.8"/>
+<polygon points="200,15 194,25 206,25" fill="#334155"/>
+<text x="382" y="292" font-family="sans-serif" font-size="13" fill="#334155">x</text>
+<text x="210" y="28" font-family="sans-serif" font-size="13" fill="#334155">y</text>
+<text x="188" y="288" font-family="sans-serif" font-size="12" fill="#334155">O</text>
+<path d="M57.0,13.1 L61.8,30.0 L66.5,46.2 L71.3,61.9 L76.1,77.1 L80.8,91.6 L85.6,105.6 L90.4,119.0 L95.1,131.9 L99.9,144.1 L104.7,155.8 L109.4,167.0 L114.2,177.5 L119.0,187.5 L123.7,196.9 L128.5,205.8 L133.3,214.1 L138.0,221.8 L142.8,228.9 L147.6,235.5 L152.3,241.5 L157.1,246.9 L161.9,251.7 L166.6,256.0 L171.4,259.7 L176.2,262.9 L180.9,265.4 L185.7,267.4 L190.5,268.9 L195.2,269.7 L200.0,270.0 L204.8,269.7 L209.5,268.9 L214.3,267.4 L219.1,265.4 L223.8,262.9 L228.6,259.7 L233.4,256.0 L238.1,251.7 L242.9,246.9 L247.7,241.5 L252.4,235.5 L257.2,228.9 L262.0,221.8 L266.7,214.1 L271.5,205.8 L276.3,196.9 L281.0,187.5 L285.8,177.5 L290.6,167.0 L295.3,155.8 L300.1,144.1 L304.9,131.9 L309.6,119.0 L314.4,105.6 L319.2,91.6 L323.9,77.1 L328.7,61.9 L333.5,46.2 L338.2,30.0 L343.0,13.1" fill="none" stroke="#1d4ed8" stroke-width="2.5"/>
+<circle cx="200" cy="270" r="4.5" fill="#b91c1c"/>
+<circle cx="255" cy="232" r="4.5" fill="#b91c1c"/>
+<circle cx="145" cy="232" r="4.5" fill="#b91c1c"/>
+<text x="268" y="60" font-family="sans-serif" font-size="14" fill="#1d4ed8" font-weight="bold">y = x²</text>
+<text x="120" y="300" font-family="sans-serif" font-size="12" fill="#64748b">Các điểm (0; 0), (1; 1), (−1; 1) thuộc đồ thị</text>
+</svg></div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>Điểm $A(2;\, 4)$ thuộc đồ thị hàm số $y = x^2$ vì $4 = 2^2$; điểm $B(2;\, 3)$ không thuộc vì $3 \ne 2^2$.</li>
+<li>Để vẽ đồ thị $y = 2x - 1$: lập bảng $(0;\, -1)$, $(1;\, 1)$ rồi nối thành đường thẳng.</li>
+</ul>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Muốn kiểm tra điểm $M(x_0;\, y_0)$ có thuộc đồ thị $y = f(x)$ không: <strong>thay $x_0$ vào công thức</strong>, xem có ra đúng $y_0$ không.</p>
+</div>
+
+<!-- 3. Đồng biến, nghịch biến -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Sự đồng biến, nghịch biến của hàm số</h2>
+
+<p>Cho hàm số $y = f(x)$ xác định trên khoảng $K$ (khoảng có thể là $(a;\, b)$, $[a;\, b]$, ...).</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li>Hàm số <strong>đồng biến</strong> trên $K$ nếu: với mọi $x_1, x_2 \in K$, $x_1 \lt x_2 \Rightarrow f(x_1) \lt f(x_2)$.<br><span class="text-slate-600">($x$ tăng thì $y$ tăng — đồ thị "đi lên" từ trái sang phải.)</span></li>
+<li>Hàm số <strong>nghịch biến</strong> trên $K$ nếu: với mọi $x_1, x_2 \in K$, $x_1 \lt x_2 \Rightarrow f(x_1) \gt f(x_2)$.<br><span class="text-slate-600">($x$ tăng thì $y$ giảm — đồ thị "đi xuống" từ trái sang phải.)</span></li>
+</ul>
+</div>
+
+<p>Người ta thường tóm tắt sự biến thiên bằng <strong>bảng biến thiên</strong> với các mũi tên đi lên (đồng biến) và đi xuống (nghịch biến).</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 1:</p>
+<p>Hàm số $y = -2x + 3$ <strong>nghịch biến trên $\mathbb{R}$</strong>: lấy $x_1 \lt x_2$ thì $-2x_1 \gt -2x_2$, suy ra $f(x_1) = -2x_1 + 3 \gt -2x_2 + 3 = f(x_2)$.</p>
+<p class="font-semibold text-sky-800 mb-2 mt-4">Ví dụ 2:</p>
+<p>Hàm số $y = x^2$:</p>
+<ul class="list-disc ml-6 space-y-1 mt-2">
+<li>Trên khoảng $(-\infty;\, 0)$: $x_1 \lt x_2 \lt 0 \Rightarrow x_1^2 \gt x_2^2$ nên hàm số <strong>nghịch biến</strong>.</li>
+<li>Trên khoảng $(0;\, +\infty)$: $0 \lt x_1 \lt x_2 \Rightarrow x_1^2 \lt x_2^2$ nên hàm số <strong>đồng biến</strong>.</li>
+</ul>
+<p class="mt-2">Bảng biến thiên:</p>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">$x$</td><td class="border border-slate-300 px-4 py-1">$-\infty$</td><td class="border border-slate-300 px-4 py-1">$0$</td><td class="border border-slate-300 px-4 py-1">$+\infty$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">$y$</td><td class="border border-slate-300 px-4 py-1">$+\infty$ ↘</td><td class="border border-slate-300 px-4 py-1">$0$</td><td class="border border-slate-300 px-4 py-1">↗ $+\infty$</td></tr>
+</table></div>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Đồng biến = "$x$ tăng, $y$ tăng" (mũi tên ↗); nghịch biến = "$x$ tăng, $y$ giảm" (mũi tên ↘). Luôn xét tính đồng biến, nghịch biến <strong>trên từng khoảng</strong>, không nói chung chung trên cả TXĐ.</p>
+</div>
+
+<!-- Tổng kết -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Hàm số:</strong> mỗi $x \in D$ cho đúng một $y$; $D$ là tập xác định, tập các giá trị $y$ là tập giá trị.</li>
+<li><strong>Tìm TXĐ:</strong> mẫu khác $0$; biểu thức trong căn bậc hai không âm; hàm đa thức thì $D = \mathbb{R}$.</li>
+<li><strong>Đồ thị:</strong> tập hợp các điểm $M(x;\, f(x))$; $M(x_0;\, y_0)$ thuộc đồ thị $\Leftrightarrow y_0 = f(x_0)$.</li>
+<li><strong>Đồng biến</strong> trên $K$: $x_1 \lt x_2 \Rightarrow f(x_1) \lt f(x_2)$; <strong>nghịch biến</strong>: $x_1 \lt x_2 \Rightarrow f(x_1) \gt f(x_2)$.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+</body>
+</html>
