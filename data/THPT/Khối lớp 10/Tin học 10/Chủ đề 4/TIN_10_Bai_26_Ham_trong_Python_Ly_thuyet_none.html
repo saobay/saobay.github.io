@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 26: Hàm trong Python</title>
+    <meta name="lesson-title" content="Bài 26: Hàm trong Python">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 26: Hàm trong Python</h1>
+            <p class="text-xs text-slate-500 mt-1">Chủ đề 5: Giải quyết vấn đề với sự trợ giúp của máy tính • Bài 26: Hàm trong Python</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 26: Hàm trong Python</h1>
+<p class="text-center text-slate-500 italic mb-8">Chủ đề 5: Giải quyết vấn đề với sự trợ giúp của máy tính</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Khái niệm hàm</h2>
+<p><strong>Hàm (function)</strong> là một khối lệnh được đặt tên, thực hiện một nhiệm vụ cụ thể và có thể <strong>tái sử dụng</strong> nhiều lần. Dùng hàm giúp chương trình ngắn gọn, rõ ràng, dễ kiểm thử và gỡ lỗi.</p>
+<p>Python có sẵn nhiều hàm như <code>print()</code>, <code>input()</code>, <code>len()</code>, <code>int()</code>... và cho phép người dùng <strong>tự định nghĩa hàm</strong> mới.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Định nghĩa và gọi hàm</h2>
+<p>Dùng từ khóa <code>def</code> để định nghĩa hàm:</p>
+<pre class="bg-slate-900 text-green-300 rounded-lg p-4 my-4 overflow-x-auto text-sm"><code>def ten_ham(tham_số_1, tham_số_2, ...):
+    khối lệnh trong thân hàm
+    return giá_trị_trả_về   # có thể không có</code></pre>
+<pre class="bg-slate-900 text-green-300 rounded-lg p-4 my-4 overflow-x-auto text-sm"><code>def tong(a, b):
+    return a + b
+
+print(tong(4, 5))   # 9
+print(tong(10, 20)) # 30</code></pre>
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Các khái niệm:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li><strong>Tham số</strong>: biến ghi trong ngoặc khi <em>định nghĩa</em> hàm (ví dụ <code>a, b</code>).</li>
+<li><strong>Đối số</strong>: giá trị cụ thể truyền vào khi <em>gọi</em> hàm (ví dụ <code>4, 5</code>).</li>
+<li><strong>Giá trị trả về</strong>: kết quả hàm đưa ra qua lệnh <code>return</code>.</li>
+</ul>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Lệnh return</h2>
+<p>Lệnh <code>return</code> <strong>kết thúc hàm ngay lập tức</strong> và trả giá trị về nơi gọi. Hàm không có <code>return</code> (hoặc <code>return</code> không có giá trị) sẽ trả về <code>None</code>.</p>
+<pre class="bg-slate-900 text-green-300 rounded-lg p-4 my-4 overflow-x-auto text-sm"><code>def la_so_chan(n):
+    if n % 2 == 0:
+        return True
+    return False
+
+print(la_so_chan(8))  # True</code></pre>
+<div class="bg-amber-50 border border-amber-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-amber-800 mb-1">Phân biệt:</p>
+<p class="text-sm"><code>print()</code> chỉ <strong>in ra màn hình</strong>, còn <code>return</code> <strong>đưa giá trị về</strong> để chương trình dùng tiếp. Hàm tính toán nên dùng <code>return</code>.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Hàm đệ quy</h2>
+<p><strong>Hàm đệ quy</strong> là hàm <strong>gọi lại chính nó</strong>. Hàm đệ quy phải có <strong>điểm dừng</strong> (trường hợp không gọi tiếp), nếu không sẽ lặp vô hạn và gây lỗi khi chạy.</p>
+<pre class="bg-slate-900 text-green-300 rounded-lg p-4 my-4 overflow-x-auto text-sm"><code>def giai_thua(n):
+    if n == 1:       # điểm dừng
+        return 1
+    return n * giai_thua(n - 1)
+
+print(giai_thua(5))  # 120</code></pre>
+
+</div>
+        </div>
+    </div>
+</body>
+</html>
