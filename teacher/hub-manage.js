@@ -38,6 +38,37 @@
         function manageFolderLabel(){ var p = getManageFolder(); if(!p) return 'Tất cả thư mục'; var s = p.split('/'); return s[s.length-1] || p; }
         function setManageFolderFilter(v){ renderLessonManagementList(); }
         let manageTypeFilter = 'all'; // 'all' | 'theory' | 'exam'
+        let manageGroupFilter = 0; // 0 = tất cả nhóm, 1..N = nhóm GV (20 GV/nhóm)
+        // FIX 2026-10-10: Nhóm GV — 20 GV/nhóm, sắp xếp theo owner_id để ổn định.
+        // Cây/danh sách quản lý lọc theo nhóm cho đỡ cuộn dài.
+        function getTeacherGroups(reg){
+            let ids = {};
+            Object.keys(reg || {}).forEach(function(fp){
+                let o = reg[fp];
+                if (o && o.owner_id) ids[String(o.owner_id)] = o.owner_name || o.owner_id;
+            });
+            let sorted = Object.keys(ids).sort();
+            let groups = [];
+            for (let i = 0; i < sorted.length; i += 20){
+                groups.push({
+                    num: groups.length + 1,
+                    members: sorted.slice(i, i + 20).map(function(id){ return { id: id, name: ids[id] }; })
+                });
+            }
+            return groups;
+        }
+        function teacherGroupOf(ownerId, reg){
+            if (!ownerId) return 0;
+            let groups = getTeacherGroups(reg);
+            for (let g = 0; g < groups.length; g++){
+                if (groups[g].members.some(function(m){ return m.id === String(ownerId); })) return groups[g].num;
+            }
+            return 0;
+        }
+        function setManageGroupFilter(g){
+            manageGroupFilter = parseInt(g, 10) || 0;
+            renderLessonManagementList();
+        }
         function setManageTypeFilter(t){
             manageTypeFilter = t;
             ['all','theory','exam'].forEach(function(k){
@@ -335,10 +366,18 @@
                 }
 
                 // Loc theo loai: ly thuyet / de thi
+                // FIX 2026-10-10: loc theo nhom GV (20 GV/nhom)
                 let shown = files.filter(function(f){
-                    if (manageTypeFilter === 'all') return true;
-                    let fn = f.path.substring(f.path.lastIndexOf('/') + 1);
-                    return fileKindOf(fn) === manageTypeFilter;
+                    if (manageTypeFilter !== 'all'){
+                        let fn = f.path.substring(f.path.lastIndexOf('/') + 1);
+                        if (fileKindOf(fn) !== manageTypeFilter) return false;
+                    }
+                    if (manageGroupFilter > 0){
+                        let own = (typeof examOwnerOf === 'function') ? examOwnerOf(f.path, reg) : null;
+                        let g = teacherGroupOf(own && own.owner_id, reg);
+                        if (g !== manageGroupFilter) return false;
+                    }
+                    return true;
                 });
                 let nTheory = files.filter(function(f){ return fileKindOf(f.path.substring(f.path.lastIndexOf('/') + 1)) === 'theory'; }).length;
                 let nExam = files.length - nTheory;
@@ -352,6 +391,13 @@
                 let html = '<div class="flex flex-wrap items-center gap-2 mb-2">'
                     + '<span class="text-[11px] font-bold text-slate-500">Thư mục:</span>'
                     + '<span title="' + getManageFolder().replace(/"/g,'&quot;') + '" class="text-xs font-bold text-blue-700 bg-blue-50 border border-blue-200 rounded-lg px-2 py-1.5 max-w-[220px] truncate">📁 ' + manageFolderLabel().replace(/</g,'&lt;') + '</span>'
+                    + '<span class="text-[11px] font-bold text-slate-500 ml-1">Nhóm GV:</span>'
+                    + '<select onchange="setManageGroupFilter(this.value)" class="text-xs font-bold border border-violet-300 rounded-lg px-2 py-1.5 bg-violet-50 text-violet-800" title="Lọc theo nhóm giáo viên (20 GV/nhóm)">'
+                    + '<option value="0"' + (manageGroupFilter === 0 ? ' selected' : '') + '>Tất cả nhóm</option>'
+                    + getTeacherGroups(reg).map(function(g){
+                        return '<option value="' + g.num + '"' + (manageGroupFilter === g.num ? ' selected' : '') + '>Nhóm ' + g.num + ' (' + g.members.length + ' GV)</option>';
+                    }).join('')
+                    + '</select>'
                     + '<span class="text-[11px] font-bold text-slate-500 ml-1">Loại:</span>'
                     + '<button id="mfilter-all" onclick="setManageTypeFilter(\'all\')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition ' + (manageTypeFilter === 'all' ? 'bg-blue-700 text-white shadow' : 'bg-slate-100 text-slate-600 hover:bg-slate-200') + '">Tất cả (' + files.length + ')</button>'
                     + '<button id="mfilter-theory" onclick="setManageTypeFilter(\'theory\')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition ' + (manageTypeFilter === 'theory' ? 'bg-blue-700 text-white shadow' : 'bg-slate-100 text-slate-600 hover:bg-slate-200') + '">📘 Lý thuyết (' + nTheory + ')</button>'
