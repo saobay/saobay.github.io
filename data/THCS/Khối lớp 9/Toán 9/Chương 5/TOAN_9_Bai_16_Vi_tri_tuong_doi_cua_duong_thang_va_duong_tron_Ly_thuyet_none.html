@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 16: Vị trí tương đối của đường thẳng và đường tròn</title>
+    <meta name="lesson-title" content="Bài 16: Vị trí tương đối của đường thẳng và đường tròn">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 16: Vị trí tương đối của đường thẳng và đường tròn</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 5: Đường tròn • Bài 16: Vị trí tương đối của đường thẳng và đường tròn</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 16: Vị trí tương đối của đường thẳng và đường tròn</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 5: Đường tròn (Kết nối tri thức với cuộc sống)</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Ba vị trí tương đối của đường thẳng và đường tròn</h2>
+<p>Cho đường tròn $(O; R)$ và đường thẳng $a$. Gọi $d$ là <strong>khoảng cách từ tâm $O$ đến đường thẳng $a$</strong>. So sánh $d$ với $R$:</p>
+<div class="table-scroll"><table class="w-full border-collapse text-sm text-center">
+<tr><th class="border border-slate-300 px-4 py-1 bg-sky-50">Vị trí tương đối</th><th class="border border-slate-300 px-4 py-1 bg-sky-50">Số điểm chung</th><th class="border border-slate-300 px-4 py-1 bg-sky-50">Quan hệ $d$ và $R$</th></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Đường thẳng <strong>cắt</strong> đường tròn</td><td class="border border-slate-300 px-4 py-1">$2$</td><td class="border border-slate-300 px-4 py-1">$d &lt; R$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Đường thẳng <strong>tiếp xúc</strong> đường tròn</td><td class="border border-slate-300 px-4 py-1">$1$</td><td class="border border-slate-300 px-4 py-1">$d = R$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Đường thẳng <strong>không giao nhau</strong> với đường tròn</td><td class="border border-slate-300 px-4 py-1">$0$</td><td class="border border-slate-300 px-4 py-1">$d &gt; R$</td></tr>
+</table></div>
+<div class="svg-fig">
+<svg viewBox="0 0 400 330" xmlns="http://www.w3.org/2000/svg">
+  <g>
+    <circle cx="130" cy="70" r="42" fill="#e0f2fe" stroke="#0369a1" stroke-width="2.5"/>
+    <line x1="60" y1="95" x2="200" y2="95" stroke="#dc2626" stroke-width="3"/>
+    <circle cx="105" cy="95" r="5" fill="#dc2626"/><circle cx="155" cy="95" r="5" fill="#dc2626"/>
+    <text x="92" y="130" font-size="13" font-weight="bold" fill="#0369a1">cắt nhau (d &lt; R)</text>
+  </g>
+  <g>
+    <circle cx="130" cy="200" r="42" fill="#e0f2fe" stroke="#0369a1" stroke-width="2.5"/>
+    <line x1="60" y1="242" x2="200" y2="242" stroke="#dc2626" stroke-width="3"/>
+    <circle cx="130" cy="242" r="5" fill="#dc2626"/>
+    <line x1="130" y1="200" x2="130" y2="242" stroke="#0369a1" stroke-width="2" stroke-dasharray="5,4"/>
+    <text x="80" y="272" font-size="13" font-weight="bold" fill="#0369a1">tiếp xúc (d = R)</text>
+  </g>
+  <g>
+    <circle cx="320" cy="130" r="42" fill="#e0f2fe" stroke="#0369a1" stroke-width="2.5"/>
+    <line x1="250" y1="210" x2="390" y2="210" stroke="#dc2626" stroke-width="3"/>
+    <line x1="320" y1="130" x2="320" y2="210" stroke="#0369a1" stroke-width="2" stroke-dasharray="5,4"/>
+    <text x="262" y="240" font-size="13" font-weight="bold" fill="#0369a1">không giao nhau (d &gt; R)</text>
+  </g>
+</svg>
+<p class="text-center text-sm text-slate-500 italic">Ba vị trí tương đối của đường thẳng và đường tròn theo khoảng cách d so với bán kính R</p>
+</div>
+<div class="bg-amber-50 border-l-4 border-amber-400 p-3 my-3 rounded-r-lg">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p>Chìa khóa là <strong>so sánh $d$ với $R$</strong>: $d &lt; R$ cắt nhau (2 điểm), $d = R$ tiếp xúc (1 điểm), $d &gt; R$ không giao nhau (0 điểm).</p>
+</div>
+<p class="font-bold">Ví dụ 1 (có lời giải):</p>
+<p>Cho đường tròn $(O; 5\text{ cm})$. Xét vị trí tương đối của $(O)$ với đường thẳng $a$ trong các trường hợp: a) khoảng cách từ $O$ đến $a$ là $3\text{ cm}$; b) là $5\text{ cm}$; c) là $7\text{ cm}$.</p>
+<p><strong>Lời giải:</strong> a) $d = 3 &lt; 5 = R$: $a$ <strong>cắt</strong> $(O)$ tại 2 điểm. b) $d = 5 = R$: $a$ <strong>tiếp xúc</strong> với $(O)$. c) $d = 7 &gt; 5 = R$: $a$ <strong>không giao nhau</strong> với $(O)$.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Tính chất của tiếp tuyến</h2>
+<p>Đường thẳng <strong>tiếp xúc</strong> với đường tròn được gọi là <strong>tiếp tuyến</strong>; điểm chung duy nhất gọi là <strong>tiếp điểm</strong>.</p>
+<p><strong>Định lí:</strong> Tiếp tuyến của đường tròn <strong>vuông góc với bán kính</strong> đi qua tiếp điểm. Tức là: nếu đường thẳng $a$ tiếp xúc với $(O)$ tại $A$ thì $a \perp OA$.</p>
+<p class="font-bold">Ví dụ 2 (có lời giải):</p>
+<p>Từ điểm $M$ nằm ngoài đường tròn $(O; 5\text{ cm})$ kẻ tiếp tuyến $MA$ ($A$ là tiếp điểm). Biết $OM = 13\text{ cm}$, tính $MA$.</p>
+<p><strong>Lời giải:</strong> $MA$ là tiếp tuyến tại $A$ nên $MA \perp OA$, tam giác $OAM$ vuông tại $A$. Theo định lí Pythagore: $MA = \sqrt{OM^2 - OA^2} = \sqrt{169 - 25} = 12$ (cm).</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Tính chất hai tiếp tuyến cắt nhau</h2>
+<p>Từ một điểm $M$ nằm ngoài đường tròn $(O)$, kẻ được <strong>hai tiếp tuyến</strong> $MA$, $MB$ ($A$, $B$ là các tiếp điểm). Khi đó:</p>
+<ul class="list-disc ml-6 my-2">
+<li>$MA = MB$ (hai tiếp tuyến bằng nhau);</li>
+<li>$MO$ là tia phân giác của góc $\widehat{AMB}$;</li>
+<li>$MO$ là tia phân giác của góc $\widehat{AOB}$.</li>
+</ul>
+<div class="svg-fig">
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="170" cy="150" r="80" fill="#eef2ff" stroke="#4338ca" stroke-width="3"/>
+  <circle cx="170" cy="150" r="4" fill="#4338ca"/>
+  <text x="176" y="144" font-size="16" font-weight="bold" fill="#4338ca">O</text>
+  <line x1="340" y1="62" x2="170" y2="150" stroke="#dc2626" stroke-width="0" />
+  <line x1="340" y1="70" x2="116" y2="96" stroke="#dc2626" stroke-width="3"/>
+  <line x1="340" y1="70" x2="116" y2="204" stroke="#dc2626" stroke-width="3"/>
+  <circle cx="116" cy="96" r="6" fill="#dc2626"/>
+  <circle cx="116" cy="204" r="6" fill="#dc2626"/>
+  <circle cx="340" cy="70" r="7" fill="#16a34a"/>
+  <text x="346" y="66" font-size="16" font-weight="bold" fill="#16a34a">M</text>
+  <text x="100" y="90" font-size="16" font-weight="bold" fill="#dc2626">A</text>
+  <text x="100" y="222" font-size="16" font-weight="bold" fill="#dc2626">B</text>
+  <line x1="340" y1="70" x2="170" y2="150" stroke="#16a34a" stroke-width="2" stroke-dasharray="7,5"/>
+  <line x1="170" y1="150" x2="116" y2="96" stroke="#4338ca" stroke-width="2"/>
+  <text x="200" y="120" font-size="14" fill="#16a34a">MA = MB</text>
+  <path d="M116,108 l10,0 l0,10" fill="none" stroke="#4338ca" stroke-width="2"/>
+</svg>
+<p class="text-center text-sm text-slate-500 italic">Hai tiếp tuyến MA, MB cắt nhau tại M: MA = MB, MO là phân giác góc AMB</p>
+</div>
+<div class="bg-amber-50 border-l-4 border-amber-400 p-3 my-3 rounded-r-lg">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p>“Hai tiếp tuyến cắt nhau thì <strong>bằng nhau</strong>”, và đường thẳng nối điểm đó với tâm là <strong>trục đối xứng</strong> của hình (đi qua trung điểm và vuông góc với dây nối hai tiếp điểm).</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="table-scroll"><table class="w-full border-collapse text-sm">
+<tr><th class="border border-slate-300 px-4 py-1 bg-sky-50">Nội dung</th><th class="border border-slate-300 px-4 py-1 bg-sky-50">Kết quả</th><th class="border border-slate-300 px-4 py-1 bg-sky-50">Ví dụ</th></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Vị trí tương đối ($d$ là khoảng cách từ $O$ đến đường thẳng)</td><td class="border border-slate-300 px-4 py-1">$d&lt;R$: cắt nhau (2 điểm); $d=R$: tiếp xúc (1 điểm); $d&gt;R$: không giao nhau</td><td class="border border-slate-300 px-4 py-1">$R=5$, $d=3 \Rightarrow$ cắt nhau</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Tính chất tiếp tuyến</td><td class="border border-slate-300 px-4 py-1">Tiếp tuyến vuông góc với bán kính tại tiếp điểm</td><td class="border border-slate-300 px-4 py-1">$OM=13$, $R=5 \Rightarrow MA=12$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Hai tiếp tuyến cắt nhau tại $M$</td><td class="border border-slate-300 px-4 py-1">$MA=MB$; $MO$ phân giác $\widehat{AMB}$ và $\widehat{AOB}$</td><td class="border border-slate-300 px-4 py-1">—</td></tr>
+</table></div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
