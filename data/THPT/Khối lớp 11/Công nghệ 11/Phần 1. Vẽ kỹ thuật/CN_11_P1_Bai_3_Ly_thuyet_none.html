@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay | Ma nguon thuoc nen tang hoc tap SAOBAY | Nghiem cam sao chep duoi moi hinh thuc -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 3: Mặt cắt và hình cắt</title>
+    <meta name="lesson-title" content="Bài 3: Mặt cắt và hình cắt">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 3: Mặt cắt và hình cắt</h1>
+            <p class="text-xs text-slate-500 mt-1">Phần 1: Vẽ kỹ thuật • Bài 3: Mặt cắt và hình cắt</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 3: Mặt cắt và hình cắt</h1>
+<p class="text-center text-slate-500 italic mb-8">Phần 1: Vẽ kỹ thuật — Công nghệ 11 (Kết nối tri thức với cuộc sống)</p>
+
+<p>Nhiều chi tiết máy có cấu tạo bên trong phức tạp (lỗ, rãnh, hốc...). Nếu chỉ dùng hình chiếu với nét đứt, bản vẽ sẽ rối và khó đọc. <strong>Mặt cắt</strong> và <strong>hình cắt</strong> ra đời để "mổ xẻ" vật thể, thể hiện rõ hình dạng bên trong của nó.</p>
+
+<!-- 1. Khái niệm -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Mặt cắt và hình cắt là gì?</h2>
+
+<ul class="list-disc ml-6 space-y-2 my-3">
+<li><strong>Mặt cắt:</strong> hình biểu diễn <strong>phần vật thể nằm trên mặt phẳng cắt</strong> (chỉ vẽ phần bị mặt phẳng cắt "cắt qua").</li>
+<li><strong>Hình cắt:</strong> hình biểu diễn <strong>phần vật thể còn lại sau khi tưởng tượng cắt bỏ</strong> một phần — gồm cả mặt cắt và phần vật thể phía sau mặt phẳng cắt.</li>
+</ul>
+
+<p>Nói ngắn gọn: <strong>hình cắt = mặt cắt + phần nhìn thấy phía sau</strong>. Vì vậy hình cắt thể hiện đầy đủ hơn mặt cắt.</p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mặt cắt và hình cắt">
+<rect x="2" y="2" width="436" height="226" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="28" font-family="sans-serif" font-size="15" font-weight="bold" fill="#1e3a8a" text-anchor="middle">MẶT CẮT và HÌNH CẮT</text>
+<rect x="30" y="55" width="170" height="110" fill="#e0f2fe" stroke="#1e3a8a" stroke-width="2"/>
+<line x1="115" y1="55" x2="115" y2="165" stroke="#b91c1c" stroke-width="2" stroke-dasharray="14,4,3,4"/>
+<text x="115" y="185" font-family="sans-serif" font-size="11" fill="#b91c1c" text-anchor="middle">Mặt phẳng cắt</text>
+<text x="115" y="48" font-family="sans-serif" font-size="11" fill="#64748b" text-anchor="middle">Tưởng tượng cắt vật thể</text>
+<rect x="250" y="55" width="150" height="110" fill="#fef3c7" stroke="#b45309" stroke-width="2"/>
+<g stroke="#b45309" stroke-width="1">
+<line x1="258" y1="157" x2="266" y2="149"/><line x1="266" y1="157" x2="274" y2="149"/><line x1="274" y1="157" x2="282" y2="149"/><line x1="282" y1="157" x2="290" y2="149"/><line x1="290" y1="157" x2="298" y2="149"/><line x1="298" y1="157" x2="306" y2="149"/><line x1="306" y1="157" x2="314" y2="149"/><line x1="314" y1="157" x2="322" y2="149"/><line x1="322" y1="157" x2="330" y2="149"/><line x1="330" y1="157" x2="338" y2="149"/><line x1="338" y1="157" x2="346" y2="149"/><line x1="346" y1="157" x2="354" y2="149"/><line x1="354" y1="157" x2="362" y2="149"/><line x1="362" y1="157" x2="370" y2="149"/><line x1="370" y1="157" x2="378" y2="149"/><line x1="378" y1="157" x2="386" y2="149"/><line x1="386" y1="157" x2="392" y2="149"/>
+</g>
+<text x="325" y="130" font-family="sans-serif" font-size="11" fill="#92400e" text-anchor="middle">Phần bị cắt:</text>
+<text x="325" y="145" font-family="sans-serif" font-size="11" fill="#92400e" text-anchor="middle">kẻ gạch chéo</text>
+<text x="220" y="208" font-family="sans-serif" font-size="12" fill="#334155" text-anchor="middle">Mặt cắt: chỉ vẽ phần bị cắt qua</text>
+<text x="220" y="222" font-family="sans-serif" font-size="12" fill="#334155" text-anchor="middle">Hình cắt: mặt cắt + phần còn lại phía sau</text>
+</svg></div>
+
+<!-- 2. Ký hiệu -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Ký hiệu và quy ước trên mặt cắt, hình cắt</h2>
+
+<ul class="list-disc ml-6 space-y-2 my-3">
+<li><strong>Đường gạch mặt cắt:</strong> nét liền mảnh, nghiêng <strong>45°</strong> so với đường bao (hoặc so với trục chính).</li>
+<li><strong>Vị trí mặt phẳng cắt:</strong> vẽ bằng <strong>nét cắt</strong> (nét liền đậm có mũi tên chỉ hướng nhìn), kèm chữ cái in hoa (A, B...) ở hai đầu.</li>
+<li><strong>Tên hình cắt:</strong> ghi dạng "A – A" đặt phía trên hình cắt tương ứng.</li>
+<li>Phần vật thể <strong>rỗng</strong> (lỗ, rãnh) trên mặt cắt <strong>không kẻ gạch</strong>.</li>
+</ul>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Nhìn vào bản vẽ, dấu hiệu nhận biết hình cắt là <strong>vùng gạch chéo 45°</strong>. Chỗ nào không gạch chéo trên mặt cắt nghĩa là chỗ đó <strong>rỗng</strong> (lỗ, hốc).</p>
+</div>
+
+<!-- 3. Các loại mặt cắt -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Các loại mặt cắt</h2>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Loại mặt cắt</td><td class="border border-slate-300 px-4 py-1">Đặc điểm</td><td class="border border-slate-300 px-4 py-1">Ứng dụng</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Mặt cắt chập</td><td class="border border-slate-300 px-4 py-1">Vẽ ngay trên hình chiếu, bằng nét liền mảnh</td><td class="border border-slate-300 px-4 py-1">Vật thể dài có tiết diện không đổi (trục, thanh)</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Mặt cắt rời</td><td class="border border-slate-300 px-4 py-1">Vẽ ngoài hình chiếu, bằng nét liền đậm</td><td class="border border-slate-300 px-4 py-1">Thể hiện tiết diện tại vị trí bất kỳ</td></tr>
+</table></div>
+
+<!-- 4. Các loại hình cắt -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Các loại hình cắt</h2>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Loại hình cắt</td><td class="border border-slate-300 px-4 py-1">Mặt phẳng cắt</td><td class="border border-slate-300 px-4 py-1">Ứng dụng</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Hình cắt toàn bộ</td><td class="border border-slate-300 px-4 py-1">Một mặt phẳng, cắt suốt vật thể</td><td class="border border-slate-300 px-4 py-1">Vật thể có cấu tạo trong phức tạp, đối xứng</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Hình cắt một nửa</td><td class="border border-slate-300 px-4 py-1">Một mặt phẳng, chỉ cắt nửa vật thể</td><td class="border border-slate-300 px-4 py-1">Vật thể đối xứng: nửa vẽ hình cắt, nửa vẽ hình chiếu</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Hình cắt cục bộ</td><td class="border border-slate-300 px-4 py-1">Cắt một phần nhỏ, giới hạn bằng nét lượn sóng</td><td class="border border-slate-300 px-4 py-1">Chỉ cần thể hiện một chi tiết nhỏ bên trong</td></tr>
+</table></div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Một <strong>bạc lót hình trụ rỗng</strong> có hình chiếu đứng là hình chữ nhật với hai nét đứt ở giữa (lỗ khuất). Dùng <strong>hình cắt toàn bộ</strong> qua trục, ta thấy rõ: thành bạc được gạch chéo 45°, lỗ rỗng ở giữa không gạch — bản vẽ trở nên rõ ràng, dễ đọc, dễ ghi kích thước đường kính lỗ.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Mẹo chọn loại hình cắt: vật <strong>đối xứng</strong> → cắt một nửa (tiết kiệm chỗ); chỉ cần xem <strong>một chỗ nhỏ</strong> → cắt cục bộ (nét lượn sóng); còn lại → cắt toàn bộ.</p>
+</div>
+
+<!-- Tổng kết -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Mặt cắt:</strong> chỉ vẽ phần bị mặt phẳng cắt qua. <strong>Hình cắt:</strong> mặt cắt + phần còn lại phía sau.</li>
+<li><strong>Ký hiệu:</strong> gạch chéo 45° bằng nét liền mảnh; vị trí mặt phẳng cắt vẽ bằng nét cắt có mũi tên và chữ cái (A – A).</li>
+<li><strong>Mặt cắt chập:</strong> vẽ ngay trên hình chiếu (nét mảnh). <strong>Mặt cắt rời:</strong> vẽ riêng ngoài hình chiếu (nét đậm).</li>
+<li><strong>Hình cắt toàn bộ:</strong> cắt suốt; <strong>một nửa:</strong> vật đối xứng; <strong>cục bộ:</strong> giới hạn bằng nét lượn sóng.</li>
+<li>Phần rỗng (lỗ, hốc) trên mặt cắt <strong>không kẻ gạch</strong>.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">
+(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok){if(document.body){document.body.innerHTML='<div style="font-family:system-ui,sans-serif;max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff"><h2 style="color:#0f172a;margin-top:0">© SAOBAY — Trường THPT Sào Báy</h2><p style="color:#475569">Nội dung này chỉ được hiển thị tại địa chỉ chính thức <b>saobay.github.io</b>.</p><p style="color:#475569">Vui lòng truy cập đúng địa chỉ để học tập.</p></div>';}else{document.write("SAOBAY: truy cap tai saobay.github.io");}}catch(e){}})();
+</script>
+</body>
+</html>
