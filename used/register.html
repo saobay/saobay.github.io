@@ -26,6 +26,14 @@
             <input id="rg-phone" class="mt-1 w-full border rounded-lg px-3 py-2.5" placeholder="VD: 0912345678 hoặc ten@gmail.com">
         </div>
         <div>
+            <label class="text-xs font-bold text-slate-600">Mật khẩu tự đặt *</label>
+            <input id="rg-pass" type="password" class="mt-1 w-full border rounded-lg px-3 py-2.5" placeholder="Tối thiểu 6 ký tự">
+        </div>
+        <div>
+            <label class="text-xs font-bold text-slate-600">Nhập lại mật khẩu *</label>
+            <input id="rg-pass2" type="password" class="mt-1 w-full border rounded-lg px-3 py-2.5" placeholder="Nhập lại mật khẩu">
+        </div>
+        <div>
             <label class="text-xs font-bold text-slate-600">Bạn là *</label>
             <select id="rg-role" class="mt-1 w-full border rounded-lg px-3 py-2.5 font-semibold">
                 <option value="teacher">Giáo viên</option>
@@ -34,7 +42,8 @@
         </div>
         <p class="text-[11px] text-slate-500 bg-blue-50 border border-blue-200 rounded-lg p-2">
             <i class="fa-solid fa-circle-info text-blue-600 mr-1"></i>
-            Tài khoản mới được <b>dùng thử 3 tháng full chức năng</b>. Admin sẽ xếp lớp/nhóm cho bạn sau.
+            Tài khoản mới được <b>dùng thử 3 tháng full chức năng</b>. Admin sẽ xếp lớp/nhóm cho bạn sau.<br>
+            <b>Lưu ý:</b> HS/GV trường đăng nhập bằng <b>ID và mật khẩu do nhà trường cấp</b>.
         </p>
         <div>
             <label class="text-xs font-bold text-slate-600">Ghi chú thêm</label>
@@ -57,6 +66,8 @@ async function submitRegistration(){
     let name = document.getElementById('rg-name').value.trim();
     let rawId = document.getElementById('rg-phone').value.trim();
     let phone = rawId.includes('@') ? rawId.toLowerCase() : rawId.replace(/\D/g, '');
+    let pass = document.getElementById('rg-pass').value;
+    let pass2 = document.getElementById('rg-pass2').value;
     let role = document.getElementById('rg-role').value;
     let cls = '';
     let note = document.getElementById('rg-note').value.trim();
@@ -65,6 +76,8 @@ async function submitRegistration(){
     let isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(phone);
     let isPhone = /^\d{9,12}$/.test(phone);
     if (!isEmail && !isPhone){ msg.textContent = 'Vui lòng nhập SĐT (9-12 số) hoặc Gmail đúng.'; msg.classList.add('text-rose-600'); return; }
+    if (!pass || pass.length < 6){ msg.textContent = 'Mật khẩu phải từ 6 ký tự trở lên.'; msg.classList.add('text-rose-600'); return; }
+    if (pass !== pass2){ msg.textContent = 'Mật khẩu nhập lại chưa khớp.'; msg.classList.add('text-rose-600'); return; }
 
     btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i>Đang gửi...';
     try {
@@ -76,7 +89,7 @@ async function submitRegistration(){
             throw new Error('Số điện thoại này đã đăng ký / đã có tài khoản.');
         db.registrations.push({
             id: phone, name: name, role_requested: role, className: cls, note: note,
-            status: 'pending', created_at: new Date().toISOString()
+            password: btoa(unescape(encodeURIComponent(pass))), status: 'pending', created_at: new Date().toISOString()
         });
         let push = await fetch(API_URL, { method: 'POST',
             headers: { 'Content-Type': 'text/plain;charset=utf-8' },
