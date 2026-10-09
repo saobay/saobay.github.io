@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 18: Các lệnh vào ra đơn giản</title>
+    <meta name="lesson-title" content="Bài 18: Các lệnh vào ra đơn giản">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 18: Các lệnh vào ra đơn giản</h1>
+            <p class="text-xs text-slate-500 mt-1">Chủ đề 5: Giải quyết vấn đề với sự trợ giúp của máy tính • Bài 18: Các lệnh vào ra đơn giản</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 18: Các lệnh vào, ra đơn giản</h1>
+<p class="text-center text-slate-500 italic mb-8">Chủ đề 5: Giải quyết vấn đề với sự trợ giúp của máy tính</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Lệnh vào: input()</h2>
+<p>Hàm <code>input()</code> nhận dữ liệu từ bàn phím. Khi gặp lệnh này, chương trình dừng lại chờ người dùng gõ dữ liệu rồi nhấn Enter.</p>
+<pre class="bg-slate-900 text-green-300 rounded-lg p-4 my-4 overflow-x-auto text-sm"><code>ten = input("Nhập họ tên của bạn: ")
+print("Xin chào", ten)</code></pre>
+<div class="bg-amber-50 border border-amber-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-amber-800 mb-1">Chú ý quan trọng:</p>
+<p class="text-sm"><code>input()</code> luôn trả về <strong>xâu kí tự</strong>. Muốn tính toán với số, phải <strong>ép kiểu</strong>: <code>n = int(input())</code> (số nguyên), <code>x = float(input())</code> (số thực).</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Lệnh ra: print()</h2>
+<p>Hàm <code>print()</code> đưa dữ liệu ra màn hình. Có thể in nhiều giá trị cách nhau bởi dấu phẩy:</p>
+<pre class="bg-slate-900 text-green-300 rounded-lg p-4 my-4 overflow-x-auto text-sm"><code>print("Tổng của", 4, "và", 5, "là", 4 + 5)</code></pre>
+<p>Hai tham số đặc biệt của <code>print()</code>:</p>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Tham số</td><td class="border border-slate-300 px-4 py-1">Ý nghĩa</td><td class="border border-slate-300 px-4 py-1">Ví dụ</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><code>sep</code></td><td class="border border-slate-300 px-4 py-1">Kí tự ngăn cách giữa các giá trị (mặc định là dấu cách)</td><td class="border border-slate-300 px-4 py-1"><code>print(1, 2, 3, sep="-")</code> in ra <code>1-2-3</code></td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><code>end</code></td><td class="border border-slate-300 px-4 py-1">Kí tự kết thúc sau khi in (mặc định là xuống dòng)</td><td class="border border-slate-300 px-4 py-1"><code>print("a", end="!")</code> in ra <code>a!</code> không xuống dòng</td></tr>
+</table></div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Ví dụ tổng hợp</h2>
+<p>Chương trình nhập hai số và in ra tổng của chúng:</p>
+<pre class="bg-slate-900 text-green-300 rounded-lg p-4 my-4 overflow-x-auto text-sm"><code>a = int(input("Nhập số a: "))
+b = int(input("Nhập số b: "))
+print("Tổng của", a, "và", b, "là:", a + b)</code></pre>
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-1">Lỗi thường gặp:</p>
+<p class="text-sm">Quên ép kiểu khi nhập số: <code>a = input()</code> rồi tính <code>a + 5</code> sẽ gây lỗi vì không cộng được xâu với số. Nhập chữ vào <code>int(input())</code> cũng gây lỗi khi chạy.</p>
+</div>
+
+</div>
+        </div>
+    </div>
+</body>
+</html>
