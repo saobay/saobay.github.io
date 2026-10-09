@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 32: Mối liên hệ giữa xác suất thực nghiệm với xác suất và ứng dụng</title>
+    <meta name="lesson-title" content="Bài 32: Mối liên hệ giữa xác suất thực nghiệm với xác suất và ứng dụng">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 32: Mối liên hệ giữa xác suất thực nghiệm với xác suất và ứng dụng</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 8: Mở đầu về tính xác suất của biến cố • Bài 32: Mối liên hệ giữa xác suất thực nghiệm với xác suất và ứng dụng</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+
+<p>Trong thực tế, nhiều khi ta không thể liệt kê hết các kết quả có thể (ví dụ: tung đồng xu 1000 lần, kiểm tra 10 000 sản phẩm). Khi đó, người ta ước lượng xác suất bằng cách <strong>thực hiện nhiều lần</strong> và đếm số lần biến cố xảy ra — đó là <strong>xác suất thực nghiệm</strong>.</p>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-6">1. Xác suất thực nghiệm của một biến cố</h2>
+<p>Khi thực hiện một hành động, thực nghiệm $n$ lần, nếu biến cố $A$ xảy ra $k$ lần thì tỉ số $\dfrac{k}{n}$ được gọi là <strong>xác suất thực nghiệm</strong> của biến cố $A$.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-xl p-4 mt-3">
+<p class="font-bold text-sky-800">📌 Ví dụ 1</p>
+<p>Tung một đồng xu 200 lần, thấy mặt sấp xuất hiện 98 lần. Xác suất thực nghiệm của biến cố “xuất hiện mặt sấp” là $\dfrac{98}{200} = 0{,}49$.</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-xl p-4 mt-3">
+<p class="font-bold text-sky-800">📌 Ví dụ 2</p>
+<p>Gieo một con xúc xắc 120 lần, mặt 6 chấm xuất hiện 22 lần. Xác suất thực nghiệm của biến cố “xuất hiện mặt 6 chấm” là $\dfrac{22}{120} = \dfrac{11}{60} \approx 0{,}183$.</p>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-6">2. Mối liên hệ giữa xác suất thực nghiệm với xác suất</h2>
+<p>Khi số lần thực hiện hành động, thực nghiệm <strong>càng lớn</strong> thì xác suất thực nghiệm của biến cố <strong>càng gần</strong> với xác suất lí thuyết của biến cố đó (tính bằng tỉ số ở Bài 31).</p>
+<p>Chẳng hạn, tung đồng xu càng nhiều lần thì tỉ lệ số lần xuất hiện mặt sấp càng gần với $\dfrac{1}{2}$.</p>
+
+<div class="svg-fig">
+<svg viewBox="0 0 400 230" xmlns="http://www.w3.org/2000/svg">
+<line x1="40" y1="190" x2="380" y2="190" stroke="#64748b" stroke-width="2"/>
+<line x1="40" y1="190" x2="40" y2="20" stroke="#64748b" stroke-width="2"/>
+<text x="30" y="60" font-size="12" fill="#64748b">1</text>
+<text x="22" y="130" font-size="12" fill="#64748b">0,5</text>
+<text x="30" y="195" font-size="12" fill="#64748b">0</text>
+<line x1="40" y1="125" x2="380" y2="125" stroke="#ef4444" stroke-width="2" stroke-dasharray="6,4"/>
+<text x="385" y="129" font-size="12" fill="#ef4444">0,5</text>
+<rect x="70" y="150" width="36" height="40" fill="#93c5fd"/>
+<rect x="126" y="138" width="36" height="52" fill="#93c5fd"/>
+<rect x="182" y="143" width="36" height="47" fill="#93c5fd"/>
+<rect x="238" y="130" width="36" height="60" fill="#60a5fa"/>
+<rect x="294" y="128" width="36" height="62" fill="#60a5fa"/>
+<text x="60" y="208" font-size="12" fill="#475569">10 lần</text>
+<text x="116" y="208" font-size="12" fill="#475569">50 lần</text>
+<text x="172" y="208" font-size="12" fill="#475569">100 lần</text>
+<text x="228" y="208" font-size="12" fill="#475569">500 lần</text>
+<text x="284" y="208" font-size="12" fill="#475569">1000 lần</text>
+<text x="200" y="15" text-anchor="middle" font-size="14" font-weight="bold" fill="#334155">Tỉ lệ mặt sấp khi tung đồng xu</text>
+</svg>
+<p class="text-center text-sm text-slate-500 mt-1">Hình 1. Số lần tung càng lớn, xác suất thực nghiệm càng gần 0,5</p>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-6">3. Ứng dụng</h2>
+<p>Xác suất thực nghiệm giúp ta <strong>ước lượng</strong> các đại lượng chưa biết trong thực tế:</p>
+<ul class="list-disc pl-6 space-y-1">
+<li><strong>Ước lượng số cá trong hồ:</strong> bắt $a$ con, đánh dấu rồi thả lại; sau đó bắt lại $b$ con, thấy có $c$ con đánh dấu. Vì tỉ lệ cá đánh dấu trong lần bắt lại xấp xỉ tỉ lệ cá đánh dấu trong hồ nên $\dfrac{c}{b} \approx \dfrac{a}{N}$, suy ra $N \approx \dfrac{a \times b}{c}$.</li>
+<li><strong>Kiểm tra chất lượng sản phẩm:</strong> kiểm tra ngẫu nhiên một số sản phẩm, tỉ lệ phế phẩm trong mẫu ước lượng cho tỉ lệ phế phẩm của cả lô hàng.</li>
+<li><strong>Dự đoán tỉ lệ nảy mầm</strong> của hạt giống, tỉ lệ khỏi bệnh của một loại thuốc, …</li>
+</ul>
+
+<div class="bg-sky-50 border border-sky-200 rounded-xl p-4 mt-3">
+<p class="font-bold text-sky-800">📌 Ví dụ 3</p>
+<p>Để ước lượng số cá trong một hồ, người ta bắt 50 con, đánh dấu rồi thả lại hồ. Sau đó bắt lại 40 con, thấy có 8 con đánh dấu. Ước lượng số cá trong hồ.</p>
+<p><em>Lời giải:</em> Gọi $N$ là số cá trong hồ. Ta có $\dfrac{8}{40} \approx \dfrac{50}{N}$, suy ra $N \approx \dfrac{50 \times 40}{8} = 250$ (con).</p>
+</div>
+
+<div class="svg-fig">
+<svg viewBox="0 0 400 180" xmlns="http://www.w3.org/2000/svg">
+<ellipse cx="200" cy="100" rx="150" ry="60" fill="#bfdbfe" stroke="#1d4ed8" stroke-width="3"/>
+<g fill="#f59e0b" stroke="#92400e" stroke-width="2">
+<ellipse cx="120" cy="95" rx="16" ry="9"/><polygon points="136,95 146,88 146,102"/>
+<ellipse cx="170" cy="115" rx="16" ry="9"/><polygon points="186,115 196,108 196,122"/>
+<ellipse cx="235" cy="90" rx="16" ry="9"/><polygon points="251,90 261,83 261,97"/>
+<ellipse cx="285" cy="115" rx="16" ry="9"/><polygon points="301,115 311,108 311,122"/>
+</g>
+<circle cx="170" cy="115" r="4" fill="#dc2626"/>
+<circle cx="285" cy="115" r="4" fill="#dc2626"/>
+<text x="200" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#334155">Bắt – đánh dấu (chấm đỏ) – thả lại – bắt lại</text>
+<text x="200" y="172" text-anchor="middle" font-size="13" fill="#57534e">Tỉ lệ cá đánh dấu ở lần bắt lại ≈ tỉ lệ cá đánh dấu trong hồ</text>
+</svg>
+<p class="text-center text-sm text-slate-500 mt-1">Hình 2. Phương pháp đánh dấu – thả lại để ước lượng số cá trong hồ</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 rounded-r-xl p-4 mt-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<ul class="list-disc pl-6 space-y-1 mt-1">
+<li>Thực hiện $n$ lần, biến cố $A$ xảy ra $k$ lần thì <strong>xác suất thực nghiệm</strong> của $A$ là $\dfrac{k}{n}$.</li>
+<li>Số lần thực hiện càng lớn thì xác suất thực nghiệm càng gần với xác suất lí thuyết.</li>
+<li>Xác suất thực nghiệm dùng để <strong>ước lượng, dự đoán</strong> trong thực tế: số cá trong hồ, tỉ lệ phế phẩm, tỉ lệ nảy mầm, …</li>
+</ul>
+</div>
+
+
+            </div>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
