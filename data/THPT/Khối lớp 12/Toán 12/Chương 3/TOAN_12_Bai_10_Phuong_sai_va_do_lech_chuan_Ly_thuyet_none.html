@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 10: Phương sai và độ lệch chuẩn</title>
+    <meta name="lesson-title" content="Bài 10: Phương sai và độ lệch chuẩn">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 10: Phương sai và độ lệch chuẩn</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 3: Các số đặc trưng đo mức độ phân tán cho mẫu số liệu ghép nhóm • Bài 10</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h2>1. Số trung bình của mẫu số liệu ghép nhóm</h2>
+<p><b>Định nghĩa.</b> Giả sử mẫu số liệu ghép nhóm có $k$ nhóm, nhóm thứ $i$ có <b>giá trị đại diện</b> là $c_i$ (trung bình cộng hai đầu mút của nhóm) và <b>tần số</b> là $n_i$. Cỡ mẫu là $n = n_1 + n_2 + \dots + n_k$. Khi đó <b>số trung bình</b> của mẫu số liệu ghép nhóm, kí hiệu $\bar{x}$, là</p>
+<p style="text-align:center">$\bar{x} = \dfrac{n_1c_1 + n_2c_2 + \dots + n_kc_k}{n}.$</p>
+<p><b>Tính chất:</b> $\sum_{i=1}^{k} n_i(c_i - \bar{x}) = 0$ — tổng các độ lệch có trọng số luôn bằng $0$.</p>
+
+<h2>2. Phương sai của mẫu số liệu ghép nhóm</h2>
+<p><b>Định nghĩa.</b> <b>Phương sai</b> của mẫu số liệu ghép nhóm, kí hiệu $s^2$, là</p>
+<p style="text-align:center">$s^2 = \dfrac{n_1(c_1 - \bar{x})^2 + n_2(c_2 - \bar{x})^2 + \dots + n_k(c_k - \bar{x})^2}{n}.$</p>
+<p>Nói cách khác, phương sai là <b>trung bình cộng của các bình phương độ lệch</b> (có trọng số là tần số). Ta luôn có $s^2 \ge 0$; $s^2 = 0$ khi và chỉ khi mọi số liệu đều bằng nhau.</p>
+
+<h2>3. Độ lệch chuẩn của mẫu số liệu ghép nhóm</h2>
+<p><b>Định nghĩa.</b> <b>Độ lệch chuẩn</b> của mẫu số liệu ghép nhóm, kí hiệu $s$, là căn bậc hai số học của phương sai:</p>
+<p style="text-align:center">$s = \sqrt{s^2}.$</p>
+<p><b>Ý nghĩa.</b> Phương sai và độ lệch chuẩn dùng để <b>đo mức độ phân tán của các số liệu trong mẫu quanh số trung bình</b>. Phương sai (độ lệch chuẩn) càng lớn thì số liệu càng phân tán, tức là càng <b>kém đồng đều</b>.</p>
+<p><b>Chú ý về đơn vị:</b> độ lệch chuẩn $s$ có <b>cùng đơn vị</b> với số liệu gốc, còn phương sai $s^2$ có đơn vị là <b>bình phương</b> đơn vị của số liệu gốc. Vì vậy khi so sánh, người ta thường dùng độ lệch chuẩn.</p>
+<p><b>Ưu điểm so với khoảng biến thiên:</b> phương sai và độ lệch chuẩn được tính từ <b>toàn bộ</b> số liệu nên phản ánh đầy đủ mức độ phân tán, trong khi khoảng biến thiên chỉ dùng hai giá trị ở hai đầu mút.</p>
+
+<svg viewBox="0 0 560 260" xmlns="http://www.w3.org/2000/svg" style="max-width:560px;width:100%;height:auto;display:block;margin:12px auto">
+<text x="280" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e40af">Biểu đồ tần số của mẫu số liệu ghép nhóm</text>
+<g font-size="12" fill="#334155">
+<rect x="70" y="180" width="100" height="40" fill="#93c5fd" stroke="#1e40af"/>
+<rect x="175" y="140" width="100" height="80" fill="#93c5fd" stroke="#1e40af"/>
+<rect x="280" y="100" width="100" height="120" fill="#93c5fd" stroke="#1e40af"/>
+<rect x="385" y="160" width="100" height="60" fill="#93c5fd" stroke="#1e40af"/>
+<line x1="60" y1="220" x2="500" y2="220" stroke="#0f172a" stroke-width="2"/>
+<text x="120" y="238">[10; 20)</text><text x="225" y="238">[20; 30)</text>
+<text x="330" y="238">[30; 40)</text><text x="435" y="238">[40; 50)</text>
+<text x="120" y="172">4</text><text x="225" y="132">8</text>
+<text x="330" y="92">12</text><text x="435" y="152">6</text>
+<text x="30" y="225" font-size="11">Nhóm</text>
+<text x="10" y="150" font-size="11" transform="rotate(-90 10 150)">Tần số</text>
+</g>
+</svg>
+<h2>4. Một số tính chất</h2>
+<ul>
+<li><b>Tịnh tiến:</b> cộng (hoặc trừ) cùng một hằng số vào mọi số liệu thì số trung bình thay đổi đúng hằng số đó, còn <b>phương sai và độ lệch chuẩn không đổi</b>.</li>
+<li><b>Tỉ lệ:</b> nhân mọi số liệu với hằng số $k$ thì phương sai mới bằng $k^2$ lần phương sai cũ, độ lệch chuẩn mới bằng $|k|$ lần độ lệch chuẩn cũ.</li>
+</ul>
+
+<h2>5. Ví dụ minh họa</h2>
+<div class="table-scroll"><table>
+<tr><th>Nhóm</th><td>$[10; 20)$</td><td>$[20; 30)$</td><td>$[30; 40)$</td><td>$[40; 50)$</td></tr>
+<tr><th>Tần số</th><td>$4$</td><td>$8$</td><td>$12$</td><td>$6$</td></tr>
+</table></div>
+<p>Các giá trị đại diện: $c_1 = 15$, $c_2 = 25$, $c_3 = 35$, $c_4 = 45$; $n = 30$.</p>
+<p><b>Bước 1 — số trung bình:</b>
+$\bar{x} = \dfrac{4 \cdot 15 + 8 \cdot 25 + 12 \cdot 35 + 6 \cdot 45}{30} = \dfrac{950}{30} \approx 31{,}67.$</p>
+<p><b>Bước 2 — phương sai:</b>
+$s^2 = \dfrac{4(15 - 31{,}67)^2 + 8(25 - 31{,}67)^2 + 12(35 - 31{,}67)^2 + 6(45 - 31{,}67)^2}{30} \approx 97{,}22.$</p>
+<p><b>Bước 3 — độ lệch chuẩn:</b> $s = \sqrt{s^2} \approx \sqrt{97{,}22} \approx 9{,}86.$</p>
+
+            </div>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
