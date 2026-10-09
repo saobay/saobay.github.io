@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 31: Quan hệ giữa góc và cạnh đối diện trong một tam giác</title>
+    <meta name="lesson-title" content="Bài 31: Quan hệ giữa góc và cạnh đối diện trong một tam giác">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 31: Quan hệ giữa góc và cạnh đối diện trong một tam giác</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 9: Quan hệ giữa các yếu tố trong một tam giác • Bài 31: Quan hệ giữa góc và cạnh đối diện trong một tam giác</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3">1. Góc đối diện với cạnh lớn hơn</h2>
+<p>Cho tam giác $ABC$ có $AB = 3\text{ cm}$, $AC = 5\text{ cm}$ (Hình 1). Bằng trực quan, ta thấy $\widehat{B}$ lớn hơn $\widehat{C}$. Ở đây cạnh $AC$ dài hơn cạnh $AB$; góc đối diện với cạnh $AC$ là $\widehat{B}$, góc đối diện với cạnh $AB$ là $\widehat{C}$.</p>
+<div class="svg-fig">
+<svg viewBox="0 0 400 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tam giac ABC co AB nho hon AC">
+  <polygon points="140,30 40,240 360,240" fill="#f0f9ff" stroke="#0284c7" stroke-width="2.5"/>
+  <path d="M 78 196 A 52 52 0 0 1 96 172" fill="none" stroke="#dc2626" stroke-width="2.5"/>
+  <path d="M 310 206 A 52 52 0 0 0 292 182" fill="none" stroke="#dc2626" stroke-width="2"/>
+  <text x="140" y="22" font-size="18" font-weight="bold" text-anchor="middle">A</text>
+  <text x="28" y="258" font-size="18" font-weight="bold" text-anchor="middle">B</text>
+  <text x="372" y="258" font-size="18" font-weight="bold" text-anchor="middle">C</text>
+  <text x="105" y="222" font-size="15" fill="#dc2626" font-weight="bold">góc B lớn</text>
+  <text x="292" y="222" font-size="15" fill="#dc2626">góc C nhỏ</text>
+  <text x="72" y="140" font-size="15" fill="#0284c7" font-weight="bold">AB = 3 cm</text>
+  <text x="262" y="140" font-size="15" fill="#0284c7" font-weight="bold">AC = 5 cm</text>
+  <text x="120" y="160" font-size="16" font-weight="bold" fill="#dc2626">&gt;</text>
+</svg>
+<p class="text-center text-sm text-slate-500 mt-1">Hình 1. $AB &lt; AC$ thì $\widehat{C} &lt; \widehat{B}$</p>
+</div>
+<div class="bg-amber-50 border border-amber-200 rounded-xl p-4">
+  <p class="font-bold text-amber-800">📌 Ghi nhớ — Định lí 1</p>
+  <p class="mt-1">Trong một tam giác, <strong>góc đối diện với cạnh lớn hơn là góc lớn hơn</strong>.</p>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3">2. Cạnh đối diện với góc lớn hơn</h2>
+<p>Cho tam giác $ABC$ có $\widehat{B} = 70^\circ$, $\widehat{C} = 50^\circ$. Đo (hoặc tính) độ dài hai cạnh $AC$ và $AB$, ta thấy $AC &gt; AB$. Ở đây góc đối diện với cạnh $AC$ là $\widehat{B}$, góc đối diện với cạnh $AB$ là $\widehat{C}$.</p>
+<div class="bg-amber-50 border border-amber-200 rounded-xl p-4">
+  <p class="font-bold text-amber-800">📌 Ghi nhớ — Định lí 2</p>
+  <p class="mt-1">Trong một tam giác, <strong>cạnh đối diện với góc lớn hơn là cạnh lớn hơn</strong>.</p>
+</div>
+<div class="bg-sky-50 border border-sky-200 rounded-xl p-4">
+  <p class="font-bold text-sky-800">Ví dụ 1.</p>
+  <p>So sánh các góc của tam giác $ABC$ biết $AB = 4\text{ cm}$, $BC = 6\text{ cm}$, $CA = 5\text{ cm}$.</p>
+  <p class="font-semibold text-sky-800 mt-2">Lời giải:</p>
+  <p>Ta có $AB &lt; CA &lt; BC$. Góc đối diện với $AB$ là $\widehat{C}$, góc đối diện với $CA$ là $\widehat{B}$, góc đối diện với $BC$ là $\widehat{A}$. Theo định lí 1: $\widehat{C} &lt; \widehat{B} &lt; \widehat{A}$.</p>
+</div>
+<div class="bg-sky-50 border border-sky-200 rounded-xl p-4">
+  <p class="font-bold text-sky-800">Ví dụ 2.</p>
+  <p>So sánh các cạnh của tam giác $MNP$ biết $\widehat{M} = 100^\circ$, $\widehat{N} = 50^\circ$, $\widehat{P} = 30^\circ$.</p>
+  <p class="font-semibold text-sky-800 mt-2">Lời giải:</p>
+  <p>Ta có $\widehat{M} &gt; \widehat{N} &gt; \widehat{P}$. Cạnh đối diện với $\widehat{M}$ là $NP$, với $\widehat{N}$ là $MP$, với $\widehat{P}$ là $MN$. Theo định lí 2: $NP &gt; MP &gt; MN$, tức $MN &lt; MP &lt; NP$.</p>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3">3. Nhận xét</h2>
+<div class="svg-fig">
+<svg viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tam giac vuong, canh huyen la canh lon nhat">
+  <polygon points="90,30 90,220 330,220" fill="#f0f9ff" stroke="#0284c7" stroke-width="2.5"/>
+  <rect x="90" y="196" width="24" height="24" fill="none" stroke="#dc2626" stroke-width="2"/>
+  <text x="90" y="22" font-size="18" font-weight="bold" text-anchor="middle">A</text>
+  <text x="78" y="238" font-size="18" font-weight="bold" text-anchor="middle">B</text>
+  <text x="342" y="238" font-size="18" font-weight="bold" text-anchor="middle">C</text>
+  <text x="60" y="130" font-size="15" fill="#0284c7">AB</text>
+  <text x="200" y="240" font-size="15" fill="#0284c7">AC</text>
+  <text x="215" y="110" font-size="16" font-weight="bold" fill="#dc2626">BC: cạnh huyền</text>
+  <text x="215" y="132" font-size="14" fill="#dc2626">(cạnh lớn nhất)</text>
+</svg>
+<p class="text-center text-sm text-slate-500 mt-1">Hình 2. Trong tam giác vuông, cạnh huyền là cạnh lớn nhất</p>
+</div>
+<ul class="list-disc pl-6 space-y-1">
+  <li>Trong tam giác <strong>vuông</strong>, góc vuông là góc lớn nhất nên cạnh đối diện nó — <strong>cạnh huyền</strong> — là cạnh lớn nhất.</li>
+  <li>Trong tam giác <strong>tù</strong>, góc tù là góc lớn nhất nên cạnh đối diện với góc tù là cạnh lớn nhất.</li>
+  <li>Trong tam giác $ABC$: $AB &lt; AC \Leftrightarrow \widehat{C} &lt; \widehat{B}$.</li>
+</ul>
+<div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4">
+  <p class="font-bold text-emerald-800">Bài tập ví dụ.</p>
+  <p>Cho tam giác $DEF$ có $DE = 5\text{ cm}$, $EF = 7\text{ cm}$, $DF = 6\text{ cm}$. Sắp xếp các góc của tam giác $DEF$ theo thứ tự tăng dần.</p>
+  <p class="font-semibold text-emerald-800 mt-2">Lời giải:</p>
+  <p>$DE &lt; DF &lt; EF$. Góc đối diện với $DE$ là $\widehat{F}$, với $DF$ là $\widehat{E}$, với $EF$ là $\widehat{D}$. Vậy $\widehat{F} &lt; \widehat{E} &lt; \widehat{D}$.</p>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3">Tóm tắt</h2>
+<div class="table-scroll">
+<table class="w-full text-sm border-collapse border border-slate-300">
+  <thead><tr class="bg-sky-100">
+    <th class="border border-slate-300 px-3 py-2">Nội dung</th>
+    <th class="border border-slate-300 px-3 py-2">Phát biểu</th>
+  </tr></thead>
+  <tbody>
+    <tr><td class="border border-slate-300 px-3 py-2 font-semibold">Góc đối diện cạnh lớn hơn</td><td class="border border-slate-300 px-3 py-2">Trong một tam giác, góc đối diện với cạnh lớn hơn là góc lớn hơn.</td></tr>
+    <tr><td class="border border-slate-300 px-3 py-2 font-semibold">Cạnh đối diện góc lớn hơn</td><td class="border border-slate-300 px-3 py-2">Trong một tam giác, cạnh đối diện với góc lớn hơn là cạnh lớn hơn.</td></tr>
+    <tr><td class="border border-slate-300 px-3 py-2 font-semibold">Tam giác vuông</td><td class="border border-slate-300 px-3 py-2">Cạnh huyền là cạnh lớn nhất.</td></tr>
+    <tr><td class="border border-slate-300 px-3 py-2 font-semibold">Tam giác tù</td><td class="border border-slate-300 px-3 py-2">Cạnh đối diện với góc tù là cạnh lớn nhất.</td></tr>
+  </tbody>
+</table>
+</div>
+
+</div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
