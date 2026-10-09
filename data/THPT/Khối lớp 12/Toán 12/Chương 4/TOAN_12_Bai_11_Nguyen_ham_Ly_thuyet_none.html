@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 11: Nguyên hàm</title>
+    <meta name="lesson-title" content="Bài 11: Nguyên hàm">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 11: Nguyên hàm</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 4: Nguyên hàm và tích phân • Bài 11: Nguyên hàm</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h2>1. Khái niệm nguyên hàm</h2>
+<p><b>Định nghĩa.</b> Cho hàm số $f(x)$ xác định trên $K$. Hàm số $F(x)$ được gọi là <b>nguyên hàm</b> của $f(x)$ trên $K$ nếu</p>
+<p style="text-align:center">$F'(x) = f(x)$ với mọi $x \in K.$</p>
+<p><b>Định lí.</b> Nếu $F(x)$ là một nguyên hàm của $f(x)$ trên $K$ thì mọi nguyên hàm của $f(x)$ trên $K$ đều có dạng $F(x) + C$, trong đó $C$ là hằng số. Họ tất cả các nguyên hàm của $f(x)$ kí hiệu là $\int f(x)\,dx$, và ta viết</p>
+<p style="text-align:center">$\int f(x)\,dx = F(x) + C.$</p>
+
+<h2>2. Tính chất cơ bản của nguyên hàm</h2>
+<ul>
+<li>$\int k \cdot f(x)\,dx = k\int f(x)\,dx$ ($k$ là hằng số khác $0$).</li>
+<li>$\int [f(x) + g(x)]\,dx = \int f(x)\,dx + \int g(x)\,dx$.</li>
+<li>$\int [f(x) - g(x)]\,dx = \int f(x)\,dx - \int g(x)\,dx$.</li>
+<li>$\left(\int f(x)\,dx\right)' = f(x)$.</li>
+</ul>
+
+<h2>3. Bảng nguyên hàm của một số hàm số thường gặp</h2>
+<div class="table-scroll"><table>
+<tr><th>$f(x)$</th><th>$\int f(x)\,dx$</th><th>$f(x)$</th><th>$\int f(x)\,dx$</th></tr>
+<tr><td>$x^n$ ($n \ne -1$)</td><td>$\frac{x^{n+1}}{n+1} + C$</td><td>$\frac{1}{x}$</td><td>$\ln|x| + C$</td></tr>
+<tr><td>$e^x$</td><td>$e^x + C$</td><td>$a^x$ ($a > 0, a \ne 1$)</td><td>$\frac{a^x}{\ln a} + C$</td></tr>
+<tr><td>$\sin x$</td><td>$-\cos x + C$</td><td>$\cos x$</td><td>$\sin x + C$</td></tr>
+<tr><td>$\frac{1}{\cos^2 x}$</td><td>$\tan x + C$</td><td>$\frac{1}{\sin^2 x}$</td><td>$-\cot x + C$</td></tr>
+</table></div>
+
+<h2>4. Phương pháp đổi biến số</h2>
+<p>Nếu $\int f(u)\,du = F(u) + C$ và $u = u(x)$ có đạo hàm liên tục thì</p>
+<p style="text-align:center">$\int f(u(x)) \cdot u'(x)\,dx = F(u(x)) + C.$</p>
+<p><b>Ví dụ.</b> Tính $\int (2x+1)^3\,dx$. Đặt $u = 2x + 1$, $du = 2dx$, ta được $\frac{1}{2}\int u^3\,du = \frac{u^4}{8} + C = \frac{(2x+1)^4}{8} + C$.</p>
+
+<h2>5. Phương pháp nguyên hàm từng phần</h2>
+<p>Nếu $u = u(x)$, $v = v(x)$ có đạo hàm liên tục trên $K$ thì</p>
+<p style="text-align:center">$\int u\,dv = uv - \int v\,du.$</p>
+<p><b>Ví dụ.</b> Tính $\int x e^x\,dx$. Đặt $u = x$, $dv = e^x\,dx$ thì $du = dx$, $v = e^x$. Vậy $\int x e^x\,dx = xe^x - \int e^x\,dx = (x-1)e^x + C$.</p>
+
+<h2>6. Bài toán tìm nguyên hàm thỏa điều kiện cho trước</h2>
+<p><b>Ví dụ.</b> Tìm nguyên hàm $F(x)$ của $f(x) = 2x + 1$ biết $F(1) = 3$.</p>
+<p><b>Giải.</b> $F(x) = \int (2x+1)\,dx = x^2 + x + C$. Vì $F(1) = 3$ nên $2 + C = 3$, suy ra $C = 1$. Vậy $F(x) = x^2 + x + 1$.</p>
+
+            </div>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
