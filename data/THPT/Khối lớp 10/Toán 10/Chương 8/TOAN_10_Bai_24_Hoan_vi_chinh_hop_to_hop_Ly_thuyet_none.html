@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 24: Hoán vị, chỉnh hợp và tổ hợp</title>
+    <meta name="lesson-title" content="Bài 24: Hoán vị, chỉnh hợp và tổ hợp">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 24: Hoán vị, chỉnh hợp và tổ hợp</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 8: Đại số tổ hợp • Bài 24: Hoán vị, chỉnh hợp và tổ hợp</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 24: Hoán vị, chỉnh hợp và tổ hợp</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 8: Đại số tổ hợp — Toán 10 (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Hoan vi -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Hoán vị</h2>
+
+<p><strong>Định nghĩa:</strong> Cho tập hợp $A$ có $n$ phần tử ($n \ge 1$). Mỗi cách <strong>sắp xếp thứ tự</strong> $n$ phần tử đó gọi là một <em>hoán vị</em> của $n$ phần tử.</p>
+
+<p>Số các hoán vị của $n$ phần tử, kí hiệu $P_n$:</p>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$P_n = n! = n \cdot (n - 1) \cdot \dots \cdot 2 \cdot 1$$</p>
+<p class="text-sm text-slate-600 mt-1">Quy ước: $0! = 1$.</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Có bao nhiêu cách xếp $5$ học sinh thành một hàng dọc?</p>
+<p class="mt-2"><strong>Lời giải:</strong> Mỗi cách xếp là một hoán vị của $5$ phần tử: $P_5 = 5! = 120$ cách.</p>
+</div>
+
+<!-- 2. Chinh hop -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Chỉnh hợp</h2>
+
+<p><strong>Định nghĩa:</strong> Cho tập hợp $A$ có $n$ phần tử ($n \ge 1$). Mỗi cách <strong>lấy ra $k$ phần tử</strong> ($1 \le k \le n$) và <strong>sắp xếp thứ tự</strong> chúng gọi là một <em>chỉnh hợp chập $k$ của $n$ phần tử</em>.</p>
+
+<p>Số các chỉnh hợp chập $k$ của $n$ phần tử, kí hiệu $A_n^k$:</p>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$A_n^k = \frac{n!}{(n - k)!} = n \cdot (n - 1) \cdot \dots \cdot (n - k + 1)$$</p>
+<p class="text-sm text-slate-600 mt-1">($k$ thừa số, bắt đầu từ $n$ đi xuống)</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Từ $10$ học sinh, chọn $3$ bạn làm lớp trưởng, lớp phó và thủ quỹ (mỗi bạn một chức vụ). Có bao nhiêu cách?</p>
+<p class="mt-2"><strong>Lời giải:</strong> Có phân biệt thứ tự (chức vụ khác nhau) nên là chỉnh hợp: $A_{10}^3 = 10 \cdot 9 \cdot 8 = 720$ cách.</p>
+</div>
+
+<!-- 3. To hop -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Tổ hợp</h2>
+
+<p><strong>Định nghĩa:</strong> Cho tập hợp $A$ có $n$ phần tử ($n \ge 1$). Mỗi <strong>tập con gồm $k$ phần tử</strong> ($0 \le k \le n$) của $A$ gọi là một <em>tổ hợp chập $k$ của $n$ phần tử</em> (không quan tâm thứ tự).</p>
+
+<p>Số các tổ hợp chập $k$ của $n$ phần tử, kí hiệu $C_n^k$:</p>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$C_n^k = \frac{n!}{k!(n - k)!}$$</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Từ $10$ học sinh, chọn $3$ bạn vào đội văn nghệ (không phân biệt vai trò). Có bao nhiêu cách?</p>
+<p class="mt-2"><strong>Lời giải:</strong> Không phân biệt thứ tự nên là tổ hợp: $C_{10}^3 = \frac{10 \cdot 9 \cdot 8}{3 \cdot 2 \cdot 1} = 120$ cách.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">So sánh hai ví dụ trên: cùng "chọn 3 trong 10" nhưng có chức vụ (chỉnh hợp) cho $720$ cách, không chức vụ (tổ hợp) chỉ $120$ cách — vì mỗi nhóm 3 bạn tạo ra $3! = 6$ cách phân chức vụ ($720 = 6 \times 120$). Đây chính là mối liên hệ $A_n^k = k! \cdot C_n^k$.</p>
+</div>
+
+<!-- 4. Phan biet -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Phân biệt hoán vị – chỉnh hợp – tổ hợp</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Câu hỏi</td><td class="border border-slate-300 px-4 py-1">Hoán vị</td><td class="border border-slate-300 px-4 py-1">Chỉnh hợp</td><td class="border border-slate-300 px-4 py-1">Tổ hợp</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Lấy mấy phần tử?</td><td class="border border-slate-300 px-4 py-1">Tất cả $n$</td><td class="border border-slate-300 px-4 py-1">$k$ trong $n$</td><td class="border border-slate-300 px-4 py-1">$k$ trong $n$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Có phân biệt thứ tự?</td><td class="border border-slate-300 px-4 py-1 font-semibold text-emerald-600">Có</td><td class="border border-slate-300 px-4 py-1 font-semibold text-emerald-600">Có</td><td class="border border-slate-300 px-4 py-1 font-semibold text-rose-600">Không</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Công thức</td><td class="border border-slate-300 px-4 py-1">$P_n = n!$</td><td class="border border-slate-300 px-4 py-1">$A_n^k = \frac{n!}{(n-k)!}$</td><td class="border border-slate-300 px-4 py-1">$C_n^k = \frac{n!}{k!(n-k)!}$</td></tr>
+</table></div>
+
+<p><strong>Các tính chất hay dùng:</strong></p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>$C_n^k = C_n^{n - k}$ (chọn $k$ cũng là bỏ $n - k$).</li>
+<li>$C_n^0 = C_n^n = 1$; $C_n^1 = n$.</li>
+<li>$A_n^k = k! \cdot C_n^k$.</li>
+</ul>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Một hộp có $8$ bi khác nhau. Lấy ra $3$ viên.</p>
+<p class="mt-2">a) Có bao nhiêu cách lấy (không quan tâm thứ tự)?</p>
+<p>b) Nếu xếp $3$ viên lấy ra thành một hàng ngang thì có bao nhiêu cách?</p>
+<p class="mt-2"><strong>Lời giải:</strong></p>
+<p>a) Tổ hợp: $C_8^3 = \frac{8 \cdot 7 \cdot 6}{6} = 56$ cách.</p>
+<p>b) Mỗi cách lấy (câu a) xếp được $3! = 6$ hàng, tức chỉnh hợp: $A_8^3 = 8 \cdot 7 \cdot 6 = 336 = 6 \times 56$ cách.</p>
+</div>
+
+<!-- Tom tat -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Hoán vị:</strong> sắp xếp cả $n$ phần tử — $P_n = n!$.</li>
+<li><strong>Chỉnh hợp:</strong> lấy $k$ trong $n$ <strong>có thứ tự</strong> — $A_n^k = \frac{n!}{(n-k)!}$.</li>
+<li><strong>Tổ hợp:</strong> lấy $k$ trong $n$ <strong>không thứ tự</strong> — $C_n^k = \frac{n!}{k!(n-k)!}$.</li>
+<li>Mẹo chọn: hỏi "xếp/sắp/bầu chức danh" → có thứ tự; hỏi "chọn/lấy/lập nhóm" → không thứ tự.</li>
+<li>$C_n^k = C_n^{n-k}$; $A_n^k = k! \cdot C_n^k$.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+
+</div>
+
+        </div>
+    </div>
+</body>
+</html>
