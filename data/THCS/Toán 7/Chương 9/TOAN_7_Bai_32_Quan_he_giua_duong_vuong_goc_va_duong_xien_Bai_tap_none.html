@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài tập Bài 32: Quan hệ giữa đường vuông góc và đường xiên</title>
+    <meta name="lesson-title" content="Bài tập Bài 32: Quan hệ giữa đường vuông góc và đường xiên">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Bài tập</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài tập Bài 32: Quan hệ giữa đường vuông góc và đường xiên</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 9: Quan hệ giữa các yếu tố trong một tam giác • Bài 32: Quan hệ giữa đường vuông góc và đường xiên</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="saobay-exam10">
+<script type="application/json" class="saobay-exam10-data">
+{
+ "sets": [
+  {
+   "name": "Đề 1",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho điểm $A$ nằm ngoài đường thẳng $d$. Đoạn thẳng nào sau đây là đường vuông góc kẻ từ $A$ đến $d$?",
+     "options": [
+      "A. Đoạn $AH$ với $H \\in d$ và $AH \\perp d$",
+      "B. Đoạn $AB$ với $B \\in d$, $B \\ne H$ bất kì",
+      "C. Đoạn thẳng dài nhất nối $A$ với một điểm trên $d$",
+      "D. Đoạn thẳng nối $A$ với trung điểm của $d$"
+     ],
+     "answer": "A",
+     "explain": "Đường vuông góc kẻ từ $A$ đến $d$ là đoạn $AH$ với $H \\in d$ và $AH \\perp d$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong các đường xiên và đường vuông góc kẻ từ một điểm nằm ngoài một đường thẳng đến đường thẳng đó, đường nào ngắn nhất?",
+     "options": [
+      "A. Đường vuông góc",
+      "B. Đường xiên dài nhất",
+      "C. Đường xiên ngắn nhất",
+      "D. Mọi đường đều bằng nhau"
+     ],
+     "answer": "A",
+     "explain": "Định lí: trong các đường xiên và đường vuông góc kẻ từ một điểm nằm ngoài một đường thẳng đến đường thẳng đó, đường vuông góc là đường ngắn nhất."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Cho điểm $M$ nằm ngoài đường thẳng $xy$, $MH \\perp xy$ tại $H$, $MK$ là một đường xiên ($K \\in xy$). Biết $MH = 5\\text{ cm}$. So sánh $MK$ với $5\\text{ cm}$.",
+     "options": [
+      "A. $MK < 5\text{ cm}$",
+      "B. $MK > 5\\text{ cm}$",
+      "C. $MK = 5\text{ cm}$",
+      "D. Không so sánh được"
+     ],
+     "answer": "B",
+     "explain": "$MH$ là đường vuông góc, $MK$ là đường xiên nên $MH < MK$, tức $MK > 5\\text{ cm}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Khoảng cách từ điểm $A$ đến đường thẳng $d$ bằng bao nhiêu?",
+     "options": [
+      "A. Độ dài đường vuông góc kẻ từ $A$ đến $d$",
+      "B. Độ dài đường xiên ngắn nhất kẻ từ $A$ đến $d$",
+      "C. Độ dài đoạn thẳng dài nhất nối $A$ với $d$",
+      "D. Nửa độ dài đường vuông góc kẻ từ $A$ đến $d$"
+     ],
+     "answer": "A",
+     "explain": "Khoảng cách từ điểm $A$ đến đường thẳng $d$ là độ dài đường vuông góc kẻ từ $A$ đến $d$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Từ điểm $A$ kẻ $AH \\perp d$ tại $H$ và hai đường xiên $AB$, $AC$ đến $d$ với $HB = 8\\text{ cm}$, $HC = 5\\text{ cm}$. So sánh $AB$ và $AC$.",
+     "options": [
+      "A. $AB > AC$",
+      "B. $AB < AC$",
+      "C. $AB = AC$",
+      "D. Không so sánh được"
+     ],
+     "answer": "A",
+     "explain": "Đường xiên nào có hình chiếu dài hơn thì dài hơn. $HB > HC$ nên $AB > AC$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Cho điểm $O$ nằm ngoài đường thẳng $a$. Kẻ $OH \\perp a$ tại $H$ ($OH = 8\\text{ cm}$) và hai đường xiên $OA$, $OB$ sao cho $HA = 6\\text{ cm}$, $HB = 10\\text{ cm}$. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. $OA < OB$",
+      "B. $OA > OB$",
+      "C. $OA = OB$",
+      "D. Không tính được $OA$, $OB$"
+     ],
+     "answer": "A",
+     "explain": "$OA = \\sqrt{OH^2+HA^2} = \\sqrt{64+36} = 10\\text{ (cm)}$; $OB = \\sqrt{64+100} = \\sqrt{164}\\text{ (cm)} > 10\\text{ (cm)}$. Vậy $OA < OB$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho điểm $A$ nằm ngoài đường thẳng $d$, $AH \\perp d$ ($H \\in d$), $AB$ là một đường xiên ($B \\in d$). Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $AH < AB$.",
+      "b) Độ dài $AH$ là khoảng cách từ $A$ đến $d$.",
+      "c) Nếu $B$ trùng $H$ thì $AB$ chính là đường vuông góc.",
+      "d) Đường xiên $AB$ luôn ngắn hơn đường vuông góc $AH$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b), c) đúng theo định nghĩa và định lí; d) sai vì đường vuông góc ngắn hơn mọi đường xiên."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Từ điểm $M$ kẻ $MH \\perp d$ tại $H$ và hai đường xiên $MA$, $MB$ với $HA = 3\\text{ cm}$, $HB = 7\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $MA < MB$.",
+      "b) Hình chiếu của $MA$ trên $d$ là đoạn $HA$.",
+      "c) $MB$ là đường vuông góc từ $M$ đến $d$.",
+      "d) $MH < MA$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "$HA < HB$ nên $MA < MB$; hình chiếu của $MA$ là $HA$; đường vuông góc là $MH$ (không phải $MB$); $MH < MA$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Điểm $A$ cách đường thẳng $d$ một khoảng $12\\text{ cm}$. Từ $A$ kẻ đến $d$ một đường xiên dài $15\\text{ cm}$. Tính độ dài hình chiếu của đường xiên đó trên $d$ (đơn vị: cm).",
+     "answer": "9",
+     "explain": "Gọi $H$ là chân đường vuông góc, $B$ là chân đường xiên. $HB = \\sqrt{AB^2-AH^2} = \\sqrt{225-144} = 9\\text{ (cm)}$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Từ điểm $P$ nằm ngoài đường thẳng $m$ kẻ đường vuông góc $PH = 9\\text{ cm}$ và đường xiên $PQ$ sao cho $HQ = 12\\text{ cm}$. Tính độ dài $PQ$ (đơn vị: cm).",
+     "answer": "15",
+     "explain": "$PQ = \\sqrt{PH^2+HQ^2} = \\sqrt{81+144} = 15\\text{ (cm)}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 2",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho $AH \\perp d$ tại $H$ ($H \\in d$) và $AB$ là đường xiên ($B \\in d$). Hình chiếu của đường xiên $AB$ trên $d$ là đoạn thẳng nào?",
+     "options": [
+      "A. $HB$",
+      "B. $AH$",
+      "C. $AB$",
+      "D. $HA + AB$"
+     ],
+     "answer": "A",
+     "explain": "Hình chiếu của đường xiên $AB$ trên $d$ là đoạn $HB$ nối chân đường vuông góc với chân đường xiên."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho $AH$ là đường vuông góc, $AB$ là đường xiên kẻ từ $A$ đến đường thẳng $d$. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. $AH < AB$",
+      "B. $AH > AB$",
+      "C. $AH = AB$",
+      "D. Không so sánh được"
+     ],
+     "answer": "A",
+     "explain": "Đường vuông góc ngắn hơn mọi đường xiên nên $AH < AB$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Điểm $M$ cách đường thẳng $d$ một khoảng $7\\text{ cm}$. Phát biểu nào sau đây đúng?",
+     "options": [
+      "A. Nếu $MH \\perp d$ ($H \\in d$) thì $MH = 7\\text{ cm}$",
+      "B. Mọi đoạn thẳng từ $M$ đến $d$ đều dài $7\\text{ cm}$",
+      "C. Đường xiên từ $M$ đến $d$ dài $7\\text{ cm}$",
+      "D. Không xác định được đoạn nào dài $7\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "Khoảng cách từ $M$ đến $d$ là độ dài đường vuông góc $MH$, bằng $7\\text{ cm}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Hai đường xiên $AB$, $AC$ kẻ từ $A$ đến đường thẳng $d$ có hình chiếu $HB = HC$. So sánh $AB$ và $AC$.",
+     "options": [
+      "A. $AB > AC$",
+      "B. $AB < AC$",
+      "C. $AB = AC$",
+      "D. Không so sánh được"
+     ],
+     "answer": "C",
+     "explain": "Hai đường xiên có hình chiếu bằng nhau thì bằng nhau nên $AB = AC$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Từ điểm $A$ nằm ngoài đường thẳng $d$ kẻ được bao nhiêu đường vuông góc đến $d$?",
+     "options": [
+      "A. Không kẻ được đường nào",
+      "B. Duy nhất một đường",
+      "C. Hai đường",
+      "D. Vô số đường"
+     ],
+     "answer": "B",
+     "explain": "Qua một điểm nằm ngoài một đường thẳng chỉ kẻ được duy nhất một đường vuông góc với đường thẳng đó."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Cho tam giác $ABC$ vuông tại $A$, $AH \\perp BC$ tại $H$. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. $AH < AB$ và $AH < AC$",
+      "B. $AH > AB$",
+      "C. $AH > AC$",
+      "D. $AH = AB = AC$"
+     ],
+     "answer": "A",
+     "explain": "$AH$ là đường vuông góc từ $A$ đến $BC$; $AB$, $AC$ là các đường xiên nên $AH < AB$ và $AH < AC$."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Xét tính đúng sai của các khẳng định sau về đường vuông góc và đường xiên.",
+     "statements": [
+      "a) Từ một điểm nằm ngoài một đường thẳng chỉ kẻ được một đường vuông góc đến đường thẳng đó.",
+      "b) Từ một điểm nằm ngoài một đường thẳng kẻ được vô số đường xiên đến đường thẳng đó.",
+      "c) Mọi đường xiên đều dài hơn đường vuông góc.",
+      "d) Hai đường xiên bằng nhau thì hai hình chiếu của chúng bằng nhau."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "Cả bốn khẳng định đều đúng theo định nghĩa, định lí và nhận xét trong bài."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho $AH \\perp d$ tại $H$; $AB$, $AC$ là hai đường xiên từ $A$ đến $d$ với $AB > AC$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $HB > HC$.",
+      "b) $AH$ là đoạn ngắn nhất trong ba đoạn $AH$, $AB$, $AC$.",
+      "c) $AB$ là đoạn dài nhất trong ba đoạn $AH$, $AB$, $AC$.",
+      "d) $HC > HB$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "Đường xiên dài hơn thì hình chiếu dài hơn nên $HB > HC$; $AH$ ngắn nhất; $AB$ dài nhất. Vậy d) sai."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Từ điểm $A$ kẻ $AH \\perp d$ với $AH = 20\\text{ cm}$. Một đường xiên $AB$ có hình chiếu $HB = 21\\text{ cm}$. Tính độ dài $AB$ (đơn vị: cm).",
+     "answer": "29",
+     "explain": "$AB = \\sqrt{AH^2+HB^2} = \\sqrt{400+441} = 29\\text{ (cm)}$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Điểm $K$ cách đường thẳng $t$ một khoảng $8\\text{ cm}$. Một đường xiên từ $K$ đến $t$ dài $17\\text{ cm}$. Tính độ dài hình chiếu của đường xiên đó trên $t$ (đơn vị: cm).",
+     "answer": "15",
+     "explain": "Hình chiếu $= \\sqrt{17^2-8^2} = \\sqrt{225} = 15\\text{ (cm)}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 3",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho $AH \\perp d$ tại $H$ ($H \\in d$). Điểm $H$ được gọi là gì?",
+     "options": [
+      "A. Chân đường vuông góc",
+      "B. Chân đường xiên",
+      "C. Hình chiếu của $A$",
+      "D. Trung điểm của $d$"
+     ],
+     "answer": "A",
+     "explain": "Điểm $H$ là giao của đường vuông góc với $d$, gọi là chân đường vuông góc."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Đoạn thẳng nối điểm $A$ ($A \\notin d$) với một điểm $B$ trên $d$ ($B$ khác chân đường vuông góc) được gọi là gì?",
+     "options": [
+      "A. Đường vuông góc",
+      "B. Đường xiên",
+      "C. Hình chiếu",
+      "D. Đường trung trực"
+     ],
+     "answer": "B",
+     "explain": "Đoạn $AB$ với $B \\in d$, $B$ khác chân đường vuông góc gọi là một đường xiên."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Cho $AB$, $AC$ là hai đường xiên kẻ từ $A$ đến đường thẳng $d$, $AB > AC$. So sánh hình chiếu $HB$ và $HC$ của chúng.",
+     "options": [
+      "A. $HB > HC$",
+      "B. $HB < HC$",
+      "C. $HB = HC$",
+      "D. Không so sánh được"
+     ],
+     "answer": "A",
+     "explain": "Đường xiên nào dài hơn thì có hình chiếu dài hơn nên $HB > HC$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Bạn Nam đứng tại điểm $A$ cách đường thẳng $d$ một khoảng $50\\text{ m}$. Quãng đường ngắn nhất để Nam đi đến $d$ là bao nhiêu?",
+     "options": [
+      "A. $100\text{ m}$",
+      "B. $50\text{ m}$",
+      "C. $25\text{ m}$",
+      "D. Lớn hơn $50\text{ m}$"
+     ],
+     "answer": "B",
+     "explain": "Đường ngắn nhất từ $A$ đến $d$ là đường vuông góc, dài đúng bằng khoảng cách $50\\text{ m}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Cho điểm $A$ nằm ngoài đường thẳng $d$, $AH \\perp d$ tại $H$, $AB$ là một đường xiên. Biết $AB = 13\\text{ cm}$, $AH = 12\\text{ cm}$. Tính $HB$.",
+     "options": [
+      "A. $5\text{ cm}$",
+      "B. $6\text{ cm}$",
+      "C. $4\text{ cm}$",
+      "D. $7\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "$HB = \\sqrt{AB^2-AH^2} = \\sqrt{169-144} = 5\\text{ (cm)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Cho tam giác $MNP$ vuông tại $M$, $MH \\perp NP$ tại $H$. Biết $MN = 6\\text{ cm}$, $MP = 8\\text{ cm}$. So sánh $MH$ với $MN$.",
+     "options": [
+      "A. $MH < MN$",
+      "B. $MH > MN$",
+      "C. $MH = MN$",
+      "D. Không so sánh được"
+     ],
+     "answer": "A",
+     "explain": "$MH$ là đường vuông góc từ $M$ đến $NP$, $MN$ là đường xiên nên $MH < MN$ (thực tế $MH = 4,8\\text{ cm}$)."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho điểm $O$ nằm ngoài đường thẳng $a$, $OH \\perp a$ tại $H$, $OA$ là một đường xiên, $OA = 10\\text{ cm}$, $OH = 6\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Khoảng cách từ $O$ đến $a$ bằng $6\text{ cm}$.",
+      "b) Hình chiếu của $OA$ trên $a$ là đoạn $HA$ dài $8\text{ cm}$.",
+      "c) $OA < OH$.",
+      "d) Mọi đường xiên kẻ từ $O$ đến $a$ đều dài hơn $6\text{ cm}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "$HA = \\sqrt{100-36} = 8\\text{ (cm)}$; $OA > OH$; mọi đường xiên đều dài hơn đường vuông góc $6\\text{ cm}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Xét tính đúng sai của các khẳng định sau về đường xiên và hình chiếu.",
+     "statements": [
+      "a) Đường xiên nào dài hơn thì có hình chiếu dài hơn.",
+      "b) Đường xiên nào có hình chiếu dài hơn thì dài hơn.",
+      "c) Hình chiếu của đường vuông góc là một điểm (chân đường vuông góc).",
+      "d) Hai đường xiên khác nhau thì hình chiếu của chúng luôn khác nhau."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b), c) đúng theo nhận xét trong bài; d) sai vì hai đường xiên khác nhau (đối xứng qua chân đường vuông góc) có thể có hình chiếu bằng nhau."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Từ điểm $A$ đến đường thẳng $d$, đoạn vuông góc $AH = 15\\text{ cm}$, đoạn xiên $AB = 25\\text{ cm}$. Tính $HB$ (đơn vị: cm).",
+     "answer": "20",
+     "explain": "$HB = \\sqrt{25^2-15^2} = \\sqrt{400} = 20\\text{ (cm)}$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Một chiếc thang dài $13\\text{ m}$ dựa vào tường, chân thang cách tường $5\\text{ m}$. Tính chiều cao từ mặt đất đến đầu thang (đơn vị: m).",
+     "answer": "12",
+     "explain": "Chiều cao $= \\sqrt{13^2-5^2} = \\sqrt{144} = 12\\text{ (m)}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 4",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Khoảng cách từ điểm $A$ đến đường thẳng $d$ được định nghĩa là gì?",
+     "options": [
+      "A. Độ dài đoạn vuông góc kẻ từ $A$ đến $d$",
+      "B. Độ dài đoạn xiên ngắn nhất kẻ từ $A$ đến $d$",
+      "C. Độ dài đoạn thẳng dài nhất nối $A$ với $d$",
+      "D. Khoảng cách từ $A$ đến trung điểm của $d$"
+     ],
+     "answer": "A",
+     "explain": "Khoảng cách từ điểm $A$ đến đường thẳng $d$ là độ dài đường vuông góc kẻ từ $A$ đến $d$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho $AH \\perp d$ tại $H$ ($H \\in d$), $B \\in d$. Nếu $B$ trùng với $H$ thì đoạn $AB$ là đoạn nào?",
+     "options": [
+      "A. Đường vuông góc (vì $AB$ chính là $AH$)",
+      "B. Đường xiên",
+      "C. Hình chiếu",
+      "D. Đoạn thẳng có độ dài bằng 0"
+     ],
+     "answer": "A",
+     "explain": "Khi $B$ trùng $H$ thì $AB$ trùng với $AH$, tức là đường vuông góc."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Điểm $A$ cách đường thẳng $d$ một khoảng $9\\text{ cm}$. Một đường xiên kẻ từ $A$ đến $d$ có thể có độ dài nào sau đây?",
+     "options": [
+      "A. $7\text{ cm}$",
+      "B. $9\text{ cm}$",
+      "C. $11\text{ cm}$",
+      "D. $5\text{ cm}$"
+     ],
+     "answer": "C",
+     "explain": "Mọi đường xiên đều dài hơn đường vuông góc $9\\text{ cm}$ nên chỉ có thể là $11\\text{ cm}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Hai đường xiên kẻ từ $A$ đến đường thẳng $d$ bằng nhau thì hai hình chiếu của chúng như thế nào?",
+     "options": [
+      "A. Bằng nhau",
+      "B. Đường xiên vẽ trước có hình chiếu dài hơn",
+      "C. Không so sánh được",
+      "D. Hình chiếu này gấp đôi hình chiếu kia"
+     ],
+     "answer": "A",
+     "explain": "Hai đường xiên bằng nhau thì hai hình chiếu bằng nhau (và ngược lại)."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ vuông tại $A$. Khoảng cách từ $A$ đến đường thẳng $BC$ so với các cạnh $AB$, $AC$ như thế nào?",
+     "options": [
+      "A. Nhỏ hơn cả $AB$ và $AC$",
+      "B. Lớn hơn $AB$ nhưng nhỏ hơn $AC$",
+      "C. Bằng $AB$",
+      "D. Lớn hơn cả $AB$ và $AC$"
+     ],
+     "answer": "A",
+     "explain": "Khoảng cách từ $A$ đến $BC$ là đường vuông góc, còn $AB$, $AC$ là các đường xiên nên nó nhỏ hơn cả hai."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Cho điểm $M$ nằm ngoài đường thẳng $d$. Kẻ $MH \\perp d$ với $MH = 6\\text{ cm}$ và đường xiên $MK = 10\\text{ cm}$. Tính $HK$.",
+     "options": [
+      "A. $8\text{ cm}$",
+      "B. $4\text{ cm}$",
+      "C. $12\text{ cm}$",
+      "D. $6\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "$HK = \\sqrt{MK^2-MH^2} = \\sqrt{100-36} = 8\\text{ (cm)}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ vuông tại $A$, $AH$ là đường cao ($H \\in BC$). Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $AH < AB$.",
+      "b) $AH < AC$.",
+      "c) $AB$ là một đường xiên kẻ từ $A$ đến $BC$.",
+      "d) Khoảng cách từ $A$ đến $BC$ bằng $AB$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$AH$ là đường vuông góc từ $A$ đến $BC$ nên ngắn hơn các đường xiên $AB$, $AC$; khoảng cách từ $A$ đến $BC$ là $AH$ (không phải $AB$)."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho điểm $P$ nằm ngoài đường thẳng $d$, $PH \\perp d$ tại $H$; $PA$, $PB$ là hai đường xiên với $PA < PB$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $HA < HB$.",
+      "b) $PH < PA$.",
+      "c) $PB$ là đoạn dài nhất trong ba đoạn $PH$, $PA$, $PB$.",
+      "d) $HA = HB$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "Đường xiên ngắn hơn thì hình chiếu ngắn hơn nên $HA<HB$; $PH$ ngắn nhất; $PB$ dài nhất. Vậy d) sai."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Một đường xiên kẻ từ điểm $A$ đến đường thẳng $d$ dài $26\\text{ cm}$, hình chiếu của nó trên $d$ dài $24\\text{ cm}$. Tính khoảng cách từ $A$ đến $d$ (đơn vị: cm).",
+     "answer": "10",
+     "explain": "Khoảng cách $= \\sqrt{26^2-24^2} = \\sqrt{100} = 10\\text{ (cm)}$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Từ một điểm nằm ngoài đường thẳng kẻ đến đường thẳng đó một đoạn vuông góc dài $5\\text{ cm}$ và một đoạn xiên dài $13\\text{ cm}$. Tính độ dài hình chiếu của đoạn xiên (đơn vị: cm).",
+     "answer": "12",
+     "explain": "Hình chiếu $= \\sqrt{13^2-5^2} = \\sqrt{144} = 12\\text{ (cm)}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 5",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Phát biểu nào sau đây là SAI?",
+     "options": [
+      "A. Đường vuông góc là đường ngắn nhất trong các đường kẻ từ một điểm ngoài đường thẳng đến đường thẳng đó.",
+      "B. Khoảng cách từ một điểm đến một đường thẳng là độ dài đường vuông góc kẻ từ điểm đó đến đường thẳng.",
+      "C. Đường xiên nào có hình chiếu dài hơn thì dài hơn.",
+      "D. Đường vuông góc dài hơn mọi đường xiên cùng kẻ từ một điểm đến một đường thẳng."
+     ],
+     "answer": "D",
+     "explain": "A, B, C đúng theo bài học; D sai vì đường vuông góc ngắn hơn (không dài hơn) mọi đường xiên."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho điểm $A \\notin d$. Số đường xiên kẻ được từ $A$ đến $d$ là bao nhiêu?",
+     "options": [
+      "A. $1$",
+      "B. $2$",
+      "C. $0$",
+      "D. Vô số"
+     ],
+     "answer": "D",
+     "explain": "Trên $d$ có vô số điểm $B$ khác chân đường vuông góc nên kẻ được vô số đường xiên."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Cho $AH \\perp d$ tại $H$, $AB$ là đường xiên với $AH = 3\\text{ cm}$, $HB = 4\\text{ cm}$. Tính $AB$.",
+     "options": [
+      "A. $5\text{ cm}$",
+      "B. $7\text{ cm}$",
+      "C. $6\text{ cm}$",
+      "D. $25\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "$AB = \\sqrt{AH^2+HB^2} = \\sqrt{9+16} = 5\\text{ (cm)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Cho $AH \\perp d$ tại $H$; $AB$, $AC$ là hai đường xiên với $B$, $C$ nằm khác phía so với $H$ và $HB = HC$. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. $AB > AC$",
+      "B. $AB = AC$",
+      "C. $AB < AC$",
+      "D. Không so sánh được"
+     ],
+     "answer": "B",
+     "explain": "Hai đường xiên có hình chiếu bằng nhau thì bằng nhau nên $AB = AC$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Một người đứng tại điểm $A$ cách đường quốc lộ (đường thẳng $d$) $60\\text{ m}$, muốn đi đến điểm $B$ trên quốc lộ sao cho quãng đường $AB = 100\\text{ m}$. Tính khoảng cách từ $B$ đến chân đường vuông góc $H$ kẻ từ $A$ đến $d$ (đơn vị: m).",
+     "options": [
+      "A. $80\text{ m}$",
+      "B. $60\text{ m}$",
+      "C. $40\text{ m}$",
+      "D. $120\text{ m}$"
+     ],
+     "answer": "A",
+     "explain": "$HB = \\sqrt{AB^2-AH^2} = \\sqrt{10000-3600} = 80\\text{ (m)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Cho đoạn thẳng $AB = 10\\text{ cm}$. Điểm $M$ thỏa mãn $MA = MB = 10\\text{ cm}$. Gọi $H$ là trung điểm của $AB$. So sánh $MH$ với $MA$.",
+     "options": [
+      "A. $MH < MA$",
+      "B. $MH > MA$",
+      "C. $MH = MA$",
+      "D. Không so sánh được"
+     ],
+     "answer": "A",
+     "explain": "$MH \\perp AB$ ($M$ thuộc đường trung trực của $AB$) nên $MH$ là đường vuông góc, $MA$ là đường xiên: $MH < MA$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho $AH \\perp d$ tại $H$; $AB$, $AC$ là hai đường xiên từ $A$ đến $d$ với $HB < HC$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $AB < AC$.",
+      "b) $AH < AB$.",
+      "c) $AC$ là đoạn dài nhất trong ba đoạn $AH$, $AB$, $AC$.",
+      "d) $HB = HC$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "Hình chiếu ngắn hơn thì đường xiên ngắn hơn nên $AB<AC$; $AH$ ngắn nhất; $AC$ dài nhất. Vậy d) sai."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Nếu hai hình chiếu bằng nhau thì hai đường xiên bằng nhau.",
+      "b) Đường vuông góc kẻ từ một điểm đến một đường thẳng là duy nhất.",
+      "c) Khoảng cách từ $A$ đến $d$ lớn hơn mọi đường xiên kẻ từ $A$ đến $d$.",
+      "d) Chân đường vuông góc luôn thuộc đường thẳng $d$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "a), b), d) đúng; c) sai vì khoảng cách (độ dài đường vuông góc) nhỏ hơn mọi đường xiên."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Từ điểm $M$ nằm ngoài đường thẳng $d$ kẻ $MH \\perp d$ với $MH = 12\\text{ cm}$ và hai đường xiên $MA$, $MB$ sao cho $HA = 5\\text{ cm}$, $HB = 9\\text{ cm}$. Tính hiệu $MB - MA$ (đơn vị: cm).",
+     "answer": "2",
+     "explain": "$MA = \\sqrt{144+25} = 13\\text{ (cm)}$; $MB = \\sqrt{144+81} = 15\\text{ (cm)}$. Hiệu $MB-MA = 2\\text{ (cm)}$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Điểm $A$ cách đường thẳng $d$ một khoảng $7\\text{ cm}$. Một đường xiên kẻ từ $A$ đến $d$ có hình chiếu dài $24\\text{ cm}$. Tính độ dài đường xiên đó (đơn vị: cm).",
+     "answer": "25",
+     "explain": "Đường xiên $= \\sqrt{7^2+24^2} = \\sqrt{625} = 25\\text{ (cm)}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 6",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho $AH \\perp d$ tại $H$ ($H \\in d$). Đoạn thẳng $AH$ được gọi là gì?",
+     "options": [
+      "A. Đường vuông góc",
+      "B. Đường xiên",
+      "C. Hình chiếu",
+      "D. Đường trung bình"
+     ],
+     "answer": "A",
+     "explain": "Đoạn $AH$ với $AH \\perp d$ gọi là đường vuông góc (hay đoạn vuông góc) kẻ từ $A$ đến $d$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "So sánh đường vuông góc $AH$ với mọi đường xiên kẻ từ $A$ đến đường thẳng $d$.",
+     "options": [
+      "A. $AH$ ngắn hơn mọi đường xiên",
+      "B. $AH$ dài hơn mọi đường xiên",
+      "C. $AH$ bằng đường xiên ngắn nhất",
+      "D. Không so sánh được"
+     ],
+     "answer": "A",
+     "explain": "Đường vuông góc là đường ngắn nhất trong các đường kẻ từ một điểm ngoài đường thẳng đến đường thẳng đó."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Từ điểm $P$ đến đường thẳng $m$ kẻ được đường vuông góc $PH = 4\\text{ cm}$. Một đường xiên $PQ$ có hình chiếu $HQ = 3\\text{ cm}$. Tính $PQ$.",
+     "options": [
+      "A. $7\text{ cm}$",
+      "B. $5\text{ cm}$",
+      "C. $6\text{ cm}$",
+      "D. $25\text{ cm}$"
+     ],
+     "answer": "B",
+     "explain": "$PQ = \\sqrt{PH^2+HQ^2} = \\sqrt{16+9} = 5\\text{ (cm)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Cho $AB > AC$ là hai đường xiên kẻ từ $A$ đến đường thẳng $d$. Kết luận nào sau đây đúng về hình chiếu của chúng?",
+     "options": [
+      "A. $HB > HC$",
+      "B. $HB < HC$",
+      "C. $HB = HC$",
+      "D. Không so sánh được"
+     ],
+     "answer": "A",
+     "explain": "Đường xiên nào dài hơn thì có hình chiếu dài hơn nên $HB > HC$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tam giác $ABC$ vuông tại $A$ có $AB = 3\\text{ cm}$, $AC = 4\\text{ cm}$. Khoảng cách từ $A$ đến đường thẳng $BC$ bằng bao nhiêu?",
+     "options": [
+      "A. $2,4\\text{ cm}$",
+      "B. $3\text{ cm}$",
+      "C. $4\text{ cm}$",
+      "D. $5\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "$BC = 5\\text{ (cm)}$; diện tích $S = \\frac{1}{2}\\cdot3\\cdot4 = 6 = \\frac{1}{2}\\cdot BC\\cdot h \\Rightarrow h = \\frac{12}{5} = 2,4\\text{ (cm)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Cho điểm $A$ nằm ngoài đường thẳng $d$. Kẻ $AH \\perp d$ tại $H$ và đường xiên $AB$ sao cho $\\widehat{ABH} = 30^\\circ$, $AB = 14\\text{ cm}$. Tính $AH$.",
+     "options": [
+      "A. $7\text{ cm}$",
+      "B. $14\text{ cm}$",
+      "C. $12\text{ cm}$",
+      "D. $28\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "Trong tam giác vuông $AHB$, cạnh $AH$ đối diện góc $30^\\circ$ nên $AH = \\frac{1}{2}AB = 7\\text{ (cm)}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ vuông tại $A$, $AB = 3\\text{ cm}$, $AC = 4\\text{ cm}$, $AH \\perp BC$ tại $H$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $BC = 5\text{ cm}$.",
+      "b) Khoảng cách từ $A$ đến $BC$ bằng $2,4\\text{ cm}$.",
+      "c) $AH > AB$.",
+      "d) $AB$ là một đường xiên kẻ từ $A$ đến $BC$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "$BC = 5\\text{ cm}$, $AH = 2,4\\text{ cm} < AB$; $AB$ là đường xiên từ $A$ đến $BC$. Vậy a), b), d) đúng; c) sai."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho điểm $M$ nằm ngoài đường thẳng $d$, $MH \\perp d$ tại $H$; $MA$, $MB$ là hai đường xiên với $MA = MB$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $HA = HB$.",
+      "b) $MH$ là đường trung trực của đoạn $AB$.",
+      "c) $MA < MH$.",
+      "d) Nếu $A$, $B$ nằm khác phía so với $H$ thì $H$ là trung điểm của $AB$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "Hai đường xiên bằng nhau thì hình chiếu bằng nhau ($HA=HB$); $MH \\perp AB$ tại trung điểm nên là trung trực; $MA > MH$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Từ điểm $A$ kẻ đến đường thẳng $d$ hai đoạn: đoạn vuông góc dài $9\\text{ cm}$ và đoạn xiên dài $15\\text{ cm}$. Tính độ dài hình chiếu của đoạn xiên trên $d$ (đơn vị: cm).",
+     "answer": "12",
+     "explain": "Hình chiếu $= \\sqrt{15^2-9^2} = \\sqrt{144} = 12\\text{ (cm)}$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Một chiếc thang dài $15\\text{ m}$ dựa vào tường, chân thang cách tường $9\\text{ m}$. Tính chiều cao từ mặt đất đến đầu thang (đơn vị: m).",
+     "answer": "12",
+     "explain": "Chiều cao $= \\sqrt{15^2-9^2} = \\sqrt{144} = 12\\text{ (m)}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 7",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Hình chiếu của điểm $A$ ($A \\notin d$) trên đường thẳng $d$ là điểm nào?",
+     "options": [
+      "A. Chân đường vuông góc kẻ từ $A$ đến $d$",
+      "B. Một điểm bất kì trên $d$",
+      "C. Trung điểm của $d$",
+      "D. Điểm xa $A$ nhất trên $d$"
+     ],
+     "answer": "A",
+     "explain": "Hình chiếu của điểm $A$ trên $d$ là chân đường vuông góc kẻ từ $A$ đến $d$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho điểm $M \\notin d$, $MH \\perp d$ tại $H$. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. $MH$ ngắn hơn mọi đường xiên kẻ từ $M$ đến $d$",
+      "B. $MH$ dài hơn mọi đường xiên kẻ từ $M$ đến $d$",
+      "C. $MH$ bằng mọi đường xiên kẻ từ $M$ đến $d$",
+      "D. Không so sánh được"
+     ],
+     "answer": "A",
+     "explain": "Đường vuông góc $MH$ là đường ngắn nhất trong các đường kẻ từ $M$ đến $d$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Một đường xiên $AB$ kẻ từ $A$ đến đường thẳng $d$ có $AB = 20\\text{ cm}$, hình chiếu $HB = 16\\text{ cm}$. Tính khoảng cách từ $A$ đến $d$ (đơn vị: cm).",
+     "options": [
+      "A. $36\text{ cm}$",
+      "B. $4\text{ cm}$",
+      "C. $12\text{ cm}$",
+      "D. $10\text{ cm}$"
+     ],
+     "answer": "C",
+     "explain": "Khoảng cách $= AH = \\sqrt{AB^2-HB^2} = \\sqrt{400-256} = 12\\text{ (cm)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Hai đường xiên kẻ từ $A$ đến đường thẳng $d$ có hình chiếu lần lượt là $6\\text{ cm}$ và $10\\text{ cm}$. Đường xiên nào dài hơn?",
+     "options": [
+      "A. Đường xiên có hình chiếu $6\text{ cm}$",
+      "B. Đường xiên có hình chiếu $10\text{ cm}$",
+      "C. Hai đường xiên bằng nhau",
+      "D. Không so sánh được"
+     ],
+     "answer": "B",
+     "explain": "Đường xiên nào có hình chiếu dài hơn thì dài hơn."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Cho tam giác đều $ABC$, $AH \\perp BC$ tại $H$. So sánh $AH$ với $AB$.",
+     "options": [
+      "A. $AH < AB$",
+      "B. $AH > AB$",
+      "C. $AH = AB$",
+      "D. Không so sánh được"
+     ],
+     "answer": "A",
+     "explain": "$AH$ là đường vuông góc từ $A$ đến $BC$, $AB$ là đường xiên nên $AH < AB$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Cho điểm $A$ nằm trên tia $Ox$ của góc $\\widehat{xOy} = 30^\\circ$, kẻ $AH \\perp Oy$ tại $H$, $OA = 10\\text{ cm}$. Tính $AH$.",
+     "options": [
+      "A. $5\text{ cm}$",
+      "B. $10\text{ cm}$",
+      "C. $8\text{ cm}$",
+      "D. $15\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "Trong tam giác vuông $OAH$, $AH$ đối diện góc $30^\\circ$ nên $AH = \\frac{1}{2}OA = 5\\text{ (cm)}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho $AH \\perp d$ tại $H$, $AB$ là một đường xiên với $AB = 2\\cdot AH$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $HB = AH\\sqrt{3}$.",
+      "b) $\\widehat{ABH} = 30^\\circ$.",
+      "c) Mọi đường xiên khác kẻ từ $A$ đến $d$ đều dài hơn $AB$.",
+      "d) Khoảng cách từ $A$ đến $d$ bằng $AH$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "$HB = \\sqrt{4AH^2-AH^2} = AH\\sqrt{3}$; $\\sin\\widehat{ABH} = \\frac{AH}{AB} = \\frac{1}{2}$ nên góc bằng $30^\\circ$; có đường xiên ngắn hơn $AB$ (gần $H$ hơn)."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Về quan hệ giữa đường xiên và hình chiếu, xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $AB > AC$ khi và chỉ khi $HB > HC$.",
+      "b) $AB = AC$ khi và chỉ khi $HB = HC$.",
+      "c) Có thể xảy ra $AB < AH$.",
+      "d) $HB = 0$ khi $B$ trùng với $H$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "a), b) đúng theo nhận xét; c) sai vì đường xiên luôn dài hơn đường vuông góc; d) đúng."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Điểm $A$ cách đường thẳng $d$ một khoảng $16\\text{ cm}$. Từ $A$ kẻ đến $d$ một đường xiên có hình chiếu dài $30\\text{ cm}$. Tính độ dài đường xiên đó (đơn vị: cm).",
+     "answer": "34",
+     "explain": "Đường xiên $= \\sqrt{16^2+30^2} = \\sqrt{1156} = 34\\text{ (cm)}$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Cho điểm $O$ nằm ngoài đường thẳng $d$, $OH \\perp d$ với $OH = 24\\text{ cm}$. Đường xiên $OA$ có hình chiếu $HA = 10\\text{ cm}$. Tính $OA$ (đơn vị: cm).",
+     "answer": "26",
+     "explain": "$OA = \\sqrt{24^2+10^2} = \\sqrt{676} = 26\\text{ (cm)}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 8",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho điểm $A \\notin d$. Đoạn thẳng ngắn nhất nối $A$ với một điểm trên $d$ là đoạn nào?",
+     "options": [
+      "A. Đường vuông góc kẻ từ $A$ đến $d$",
+      "B. Đường xiên ngắn nhất kẻ từ $A$ đến $d$",
+      "C. Đoạn nối $A$ với trung điểm của $d$",
+      "D. Mọi đoạn đều bằng nhau"
+     ],
+     "answer": "A",
+     "explain": "Đường vuông góc là đường ngắn nhất trong các đường nối $A$ với các điểm trên $d$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho $MH \\perp d$ tại $H$ ($H \\in d$). Mệnh đề nào sau đây đúng?",
+     "options": [
+      "A. $MH < MA$ với mọi $A \\in d$, $A \ne H$",
+      "B. $MH > MA$ với mọi $A \\in d$",
+      "C. $MH = MA$ với mọi $A \\in d$",
+      "D. Không so sánh được $MH$ và $MA$"
+     ],
+     "answer": "A",
+     "explain": "$MH$ là đường vuông góc, $MA$ ($A \\ne H$) là đường xiên nên $MH < MA$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Điểm $X$ cách đường thẳng $n$ một khoảng $11\\text{ cm}$. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. Mọi đoạn thẳng từ $X$ đến $n$ đều dài $11\text{ cm}$",
+      "B. Mọi đường xiên kẻ từ $X$ đến $n$ đều dài hơn $11\text{ cm}$",
+      "C. Có đường xiên từ $X$ đến $n$ ngắn hơn $11\text{ cm}$",
+      "D. Khoảng cách từ $X$ đến $n$ lớn hơn $11\text{ cm}$"
+     ],
+     "answer": "B",
+     "explain": "Khoảng cách $11\\text{ cm}$ là độ dài đường vuông góc — đường ngắn nhất — nên mọi đường xiên đều dài hơn $11\\text{ cm}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Từ $A$ kẻ $AH \\perp d$ tại $H$ và hai đường xiên $AB$, $AC$ sao cho $H$ nằm giữa $B$ và $C$, $HB = 4\\text{ cm}$, $HC = 9\\text{ cm}$. So sánh $AB$ và $AC$.",
+     "options": [
+      "A. $AB < AC$",
+      "B. $AB > AC$",
+      "C. $AB = AC$",
+      "D. Không so sánh được"
+     ],
+     "answer": "A",
+     "explain": "$HB < HC$ nên đường xiên $AB$ ngắn hơn đường xiên $AC$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ cân tại $A$, $AH \\perp BC$ tại $H$. So sánh $AH$ với $AB$.",
+     "options": [
+      "A. $AH < AB$",
+      "B. $AH > AB$",
+      "C. $AH = AB$",
+      "D. Không so sánh được"
+     ],
+     "answer": "A",
+     "explain": "$AH$ là đường vuông góc từ $A$ đến $BC$, $AB$ là đường xiên nên $AH < AB$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Một người đi từ điểm $A$ đến đường thẳng $d$ theo một đường xiên dài $50\\text{ m}$; khoảng cách từ $A$ đến $d$ là $40\\text{ m}$. Nếu đi theo đường vuông góc thì tiết kiệm được bao nhiêu mét so với đi theo đường xiên?",
+     "options": [
+      "A. $10\text{ m}$",
+      "B. $30\text{ m}$",
+      "C. $20\text{ m}$",
+      "D. $90\text{ m}$"
+     ],
+     "answer": "A",
+     "explain": "Đi theo đường vuông góc dài $40\\text{ m}$, tiết kiệm $50 - 40 = 10\\text{ (m)}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho điểm $A$ nằm ngoài đường thẳng $d$, $AH \\perp d$ tại $H$, $AB$ là một đường xiên. Biết $AH = 8\\text{ cm}$, $AB = 17\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $HB = 15\text{ cm}$.",
+      "b) Khoảng cách từ $A$ đến $d$ bằng $8\text{ cm}$.",
+      "c) Mọi điểm $B'$ trên $d$ ($B' \ne B$) đều cho $AB' > 17\text{ cm}$.",
+      "d) $AB > AH$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "$HB = \\sqrt{289-64} = 15\\text{ (cm)}$; c) sai vì điểm $B'$ gần $H$ hơn cho đường xiên ngắn hơn $17\\text{ cm}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho tam giác $MNP$ vuông tại $M$, $MH \\perp NP$ tại $H$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $MH < MN$.",
+      "b) $MH < MP$.",
+      "c) $MN$ là một đường xiên kẻ từ $M$ đến $NP$.",
+      "d) Khoảng cách từ $M$ đến $NP$ bằng $MN$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$MH$ là đường vuông góc nên ngắn hơn các đường xiên $MN$, $MP$; khoảng cách từ $M$ đến $NP$ là $MH$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Từ điểm $K$ nằm ngoài đường thẳng $t$ kẻ $KH \\perp t$ với $KH = 18\\text{ cm}$ và đường xiên $KA = 30\\text{ cm}$. Tính $HA$ (đơn vị: cm).",
+     "answer": "24",
+     "explain": "$HA = \\sqrt{30^2-18^2} = \\sqrt{576} = 24\\text{ (cm)}$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Điểm $E$ cách đường thẳng $s$ một khoảng $21\\text{ cm}$. Một đường xiên kẻ từ $E$ đến $s$ dài $29\\text{ cm}$. Tính độ dài hình chiếu của đường xiên đó trên $s$ (đơn vị: cm).",
+     "answer": "20",
+     "explain": "Hình chiếu $= \\sqrt{29^2-21^2} = \\sqrt{400} = 20\\text{ (cm)}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 9",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho $AH \\perp d$ tại $H$, $B \\in d$ ($B \\ne H$). Đoạn thẳng $HB$ là gì của đoạn $AB$?",
+     "options": [
+      "A. Hình chiếu của $AB$ trên $d$",
+      "B. Đường vuông góc",
+      "C. Đường xiên",
+      "D. Đường trung trực"
+     ],
+     "answer": "A",
+     "explain": "$HB$ nối chân đường vuông góc với chân đường xiên nên là hình chiếu của đường xiên $AB$ trên $d$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. Đường vuông góc kẻ từ điểm $A$ đến đường thẳng $d$ ngắn hơn mọi đường xiên kẻ từ $A$ đến $d$",
+      "B. Đường xiên kẻ từ điểm $A$ đến đường thẳng $d$ ngắn hơn đường vuông góc",
+      "C. Mọi đường kẻ từ $A$ đến $d$ đều bằng nhau",
+      "D. Không có đường nào ngắn nhất"
+     ],
+     "answer": "A",
+     "explain": "Đúng theo định lí: đường vuông góc là đường ngắn nhất."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Khoảng cách từ $A$ đến đường thẳng $d$ là $AH = 12\\text{ cm}$ ($AH \\perp d$). Một đường xiên $AB = 20\\text{ cm}$. Tính $HB$.",
+     "options": [
+      "A. $8\text{ cm}$",
+      "B. $32\text{ cm}$",
+      "C. $16\text{ cm}$",
+      "D. $10\text{ cm}$"
+     ],
+     "answer": "C",
+     "explain": "$HB = \\sqrt{20^2-12^2} = \\sqrt{256} = 16\\text{ (cm)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Hai đường xiên $AB$, $AC$ kẻ từ $A$ đến đường thẳng $d$ thỏa mãn $HB = 2\\cdot HC$. So sánh $AB$ và $AC$.",
+     "options": [
+      "A. $AB > AC$",
+      "B. $AB < AC$",
+      "C. $AB = AC$",
+      "D. Không so sánh được"
+     ],
+     "answer": "A",
+     "explain": "$HB > HC$ nên đường xiên $AB$ dài hơn đường xiên $AC$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Cho hình chữ nhật $ABCD$, kẻ $AH \\perp BD$ tại $H$. So sánh $AH$ với $AB$.",
+     "options": [
+      "A. $AH < AB$",
+      "B. $AH > AB$",
+      "C. $AH = AB$",
+      "D. Không so sánh được"
+     ],
+     "answer": "A",
+     "explain": "$AH$ là đường vuông góc từ $A$ đến $BD$, $AB$ là đường xiên nên $AH < AB$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Từ điểm $M$ cách đường thẳng $d$ một khoảng $9\\text{ cm}$, kẻ hai đường xiên $MA$, $MB$ đến $d$ sao cho $A$, $B$ nằm cùng phía so với chân đường vuông góc $H$, $HA = 12\\text{ cm}$, $HB = 15\\text{ cm}$. Tính $AB$.",
+     "options": [
+      "A. $3\text{ cm}$",
+      "B. $27\text{ cm}$",
+      "C. $6\text{ cm}$",
+      "D. $12\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "$A$, $B$ cùng phía so với $H$ nên $AB = |HB-HA| = 15-12 = 3\\text{ (cm)}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho $AH \\perp d$ tại $H$; $AB$, $AC$ là hai đường xiên bằng nhau, $B$ và $C$ nằm khác phía so với $H$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $HB = HC$.",
+      "b) $H$ là trung điểm của $BC$.",
+      "c) $AB > AH$.",
+      "d) Tam giác $ABC$ cân tại $H$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "Hai đường xiên bằng nhau thì hình chiếu bằng nhau ($HB=HC$); $H$ là trung điểm $BC$; tam giác $ABC$ cân tại $A$ (không phải tại $H$)."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Cho điểm $S$ nằm ngoài đường thẳng $m$, $SH \\perp m$ tại $H$, $SA$ là một đường xiên. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Khoảng cách từ $S$ đến $m$ bằng $SH$.",
+      "b) $SA > SH$.",
+      "c) Hình chiếu của $SA$ trên $m$ là đoạn $HA$.",
+      "d) Nếu $SA = SH$ thì $A$ trùng với $H$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "Cả bốn khẳng định đều đúng theo định nghĩa và định lí."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Từ điểm $A$ nằm ngoài đường thẳng $d$ kẻ $AH \\perp d$ với $AH = 9\\text{ cm}$. Lấy $B$, $C$ trên $d$ cùng phía so với $H$ sao cho $HB = 12\\text{ cm}$, $HC = 40\\text{ cm}$. Tính hiệu $AC - AB$ (đơn vị: cm).",
+     "answer": "26",
+     "explain": "$AB = \\sqrt{81+144} = 15\\text{ (cm)}$; $AC = \\sqrt{81+1600} = 41\\text{ (cm)}$. Hiệu $AC-AB = 26\\text{ (cm)}$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Một cây mọc vuông góc với mặt đất bị gãy, ngọn cây chạm đất cách gốc cây $8\\text{ m}$, phần còn đứng cao $6\\text{ m}$. Tính chiều cao ban đầu của cây (đơn vị: m).",
+     "answer": "16",
+     "explain": "Phần gãy (đường xiên) $= \\sqrt{8^2+6^2} = 10\\text{ (m)}$. Chiều cao ban đầu $= 6+10 = 16\\text{ (m)}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 10",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong các khẳng định sau, khẳng định nào SAI?",
+     "options": [
+      "A. Qua một điểm nằm ngoài một đường thẳng chỉ kẻ được một đường vuông góc với đường thẳng đó",
+      "B. Đường vuông góc là đường ngắn nhất",
+      "C. Hình chiếu của đường vuông góc là chính chân đường vuông góc",
+      "D. Đường xiên luôn ngắn hơn đường vuông góc"
+     ],
+     "answer": "D",
+     "explain": "A, B, C đúng; D sai vì đường xiên luôn dài hơn đường vuông góc."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho điểm $P \\notin d$, $PH \\perp d$ tại $H$. So sánh $PH$ với đoạn $PQ$ nối $P$ với một điểm $Q$ bất kì trên $d$.",
+     "options": [
+      "A. $PH \\le PQ$ (dấu bằng khi $Q$ trùng $H$)",
+      "B. $PH > PQ$ với mọi $Q$",
+      "C. $PH = PQ$ với mọi $Q$",
+      "D. Không so sánh được"
+     ],
+     "answer": "A",
+     "explain": "$PH$ là đường vuông góc — đường ngắn nhất — nên $PH \\le PQ$, dấu bằng khi $Q \\equiv H$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Từ điểm $A$ đến đường thẳng $d$ có đoạn vuông góc $AH = 6\\text{ cm}$, đoạn xiên $AB = 10\\text{ cm}$. Hình chiếu của $AB$ trên $d$ dài bao nhiêu?",
+     "options": [
+      "A. $4\text{ cm}$",
+      "B. $8\text{ cm}$",
+      "C. $16\text{ cm}$",
+      "D. $12\text{ cm}$"
+     ],
+     "answer": "B",
+     "explain": "Hình chiếu $= \\sqrt{10^2-6^2} = \\sqrt{64} = 8\\text{ (cm)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Cho $AB$, $AC$ là hai đường xiên kẻ từ $A$ đến đường thẳng $d$ với $AB < AC$. Kết luận nào sau đây đúng?",
+     "options": [
+      "A. $HB < HC$",
+      "B. $HB > HC$",
+      "C. $HB = HC$",
+      "D. Không so sánh được"
+     ],
+     "answer": "A",
+     "explain": "Đường xiên nào ngắn hơn thì có hình chiếu ngắn hơn nên $HB < HC$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tam giác $ABC$ vuông tại $B$, kẻ $BH \\perp AC$ tại $H$. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. $BH < BA$ và $BH < BC$",
+      "B. $BH > BA$",
+      "C. $BH > BC$",
+      "D. $BH = BA = BC$"
+     ],
+     "answer": "A",
+     "explain": "$BH$ là đường vuông góc từ $B$ đến $AC$; $BA$, $BC$ là các đường xiên nên $BH$ ngắn hơn cả hai."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Cho điểm $E$ cách đường thẳng $d$ một khoảng $12\\text{ cm}$. Từ $E$ kẻ hai đường xiên $EA$, $EB$ đến $d$ sao cho $A$, $B$ nằm khác phía so với chân đường vuông góc $H$, $HA = 5\\text{ cm}$, $HB = 9\\text{ cm}$. Tính $AB$.",
+     "options": [
+      "A. $4\text{ cm}$",
+      "B. $14\text{ cm}$",
+      "C. $45\text{ cm}$",
+      "D. $13\text{ cm}$"
+     ],
+     "answer": "B",
+     "explain": "$A$, $B$ khác phía so với $H$ nên $AB = HA+HB = 5+9 = 14\\text{ (cm)}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho điểm $T$ nằm ngoài đường thẳng $n$, $TH \\perp n$ tại $H$; $TA$, $TB$ là hai đường xiên với $TA < TB$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $HA < HB$.",
+      "b) $TH < TA$.",
+      "c) $TB$ là đoạn dài nhất trong ba đoạn $TH$, $TA$, $TB$.",
+      "d) Nếu $TA = TH$ thì $A$ trùng với $H$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "Đường xiên ngắn hơn thì hình chiếu ngắn hơn ($HA<HB$); $TH$ ngắn nhất; $TB$ dài nhất; $TA=TH$ chỉ khi $A\\equiv H$."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Xét một điểm $A$ và đường thẳng $d$ ($A \\notin d$). Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Có duy nhất một đường vuông góc kẻ từ $A$ đến $d$.",
+      "b) Có vô số đường xiên kẻ từ $A$ đến $d$.",
+      "c) Tổng độ dài hai đường xiên bất kì luôn lớn hơn độ dài đường vuông góc.",
+      "d) Hiệu độ dài hai đường xiên bất kì luôn nhỏ hơn độ dài đường vuông góc."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "a), b) đúng; c) đúng vì mỗi đường xiên đều dài hơn đường vuông góc; d) sai (ví dụ đường xiên $100\\text{ cm}$ và $9\\text{ cm}$, đường vuông góc $8\\text{ cm}$: hiệu $91 > 8$)."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Từ điểm $M$ cách đường thẳng $d$ một khoảng $20\\text{ cm}$, kẻ đường xiên $MN$ sao cho hình chiếu của nó trên $d$ dài $48\\text{ cm}$. Tính $MN$ (đơn vị: cm).",
+     "answer": "52",
+     "explain": "$MN = \\sqrt{20^2+48^2} = \\sqrt{2704} = 52\\text{ (cm)}$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Từ điểm $A$ nằm ngoài đường thẳng $d$ kẻ $AH \\perp d$ với $AH = 7\\text{ cm}$. Lấy điểm $B$ trên $d$ sao cho $AB = 25\\text{ cm}$. Tính $BH$ (đơn vị: cm).",
+     "answer": "24",
+     "explain": "$BH = \\sqrt{25^2-7^2} = \\sqrt{576} = 24\\text{ (cm)}$."
+    }
+   ]
+  }
+ ]
+}
+</script>
+</div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
