@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 13: Bổ sung các đối tượng đồ họa</title>
+    <meta name="lesson-title" content="Bài 13: Bổ sung các đối tượng đồ họa">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 13: Bổ sung các đối tượng đồ họa</h1>
+            <p class="text-xs text-slate-500 mt-1">Chủ đề 4: Ứng dụng tin học • Bài 13: Bổ sung các đối tượng đồ họa</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 13: Bổ sung các đối tượng đồ họa</h1>
+<p class="text-center text-slate-500 italic mb-8">Chủ đề 4: Ứng dụng tin học • Bài 13: Bổ sung các đối tượng đồ họa</p>
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Vẽ các hình cơ bản</h2>
+
+<p>Inkscape cung cấp các công cụ vẽ hình cơ bản trên thanh công cụ. Chọn công cụ rồi <strong>kéo chuột trên vùng vẽ</strong> để tạo hình.</p>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Công cụ</td><td class="border border-slate-300 px-4 py-1">Phím tắt</td><td class="border border-slate-300 px-4 py-1">Vẽ được</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Hình chữ nhật</td><td class="border border-slate-300 px-4 py-1">F4</td><td class="border border-slate-300 px-4 py-1">Hình chữ nhật, hình vuông (giữ Ctrl), bo góc</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Ellipse</td><td class="border border-slate-300 px-4 py-1">F5</td><td class="border border-slate-300 px-4 py-1">Hình elip, hình tròn (giữ Ctrl), cung tròn</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Ngôi sao / Đa giác</td><td class="border border-slate-300 px-4 py-1">*</td><td class="border border-slate-300 px-4 py-1">Ngôi sao nhiều cánh, đa giác đều</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Xoắn ốc</td><td class="border border-slate-300 px-4 py-1">F9</td><td class="border border-slate-300 px-4 py-1">Đường xoắn ốc (chỉnh số vòng)</td></tr>
+</table></div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Mẹo vẽ nhanh:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>Giữ <strong>Ctrl</strong> khi vẽ: được <strong>hình đều</strong> (hình vuông, hình tròn).</li>
+<li>Giữ <strong>Shift</strong> khi vẽ: vẽ <strong>từ tâm</strong> ra ngoài.</li>
+<li>Kết hợp <strong>Ctrl + Shift</strong>: hình đều vẽ từ tâm.</li>
+<li>Hình chữ nhật có <strong>nút tròn ở góc</strong>: kéo để <strong>bo tròn góc</strong> (hoặc nhập Rx, Ry trên thanh thuộc tính).</li>
+</ul>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Chọn đối tượng</h2>
+
+<p>Dùng công cụ <strong>Select (F1)</strong> để chọn đối tượng trước khi chỉnh sửa:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Bấm chuột</strong> vào đối tượng để chọn một đối tượng.</li>
+<li><strong>Kéo khung</strong> bao quanh nhiều đối tượng để chọn đồng thời.</li>
+<li>Giữ <strong>Shift</strong> rồi bấm thêm: <strong>thêm</strong> vào vùng chọn (bấm lại để loại ra).</li>
+<li><strong>Ctrl+A:</strong> chọn tất cả; <strong>Esc:</strong> bỏ chọn.</li>
+</ul>
+<p>Đối tượng đang chọn hiện các <strong>tay cầm (handles)</strong>: kéo tay cầm góc để thay đổi kích thước, kéo tay cầm giữa cạnh để kéo giãn một chiều. <strong>Bấm lần thứ hai</strong> vào đối tượng đang chọn sẽ hiện tay cầm <strong>xoay và nghiêng</strong>.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Tô màu: Fill và Stroke</h2>
+
+<div class="svg-fig"><svg viewBox="0 0 440 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Fill và Stroke">
+<rect x="2" y="2" width="436" height="196" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<rect x="30" y="30" width="110" height="90" rx="10" fill="#93c5fd" stroke="#1e3a8a" stroke-width="6"/>
+<text x="85" y="150" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">Fill: màu tô bên trong</text>
+<rect x="165" y="30" width="110" height="90" rx="10" fill="none" stroke="#dc2626" stroke-width="6" stroke-dasharray="10,6"/>
+<text x="220" y="150" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">Stroke: màu + kiểu viền</text>
+<rect x="300" y="30" width="110" height="90" rx="10" fill="#fde68a" stroke="#92400e" stroke-width="3"/>
+<text x="355" y="150" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">Cả Fill và Stroke</text>
+<rect x="30" y="165" width="380" height="26" rx="8" fill="#eff6ff" stroke="#0284c7" stroke-width="1.5"/>
+<text x="220" y="183" font-family="sans-serif" font-size="12" fill="#0369a1" text-anchor="middle">Ctrl+Shift+F: hộp thoại Fill and Stroke chi tiết</text>
+</svg></div>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Fill:</strong> màu tô bên trong đối tượng.</li>
+<li><strong>Stroke:</strong> màu và kiểu đường viền (liền, đứt nét, chấm...), chỉnh được <strong>độ dày nét</strong> (stroke width).</li>
+<li>Bấm màu trên <strong>thanh palette</strong> để tô nhanh; <strong>Ctrl+Shift+F</strong> mở hộp thoại Fill and Stroke để chỉnh chi tiết.</li>
+<li>Có thể để đối tượng <strong>không tô (None)</strong> chỉ còn viền, hoặc không viền chỉ còn màu tô.</li>
+<li>Công cụ <strong>Dropper (F7)</strong>: bấm vào đối tượng bất kì để <strong>lấy màu</strong> của nó.</li>
+</ul>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Sắp xếp thứ tự chồng lấp</h2>
+
+<p>Quy tắc mặc định: <strong>đối tượng vẽ sau nằm trên</strong> đối tượng vẽ trước. Ta có thể thay đổi thứ tự:</p>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Thao tác</td><td class="border border-slate-300 px-4 py-1">Phím tắt</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Nâng lên một bậc</td><td class="border border-slate-300 px-4 py-1">PageUp</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Hạ xuống một bậc</td><td class="border border-slate-300 px-4 py-1">PageDown</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Lên trên cùng</td><td class="border border-slate-300 px-4 py-1">Home</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Xuống dưới cùng</td><td class="border border-slate-300 px-4 py-1">End</td></tr>
+</table></div>
+<p><strong>Thói quen tốt:</strong> vẽ đối tượng nền trước, chi tiết sau; chữ cần đọc được phải nằm ở lớp trên.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">5. Nhóm, nhân bản và căn chỉnh</h2>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">5.1. Nhóm đối tượng</h3>
+<p><strong>Ctrl+G</strong> nhóm các đối tượng đang chọn thành một khối để di chuyển, co giãn đồng loạt; <strong>Ctrl+Shift+G</strong> tách nhóm để sửa riêng. Có thể nhóm lồng nhau nhiều cấp. Nên đặt tên cho nhóm khi bản vẽ phức tạp.</p>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">5.2. Nhân bản và sao chép</h3>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Ctrl+D</strong> (Duplicate): nhân bản chồng khít lên bản gốc — nhanh khi cần nhiều đối tượng giống nhau.</li>
+<li><strong>Ctrl+C / Ctrl+V</strong>: sao chép rồi dán vào vị trí mới.</li>
+<li>Bản sao là đối tượng <strong>độc lập</strong>: sửa, đổi màu thoải mái không ảnh hưởng bản gốc.</li>
+</ul>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">5.3. Căn chỉnh với Align and Distribute</h3>
+<p><strong>Ctrl+Shift+A</strong> mở hộp thoại Align and Distribute:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Align:</strong> căn thẳng hàng (trái, phải, giữa ngang, trên, dưới, giữa dọc) — chính xác hơn căn bằng mắt.</li>
+<li><strong>Distribute:</strong> phân bố khoảng cách đều nhau giữa các đối tượng.</li>
+</ul>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<ul class="list-disc ml-6 space-y-1 mt-1">
+<li>Vẽ hình: F4 (chữ nhật), F5 (ellipse), * (sao/đa giác), F9 (xoắn ốc); Ctrl = hình đều, Shift = từ tâm.</li>
+<li>Chọn: F1; bấm chọn, kéo khung, Shift+bấm thêm, Ctrl+A chọn tất cả.</li>
+<li>Fill (tô) – Stroke (viền): Ctrl+Shift+F chỉnh chi tiết.</li>
+<li>Thứ tự: vẽ sau nằm trên; PageUp/PageDown/Home/End điều chỉnh.</li>
+<li>Nhóm Ctrl+G, tách nhóm Ctrl+Shift+G; nhân bản Ctrl+D; căn chỉnh Ctrl+Shift+A.</li>
+</ul>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Vẽ hình cơ bản:</strong> F4, F5, *, F9; giữ Ctrl vẽ hình đều, giữ Shift vẽ từ tâm.</li>
+<li><strong>Chọn và biến đổi:</strong> F1 chọn; tay cầm để co giãn, xoay, nghiêng; phím mũi tên di chuyển chính xác.</li>
+<li><strong>Màu sắc:</strong> Fill (tô trong), Stroke (viền); palette tô nhanh, Ctrl+Shift+F chỉnh chi tiết, F7 lấy màu.</li>
+<li><strong>Tổ chức bản vẽ:</strong> thứ tự chồng lấp (vẽ sau nằm trên), nhóm (Ctrl+G), nhân bản (Ctrl+D), căn chỉnh (Ctrl+Shift+A).</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+
+        </div>
+    </div>
+</body>
+</html>
