@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài tập Bài 31: Quan hệ giữa góc và cạnh đối diện trong một tam giác</title>
+    <meta name="lesson-title" content="Bài tập Bài 31: Quan hệ giữa góc và cạnh đối diện trong một tam giác">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Bài tập</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài tập Bài 31: Quan hệ giữa góc và cạnh đối diện trong một tam giác</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 9: Quan hệ giữa các yếu tố trong một tam giác • Bài 31: Quan hệ giữa góc và cạnh đối diện trong một tam giác</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="saobay-exam10">
+<script type="application/json" class="saobay-exam10-data">
+{
+ "sets": [
+  {
+   "name": "Đề 1",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong tam giác $ABC$, góc đối diện với cạnh lớn hơn là góc như thế nào?",
+     "options": [
+      "A. Góc lớn hơn",
+      "B. Góc nhỏ hơn",
+      "C. Góc bằng góc đối diện cạnh nhỏ hơn",
+      "D. Không xác định được"
+     ],
+     "answer": "A",
+     "explain": "Định lí: trong một tam giác, góc đối diện với cạnh lớn hơn là góc lớn hơn."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho tam giác $ABC$ có $AB < AC$. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. $\\widehat{C} < \\widehat{B}$",
+      "B. $\\widehat{C} > \\widehat{B}$",
+      "C. $\\widehat{C} = \\widehat{B}$",
+      "D. $\\widehat{A}$ là góc lớn nhất"
+     ],
+     "answer": "A",
+     "explain": "Góc đối diện cạnh $AB$ là $\\widehat{C}$, góc đối diện cạnh $AC$ là $\\widehat{B}$. Vì $AB < AC$ nên $\\widehat{C} < \\widehat{B}$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $MNP$ có $MN = 5\\text{ cm}$, $NP = 8\\text{ cm}$, $MP = 6\\text{ cm}$. Góc lớn nhất của tam giác là góc nào?",
+     "options": [
+      "A. $\\widehat{N}$",
+      "B. $\\widehat{P}$",
+      "C. $\\widehat{M}$",
+      "D. Không xác định được"
+     ],
+     "answer": "C",
+     "explain": "Cạnh lớn nhất là $NP = 8\\text{ cm}$, góc đối diện với nó là $\\widehat{M}$ nên $\\widehat{M}$ lớn nhất."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $ABC$ có $\\widehat{A} = 50^\\circ$, $\\widehat{B} = 70^\\circ$, $\\widehat{C} = 60^\\circ$. Cạnh dài nhất của tam giác là cạnh nào?",
+     "options": [
+      "A. $AB$",
+      "B. $AC$",
+      "C. $BC$",
+      "D. Ba cạnh bằng nhau"
+     ],
+     "answer": "B",
+     "explain": "Góc lớn nhất là $\\widehat{B} = 70^\\circ$, cạnh đối diện với nó là $AC$ nên $AC$ dài nhất."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tam giác $DEF$ có $DE = 4\\text{ cm}$, $EF = 9\\text{ cm}$, $DF = 7\\text{ cm}$. Sắp xếp các góc của tam giác theo thứ tự tăng dần.",
+     "options": [
+      "A. $\\widehat{F} < \\widehat{E} < \\widehat{D}$",
+      "B. $\\widehat{D} < \\widehat{E} < \\widehat{F}$",
+      "C. $\\widehat{E} < \\widehat{F} < \\widehat{D}$",
+      "D. $\\widehat{F} < \\widehat{D} < \\widehat{E}$"
+     ],
+     "answer": "A",
+     "explain": "$DE < DF < EF$ nên góc đối diện tương ứng $\\widehat{F} < \\widehat{E} < \\widehat{D}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Tam giác $ABC$ vuông tại $A$ có $AB = 6\\text{ cm}$, $AC = 8\\text{ cm}$. Cạnh lớn nhất của tam giác dài bao nhiêu?",
+     "options": [
+      "A. $6\text{ cm}$",
+      "B. $8\text{ cm}$",
+      "C. $10\text{ cm}$",
+      "D. $14\text{ cm}$"
+     ],
+     "answer": "C",
+     "explain": "Tam giác vuông tại $A$ nên cạnh huyền $BC$ lớn nhất. $BC = \\sqrt{6^2+8^2} = 10\\text{ (cm)}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ có $AB = 5\\text{ cm}$, $BC = 7\\text{ cm}$, $CA = 6\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $\\widehat{A}$ là góc lớn nhất của tam giác.",
+      "b) $\\widehat{C}$ là góc nhỏ nhất của tam giác.",
+      "c) $\\widehat{B} > \\widehat{C}$.",
+      "d) $\\widehat{A} < \\widehat{B}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$BC > CA > AB$ nên $\\widehat{A} > \\widehat{B} > \\widehat{C}$. Do đó a), b), c) đúng; d) sai vì $\\widehat{A} > \\widehat{B}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho tam giác $MNP$ có $\\widehat{M} = 80^\\circ$, $\\widehat{N} = 60^\\circ$, $\\widehat{P} = 40^\\circ$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Cạnh $NP$ dài nhất.",
+      "b) Cạnh $MN$ ngắn nhất.",
+      "c) $MP > MN$.",
+      "d) $NP < MP$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$\\widehat{M} > \\widehat{N} > \\widehat{P}$ nên $NP > MP > MN$. Vậy a), b), c) đúng; d) sai."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tam giác $ABC$ có $AB = 5\\text{ cm}$, $BC = 8\\text{ cm}$, $CA = 7\\text{ cm}$ và $\\widehat{B} = 60^\\circ$. Tính tổng số đo của góc lớn nhất và góc nhỏ nhất của tam giác (đơn vị: độ).",
+     "answer": "120",
+     "explain": "$BC > CA > AB$ nên $\\widehat{A} > \\widehat{B} > \\widehat{C}$; góc $\\widehat{B} = 60^\\circ$ là góc ở giữa. Tổng góc lớn nhất + góc nhỏ nhất $= 180^\\circ - 60^\\circ = 120^\\circ$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Cho tam giác $MNP$ có $MN < MP < NP$, $\\widehat{N} = 60^\\circ$ và $\\widehat{M} = 2\\cdot\\widehat{P}$. Tính số đo góc $M$ (đơn vị: độ).",
+     "answer": "80",
+     "explain": "$\\widehat{M}+\\widehat{N}+\\widehat{P}=180^\\circ \\Rightarrow 3\\widehat{P}=120^\\circ \\Rightarrow \\widehat{P}=40^\\circ$, $\\widehat{M}=80^\\circ$. Kiểm tra: $80^\\circ>60^\\circ>40^\\circ$ tương ứng $NP>MP>MN$ (đúng)."
+    }
+   ]
+  },
+  {
+   "name": "Đề 2",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong tam giác $ABC$, cạnh đối diện với góc lớn hơn là cạnh như thế nào?",
+     "options": [
+      "A. Cạnh lớn hơn",
+      "B. Cạnh nhỏ hơn",
+      "C. Cạnh bằng cạnh đối diện góc nhỏ hơn",
+      "D. Không xác định được"
+     ],
+     "answer": "A",
+     "explain": "Định lí: trong một tam giác, cạnh đối diện với góc lớn hơn là cạnh lớn hơn."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho tam giác $ABC$ có $\\widehat{B} > \\widehat{C}$. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. $AC > AB$",
+      "B. $AB > AC$",
+      "C. $AB = AC$",
+      "D. Không so sánh được $AB$ và $AC$"
+     ],
+     "answer": "A",
+     "explain": "Cạnh đối diện $\\widehat{B}$ là $AC$, cạnh đối diện $\\widehat{C}$ là $AB$. Vì $\\widehat{B} > \\widehat{C}$ nên $AC > AB$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $PQR$ có $PQ = 7\\text{ cm}$, $QR = 4\\text{ cm}$, $RP = 5\\text{ cm}$. Góc nhỏ nhất của tam giác là góc nào?",
+     "options": [
+      "A. $\\widehat{Q}$",
+      "B. $\\widehat{P}$",
+      "C. $\\widehat{R}$",
+      "D. $\\widehat{Q}$ và $\\widehat{R}$"
+     ],
+     "answer": "B",
+     "explain": "Cạnh nhỏ nhất là $QR = 4\\text{ cm}$, góc đối diện với nó là $\\widehat{P}$ nên $\\widehat{P}$ nhỏ nhất."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $XYZ$ có $\\widehat{X} = 45^\\circ$, $\\widehat{Y} = 85^\\circ$, $\\widehat{Z} = 50^\\circ$. Cạnh ngắn nhất của tam giác là cạnh nào?",
+     "options": [
+      "A. $XY$",
+      "B. $XZ$",
+      "C. $YZ$",
+      "D. $XY$ và $XZ$"
+     ],
+     "answer": "C",
+     "explain": "Góc nhỏ nhất là $\\widehat{X} = 45^\\circ$, cạnh đối diện với nó là $YZ$ nên $YZ$ ngắn nhất."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tam giác $ABC$ có $AB = 6\\text{ cm}$, $AC = 10\\text{ cm}$, $BC = 8\\text{ cm}$. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. $\\widehat{B} > \\widehat{A} > \\widehat{C}$",
+      "B. $\\widehat{A} > \\widehat{B} > \\widehat{C}$",
+      "C. $\\widehat{C} > \\widehat{B} > \\widehat{A}$",
+      "D. $\\widehat{B} > \\widehat{C} > \\widehat{A}$"
+     ],
+     "answer": "A",
+     "explain": "$AC > BC > AB$ nên góc đối diện tương ứng $\\widehat{B} > \\widehat{A} > \\widehat{C}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Tam giác $MNP$ vuông tại $M$ có $MN = 9\\text{ cm}$, $MP = 12\\text{ cm}$. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. Cạnh $NP$ dài nhất",
+      "B. Cạnh $MN$ dài nhất",
+      "C. Cạnh $MP$ dài nhất",
+      "D. Ba cạnh bằng nhau"
+     ],
+     "answer": "A",
+     "explain": "Tam giác vuông tại $M$ nên cạnh huyền $NP$ là cạnh lớn nhất ($NP = 15\\text{ cm}$)."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ có $AB = 4\\text{ cm}$, $AC = 9\\text{ cm}$, $BC = 7\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $\\widehat{B}$ là góc lớn nhất.",
+      "b) $\\widehat{A}$ là góc nhỏ nhất.",
+      "c) $\\widehat{C} < \\widehat{A}$.",
+      "d) $\\widehat{B} > \\widehat{C}$."
+     ],
+     "answer": [
+      "T",
+      "F",
+      "T",
+      "T"
+     ],
+     "explain": "$AC > BC > AB$ nên $\\widehat{B} > \\widehat{A} > \\widehat{C}$. Vậy a), c), d) đúng; b) sai (góc nhỏ nhất là $\\widehat{C}$)."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho tam giác $DEF$ có $\\widehat{D} = 55^\\circ$, $\\widehat{E} = 65^\\circ$, $\\widehat{F} = 60^\\circ$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Cạnh $EF$ dài nhất.",
+      "b) Cạnh $DF$ dài nhất.",
+      "c) Cạnh $DE$ ngắn nhất.",
+      "d) $DE > EF$."
+     ],
+     "answer": [
+      "F",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "$\\widehat{E} > \\widehat{F} > \\widehat{D}$ nên $DF > DE > EF$. Vậy b), d) đúng; a), c) sai."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Tam giác $MNP$ vuông tại $M$ có $MN = 6\\text{ cm}$, $MP = 8\\text{ cm}$. Tính độ dài cạnh lớn nhất của tam giác (đơn vị: cm).",
+     "answer": "10",
+     "explain": "Cạnh huyền $NP$ là cạnh lớn nhất: $NP = \\sqrt{6^2+8^2} = 10\\text{ (cm)}$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Cho tam giác $ABC$ có $\\widehat{A} = 100^\\circ$, $\\widehat{B} = 50^\\circ$. Tính hiệu số đo của góc lớn nhất và góc nhỏ nhất (đơn vị: độ).",
+     "answer": "70",
+     "explain": "$\\widehat{C} = 180^\\circ - 100^\\circ - 50^\\circ = 30^\\circ$. Góc lớn nhất $100^\\circ$, góc nhỏ nhất $30^\\circ$, hiệu $100-30 = 70$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 3",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Nếu tam giác $ABC$ có $AB > AC$ thì khẳng định nào sau đây đúng?",
+     "options": [
+      "A. $\\widehat{C} < \\widehat{B}$",
+      "B. $\\widehat{C} > \\widehat{B}$",
+      "C. $\\widehat{C} = \\widehat{B}$",
+      "D. $\\widehat{A}$ là góc lớn nhất"
+     ],
+     "answer": "B",
+     "explain": "Góc đối diện cạnh $AB$ là $\\widehat{C}$, góc đối diện cạnh $AC$ là $\\widehat{B}$. Vì $AB > AC$ nên $\\widehat{C} > \\widehat{B}$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cạnh đối diện với góc $A$ trong tam giác $ABC$ là cạnh nào?",
+     "options": [
+      "A. $AB$",
+      "B. $AC$",
+      "C. $BC$",
+      "D. Không xác định được"
+     ],
+     "answer": "C",
+     "explain": "Trong tam giác $ABC$, góc $A$ đối diện với cạnh $BC$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $DEF$ có $\\widehat{D} = 40^\\circ$, $\\widehat{E} = 100^\\circ$, $\\widehat{F} = 40^\\circ$. Cạnh dài nhất của tam giác là cạnh nào?",
+     "options": [
+      "A. $DE$",
+      "B. $EF$",
+      "C. $DF$",
+      "D. $DE = DF$"
+     ],
+     "answer": "B",
+     "explain": "Góc lớn nhất là $\\widehat{E} = 100^\\circ$, cạnh đối diện với nó là $EF$ nên $EF$ dài nhất."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $ABC$ có $AB = 10\\text{ cm}$, $AC = 6\\text{ cm}$, $BC = 8\\text{ cm}$. Góc lớn nhất của tam giác là góc nào?",
+     "options": [
+      "A. $\\widehat{A}$",
+      "B. $\\widehat{B}$",
+      "C. $\\widehat{C}$",
+      "D. Ba góc bằng nhau"
+     ],
+     "answer": "C",
+     "explain": "Cạnh lớn nhất là $AB = 10\\text{ cm}$, góc đối diện với nó là $\\widehat{C}$ nên $\\widehat{C}$ lớn nhất."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tam giác $MNP$ có $MN = 3\\text{ cm}$, $NP = 5\\text{ cm}$, $MP = 4\\text{ cm}$ và $\\widehat{N} = 90^\\circ$. Sắp xếp các cạnh theo thứ tự giảm dần.",
+     "options": [
+      "A. $NP > MP > MN$",
+      "B. $MP > NP > MN$",
+      "C. $NP > MN > MP$",
+      "D. $MN > MP > NP$"
+     ],
+     "answer": "A",
+     "explain": "$\\widehat{N} = 90^\\circ$ là góc lớn nhất nên $NP$ (cạnh huyền) dài nhất; $MP > MN$ vì $4 > 3$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Tam giác $ABC$ vuông tại $A$ có $\\widehat{B} = 60^\\circ$, $\\widehat{C} = 30^\\circ$, $BC = 10\\text{ cm}$. Tính độ dài cạnh $AB$.",
+     "options": [
+      "A. $5\text{ cm}$",
+      "B. $10\text{ cm}$",
+      "C. $8\text{ cm}$",
+      "D. $6\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "$AB$ đối diện góc $30^\\circ$ nên $AB = \\dfrac{1}{2}BC = 5\\text{ (cm)}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ vuông tại $A$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $BC$ là cạnh lớn nhất của tam giác.",
+      "b) $AB > BC$.",
+      "c) $\\widehat{B} + \\widehat{C} = 90^\\circ$.",
+      "d) Nếu $\\widehat{B} > \\widehat{C}$ thì $AC > AB$."
+     ],
+     "answer": [
+      "T",
+      "F",
+      "T",
+      "T"
+     ],
+     "explain": "Tam giác vuông tại $A$: $BC$ là cạnh huyền nên lớn nhất; $\\widehat{B}+\\widehat{C}=90^\\circ$; $\\widehat{B}>\\widehat{C}\\Rightarrow AC>AB$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho tam giác $MNP$ có $MN = 2\\text{ cm}$, $MP = 3\\text{ cm}$, $NP = 4\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $\\widehat{N}$ là góc lớn nhất.",
+      "b) $\\widehat{P}$ là góc nhỏ nhất.",
+      "c) $\\widehat{M} > \\widehat{P}$.",
+      "d) $\\widehat{N} < \\widehat{M}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$NP > MP > MN$ nên $\\widehat{M} > \\widehat{N} > \\widehat{P}$. Vậy a), b), c) đúng; d) sai."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tam giác $ABC$ có $AB < AC < BC$ và $\\widehat{A} = 90^\\circ$. Biết $\\widehat{B}$ gấp đôi $\\widehat{C}$. Tính số đo góc nhỏ nhất của tam giác (đơn vị: độ).",
+     "answer": "30",
+     "explain": "$\\widehat{B}+\\widehat{C}=90^\\circ$, $\\widehat{B}=2\\widehat{C}\\Rightarrow \\widehat{C}=30^\\circ$, $\\widehat{B}=60^\\circ$. Thứ tự $90^\\circ>60^\\circ>30^\\circ$ khớp $BC>AC>AB$. Góc nhỏ nhất $30^\\circ$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Tam giác $ABC$ cân tại $A$ có $AB = AC = 6\\text{ cm}$, $BC = 10\\text{ cm}$. Tính chu vi của tam giác (đơn vị: cm).",
+     "answer": "22",
+     "explain": "Chu vi $= AB+AC+BC = 6+6+10 = 22\\text{ (cm)}$. (Vì $AB=AC$ nên $\\widehat{B}=\\widehat{C}$.)"
+    }
+   ]
+  },
+  {
+   "name": "Đề 4",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Góc đối diện với cạnh $BC$ trong tam giác $ABC$ là góc nào?",
+     "options": [
+      "A. $\\widehat{A}$",
+      "B. $\\widehat{B}$",
+      "C. $\\widehat{C}$",
+      "D. Không có góc đối diện"
+     ],
+     "answer": "A",
+     "explain": "Trong tam giác $ABC$, cạnh $BC$ đối diện với đỉnh $A$ nên góc đối diện là $\\widehat{A}$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong một tam giác, hai cạnh bằng nhau thì hai góc đối diện với chúng như thế nào?",
+     "options": [
+      "A. Bằng nhau",
+      "B. Góc vẽ trước lớn hơn",
+      "C. Góc vẽ sau lớn hơn",
+      "D. Không so sánh được"
+     ],
+     "answer": "A",
+     "explain": "Hai cạnh bằng nhau thì hai góc đối diện với chúng bằng nhau (tính chất tam giác cân)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $ABC$ có $\\widehat{A} = 35^\\circ$, $\\widehat{B} = 55^\\circ$. Cạnh lớn nhất của tam giác là cạnh nào?",
+     "options": [
+      "A. $AB$",
+      "B. $AC$",
+      "C. $BC$",
+      "D. Ba cạnh bằng nhau"
+     ],
+     "answer": "A",
+     "explain": "$\\widehat{C} = 180^\\circ-35^\\circ-55^\\circ = 90^\\circ$ là góc lớn nhất, cạnh đối diện là $AB$ nên $AB$ lớn nhất."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $MNP$ có $MN = 8\\text{ cm}$, $NP = 6\\text{ cm}$, $MP = 10\\text{ cm}$. Góc vuông của tam giác là góc nào?",
+     "options": [
+      "A. $\\widehat{M}$",
+      "B. $\\widehat{N}$",
+      "C. $\\widehat{P}$",
+      "D. Tam giác không vuông"
+     ],
+     "answer": "B",
+     "explain": "$MN^2+NP^2 = 64+36 = 100 = MP^2$ nên tam giác vuông tại $N$ (định lí Pythagore đảo)."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ có $AB = 5\\text{ cm}$, $AC = 5\\text{ cm}$, $BC = 6\\text{ cm}$. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. $\\widehat{A} > \\widehat{B} = \\widehat{C}$",
+      "B. $\\widehat{B} = \\widehat{C} > \\widehat{A}$",
+      "C. $\\widehat{B} > \\widehat{A} = \\widehat{C}$",
+      "D. $\\widehat{A} = \\widehat{B} = \\widehat{C}$"
+     ],
+     "answer": "A",
+     "explain": "Tam giác cân tại $A$ nên $\\widehat{B}=\\widehat{C}$; $BC > AB$ nên $\\widehat{A} > \\widehat{B}$. Vậy $\\widehat{A} > \\widehat{B} = \\widehat{C}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Tam giác $ABC$ có $AB = 3\\text{ cm}$, $AC = 4\\text{ cm}$, $BC = 5\\text{ cm}$. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. $\\widehat{A} = 90^\\circ$ và là góc lớn nhất",
+      "B. $\\widehat{B}$ là góc lớn nhất",
+      "C. $\\widehat{C}$ là góc lớn nhất",
+      "D. $\\widehat{A} < \\widehat{B}$"
+     ],
+     "answer": "A",
+     "explain": "$3^2+4^2=5^2$ nên tam giác vuông tại $A$; góc vuông là góc lớn nhất."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ có $AB = AC = 4\\text{ cm}$, $BC = 6\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $\\widehat{B} = \\widehat{C}$.",
+      "b) $\\widehat{A}$ là góc lớn nhất.",
+      "c) $\\widehat{B} > \\widehat{A}$.",
+      "d) $\\widehat{C} < \\widehat{A}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "Cân tại $A$ nên $\\widehat{B}=\\widehat{C}$; $BC$ lớn nhất nên $\\widehat{A}$ lớn nhất. Vậy a), b), d) đúng; c) sai."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho tam giác $PQR$ tù tại $P$ với $\\widehat{P} = 110^\\circ$, $\\widehat{Q} = 40^\\circ$, $\\widehat{R} = 30^\\circ$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $QR$ là cạnh lớn nhất.",
+      "b) $PQ$ là cạnh ngắn nhất.",
+      "c) $PR > PQ$.",
+      "d) $QR < PR$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$\\widehat{P}>\\widehat{Q}>\\widehat{R}$ nên $QR > PR > PQ$. Vậy a), b), c) đúng; d) sai."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tam giác $ABC$ vuông tại $A$ có $\\widehat{B} = 60^\\circ$, $BC = 12\\text{ cm}$. Tính độ dài cạnh $AB$ (đơn vị: cm).",
+     "answer": "6",
+     "explain": "$\\widehat{C}=30^\\circ$, $AB$ đối diện góc $30^\\circ$ nên $AB = \\dfrac{1}{2}BC = 6\\text{ (cm)}$."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tam giác $ABC$ có $\\widehat{A}$ gấp $3$ lần $\\widehat{B}$ và $\\widehat{B}$ gấp $2$ lần $\\widehat{C}$. Tính số đo góc lớn nhất của tam giác (đơn vị: độ).",
+     "answer": "120",
+     "explain": "$\\widehat{A}=6\\widehat{C}$, $\\widehat{B}=2\\widehat{C}$ nên $9\\widehat{C}=180^\\circ\\Rightarrow\\widehat{C}=20^\\circ$, $\\widehat{B}=40^\\circ$, $\\widehat{A}=120^\\circ$. Góc lớn nhất $120^\\circ$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 5",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Phát biểu nào sau đây là SAI?",
+     "options": [
+      "A. Trong một tam giác, góc đối diện với cạnh lớn hơn là góc lớn hơn.",
+      "B. Trong một tam giác, cạnh đối diện với góc lớn hơn là cạnh lớn hơn.",
+      "C. Trong tam giác vuông, cạnh huyền là cạnh lớn nhất.",
+      "D. Trong mọi tam giác, cạnh lớn nhất luôn đối diện với góc nhỏ nhất."
+     ],
+     "answer": "D",
+     "explain": "Ba phát biểu A, B, C đều đúng theo định lí; D sai vì cạnh lớn nhất đối diện với góc lớn nhất."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho tam giác $ABC$, nếu $\\widehat{A}$ là góc lớn nhất thì cạnh nào dài nhất?",
+     "options": [
+      "A. $AB$",
+      "B. $AC$",
+      "C. $BC$",
+      "D. Chưa kết luận được"
+     ],
+     "answer": "C",
+     "explain": "Cạnh đối diện $\\widehat{A}$ là $BC$; góc lớn nhất thì cạnh đối diện dài nhất nên $BC$ dài nhất."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $DEF$ có $DE = 11\\text{ cm}$, $EF = 5\\text{ cm}$, $DF = 9\\text{ cm}$. Nhận xét nào đúng về góc đối diện cạnh $EF$?",
+     "options": [
+      "A. Là $\\widehat{D}$ và là góc nhỏ nhất",
+      "B. Là $\\widehat{D}$ và là góc lớn nhất",
+      "C. Là $\\widehat{F}$ và là góc nhỏ nhất",
+      "D. Là $\\widehat{E}$ và là góc lớn nhất"
+     ],
+     "answer": "A",
+     "explain": "Cạnh $EF$ đối diện góc $\\widehat{D}$; $EF$ là cạnh nhỏ nhất nên $\\widehat{D}$ là góc nhỏ nhất."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $ABC$ có $\\widehat{A} = 60^\\circ$, $\\widehat{B} = 60^\\circ$. So sánh cạnh $AB$ và cạnh $AC$.",
+     "options": [
+      "A. $AB = AC$",
+      "B. $AB > AC$",
+      "C. $AB < AC$",
+      "D. Không so sánh được"
+     ],
+     "answer": "A",
+     "explain": "$\\widehat{C}=60^\\circ$ nên tam giác đều, ba cạnh bằng nhau: $AB = AC$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tam giác $MNP$ có $\\widehat{M} = 90^\\circ$, $\\widehat{N} = 45^\\circ$. Sắp xếp các cạnh theo thứ tự tăng dần.",
+     "options": [
+      "A. $MN = MP < NP$",
+      "B. $NP < MN = MP$",
+      "C. $MN < MP < NP$",
+      "D. $MP < MN < NP$"
+     ],
+     "answer": "A",
+     "explain": "$\\widehat{P}=45^\\circ$ nên $\\widehat{N}=\\widehat{P}$, suy ra $MP=MN$; $\\widehat{M}$ lớn nhất nên $NP$ lớn nhất."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Cho tam giác $ABC$ có $AB = 7\\text{ cm}$, $BC = 7\\text{ cm}$, $CA = 7\\text{ cm}$. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. Mỗi góc của tam giác bằng $60^\\circ$",
+      "B. $\\widehat{A} > \\widehat{B}$",
+      "C. $BC$ là cạnh lớn nhất duy nhất",
+      "D. $\\widehat{A} < 60^\\circ$"
+     ],
+     "answer": "A",
+     "explain": "Tam giác đều nên ba góc bằng nhau, mỗi góc $180^\\circ:3 = 60^\\circ$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho tam giác $ABC$ đều. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Ba góc của tam giác bằng nhau.",
+      "b) Ba cạnh của tam giác bằng nhau.",
+      "c) Mỗi góc bằng $60^\\circ$.",
+      "d) Cạnh $AB$ là cạnh lớn nhất duy nhất."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "Tam giác đều: ba cạnh bằng nhau, ba góc bằng nhau và mỗi góc $60^\\circ$; không có cạnh lớn nhất duy nhất."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho tam giác $DEF$ có $DE < EF < DF$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $\\widehat{E}$ là góc lớn nhất.",
+      "b) $\\widehat{F}$ là góc nhỏ nhất.",
+      "c) $\\widehat{D} > \\widehat{E}$.",
+      "d) $\\widehat{D} < \\widehat{F}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "F"
+     ],
+     "explain": "$DF > EF > DE$ nên $\\widehat{E} > \\widehat{D} > \\widehat{F}$. Vậy a), b) đúng; c), d) sai."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tam giác $ABC$ có $AB = 4\\text{ cm}$, $AC = 6\\text{ cm}$. Biết $\\widehat{B}$ là góc lớn nhất và $\\widehat{C}$ là góc nhỏ nhất. Tính độ dài cạnh $BC$, biết $BC$ là số nguyên (đơn vị: cm).",
+     "answer": "5",
+     "explain": "$\\widehat{B}$ lớn nhất $\\Rightarrow AC$ lớn nhất $\\Rightarrow BC < 6$; $\\widehat{C}$ nhỏ nhất $\\Rightarrow AB$ nhỏ nhất $\\Rightarrow BC > 4$. $BC$ nguyên nên $BC = 5\\text{ (cm)}$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tam giác $MNP$ vuông cân tại $P$ có $MN = 10\\text{ cm}$. Tính $MP^2$ (đơn vị: $\\text{cm}^2$).",
+     "answer": "50",
+     "explain": "$MP = NP$ và $MP^2+NP^2 = MN^2 = 100$ nên $MP^2 = 50$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 6",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho tam giác $ABC$ có $AB < BC < AC$. Sắp xếp các góc của tam giác theo thứ tự tăng dần.",
+     "options": [
+      "A. $\\widehat{C} < \\widehat{A} < \\widehat{B}$",
+      "B. $\\widehat{A} < \\widehat{C} < \\widehat{B}$",
+      "C. $\\widehat{B} < \\widehat{A} < \\widehat{C}$",
+      "D. $\\widehat{C} < \\widehat{B} < \\widehat{A}$"
+     ],
+     "answer": "A",
+     "explain": "$AB < BC < AC$ nên góc đối diện tương ứng $\\widehat{C} < \\widehat{A} < \\widehat{B}$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong tam giác tù, cạnh nào dài nhất?",
+     "options": [
+      "A. Cạnh đối diện với góc tù",
+      "B. Cạnh kề với góc tù",
+      "C. Cạnh ngắn nhất",
+      "D. Không xác định được"
+     ],
+     "answer": "A",
+     "explain": "Góc tù là góc lớn nhất của tam giác nên cạnh đối diện với nó là cạnh dài nhất."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $ABC$ có $\\widehat{A} = 70^\\circ$, $\\widehat{B} = 50^\\circ$, $\\widehat{C} = 60^\\circ$. So sánh cạnh $AB$ và cạnh $AC$.",
+     "options": [
+      "A. $AB > AC$",
+      "B. $AB < AC$",
+      "C. $AB = AC$",
+      "D. Không so sánh được"
+     ],
+     "answer": "A",
+     "explain": "$\\widehat{C} = 60^\\circ > \\widehat{B} = 50^\\circ$ nên cạnh đối diện $\\widehat{C}$ (là $AB$) lớn hơn cạnh đối diện $\\widehat{B}$ (là $AC$)."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $DEF$ có $DE = 5\\text{ cm}$, $DF = 5\\text{ cm}$, $EF = 8\\text{ cm}$. Góc lớn nhất của tam giác là góc nào?",
+     "options": [
+      "A. $\\widehat{D}$",
+      "B. $\\widehat{E}$",
+      "C. $\\widehat{F}$",
+      "D. $\\widehat{E} = \\widehat{F}$"
+     ],
+     "answer": "A",
+     "explain": "Cạnh lớn nhất là $EF = 8\\text{ cm}$, góc đối diện với nó là $\\widehat{D}$ nên $\\widehat{D}$ lớn nhất."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ vuông tại $B$ có $AB = 5\\text{ cm}$, $BC = 12\\text{ cm}$. Cạnh $AC$ dài bao nhiêu?",
+     "options": [
+      "A. $13\text{ cm}$",
+      "B. $12\text{ cm}$",
+      "C. $10\text{ cm}$",
+      "D. $17\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "$AC$ là cạnh huyền: $AC = \\sqrt{5^2+12^2} = 13\\text{ (cm)}$, cũng là cạnh lớn nhất."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Tam giác $ABC$ có chu vi $24\\text{ cm}$, $AB = 8\\text{ cm}$, $AC = 10\\text{ cm}$. Góc nhỏ nhất của tam giác là góc nào?",
+     "options": [
+      "A. $\\widehat{A}$",
+      "B. $\\widehat{B}$",
+      "C. $\\widehat{C}$",
+      "D. $\\widehat{B} = \\widehat{C}$"
+     ],
+     "answer": "A",
+     "explain": "$BC = 24-8-10 = 6\\text{ (cm)}$ là cạnh nhỏ nhất nên góc đối diện $\\widehat{A}$ là góc nhỏ nhất."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ có $\\widehat{A} = 90^\\circ$, $\\widehat{B} = 30^\\circ$, $\\widehat{C} = 60^\\circ$, $BC = 8\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $AB$ là cạnh dài nhất.",
+      "b) $AC$ là cạnh ngắn nhất.",
+      "c) $AB > AC$.",
+      "d) $BC = 8\text{ cm}$ là cạnh lớn nhất."
+     ],
+     "answer": [
+      "F",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "$BC$ là cạnh huyền nên lớn nhất; $\\widehat{C}>\\widehat{B}$ nên $AB>AC$. Vậy b), c), d) đúng; a) sai."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho tam giác $MNP$ cân tại $M$ có $MN = MP = 5\\text{ cm}$, $NP = 6\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $\\widehat{N} = \\widehat{P}$.",
+      "b) $\\widehat{M}$ là góc lớn nhất.",
+      "c) $\\widehat{N} > \\widehat{M}$.",
+      "d) $\\widehat{P} < \\widehat{M}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "T"
+     ],
+     "explain": "Cân tại $M$ nên $\\widehat{N}=\\widehat{P}$; $NP$ lớn nhất nên $\\widehat{M}$ lớn nhất. Vậy a), b), d) đúng; c) sai."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Tam giác $ABC$ có $\\widehat{A} = 108^\\circ$ và $\\widehat{B} = \\widehat{C}$. Tính số đo góc $B$ (đơn vị: độ).",
+     "answer": "36",
+     "explain": "$\\widehat{B} = \\widehat{C} = (180^\\circ-108^\\circ):2 = 36^\\circ$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Cho tam giác $DEF$ có $\\widehat{D} = 90^\\circ$, $\\widehat{E} = 45^\\circ$, $DF = 7\\text{ cm}$. Tính độ dài cạnh $DE$ (đơn vị: cm).",
+     "answer": "7",
+     "explain": "$\\widehat{F}=45^\\circ=\\widehat{E}$ nên tam giác vuông cân tại $D$, suy ra $DE = DF = 7\\text{ (cm)}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 7",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Nếu $\\widehat{A} > \\widehat{B}$ trong tam giác $ABC$ thì khẳng định nào sau đây đúng?",
+     "options": [
+      "A. $BC > AC$",
+      "B. $BC < AC$",
+      "C. $BC = AC$",
+      "D. $AB$ là cạnh lớn nhất"
+     ],
+     "answer": "A",
+     "explain": "Cạnh đối diện $\\widehat{A}$ là $BC$, cạnh đối diện $\\widehat{B}$ là $AC$. Vì $\\widehat{A} > \\widehat{B}$ nên $BC > AC$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Tổng ba góc của một tam giác bằng bao nhiêu?",
+     "options": [
+      "A. $90^\\circ$",
+      "B. $180^\\circ$",
+      "C. $360^\\circ$",
+      "D. $270^\\circ$"
+     ],
+     "answer": "B",
+     "explain": "Tổng ba góc trong của một tam giác luôn bằng $180^\\circ$."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $ABC$ có $AB = 9\\text{ cm}$, $AC = 12\\text{ cm}$, $BC = 15\\text{ cm}$. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. $\\widehat{A} = 90^\\circ$ và là góc lớn nhất",
+      "B. $\\widehat{B}$ là góc lớn nhất",
+      "C. $\\widehat{C}$ là góc lớn nhất",
+      "D. $\\widehat{A} < \\widehat{B}$"
+     ],
+     "answer": "A",
+     "explain": "$9^2+12^2 = 15^2$ nên tam giác vuông tại $A$; góc vuông là góc lớn nhất."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $MNP$ có $\\widehat{M} = 30^\\circ$, $\\widehat{N} = 80^\\circ$, $\\widehat{P} = 70^\\circ$. Sắp xếp các cạnh theo thứ tự giảm dần.",
+     "options": [
+      "A. $MP > MN > NP$",
+      "B. $MN > MP > NP$",
+      "C. $NP > MN > MP$",
+      "D. $MP > NP > MN$"
+     ],
+     "answer": "A",
+     "explain": "$\\widehat{N} > \\widehat{P} > \\widehat{M}$ nên cạnh đối diện tương ứng $MP > MN > NP$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tam giác $ABC$ cân tại $B$ có $BA = BC = 10\\text{ cm}$, $AC = 12\\text{ cm}$. So sánh góc $A$ và góc $C$.",
+     "options": [
+      "A. $\\widehat{A} = \\widehat{C}$",
+      "B. $\\widehat{A} > \\widehat{C}$",
+      "C. $\\widehat{A} < \\widehat{C}$",
+      "D. $\\widehat{A} = 90^\\circ$"
+     ],
+     "answer": "A",
+     "explain": "Tam giác cân tại $B$ nên hai góc ở đáy $\\widehat{A}$ và $\\widehat{C}$ bằng nhau."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Cho tam giác $DEF$ có $DE = 6\\text{ cm}$, $EF = 8\\text{ cm}$, $DF = 10\\text{ cm}$ và tam giác $MNP$ có chu vi bằng chu vi tam giác $DEF$, $MN = 6\\text{ cm}$, $MP = 10\\text{ cm}$. So sánh góc $D$ và góc $N$.",
+     "options": [
+      "A. $\\widehat{N} > \\widehat{D}$",
+      "B. $\\widehat{D} > \\widehat{N}$",
+      "C. $\\widehat{D} = \\widehat{N}$",
+      "D. Không so sánh được"
+     ],
+     "answer": "A",
+     "explain": "Chu vi $DEF = 24\\text{ cm}$ nên $NP = 24-6-10 = 8\\text{ (cm)}$. $\\widehat{D}$ đối diện $EF=8$, $\\widehat{N}$ đối diện $MP=10$; $10>8$ nên $\\widehat{N}>\\widehat{D}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ có $AB = 3\\text{ cm}$, $BC = 4\\text{ cm}$, $AC = 5\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Tam giác $ABC$ vuông tại $B$.",
+      "b) $AC$ là cạnh lớn nhất.",
+      "c) $\\widehat{A} > \\widehat{C}$.",
+      "d) $\\widehat{B} < \\widehat{A}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$3^2+4^2=5^2$ nên vuông tại $B$; $AC$ là cạnh huyền lớn nhất; $BC>AB$ nên $\\widehat{A}>\\widehat{C}$. Vậy a), b), c) đúng; d) sai."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho tam giác $DEF$ đều cạnh $5\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $\\widehat{D} = \\widehat{E} = \\widehat{F} = 60^\\circ$.",
+      "b) $DE = EF = DF$.",
+      "c) Chu vi tam giác bằng $15\text{ cm}$.",
+      "d) $\\widehat{D} > \\widehat{E}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "Tam giác đều: ba cạnh bằng nhau, ba góc bằng nhau và mỗi góc $60^\\circ$; chu vi $3\\cdot5=15\\text{ (cm)}$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tam giác $ABC$ có $\\widehat{B}$ gấp đôi $\\widehat{A}$ và $\\widehat{C}$ gấp ba $\\widehat{A}$. Tính số đo góc lớn nhất của tam giác (đơn vị: độ).",
+     "answer": "90",
+     "explain": "$\\widehat{A}+2\\widehat{A}+3\\widehat{A}=180^\\circ\\Rightarrow\\widehat{A}=30^\\circ$, $\\widehat{B}=60^\\circ$, $\\widehat{C}=90^\\circ$. Góc lớn nhất $90^\\circ$."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Cho tam giác $MNP$ cân tại $M$ có $MN = MP = 9\\text{ cm}$, $NP = 12\\text{ cm}$. Tính chu vi của tam giác (đơn vị: cm).",
+     "answer": "30",
+     "explain": "Chu vi $= 9+9+12 = 30\\text{ (cm)}$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 8",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho tam giác $ABC$ vuông tại $A$. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. $BC$ lớn hơn $AB$ và $AC$",
+      "B. $AB$ là cạnh lớn nhất",
+      "C. $AC$ là cạnh lớn nhất",
+      "D. $AB = BC$"
+     ],
+     "answer": "A",
+     "explain": "Tam giác vuông tại $A$ có cạnh huyền $BC$ là cạnh lớn nhất."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong tam giác $ABC$, nếu $BC$ là cạnh dài nhất thì góc nào lớn nhất?",
+     "options": [
+      "A. $\\widehat{A}$",
+      "B. $\\widehat{B}$",
+      "C. $\\widehat{C}$",
+      "D. Chưa kết luận được"
+     ],
+     "answer": "A",
+     "explain": "Góc đối diện cạnh $BC$ là $\\widehat{A}$; cạnh dài nhất thì góc đối diện lớn nhất."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $ABC$ có $\\widehat{A} = 100^\\circ$, $\\widehat{B} = 45^\\circ$. Cạnh nhỏ nhất của tam giác là cạnh nào?",
+     "options": [
+      "A. $AB$",
+      "B. $AC$",
+      "C. $BC$",
+      "D. $AC = BC$"
+     ],
+     "answer": "A",
+     "explain": "$\\widehat{C} = 35^\\circ$ là góc nhỏ nhất, cạnh đối diện với nó là $AB$ nên $AB$ nhỏ nhất."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $DEF$ có $DE = 13\\text{ cm}$, $EF = 12\\text{ cm}$, $DF = 5\\text{ cm}$. Số đo góc $D$ bằng bao nhiêu?",
+     "options": [
+      "A. $90^\\circ$",
+      "B. $60^\\circ$",
+      "C. $45^\\circ$",
+      "D. $30^\\circ$"
+     ],
+     "answer": "A",
+     "explain": "$DF^2+EF^2 = 25+144 = 169 = DE^2$ nên tam giác vuông tại $D$, $\\widehat{D}=90^\\circ$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tam giác $ABC$ vuông tại $A$ có $AB = 7\\text{ cm}$, $AC = 24\\text{ cm}$. Tính độ dài cạnh $BC$.",
+     "options": [
+      "A. $25\text{ cm}$",
+      "B. $24\text{ cm}$",
+      "C. $31\text{ cm}$",
+      "D. $20\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "$BC = \\sqrt{7^2+24^2} = \\sqrt{625} = 25\\text{ (cm)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Cho tam giác $ABC$ có $\\widehat{A} = 120^\\circ$ và $AB = AC$. Tính số đo góc $B$.",
+     "options": [
+      "A. $30^\\circ$",
+      "B. $60^\\circ$",
+      "C. $45^\\circ$",
+      "D. $35^\\circ$"
+     ],
+     "answer": "A",
+     "explain": "Tam giác cân tại $A$ nên $\\widehat{B}=\\widehat{C}=(180^\\circ-120^\\circ):2=30^\\circ$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ có $AB = 7\\text{ cm}$, $AC = 7\\text{ cm}$, $BC = 10\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $\\widehat{B} = \\widehat{C}$.",
+      "b) $\\widehat{A} > \\widehat{B}$.",
+      "c) $BC$ là cạnh lớn nhất.",
+      "d) $\\widehat{A} < \\widehat{B}$."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "Cân tại $A$ nên $\\widehat{B}=\\widehat{C}$; $BC$ lớn nhất nên $\\widehat{A}$ lớn nhất. Vậy a), b), c) đúng; d) sai."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho tam giác $MNP$ có $\\widehat{M} = 90^\\circ$, $MN = 6\\text{ cm}$, $MP = 8\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $NP$ là cạnh lớn nhất.",
+      "b) $\\widehat{N} + \\widehat{P} = 90^\\circ$.",
+      "c) $\\widehat{N} > \\widehat{P}$.",
+      "d) $MP$ là cạnh lớn nhất."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$NP=10\\text{ cm}$ là cạnh huyền lớn nhất; $MP>MN$ nên $\\widehat{N}>\\widehat{P}$. Vậy a), b), c) đúng; d) sai."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tam giác $ABC$ có $AB + AC = 14\\text{ cm}$, $AB < AC$, $BC = 6\\text{ cm}$. Biết $\\widehat{B}$ là góc lớn nhất. Tìm độ dài $AB$ lớn nhất có thể, biết $AB$ là số nguyên (đơn vị: cm).",
+     "answer": "6",
+     "explain": "$\\widehat{B}$ lớn nhất $\\Rightarrow AC$ lớn nhất $\\Rightarrow AC>6$ và $AC>AB$. Với $AB+AC=14$, $AB<AC$ thì $AB<7$; $AB$ nguyên lớn nhất là $6\\text{ (cm)}$ (khi đó $AC=8$, thỏa $6+6>8$)."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tam giác $DEF$ có $\\widehat{E}$ gấp đôi $\\widehat{D}$ và $\\widehat{F} = \\widehat{D} + 20^\\circ$. Tính số đo góc lớn nhất của tam giác (đơn vị: độ).",
+     "answer": "80",
+     "explain": "$\\widehat{D}+2\\widehat{D}+\\widehat{D}+20^\\circ=180^\\circ\\Rightarrow\\widehat{D}=40^\\circ$, $\\widehat{E}=80^\\circ$, $\\widehat{F}=60^\\circ$. Góc lớn nhất $80^\\circ$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 9",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho tam giác $ABC$ có $AC > AB > BC$. Sắp xếp các góc của tam giác theo thứ tự tăng dần.",
+     "options": [
+      "A. $\\widehat{A} < \\widehat{C} < \\widehat{B}$",
+      "B. $\\widehat{B} < \\widehat{C} < \\widehat{A}$",
+      "C. $\\widehat{C} < \\widehat{A} < \\widehat{B}$",
+      "D. $\\widehat{A} < \\widehat{B} < \\widehat{C}$"
+     ],
+     "answer": "A",
+     "explain": "$BC < AB < AC$ nên góc đối diện tương ứng $\\widehat{A} < \\widehat{C} < \\widehat{B}$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Trong tam giác $ABC$, góc nhỏ nhất đối diện với cạnh nào?",
+     "options": [
+      "A. Cạnh nhỏ nhất",
+      "B. Cạnh lớn nhất",
+      "C. Cạnh có độ dài trung bình",
+      "D. Không xác định được"
+     ],
+     "answer": "A",
+     "explain": "Góc nhỏ nhất thì cạnh đối diện với nó là cạnh nhỏ nhất."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $ABC$ có $AB = 2\\text{ cm}$, $AC = 3\\text{ cm}$, $BC = 4\\text{ cm}$. Góc lớn nhất của tam giác là góc nào?",
+     "options": [
+      "A. $\\widehat{A}$",
+      "B. $\\widehat{B}$",
+      "C. $\\widehat{C}$",
+      "D. Ba góc bằng nhau"
+     ],
+     "answer": "A",
+     "explain": "Cạnh lớn nhất là $BC = 4\\text{ cm}$, góc đối diện với nó là $\\widehat{A}$ nên $\\widehat{A}$ lớn nhất."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $MNP$ có $\\widehat{M} = 50^\\circ$, $\\widehat{N} = 60^\\circ$, $\\widehat{P} = 70^\\circ$. So sánh cạnh $MN$ và cạnh $MP$.",
+     "options": [
+      "A. $MN > MP$",
+      "B. $MN < MP$",
+      "C. $MN = MP$",
+      "D. Không so sánh được"
+     ],
+     "answer": "A",
+     "explain": "$MN$ đối diện $\\widehat{P}=70^\\circ$, $MP$ đối diện $\\widehat{N}=60^\\circ$; $70^\\circ>60^\\circ$ nên $MN>MP$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tam giác $ABC$ vuông tại $A$ có $AB = 8\\text{ cm}$, $AC = 15\\text{ cm}$. Tính độ dài cạnh $BC$.",
+     "options": [
+      "A. $17\text{ cm}$",
+      "B. $15\text{ cm}$",
+      "C. $23\text{ cm}$",
+      "D. $12\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "$BC = \\sqrt{8^2+15^2} = \\sqrt{289} = 17\\text{ (cm)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Cho tam giác $ABC$ có $AB = AC = 5\\text{ cm}$, $BC = 6\\text{ cm}$. Gọi $M$ là trung điểm của $BC$. Tính độ dài $AM$.",
+     "options": [
+      "A. $4\text{ cm}$",
+      "B. $3\text{ cm}$",
+      "C. $5\text{ cm}$",
+      "D. $6\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "Tam giác cân tại $A$ nên $AM$ vừa là trung tuyến vừa là đường cao; $BM = 3\\text{ cm}$, $AM = \\sqrt{AB^2-BM^2} = \\sqrt{25-9} = 4\\text{ (cm)}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ có $\\widehat{A} = 60^\\circ$, $\\widehat{B} = 70^\\circ$, $\\widehat{C} = 50^\\circ$, $AB = 5\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $AC$ là cạnh dài nhất.",
+      "b) $BC$ là cạnh ngắn nhất.",
+      "c) $AC > BC > AB$.",
+      "d) $AB = 5\text{ cm}$ là cạnh ngắn nhất."
+     ],
+     "answer": [
+      "T",
+      "F",
+      "T",
+      "T"
+     ],
+     "explain": "$\\widehat{B}>\\widehat{A}>\\widehat{C}$ nên $AC>BC>AB$; $AB$ đối diện góc nhỏ nhất nên ngắn nhất. Vậy a), c), d) đúng; b) sai."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho tam giác $DEF$ vuông cân tại $D$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) $\\widehat{E} = \\widehat{F} = 45^\\circ$.",
+      "b) $EF$ là cạnh lớn nhất.",
+      "c) $DE = DF$.",
+      "d) $\\widehat{D}$ là góc nhỏ nhất."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "Vuông cân tại $D$: $\\widehat{E}=\\widehat{F}=45^\\circ$, $DE=DF$, $EF$ là cạnh huyền lớn nhất; $\\widehat{D}=90^\\circ$ là góc lớn nhất."
+    },
+    {
+     "type": "short",
+     "level": "TH",
+     "q": "Tam giác $ABC$ cân tại $A$ có $\\widehat{A} = 100^\\circ$. Tính số đo mỗi góc ở đáy (đơn vị: độ).",
+     "answer": "40",
+     "explain": "Mỗi góc ở đáy $= (180^\\circ-100^\\circ):2 = 40^\\circ$."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tam giác $MNP$ cân tại $M$ có $\\widehat{N} = 65^\\circ$. Tính số đo góc $M$ (đơn vị: độ).",
+     "answer": "50",
+     "explain": "$\\widehat{P}=\\widehat{N}=65^\\circ$ nên $\\widehat{M}=180^\\circ-2\\cdot65^\\circ=50^\\circ$."
+    }
+   ]
+  },
+  {
+   "name": "Đề 10",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cho tam giác $ABC$ có $\\widehat{A} < \\widehat{B} < \\widehat{C}$. Sắp xếp các cạnh của tam giác theo thứ tự giảm dần.",
+     "options": [
+      "A. $AB > AC > BC$",
+      "B. $BC > AC > AB$",
+      "C. $AC > AB > BC$",
+      "D. $AB > BC > AC$"
+     ],
+     "answer": "A",
+     "explain": "$\\widehat{C} > \\widehat{B} > \\widehat{A}$ nên cạnh đối diện tương ứng $AB > AC > BC$."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cạnh huyền của tam giác vuông là cạnh như thế nào?",
+     "options": [
+      "A. Đối diện góc vuông và dài nhất",
+      "B. Kề với góc vuông",
+      "C. Ngắn nhất",
+      "D. Bằng cạnh góc vuông"
+     ],
+     "answer": "A",
+     "explain": "Cạnh huyền đối diện với góc vuông (góc lớn nhất) nên là cạnh dài nhất."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $ABC$ cân tại $B$ có $BA = BC = 10\\text{ cm}$, $AC = 16\\text{ cm}$. Khẳng định nào sau đây đúng?",
+     "options": [
+      "A. $\\widehat{B} > \\widehat{A} = \\widehat{C}$",
+      "B. $\\widehat{A} = \\widehat{B} = \\widehat{C}$",
+      "C. $\\widehat{A} > \\widehat{B}$",
+      "D. $\\widehat{C} > \\widehat{B}$"
+     ],
+     "answer": "A",
+     "explain": "Cân tại $B$ nên $\\widehat{A}=\\widehat{C}$; $AC$ là cạnh lớn nhất nên $\\widehat{B}$ lớn nhất."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Tam giác $DEF$ có $\\widehat{D} = 90^\\circ$, $DE = 5\\text{ cm}$, $DF = 12\\text{ cm}$. Cạnh $EF$ dài bao nhiêu?",
+     "options": [
+      "A. $13\text{ cm}$",
+      "B. $12\text{ cm}$",
+      "C. $17\text{ cm}$",
+      "D. $10\text{ cm}$"
+     ],
+     "answer": "A",
+     "explain": "$EF = \\sqrt{5^2+12^2} = 13\\text{ (cm)}$."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Tam giác $ABC$ có $\\widehat{A} = 45^\\circ$, $\\widehat{B} = 75^\\circ$. Tia phân giác của góc $C$ cắt $AB$ tại $D$. So sánh $AD$ và $BD$.",
+     "options": [
+      "A. $AD > BD$",
+      "B. $AD < BD$",
+      "C. $AD = BD$",
+      "D. Không so sánh được"
+     ],
+     "answer": "A",
+     "explain": "$\\widehat{C}=60^\\circ$. Theo tính chất đường phân giác: $\\dfrac{AD}{BD}=\\dfrac{AC}{BC}$; $\\widehat{B}>\\widehat{A}$ nên $AC>BC$, suy ra $AD>BD$."
+    },
+    {
+     "type": "mcq",
+     "level": "VDC",
+     "q": "Tam giác $ABC$ có độ dài ba cạnh tỉ lệ $3:4:5$ và chu vi $36\\text{ cm}$. Góc lớn nhất của tam giác là góc nào?",
+     "options": [
+      "A. $\\widehat{A}$",
+      "B. $\\widehat{B}$",
+      "C. $\\widehat{C}$",
+      "D. Ba góc bằng nhau"
+     ],
+     "answer": "A",
+     "explain": "Ba cạnh là $9, 12, 15\\text{ (cm)}$ ($AB=9$, $AC=12$, $BC=15$); $9^2+12^2=15^2$ nên vuông tại $A$, $\\widehat{A}$ lớn nhất."
+    },
+    {
+     "type": "truefalse",
+     "level": "VD",
+     "q": "Cho tam giác $ABC$ có $AB:AC:BC = 3:4:5$ và chu vi $36\\text{ cm}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Tam giác $ABC$ vuông tại $A$.",
+      "b) $\\widehat{A}$ là góc lớn nhất.",
+      "c) $\\widehat{C} > \\widehat{B}$.",
+      "d) $BC$ là cạnh nhỏ nhất."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "$AB=9$, $AC=12$, $BC=15$; $9^2+12^2=15^2$ nên vuông tại $A$; $BC$ lớn nhất; $AC>AB$ nên $\\widehat{C}>\\widehat{B}$."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Cho tam giác $MNP$ có $MN < MP$ và $\\widehat{P} < \\widehat{N}$. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "a) Khẳng định $\\widehat{P} < \\widehat{N}$ phù hợp với $MN < MP$.",
+      "b) Chắc chắn $\\widehat{M}$ là góc lớn nhất.",
+      "c) $NP$ là cạnh đối diện với góc $M$.",
+      "d) Nếu $MN = MP$ thì tam giác $MNP$ cân tại $M$."
+     ],
+     "answer": [
+      "T",
+      "F",
+      "T",
+      "T"
+     ],
+     "explain": "$MN<MP$ thì góc đối diện $\\widehat{P}<\\widehat{N}$ (đúng); chưa đủ dữ kiện kết luận $\\widehat{M}$ lớn nhất; c), d) đúng theo định nghĩa."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Tam giác $ABC$ có $AB = 9\\text{ cm}$, $AC = 12\\text{ cm}$, $BC = 15\\text{ cm}$. Tính số đo góc lớn nhất của tam giác (đơn vị: độ).",
+     "answer": "90",
+     "explain": "$9^2+12^2=15^2$ nên tam giác vuông tại $A$; góc lớn nhất $90^\\circ$."
+    },
+    {
+     "type": "short",
+     "level": "NB",
+     "q": "Cho tam giác $DEF$ có $DE = EF = DF$. Tính số đo mỗi góc của tam giác (đơn vị: độ).",
+     "answer": "60",
+     "explain": "Tam giác đều nên mỗi góc $180^\\circ:3 = 60^\\circ$."
+    }
+   ]
+  }
+ ]
+}
+</script>
+</div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
