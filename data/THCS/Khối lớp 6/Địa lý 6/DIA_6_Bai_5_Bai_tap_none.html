@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 5: Kí hiệu bản đồ - Cách biểu hiện địa hình - Bài tập</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: system-ui, sans-serif; padding: 16px; line-height: 1.6; }
+        .question { background: white; padding: 16px; margin: 12px 0; border-radius: 8px; border: 1px solid #e2e8f0; }
+        .options label { display: block; padding: 8px; margin: 4px 0; background: #f8fafc; border-radius: 4px; cursor: pointer; }
+        .options label:hover { background: #e0f2fe; }
+    </style>
+</head>
+<body class="bg-slate-50">
+<div class="max-w-3xl mx-auto">
+<h1 class="text-2xl font-bold mb-4">Bài 5: Kí hiệu bản đồ - Cách biểu hiện địa hình - Bài tập</h1>
+
+<div class="question">
+<p class="font-semibold mb-2">Câu 1: Màu xanh trên bản đồ địa hình thể hiện:</p>
+<div class="options">
+<label><input type="radio" name="q1" value="A"> A. Núi cao</label>
+<label><input type="radio" name="q1" value="B"> B. Biển, đại dương</label>
+<label><input type="radio" name="q1" value="C"> C. Đồng bằng</label>
+<label><input type="radio" name="q1" value="D"> D. Sa mạc</label>
+</div>
+<button onclick="checkAnswer('q1', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q1" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 2: Đường đồng mức là:</p>
+<div class="options">
+<label><input type="radio" name="q2" value="A"> A. Đường nối điểm cùng độ cao</label>
+<label><input type="radio" name="q2" value="B"> B. Đường biên giới</label>
+<label><input type="radio" name="q2" value="C"> C. Đường giao thông</label>
+<label><input type="radio" name="q2" value="D"> D. Đường sông</label>
+</div>
+<button onclick="checkAnswer('q2', 'A')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q2" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 3: Đường đồng mức sít nhau cho biết:</p>
+<div class="options">
+<label><input type="radio" name="q3" value="A"> A. Địa hình dốc</label>
+<label><input type="radio" name="q3" value="B"> B. Địa hình thoải</label>
+<label><input type="radio" name="q3" value="C"> C. Địa hình bằng phẳng</label>
+<label><input type="radio" name="q3" value="D"> D. Không kết luận được</label>
+</div>
+<button onclick="checkAnswer('q3', 'A')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q3" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 4: Màu nâu đậm trên bản đồ thể hiện:</p>
+<div class="options">
+<label><input type="radio" name="q4" value="A"> A. Vùng biển sâu</label>
+<label><input type="radio" name="q4" value="B"> B. Vùng núi cao</label>
+<label><input type="radio" name="q4" value="C"> C. Đồng bằng</label>
+<label><input type="radio" name="q4" value="D"> D. Cao nguyên thấp</label>
+</div>
+<button onclick="checkAnswer('q4', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q4" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 5: Có mấy loại kí hiệu bản đồ chính?</p>
+<div class="options">
+<label><input type="radio" name="q5" value="A"> A. 2</label>
+<label><input type="radio" name="q5" value="B"> B. 3</label>
+<label><input type="radio" name="q5" value="C"> C. 4</label>
+<label><input type="radio" name="q5" value="D"> D. 5</label>
+</div>
+<button onclick="checkAnswer('q5', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q5" class="mt-2"></div>
+</div>
+</div>
+<script>
+function checkAnswer(qid, correct) {
+    const selected = document.querySelector(`input[name="${qid}"]:checked`);
+    const feedback = document.getElementById(`fb-${qid}`);
+    if (!selected) { feedback.innerHTML = '<span class="text-orange-600">Hãy chọn đáp án!</span>'; return; }
+    if (selected.value === correct) {
+        feedback.innerHTML = '<span class="text-green-600 font-bold">✓ Đúng!</span>';
+    } else {
+        feedback.innerHTML = '<span class="text-red-600">✗ Chưa đúng. Đáp án đúng: ' + correct + '</span>';
+    }
+}
+</script>
+</body>
+</html>
