@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 22: Tìm hiểu thiết bị mạng</title>
+    <meta name="lesson-title" content="Bài 22: Tìm hiểu thiết bị mạng">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 22: Tìm hiểu thiết bị mạng</h1>
+            <p class="text-xs text-slate-500 mt-1">Chủ đề 6: Mạng máy tính và internet • Bài 22: Tìm hiểu thiết bị mạng</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 22: Tìm hiểu thiết bị mạng</h1>
+<p class="text-center text-slate-500 italic mb-8">Chủ đề 6: Mạng máy tính và internet — Kết nối tri thức với cuộc sống</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Các thiết bị mạng cơ bản</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 my-2 text-sm">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-3 py-2">Thiết bị</td><td class="border border-slate-300 px-3 py-2">Chức năng</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">Card mạng (NIC)</td><td class="border border-slate-300 px-3 py-2">Gắn trong máy tính, <strong>kết nối máy vào mạng</strong> (có dây hoặc wifi)</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">Hub</td><td class="border border-slate-300 px-3 py-2">Chia một đường thành nhiều cổng; gửi dữ liệu <strong>đến mọi cổng</strong> (kém hiệu quả, ít dùng nay)</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">Switch</td><td class="border border-slate-300 px-3 py-2">Gửi dữ liệu <strong>đúng cổng</strong> cần nhận (dựa địa chỉ MAC) — nhanh, phổ biến trong LAN</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">Router</td><td class="border border-slate-300 px-3 py-2"><strong>Kết nối các mạng</strong> với nhau, <strong>định tuyến</strong> (chọn đường đi, dựa địa chỉ IP); router gia đình thường tích hợp wifi</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">Modem</td><td class="border border-slate-300 px-3 py-2"><strong>Chuyển đổi tín hiệu</strong> giữa đường truyền của nhà mạng và mạng gia đình</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">Access Point</td><td class="border border-slate-300 px-3 py-2"><strong>Phát sóng wifi</strong>, mở rộng vùng phủ không dây</td></tr>
+</table></div>
+<div class="svg-fig"><svg viewBox="0 0 440 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mo hinh mang gia dinh">
+<rect x="2" y="2" width="436" height="196" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="24" font-family="sans-serif" font-size="14" font-weight="bold" fill="#1e3a8a" text-anchor="middle">MẠNG GIA ĐÌNH ĐIỂN HÌNH</text>
+<rect x="30" y="50" width="110" height="44" rx="8" fill="#e0e7ff" stroke="#4f46e5" stroke-width="1.5"/>
+<text x="85" y="77" font-family="sans-serif" font-size="12" font-weight="bold" fill="#312e81" text-anchor="middle">Internet</text>
+<rect x="180" y="50" width="110" height="44" rx="8" fill="#fef3c7" stroke="#b45309" stroke-width="1.5"/>
+<text x="235" y="77" font-family="sans-serif" font-size="12" font-weight="bold" fill="#92400e" text-anchor="middle">Modem</text>
+<rect x="320" y="50" width="100" height="44" rx="8" fill="#dcfce7" stroke="#15803d" stroke-width="1.5"/>
+<text x="370" y="77" font-family="sans-serif" font-size="12" font-weight="bold" fill="#166534" text-anchor="middle">Router wifi</text>
+<g stroke="#64748b" stroke-width="2" fill="none"><line x1="140" y1="72" x2="180" y2="72"/><line x1="290" y1="72" x2="320" y2="72"/></g>
+<rect x="60" y="130" width="90" height="36" rx="8" fill="#dbeafe" stroke="#0284c7" stroke-width="1.5"/>
+<text x="105" y="153" font-family="sans-serif" font-size="11" font-weight="bold" fill="#0c4a6e" text-anchor="middle">Máy tính</text>
+<rect x="180" y="130" width="90" height="36" rx="8" fill="#dbeafe" stroke="#0284c7" stroke-width="1.5"/>
+<text x="225" y="153" font-family="sans-serif" font-size="11" font-weight="bold" fill="#0c4a6e" text-anchor="middle">Điện thoại</text>
+<rect x="300" y="130" width="90" height="36" rx="8" fill="#dbeafe" stroke="#0284c7" stroke-width="1.5"/>
+<text x="345" y="153" font-family="sans-serif" font-size="11" font-weight="bold" fill="#0c4a6e" text-anchor="middle">Máy in</text>
+<g stroke="#64748b" stroke-width="1.5" fill="none" stroke-dasharray="5,4"><line x1="370" y1="94" x2="105" y2="130"/><line x1="370" y1="94" x2="225" y2="130"/><line x1="370" y1="94" x2="345" y2="130"/></g>
+<text x="220" y="188" font-family="sans-serif" font-size="11" fill="#64748b" text-anchor="middle">Modem đổi tín hiệu – Router định tuyến và phát wifi</text>
+</svg></div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Phân biệt nhanh</h2>
+<ul class="list-disc ml-6 space-y-2 my-3">
+<li><strong>Hub và Switch</strong>: hub gửi đến <strong>mọi</strong> cổng (gây nghẽn), switch gửi <strong>đúng</strong> cổng (hiệu quả).</li>
+<li><strong>Switch và Router</strong>: switch nối các máy <strong>trong một mạng</strong> (LAN), router <strong>nối các mạng</strong> với nhau và ra Internet.</li>
+<li><strong>Modem và Router</strong>: modem <strong>đổi tín hiệu</strong> đường truyền, router <strong>chia sẻ, định tuyến</strong> cho nhiều thiết bị.</li>
+</ul>
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><strong>Hub</strong>: gửi mọi cổng. <strong>Switch</strong>: gửi đúng cổng (trong LAN). <strong>Router</strong>: nối các mạng, định tuyến (IP). <strong>Modem</strong>: đổi tín hiệu. <strong>Access Point</strong>: phát wifi.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Thiết bị</strong>: NIC (card mạng), Hub, Switch, Router, Modem, Access Point.</li>
+<li><strong>Phân biệt</strong>: hub (mọi cổng) – switch (đúng cổng); switch (trong LAN) – router (giữa các mạng); modem (đổi tín hiệu) – router (định tuyến, chia sẻ).</li>
+</ul>
+</div>
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
