@@ -510,7 +510,7 @@
                 let tReg = masterDatabase.teachers_registry || {};
                 Object.keys(tReg).forEach(function(tid){
                     let exists = cachedTeachers.some(function(t){ return String(t.id) === String(tid); });
-                    if (!exists) cachedTeachers.push({ id: String(tid), name: (tReg[tid] && tReg[tid].name) || String(tid), subjects: '', classes: '' });
+                    if (!exists) cachedTeachers.push({ id: String(tid), name: (tReg[tid] && tReg[tid].name) || String(tid), subjects: '', classes: '', group: (tReg[tid] && tReg[tid].group) || '' });
                 });
             } catch(eReg){}
             cachedStudents = extractStudentList(masterDatabase.students);
@@ -720,7 +720,8 @@
                     name: foundTeacher.name,
                     role: 'teacher',
                     subjects: foundTeacher.subjects,
-                    classes: foundTeacher.classes
+                    classes: foundTeacher.classes,
+                    group: foundTeacher.group || ''
                 };
             }
 
