@@ -129,6 +129,29 @@ function addUserRecord(db, phone, name, role, note){
     }
 }
 
+
+// Đếm số lần nhập sai MK khi đăng ký SĐT đã tồn tại (lưu theo SĐT trong localStorage)
+// Sai 1-2 lần: báo còn X lần thử. Sai lần 3: hướng dẫn liên hệ admin Thầy Dũng.
+function getFailCount(phone){
+    try {
+        let v = parseInt(localStorage.getItem('reg_fail_' + phone) || '0', 10);
+        return isNaN(v) ? 0 : v;
+    } catch(e){ return 0; }
+}
+function incFailCount(phone){
+    let n = getFailCount(phone) + 1;
+    try { localStorage.setItem('reg_fail_' + phone, String(n)); } catch(e){}
+    return n;
+}
+function clearFailCount(phone){
+    try { localStorage.removeItem('reg_fail_' + phone); } catch(e){}
+}
+function wrongPassMessage(phone){
+    let n = incFailCount(phone);
+    if (n >= 3) return 'Bạn đã nhập sai mật khẩu 3 lần. Vui lòng liên hệ admin Thầy Dũng qua Zalo 0859946899 để được cấp lại mật khẩu.';
+    return 'Mật khẩu chưa đúng, bạn còn ' + (3 - n) + ' lần thử.';
+}
+
 async function submitRegistration(){
     let msg = document.getElementById('rg-msg');
     let btn = document.getElementById('rg-btn');
@@ -161,13 +184,13 @@ async function submitRegistration(){
             let hasRecord = userRecordExists(db, phone, role);
             if (hasPass && hasRecord){
                 // Idempotent: đã có đủ hồ sơ + mật khẩu → chỉ thành công khi đúng MK vừa đặt
-                if (db.passwords[phone] === passB64){ created = true; break; }
-                throw new Error('SĐT / Gmail này đã được đăng ký hoặc đã có tài khoản.');
+                if (db.passwords[phone] === passB64){ created = true; clearFailCount(phone); break; }
+                throw new Error(wrongPassMessage(phone));
             }
             if (hasPass && !hasRecord){
                 // FIX 2026-10-10 — TRẠNG THÁI GÃY: có MK nhưng mất hồ sơ → tự sửa chữa
                 // Chỉ sửa khi đúng MK (tránh chiếm tài khoản người khác)
-                if (db.passwords[phone] !== passB64) throw new Error('SĐT / Gmail này đã được đăng ký hoặc đã có tài khoản.');
+                if (db.passwords[phone] !== passB64) throw new Error(wrongPassMessage(phone));
                 // rơi xuống dưới: thêm hồ sơ còn thiếu rồi push
             }
             if (!db.passwords) db.passwords = {};
@@ -183,6 +206,7 @@ async function submitRegistration(){
             await new Promise(function(r){ setTimeout(r, 1200); });
         }
         if (!created) throw lastErr || new Error('Không tạo được tài khoản, vui lòng thử lại.');
+        clearFailCount(phone);
 
         // Ghi hạn 90 ngày vào account_expiry.json (bắt buộc — nếu thiếu, TK sẽ không bao giờ hết hạn)
         try {
