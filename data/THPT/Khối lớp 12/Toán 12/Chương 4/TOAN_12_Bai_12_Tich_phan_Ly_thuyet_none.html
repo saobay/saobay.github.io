@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 12: Tích phân</title>
+    <meta name="lesson-title" content="Bài 12: Tích phân">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 12: Tích phân</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 4: Nguyên hàm và tích phân • Bài 12: Tích phân</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h2>1. Khái niệm tích phân</h2>
+<p><b>Định nghĩa.</b> Cho hàm số $f(x)$ liên tục trên đoạn $[a; b]$. <b>Tích phân</b> từ $a$ đến $b$ của $f(x)$, kí hiệu $\int_a^b f(x)\,dx$, là giới hạn của tổng Riemann khi độ dài lớn nhất của các đoạn phân hoạch tiến tới $0$.</p>
+<p><b>Công thức Newton – Leibniz.</b> Nếu $F(x)$ là một nguyên hàm của $f(x)$ trên $[a; b]$ thì</p>
+<p style="text-align:center">$\int_a^b f(x)\,dx = F(x)\big|_a^b = F(b) - F(a).$</p>
+
+<h2>2. Tính chất của tích phân</h2>
+<p>Cho $f(x)$, $g(x)$ liên tục trên $[a; b]$ và $k$ là hằng số:</p>
+<ul>
+<li>$\int_a^a f(x)\,dx = 0$.</li>
+<li>$\int_a^b f(x)\,dx = -\int_b^a f(x)\,dx$ (đổi cận thì đổi dấu).</li>
+<li>$\int_a^c f(x)\,dx = \int_a^b f(x)\,dx + \int_b^c f(x)\,dx$ ($a < b < c$).</li>
+<li>$\int_a^b k f(x)\,dx = k\int_a^b f(x)\,dx$.</li>
+<li>$\int_a^b [f(x) \pm g(x)]\,dx = \int_a^b f(x)\,dx \pm \int_a^b g(x)\,dx$.</li>
+<li>Nếu $f(x) \ge 0$ trên $[a; b]$ thì $\int_a^b f(x)\,dx \ge 0$.</li>
+<li>$\left|\int_a^b f(x)\,dx\right| \le \int_a^b |f(x)|\,dx$.</li>
+</ul>
+
+<h2>3. Phương pháp tính tích phân</h2>
+<h3>a) Phương pháp đổi biến số</h3>
+<p>Đặt $u = u(x)$, đổi cận tương ứng rồi tính tích phân theo biến mới.</p>
+<p><b>Ví dụ.</b> Tính $\int_0^1 2x(x^2+1)^2\,dx$. Đặt $u = x^2 + 1$ thì $du = 2x\,dx$; khi $x = 0$ thì $u = 1$, khi $x = 1$ thì $u = 2$. Vậy tích phân bằng $\int_1^2 u^2\,du = \frac{u^3}{3}\big|_1^2 = \frac{7}{3}$.</p>
+<h3>b) Phương pháp tích phân từng phần</h3>
+<p style="text-align:center">$\int_a^b u\,dv = uv\big|_a^b - \int_a^b v\,du.$</p>
+<p><b>Ví dụ.</b> Tính $\int_0^1 x e^x\,dx$. Đặt $u = x$, $dv = e^x\,dx$ thì $du = dx$, $v = e^x$. Vậy tích phân bằng $xe^x\big|_0^1 - \int_0^1 e^x\,dx = e - (e - 1) = 1$.</p>
+
+<h2>4. Một số tích phân thường gặp</h2>
+<div class="table-scroll"><table>
+<tr><th>Tích phân</th><th>Kết quả</th><th>Tích phân</th><th>Kết quả</th></tr>
+<tr><td>$\int_0^1 x\,dx$</td><td>$\frac{1}{2}$</td><td>$\int_0^{\pi} \sin x\,dx$</td><td>$2$</td></tr>
+<tr><td>$\int_0^{\pi/2} \sin x\,dx$</td><td>$1$</td><td>$\int_0^{\pi/2} \cos x\,dx$</td><td>$1$</td></tr>
+<tr><td>$\int_0^1 e^x\,dx$</td><td>$e - 1$</td><td>$\int_1^e \frac{1}{x}\,dx$</td><td>$1$</td></tr>
+<tr><td>$\int_{-a}^{a} f(x)\,dx$ ($f$ lẻ)</td><td>$0$</td><td>$\int_0^1 x e^x\,dx$</td><td>$1$</td></tr>
+</table></div>
+
+<h2>5. Ứng dụng: quãng đường từ vận tốc</h2>
+<p>Nếu vật chuyển động với vận tốc $v(t) \ge 0$ thì quãng đường đi được từ $t = a$ đến $t = b$ là $s = \int_a^b v(t)\,dt$.</p>
+<p><b>Ví dụ.</b> Ô tô chuyển động với $v(t) = 3t^2$ (m/s). Quãng đường trong $2$ giây đầu: $s = \int_0^2 3t^2\,dt = t^3\big|_0^2 = 8$ (m).</p>
+
+            </div>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
