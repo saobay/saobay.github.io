@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay | Ma nguon thuoc nen tang hoc tap SAOBAY | Nghiem cam sao chep duoi moi hinh thuc -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 9: Các số đặc trưng đo xu thế trung tâm</title>
+    <meta name="lesson-title" content="Bài 9: Các số đặc trưng đo xu thế trung tâm">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 9: Các số đặc trưng đo xu thế trung tâm</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 3: Các số đặc trưng đo xu thế trung tâm của mẫu số liệu ghép nhóm • Bài 9: Các số đặc trưng đo xu thế trung tâm</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 9: Các số đặc trưng đo xu thế trung tâm</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 3: Các số đặc trưng đo xu thế trung tâm của mẫu số liệu ghép nhóm — Toán 11 (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Số trung bình -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Số trung bình của mẫu số liệu ghép nhóm</h2>
+
+<p><strong>Công thức:</strong> cho mẫu số liệu ghép nhóm với giá trị đại diện $c_i$ và tần số $n_i$ của nhóm thứ $i$ ($i = 1, \dots, k$), cỡ mẫu $n = n_1 + \dots + n_k$. Số trung bình là trung bình có trọng số:</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$\overline{x} = \frac{n_1c_1 + n_2c_2 + \dots + n_kc_k}{n}$$</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Nhóm</td><td class="border border-slate-300 px-4 py-1">$[150;155)$</td><td class="border border-slate-300 px-4 py-1">$[155;160)$</td><td class="border border-slate-300 px-4 py-1">$[160;165)$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Tần số</td><td class="border border-slate-300 px-4 py-1">$4$</td><td class="border border-slate-300 px-4 py-1">$10$</td><td class="border border-slate-300 px-4 py-1">$6$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">Giá trị đại diện</td><td class="border border-slate-300 px-4 py-1">$152,5$</td><td class="border border-slate-300 px-4 py-1">$157,5$</td><td class="border border-slate-300 px-4 py-1">$162,5$</td></tr>
+</table></div>
+<p>$\overline{x} = \frac{4 \cdot 152,5 + 10 \cdot 157,5 + 6 \cdot 162,5}{20} = \frac{3160}{20} = 158$.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Số trung bình của mẫu ghép nhóm là giá trị <strong>xấp xỉ</strong> (vì dùng giá trị đại diện thay cho từng số liệu). Cộng (hoặc nhân) cùng một số vào mọi số liệu thì số trung bình cũng cộng (hoặc nhân) thêm số đó.</p>
+</div>
+
+<!-- 2. Trung vị -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Trung vị của mẫu số liệu ghép nhóm</h2>
+
+<p><strong>Cách xác định:</strong></p>
+<ol class="list-decimal ml-6 space-y-2 my-3">
+<li>Tìm <em>nhóm chứa trung vị</em>: nhóm đầu tiên có tần số tích lũy <strong>lớn hơn hoặc bằng</strong> $\frac{n}{2}$. Giả sử đó là nhóm $[a_m; a_{m+1})$ với tần số $n_m$, độ dài $h$.</li>
+<li>Áp dụng công thức:</li>
+</ol>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$M_e = a_m + \frac{\frac{n}{2} - (n_1 + \dots + n_{m-1})}{n_m} \cdot h$$</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Với bảng ở mục 1 ($n = 20$): $\frac{n}{2} = 10$. Tần số tích lũy: $4$; $4+10 = 14 \ge 10$ nên nhóm chứa trung vị là $[155;160)$.</p>
+<p>$M_e = 155 + \frac{10 - 4}{10} \cdot 5 = 155 + 3 = 158$.</p>
+</div>
+
+<!-- 3. Tứ phân vị -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Tứ phân vị của mẫu số liệu ghép nhóm</h2>
+
+<p>Ba tứ phân vị $Q_1, Q_2, Q_3$ chia mẫu số liệu (đã sắp xếp) thành <strong>4 phần</strong> có số phần tử bằng nhau. Trong đó $Q_2$ chính là <strong>trung vị</strong>.</p>
+
+<ul class="list-disc ml-6 space-y-2 my-3">
+<li><strong>$Q_1$</strong> (tứ phân vị thứ nhất): xác định như trung vị nhưng với vị trí $\frac{n}{4}$ thay cho $\frac{n}{2}$.</li>
+<li><strong>$Q_3$</strong> (tứ phân vị thứ ba): xác định như trung vị nhưng với vị trí $\frac{3n}{4}$ thay cho $\frac{n}{2}$.</li>
+</ul>
+
+<p><strong>Khoảng tứ phân vị:</strong> $\Delta_Q = Q_3 - Q_1$ — đo mức độ phân tán của $50\%$ số liệu chính giữa, không bị ảnh hưởng bởi các giá trị quá lớn hay quá nhỏ.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Với bảng ở mục 1 ($n = 20$): vị trí $Q_1$ là $\frac{20}{4} = 5$. Tần số tích lũy đạt $4$ rồi $14 \ge 5$ nên nhóm chứa $Q_1$ là $[155;160)$: $Q_1 = 155 + \frac{5-4}{10}\cdot 5 = 155,5$.</p>
+<p>Vị trí $Q_3$ là $\frac{3 \cdot 20}{4} = 15$: nhóm chứa $Q_3$ cũng là $[155;160)$: $Q_3 = 155 + \frac{15-4}{10}\cdot 5 = 160,5$.</p>
+<p>Khoảng tứ phân vị: $\Delta_Q = 160,5 - 155,5 = 5$.</p>
+</div>
+
+<!-- 4. Mốt -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Mốt của mẫu số liệu ghép nhóm</h2>
+
+<p><strong>Cách xác định:</strong></p>
+<ol class="list-decimal ml-6 space-y-2 my-3">
+<li>Tìm <em>nhóm chứa mốt</em>: nhóm có <strong>tần số lớn nhất</strong>. Giả sử đó là nhóm $[a_m; a_{m+1})$ với tần số $n_m$, độ dài $h$.</li>
+<li>Áp dụng công thức:</li>
+</ol>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$M_o = a_m + \frac{n_m - n_{m-1}}{2n_m - n_{m-1} - n_{m+1}} \cdot h$$</p>
+</div>
+<p>trong đó $n_{m-1}, n_{m+1}$ là tần số của nhóm kề trước và kề sau nhóm chứa mốt (nhóm đầu/cuối không có kề thì lấy tần số bằng $0$).</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Với bảng ở mục 1: nhóm có tần số lớn nhất là $[155;160)$ ($n_m = 10$, $n_{m-1} = 4$, $n_{m+1} = 6$, $h = 5$).</p>
+<p>$M_o = 155 + \frac{10-4}{2\cdot 10-4-6}\cdot 5 = 155 + \frac{6}{10}\cdot 5 = 158$.</p>
+</div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Minh họa trung bình, trung vị, mốt trên biểu đồ tần số">
+<rect x="2" y="2" width="436" height="246" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="28" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0c4a6e" text-anchor="middle">Trung bình – Trung vị – Mốt</text>
+<line x1="50" y1="200" x2="410" y2="200" stroke="#334155" stroke-width="2"/>
+<rect x="90" y="160" width="50" height="40" fill="#93c5fd"/>
+<rect x="150" y="110" width="50" height="90" fill="#60a5fa"/>
+<rect x="210" y="130" width="50" height="70" fill="#93c5fd"/>
+<line x1="175" y1="60" x2="175" y2="200" stroke="#b91c1c" stroke-width="2" stroke-dasharray="5,3"/>
+<text x="175" y="50" font-family="sans-serif" font-size="12" fill="#b91c1c" text-anchor="middle">Mốt ≈ 158</text>
+<line x1="235" y1="60" x2="235" y2="200" stroke="#15803d" stroke-width="2" stroke-dasharray="5,3"/>
+<text x="235" y="50" font-family="sans-serif" font-size="12" fill="#15803d" text-anchor="middle">Trung vị = 158</text>
+<text x="220" y="228" font-family="sans-serif" font-size="12" fill="#64748b" text-anchor="middle">Nhóm cao nhất chứa mốt; trung vị chia đôi số liệu</text>
+</svg></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><strong>Mốt</strong> → nhóm có tần số <strong>lớn nhất</strong>. <strong>Trung vị</strong> → vị trí $\frac{n}{2}$. <strong>$Q_1$</strong> → vị trí $\frac{n}{4}$, <strong>$Q_3$</strong> → vị trí $\frac{3n}{4}$. $Q_2$ chính là trung vị.</p>
+</div>
+
+<!-- Tổng kết -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Số trung bình:</strong> $\overline{x} = \frac{\sum n_ic_i}{n}$ ($c_i$ là giá trị đại diện).</li>
+<li><strong>Trung vị:</strong> $M_e = a_m + \frac{\frac{n}{2}-(n_1+\dots+n_{m-1})}{n_m}\cdot h$ (nhóm chứa trung vị).</li>
+<li><strong>Tứ phân vị:</strong> $Q_1$ (vị trí $\frac{n}{4}$), $Q_2 = M_e$, $Q_3$ (vị trí $\frac{3n}{4}$); $\Delta_Q = Q_3-Q_1$.</li>
+<li><strong>Mốt:</strong> $M_o = a_m + \frac{n_m-n_{m-1}}{2n_m-n_{m-1}-n_{m+1}}\cdot h$ (nhóm có tần số lớn nhất).</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">
+(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok){if(document.body){document.body.innerHTML='<div style="font-family:system-ui,sans-serif;max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff"><h2 style="color:#0f172a;margin-top:0">© SAOBAY — Trường THPT Sào Báy</h2><p style="color:#475569">Nội dung này chỉ được hiển thị tại địa chỉ chính thức <b>saobay.github.io</b>.</p><p style="color:#475569">Vui lòng truy cập đúng địa chỉ để học tập.</p></div>';}else{document.write("SAOBAY: truy cap tai saobay.github.io");}}catch(e){}})();
+</script>
+</body>
+</html>
