@@ -27,15 +27,15 @@
         </div>
         <div>
             <label class="text-xs font-bold text-slate-600">Bạn là *</label>
-            <select id="rg-role" onchange="document.getElementById('rg-class-row').classList.toggle('hidden', this.value !== 'student')" class="mt-1 w-full border rounded-lg px-3 py-2.5 font-semibold">
+            <select id="rg-role" class="mt-1 w-full border rounded-lg px-3 py-2.5 font-semibold">
                 <option value="teacher">Giáo viên</option>
                 <option value="student">Học sinh</option>
             </select>
         </div>
-        <div id="rg-class-row" class="hidden">
-            <label class="text-xs font-bold text-slate-600">Lớp *</label>
-            <input id="rg-class" class="mt-1 w-full border rounded-lg px-3 py-2.5 uppercase" placeholder="VD: 10A1">
-        </div>
+        <p class="text-[11px] text-slate-500 bg-blue-50 border border-blue-200 rounded-lg p-2">
+            <i class="fa-solid fa-circle-info text-blue-600 mr-1"></i>
+            Tài khoản mới được <b>dùng thử 3 tháng full chức năng</b>. Admin sẽ xếp lớp/nhóm cho bạn sau.
+        </p>
         <div>
             <label class="text-xs font-bold text-slate-600">Ghi chú thêm</label>
             <textarea id="rg-note" rows="2" class="mt-1 w-full border rounded-lg px-3 py-2.5" placeholder="VD: Dạy Toán khối 10, dạy thêm buổi tối..."></textarea>
@@ -58,14 +58,14 @@ async function submitRegistration(){
     let rawId = document.getElementById('rg-phone').value.trim();
     let phone = rawId.includes('@') ? rawId.toLowerCase() : rawId.replace(/\D/g, '');
     let role = document.getElementById('rg-role').value;
-    let cls = document.getElementById('rg-class').value.trim().toUpperCase();
+    let cls = '';
     let note = document.getElementById('rg-note').value.trim();
     msg.className = 'text-xs text-center';
     if (!name){ msg.textContent = 'Vui lòng nhập họ tên.'; msg.classList.add('text-rose-600'); return; }
     let isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(phone);
     let isPhone = /^\d{9,12}$/.test(phone);
     if (!isEmail && !isPhone){ msg.textContent = 'Vui lòng nhập SĐT (9-12 số) hoặc Gmail đúng.'; msg.classList.add('text-rose-600'); return; }
-    if (role === 'student' && !cls){ msg.textContent = 'Học sinh vui lòng nhập lớp.'; msg.classList.add('text-rose-600'); return; }
+
     btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i>Đang gửi...';
     try {
         let res = await fetch(RAW_URL + '?t=' + Date.now());
