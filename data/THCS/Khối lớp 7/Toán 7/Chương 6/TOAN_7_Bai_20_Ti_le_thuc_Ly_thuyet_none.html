@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 20: Tỉ lệ thức</title>
+    <meta name="lesson-title" content="Bài 20: Tỉ lệ thức">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 20: Tỉ lệ thức</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 6: Tỉ lệ thức và đại lượng tỉ lệ • Bài 20: Tỉ lệ thức</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<p>Trong thực tế, ta thường gặp những đẳng thức của hai tỉ số, chẳng hạn tỉ lệ trên bản đồ, tỉ lệ pha chế, ... Những đẳng thức như vậy được gọi là <strong>tỉ lệ thức</strong>.</p>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-8">1. Tỉ lệ thức</h2>
+<div class="bg-amber-50 border-l-4 border-amber-500 rounded-r-xl p-4 my-4">
+    <p class="font-bold text-amber-800 mb-1">📌 Ghi nhớ</p>
+    <p><strong>Tỉ lệ thức</strong> là đẳng thức của hai tỉ số: $\dfrac{a}{b} = \dfrac{c}{d}$ (với $b, d \ne 0$).</p>
+    <p>Trong tỉ lệ thức $\dfrac{a}{b} = \dfrac{c}{d}$, các số $a, d$ gọi là các <strong>ngoại tỉ</strong>; các số $b, c$ gọi là các <strong>trung tỉ</strong>.</p>
+</div>
+
+<div class="bg-sky-50 border-l-4 border-sky-500 rounded-r-xl p-4 my-4">
+    <p class="font-bold text-sky-800 mb-1">Ví dụ 1</p>
+    <p>$\dfrac{2}{3} = \dfrac{8}{12}$ là một tỉ lệ thức, trong đó 2 và 12 là các ngoại tỉ; 3 và 8 là các trung tỉ.</p>
+    <p>$\dfrac{1}{2} = \dfrac{2}{5}$ <strong>không</strong> phải là tỉ lệ thức vì $\dfrac{1}{2} \ne \dfrac{2}{5}$.</p>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-8">2. Tính chất của tỉ lệ thức</h2>
+<p><strong>Tính chất 1:</strong> Nếu $\dfrac{a}{b} = \dfrac{c}{d}$ thì $a \cdot d = b \cdot c$ (tích các ngoại tỉ bằng tích các trung tỉ).</p>
+<p><strong>Tính chất 2:</strong> Nếu $a \cdot d = b \cdot c$ (với $a, b, c, d \ne 0$) thì ta lập được các tỉ lệ thức:</p>
+$$\frac{a}{b} = \frac{c}{d}; \quad \frac{a}{c} = \frac{b}{d}; \quad \frac{d}{b} = \frac{c}{a}; \quad \frac{d}{c} = \frac{b}{a}.$$
+
+<div class="svg-fig">
+<svg viewBox="0 0 400 170" xmlns="http://www.w3.org/2000/svg" font-family="system-ui, sans-serif">
+    <text x="110" y="70" text-anchor="middle" font-size="26" fill="#0f172a">a</text>
+    <line x1="85" y1="82" x2="135" y2="82" stroke="#0f172a" stroke-width="2"/>
+    <text x="110" y="112" text-anchor="middle" font-size="26" fill="#0f172a">b</text>
+    <text x="200" y="95" text-anchor="middle" font-size="26" fill="#0f172a">=</text>
+    <text x="290" y="70" text-anchor="middle" font-size="26" fill="#0f172a">c</text>
+    <line x1="265" y1="82" x2="315" y2="82" stroke="#0f172a" stroke-width="2"/>
+    <text x="290" y="112" text-anchor="middle" font-size="26" fill="#0f172a">d</text>
+    <path d="M120,60 Q200,10 280,60" fill="none" stroke="#0ea5e9" stroke-width="2.5" marker-end="url(#ah)"/>
+    <path d="M120,120 Q200,160 280,120" fill="none" stroke="#22c55e" stroke-width="2.5" marker-end="url(#ah)"/>
+    <defs><marker id="ah" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#475569"/></marker></defs>
+    <text x="200" y="28" text-anchor="middle" font-size="14" font-weight="bold" fill="#0ea5e9">a · d</text>
+    <text x="200" y="152" text-anchor="middle" font-size="14" font-weight="bold" fill="#22c55e">b · c</text>
+    <text x="200" y="140" text-anchor="middle" font-size="12" fill="#64748b" dy="-88"></text>
+</svg>
+<p class="text-center text-xs text-slate-500 mt-1">Nhân chéo: $a \cdot d = b \cdot c$</p>
+</div>
+
+<div class="bg-emerald-50 border-l-4 border-emerald-500 rounded-r-xl p-4 my-4">
+    <p class="font-bold text-emerald-800 mb-1">Ví dụ 2 (có lời giải)</p>
+    <p>a) Kiểm tra xem $\dfrac{3}{4} = \dfrac{9}{12}$ có phải là tỉ lệ thức không.</p>
+    <p>b) Tìm $x$ biết $\dfrac{x}{6} = \dfrac{2}{3}$.</p>
+    <p class="mt-2"><strong>Lời giải:</strong></p>
+    <p>a) $3 \cdot 12 = 36$ và $4 \cdot 9 = 36$. Vì $3 \cdot 12 = 4 \cdot 9$ nên $\dfrac{3}{4} = \dfrac{9}{12}$ là tỉ lệ thức.</p>
+    <p>b) $x \cdot 3 = 6 \cdot 2$, suy ra $3x = 12$, vậy $x = 4$.</p>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-8">3. Ứng dụng thực tế</h2>
+<p>Tỉ lệ thức được dùng nhiều trong thực tế: <strong>tỉ lệ bản đồ</strong> (1 cm trên bản đồ ứng với bao nhiêu cm/km thực tế), <strong>pha chế</strong> theo tỉ lệ, chia phần theo tỉ lệ, ...</p>
+
+<div class="bg-sky-50 border-l-4 border-sky-500 rounded-r-xl p-4 my-4">
+    <p class="font-bold text-sky-800 mb-1">Ví dụ 3</p>
+    <p>Một bản đồ có tỉ lệ 1 : 100 000, tức là $\dfrac{1}{100000}$. Đoạn đường trên bản đồ dài 3 cm thì độ dài thực tế là $3 \cdot 100000 = 300000$ (cm) $= 3$ (km).</p>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-8">Tóm tắt</h2>
+<div class="table-scroll">
+<table class="w-full text-sm border border-slate-200 rounded-lg overflow-hidden">
+    <thead><tr class="bg-sky-100">
+        <th class="border border-slate-200 px-3 py-2 text-left">Nội dung</th>
+        <th class="border border-slate-200 px-3 py-2 text-left">Ý chính</th>
+    </tr></thead>
+    <tbody>
+        <tr><td class="border border-slate-200 px-3 py-2 font-semibold">Định nghĩa</td><td class="border border-slate-200 px-3 py-2">$\dfrac{a}{b} = \dfrac{c}{d}$ ($b, d \ne 0$); $a, d$: ngoại tỉ; $b, c$: trung tỉ</td></tr>
+        <tr><td class="border border-slate-200 px-3 py-2 font-semibold">Tính chất 1</td><td class="border border-slate-200 px-3 py-2">$\dfrac{a}{b} = \dfrac{c}{d} \Rightarrow a \cdot d = b \cdot c$</td></tr>
+        <tr><td class="border border-slate-200 px-3 py-2 font-semibold">Tính chất 2</td><td class="border border-slate-200 px-3 py-2">$a \cdot d = b \cdot c \Rightarrow$ lập được 4 tỉ lệ thức ($\dfrac{a}{b}=\dfrac{c}{d}$; $\dfrac{a}{c}=\dfrac{b}{d}$; $\dfrac{d}{b}=\dfrac{c}{a}$; $\dfrac{d}{c}=\dfrac{b}{a}$)</td></tr>
+        <tr><td class="border border-slate-200 px-3 py-2 font-semibold">Tìm $x$</td><td class="border border-slate-200 px-3 py-2">Nhân chéo rồi giải phương trình bậc nhất</td></tr>
+        <tr><td class="border border-slate-200 px-3 py-2 font-semibold">Ứng dụng</td><td class="border border-slate-200 px-3 py-2">Tỉ lệ bản đồ, pha chế, chia theo tỉ lệ</td></tr>
+    </tbody>
+</table>
+</div>
+</div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
