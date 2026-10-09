@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 28: Động lượng</title>
+    <meta name="lesson-title" content="Bài 28: Động lượng">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 28: Động lượng</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 5: Động lượng • Bài 28: Động lượng</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 28: Động lượng</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 5: Động lượng — Vật lí 10 (Kết nối tri thức với cuộc sống)</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Động lượng</h2>
+
+<p>Trong thực tế, một chiếc xe tải nặng chạy chậm có thể khó dừng lại hơn một chiếc xe con nhẹ chạy nhanh. Để đặc trưng cho <strong>khả năng truyền chuyển động</strong> của vật khi tương tác, người ta dùng đại lượng <em>động lượng</em>.</p>
+
+<p><strong>Định nghĩa:</strong> <em>Động lượng</em> của một vật là đại lượng vectơ, bằng <strong>tích khối lượng và vận tốc</strong> của vật:</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$\vec{p} = m\vec{v}$$</p>
+</div>
+
+<p><strong>Tính chất:</strong></p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Động lượng là đại lượng <strong>vectơ</strong>, <strong>cùng hướng</strong> với vận tốc.</li>
+<li>Đơn vị: <strong>$\text{kg} \cdot \text{m/s}$</strong> (cũng có thể dùng $\text{N} \cdot \text{s}$).</li>
+<li>Động lượng của <strong>hệ</strong> nhiều vật bằng <strong>tổng vectơ</strong> động lượng của các vật: $\vec{p}_{hệ} = \vec{p}_1 + \vec{p}_2 + \dots$</li>
+</ul>
+
+<div class="svg-fig"><svg viewBox="0 0 440 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Vectơ động lượng cùng hướng vận tốc">
+<rect x="2" y="2" width="436" height="166" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<rect x="60" y="65" width="80" height="45" rx="6" fill="#bfdbfe" stroke="#2563eb" stroke-width="2"/>
+<text x="100" y="93" font-family="sans-serif" font-size="14" font-weight="bold" fill="#1e3a8a" text-anchor="middle">m</text>
+<line x1="140" y1="87" x2="280" y2="87" stroke="#16a34a" stroke-width="3"/>
+<polygon points="280,87 266,81 266,93" fill="#16a34a"/>
+<text x="290" y="92" font-family="sans-serif" font-size="14" font-weight="bold" fill="#16a34a">v</text>
+<line x1="140" y1="115" x2="340" y2="115" stroke="#dc2626" stroke-width="3"/>
+<polygon points="340,115 326,109 326,121" fill="#dc2626"/>
+<text x="350" y="120" font-family="sans-serif" font-size="14" font-weight="bold" fill="#dc2626">p = mv</text>
+<text x="220" y="155" font-family="sans-serif" font-size="13" fill="#475569" text-anchor="middle">Vectơ động lượng cùng hướng với vận tốc</text>
+</svg></div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Xung lượng của lực và độ biến thiên động lượng</h2>
+
+<p><strong>Xung lượng của lực</strong> $\vec{F}$ tác dụng trong khoảng thời gian $\Delta t$ là $\vec{F}\Delta t$. Xung lượng đặc trưng cho <strong>tác dụng của lực trong một khoảng thời gian</strong>.</p>
+
+<p><strong>Định lí:</strong> <em>Độ biến thiên động lượng</em> của vật bằng <em>xung lượng của lực</em> tác dụng lên vật:</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$\Delta\vec{p} = \vec{p}_2 - \vec{p}_1 = \vec{F}\Delta t$$</p>
+</div>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Lực càng lớn, thời gian tác dụng càng dài thì độ biến thiên động lượng càng lớn.</li>
+<li>Ứng dụng: túi khí ô tô, đệm nhảy cao <strong>kéo dài thời gian va chạm</strong> để giảm lực tác dụng (với cùng $\Delta p$).</li>
+</ul>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ mẫu:</p>
+<p>Quả bóng khối lượng $0,5\ \text{kg}$ đập vào tường với tốc độ $20\ \text{m/s}$ rồi nảy ra với tốc độ $15\ \text{m/s}$; thời gian va chạm $0,02\ \text{s}$. Tính độ lớn lực trung bình của tường tác dụng lên bóng.</p>
+<p class="mt-2"><strong>Lời giải:</strong> Chọn chiều dương là chiều bóng bay tới. $\Delta p = 0,5 \cdot (-15 - 20) = -17,5\ \text{kg} \cdot \text{m/s}$. $F = \Delta p / \Delta t = -17,5 / 0,02 = -875\ \text{N}$. Độ lớn lực là $875\ \text{N}$.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">$\vec{p} = m\vec{v}}$ (vectơ, đơn vị $\text{kg} \cdot \text{m/s}$); $\Delta\vec{p} = \vec{F}\Delta t$. Khi giải bài toán va chạm, <strong>chọn chiều dương</strong> và ghi dấu cẩn thận cho các vectơ ngược chiều.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Động lượng:</strong> $\vec{p} = m\vec{v}}$ — vectơ cùng hướng vận tốc, đơn vị $\text{kg} \cdot \text{m/s}$.</li>
+<li><strong>Động lượng của hệ</strong> bằng tổng vectơ động lượng các vật.</li>
+<li><strong>Xung lượng của lực:</strong> $\vec{F}\Delta t$; <strong>định lí:</strong> $\Delta\vec{p} = \vec{F}\Delta t$.</li>
+<li>Ứng dụng: giảm lực va chạm bằng cách kéo dài thời gian tác dụng (túi khí, đệm).</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+</body>
+</html>
