@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài tập Bài 18: Thu thập và phân loại dữ liệu</title>
+    <meta name="lesson-title" content="Bài tập Bài 18: Thu thập và phân loại dữ liệu">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Bài tập</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài tập Bài 18: Thu thập và phân loại dữ liệu</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 5: Dữ liệu và biểu đồ • Bài 18: Thu thập và phân loại dữ liệu</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="saobay-exam10">
+<script type="application/json" class="saobay-exam10-data">
+{
+ "sets": [
+  {
+   "name": "Đề 1",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Số liệu nào sau đây là số liệu <strong>liên tục</strong>?",
+     "options": [
+      "A. Số bàn thắng mỗi đội ghi được",
+      "B. Số bạn thích bóng đá trong lớp",
+      "C. Chiều cao của các bạn trong lớp",
+      "D. Số con trong mỗi gia đình"
+     ],
+     "answer": "C",
+     "explain": "“Chiều cao của các bạn trong lớp” thu được bằng cách đo, có thể nhận mọi giá trị trong một khoảng nên là số liệu liên tục."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Dữ liệu nào sau đây là <strong>số liệu</strong> (dữ liệu định lượng)?",
+     "options": [
+      "A. Chiều cao (tính bằng cm) của các bạn trong lớp 8A",
+      "B. Món ăn sáng ưa thích của các bạn",
+      "C. Môn thể thao yêu thích của các bạn trong lớp",
+      "D. Nghề nghiệp mơ ước của học sinh lớp 8A"
+     ],
+     "answer": "A",
+     "explain": "“Chiều cao (tính bằng cm) của các bạn trong lớp 8A” là các con số đo/đếm được nên là số liệu; các phương án còn lại là dữ liệu không phải số."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Dữ liệu nào sau đây <strong>không hợp lí</strong>?",
+     "options": [
+      "A. Một bạn lớp 8 nặng 42 kg",
+      "B. Chiều cao của một học sinh lớp 8 là 250 cm",
+      "C. Số học sinh của một lớp là 40 bạn",
+      "D. Nhiệt độ buổi trưa mùa hè là 36 độ C"
+     ],
+     "answer": "B",
+     "explain": "“Chiều cao của một học sinh lớp 8 là 250 cm” không hợp lí vì chiều cao người không thể là 250 cm; các dữ liệu còn lại đều có thể xảy ra trong thực tế."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Lớp 8A có 40 học sinh. Khảo sát môn thể thao yêu thích thu được: bóng đá 16 bạn, cầu lông 10 bạn, bóng chuyền 8 bạn, còn lại thích bơi. Có bao nhiêu bạn thích bơi?",
+     "answer": "6",
+     "explain": "Số bạn thích bơi là 40 − 16 − 10 − 8 = 6."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Số liệu nào sau đây là số liệu <strong>liên tục</strong>?",
+     "options": [
+      "A. Số bàn thắng mỗi đội ghi được",
+      "B. Nhiệt độ trung bình mỗi ngày trong tháng",
+      "C. Số xe đạp bán được mỗi ngày",
+      "D. Số điểm 10 của tổ trong học kì I"
+     ],
+     "answer": "B",
+     "explain": "“Nhiệt độ trung bình mỗi ngày trong tháng” thu được bằng cách đo, có thể nhận mọi giá trị trong một khoảng nên là số liệu liên tục."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Dữ liệu nào sau đây là <strong>số liệu</strong> (dữ liệu định lượng)?",
+     "options": [
+      "A. Tên các tỉnh, thành phố mà học sinh đã đến thăm",
+      "B. Cân nặng (tính bằng kg) của các bạn trong tổ 1",
+      "C. Món ăn sáng ưa thích của các bạn",
+      "D. Màu sắc yêu thích của học sinh"
+     ],
+     "answer": "B",
+     "explain": "“Cân nặng (tính bằng kg) của các bạn trong tổ 1” là các con số đo/đếm được nên là số liệu; các phương án còn lại là dữ liệu không phải số."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Bạn Lan ghi lại số quyển sách mỗi bạn trong tổ đã đọc trong tháng 9: 3, 5, 2, 5, 4, 3, 5. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Dãy dữ liệu trên là số liệu.",
+      "Đây là số liệu liên tục.",
+      "Số 5 xuất hiện 3 lần trong dãy.",
+      "Dãy dữ liệu trên là dữ liệu định tính."
+     ],
+     "answer": [
+      "T",
+      "F",
+      "T",
+      "F"
+     ],
+     "explain": "Dãy gồm các con số nên là số liệu; số quyển sách đếm được nên là số liệu rời rạc (không phải liên tục); số 5 xuất hiện 3 lần."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Bạn An ghi lại số điểm 10 của các bạn trong tổ trong tháng: 2, 4, 2, 5, 2, 3, 4. Có bao nhiêu bạn được 2 điểm 10?",
+     "answer": "3",
+     "explain": "Số 2 xuất hiện 3 lần trong dãy nên có 3 bạn được 2 điểm 10."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Để tìm hiểu thời gian tự học ở nhà của học sinh khối 8, bạn Minh phát phiếu khảo sát cho 40 bạn ở các lớp 8A, 8B, 8C, 8D. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Đây là cách thu thập dữ liệu trực tiếp.",
+      "Dữ liệu thu được là số liệu.",
+      "Nên hỏi tất cả học sinh khối 8 mới cho kết quả đáng tin cậy.",
+      "Có thể lấy số liệu này trên Internet thay cho việc khảo sát."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "F"
+     ],
+     "explain": "Phát phiếu khảo sát là thu thập trực tiếp; thời gian tự học là số liệu; khảo sát mẫu đại diện các lớp đã đủ tin cậy; số liệu đặc thù của trường không có sẵn trên Internet."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Dữ liệu nào sau đây là <strong>số liệu</strong> (dữ liệu định lượng)?",
+     "options": [
+      "A. Quê quán của học sinh trong trường",
+      "B. Tên các tỉnh, thành phố mà học sinh đã đến thăm",
+      "C. Điểm kiểm tra môn Toán của học sinh lớp 8B",
+      "D. Nghề nghiệp mơ ước của học sinh lớp 8A"
+     ],
+     "answer": "C",
+     "explain": "“Điểm kiểm tra môn Toán của học sinh lớp 8B” là các con số đo/đếm được nên là số liệu; các phương án còn lại là dữ liệu không phải số."
+    }
+   ]
+  },
+  {
+   "name": "Đề 2",
+   "questions": [
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Bạn Lan ghi lại chiều cao (cm) của 7 bạn trong tổ: 165, 158, 172, 160, 165, 170, 158. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Dãy dữ liệu trên là số liệu.",
+      "Đây là số liệu rời rạc.",
+      "Số 165 xuất hiện 2 lần trong dãy.",
+      "Dữ liệu trên là dữ liệu không phải số."
+     ],
+     "answer": [
+      "T",
+      "F",
+      "T",
+      "F"
+     ],
+     "explain": "Chiều cao là các con số nên là số liệu; chiều cao đo được nên là số liệu liên tục; số 165 xuất hiện 2 lần."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Để biết chiều cao trung bình của học sinh lớp 8A, bạn Hoa đo trực tiếp chiều cao của từng bạn trong lớp. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Đây là cách thu thập dữ liệu trực tiếp.",
+      "Dữ liệu thu được là số liệu liên tục.",
+      "Chỉ cần đo 5 bạn là đủ kết luận cho cả lớp.",
+      "Đo chiều cao là cách thu thập dữ liệu gián tiếp."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "F"
+     ],
+     "explain": "Đo trực tiếp là thu thập trực tiếp; chiều cao đo được nên là số liệu liên tục; đo cả lớp mới chính xác; đây không phải thu thập gián tiếp."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Dữ liệu nào sau đây là <strong>số liệu</strong> (dữ liệu định lượng)?",
+     "options": [
+      "A. Quê quán của học sinh trong trường",
+      "B. Nhiệt độ trung bình (tính bằng độ C) các ngày trong tuần",
+      "C. Món ăn sáng ưa thích của các bạn",
+      "D. Nghề nghiệp mơ ước của học sinh lớp 8A"
+     ],
+     "answer": "B",
+     "explain": "“Nhiệt độ trung bình (tính bằng độ C) các ngày trong tuần” là các con số đo/đếm được nên là số liệu; các phương án còn lại là dữ liệu không phải số."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Dữ liệu nào sau đây là <strong>số liệu</strong> (dữ liệu định lượng)?",
+     "options": [
+      "A. Thời gian chạy 100 m (tính bằng giây) của các bạn nam",
+      "B. Loài hoa yêu thích của các bạn nữ",
+      "C. Quê quán của học sinh trong trường",
+      "D. Món ăn sáng ưa thích của các bạn"
+     ],
+     "answer": "A",
+     "explain": "“Thời gian chạy 100 m (tính bằng giây) của các bạn nam” là các con số đo/đếm được nên là số liệu; các phương án còn lại là dữ liệu không phải số."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Số liệu nào sau đây là số liệu <strong>liên tục</strong>?",
+     "options": [
+      "A. Thời gian bơi 50 m của mỗi bạn",
+      "B. Số bạn thích bóng đá trong lớp",
+      "C. Số con trong mỗi gia đình",
+      "D. Số học sinh trong mỗi lớp của khối 8"
+     ],
+     "answer": "A",
+     "explain": "“Thời gian bơi 50 m của mỗi bạn” thu được bằng cách đo, có thể nhận mọi giá trị trong một khoảng nên là số liệu liên tục."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Dữ liệu nào sau đây là <strong>số liệu</strong> (dữ liệu định lượng)?",
+     "options": [
+      "A. Tên các tỉnh, thành phố mà học sinh đã đến thăm",
+      "B. Màu sắc yêu thích của học sinh",
+      "C. Quê quán của học sinh trong trường",
+      "D. Số anh chị em trong gia đình của mỗi bạn"
+     ],
+     "answer": "D",
+     "explain": "“Số anh chị em trong gia đình của mỗi bạn” là các con số đo/đếm được nên là số liệu; các phương án còn lại là dữ liệu không phải số."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Dãy dữ liệu: 5, 7, 5, 8, 6, 5, 7, 9. Giá trị 5 xuất hiện bao nhiêu lần?",
+     "answer": "3",
+     "explain": "Đếm trong dãy: số 5 xuất hiện 3 lần."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Dữ liệu nào sau đây <strong>không hợp lí</strong>?",
+     "options": [
+      "A. Số quyển vở bạn Bình đã dùng là 12 quyển",
+      "B. Điểm kiểm tra môn Toán của bạn An là 8 điểm",
+      "C. Nhiệt độ ngoài trời ở Hà Nội vào mùa đông là 45 độ C",
+      "D. Nhiệt độ buổi trưa mùa hè là 36 độ C"
+     ],
+     "answer": "C",
+     "explain": "“Nhiệt độ ngoài trời ở Hà Nội vào mùa đông là 45 độ C” không hợp lí vì mùa đông Hà Nội không thể nóng 45 độ C; các dữ liệu còn lại đều có thể xảy ra trong thực tế."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Số liệu nào sau đây là số liệu <strong>liên tục</strong>?",
+     "options": [
+      "A. Số bàn thắng mỗi đội ghi được",
+      "B. Số xe đạp bán được mỗi ngày",
+      "C. Số quyển sách mỗi bạn đã đọc",
+      "D. Cân nặng của các bạn trong tổ"
+     ],
+     "answer": "D",
+     "explain": "“Cân nặng của các bạn trong tổ” thu được bằng cách đo, có thể nhận mọi giá trị trong một khoảng nên là số liệu liên tục."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Một cuộc khảo sát 60 học sinh về phương tiện đến trường: xe đạp 28, xe máy điện 17, đi bộ 9, còn lại đi xe buýt. Có bao nhiêu bạn đi xe buýt?",
+     "answer": "6",
+     "explain": "60 − 28 − 17 − 9 = 6 bạn."
+    }
+   ]
+  },
+  {
+   "name": "Đề 3",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Dữ liệu nào sau đây là <strong>số liệu</strong> (dữ liệu định lượng)?",
+     "options": [
+      "A. Màu sắc yêu thích của học sinh",
+      "B. Món ăn sáng ưa thích của các bạn",
+      "C. Số quyển vở mỗi bạn đã dùng trong học kì I",
+      "D. Loài hoa yêu thích của các bạn nữ"
+     ],
+     "answer": "C",
+     "explain": "“Số quyển vở mỗi bạn đã dùng trong học kì I” là các con số đo/đếm được nên là số liệu; các phương án còn lại là dữ liệu không phải số."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Để tìm hiểu môn thể thao yêu thích của học sinh toàn trường, bạn Nam phỏng vấn 30 bạn ở mỗi khối lớp 6, 7, 8, 9. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Đây là cách thu thập dữ liệu trực tiếp.",
+      "Dữ liệu thu được là dữ liệu định tính.",
+      "Nên phỏng vấn toàn bộ học sinh trường mới hợp lí.",
+      "Môn thể thao yêu thích là số liệu."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "F"
+     ],
+     "explain": "Phỏng vấn là thu thập trực tiếp; môn thể thao yêu thích là dữ liệu định tính; phỏng vấn mẫu mỗi khối đã hợp lí."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Số liệu nào sau đây là số liệu <strong>liên tục</strong>?",
+     "options": [
+      "A. Số con trong mỗi gia đình",
+      "B. Lượng mưa mỗi tháng trong năm",
+      "C. Số quyển sách mỗi bạn đã đọc",
+      "D. Số xe đạp bán được mỗi ngày"
+     ],
+     "answer": "B",
+     "explain": "“Lượng mưa mỗi tháng trong năm” thu được bằng cách đo, có thể nhận mọi giá trị trong một khoảng nên là số liệu liên tục."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Dữ liệu nào sau đây là <strong>số liệu</strong> (dữ liệu định lượng)?",
+     "options": [
+      "A. Món ăn sáng ưa thích của các bạn",
+      "B. Thể loại nhạc yêu thích của các bạn",
+      "C. Màu sắc yêu thích của học sinh",
+      "D. Lượng mưa (tính bằng mm) của các tháng trong năm"
+     ],
+     "answer": "D",
+     "explain": "“Lượng mưa (tính bằng mm) của các tháng trong năm” là các con số đo/đếm được nên là số liệu; các phương án còn lại là dữ liệu không phải số."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Bạn Lan ghi lại màu sắc yêu thích của 6 bạn: đỏ, xanh, đỏ, vàng, xanh, đỏ. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Dãy dữ liệu trên là số liệu.",
+      "Dữ liệu trên là dữ liệu định tính.",
+      "Màu “đỏ” xuất hiện 3 lần.",
+      "Dữ liệu “màu sắc yêu thích” có thể sắp thứ tự."
+     ],
+     "answer": [
+      "F",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "Màu sắc không phải số nên là dữ liệu định tính; “đỏ” xuất hiện 3 lần; màu sắc không có thứ bậc nên không sắp thứ tự được."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Khảo sát 30 bạn về số giờ ngủ mỗi đêm: có 4 bạn ngủ 6 giờ, 18 bạn ngủ 8 giờ, còn lại ngủ 7 giờ. Có bao nhiêu bạn ngủ 7 giờ?",
+     "answer": "8",
+     "explain": "Số bạn ngủ 7 giờ là 30 − 4 − 18 = 8."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Số liệu nào sau đây là số liệu <strong>liên tục</strong>?",
+     "options": [
+      "A. Số điểm 10 của tổ trong học kì I",
+      "B. Số xe đạp bán được mỗi ngày",
+      "C. Độ dài gang tay của học sinh",
+      "D. Số con trong mỗi gia đình"
+     ],
+     "answer": "C",
+     "explain": "“Độ dài gang tay của học sinh” thu được bằng cách đo, có thể nhận mọi giá trị trong một khoảng nên là số liệu liên tục."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Tổ 1 có 12 bạn. Số quyển sách mỗi bạn đọc trong tháng: 3 bạn đọc 2 quyển, 5 bạn đọc 3 quyển, còn lại đọc 4 quyển. Có bao nhiêu bạn đọc 4 quyển?",
+     "answer": "4",
+     "explain": "12 − 3 − 5 = 4 bạn."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Dữ liệu nào sau đây <strong>không hợp lí</strong>?",
+     "options": [
+      "A. Điểm kiểm tra môn Toán của bạn An là 8 điểm",
+      "B. Số quyển vở bạn Bình đã dùng là 12 quyển",
+      "C. Nhiệt độ buổi trưa mùa hè là 36 độ C",
+      "D. Một bạn lớp 8 nặng 8 kg"
+     ],
+     "answer": "D",
+     "explain": "“Một bạn lớp 8 nặng 8 kg” không hợp lí vì cân nặng của học sinh lớp 8 không thể chỉ 8 kg; các dữ liệu còn lại đều có thể xảy ra trong thực tế."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Dữ liệu nào sau đây là <strong>số liệu</strong> (dữ liệu định lượng)?",
+     "options": [
+      "A. Số phút tập thể dục mỗi ngày của bạn An trong một tuần",
+      "B. Món ăn sáng ưa thích của các bạn",
+      "C. Màu sắc yêu thích của học sinh",
+      "D. Thể loại nhạc yêu thích của các bạn"
+     ],
+     "answer": "A",
+     "explain": "“Số phút tập thể dục mỗi ngày của bạn An trong một tuần” là các con số đo/đếm được nên là số liệu; các phương án còn lại là dữ liệu không phải số."
+    }
+   ]
+  },
+  {
+   "name": "Đề 4",
+   "questions": [
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Bạn Lan ghi lại điểm kiểm tra môn Toán của 7 bạn: 8, 7, 9, 8, 6, 10, 8. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Dãy dữ liệu trên là số liệu.",
+      "Đây là số liệu liên tục.",
+      "Điểm 8 xuất hiện 3 lần trong dãy.",
+      "Dữ liệu trên là dữ liệu định tính."
+     ],
+     "answer": [
+      "T",
+      "F",
+      "T",
+      "F"
+     ],
+     "explain": "Điểm số là số liệu rời rạc (theo thang điểm), không phải liên tục; điểm 8 xuất hiện 3 lần."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Dữ liệu nào sau đây <strong>không phải</strong> là số liệu?",
+     "options": [
+      "A. Thời gian chạy 100 m (tính bằng giây) của các bạn nam",
+      "B. Số bàn thắng mỗi đội ghi được trong giải bóng đá của trường",
+      "C. Màu sắc yêu thích của học sinh",
+      "D. Chiều cao (tính bằng cm) của các bạn trong lớp 8A"
+     ],
+     "answer": "C",
+     "explain": "“Màu sắc yêu thích của học sinh” không phải là số nên là dữ liệu định tính; các phương án còn lại đều là số liệu."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Khảo sát 45 bạn về món ăn sáng: 18 bạn ăn xôi, 15 bạn ăn bánh mì, còn lại ăn phở. Có bao nhiêu bạn ăn phở?",
+     "answer": "12",
+     "explain": "45 − 18 − 15 = 12 bạn."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Trong 25 học sinh được hỏi, 10 bạn thích bóng đá, 8 bạn thích cầu lông, còn lại thích bơi. Có bao nhiêu bạn thích bơi?",
+     "answer": "7",
+     "explain": "Số bạn thích bơi là 25 − 10 − 8 = 7."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Dữ liệu nào sau đây là <strong>số liệu</strong> (dữ liệu định lượng)?",
+     "options": [
+      "A. Nghề nghiệp mơ ước của học sinh lớp 8A",
+      "B. Số bàn thắng mỗi đội ghi được trong giải bóng đá của trường",
+      "C. Loài hoa yêu thích của các bạn nữ",
+      "D. Thể loại nhạc yêu thích của các bạn"
+     ],
+     "answer": "B",
+     "explain": "“Số bàn thắng mỗi đội ghi được trong giải bóng đá của trường” là các con số đo/đếm được nên là số liệu; các phương án còn lại là dữ liệu không phải số."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Dữ liệu nào sau đây <strong>không hợp lí</strong>?",
+     "options": [
+      "A. Thời gian chạy 100 m của một bạn là 2 giây",
+      "B. Số quyển vở bạn Bình đã dùng là 12 quyển",
+      "C. Số học sinh của một lớp là 40 bạn",
+      "D. Điểm kiểm tra môn Toán của bạn An là 8 điểm"
+     ],
+     "answer": "A",
+     "explain": "“Thời gian chạy 100 m của một bạn là 2 giây” không hợp lí vì kỉ lục thế giới chạy 100 m còn trên 9 giây; các dữ liệu còn lại đều có thể xảy ra trong thực tế."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Số liệu nào sau đây là số liệu <strong>rời rạc</strong>?",
+     "options": [
+      "A. Số học sinh trong mỗi lớp của khối 8",
+      "B. Nhiệt độ trung bình mỗi ngày trong tháng",
+      "C. Lượng mưa mỗi tháng trong năm",
+      "D. Độ dài gang tay của học sinh"
+     ],
+     "answer": "A",
+     "explain": "“Số học sinh trong mỗi lớp của khối 8” thu được bằng cách đếm, chỉ nhận các giá trị rời nhau nên là số liệu rời rạc."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Dữ liệu nào sau đây <strong>không phải</strong> là số liệu?",
+     "options": [
+      "A. Số anh chị em trong gia đình của mỗi bạn",
+      "B. Môn thể thao yêu thích của các bạn trong lớp",
+      "C. Lượng mưa (tính bằng mm) của các tháng trong năm",
+      "D. Số bàn thắng mỗi đội ghi được trong giải bóng đá của trường"
+     ],
+     "answer": "B",
+     "explain": "“Môn thể thao yêu thích của các bạn trong lớp” không phải là số nên là dữ liệu định tính; các phương án còn lại đều là số liệu."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Số liệu nào sau đây là số liệu <strong>liên tục</strong>?",
+     "options": [
+      "A. Số bạn thích bóng đá trong lớp",
+      "B. Số điểm 10 của tổ trong học kì I",
+      "C. Số quyển sách mỗi bạn đã đọc",
+      "D. Thời gian làm bài kiểm tra của mỗi bạn"
+     ],
+     "answer": "D",
+     "explain": "“Thời gian làm bài kiểm tra của mỗi bạn” thu được bằng cách đo, có thể nhận mọi giá trị trong một khoảng nên là số liệu liên tục."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Để biết lượng mưa trung bình năm ở địa phương, bạn Linh tra cứu số liệu trên trang web khí tượng. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Đây là cách thu thập dữ liệu gián tiếp.",
+      "Dữ liệu thu được là số liệu.",
+      "Nên tự đặt máy đo mưa một năm mới đáng tin cậy.",
+      "Lượng mưa là dữ liệu định tính."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "F"
+     ],
+     "explain": "Tra cứu trang web khí tượng là thu thập gián tiếp; lượng mưa là số liệu; số liệu khí tượng chính thống đáng tin cậy."
+    }
+   ]
+  },
+  {
+   "name": "Đề 5",
+   "questions": [
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Bạn Lan ghi lại xếp loại học lực của 6 bạn: Giỏi, Khá, Giỏi, Trung bình, Khá, Giỏi. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Dãy dữ liệu trên là số liệu.",
+      "Dữ liệu trên có thể sắp thứ tự.",
+      "Xếp loại “Giỏi” xuất hiện 3 lần.",
+      "Đây là dữ liệu định tính."
+     ],
+     "answer": [
+      "F",
+      "T",
+      "T",
+      "T"
+     ],
+     "explain": "Xếp loại học lực là dữ liệu định tính; có thứ bậc Giỏi > Khá > Trung bình nên sắp thứ tự được; “Giỏi” xuất hiện 3 lần."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Dữ liệu nào sau đây <strong>không hợp lí</strong>?",
+     "options": [
+      "A. Một bạn lớp 8 nặng 42 kg",
+      "B. Số học sinh của một lớp là 120 bạn",
+      "C. Tuổi của một học sinh lớp 8 là 13 tuổi",
+      "D. Lượng mưa một ngày là 20 mm"
+     ],
+     "answer": "B",
+     "explain": "“Số học sinh của một lớp là 120 bạn” không hợp lí vì một lớp học thông thường không thể có 120 học sinh; các dữ liệu còn lại đều có thể xảy ra trong thực tế."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Số liệu nào sau đây là số liệu <strong>rời rạc</strong>?",
+     "options": [
+      "A. Nhiệt độ trung bình mỗi ngày trong tháng",
+      "B. Thời gian làm bài kiểm tra của mỗi bạn",
+      "C. Số bàn thắng mỗi đội ghi được",
+      "D. Lượng mưa mỗi tháng trong năm"
+     ],
+     "answer": "C",
+     "explain": "“Số bàn thắng mỗi đội ghi được” thu được bằng cách đếm, chỉ nhận các giá trị rời nhau nên là số liệu rời rạc."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Dữ liệu nào sau đây <strong>không phải</strong> là số liệu?",
+     "options": [
+      "A. Quê quán của học sinh trong trường",
+      "B. Số quyển vở mỗi bạn đã dùng trong học kì I",
+      "C. Số phút tập thể dục mỗi ngày của bạn An trong một tuần",
+      "D. Nhiệt độ trung bình (tính bằng độ C) các ngày trong tuần"
+     ],
+     "answer": "A",
+     "explain": "“Quê quán của học sinh trong trường” không phải là số nên là dữ liệu định tính; các phương án còn lại đều là số liệu."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Trong 100 người được hỏi, 55 người thích xem phim, 30 người thích đọc sách, còn lại thích cả hai. Có bao nhiêu người thích cả hai?",
+     "answer": "15",
+     "explain": "100 − 55 − 30 = 15 người."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Dữ liệu nào sau đây <strong>không phải</strong> là số liệu?",
+     "options": [
+      "A. Số bàn thắng mỗi đội ghi được trong giải bóng đá của trường",
+      "B. Loài hoa yêu thích của các bạn nữ",
+      "C. Số phút tập thể dục mỗi ngày của bạn An trong một tuần",
+      "D. Thời gian chạy 100 m (tính bằng giây) của các bạn nam"
+     ],
+     "answer": "B",
+     "explain": "“Loài hoa yêu thích của các bạn nữ” không phải là số nên là dữ liệu định tính; các phương án còn lại đều là số liệu."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Để tìm hiểu mức độ hài lòng của học sinh về căng tin, bạn An phát phiếu khảo sát với các mức: Rất hài lòng, Hài lòng, Bình thường, Không hài lòng. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Đây là cách thu thập dữ liệu trực tiếp.",
+      "Dữ liệu thu được có thể sắp thứ tự.",
+      "Nên hỏi ý kiến phụ huynh thay vì học sinh.",
+      "Mức độ hài lòng là số liệu."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "F"
+     ],
+     "explain": "Phát phiếu là thu thập trực tiếp; mức độ hài lòng có thứ bậc nên sắp thứ tự được; đối tượng khảo sát phải là học sinh; đây là dữ liệu định tính."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Điểm kiểm tra của 10 bạn: 7, 8, 9, 7, 6, 8, 7, 10, 8, 7. Có bao nhiêu bạn đạt điểm 7?",
+     "answer": "4",
+     "explain": "Số 7 xuất hiện 4 lần trong dãy."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Số liệu nào sau đây là số liệu <strong>rời rạc</strong>?",
+     "options": [
+      "A. Lượng mưa mỗi tháng trong năm",
+      "B. Số xe đạp bán được mỗi ngày",
+      "C. Thời gian bơi 50 m của mỗi bạn",
+      "D. Thời gian làm bài kiểm tra của mỗi bạn"
+     ],
+     "answer": "B",
+     "explain": "“Số xe đạp bán được mỗi ngày” thu được bằng cách đếm, chỉ nhận các giá trị rời nhau nên là số liệu rời rạc."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Dữ liệu nào sau đây <strong>không phải</strong> là số liệu?",
+     "options": [
+      "A. Nhiệt độ trung bình (tính bằng độ C) các ngày trong tuần",
+      "B. Số quyển vở mỗi bạn đã dùng trong học kì I",
+      "C. Số anh chị em trong gia đình của mỗi bạn",
+      "D. Món ăn sáng ưa thích của các bạn"
+     ],
+     "answer": "D",
+     "explain": "“Món ăn sáng ưa thích của các bạn” không phải là số nên là dữ liệu định tính; các phương án còn lại đều là số liệu."
+    }
+   ]
+  },
+  {
+   "name": "Đề 6",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Số liệu nào sau đây là số liệu <strong>rời rạc</strong>?",
+     "options": [
+      "A. Thời gian làm bài kiểm tra của mỗi bạn",
+      "B. Cân nặng của các bạn trong tổ",
+      "C. Thời gian bơi 50 m của mỗi bạn",
+      "D. Số quyển sách mỗi bạn đã đọc"
+     ],
+     "answer": "D",
+     "explain": "“Số quyển sách mỗi bạn đã đọc” thu được bằng cách đếm, chỉ nhận các giá trị rời nhau nên là số liệu rời rạc."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Bạn Lan ghi lại số con trong mỗi gia đình của 8 bạn: 2, 1, 2, 3, 2, 1, 4, 2. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Dãy dữ liệu trên là số liệu rời rạc.",
+      "Đây là số liệu liên tục.",
+      "Có 4 gia đình có 2 con.",
+      "Dữ liệu trên là dữ liệu định tính."
+     ],
+     "answer": [
+      "T",
+      "F",
+      "T",
+      "F"
+     ],
+     "explain": "Số con đếm được nên là số liệu rời rạc; số 2 xuất hiện 4 lần nên có 4 gia đình có 2 con."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Để biết số học sinh giỏi của trường năm học trước, bạn Bình đọc báo cáo tổng kết năm học của nhà trường. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Đây là cách thu thập dữ liệu gián tiếp.",
+      "Dữ liệu thu được là số liệu rời rạc.",
+      "Báo cáo tổng kết của trường là nguồn đáng tin cậy.",
+      "Nên phỏng vấn từng học sinh giỏi mới chính xác."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "Đọc báo cáo có sẵn là thu thập gián tiếp; số học sinh giỏi đếm được nên là số liệu rời rạc; báo cáo của trường đáng tin cậy."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Một cửa hàng ghi lại số áo bán được mỗi ngày trong tuần: 12, 15, 12, 18, 20, 25, 12. Có bao nhiêu ngày bán được 12 chiếc áo?",
+     "answer": "3",
+     "explain": "Số 12 xuất hiện 3 lần nên có 3 ngày bán được 12 chiếc áo."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Số liệu nào sau đây là số liệu <strong>rời rạc</strong>?",
+     "options": [
+      "A. Số con trong mỗi gia đình",
+      "B. Độ dài gang tay của học sinh",
+      "C. Thời gian bơi 50 m của mỗi bạn",
+      "D. Thời gian làm bài kiểm tra của mỗi bạn"
+     ],
+     "answer": "A",
+     "explain": "“Số con trong mỗi gia đình” thu được bằng cách đếm, chỉ nhận các giá trị rời nhau nên là số liệu rời rạc."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Dữ liệu nào sau đây <strong>không phải</strong> là số liệu?",
+     "options": [
+      "A. Tên các tỉnh, thành phố mà học sinh đã đến thăm",
+      "B. Lượng mưa (tính bằng mm) của các tháng trong năm",
+      "C. Điểm kiểm tra môn Toán của học sinh lớp 8B",
+      "D. Số anh chị em trong gia đình của mỗi bạn"
+     ],
+     "answer": "A",
+     "explain": "“Tên các tỉnh, thành phố mà học sinh đã đến thăm” không phải là số nên là dữ liệu định tính; các phương án còn lại đều là số liệu."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Dữ liệu nào sau đây <strong>không phải</strong> là số liệu?",
+     "options": [
+      "A. Thời gian chạy 100 m (tính bằng giây) của các bạn nam",
+      "B. Số bàn thắng mỗi đội ghi được trong giải bóng đá của trường",
+      "C. Nghề nghiệp mơ ước của học sinh lớp 8A",
+      "D. Cân nặng (tính bằng kg) của các bạn trong tổ 1"
+     ],
+     "answer": "C",
+     "explain": "“Nghề nghiệp mơ ước của học sinh lớp 8A” không phải là số nên là dữ liệu định tính; các phương án còn lại đều là số liệu."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Dữ liệu nào sau đây <strong>không phải</strong> là số liệu?",
+     "options": [
+      "A. Thời gian chạy 100 m (tính bằng giây) của các bạn nam",
+      "B. Lượng mưa (tính bằng mm) của các tháng trong năm",
+      "C. Điểm kiểm tra môn Toán của học sinh lớp 8B",
+      "D. Thể loại nhạc yêu thích của các bạn"
+     ],
+     "answer": "D",
+     "explain": "“Thể loại nhạc yêu thích của các bạn” không phải là số nên là dữ liệu định tính; các phương án còn lại đều là số liệu."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Dữ liệu nào sau đây <strong>không hợp lí</strong>?",
+     "options": [
+      "A. Lượng mưa một ngày là 20 mm",
+      "B. Tuổi của một học sinh lớp 8 là 13 tuổi",
+      "C. Một ngày có 30 giờ",
+      "D. Chiều cao của một học sinh lớp 8 là 150 cm"
+     ],
+     "answer": "C",
+     "explain": "“Một ngày có 30 giờ” không hợp lí vì một ngày chỉ có 24 giờ; các dữ liệu còn lại đều có thể xảy ra trong thực tế."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Lớp 8B có 38 học sinh. Có 20 bạn thích Toán, 12 bạn thích Văn, còn lại thích cả Toán và Văn. Có bao nhiêu bạn thích cả hai môn?",
+     "answer": "6",
+     "explain": "38 − 20 − 12 = 6 bạn."
+    }
+   ]
+  },
+  {
+   "name": "Đề 7",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Số liệu nào sau đây là số liệu <strong>rời rạc</strong>?",
+     "options": [
+      "A. Thời gian làm bài kiểm tra của mỗi bạn",
+      "B. Thời gian bơi 50 m của mỗi bạn",
+      "C. Số điểm 10 của tổ trong học kì I",
+      "D. Chiều cao của các bạn trong lớp"
+     ],
+     "answer": "C",
+     "explain": "“Số điểm 10 của tổ trong học kì I” thu được bằng cách đếm, chỉ nhận các giá trị rời nhau nên là số liệu rời rạc."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Dữ liệu nào sau đây <strong>không hợp lí</strong>?",
+     "options": [
+      "A. Số học sinh của một lớp là 40 bạn",
+      "B. Tuổi của một học sinh lớp 8 là 13 tuổi",
+      "C. Chiều cao của một học sinh lớp 8 là 150 cm",
+      "D. Điểm kiểm tra môn Toán của bạn An là 15 điểm"
+     ],
+     "answer": "D",
+     "explain": "“Điểm kiểm tra môn Toán của bạn An là 15 điểm” không hợp lí vì thang điểm kiểm tra chỉ từ 0 đến 10; các dữ liệu còn lại đều có thể xảy ra trong thực tế."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Số liệu nào sau đây là số liệu <strong>rời rạc</strong>?",
+     "options": [
+      "A. Lượng mưa mỗi tháng trong năm",
+      "B. Số bạn thích bóng đá trong lớp",
+      "C. Thời gian làm bài kiểm tra của mỗi bạn",
+      "D. Thời gian bơi 50 m của mỗi bạn"
+     ],
+     "answer": "B",
+     "explain": "“Số bạn thích bóng đá trong lớp” thu được bằng cách đếm, chỉ nhận các giá trị rời nhau nên là số liệu rời rạc."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cách nào sau đây là thu thập dữ liệu một cách <strong>trực tiếp</strong>?",
+     "options": [
+      "A. Dùng số liệu có sẵn trong niên giám thống kê",
+      "B. Tra cứu trong sách, báo đã xuất bản",
+      "C. Đọc báo cáo thống kê trên tạp chí",
+      "D. Phát phiếu khảo sát cho học sinh"
+     ],
+     "answer": "D",
+     "explain": "“Phát phiếu khảo sát cho học sinh” là tự mình thu thập nên là trực tiếp; các cách còn lại dùng nguồn có sẵn nên là gián tiếp."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Bạn Lan ghi lại môn thể thao yêu thích của 7 bạn: bóng đá, cầu lông, bóng đá, bơi, cầu lông, bóng đá, bóng chuyền. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Dãy dữ liệu trên là số liệu.",
+      "Dữ liệu trên là dữ liệu định tính.",
+      "Môn “bóng đá” được 3 bạn yêu thích.",
+      "Dữ liệu “môn thể thao yêu thích” sắp thứ tự được."
+     ],
+     "answer": [
+      "F",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "Môn thể thao là dữ liệu định tính; “bóng đá” xuất hiện 3 lần; các môn thể thao không có thứ bậc nên không sắp thứ tự được."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cách nào sau đây là thu thập dữ liệu một cách <strong>trực tiếp</strong>?",
+     "options": [
+      "A. Quan sát và ghi chép số xe vào trường mỗi buổi sáng",
+      "B. Tìm kiếm thông tin trên cổng thông tin điện tử",
+      "C. Tìm số liệu lượng mưa trên trang web khí tượng",
+      "D. Tìm kiếm số liệu trên Internet"
+     ],
+     "answer": "A",
+     "explain": "“Quan sát và ghi chép số xe vào trường mỗi buổi sáng” là tự mình thu thập nên là trực tiếp; các cách còn lại dùng nguồn có sẵn nên là gián tiếp."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Khảo sát 40 học sinh: 22 bạn đi xe đạp, 12 bạn đi bộ, còn lại được bố mẹ đưa đón. Có bao nhiêu bạn được bố mẹ đưa đón?",
+     "answer": "6",
+     "explain": "40 − 22 − 12 = 6 bạn."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Một cửa hàng bán 80 chiếc áo trong ngày: 35 áo trắng, 25 áo xanh, còn lại áo đỏ. Có bao nhiêu áo đỏ được bán?",
+     "answer": "20",
+     "explain": "80 − 35 − 25 = 20 chiếc."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cách nào sau đây là thu thập dữ liệu một cách <strong>trực tiếp</strong>?",
+     "options": [
+      "A. Đọc báo cáo thống kê trên tạp chí",
+      "B. Tra cứu điểm chuẩn các trường trên báo",
+      "C. Phỏng vấn trực tiếp từng bạn trong lớp",
+      "D. Dùng số liệu có sẵn trong niên giám thống kê"
+     ],
+     "answer": "C",
+     "explain": "“Phỏng vấn trực tiếp từng bạn trong lớp” là tự mình thu thập nên là trực tiếp; các cách còn lại dùng nguồn có sẵn nên là gián tiếp."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Để tìm hiểu thời gian đi từ nhà đến trường, bạn Chi quan sát và ghi lại giờ đến trường của các bạn trong một tuần. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Đây là cách thu thập dữ liệu trực tiếp.",
+      "Dữ liệu thu được là số liệu.",
+      "Quan sát là cách thu thập dữ liệu gián tiếp.",
+      "Thời gian đi học là dữ liệu định tính."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "F"
+     ],
+     "explain": "Quan sát, ghi chép là thu thập trực tiếp; thời gian là số liệu; quan sát không phải gián tiếp."
+    }
+   ]
+  },
+  {
+   "name": "Đề 8",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Dữ liệu định tính nào sau đây <strong>có thể sắp thứ tự</strong>?",
+     "options": [
+      "A. Mức độ hài lòng (Rất hài lòng, Hài lòng, Bình thường, Không hài lòng)",
+      "B. Quê quán của học sinh",
+      "C. Tên các con vật nuôi trong nhà",
+      "D. Môn thể thao yêu thích"
+     ],
+     "answer": "A",
+     "explain": "“Mức độ hài lòng (Rất hài lòng, Hài lòng, Bình thường, Không hài lòng)” có thứ bậc rõ ràng nên sắp thứ tự được; các dữ liệu còn lại không có thứ bậc."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cách nào sau đây là thu thập dữ liệu một cách <strong>trực tiếp</strong>?",
+     "options": [
+      "A. Đọc báo cáo thống kê trên tạp chí",
+      "B. Làm thí nghiệm đo thời gian tan của viên đá",
+      "C. Tìm số liệu lượng mưa trên trang web khí tượng",
+      "D. Sử dụng số liệu dân số đã được công bố"
+     ],
+     "answer": "B",
+     "explain": "“Làm thí nghiệm đo thời gian tan của viên đá” là tự mình thu thập nên là trực tiếp; các cách còn lại dùng nguồn có sẵn nên là gián tiếp."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Dữ liệu nào sau đây <strong>không hợp lí</strong>?",
+     "options": [
+      "A. Tuổi của một học sinh lớp 8 là 25 tuổi",
+      "B. Số quyển vở bạn Bình đã dùng là 12 quyển",
+      "C. Số học sinh của một lớp là 40 bạn",
+      "D. Tuổi của một học sinh lớp 8 là 13 tuổi"
+     ],
+     "answer": "A",
+     "explain": "“Tuổi của một học sinh lớp 8 là 25 tuổi” không hợp lí vì học sinh lớp 8 thường khoảng 13–14 tuổi; các dữ liệu còn lại đều có thể xảy ra trong thực tế."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Khảo sát 36 học sinh về giờ ngủ: 10 bạn ngủ trước 22 giờ, 19 bạn ngủ từ 22 đến 23 giờ, còn lại ngủ sau 23 giờ. Có bao nhiêu bạn ngủ sau 23 giờ?",
+     "answer": "7",
+     "explain": "36 − 10 − 19 = 7 bạn."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cách nào sau đây là thu thập dữ liệu một cách <strong>trực tiếp</strong>?",
+     "options": [
+      "A. Tra cứu điểm chuẩn các trường trên báo",
+      "B. Dùng số liệu có sẵn trong niên giám thống kê",
+      "C. Phỏng vấn cô bán hàng ở căng tin",
+      "D. Tìm kiếm thông tin trên cổng thông tin điện tử"
+     ],
+     "answer": "C",
+     "explain": "“Phỏng vấn cô bán hàng ở căng tin” là tự mình thu thập nên là trực tiếp; các cách còn lại dùng nguồn có sẵn nên là gián tiếp."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cách nào sau đây là thu thập dữ liệu một cách <strong>trực tiếp</strong>?",
+     "options": [
+      "A. Tìm kiếm thông tin trên cổng thông tin điện tử",
+      "B. Tìm kiếm số liệu trên Internet",
+      "C. Đọc báo cáo thống kê trên tạp chí",
+      "D. Quan sát, đếm số bạn đi xe đạp đến trường"
+     ],
+     "answer": "D",
+     "explain": "“Quan sát, đếm số bạn đi xe đạp đến trường” là tự mình thu thập nên là trực tiếp; các cách còn lại dùng nguồn có sẵn nên là gián tiếp."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Số con trong gia đình của 12 bạn: 1, 2, 2, 3, 1, 2, 4, 2, 1, 3, 2, 2. Có bao nhiêu gia đình có 2 con?",
+     "answer": "6",
+     "explain": "Số 2 xuất hiện 6 lần trong dãy."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Để biết dân số Việt Nam năm 2024, bạn Dũng tìm kiếm trên cổng thông tin điện tử của Tổng cục Thống kê. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Đây là cách thu thập dữ liệu gián tiếp.",
+      "Dữ liệu thu được là số liệu.",
+      "Nên đi đếm dân số từng tỉnh mới chính xác.",
+      "Dân số là dữ liệu định tính."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "F"
+     ],
+     "explain": "Dùng số liệu đã công bố là thu thập gián tiếp; dân số là số liệu; nguồn Tổng cục Thống kê đáng tin cậy."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Bạn Lan ghi lại nhiệt độ cơ thể (độ C) của 6 bạn lúc sáng: 36,5; 37,0; 36,8; 37,2; 36,5; 37,0. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Dãy dữ liệu trên là số liệu.",
+      "Đây là số liệu liên tục.",
+      "Nhiệt độ 36,5 độ C xuất hiện 2 lần.",
+      "Dữ liệu trên là dữ liệu định tính."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "Nhiệt độ là số liệu liên tục (đo được); 36,5 xuất hiện 2 lần."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Dữ liệu định tính nào sau đây <strong>có thể sắp thứ tự</strong>?",
+     "options": [
+      "A. Món ăn ưa thích",
+      "B. Tên các con vật nuôi trong nhà",
+      "C. Loài hoa yêu thích",
+      "D. Xếp loại học lực (Giỏi, Khá, Trung bình, Yếu)"
+     ],
+     "answer": "D",
+     "explain": "“Xếp loại học lực (Giỏi, Khá, Trung bình, Yếu)” có thứ bậc rõ ràng nên sắp thứ tự được; các dữ liệu còn lại không có thứ bậc."
+    }
+   ]
+  },
+  {
+   "name": "Đề 9",
+   "questions": [
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Để tìm hiểu màu sắc yêu thích của các bạn nữ trong lớp, bạn Mai phỏng vấn trực tiếp từng bạn nữ. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Đây là cách thu thập dữ liệu trực tiếp.",
+      "Dữ liệu thu được là dữ liệu định tính.",
+      "Dữ liệu “màu sắc yêu thích” sắp thứ tự được.",
+      "Màu sắc yêu thích là số liệu."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "F",
+      "F"
+     ],
+     "explain": "Phỏng vấn trực tiếp là thu thập trực tiếp; màu sắc là dữ liệu định tính; màu sắc không có thứ bậc nên không sắp thứ tự được."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Dữ liệu định tính nào sau đây <strong>có thể sắp thứ tự</strong>?",
+     "options": [
+      "A. Loài hoa yêu thích",
+      "B. Món ăn ưa thích",
+      "C. Mức độ đồng ý (Đồng ý, Phân vân, Không đồng ý)",
+      "D. Tên các con vật nuôi trong nhà"
+     ],
+     "answer": "C",
+     "explain": "“Mức độ đồng ý (Đồng ý, Phân vân, Không đồng ý)” có thứ bậc rõ ràng nên sắp thứ tự được; các dữ liệu còn lại không có thứ bậc."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cách nào sau đây là thu thập dữ liệu một cách <strong>trực tiếp</strong>?",
+     "options": [
+      "A. Phát phiếu điều tra về môn thể thao yêu thích",
+      "B. Sử dụng số liệu dân số đã được công bố",
+      "C. Đọc báo cáo thống kê trên tạp chí",
+      "D. Tra cứu trong sách, báo đã xuất bản"
+     ],
+     "answer": "A",
+     "explain": "“Phát phiếu điều tra về môn thể thao yêu thích” là tự mình thu thập nên là trực tiếp; các cách còn lại dùng nguồn có sẵn nên là gián tiếp."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Trong 50 phiếu khảo sát, 20 phiếu chọn “Rất hài lòng”, 15 phiếu chọn “Hài lòng”, còn lại chọn “Bình thường”. Có bao nhiêu phiếu chọn “Bình thường”?",
+     "answer": "15",
+     "explain": "50 − 20 − 15 = 15 phiếu."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Dữ liệu định tính nào sau đây <strong>có thể sắp thứ tự</strong>?",
+     "options": [
+      "A. Màu sắc yêu thích",
+      "B. Hạng thi đấu (Nhất, Nhì, Ba)",
+      "C. Tên các con vật nuôi trong nhà",
+      "D. Quê quán của học sinh"
+     ],
+     "answer": "B",
+     "explain": "“Hạng thi đấu (Nhất, Nhì, Ba)” có thứ bậc rõ ràng nên sắp thứ tự được; các dữ liệu còn lại không có thứ bậc."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Trong 48 bạn được hỏi, 26 bạn thích mùa hè, 14 bạn thích mùa đông, còn lại thích mùa thu. Có bao nhiêu bạn thích mùa thu?",
+     "answer": "8",
+     "explain": "48 − 26 − 14 = 8 bạn."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Dữ liệu nào sau đây <strong>không hợp lí</strong>?",
+     "options": [
+      "A. Số học sinh của một lớp là 40 bạn",
+      "B. Lượng mưa một ngày ở Hà Nội là 2000 mm",
+      "C. Nhiệt độ buổi trưa mùa hè là 36 độ C",
+      "D. Thời gian chạy 100 m của một bạn là 15 giây"
+     ],
+     "answer": "B",
+     "explain": "“Lượng mưa một ngày ở Hà Nội là 2000 mm” không hợp lí vì lượng mưa một ngày không thể lớn đến 2000 mm; các dữ liệu còn lại đều có thể xảy ra trong thực tế."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Bạn Lan ghi lại quê quán của 5 bạn: Hà Nội, Hải Phòng, Hà Nội, Quảng Ninh, Hà Nội. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Dãy dữ liệu trên là số liệu.",
+      "Dữ liệu trên là dữ liệu định tính.",
+      "Có 3 bạn quê ở Hà Nội.",
+      "Dữ liệu “quê quán” sắp thứ tự được."
+     ],
+     "answer": [
+      "F",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "Quê quán là dữ liệu định tính; “Hà Nội” xuất hiện 3 lần; quê quán không có thứ bậc nên không sắp thứ tự được."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cách nào sau đây là thu thập dữ liệu một cách <strong>trực tiếp</strong>?",
+     "options": [
+      "A. Tìm kiếm thông tin trên cổng thông tin điện tử",
+      "B. Làm thí nghiệm gieo hạt và ghi lại tỉ lệ nảy mầm",
+      "C. Tìm kiếm số liệu trên Internet",
+      "D. Tra cứu trong sách, báo đã xuất bản"
+     ],
+     "answer": "B",
+     "explain": "“Làm thí nghiệm gieo hạt và ghi lại tỉ lệ nảy mầm” là tự mình thu thập nên là trực tiếp; các cách còn lại dùng nguồn có sẵn nên là gián tiếp."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cách nào sau đây là thu thập dữ liệu một cách <strong>gián tiếp</strong>?",
+     "options": [
+      "A. Tìm kiếm số liệu trên Internet",
+      "B. Phát phiếu khảo sát cho học sinh",
+      "C. Phỏng vấn cô bán hàng ở căng tin",
+      "D. Quan sát và ghi chép số xe vào trường mỗi buổi sáng"
+     ],
+     "answer": "A",
+     "explain": "“Tìm kiếm số liệu trên Internet” dùng nguồn số liệu có sẵn nên là gián tiếp; các cách còn lại là tự thu thập nên là trực tiếp."
+    }
+   ]
+  },
+  {
+   "name": "Đề 10",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cách nào sau đây là thu thập dữ liệu một cách <strong>gián tiếp</strong>?",
+     "options": [
+      "A. Phỏng vấn trực tiếp từng bạn trong lớp",
+      "B. Phát phiếu khảo sát cho học sinh",
+      "C. Quan sát, đếm số bạn đi xe đạp đến trường",
+      "D. Đọc báo cáo thống kê trên tạp chí"
+     ],
+     "answer": "D",
+     "explain": "“Đọc báo cáo thống kê trên tạp chí” dùng nguồn số liệu có sẵn nên là gián tiếp; các cách còn lại là tự thu thập nên là trực tiếp."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cách nào sau đây là thu thập dữ liệu một cách <strong>gián tiếp</strong>?",
+     "options": [
+      "A. Phát phiếu điều tra về môn thể thao yêu thích",
+      "B. Làm thí nghiệm gieo hạt và ghi lại tỉ lệ nảy mầm",
+      "C. Sử dụng số liệu dân số đã được công bố",
+      "D. Phỏng vấn cô bán hàng ở căng tin"
+     ],
+     "answer": "C",
+     "explain": "“Sử dụng số liệu dân số đã được công bố” dùng nguồn số liệu có sẵn nên là gián tiếp; các cách còn lại là tự thu thập nên là trực tiếp."
+    },
+    {
+     "type": "truefalse",
+     "level": "NB",
+     "q": "Bạn Lan ghi lại thời gian chạy 100 m (giây) của 6 bạn nam: 15,2; 14,8; 15,2; 16,0; 14,8; 15,5. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Dãy dữ liệu trên là số liệu.",
+      "Đây là số liệu rời rạc.",
+      "Thời gian 15,2 giây xuất hiện 2 lần.",
+      "Dữ liệu trên thu được bằng cách đo."
+     ],
+     "answer": [
+      "T",
+      "F",
+      "T",
+      "T"
+     ],
+     "explain": "Thời gian là số liệu liên tục (đo được); 15,2 xuất hiện 2 lần."
+    },
+    {
+     "type": "mcq",
+     "level": "VD",
+     "q": "Dữ liệu nào sau đây <strong>không hợp lí</strong>?",
+     "options": [
+      "A. Số học sinh của một lớp là 40 bạn",
+      "B. Một bạn lớp 8 nặng 42 kg",
+      "C. Một gia đình có 30 người con",
+      "D. Điểm kiểm tra môn Toán của bạn An là 8 điểm"
+     ],
+     "answer": "C",
+     "explain": "“Một gia đình có 30 người con” không hợp lí vì không phù hợp với thực tế; các dữ liệu còn lại đều có thể xảy ra trong thực tế."
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Cách nào sau đây là thu thập dữ liệu một cách <strong>gián tiếp</strong>?",
+     "options": [
+      "A. Làm thí nghiệm đo thời gian tan của viên đá",
+      "B. Tra cứu trong sách, báo đã xuất bản",
+      "C. Phát phiếu điều tra về môn thể thao yêu thích",
+      "D. Quan sát, đếm số bạn đi xe đạp đến trường"
+     ],
+     "answer": "B",
+     "explain": "“Tra cứu trong sách, báo đã xuất bản” dùng nguồn số liệu có sẵn nên là gián tiếp; các cách còn lại là tự thu thập nên là trực tiếp."
+    },
+    {
+     "type": "short",
+     "level": "VDC",
+     "q": "Đội văn nghệ có 24 bạn: 9 bạn hát, 7 bạn múa, còn lại vừa hát vừa múa. Có bao nhiêu bạn vừa hát vừa múa?",
+     "answer": "8",
+     "explain": "24 − 9 − 7 = 8 bạn."
+    },
+    {
+     "type": "short",
+     "level": "VD",
+     "q": "Nhiệt độ (độ C) lúc 12 giờ các ngày trong tuần: 32, 33, 32, 35, 34, 33, 32. Có bao nhiêu ngày nhiệt độ là 32 độ C?",
+     "answer": "3",
+     "explain": "Số 32 xuất hiện 3 lần nên có 3 ngày."
+    },
+    {
+     "type": "truefalse",
+     "level": "TH",
+     "q": "Để biết điểm trung bình môn Toán của khối 8, bạn Tuấn xin số liệu từ giáo viên chủ nhiệm các lớp. Xét tính đúng sai của các khẳng định sau.",
+     "statements": [
+      "Đây là cách thu thập dữ liệu gián tiếp.",
+      "Dữ liệu thu được là số liệu.",
+      "Số liệu từ giáo viên chủ nhiệm là đáng tin cậy.",
+      "Điểm trung bình là dữ liệu định tính."
+     ],
+     "answer": [
+      "T",
+      "T",
+      "T",
+      "F"
+     ],
+     "explain": "Xin số liệu có sẵn là thu thập gián tiếp; điểm số là số liệu; nguồn từ giáo viên đáng tin cậy."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Dữ liệu định tính nào sau đây <strong>có thể sắp thứ tự</strong>?",
+     "options": [
+      "A. Món ăn ưa thích",
+      "B. Quê quán của học sinh",
+      "C. Màu sắc yêu thích",
+      "D. Xếp loại hạnh kiểm (Tốt, Khá, Trung bình, Yếu)"
+     ],
+     "answer": "D",
+     "explain": "“Xếp loại hạnh kiểm (Tốt, Khá, Trung bình, Yếu)” có thứ bậc rõ ràng nên sắp thứ tự được; các dữ liệu còn lại không có thứ bậc."
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Dữ liệu định tính nào sau đây <strong>có thể sắp thứ tự</strong>?",
+     "options": [
+      "A. Thứ tự về đích trong cuộc thi chạy",
+      "B. Món ăn ưa thích",
+      "C. Loài hoa yêu thích",
+      "D. Tên các con vật nuôi trong nhà"
+     ],
+     "answer": "A",
+     "explain": "“Thứ tự về đích trong cuộc thi chạy” có thứ bậc rõ ràng nên sắp thứ tự được; các dữ liệu còn lại không có thứ bậc."
+    }
+   ]
+  }
+ ]
+}
+</script>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
