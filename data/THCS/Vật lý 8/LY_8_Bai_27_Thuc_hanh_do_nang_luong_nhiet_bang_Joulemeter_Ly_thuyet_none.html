@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 27: Thực hành: Đo năng lượng nhiệt bằng Joulemeter</title>
+    <meta name="lesson-title" content="Bài 27: Thực hành: Đo năng lượng nhiệt bằng Joulemeter">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 27: Thực hành: Đo năng lượng nhiệt bằng Joulemeter</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 6: Nhiệt • Bài 27: Thực hành: Đo năng lượng nhiệt bằng Joulemeter</p>
+        </div>
+        <div class="content-body space-y-4">
+<div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 27: Thực hành: Đo năng lượng nhiệt bằng Joulemeter</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 6: Nhiệt (Kết nối tri thức với cuộc sống)</p>
+
+<!-- Mở đầu -->
+<p>Làm thế nào để biết một thiết bị điện đã cung cấp bao nhiêu năng lượng nhiệt cho nước? Bài thực hành này dùng <strong>Joulemeter</strong> (nhiệt lượng kế điện) để đo năng lượng nhiệt, đồng thời kiểm chứng công thức tính nhiệt lượng <strong>Q = m.c.Δt</strong>.</p>
+
+<!-- 1. Joulemeter -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Joulemeter là gì?</h2>
+
+<p><strong>Joulemeter</strong> (nhiệt lượng kế điện) là dụng cụ đo <strong>năng lượng nhiệt</strong> do dòng điện cung cấp. Khi dòng điện chạy qua dây đốt nóng nhúng trong nước, <strong>điện năng</strong> chuyển hóa thành <strong>nhiệt năng</strong> làm nước nóng lên.</p>
+
+<p>Năng lượng điện cung cấp được tính bằng:</p>
+<p class="text-center my-2">$$Q = U \cdot I \cdot t$$</p>
+<p class="text-center text-sm text-slate-600">Trong đó: U (V) là hiệu điện thế, I (A) là cường độ dòng điện, t (s) là thời gian dòng điện chạy qua.</p>
+
+<p>Vì điện năng chuyển hóa hoàn toàn thành nhiệt năng (bỏ qua hao phí), năng lượng nhiệt mà nước nhận được cũng bằng <strong>Q = U.I.t</strong>.</p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="So do thi nghiem Joulemeter dun nuoc">
+<rect x="2" y="2" width="436" height="216" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<rect x="150" y="80" width="140" height="100" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="2.5"/>
+<text x="220" y="135" font-family="sans-serif" font-size="13" fill="#0369a1" text-anchor="middle">Nước</text>
+<path d="M180 110 Q200 100 220 110 Q240 120 260 110" fill="none" stroke="#dc2626" stroke-width="3"/>
+<text x="220" y="75" font-family="sans-serif" font-size="12" fill="#dc2626" text-anchor="middle">Dây đốt nóng</text>
+<line x1="220" y1="40" x2="220" y2="80" stroke="#475569" stroke-width="2"/>
+<circle cx="220" cy="35" r="5" fill="#475569"/>
+<text x="245" y="45" font-family="sans-serif" font-size="12" fill="#475569">Nhiệt kế</text>
+<rect x="60" y="90" width="50" height="34" rx="6" fill="#fef9c3" stroke="#92400e" stroke-width="2"/>
+<text x="85" y="112" font-family="sans-serif" font-size="13" fill="#92400e" text-anchor="middle" font-weight="bold">A</text>
+<rect x="330" y="90" width="50" height="34" rx="6" fill="#fef9c3" stroke="#92400e" stroke-width="2"/>
+<text x="355" y="112" font-family="sans-serif" font-size="13" fill="#92400e" text-anchor="middle" font-weight="bold">V</text>
+<text x="220" y="205" font-family="sans-serif" font-size="13" fill="#475569" text-anchor="middle">Joulemeter: đo U, I, t để tính Q = U.I.t</text>
+</svg></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><strong>Joulemeter</strong> đo năng lượng nhiệt do dòng điện cung cấp: <strong>Q = U.I.t</strong> (Q tính bằng jun).</p>
+</div>
+
+<!-- 2. Công thức tính nhiệt lượng -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Công thức tính nhiệt lượng</h2>
+
+<p>Nhiệt lượng mà một vật thu vào (hoặc tỏa ra) khi nhiệt độ thay đổi được tính bằng:</p>
+<p class="text-center my-2">$$Q = m \cdot c \cdot \Delta t$$</p>
+<p class="text-center text-sm text-slate-600">Trong đó:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>m</strong> (kg): khối lượng của vật;</li>
+<li><strong>c</strong> (J/kg.K): <strong>nhiệt dung riêng</strong> của chất làm vật (nước: c = 4200 J/kg.K);</li>
+<li><strong>Δt</strong> (°C hoặc K): độ tăng (hoặc giảm) nhiệt độ: Δt = t<sub>2</sub> − t<sub>1</sub>.</li>
+</ul>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Đun nóng 2 kg nước từ 25 °C lên 75 °C. Nhiệt lượng nước thu vào:</p>
+<p class="text-center my-2">Q = 2 × 4200 × (75 − 25) = 420 000 J = 420 kJ</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><strong>Q = m.c.Δt</strong> — Nhiệt lượng tỉ lệ thuận với khối lượng, nhiệt dung riêng và độ tăng nhiệt độ.</p>
+</div>
+
+<!-- 3. Tiến hành thí nghiệm -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Tiến hành thí nghiệm</h2>
+
+<p><strong>Mục đích:</strong> đo năng lượng nhiệt cung cấp cho nước và kiểm chứng công thức Q = m.c.Δt.</p>
+
+<p><strong>Các bước:</strong></p>
+<ol class="list-decimal ml-6 space-y-2 my-3">
+<li>Đong một lượng nước có khối lượng <strong>m</strong> cho vào bình của Joulemeter, đo nhiệt độ ban đầu <strong>t<sub>1</sub></strong>;</li>
+<li>Mắc mạch điện cho dòng điện chạy qua dây đốt nóng trong thời gian <strong>t</strong>; đọc số chỉ <strong>U</strong> (vôn kế) và <strong>I</strong> (ampe kế);</li>
+<li>Ngắt mạch, khuấy đều, đo nhiệt độ lúc sau <strong>t<sub>2</sub></strong>; tính Δt = t<sub>2</sub> − t<sub>1</sub>;</li>
+<li>Tính năng lượng điện cung cấp: <strong>Q<sub>1</sub> = U.I.t</strong>;</li>
+<li>Tính nhiệt lượng nước thu vào: <strong>Q<sub>2</sub> = m.c.Δt</strong>;</li>
+<li>So sánh Q<sub>1</sub> và Q<sub>2</sub>, rút ra nhận xét.</li>
+</ol>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800">Kết quả và nhận xét:</p>
+<p>Thực tế <strong>Q<sub>2</sub> &lt; Q<sub>1</sub></strong> một chút vì có một phần nhiệt lượng <strong>hao phí</strong> ra môi trường (làm nóng bình, không khí). Nếu bỏ qua hao phí: <strong>Q<sub>1</sub> ≈ Q<sub>2</sub></strong>, tức điện năng chuyển hóa hoàn toàn thành nhiệt năng.</p>
+</div>
+
+<!-- 4. Lưu ý -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Lưu ý khi làm thí nghiệm</h2>
+<ul class="list-disc ml-6 space-y-2 my-3">
+<li><strong>Khuấy đều</strong> nước trước khi đo nhiệt độ để nhiệt độ đồng đều;</li>
+<li>Đọc nhiệt độ khi cột chất lỏng trong nhiệt kế <strong>đứng yên</strong>, mắt nhìn <strong>ngang</strong> với mặt chất lỏng;</li>
+<li>Đổi đúng đơn vị: thời gian tính bằng <strong>giây (s)</strong>, khối lượng tính bằng <strong>kilôgam (kg)</strong>;</li>
+<li>Đảm bảo an toàn điện: <strong>ngắt nguồn</strong> khi lắp mạch.</li>
+</ul>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<ul class="list-disc ml-6 space-y-1 mt-1">
+<li>Năng lượng điện cung cấp: <strong>Q = U.I.t</strong>;</li>
+<li>Nhiệt lượng vật thu vào: <strong>Q = m.c.Δt</strong>;</li>
+<li>Thực tế Q<sub>nước thu</sub> &lt; Q<sub>điện cung cấp</sub> do <strong>hao phí</strong> ra môi trường.</li>
+</ul>
+</div>
+
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){{try{{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){{document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}}}catch(e){{}}}})();</script>
+</body>
+</html>
