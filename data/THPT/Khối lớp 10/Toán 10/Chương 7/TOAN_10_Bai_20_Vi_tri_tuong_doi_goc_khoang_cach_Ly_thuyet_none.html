@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 20: Vị trí tương đối giữa hai đường thẳng. Góc và khoảng cách</title>
+    <meta name="lesson-title" content="Bài 20: Vị trí tương đối giữa hai đường thẳng. Góc và khoảng cách">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 20: Vị trí tương đối giữa hai đường thẳng. Góc và khoảng cách</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 7: Phương pháp tọa độ trong mặt phẳng • Bài 20: Vị trí tương đối giữa hai đường thẳng. Góc và khoảng cách</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 20: Vị trí tương đối giữa hai đường thẳng. Góc và khoảng cách</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 7: Phương pháp tọa độ trong mặt phẳng — Toán 10 (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Vi tri tuong doi -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Vị trí tương đối giữa hai đường thẳng</h2>
+
+<p>Cho hai đường thẳng $d_1: a_1x + b_1y + c_1 = 0$ và $d_2: a_2x + b_2y + c_2 = 0$.</p>
+
+<p><strong>Cách 1 — qua tỉ số các hệ số</strong> (khi $a_2, b_2, c_2$ đều khác $0$):</p>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Điều kiện</td><td class="border border-slate-300 px-4 py-1">Vị trí của $d_1, d_2$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">$\frac{a_1}{a_2} \ne \frac{b_1}{b_2}$</td><td class="border border-slate-300 px-4 py-1 font-semibold text-emerald-600">$d_1$ cắt $d_2$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">$\frac{a_1}{a_2} = \frac{b_1}{b_2} \ne \frac{c_1}{c_2}$</td><td class="border border-slate-300 px-4 py-1 font-semibold text-amber-600">$d_1 \parallel d_2$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">$\frac{a_1}{a_2} = \frac{b_1}{b_2} = \frac{c_1}{c_2}$</td><td class="border border-slate-300 px-4 py-1 font-semibold text-sky-600">$d_1 \equiv d_2$</td></tr>
+</table></div>
+
+<p><strong>Cách 2 — qua vectơ:</strong> gọi $\vec{u}_1, \vec{u}_2$ là các VTCP (hoặc $\vec{n}_1, \vec{n}_2$ là các VTPT).</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>$\vec{u}_1, \vec{u}_2$ <strong>không</strong> cùng phương $\Rightarrow$ $d_1$ cắt $d_2$.</li>
+<li>$\vec{u}_1, \vec{u}_2$ cùng phương và $d_1, d_2$ không có điểm chung $\Rightarrow$ $d_1 \parallel d_2$.</li>
+<li>$\vec{u}_1, \vec{u}_2$ cùng phương và $d_1, d_2$ có một điểm chung $\Rightarrow$ $d_1 \equiv d_2$.</li>
+</ul>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Xét vị trí tương đối của $d_1: 2x - y + 1 = 0$ và $d_2: 4x - 2y + 5 = 0$.</p>
+<p class="mt-2"><strong>Lời giải:</strong> $\frac{2}{4} = \frac{-1}{-2} = \frac{1}{2} \ne \frac{1}{5} = \frac{c_1}{c_2}$ nên $d_1 \parallel d_2$.</p>
+<p class="mt-2">Còn $d_3: 2x - y + 1 = 0$ và $d_4: x + y - 2 = 0$ có $\frac{2}{1} \ne \frac{-1}{1}$ nên $d_3$ cắt $d_4$.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Mẹo nhớ: <strong>"bằng nhau hết thì trùng, bằng hai cái đầu thì song song, khác nhau thì cắt"</strong> — xét theo thứ tự $\frac{a_1}{a_2}, \frac{b_1}{b_2}, \frac{c_1}{c_2}$.</p>
+</div>
+
+<!-- 2. Goc -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Góc giữa hai đường thẳng</h2>
+
+<p><strong>Định nghĩa:</strong> Góc giữa hai đường thẳng $d_1, d_2$ là góc $\varphi$ ($0^\circ \le \varphi \le 90^\circ$) tạo bởi hai đường thẳng đó. Nếu $d_1 \parallel d_2$ (hoặc trùng nhau) thì góc bằng $0^\circ$.</p>
+
+<p>Nếu $d_1, d_2$ có các VTPT $\vec{n}_1, \vec{n}_2$ (hoặc các VTCP $\vec{u}_1, \vec{u}_2$) thì:</p>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$\cos\varphi = \frac{|\vec{n}_1 \cdot \vec{n}_2|}{|\vec{n}_1| \cdot |\vec{n}_2|} = \frac{|\vec{u}_1 \cdot \vec{u}_2|}{|\vec{u}_1| \cdot |\vec{u}_2|}$$</p>
+</div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Góc giữa hai đường thẳng">
+<rect x="2" y="2" width="436" height="246" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<line x1="30" y1="220" x2="30" y2="15" stroke="#94a3b8" stroke-width="1.5"/><polygon points="30,8 25,20 35,20" fill="#94a3b8"/>
+<line x1="20" y1="210" x2="420" y2="210" stroke="#94a3b8" stroke-width="1.5"/><polygon points="428,210 416,205 416,215" fill="#94a3b8"/>
+<text x="22" y="228" font-size="12" fill="#64748b">O</text>
+<line x1="70" y1="200" x2="380" y2="60" stroke="#1d4ed8" stroke-width="2.5"/>
+<text x="372" y="52" font-size="14" font-weight="bold" fill="#1d4ed8">d₁</text>
+<line x1="70" y1="60" x2="380" y2="200" stroke="#dc2626" stroke-width="2.5"/>
+<text x="372" y="216" font-size="14" font-weight="bold" fill="#dc2626">d₂</text>
+<circle cx="225" cy="130" r="4" fill="#0f172a"/>
+<path d="M 260 118 A 40 40 0 0 0 252 146" fill="none" stroke="#16a34a" stroke-width="2.5"/>
+<text x="268" y="138" font-size="15" font-weight="bold" fill="#16a34a">φ</text>
+<text x="120" y="238" font-size="12" fill="#475569">0° ≤ φ ≤ 90° — lấy góc nhọn (có dấu | | ở tử số)</text>
+</svg></div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Tính góc giữa $d_1: x + y - 1 = 0$ và $d_2: x - y + 2 = 0$.</p>
+<p class="mt-2"><strong>Lời giải:</strong> $\vec{n}_1 = (1; 1)$, $\vec{n}_2 = (1; -1)$.</p>
+<p>$$\cos\varphi = \frac{|1 \cdot 1 + 1 \cdot (-1)|}{\sqrt{2} \cdot \sqrt{2}} = \frac{0}{2} = 0 \Rightarrow \varphi = 90^\circ.$$</p>
+<p>Vậy $d_1 \perp d_2$.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Tử số có <strong>dấu giá trị tuyệt đối</strong> để đảm bảo $\cos\varphi \ge 0$, tức góc lấy luôn là góc <strong>nhọn</strong> (hoặc vuông). Quên dấu $|\ |$ là lỗi phổ biến nhất!</p>
+</div>
+
+<!-- 3. Khoang cach -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Khoảng cách từ một điểm đến một đường thẳng</h2>
+
+<p>Cho điểm $M_0(x_0; y_0)$ và đường thẳng $\Delta: ax + by + c = 0$. Khoảng cách từ $M_0$ đến $\Delta$:</p>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$d(M_0, \Delta) = \frac{|ax_0 + by_0 + c|}{\sqrt{a^2 + b^2}}$$</p>
+</div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Khoảng cách từ điểm đến đường thẳng">
+<rect x="2" y="2" width="436" height="246" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<line x1="30" y1="220" x2="30" y2="15" stroke="#94a3b8" stroke-width="1.5"/><polygon points="30,8 25,20 35,20" fill="#94a3b8"/>
+<line x1="20" y1="210" x2="420" y2="210" stroke="#94a3b8" stroke-width="1.5"/><polygon points="428,210 416,205 416,215" fill="#94a3b8"/>
+<text x="22" y="228" font-size="12" fill="#64748b">O</text>
+<line x1="60" y1="195" x2="400" y2="55" stroke="#1d4ed8" stroke-width="2.5"/>
+<text x="390" y="48" font-size="14" font-weight="bold" fill="#1d4ed8">Δ</text>
+<circle cx="150" cy="70" r="5" fill="#dc2626"/>
+<text x="140" y="58" font-size="14" font-weight="bold" fill="#dc2626">M₀</text>
+<line x1="150" y1="70" x2="205" y2="150" stroke="#16a34a" stroke-width="2.5" stroke-dasharray="7,5"/>
+<circle cx="205" cy="150" r="4" fill="#16a34a"/>
+<text x="212" y="140" font-size="13" fill="#16a34a" font-weight="bold">H</text>
+<rect x="193" y="138" width="11" height="11" fill="none" stroke="#16a34a" stroke-width="1.5" transform="rotate(24 198 143)"/>
+<text x="150" y="118" font-size="13" fill="#16a34a" font-style="italic">d(M₀, Δ) = M₀H ⊥ Δ</text>
+<text x="120" y="238" font-size="12" fill="#475569">H là hình chiếu vuông góc của M₀ lên Δ</text>
+</svg></div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Tính khoảng cách từ $M(2; -1)$ đến đường thẳng $\Delta: 3x - 4y + 5 = 0$.</p>
+<p class="mt-2"><strong>Lời giải:</strong></p>
+<p>$$d(M, \Delta) = \frac{|3 \cdot 2 - 4 \cdot (-1) + 5|}{\sqrt{3^2 + (-4)^2}} = \frac{|6 + 4 + 5|}{5} = \frac{15}{5} = 3.$$</p>
+</div>
+
+<!-- 4. KC 2 duong thang song song -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Khoảng cách giữa hai đường thẳng song song</h2>
+
+<p>Cho $d_1: ax + by + c_1 = 0$ và $d_2: ax + by + c_2 = 0$ song song với nhau (cùng $a, b$). Khi đó:</p>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$d(d_1, d_2) = \frac{|c_1 - c_2|}{\sqrt{a^2 + b^2}}$$</p>
+</div>
+<p><strong>Cách nhớ:</strong> lấy một điểm bất kì thuộc $d_1$ rồi tính khoảng cách từ điểm đó đến $d_2$ theo công thức mục 3.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Tính khoảng cách giữa $d_1: 3x + 4y - 2 = 0$ và $d_2: 3x + 4y + 8 = 0$.</p>
+<p class="mt-2"><strong>Lời giải:</strong> $$d(d_1, d_2) = \frac{|-2 - 8|}{\sqrt{3^2 + 4^2}} = \frac{10}{5} = 2.$$</p>
+<p class="mt-1 text-sm text-slate-600">Chú ý: phải đưa hai phương trình về <strong>cùng hệ số</strong> $a, b$ (ở đây cùng là $3x + 4y$) mới áp dụng được công thức.</p>
+</div>
+
+<!-- Tom tat -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Vị trí tương đối:</strong> so $\frac{a_1}{a_2}, \frac{b_1}{b_2}, \frac{c_1}{c_2}$ — khác nhau thì cắt, bằng 2 cái đầu thì song song, bằng cả 3 thì trùng.</li>
+<li><strong>Góc</strong> $\varphi$ ($0^\circ \le \varphi \le 90^\circ$): $\cos\varphi = \frac{|\vec{n}_1 \cdot \vec{n}_2|}{|\vec{n}_1| \cdot |\vec{n}_2|}$ (nhớ dấu $|\ |$).</li>
+<li><strong>Khoảng cách điểm – đường thẳng:</strong> $d(M_0, \Delta) = \frac{|ax_0 + by_0 + c|}{\sqrt{a^2 + b^2}}$.</li>
+<li><strong>Khoảng cách 2 đường thẳng song song:</strong> $d = \frac{|c_1 - c_2|}{\sqrt{a^2 + b^2}}$ (đưa về cùng $a, b$ trước).</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+
+</div>
+
+        </div>
+    </div>
+</body>
+</html>
