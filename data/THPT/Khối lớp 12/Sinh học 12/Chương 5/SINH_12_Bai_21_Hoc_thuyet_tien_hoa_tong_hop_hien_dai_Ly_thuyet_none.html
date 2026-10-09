@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 21. Học thuyết tiến hóa tổng hợp hiện đại</title>
+    <meta name="lesson-title" content="Bài 21. Học thuyết tiến hóa tổng hợp hiện đại">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 21. Học thuyết tiến hóa tổng hợp hiện đại</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 1: Mệnh đề và tập hợp • Bài 21. Học thuyết tiến hóa tổng hợp hiện đại</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 21. Học thuyết tiến hóa tổng hợp hiện đại</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 5: Bằng chứng và các học thuyết tiến hóa • Kết nối tri thức với cuộc sống</p>
+
+<p><strong>Thuyết tiến hóa tổng hợp hiện đại</strong> ra đời từ những năm 1930–1940, tổng hợp <strong>thuyết Darwin</strong> với <strong>di truyền học</strong> (Mendel), di truyền quần thể và các ngành sinh học khác.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Quan niệm về đơn vị và cơ chế tiến hóa</h2>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Đơn vị tiến hóa</strong> là <strong>quần thể</strong> (không phải cá thể): cá thể có đời sống hữu hạn, chỉ quần thể mới duy trì và biến đổi vốn gene qua thế hệ.</li>
+<li><strong>Tiến hóa nhỏ</strong>: biến đổi <strong>tần số allele, kiểu gene</strong> của quần thể qua các thế hệ → hình thành <strong>loài mới</strong>.</li>
+<li><strong>Tiến hóa lớn</strong>: hình thành các <strong>đơn vị phân loại trên loài</strong> (chi, họ, bộ...) trên quy mô rộng và thời gian dài.</li>
+</ul>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Các nhân tố tiến hóa</h2>
+
+<div class="table-scroll"><table class="sb-table">
+<thead><tr><th>Nhân tố</th><th>Tác động lên vốn gene</th><th>Vai trò</th></tr></thead>
+<tbody>
+<tr><td><strong>Đột biến</strong></td><td>Làm thay đổi tần số allele (chậm)</td><td><strong>Nguyên liệu sơ cấp</strong> của tiến hóa</td></tr>
+<tr><td><strong>Di – nhập gene</strong></td><td>Thêm/bớt allele</td><td>Làm giàu hoặc nghèo vốn gene; gắn kết các quần thể</td></tr>
+<tr><td><strong>Chọn lọc tự nhiên</strong></td><td>Tăng allele có lợi, giảm allele có hại</td><td><strong>Nhân tố định hướng</strong> duy nhất</td></tr>
+<tr><td><strong>Yếu tố ngẫu nhiên</strong> (phiêu bạt di truyền)</td><td>Thay đổi ngẫu nhiên, mạnh ở quần thể nhỏ</td><td><strong>Vô hướng</strong>; có thể làm mất allele</td></tr>
+<tr><td><strong>Giao phối không ngẫu nhiên</strong></td><td>Không đổi tần số allele, đổi tần số KG</td><td>Làm tăng đồng hợp</td></tr>
+</tbody>
+</table></div>
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><strong>Chọn lọc tự nhiên là nhân tố định hướng duy nhất</strong>: làm tăng tần số allele có lợi, tạo nên sự thích nghi. Các nhân tố khác (đột biến, di nhập gene, yếu tố ngẫu nhiên) là <strong>vô hướng</strong>.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Quá trình hình thành loài</h2>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Cách li địa lí</strong>: chướng ngại địa lí ngăn giao phối → các quần thể tích lũy biến dị khác nhau.</li>
+<li><strong>Cách li sinh sản</strong>: khác biệt về tập tính, cấu tạo cơ quan sinh sản, thời gian sinh sản... ngăn giao phối hoặc tạo con lai bất thụ.</li>
+<li>Khi <strong>cách li sinh sản</strong> xuất hiện → <strong>loài mới</strong> hình thành (tiêu chuẩn quan trọng nhất).</li>
+</ul>
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+Ví dụ: hai quần thể ếch bị ngăn cách bởi dãy núi, sau nhiều thế hệ không còn giao phối được với nhau → hai loài.
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Thích nghi</h2>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Thích nghi</strong> là khả năng của sinh vật <strong>tồn tại và sinh sản</strong> trong môi trường nhất định.</li>
+<li>Được hình thành qua <strong>chọn lọc tự nhiên</strong>: các đặc điểm có lợi được giữ lại.</li>
+<li>Thích nghi chỉ mang tính <strong>tương đối</strong> (hợp lí tương đối): đặc điểm có lợi trong môi trường này có thể bất lợi khi môi trường đổi khác.</li>
+</ul>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li>Đơn vị tiến hóa là quần thể; tiến hóa nhỏ làm biến đổi vốn gene.</li>
+<li>Đột biến là nguyên liệu sơ cấp; chọn lọc tự nhiên là nhân tố định hướng duy nhất.</li>
+<li>Loài mới hình thành khi xuất hiện cách li sinh sản.</li>
+<li>Thích nghi mang tính tương đối.</li>
+</ul>
+</div><p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
