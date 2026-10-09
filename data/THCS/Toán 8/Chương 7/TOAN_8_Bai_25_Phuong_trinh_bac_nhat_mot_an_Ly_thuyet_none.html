@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 25: Phương trình bậc nhất một ẩn</title>
+    <meta name="lesson-title" content="Bài 25: Phương trình bậc nhất một ẩn">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 25: Phương trình bậc nhất một ẩn</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 7: Phương trình bậc nhất và hàm số bậc nhất • Bài 25: Phương trình bậc nhất một ẩn</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<p>Phương trình bậc nhất một ẩn là loại phương trình đơn giản nhưng rất quan trọng — là công cụ để giải nhiều bài toán thực tế ở bài 26.</p>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-6">1. Phương trình bậc nhất một ẩn</h2>
+<p><strong>Định nghĩa:</strong> Phương trình dạng $ax+b=0$ (với $a, b$ là hai số đã cho, $a \ne 0$) được gọi là <strong>phương trình bậc nhất một ẩn</strong> $x$.</p>
+<ul class="list-disc pl-6 space-y-1">
+<li>$x$ là <strong>ẩn</strong>; $a$ gọi là <strong>hệ số của $x$</strong>, $b$ gọi là <strong>hằng số</strong> (hạng tử tự do).</li>
+<li>Số $x_0$ gọi là <strong>nghiệm</strong> của phương trình nếu thay $x=x_0$ vào ta được đẳng thức đúng.</li>
+</ul>
+<div class="bg-sky-50 border border-sky-200 rounded-xl p-4 mt-3">
+<p class="font-bold text-sky-800">📌 Ví dụ 1</p>
+<p>$2x+6=0$ là phương trình bậc nhất một ẩn ($a=2, b=6$); $x=-3$ là nghiệm vì $2\cdot(-3)+6=0$.<br>
+$0x+5=0$ <strong>không phải</strong> phương trình bậc nhất (vì $a=0$); $x^2-1=0$ cũng không phải (bậc hai).</p>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-6">2. Cách giải phương trình bậc nhất một ẩn</h2>
+<p>$$ax+b=0 \iff ax=-b \iff x=-\frac{b}{a}.$$</p>
+<p>Vậy phương trình bậc nhất một ẩn <strong>luôn có một nghiệm duy nhất</strong> là $x=-\dfrac{b}{a}$.</p>
+<div class="bg-sky-50 border border-sky-200 rounded-xl p-4 mt-3">
+<p class="font-bold text-sky-800">📌 Ví dụ 2</p>
+<p>Giải phương trình $3x-12=0$:<br>
+$3x-12=0 \iff 3x=12 \iff x=4$. Vậy phương trình có nghiệm $x=4$.</p>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-6">3. Phương trình đưa được về dạng $ax+b=0$</h2>
+<p>Nhiều phương trình thoạt nhìn phức tạp nhưng sau khi biến đổi (bỏ ngoặc, quy đồng, <strong>chuyển vế đổi dấu</strong>) sẽ đưa về dạng $ax+b=0$.</p>
+<div class="bg-sky-50 border border-sky-200 rounded-xl p-4 mt-3">
+<p class="font-bold text-sky-800">📌 Ví dụ 3</p>
+<p>Giải phương trình $2(x+3)=x+10$:<br>
+$2(x+3)=x+10 \iff 2x+6=x+10 \iff 2x-x=10-6 \iff x=4$.<br>
+Vậy phương trình có nghiệm $x=4$.</p>
+</div>
+
+<div class="svg-fig">
+<svg viewBox="0 0 400 170" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,sans-serif">
+<text x="200" y="18" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Cân thăng bằng: minh họa phương trình</text>
+<line x1="200" y1="30" x2="200" y2="120" stroke="#64748b" stroke-width="4"/>
+<line x1="60" y1="55" x2="340" y2="55" stroke="#64748b" stroke-width="4"/>
+<line x1="100" y1="55" x2="100" y2="80" stroke="#94a3b8" stroke-width="2"/>
+<line x1="300" y1="55" x2="300" y2="80" stroke="#94a3b8" stroke-width="2"/>
+<rect x="60" y="80" width="80" height="40" rx="6" fill="#bae6fd" stroke="#0284c7"/>
+<text x="100" y="105" text-anchor="middle" font-size="14" fill="#0f172a">3x</text>
+<rect x="260" y="80" width="80" height="40" rx="6" fill="#fde68a" stroke="#d97706"/>
+<text x="300" y="105" text-anchor="middle" font-size="14" fill="#0f172a">12</text>
+<text x="200" y="145" text-anchor="middle" font-size="13" fill="#0f172a">3x = 12 (hai đĩa cân bằng) → x = 4</text>
+<text x="200" y="163" text-anchor="middle" font-size="12" fill="#475569">Làm gì một vế thì làm y hệt vế kia: cân vẫn thăng bằng</text>
+</svg>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 rounded-r-xl p-4 mt-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<ul class="list-disc pl-6 space-y-1">
+<li>Phương trình bậc nhất một ẩn có dạng $ax+b=0$ với $a \ne 0$.</li>
+<li>Cách giải: $ax+b=0 \iff x=-\dfrac{b}{a}$ — phương trình có <strong>nghiệm duy nhất</strong>.</li>
+<li>Hai quy tắc biến đổi: <strong>chuyển vế đổi dấu</strong>; <strong>nhân/chia cả hai vế</strong> với cùng một số khác 0.</li>
+<li>Kiểm tra nghiệm bằng cách <strong>thử lại</strong> vào phương trình ban đầu.</li>
+</ul>
+</div>
+
+
+            </div>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
