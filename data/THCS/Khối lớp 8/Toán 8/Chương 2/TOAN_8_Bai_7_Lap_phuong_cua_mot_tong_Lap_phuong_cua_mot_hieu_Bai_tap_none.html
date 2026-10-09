@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài tập Bài 7: Lập phương của một tổng. Lập phương của một hiệu</title>
+    <meta name="lesson-title" content="Bài tập Bài 7: Lập phương của một tổng. Lập phương của một hiệu">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Bài tập</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài tập Bài 7: Lập phương của một tổng. Lập phương của một hiệu</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 2: Hằng đẳng thức đáng nhớ và ứng dụng • Bài 7: Lập phương của một tổng. Lập phương của một hiệu</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="saobay-exam10">
+<script type="application/json" class="saobay-exam10-data">
+{
+  "sets": [
+    {
+      "name": "Đề 1",
+      "questions": [
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Khai triển $(x+1)^3$ ta được",
+          "options": [
+            "A. $x^3+3x^2+3x+1$",
+            "B. $x^3+1$",
+            "C. $x^3+3x^2+3x-1$",
+            "D. $x^3+x^2+x+1$"
+          ],
+          "answer": "A",
+          "explain": "$(x+1)^3=x^3+3\\cdot x^2\\cdot 1+3\\cdot x\\cdot 1^2+1^3=x^3+3x^2+3x+1$."
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Khai triển $(x-2)^3$ ta được",
+          "options": [
+            "A. $x^3-8$",
+            "B. $x^3-6x^2-12x-8$",
+            "C. $x^3+6x^2+12x+8$",
+            "D. $x^3-6x^2+12x-8$"
+          ],
+          "answer": "D",
+          "explain": "$(x-2)^3=x^3-3\\cdot x^2\\cdot 2+3\\cdot x\\cdot 2^2-2^3=x^3-6x^2+12x-8$."
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Khai triển $(2x+1)^3$ ta được",
+          "options": [
+            "A. $8x^3+12x^2+6x-1$",
+            "B. $2x^3+12x^2+6x+1$",
+            "C. $8x^3+12x^2+6x+1$",
+            "D. $8x^3+1$"
+          ],
+          "answer": "C",
+          "explain": "$(2x+1)^3=(2x)^3+3\\cdot (2x)^2\\cdot 1+3\\cdot 2x\\cdot 1^2+1^3=8x^3+12x^2+6x+1$."
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Rút gọn biểu thức $(x+1)^3+(x-1)^3$",
+          "options": [
+            "A. $6x^2+2$",
+            "B. $2x^3+6x$",
+            "C. $2x^3$",
+            "D. $2x^3+6x+2$"
+          ],
+          "answer": "B",
+          "explain": "$(x+1)^3+(x-1)^3=(x^3+3\\cdot 1x^2+3\\cdot 1^2x+1^3)+(x^3-3\\cdot 1x^2+3\\cdot 1^2x-1^3)=2x^3+6x$."
+        },
+        {
+          "type": "mcq",
+          "level": "VD",
+          "q": "Tính nhanh: $11^3$",
+          "options": [
+            "A. $1001$",
+            "B. $1301$",
+            "C. $1329$",
+            "D. $1331$"
+          ],
+          "answer": "D",
+          "explain": "$11^3=(10+1)^3=1000+300+30+1=1331$."
+        },
+        {
+          "type": "mcq",
+          "level": "VDC",
+          "q": "Rút gọn biểu thức $(x+1)^3-(x-1)^3$",
+          "options": [
+            "A. $2$",
+            "B. $2x^3+6x$",
+            "C. $6x^2+2$",
+            "D. $6x^2$"
+          ],
+          "answer": "C",
+          "explain": "$(x+1)^3-(x-1)^3=(x^3+3\\cdot 1x^2+3\\cdot 1^2x+1^3)-(x^3-3\\cdot 1x^2+3\\cdot 1^2x-1^3)=6x^2+2$."
+        },
+        {
+          "type": "truefalse",
+          "level": "NB",
+          "q": "Xét tính đúng sai của các khẳng định sau.",
+          "statements": [
+            "a) $(a+b)^3=a^3+3a^2b+3ab^2+b^3$",
+            "b) $(a-b)^3=a^3-3a^2b+3ab^2-b^3$",
+            "c) $(a+b)^3=a^3+b^3$",
+            "d) $(x+1)^3=x^3+3x^2+3x+1$"
+          ],
+          "answer": [
+            "T",
+            "T",
+            "F",
+            "T"
+          ],
+          "explain": "a) Đúng theo hằng đẳng thức lập phương của một tổng. b) Đúng theo hằng đẳng thức lập phương của một hiệu. c) Sai, thiếu các số hạng $3a^2b+3ab^2$. d) Đúng theo hằng đẳng thức $(a+b)^3$."
+        },
+        {
+          "type": "truefalse",
+          "level": "TH",
+          "q": "Xét tính đúng sai của các khẳng định sau.",
+          "statements": [
+            "a) $11^3=1331$",
+            "b) $9^3=729$",
+            "c) $(x+2)^3-(x-2)^3=12x^2+16$",
+            "d) $(x+1)^3+(x-1)^3=2x^3+6x$"
+          ],
+          "answer": [
+            "T",
+            "T",
+            "T",
+            "T"
+          ],
+          "explain": "a) Đúng vì $(10+1)^3=1000+300+30+1=1331$. b) Đúng vì $(10-1)^3=1000-300+30-1=729$. c) Đúng vì khai triển và rút gọn được $12x^2+16$. d) Đúng vì khai triển và rút gọn được $2x^3+6x$."
+        },
+        {
+          "type": "short",
+          "level": "VD",
+          "q": "Điền số thích hợp vào chỗ trống: $(x+?)^3=x^3+6x^2+6^2x+2^3$",
+          "answer": "2",
+          "explain": "$(x+2)^3=x^3+3\\cdot x^2\\cdot 2+3\\cdot x\\cdot 2^2+2^3$ nên số cần điền là $2$."
+        },
+        {
+          "type": "short",
+          "level": "NB",
+          "q": "Trong khai triển $(x+2)^3$, hệ số của $x^2$ bằng bao nhiêu?",
+          "answer": "6",
+          "explain": "$(x+2)^3=x^3+6x^2+\\cdots$ nên hệ số của $x^2$ là $6$."
+        }
+      ]
+    },
+    {
+      "name": "Đề 2",
+      "questions": [
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Khai triển $(x+2)^3$ ta được",
+          "options": [
+            "A. $x^3+8$",
+            "B. $x^3+6x^2+12x-8$",
+            "C. $x^3+2x^2+4x+8$",
+            "D. $x^3+6x^2+12x+8$"
+          ],
+          "answer": "D",
+          "explain": "$(x+2)^3=x^3+3\\cdot x^2\\cdot 2+3\\cdot x\\cdot 2^2+2^3=x^3+6x^2+12x+8$."
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Khai triển $(x-3)^3$ ta được",
+          "options": [
+            "A. $x^3-9x^2-27x-27$",
+            "B. $x^3+9x^2+27x+27$",
+            "C. $x^3-9x^2+27x-27$",
+            "D. $x^3-27$"
+          ],
+          "answer": "C",
+          "explain": "$(x-3)^3=x^3-3\\cdot x^2\\cdot 3+3\\cdot x\\cdot 3^2-3^3=x^3-9x^2+27x-27$."
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Khai triển $(2x+2)^3$ ta được",
+          "options": [
+            "A. $2x^3+24x^2+24x+8$",
+            "B. $8x^3+24x^2+24x+8$",
+            "C. $8x^3+8$",
+            "D. $8x^3+24x^2+24x-8$"
+          ],
+          "answer": "B",
+          "explain": "$(2x+2)^3=(2x)^3+3\\cdot (2x)^2\\cdot 2+3\\cdot 2x\\cdot 2^2+2^3=8x^3+24x^2+24x+8$."
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Rút gọn biểu thức $(x+2)^3+(x-2)^3$",
+          "options": [
+            "A. $2x^3+24x$",
+            "B. $2x^3$",
+            "C. $2x^3+24x+16$",
+            "D. $12x^2+16$"
+          ],
+          "answer": "A",
+          "explain": "$(x+2)^3+(x-2)^3=(x^3+3\\cdot 2x^2+3\\cdot 2^2x+2^3)+(x^3-3\\cdot 2x^2+3\\cdot 2^2x-2^3)=2x^3+24x$."
+        },
+        {
+          "type": "mcq",
+          "level": "VD",
+          "q": "Tính nhanh: $12^3$",
+          "options": [
+            "A. $1608$",
+            "B. $1712$",
+            "C. $1728$",
+            "D. $1008$"
+          ],
+          "answer": "C",
+          "explain": "$12^3=(10+2)^3=1000+600+120+8=1728$."
+        },
+        {
+          "type": "mcq",
+          "level": "VDC",
+          "q": "Rút gọn biểu thức $(x+2)^3-(x-2)^3$",
+          "options": [
+            "A. $2x^3+24x$",
+            "B. $12x^2+16$",
+            "C. $12x^2$",
+            "D. $16$"
+          ],
+          "answer": "B",
+          "explain": "$(x+2)^3-(x-2)^3=(x^3+3\\cdot 2x^2+3\\cdot 2^2x+2^3)-(x^3-3\\cdot 2x^2+3\\cdot 2^2x-2^3)=12x^2+16$."
+        },
+        {
+          "type": "truefalse",
+          "level": "NB",
+          "q": "Xét tính đúng sai của các khẳng định sau.",
+          "statements": [
+            "a) $(a-b)^3=a^3-3a^2b+3ab^2-b^3$",
+            "b) $(a+b)^3=a^3+b^3$",
+            "c) $(x+1)^3=x^3+3x^2+3x+1$",
+            "d) $(x-1)^3=x^3-3x^2-3x-1$"
+          ],
+          "answer": [
+            "T",
+            "F",
+            "T",
+            "F"
+          ],
+          "explain": "a) Đúng theo hằng đẳng thức lập phương của một hiệu. b) Sai, thiếu các số hạng $3a^2b+3ab^2$. c) Đúng theo hằng đẳng thức $(a+b)^3$. d) Sai; đúng phải là $x^3-3x^2+3x-1$."
+        },
+        {
+          "type": "truefalse",
+          "level": "TH",
+          "q": "Xét tính đúng sai của các khẳng định sau.",
+          "statements": [
+            "a) $9^3=729$",
+            "b) $(x+2)^3-(x-2)^3=12x^2+16$",
+            "c) $(x+1)^3+(x-1)^3=2x^3+6x$",
+            "d) $21^3=9261$"
+          ],
+          "answer": [
+            "T",
+            "T",
+            "T",
+            "T"
+          ],
+          "explain": "a) Đúng vì $(10-1)^3=1000-300+30-1=729$. b) Đúng vì khai triển và rút gọn được $12x^2+16$. c) Đúng vì khai triển và rút gọn được $2x^3+6x$. d) Đúng vì $(20+1)^3=8000+1200+60+1=9261$."
+        },
+        {
+          "type": "short",
+          "level": "VD",
+          "q": "Tính giá trị của biểu thức $(2x-1)^3$ tại $x=4$",
+          "answer": "343",
+          "explain": "Thay $x=4$ vào biểu thức được $(2\\cdot 4-1)^3=7^3=343$."
+        },
+        {
+          "type": "short",
+          "level": "NB",
+          "q": "Trong khai triển $(x+3)^3$, hệ số của $x^2$ bằng bao nhiêu?",
+          "answer": "9",
+          "explain": "$(x+3)^3=x^3+9x^2+\\cdots$ nên hệ số của $x^2$ là $9$."
+        }
+      ]
+    },
+    {
+      "name": "Đề 3",
+      "questions": [
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Khai triển $(x+3)^3$ ta được",
+          "options": [
+            "A. $x^3+9x^2+27x-27$",
+            "B. $x^3+3x^2+9x+27$",
+            "C. $x^3+9x^2+27x+27$",
+            "D. $x^3+27$"
+          ],
+          "answer": "C",
+          "explain": "$(x+3)^3=x^3+3\\cdot x^2\\cdot 3+3\\cdot x\\cdot 3^2+3^3=x^3+9x^2+27x+27$."
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Khai triển $(x-1)^3$ ta được",
+          "options": [
+            "A. $x^3+3x^2+3x+1$",
+            "B. $x^3-3x^2+3x-1$",
+            "C. $x^3-1$",
+            "D. $x^3-3x^2-3x-1$"
+          ],
+          "answer": "B",
+          "explain": "$(x-1)^3=x^3-3\\cdot x^2\\cdot 1+3\\cdot x\\cdot 1^2-1^3=x^3-3x^2+3x-1$."
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Khai triển $(2x+3)^3$ ta được",
+          "options": [
+            "A. $8x^3+36x^2+54x+27$",
+            "B. $8x^3+27$",
+            "C. $8x^3+36x^2+54x-27$",
+            "D. $2x^3+36x^2+54x+27$"
+          ],
+          "answer": "A",
+          "explain": "$(2x+3)^3=(2x)^3+3\\cdot (2x)^2\\cdot 3+3\\cdot 2x\\cdot 3^2+3^3=8x^3+36x^2+54x+27$."
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Rút gọn biểu thức $(x+3)^3+(x-3)^3$",
+          "options": [
+            "A. $2x^3$",
+            "B. $2x^3+54x+54$",
+            "C. $18x^2+54$",
+            "D. $2x^3+54x$"
+          ],
+          "answer": "D",
+          "explain": "$(x+3)^3+(x-3)^3=(x^3+3\\cdot 3x^2+3\\cdot 3^2x+3^3)+(x^3-3\\cdot 3x^2+3\\cdot 3^2x-3^3)=2x^3+54x$."
+        },
+        {
+          "type": "mcq",
+          "level": "VD",
+          "q": "Tính nhanh: $13^3$",
+          "options": [
+            "A. $2143$",
+            "B. $2197$",
+            "C. $1027$",
+            "D. $1927$"
+          ],
+          "answer": "B",
+          "explain": "$13^3=(10+3)^3=1000+900+270+27=2197$."
+        },
+        {
+          "type": "mcq",
+          "level": "VDC",
+          "q": "Rút gọn biểu thức $(x+3)^3-(x-3)^3$",
+          "options": [
+            "A. $18x^2+54$",
+            "B. $18x^2$",
+            "C. $54$",
+            "D. $2x^3+54x$"
+          ],
+          "answer": "A",
+          "explain": "$(x+3)^3-(x-3)^3=(x^3+3\\cdot 3x^2+3\\cdot 3^2x+3^3)-(x^3-3\\cdot 3x^2+3\\cdot 3^2x-3^3)=18x^2+54$."
+        },
+        {
+          "type": "truefalse",
+          "level": "NB",
+          "q": "Xét tính đúng sai của các khẳng định sau.",
+          "statements": [
+            "a) $(a+b)^3=a^3+b^3$",
+            "b) $(x+1)^3=x^3+3x^2+3x+1$",
+            "c) $(x-1)^3=x^3-3x^2-3x-1$",
+            "d) $(2x+1)^3=8x^3+12x^2+6x+1$"
+          ],
+          "answer": [
+            "F",
+            "T",
+            "F",
+            "T"
+          ],
+          "explain": "a) Sai, thiếu các số hạng $3a^2b+3ab^2$. b) Đúng theo hằng đẳng thức $(a+b)^3$. c) Sai; đúng phải là $x^3-3x^2+3x-1$. d) Đúng theo hằng đẳng thức $(a+b)^3$."
+        },
+        {
+          "type": "truefalse",
+          "level": "TH",
+          "q": "Xét tính đúng sai của các khẳng định sau.",
+          "statements": [
+            "a) $(x+2)^3-(x-2)^3=12x^2+16$",
+            "b) $(x+1)^3+(x-1)^3=2x^3+6x$",
+            "c) $21^3=9261$",
+            "d) $(2-x)^3=8-12x+6x^2-x^3$"
+          ],
+          "answer": [
+            "T",
+            "T",
+            "T",
+            "T"
+          ],
+          "explain": "a) Đúng vì khai triển và rút gọn được $12x^2+16$. b) Đúng vì khai triển và rút gọn được $2x^3+6x$. c) Đúng vì $(20+1)^3=8000+1200+60+1=9261$. d) Đúng theo hằng đẳng thức $(a-b)^3$ với $a=2$, $b=x$."
+        },
+        {
+          "type": "short",
+          "level": "VD",
+          "q": "Điền số thích hợp vào chỗ trống: $(x+?)^3=x^3+12x^2+12^2x+4^3$",
+          "answer": "4",
+          "explain": "$(x+4)^3=x^3+3\\cdot x^2\\cdot 4+3\\cdot x\\cdot 4^2+4^3$ nên số cần điền là $4$."
+        },
+        {
+          "type": "short",
+          "level": "NB",
+          "q": "Trong khai triển $(x+4)^3$, hệ số của $x^2$ bằng bao nhiêu?",
+          "answer": "12",
+          "explain": "$(x+4)^3=x^3+12x^2+\\cdots$ nên hệ số của $x^2$ là $12$."
+        }
+      ]
+    },
+    {
+      "name": "Đề 4",
+      "questions": [
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Khai triển $(x+4)^3$ ta được",
+          "options": [
+            "A. $x^3+4x^2+16x+64$",
+            "B. $x^3+12x^2+48x+64$",
+            "C. $x^3+64$",
+            "D. $x^3+12x^2+48x-64$"
+          ],
+          "answer": "B",
+          "explain": "$(x+4)^3=x^3+3\\cdot x^2\\cdot 4+3\\cdot x\\cdot 4^2+4^3=x^3+12x^2+48x+64$."
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Khai triển $(x-4)^3$ ta được",
+          "options": [
+            "A. $x^3-12x^2+48x-64$",
+            "B. $x^3-64$",
+            "C. $x^3-12x^2-48x-64$",
+            "D. $x^3+12x^2+48x+64$"
+          ],
+          "answer": "A",
+          "explain": "$(x-4)^3=x^3-3\\cdot x^2\\cdot 4+3\\cdot x\\cdot 4^2-4^3=x^3-12x^2+48x-64$."
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Khai triển $(2x+4)^3$ ta được",
+          "options": [
+            "A. $8x^3+64$",
+            "B. $8x^3+48x^2+96x-64$",
+            "C. $2x^3+48x^2+96x+64$",
+            "D. $8x^3+48x^2+96x+64$"
+          ],
+          "answer": "D",
+          "explain": "$(2x+4)^3=(2x)^3+3\\cdot (2x)^2\\cdot 4+3\\cdot 2x\\cdot 4^2+4^3=8x^3+48x^2+96x+64$."
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Rút gọn biểu thức $(x+4)^3+(x-4)^3$",
+          "options": [
+            "A. $2x^3+96x+128$",
+            "B. $24x^2+128$",
+            "C. $2x^3+96x$",
+            "D. $2x^3$"
+          ],
+          "answer": "C",
+          "explain": "$(x+4)^3+(x-4)^3=(x^3+3\\cdot 4x^2+3\\cdot 4^2x+4^3)+(x^3-3\\cdot 4x^2+3\\cdot 4^2x-4^3)=2x^3+96x$."
+        },
+        {
+          "type": "mcq",
+          "level": "VD",
+          "q": "Tính nhanh: $9^3$",
+          "options": [
+            "A. $729$",
+            "B. $999$",
+            "C. $699$",
+            "D. $731$"
+          ],
+          "answer": "A",
+          "explain": "$9^3=(10-1)^3=1000-300+30-1=729$."
+        },
+        {
+          "type": "mcq",
+          "level": "VDC",
+          "q": "Rút gọn biểu thức $(x+4)^3-(x-4)^3$",
+          "options": [
+            "A. $24x^2$",
+            "B. $128$",
+            "C. $2x^3+96x$",
+            "D. $24x^2+128$"
+          ],
+          "answer": "D",
+          "explain": "$(x+4)^3-(x-4)^3=(x^3+3\\cdot 4x^2+3\\cdot 4^2x+4^3)-(x^3-3\\cdot 4x^2+3\\cdot 4^2x-4^3)=24x^2+128$."
+        },
+        {
+          "type": "truefalse",
+          "level": "NB",
+          "q": "Xét tính đúng sai của các khẳng định sau.",
+          "statements": [
+            "a) $(x+1)^3=x^3+3x^2+3x+1$",
+            "b) $(x-1)^3=x^3-3x^2-3x-1$",
+            "c) $(2x+1)^3=8x^3+12x^2+6x+1$",
+            "d) $(a-b)^3=a^3-b^3$"
+          ],
+          "answer": [
+            "T",
+            "F",
+            "T",
+            "F"
+          ],
+          "explain": "a) Đúng theo hằng đẳng thức $(a+b)^3$. b) Sai; đúng phải là $x^3-3x^2+3x-1$. c) Đúng theo hằng đẳng thức $(a+b)^3$. d) Sai, thiếu các số hạng $-3a^2b+3ab^2$."
+        },
+        {
+          "type": "truefalse",
+          "level": "TH",
+          "q": "Xét tính đúng sai của các khẳng định sau.",
+          "statements": [
+            "a) $(x+1)^3+(x-1)^3=2x^3+6x$",
+            "b) $21^3=9261$",
+            "c) $(2-x)^3=8-12x+6x^2-x^3$",
+            "d) $(x+3)^3=x^3+9x^2+9x+27$"
+          ],
+          "answer": [
+            "T",
+            "T",
+            "T",
+            "F"
+          ],
+          "explain": "a) Đúng vì khai triển và rút gọn được $2x^3+6x$. b) Đúng vì $(20+1)^3=8000+1200+60+1=9261$. c) Đúng theo hằng đẳng thức $(a-b)^3$ với $a=2$, $b=x$. d) Sai; số hạng $9x$ đúng phải là $27x$."
+        },
+        {
+          "type": "short",
+          "level": "VD",
+          "q": "Tính giá trị của biểu thức $(2x-1)^3$ tại $x=6$",
+          "answer": "1331",
+          "explain": "Thay $x=6$ vào biểu thức được $(2\\cdot 6-1)^3=11^3=1331$."
+        },
+        {
+          "type": "short",
+          "level": "NB",
+          "q": "Trong khai triển $(x+5)^3$, hệ số của $x^2$ bằng bao nhiêu?",
+          "answer": "15",
+          "explain": "$(x+5)^3=x^3+15x^2+\\cdots$ nên hệ số của $x^2$ là $15$."
+        }
+      ]
+    },
+    {
+      "name": "Đề 5",
+      "questions": [
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Khai triển $(x+5)^3$ ta được",
+          "options": [
+            "A. $x^3+15x^2+75x+125$",
+            "B. $x^3+125$",
+            "C. $x^3+15x^2+75x-125$",
+            "D. $x^3+5x^2+25x+125$"
+          ],
+          "answer": "A",
+          "explain": "$(x+5)^3=x^3+3\\cdot x^2\\cdot 5+3\\cdot x\\cdot 5^2+5^3=x^3+15x^2+75x+125$."
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Khai triển $(x-5)^3$ ta được",
+          "options": [
+            "A. $x^3-125$",
+            "B. $x^3-15x^2-75x-125$",
+            "C. $x^3+15x^2+75x+125$",
+            "D. $x^3-15x^2+75x-125$"
+          ],
+          "answer": "D",
+          "explain": "$(x-5)^3=x^3-3\\cdot x^2\\cdot 5+3\\cdot x\\cdot 5^2-5^3=x^3-15x^2+75x-125$."
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Khai triển $(2x+5)^3$ ta được",
+          "options": [
+            "A. $8x^3+60x^2+150x-125$",
+            "B. $2x^3+60x^2+150x+125$",
+            "C. $8x^3+60x^2+150x+125$",
+            "D. $8x^3+125$"
+          ],
+          "answer": "C",
+          "explain": "$(2x+5)^3=(2x)^3+3\\cdot (2x)^2\\cdot 5+3\\cdot 2x\\cdot 5^2+5^3=8x^3+60x^2+150x+125$."
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Rút gọn biểu thức $(x+5)^3+(x-5)^3$",
+          "options": [
+            "A. $30x^2+250$",
+            "B. $2x^3+150x$",
+            "C. $2x^3$",
+            "D. $2x^3+150x+250$"
+          ],
+          "answer": "B",
+          "explain": "$(x+5)^3+(x-5)^3=(x^3+3\\cdot 5x^2+3\\cdot 5^2x+5^3)+(x^3-3\\cdot 5x^2+3\\cdot 5^2x-5^3)=2x^3+150x$."
+        },
+        {
+          "type": "mcq",
+          "level": "VD",
+          "q": "Tính nhanh: $21^3$",
+          "options": [
+            "A. $8001$",
+            "B. $9201$",
+            "C. $9259$",
+            "D. $9261$"
+          ],
+          "answer": "D",
+          "explain": "$21^3=(20+1)^3=8000+1200+60+1=9261$."
+        },
+        {
+          "type": "mcq",
+          "level": "VDC",
+          "q": "Rút gọn biểu thức $(x+5)^3-(x-5)^3$",
+          "options": [
+            "A. $250$",
+            "B. $2x^3+150x$",
+            "C. $30x^2+250$",
+            "D. $30x^2$"
+          ],
+          "answer": "C",
+          "explain": "$(x+5)^3-(x-5)^3=(x^3+3\\cdot 5x^2+3\\cdot 5^2x+5^3)-(x^3-3\\cdot 5x^2+3\\cdot 5^2x-5^3)=30x^2+250$."
+        },
+        {
+          "type": "truefalse",
+          "level": "NB",
+          "q": "Xét tính đúng sai của các khẳng định sau.",
+          "statements": [
+            "a) $(x-1)^3=x^3-3x^2-3x-1$",
+            "b) $(2x+1)^3=8x^3+12x^2+6x+1$",
+            "c) $(a-b)^3=a^3-b^3$",
+            "d) $(x+2)^3=x^3+6x^2+12x+8$"
+          ],
+          "answer": [
+            "F",
+            "T",
+            "F",
+            "T"
+          ],
+          "explain": "a) Sai; đúng phải là $x^3-3x^2+3x-1$. b) Đúng theo hằng đẳng thức $(a+b)^3$. c) Sai, thiếu các số hạng $-3a^2b+3ab^2$. d) Đúng theo hằng đẳng thức $(a+b)^3$."
+        },
+        {
+          "type": "truefalse",
+          "level": "TH",
+          "q": "Xét tính đúng sai của các khẳng định sau.",
+          "statements": [
+            "a) $21^3=9261$",
+            "b) $(2-x)^3=8-12x+6x^2-x^3$",
+            "c) $(x+3)^3=x^3+9x^2+9x+27$",
+            "d) $(x-2)^3=x^3-6x^2+12x+8$"
+          ],
+          "answer": [
+            "T",
+            "T",
+            "F",
+            "F"
+          ],
+          "explain": "a) Đúng vì $(20+1)^3=8000+1200+60+1=9261$. b) Đúng theo hằng đẳng thức $(a-b)^3$ với $a=2$, $b=x$. c) Sai; số hạng $9x$ đúng phải là $27x$. d) Sai; số hạng cuối đúng phải là $-8$."
+        },
+        {
+          "type": "short",
+          "level": "VD",
+          "q": "Điền số thích hợp vào chỗ trống: $(x+?)^3=x^3+18x^2+18^2x+6^3$",
+          "answer": "6",
+          "explain": "$(x+6)^3=x^3+3\\cdot x^2\\cdot 6+3\\cdot x\\cdot 6^2+6^3$ nên số cần điền là $6$."
+        },
+        {
+          "type": "short",
+          "level": "NB",
+          "q": "Trong khai triển $(x+6)^3$, hệ số của $x^2$ bằng bao nhiêu?",
+          "answer": "18",
+          "explain": "$(x+6)^3=x^3+18x^2+\\cdots$ nên hệ số của $x^2$ là $18$."
+        }
+      ]
+    },
+    {
+      "name": "Đề 6",
+      "questions": [
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Khai triển $(x+6)^3$ ta được",
+          "options": [
+            "A. $x^3+216$",
+            "B. $x^3+18x^2+108x-216$",
+            "C. $x^3+6x^2+36x+216$",
+            "D. $x^3+18x^2+108x+216$"
+          ],
+          "answer": "D",
+          "explain": "$(x+6)^3=x^3+3\\cdot x^2\\cdot 6+3\\cdot x\\cdot 6^2+6^3=x^3+18x^2+108x+216$."
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Khai triển $(x-6)^3$ ta được",
+          "options": [
+            "A. $x^3-18x^2-108x-216$",
+            "B. $x^3+18x^2+108x+216$",
+            "C. $x^3-18x^2+108x-216$",
+            "D. $x^3-216$"
+          ],
+          "answer": "C",
+          "explain": "$(x-6)^3=x^3-3\\cdot x^2\\cdot 6+3\\cdot x\\cdot 6^2-6^3=x^3-18x^2+108x-216$."
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Khai triển $(2x+6)^3$ ta được",
+          "options": [
+            "A. $2x^3+72x^2+216x+216$",
+            "B. $8x^3+72x^2+216x+216$",
+            "C. $8x^3+216$",
+            "D. $8x^3+72x^2+216x-216$"
+          ],
+          "answer": "B",
+          "explain": "$(2x+6)^3=(2x)^3+3\\cdot (2x)^2\\cdot 6+3\\cdot 2x\\cdot 6^2+6^3=8x^3+72x^2+216x+216$."
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Rút gọn biểu thức $(x+6)^3+(x-6)^3$",
+          "options": [
+            "A. $2x^3+216x$",
+            "B. $2x^3$",
+            "C. $2x^3+216x+432$",
+            "D. $36x^2+432$"
+          ],
+          "answer": "A",
+          "explain": "$(x+6)^3+(x-6)^3=(x^3+3\\cdot 6x^2+3\\cdot 6^2x+6^3)+(x^3-3\\cdot 6x^2+3\\cdot 6^2x-6^3)=2x^3+216x$."
+        },
+        {
+          "type": "mcq",
+          "level": "VD",
+          "q": "Tính nhanh: $19^3$",
+          "options": [
+            "A. $6799$",
+            "B. $6861$",
+            "C. $6859$",
+            "D. $7999$"
+          ],
+          "answer": "C",
+          "explain": "$19^3=(20-1)^3=8000-1200+60-1=6859$."
+        },
+        {
+          "type": "mcq",
+          "level": "VDC",
+          "q": "Rút gọn biểu thức $(x+6)^3-(x-6)^3$",
+          "options": [
+            "A. $2x^3+216x$",
+            "B. $36x^2+432$",
+            "C. $36x^2$",
+            "D. $432$"
+          ],
+          "answer": "B",
+          "explain": "$(x+6)^3-(x-6)^3=(x^3+3\\cdot 6x^2+3\\cdot 6^2x+6^3)-(x^3-3\\cdot 6x^2+3\\cdot 6^2x-6^3)=36x^2+432$."
+        },
+        {
+          "type": "truefalse",
+          "level": "NB",
+          "q": "Xét tính đúng sai của các khẳng định sau.",
+          "statements": [
+            "a) $(2x+1)^3=8x^3+12x^2+6x+1$",
+            "b) $(a-b)^3=a^3-b^3$",
+            "c) $(x+2)^3=x^3+6x^2+12x+8$",
+            "d) $(1-x)^3=1-3x+3x^2-x^3$"
+          ],
+          "answer": [
+            "T",
+            "F",
+            "T",
+            "T"
+          ],
+          "explain": "a) Đúng theo hằng đẳng thức $(a+b)^3$. b) Sai, thiếu các số hạng $-3a^2b+3ab^2$. c) Đúng theo hằng đẳng thức $(a+b)^3$. d) Đúng theo hằng đẳng thức $(a-b)^3$ với $a=1$, $b=x$."
+        },
+        {
+          "type": "truefalse",
+          "level": "TH",
+          "q": "Xét tính đúng sai của các khẳng định sau.",
+          "statements": [
+            "a) $(2-x)^3=8-12x+6x^2-x^3$",
+            "b) $(x+3)^3=x^3+9x^2+9x+27$",
+            "c) $(x-2)^3=x^3-6x^2+12x+8$",
+            "d) $12^3=1728$"
+          ],
+          "answer": [
+            "T",
+            "F",
+            "F",
+            "T"
+          ],
+          "explain": "a) Đúng theo hằng đẳng thức $(a-b)^3$ với $a=2$, $b=x$. b) Sai; số hạng $9x$ đúng phải là $27x$. c) Sai; số hạng cuối đúng phải là $-8$. d) Đúng vì $(10+2)^3=1000+600+120+8=1728$."
+        },
+        {
+          "type": "short",
+          "level": "VD",
+          "q": "Tính giá trị của biểu thức $(2x-1)^3$ tại $x=8$",
+          "answer": "3375",
+          "explain": "Thay $x=8$ vào biểu thức được $(2\\cdot 8-1)^3=15^3=3375$."
+        },
+        {
+          "type": "short",
+          "level": "NB",
+          "q": "Trong khai triển $(x+7)^3$, hệ số của $x^2$ bằng bao nhiêu?",
+          "answer": "21",
+          "explain": "$(x+7)^3=x^3+21x^2+\\cdots$ nên hệ số của $x^2$ là $21$."
+        }
+      ]
+    },
+    {
+      "name": "Đề 7",
+      "questions": [
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Khai triển $(x+7)^3$ ta được",
+          "options": [
+            "A. $x^3+21x^2+147x-343$",
+            "B. $x^3+7x^2+49x+343$",
+            "C. $x^3+21x^2+147x+343$",
+            "D. $x^3+343$"
+          ],
+          "answer": "C",
+          "explain": "$(x+7)^3=x^3+3\\cdot x^2\\cdot 7+3\\cdot x\\cdot 7^2+7^3=x^3+21x^2+147x+343$."
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Khai triển $(x-7)^3$ ta được",
+          "options": [
+            "A. $x^3+21x^2+147x+343$",
+            "B. $x^3-21x^2+147x-343$",
+            "C. $x^3-343$",
+            "D. $x^3-21x^2-147x-343$"
+          ],
+          "answer": "B",
+          "explain": "$(x-7)^3=x^3-3\\cdot x^2\\cdot 7+3\\cdot x\\cdot 7^2-7^3=x^3-21x^2+147x-343$."
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Khai triển $(2x+7)^3$ ta được",
+          "options": [
+            "A. $8x^3+84x^2+294x+343$",
+            "B. $8x^3+343$",
+            "C. $8x^3+84x^2+294x-343$",
+            "D. $2x^3+84x^2+294x+343$"
+          ],
+          "answer": "A",
+          "explain": "$(2x+7)^3=(2x)^3+3\\cdot (2x)^2\\cdot 7+3\\cdot 2x\\cdot 7^2+7^3=8x^3+84x^2+294x+343$."
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Rút gọn biểu thức $(x+7)^3+(x-7)^3$",
+          "options": [
+            "A. $2x^3$",
+            "B. $2x^3+294x+686$",
+            "C. $42x^2+686$",
+            "D. $2x^3+294x$"
+          ],
+          "answer": "D",
+          "explain": "$(x+7)^3+(x-7)^3=(x^3+3\\cdot 7x^2+3\\cdot 7^2x+7^3)+(x^3-3\\cdot 7x^2+3\\cdot 7^2x-7^3)=2x^3+294x$."
+        },
+        {
+          "type": "mcq",
+          "level": "VD",
+          "q": "Tính nhanh: $22^3$",
+          "options": [
+            "A. $10632$",
+            "B. $10648$",
+            "C. $8008$",
+            "D. $10408$"
+          ],
+          "answer": "B",
+          "explain": "$22^3=(20+2)^3=8000+2400+240+8=10648$."
+        },
+        {
+          "type": "mcq",
+          "level": "VDC",
+          "q": "Rút gọn biểu thức $(x+7)^3-(x-7)^3$",
+          "options": [
+            "A. $42x^2+686$",
+            "B. $42x^2$",
+            "C. $686$",
+            "D. $2x^3+294x$"
+          ],
+          "answer": "A",
+          "explain": "$(x+7)^3-(x-7)^3=(x^3+3\\cdot 7x^2+3\\cdot 7^2x+7^3)-(x^3-3\\cdot 7x^2+3\\cdot 7^2x-7^3)=42x^2+686$."
+        },
+        {
+          "type": "truefalse",
+          "level": "NB",
+          "q": "Xét tính đúng sai của các khẳng định sau.",
+          "statements": [
+            "a) $(a-b)^3=a^3-b^3$",
+            "b) $(x+2)^3=x^3+6x^2+12x+8$",
+            "c) $(1-x)^3=1-3x+3x^2-x^3$",
+            "d) $(x+3)^3=x^3+9x^2+27x+9$"
+          ],
+          "answer": [
+            "F",
+            "T",
+            "T",
+            "F"
+          ],
+          "explain": "a) Sai, thiếu các số hạng $-3a^2b+3ab^2$. b) Đúng theo hằng đẳng thức $(a+b)^3$. c) Đúng theo hằng đẳng thức $(a-b)^3$ với $a=1$, $b=x$. d) Sai; số hạng cuối đúng phải là $27$."
+        },
+        {
+          "type": "truefalse",
+          "level": "TH",
+          "q": "Xét tính đúng sai của các khẳng định sau.",
+          "statements": [
+            "a) $(x+3)^3=x^3+9x^2+9x+27$",
+            "b) $(x-2)^3=x^3-6x^2+12x+8$",
+            "c) $12^3=1728$",
+            "d) $(a+b)^3-(a-b)^3=6a^2b+2b^3$"
+          ],
+          "answer": [
+            "F",
+            "F",
+            "T",
+            "T"
+          ],
+          "explain": "a) Sai; số hạng $9x$ đúng phải là $27x$. b) Sai; số hạng cuối đúng phải là $-8$. c) Đúng vì $(10+2)^3=1000+600+120+8=1728$. d) Đúng vì khai triển và rút gọn được $6a^2b+2b^3$."
+        },
+        {
+          "type": "short",
+          "level": "VD",
+          "q": "Điền số thích hợp vào chỗ trống: $(x+?)^3=x^3+24x^2+24^2x+8^3$",
+          "answer": "8",
+          "explain": "$(x+8)^3=x^3+3\\cdot x^2\\cdot 8+3\\cdot x\\cdot 8^2+8^3$ nên số cần điền là $8$."
+        },
+        {
+          "type": "short",
+          "level": "NB",
+          "q": "Trong khai triển $(x+8)^3$, hệ số của $x^2$ bằng bao nhiêu?",
+          "answer": "24",
+          "explain": "$(x+8)^3=x^3+24x^2+\\cdots$ nên hệ số của $x^2$ là $24$."
+        }
+      ]
+    },
+    {
+      "name": "Đề 8",
+      "questions": [
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Khai triển $(x+8)^3$ ta được",
+          "options": [
+            "A. $x^3+8x^2+64x+512$",
+            "B. $x^3+24x^2+192x+512$",
+            "C. $x^3+512$",
+            "D. $x^3+24x^2+192x-512$"
+          ],
+          "answer": "B",
+          "explain": "$(x+8)^3=x^3+3\\cdot x^2\\cdot 8+3\\cdot x\\cdot 8^2+8^3=x^3+24x^2+192x+512$."
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Khai triển $(x-8)^3$ ta được",
+          "options": [
+            "A. $x^3-24x^2+192x-512$",
+            "B. $x^3-512$",
+            "C. $x^3-24x^2-192x-512$",
+            "D. $x^3+24x^2+192x+512$"
+          ],
+          "answer": "A",
+          "explain": "$(x-8)^3=x^3-3\\cdot x^2\\cdot 8+3\\cdot x\\cdot 8^2-8^3=x^3-24x^2+192x-512$."
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Khai triển $(2x+8)^3$ ta được",
+          "options": [
+            "A. $8x^3+512$",
+            "B. $8x^3+96x^2+384x-512$",
+            "C. $2x^3+96x^2+384x+512$",
+            "D. $8x^3+96x^2+384x+512$"
+          ],
+          "answer": "D",
+          "explain": "$(2x+8)^3=(2x)^3+3\\cdot (2x)^2\\cdot 8+3\\cdot 2x\\cdot 8^2+8^3=8x^3+96x^2+384x+512$."
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Rút gọn biểu thức $(x+8)^3+(x-8)^3$",
+          "options": [
+            "A. $2x^3+384x+1024$",
+            "B. $48x^2+1024$",
+            "C. $2x^3+384x$",
+            "D. $2x^3$"
+          ],
+          "answer": "C",
+          "explain": "$(x+8)^3+(x-8)^3=(x^3+3\\cdot 8x^2+3\\cdot 8^2x+8^3)+(x^3-3\\cdot 8x^2+3\\cdot 8^2x-8^3)=2x^3+384x$."
+        },
+        {
+          "type": "mcq",
+          "level": "VD",
+          "q": "Tính nhanh: $18^3$",
+          "options": [
+            "A. $5832$",
+            "B. $7992$",
+            "C. $5592$",
+            "D. $5848$"
+          ],
+          "answer": "A",
+          "explain": "$18^3=(20-2)^3=8000-2400+240-8=5832$."
+        },
+        {
+          "type": "mcq",
+          "level": "VDC",
+          "q": "Rút gọn biểu thức $(x+8)^3-(x-8)^3$",
+          "options": [
+            "A. $48x^2$",
+            "B. $1024$",
+            "C. $2x^3+384x$",
+            "D. $48x^2+1024$"
+          ],
+          "answer": "D",
+          "explain": "$(x+8)^3-(x-8)^3=(x^3+3\\cdot 8x^2+3\\cdot 8^2x+8^3)-(x^3-3\\cdot 8x^2+3\\cdot 8^2x-8^3)=48x^2+1024$."
+        },
+        {
+          "type": "truefalse",
+          "level": "NB",
+          "q": "Xét tính đúng sai của các khẳng định sau.",
+          "statements": [
+            "a) $(x+2)^3=x^3+6x^2+12x+8$",
+            "b) $(1-x)^3=1-3x+3x^2-x^3$",
+            "c) $(x+3)^3=x^3+9x^2+27x+9$",
+            "d) $(a+b)^3=a^3+3a^2b+3ab^2+b^3$"
+          ],
+          "answer": [
+            "T",
+            "T",
+            "F",
+            "T"
+          ],
+          "explain": "a) Đúng theo hằng đẳng thức $(a+b)^3$. b) Đúng theo hằng đẳng thức $(a-b)^3$ với $a=1$, $b=x$. c) Sai; số hạng cuối đúng phải là $27$. d) Đúng theo hằng đẳng thức lập phương của một tổng."
+        },
+        {
+          "type": "truefalse",
+          "level": "TH",
+          "q": "Xét tính đúng sai của các khẳng định sau.",
+          "statements": [
+            "a) $(x-2)^3=x^3-6x^2+12x+8$",
+            "b) $12^3=1728$",
+            "c) $(a+b)^3-(a-b)^3=6a^2b+2b^3$",
+            "d) $11^3=1331$"
+          ],
+          "answer": [
+            "F",
+            "T",
+            "T",
+            "T"
+          ],
+          "explain": "a) Sai; số hạng cuối đúng phải là $-8$. b) Đúng vì $(10+2)^3=1000+600+120+8=1728$. c) Đúng vì khai triển và rút gọn được $6a^2b+2b^3$. d) Đúng vì $(10+1)^3=1000+300+30+1=1331$."
+        },
+        {
+          "type": "short",
+          "level": "VD",
+          "q": "Tính giá trị của biểu thức $(2x-1)^3$ tại $x=10$",
+          "answer": "6859",
+          "explain": "Thay $x=10$ vào biểu thức được $(2\\cdot 10-1)^3=19^3=6859$."
+        },
+        {
+          "type": "short",
+          "level": "NB",
+          "q": "Trong khai triển $(x+9)^3$, hệ số của $x^2$ bằng bao nhiêu?",
+          "answer": "27",
+          "explain": "$(x+9)^3=x^3+27x^2+\\cdots$ nên hệ số của $x^2$ là $27$."
+        }
+      ]
+    },
+    {
+      "name": "Đề 9",
+      "questions": [
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Khai triển $(x+9)^3$ ta được",
+          "options": [
+            "A. $x^3+27x^2+243x+729$",
+            "B. $x^3+729$",
+            "C. $x^3+27x^2+243x-729$",
+            "D. $x^3+9x^2+81x+729$"
+          ],
+          "answer": "A",
+          "explain": "$(x+9)^3=x^3+3\\cdot x^2\\cdot 9+3\\cdot x\\cdot 9^2+9^3=x^3+27x^2+243x+729$."
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Khai triển $(x-9)^3$ ta được",
+          "options": [
+            "A. $x^3-729$",
+            "B. $x^3-27x^2-243x-729$",
+            "C. $x^3+27x^2+243x+729$",
+            "D. $x^3-27x^2+243x-729$"
+          ],
+          "answer": "D",
+          "explain": "$(x-9)^3=x^3-3\\cdot x^2\\cdot 9+3\\cdot x\\cdot 9^2-9^3=x^3-27x^2+243x-729$."
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Khai triển $(2x+9)^3$ ta được",
+          "options": [
+            "A. $8x^3+108x^2+486x-729$",
+            "B. $2x^3+108x^2+486x+729$",
+            "C. $8x^3+108x^2+486x+729$",
+            "D. $8x^3+729$"
+          ],
+          "answer": "C",
+          "explain": "$(2x+9)^3=(2x)^3+3\\cdot (2x)^2\\cdot 9+3\\cdot 2x\\cdot 9^2+9^3=8x^3+108x^2+486x+729$."
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Rút gọn biểu thức $(x+9)^3+(x-9)^3$",
+          "options": [
+            "A. $54x^2+1458$",
+            "B. $2x^3+486x$",
+            "C. $2x^3$",
+            "D. $2x^3+486x+1458$"
+          ],
+          "answer": "B",
+          "explain": "$(x+9)^3+(x-9)^3=(x^3+3\\cdot 9x^2+3\\cdot 9^2x+9^3)+(x^3-3\\cdot 9x^2+3\\cdot 9^2x-9^3)=2x^3+486x$."
+        },
+        {
+          "type": "mcq",
+          "level": "VD",
+          "q": "Tính nhanh: $31^3$",
+          "options": [
+            "A. $27001$",
+            "B. $29701$",
+            "C. $29789$",
+            "D. $29791$"
+          ],
+          "answer": "D",
+          "explain": "$31^3=(30+1)^3=27000+2700+90+1=29791$."
+        },
+        {
+          "type": "mcq",
+          "level": "VDC",
+          "q": "Rút gọn biểu thức $(x+9)^3-(x-9)^3$",
+          "options": [
+            "A. $1458$",
+            "B. $2x^3+486x$",
+            "C. $54x^2+1458$",
+            "D. $54x^2$"
+          ],
+          "answer": "C",
+          "explain": "$(x+9)^3-(x-9)^3=(x^3+3\\cdot 9x^2+3\\cdot 9^2x+9^3)-(x^3-3\\cdot 9x^2+3\\cdot 9^2x-9^3)=54x^2+1458$."
+        },
+        {
+          "type": "truefalse",
+          "level": "NB",
+          "q": "Xét tính đúng sai của các khẳng định sau.",
+          "statements": [
+            "a) $(1-x)^3=1-3x+3x^2-x^3$",
+            "b) $(x+3)^3=x^3+9x^2+27x+9$",
+            "c) $(a+b)^3=a^3+3a^2b+3ab^2+b^3$",
+            "d) $(a-b)^3=a^3-3a^2b+3ab^2-b^3$"
+          ],
+          "answer": [
+            "T",
+            "F",
+            "T",
+            "T"
+          ],
+          "explain": "a) Đúng theo hằng đẳng thức $(a-b)^3$ với $a=1$, $b=x$. b) Sai; số hạng cuối đúng phải là $27$. c) Đúng theo hằng đẳng thức lập phương của một tổng. d) Đúng theo hằng đẳng thức lập phương của một hiệu."
+        },
+        {
+          "type": "truefalse",
+          "level": "TH",
+          "q": "Xét tính đúng sai của các khẳng định sau.",
+          "statements": [
+            "a) $12^3=1728$",
+            "b) $(a+b)^3-(a-b)^3=6a^2b+2b^3$",
+            "c) $11^3=1331$",
+            "d) $9^3=729$"
+          ],
+          "answer": [
+            "T",
+            "T",
+            "T",
+            "T"
+          ],
+          "explain": "a) Đúng vì $(10+2)^3=1000+600+120+8=1728$. b) Đúng vì khai triển và rút gọn được $6a^2b+2b^3$. c) Đúng vì $(10+1)^3=1000+300+30+1=1331$. d) Đúng vì $(10-1)^3=1000-300+30-1=729$."
+        },
+        {
+          "type": "short",
+          "level": "VD",
+          "q": "Điền số thích hợp vào chỗ trống: $(x+?)^3=x^3+30x^2+30^2x+10^3$",
+          "answer": "10",
+          "explain": "$(x+10)^3=x^3+3\\cdot x^2\\cdot 10+3\\cdot x\\cdot 10^2+10^3$ nên số cần điền là $10$."
+        },
+        {
+          "type": "short",
+          "level": "NB",
+          "q": "Trong khai triển $(x+10)^3$, hệ số của $x^2$ bằng bao nhiêu?",
+          "answer": "30",
+          "explain": "$(x+10)^3=x^3+30x^2+\\cdots$ nên hệ số của $x^2$ là $30$."
+        }
+      ]
+    },
+    {
+      "name": "Đề 10",
+      "questions": [
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Khai triển $(x+10)^3$ ta được",
+          "options": [
+            "A. $x^3+1000$",
+            "B. $x^3+30x^2+300x-1000$",
+            "C. $x^3+10x^2+100x+1000$",
+            "D. $x^3+30x^2+300x+1000$"
+          ],
+          "answer": "D",
+          "explain": "$(x+10)^3=x^3+3\\cdot x^2\\cdot 10+3\\cdot x\\cdot 10^2+10^3=x^3+30x^2+300x+1000$."
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Khai triển $(x-10)^3$ ta được",
+          "options": [
+            "A. $x^3-30x^2-300x-1000$",
+            "B. $x^3+30x^2+300x+1000$",
+            "C. $x^3-30x^2+300x-1000$",
+            "D. $x^3-1000$"
+          ],
+          "answer": "C",
+          "explain": "$(x-10)^3=x^3-3\\cdot x^2\\cdot 10+3\\cdot x\\cdot 10^2-10^3=x^3-30x^2+300x-1000$."
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Khai triển $(2x+10)^3$ ta được",
+          "options": [
+            "A. $2x^3+120x^2+600x+1000$",
+            "B. $8x^3+120x^2+600x+1000$",
+            "C. $8x^3+1000$",
+            "D. $8x^3+120x^2+600x-1000$"
+          ],
+          "answer": "B",
+          "explain": "$(2x+10)^3=(2x)^3+3\\cdot (2x)^2\\cdot 10+3\\cdot 2x\\cdot 10^2+10^3=8x^3+120x^2+600x+1000$."
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Rút gọn biểu thức $(x+10)^3+(x-10)^3$",
+          "options": [
+            "A. $2x^3+600x$",
+            "B. $2x^3$",
+            "C. $2x^3+600x+2000$",
+            "D. $60x^2+2000$"
+          ],
+          "answer": "A",
+          "explain": "$(x+10)^3+(x-10)^3=(x^3+3\\cdot 10x^2+3\\cdot 10^2x+10^3)+(x^3-3\\cdot 10x^2+3\\cdot 10^2x-10^3)=2x^3+600x$."
+        },
+        {
+          "type": "mcq",
+          "level": "VD",
+          "q": "Tính nhanh: $29^3$",
+          "options": [
+            "A. $24299$",
+            "B. $24391$",
+            "C. $24389$",
+            "D. $26999$"
+          ],
+          "answer": "C",
+          "explain": "$29^3=(30-1)^3=27000-2700+90-1=24389$."
+        },
+        {
+          "type": "mcq",
+          "level": "VDC",
+          "q": "Rút gọn biểu thức $(x+10)^3-(x-10)^3$",
+          "options": [
+            "A. $2x^3+600x$",
+            "B. $60x^2+2000$",
+            "C. $60x^2$",
+            "D. $2000$"
+          ],
+          "answer": "B",
+          "explain": "$(x+10)^3-(x-10)^3=(x^3+3\\cdot 10x^2+3\\cdot 10^2x+10^3)-(x^3-3\\cdot 10x^2+3\\cdot 10^2x-10^3)=60x^2+2000$."
+        },
+        {
+          "type": "truefalse",
+          "level": "NB",
+          "q": "Xét tính đúng sai của các khẳng định sau.",
+          "statements": [
+            "a) $(x+3)^3=x^3+9x^2+27x+9$",
+            "b) $(a+b)^3=a^3+3a^2b+3ab^2+b^3$",
+            "c) $(a-b)^3=a^3-3a^2b+3ab^2-b^3$",
+            "d) $(a+b)^3=a^3+b^3$"
+          ],
+          "answer": [
+            "F",
+            "T",
+            "T",
+            "F"
+          ],
+          "explain": "a) Sai; số hạng cuối đúng phải là $27$. b) Đúng theo hằng đẳng thức lập phương của một tổng. c) Đúng theo hằng đẳng thức lập phương của một hiệu. d) Sai, thiếu các số hạng $3a^2b+3ab^2$."
+        },
+        {
+          "type": "truefalse",
+          "level": "TH",
+          "q": "Xét tính đúng sai của các khẳng định sau.",
+          "statements": [
+            "a) $(a+b)^3-(a-b)^3=6a^2b+2b^3$",
+            "b) $11^3=1331$",
+            "c) $9^3=729$",
+            "d) $(x+2)^3-(x-2)^3=12x^2+16$"
+          ],
+          "answer": [
+            "T",
+            "T",
+            "T",
+            "T"
+          ],
+          "explain": "a) Đúng vì khai triển và rút gọn được $6a^2b+2b^3$. b) Đúng vì $(10+1)^3=1000+300+30+1=1331$. c) Đúng vì $(10-1)^3=1000-300+30-1=729$. d) Đúng vì khai triển và rút gọn được $12x^2+16$."
+        },
+        {
+          "type": "short",
+          "level": "VD",
+          "q": "Tính giá trị của biểu thức $(2x-1)^3$ tại $x=12$",
+          "answer": "12167",
+          "explain": "Thay $x=12$ vào biểu thức được $(2\\cdot 12-1)^3=23^3=12167$."
+        },
+        {
+          "type": "short",
+          "level": "NB",
+          "q": "Trong khai triển $(x+11)^3$, hệ số của $x^2$ bằng bao nhiêu?",
+          "answer": "33",
+          "explain": "$(x+11)^3=x^3+33x^2+\\cdots$ nên hệ số của $x^2$ là $33$."
+        }
+      ]
+    }
+  ]
+}
+</script>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
