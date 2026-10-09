@@ -10,6 +10,7 @@
   .tab-btn.active { background: #1d4ed8; color: #fff; }
   canvas { touch-action: pan-y; display: block; }
   .big-btn { min-height: 52px; }
+canvas{height:auto !important;max-width:100%;}
 </style>
 </head>
 <body class="bg-slate-100 min-h-screen">
@@ -140,10 +141,15 @@ document.querySelectorAll('.tab-btn').forEach(function(b){
 });
 function fitCanvas(cv){
   var r = cv.getBoundingClientRect(), d = window.devicePixelRatio || 1;
-  cv.width = r.width * d; cv.height = (parseInt(cv.getAttribute('height')) || 300) * d;
+  var H = parseInt(cv.getAttribute('height')) || 300;
+  if (!r.width || !cv.offsetParent){
+    return {ctx: cv.getContext('2d'), w: 360, h: H, hidden: true};
+  }
+  cv.width = r.width * d; cv.height = H * d;
   var ctx = cv.getContext('2d'); ctx.setTransform(d,0,0,d,0,0);
-  return {ctx: ctx, w: r.width, h: parseInt(cv.getAttribute('height')) || 300};
+  return {ctx: ctx, w: r.width, h: H, hidden: false};
 }
+window.__refits = window.__refits || [];
 
 // ================= 1. CON LẮC ĐƠN =================
 (function(){
@@ -157,10 +163,11 @@ function fitCanvas(cv){
     clearTimeout(rT);
     rT = setTimeout(function(){
       var w = cv.getBoundingClientRect().width;
-      if (Math.abs(w - lastW) > 5) { lastW = w; G = fitCanvas(cv); }
+      if (Math.abs(w - lastW) > 5) { lastW = w; var g2 = fitCanvas(cv); if (g2 && !g2.hidden) G = g2; }
     }, 200);
   });
 })();
+  window.__refits.push(function(){ var g2 = fitCanvas(cv); if (g2 && !g2.hidden) G = g2; });
 
   document.getElementById('pend-L').addEventListener('input', function(e){
     L = parseFloat(e.target.value);
@@ -293,10 +300,11 @@ function fitCanvas(cv){
     clearTimeout(rT);
     rT = setTimeout(function(){
       var w = cv.getBoundingClientRect().width;
-      if (Math.abs(w - lastW) > 5) { lastW = w; G = fitCanvas(cv); }
+      if (Math.abs(w - lastW) > 5) { lastW = w; var g2 = fitCanvas(cv); if (g2 && !g2.hidden) G = g2; }
     }, 200);
   });
 })();
+  window.__refits.push(function(){ var g2 = fitCanvas(cv); if (g2 && !g2.hidden) G = g2; });
   var closed = false, flowT = 0;
 
   document.getElementById('sw-toggle').addEventListener('click', function(){
@@ -390,10 +398,11 @@ function fitCanvas(cv){
     clearTimeout(rT);
     rT = setTimeout(function(){
       var w = cv.getBoundingClientRect().width;
-      if (Math.abs(w - lastW) > 5) { lastW = w; G = fitCanvas(cv); }
+      if (Math.abs(w - lastW) > 5) { lastW = w; var g2 = fitCanvas(cv); if (g2 && !g2.hidden) G = g2; }
     }, 200);
   });
 })();
+  window.__refits.push(function(){ var g2 = fitCanvas(cv); if (g2 && !g2.hidden) G = g2; });
   var g = 9.8, h = 20, falling = false, y = 0, t = 0, obj = 'ball';
   var emojis = {ball:'⚽', apple:'🍎', rock:'🪨'};
   var names = {ball:'Quả bóng', apple:'Quả táo', rock:'Hòn đá'};
@@ -465,11 +474,9 @@ function fitCanvas(cv){
   draw();
 })();
 
-// Fit lai canvas khi chuyen tab (tab an co width=0)
+// Fit lai canvas khi chuyen tab (dung registry de cap nhat G tung tab)
 window.__fitAll = function(){
-  try { var c=document.getElementById('cv-pendulum'); if(c && c.offsetParent){ var r=c.getBoundingClientRect(),d=window.devicePixelRatio||1; c.width=r.width*d; c.height=(parseInt(c.getAttribute('height'))||300)*d; var x2=c.getContext('2d'); x2.setTransform(d,0,0,d,0,0); } } catch(e){}
-  try { var c=document.getElementById('cv-circuit'); if(c && c.offsetParent){ var r=c.getBoundingClientRect(),d=window.devicePixelRatio||1; c.width=r.width*d; c.height=(parseInt(c.getAttribute('height'))||300)*d; var x2=c.getContext('2d'); x2.setTransform(d,0,0,d,0,0); } } catch(e){}
-  try { var c=document.getElementById('cv-fall'); if(c && c.offsetParent){ var r=c.getBoundingClientRect(),d=window.devicePixelRatio||1; c.width=r.width*d; c.height=(parseInt(c.getAttribute('height'))||300)*d; var x2=c.getContext('2d'); x2.setTransform(d,0,0,d,0,0); } } catch(e){}
+  (window.__refits || []).forEach(function(fn){ try { fn(); } catch(e){} });
 };
 </script>
 <!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
