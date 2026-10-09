@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay | Ma nguon thuoc nen tang hoc tap SAOBAY | Nghiem cam sao chep duoi moi hinh thuc -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 29: Thực hành thiết kế chương trình theo mô đun</title>
+    <meta name="lesson-title" content="Bài 29: Thực hành thiết kế chương trình theo mô đun">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 29: Thực hành thiết kế chương trình theo mô đun</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 6: Kĩ thuật lập trình • Bài 29: Thực hành thiết kế chương trình theo mô đun</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 29: Thực hành thiết kế chương trình theo mô đun</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 6: Kĩ thuật lập trình — sách Kết nối tri thức với cuộc sống</p>
+
+<!-- 1. Quy trình thực hành chia mô đun -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Quy trình thực hành chia mô đun</h2>
+
+<p><strong>Bài toán thực hành:</strong> Nhập điểm các môn của <code>n</code> học sinh. In ra điểm trung bình từng học sinh, chỉ số học sinh giỏi nhất và xếp loại từng học sinh (Giỏi/Khá/Trung bình).</p>
+
+<p>Áp dụng làm mịn dần để chia thành các mô đun:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><code>nhap_diem(n, m)</code> → trả về bảng điểm.</li>
+<li><code>tinh_trung_binh(diem)</code> → trả về mảng trung bình.</li>
+<li><code>tim_gioi_nhat(tb)</code> → trả về chỉ số giỏi nhất.</li>
+<li><code>xep_loai(tb)</code> → trả về mảng xếp loại.</li>
+</ul>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Nguyên tắc khi chia hàm:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>Mỗi hàm <strong>một việc</strong>: nhập, tính, tìm, xếp loại tách riêng.</li>
+<li>Hàm <strong>độc lập</strong>: chỉ giao tiếp qua tham số và giá trị trả về.</li>
+<li><strong>Tên gợi nhớ</strong>: đọc tên là biết chức năng.</li>
+</ul>
+</div>
+
+<!-- 2. Viết từng hàm và kiểm thử riêng -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Viết từng hàm và kiểm thử riêng (kiểm thử đơn vị)</h2>
+
+<p><strong>Kiểm thử đơn vị:</strong> kiểm thử từng hàm độc lập trước khi ghép thành chương trình hoàn chỉnh.</p>
+
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2">def tinh_trung_binh(diem):
+    tb = []
+    for row in diem:
+        s = 0
+        for x in row:
+            s = s + x
+        tb.append(s / len(row))
+    return tb
+
+# Kiểm thử đơn vị cho hàm tinh_trung_binh
+print(tinh_trung_binh([[8, 6], [9, 9]]))  # [7.0, 9.0]
+print(tinh_trung_binh([[5, 7, 9]]))       # [7.0]</pre>
+
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2">def xep_loai(tb):
+    kq = []
+    for d in tb:
+        if d == max(d, 8):
+            kq.append("Gioi")
+        elif d == max(d, 6.5):
+            kq.append("Kha")
+        else:
+            kq.append("Trung binh")
+    return kq
+
+# Kiểm thử đơn vị cho hàm xep_loai
+print(xep_loai([9.0, 7.0, 5.0]))  # ['Gioi', 'Kha', 'Trung binh']</pre>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Điều kiện <code>d &gt;= 8</code> được viết thành <code>d == max(d, 8)</code> để tránh dùng <code>&gt;</code>. Kiểm thử đơn vị giúp phát hiện lỗi ngay trong hàm, trước khi ghép chương trình.</p>
+</div>
+
+<!-- 3. Ghép thành chương trình hoàn chỉnh -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Ghép các hàm thành chương trình hoàn chỉnh</h2>
+
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2">def nhap_diem(n, m):
+    diem = []
+    for i in range(n):
+        diem.append(list(map(float, input().split())))
+    return diem
+
+def tinh_trung_binh(diem):
+    tb = []
+    for row in diem:
+        s = 0
+        for x in row:
+            s = s + x
+        tb.append(s / len(row))
+    return tb
+
+def tim_gioi_nhat(tb):
+    vmax = tb[0]
+    vt = 0
+    for i in range(1, len(tb)):
+        if tb[i] == max(tb[i], vmax) and tb[i] != vmax:
+            vmax = tb[i]
+            vt = i
+    return vt
+
+def xep_loai(tb):
+    kq = []
+    for d in tb:
+        if d == max(d, 8):
+            kq.append("Gioi")
+        elif d == max(d, 6.5):
+            kq.append("Kha")
+        else:
+            kq.append("Trung binh")
+    return kq
+
+# Chương trình chính: gọi các hàm theo trình tự
+n = int(input())
+m = int(input())
+diem = nhap_diem(n, m)
+tb = tinh_trung_binh(diem)
+print("Trung binh:", tb)
+print("Gioi nhat:", tim_gioi_nhat(tb))
+print("Xep loai:", xep_loai(tb))</pre>
+
+<!-- 4. Kiểm thử tích hợp -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Kiểm thử tích hợp (test toàn bộ chương trình)</h2>
+
+<p>Sau khi từng hàm đúng, <strong>kiểm thử tích hợp</strong> kiểm tra sự phối hợp giữa các hàm:</p>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-sm my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Test</td><td class="border border-slate-300 px-4 py-1">Dữ liệu</td><td class="border border-slate-300 px-4 py-1">Kết quả mong đợi</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">1</td><td class="border border-slate-300 px-4 py-1">n=2, m=2; 8 6 / 9 9</td><td class="border border-slate-300 px-4 py-1">TB [7.0, 9.0]; giỏi nhất 1; loại [Kha, Gioi]</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">2</td><td class="border border-slate-300 px-4 py-1">n=1, m=1; 10</td><td class="border border-slate-300 px-4 py-1">TB [10.0]; giỏi nhất 0; loại [Gioi]</td></tr>
+</table></div>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-sm my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Loại kiểm thử</td><td class="border border-slate-300 px-4 py-1">Kiểm tra gì</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Kiểm thử đơn vị</td><td class="border border-slate-300 px-4 py-1">Từng hàm chạy đúng độc lập</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Kiểm thử tích hợp</td><td class="border border-slate-300 px-4 py-1">Các hàm phối hợp đúng với nhau</td></tr>
+</table></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">⚠️ Lỗi thường gặp</p>
+<ul class="list-disc ml-6 space-y-1 mt-1">
+<li>Gọi hàm sai thứ tự (tính trung bình trước khi nhập) → lỗi logic.</li>
+<li>Truyền sai đối số (truyền <code>diem</code> cho hàm cần <code>tb</code>).</li>
+<li>Quên <code>return</code> ở một hàm → hàm sau nhận <code>None</code>.</li>
+</ul>
+</div>
+
+<!-- Tóm tắt -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Quy trình:</strong> chia bài toán con → viết mỗi con thành một hàm → kiểm thử đơn vị từng hàm → ghép lại → kiểm thử tích hợp.</li>
+<li><strong>Kiểm thử đơn vị:</strong> test từng hàm độc lập; <strong>tích hợp:</strong> test sự phối hợp giữa các hàm.</li>
+<li><strong>Lỗi hay gặp:</strong> sai thứ tự gọi, sai đối số, quên return.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">
+(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok){if(document.body){document.body.innerHTML='<div style="font-family:system-ui,sans-serif;max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff"><h2 style="color:#0f172a;margin-top:0">© SAOBAY — Trường THPT Sào Báy</h2><p style="color:#475569">Nội dung này chỉ được hiển thị tại địa chỉ chính thức <b>saobay.github.io</b>.</p><p style="color:#475569">Vui lòng truy cập đúng địa chỉ để học tập.</p></div>';}else{document.write("SAOBAY: truy cap tai saobay.github.io");}}catch(e){}})();
+</script>
+</body>
+</html>
