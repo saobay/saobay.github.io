@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 22: Bảng tần số và biểu đồ tần số</title>
+    <meta name="lesson-title" content="Bài 22: Bảng tần số và biểu đồ tần số">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 22: Bảng tần số và biểu đồ tần số</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 7: Tần số và tần số tương đối • Bài 22: Bảng tần số và biểu đồ tần số</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 22: Bảng tần số và biểu đồ tần số</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 7: Tần số và tần số tương đối (Kết nối tri thức với cuộc sống)</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Tần số và bảng tần số</h2>
+<p>Khi thu thập dữ liệu thống kê, mỗi <strong>giá trị</strong> có thể xuất hiện nhiều lần. <strong>Tần số</strong> của một giá trị là <strong>số lần giá trị đó xuất hiện</strong> trong mẫu số liệu.</p>
+<p><strong>Bảng tần số</strong> là bảng liệt kê các giá trị khác nhau của mẫu số liệu và tần số tương ứng của mỗi giá trị, thường gồm hai dòng:</p>
+<ul class="list-disc pl-6 my-2">
+<li>Dòng 1: các giá trị $x_1, x_2, \dots, x_k$;</li>
+<li>Dòng 2: các tần số tương ứng $m_1, m_2, \dots, m_k$.</li>
+</ul>
+<div class="bg-amber-50 border-l-4 border-amber-400 p-3 my-3 rounded-r-lg">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p><strong>Cỡ mẫu</strong> $n$ của mẫu số liệu bằng <strong>tổng các tần số</strong>: $$n = m_1 + m_2 + \cdots + m_k.$$</p>
+</div>
+<p class="font-bold">Ví dụ 1 (có lời giải):</p>
+<p>Điểm kiểm tra môn Toán của 40 học sinh lớp 9A được ghi lại như sau: điểm 6 có 4 bạn, điểm 7 có 8 bạn, điểm 8 có 12 bạn, điểm 9 có 10 bạn, điểm 10 có 6 bạn. Lập bảng tần số và tính cỡ mẫu.</p>
+<p><strong>Lời giải:</strong> Bảng tần số:</p>
+<div class="table-scroll"><table class="w-full border-collapse text-sm">
+<tr><th class="border border-slate-300 px-4 py-1 bg-sky-50">Điểm ($x$)</th><td class="border border-slate-300 px-4 py-1 text-center">6</td><td class="border border-slate-300 px-4 py-1 text-center">7</td><td class="border border-slate-300 px-4 py-1 text-center">8</td><td class="border border-slate-300 px-4 py-1 text-center">9</td><td class="border border-slate-300 px-4 py-1 text-center">10</td></tr>
+<tr><th class="border border-slate-300 px-4 py-1 bg-sky-50">Tần số ($m$)</th><td class="border border-slate-300 px-4 py-1 text-center">4</td><td class="border border-slate-300 px-4 py-1 text-center">8</td><td class="border border-slate-300 px-4 py-1 text-center">12</td><td class="border border-slate-300 px-4 py-1 text-center">10</td><td class="border border-slate-300 px-4 py-1 text-center">6</td></tr>
+</table></div>
+<p>Cỡ mẫu: $n = 4 + 8 + 12 + 10 + 6 = 40$ (đúng bằng số học sinh được khảo sát).</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Biểu đồ tần số dạng cột</h2>
+<p>Để biểu diễn bảng tần số một cách trực quan, ta dùng <strong>biểu đồ tần số dạng cột</strong>:</p>
+<ul class="list-disc pl-6 my-2">
+<li>Trục nằm ngang biểu diễn các <strong>giá trị</strong> $x$;</li>
+<li>Trục thẳng đứng biểu diễn <strong>tần số</strong> $m$;</li>
+<li>Mỗi giá trị được vẽ một <strong>hình chữ nhật (cột)</strong> có chiều cao bằng tần số của giá trị đó.</li>
+</ul>
+<div class="svg-fig">
+<svg viewBox="0 0 400 270" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bieu do tan so dang cot">
+<text x="200" y="18" text-anchor="middle" font-size="14" font-weight="bold" fill="#0c4a6e">Biểu đồ tần số điểm kiểm tra (40 HS)</text>
+<line x1="45" y1="20" x2="45" y2="225" stroke="#334155" stroke-width="2"/>
+<line x1="45" y1="225" x2="390" y2="225" stroke="#334155" stroke-width="2"/>
+<text x="30" y="228" font-size="11" fill="#475569">0</text>
+<text x="30" y="183" font-size="11" fill="#475569">3</text>
+<text x="30" y="138" font-size="11" fill="#475569">6</text>
+<text x="30" y="93" font-size="11" fill="#475569">9</text>
+<text x="24" y="48" font-size="11" fill="#475569">12</text>
+<text x="14" y="130" font-size="11" fill="#475569" transform="rotate(-90 14 130)">Tần số</text>
+<rect x="63" y="165" width="44" height="60" fill="#38bdf8" stroke="#0284c7"/>
+<rect x="133" y="105" width="44" height="120" fill="#38bdf8" stroke="#0284c7"/>
+<rect x="203" y="45" width="44" height="180" fill="#38bdf8" stroke="#0284c7"/>
+<rect x="273" y="75" width="44" height="150" fill="#38bdf8" stroke="#0284c7"/>
+<rect x="343" y="135" width="44" height="90" fill="#38bdf8" stroke="#0284c7"/>
+<text x="85" y="160" text-anchor="middle" font-size="11" font-weight="bold" fill="#0c4a6e">4</text>
+<text x="155" y="100" text-anchor="middle" font-size="11" font-weight="bold" fill="#0c4a6e">8</text>
+<text x="225" y="40" text-anchor="middle" font-size="11" font-weight="bold" fill="#0c4a6e">12</text>
+<text x="295" y="70" text-anchor="middle" font-size="11" font-weight="bold" fill="#0c4a6e">10</text>
+<text x="365" y="130" text-anchor="middle" font-size="11" font-weight="bold" fill="#0c4a6e">6</text>
+<text x="85" y="242" text-anchor="middle" font-size="12" fill="#334155">6</text>
+<text x="155" y="242" text-anchor="middle" font-size="12" fill="#334155">7</text>
+<text x="225" y="242" text-anchor="middle" font-size="12" fill="#334155">8</text>
+<text x="295" y="242" text-anchor="middle" font-size="12" fill="#334155">9</text>
+<text x="365" y="242" text-anchor="middle" font-size="12" fill="#334155">10</text>
+<text x="215" y="262" text-anchor="middle" font-size="12" fill="#475569">Điểm số</text>
+</svg>
+</div>
+<p>Nhìn vào biểu đồ, ta thấy ngay cột cao nhất ứng với điểm 8 (tần số 12) — đa số học sinh đạt điểm 8.</p>
+<div class="bg-amber-50 border-l-4 border-amber-400 p-3 my-3 rounded-r-lg">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p>Trong biểu đồ tần số dạng cột, <strong>cột càng cao thì tần số càng lớn</strong>. Giá trị có cột cao nhất là giá trị có tần số lớn nhất.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Biểu đồ tần số dạng đoạn thẳng</h2>
+<p>Ngoài dạng cột, ta còn có thể vẽ <strong>biểu đồ tần số dạng đoạn thẳng</strong>: tại mỗi giá trị $x$ trên trục ngang, vẽ một <strong>đoạn thẳng đứng</strong> có độ dài bằng tần số của giá trị đó, đầu trên của đoạn thẳng thường được đánh dấu bằng một chấm tròn.</p>
+<div class="svg-fig">
+<svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bieu do tan so dang doan thang">
+<text x="200" y="18" text-anchor="middle" font-size="14" font-weight="bold" fill="#0c4a6e">Biểu đồ tần số dạng đoạn thẳng</text>
+<line x1="40" y1="20" x2="40" y2="185" stroke="#334155" stroke-width="2"/>
+<line x1="40" y1="185" x2="390" y2="185" stroke="#334155" stroke-width="2"/>
+<text x="25" y="188" font-size="11" fill="#475569">0</text>
+<text x="19" y="98" font-size="11" fill="#475569">12</text>
+<line x1="80" y1="185" x2="80" y2="125" stroke="#0284c7" stroke-width="4"/>
+<line x1="150" y1="185" x2="150" y2="65" stroke="#0284c7" stroke-width="4"/>
+<line x1="220" y1="185" x2="220" y2="5" stroke="#0284c7" stroke-width="4" visibility="hidden"/>
+<line x1="220" y1="185" x2="220" y2="35" stroke="#0284c7" stroke-width="4"/>
+<line x1="290" y1="185" x2="290" y2="60" stroke="#0284c7" stroke-width="4"/>
+<line x1="360" y1="185" x2="360" y2="110" stroke="#0284c7" stroke-width="4"/>
+<circle cx="80" cy="125" r="5" fill="#ef4444"/>
+<circle cx="150" cy="65" r="5" fill="#ef4444"/>
+<circle cx="220" cy="35" r="5" fill="#ef4444"/>
+<circle cx="290" cy="60" r="5" fill="#ef4444"/>
+<circle cx="360" cy="110" r="5" fill="#ef4444"/>
+<text x="80" y="202" text-anchor="middle" font-size="12" fill="#334155">6</text>
+<text x="150" y="202" text-anchor="middle" font-size="12" fill="#334155">7</text>
+<text x="220" y="202" text-anchor="middle" font-size="12" fill="#334155">8</text>
+<text x="290" y="202" text-anchor="middle" font-size="12" fill="#334155">9</text>
+<text x="360" y="202" text-anchor="middle" font-size="12" fill="#334155">10</text>
+</svg>
+</div>
+<p class="font-bold">Ví dụ 2 (có lời giải):</p>
+<p>Cho bảng tần số: số sách đọc trong một tháng của 40 học sinh — 0 quyển: 3 bạn; 1 quyển: 9 bạn; 2 quyển: 12 bạn; 3 quyển: 10 bạn; 4 quyển: 6 bạn. Giá trị nào có tần số lớn nhất? Cỡ mẫu là bao nhiêu?</p>
+<p><strong>Lời giải:</strong> Tần số lớn nhất là 12, ứng với giá trị 2 quyển. Cỡ mẫu $n = 3 + 9 + 12 + 10 + 6 = 40$.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="table-scroll"><table class="w-full border-collapse text-sm">
+<tr><th class="border border-slate-300 px-4 py-1 bg-sky-50">Nội dung</th><th class="border border-slate-300 px-4 py-1 bg-sky-50">Công thức</th><th class="border border-slate-300 px-4 py-1 bg-sky-50">Ví dụ</th></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Tần số của giá trị $x$</td><td class="border border-slate-300 px-4 py-1">Số lần $x$ xuất hiện trong mẫu số liệu</td><td class="border border-slate-300 px-4 py-1">Điểm 8 xuất hiện 12 lần nên tần số là 12</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Cỡ mẫu $n$</td><td class="border border-slate-300 px-4 py-1">$n = m_1 + m_2 + \cdots + m_k$</td><td class="border border-slate-300 px-4 py-1">$n = 4+8+12+10+6 = 40$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Biểu đồ tần số dạng cột</td><td class="border border-slate-300 px-4 py-1">Chiều cao cột = tần số của giá trị</td><td class="border border-slate-300 px-4 py-1">Cột điểm 8 cao nhất (12 đơn vị)</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Biểu đồ tần số dạng đoạn thẳng</td><td class="border border-slate-300 px-4 py-1">Độ dài đoạn thẳng đứng = tần số</td><td class="border border-slate-300 px-4 py-1">Đoạn thẳng tại điểm 10 dài 6 đơn vị</td></tr>
+</table></div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
