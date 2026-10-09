@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 26: Làm quen với Khoa học dữ liệu</title>
+    <meta name="lesson-title" content="Bài 26: Làm quen với Khoa học dữ liệu">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 26: Làm quen với Khoa học dữ liệu</h1>
+            <p class="text-xs text-slate-500 mt-1">Chủ đề 7: Học máy, Khoa học dữ liệu và mô phỏng • Bài 26: Làm quen với Khoa học dữ liệu</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 26: Làm quen với Khoa học dữ liệu</h1>
+<p class="text-center text-slate-500 italic mb-8">Chủ đề 7: Học máy, Khoa học dữ liệu và mô phỏng — Kết nối tri thức với cuộc sống</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Dữ liệu và thông tin</h2>
+<ul class="list-disc ml-6 space-y-2 my-3">
+<li><strong>Dữ liệu</strong>: các số liệu, sự kiện thô chưa qua xử lý (điểm số, nhiệt độ...).</li>
+<li><strong>Thông tin</strong>: dữ liệu đã được <strong>xử lý, tổ chức</strong> và có ý nghĩa (điểm trung bình lớp, xu hướng thời tiết).</li>
+<li><strong>Tri thức</strong>: hiểu biết sâu rút ra từ thông tin (môn nào HS yếu nhất để ôn tập).</li>
+</ul>
+<p><strong>Các dạng dữ liệu</strong>:</p>
+<ul class="list-disc ml-6 space-y-2 my-3">
+<li><strong>Có cấu trúc</strong>: bảng biểu, hàng cột rõ ràng (bảng điểm, danh sách HS).</li>
+<li><strong>Không cấu trúc</strong>: văn bản tự do, ảnh, video, âm thanh.</li>
+</ul>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Trích rút thông tin và tri thức</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 my-2 text-sm">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-3 py-2">Hoạt động</td><td class="border border-slate-300 px-3 py-2">Ý nghĩa</td><td class="border border-slate-300 px-3 py-2">Ví dụ</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">Thu thập</td><td class="border border-slate-300 px-3 py-2">Lấy dữ liệu từ nguồn</td><td class="border border-slate-300 px-3 py-2">Nhập điểm, khảo sát</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">Làm sạch</td><td class="border border-slate-300 px-3 py-2">Xóa trùng, điền thiếu, sửa sai</td><td class="border border-slate-300 px-3 py-2">Xóa dòng trùng tên</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">Trích rút thông tin</td><td class="border border-slate-300 px-3 py-2">Tính toán, tổng hợp</td><td class="border border-slate-300 px-3 py-2">Điểm trung bình, tỉ lệ đỗ</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">Trích rút tri thức</td><td class="border border-slate-300 px-3 py-2">Tìm mẫu, xu hướng, quy luật</td><td class="border border-slate-300 px-3 py-2">Môn Toán điểm giảm 3 năm liền</td></tr>
+</table></div>
+<div class="svg-fig"><svg viewBox="0 0 440 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Du lieu thong tin tri thuc">
+<rect x="2" y="2" width="436" height="166" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="24" font-family="sans-serif" font-size="14" font-weight="bold" fill="#1e3a8a" text-anchor="middle">DỮ LIỆU → THÔNG TIN → TRI THỨC</text>
+<g font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">
+<rect x="30" y="48" width="110" height="60" rx="8" fill="#e0e7ff" stroke="#4f46e5" stroke-width="1.5"/>
+<text x="85" y="72" fill="#312e81">DỮ LIỆU</text>
+<text x="85" y="90" font-weight="normal" font-size="10" fill="#312e81">số liệu thô</text>
+<rect x="165" y="48" width="110" height="60" rx="8" fill="#dcfce7" stroke="#15803d" stroke-width="1.5"/>
+<text x="220" y="72" fill="#166534">THÔNG TIN</text>
+<text x="220" y="90" font-weight="normal" font-size="10" fill="#166534">đã xử lý, có nghĩa</text>
+<rect x="300" y="48" width="110" height="60" rx="8" fill="#fef3c7" stroke="#b45309" stroke-width="1.5"/>
+<text x="355" y="72" fill="#92400e">TRI THỨC</text>
+<text x="355" y="90" font-weight="normal" font-size="10" fill="#92400e">hiểu biết sâu</text>
+</g>
+<g stroke="#64748b" stroke-width="2" fill="none"><line x1="140" y1="78" x2="165" y2="78"/><line x1="275" y1="78" x2="300" y2="78"/></g>
+<text x="220" y="134" font-family="sans-serif" font-size="11" fill="#64748b" text-anchor="middle">Điểm từng HS → điểm trung bình lớp → môn yếu cần ôn tập</text>
+</svg></div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Công cụ hỗ trợ</h2>
+<ul class="list-disc ml-6 space-y-2 my-3">
+<li><strong>Bảng tính</strong> (Excel): sắp xếp, lọc, tính toán, vẽ biểu đồ với dữ liệu nhỏ.</li>
+<li><strong>Python</strong>: xử lý dữ liệu lớn, tự động (thư viện <em>pandas</em>).</li>
+<li><strong>Trực quan hóa</strong>: biểu đồ giúp nhìn ra xu hướng nhanh hơn đọc số.</li>
+</ul>
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><strong>Dữ liệu</strong> (thô) → <strong>thông tin</strong> (đã xử lý) → <strong>tri thức</strong> (hiểu biết sâu). Dữ liệu <strong>có cấu trúc</strong> (bảng) và <strong>không cấu trúc</strong> (văn bản, ảnh). Trích rút: <strong>tính toán</strong> ra thông tin, <strong>tìm mẫu</strong> ra tri thức.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Dữ liệu → thông tin → tri thức</strong>: mức độ xử lý và ý nghĩa tăng dần.</li>
+<li><strong>Dạng dữ liệu</strong>: có cấu trúc (bảng) / không cấu trúc (văn bản, ảnh, video).</li>
+<li><strong>Trích rút</strong>: thông tin (tính toán, tổng hợp), tri thức (mẫu, xu hướng); công cụ: bảng tính, Python.</li>
+</ul>
+</div>
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
