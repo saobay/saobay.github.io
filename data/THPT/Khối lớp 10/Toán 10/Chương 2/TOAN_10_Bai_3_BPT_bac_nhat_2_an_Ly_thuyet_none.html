@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 3: Bất phương trình bậc nhất hai ẩn</title>
+    <meta name="lesson-title" content="Bài 3: Bất phương trình bậc nhất hai ẩn">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 3: Bất phương trình bậc nhất hai ẩn</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 1: Mệnh đề và tập hợp • Bài 3: Bất phương trình bậc nhất hai ẩn</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 3: Bất phương trình bậc nhất hai ẩn</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 2: Bất phương trình và hệ bất phương trình bậc nhất hai ẩn — Toán 10 (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Định nghĩa -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Bất phương trình bậc nhất hai ẩn</h2>
+
+<p><strong>Định nghĩa:</strong> <em>Bất phương trình bậc nhất hai ẩn</em> $x, y$ là bất phương trình có một trong các dạng sau:</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$ax + by \le c, \quad ax + by \ge c, \quad ax + by \lt c, \quad ax + by \gt c$$</p>
+<p class="mt-2 text-sm text-slate-600">trong đó $a, b, c$ là những số thực cho trước, $a$ và $b$ <strong>không đồng thời bằng</strong> $0$ (tức $a^2 + b^2 \gt 0$).</p>
+</div>
+
+<p><strong>Nghiệm:</strong> mỗi cặp số $(x_0; y_0)$ sao cho $ax_0 + by_0 \le c$ là một <em>nghiệm</em> của bất phương trình $ax + by \le c$ (phát biểu tương tự cho ba dạng còn lại).</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>$2x + 3y \le 6$ là bất phương trình bậc nhất hai ẩn. Cặp $(1; 1)$ là một nghiệm vì $2 \cdot 1 + 3 \cdot 1 = 5 \le 6$; cặp $(3; 2)$ không là nghiệm vì $2 \cdot 3 + 3 \cdot 2 = 12 \gt 6$.</li>
+<li>$x^2 + y \le 1$ <strong>không phải</strong> bất phương trình bậc nhất hai ẩn (có $x^2$).</li>
+<li>$0x + 0y \le 5$ <strong>không phải</strong> bất phương trình bậc nhất hai ẩn (vì $a = b = 0$).</li>
+</ul>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Muốn kiểm tra $(x_0; y_0)$ có là nghiệm hay không, chỉ cần <strong>thay trực tiếp</strong> vào bất phương trình rồi xem khẳng định thu được đúng hay sai.</p>
+</div>
+
+<!-- 2. Biểu diễn miền nghiệm -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Biểu diễn miền nghiệm trên mặt phẳng tọa độ</h2>
+
+<p>Trong mặt phẳng tọa độ $Oxy$, tập hợp các điểm có tọa độ là nghiệm của bất phương trình $ax + by \le c$ được gọi là <em>miền nghiệm</em> của nó.</p>
+
+<p><strong>Quy tắc biểu diễn miền nghiệm</strong> của bất phương trình $ax + by \le c$:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Bước 1.</strong> Vẽ đường thẳng $d: ax + by = c$.</li>
+<li><strong>Bước 2.</strong> Lấy một điểm $M_0(x_0; y_0)$ <strong>không thuộc</strong> $d$ (thường lấy gốc tọa độ $O$ nếu $O \notin d$).</li>
+<li><strong>Bước 3.</strong> Tính $ax_0 + by_0$ và so sánh với $c$:
+<ul class="list-disc ml-6 mt-1">
+<li>Nếu $ax_0 + by_0 \le c$ thì <strong>nửa mặt phẳng bờ $d$ chứa $M_0$</strong> là miền nghiệm.</li>
+<li>Nếu $ax_0 + by_0 \gt c$ thì <strong>nửa mặt phẳng bờ $d$ không chứa $M_0$</strong> là miền nghiệm.</li>
+</ul></li>
+</ul>
+
+<p><strong>Chú ý về đường biên:</strong> miền nghiệm của các bất phương trình $ax + by \le c$ và $ax + by \ge c$ <strong>kể cả</strong> đường thẳng $d$ (vẽ $d$ bằng <strong>nét liền</strong>); miền nghiệm của $ax + by \lt c$ và $ax + by \gt c$ <strong>không kể</strong> đường thẳng $d$ (vẽ $d$ bằng <strong>nét đứt</strong>).</p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mien nghiem cua bat phuong trinh 2x + y <= 4">
+<rect x="2" y="2" width="436" height="316" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<polygon points="70,55 190,295 70,295" fill="#bfdbfe" opacity="0.55"/>
+<line x1="30" y1="295" x2="410" y2="295" stroke="#334155" stroke-width="2"/>
+<polygon points="410,295 398,289 398,301" fill="#334155"/>
+<text x="416" y="299" font-family="sans-serif" font-size="14" font-style="italic" fill="#334155">x</text>
+<line x1="70" y1="310" x2="70" y2="20" stroke="#334155" stroke-width="2"/>
+<polygon points="70,20 64,32 76,32" fill="#334155"/>
+<text x="76" y="30" font-family="sans-serif" font-size="14" font-style="italic" fill="#334155">y</text>
+<text x="58" y="310" font-family="sans-serif" font-size="13" font-style="italic" fill="#334155">O</text>
+<line x1="70" y1="55" x2="190" y2="295" stroke="#1d4ed8" stroke-width="2.5"/>
+<text x="200" y="180" font-family="sans-serif" font-size="13" fill="#1d4ed8" font-style="italic">d: 2x + y = 4</text>
+<circle cx="70" cy="295" r="5" fill="#dc2626"/>
+<text x="80" y="288" font-family="sans-serif" font-size="12" fill="#dc2626">O(0; 0): 0 &#8804; 4 &#10003;</text>
+<text x="100" y="250" font-family="sans-serif" font-size="13" fill="#1e40af" font-weight="bold">Miền nghiệm</text>
+<text x="100" y="268" font-family="sans-serif" font-size="12" fill="#1e40af">2x + y &#8804; 4</text>
+<text x="150" y="60" font-family="sans-serif" font-size="12" fill="#64748b">(0; 4)</text>
+<text x="196" y="300" font-family="sans-serif" font-size="12" fill="#64748b">(2; 0)</text>
+</svg></div>
+<p class="text-center text-sm text-slate-500 italic">Miền nghiệm của $2x + y \le 4$ là nửa mặt phẳng bờ $d$ chứa gốc tọa độ $O$ (kể cả bờ $d$ vì dấu $\le$).</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ: Biểu diễn miền nghiệm của $x - y \gt 2$.</p>
+<p><strong>Bước 1.</strong> Vẽ đường thẳng $d: x - y = 2$ (đi qua $(2; 0)$ và $(0; -2)$) bằng <strong>nét đứt</strong> vì bất phương trình có dấu $\gt$.</p>
+<p><strong>Bước 2.</strong> Lấy $O(0; 0) \notin d$.</p>
+<p><strong>Bước 3.</strong> $0 - 0 = 0 \gt 2$ là khẳng định <strong>sai</strong>, nên $O$ không thuộc miền nghiệm. Vậy miền nghiệm là nửa mặt phẳng bờ $d$ <strong>không chứa</strong> $O$, <strong>không kể</strong> bờ $d$.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Mẹo làm nhanh: lấy điểm thử là <strong>gốc $O$</strong> (khi $O \notin d$). $O$ thỏa mãn thì lấy nửa mặt phẳng <strong>chứa</strong> $O$, không thỏa mãn thì lấy nửa còn lại. Dấu $\le, \ge$ thì <strong>kể bờ</strong> (nét liền), dấu $\lt, \gt$ thì <strong>không kể bờ</strong> (nét đứt).</p>
+</div>
+
+<!-- 3. Bài toán thực tế -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Vận dụng vào bài toán thực tế</h2>
+
+<p>Nhiều bài toán thực tế (phân bổ nguồn lực, lập kế hoạch sản xuất, khẩu phần ăn, ...) có thể mô hình hóa bằng bất phương trình bậc nhất hai ẩn: đặt ẩn, lập bất phương trình từ điều kiện bài toán, rồi tìm nghiệm thỏa mãn yêu cầu.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Một gian hàng trưng bày bàn và ghế rộng $60\,\text{m}^2$. Diện tích để kê một chiếc ghế là $0{,}5\,\text{m}^2$, một chiếc bàn là $1{,}2\,\text{m}^2$. Gọi $x, y$ lần lượt là số chiếc ghế, số chiếc bàn được kê.</p>
+<p class="mt-2"><strong>Lời giải.</strong> Điều kiện: $x \ge 0, y \ge 0$. Tổng diện tích kê bàn ghế là $0{,}5x + 1{,}2y$, không vượt quá $60\,\text{m}^2$ nên:</p>
+<p class="text-center mt-2">$$0{,}5x + 1{,}2y \le 60$$</p>
+<p>Ba nghiệm của bất phương trình: $(x; y) = (20; 20)$ vì $0{,}5 \cdot 20 + 1{,}2 \cdot 20 = 34 \le 60$; $(40; 10)$ vì $20 + 12 = 32 \le 60$; $(0; 0)$.</p>
+</div>
+
+<!-- Tổng kết -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Dạng:</strong> $ax + by \le c$ (hoặc $\ge, \lt, \gt$) với $a^2 + b^2 \gt 0$.</li>
+<li><strong>Nghiệm:</strong> cặp $(x_0; y_0)$ làm cho bất phương trình thành khẳng định đúng.</li>
+<li><strong>Miền nghiệm:</strong> nửa mặt phẳng bờ $d: ax + by = c$; lấy điểm thử (thường là $O$): thỏa mãn thì lấy nửa chứa điểm thử, không thỏa mãn thì lấy nửa còn lại.</li>
+<li><strong>Đường biên:</strong> dấu $\le, \ge$ kể bờ (nét liền); dấu $\lt, \gt$ không kể bờ (nét đứt).</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+</body>
+</html>
