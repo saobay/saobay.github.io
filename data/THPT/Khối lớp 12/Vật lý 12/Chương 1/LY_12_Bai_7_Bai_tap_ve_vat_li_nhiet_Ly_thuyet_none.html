@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 7: Bài tập về vật lí nhiệt</title>
+    <meta name="lesson-title" content="Bài 7: Bài tập về vật lí nhiệt">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 7: Bài tập về vật lí nhiệt</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 1: Vật lí nhiệt • Bài 7: Bài tập về vật lí nhiệt</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 7: Bài tập về vật lí nhiệt</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 1: Vật lí nhiệt — Vật lí 12 (Kết nối tri thức với cuộc sống)</p>
+
+
+<!-- 1. On tap cong thuc -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Ôn tập các công thức chương 1</h2>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-sm my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-3 py-1">Nội dung</td><td class="border border-slate-300 px-3 py-1">Công thức</td><td class="border border-slate-300 px-3 py-1">Chú ý</td></tr>
+<tr><td class="border border-slate-300 px-3 py-1">Định luật I nhiệt động lực học</td><td class="border border-slate-300 px-3 py-1">$\Delta U = A + Q$</td><td class="border border-slate-300 px-3 py-1">$A, Q$ là công và nhiệt <strong>hệ nhận được</strong></td></tr>
+<tr><td class="border border-slate-300 px-3 py-1">Đổi thang nhiệt độ</td><td class="border border-slate-300 px-3 py-1">$T(K) = t(^{\circ}C) + 273$</td><td class="border border-slate-300 px-3 py-1">$\Delta T(K) = \Delta t(^{\circ}C)$</td></tr>
+<tr><td class="border border-slate-300 px-3 py-1">Nhiệt lượng (không đổi thể)</td><td class="border border-slate-300 px-3 py-1">$Q = mc\Delta t$</td><td class="border border-slate-300 px-3 py-1">$c_{nước} = 4200$ J/(kg.K)</td></tr>
+<tr><td class="border border-slate-300 px-3 py-1">Nhiệt nóng chảy</td><td class="border border-slate-300 px-3 py-1">$Q = \lambda m$</td><td class="border border-slate-300 px-3 py-1">$\lambda_{nước đá} = 3,34 \times 10^5$ J/kg</td></tr>
+<tr><td class="border border-slate-300 px-3 py-1">Nhiệt hoá hơi</td><td class="border border-slate-300 px-3 py-1">$Q = Lm$</td><td class="border border-slate-300 px-3 py-1">$L_{nước} = 2,26 \times 10^6$ J/kg</td></tr>
+</table></div>
+
+<!-- 2. Phuong trinh can bang nhiet -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Phương trình cân bằng nhiệt</h2>
+
+<p>Khi hai vật trao đổi nhiệt với nhau trong một hệ <strong>cô lập</strong> (không trao đổi nhiệt với bên ngoài), nhiệt lượng vật nóng toả ra bằng nhiệt lượng vật lạnh thu vào:</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p class="text-2xl">$$Q_{toả} = Q_{thu}$$</p>
+<p class="mt-2">hay $m_1c_1(t_1 - t) = m_2c_2(t - t_2)$, trong đó $t$ là nhiệt độ cân bằng.</p>
+</div>
+
+<p><strong>Các bước giải bài toán cân bằng nhiệt:</strong></p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Xác định vật nào toả nhiệt, vật nào thu nhiệt.</li>
+<li>Viết biểu thức $Q_{toả}$ và $Q_{thu}$ (chú ý đổi thể nếu có: cộng thêm $\lambda m$ hoặc $Lm$).</li>
+<li>Cho $Q_{toả} = Q_{thu}$, giải tìm ẩn số (thường là nhiệt độ cân bằng $t$).</li>
+</ul>
+
+<div class="svg-fig"><svg viewBox="0 0 440 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Can bang nhiet khi tron nuoc nong lanh">
+<rect x="2" y="2" width="436" height="186" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="26" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0c4a6e" text-anchor="middle">CÂN BẰNG NHIỆT KHI TRỘN NƯỚC NÓNG – LẠNH</text>
+<rect x="60" y="70" width="90" height="70" rx="8" fill="#fca5a5" stroke="#b91c1c" stroke-width="2"/>
+<text x="105" y="100" font-family="sans-serif" font-size="12" font-weight="bold" fill="#7f1d1d" text-anchor="middle">Nước nóng</text>
+<text x="105" y="120" font-family="sans-serif" font-size="12" fill="#7f1d1d" text-anchor="middle">m1, t1</text>
+<rect x="290" y="70" width="90" height="70" rx="8" fill="#93c5fd" stroke="#1d4ed8" stroke-width="2"/>
+<text x="335" y="100" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e3a8a" text-anchor="middle">Nước lạnh</text>
+<text x="335" y="120" font-family="sans-serif" font-size="12" fill="#1e3a8a" text-anchor="middle">m2, t2</text>
+<line x1="150" y1="105" x2="200" y2="105" stroke="#b91c1c" stroke-width="2.5" marker-end="url(#ah2)"/>
+<text x="175" y="96" font-family="sans-serif" font-size="11" fill="#b91c1c" text-anchor="middle">toả nhiệt</text>
+<line x1="290" y1="125" x2="240" y2="125" stroke="#1d4ed8" stroke-width="2.5" marker-end="url(#ah2)"/>
+<text x="265" y="148" font-family="sans-serif" font-size="11" fill="#1d4ed8" text-anchor="middle">thu nhiệt</text>
+<rect x="195" y="160" width="50" height="0" fill="none"/>
+<text x="220" y="172" font-family="sans-serif" font-size="12" font-weight="bold" fill="#0c4a6e" text-anchor="middle">Q(toả) = Q(thu) → t cân bằng</text>
+<defs><marker id="ah2" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><polygon points="0,0 8,4 0,8" fill="#64748b"/></marker></defs>
+</svg></div>
+
+<!-- 3. Vi du mau -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Ví dụ mẫu các dạng bài</h2>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 1 (trộn nước nóng – lạnh):</p>
+<p>Trộn $1$ kg nước ở $80^{\circ}$C với $2$ kg nước ở $20^{\circ}$C. Tính nhiệt độ cân bằng (bỏ qua hao phí).</p>
+<p class="mt-2"><strong>Lời giải:</strong> Nước nóng toả nhiệt, nước lạnh thu nhiệt.<br>
+$Q_{toả} = 1 \times 4200 \times (80 - t)$; $Q_{thu} = 2 \times 4200 \times (t - 20)$.<br>
+$Q_{toả} = Q_{thu} \Rightarrow 80 - t = 2(t - 20) \Rightarrow 80 - t = 2t - 40 \Rightarrow 3t = 120$.<br>
+Vậy $t = 40^{\circ}$C.</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 2 (bếp điện):</p>
+<p>Một bếp điện công suất $800$ W đun $1$ kg nước từ $20^{\circ}$C đến $100^{\circ}$C. Tính thời gian đun (bỏ qua hao phí).</p>
+<p class="mt-2"><strong>Lời giải:</strong> Nhiệt lượng nước cần: $Q = 1 \times 4200 \times 80 = 336\,000$ J.<br>
+Bếp toả nhiệt lượng $Q = Pt$, suy ra $t = Q/P = 336\,000/800 = 420$ s $= 7$ phút.</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 3 (đun nước đá thành hơi):</p>
+<p>Tính nhiệt lượng cần để đun $2$ kg nước đá từ $-10^{\circ}$C thành hơi nước ở $100^{\circ}$C.</p>
+<p class="mt-2"><strong>Lời giải:</strong> Gồm 4 giai đoạn:<br>
+1) Đá nóng lên: $Q_1 = 2 \times 2100 \times 10 = 42\,000$ J.<br>
+2) Đá nóng chảy: $Q_2 = 2 \times 3,34 \times 10^5 = 668\,000$ J.<br>
+3) Nước nóng lên: $Q_3 = 2 \times 4200 \times 100 = 840\,000$ J.<br>
+4) Nước hoá hơi: $Q_4 = 2 \times 2,26 \times 10^6 = 4\,520\,000$ J.<br>
+Tổng: $Q = 6\,070\,000$ J $= 6070$ kJ.</p>
+</div>
+
+<!-- Tong ket -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Phương trình cân bằng nhiệt:</strong> $Q_{toả} = Q_{thu}$ (hệ cô lập).</li>
+<li>Trộn cùng chất: $t = \frac{m_1t_1 + m_2t_2}{m_1 + m_2}$.</li>
+<li>Bếp điện: $Q = Pt$ (có hiệu suất $H$ thì $Q_{có ích} = HPt$).</li>
+<li>Bài toán nhiều giai đoạn: cộng nhiệt lượng từng giai đoạn (nóng lên, nóng chảy, hoá hơi).</li>
+<li>Luôn kiểm tra: có đổi thể không? đơn vị đã đồng bộ chưa (g → kg, kJ → J)?</li>
+</ul>
+</div>
+
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề Vật lí bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
