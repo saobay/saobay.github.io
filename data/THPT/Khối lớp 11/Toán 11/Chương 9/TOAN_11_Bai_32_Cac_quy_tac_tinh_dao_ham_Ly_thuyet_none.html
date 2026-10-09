@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay | Ma nguon thuoc nen tang hoc tap SAOBAY | Nghiem cam sao chep duoi moi hinh thuc -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 32: Các quy tắc tính đạo hàm</title>
+    <meta name="lesson-title" content="Bài 32: Các quy tắc tính đạo hàm">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 32: Các quy tắc tính đạo hàm</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 9: Đạo hàm</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 32: Các quy tắc tính đạo hàm</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 9: Đạo hàm — Toán 11 (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Quy tắc -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Đạo hàm của tổng, hiệu, tích, thương</h2>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Các quy tắc (với $u, v$ có đạo hàm, $k$ là hằng số):</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>$(u + v)' = u' + v'$; $(u - v)' = u' - v'$.</li>
+<li>$(ku)' = ku'$.</li>
+<li>$(uv)' = u'v + uv'$.</li>
+<li>$\left(\frac{u}{v}\right)' = \frac{u'v - uv'}{v^2}$ ($v$ khác $0$).</li>
+</ul>
+</div>
+
+<!-- 2. Hàm hợp -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Đạo hàm của hàm hợp</h2>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p>Nếu $y = f(u)$, $u = g(x)$ thì: $[f(g(x))]' = f'(u) \cdot u'$, tức $y'_x = y'_u \cdot u'_x$.</p>
+<p class="mt-2"><strong>Ví dụ:</strong> $y = (2x + 1)^3$: đặt $u = 2x + 1$, $y' = 3u^2 \cdot 2 = 6(2x + 1)^2$.</p>
+</div>
+
+<!-- 3. Bảng -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Bảng đạo hàm các hàm số sơ cấp</h2>
+
+<div class="table-scroll">
+<table class="w-full border-collapse my-4 text-sm md:text-base">
+<thead>
+<tr class="bg-sky-100">
+<th class="border border-sky-300 px-3 py-2">Hàm số</th>
+<th class="border border-sky-300 px-3 py-2">Đạo hàm</th>
+<th class="border border-sky-300 px-3 py-2">Hàm hợp $u = u(x)$</th>
+</tr>
+</thead>
+<tbody>
+<tr><td class="border border-sky-300 px-3 py-2">$x^n$</td><td class="border border-sky-300 px-3 py-2">$nx^{n-1}$</td><td class="border border-sky-300 px-3 py-2">$nu^{n-1} \cdot u'$</td></tr>
+<tr><td class="border border-sky-300 px-3 py-2">$\sqrt{x}$ ($x$ dương)</td><td class="border border-sky-300 px-3 py-2">$\frac{1}{2\sqrt{x}}$</td><td class="border border-sky-300 px-3 py-2">$\frac{u'}{2\sqrt{u}}$</td></tr>
+<tr><td class="border border-sky-300 px-3 py-2">$\sin x$</td><td class="border border-sky-300 px-3 py-2">$\cos x$</td><td class="border border-sky-300 px-3 py-2">$u'\cos u$</td></tr>
+<tr><td class="border border-sky-300 px-3 py-2">$\cos x$</td><td class="border border-sky-300 px-3 py-2">$-\sin x$</td><td class="border border-sky-300 px-3 py-2">$-u'\sin u$</td></tr>
+<tr><td class="border border-sky-300 px-3 py-2">$e^x$</td><td class="border border-sky-300 px-3 py-2">$e^x$</td><td class="border border-sky-300 px-3 py-2">$u'e^u$</td></tr>
+<tr><td class="border border-sky-300 px-3 py-2">$\ln x$ ($x$ dương)</td><td class="border border-sky-300 px-3 py-2">$\frac{1}{x}$</td><td class="border border-sky-300 px-3 py-2">$\frac{u'}{u}$</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ví dụ tổng hợp</p>
+<p class="mt-1">$y = \frac{x + 1}{x + 2}$: $y' = \frac{1 \cdot (x+2) - (x+1) \cdot 1}{(x+2)^2} = \frac{1}{(x+2)^2}$.</p>
+<p class="mt-1">$y = \sin 2x$: $y' = 2\cos 2x$. $y = e^{3x}$: $y' = 3e^{3x}$.</p>
+</div>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">
+(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok){if(document.body){document.body.innerHTML='<div style="font-family:system-ui,sans-serif;max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff"><h2 style="color:#0f172a;margin-top:0">© SAOBAY — Trường THPT Sào Báy</h2><p style="color:#475569">Nội dung này chỉ được hiển thị tại địa chỉ chính thức <b>saobay.github.io</b>.</p><p style="color:#475569">Vui lòng truy cập đúng địa chỉ để học tập.</p></div>';}else{document.write("SAOBAY: truy cap tai saobay.github.io");}}catch(e){}})();
+</script>
+</body>
+</html>
