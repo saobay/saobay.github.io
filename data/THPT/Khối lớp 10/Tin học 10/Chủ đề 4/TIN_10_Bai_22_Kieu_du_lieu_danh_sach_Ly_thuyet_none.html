@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 22: Kiểu dữ liệu danh sách</title>
+    <meta name="lesson-title" content="Bài 22: Kiểu dữ liệu danh sách">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 22: Kiểu dữ liệu danh sách</h1>
+            <p class="text-xs text-slate-500 mt-1">Chủ đề 5: Giải quyết vấn đề với sự trợ giúp của máy tính • Bài 22: Kiểu dữ liệu danh sách</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 22: Kiểu dữ liệu danh sách</h1>
+<p class="text-center text-slate-500 italic mb-8">Chủ đề 5: Giải quyết vấn đề với sự trợ giúp của máy tính</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Khái niệm danh sách</h2>
+<p><strong>Danh sách (list)</strong> là dãy các phần tử có thứ tự, được đặt trong <strong>cặp ngoặc vuông</strong>, các phần tử cách nhau bởi dấu phẩy. Các phần tử có thể khác kiểu nhau.</p>
+<pre class="bg-slate-900 text-green-300 rounded-lg p-4 my-4 overflow-x-auto text-sm"><code>diem = [8, 7.5, 9, 6]
+ten = ["An", "Bình", "Chi"]
+trong = []
+hon_hop = [1, "hai", True]</code></pre>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Truy cập phần tử theo chỉ số</h2>
+<p>Python đánh <strong>chỉ số từ 0</strong> cho phần tử đầu tiên. Chỉ số âm đếm từ cuối danh sách (-1 là phần tử cuối).</p>
+<pre class="bg-slate-900 text-green-300 rounded-lg p-4 my-4 overflow-x-auto text-sm"><code>a = [5, 8, 2, 9]
+print(a[0])    # 5
+print(a[-1])   # 9
+print(len(a))  # 4 (số phần tử)</code></pre>
+<div class="bg-amber-50 border border-amber-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-amber-800 mb-1">Chú ý:</p>
+<p class="text-sm">Truy cập chỉ số vượt phạm vi (ví dụ <code>a[4]</code> khi danh sách có 4 phần tử) sẽ gây <strong>lỗi khi chạy</strong> chương trình.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Cắt lát danh sách</h2>
+<p><strong>Cắt lát (slice)</strong> lấy một đoạn con của danh sách theo cú pháp <code>a[bắt_đầu : kết_thúc : bước]</code> (không bao gồm vị trí kết thúc):</p>
+<pre class="bg-slate-900 text-green-300 rounded-lg p-4 my-4 overflow-x-auto text-sm"><code>a = [5, 8, 2, 9, 4]
+print(a[1:4])   # [8, 2, 9]
+print(a[:3])    # [5, 8, 2]
+print(a[::2])   # [5, 2, 4]
+print(a[::-1])  # [4, 9, 2, 8, 5] (đảo ngược)</code></pre>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Duyệt danh sách</h2>
+<p>Dùng vòng lặp <code>for</code> để duyệt từng phần tử:</p>
+<pre class="bg-slate-900 text-green-300 rounded-lg p-4 my-4 overflow-x-auto text-sm"><code>diem = [8, 7.5, 9, 6]
+tong = 0
+for d in diem:
+    tong = tong + d
+print("Trung bình:", tong / len(diem))</code></pre>
+
+</div>
+        </div>
+    </div>
+</body>
+</html>
