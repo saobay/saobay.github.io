@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay | Ma nguon thuoc nen tang hoc tap SAOBAY | Nghiem cam sao chep duoi moi hinh thuc -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 14: Phép chiếu song song</title>
+    <meta name="lesson-title" content="Bài 14: Phép chiếu song song">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 14: Phép chiếu song song</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 4: Quan hệ song song trong không gian</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 14: Phép chiếu song song</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 4: Quan hệ song song trong không gian — Toán 11 (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Định nghĩa -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Phép chiếu song song</h2>
+
+<p>Cho mặt phẳng $(P)$ và đường thẳng $l$ <strong>cắt</strong> $(P)$ ($l$ không song song và không nằm trong $(P)$). Với mỗi điểm $M$ trong không gian, đường thẳng đi qua $M$ và song song với $l$ cắt $(P)$ tại điểm $M'$ duy nhất.</p>
+
+<p><strong>Định nghĩa:</strong> Điểm $M'$ gọi là <em>hình chiếu song song</em> của điểm $M$ lên mặt phẳng $(P)$ theo phương $l$. Mặt phẳng $(P)$ gọi là <em>mặt phẳng chiếu</em>, đường thẳng $l$ gọi là <em>phương chiếu</em>.</p>
+
+<div class="svg-fig">
+<svg viewBox="0 0 300 210" class="w-full max-w-md mx-auto">
+<polygon points="30,180 270,180 230,130 10,130" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+<text x="150" y="118" text-anchor="middle" font-style="italic" font-size="15">(P)</text>
+<line x1="110" y1="40" x2="150" y2="165" stroke="#d97706" stroke-width="1.5" stroke-dasharray="5,4"/>
+<line x1="190" y1="40" x2="230" y2="165" stroke="#d97706" stroke-width="1.5" stroke-dasharray="5,4"/>
+<circle cx="110" cy="40" r="4" fill="#dc2626"/>
+<circle cx="190" cy="40" r="4" fill="#dc2626"/>
+<circle cx="150" cy="165" r="4" fill="#16a34a"/>
+<circle cx="230" cy="165" r="4" fill="#16a34a"/>
+<text x="102" y="32" font-size="14">M</text>
+<text x="196" y="32" font-size="14">N</text>
+<text x="156" y="180" font-size="14">M'</text>
+<text x="236" y="180" font-size="14">N'</text>
+<text x="245" y="100" font-size="13" fill="#d97706">phương l</text>
+</svg>
+<p class="text-center text-sm text-slate-500 italic mt-2">Phép chiếu song song theo phương l lên mặt phẳng (P)</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Chú ý</p>
+<ul class="list-disc ml-6 mt-1 space-y-1">
+<li>Nếu $M \in (P)$ thì hình chiếu của $M$ là chính $M$.</li>
+<li>Hình chiếu của đường thẳng <strong>song song với phương chiếu</strong> là một <strong>điểm</strong>.</li>
+</ul>
+</div>
+
+<!-- 2. Tính chất -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Tính chất của phép chiếu song song</h2>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Phép chiếu song song bảo toàn:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>Tính <strong>thẳng hàng</strong> và <strong>thứ tự</strong> của ba điểm.</li>
+<li>Tính <strong>song song</strong>: ảnh của hai đường thẳng song song là hai đường thẳng song song hoặc trùng nhau.</li>
+<li><strong>Tỉ số độ dài</strong> của hai đoạn thẳng nằm trên cùng một đường thẳng (hoặc trên hai đường thẳng song song).</li>
+</ul>
+<p class="mt-2">Hệ quả: ảnh của <strong>trung điểm</strong> một đoạn thẳng là <strong>trung điểm</strong> của đoạn ảnh; ảnh của <strong>hình bình hành</strong> là <strong>hình bình hành</strong>.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Điều KHÔNG bảo toàn</p>
+<p class="mt-1">Phép chiếu song song <strong>không</strong> bảo toàn độ dài đoạn thẳng và số đo góc. Vì vậy ảnh của tam giác đều chỉ là một tam giác thường, ảnh của đường tròn (chiếu xiên) là một elip.</p>
+</div>
+
+<!-- 3. Hình biểu diễn -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Hình biểu diễn của một hình không gian</h2>
+
+<p><strong>Định nghĩa:</strong> <em>Hình biểu diễn</em> của một hình $\mathcal{H}$ trong không gian là hình chiếu song song của $\mathcal{H}$ lên một mặt phẳng theo một phương chiếu thích hợp.</p>
+
+<p>Một số <strong>quy ước</strong> khi vẽ hình biểu diễn:</p>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Hình biểu diễn của đường thẳng là đường thẳng, của đoạn thẳng là đoạn thẳng.</li>
+<li>Hình biểu diễn của hai đường thẳng song song là hai đường thẳng song song hoặc trùng nhau.</li>
+<li>Dùng <strong>nét vẽ liền</strong> để biểu diễn đường nhìn thấy, <strong>nét đứt</strong> để biểu diễn đường bị che khuất.</li>
+<li>Hình biểu diễn phải giữ đúng <strong>tính song song</strong> và <strong>tỉ số</strong> trên các đường song song (ví dụ: trung điểm vẫn là trung điểm).</li>
+</ul>
+
+<div class="table-scroll">
+<table class="w-full border-collapse my-4 text-sm md:text-base">
+<thead>
+<tr class="bg-sky-100">
+<th class="border border-sky-300 px-3 py-2">Hình trong không gian</th>
+<th class="border border-sky-300 px-3 py-2">Hình biểu diễn thường vẽ</th>
+</tr>
+</thead>
+<tbody>
+<tr><td class="border border-sky-300 px-3 py-2">Tam giác</td><td class="border border-sky-300 px-3 py-2">Tam giác</td></tr>
+<tr><td class="border border-sky-300 px-3 py-2">Hình bình hành, hình chữ nhật, hình vuông, hình thoi</td><td class="border border-sky-300 px-3 py-2">Hình bình hành</td></tr>
+<tr><td class="border border-sky-300 px-3 py-2">Đường tròn</td><td class="border border-sky-300 px-3 py-2">Hình elip</td></tr>
+<tr><td class="border border-sky-300 px-3 py-2">Hình chóp có đáy là hình bình hành</td><td class="border border-sky-300 px-3 py-2">Hình chóp có đáy là hình bình hành</td></tr>
+</tbody>
+</table>
+</div>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">
+(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok){if(document.body){document.body.innerHTML='<div style="font-family:system-ui,sans-serif;max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff"><h2 style="color:#0f172a;margin-top:0">© SAOBAY — Trường THPT Sào Báy</h2><p style="color:#475569">Nội dung này chỉ được hiển thị tại địa chỉ chính thức <b>saobay.github.io</b>.</p><p style="color:#475569">Vui lòng truy cập đúng địa chỉ để học tập.</p></div>';}else{document.write("SAOBAY: truy cap tai saobay.github.io");}}catch(e){}})();
+</script>
+</body>
+</html>
