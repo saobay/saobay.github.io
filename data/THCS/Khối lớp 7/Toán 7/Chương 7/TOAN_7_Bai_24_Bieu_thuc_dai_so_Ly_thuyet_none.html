@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 24: Biểu thức đại số</title>
+    <meta name="lesson-title" content="Bài 24: Biểu thức đại số">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 24: Biểu thức đại số</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 7: Biểu thức đại số và đa thức một biến • Bài 24: Biểu thức đại số</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<p class="text-slate-600">Ở các lớp dưới, các em đã quen với các <strong>biểu thức số</strong> như $3 + 5 \times 2$ hay $(12 - 4) : 2$. Trong đời sống, nhiều đại lượng chưa biết trước giá trị cụ thể (số học sinh của một lớp, chiều dài một mảnh đất, vận tốc của một chiếc xe...). Để viết gọn các công thức tính toán với những đại lượng chưa biết ấy, người ta dùng thêm các <strong>chữ</strong> thay cho số. Bài học này giới thiệu <strong>biểu thức đại số</strong> và cách tính giá trị của nó.</p>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-8 mb-4">1. Biểu thức số</h2>
+<p>Các số được nối với nhau bởi các dấu của phép tính (cộng, trừ, nhân, chia, nâng lên lũy thừa) và có thể có thêm dấu ngoặc để chỉ thứ tự thực hiện phép tính tạo thành một <strong>biểu thức số</strong>.</p>
+<div class="bg-sky-50 border border-sky-200 rounded-xl p-4 my-4">
+<p class="font-bold text-sky-800 mb-2">Ví dụ 1</p>
+<p>Các biểu thức $15 - 3 \times 2$; $\frac{12 + 8}{5}$; $(2 + 3)^2 - 10$ đều là biểu thức số. Thực hiện các phép tính, ta được <strong>giá trị</strong> của chúng: $15 - 3 \times 2 = 9$; $\frac{12 + 8}{5} = 4$.</p>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-8 mb-4">2. Biểu thức đại số</h2>
+<p>Khi trong một biểu thức, ngoài các số còn có thêm các <strong>chữ</strong> (đại diện cho những số nào đó chưa biết hoặc có thể thay đổi), ta được một <strong>biểu thức đại số</strong>. Các chữ đó gọi là <strong>biến số</strong> (gọi tắt là <strong>biến</strong>), thường dùng các chữ $x, y, z, a, b, \ldots$</p>
+<div class="bg-sky-50 border border-sky-200 rounded-xl p-4 my-4">
+<p class="font-bold text-sky-800 mb-2">Ví dụ 2</p>
+<ul class="list-disc pl-5 space-y-1">
+<li>$2x + 5$ là biểu thức đại số với biến $x$.</li>
+<li>$3a - 2b + 1$ là biểu thức đại số với hai biến $a, b$.</li>
+<li>Chu vi $P$ của hình chữ nhật có chiều dài $a$, chiều rộng $b$ là $P = 2(a + b)$ — một biểu thức đại số.</li>
+<li>Diện tích $S$ của hình tròn bán kính $r$ là $S = \pi r^2$ — một biểu thức đại số với biến $r$.</li>
+</ul>
+</div>
+<div class="bg-amber-50 border border-amber-300 rounded-xl p-4 my-4">
+<p class="font-bold text-amber-800 mb-2">📌 Ghi nhớ</p>
+<ul class="list-disc pl-5 space-y-1">
+<li>Biểu thức gồm các số, các chữ và các phép toán trên các số, các chữ đó gọi là <strong>biểu thức đại số</strong>.</li>
+<li>Trong biểu thức đại số, các chữ đại diện cho các số gọi là <strong>biến số</strong>.</li>
+<li>Biểu thức số cũng là một trường hợp đặc biệt của biểu thức đại số (không có biến).</li>
+</ul>
+</div>
+
+<div class="svg-fig">
+<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cac thanh phan cua bieu thuc dai so">
+<rect x="10" y="60" width="380" height="80" rx="12" fill="#f0f9ff" stroke="#0284c7" stroke-width="2"/>
+<text x="200" y="110" text-anchor="middle" font-size="30" font-family="serif" fill="#0f172a">3x² − 2x + 5</text>
+<line x1="120" y1="140" x2="70" y2="175" stroke="#0284c7" stroke-width="1.5"/>
+<text x="20" y="192" font-size="14" fill="#0369a1">số (hệ số, hằng số)</text>
+<line x1="200" y1="140" x2="200" y2="172" stroke="#16a34a" stroke-width="1.5"/>
+<text x="165" y="192" font-size="14" fill="#15803d">biến số</text>
+<line x1="285" y1="140" x2="330" y2="175" stroke="#d97706" stroke-width="1.5"/>
+<text x="300" y="192" font-size="14" fill="#b45309">phép toán</text>
+<text x="200" y="35" text-anchor="middle" font-size="16" font-weight="bold" fill="#0f172a">Các thành phần của biểu thức đại số</text>
+</svg>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-8 mb-4">3. Giá trị của biểu thức đại số</h2>
+<p>Để tính <strong>giá trị</strong> của một biểu thức đại số tại những giá trị cho trước của các biến, ta <strong>thay</strong> các chữ bởi các số đã cho rồi <strong>thực hiện các phép tính</strong>.</p>
+<div class="bg-sky-50 border border-sky-200 rounded-xl p-4 my-4">
+<p class="font-bold text-sky-800 mb-2">Ví dụ 3</p>
+<p>Tính giá trị của biểu thức $A = 2x + 5$ tại $x = 3$.</p>
+<p><em>Giải.</em> Thay $x = 3$ vào biểu thức $A$, ta được: $A = 2 \times 3 + 5 = 6 + 5 = 11$. Vậy giá trị của $A$ tại $x = 3$ là $11$.</p>
+<p class="mt-2">Tính giá trị của $B = x^2 - 3x + 1$ tại $x = -2$:</p>
+<p>$B = (-2)^2 - 3 \times (-2) + 1 = 4 + 6 + 1 = 11$.</p>
+</div>
+<div class="bg-amber-50 border border-amber-300 rounded-xl p-4 my-4">
+<p class="font-bold text-amber-800 mb-2">📌 Ghi nhớ</p>
+<ul class="list-disc pl-5 space-y-1">
+<li>Muốn tính giá trị của biểu thức đại số: <strong>thay</strong> giá trị của biến vào biểu thức rồi <strong>tính</strong>.</li>
+<li>Cùng một biểu thức, với các giá trị khác nhau của biến sẽ cho các giá trị khác nhau.</li>
+<li>Chú ý dấu của số âm khi thay vào: luôn đặt trong dấu ngoặc, ví dụ thay $x = -2$ vào $x^2$ được $(-2)^2 = 4$.</li>
+</ul>
+</div>
+
+<div class="svg-fig">
+<svg viewBox="0 0 400 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Thay bien de tinh gia tri bieu thuc">
+<rect x="20" y="60" width="150" height="60" rx="10" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+<text x="95" y="97" text-anchor="middle" font-size="22" font-family="serif" fill="#0f172a">2x + 5</text>
+<rect x="230" y="60" width="150" height="60" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+<text x="305" y="97" text-anchor="middle" font-size="22" font-family="serif" fill="#0f172a">2·3 + 5 = 11</text>
+<line x1="170" y1="90" x2="228" y2="90" stroke="#0f172a" stroke-width="2" marker-end="url(#arr24)"/>
+<defs><marker id="arr24" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#0f172a"/></marker></defs>
+<text x="199" y="78" text-anchor="middle" font-size="14" fill="#0f172a">thay x = 3</text>
+<text x="200" y="160" text-anchor="middle" font-size="15" fill="#475569">Thay giá trị của biến rồi thực hiện phép tính</text>
+</svg>
+</div>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4 my-4">
+<p class="font-bold text-emerald-800 mb-2">Bài tập ví dụ (có lời giải)</p>
+<p><strong>Bài 1.</strong> Trong các biểu thức sau, biểu thức nào là biểu thức số, biểu thức nào là biểu thức đại số? $5 \times 3 - 8$; $4y + 1$; $\frac{x}{2} - 3$; $100 : 4 + 6$.</p>
+<p><em>Lời giải.</em> Biểu thức số: $5 \times 3 - 8$; $100 : 4 + 6$ (chỉ gồm các số và phép tính). Biểu thức đại số: $4y + 1$ (biến $y$); $\frac{x}{2} - 3$ (biến $x$).</p>
+<p class="mt-3"><strong>Bài 2.</strong> Tính giá trị của biểu thức $M = 3x^2 - x$ tại $x = 2$ và tại $x = -1$.</p>
+<p><em>Lời giải.</em> Tại $x = 2$: $M = 3 \times 2^2 - 2 = 3 \times 4 - 2 = 10$. Tại $x = -1$: $M = 3 \times (-1)^2 - (-1) = 3 \times 1 + 1 = 4$.</p>
+<p class="mt-3"><strong>Bài 3.</strong> Một ô tô đi với vận tốc $v$ (km/h) trong thời gian $t$ (giờ). Viết biểu thức tính quãng đường $s$ ô tô đi được và tính $s$ khi $v = 45$, $t = 2$.</p>
+<p><em>Lời giải.</em> $s = v \times t$. Khi $v = 45$, $t = 2$: $s = 45 \times 2 = 90$ (km).</p>
+</div>
+
+<h2 class="text-xl font-bold text-slate-900 border-l-4 border-sky-500 pl-3 mt-8 mb-4">Tóm tắt bài học</h2>
+<div class="table-scroll">
+<table class="w-full text-sm border-collapse">
+<thead><tr class="bg-sky-100"><th class="border border-sky-200 px-3 py-2 text-left">Nội dung</th><th class="border border-sky-200 px-3 py-2 text-left">Kiến thức trọng tâm</th><th class="border border-sky-200 px-3 py-2 text-left">Ví dụ</th></tr></thead>
+<tbody>
+<tr><td class="border border-slate-200 px-3 py-2 font-semibold">Biểu thức số</td><td class="border border-slate-200 px-3 py-2">Các số nối với nhau bởi các phép tính (có thể có ngoặc)</td><td class="border border-slate-200 px-3 py-2">$7 + 3 \times 4$</td></tr>
+<tr class="bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-semibold">Biểu thức đại số</td><td class="border border-slate-200 px-3 py-2">Gồm các số, các chữ (biến số) và các phép toán</td><td class="border border-slate-200 px-3 py-2">$2x + 5$; $3a - b$</td></tr>
+<tr><td class="border border-slate-200 px-3 py-2 font-semibold">Biến số</td><td class="border border-slate-200 px-3 py-2">Chữ đại diện cho số, thường là $x, y, z, a, b, \ldots$</td><td class="border border-slate-200 px-3 py-2">Trong $x^2 + 1$, biến là $x$</td></tr>
+<tr class="bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-semibold">Giá trị của biểu thức</td><td class="border border-slate-200 px-3 py-2">Thay giá trị của biến vào rồi thực hiện phép tính</td><td class="border border-slate-200 px-3 py-2">$2x+5$ tại $x=3$ bằng $11$</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
