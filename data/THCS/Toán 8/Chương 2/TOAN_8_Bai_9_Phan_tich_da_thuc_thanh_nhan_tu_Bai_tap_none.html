@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài tập Bài 9: Phân tích đa thức thành nhân tử</title>
+    <meta name="lesson-title" content="Bài tập Bài 9: Phân tích đa thức thành nhân tử">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Bài tập</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài tập Bài 9: Phân tích đa thức thành nhân tử</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 2: Hằng đẳng thức đáng nhớ và ứng dụng • Bài 9: Phân tích đa thức thành nhân tử</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="saobay-exam10">
+<script type="application/json" class="saobay-exam10-data">
+{
+  "sets": [
+    {
+      "name": "Đề 1",
+      "questions": [
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Phân tích đa thức $2x^2 + 5x$ thành nhân tử, ta được",
+          "options": [
+            "A. $x^2(2x + 5)$",
+            "B. $x(2x + 5)$",
+            "C. $x(2x - 5)$",
+            "D. $2x(x + 5)$"
+          ],
+          "answer": "B",
+          "explain": "Nhan tu chung cua hai hang tu la $x$. Ta co $2x^2+5x=x(2x+5)$."
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Phân tích đa thức $4x^2 - 9$ thành nhân tử, ta được",
+          "options": [
+            "A. $(2x - 3)^2$",
+            "B. $(2x + 3)^2$",
+            "C. $(2x - 3)(2x + 3)$",
+            "D. $(3 - 2x)(3 + 2x)$"
+          ],
+          "answer": "C",
+          "explain": "Ap dung $A^2-B^2=(A-B)(A+B)$ voi $A=2x$, $B=3$: $4x^2-9=(2x-3)(2x+3)$."
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Đa thức $x^2 + 6x + 9$ được viết dưới dạng bình phương của một tổng (hiệu) là",
+          "options": [
+            "A. $(x - 3)^2$",
+            "B. $(x + 3)(x - 3)$",
+            "C. $x^2 + 9$",
+            "D. $(x + 3)^2$"
+          ],
+          "answer": "D",
+          "explain": "Ta co $x^2 + 6x+9=x^2 + 2\\cdot x\\cdot 3+3^2=(x + 3)^2$."
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Phân tích đa thức $6x^2 - 9x$ thành nhân tử, ta được",
+          "options": [
+            "A. $3x(2x - 3)$",
+            "B. $3x(2x + 3)$",
+            "C. $x(6x - 9)$",
+            "D. $3(2x^2 - 3x)$"
+          ],
+          "answer": "A",
+          "explain": "Nhan tu chung lon nhat la $3x$. Ta co $6x^2-9x=3x(2x-3)$."
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Phân tích đa thức $2x + 2y + 5x + 5y$ thành nhân tử, ta được",
+          "options": [
+            "A. $(x - y)(2 + 5)$",
+            "B. $(x + y)(2 + 5)$",
+            "C. $(x + y)(2 - 5)$",
+            "D. $(x + y)\\cdot 10$"
+          ],
+          "answer": "B",
+          "explain": "Nhom: $(2x+2y)+(5x+5y)=2(x+y)+5(x+y)=(x+y)(2+5)$."
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Phân tích đa thức $x^2 - 2x + 1 - 9$ thành nhân tử, ta được",
+          "options": [
+            "A. $(x + 1 - 3)(x + 1 + 3)$",
+            "B. $(x - 1 - 3)(x - 1 - 3)$",
+            "C. $(x - 1 - 3)(x - 1 + 3)$",
+            "D. $(x - 1 + 3)(x + 1 - 3)$"
+          ],
+          "answer": "C",
+          "explain": "$x^2-2x+1-9=(x-1)^2-9^2=(x-1-3)(x-1+3)$."
+        },
+        {
+          "type": "truefalse",
+          "level": "TH",
+          "q": "Xét tính đúng sai của các khẳng định sau về phân tích đa thức thành nhân tử.",
+          "statements": [
+            "a) $x^2 + 6x + 9 = (x + 3)^2$",
+            "b) $x^2 - 9 = (x - 3)^2$",
+            "c) $2x^2 + 4x = 2x(x + 2)$",
+            "d) $x^3 + 8 = (x + 2)(x^2 + 2x + 4)$"
+          ],
+          "answer": [
+            "T",
+            "F",
+            "T",
+            "F"
+          ],
+          "explain": "a) Dung vi $x^2+6x+9=(x+3)^2$. b) Sai vi $x^2-9=(x-3)(x+3)$, con $(x-3)^2=x^2-6x+9$. c) Dung vi nhan tu chung cua hai hang tu la $2x$. d) Sai vi $x^3+8=(x+2)(x^2-2x+4)$."
+        },
+        {
+          "type": "truefalse",
+          "level": "VD",
+          "q": "Xét tính đúng sai của các khẳng định sau về phân tích đa thức thành nhân tử.",
+          "statements": [
+            "a) $8x^3 - 1 = (2x - 1)(4x^2 + 2x + 1)$",
+            "b) $x^2 + 4 = (x + 2)^2$",
+            "c) $x^3 - 3x^2 + 3x - 1 = (x - 1)^3$",
+            "d) $(2x - 3)(2x + 3) = 4x^2 - 9$"
+          ],
+          "answer": [
+            "T",
+            "F",
+            "T",
+            "T"
+          ],
+          "explain": "a) Dung (hang dang thuc $a^3-b^3$ voi $a=2x$, $b=1$). b) Sai vi $(x+2)^2=x^2+4x+4$; $x^2+4$ khong phan tich duoc nua. c) Dung (hang dang thuc $(a-b)^3$). d) Dung (hang dang thuc $a^2-b^2$)."
+        },
+        {
+          "type": "short",
+          "level": "VD",
+          "q": "Nghiệm dương của phương trình $x^2 - 9 = 0$ là",
+          "answer": "3",
+          "explain": "$x^2-9=0 \\iff (x-3)(x+3)=0 \\iff x=3$ hoac $x=-3$. Nghiem duong la $3$."
+        },
+        {
+          "type": "short",
+          "level": "VDC",
+          "q": "Số dư khi chia $n^3 - n$ cho $6$ với mọi số nguyên $n$ là",
+          "answer": "0",
+          "explain": "$n^3-n=(n-1)n(n+1)$ la tich cua ba so nguyen lien tiep nen chia het cho $2$ va cho $3$, do do chia het cho $6$. So du la $0$."
+        }
+      ]
+    },
+    {
+      "name": "Đề 2",
+      "questions": [
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Phân tích đa thức $3x^2 + 4x$ thành nhân tử, ta được",
+          "options": [
+            "A. $x^2(3x + 4)$",
+            "B. $x(3x - 4)$",
+            "C. $x(3x + 4)$",
+            "D. $3x(x + 4)$"
+          ],
+          "answer": "C",
+          "explain": "Nhan tu chung cua hai hang tu la $x$. Ta co $3x^2+4x=x(3x+4)$."
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Phân tích đa thức $9x^2 - 16$ thành nhân tử, ta được",
+          "options": [
+            "A. $(3x - 4)^2$",
+            "B. $(3x + 4)^2$",
+            "C. $(4 - 3x)(4 + 3x)$",
+            "D. $(3x - 4)(3x + 4)$"
+          ],
+          "answer": "D",
+          "explain": "Ap dung $A^2-B^2=(A-B)(A+B)$ voi $A=3x$, $B=4$: $9x^2-16=(3x-4)(3x+4)$."
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Đa thức $x^2 - 4x + 4$ được viết dưới dạng bình phương của một tổng (hiệu) là",
+          "options": [
+            "A. $(x - 2)^2$",
+            "B. $(x + 2)^2$",
+            "C. $(x + 2)(x - 2)$",
+            "D. $x^2 + 4$"
+          ],
+          "answer": "A",
+          "explain": "Ta co $x^2 - 4x+4=x^2 - 2\\cdot x\\cdot 2+2^2=(x - 2)^2$."
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Phân tích đa thức $8x^2 - 12x$ thành nhân tử, ta được",
+          "options": [
+            "A. $4x(2x + 3)$",
+            "B. $4x(2x - 3)$",
+            "C. $x(8x - 12)$",
+            "D. $4(2x^2 - 3x)$"
+          ],
+          "answer": "B",
+          "explain": "Nhan tu chung lon nhat la $4x$. Ta co $8x^2-12x=4x(2x-3)$."
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Phân tích đa thức $3x + 3y + 4x + 4y$ thành nhân tử, ta được",
+          "options": [
+            "A. $(x - y)(3 + 4)$",
+            "B. $(x + y)(3 - 4)$",
+            "C. $(x + y)(3 + 4)$",
+            "D. $(x + y)\\cdot 12$"
+          ],
+          "answer": "C",
+          "explain": "Nhom: $(3x+3y)+(4x+4y)=3(x+y)+4(x+y)=(x+y)(3+4)$."
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Phân tích đa thức $x^2 - 4x + 4 - 25$ thành nhân tử, ta được",
+          "options": [
+            "A. $(x + 2 - 5)(x + 2 + 5)$",
+            "B. $(x - 2 - 5)(x - 2 - 5)$",
+            "C. $(x - 2 + 5)(x + 2 - 5)$",
+            "D. $(x - 2 - 5)(x - 2 + 5)$"
+          ],
+          "answer": "D",
+          "explain": "$x^2-4x+4-25=(x-2)^2-25^2=(x-2-5)(x-2+5)$."
+        },
+        {
+          "type": "truefalse",
+          "level": "TH",
+          "q": "Xét tính đúng sai của các khẳng định sau về phân tích đa thức thành nhân tử.",
+          "statements": [
+            "a) $x^3 - 27 = (x - 3)(x^2 + 3x + 9)$",
+            "b) $(x + 1)^2 = x^2 + 2x + 1$",
+            "c) $x^2 + 2x = x(x - 2)$",
+            "d) $4x^2 - 25 = (2x - 5)(2x + 5)$"
+          ],
+          "answer": [
+            "T",
+            "T",
+            "F",
+            "T"
+          ],
+          "explain": "a) Dung (hang dang thuc $a^3-b^3$). b) Dung (hang dang thuc $(a+b)^2$). c) Sai vi $x^2+2x=x(x+2)$. d) Dung vi $4x^2-25=(2x)^2-5^2$."
+        },
+        {
+          "type": "truefalse",
+          "level": "VD",
+          "q": "Xét tính đúng sai của các khẳng định sau về phân tích đa thức thành nhân tử.",
+          "statements": [
+            "a) $x^2 + xy + y^2 = (x + y)^2$",
+            "b) $27 - x^3 = (3 - x)(9 + 3x + x^2)$",
+            "c) $x^2 - 10x + 25 = (5 - x)^2$",
+            "d) $4x^2 + 4x + 1 = (2x + 1)^2$"
+          ],
+          "answer": [
+            "F",
+            "T",
+            "T",
+            "T"
+          ],
+          "explain": "a) Sai vi $(x+y)^2=x^2+2xy+y^2$. b) Dung (hang dang thuc $a^3-b^3$ voi $a=3$, $b=x$). c) Dung vi $(5-x)^2=25-10x+x^2$. d) Dung vi $4x^2+4x+1=(2x)^2+2\\cdot2x\\cdot1+1^2$."
+        },
+        {
+          "type": "short",
+          "level": "VD",
+          "q": "Tính giá trị của biểu thức $x^2 + 6x + 9$ tại $x = 97$",
+          "answer": "10000",
+          "explain": "$x^2+6x+9=(x+3)^2$. Tai $x=97$: $(97+3)^2=100^2=10000$."
+        },
+        {
+          "type": "short",
+          "level": "VDC",
+          "q": "Giá trị nhỏ nhất của biểu thức $x^2 - 6x + 11$ là",
+          "answer": "2",
+          "explain": "$x^2-6x+11=(x-3)^2+2\\ge2$. Gia tri nho nhat la $2$ (khi $x=3$)."
+        }
+      ]
+    },
+    {
+      "name": "Đề 3",
+      "questions": [
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Phân tích đa thức $2x^2 + 7x$ thành nhân tử, ta được",
+          "options": [
+            "A. $x^2(2x + 7)$",
+            "B. $x(2x - 7)$",
+            "C. $2x(x + 7)$",
+            "D. $x(2x + 7)$"
+          ],
+          "answer": "D",
+          "explain": "Nhan tu chung cua hai hang tu la $x$. Ta co $2x^2+7x=x(2x+7)$."
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Phân tích đa thức $25x^2 - 1$ thành nhân tử, ta được",
+          "options": [
+            "A. $(5x - 1)(5x + 1)$",
+            "B. $(5x - 1)^2$",
+            "C. $(5x + 1)^2$",
+            "D. $(1 - 5x)(1 + 5x)$"
+          ],
+          "answer": "A",
+          "explain": "Ap dung $A^2-B^2=(A-B)(A+B)$ voi $A=5x$, $B=1$: $25x^2-1=(5x-1)(5x+1)$."
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Đa thức $x^2 + 10x + 25$ được viết dưới dạng bình phương của một tổng (hiệu) là",
+          "options": [
+            "A. $(x - 5)^2$",
+            "B. $(x + 5)^2$",
+            "C. $(x + 5)(x - 5)$",
+            "D. $x^2 + 25$"
+          ],
+          "answer": "B",
+          "explain": "Ta co $x^2 + 10x+25=x^2 + 2\\cdot x\\cdot 5+5^2=(x + 5)^2$."
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Phân tích đa thức $10x^2 - 15x$ thành nhân tử, ta được",
+          "options": [
+            "A. $5x(2x + 3)$",
+            "B. $x(10x - 15)$",
+            "C. $5x(2x - 3)$",
+            "D. $5(2x^2 - 3x)$"
+          ],
+          "answer": "C",
+          "explain": "Nhan tu chung lon nhat la $5x$. Ta co $10x^2-15x=5x(2x-3)$."
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Phân tích đa thức $5x + 5y + 2x + 2y$ thành nhân tử, ta được",
+          "options": [
+            "A. $(x - y)(5 + 2)$",
+            "B. $(x + y)(5 - 2)$",
+            "C. $(x + y)\\cdot 10$",
+            "D. $(x + y)(5 + 2)$"
+          ],
+          "answer": "D",
+          "explain": "Nhom: $(5x+5y)+(2x+2y)=5(x+y)+2(x+y)=(x+y)(5+2)$."
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Phân tích đa thức $x^2 - 6x + 9 - 4$ thành nhân tử, ta được",
+          "options": [
+            "A. $(x - 3 - 2)(x - 3 + 2)$",
+            "B. $(x + 3 - 2)(x + 3 + 2)$",
+            "C. $(x - 3 - 2)(x - 3 - 2)$",
+            "D. $(x - 3 + 2)(x + 3 - 2)$"
+          ],
+          "answer": "A",
+          "explain": "$x^2-6x+9-4=(x-3)^2-4^2=(x-3-2)(x-3+2)$."
+        },
+        {
+          "type": "truefalse",
+          "level": "TH",
+          "q": "Xét tính đúng sai của các khẳng định sau về phân tích đa thức thành nhân tử.",
+          "statements": [
+            "a) $9x^2 - 1 = (3x - 1)^2$",
+            "b) $3x^2 - 6x + 3 = 3(x - 1)^2$",
+            "c) $x^2 + 5x + 6 = (x + 2)(x + 3)$",
+            "d) $x^4 - 16 = (x^2 - 4)^2$"
+          ],
+          "answer": [
+            "F",
+            "T",
+            "T",
+            "F"
+          ],
+          "explain": "a) Sai vi $9x^2-1=(3x-1)(3x+1)$. b) Dung vi $3x^2-6x+3=3(x^2-2x+1)=3(x-1)^2$. c) Dung vi $(x+2)(x+3)=x^2+5x+6$. d) Sai vi $x^4-16=(x^2-4)(x^2+4)$."
+        },
+        {
+          "type": "truefalse",
+          "level": "VD",
+          "q": "Xét tính đúng sai của các khẳng định sau về phân tích đa thức thành nhân tử.",
+          "statements": [
+            "a) $x^2 - y^2 + 2y - 1 = (x - y + 1)(x + y - 1)$",
+            "b) $x^3 + 3x^2 + 3x + 1 = (x + 1)^3$",
+            "c) $-x^2 + 9 = (3 - x)(3 + x)$",
+            "d) $x^4 - 1 = (x^2 - 1)^2$"
+          ],
+          "answer": [
+            "T",
+            "T",
+            "T",
+            "F"
+          ],
+          "explain": "a) Dung vi $x^2-y^2+2y-1=x^2-(y-1)^2$. b) Dung (hang dang thuc $(a+b)^3$). c) Dung vi $-x^2+9=9-x^2=(3-x)(3+x)$. d) Sai vi $x^4-1=(x^2-1)(x^2+1)$."
+        },
+        {
+          "type": "short",
+          "level": "VD",
+          "q": "Tổng các nghiệm của phương trình $x^2 - 16 = 0$ là",
+          "answer": "0",
+          "explain": "$x^2-16=0 \\iff (x-4)(x+4)=0$ nen hai nghiem la $4$ va $-4$, tong bang $0$."
+        },
+        {
+          "type": "short",
+          "level": "VDC",
+          "q": "Cho $a + b = 10$ và $a^2 + b^2 = 56$. Tính $ab$",
+          "answer": "22",
+          "explain": "$(a+b)^2=a^2+2ab+b^2$ nen $100=56+2ab$, suy ra $ab=22$."
+        }
+      ]
+    },
+    {
+      "name": "Đề 4",
+      "questions": [
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Phân tích đa thức $3x^2 + 5x$ thành nhân tử, ta được",
+          "options": [
+            "A. $x(3x + 5)$",
+            "B. $x^2(3x + 5)$",
+            "C. $x(3x - 5)$",
+            "D. $3x(x + 5)$"
+          ],
+          "answer": "A",
+          "explain": "Nhan tu chung cua hai hang tu la $x$. Ta co $3x^2+5x=x(3x+5)$."
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Phân tích đa thức $1x^2 - 16$ thành nhân tử, ta được",
+          "options": [
+            "A. $(1x - 4)^2$",
+            "B. $(1x - 4)(1x + 4)$",
+            "C. $(1x + 4)^2$",
+            "D. $(4 - 1x)(4 + 1x)$"
+          ],
+          "answer": "B",
+          "explain": "Ap dung $A^2-B^2=(A-B)(A+B)$ voi $A=1x$, $B=4$: $1x^2-16=(1x-4)(1x+4)$."
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Đa thức $x^2 - 8x + 16$ được viết dưới dạng bình phương của một tổng (hiệu) là",
+          "options": [
+            "A. $(x + 4)^2$",
+            "B. $(x + 4)(x - 4)$",
+            "C. $(x - 4)^2$",
+            "D. $x^2 + 16$"
+          ],
+          "answer": "C",
+          "explain": "Ta co $x^2 - 8x+16=x^2 - 2\\cdot x\\cdot 4+4^2=(x - 4)^2$."
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Phân tích đa thức $4x^2 - 6x$ thành nhân tử, ta được",
+          "options": [
+            "A. $2x(2x + 3)$",
+            "B. $x(4x - 6)$",
+            "C. $2(2x^2 - 3x)$",
+            "D. $2x(2x - 3)$"
+          ],
+          "answer": "D",
+          "explain": "Nhan tu chung lon nhat la $2x$. Ta co $4x^2-6x=2x(2x-3)$."
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Phân tích đa thức $4x + 4y + 7x + 7y$ thành nhân tử, ta được",
+          "options": [
+            "A. $(x + y)(4 + 7)$",
+            "B. $(x - y)(4 + 7)$",
+            "C. $(x + y)(4 - 7)$",
+            "D. $(x + y)\\cdot 28$"
+          ],
+          "answer": "A",
+          "explain": "Nhom: $(4x+4y)+(7x+7y)=4(x+y)+7(x+y)=(x+y)(4+7)$."
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Phân tích đa thức $x^2 - 2x + 1 - 16$ thành nhân tử, ta được",
+          "options": [
+            "A. $(x + 1 - 4)(x + 1 + 4)$",
+            "B. $(x - 1 - 4)(x - 1 + 4)$",
+            "C. $(x - 1 - 4)(x - 1 - 4)$",
+            "D. $(x - 1 + 4)(x + 1 - 4)$"
+          ],
+          "answer": "B",
+          "explain": "$x^2-2x+1-16=(x-1)^2-16^2=(x-1-4)(x-1+4)$."
+        },
+        {
+          "type": "truefalse",
+          "level": "TH",
+          "q": "Xét tính đúng sai của các khẳng định sau về phân tích đa thức thành nhân tử.",
+          "statements": [
+            "a) $2x^2 + 4x = 2x(x + 2)$",
+            "b) $x^3 + 8 = (x + 2)(x^2 + 2x + 4)$",
+            "c) $x^2 - 4x + 4 = (x - 2)^2$",
+            "d) $5x - 15 = 5(x + 3)$"
+          ],
+          "answer": [
+            "T",
+            "F",
+            "T",
+            "F"
+          ],
+          "explain": "a) Dung vi nhan tu chung cua hai hang tu la $2x$. b) Sai vi $x^3+8=(x+2)(x^2-2x+4)$. c) Dung vi $x^2-4x+4=(x-2)^2$. d) Sai vi $5x-15=5(x-3)$."
+        },
+        {
+          "type": "truefalse",
+          "level": "VD",
+          "q": "Xét tính đúng sai của các khẳng định sau về phân tích đa thức thành nhân tử.",
+          "statements": [
+            "a) $x^3 - 3x^2 + 3x - 1 = (x - 1)^3$",
+            "b) $(2x - 3)(2x + 3) = 4x^2 - 9$",
+            "c) $x^2 - 6x + 9 - y^2 = (x - 3 - y)(x - 3 + y)$",
+            "d) $2x^3 + 8x = 2x(x^2 + 4)$"
+          ],
+          "answer": [
+            "T",
+            "T",
+            "T",
+            "T"
+          ],
+          "explain": "a) Dung (hang dang thuc $(a-b)^3$). b) Dung (hang dang thuc $a^2-b^2$). c) Dung vi $x^2-6x+9-y^2=(x-3)^2-y^2$. d) Dung vi nhan tu chung la $2x$."
+        },
+        {
+          "type": "short",
+          "level": "VD",
+          "q": "Tính nhanh: $103^2 - 3^2$",
+          "answer": "10600",
+          "explain": "$103^2-3^2=(103-3)(103+3)=100\\cdot106=10600$."
+        },
+        {
+          "type": "short",
+          "level": "VDC",
+          "q": "Cho $x^2 + y^2 = 25$ và $xy = 12$. Tính $(x + y)^2$",
+          "answer": "49",
+          "explain": "$(x+y)^2=x^2+2xy+y^2=25+2\\cdot12=49$."
+        }
+      ]
+    },
+    {
+      "name": "Đề 5",
+      "questions": [
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Phân tích đa thức $4x^2 + 7x$ thành nhân tử, ta được",
+          "options": [
+            "A. $x^2(4x + 7)$",
+            "B. $x(4x + 7)$",
+            "C. $x(4x - 7)$",
+            "D. $4x(x + 7)$"
+          ],
+          "answer": "B",
+          "explain": "Nhan tu chung cua hai hang tu la $x$. Ta co $4x^2+7x=x(4x+7)$."
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Phân tích đa thức $1x^2 - 49$ thành nhân tử, ta được",
+          "options": [
+            "A. $(1x - 7)^2$",
+            "B. $(1x + 7)^2$",
+            "C. $(1x - 7)(1x + 7)$",
+            "D. $(7 - 1x)(7 + 1x)$"
+          ],
+          "answer": "C",
+          "explain": "Ap dung $A^2-B^2=(A-B)(A+B)$ voi $A=1x$, $B=7$: $1x^2-49=(1x-7)(1x+7)$."
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Đa thức $x^2 + 2x + 1$ được viết dưới dạng bình phương của một tổng (hiệu) là",
+          "options": [
+            "A. $(x - 1)^2$",
+            "B. $(x + 1)(x - 1)$",
+            "C. $x^2 + 1$",
+            "D. $(x + 1)^2$"
+          ],
+          "answer": "D",
+          "explain": "Ta co $x^2 + 2x+1=x^2 + 2\\cdot x\\cdot 1+1^2=(x + 1)^2$."
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Phân tích đa thức $12x^2 - 18x$ thành nhân tử, ta được",
+          "options": [
+            "A. $6x(2x - 3)$",
+            "B. $6x(2x + 3)$",
+            "C. $x(12x - 18)$",
+            "D. $6(2x^2 - 3x)$"
+          ],
+          "answer": "A",
+          "explain": "Nhan tu chung lon nhat la $6x$. Ta co $12x^2-18x=6x(2x-3)$."
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Phân tích đa thức $6x + 6y + 3x + 3y$ thành nhân tử, ta được",
+          "options": [
+            "A. $(x - y)(6 + 3)$",
+            "B. $(x + y)(6 + 3)$",
+            "C. $(x + y)(6 - 3)$",
+            "D. $(x + y)\\cdot 18$"
+          ],
+          "answer": "B",
+          "explain": "Nhom: $(6x+6y)+(3x+3y)=6(x+y)+3(x+y)=(x+y)(6+3)$."
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Phân tích đa thức $x^2 - 4x + 4 - 9$ thành nhân tử, ta được",
+          "options": [
+            "A. $(x + 2 - 3)(x + 2 + 3)$",
+            "B. $(x - 2 - 3)(x - 2 - 3)$",
+            "C. $(x - 2 - 3)(x - 2 + 3)$",
+            "D. $(x - 2 + 3)(x + 2 - 3)$"
+          ],
+          "answer": "C",
+          "explain": "$x^2-4x+4-9=(x-2)^2-9^2=(x-2-3)(x-2+3)$."
+        },
+        {
+          "type": "truefalse",
+          "level": "TH",
+          "q": "Xét tính đúng sai của các khẳng định sau về phân tích đa thức thành nhân tử.",
+          "statements": [
+            "a) $x^2 + 2x = x(x - 2)$",
+            "b) $4x^2 - 25 = (2x - 5)(2x + 5)$",
+            "c) $x^2 - 2xy + y^2 = (x - y)^2$",
+            "d) $x^3 + 1 = (x + 1)(x^2 - x + 1)$"
+          ],
+          "answer": [
+            "F",
+            "T",
+            "T",
+            "T"
+          ],
+          "explain": "a) Sai vi $x^2+2x=x(x+2)$. b) Dung vi $4x^2-25=(2x)^2-5^2$. c) Dung (hang dang thuc $(a-b)^2$). d) Dung (hang dang thuc $a^3+b^3$)."
+        },
+        {
+          "type": "truefalse",
+          "level": "VD",
+          "q": "Xét tính đúng sai của các khẳng định sau về phân tích đa thức thành nhân tử.",
+          "statements": [
+            "a) $x^2 - 10x + 25 = (5 - x)^2$",
+            "b) $4x^2 + 4x + 1 = (2x + 1)^2$",
+            "c) $x^3 + 6x^2 + 12x + 8 = (x + 2)^3$",
+            "d) $a^3 - b^3 = (a - b)(a^2 - ab + b^2)$"
+          ],
+          "answer": [
+            "T",
+            "T",
+            "T",
+            "F"
+          ],
+          "explain": "a) Dung vi $(5-x)^2=25-10x+x^2$. b) Dung vi $4x^2+4x+1=(2x)^2+2\\cdot2x\\cdot1+1^2$. c) Dung (hang dang thuc $(a+b)^3$ voi $b=2$). d) Sai vi $a^3-b^3=(a-b)(a^2+ab+b^2)$."
+        },
+        {
+          "type": "short",
+          "level": "VD",
+          "q": "Rút gọn rồi tính giá trị của $(x + 2)^2 - (x - 2)^2$ tại $x = 100$",
+          "answer": "800",
+          "explain": "$(x+2)^2-(x-2)^2=[(x+2)-(x-2)][(x+2)+(x-2)]=4\\cdot2x=8x$. Tai $x=100$: $800$."
+        },
+        {
+          "type": "short",
+          "level": "VDC",
+          "q": "Số nghiệm của phương trình $x^3 - x = 0$ là",
+          "answer": "3",
+          "explain": "$x^3-x=x(x^2-1)=x(x-1)(x+1)=0$ nen $x=0$, $x=1$ hoac $x=-1$: co $3$ nghiem."
+        }
+      ]
+    },
+    {
+      "name": "Đề 6",
+      "questions": [
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Phân tích đa thức $2x^2 + 9x$ thành nhân tử, ta được",
+          "options": [
+            "A. $x^2(2x + 9)$",
+            "B. $x(2x - 9)$",
+            "C. $x(2x + 9)$",
+            "D. $2x(x + 9)$"
+          ],
+          "answer": "C",
+          "explain": "Nhan tu chung cua hai hang tu la $x$. Ta co $2x^2+9x=x(2x+9)$."
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Phân tích đa thức $36x^2 - 1$ thành nhân tử, ta được",
+          "options": [
+            "A. $(6x - 1)^2$",
+            "B. $(6x + 1)^2$",
+            "C. $(1 - 6x)(1 + 6x)$",
+            "D. $(6x - 1)(6x + 1)$"
+          ],
+          "answer": "D",
+          "explain": "Ap dung $A^2-B^2=(A-B)(A+B)$ voi $A=6x$, $B=1$: $36x^2-1=(6x-1)(6x+1)$."
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Đa thức $x^2 - 12x + 36$ được viết dưới dạng bình phương của một tổng (hiệu) là",
+          "options": [
+            "A. $(x - 6)^2$",
+            "B. $(x + 6)^2$",
+            "C. $(x + 6)(x - 6)$",
+            "D. $x^2 + 36$"
+          ],
+          "answer": "A",
+          "explain": "Ta co $x^2 - 12x+36=x^2 - 2\\cdot x\\cdot 6+6^2=(x - 6)^2$."
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Phân tích đa thức $5x^2 - 10x$ thành nhân tử, ta được",
+          "options": [
+            "A. $5x(1x + 2)$",
+            "B. $5x(1x - 2)$",
+            "C. $x(5x - 10)$",
+            "D. $5(1x^2 - 2x)$"
+          ],
+          "answer": "B",
+          "explain": "Nhan tu chung lon nhat la $5x$. Ta co $5x^2-10x=5x(1x-2)$."
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Phân tích đa thức $7x + 7y + 2x + 2y$ thành nhân tử, ta được",
+          "options": [
+            "A. $(x - y)(7 + 2)$",
+            "B. $(x + y)(7 - 2)$",
+            "C. $(x + y)(7 + 2)$",
+            "D. $(x + y)\\cdot 14$"
+          ],
+          "answer": "C",
+          "explain": "Nhom: $(7x+7y)+(2x+2y)=7(x+y)+2(x+y)=(x+y)(7+2)$."
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Phân tích đa thức $x^2 - 6x + 9 - 16$ thành nhân tử, ta được",
+          "options": [
+            "A. $(x + 3 - 4)(x + 3 + 4)$",
+            "B. $(x - 3 - 4)(x - 3 - 4)$",
+            "C. $(x - 3 + 4)(x + 3 - 4)$",
+            "D. $(x - 3 - 4)(x - 3 + 4)$"
+          ],
+          "answer": "D",
+          "explain": "$x^2-6x+9-16=(x-3)^2-16^2=(x-3-4)(x-3+4)$."
+        },
+        {
+          "type": "truefalse",
+          "level": "TH",
+          "q": "Xét tính đúng sai của các khẳng định sau về phân tích đa thức thành nhân tử.",
+          "statements": [
+            "a) $x^2 + 5x + 6 = (x + 2)(x + 3)$",
+            "b) $x^4 - 16 = (x^2 - 4)^2$",
+            "c) $x^2 + 6x + 9 = (x + 3)^2$",
+            "d) $x^2 - 9 = (x - 3)^2$"
+          ],
+          "answer": [
+            "T",
+            "F",
+            "T",
+            "F"
+          ],
+          "explain": "a) Dung vi $(x+2)(x+3)=x^2+5x+6$. b) Sai vi $x^4-16=(x^2-4)(x^2+4)$. c) Dung vi $x^2+6x+9=(x+3)^2$. d) Sai vi $x^2-9=(x-3)(x+3)$, con $(x-3)^2=x^2-6x+9$."
+        },
+        {
+          "type": "truefalse",
+          "level": "VD",
+          "q": "Xét tính đúng sai của các khẳng định sau về phân tích đa thức thành nhân tử.",
+          "statements": [
+            "a) $-x^2 + 9 = (3 - x)(3 + x)$",
+            "b) $x^4 - 1 = (x^2 - 1)^2$",
+            "c) $8x^3 - 1 = (2x - 1)(4x^2 + 2x + 1)$",
+            "d) $x^2 + 4 = (x + 2)^2$"
+          ],
+          "answer": [
+            "T",
+            "F",
+            "T",
+            "F"
+          ],
+          "explain": "a) Dung vi $-x^2+9=9-x^2=(3-x)(3+x)$. b) Sai vi $x^4-1=(x^2-1)(x^2+1)$. c) Dung (hang dang thuc $a^3-b^3$ voi $a=2x$, $b=1$). d) Sai vi $(x+2)^2=x^2+4x+4$; $x^2+4$ khong phan tich duoc nua."
+        },
+        {
+          "type": "short",
+          "level": "VD",
+          "q": "Nghiệm nhỏ nhất của phương trình $x^2 - 5x + 6 = 0$ là",
+          "answer": "2",
+          "explain": "$x^2-5x+6=(x-2)(x-3)=0$ nen $x=2$ hoac $x=3$. Nghiem nho nhat la $2$."
+        },
+        {
+          "type": "short",
+          "level": "VDC",
+          "q": "Giá trị lớn nhất của biểu thức $5 - (x - 3)^2$ là",
+          "answer": "5",
+          "explain": "Vi $(x-3)^2\\ge0$ nen $5-(x-3)^2\\le5$. Gia tri lon nhat la $5$ (khi $x=3$)."
+        }
+      ]
+    },
+    {
+      "name": "Đề 7",
+      "questions": [
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Phân tích đa thức $3x^2 + 8x$ thành nhân tử, ta được",
+          "options": [
+            "A. $x^2(3x + 8)$",
+            "B. $x(3x - 8)$",
+            "C. $3x(x + 8)$",
+            "D. $x(3x + 8)$"
+          ],
+          "answer": "D",
+          "explain": "Nhan tu chung cua hai hang tu la $x$. Ta co $3x^2+8x=x(3x+8)$."
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Phân tích đa thức $4x^2 - 25$ thành nhân tử, ta được",
+          "options": [
+            "A. $(2x - 5)(2x + 5)$",
+            "B. $(2x - 5)^2$",
+            "C. $(2x + 5)^2$",
+            "D. $(5 - 2x)(5 + 2x)$"
+          ],
+          "answer": "A",
+          "explain": "Ap dung $A^2-B^2=(A-B)(A+B)$ voi $A=2x$, $B=5$: $4x^2-25=(2x-5)(2x+5)$."
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Đa thức $x^2 + 14x + 49$ được viết dưới dạng bình phương của một tổng (hiệu) là",
+          "options": [
+            "A. $(x - 7)^2$",
+            "B. $(x + 7)^2$",
+            "C. $(x + 7)(x - 7)$",
+            "D. $x^2 + 49$"
+          ],
+          "answer": "B",
+          "explain": "Ta co $x^2 + 14x+49=x^2 + 2\\cdot x\\cdot 7+7^2=(x + 7)^2$."
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Phân tích đa thức $9x^2 - 15x$ thành nhân tử, ta được",
+          "options": [
+            "A. $3x(3x + 5)$",
+            "B. $x(9x - 15)$",
+            "C. $3x(3x - 5)$",
+            "D. $3(3x^2 - 5x)$"
+          ],
+          "answer": "C",
+          "explain": "Nhan tu chung lon nhat la $3x$. Ta co $9x^2-15x=3x(3x-5)$."
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Phân tích đa thức $8x + 8y + 5x + 5y$ thành nhân tử, ta được",
+          "options": [
+            "A. $(x - y)(8 + 5)$",
+            "B. $(x + y)(8 - 5)$",
+            "C. $(x + y)\\cdot 40$",
+            "D. $(x + y)(8 + 5)$"
+          ],
+          "answer": "D",
+          "explain": "Nhom: $(8x+8y)+(5x+5y)=8(x+y)+5(x+y)=(x+y)(8+5)$."
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Phân tích đa thức $x^2 - 2x + 1 - 25$ thành nhân tử, ta được",
+          "options": [
+            "A. $(x - 1 - 5)(x - 1 + 5)$",
+            "B. $(x + 1 - 5)(x + 1 + 5)$",
+            "C. $(x - 1 - 5)(x - 1 - 5)$",
+            "D. $(x - 1 + 5)(x + 1 - 5)$"
+          ],
+          "answer": "A",
+          "explain": "$x^2-2x+1-25=(x-1)^2-25^2=(x-1-5)(x-1+5)$."
+        },
+        {
+          "type": "truefalse",
+          "level": "TH",
+          "q": "Xét tính đúng sai của các khẳng định sau về phân tích đa thức thành nhân tử.",
+          "statements": [
+            "a) $x^2 - 4x + 4 = (x - 2)^2$",
+            "b) $5x - 15 = 5(x + 3)$",
+            "c) $x^3 - 27 = (x - 3)(x^2 + 3x + 9)$",
+            "d) $(x + 1)^2 = x^2 + 2x + 1$"
+          ],
+          "answer": [
+            "T",
+            "F",
+            "T",
+            "T"
+          ],
+          "explain": "a) Dung vi $x^2-4x+4=(x-2)^2$. b) Sai vi $5x-15=5(x-3)$. c) Dung (hang dang thuc $a^3-b^3$). d) Dung (hang dang thuc $(a+b)^2$)."
+        },
+        {
+          "type": "truefalse",
+          "level": "VD",
+          "q": "Xét tính đúng sai của các khẳng định sau về phân tích đa thức thành nhân tử.",
+          "statements": [
+            "a) $x^2 - 6x + 9 - y^2 = (x - 3 - y)(x - 3 + y)$",
+            "b) $2x^3 + 8x = 2x(x^2 + 4)$",
+            "c) $x^2 + xy + y^2 = (x + y)^2$",
+            "d) $27 - x^3 = (3 - x)(9 + 3x + x^2)$"
+          ],
+          "answer": [
+            "T",
+            "T",
+            "F",
+            "T"
+          ],
+          "explain": "a) Dung vi $x^2-6x+9-y^2=(x-3)^2-y^2$. b) Dung vi nhan tu chung la $2x$. c) Sai vi $(x+y)^2=x^2+2xy+y^2$. d) Dung (hang dang thuc $a^3-b^3$ voi $a=3$, $b=x$)."
+        },
+        {
+          "type": "short",
+          "level": "VD",
+          "q": "Tính giá trị của $x^3 + 3x^2 + 3x + 1$ tại $x = 9$",
+          "answer": "1000",
+          "explain": "$x^3+3x^2+3x+1=(x+1)^3$. Tai $x=9$: $(9+1)^3=10^3=1000$."
+        },
+        {
+          "type": "short",
+          "level": "VDC",
+          "q": "Cho $x - y = 4$ và $xy = 5$. Tính $x^2 + y^2$",
+          "answer": "26",
+          "explain": "$x^2+y^2=(x-y)^2+2xy=16+2\\cdot5=26$."
+        }
+      ]
+    },
+    {
+      "name": "Đề 8",
+      "questions": [
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Phân tích đa thức $4x^2 + 5x$ thành nhân tử, ta được",
+          "options": [
+            "A. $x(4x + 5)$",
+            "B. $x^2(4x + 5)$",
+            "C. $x(4x - 5)$",
+            "D. $4x(x + 5)$"
+          ],
+          "answer": "A",
+          "explain": "Nhan tu chung cua hai hang tu la $x$. Ta co $4x^2+5x=x(4x+5)$."
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Phân tích đa thức $1x^2 - 64$ thành nhân tử, ta được",
+          "options": [
+            "A. $(1x - 8)^2$",
+            "B. $(1x - 8)(1x + 8)$",
+            "C. $(1x + 8)^2$",
+            "D. $(8 - 1x)(8 + 1x)$"
+          ],
+          "answer": "B",
+          "explain": "Ap dung $A^2-B^2=(A-B)(A+B)$ voi $A=1x$, $B=8$: $1x^2-64=(1x-8)(1x+8)$."
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Đa thức $x^2 - 2x + 1$ được viết dưới dạng bình phương của một tổng (hiệu) là",
+          "options": [
+            "A. $(x + 1)^2$",
+            "B. $(x + 1)(x - 1)$",
+            "C. $(x - 1)^2$",
+            "D. $x^2 + 1$"
+          ],
+          "answer": "C",
+          "explain": "Ta co $x^2 - 2x+1=x^2 - 2\\cdot x\\cdot 1+1^2=(x - 1)^2$."
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Phân tích đa thức $14x^2 - 21x$ thành nhân tử, ta được",
+          "options": [
+            "A. $7x(2x + 3)$",
+            "B. $x(14x - 21)$",
+            "C. $7(2x^2 - 3x)$",
+            "D. $7x(2x - 3)$"
+          ],
+          "answer": "D",
+          "explain": "Nhan tu chung lon nhat la $7x$. Ta co $14x^2-21x=7x(2x-3)$."
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Phân tích đa thức $9x + 9y + 4x + 4y$ thành nhân tử, ta được",
+          "options": [
+            "A. $(x + y)(9 + 4)$",
+            "B. $(x - y)(9 + 4)$",
+            "C. $(x + y)(9 - 4)$",
+            "D. $(x + y)\\cdot 36$"
+          ],
+          "answer": "A",
+          "explain": "Nhom: $(9x+9y)+(4x+4y)=9(x+y)+4(x+y)=(x+y)(9+4)$."
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Phân tích đa thức $x^2 - 4x + 4 - 16$ thành nhân tử, ta được",
+          "options": [
+            "A. $(x + 2 - 4)(x + 2 + 4)$",
+            "B. $(x - 2 - 4)(x - 2 + 4)$",
+            "C. $(x - 2 - 4)(x - 2 - 4)$",
+            "D. $(x - 2 + 4)(x + 2 - 4)$"
+          ],
+          "answer": "B",
+          "explain": "$x^2-4x+4-16=(x-2)^2-16^2=(x-2-4)(x-2+4)$."
+        },
+        {
+          "type": "truefalse",
+          "level": "TH",
+          "q": "Xét tính đúng sai của các khẳng định sau về phân tích đa thức thành nhân tử.",
+          "statements": [
+            "a) $x^2 - 2xy + y^2 = (x - y)^2$",
+            "b) $x^3 + 1 = (x + 1)(x^2 - x + 1)$",
+            "c) $9x^2 - 1 = (3x - 1)^2$",
+            "d) $3x^2 - 6x + 3 = 3(x - 1)^2$"
+          ],
+          "answer": [
+            "T",
+            "T",
+            "F",
+            "T"
+          ],
+          "explain": "a) Dung (hang dang thuc $(a-b)^2$). b) Dung (hang dang thuc $a^3+b^3$). c) Sai vi $9x^2-1=(3x-1)(3x+1)$. d) Dung vi $3x^2-6x+3=3(x^2-2x+1)=3(x-1)^2$."
+        },
+        {
+          "type": "truefalse",
+          "level": "VD",
+          "q": "Xét tính đúng sai của các khẳng định sau về phân tích đa thức thành nhân tử.",
+          "statements": [
+            "a) $x^3 + 6x^2 + 12x + 8 = (x + 2)^3$",
+            "b) $a^3 - b^3 = (a - b)(a^2 - ab + b^2)$",
+            "c) $x^2 - y^2 + 2y - 1 = (x - y + 1)(x + y - 1)$",
+            "d) $x^3 + 3x^2 + 3x + 1 = (x + 1)^3$"
+          ],
+          "answer": [
+            "T",
+            "F",
+            "T",
+            "T"
+          ],
+          "explain": "a) Dung (hang dang thuc $(a+b)^3$ voi $b=2$). b) Sai vi $a^3-b^3=(a-b)(a^2+ab+b^2)$. c) Dung vi $x^2-y^2+2y-1=x^2-(y-1)^2$. d) Dung (hang dang thuc $(a+b)^3$)."
+        },
+        {
+          "type": "short",
+          "level": "VD",
+          "q": "Giá trị lớn nhất của biểu thức $-x^2 + 4x - 3$ là",
+          "answer": "1",
+          "explain": "$-x^2+4x-3=-(x^2-4x+3)=1-(x-2)^2\\le1$. Gia tri lon nhat la $1$ (khi $x=2$)."
+        },
+        {
+          "type": "short",
+          "level": "VDC",
+          "q": "Số cặp số nguyên $(x; y)$ thỏa mãn $x^2 - y^2 = 15$ là",
+          "answer": "8",
+          "explain": "$x^2-y^2=(x-y)(x+y)=15$. Dat $u=x-y$, $v=x+y$ thi $uv=15$ va $u$, $v$ cung tinh chan le; co $8$ cap uoc $(u;v)$ cua $15$ cho cap $(x;y)$ nguyen. Vay co $8$ cap."
+        }
+      ]
+    },
+    {
+      "name": "Đề 9",
+      "questions": [
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Phân tích đa thức $5x^2 + 6x$ thành nhân tử, ta được",
+          "options": [
+            "A. $x^2(5x + 6)$",
+            "B. $x(5x + 6)$",
+            "C. $x(5x - 6)$",
+            "D. $5x(x + 6)$"
+          ],
+          "answer": "B",
+          "explain": "Nhan tu chung cua hai hang tu la $x$. Ta co $5x^2+6x=x(5x+6)$."
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Phân tích đa thức $81x^2 - 4$ thành nhân tử, ta được",
+          "options": [
+            "A. $(9x - 2)^2$",
+            "B. $(9x + 2)^2$",
+            "C. $(9x - 2)(9x + 2)$",
+            "D. $(2 - 9x)(2 + 9x)$"
+          ],
+          "answer": "C",
+          "explain": "Ap dung $A^2-B^2=(A-B)(A+B)$ voi $A=9x$, $B=2$: $81x^2-4=(9x-2)(9x+2)$."
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Đa thức $x^2 + 16x + 64$ được viết dưới dạng bình phương của một tổng (hiệu) là",
+          "options": [
+            "A. $(x - 8)^2$",
+            "B. $(x + 8)(x - 8)$",
+            "C. $x^2 + 64$",
+            "D. $(x + 8)^2$"
+          ],
+          "answer": "D",
+          "explain": "Ta co $x^2 + 16x+64=x^2 + 2\\cdot x\\cdot 8+8^2=(x + 8)^2$."
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Phân tích đa thức $6x^2 - 15x$ thành nhân tử, ta được",
+          "options": [
+            "A. $3x(2x - 5)$",
+            "B. $3x(2x + 5)$",
+            "C. $x(6x - 15)$",
+            "D. $3(2x^2 - 5x)$"
+          ],
+          "answer": "A",
+          "explain": "Nhan tu chung lon nhat la $3x$. Ta co $6x^2-15x=3x(2x-5)$."
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Phân tích đa thức $5x + 5y + 6x + 6y$ thành nhân tử, ta được",
+          "options": [
+            "A. $(x - y)(5 + 6)$",
+            "B. $(x + y)(5 + 6)$",
+            "C. $(x + y)(5 - 6)$",
+            "D. $(x + y)\\cdot 30$"
+          ],
+          "answer": "B",
+          "explain": "Nhom: $(5x+5y)+(6x+6y)=5(x+y)+6(x+y)=(x+y)(5+6)$."
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Phân tích đa thức $x^2 - 8x + 16 - 1$ thành nhân tử, ta được",
+          "options": [
+            "A. $(x + 4 - 1)(x + 4 + 1)$",
+            "B. $(x - 4 - 1)(x - 4 - 1)$",
+            "C. $(x - 4 - 1)(x - 4 + 1)$",
+            "D. $(x - 4 + 1)(x + 4 - 1)$"
+          ],
+          "answer": "C",
+          "explain": "$x^2-8x+16-1=(x-4)^2-1^2=(x-4-1)(x-4+1)$."
+        },
+        {
+          "type": "truefalse",
+          "level": "TH",
+          "q": "Xét tính đúng sai của các khẳng định sau về phân tích đa thức thành nhân tử.",
+          "statements": [
+            "a) $x^2 + 6x + 9 = (x + 3)^2$",
+            "b) $x^2 - 9 = (x - 3)^2$",
+            "c) $2x^2 + 4x = 2x(x + 2)$",
+            "d) $x^3 + 8 = (x + 2)(x^2 + 2x + 4)$"
+          ],
+          "answer": [
+            "T",
+            "F",
+            "T",
+            "F"
+          ],
+          "explain": "a) Dung vi $x^2+6x+9=(x+3)^2$. b) Sai vi $x^2-9=(x-3)(x+3)$, con $(x-3)^2=x^2-6x+9$. c) Dung vi nhan tu chung cua hai hang tu la $2x$. d) Sai vi $x^3+8=(x+2)(x^2-2x+4)$."
+        },
+        {
+          "type": "truefalse",
+          "level": "VD",
+          "q": "Xét tính đúng sai của các khẳng định sau về phân tích đa thức thành nhân tử.",
+          "statements": [
+            "a) $8x^3 - 1 = (2x - 1)(4x^2 + 2x + 1)$",
+            "b) $x^2 + 4 = (x + 2)^2$",
+            "c) $x^3 - 3x^2 + 3x - 1 = (x - 1)^3$",
+            "d) $(2x - 3)(2x + 3) = 4x^2 - 9$"
+          ],
+          "answer": [
+            "T",
+            "F",
+            "T",
+            "T"
+          ],
+          "explain": "a) Dung (hang dang thuc $a^3-b^3$ voi $a=2x$, $b=1$). b) Sai vi $(x+2)^2=x^2+4x+4$; $x^2+4$ khong phan tich duoc nua. c) Dung (hang dang thuc $(a-b)^3$). d) Dung (hang dang thuc $a^2-b^2$)."
+        },
+        {
+          "type": "short",
+          "level": "VD",
+          "q": "Cho $x + y = 5$ và $x - y = 3$. Tính $x^2 - y^2$",
+          "answer": "15",
+          "explain": "$x^2-y^2=(x-y)(x+y)=3\\cdot5=15$."
+        },
+        {
+          "type": "short",
+          "level": "VDC",
+          "q": "Cho $a + b + c = 0$. Tính giá trị của $a^3 + b^3 + c^3 - 3abc$",
+          "answer": "0",
+          "explain": "Co hang dang thuc $a^3+b^3+c^3-3abc=(a+b+c)(a^2+b^2+c^2-ab-bc-ca)$. Vi $a+b+c=0$ nen gia tri bang $0$."
+        }
+      ]
+    },
+    {
+      "name": "Đề 10",
+      "questions": [
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Phân tích đa thức $5x^2 + 8x$ thành nhân tử, ta được",
+          "options": [
+            "A. $x^2(5x + 8)$",
+            "B. $x(5x - 8)$",
+            "C. $x(5x + 8)$",
+            "D. $5x(x + 8)$"
+          ],
+          "answer": "C",
+          "explain": "Nhan tu chung cua hai hang tu la $x$. Ta co $5x^2+8x=x(5x+8)$."
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Phân tích đa thức $49x^2 - 9$ thành nhân tử, ta được",
+          "options": [
+            "A. $(7x - 3)^2$",
+            "B. $(7x + 3)^2$",
+            "C. $(3 - 7x)(3 + 7x)$",
+            "D. $(7x - 3)(7x + 3)$"
+          ],
+          "answer": "D",
+          "explain": "Ap dung $A^2-B^2=(A-B)(A+B)$ voi $A=7x$, $B=3$: $49x^2-9=(7x-3)(7x+3)$."
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Đa thức $x^2 - 20x + 100$ được viết dưới dạng bình phương của một tổng (hiệu) là",
+          "options": [
+            "A. $(x - 10)^2$",
+            "B. $(x + 10)^2$",
+            "C. $(x + 10)(x - 10)$",
+            "D. $x^2 + 100$"
+          ],
+          "answer": "A",
+          "explain": "Ta co $x^2 - 20x+100=x^2 - 2\\cdot x\\cdot 10+10^2=(x - 10)^2$."
+        },
+        {
+          "type": "mcq",
+          "level": "NB",
+          "q": "Phân tích đa thức $8x^2 - 20x$ thành nhân tử, ta được",
+          "options": [
+            "A. $4x(2x + 5)$",
+            "B. $4x(2x - 5)$",
+            "C. $x(8x - 20)$",
+            "D. $4(2x^2 - 5x)$"
+          ],
+          "answer": "B",
+          "explain": "Nhan tu chung lon nhat la $4x$. Ta co $8x^2-20x=4x(2x-5)$."
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Phân tích đa thức $3x + 3y + 8x + 8y$ thành nhân tử, ta được",
+          "options": [
+            "A. $(x - y)(3 + 8)$",
+            "B. $(x + y)(3 - 8)$",
+            "C. $(x + y)(3 + 8)$",
+            "D. $(x + y)\\cdot 24$"
+          ],
+          "answer": "C",
+          "explain": "Nhom: $(3x+3y)+(8x+8y)=3(x+y)+8(x+y)=(x+y)(3+8)$."
+        },
+        {
+          "type": "mcq",
+          "level": "TH",
+          "q": "Phân tích đa thức $x^2 - 10x + 25 - 4$ thành nhân tử, ta được",
+          "options": [
+            "A. $(x + 5 - 2)(x + 5 + 2)$",
+            "B. $(x - 5 - 2)(x - 5 - 2)$",
+            "C. $(x - 5 + 2)(x + 5 - 2)$",
+            "D. $(x - 5 - 2)(x - 5 + 2)$"
+          ],
+          "answer": "D",
+          "explain": "$x^2-10x+25-4=(x-5)^2-4^2=(x-5-2)(x-5+2)$."
+        },
+        {
+          "type": "truefalse",
+          "level": "TH",
+          "q": "Xét tính đúng sai của các khẳng định sau về phân tích đa thức thành nhân tử.",
+          "statements": [
+            "a) $x^3 - 27 = (x - 3)(x^2 + 3x + 9)$",
+            "b) $(x + 1)^2 = x^2 + 2x + 1$",
+            "c) $x^2 + 2x = x(x - 2)$",
+            "d) $4x^2 - 25 = (2x - 5)(2x + 5)$"
+          ],
+          "answer": [
+            "T",
+            "T",
+            "F",
+            "T"
+          ],
+          "explain": "a) Dung (hang dang thuc $a^3-b^3$). b) Dung (hang dang thuc $(a+b)^2$). c) Sai vi $x^2+2x=x(x+2)$. d) Dung vi $4x^2-25=(2x)^2-5^2$."
+        },
+        {
+          "type": "truefalse",
+          "level": "VD",
+          "q": "Xét tính đúng sai của các khẳng định sau về phân tích đa thức thành nhân tử.",
+          "statements": [
+            "a) $x^2 + xy + y^2 = (x + y)^2$",
+            "b) $27 - x^3 = (3 - x)(9 + 3x + x^2)$",
+            "c) $x^2 - 10x + 25 = (5 - x)^2$",
+            "d) $4x^2 + 4x + 1 = (2x + 1)^2$"
+          ],
+          "answer": [
+            "F",
+            "T",
+            "T",
+            "T"
+          ],
+          "explain": "a) Sai vi $(x+y)^2=x^2+2xy+y^2$. b) Dung (hang dang thuc $a^3-b^3$ voi $a=3$, $b=x$). c) Dung vi $(5-x)^2=25-10x+x^2$. d) Dung vi $4x^2+4x+1=(2x)^2+2\\cdot2x\\cdot1+1^2$."
+        },
+        {
+          "type": "short",
+          "level": "VD",
+          "q": "Tính nhanh: $999^2 + 2\\cdot 999 + 1$",
+          "answer": "1000000",
+          "explain": "$999^2+2\\cdot999+1=(999+1)^2=1000^2=1000000$."
+        },
+        {
+          "type": "short",
+          "level": "VDC",
+          "q": "Giá trị nhỏ nhất của biểu thức $2x^2 - 8x + 9$ là",
+          "answer": "1",
+          "explain": "$2x^2-8x+9=2(x^2-4x)+9=2(x-2)^2+1\\ge1$. Gia tri nho nhat la $1$ (khi $x=2$)."
+        }
+      ]
+    }
+  ]
+}
+</script>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
