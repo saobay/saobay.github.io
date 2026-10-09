@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 5: Phép nhân và phép chia số tự nhiên</title>
+    <meta name="lesson-title" content="Bài 5: Phép nhân và phép chia số tự nhiên">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 5: Phép nhân và phép chia số tự nhiên</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 1: Tập hợp các số tự nhiên • Bài 5: Phép nhân và phép chia số tự nhiên</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 5: Phép nhân và phép chia số tự nhiên</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 1: Tập hợp các số tự nhiên (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Phép nhân hai số tự nhiên -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Phép nhân hai số tự nhiên</h2>
+
+<p><strong>Định nghĩa:</strong> Phép nhân hai số tự nhiên $a$ và $b$ cho ta một số tự nhiên, kí hiệu là $a \times b$ (còn viết là $a \cdot b$ hoặc $ab$). Trong đó:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>$a, b$ được gọi là các <strong>thừa số</strong>;</li>
+<li>kết quả của phép nhân được gọi là <strong>tích</strong>.</li>
+</ul>
+
+<p>Ý nghĩa của phép nhân: $a \times b$ chính là <strong>tổng của $a$ số hạng, mỗi số hạng đều bằng $b$</strong> (cộng $b$ với chính nó $a$ lần). Chẳng hạn:</p>
+<p class="text-center my-3">$$3 \times 4 = 4 + 4 + 4 = 12$$</p>
+<p>Ở đây $3$ và $4$ là các thừa số, $12$ là tích.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>$7 \times 5 = 35$: $7$ và $5$ là thừa số, $35$ là tích.</li>
+<li>Một hộp có $12$ chiếc bút. $8$ hộp như thế có $12 \times 8 = 96$ chiếc bút.</li>
+</ul>
+</div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Minh hoa tinh chat giao hoan cua phep nhan: 3 nhan 4 bang 4 nhan 3">
+<rect x="2" y="2" width="436" height="196" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="28" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0369a1" text-anchor="middle">3 &#215; 4 = 4 &#215; 3 = 12</text>
+<g fill="#0284c7">
+<circle cx="62" cy="52" r="10"/><circle cx="94" cy="52" r="10"/><circle cx="126" cy="52" r="10"/><circle cx="158" cy="52" r="10"/>
+<circle cx="62" cy="84" r="10"/><circle cx="94" cy="84" r="10"/><circle cx="126" cy="84" r="10"/><circle cx="158" cy="84" r="10"/>
+<circle cx="62" cy="116" r="10"/><circle cx="94" cy="116" r="10"/><circle cx="126" cy="116" r="10"/><circle cx="158" cy="116" r="10"/>
+</g>
+<text x="110" y="150" font-family="sans-serif" font-size="13" fill="#475569" text-anchor="middle">3 h&#224;ng &#215; 4 c&#7897;t</text>
+<text x="220" y="95" font-family="sans-serif" font-size="22" font-weight="bold" fill="#64748b" text-anchor="middle">=</text>
+<g fill="#059669">
+<circle cx="298" cy="44" r="10"/><circle cx="330" cy="44" r="10"/><circle cx="362" cy="44" r="10"/>
+<circle cx="298" cy="76" r="10"/><circle cx="330" cy="76" r="10"/><circle cx="362" cy="76" r="10"/>
+<circle cx="298" cy="108" r="10"/><circle cx="330" cy="108" r="10"/><circle cx="362" cy="108" r="10"/>
+<circle cx="298" cy="140" r="10"/><circle cx="330" cy="140" r="10"/><circle cx="362" cy="140" r="10"/>
+</g>
+<text x="330" y="172" font-family="sans-serif" font-size="13" fill="#475569" text-anchor="middle">4 h&#224;ng &#215; 3 c&#7897;t</text>
+<text x="220" y="190" font-family="sans-serif" font-size="12" font-style="italic" fill="#64748b" text-anchor="middle">C&#249;ng 12 ch&#7845;m: &#273;&#7893;i th&#7913; t&#7921; th&#7915;a s&#7889; th&#236; t&#237;ch kh&#244;ng &#273;&#7893;i</text>
+</svg></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Trong phép nhân $a \times b$: $a, b$ là <strong>thừa số</strong>, kết quả là <strong>tích</strong>. Tích của hai số tự nhiên luôn là một số tự nhiên.</p>
+</div>
+
+<!-- 2. Tính chất của phép nhân -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Tính chất của phép nhân</h2>
+
+<p>Phép nhân các số tự nhiên có các tính chất quan trọng sau:</p>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 my-2">
+<tr class="bg-sky-100 font-semibold">
+<td class="border border-slate-300 px-4 py-2">Tính chất</td>
+<td class="border border-slate-300 px-4 py-2">Công thức</td>
+<td class="border border-slate-300 px-4 py-2">Ví dụ</td>
+</tr>
+<tr>
+<td class="border border-slate-300 px-4 py-2 font-semibold">Giao hoán</td>
+<td class="border border-slate-300 px-4 py-2">$a \cdot b = b \cdot a$</td>
+<td class="border border-slate-300 px-4 py-2">$7 \cdot 5 = 5 \cdot 7 = 35$</td>
+</tr>
+<tr>
+<td class="border border-slate-300 px-4 py-2 font-semibold">Kết hợp</td>
+<td class="border border-slate-300 px-4 py-2">$(a \cdot b) \cdot c = a \cdot (b \cdot c)$</td>
+<td class="border border-slate-300 px-4 py-2">$(2 \cdot 50) \cdot 7 = 2 \cdot (50 \cdot 7) = 700$</td>
+</tr>
+<tr>
+<td class="border border-slate-300 px-4 py-2 font-semibold">Nhân với $1$</td>
+<td class="border border-slate-300 px-4 py-2">$a \cdot 1 = 1 \cdot a = a$</td>
+<td class="border border-slate-300 px-4 py-2">$2026 \cdot 1 = 2026$</td>
+</tr>
+<tr>
+<td class="border border-slate-300 px-4 py-2 font-semibold">Nhân với $0$</td>
+<td class="border border-slate-300 px-4 py-2">$a \cdot 0 = 0 \cdot a = 0$</td>
+<td class="border border-slate-300 px-4 py-2">$2026 \cdot 0 = 0$</td>
+</tr>
+<tr>
+<td class="border border-slate-300 px-4 py-2 font-semibold">Phân phối đối với phép cộng</td>
+<td class="border border-slate-300 px-4 py-2">$a \cdot (b + c) = a \cdot b + a \cdot c$</td>
+<td class="border border-slate-300 px-4 py-2">$7 \cdot 102 = 7 \cdot 100 + 7 \cdot 2 = 714$</td>
+</tr>
+<tr>
+<td class="border border-slate-300 px-4 py-2 font-semibold">Phân phối đối với phép trừ</td>
+<td class="border border-slate-300 px-4 py-2">$a \cdot (b - c) = a \cdot b - a \cdot c$</td>
+<td class="border border-slate-300 px-4 py-2">$15 \cdot 98 = 15 \cdot 100 - 15 \cdot 2 = 1470$</td>
+</tr>
+</table></div>
+
+<p class="my-3"><strong>Chú ý:</strong> tính chất phân phối đối với phép trừ chỉ dùng khi $b$ lớn hơn hoặc bằng $c$ (để $b - c$ là số tự nhiên).</p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Minh hoa tinh chat phan phoi: hinh chu nhat a nhan (b cong c) tach thanh hai phan a nhan b va a nhan c">
+<rect x="2" y="2" width="436" height="221" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="28" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0369a1" text-anchor="middle">a &#215; (b + c) = a &#215; b + a &#215; c</text>
+<rect x="88" y="52" width="176" height="110" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+<rect x="264" y="52" width="88" height="110" fill="#d1fae5" stroke="#059669" stroke-width="2"/>
+<line x1="88" y1="88" x2="264" y2="88" stroke="#7dd3fc" stroke-width="1"/>
+<line x1="88" y1="125" x2="264" y2="125" stroke="#7dd3fc" stroke-width="1"/>
+<line x1="132" y1="52" x2="132" y2="162" stroke="#7dd3fc" stroke-width="1"/>
+<line x1="176" y1="52" x2="176" y2="162" stroke="#7dd3fc" stroke-width="1"/>
+<line x1="220" y1="52" x2="220" y2="162" stroke="#7dd3fc" stroke-width="1"/>
+<line x1="264" y1="88" x2="352" y2="88" stroke="#6ee7b7" stroke-width="1"/>
+<line x1="264" y1="125" x2="352" y2="125" stroke="#6ee7b7" stroke-width="1"/>
+<line x1="308" y1="52" x2="308" y2="162" stroke="#6ee7b7" stroke-width="1"/>
+<text x="176" y="112" font-family="sans-serif" font-size="16" font-weight="bold" fill="#0369a1" text-anchor="middle">a &#215; b</text>
+<text x="308" y="112" font-family="sans-serif" font-size="16" font-weight="bold" fill="#065f46" text-anchor="middle">a &#215; c</text>
+<text x="176" y="182" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">b c&#7897;t</text>
+<text x="308" y="182" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">c c&#7897;t</text>
+<text x="52" y="112" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">a h&#224;ng</text>
+<text x="220" y="208" font-family="sans-serif" font-size="12" font-style="italic" fill="#64748b" text-anchor="middle">C&#7855;t h&#236;nh l&#7899;n th&#224;nh hai h&#236;nh nh&#7887;: t&#7893;ng di&#7879;n t&#237;ch kh&#244;ng &#273;&#7893;i</text>
+</svg></div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ tính nhanh:</p>
+<ul class="list-disc ml-6 space-y-2">
+<li>$25 \times 36 = 25 \times 4 \times 9 = 100 \times 9 = 900$ (tách $36 = 4 \times 9$, dùng tính chất kết hợp).</li>
+<li>$47 \times 101 = 47 \times (100 + 1) = 47 \times 100 + 47 \times 1 = 4700 + 47 = 4747$ (dùng tính chất phân phối).</li>
+<li>$98 \times 15 = (100 - 2) \times 15 = 100 \times 15 - 2 \times 15 = 1500 - 30 = 1470$ (phân phối đối với phép trừ).</li>
+</ul>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Muốn tính nhanh, hãy <strong>nhóm các thừa số thành các số tròn chục, tròn trăm</strong> (nhờ tính chất giao hoán, kết hợp) hoặc <strong>tách một thừa số thành tổng/hiệu thuận tiện</strong> (nhờ tính chất phân phối).</p>
+</div>
+
+<!-- 3. Phép chia hết -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Phép chia hết</h2>
+
+<p>Cho hai số tự nhiên $a$ và $b$, trong đó $b \ne 0$. Phép chia $a$ cho $b$ được kí hiệu là $a : b$ (còn viết là $a \div b$). Trong đó:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>$a$ được gọi là <strong>số bị chia</strong>;</li>
+<li>$b$ được gọi là <strong>số chia</strong>;</li>
+<li>kết quả của phép chia được gọi là <strong>thương</strong>.</li>
+</ul>
+
+<p><strong>Định nghĩa phép chia hết:</strong> nếu có số tự nhiên $q$ sao cho $a = b \cdot q$ thì ta nói <strong>$a$ chia hết cho $b$</strong>, kí hiệu $a \ \vdots \ b$. Khi đó thương của phép chia $a : b$ chính là $q$.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>$20 : 4 = 5$ vì $20 = 4 \times 5$. Ta nói $20$ chia hết cho $4$.</li>
+<li>$0 : 5 = 0$ vì $0 = 5 \times 0$.</li>
+<li>$7 : 7 = 1$ vì $7 = 7 \times 1$.</li>
+</ul>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><strong>Phép chia cho $0$ là không xác định</strong> — ta không bao giờ được chia một số cho $0$. Ngược lại, $0$ chia cho một số khác $0$ thì thương bằng $0$.</p>
+</div>
+
+<!-- 4. Phép chia có dư -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Phép chia có dư</h2>
+
+<p>Không phải lúc nào $a$ cũng chia hết cho $b$. Chẳng hạn $17$ không chia hết cho $5$. Khi đó ta thực hiện <strong>phép chia có dư</strong>:</p>
+<p class="text-center my-3">$$17 = 5 \times 3 + 2$$</p>
+<p>Ta nói: $17$ chia cho $5$ được thương là $3$ và <strong>số dư</strong> là $2$.</p>
+
+<p><strong>Định lí về phép chia có dư:</strong> cho hai số tự nhiên $a$ và $b$, trong đó $b \ne 0$, luôn tìm được <strong>duy nhất</strong> hai số tự nhiên $q$ (thương) và $r$ (số dư) sao cho:</p>
+<p class="text-center my-3">$$a = b \cdot q + r, \quad \text{trong đó $r$ là số tự nhiên nhỏ hơn $b$}$$</p>
+
+<p>Điều kiện <strong>số dư $r$ phải nhỏ hơn số chia $b$</strong> là điều kiện bắt buộc của mọi phép chia có dư. Nếu $r = 0$ thì phép chia trở thành phép chia hết.</p>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold">
+<td class="border border-slate-300 px-4 py-2">Thành phần</td>
+<td class="border border-slate-300 px-4 py-2">Kí hiệu</td>
+<td class="border border-slate-300 px-4 py-2">Trong ví dụ $43 = 7 \times 6 + 1$</td>
+</tr>
+<tr><td class="border border-slate-300 px-4 py-2">Số bị chia</td><td class="border border-slate-300 px-4 py-2">$a$</td><td class="border border-slate-300 px-4 py-2">$43$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-2">Số chia</td><td class="border border-slate-300 px-4 py-2">$b$</td><td class="border border-slate-300 px-4 py-2">$7$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-2">Thương</td><td class="border border-slate-300 px-4 py-2">$q$</td><td class="border border-slate-300 px-4 py-2">$6$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-2">Số dư</td><td class="border border-slate-300 px-4 py-2">$r$ (nhỏ hơn $b$)</td><td class="border border-slate-300 px-4 py-2">$1$</td></tr>
+</table></div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Minh hoa phep chia co du: 17 qua cam xep thanh 3 nhom, moi nhom 5 qua, con du 2 qua">
+<rect x="2" y="2" width="436" height="226" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="28" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0369a1" text-anchor="middle">Chia 17 qu&#7843; cam, m&#7895;i nh&#243;m 5 qu&#7843;</text>
+<rect x="30" y="44" width="150" height="46" rx="8" fill="none" stroke="#0284c7" stroke-width="1.5" stroke-dasharray="6,4"/>
+<rect x="30" y="100" width="150" height="46" rx="8" fill="none" stroke="#0284c7" stroke-width="1.5" stroke-dasharray="6,4"/>
+<rect x="30" y="156" width="150" height="46" rx="8" fill="none" stroke="#0284c7" stroke-width="1.5" stroke-dasharray="6,4"/>
+<g fill="#fb923c" stroke="#c2410c" stroke-width="1">
+<circle cx="48" cy="67" r="11"/><circle cx="78" cy="67" r="11"/><circle cx="108" cy="67" r="11"/><circle cx="138" cy="67" r="11"/><circle cx="162" cy="67" r="11"/>
+<circle cx="48" cy="123" r="11"/><circle cx="78" cy="123" r="11"/><circle cx="108" cy="123" r="11"/><circle cx="138" cy="123" r="11"/><circle cx="162" cy="123" r="11"/>
+<circle cx="48" cy="179" r="11"/><circle cx="78" cy="179" r="11"/><circle cx="108" cy="179" r="11"/><circle cx="138" cy="179" r="11"/><circle cx="162" cy="179" r="11"/>
+<circle cx="250" cy="95" r="11"/><circle cx="250" cy="151" r="11"/>
+</g>
+<rect x="228" y="70" width="46" height="116" rx="8" fill="none" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="6,4"/>
+<text x="200" y="67" font-family="sans-serif" font-size="12" fill="#0369a1" text-anchor="middle">nh&#243;m 1</text>
+<text x="200" y="123" font-family="sans-serif" font-size="12" fill="#0369a1" text-anchor="middle">nh&#243;m 2</text>
+<text x="200" y="179" font-family="sans-serif" font-size="12" fill="#0369a1" text-anchor="middle">nh&#243;m 3</text>
+<text x="310" y="100" font-family="sans-serif" font-size="12" fill="#dc2626">c&#242;n d&#432;</text>
+<text x="310" y="120" font-family="sans-serif" font-size="12" fill="#dc2626">2 qu&#7843;</text>
+<text x="310" y="165" font-family="sans-serif" font-size="14" font-weight="bold" fill="#1e293b">17 = 5 &#215; 3 + 2</text>
+<text x="310" y="188" font-family="sans-serif" font-size="12" fill="#475569">th&#432;&#417;ng 3, d&#432; 2</text>
+</svg></div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>$43 : 7$: vì $43 = 7 \times 6 + 1$ nên thương là $6$, số dư là $1$.</li>
+<li>$100 : 11$: vì $100 = 11 \times 9 + 1$ nên thương là $9$, số dư là $1$.</li>
+<li>$58 : 7$: vì $58 = 7 \times 8 + 2$ nên thương là $8$, số dư là $2$.</li>
+</ul>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Trong phép chia $a = b \cdot q + r$: $q$ là <strong>thương</strong>, $r$ là <strong>số dư</strong> và $r$ luôn <strong>nhỏ hơn số chia $b$</strong>. Đặc biệt: số dư lớn nhất có thể khi chia cho $b$ là $b - 1$; nếu $r = 0$ thì $a$ chia hết cho $b$.</p>
+</div>
+
+<!-- 5. Vận dụng: tìm thành phần chưa biết và bài toán thực tế -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">5. Vận dụng: tìm thành phần chưa biết và bài toán thực tế</h2>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">5.1. Tìm thừa số, số bị chia, số chia chưa biết</h3>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Bài tập ví dụ 1:</p>
+<p>Tìm $x$, biết $x \times 7 = 84$.</p>
+<p class="mt-2"><strong>Lời giải:</strong> Muốn tìm thừa số chưa biết, ta lấy tích chia cho thừa số đã biết:</p>
+<p class="text-center my-2">$$x = 84 : 7 = 12$$</p>
+<p>Vậy $x = 12$.</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Bài tập ví dụ 2:</p>
+<p>Tìm số bị chia $x$, biết $x : 5 = 12$ dư $3$.</p>
+<p class="mt-2"><strong>Lời giải:</strong> Áp dụng công thức $a = b \cdot q + r$:</p>
+<p class="text-center my-2">$$x = 5 \times 12 + 3 = 60 + 3 = 63$$</p>
+<p>Vậy số bị chia là $63$.</p>
+</div>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">5.2. Bài toán thực tế</h3>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Bài tập ví dụ 3:</p>
+<p>Một cửa hàng có $125$ kg gạo, định đóng vào các bao, mỗi bao $8$ kg. Hỏi cần ít nhất bao nhiêu bao để đóng hết số gạo đó?</p>
+<p class="mt-2"><strong>Lời giải:</strong> Ta có $125 = 8 \times 15 + 5$, tức là đóng được $15$ bao đầy và còn dư $5$ kg gạo. Số gạo dư này vẫn cần thêm $1$ bao nữa. Vậy cần ít nhất $15 + 1 = 16$ bao.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<ul class="list-disc ml-6 space-y-1 mt-1">
+<li>Muốn tìm <strong>thừa số</strong> chưa biết: lấy <strong>tích chia cho thừa số</strong> đã biết.</li>
+<li>Muốn tìm <strong>số bị chia</strong>: lấy <strong>số chia nhân với thương rồi cộng số dư</strong>.</li>
+<li>Muốn tìm <strong>số chia</strong>: lấy <strong>số bị chia chia cho thương</strong> (với phép chia hết).</li>
+<li>Trong bài toán thực tế, chú ý phần dư: đôi khi cần <strong>thêm một đơn vị</strong> (như thêm một bao, một chuyến xe) để chứa hết phần dư.</li>
+</ul>
+</div>
+
+<!-- Tổng kết -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Phép nhân</strong> $a \times b$: $a, b$ là <strong>thừa số</strong>, kết quả là <strong>tích</strong>.</li>
+<li><strong>Tính chất phép nhân:</strong> giao hoán ($a \cdot b = b \cdot a$), kết hợp, nhân với $1$ (bằng chính nó), nhân với $0$ (bằng $0$), phân phối đối với phép cộng và phép trừ.</li>
+<li><strong>Phép chia</strong> $a : b$ ($b \ne 0$): $a$ là <strong>số bị chia</strong>, $b$ là <strong>số chia</strong>, kết quả là <strong>thương</strong>.</li>
+<li><strong>Phép chia hết:</strong> tồn tại $q$ sao cho $a = b \cdot q$.</li>
+<li><strong>Phép chia có dư:</strong> $a = b \cdot q + r$, trong đó số dư $r$ luôn <strong>nhỏ hơn số chia $b$</strong>. Số dư lớn nhất có thể là $b - 1$.</li>
+<li><strong>Chia cho $0$ là không xác định.</strong></li>
+<li>Vận dụng tính chất để <strong>tính nhanh</strong>; dùng $a = b \cdot q + r$ để tìm thành phần chưa biết và giải bài toán thực tế.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
