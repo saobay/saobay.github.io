@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 32: Ôn tập lập trình Python</title>
+    <meta name="lesson-title" content="Bài 32: Ôn tập lập trình Python">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 32: Ôn tập lập trình Python</h1>
+            <p class="text-xs text-slate-500 mt-1">Chủ đề 5: Giải quyết vấn đề với sự trợ giúp của máy tính • Bài 32: Ôn tập lập trình Python</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 32: Ôn tập lập trình Python</h1>
+<p class="text-center text-slate-500 italic mb-8">Chủ đề 5: Giải quyết vấn đề với sự trợ giúp của máy tính</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Ngôn ngữ và chương trình</h2>
+<ul class="list-disc ml-6 space-y-1 my-2">
+<li>Python là <strong>ngôn ngữ bậc cao, kiểu thông dịch</strong>: cú pháp đơn giản, dùng <strong>thụt đầu dòng</strong> phân khối lệnh, không cần khai báo kiểu biến.</li>
+<li>Chương trình nguồn (.py) được <strong>trình thông dịch</strong> dịch và chạy từng lệnh.</li>
+<li><strong>Biến</strong>: ô nhớ có tên; đặt tên đúng quy tắc; lệnh gán dùng dấu <code>=</code>.</li>
+<li>Kiểu cơ bản: <code>int</code>, <code>float</code>, <code>str</code>, <code>bool</code>. <code>input()</code> luôn trả về xâu — nhớ <strong>ép kiểu</strong> khi cần tính toán.</li>
+</ul>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Các cấu trúc điều khiển</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Cấu trúc</td><td class="border border-slate-300 px-4 py-1">Dùng khi nào</td><td class="border border-slate-300 px-4 py-1">Cú pháp mẫu</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><code>if/elif/else</code></td><td class="border border-slate-300 px-4 py-1">Rẽ nhánh theo điều kiện</td><td class="border border-slate-300 px-4 py-1"><code>if d &gt;= 8: ...</code></td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><code>for</code></td><td class="border border-slate-300 px-4 py-1">Lặp số lần <strong>biết trước</strong></td><td class="border border-slate-300 px-4 py-1"><code>for i in range(n): ...</code></td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><code>while</code></td><td class="border border-slate-300 px-4 py-1">Lặp khi điều kiện đúng, <strong>chưa biết</strong> số lần</td><td class="border border-slate-300 px-4 py-1"><code>while n != 0: ...</code></td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><code>break/continue</code></td><td class="border border-slate-300 px-4 py-1">Thoát vòng lặp / bỏ qua lần lặp</td><td class="border border-slate-300 px-4 py-1">—</td></tr>
+</table></div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Danh sách và xâu kí tự</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Nội dung</td><td class="border border-slate-300 px-4 py-1">Điểm chính</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Danh sách (list)</td><td class="border border-slate-300 px-4 py-1">Chỉ số từ 0; cắt lát <code>a[i:j]</code>; <code>append/insert/remove/pop/sort/reverse</code>; <code>len/max/min/sum</code></td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Xâu (str)</td><td class="border border-slate-300 px-4 py-1"><strong>Bất biến</strong>; cắt lát như danh sách; <code>upper/lower/strip/split/join/replace/find/count</code></td></tr>
+</table></div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Hàm và phạm vi biến</h2>
+<ul class="list-disc ml-6 space-y-1 my-2">
+<li><code>def</code> định nghĩa hàm; <code>return</code> trả giá trị về (phân biệt với <code>print</code>).</li>
+<li>Tham số: theo vị trí (mặc định), theo từ khóa, có giá trị mặc định (đứng sau), <code>*args</code> nhận số lượng tùy ý.</li>
+<li>Biến <strong>toàn cục</strong> (ngoài mọi hàm) và <strong>cục bộ</strong> (trong hàm); quy tắc <strong>LEGB</strong>; <code>global</code> cho phép hàm đổi biến toàn cục.</li>
+<li>Hàm <strong>đệ quy</strong> gọi lại chính nó — bắt buộc có <strong>điểm dừng</strong>.</li>
+</ul>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">5. Lỗi, kiểm thử và gỡ lỗi</h2>
+<ul class="list-disc ml-6 space-y-1 my-2">
+<li>Ba loại lỗi: <strong>cú pháp</strong> (báo khi dịch), <strong>ngoại lệ</strong> (dừng khi chạy), <strong>lôgic</strong> (sai kết quả, máy không báo — khó nhất).</li>
+<li><strong>Kiểm thử</strong>: chạy với dữ liệu mẫu gồm thường + <strong>biên</strong> + đặc biệt; lưu bộ test để <strong>chạy lại sau khi sửa</strong> (kiểm thử hồi quy).</li>
+<li><strong>Gỡ lỗi</strong>: đọc thông báo lỗi, in giá trị trung gian, dùng debugger, hiểu nguyên nhân rồi mới sửa.</li>
+<li>Quy trình: xác định bài toán → mô tả thuật toán → viết chương trình → kiểm thử.</li>
+</ul>
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-1">Mẹo làm bài:</p>
+<p class="text-sm">Với câu hỏi về <strong>đoạn lệnh</strong>, hãy chạy nhẩm từng dòng trên giấy: ghi giá trị biến sau mỗi bước. Với câu hỏi <strong>điền khuyết</strong>, đọc kĩ yêu cầu rồi thử từng phương án.</p>
+</div>
+
+</div>
+        </div>
+    </div>
+</body>
+</html>
