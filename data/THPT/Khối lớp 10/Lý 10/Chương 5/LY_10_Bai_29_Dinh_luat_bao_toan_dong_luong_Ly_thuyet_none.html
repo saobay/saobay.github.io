@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 29: Định luật bảo toàn động lượng</title>
+    <meta name="lesson-title" content="Bài 29: Định luật bảo toàn động lượng">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 29: Định luật bảo toàn động lượng</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 5: Động lượng • Bài 29: Định luật bảo toàn động lượng</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 29: Định luật bảo toàn động lượng</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 5: Động lượng — Vật lí 10 (Kết nối tri thức với cuộc sống)</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Hệ kín</h2>
+
+<p><strong>Hệ kín</strong> (hệ cô lập) là hệ vật mà <strong>chỉ có các vật trong hệ tương tác với nhau</strong>, tức là <strong>tổng các ngoại lực tác dụng lên hệ bằng 0</strong> (hoặc các ngoại lực triệt tiêu nhau).</p>
+
+<p>Trong thực tế, hệ kín tuyệt đối khó tồn tại, nhưng trong nhiều trường hợp có thể coi gần đúng là hệ kín, ví dụ: các vật va chạm, đạn nổ trong <strong>thời gian rất ngắn</strong> — khi đó <strong>nội lực rất lớn so với ngoại lực</strong> nên có thể bỏ qua ngoại lực.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Định luật bảo toàn động lượng</h2>
+
+<p><strong>Định luật:</strong> <em>Động lượng của một hệ kín được bảo toàn</em>, tức là tổng vectơ động lượng của hệ không đổi theo thời gian:</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$\vec{p}_1 + \vec{p}_2 + \dots = \text{hằng số}$$</p>
+</div>
+
+<p>Định luật là hệ quả của <strong>định luật 3 Newton</strong>: các vật trong hệ tương tác với nhau theo từng cặp lực trực đối, nên tổng nội lực bằng 0.</p>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Lưu ý khi áp dụng</p>
+<p class="mt-1">Động lượng là <strong>đại lượng vectơ</strong> nên khi viết phương trình phải <strong>chọn chiều dương</strong> và ghi dấu (+/−) cho các vận tốc, động lượng ngược chiều.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Va chạm mềm</h2>
+
+<p><strong>Va chạm mềm</strong> là va chạm mà sau đó hai vật <strong>dính vào nhau</strong> và chuyển động với cùng tốc độ. Với hệ kín, áp dụng định luật bảo toàn động lượng:</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$m_1\vec{v}_1 + m_2\vec{v}_2 = (m_1 + m_2)\vec{V}$$</p>
+</div>
+
+<p>Trong va chạm mềm, <strong>động lượng được bảo toàn</strong> nhưng <strong>động năng không bảo toàn</strong>: một phần động năng chuyển thành nhiệt năng và công làm biến dạng vật.</p>
+
+<div class="svg-fig"><svg viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Sơ đồ va chạm mềm">
+<rect x="2" y="2" width="456" height="186" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="115" y="28" font-family="sans-serif" font-size="14" font-weight="bold" fill="#475569" text-anchor="middle">Trước va chạm</text>
+<text x="345" y="28" font-family="sans-serif" font-size="14" font-weight="bold" fill="#475569" text-anchor="middle">Sau va chạm mềm</text>
+<circle cx="70" cy="90" r="26" fill="#bfdbfe" stroke="#2563eb" stroke-width="2"/>
+<text x="70" y="95" font-family="sans-serif" font-size="13" font-weight="bold" fill="#1e3a8a" text-anchor="middle">m1</text>
+<circle cx="150" cy="90" r="32" fill="#fde68a" stroke="#d97706" stroke-width="2"/>
+<text x="150" y="95" font-family="sans-serif" font-size="13" font-weight="bold" fill="#92400e" text-anchor="middle">m2</text>
+<line x1="100" y1="60" x2="100" y2="40" stroke="#16a34a" stroke-width="2.5"/>
+<polygon points="100,40 94,50 106,50" fill="#16a34a"/>
+<text x="112" y="50" font-family="sans-serif" font-size="13" fill="#16a34a">v1</text>
+<rect x="300" y="62" width="95" height="56" rx="8" fill="#c7d2fe" stroke="#4f46e5" stroke-width="2"/>
+<text x="347" y="95" font-family="sans-serif" font-size="13" font-weight="bold" fill="#312e81" text-anchor="middle">m1+m2</text>
+<line x1="300" y1="130" x2="395" y2="130" stroke="#dc2626" stroke-width="2.5"/>
+<polygon points="395,130 385,124 385,136" fill="#dc2626"/>
+<text x="400" y="135" font-family="sans-serif" font-size="13" fill="#dc2626">V</text>
+<text x="230" y="165" font-family="sans-serif" font-size="13" fill="#475569" text-anchor="middle">Hai vật dính vào nhau, chuyển động cùng tốc độ V</text>
+</svg></div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Chuyển động bằng phản lực</h2>
+
+<p>Một số chuyển động là hệ quả trực tiếp của định luật bảo toàn động lượng:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Súng giật lùi:</strong> khi bắn, đạn bay về phía trước thì súng chuyển động ngược lại.</li>
+<li><strong>Tên lửa:</strong> phụt khí về phía sau với tốc độ lớn, tên lửa tiến về phía trước.</li>
+<li><strong>Đạn nổ:</strong> các mảnh văng ra sao cho tổng động lượng được bảo toàn.</li>
+<li><strong>Người nhảy khỏi thuyền:</strong> người tiến về phía trước, thuyền giật lùi về phía sau.</li>
+</ul>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ mẫu:</p>
+<p>Khẩu súng khối lượng $4\ \text{kg}$ bắn viên đạn $20\ \text{g}$ với tốc độ $500\ \text{m/s}$. Tính tốc độ giật lùi của súng (bỏ qua ma sát).</p>
+<p class="mt-2"><strong>Lời giải:</strong> Hệ súng + đạn là hệ kín theo phương ngang. Chọn chiều dương là chiều đạn bay: $0 = 0,02 \cdot 500 - 4V$, suy ra $V = 2,5\ \text{m/s}$ ngược chiều đạn bay.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><strong>Hệ kín:</strong> tổng ngoại lực bằng 0. <strong>Định luật bảo toàn động lượng:</strong> tổng vectơ động lượng của hệ kín không đổi. <strong>Va chạm mềm:</strong> bảo toàn động lượng, không bảo toàn động năng. <strong>Chuyển động bằng phản lực:</strong> tên lửa, súng giật lùi, đạn nổ.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Hệ kín:</strong> chỉ các vật trong hệ tương tác với nhau; hệ va chạm/nổ trong thời gian ngắn được coi gần đúng là hệ kín.</li>
+<li><strong>Định luật bảo toàn động lượng:</strong> $\vec{p}_1 + \vec{p}_2 + \dots = \text{hằng số}}$ (hệ quả của định luật 3 Newton).</li>
+<li><strong>Va chạm mềm:</strong> $m_1\vec{v}_1 + m_2\vec{v}_2 = (m_1 + m_2)\vec{V}$; động năng giảm.</li>
+<li><strong>Chuyển động bằng phản lực:</strong> một phần tách ra chuyển động ngược chiều với phần còn lại (tên lửa, súng giật lùi, người nhảy khỏi thuyền).</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+</body>
+</html>
