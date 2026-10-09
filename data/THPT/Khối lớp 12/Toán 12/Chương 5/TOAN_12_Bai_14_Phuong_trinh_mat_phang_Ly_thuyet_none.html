@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 14: Phương trình mặt phẳng</title>
+    <meta name="lesson-title" content="Bài 14: Phương trình mặt phẳng">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 14: Phương trình mặt phẳng</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 5: Phương pháp tọa độ trong không gian • Bài 14: Phương trình mặt phẳng</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h2>1. Vectơ pháp tuyến của mặt phẳng</h2>
+<p><b>Định nghĩa.</b> Vectơ $\vec{n} \ne \vec{0}$ được gọi là <b>vectơ pháp tuyến</b> (VTPT) của mặt phẳng $(P)$ nếu giá của $\vec{n}$ vuông góc với $(P)$.</p>
+<p><b>Nhận xét.</b> Nếu $\vec{n}$ là một VTPT của $(P)$ thì $k\vec{n}$ ($k \ne 0$) cũng là VTPT của $(P)$.</p>
+
+<svg viewBox="0 0 560 260" xmlns="http://www.w3.org/2000/svg" style="max-width:560px;width:100%;height:auto;display:block;margin:12px auto">
+<text x="280" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e40af">Mặt phẳng $(P)$ và vectơ pháp tuyến $\vec{n}$</text>
+<polygon points="120,220 440,220 360,80 40,80" fill="#dbeafe" stroke="#1e40af" stroke-width="2"/>
+<text x="400" y="200" font-size="14" fill="#1e40af">$(P)$</text>
+<circle cx="240" cy="160" r="4" fill="#dc2626"/>
+<text x="228" y="180" font-size="13" fill="#dc2626">$M_0$</text>
+<line x1="240" y1="160" x2="240" y2="60" stroke="#dc2626" stroke-width="2.5"/>
+<polygon points="240,60 234,72 246,72" fill="#dc2626"/>
+<text x="248" y="70" font-size="14" fill="#dc2626">$\vec{n}$</text>
+<text x="120" y="245" font-size="12" fill="#475569">$\vec{n} \perp (P)$ tại mọi điểm của $(P)$</text>
+</svg>
+<h2>2. Phương trình tổng quát của mặt phẳng</h2>
+<p>Trong không gian $Oxyz$, mặt phẳng $(P)$ đi qua điểm $M_0(x_0; y_0; z_0)$ và có VTPT $\vec{n} = (A; B; C)$ có phương trình:</p>
+<p style="text-align:center">$A(x - x_0) + B(y - y_0) + C(z - z_0) = 0.$</p>
+<p>Khai triển ta được <b>phương trình tổng quát</b> của mặt phẳng:</p>
+<p style="text-align:center">$Ax + By + Cz + D = 0$</p>
+<p>trong đó $A, B, C$ không đồng thời bằng $0$ (khi đó $(A; B; C)$ chính là một VTPT).</p>
+<p><b>Ví dụ.</b> Viết phương trình mặt phẳng $(P)$ đi qua $M(1; 2; 3)$ và có VTPT $\vec{n} = (2; -1; 1)$.</p>
+<p><b>Giải.</b> $(P): 2(x-1) - (y-2) + (z-3) = 0$, hay $2x - y + z - 3 = 0$.</p>
+
+<h2>3. Các trường hợp riêng</h2>
+<div class="table-scroll"><table>
+<tr><th>Phương trình</th><th>Đặc điểm hình học</th></tr>
+<tr><td>$Ax + By + Cz = 0$ ($D = 0$)</td><td>Mặt phẳng đi qua gốc tọa độ $O$</td></tr>
+<tr><td>$By + Cz + D = 0$ ($A = 0$)</td><td>VTPT $(0; B; C) \perp Ox$ nên $(P) \parallel Ox$ (hoặc chứa $Ox$ nếu $D = 0$)</td></tr>
+<tr><td>$Ax + Cz + D = 0$ ($B = 0$)</td><td>$(P) \parallel Oy$ (hoặc chứa $Oy$)</td></tr>
+<tr><td>$Ax + By + D = 0$ ($C = 0$)</td><td>$(P) \parallel Oz$ (hoặc chứa $Oz$)</td></tr>
+<tr><td>$Ax + D = 0$ ($B = C = 0$)</td><td>$(P) \perp Ox$ (vuông góc trục $Ox$)</td></tr>
+<tr><td>$By + D = 0$</td><td>$(P) \perp Oy$</td></tr>
+<tr><td>$Cz + D = 0$</td><td>$(P) \perp Oz$</td></tr>
+</table></div>
+
+<h2>4. Phương trình mặt phẳng theo đoạn chắn</h2>
+<p>Mặt phẳng $(P)$ cắt các trục $Ox, Oy, Oz$ lần lượt tại $A(a; 0; 0)$, $B(0; b; 0)$, $C(0; 0; c)$ với $a, b, c \ne 0$ có phương trình:</p>
+<p style="text-align:center">$\frac{x}{a} + \frac{y}{b} + \frac{z}{c} = 1.$</p>
+<p><b>Ví dụ.</b> Mặt phẳng đi qua ba điểm $A(2; 0; 0)$, $B(0; 3; 0)$, $C(0; 0; 6)$ có phương trình $\frac{x}{2} + \frac{y}{3} + \frac{z}{6} = 1$.</p>
+
+<h2>5. Vị trí tương đối của hai mặt phẳng</h2>
+<p>Cho $(P): Ax + By + Cz + D = 0$ và $(Q): A'x + B'y + C'z + D' = 0$:</p>
+<ul>
+<li>$(P) \parallel (Q)$ khi $\frac{A}{A'} = \frac{B}{B'} = \frac{C}{C'} \ne \frac{D}{D'}$.</li>
+<li>$(P) \equiv (Q)$ khi $\frac{A}{A'} = \frac{B}{B'} = \frac{C}{C'} = \frac{D}{D'}$.</li>
+<li>$(P)$ cắt $(Q)$ khi hai VTPT không cùng phương.</li>
+<li>$(P) \perp (Q)$ khi $\vec{n_P} \cdot \vec{n_Q} = 0$, tức $AA' + BB' + CC' = 0$.</li>
+</ul>
+
+<h2>6. Khoảng cách từ một điểm đến một mặt phẳng</h2>
+<p>Khoảng cách từ điểm $M_0(x_0; y_0; z_0)$ đến mặt phẳng $(P): Ax + By + Cz + D = 0$ là:</p>
+<p style="text-align:center">$d(M_0, (P)) = \frac{|Ax_0 + By_0 + Cz_0 + D|}{\sqrt{A^2 + B^2 + C^2}}.$</p>
+<p><b>Ví dụ.</b> Tính $d(M, (P))$ với $M(1; 2; 3)$, $(P): 2x - y + 2z - 6 = 0$.</p>
+<p><b>Giải.</b> $d = \frac{|2 - 2 + 6 - 6|}{\sqrt{4+1+4}} = 0$. Vậy $M$ thuộc $(P)$.</p>
+
+            </div>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
