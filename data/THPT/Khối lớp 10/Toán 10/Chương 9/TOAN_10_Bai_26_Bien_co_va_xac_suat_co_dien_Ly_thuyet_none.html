@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 26: Biến cố và định nghĩa cổ điển của xác suất</title>
+    <meta name="lesson-title" content="Bài 26: Biến cố và định nghĩa cổ điển của xác suất">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 26: Biến cố và định nghĩa cổ điển của xác suất</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 9: Tính xác suất theo định nghĩa cổ điển • Bài 26: Biến cố và định nghĩa cổ điển của xác suất</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 26: Biến cố và định nghĩa cổ điển của xác suất</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 9: Tính xác suất theo định nghĩa cổ điển — Toán 10 (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Phep thu, khong gian mau -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Phép thử ngẫu nhiên và không gian mẫu</h2>
+
+<p><strong>Định nghĩa:</strong> <em>Phép thử ngẫu nhiên</em> là một thí nghiệm mà ta <strong>biết trước</strong> tập hợp mọi kết quả có thể xảy ra, nhưng <strong>không đoán trước</strong> được kết quả cụ thể nào sẽ xảy ra.</p>
+
+<p>Tập hợp mọi kết quả có thể xảy ra của phép thử gọi là <em>không gian mẫu</em>, kí hiệu $\Omega$. Mỗi phần tử của $\Omega$ gọi là một <em>kết quả thuận lợi</em> (hay kết quả có thể).</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>Gieo một con xúc xắc: $\Omega = \{1, 2, 3, 4, 5, 6\}$, $n(\Omega) = 6$.</li>
+<li>Tung một đồng xu: $\Omega = \{S, N\}$ (S: sấp, N: ngửa), $n(\Omega) = 2$.</li>
+<li>Tung hai đồng xu: $\Omega = \{SS, SN, NS, NN\}$, $n(\Omega) = 4$.</li>
+</ul>
+</div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Không gian mẫu của phép gieo xúc xắc">
+<rect x="2" y="2" width="436" height="246" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="30" font-size="15" font-weight="bold" fill="#0f172a" text-anchor="middle">Ω của phép gieo một con xúc xắc</text>
+<g font-size="13" text-anchor="middle">
+<rect x="40" y="60" width="90" height="70" rx="10" fill="#fff" stroke="#1d4ed8" stroke-width="2"/><text x="85" y="102" fill="#1d4ed8" font-weight="bold">1 chấm</text>
+<rect x="150" y="60" width="90" height="70" rx="10" fill="#fff" stroke="#1d4ed8" stroke-width="2"/><text x="195" y="102" fill="#1d4ed8" font-weight="bold">2 chấm</text>
+<rect x="260" y="60" width="90" height="70" rx="10" fill="#fff" stroke="#1d4ed8" stroke-width="2"/><text x="305" y="102" fill="#1d4ed8" font-weight="bold">3 chấm</text>
+<rect x="40" y="145" width="90" height="70" rx="10" fill="#fff" stroke="#1d4ed8" stroke-width="2"/><text x="85" y="187" fill="#1d4ed8" font-weight="bold">4 chấm</text>
+<rect x="150" y="145" width="90" height="70" rx="10" fill="#fff" stroke="#1d4ed8" stroke-width="2"/><text x="195" y="187" fill="#1d4ed8" font-weight="bold">5 chấm</text>
+<rect x="260" y="145" width="90" height="70" rx="10" fill="#fff" stroke="#1d4ed8" stroke-width="2"/><text x="305" y="187" fill="#1d4ed8" font-weight="bold">6 chấm</text>
+</g>
+<text x="220" y="238" font-size="12" fill="#475569" text-anchor="middle">n(Ω) = 6 — mỗi kết quả đồng khả năng</text>
+</svg></div>
+
+<!-- 2. Bien co -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Biến cố</h2>
+
+<p><strong>Định nghĩa:</strong> Mỗi <em>biến cố</em> là một tập con của không gian mẫu $\Omega$. Biến cố thường được kí hiệu bằng chữ in hoa $A, B, C, \dots$</p>
+
+<p>Khi thực hiện phép thử, nếu kết quả thuộc $A$ thì ta nói <em>biến cố $A$ xảy ra</em>.</p>
+
+<p><strong>Các biến cố đặc biệt:</strong></p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>$A = \Omega$: <em>biến cố chắc chắn</em> (luôn xảy ra). Ví dụ: gieo xúc xắc, "xuất hiện mặt có số chấm không vượt quá $6$".</li>
+<li>$A = \varnothing$: <em>biến cố không thể</em> (không bao giờ xảy ra). Ví dụ: gieo xúc xắc, "xuất hiện mặt $7$ chấm".</li>
+<li>$\overline{A} = \Omega \setminus A$: <em>biến cố đối</em> của $A$ ("$A$ không xảy ra").</li>
+</ul>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Gieo một con xúc xắc. Xét $A$: "xuất hiện mặt chẵn".</p>
+<p class="mt-1">Khi đó $A = \{2, 4, 6\}$, $n(A) = 3$; biến cố đối $\overline{A} = \{1, 3, 5\}$: "xuất hiện mặt lẻ".</p>
+</div>
+
+<!-- 3. Dinh nghia co dien -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Định nghĩa cổ điển của xác suất</h2>
+
+<p>Cho phép thử có không gian mẫu $\Omega$ gồm <strong>hữu hạn</strong> kết quả <strong>đồng khả năng</strong> xảy ra, và $A$ là một biến cố. <em>Xác suất</em> của biến cố $A$, kí hiệu $P(A)$, được tính bởi:</p>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$P(A) = \frac{n(A)}{n(\Omega)}$$</p>
+<p class="text-sm text-slate-600 mt-1">$n(A)$: số kết quả thuận lợi cho $A$; $n(\Omega)$: số kết quả có thể.</p>
+</div>
+
+<p><strong>Tính chất:</strong> $0 \le P(A) \le 1$; $P(\Omega) = 1$; $P(\varnothing) = 0$; $P(\overline{A}) = 1 - P(A)$.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Một hộp có $5$ bi đỏ và $3$ bi xanh (các viên bi khác nhau). Lấy ngẫu nhiên $1$ viên. Tính xác suất lấy được bi đỏ.</p>
+<p class="mt-2"><strong>Lời giải:</strong> $n(\Omega) = 5 + 3 = 8$; gọi $A$: "lấy được bi đỏ" thì $n(A) = 5$.</p>
+<p>$$P(A) = \frac{n(A)}{n(\Omega)} = \frac{5}{8}.$$</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Công thức $P(A) = \frac{n(A)}{n(\Omega)}$ chỉ đúng khi các kết quả <strong>đồng khả năng</strong> (xúc xắc cân đối, đồng xu cân đối, lấy ngẫu nhiên...). Luôn đếm đúng $n(\Omega)$ trước — đây là bước dễ sai nhất!</p>
+</div>
+
+<!-- Tom tat -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Phép thử ngẫu nhiên:</strong> biết trước mọi kết quả có thể, không đoán trước kết quả cụ thể.</li>
+<li><strong>Không gian mẫu</strong> $\Omega$: tập mọi kết quả có thể.</li>
+<li><strong>Biến cố</strong> $A \subset \Omega$; chắc chắn $A = \Omega$; không thể $A = \varnothing$; đối $\overline{A} = \Omega \setminus A$.</li>
+<li><strong>Xác suất cổ điển:</strong> $P(A) = \frac{n(A)}{n(\Omega)}$ (kết quả đồng khả năng).</li>
+<li>$0 \le P(A) \le 1$; $P(\overline{A}) = 1 - P(A)$.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+
+</div>
+
+        </div>
+    </div>
+</body>
+</html>
