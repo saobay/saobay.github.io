@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay | Ma nguon thuoc nen tang hoc tap SAOBAY | Nghiem cam sao chep duoi moi hinh thuc -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 25: Thực hành xác định độ phức tạp thời gian thuật toán</title>
+    <meta name="lesson-title" content="Bài 25: Thực hành xác định độ phức tạp thời gian thuật toán">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 25: Thực hành xác định độ phức tạp thời gian thuật toán</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 6: Kĩ thuật lập trình • Bài 25: Thực hành xác định độ phức tạp thời gian thuật toán</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 25: Thực hành xác định độ phức tạp thời gian thuật toán</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 6: Kĩ thuật lập trình — sách Kết nối tri thức với cuộc sống</p>
+
+<!-- 1. Nhắc lại phương pháp xác định độ phức tạp -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Nhắc lại phương pháp xác định độ phức tạp</h2>
+
+<p><strong>Độ phức tạp thời gian</strong> đánh giá số lượng phép tính cơ bản theo kích thước dữ liệu <code>n</code>, biểu diễn bằng <strong>kí hiệu O</strong>.</p>
+
+<p><strong>Ba bước xác định:</strong></p>
+<ol class="list-decimal ml-6 space-y-1 my-3">
+<li><strong>Đếm</strong> số lần thực hiện các phép tính cơ bản theo <code>n</code> (chủ yếu là đếm số lần lặp).</li>
+<li><strong>Bỏ hằng số:</strong> bỏ mọi hệ số hằng và số hạng hằng.</li>
+<li><strong>Giữ số hạng trội:</strong> chỉ giữ số hạng tăng nhanh nhất khi <code>n</code> lớn.</li>
+</ol>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-sm my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Dạng code</td><td class="border border-slate-300 px-4 py-1">Số lần lặp</td><td class="border border-slate-300 px-4 py-1">Độ phức tạp</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Không có vòng lặp theo <code>n</code></td><td class="border border-slate-300 px-4 py-1">hằng số</td><td class="border border-slate-300 px-4 py-1">O($1$)</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Một vòng lặp <code>n</code> lần</td><td class="border border-slate-300 px-4 py-1"><code>n</code></td><td class="border border-slate-300 px-4 py-1">O($n$)</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Biến tăng gấp đôi mỗi lần</td><td class="border border-slate-300 px-4 py-1">$\log_2 n$</td><td class="border border-slate-300 px-4 py-1">O($\log n$)</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Hai vòng lặp lồng nhau</td><td class="border border-slate-300 px-4 py-1">$n^2$</td><td class="border border-slate-300 px-4 py-1">O($n^2$)</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Ba vòng lặp lồng nhau</td><td class="border border-slate-300 px-4 py-1">$n^3$</td><td class="border border-slate-300 px-4 py-1">O($n^3$)</td></tr>
+</table></div>
+
+<!-- 2. Phân tích các đoạn chương trình mẫu -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Phân tích các đoạn chương trình mẫu</h2>
+
+<p><strong>Ví dụ 1 — O($n$):</strong> một vòng lặp duyệt <code>n</code> lần.</p>
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2">s = 0
+for i in range(n):
+    s = s + a[i]
+# n lần lặp, mỗi lần vài phép tính → O(n)</pre>
+
+<p><strong>Ví dụ 2 — O($n^2$):</strong> hai vòng lặp lồng nhau.</p>
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2">dem = 0
+for i in range(n):
+    for j in range(n):
+        dem = dem + 1
+# n * n = n^2 lần lặp → O(n^2)</pre>
+
+<p><strong>Ví dụ 3 — O($1$):</strong> số lần lặp không phụ thuộc <code>n</code>.</p>
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2">for i in range(100):
+    print(i)
+# luôn lặp đúng 100 lần → O(1)</pre>
+
+<p><strong>Ví dụ 4 — hai vòng lặp nối tiếp:</strong> cộng số lần lặp rồi rút gọn.</p>
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2">for i in range(n):
+    print(i)
+for i in range(n):
+    for j in range(n):
+        print(i, j)
+# n + n^2 lần → giữ số hạng trội → O(n^2)</pre>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Quy tắc cộng và nhân:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li><strong>Nối tiếp</strong> (hai vòng lặp độc lập): <strong>cộng</strong> số lần lặp, rồi giữ số hạng trội. Ví dụ: $n + n^2$ → O($n^2$).</li>
+<li><strong>Lồng nhau</strong> (vòng lặp trong nằm trong vòng ngoài): <strong>nhân</strong> số lần lặp. Ví dụ: $n \times n$ → O($n^2$).</li>
+</ul>
+</div>
+
+<!-- 3. Các trường hợp đặc biệt -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Các trường hợp đặc biệt hay gặp</h2>
+
+<p><strong>Vòng lặp mà biến tăng gấp đôi</strong> (hoặc giảm một nửa) mỗi lần → O($\log n$):</p>
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2">i = 1
+while i != 1024:
+    i = i * 2
+# i nhận các giá trị 1, 2, 4, ..., 512 → 10 lần lặp → O(log n)</pre>
+
+<p><strong>Vòng lặp trong phụ thuộc vòng ngoài</strong> (hình tam giác):</p>
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2">for i in range(n):
+    for j in range(i):
+        print(i, j)
+# số lần lặp: 0 + 1 + 2 + ... + (n-1) = n(n-1)/2 → O(n^2)</pre>
+
+<p><strong>Vòng lặp với bước nhảy:</strong></p>
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2">for i in range(0, n, 2):
+    print(i)
+# lặp n/2 lần → bỏ hằng số 1/2 → O(n)</pre>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">⚠️ Lỗi thường gặp</p>
+<ul class="list-disc ml-6 space-y-1 mt-1">
+<li>Nhầm lẫn <strong>nối tiếp</strong> với <strong>lồng nhau</strong>: nối tiếp thì cộng, lồng nhau thì nhân.</li>
+<li>Quên bỏ hằng số: <code>n/2</code> vẫn là O($n$), <code>2n^2</code> vẫn là O($n^2$).</li>
+<li>Cho rằng vòng lặp <code>range(100)</code> là O($n$) — thực ra là O($1$) vì không phụ thuộc <code>n</code>.</li>
+<li>Bỏ qua số hạng trội: $n^2 + n$ phải rút gọn thành O($n^2$), không phải O($n$).</li>
+</ul>
+</div>
+
+<!-- 4. Thực hành phân tích thuật toán đã học -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Thực hành phân tích các thuật toán đã học</h2>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-sm my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Thuật toán</td><td class="border border-slate-300 px-4 py-1">Phân tích</td><td class="border border-slate-300 px-4 py-1">Độ phức tạp</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Tìm kiếm tuần tự</td><td class="border border-slate-300 px-4 py-1">một vòng lặp <code>n</code> lần</td><td class="border border-slate-300 px-4 py-1">O($n$)</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Tìm kiếm nhị phân</td><td class="border border-slate-300 px-4 py-1">mỗi bước loại một nửa</td><td class="border border-slate-300 px-4 py-1">O($\log n$)</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Sắp xếp nổi bọt</td><td class="border border-slate-300 px-4 py-1">hai vòng lặp lồng nhau</td><td class="border border-slate-300 px-4 py-1">O($n^2$)</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Sắp xếp chọn</td><td class="border border-slate-300 px-4 py-1">hai vòng lặp lồng nhau</td><td class="border border-slate-300 px-4 py-1">O($n^2$)</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Duyệt ma trận $m \times n$</td><td class="border border-slate-300 px-4 py-1">$m \times n$ lần lặp</td><td class="border border-slate-300 px-4 py-1">O($mn$)</td></tr>
+</table></div>
+
+<p><strong>Bài tập thực hành:</strong> với mỗi đoạn chương trình, hãy (1) đếm số lần lặp theo <code>n</code>, (2) rút gọn về kí hiệu O, (3) chạy thử với <code>n</code> nhỏ để kiểm chứng số lần lặp.</p>
+
+<pre class="bg-slate-900 text-emerald-200 text-sm rounded-lg p-4 overflow-x-auto my-2"># Bài tập mẫu: xác định độ phức tạp
+c = 0
+for i in range(n):
+    for j in range(n):
+        for k in range(n):
+            c = c + 1
+# Ba vòng lặp lồng nhau: n * n * n = n^3 → O(n^3)</pre>
+
+<!-- Tóm tắt -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Ba bước:</strong> đếm số lần lặp theo <code>n</code> → bỏ hằng số → giữ số hạng trội.</li>
+<li><strong>Nối tiếp thì cộng, lồng nhau thì nhân.</strong></li>
+<li><strong>Nhận diện nhanh:</strong> một vòng lặp → O($n$); hai vòng lồng nhau → O($n^2$); biến tăng gấp đôi → O($\log n$); số lần cố định → O($1$).</li>
+<li><strong>Thực hành:</strong> phân tích lại các thuật toán đã học (tìm kiếm, sắp xếp) và kiểm chứng bằng chạy thử.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: © 2026 Truong THPT Sao Bay -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">
+(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok){if(document.body){document.body.innerHTML='<div style="font-family:system-ui,sans-serif;max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff"><h2 style="color:#0f172a;margin-top:0">© SAOBAY — Trường THPT Sào Báy</h2><p style="color:#475569">Nội dung này chỉ được hiển thị tại địa chỉ chính thức <b>saobay.github.io</b>.</p><p style="color:#475569">Vui lòng truy cập đúng địa chỉ để học tập.</p></div>';}else{document.write("SAOBAY: truy cap tai saobay.github.io");}}catch(e){}})();
+</script>
+</body>
+</html>
