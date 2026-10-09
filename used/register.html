@@ -96,6 +96,39 @@ function accountExists(db, phone){
     return false;
 }
 
+// FIX 2026-10-10: kiểm tra riêng HỒ SƠ user (không tính passwords) để phát hiện trạng thái gãy:
+// passwords có nhưng hồ sơ mất → tự sửa chữa thay vì báo "đã đăng ký"
+function userRecordExists(db, phone, role){
+    if (role === 'teacher'){
+        let tr = db.teachers_registry || {};
+        return !!tr[phone];
+    }
+    let sts = db.students || {};
+    let keys = Object.keys(sts);
+    for (let i = 0; i < keys.length; i++){
+        let arr = sts[keys[i]] || [];
+        for (let j = 0; j < arr.length; j++){
+            if (String(arr[j].id) === String(phone)) return true;
+        }
+    }
+    return false;
+}
+
+// Thêm hồ sơ vào đúng danh sách (có chống trùng lặp khi thử lại)
+function addUserRecord(db, phone, name, role, note){
+    if (role === 'teacher'){
+        if (!db.teachers_registry || Array.isArray(db.teachers_registry)) db.teachers_registry = {};
+        db.teachers_registry[phone] = { name: name, group: 'Trải nghiệm', role: 'teacher', note: note };
+    } else {
+        if (!db.students) db.students = {};
+        if (!Array.isArray(db.students['Trải nghiệm'])) db.students['Trải nghiệm'] = [];
+        let arr = db.students['Trải nghiệm'];
+        let dup = false;
+        for (let i = 0; i < arr.length; i++){ if (String(arr[i].id) === String(phone)){ dup = true; break; } }
+        if (!dup) arr.push({ id: phone, name: name, dob: '' });
+    }
+}
+
 async function submitRegistration(){
     let msg = document.getElementById('rg-msg');
     let btn = document.getElementById('rg-btn');
@@ -124,21 +157,22 @@ async function submitRegistration(){
             let res = await fetch(RAW_URL + '?t=' + Date.now());
             if (!res.ok) throw new Error('Không tải được dữ liệu (mạng).');
             let db = await res.json();
-            if (accountExists(db, phone)){
-                // Idempotent: lần thử lại mà tài khoản đã tồn tại với đúng mật khẩu vừa đặt → coi như thành công
-                if (attempt > 0 && db.passwords && db.passwords[phone] === passB64){ created = true; break; }
+            let hasPass = !!(db.passwords && db.passwords[phone]);
+            let hasRecord = userRecordExists(db, phone, role);
+            if (hasPass && hasRecord){
+                // Idempotent: đã có đủ hồ sơ + mật khẩu → chỉ thành công khi đúng MK vừa đặt
+                if (db.passwords[phone] === passB64){ created = true; break; }
                 throw new Error('SĐT / Gmail này đã được đăng ký hoặc đã có tài khoản.');
+            }
+            if (hasPass && !hasRecord){
+                // FIX 2026-10-10 — TRẠNG THÁI GÃY: có MK nhưng mất hồ sơ → tự sửa chữa
+                // Chỉ sửa khi đúng MK (tránh chiếm tài khoản người khác)
+                if (db.passwords[phone] !== passB64) throw new Error('SĐT / Gmail này đã được đăng ký hoặc đã có tài khoản.');
+                // rơi xuống dưới: thêm hồ sơ còn thiếu rồi push
             }
             if (!db.passwords) db.passwords = {};
             db.passwords[phone] = passB64;
-            if (role === 'teacher'){
-                if (!db.teachers_registry || Array.isArray(db.teachers_registry)) db.teachers_registry = {};
-                db.teachers_registry[phone] = { name: name, group: 'Trải nghiệm', role: 'teacher', note: note };
-            } else {
-                if (!db.students) db.students = {};
-                if (!Array.isArray(db.students['Trải nghiệm'])) db.students['Trải nghiệm'] = [];
-                db.students['Trải nghiệm'].push({ id: phone, name: name, dob: '' });
-            }
+            addUserRecord(db, phone, name, role, note);
             let rj = await gasPush('used/used.is', JSON.stringify(db),
                 'Đăng ký tự động: tạo TK Trải nghiệm cho ' + name + ' (' + phone + ')',
                 'Đăng ký tài khoản', name);
