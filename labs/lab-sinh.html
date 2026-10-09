@@ -99,14 +99,15 @@ document.querySelectorAll('.tab-btn').forEach(function(b){
   });
 });
 function fitCanvas(cv){
-  var H = parseInt(cv.getAttribute('height')) || 300;
-  cv.style.height = H + 'px';
+  var hAttr = parseInt(cv.getAttribute('height')) || 300;
+  cv.style.height = hAttr + 'px';
   var r = cv.getBoundingClientRect(), d = window.devicePixelRatio || 1;
-  if (r.width < 10) return null;
-  cv.width = Math.max(1, Math.round(r.width * d)); cv.height = Math.round(H * d);
+  if (r.width < 10) return null; // tab an -> bo qua
+  cv.width = Math.max(1, Math.round(r.width * d)); cv.height = Math.round(hAttr * d);
   var ctx = cv.getContext('2d'); ctx.setTransform(d,0,0,d,0,0);
-  return {ctx: ctx, w: r.width, h: H};
+  return {ctx: ctx, w: r.width, h: hAttr};
 }
+window.__tabRefresh = window.__tabRefresh || {};
 window.__tabRefresh = window.__tabRefresh || {};
 
 // ================= 1. TẾ BÀO TƯƠNG TÁC =================
