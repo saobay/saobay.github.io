@@ -61,6 +61,10 @@
                 document.getElementById('admin-users-btn')?.classList.remove('hidden');
                 if (typeof updateRegBadge === 'function') updateRegBadge();
             }
+            // BGH khong xem lop hoc them
+            if (currentUser.role === 'bgh') {
+                document.getElementById('mod-tab-private')?.classList.add('hidden');
+            }
 
             // Chọn mặc định thư mục data
             selectFolder('data', 'data (Thư viện bài giảng)');
