@@ -48,12 +48,12 @@
             <!-- Form đăng nhập -->
             <form onsubmit="handleLoginSubmit(event)" class="space-y-4">
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Mã định danh / SĐT hoặc Họ tên</label>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Mã định danh / SĐT</label>
                     <div class="relative">
                         <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
                             <i class="fa-solid fa-user"></i>
                         </span>
-                        <input type="text" id="login-username" required placeholder="Nhập Mã GV, Mã HS, SĐT hoặc Họ và tên..." class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs md:text-sm font-semibold focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"/>
+                        <input type="text" id="login-username" required placeholder="Nhập Mã GV, Mã HS hoặc SĐT..." class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs md:text-sm font-semibold focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"/>
                     </div>
                 </div>
 
@@ -818,14 +818,12 @@
                 }
             }
 
-            // 2. Tìm kiếm trong danh sách Giáo viên
+            // 2. Tìm kiếm trong danh sách Giáo viên (chỉ theo ID → SĐT, 2026-10-10: bỏ tìm theo họ tên)
             let matchedUser = null;
-            let normInput = removeVietnameseTones(usernameInput);
 
             let phoneNorm = isPhoneLike(usernameInput) ? normalizePhone(usernameInput) : null;
             let foundTeacher = cachedTeachers.find(t => t.id === usernameInput);
             if (!foundTeacher && phoneNorm) foundTeacher = cachedTeachers.find(t => t.phone === phoneNorm);
-            if (!foundTeacher) foundTeacher = cachedTeachers.find(t => removeVietnameseTones(t.name) === normInput);
             if (foundTeacher) {
                 matchedUser = {
                     id: foundTeacher.id,
@@ -842,7 +840,6 @@
             if (!matchedUser) {
                 let foundStudent = cachedStudents.find(s => s.id === usernameInput);
                 if (!foundStudent && phoneNorm) foundStudent = cachedStudents.find(s => s.phone === phoneNorm);
-                if (!foundStudent) foundStudent = cachedStudents.find(s => removeVietnameseTones(s.name) === normInput);
                 if (foundStudent) {
                     matchedUser = {
                         id: foundStudent.id,
@@ -856,7 +853,7 @@
             }
 
             if (!matchedUser) {
-                showToast('Không tìm thấy tài khoản! Vui lòng kiểm tra Mã định danh, SĐT hoặc Họ tên.', 'error');
+                showToast('Không tìm thấy tài khoản! Vui lòng kiểm tra Mã định danh hoặc SĐT.', 'error');
                 return;
             }
 
