@@ -8,7 +8,7 @@
 <style>
   body { font-family: system-ui, -apple-system, sans-serif; -webkit-tap-highlight-color: transparent; }
   .tab-btn.active { background: #059669; color: #fff; }
-  canvas { touch-action: none; }
+  canvas { touch-action: pan-y; display: block; }
   .big-btn { min-height: 52px; }
   .el-cell { min-width: 44px; min-height: 52px; }
   .el-cell:active { transform: scale(1.15); }
@@ -59,7 +59,7 @@
     <div class="bg-white rounded-2xl shadow p-4">
       <h2 class="font-black text-teal-800 mb-1">Trộn dung dịch: Axit + Bazơ</h2>
       <p class="text-xs text-slate-500 mb-2">Chọn axit, bazơ và chất chỉ thị, rồi bấm <b>Trộn</b> để xem màu sắc và phương trình phản ứng.</p>
-      <canvas id="cv-mix" class="w-full rounded-xl bg-slate-50 border" height="260"></canvas>
+      <canvas id="cv-mix" class="w-full rounded-xl bg-slate-50 border" height="260" style="touch-action:pan-y;display:block;"</canvas>
       <div class="grid grid-cols-3 gap-2 mt-3 text-sm">
         <div>
           <label class="text-xs font-bold text-slate-600">🧪 Axit</label>
@@ -106,7 +106,7 @@
         <label class="text-xs font-bold text-slate-600">Nguyên tố:</label>
         <select id="atom-sel" class="flex-1 border rounded-xl px-2 py-2.5 font-bold text-sm"></select>
       </div>
-      <canvas id="cv-atom" class="w-full rounded-xl bg-slate-900 border" height="320"></canvas>
+      <canvas id="cv-atom" class="w-full rounded-xl bg-slate-900 border" height="320" style="touch-action:pan-y;display:block;"</canvas>
       <div id="atom-info" class="mt-2 text-center text-sm text-slate-600"></div>
       <p class="text-[11px] text-slate-500 mt-2">💡 Electron xếp theo lớp: lớp 1 tối đa 2e, lớp 2 tối đa 8e, lớp 3 tối đa 8e (đối với 20 nguyên tố đầu).</p>
     </div>
