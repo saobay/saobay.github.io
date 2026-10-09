@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 4: Nhiệt dung riêng</title>
+    <meta name="lesson-title" content="Bài 4: Nhiệt dung riêng">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 4: Nhiệt dung riêng</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 1: Vật lí nhiệt • Bài 4: Nhiệt dung riêng</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 4: Nhiệt dung riêng</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 1: Vật lí nhiệt — Vật lí 12 (Kết nối tri thức với cuộc sống)</p>
+
+
+<!-- 1. Nhiet luong -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Công thức tính nhiệt lượng</h2>
+
+<p>Khi một vật <strong>nhận nhiệt</strong> (nóng lên) hay <strong>toả nhiệt</strong> (nguội đi) mà <strong>không đổi thể</strong>, nhiệt lượng vật trao đổi tỉ lệ với khối lượng và độ biến thiên nhiệt độ:</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p class="text-2xl">$$Q = mc\Delta t$$</p>
+<p class="mt-2">Trong đó: $Q$ là nhiệt lượng (J); $m$ là khối lượng (kg);<br>$\Delta t$ là độ biến thiên nhiệt độ ($^{\circ}$C hay K — giá trị như nhau); $c$ là <strong>nhiệt dung riêng</strong> của chất.</p>
+</div>
+
+<!-- 2. Nhiet dung rieng -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Nhiệt dung riêng</h2>
+
+<p><strong>Định nghĩa:</strong> <em>Nhiệt dung riêng</em> của một chất là nhiệt lượng cần thiết để làm cho $1$ kg chất đó tăng thêm $1^{\circ}$C (hay $1$ K). Kí hiệu là $c$, đơn vị là <strong>J/(kg.K)</strong>.</p>
+
+<p>Nhiệt dung riêng <strong>phụ thuộc vào chất</strong> làm nên vật (mỗi chất có một giá trị $c$ riêng):</p>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center text-sm my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Chất</td><td class="border border-slate-300 px-4 py-1">Nước</td><td class="border border-slate-300 px-4 py-1">Nhôm</td><td class="border border-slate-300 px-4 py-1">Sắt</td><td class="border border-slate-300 px-4 py-1">Đồng</td><td class="border border-slate-300 px-4 py-1">Chì</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold">$c$ (J/(kg.K))</td><td class="border border-slate-300 px-4 py-1 font-bold text-sky-700">4200</td><td class="border border-slate-300 px-4 py-1">880</td><td class="border border-slate-300 px-4 py-1">460</td><td class="border border-slate-300 px-4 py-1">380</td><td class="border border-slate-300 px-4 py-1">130</td></tr>
+</table></div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bieu do cot nhiet dung rieng mot so chat">
+<rect x="2" y="2" width="436" height="236" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="26" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0c4a6e" text-anchor="middle">NHIỆT DUNG RIÊNG CỦA MỘT SỐ CHẤT (J/(kg.K))</text>
+<line x1="60" y1="200" x2="420" y2="200" stroke="#64748b" stroke-width="2"/>
+<rect x="80" y="40" width="40" height="160" fill="#38bdf8"/><text x="100" y="215" font-family="sans-serif" font-size="11" text-anchor="middle" fill="#0c4a6e">Nước</text><text x="100" y="34" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle" fill="#0369a1">4200</text>
+<rect x="145" y="166" width="40" height="34" fill="#94a3b8"/><text x="165" y="215" font-family="sans-serif" font-size="11" text-anchor="middle" fill="#0c4a6e">Nhôm</text><text x="165" y="160" font-family="sans-serif" font-size="11" text-anchor="middle" fill="#475569">880</text>
+<rect x="210" y="182" width="40" height="18" fill="#94a3b8"/><text x="230" y="215" font-family="sans-serif" font-size="11" text-anchor="middle" fill="#0c4a6e">Sắt</text><text x="230" y="176" font-family="sans-serif" font-size="11" text-anchor="middle" fill="#475569">460</text>
+<rect x="275" y="185" width="40" height="15" fill="#94a3b8"/><text x="295" y="215" font-family="sans-serif" font-size="11" text-anchor="middle" fill="#0c4a6e">Đồng</text><text x="295" y="179" font-family="sans-serif" font-size="11" text-anchor="middle" fill="#475569">380</text>
+<rect x="340" y="195" width="40" height="5" fill="#94a3b8"/><text x="360" y="215" font-family="sans-serif" font-size="11" text-anchor="middle" fill="#0c4a6e">Chì</text><text x="360" y="189" font-family="sans-serif" font-size="11" text-anchor="middle" fill="#475569">130</text>
+<text x="220" y="232" font-family="sans-serif" font-size="11" fill="#475569" text-anchor="middle">Nước có nhiệt dung riêng lớn nhất: khó nóng lên, cũng khó nguội đi</text>
+</svg></div>
+
+<p><strong>Ý nghĩa thực tế:</strong> nước có nhiệt dung riêng rất lớn ($4200$ J/(kg.K)) nên <strong>khó nóng lên và cũng khó nguội đi</strong> — đó là lí do nước được dùng làm chất tải nhiệt, điều hoà khí hậu vùng ven biển (ngày hè mát, đêm đông ấm).</p>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">$Q = mc\Delta t$ chỉ dùng khi vật <strong>không đổi thể</strong> (không nóng chảy, không bay hơi). $\Delta t$ lấy giá trị tuyệt đối của độ biến thiên nhiệt độ; $Q$ dương khi vật nhận nhiệt (nóng lên).</p>
+</div>
+
+<!-- 3. Vi du -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Ví dụ vận dụng</h2>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 1:</p>
+<p>Tính nhiệt lượng cần thiết để đun nóng $2$ kg nước từ $20^{\circ}$C lên $80^{\circ}$C. Biết nhiệt dung riêng của nước là $4200$ J/(kg.K).</p>
+<p class="mt-2"><strong>Lời giải:</strong> $\Delta t = 80 - 20 = 60^{\circ}$C.<br>
+$Q = mc\Delta t = 2 \times 4200 \times 60 = 504\,000$ J $= 504$ kJ.</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 2:</p>
+<p>Một thỏi nhôm khối lượng $0,5$ kg nguội đi từ $100^{\circ}$C xuống $20^{\circ}$C toả ra nhiệt lượng bao nhiêu? ($c_{nhôm} = 880$ J/(kg.K))</p>
+<p class="mt-2"><strong>Lời giải:</strong> $\Delta t = 100 - 20 = 80^{\circ}$C.<br>
+$Q = mc\Delta t = 0,5 \times 880 \times 80 = 35\,200$ J $= 35,2$ kJ.<br>
+Thỏi nhôm đã <strong>toả ra</strong> $35,2$ kJ.</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ 3:</p>
+<p>Cần bao nhiêu kilôgam nước để khi nhận nhiệt lượng $210$ kJ thì nóng thêm $25^{\circ}$C?</p>
+<p class="mt-2"><strong>Lời giải:</strong> Từ $Q = mc\Delta t$ suy ra $m = \frac{Q}{c\Delta t} = \frac{210\,000}{4200 \times 25} = 2$ kg.</p>
+</div>
+
+<!-- Tong ket -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Nhiệt lượng</strong> (không đổi thể): $Q = mc\Delta t$.</li>
+<li><strong>Nhiệt dung riêng</strong> $c$: nhiệt lượng cần để $1$ kg chất tăng thêm $1^{\circ}$C; đơn vị J/(kg.K).</li>
+<li>$c_{nước} = 4200$; $c_{nhôm} = 880$; $c_{sắt} = 460$; $c_{đồng} = 380$; $c_{chì} = 130$ (J/(kg.K)).</li>
+<li>Nước có $c$ lớn nên khó nóng, khó nguội — dùng điều hoà nhiệt độ.</li>
+</ul>
+</div>
+
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề Vật lí bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+</body>
+</html>
