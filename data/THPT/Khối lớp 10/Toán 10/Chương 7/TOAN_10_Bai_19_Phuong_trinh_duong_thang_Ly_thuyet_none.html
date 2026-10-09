@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 19: Phương trình đường thẳng</title>
+    <meta name="lesson-title" content="Bài 19: Phương trình đường thẳng">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 19: Phương trình đường thẳng</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 7: Phương pháp tọa độ trong mặt phẳng • Bài 19: Phương trình đường thẳng</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 19: Phương trình đường thẳng</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 7: Phương pháp tọa độ trong mặt phẳng — Toán 10 (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. VTCP, VTPT -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Vectơ chỉ phương và vectơ pháp tuyến</h2>
+
+<p><strong>Định nghĩa:</strong> Cho đường thẳng $\Delta$.</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Vectơ $\vec{u} \ne \vec{0}$ được gọi là <em>vectơ chỉ phương</em> (VTCP) của $\Delta$ nếu giá của $\vec{u}$ <strong>song song hoặc trùng</strong> với $\Delta$.</li>
+<li>Vectơ $\vec{n} \ne \vec{0}$ được gọi là <em>vectơ pháp tuyến</em> (VTPT) của $\Delta$ nếu giá của $\vec{n}$ <strong>vuông góc</strong> với $\Delta$.</li>
+</ul>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Một đường thẳng có <strong>vô số</strong> VTCP (chúng cùng phương với nhau) và <strong>vô số</strong> VTPT (chúng cũng cùng phương với nhau). Nếu $\vec{u} = (u_1; u_2)$ là VTCP thì $\vec{n} = (u_2; -u_1)$ (hoặc $(-u_2; u_1)$) là VTPT, và ngược lại: VTCP $\perp$ VTPT.</p>
+</div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Vectơ chỉ phương và vectơ pháp tuyến của đường thẳng">
+<rect x="2" y="2" width="436" height="246" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<line x1="30" y1="220" x2="30" y2="15" stroke="#94a3b8" stroke-width="1.5"/><polygon points="30,8 25,20 35,20" fill="#94a3b8"/>
+<line x1="20" y1="210" x2="420" y2="210" stroke="#94a3b8" stroke-width="1.5"/><polygon points="428,210 416,205 416,215" fill="#94a3b8"/>
+<text x="40" y="30" font-size="13" fill="#64748b" font-style="italic">y</text>
+<text x="408" y="228" font-size="13" fill="#64748b" font-style="italic">x</text>
+<text x="22" y="228" font-size="12" fill="#64748b">O</text>
+<line x1="60" y1="190" x2="400" y2="40" stroke="#1d4ed8" stroke-width="2.5"/>
+<text x="392" y="34" font-size="14" font-weight="bold" fill="#1d4ed8">Δ</text>
+<circle cx="215" cy="122" r="5" fill="#dc2626"/>
+<text x="205" y="145" font-size="13" fill="#dc2626" font-weight="bold">M₀</text>
+<line x1="215" y1="122" x2="300" y2="84" stroke="#16a34a" stroke-width="2.5"/><polygon points="308,80 296,78 299,90" fill="#16a34a"/>
+<text x="302" y="70" font-size="13" fill="#16a34a" font-weight="bold">u (VTCP)</text>
+<line x1="215" y1="122" x2="250" y2="200" stroke="#ea580c" stroke-width="2.5"/><polygon points="254,208 243,198 254,196" fill="#ea580c"/>
+<text x="256" y="222" font-size="13" fill="#ea580c" font-weight="bold">n (VTPT)</text>
+<rect x="215" y="122" width="12" height="12" fill="none" stroke="#64748b" stroke-width="1.5" transform="rotate(24 215 122)"/>
+<text x="120" y="238" font-size="12" fill="#475569">u ∥ Δ, n ⊥ Δ và u ⊥ n</text>
+</svg></div>
+
+<!-- 2. PTTS -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Phương trình tham số của đường thẳng</h2>
+
+<p>Đường thẳng $\Delta$ đi qua điểm $M_0(x_0; y_0)$ và có VTCP $\vec{u} = (u_1; u_2)$ có <em>phương trình tham số</em>:</p>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$\Delta: \begin{cases} x = x_0 + t u_1 \\ y = y_0 + t u_2 \end{cases} \quad (t \in \mathbb{R})$$</p>
+</div>
+<p>$t$ được gọi là <em>tham số</em>. Mỗi giá trị của $t$ cho ta một điểm $M(x; y)$ thuộc $\Delta$.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Viết phương trình tham số của đường thẳng $\Delta$ đi qua $M_0(1; -2)$ và có VTCP $\vec{u} = (3; 4)$.</p>
+<p class="mt-2"><strong>Lời giải:</strong> Áp dụng công thức với $x_0 = 1, y_0 = -2, u_1 = 3, u_2 = 4$:</p>
+<p class="mt-1">$$\Delta: \begin{cases} x = 1 + 3t \\ y = -2 + 4t \end{cases} \quad (t \in \mathbb{R})$$</p>
+<p>Cho $t = 1$ ta được điểm $M(4; 2) \in \Delta$; cho $t = -1$ ta được điểm $N(-2; -6) \in \Delta$.</p>
+</div>
+
+<!-- 3. PTTQ -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Phương trình tổng quát của đường thẳng</h2>
+
+<p>Đường thẳng $\Delta$ đi qua điểm $M_0(x_0; y_0)$ và có VTPT $\vec{n} = (a; b)$ có <em>phương trình tổng quát</em>:</p>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$a(x - x_0) + b(y - y_0) = 0 \quad \Leftrightarrow \quad ax + by + c = 0$$</p>
+<p class="text-sm text-slate-600 mt-1">với $c = -ax_0 - by_0$ và $a^2 + b^2 \ne 0$.</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Viết phương trình tổng quát của đường thẳng $d$ đi qua $A(2; 1)$ và có VTPT $\vec{n} = (3; -1)$.</p>
+<p class="mt-2"><strong>Lời giải:</strong> $3(x - 2) - 1(y - 1) = 0 \Leftrightarrow 3x - y - 5 = 0$.</p>
+<p>Vậy $d: 3x - y - 5 = 0$.</p>
+</div>
+
+<p><strong>Nhận xét — các trường hợp đặc biệt</strong> của $ax + by + c = 0$:</p>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Điều kiện</td><td class="border border-slate-300 px-4 py-1">Đường thẳng</td><td class="border border-slate-300 px-4 py-1">Ví dụ</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">$a = 0, b \ne 0$</td><td class="border border-slate-300 px-4 py-1">song song hoặc trùng $Ox$</td><td class="border border-slate-300 px-4 py-1">$y = 2$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">$b = 0, a \ne 0$</td><td class="border border-slate-300 px-4 py-1">song song hoặc trùng $Oy$</td><td class="border border-slate-300 px-4 py-1">$x = -1$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">$c = 0$</td><td class="border border-slate-300 px-4 py-1">đi qua gốc tọa độ $O$</td><td class="border border-slate-300 px-4 py-1">$2x + 3y = 0$</td></tr>
+</table></div>
+
+<!-- 4. PT doan chan -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Phương trình đoạn chắn</h2>
+
+<p>Đường thẳng $\Delta$ cắt $Ox$ tại $A(a; 0)$ và $Oy$ tại $B(0; b)$ với $a \ne 0, b \ne 0$ có <em>phương trình đoạn chắn</em>:</p>
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$\frac{x}{a} + \frac{y}{b} = 1$$</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Đường thẳng đi qua $A(3; 0)$ và $B(0; -2)$ có phương trình $\frac{x}{3} + \frac{y}{-2} = 1$, hay $2x - 3y - 6 = 0$.</p>
+</div>
+
+<!-- 5. Lien he -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">5. Liên hệ giữa phương trình tham số và phương trình tổng quát</h2>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Từ <strong>PTTS</strong> sang <strong>PTTQ</strong>: rút $t$ từ một phương trình rồi thế vào phương trình còn lại (khử tham số $t$).</li>
+<li>Từ <strong>PTTQ</strong> sang <strong>PTTS</strong>: tìm một điểm $M_0$ thuộc đường thẳng và một VTCP $\vec{u}$ (vuông góc với VTPT), rồi viết theo công thức mục 2.</li>
+</ul>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Chuyển $\Delta: \begin{cases} x = 2 + t \\ y = 1 - 3t \end{cases}$ về dạng tổng quát.</p>
+<p class="mt-2"><strong>Lời giải:</strong> Từ phương trình đầu, $t = x - 2$. Thế vào phương trình thứ hai: $y = 1 - 3(x - 2) = -3x + 7$.</p>
+<p>Vậy $\Delta: 3x + y - 7 = 0$ (VTPT $\vec{n} = (3; 1)$, VTCP $\vec{u} = (1; -3)$).</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Đường thẳng $d: ax + by + c = 0$ có VTPT $\vec{n} = (a; b)$ và VTCP $\vec{u} = (b; -a)$ (hoặc $(-b; a)$). Đừng nhầm thứ tự: <strong>VTCP lấy từ VTPT bằng cách "đổi chỗ, đổi dấu một thành phần"</strong>.</p>
+</div>
+
+<!-- Tom tat -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>VTCP</strong> $\vec{u}$: giá song song/trùng với $\Delta$; <strong>VTPT</strong> $\vec{n}$: giá vuông góc với $\Delta$; $\vec{u} \perp \vec{n}$.</li>
+<li><strong>PTTS</strong> qua $M_0(x_0; y_0)$, VTCP $(u_1; u_2)$: $\begin{cases} x = x_0 + tu_1 \\ y = y_0 + tu_2 \end{cases}$.</li>
+<li><strong>PTTQ</strong> qua $M_0(x_0; y_0)$, VTPT $(a; b)$: $a(x - x_0) + b(y - y_0) = 0$, dạng gọn $ax + by + c = 0$.</li>
+<li><strong>Đoạn chắn</strong> (cắt hai trục tại $(a; 0), (0; b)$): $\frac{x}{a} + \frac{y}{b} = 1$.</li>
+<li>Từ VTPT $(a; b)$ suy ra VTCP $(b; -a)$; từ VTCP $(u_1; u_2)$ suy ra VTPT $(u_2; -u_1)$.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+
+</div>
+
+        </div>
+    </div>
+</body>
+</html>
