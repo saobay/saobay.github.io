@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 12: Số gần đúng và sai số</title>
+    <meta name="lesson-title" content="Bài 12: Số gần đúng và sai số">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 12: Số gần đúng và sai số</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 5: Các số đặc trưng của mẫu số liệu không ghép nhóm • Bài 12: Số gần đúng và sai số</p>
+        </div>
+        <div class="content-body space-y-4">
+            <h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 12: Số gần đúng và sai số</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 5: Các số đặc trưng của mẫu số liệu không ghép nhóm</p>
+
+<!-- 1. Số gần đúng -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Số gần đúng</h2>
+
+<p>Trong nhiều trường hợp ta không thể biết chính xác giá trị đúng của một đại lượng mà chỉ biết được giá trị <strong>gần đúng</strong> của nó.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>Giá trị đúng của $\sqrt{2}$ là một số thập phân vô hạn không tuần hoàn; khi tính toán ta thường dùng số gần đúng $a = 1{,}41$.</li>
+<li>Dân số của một tỉnh tại một thời điểm là con số luôn biến động; số liệu công bố chỉ là số gần đúng.</li>
+<li>Kết quả đo chiều dài một vật bằng thước kẻ chỉ là số gần đúng của chiều dài thật.</li>
+</ul>
+</div>
+
+<p>Kí hiệu $\overline{a}$ là <strong>giá trị đúng</strong> của đại lượng, $a$ là <strong>số gần đúng</strong> của $\overline{a}$.</p>
+
+<!-- 2. Sai số tuyệt đối -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Sai số tuyệt đối</h2>
+
+<p><strong>Định nghĩa:</strong> <em>Sai số tuyệt đối</em> của số gần đúng $a$ là $\Delta_a = |\overline{a} - a|$.</p>
+
+<p>Trên thực tế ta thường không biết $\overline{a}$ nên cũng không biết $\Delta_a$. Tuy nhiên, ta có thể đánh giá được $\Delta_a$ không vượt quá một số dương $d$ nào đó:</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$\Delta_a = |\overline{a} - a| \le d$$</p>
+<p class="mt-2">Khi đó $a$ là số gần đúng của $\overline{a}$ với <strong>độ chính xác</strong> $d$, và ta quy ước viết:</p>
+<p class="mt-2 text-lg font-semibold">$$\overline{a} = a \pm d$$</p>
+</div>
+
+<p>Ý nghĩa: giá trị đúng $\overline{a}$ nằm trong đoạn $[a - d,\, a + d]$.</p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Minh hoa do chinh xac d">
+<rect x="2" y="2" width="436" height="146" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<line x1="30" y1="90" x2="410" y2="90" stroke="#334155" stroke-width="2"/>
+<polygon points="410,90 400,84 400,96" fill="#334155"/>
+<line x1="120" y1="78" x2="120" y2="102" stroke="#b91c1c" stroke-width="2.5"/>
+<line x1="320" y1="78" x2="320" y2="102" stroke="#b91c1c" stroke-width="2.5"/>
+<line x1="220" y1="70" x2="220" y2="110" stroke="#1d4ed8" stroke-width="3"/>
+<circle cx="220" cy="90" r="6" fill="#1d4ed8"/>
+<line x1="120" y1="60" x2="220" y2="60" stroke="#b91c1c" stroke-width="1.5"/>
+<line x1="220" y1="60" x2="320" y2="60" stroke="#b91c1c" stroke-width="1.5"/>
+<polygon points="120,60 130,55 130,65" fill="#b91c1c"/>
+<polygon points="320,60 310,55 310,65" fill="#b91c1c"/>
+<text x="220" y="45" font-family="sans-serif" font-size="13" fill="#b91c1c" text-anchor="middle" font-weight="bold">d</text>
+<text x="120" y="125" font-family="sans-serif" font-size="13" fill="#334155" text-anchor="middle">a − d</text>
+<text x="220" y="135" font-family="sans-serif" font-size="13" fill="#1d4ed8" text-anchor="middle" font-weight="bold">a</text>
+<text x="320" y="125" font-family="sans-serif" font-size="13" fill="#334155" text-anchor="middle">a + d</text>
+<text x="220" y="22" font-family="sans-serif" font-size="12" fill="#64748b" text-anchor="middle">Giá trị đúng ā nằm trong đoạn [a − d, a + d]</text>
+</svg></div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Một cái bàn có chiều dài đúng $\overline{a}$ chưa biết; đo được $a = 1{,}25\,\text{m}$ với độ chính xác $d = 0{,}01\,\text{m}$. Ta viết $\overline{a} = 1{,}25 \pm 0{,}01\,\text{m}$, nghĩa là $1{,}24 \le \overline{a} \le 1{,}26$ (mét).</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Độ chính xác $d$ càng <strong>nhỏ</strong> thì số gần đúng $a$ càng <strong>gần</strong> giá trị đúng $\overline{a}$. Viết $\overline{a} = a \pm d$ có nghĩa là $a - d \le \overline{a} \le a + d$.</p>
+</div>
+
+<!-- 3. Sai số tương đối -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Sai số tương đối</h2>
+
+<p><strong>Định nghĩa:</strong> Tỉ số giữa sai số tuyệt đối và $|\overline{a}|$ được gọi là <em>sai số tương đối</em> của số gần đúng $a$:</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$\delta_a = \frac{\Delta_a}{|\overline{a}|}$$</p>
+</div>
+
+<p>Vì không biết $\overline{a}$ nên trong thực hành ta thường đánh giá: $\delta_a \le \dfrac{d}{|a|}$. Sai số tương đối càng nhỏ thì chất lượng của phép đo hay tính toán càng cao.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Đo chiều dài một cây cầu được $a_1 = 100\,\text{m}$ với $d_1 = 0{,}1\,\text{m}$; đo chiều dày một tấm kính được $a_2 = 5\,\text{mm}$ với $d_2 = 0{,}1\,\text{mm}$.</p>
+<ul class="list-disc ml-6 space-y-1 mt-2">
+<li>$\delta_{a_1} \le \dfrac{0{,}1}{100} = 0{,}001 = 0{,}1\%$.</li>
+<li>$\delta_{a_2} \le \dfrac{0{,}1}{5} = 0{,}02 = 2\%$.</li>
+</ul>
+<p class="mt-2">Tuy sai số tuyệt đối bằng nhau ($0{,}1$) nhưng phép đo cây cầu <strong>chính xác hơn nhiều</strong> vì sai số tương đối nhỏ hơn. 👉 Muốn so sánh chất lượng hai phép đo, hãy so sánh <strong>sai số tương đối</strong>, không so sánh sai số tuyệt đối.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Sai số tương đối cho biết phép đo chính xác đến <strong>mức tương đối</strong> nào. Công thức đánh giá thường dùng: $\delta_a \le \dfrac{d}{|a|}$.</p>
+</div>
+
+<!-- 4. Quy tròn số -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Quy tròn số</h2>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">4.1. Quy tắc làm tròn số</h3>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Nếu chữ số ngay sau hàng quy tròn <strong>nhỏ hơn 5</strong> thì ta <strong>giữ nguyên</strong> chữ số ở hàng quy tròn và thay các chữ số bên phải bằng $0$ (đối với phần nguyên) hoặc bỏ đi (đối với phần thập phân).</li>
+<li>Nếu chữ số ngay sau hàng quy tròn <strong>lớn hơn hoặc bằng 5</strong> thì ta <strong>cộng thêm 1</strong> vào chữ số ở hàng quy tròn rồi xử lí các chữ số bên phải như trên.</li>
+</ul>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>Làm tròn $12\,456$ đến hàng trăm: chữ số sau hàng trăm là $5 \ge 5$ nên $12\,456 \approx 12\,500$.</li>
+<li>Làm tròn $3{,}14159$ đến hàng phần trăm: chữ số sau là $1$ nhỏ hơn $5$ nên $3{,}14159 \approx 3{,}14$.</li>
+</ul>
+</div>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">4.2. Số quy tròn của số gần đúng với độ chính xác cho trước</h3>
+
+<p>Cho số gần đúng $a$ với độ chính xác $d$. Để tìm <strong>số quy tròn</strong> của $a$ khi không nói rõ quy tròn đến hàng nào:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Bước 1:</strong> Xác định <strong>hàng quy tròn</strong>: là <strong>hàng thấp nhất mà $d$ nhỏ hơn một đơn vị của hàng đó</strong>. Mẹo nhớ nhanh: tìm hàng của $d$ rồi <strong>dịch sang trái một hàng</strong>.</li>
+<li><strong>Bước 2:</strong> Làm tròn $a$ đến hàng quy tròn theo quy tắc làm tròn ở mục 4.1.</li>
+</ul>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>$a = 12\,456$ với $d = 200$: vì $100 \lt 200 \lt 1\,000$ nên hàng quy tròn là <strong>hàng nghìn</strong>; số quy tròn là $12\,000$.</li>
+<li>$a = 3{,}14159$ với $d = 0{,}002$: vì $0{,}001 \lt 0{,}002 \lt 0{,}01$ nên hàng quy tròn là <strong>hàng phần trăm</strong>; số quy tròn là $3{,}14$.</li>
+<li>$a = 8\,245$ với $d = 30$: vì $10 \lt 30 \lt 100$ nên hàng quy tròn là <strong>hàng trăm</strong>; số quy tròn là $8\,200$ (chữ số sau hàng trăm là $4$ nhỏ hơn $5$).</li>
+<li>$a = 1\,235$ với $d = 5$: hàng quy tròn là <strong>hàng chục</strong>; số quy tròn là $1\,240$.</li>
+</ul>
+</div>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">4.3. Chữ số chắc (đọc thêm)</h3>
+
+<p>Một chữ số của số gần đúng $a$ được gọi là <strong>chữ số chắc</strong> (chữ số đáng tin) nếu sai số tuyệt đối $\Delta_a$ không vượt quá <strong>nửa đơn vị</strong> của hàng có chữ số đó.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Số gần đúng $a = 12{,}345$ với độ chính xác $d = 0{,}01$. Các chữ số ở hàng phần mười ($3$) có nửa đơn vị hàng là $0{,}05 \ge d$ nên là chữ số chắc; chữ số ở hàng phần trăm ($4$) có nửa đơn vị hàng là $0{,}005$ nhỏ hơn $d$ nên <strong>không</strong> chắc. Vậy $a$ có các chữ số chắc là $1, 2, 3$.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Khi viết số quy tròn: chữ số sau hàng quy tròn <strong>nhỏ hơn 5</strong> thì bỏ/giữ nguyên, <strong>từ 5 trở lên</strong> thì cộng thêm 1 vào hàng quy tròn. Hàng quy tròn được xác định từ <strong>độ chính xác $d$</strong>.</p>
+</div>
+
+<!-- Tổng kết -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Số gần đúng</strong> $a$ của giá trị đúng $\overline{a}$; <strong>sai số tuyệt đối</strong> $\Delta_a = |\overline{a} - a|$.</li>
+<li>Nếu $\Delta_a \le d$ thì viết $\overline{a} = a \pm d$ ($d$ là <strong>độ chính xác</strong>); $d$ càng nhỏ càng tốt.</li>
+<li><strong>Sai số tương đối</strong> $\delta_a = \dfrac{\Delta_a}{|\overline{a}|} \le \dfrac{d}{|a|}$ — dùng để <strong>so sánh chất lượng</strong> các phép đo.</li>
+<li><strong>Quy tròn số:</strong> chữ số sau hàng quy tròn nhỏ hơn $5$ thì giữ nguyên, từ $5$ trở lên thì cộng $1$; hàng quy tròn xác định từ độ chính xác $d$.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+</body>
+</html>
