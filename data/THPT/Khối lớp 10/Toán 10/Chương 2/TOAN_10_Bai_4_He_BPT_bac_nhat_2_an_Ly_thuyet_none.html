@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 4: Hệ bất phương trình bậc nhất hai ẩn</title>
+    <meta name="lesson-title" content="Bài 4: Hệ bất phương trình bậc nhất hai ẩn">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 4: Hệ bất phương trình bậc nhất hai ẩn</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 1: Mệnh đề và tập hợp • Bài 4: Hệ bất phương trình bậc nhất hai ẩn</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 4: Hệ bất phương trình bậc nhất hai ẩn</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 2: Bất phương trình và hệ bất phương trình bậc nhất hai ẩn — Toán 10 (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Định nghĩa -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Hệ bất phương trình bậc nhất hai ẩn</h2>
+
+<p><strong>Định nghĩa:</strong> <em>Hệ bất phương trình bậc nhất hai ẩn</em> là một hệ gồm hai hay nhiều bất phương trình bậc nhất hai ẩn $x, y$.</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$\begin{cases} a_1x + b_1y \le c_1 \\ a_2x + b_2y \le c_2 \\ \dots \\ a_mx + b_my \le c_m \end{cases}$$</p>
+<p class="mt-2 text-sm text-slate-600">(mỗi dòng có thể mang dấu $\le, \ge, \lt$ hoặc $\gt$)</p>
+</div>
+
+<p><strong>Nghiệm của hệ:</strong> mỗi cặp số $(x_0; y_0)$ <strong>đồng thời</strong> là nghiệm của <strong>tất cả</strong> các bất phương trình trong hệ được gọi là một <em>nghiệm</em> của hệ bất phương trình đó.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Xét hệ $\begin{cases} x + y \le 4 \\ x \ge 0 \\ y \ge 0 \end{cases}$</p>
+<ul class="list-disc ml-6 space-y-1 mt-2">
+<li>Cặp $(1; 2)$ là nghiệm của hệ vì $1 + 2 = 3 \le 4$, $1 \ge 0$ và $2 \ge 0$ đều đúng.</li>
+<li>Cặp $(3; 2)$ <strong>không</strong> là nghiệm của hệ vì $3 + 2 = 5 \le 4$ sai (dù hai bất phương trình còn lại đúng).</li>
+</ul>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Muốn là nghiệm của <strong>hệ</strong> thì phải thỏa mãn <strong>đồng thời tất cả</strong> các bất phương trình trong hệ. Chỉ cần <strong>một</strong> bất phương trình sai là cặp số đó không phải nghiệm của hệ.</p>
+</div>
+
+<!-- 2. Biểu diễn miền nghiệm -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Biểu diễn miền nghiệm của hệ trên mặt phẳng tọa độ</h2>
+
+<p>Trong mặt phẳng tọa độ, miền nghiệm của hệ là <strong>giao</strong> của các miền nghiệm của từng bất phương trình trong hệ.</p>
+
+<p><strong>Các bước biểu diễn miền nghiệm của hệ:</strong></p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Bước 1.</strong> Trên cùng một mặt phẳng tọa độ, xác định miền nghiệm của <strong>mỗi</strong> bất phương trình trong hệ và <strong>gạch bỏ</strong> miền không thuộc miền nghiệm của nó.</li>
+<li><strong>Bước 2.</strong> Miền còn lại <strong>không bị gạch</strong> chính là miền nghiệm của hệ đã cho.</li>
+</ul>
+
+<div class="svg-fig"><svg viewBox="0 0 440 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mien nghiem cua he bat phuong trinh">
+<rect x="2" y="2" width="436" height="326" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<polygon points="70,295 70,135 230,295" fill="#bfdbfe" opacity="0.6"/>
+<line x1="30" y1="295" x2="410" y2="295" stroke="#334155" stroke-width="2"/>
+<polygon points="410,295 398,289 398,301" fill="#334155"/>
+<text x="416" y="299" font-family="sans-serif" font-size="14" font-style="italic" fill="#334155">x</text>
+<line x1="70" y1="315" x2="70" y2="20" stroke="#334155" stroke-width="2"/>
+<polygon points="70,20 64,32 76,32" fill="#334155"/>
+<text x="76" y="30" font-family="sans-serif" font-size="14" font-style="italic" fill="#334155">y</text>
+<text x="56" y="312" font-family="sans-serif" font-size="13" font-style="italic" fill="#334155">O</text>
+<line x1="70" y1="135" x2="230" y2="295" stroke="#1d4ed8" stroke-width="2.5"/>
+<text x="240" y="225" font-family="sans-serif" font-size="13" fill="#1d4ed8" font-style="italic">x + y = 4</text>
+<circle cx="70" cy="295" r="4" fill="#1d4ed8"/><text x="48" y="288" font-family="sans-serif" font-size="12" fill="#1d4ed8">O</text>
+<circle cx="230" cy="295" r="4" fill="#1d4ed8"/><text x="226" y="312" font-family="sans-serif" font-size="12" fill="#1d4ed8">A(4; 0)</text>
+<circle cx="70" cy="135" r="4" fill="#1d4ed8"/><text x="78" y="140" font-family="sans-serif" font-size="12" fill="#1d4ed8">B(0; 4)</text>
+<text x="105" y="250" font-family="sans-serif" font-size="13" fill="#1e40af" font-weight="bold">Miền nghiệm</text>
+<text x="105" y="268" font-family="sans-serif" font-size="12" fill="#1e40af">của hệ</text>
+<text x="250" y="300" font-family="sans-serif" font-size="12" fill="#64748b">miền bị gạch bỏ</text>
+<line x1="245" y1="292" x2="330" y2="292" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4,3"/>
+</svg></div>
+<p class="text-center text-sm text-slate-500 italic">Miền nghiệm của hệ $\begin{cases} x + y \le 4 \\ x \ge 0 \\ y \ge 0 \end{cases}$ là miền tam giác $OAB$ (kể cả ba cạnh).</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ: Biểu diễn miền nghiệm của hệ $\begin{cases} x \ge 0 \\ y \gt 0 \\ x + y \le 150 \end{cases}$</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>Miền nghiệm của $x \ge 0$ là nửa mặt phẳng bên phải trục $Oy$ (kể cả trục $Oy$).</li>
+<li>Miền nghiệm của $y \gt 0$ là nửa mặt phẳng phía trên trục $Ox$ (<strong>không kể</strong> trục $Ox$, vẽ nét đứt).</li>
+<li>Miền nghiệm của $x + y \le 150$ là nửa mặt phẳng bờ $x + y = 150$ chứa $O$ (kể cả bờ).</li>
+<li>Giao của ba miền trên là miền tam giác $OAB$ với $A(150; 0)$, $B(0; 150)$, <strong>không kể</strong> cạnh $OA$ (nằm trên trục $Ox$).</li>
+</ul>
+</div>
+
+<!-- 3. Bài toán tối ưu -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Tìm giá trị lớn nhất, nhỏ nhất của biểu thức bậc nhất trên miền đa giác</h2>
+
+<p>Trong thực tế, ta thường cần tìm giá trị lớn nhất (hoặc nhỏ nhất) của một biểu thức bậc nhất $F(x; y) = ax + by$ khi $(x; y)$ là nghiệm của một hệ bất phương trình, tức $(x; y)$ thuộc một <strong>miền đa giác</strong> (tam giác, tứ giác, ...).</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-bold text-emerald-800">Định lí</p>
+<p class="mt-1">Giá trị lớn nhất (hoặc nhỏ nhất) của biểu thức $F(x; y) = ax + by$ trên miền đa giác $A_1A_2 \dots A_n$ đạt được tại <strong>một trong các đỉnh</strong> của đa giác đó.</p>
+</div>
+
+<p><strong>Cách làm:</strong> liệt kê tọa độ các đỉnh của miền đa giác → tính giá trị $F$ tại từng đỉnh → so sánh để tìm giá trị lớn nhất / nhỏ nhất.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Tìm giá trị lớn nhất của $F(x; y) = 3x + 4y$ trên miền nghiệm của hệ $\begin{cases} x + y \le 4 \\ x \ge 0 \\ y \ge 0 \end{cases}$</p>
+<p class="mt-2"><strong>Lời giải.</strong> Miền nghiệm là tam giác $OAB$ với $O(0; 0)$, $A(4; 0)$, $B(0; 4)$.</p>
+<ul class="list-disc ml-6 space-y-1 mt-2">
+<li>$F(0; 0) = 0$; $F(4; 0) = 12$; $F(0; 4) = 16$.</li>
+<li>Vậy giá trị lớn nhất của $F$ là $16$, đạt tại $(0; 4)$.</li>
+</ul>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><strong>"Cực trị tại đỉnh"</strong> — muốn tìm GTLN/GTNN của $F(x; y) = ax + by$ trên miền đa giác, chỉ cần tính $F$ tại các <strong>đỉnh</strong> rồi so sánh, không cần xét điểm trong.</p>
+</div>
+
+<!-- Tổng kết -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Hệ BPT bậc nhất hai ẩn:</strong> gồm hai hay nhiều BPT bậc nhất hai ẩn; nghiệm phải thỏa mãn <strong>đồng thời tất cả</strong> các BPT.</li>
+<li><strong>Miền nghiệm của hệ</strong> = giao các miền nghiệm thành phần; vẽ trên cùng một hình, gạch bỏ phần không thỏa mãn.</li>
+<li><strong>Bài toán tối ưu:</strong> GTLN/GTNN của $F(x; y) = ax + by$ trên miền đa giác đạt tại <strong>một đỉnh</strong> của đa giác.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+</body>
+</html>
