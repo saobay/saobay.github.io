@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ôn tập chương 6</title>
+    <meta name="lesson-title" content="Ôn tập chương 6">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Ôn tập chương 6</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 6: Hàm số, đồ thị và ứng dụng • Ôn tập chương 6</p>
+        </div>
+        <div class="content-body space-y-4">
+            <h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Ôn tập chương 6: Hàm số, đồ thị và ứng dụng</h1>
+<p class="text-center text-slate-500 italic mb-8">Tổng hợp kiến thức các bài 15, 16, 17, 18</p>
+
+<!-- I. Hàm số -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">I. Hàm số (Bài 15)</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Khái niệm:</strong> Nếu với mỗi $x \in D$ có duy nhất một giá trị $y$ tương ứng thì ta có một <em>hàm số</em>, kí hiệu $y = f(x)$.</li>
+<li><strong>Tập xác định</strong> $D$: tập các giá trị $x$ để $f(x)$ có nghĩa (mẫu khác $0$, biểu thức dưới căn không âm...).</li>
+<li><strong>Đồ thị</strong> của hàm số là tập hợp các điểm $(x;\, f(x))$ với $x \in D$.</li>
+<li><strong>Đồng biến / nghịch biến:</strong> $f$ đồng biến trên $K$ nếu $x_1 \lt x_2 \Rightarrow f(x_1) \lt f(x_2)$; nghịch biến nếu $x_1 \lt x_2 \Rightarrow f(x_1) \gt f(x_2)$.</li>
+</ul>
+</div>
+
+<!-- II. Hàm số bậc hai -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">II. Hàm số bậc hai (Bài 16)</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Dạng:</strong> $y = ax^2 + bx + c$ ($a \ne 0$); đồ thị là <em>parabol</em>.</li>
+<li><strong>Đỉnh:</strong> $I\left(-\dfrac{b}{2a};\, -\dfrac{\Delta}{4a}\right)$; <strong>trục đối xứng:</strong> $x = -\dfrac{b}{2a}$.</li>
+<li>$a \gt 0$: parabol quay bề lõm lên trên, có <strong>giá trị nhỏ nhất</strong> tại đỉnh; $a \lt 0$: quay bề lõm xuống dưới, có <strong>giá trị lớn nhất</strong> tại đỉnh.</li>
+<li><strong>Bảng biến thiên:</strong> hàm số nghịch biến trên $\left(-\infty;\, -\dfrac{b}{2a}\right)$ và đồng biến trên $\left(-\dfrac{b}{2a};\, +\infty\right)$ khi $a \gt 0$ (ngược lại khi $a \lt 0$).</li>
+</ul>
+</div>
+
+<div class="svg-fig mx-auto my-4" style="max-width:320px"><svg viewBox="0 0 300 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Parabol y bang x binh tru 2x">
+<rect x="2" y="2" width="296" height="246" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<line x1="10" y1="180" x2="290" y2="180" stroke="#334155" stroke-width="1.5"/>
+<line x1="150" y1="245" x2="150" y2="8" stroke="#334155" stroke-width="1.5"/>
+<path d="M120.0,117.6 L122.7,124.3 L125.3,130.8 L128.0,137.1 L130.7,143.1 L133.3,148.9 L136.0,154.5 L138.7,159.8 L141.3,164.9 L144.0,169.8 L146.7,174.5 L149.3,178.9 L152.0,183.1 L154.7,187.1 L157.3,190.9 L160.0,194.4 L162.7,197.7 L165.3,200.8 L168.0,203.6 L170.7,206.2 L173.3,208.6 L176.0,210.8 L178.7,212.7 L181.3,214.4 L184.0,215.9 L186.7,217.2 L189.3,218.2 L192.0,219.0 L194.7,219.5 L197.3,219.9 L200.0,220.0 L202.7,219.9 L205.3,219.5 L208.0,219.0 L210.7,218.2 L213.3,217.2 L216.0,215.9 L218.7,214.4 L221.3,212.7 L224.0,210.8 L226.7,208.6 L229.3,206.2 L232.0,203.6 L234.7,200.8 L237.3,197.7 L240.0,194.4 L242.7,190.9 L245.3,187.1 L248.0,183.1 L250.7,178.9 L253.3,174.5 L256.0,169.8 L258.7,164.9 L261.3,159.8 L264.0,154.5 L266.7,148.9 L269.3,143.1 L272.0,137.1 L274.7,130.8 L277.3,124.3 L280.0,117.6" fill="none" stroke="#1d4ed8" stroke-width="2.5"/>
+<circle cx="200" cy="220" r="5" fill="#b91c1c" stroke="#fff" stroke-width="2"/>
+<circle cx="150" cy="180" r="4" fill="#059669"/><circle cx="250" cy="180" r="4" fill="#059669"/>
+<text x="200" y="240" font-family="sans-serif" font-size="12" fill="#b91c1c" text-anchor="middle">I(1; −1)</text>
+<text x="150" y="14" font-family="sans-serif" font-size="12" fill="#334155">y</text>
+<text x="284" y="174" font-family="sans-serif" font-size="12" fill="#334155">x</text>
+<text x="150" y="40" font-family="sans-serif" font-size="13" fill="#1d4ed8" text-anchor="middle">y = x² − 2x</text>
+</svg>
+<p class="text-center text-sm text-slate-500 mt-1">Parabol $y = x^2 - 2x$: đỉnh $I(1;\, -1)$, cắt $Ox$ tại $0$ và $2$.</p>
+</div>
+
+<!-- III. Dấu tam thức -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">III. Dấu của tam thức bậc hai (Bài 17)</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Tam thức bậc hai:</strong> $f(x) = ax^2 + bx + c$ ($a \ne 0$), $\Delta = b^2 - 4ac$.</li>
+<li><strong>Định lí về dấu:</strong>
+<ul class="list-disc ml-6 mt-1">
+<li>$\Delta \lt 0$: $f(x)$ cùng dấu với $a$ với mọi $x$;</li>
+<li>$\Delta = 0$: $f(x)$ cùng dấu với $a$ với mọi $x \ne -\dfrac{b}{2a}$;</li>
+<li>$\Delta \gt 0$: "trong trái, ngoài cùng" (dấu của $a$).</li>
+</ul></li>
+<li><strong>Giải bất phương trình bậc hai:</strong> xét dấu tam thức (tìm nghiệm, lập bảng) rồi kết luận tập nghiệm theo chiều của bất phương trình.</li>
+</ul>
+</div>
+
+<!-- IV. PT quy về bậc hai -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">IV. Phương trình quy về phương trình bậc hai (Bài 18)</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>$\sqrt{f(x)} = g(x)$:</strong> giải hệ $\begin{cases} g(x) \ge 0 \\ f(x) = [g(x)]^2 \end{cases}$.</li>
+<li><strong>$\sqrt{f(x)} = \sqrt{g(x)}$:</strong> giải hệ $\begin{cases} f(x) \ge 0 \\ f(x) = g(x) \end{cases}$ (hoặc thay bằng $g(x) \ge 0$).</li>
+<li>Bình phương hai vế có thể sinh <strong>nghiệm ngoại lai</strong> → luôn <strong>thử lại</strong> nghiệm vào phương trình gốc.</li>
+</ul>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Mẹo làm bài tổng hợp</p>
+<ul class="list-disc ml-6 mt-1 space-y-1">
+<li>Đọc kĩ đề để nhận dạng <strong>dạng bài</strong> (hàm số / parabol / dấu tam thức / phương trình căn).</li>
+<li>Với parabol: xác định ngay <strong>đỉnh</strong> và <strong>trục đối xứng</strong> trước khi làm tiếp.</li>
+<li>Với bất phương trình bậc hai: <strong>tìm nghiệm → xét dấu → kết luận</strong>.</li>
+<li>Với phương trình căn: <strong>điều kiện → bình phương → thử lại</strong>.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề tổng hợp để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+</body>
+</html>
