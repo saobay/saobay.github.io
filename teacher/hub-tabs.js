@@ -39,7 +39,7 @@
             if (upT) upT.textContent = isExercise ? 'Đưa nội dung bài tập lên web' : 'Đưa nội dung bài học lên web';
 
             // Ma trận đề: chỉ hiện ở bank (2026-10-10: gộp nút ma trận vào nút bank trên cùng)
-            setVis('exam-matrix-panel', isBank);
+            setVis('exam-matrix-panel', isExam);
 
             // Panel builder ngân hàng: mở ở bank
             let bp = document.getElementById('exam-builder-panel');
@@ -49,13 +49,8 @@
             let dp = document.getElementById('direct-panel');
             if (dp){ dp.classList.toggle('open', isDirect); dp.style.display = isDirect ? '' : 'none'; }
 
-            // Lịch kiểm tra + toggle con: chỉ ở chế độ đề thi
+            // Lịch kiểm tra chống lộ đề (checkbox "Đây là ĐỀ KIỂM TRA"): cả 2 chế độ đề thi
             setVis('exam-schedule-box', isExam);
-            let subToggle = document.getElementById('exam-submode-toggle');
-            if (subToggle){ subToggle.classList.toggle('hidden', !isExam); subToggle.style.display = isExam ? '' : 'none'; }
-            if (isExam && typeof switchExamSubMode === 'function'){
-                try { switchExamSubMode('create'); } catch(e){}
-            }
 
             // Panel legacy
             let panelT = document.getElementById('prompt-panel-theory');
@@ -73,7 +68,7 @@
             if (typeof updateScorePreview === 'function') updateScorePreview();
 
             // Load danh sách bài cho ma trận khi vào bank
-            if (isBank && typeof loadLessonDropdowns === 'function'){
+            if (isExam && typeof loadLessonDropdowns === 'function'){
                 try { loadLessonDropdowns(); } catch(e){}
             }
         }
@@ -82,46 +77,13 @@
         // ========================================================
         let currentExamSubMode = 'create'; // 'create' | 'edit'
 
-        function switchExamSubMode(mode) {
-            currentExamSubMode = mode;
-            let isCreate = (mode === 'create');
-            let base = 'flex-1 px-3 py-2 rounded-lg text-xs font-bold transition flex items-center justify-center ';
-            let onC = 'bg-violet-700 text-white shadow';
-            let onE = 'bg-indigo-700 text-white shadow';
-            let off = 'bg-slate-100 text-slate-600 hover:bg-slate-200';
-            let bC = document.getElementById('exam-submode-create');
-            let bE = document.getElementById('exam-submode-edit');
-            if (bC) bC.className = base + (isCreate ? onC : off);
-            if (bE) bE.className = base + (isCreate ? off : onE);
-
-            // Create mode: hiện khung tạo prompt (ma trận), ẩn form soạn
-            // Edit mode: ẩn khung tạo prompt, hiện form soạn/đẩy
-            let boxC = document.getElementById('bo-tao-prompt-box');
-            let boxE = document.getElementById('exam-form-box');
-            if (boxC) boxC.classList.toggle('hidden', !isCreate);
-            if (boxE) boxE.classList.toggle('hidden', isCreate);
-            // Panel builder (bank) và direct panel chỉ hiện ở chế độ edit
-            let bp = document.getElementById('exam-builder-panel');
-            let dp = document.getElementById('direct-panel');
-            if (bp) bp.style.display = isCreate ? 'none' : '';
-            if (dp) dp.style.display = isCreate ? 'none' : '';
-        }
+        // Chế độ con cũ (2026-10-09) đã bỏ 2026-10-10 — giữ stub rỗng để tương thích
+        function switchExamSubMode(mode){}
 
         // Alias cu (tuong thich)
         function switchPushTab(mode){ switchPushMode(mode === 'exam' ? 'direct' : 'theory'); }
         function toggleDirectPanel(){ switchPushMode('direct'); }
 
-        // 2 dạng nhập trong panel trực tiếp: dán AI / file Word
-        function switchDirectInput(mode){
-            let isWord = (mode === 'word');
-            let box = document.getElementById('direct-word-box');
-            let hint = document.getElementById('direct-ai-hint');
-            if (box) box.classList.toggle('hidden', !isWord);
-            if (hint) hint.classList.toggle('hidden', isWord);
-            let tA = document.getElementById('direct-tab-ai'), tW = document.getElementById('direct-tab-word');
-            if (tA) tA.className = 'flex-1 px-3 py-2 rounded-lg text-xs font-bold ' + (isWord ? 'bg-white text-indigo-800 border border-indigo-200' : 'bg-indigo-700 text-white shadow');
-            if (tW) tW.className = 'flex-1 px-3 py-2 rounded-lg text-xs font-bold ' + (isWord ? 'bg-indigo-700 text-white shadow' : 'bg-white text-indigo-800 border border-indigo-200');
-        }
 
 
         function refreshPushSubmitBtn() {
