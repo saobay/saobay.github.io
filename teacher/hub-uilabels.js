@@ -88,6 +88,9 @@
     box.innerHTML = h;
   };
 
+  // Hook đồng bộ cache cho chế độ sửa inline (hub-inline-edit.js)
+  window.uiLabelsUpdateCache = function(k, v){ if(cache) cache[k] = v; };
+
   window.uiLabelsAddNew = function(){
     var kEl = document.getElementById('uilabel-new-key');
     var vEl = document.getElementById('uilabel-new-val');
