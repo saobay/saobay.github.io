@@ -3,9 +3,18 @@
         // ========================================================
         function generateAndCopyPrompt(type) {
             let mxS = document.getElementById('mx-subject'), mxG = document.getElementById('mx-grade'), mxT = document.getElementById('mx-topic');
-            let subject = (mxS && mxS.value.trim()) || "Toán";
-            let grade = (mxG && mxG.value) || "12";
+            // 2026-10-10: chế độ bài tập đọc từ form item-* (Môn/Khối/Chương/Bài + Tiêu đề), fallback về mx-*
+            let itS = document.getElementById('item-subject'), itG = document.getElementById('item-grade'),
+                itT = document.getElementById('item-title');
+            let subject = (mxS && mxS.value.trim()) || (itS && itS.value.trim()) || "Toán";
+            let grade = (mxG && mxG.value) || (itG && itG.value) || "12";
             let lesson = (mxT && mxT.value.trim()) || "Nội dung học";
+            // Nếu đang ở chế độ bài tập/lý thuyết và có tiêu đề riêng thì ưu tiên tiêu đề
+            if ((type === 'EXERCISE' || type === 'KNOWLEDGE') && itT && itT.value.trim()) {
+                // Giữ nguyên subject/grade từ form, lesson lấy từ tiêu đề (bỏ prefix [Môn Lớp] nếu có)
+                let t = itT.value.trim().replace(/^\[.*?\\]\s*/, '');
+                if (t) lesson = t;
+            }
 
             let promptText = "";
 
@@ -15,6 +24,15 @@ YÊU CẦU:
 1. Bọc trong <div class="bai-giang-container space-y-4 font-sans text-slate-800">. Thiết kế Tailwind CSS đẹp mắt, các mục I, II, III đóng khung card trắng (bg-white p-4 rounded-xl border border-slate-200 shadow-sm mb-3).
 2. Công thức Toán: Mọi ký hiệu toán bắt buộc kẹp trong $...$ hoặc $$...$$. Tuyệt đối không đổi sang Equation Word/Unicode.
 3. Chỉ xuất thuần mã HTML nguyên bản, không văn bản thừa.`;
+            } else if (type === 'EXERCISE') {
+                // 2026-10-10: Prompt riêng cho chế độ Đẩy Bài Tập — chứa tên bài, GV copy cho AI, AI trả code HTML dán vào form
+                promptText = `Xuất DUY NHẤT mã HTML (raw code) BÀI TẬP Môn: ${subject} - Lớp: ${grade}. Bài: "${lesson}".
+YÊU CẦU:
+1. Soạn 10-15 câu bài tập bám sát nội dung bài "${lesson}", phân bố đều các mức độ Nhận biết / Thông hiểu / Vận dụng.
+2. Đa dạng 7 dạng bài: Trắc nghiệm 4 lựa chọn (mcq_4: <input type="radio">, data-answer="A|B|C|D"), Đúng/Sai 4 ý (true_false: data-answer="a:T|b:F|c:T|d:F"), Trả lời ngắn (short_answer), Điền khuyết (fill_blank), Nối cột (matching), Sắp xếp (ordering), Tự luận (essay kèm barem).
+3. Mỗi câu là 1 block: <div class="question-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm mb-5" data-question-id="q1" data-type="..." data-level="NB|TH|VD|VDC" data-answer="...">. Có huy hiệu mức độ [NB]/[TH]/[VD]/[VDC], nút check đáp án và lời giải chi tiết.
+4. Công thức Toán: Giữ nguyên 100% cú pháp TeX trong $...$ hoặc $$...$$.
+5. Chỉ xuất thuần mã HTML nguyên bản, không văn bản thừa.`;
             } else {
                 promptText = `Xuất DUY NHẤT mã HTML (raw code) Đề thi chuẩn đánh giá năng lực Môn: ${subject} - Lớp: ${grade}. Bài: "${lesson}".
 YÊU CẦU:
