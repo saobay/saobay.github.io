@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 2: Công thức và hàm trong bảng tính</title>
+    <meta name="lesson-title" content="Bài 2: Công thức và hàm trong bảng tính">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; }
+        .content-body { max-width: 800px; margin: 0 auto; }
+        h2 { color: #0369a1; margin-top: 24px; }
+        .highlight { background: #e0f2fe; padding: 12px; border-radius: 8px; border-left: 4px solid #0284c7; margin: 12px 0; }
+        table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+        th, td { border: 1px solid #cbd5e1; padding: 8px; text-align: left; }
+        th { background: #f1f5f9; }
+    </style>
+</head>
+<body class="bg-slate-50">
+<div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+<div class="border-b pb-4 mb-6">
+<span class="text-xs font-bold text-blue-600 uppercase">Lý thuyết</span>
+<h1 class="text-2xl font-black mt-1">Bài 2: Công thức và hàm trong bảng tính</h1>
+<p class="text-xs text-slate-500 mt-1">Chủ đề 2: Công thức và hàm trong bảng tính</p>
+</div>
+<div class="content-body">
+
+<h2>1. Công thức trong bảng tính</h2>
+<p><strong>Công thức</strong> là dãy các ký hiệu dùng để thực hiện phép tính trong bảng tính. Mọi công thức đều <strong>bắt đầu bằng dấu bằng (=)</strong>, tiếp theo là các số, địa chỉ ô và phép toán.</p>
+<p>Ví dụ: tại ô C1 gõ <strong>=A1+B1</strong> thì ô C1 sẽ hiển thị kết quả là tổng giá trị của hai ô A1 và B1.</p>
+<div class="highlight">
+<strong>Ghi nhớ:</strong> Nếu gõ A1+B1 mà thiếu dấu = ở đầu, Excel sẽ hiểu đó là dữ liệu chữ, không phải công thức.
+</div>
+
+<h2>2. Các phép toán trong công thức</h2>
+<table>
+<tr><th>Phép toán</th><th>Ký hiệu trong Excel</th><th>Ví dụ</th></tr>
+<tr><td>Cộng</td><td>+</td><td>=A1+A2</td></tr>
+<tr><td>Trừ</td><td>-</td><td>=B1-B2</td></tr>
+<tr><td>Nhân</td><td>*</td><td>=A1*2</td></tr>
+<tr><td>Chia</td><td>/</td><td>=A1/4</td></tr>
+<tr><td>Phần trăm</td><td>%</td><td>=A1*10%</td></tr>
+<tr><td>Lũy thừa</td><td>^</td><td>=2^3 (bằng 8)</td></tr>
+</table>
+<p>Thứ tự thực hiện phép tính giống như trong Toán học: trong ngoặc trước, rồi đến lũy thừa, nhân chia, cuối cùng là cộng trừ. Ví dụ: <strong>=(A1+B1)*2</strong> nghĩa là cộng A1 với B1 trước, rồi mới nhân kết quả với 2.</p>
+
+<h2>3. Địa chỉ ô trong công thức</h2>
+<p>Thay vì gõ trực tiếp con số, công thức thường dùng <strong>địa chỉ ô</strong>. Ưu điểm: khi số liệu trong ô thay đổi, kết quả công thức <strong>tự động cập nhật</strong> theo.</p>
+<p>Ví dụ: ô A1 chứa 10, ô B1 chứa 20. Công thức <strong>=A1+B1</strong> cho kết quả 30. Nếu sửa A1 thành 15, kết quả tự động thành 35 mà không cần gõ lại công thức.</p>
+
+<h2>4. Sao chép công thức</h2>
+<p>Khi sao chép công thức sang ô khác (bằng Copy rồi Paste, hoặc kéo núm điều khiển ở góc dưới bên phải ô), các <strong>địa chỉ ô trong công thức sẽ tự động điều chỉnh tương đối</strong> theo vị trí mới.</p>
+<p>Ví dụ: ô C1 có công thức =A1+B1. Sao chép C1 xuống C2 thì công thức ở C2 tự thành <strong>=A2+B2</strong>; sao chép sang D1 thì thành <strong>=B1+C1</strong>.</p>
+<div class="highlight">
+<strong>Mẹo:</strong> Kéo núm vuông nhỏ ở góc dưới bên phải ô chứa công thức để sao chép nhanh xuống nhiều ô liên tiếp.
+</div>
+
+<h2>5. Hàm trong bảng tính</h2>
+<p><strong>Hàm</strong> là công thức được xây dựng sẵn, giúp tính toán nhanh với nhiều số liệu. Cú pháp chung:</p>
+<p style="text-align:center"><strong>=TÊN_HÀM(danh sách các đối số)</strong></p>
+<p>Ví dụ: <strong>=SUM(A1:A10)</strong> tính tổng các số từ ô A1 đến ô A10. Ký hiệu A1:A10 gọi là một <strong>vùng</strong> (khối) ô.</p>
+<table>
+<tr><th>Hàm</th><th>Chức năng</th><th>Ví dụ</th></tr>
+<tr><td>SUM</td><td>Tính tổng</td><td>=SUM(A1:A10)</td></tr>
+<tr><td>AVERAGE</td><td>Tính trung bình cộng</td><td>=AVERAGE(B1:B5)</td></tr>
+<tr><td>MIN</td><td>Tìm giá trị nhỏ nhất</td><td>=MIN(C1:C20)</td></tr>
+<tr><td>MAX</td><td>Tìm giá trị lớn nhất</td><td>=MAX(D1:D20)</td></tr>
+<tr><td>COUNT</td><td>Đếm số ô chứa dữ liệu số</td><td>=COUNT(A1:A10)</td></tr>
+</table>
+<div class="highlight">
+<strong>Lưu ý:</strong> Tên hàm không phân biệt chữ hoa, chữ thường. Gõ =sum(a1:a10) hay =SUM(A1:A10) đều được.
+</div>
+
+</div>
+</div>
+</body>
+</html>
