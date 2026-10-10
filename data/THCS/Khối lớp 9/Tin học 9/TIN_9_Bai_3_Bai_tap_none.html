@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 3: Khai thác thông tin trên Internet - Bài tập</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: system-ui, sans-serif; padding: 16px; line-height: 1.6; }
+        .question { background: white; padding: 16px; margin: 12px 0; border-radius: 8px; border: 1px solid #e2e8f0; }
+        .options label { display: block; padding: 8px; margin: 4px 0; background: #f8fafc; border-radius: 4px; cursor: pointer; }
+        .options label:hover { background: #e0f2fe; }
+    </style>
+</head>
+<body class="bg-slate-50">
+<div class="max-w-3xl mx-auto">
+<h1 class="text-2xl font-bold mb-4">Bài 3: Khai thác thông tin trên Internet - Bài tập</h1>
+
+<div class="question">
+<p class="font-semibold mb-2">Câu 1: Đặt từ khoá trong dấu ngoặc kép khi tìm kiếm có tác dụng gì?</p>
+<div class="options">
+<label><input type="radio" name="q1" value="A"> A. Tìm cụm từ chính xác theo đúng thứ tự đã gõ</label>
+<label><input type="radio" name="q1" value="B"> B. Tìm kiếm nhanh hơn bình thường</label>
+<label><input type="radio" name="q1" value="C"> C. Chỉ tìm kiếm trong email cá nhân</label>
+<label><input type="radio" name="q1" value="D"> D. Xoá lịch sử tìm kiếm trước đó</label>
+</div>
+<button onclick="checkAnswer('q1', 'A')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q1" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 2: Muốn chỉ tìm các tệp PDF về đề thi tin học 9, em dùng cú pháp nào?</p>
+<div class="options">
+<label><input type="radio" name="q2" value="A"> A. site:pdf đề thi tin học 9</label>
+<label><input type="radio" name="q2" value="B"> B. filetype:pdf đề thi tin học 9</label>
+<label><input type="radio" name="q2" value="C"> C. "pdf" + đề thi tin học 9</label>
+<label><input type="radio" name="q2" value="D"> D. pdf -đề thi tin học 9</label>
+</div>
+<button onclick="checkAnswer('q2', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q2" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 3: Toán tử site: trong tìm kiếm dùng để làm gì?</p>
+<div class="options">
+<label><input type="radio" name="q3" value="A"> A. Tìm kiếm trên toàn bộ Internet</label>
+<label><input type="radio" name="q3" value="B"> B. Chỉ tìm kết quả trong một trang web nhất định</label>
+<label><input type="radio" name="q3" value="C"> C. Tìm kiếm theo kích thước tệp tin</label>
+<label><input type="radio" name="q3" value="D"> D. Sắp xếp kết quả theo thời gian</label>
+</div>
+<button onclick="checkAnswer('q3', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q3" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 4: Tiêu chí nào sau đây KHÔNG giúp đánh giá độ tin cậy của thông tin trên mạng?</p>
+<div class="options">
+<label><input type="radio" name="q4" value="A"> A. Nguồn đăng và tác giả của bài viết</label>
+<label><input type="radio" name="q4" value="B"> B. Số lượng biểu tượng cảm xúc trong bài viết</label>
+<label><input type="radio" name="q4" value="C"> C. Thời gian đăng tải thông tin</label>
+<label><input type="radio" name="q4" value="D"> D. Đối chiếu với nhiều nguồn độc lập khác</label>
+</div>
+<button onclick="checkAnswer('q4', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q4" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 5: Khi gặp một tin tức gây sốc chỉ xuất hiện trên một trang cá nhân không rõ danh tính, em nên làm gì?</p>
+<div class="options">
+<label><input type="radio" name="q5" value="A"> A. Chia sẻ ngay cho bạn bè để cảnh báo</label>
+<label><input type="radio" name="q5" value="B"> B. Tin ngay vì tin càng sốc càng đúng</label>
+<label><input type="radio" name="q5" value="C"> C. Kiểm chứng với các nguồn uy tín trước khi tin và chia sẻ</label>
+<label><input type="radio" name="q5" value="D"> D. Bình luận chê bai tác giả bài viết</label>
+</div>
+<button onclick="checkAnswer('q5', 'C')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q5" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 6: Địa chỉ email nào sau đây viết đúng quy cách?</p>
+<div class="options">
+<label><input type="radio" name="q6" value="A"> A. nguyen.van.a#gmail.com</label>
+<label><input type="radio" name="q6" value="B"> B. nguyen.van.a@gmail.com</label>
+<label><input type="radio" name="q6" value="C"> C. nguyen van a@gmail.com</label>
+<label><input type="radio" name="q6" value="D"> D. nguyen.van.a.gmail.com</label>
+</div>
+<button onclick="checkAnswer('q6', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q6" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 7: Trường Bcc khi gửi email có điểm gì khác so với trường Cc?</p>
+<div class="options">
+<label><input type="radio" name="q7" value="A"> A. Bcc gửi nhanh hơn Cc</label>
+<label><input type="radio" name="q7" value="B"> B. Bcc giấu danh sách người nhận với nhau, còn Cc thì không</label>
+<label><input type="radio" name="q7" value="C"> C. Cc không gửi được tệp đính kèm</label>
+<label><input type="radio" name="q7" value="D"> D. Bcc chỉ dùng để gửi thư cho một người</label>
+</div>
+<button onclick="checkAnswer('q7', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q7" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 8: Em nhận được email từ địa chỉ lạ, yêu cầu cung cấp mật khẩu tài khoản ngân hàng để "xác minh". Em nên làm gì?</p>
+<div class="options">
+<label><input type="radio" name="q8" value="A"> A. Cung cấp ngay để tài khoản không bị khoá</label>
+<label><input type="radio" name="q8" value="B"> B. Chuyển tiếp cho bạn bè cùng làm theo</label>
+<label><input type="radio" name="q8" value="C"> C. Không cung cấp, đây là lừa đảo phishing; xoá thư và báo cáo</label>
+<label><input type="radio" name="q8" value="D"> D. Trả lời thư để hỏi thêm thông tin</label>
+</div>
+<button onclick="checkAnswer('q8', 'C')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q8" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 9: Thư mục Spam trong hộp thư điện tử dùng để làm gì?</p>
+<div class="options">
+<label><input type="radio" name="q9" value="A"> A. Lưu các thư quan trọng nhất</label>
+<label><input type="radio" name="q9" value="B"> B. Chứa các thư rác, thư quảng cáo không mong muốn bị hệ thống lọc</label>
+<label><input type="radio" name="q9" value="C"> C. Lưu thư nháp đang soạn dở</label>
+<label><input type="radio" name="q9" value="D"> D. Chứa các thư đã gửi đi</label>
+</div>
+<button onclick="checkAnswer('q9', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q9" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 10: Biện pháp nào giúp bảo vệ tài khoản email an toàn nhất?</p>
+<div class="options">
+<label><input type="radio" name="q10" value="A"> A. Dùng mật khẩu là ngày sinh để dễ nhớ</label>
+<label><input type="radio" name="q10" value="B"> B. Chia sẻ mật khẩu cho bạn thân giữ hộ</label>
+<label><input type="radio" name="q10" value="C"> C. Đặt mật khẩu mạnh và bật xác thực hai bước</label>
+<label><input type="radio" name="q10" value="D"> D. Đăng nhập email trên mọi máy tính công cộng</label>
+</div>
+<button onclick="checkAnswer('q10', 'C')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q10" class="mt-2"></div>
+</div>
+</div>
+<script>
+function checkAnswer(qid, correct) {
+    const selected = document.querySelector(`input[name="${qid}"]:checked`);
+    const feedback = document.getElementById(`fb-${qid}`);
+    if (!selected) { feedback.innerHTML = '<span class="text-orange-600">Hãy chọn đáp án!</span>'; return; }
+    if (selected.value === correct) {
+        feedback.innerHTML = '<span class="text-green-600 font-bold">✓ Đúng!</span>';
+    } else {
+        feedback.innerHTML = '<span class="text-red-600">✗ Chưa đúng. Đáp án đúng: ' + correct + '</span>';
+    }
+}
+</script>
+</body>
+</html>
