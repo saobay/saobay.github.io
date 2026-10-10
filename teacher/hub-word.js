@@ -214,11 +214,14 @@
                     }).join('') + '</div>'
                     + '<button onclick="sendWordToEditor()" class="mt-2 w-full bg-indigo-700 hover:bg-indigo-800 text-white text-xs font-bold px-4 py-2.5 rounded-xl"><i class="fa-solid fa-arrow-down mr-1"></i>Đưa ' + qs.length + ' câu vào khung soạn để đẩy</button>'
                     + '</div>';
-                // UI gan anh vao cau hoi (neu co anh trich xuat)
+                // UI gan anh vao cau hoi (neu co anh trich xuat) — 2026-10-10: thu gon mac dinh, mo ra khi can de do roi
                 if (wordState.extractedImages && wordState.extractedImages.length){
-                    h += '<div class="mt-2 bg-white border border-amber-200 rounded-xl p-3">'
-                        + '<p class="text-xs font-black text-slate-800 mb-2"><i class="fa-solid fa-images text-amber-600 mr-1"></i>Gán ảnh vào câu hỏi (' + wordState.extractedImages.length + ' ảnh)</p>'
-                        + '<div class="space-y-2 max-h-64 overflow-y-auto pr-1">'
+                    h += '<details class="mt-2 bg-white border border-amber-200 rounded-xl">'
+                        + '<summary class="px-3 py-2.5 cursor-pointer text-xs font-black text-slate-800 flex items-center select-none">'
+                        + '<i class="fa-solid fa-images text-amber-600 mr-2"></i>Gán ảnh vào câu hỏi (' + wordState.extractedImages.length + ' ảnh)'
+                        + '<span class="ml-auto text-[10px] text-slate-400 font-normal">bấm để mở rộng nếu cần chèn ảnh</span>'
+                        + '</summary>'
+                        + '<div class="px-3 pb-3 space-y-2 max-h-64 overflow-y-auto pr-1">'
                         + wordState.extractedImages.map(function(im, ii){
                             var opts = '<option value="">-- Không gán --</option>' + qs.map(function(q, qi){
                                 return '<option value="' + qi + '">Câu ' + (qi+1) + '</option>';
@@ -228,7 +231,7 @@
                                 + '<div class="flex-1"><p class="text-[11px] font-bold text-slate-600 mb-1">Ảnh ' + (ii+1) + '</p>'
                                 + '<select id="img-map-' + ii + '" class="w-full text-xs border rounded-lg px-2 py-1">' + opts + '</select></div>'
                                 + '</div>';
-                        }).join('') + '</div></div>';
+                        }).join('') + '</div></details>';
                 }
                 pv.innerHTML = h;
             } catch(e){
