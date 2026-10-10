@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 33: Điểm nằm giữa hai điểm. Tia</title>
+    <meta name="lesson-title" content="Bài 33: Điểm nằm giữa hai điểm. Tia">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 33: Điểm nằm giữa hai điểm. Tia</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 8: Những hình hình học cơ bản • Bài 33: Điểm nằm giữa hai điểm. Tia</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 33: Điểm nằm giữa hai điểm. Tia</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 8: Những hình hình học cơ bản (Kết nối tri thức với cuộc sống)</p>
+
+
+<!-- 1. Điểm nằm giữa hai điểm -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Điểm nằm giữa hai điểm</h2>
+
+<p>Cho ba điểm $A, B, C$ thẳng hàng như hình vẽ. Điểm $B$ ở vị trí <strong>ở giữa</strong> hai điểm $A$ và $C$ — ta nói điểm $B$ <strong>nằm giữa</strong> hai điểm $A$ và $C$.</p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diem B nam giua A va C">
+<rect x="2" y="2" width="436" height="166" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<line x1="30" y1="80" x2="410" y2="80" stroke="#94a3b8" stroke-width="2"/>
+<circle cx="90" cy="80" r="7" fill="#0284c7"/>
+<text x="90" y="118" font-family="sans-serif" font-size="20" font-weight="bold" fill="#0c4a6e" text-anchor="middle">A</text>
+<circle cx="220" cy="80" r="9" fill="#e11d48"/>
+<text x="220" y="118" font-family="sans-serif" font-size="20" font-weight="bold" fill="#881337" text-anchor="middle">B</text>
+<circle cx="350" cy="80" r="7" fill="#0284c7"/>
+<text x="350" y="118" font-family="sans-serif" font-size="20" font-weight="bold" fill="#0c4a6e" text-anchor="middle">C</text>
+<text x="220" y="152" font-family="sans-serif" font-size="15" fill="#475569" text-anchor="middle">Điểm B nằm giữa hai điểm A và C</text>
+</svg></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Với <strong>ba điểm thẳng hàng phân biệt</strong>, có <strong>đúng một điểm nằm giữa</strong> hai điểm còn lại.</p>
+</div>
+
+<!-- 2. Tia -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Tia</h2>
+
+<p>Hình gồm <strong>điểm $O$</strong> và <strong>một phần đường thẳng bị chia ra bởi điểm $O$</strong> được gọi là một <strong>tia gốc $O$</strong> (còn gọi là <strong>tia $Ox$</strong> nếu tia đi qua điểm $x$).</p>
+
+<p>Tia <strong>bị giới hạn ở phía gốc</strong> và <strong>kéo dài không giới hạn ở phía còn lại</strong>. Khi vẽ tia, ta vẽ thêm <strong>mũi tên</strong> ở đầu kéo dài.</p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tia Ox goc O">
+<rect x="2" y="2" width="436" height="166" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<line x1="110" y1="80" x2="390" y2="80" stroke="#0284c7" stroke-width="3"/>
+<polygon points="390,80 368,71 368,89" fill="#0284c7"/>
+<circle cx="110" cy="80" r="8" fill="#e11d48"/>
+<text x="110" y="118" font-family="sans-serif" font-size="20" font-weight="bold" fill="#881337" text-anchor="middle">O</text>
+<text x="350" y="60" font-family="sans-serif" font-size="20" font-weight="bold" fill="#0c4a6e" text-anchor="middle">x</text>
+<text x="220" y="152" font-family="sans-serif" font-size="15" fill="#475569" text-anchor="middle">Tia Ox: gốc O, kéo dài về phía x</text>
+</svg></div>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-emerald-800 mb-2">Bài tập ví dụ (có lời giải):</p>
+<p>Trên đường thẳng $d$ lấy điểm $A$. Hỏi điểm $A$ chia đường thẳng $d$ thành mấy tia? Đó là những tia nào?</p>
+<p class="mt-2"><strong>Lời giải:</strong> Điểm $A$ chia đường thẳng $d$ thành <strong>hai tia</strong> chung gốc $A$, nằm về hai phía của $A$. Nếu trên mỗi phía lấy thêm một điểm $B$ và $C$ thì hai tia đó là tia $AB$ và tia $AC$.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><strong>Tia gốc $O$</strong> gồm điểm $O$ và một phần đường thẳng bị chia ra bởi $O$. Tia bị giới hạn ở <strong>gốc</strong>, kéo dài vô tận ở đầu còn lại.</p>
+</div>
+
+<!-- 3. Hai tia đối nhau -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Hai tia đối nhau</h2>
+
+<p>Hai tia <strong>chung gốc</strong> $Ox$ và $Oy$ <strong>tạo thành một đường thẳng</strong> $xy$ được gọi là <strong>hai tia đối nhau</strong>.</p>
+
+<p>Nói cách khác: hai tia $Ox$ và $Oy$ đối nhau khi chúng chung gốc $O$ và điểm $O$ <strong>nằm giữa</strong> $x$ và $y$.</p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hai tia doi nhau Ox va Oy">
+<rect x="2" y="2" width="436" height="166" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<line x1="50" y1="80" x2="390" y2="80" stroke="#0284c7" stroke-width="3"/>
+<polygon points="50,80 72,71 72,89" fill="#0284c7"/>
+<polygon points="390,80 368,71 368,89" fill="#0284c7"/>
+<circle cx="220" cy="80" r="8" fill="#e11d48"/>
+<text x="220" y="118" font-family="sans-serif" font-size="20" font-weight="bold" fill="#881337" text-anchor="middle">O</text>
+<text x="90" y="60" font-family="sans-serif" font-size="20" font-weight="bold" fill="#0c4a6e" text-anchor="middle">y</text>
+<text x="350" y="60" font-family="sans-serif" font-size="20" font-weight="bold" fill="#0c4a6e" text-anchor="middle">x</text>
+<text x="220" y="152" font-family="sans-serif" font-size="15" fill="#475569" text-anchor="middle">Hai tia Ox và Oy đối nhau tạo thành đường thẳng xy</text>
+</svg></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><strong>Hai tia đối nhau</strong>: chung gốc, nằm về <strong>hai phía ngược nhau</strong>, tạo thành một đường thẳng. Mỗi điểm trên đường thẳng là gốc chung của một cặp tia đối nhau.</p>
+</div>
+
+<!-- 4. Hai tia trùng nhau -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Hai tia trùng nhau</h2>
+
+<p>Hai tia <strong>chung gốc</strong> và <strong>đi về cùng một hướng</strong> được gọi là <strong>hai tia trùng nhau</strong>: mọi điểm thuộc tia này đều thuộc tia kia.</p>
+
+<p>Ví dụ: trên tia $Ox$ lấy điểm $A$ ($A$ khác $O$) thì tia $OA$ và tia $Ox$ là hai tia trùng nhau.</p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hai tia trung nhau OA va Ox">
+<rect x="2" y="2" width="436" height="176" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<line x1="80" y1="80" x2="390" y2="80" stroke="#93c5fd" stroke-width="9" stroke-linecap="round"/>
+<line x1="80" y1="80" x2="378" y2="80" stroke="#0284c7" stroke-width="3"/>
+<polygon points="390,80 368,71 368,89" fill="#0284c7"/>
+<circle cx="80" cy="80" r="8" fill="#e11d48"/>
+<text x="80" y="118" font-family="sans-serif" font-size="20" font-weight="bold" fill="#881337" text-anchor="middle">O</text>
+<circle cx="230" cy="80" r="7" fill="#0284c7"/>
+<text x="230" y="118" font-family="sans-serif" font-size="20" font-weight="bold" fill="#0c4a6e" text-anchor="middle">A</text>
+<text x="330" y="60" font-family="sans-serif" font-size="20" font-weight="bold" fill="#0c4a6e" text-anchor="middle">x</text>
+<text x="220" y="158" font-family="sans-serif" font-size="15" fill="#475569" text-anchor="middle">Tia OA và tia Ox trùng nhau</text>
+</svg></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><strong>Hai tia trùng nhau</strong>: chung gốc, cùng hướng, "chồng khít" lên nhau.</p>
+</div>
+
+<!-- Tóm tắt -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Nội dung</td><td class="border border-slate-300 px-4 py-1">Đặc điểm</td><td class="border border-slate-300 px-4 py-1">Ví dụ</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Điểm nằm giữa</td><td class="border border-slate-300 px-4 py-1">Ba điểm thẳng hàng, đúng một điểm ở giữa</td><td class="border border-slate-300 px-4 py-1">$B$ nằm giữa $A$ và $C$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Tia gốc $O$</td><td class="border border-slate-300 px-4 py-1">Gồm $O$ và một nửa đường thẳng; giới hạn ở gốc</td><td class="border border-slate-300 px-4 py-1">Tia $Ox$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Hai tia đối nhau</td><td class="border border-slate-300 px-4 py-1">Chung gốc, ngược hướng, tạo thành đường thẳng</td><td class="border border-slate-300 px-4 py-1">Tia $Ox$ và tia $Oy$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Hai tia trùng nhau</td><td class="border border-slate-300 px-4 py-1">Chung gốc, cùng hướng, chồng khít nhau</td><td class="border border-slate-300 px-4 py-1">Tia $OA$ và tia $Ox$</td></tr>
+</table></div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
