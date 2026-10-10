@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 3: Định dạng và trình bày bảng tính</title>
+    <meta name="lesson-title" content="Bài 3: Định dạng và trình bày bảng tính">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; }
+        .content-body { max-width: 800px; margin: 0 auto; }
+        h2 { color: #0369a1; margin-top: 24px; }
+        .highlight { background: #e0f2fe; padding: 12px; border-radius: 8px; border-left: 4px solid #0284c7; margin: 12px 0; }
+        table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+        th, td { border: 1px solid #cbd5e1; padding: 8px; text-align: left; }
+        th { background: #f1f5f9; }
+    </style>
+</head>
+<body class="bg-slate-50">
+<div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+<div class="border-b pb-4 mb-6">
+<span class="text-xs font-bold text-blue-600 uppercase">Lý thuyết</span>
+<h1 class="text-2xl font-black mt-1">Bài 3: Định dạng và trình bày bảng tính</h1>
+<p class="text-xs text-slate-500 mt-1">Chủ đề 3: Định dạng và trình bày bảng tính</p>
+</div>
+<div class="content-body">
+
+<h2>1. Vì sao cần định dạng bảng tính</h2>
+<p>Định dạng giúp bảng tính <strong>rõ ràng, đẹp mắt và dễ đọc</strong>: tiêu đề nổi bật, số liệu hiển thị đúng ý nghĩa, bảng có đường kẻ phân cách các ô.</p>
+
+<h2>2. Định dạng dữ liệu số</h2>
+<p>Cùng một con số nhưng có thể hiển thị theo nhiều cách khác nhau tùy mục đích:</p>
+<table>
+<tr><th>Kiểu định dạng</th><th>Ví dụ hiển thị</th><th>Khi nào dùng</th></tr>
+<tr><td>Số thập phân</td><td>8.50 thay vì 8.5</td><td>Bảng điểm, số đo cần độ chính xác</td></tr>
+<tr><td>Tiền tệ</td><td>150.000 đ</td><td>Bảng thu chi, giá tiền</td></tr>
+<tr><td>Phần trăm</td><td>0.25 hiển thị thành 25%</td><td>Tỉ lệ, tỉ số phần trăm</td></tr>
+<tr><td>Ngày tháng</td><td>10/10/2026</td><td>Ngày sinh, ngày nộp bài</td></tr>
+</table>
+<p>Để định dạng: chọn các ô cần định dạng, rồi chọn kiểu trong nhóm Number trên thẻ Home. Nút tăng/giảm số chữ số thập phân giúp hiển thị số tròn đẹp hơn.</p>
+
+<h2>3. Định dạng chữ và căn lề</h2>
+<p>Các nút định dạng chữ quen thuộc: <strong>B</strong> in đậm (Bold), <em>I</em> in nghiêng (Italic), <u>U</u> gạch chân (Underline); đổi phông chữ, cỡ chữ và màu chữ.</p>
+<p>Căn lề nội dung trong ô: căn trái, <strong>căn giữa</strong>, căn phải. Tiêu đề bảng thường được căn giữa và in đậm để nổi bật.</p>
+<div class="highlight">
+<strong>Mẹo:</strong> Dùng <strong>Merge Cells</strong> (gộp ô) để tạo tiêu đề chung trải dài trên nhiều cột, ví dụ tiêu đề BẢNG ĐIỂM LỚP 7A.
+</div>
+
+<h2>4. Kẻ đường viền cho bảng</h2>
+<p>Bảng tính mặc định chỉ có đường lưới mờ, khi in ra sẽ không thấy. Muốn bảng có khung rõ ràng, ta dùng chức năng <strong>Border</strong> (đường viền): chọn vùng bảng rồi chọn kiểu viền, có thể kẻ viền ngoài, viền trong hoặc kẻ từng cạnh.</p>
+
+<h2>5. Sắp xếp dữ liệu</h2>
+<p>Chức năng <strong>Sort</strong> (sắp xếp) giúp xếp các hàng theo thứ tự của một cột nào đó:</p>
+<table>
+<tr><th>Kiểu sắp xếp</th><th>Ý nghĩa</th><th>Ví dụ</th></tr>
+<tr><td>Tăng dần (A đến Z)</td><td>Từ nhỏ đến lớn, từ A đến Z</td><td>Điểm từ thấp đến cao; tên từ A đến Z</td></tr>
+<tr><td>Giảm dần (Z đến A)</td><td>Từ lớn đến nhỏ, từ Z đến A</td><td>Điểm từ cao đến thấp</td></tr>
+</table>
+<p><strong>Lưu ý quan trọng:</strong> khi sắp xếp phải chọn cả vùng dữ liệu liên quan, nếu chỉ chọn một cột thì các cột khác sẽ bị lệch hàng, làm sai lệch dữ liệu.</p>
+
+<h2>6. Lọc dữ liệu</h2>
+<p>Chức năng <strong>Filter</strong> (lọc) giúp chỉ hiển thị các hàng thỏa mãn điều kiện, các hàng còn lại tạm thời bị ẩn đi chứ không bị xóa.</p>
+<p>Ví dụ: trong bảng điểm cả lớp, bật Filter rồi chọn chỉ hiện các bạn có điểm trung bình từ 8 trở lên, ta sẽ nhanh chóng thấy danh sách học sinh giỏi.</p>
+<div class="highlight">
+<strong>Ghi nhớ:</strong> Lọc dữ liệu chỉ ẩn tạm thời các hàng không thỏa điều kiện. Tắt Filter, toàn bộ dữ liệu sẽ hiện lại đầy đủ.
+</div>
+
+</div>
+</div>
+</body>
+</html>
