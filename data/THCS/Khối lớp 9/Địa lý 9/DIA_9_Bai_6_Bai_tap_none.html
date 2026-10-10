@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 6: Địa lí địa phương - Bài tập</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: system-ui, sans-serif; padding: 16px; line-height: 1.6; }
+        .question { background: white; padding: 16px; margin: 12px 0; border-radius: 8px; border: 1px solid #e2e8f0; }
+        .options label { display: block; padding: 8px; margin: 4px 0; background: #f8fafc; border-radius: 4px; cursor: pointer; }
+        .options label:hover { background: #e0f2fe; }
+    </style>
+</head>
+<body class="bg-slate-50">
+<div class="max-w-3xl mx-auto">
+<h1 class="text-2xl font-bold mb-4">Bài 6: Địa lí địa phương - Bài tập</h1>
+
+<div class="question">
+<p class="font-semibold mb-2">Câu 1: Mục đích của việc tìm hiểu địa lí địa phương là</p>
+<div class="options">
+<label><input type="radio" name="q1" value="A"> A. Để thi cử</label>
+<label><input type="radio" name="q1" value="B"> B. Hiểu quê hương, thêm yêu và có ý thức xây dựng địa phương</label>
+<label><input type="radio" name="q1" value="C"> C. Để so sánh với nước ngoài</label>
+<label><input type="radio" name="q1" value="D"> D. Để học thuộc số liệu</label>
+</div>
+<button onclick="checkAnswer('q1', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q1" class="mt-2"></div>
+</div>
+
+<div class="question">
+<p class="font-semibold mb-2">Câu 2: Nội dung tìm hiểu địa lí địa phương KHÔNG bao gồm</p>
+<div class="options">
+<label><input type="radio" name="q2" value="A"> A. Vị trí địa lí</label>
+<label><input type="radio" name="q2" value="B"> B. Điều kiện tự nhiên</label>
+<label><input type="radio" name="q2" value="C"> C. Dân cư, kinh tế</label>
+<label><input type="radio" name="q2" value="D"> D. Lịch sử thế giới</label>
+</div>
+<button onclick="checkAnswer('q2', 'D')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q2" class="mt-2"></div>
+</div>
+
+<div class="question">
+<p class="font-semibold mb-2">Câu 3: Nguồn số liệu tin cậy để tìm hiểu địa phương là</p>
+<div class="options">
+<label><input type="radio" name="q3" value="A"> A. Tin đồn</label>
+<label><input type="radio" name="q3" value="B"> B. Niên giám thống kê của tỉnh/thành phố</label>
+<label><input type="radio" name="q3" value="C"> C. Mạng xã hội</label>
+<label><input type="radio" name="q3" value="D"> D. Truyền miệng</label>
+</div>
+<button onclick="checkAnswer('q3', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q3" class="mt-2"></div>
+</div>
+
+<div class="question">
+<p class="font-semibold mb-2">Câu 4: Phương pháp tìm hiểu địa lí địa phương gồm</p>
+<div class="options">
+<label><input type="radio" name="q4" value="A"> A. Chỉ đọc sách</label>
+<label><input type="radio" name="q4" value="B"> B. Thu thập số liệu, quan sát thực tế, phỏng vấn, dùng bản đồ</label>
+<label><input type="radio" name="q4" value="C"> C. Chỉ xem ti vi</label>
+<label><input type="radio" name="q4" value="D"> D. Đoán mò</label>
+</div>
+<button onclick="checkAnswer('q4', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q4" class="mt-2"></div>
+</div>
+
+<div class="question">
+<p class="font-semibold mb-2">Câu 5: Khi đánh giá thế mạnh của địa phương cần xem xét</p>
+<div class="options">
+<label><input type="radio" name="q5" value="A"> A. Tài nguyên nổi trội, vị trí, lao động, truyền thống sản xuất</label>
+<label><input type="radio" name="q5" value="B"> B. Chỉ xem dân số</label>
+<label><input type="radio" name="q5" value="C"> C. Chỉ xem diện tích</label>
+<label><input type="radio" name="q5" value="D"> D. Chỉ xem khí hậu</label>
+</div>
+<button onclick="checkAnswer('q5', 'A')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q5" class="mt-2"></div>
+</div>
+
+<div class="question">
+<p class="font-semibold mb-2">Câu 6: Báo cáo tìm hiểu địa lí địa phương cần có</p>
+<div class="options">
+<label><input type="radio" name="q6" value="A"> A. Số liệu, bản đồ, hình ảnh minh họa và nhận xét</label>
+<label><input type="radio" name="q6" value="B"> B. Chỉ có chữ</label>
+<label><input type="radio" name="q6" value="C"> C. Chỉ có hình ảnh</label>
+<label><input type="radio" name="q6" value="D"> D. Không cần số liệu</label>
+</div>
+<button onclick="checkAnswer('q6', 'A')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q6" class="mt-2"></div>
+</div>
+
+<div class="question">
+<p class="font-semibold mb-2">Câu 7: Phát triển kinh tế địa phương cần gắn với</p>
+<div class="options">
+<label><input type="radio" name="q7" value="A"> A. Phá rừng</label>
+<label><input type="radio" name="q7" value="B"> B. Bảo vệ môi trường và giữ gìn bản sắc văn hóa</label>
+<label><input type="radio" name="q7" value="C"> C. Ô nhiễm</label>
+<label><input type="radio" name="q7" value="D"> D. Khai thác cạn kiệt</label>
+</div>
+<button onclick="checkAnswer('q7', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q7" class="mt-2"></div>
+</div>
+
+<div class="question">
+<p class="font-semibold mb-2">Câu 8: Yếu tố nào thuộc điều kiện tự nhiên của địa phương?</p>
+<div class="options">
+<label><input type="radio" name="q8" value="A"> A. Số dân</label>
+<label><input type="radio" name="q8" value="B"> B. Địa hình, khí hậu, sông ngòi</label>
+<label><input type="radio" name="q8" value="C"> C. Số trường học</label>
+<label><input type="radio" name="q8" value="D"> D. Thu nhập</label>
+</div>
+<button onclick="checkAnswer('q8', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q8" class="mt-2"></div>
+</div>
+
+<div class="question">
+<p class="font-semibold mb-2">Câu 9: Yếu tố nào thuộc kinh tế - xã hội của địa phương?</p>
+<div class="options">
+<label><input type="radio" name="q9" value="A"> A. Lao động, các ngành kinh tế</label>
+<label><input type="radio" name="q9" value="B"> B. Đất đai</label>
+<label><input type="radio" name="q9" value="C"> C. Khoáng sản</label>
+<label><input type="radio" name="q9" value="D"> D. Khí hậu</label>
+</div>
+<button onclick="checkAnswer('q9', 'A')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q9" class="mt-2"></div>
+</div>
+
+<div class="question">
+<p class="font-semibold mb-2">Câu 10: Đề xuất giải pháp phát triển địa phương cần dựa trên</p>
+<div class="options">
+<label><input type="radio" name="q10" value="A"> A. Ý thích cá nhân</label>
+<label><input type="radio" name="q10" value="B"> B. Thế mạnh, khó khăn thực tế đã tìm hiểu</label>
+<label><input type="radio" name="q10" value="C"> C. Sao chép địa phương khác</label>
+<label><input type="radio" name="q10" value="D"> D. Không cần căn cứ</label>
+</div>
+<button onclick="checkAnswer('q10', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q10" class="mt-2"></div>
+</div>
+
+</div>
+<script>
+function checkAnswer(qid, correct) {
+    const selected = document.querySelector(`input[name="${qid}"]:checked`);
+    const feedback = document.getElementById(`fb-${qid}`);
+    if (!selected) { feedback.innerHTML = '<span class="text-orange-600">Hãy chọn đáp án!</span>'; return; }
+    if (selected.value === correct) {
+        feedback.innerHTML = '<span class="text-green-600 font-bold">✓ Đúng!</span>';
+    } else {
+        feedback.innerHTML = '<span class="text-red-600">✗ Chưa đúng. Đáp án đúng: ' + correct + '</span>';
+    }
+}
+</script>
+</body>
+</html>
