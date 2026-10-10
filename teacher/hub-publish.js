@@ -148,36 +148,65 @@ MA TRẬN CỦA TÔI (bạn tuân thủ tuyệt đối):`;
             }
             let timeStr = (m && m.time_limit) ? m.time_limit + ' phút' : '90 phút';
 
-            let promptText = `Bạn là chuyên gia biên soạn đề kiểm tra theo đúng quy định của Bộ Giáo dục và Đào tạo Việt Nam.
-Nhiệm vụ: Soạn HOÀN CHỈNH bộ hồ sơ đề kiểm tra môn ${subject} - Lớp ${grade}, gồm 3 phần: MA TRẬN ĐẶC TẢ, ĐỀ THI, ĐÁP ÁN VÀ LỜI GIẢI CHI TIẾT.
+            // Lấy phạm vi bài từ dropdowns Từ bài/Đến bài (2026-10-10)
+            let fromLesson = '', toLesson = '';
+            try {
+                let fl = document.getElementById('mx-from-lesson');
+                let tl = document.getElementById('mx-to-lesson');
+                if (fl && fl.selectedOptions && fl.selectedOptions[0]) fromLesson = fl.selectedOptions[0].textContent.trim();
+                if (tl && tl.selectedOptions && tl.selectedOptions[0]) toLesson = tl.selectedOptions[0].textContent.trim();
+            } catch(e){}
+            let rangeStr = '';
+            if (fromLesson && fromLesson.indexOf('Chọn bài') < 0) {
+                rangeStr = '\n- Phạm vi kiến thức: từ "' + fromLesson + '"' + (toLesson && toLesson.indexOf('Chọn bài') < 0 ? ' đến "' + toLesson + '"' : '') + ' (chỉ ra đề trong phạm vi này)';
+            }
 
-THÔNG SỐ ĐỀ (bạn phải tuân thủ tuyệt đối):
+            let promptText = `Bạn là chuyên gia biên soạn đề kiểm tra của Bộ Giáo dục và Đào tạo Việt Nam, am hiểu sâu sắc Công văn 7991/BGDĐT-GDTrH về cấu trúc đề kiểm tra định kỳ và ma trận đặc tả.
+
+Nhiệm vụ: Soạn HOÀN CHỈNH bộ hồ sơ đề kiểm tra môn ${subject} - Lớp ${grade}, gồm 3 phần theo đúng mẫu chuẩn của Bộ GD&ĐT: (1) MA TRẬN ĐỀ KIỂM TRA, (2) BẢN ĐẶC TẢ CHI TIẾT, (3) ĐỀ THI, (4) ĐÁP ÁN VÀ HƯỚNG DẪN CHẤM.
+
+THÔNG SỐ BẮT BUỘC (tuân thủ tuyệt đối, không được sai lệch):
 - Tổng số câu: ${totalQ || 40} câu (${typeStr.join(', ') || 'trắc nghiệm, đúng/sai, trả lời ngắn, tự luận'})
-- Phân bố mức độ: ${levelStr || 'NB 40% / TH 30% / VD 20% / VDC 10%'}
-- Thời gian làm bài: ${timeStr}
+- Phân bố mức độ nhận thức: ${levelStr || 'NB 40% / TH 30% / VD 20% / VDC 10%'}
+- Thời gian làm bài: ${timeStr}${rangeStr}
 
-YÊU CẦU VỀ MA TRẬN ĐẶC TẢ (theo mẫu chuẩn của Bộ GD&ĐT):
-1. Lập bảng ma trận với các cột: Nội dung kiến thức | Đơn vị kiến thức | Mức độ (NB/TH/VD/VDC) | Số câu | Dạng câu | Ghi chú.
-2. Mỗi nội dung kiến thức phải có đủ 4 mức độ NB/TH/VD/VDC theo tỉ lệ đã cho.
-3. Tổng số câu và tỉ lệ phải khớp 100% với thông số trên.
+PHẦN 1 - MA TRẬN ĐỀ KIỂM TRA (đúng mẫu Bộ GD&ĐT):
+Lập bảng với các cột: TT | Chủ đề/Chương | Nội dung/Đơn vị kiến thức | Mức độ đánh giá (chia 4 cột con: Nhận biết | Thông hiểu | Vận dụng | Vận dụng cao, mỗi cột con ghi rõ số câu theo từng dạng: TN/ĐS/TLN/TL) | Tổng số câu.
+- Mỗi ô ghi số câu cụ thể, VD: "2 TN" hoặc "1 ĐS".
+- Hàng cuối là hàng TỔNG CỘNG: cộng dọc phải khớp đúng tổng số câu và tỉ lệ mức độ đã cho.
+- Phân bố nội dung phải bao quát đều các đơn vị kiến thức trong phạm vi, không dồn quá nhiều câu vào 1 bài.
 
-YÊU CẦU VỀ ĐỀ THI:
-1. Soạn ${totalQ || 40} câu HOÀN TOÀN MỚI, chưa từng xuất hiện ở đâu, bám sát ma trận đặc tả.
-2. Trắc nghiệm 4 lựa chọn: 4 đáp án A/B/C/D, chỉ 1 đáp án đúng, các đáp án nhiễu phải hợp lý.
-3. Đúng/Sai: mỗi câu 4 ý a/b/c/d, ghi rõ Đúng hoặc Sai từng ý.
-4. Trả lời ngắn: đáp số ngắn gọn, chính xác.
-5. Tự luận: đề bài rõ ràng, có gợi ý hướng làm.
-6. Công thức Toán viết bằng ký hiệu chuẩn, rõ ràng.
+PHẦN 2 - BẢN ĐẶC TẢ CHI TIẾT (đúng mẫu Bộ GD&ĐT - PHẦN QUAN TRỌNG NHẤT):
+Lập bảng với các cột: TT | Nội dung/Đơn vị kiến thức | Mức độ đánh giá | Số câu hỏi (ghi rõ dạng câu) | Yêu cầu cần đạt.
+- Cột "Yêu cầu cần đạt" phải mô tả CỤ THỂ năng lực học sinh cần thể hiện, VD:
+  + NB: "Nhận biết được khái niệm...; nêu được định nghĩa...; xác định được..."
+  + TH: "Hiểu được...; giải thích được...; so sánh được...; thực hiện được bài tập đơn giản..."
+  + VD: "Vận dụng được kiến thức vào giải bài toán...; giải quyết được tình huống thực tiễn đơn giản..."
+  + VDC: "Vận dụng linh hoạt, sáng tạo kiến thức để giải quyết vấn đề phức tạp/mới..."
+- Mỗi dòng trong bảng đặc tả tương ứng với 1 nhóm câu hỏi cùng nội dung + cùng mức độ.
+- Yêu cầu cần đạt phải bám sát Chương trình GDPT 2018, dùng động từ hành động cụ thể, không viết chung chung.
 
-YÊU CẦU VỀ ĐÁP ÁN VÀ LỜI GIẢI:
-1. Bảng đáp án trắc nghiệm/đúng-sai/trả lời ngắn (câu → đáp án).
-2. Lời giải chi tiết TỪNG CÂU, trình bày từng bước rõ ràng theo đúng phương pháp sư phạm.
-3. Tự luận: barem chấm chi tiết từng ý (0.25/0.5/0.75/1.0 điểm).
+PHẦN 3 - ĐỀ THI (bám sát 100% ma trận và bản đặc tả trên):
+1. Soạn ${totalQ || 40} câu HOÀN TOÀN MỚI, chưa từng xuất hiện ở bất kỳ đâu.
+2. Mỗi câu ghi rõ mã định danh [NB1], [TH2], [VD1]... tương ứng với dòng trong bản đặc tả.
+3. Trắc nghiệm 4 lựa chọn: 4 đáp án A/B/C/D, CHỈ 1 đáp án đúng, 3 đáp án nhiễu phải hợp lý (dựa trên lỗi sai thường gặp của HS), sắp xếp ngẫu nhiên vị trí đáp án đúng.
+4. Đúng/Sai: mỗi câu có 4 ý a/b/c/d độc lập, không mâu thuẫn logic với nhau.
+5. Trả lời ngắn: đáp số gọn (số nguyên/phân số/số thập phân), ghi rõ yêu cầu làm tròn nếu có.
+6. Tự luận: đề bài rõ ràng từng ý nhỏ (a, b...), có phân bố điểm từng ý.
+7. Công thức viết bằng ký hiệu toán học chuẩn, rõ ràng.
 
-ĐỊNH DẠNG XUẤT:
-- Trình bày dưới dạng văn bản có cấu trúc rõ ràng với tiêu đề các phần: "MA TRẬN ĐẶC TẢ", "ĐỀ THI", "ĐÁP ÁN VÀ LỜI GIẢI CHI TIẾT".
-- Dùng bảng cho ma trận và bảng đáp án.
-- Tôi sẽ copy toàn bộ vào Word để lưu trữ và in ấn, nên trình bày sạch sẽ, dễ đọc.`;
+PHẦN 4 - ĐÁP ÁN VÀ HƯỚNG DẪN CHẤM:
+1. Bảng đáp án: liệt kê câu → đáp án đúng (TN: A/B/C/D; ĐS: Đ/S từng ý; TLN: đáp số).
+2. Hướng dẫn giải NGẮN GỌN các câu TN/ĐS/TLN ở mức VD/VDC (chỉ ghi ý chính, không cần từng bước).
+3. Lời giải CHI TIẾT từng câu tự luận, trình bày từng bước theo đúng phương pháp sư phạm.
+4. Barem chấm tự luận chi tiết đến 0.25 điểm cho từng ý/bước.
+
+ĐỊNH DẠNG XUẤT (để tôi copy vào Word):
+- Dùng tiêu đề in hoa: "MA TRẬN ĐỀ KIỂM TRA", "BẢN ĐẶC TẢ", "ĐỀ THI", "ĐÁP ÁN VÀ HƯỚNG DẪN CHẤM".
+- Tất cả bảng trình bày bằng định dạng bảng markdown để khi paste vào Word giữ được cấu trúc.
+- Đầu đề thi ghi: Tên trường, "ĐỀ KIỂM TRA [giữa/cuối] HỌC KÌ...", Môn, Lớp, Thời gian.
+- Cuối đề thi ghi "--- HẾT ---".
+- Trình bày sạch sẽ, font chữ thống nhất, sẵn sàng in ấn.`;
 
             navigator.clipboard.writeText(promptText).then(() => {
                 if (typeof showToast === 'function') showToast('Đã copy prompt ma trận đặc tả! Dán cho AI để tạo đề chuẩn Bộ GD&ĐT.', 'success');
