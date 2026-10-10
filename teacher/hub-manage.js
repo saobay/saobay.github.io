@@ -39,31 +39,66 @@
         function setManageFolderFilter(v){ renderLessonManagementList(); }
         let manageTypeFilter = 'all'; // 'all' | 'theory' | 'exam'
         let manageGroupFilter = 0; // 0 = tất cả nhóm, 1..N = nhóm GV (20 GV/nhóm)
-        // FIX 2026-10-10: Nhóm GV — 20 GV/nhóm, sắp xếp theo owner_id để ổn định.
-        // Cây/danh sách quản lý lọc theo nhóm cho đỡ cuộn dài.
-        function getTeacherGroups(reg){
-            let ids = {};
+        // NHÓM GV TỰ DO — persistent 20 GV/nhóm (2026-10-10).
+        // Nhóm được gán CỐ ĐỊNH trong teachers_registry.teacher_group lúc duyệt đăng ký,
+        // không tính động theo owner_id nữa (tránh nhóm bị xáo trộn khi có GV mới).
+        var TEACHER_GROUP_SIZE = 20;
+        let _tgGroups = null;      // [{num, name, members:[{id,name}]}]
+        let _tgOwnerGroup = {};    // owner_id -> group num
+        function _tgNum(gn){ var m = String(gn || '').match(/([0-9]+)/); return m ? parseInt(m[1], 10) : 0; }
+        function _tgIsFree(tid){ tid = String(tid || ''); return /^0[0-9]{8,11}$/.test(tid) || tid.indexOf('@') >= 0; }
+        async function ensureTeacherGroups(reg){
+            if (_tgGroups) return _tgGroups;
+            _tgGroups = []; _tgOwnerGroup = {};
+            let gnames = {};
+            try {
+                let url = 'https://raw.githubusercontent.com/' + GITHUB_CONFIG.owner + '/' + GITHUB_CONFIG.repo + '/' + GITHUB_CONFIG.branch + '/used/used.is';
+                let r = await fetch(url, { cache: 'no-store' });
+                if (r.ok){
+                    let db = await r.json();
+                    let treg = db.teachers_registry || {};
+                    Object.keys(treg).forEach(function(tid){
+                        let t = treg[tid] || {};
+                        let id = String(tid);
+                        if (t.role === 'teacher' && _tgIsFree(id) && t.teacher_group){
+                            let gn = t.teacher_group;
+                            if (!gnames[gn]) gnames[gn] = [];
+                            gnames[gn].push({ id: id, name: t.name || id });
+                        }
+                    });
+                }
+            } catch(e){}
+            // Fallback: GV đã đăng bài nhưng chưa được gán nhóm -> gom động vào cuối
+            let known = {};
+            Object.keys(gnames).forEach(function(gn){ gnames[gn].forEach(function(m){ known[m.id] = true; }); });
+            let unmapped = {};
             Object.keys(reg || {}).forEach(function(fp){
                 let o = reg[fp];
-                if (o && o.owner_id) ids[String(o.owner_id)] = o.owner_name || o.owner_id;
+                if (o && o.owner_id){
+                    let id = String(o.owner_id);
+                    if (!known[id] && !unmapped[id]) unmapped[id] = o.owner_name || id;
+                }
             });
-            let sorted = Object.keys(ids).sort();
-            let groups = [];
-            for (let i = 0; i < sorted.length; i += 20){
-                groups.push({
-                    num: groups.length + 1,
-                    members: sorted.slice(i, i + 20).map(function(id){ return { id: id, name: ids[id] }; })
-                });
+            let uids = Object.keys(unmapped).sort();
+            let maxN = Object.keys(gnames).reduce(function(m, gn){ return Math.max(m, _tgNum(gn)); }, 0);
+            for (let i = 0; i < uids.length; i += TEACHER_GROUP_SIZE){
+                maxN++;
+                let gn2 = 'Nhóm ' + maxN;
+                gnames[gn2] = uids.slice(i, i + TEACHER_GROUP_SIZE).map(function(id){ return { id: id, name: unmapped[id] }; });
             }
-            return groups;
+            let sorted = Object.keys(gnames).sort(function(a, b){ return _tgNum(a) - _tgNum(b); });
+            _tgGroups = sorted.map(function(gn){
+                let g = { num: _tgNum(gn), name: gn, members: gnames[gn] };
+                g.members.forEach(function(m){ _tgOwnerGroup[m.id] = g.num; });
+                return g;
+            });
+            return _tgGroups;
         }
+        // Giữ tên hàm cũ để tương thích với code gọi sẵn có
+        function getTeacherGroups(reg){ return _tgGroups || []; }
         function teacherGroupOf(ownerId, reg){
             if (!ownerId) return 0;
-            let groups = getTeacherGroups(reg);
-            for (let g = 0; g < groups.length; g++){
-                if (groups[g].members.some(function(m){ return m.id === String(ownerId); })) return groups[g].num;
-            }
-            return 0;
+            return _tgOwnerGroup[String(ownerId)] || 0;
         }
         function setManageGroupFilter(g){
             manageGroupFilter = parseInt(g, 10) || 0;
@@ -351,6 +386,9 @@
                 // Registry quyen so huu de thi (khong chan neu loi)
                 let reg = {};
                 try { reg = await getExamRegistry(); } catch(eReg){}
+
+                // Nạp nhóm GV persistent (20 GV/nhóm) trước khi lọc/hiển thị
+                try { await ensureTeacherGroups(reg); } catch(eTG){}
 
                 if (files.length === 0) {
                     container.innerHTML = `
