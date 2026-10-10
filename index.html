@@ -58,7 +58,7 @@
         <div class="flex items-center space-x-2 md:space-x-3 cursor-pointer shrink-0" onclick="resetView()">
             <i class="fa-solid fa-school text-xl md:text-3xl text-amber-400"></i>
             <div>
-                <h1 class="font-bold text-sm md:text-xl uppercase tracking-wide">THPT Sào Báy</h1>
+                <h1 class="font-bold text-sm md:text-xl uppercase tracking-wide" data-ui-label="site_title">THPT Sào Báy</h1>
                 <p class="text-[9px] md:text-xs text-blue-200 hidden sm:block">Cổng Học Tập & Ngân Hàng Đề Thi Trực Tuyến</p>
             </div>
         </div>
@@ -111,10 +111,10 @@
         <!-- THANH CHUYỂN TAB CÂY KIẾN THỨC -->
         <div class="bg-white rounded-xl p-2 border border-slate-200 shadow-sm flex items-center justify-between">
             <div class="flex space-x-2 w-full sm:w-auto">
-                <button id="tab-theory" onclick="switchMode('theory')" class="flex-1 sm:flex-initial px-4 py-2 rounded-lg text-xs md:text-sm font-bold transition flex items-center justify-center bg-blue-600 text-white shadow">
+                <button id="tab-theory" data-ui-label="tab_theory" onclick="switchMode('theory')" class="flex-1 sm:flex-initial px-4 py-2 rounded-lg text-xs md:text-sm font-bold transition flex items-center justify-center bg-blue-600 text-white shadow">
                     <i class="fa-solid fa-book-bookmark mr-2"></i> Học Lý Thuyết
                 </button>
-                <button id="tab-practice" onclick="switchMode('practice')" class="flex-1 sm:flex-initial px-4 py-2 rounded-lg text-xs md:text-sm font-bold transition flex items-center justify-center bg-slate-100 text-slate-600 hover:bg-slate-200">
+                <button id="tab-practice" data-ui-label="tab_practice" onclick="switchMode('practice')" class="flex-1 sm:flex-initial px-4 py-2 rounded-lg text-xs md:text-sm font-bold transition flex items-center justify-center bg-slate-100 text-slate-600 hover:bg-slate-200">
                     <i class="fa-solid fa-pen-to-square mr-2"></i> Làm Bài Tập & Đề Thi
                 </button>
             </div>
@@ -768,5 +768,6 @@ function submitLegacyExam(){
     }
     </script>
 
+<script src="js/admin-toolbar.js"></script>
 </body>
 </html>
