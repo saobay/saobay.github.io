@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 1: Máy tính và cộng đồng - Bài tập</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: system-ui, sans-serif; padding: 16px; line-height: 1.6; }
+        .question { background: white; padding: 16px; margin: 12px 0; border-radius: 8px; border: 1px solid #e2e8f0; }
+        .options label { display: block; padding: 8px; margin: 4px 0; background: #f8fafc; border-radius: 4px; cursor: pointer; }
+        .options label:hover { background: #e0f2fe; }
+    </style>
+</head>
+<body class="bg-slate-50">
+<div class="max-w-3xl mx-auto">
+<h1 class="text-2xl font-bold mb-4">Bài 1: Máy tính và cộng đồng - Bài tập</h1>
+
+<div class="question">
+<p class="font-semibold mb-2">Câu 1: Chiếc máy tính điện tử đầu tiên trên thế giới (ENIAC) ra đời vào năm nào?</p>
+<div class="options">
+<label><input type="radio" name="q1" value="A"> A. 1936</label>
+<label><input type="radio" name="q1" value="B"> B. 1946</label>
+<label><input type="radio" name="q1" value="C"> C. 1956</label>
+<label><input type="radio" name="q1" value="D"> D. 1966</label>
+</div>
+<button onclick="checkAnswer('q1', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q1" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 2: Máy tính thế hệ thứ nhất sử dụng linh kiện chính nào?</p>
+<div class="options">
+<label><input type="radio" name="q2" value="A"> A. Bóng đèn điện tử</label>
+<label><input type="radio" name="q2" value="B"> B. Bóng bán dẫn</label>
+<label><input type="radio" name="q2" value="C"> C. Mạch tích hợp</label>
+<label><input type="radio" name="q2" value="D"> D. Vi mạch</label>
+</div>
+<button onclick="checkAnswer('q2', 'A')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q2" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 3: Máy tính thế hệ thứ hai sử dụng linh kiện chính nào?</p>
+<div class="options">
+<label><input type="radio" name="q3" value="A"> A. Bóng đèn điện tử</label>
+<label><input type="radio" name="q3" value="B"> B. Bóng bán dẫn</label>
+<label><input type="radio" name="q3" value="C"> C. Mạch tích hợp</label>
+<label><input type="radio" name="q3" value="D"> D. Vi mạch mật độ rất cao</label>
+</div>
+<button onclick="checkAnswer('q3', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q3" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 4: Máy tính thế hệ thứ tư gắn liền với thành tựu nào?</p>
+<div class="options">
+<label><input type="radio" name="q4" value="A"> A. Bóng đèn điện tử</label>
+<label><input type="radio" name="q4" value="B"> B. Bóng bán dẫn</label>
+<label><input type="radio" name="q4" value="C"> C. Vi mạch mật độ rất cao, máy tính cá nhân</label>
+<label><input type="radio" name="q4" value="D"> D. Máy tính cơ học</label>
+</div>
+<button onclick="checkAnswer('q4', 'C')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q4" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 5: Đâu là ứng dụng của công nghệ thông tin trong lĩnh vực y tế?</p>
+<div class="options">
+<label><input type="radio" name="q5" value="A"> A. Cảm biến độ ẩm đất</label>
+<label><input type="radio" name="q5" value="B"> B. Đèn tín hiệu thông minh</label>
+<label><input type="radio" name="q5" value="C"> C. Thanh toán không dùng tiền mặt</label>
+<label><input type="radio" name="q5" value="D"> D. Khám chữa bệnh từ xa, hồ sơ bệnh án điện tử</label>
+</div>
+<button onclick="checkAnswer('q5', 'D')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q5" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 6: Đâu là ứng dụng của công nghệ thông tin trong nông nghiệp?</p>
+<div class="options">
+<label><input type="radio" name="q6" value="A"> A. Cảm biến độ ẩm đất, máy bay không người lái phun thuốc</label>
+<label><input type="radio" name="q6" value="B"> B. Khám chữa bệnh từ xa</label>
+<label><input type="radio" name="q6" value="C"> C. Dịch vụ công trực tuyến</label>
+<label><input type="radio" name="q6" value="D"> D. Trò chơi điện tử</label>
+</div>
+<button onclick="checkAnswer('q6', 'A')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q6" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 7: Hành vi nào thể hiện trách nhiệm của công dân số khi dùng máy tính?</p>
+<div class="options">
+<label><input type="radio" name="q7" value="A"> A. Chia sẻ mật khẩu cho bạn bè</label>
+<label><input type="radio" name="q7" value="B"> B. Phát tán tin chưa kiểm chứng</label>
+<label><input type="radio" name="q7" value="C"> C. Tôn trọng người khác trên mạng, bảo vệ thông tin cá nhân</label>
+<label><input type="radio" name="q7" value="D"> D. Dùng máy tính để chơi game suốt ngày</label>
+</div>
+<button onclick="checkAnswer('q7', 'C')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q7" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 8: ENIAC có đặc điểm nào sau đây?</p>
+<div class="options">
+<label><input type="radio" name="q8" value="A"> A. Nhỏ gọn, để vừa trong túi áo</label>
+<label><input type="radio" name="q8" value="B"> B. Nặng khoảng 30 tấn, dùng gần 18 000 bóng đèn điện tử</label>
+<label><input type="radio" name="q8" value="C"> C. Chạy bằng năng lượng mặt trời</label>
+<label><input type="radio" name="q8" value="D"> D. Có màn hình cảm ứng</label>
+</div>
+<button onclick="checkAnswer('q8', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q8" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 9: Xu hướng phát triển của máy tính qua các thế hệ là:</p>
+<div class="options">
+<label><input type="radio" name="q9" value="A"> A. Ngày càng to và đắt hơn</label>
+<label><input type="radio" name="q9" value="B"> B. Ngày càng chậm hơn</label>
+<label><input type="radio" name="q9" value="C"> C. Không thay đổi</label>
+<label><input type="radio" name="q9" value="D"> D. Ngày càng nhỏ gọn, nhanh hơn và rẻ hơn</label>
+</div>
+<button onclick="checkAnswer('q9', 'D')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q9" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 10: Thách thức nào dưới đây đặt ra khi công nghệ thông tin phát triển?</p>
+<div class="options">
+<label><input type="radio" name="q10" value="A"> A. Tin giả, lừa đảo trực tuyến, nghiện trò chơi điện tử</label>
+<label><input type="radio" name="q10" value="B"> B. Học trực tuyến</label>
+<label><input type="radio" name="q10" value="C"> C. Sách điện tử</label>
+<label><input type="radio" name="q10" value="D"> D. Bản đồ số</label>
+</div>
+<button onclick="checkAnswer('q10', 'A')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q10" class="mt-2"></div>
+</div>
+
+</div>
+<script>
+function checkAnswer(qid, correct) {
+    const selected = document.querySelector(`input[name="${qid}"]:checked`);
+    const feedback = document.getElementById(`fb-${qid}`);
+    if (!selected) { feedback.innerHTML = '<span class="text-orange-600">Hãy chọn đáp án!</span>'; return; }
+    if (selected.value === correct) {
+        feedback.innerHTML = '<span class="text-green-600 font-bold">✓ Đúng!</span>';
+    } else {
+        feedback.innerHTML = '<span class="text-red-600">✗ Chưa đúng. Đáp án đúng: ' + correct + '</span>';
+    }
+}
+</script>
+</body>
+</html>
