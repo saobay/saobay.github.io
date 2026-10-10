@@ -7,7 +7,9 @@
             currentPushTab = mode;
             let isTheory = (mode === 'theory');
             let isExercise = (mode === 'exercise');
-            let isExam = (mode === 'bank' || mode === 'direct');
+            let isBank = (mode === 'bank');
+            let isDirect = (mode === 'direct');
+            let isExam = isBank || isDirect;
             let base = 'flex-1 px-3 py-2.5 rounded-lg text-xs font-bold transition flex items-center justify-center ';
             let on = { theory: 'bg-blue-700 text-white shadow', exercise: 'bg-amber-500 text-white shadow', bank: 'bg-amber-500 text-white shadow', direct: 'bg-indigo-700 text-white shadow' };
             let off = 'bg-slate-100 text-slate-600 hover:bg-slate-200';
@@ -20,48 +22,56 @@
             if (bB) bB.className = base + (mode === 'bank' ? on.bank : off);
             if (bD) bD.className = base + (mode === 'direct' ? on.direct : off);
 
+            // Helper hiện/ẩn dứt khoát (2026-10-10: fix trắng trang theory/exercise)
+            function setVis(id, show){
+                let el = document.getElementById(id);
+                if (el) el.style.display = show ? '' : 'none';
+            }
+
+            // Form lý thuyết / bài tập: chỉ hiện ở theory/exercise
+            setVis('bo-tao-prompt-box', isTheory || isExercise);
+            // Box Copy Prompt: đúng chế độ
+            setVis('theory-copy-prompt-box', isTheory);
+            setVis('exercise-copy-prompt-box', isExercise);
+
+            // Ma trận đề: chỉ hiện ở bank (2026-10-10: gộp nút ma trận vào nút bank trên cùng)
+            setVis('exam-matrix-panel', isBank);
+
+            // Panel builder ngân hàng: mở ở bank
+            let bp = document.getElementById('exam-builder-panel');
+            if (bp){ bp.classList.toggle('open', isBank); bp.style.display = isBank ? '' : 'none'; }
+
+            // Panel đẩy trực tiếp: mở ở direct
+            let dp = document.getElementById('direct-panel');
+            if (dp){ dp.classList.toggle('open', isDirect); dp.style.display = isDirect ? '' : 'none'; }
+
+            // Lịch kiểm tra + toggle con: chỉ ở chế độ đề thi
+            setVis('exam-schedule-box', isExam);
+            let subToggle = document.getElementById('exam-submode-toggle');
+            if (subToggle){ subToggle.classList.toggle('hidden', !isExam); subToggle.style.display = isExam ? '' : 'none'; }
+            if (isExam && typeof switchExamSubMode === 'function'){
+                try { switchExamSubMode('create'); } catch(e){}
+            }
+
+            // Panel legacy
             let panelT = document.getElementById('prompt-panel-theory');
             let panelE = document.getElementById('prompt-panel-exam');
             if (panelT) panelT.classList.toggle('hidden', !isTheory);
             if (panelE) panelE.classList.toggle('hidden', !isExam);
-            // Box Copy Prompt bài tập: chỉ hiện ở chế độ exercise
-            let exBox = document.getElementById('exercise-copy-prompt-box');
-            if (exBox) exBox.style.display = isExercise ? '' : 'none';
-            // Box Copy Prompt lý thuyết: chỉ hiện ở chế độ theory
-            let thBox = document.getElementById('theory-copy-prompt-box');
-            if (thBox) thBox.style.display = isTheory ? '' : 'none';
-            // Panel builder (ngan hang de) mo mem o che do bank
-            let bp = document.getElementById('exam-builder-panel');
-            if (bp){ bp.classList.remove('hidden'); bp.classList.toggle('open', mode === 'bank'); }
-            // Toggle che do con (chi hien o che do de thi)
-            let subToggle = document.getElementById('exam-submode-toggle');
-            if (subToggle) subToggle.classList.toggle('hidden', !isExam);
-            if (isExam) {
-                // Mac dinh mo che do "Tao de moi" khi vao tab de thi
-                switchExamSubMode('create');
-            } else {
-                // Ve theory/exercise mode: dam bao form hien (reset sub-mode)
-                let boxC = document.getElementById('bo-tao-prompt-box');
-                let boxE = document.getElementById('exam-form-box');
-                if (boxC) boxC.classList.remove('hidden');
-                if (boxE) boxE.classList.remove('hidden');
-                let bp = document.getElementById('exam-builder-panel');
-                let dp = document.getElementById('direct-panel');
-                if (bp) bp.style.display = '';
-                if (dp) dp.style.display = '';
-            }
-            // Panel day truc tiep mo mem o che do direct
-            let dp = document.getElementById('direct-panel');
-            if (dp){ dp.classList.remove('hidden'); dp.classList.toggle('open', mode === 'direct'); }
 
-            // Đồng bộ loại bài đẩy ẩn theo chế độ (2026-10-10: thêm EXERCISE cho chế độ bài tập)
+            // Đồng bộ loại bài đẩy ẩn theo chế độ
             // - theory → KNOWLEDGE (file *_Ly_thuyet_*.html)
             // - exercise → EXERCISE (file *_Bai_tap_*.html, vào bank data của bài học)
             // - bank/direct → EXAM_LONG (đề thi)
             let itemType = document.getElementById('item-type');
             if (itemType) itemType.value = isTheory ? 'KNOWLEDGE' : (isExercise ? 'EXERCISE' : 'EXAM_LONG');
-            refreshPushSubmitBtn();
-            updateScorePreview();
+            if (typeof refreshPushSubmitBtn === 'function') refreshPushSubmitBtn();
+            if (typeof updateScorePreview === 'function') updateScorePreview();
+
+            // Load danh sách bài cho ma trận khi vào bank
+            if (isBank && typeof loadLessonDropdowns === 'function'){
+                try { loadLessonDropdowns(); } catch(e){}
+            }
         }
         // ========================================================
         // 2 CHE DO CON TRONG TAB DE THI: Tao de moi / Soan tay (2026-10-09)
