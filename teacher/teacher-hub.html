@@ -674,17 +674,14 @@
                                 <option value="EXAM_SHORT">✏️ Đẩy Đề Thi Ngắn (&lt;=10 câu) (+20 điểm)</option>
                             </select>
                         </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Tiêu Đề Bài Học / Đề Thi</label>
-                            <input type="text" id="item-title" autocomplete="off" required placeholder="Nhập tiêu đề bài học / đề thi..." class="w-full px-3.5 py-2 border rounded-xl text-xs font-semibold focus:ring-2 focus:ring-blue-500 border-slate-300"/>
-                        </div>
+                        <input type="hidden" id="item-title" value=""/>
                     </div>
 
                     <!-- COPY PROMPT BÀI HỌC — đặt sau khi điền xong thông tin (2026-10-10) -->
                     <div id="theory-copy-prompt-box" class="bg-emerald-50/70 p-2.5 rounded-xl border border-emerald-200 space-y-2">
-                        <p class="text-[11px] font-bold text-emerald-900"><i class="fa-solid fa-list-check mr-1.5 text-emerald-600"></i>Đã điền xong Môn / Khối / Chương / Bài và Tiêu đề? Bấm để copy prompt:</p>
-                        <button type="button" onclick="generateAndCopyPrompt('KNOWLEDGE')" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white text-sm px-3 py-2.5 rounded-lg font-bold shadow transition flex items-center justify-center">
-                            <i class="fa-solid fa-copy mr-2"></i> Copy Prompt Bài Học
+                        <p class="text-[11px] font-bold text-emerald-900"><i class="fa-solid fa-list-check mr-1.5 text-emerald-600"></i>Đã điền xong Môn / Khối / Chương / Bài? Bấm để copy prompt:</p>
+                        <button type="button" onclick="generateAndCopyPrompt('KNOWLEDGE')" class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs px-4 py-1.5 rounded-lg font-bold shadow transition inline-flex items-center">
+                            <i class="fa-solid fa-copy mr-1.5"></i> Copy Prompt Bài Học
                         </button>
                         <a href="https://docs.google.com/document/d/1fXvNSlbTHAKpzfMmTxuW_0D5mzkFnzW0sM78-UVzIKM/export?format=docx" target="_blank" class="text-emerald-700 font-bold text-xs hover:underline flex items-center justify-center">
                             <i class="fa-solid fa-cloud-arrow-down mr-1.5"></i> Tải Quy Ước Bài Học (.docx)
@@ -694,16 +691,20 @@
                     <!-- COPY PROMPT BÀI TẬP — chỉ hiện ở chế độ Đẩy Bài Tập (2026-10-10) -->
                     <div id="exercise-copy-prompt-box" class="bg-amber-50/70 p-2.5 rounded-xl border border-amber-200 space-y-2" style="display:none">
                         <p class="text-[11px] font-bold text-amber-900"><i class="fa-solid fa-list-check mr-1.5 text-amber-600"></i>Đã điền xong Môn / Khối / Chương / Bài và Tiêu đề bài tập? Bấm để copy prompt:</p>
-                        <button type="button" onclick="generateAndCopyPrompt('EXERCISE')" class="w-full bg-amber-600 hover:bg-amber-700 text-white text-sm px-3 py-2.5 rounded-lg font-bold shadow transition flex items-center justify-center">
-                            <i class="fa-solid fa-copy mr-2"></i> Copy Prompt Bài Tập
+                        <button type="button" onclick="generateAndCopyPrompt('EXERCISE')" class="bg-amber-600 hover:bg-amber-700 text-white text-xs px-4 py-1.5 rounded-lg font-bold shadow transition inline-flex items-center">
+                            <i class="fa-solid fa-copy mr-1.5"></i> Copy Prompt Bài Tập
                         </button>
                         <p class="text-[10px] text-slate-600 leading-snug text-center">Copy prompt → dán cho AI (NotebookLM/Gemini) → AI trả code HTML → dán vào khung soạn bên dưới → chọn đúng thư mục bài → Đẩy bài.</p>
                     </div>
 
                     <!-- THANH TẢI HỌC LIỆU & DÁN TỪ NOTEBOOKLM -->
-                    <div class="bg-blue-50/70 border border-blue-200 rounded-xl p-2.5 space-y-2">
-                        <p class="text-[11px] font-bold text-blue-900"><i class="fa-solid fa-cloud-arrow-up mr-1.5 text-blue-600"></i>Đưa nội dung bài học lên web</p>
-                        <p class="text-[10px] text-slate-600 leading-snug">Sau khi NotebookLM trả nội dung: <b>dán trực tiếp</b> vào khung soạn, hoặc <b>tải file Word (.docx)</b> đã soạn theo quy ước lên đây — hệ thống sẽ đưa bài học lên website.</p>
+                    <div class="bg-gradient-to-br from-blue-100 via-sky-50 to-blue-50 border-2 border-blue-500 rounded-2xl p-4 space-y-3 shadow-md">
+                        <p class="text-sm font-extrabold text-blue-900"><i class="fa-solid fa-cloud-arrow-up mr-2 text-blue-600 text-base"></i>Đưa nội dung bài học lên web</p>
+                        <div class="flex items-center gap-2 bg-white/80 border border-blue-200 rounded-xl px-3 py-2.5">
+                            <label for="push-title" class="text-xs font-bold text-blue-900 whitespace-nowrap"><i class="fa-solid fa-heading mr-1.5 text-blue-600"></i>Tiêu đề bài:</label>
+                            <input type="text" id="push-title" autocomplete="off" placeholder="Tự động theo Môn/Khối/Chương/Bài — bấm để sửa..." class="flex-1 px-2.5 py-1.5 border border-blue-300 rounded-lg text-xs font-semibold text-slate-800 bg-white focus:ring-2 focus:ring-blue-500"/>
+                        </div>
+                        <p class="text-xs text-slate-600 leading-snug">Sau khi NotebookLM trả nội dung: <b>dán trực tiếp</b> vào khung soạn, hoặc <b>tải file Word (.docx)</b> đã soạn theo quy ước lên đây — hệ thống sẽ đưa bài học lên website.</p>
                     <div class="bg-slate-50 border border-slate-200 p-2.5 rounded-xl flex flex-wrap items-center justify-between gap-3">
                         <div class="flex items-center space-x-2 flex-1 min-w-[280px]">
                             <label class="text-[11px] font-bold text-slate-700 whitespace-nowrap"><i class="fa-solid fa-file-word text-blue-600 mr-1"></i> Tải file (.docx/.txt/.html):</label>
@@ -2021,6 +2022,47 @@ function openMyAccount(){
             } else {
                 document.addEventListener('DOMContentLoaded', function(){ setTimeout(runAutoMerge, 3000); });
             }
+        })();
+    </script>
+    <script>
+        // AUTO-TITLE (2026-10-10): ô "TIÊU ĐỀ BÀI HỌC / ĐỀ THI" đã bỏ khỏi form trên;
+        // tiêu đề tự điền từ Môn/Khối/Chương/Bài, hiện + sửa ở khung đẩy bên dưới (#push-title)
+        (function(){
+            function buildAutoTitle(){
+                var s=document.getElementById('item-subject'), g=document.getElementById('item-grade'),
+                    c=document.getElementById('item-chapter'), l=document.getElementById('item-lesson');
+                var sv=s?String(s.value).trim().toUpperCase():'', gv=g?String(g.value).trim():'',
+                    cv=c?String(c.value).trim():'', lv=l?String(l.value).trim():'';
+                return '['+sv+' '+gv+'] Chương '+cv+' - Bài '+lv;
+            }
+            function syncTitle(){
+                var t=document.getElementById('item-title'), p=document.getElementById('push-title');
+                if(!t) return;
+                var auto=buildAutoTitle();
+                if(!t.dataset.manual || t.value==='' || t.value===t.dataset.auto){
+                    t.value=auto; t.dataset.auto=auto;
+                    if(p && (!p.dataset.manual || p.value==='' || p.value===p.dataset.auto)){ p.value=auto; p.dataset.auto=auto; }
+                }
+            }
+            window.syncPushTitle=syncTitle;
+            ['item-subject','item-grade','item-chapter','item-lesson'].forEach(function(id){
+                var el=document.getElementById(id);
+                if(el) el.addEventListener('input',function(){
+                    var t=document.getElementById('item-title'), p=document.getElementById('push-title');
+                    if(t) delete t.dataset.manual; if(p) delete p.dataset.manual; syncTitle();
+                });
+            });
+            var p0=document.getElementById('push-title');
+            if(p0) p0.addEventListener('input',function(){
+                var t=document.getElementById('item-title');
+                if(t){ t.value=p0.value; t.dataset.manual='1'; }
+                p0.dataset.manual='1';
+            });
+            if(typeof window.resetFormToCreate==='function'){
+                var _origReset=window.resetFormToCreate;
+                window.resetFormToCreate=function(){ _origReset(); var t=document.getElementById('item-title'),p=document.getElementById('push-title'); if(t){delete t.dataset.manual;} if(p){delete p.dataset.manual;} syncTitle(); };
+            }
+            syncTitle();
         })();
     </script>
 </body>
