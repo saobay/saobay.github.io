@@ -1539,6 +1539,30 @@
         }
 
 
+        // HỆ THỐNG TỰ ĐỘNG CHIA NHÓM GV TỰ DO (2026-10-10): 20 GV/nhóm, đầy tự tạo nhóm mới
+        var TEACHER_GROUP_SIZE = 20;
+        function isFreeTeacherId(tid){
+            tid = String(tid || '');
+            return /^0\d{8,11}$/.test(tid) || tid.indexOf('@') >= 0;
+        }
+        function _tgNum(gn){ var m = String(gn || '').match(/(\d+)/); return m ? parseInt(m[1], 10) : 0; }
+        function autoAssignTeacherGroup(){
+            var reg = (typeof masterDatabase !== 'undefined' && masterDatabase.teachers_registry) || {};
+            var counts = {};
+            Object.keys(reg).forEach(function(tid){
+                var t = reg[tid] || {};
+                if (t.role === 'teacher' && isFreeTeacherId(tid) && t.teacher_group){
+                    counts[t.teacher_group] = (counts[t.teacher_group] || 0) + 1;
+                }
+            });
+            var names = Object.keys(counts).sort(function(a, b){ return _tgNum(a) - _tgNum(b); });
+            for (var i = 0; i < names.length; i++){
+                if (counts[names[i]] < TEACHER_GROUP_SIZE) return names[i];
+            }
+            var maxN = names.reduce(function(m, n){ return Math.max(m, _tgNum(n)); }, 0);
+            return 'Nhóm ' + (maxN + 1);
+        }
+
         // DUYỆT ĐĂNG KÝ (2026-10-10): tạo password + hồ sơ thật cho TK được duyệt
         // Fix lỗi: trước đây chỉ đổi status mà không tạo TK thật → user không đăng nhập được
         async function approveRegistration(regId) {
@@ -1584,6 +1608,12 @@
                             role: 'teacher',
                             note: reg.note || ''
                         };
+                    }
+                    // TỰ ĐỘNG XẾP NHÓM GV TỰ DO (20 GV/nhóm, đầy tự tạo nhóm mới)
+                    if (masterDatabase.teachers_registry[rid].role === 'teacher'
+                        && isFreeTeacherId(rid)
+                        && !masterDatabase.teachers_registry[rid].teacher_group){
+                        masterDatabase.teachers_registry[rid].teacher_group = autoAssignTeacherGroup();
                     }
                 } else {
                     if (!masterDatabase.students) masterDatabase.students = {};
