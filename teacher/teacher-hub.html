@@ -87,7 +87,7 @@
     <div class="flex flex-col md:flex-row flex-1 p-3 md:p-6 gap-4 md:gap-6 max-w-[1600px] mx-auto w-full relative overflow-hidden">
         
         <!-- CỘT TRÁI: CÂY THƯ MỤC DẠY HỌC -->
-        <aside id="sidebar-container" class="hidden w-full md:w-80 bg-white rounded-2xl shadow-sm border p-4 flex flex-col space-y-4 transition-all duration-300 ease-in-out">
+        <aside id="sidebar-container" class="w-full md:w-80 bg-white rounded-2xl shadow-sm border p-4 flex flex-col space-y-4 transition-all duration-300 ease-in-out">
             <div class="flex items-center justify-between border-b pb-3">
                 <h2 class="font-bold text-slate-900 text-sm"><i class="fa-solid fa-folder-tree text-blue-700 mr-2"></i>Cấu Trúc Thư Mục</h2>
                 <div class="flex items-center space-x-1">
@@ -1678,55 +1678,129 @@
             }
         }
 
-        // Tải danh sách bài học cho dropdowns Từ bài / Đến bài (2026-10-10)
+        // Tải danh sách bài học cho dropdowns Từ bài / Đến bài (2026-10-10, nâng cấp: lấy tên bài từ data)
         async function loadLessonDropdowns(){
             try {
-                var subject = (document.getElementById('mx-subject')||{}).value || '';
+                var subject = ((document.getElementById('mx-subject')||{}).value || '').trim();
                 var grade = (document.getElementById('mx-grade')||{}).value || '12';
                 var fromSel = document.getElementById('mx-from-lesson');
                 var toSel = document.getElementById('mx-to-lesson');
-                if (!fromSel || !toSel) return;
-                
-                // Xác định thư mục dựa trên môn và khối
-                // Thử các pattern phổ biến
-                var basePaths = [];
-                var subjLower = subject.toLowerCase().trim();
-                if (grade >= 6 && grade <= 9) {
-                    basePaths.push('data/THCS/Khối lớp ' + grade + '/' + subject + ' ' + grade);
-                    basePaths.push('data/THCS/' + subject + ' ' + grade);
-                } else {
-                    basePaths.push('data/THPT/Khối lớp ' + grade + '/' + subject + ' ' + grade);
-                    basePaths.push('data/THPT/' + subject + ' ' + grade);
+                if (!fromSel || !toSel || !subject) return;
+                fromSel.innerHTML = '<option value="">Đang tải...</option>';
+                toSel.innerHTML = '<option value="">Đang tải...</option>';
+
+                // Chuẩn hoá tên môn: "toán" -> "Toán", "ngữ văn" -> "Ngữ văn"
+                function normSubj(s){
+                    return s.toLowerCase().split(/\s+/).map(function(w){
+                        return w.charAt(0).toUpperCase() + w.slice(1);
+                    }).join(' ');
                 }
-                
-                var lessons = [];
-                for (var p of basePaths) {
+                var subjName = normSubj(subject);
+                var cap = (grade >= 6 && grade <= 9) ? 'THCS' : 'THPT';
+                var basePaths = [
+                    'data/' + cap + '/Khối lớp ' + grade + '/' + subjName + ' ' + grade,
+                    'data/' + cap + '/' + subjName + ' ' + grade
+                ];
+
+                async function ghList(path){
                     try {
-                        var url = 'https://api.github.com/repos/saobay/saobay.github.io/contents/' + encodeURIComponent(p).replace(/%2F/g, '/') + '?ref=main';
+                        var url = 'https://api.github.com/repos/saobay/saobay.github.io/contents/' + encodeURIComponent(path).replace(/%2F/g, '/') + '?ref=main';
                         var r = await fetch(url);
-                        if (r.ok) {
-                            var items = await r.json();
-                            if (Array.isArray(items)) {
-                                items.forEach(function(it){
-                                    if (it.type === 'dir' && it.name.indexOf('Chương') === 0) {
-                                        lessons.push(it.name);
-                                    } else if (it.type === 'file' && it.name.endsWith('.html')) {
-                                        lessons.push(it.name.replace(/\.html$/, '').replace(/_/g, ' '));
-                                    }
-                                });
-                                if (lessons.length) break;
+                        if (r.ok) { var j = await r.json(); if (Array.isArray(j)) return j; }
+                    } catch(e){}
+                    return null;
+                }
+
+                // Tìm thư mục môn
+                var subjPath = null;
+                for (var bp of basePaths) {
+                    var lst = await ghList(bp);
+                    if (lst) { subjPath = bp; break; }
+                }
+                // Thử tìm không phân biệt hoa thường trong thư mục khối
+                if (!subjPath) {
+                    var gradeDir = 'data/' + cap + '/Khối lớp ' + grade;
+                    var gl = await ghList(gradeDir);
+                    if (gl) {
+                        var low = subjName.toLowerCase();
+                        for (var gi of gl) {
+                            if (gi.type === 'dir' && gi.name.toLowerCase().indexOf(low) === 0) {
+                                subjPath = gradeDir + '/' + gi.name; break;
                             }
                         }
-                    } catch(e){}
+                    }
                 }
-                
+                if (!subjPath) {
+                    fromSel.innerHTML = '<option value="">-- Không tìm thấy môn --</option>';
+                    toSel.innerHTML = '<option value="">-- Không tìm thấy môn --</option>';
+                    return;
+                }
+
+                // Liệt kê các chương, rồi từng bài trong chương (ưu tiên file Lý thuyết)
+                var subjItems = await ghList(subjPath) || [];
+                var chapters = subjItems.filter(function(it){
+                    return it.type === 'dir' && /^Chương\s*\d+/i.test(it.name);
+                }).sort(function(a,b){
+                    var na = parseInt((a.name.match(/\d+/)||[0])[0], 10);
+                    var nb = parseInt((b.name.match(/\d+/)||[0])[0], 10);
+                    return na - nb;
+                });
+
+                var lessons = []; // {label, value}
+                // Trích tên bài từ tên file: "Bài 1 Mệnh đề_Lý thuyết_..." -> "Bài 1: Mệnh đề"
+                function lessonName(fname){
+                    var n = fname.replace(/\.html$/i, '');
+                    // Bỏ hậu tố loại bài và tác giả
+                    n = n.replace(/_(Lý thuyết|Ly_thuyet|Bài tập|Bai_tap)(_.*)?$/i, '');
+                    n = n.replace(/_(Lý thuyết|Ly_thuyet|Bài tập|Bai_tap)$/i, '');
+                    // Chuẩn hoá "Bài 2_ Tập hợp" -> "Bài 2: Tập hợp"
+                    var m = n.match(/^(Bài\s*\d+)\s*[_.:\-\s]+(.+)$/i);
+                    if (m) return m[1].replace(/\s+/g,' ').trim() + ': ' + m[2].replace(/_/g,' ').trim();
+                    // Dạng TOAN_10_Bai_1_Menh_de_...
+                    var m2 = n.match(/Bai_?(\d+)_(.+)/i);
+                    if (m2) return 'Bài ' + m2[1] + ': ' + m2[2].replace(/_/g,' ').trim();
+                    return n.replace(/_/g,' ').trim();
+                }
+                function lessonNum(label){
+                    var m = label.match(/Bài\s*(\d+)/i);
+                    return m ? parseInt(m[1],10) : 999;
+                }
+
+                for (var ch of chapters) {
+                    var chNum = (ch.name.match(/\d+/)||['?'])[0];
+                    var files = await ghList(subjPath + '/' + ch.name) || [];
+                    var seen = {};
+                    files.forEach(function(f){
+                        if (f.type !== 'file' || !/\.html$/i.test(f.name)) return;
+                        if (/\.gitkeep$/i.test(f.name)) return;
+                        var ln = lessonName(f.name);
+                        if (!ln || seen[ln]) return;
+                        // Ưu tiên file Lý thuyết; bỏ qua file Bài tập trùng tên bài
+                        var isLT = /lý thuyết|ly_thuyet/i.test(f.name);
+                        var key = ln.toLowerCase();
+                        if (seen[key] && !isLT) return;
+                        seen[key] = true;
+                        lessons.push({ label: ln + ' (Chương ' + chNum + ')', value: ln, num: lessonNum(ln), ch: parseInt(chNum,10)||0 });
+                    });
+                }
+                // Sắp xếp theo chương rồi số bài
+                lessons.sort(function(a,b){ return (a.ch - b.ch) || (a.num - b.num); });
+
+                if (!lessons.length) {
+                    fromSel.innerHTML = '<option value="">-- Chưa có bài --</option>';
+                    toSel.innerHTML = '<option value="">-- Chưa có bài --</option>';
+                    return;
+                }
                 var opts = '<option value="">-- Chọn bài --</option>' + lessons.map(function(l){
-                    var esc = l.replace(/</g,'&lt;').replace(/>/g,'&gt;');
-                    return '<option value="' + esc + '">' + esc + '</option>';
+                    var esc = l.label.replace(/</g,'&lt;').replace(/>/g,'&gt;');
+                    var ev = l.value.replace(/"/g,'&quot;');
+                    return '<option value="' + ev + '">' + esc + '</option>';
                 }).join('');
                 fromSel.innerHTML = opts;
                 toSel.innerHTML = opts;
-            } catch(e){}
+            } catch(e){
+                console.error('[hub] loadLessonDropdowns loi:', e);
+            }
         }
 
         // Lấy đề từ Thư viện đề (dùng ma trận để lọc bank)
