@@ -30,6 +30,9 @@
 
             // Box prompt/AI: hiện ở exam (chứa prompt-panel-exam); form soạn (exam-form-box) đã tách ra ngoài nên luôn hiện mọi chế độ (2026-10-10)
             setVis('bo-tao-prompt-box', isExam);
+            // Cây thư mục: chỉ hiện ở Đẩy Lý Thuyết / Đẩy Bài Tập (2026-10-10)
+            let sb = document.getElementById('sidebar-container');
+            if (sb) sb.classList.toggle('hidden', !(isTheory || isExercise));
             // Box Copy Prompt: đúng chế độ
             setVis('theory-copy-prompt-box', isTheory);
             setVis('exercise-copy-prompt-box', isExercise);
