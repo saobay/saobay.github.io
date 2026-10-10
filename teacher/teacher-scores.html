@@ -60,6 +60,24 @@ body{font-family:system-ui,-apple-system,sans-serif}
     'use strict';
     const OWNER = 'saobay', REPO = 'saobay.github.io', BRANCH = 'main';
     const SCORES_DIR = 'data/scores';
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec';
+    // Xoa file qua GAS proxy (khong can token ca nhan)
+    async function gasDelete(filePath, commitMessage){
+        let author = (sessionUser && (sessionUser.name || sessionUser.id)) || 'Admin';
+        for (let attempt = 0; attempt < 3; attempt++){
+            let res = await fetch(GAS_URL, {
+                method: 'POST',
+                headers: {'Content-Type': 'text/plain;charset=utf-8'},
+                body: JSON.stringify({ type: 'DELETE_FROM_GITHUB', filePath: filePath, commitMessage: commitMessage, title: commitMessage, author: author })
+            });
+            let j = await res.json();
+            if (j && j.status === 'success') return true;
+            let msg = String((j && j.message) || '');
+            if (msg.indexOf('409') < 0) throw new Error(msg || 'Xóa thất bại.');
+            await new Promise(function(r){ setTimeout(r, 1200); });
+        }
+        throw new Error('Không xóa được, vui lòng thử lại.');
+    }
     let sessionUser = null, mySubjects = [], exams = [], curResults = [], curExamId = '';
     let pvClasses = [];
     loadPvClasses();
@@ -317,20 +335,7 @@ body{font-family:system-ui,-apple-system,sans-serif}
         if (!confirm('Xóa bài nộp của "' + studentName + '"?\nFile: ' + fileName + '\n\nHành động này không thể hoàn tác!')) return;
         try {
             let path = SCORES_DIR + '/' + curExamId + '/' + fileName;
-            let tk = token();
-            if (!tk) { alert('Cần token GitHub để xóa. Vào Teacher Hub > Cài đặt Admin để nhập token.'); return; }
-            // Lay SHA hien tai
-            let url = 'https://api.github.com/repos/' + OWNER + '/' + REPO + '/contents/' + encPath(path) + '?ref=' + BRANCH;
-            let res = await fetch(url, { headers: { 'Accept': 'application/vnd.github+json', 'Authorization': 'Bearer ' + tk } });
-            if (!res.ok) throw new Error('Không lấy được thông tin file (HTTP ' + res.status + ')');
-            let info = await res.json();
-            // Xoa file
-            let delRes = await fetch(url, {
-                method: 'DELETE',
-                headers: { 'Accept': 'application/vnd.github+json', 'Authorization': 'Bearer ' + tk, 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: 'Admin xóa bài nộp test: ' + studentName + ' (' + fileName + ')', sha: info.sha, branch: BRANCH })
-            });
-            if (!delRes.ok) { let t = await delRes.text(); throw new Error('GitHub API ' + delRes.status + ': ' + t.slice(0,120)); }
+            await gasDelete(path, 'Admin xóa bài nộp: ' + studentName + ' (' + fileName + ')');
             alert('Đã xóa bài nộp của "' + studentName + '".');
             selectExam(curExamId); // tai lai bang
         } catch(e){ alert('Lỗi xóa: ' + (e.message || e)); }
@@ -341,23 +346,13 @@ body{font-family:system-ui,-apple-system,sans-serif}
         let n = curResults.length;
         if (!confirm('Xóa TẤT CẢ ' + n + ' bài nộp của đề này?\n\nThống kê sẽ về 0. Hành động không thể hoàn tác!')) return;
         if (!confirm('Xác nhận lần cuối: XÓA HẾT ' + n + ' bài nộp?')) return;
-        let tk = token();
-        if (!tk) { alert('Cần token GitHub. Vào Teacher Hub > Cài đặt Admin để nhập token.'); return; }
         let ok = 0, fail = 0;
         for (let r of curResults) {
             if (!r._fileName) { fail++; continue; }
             try {
                 let path = SCORES_DIR + '/' + curExamId + '/' + r._fileName;
-                let url = 'https://api.github.com/repos/' + OWNER + '/' + REPO + '/contents/' + encPath(path) + '?ref=' + BRANCH;
-                let res = await fetch(url, { headers: { 'Accept': 'application/vnd.github+json', 'Authorization': 'Bearer ' + tk } });
-                if (!res.ok) { fail++; continue; }
-                let info = await res.json();
-                let delRes = await fetch(url, {
-                    method: 'DELETE',
-                    headers: { 'Accept': 'application/vnd.github+json', 'Authorization': 'Bearer ' + tk, 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: 'Admin reset thống kê: xóa ' + r._fileName, sha: info.sha, branch: BRANCH })
-                });
-                if (delRes.ok) ok++; else fail++;
+                await gasDelete(path, 'Admin reset thống kê: xóa ' + r._fileName);
+                ok++;
             } catch(e){ fail++; }
         }
         alert('Đã xóa ' + ok + '/' + n + ' bài nộp.' + (fail ? ' Thất bại: ' + fail : ''));
