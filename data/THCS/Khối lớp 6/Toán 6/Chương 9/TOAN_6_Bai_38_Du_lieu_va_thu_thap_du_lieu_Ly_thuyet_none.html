@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 38: Dữ liệu và thu thập dữ liệu</title>
+    <meta name="lesson-title" content="Bài 38: Dữ liệu và thu thập dữ liệu">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 38: Dữ liệu và thu thập dữ liệu</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 9: Dữ liệu và xác suất thực nghiệm • Bài 38: Dữ liệu và thu thập dữ liệu</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 38: Dữ liệu và thu thập dữ liệu</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 9: Dữ liệu và xác suất thực nghiệm (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Dữ liệu là gì? -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Dữ liệu là gì?</h2>
+
+<p>Hằng ngày, em tiếp xúc với rất nhiều <strong>thông tin và số liệu</strong>: chiều cao của các bạn trong lớp, điểm kiểm tra môn Toán, món ăn sáng được các bạn yêu thích, nhiệt độ ngoài trời mỗi buổi sáng... Những thông tin, số liệu thu được trong quá trình <strong>quan sát, đo đạc, điều tra, làm thí nghiệm</strong>... được gọi là <strong>dữ liệu</strong>.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>Đo chiều cao của 5 bạn trong tổ, thu được các số $148;\ 152;\ 150;\ 149;\ 151$ (đơn vị: cm) — đây là <strong>dữ liệu</strong>.</li>
+<li>Hỏi 30 bạn trong lớp "Môn thể thao em yêu thích nhất là gì?", thu được các câu trả lời: bóng đá, cầu lông, bơi lội... — đây cũng là <strong>dữ liệu</strong>.</li>
+</ul>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><strong>Dữ liệu</strong> là những thông tin, số liệu thu được khi <strong>quan sát, đo đạc, điều tra, làm thí nghiệm</strong>...</p>
+</div>
+
+<!-- 2. Thu thập dữ liệu -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Thu thập dữ liệu</h2>
+
+<p>Muốn có dữ liệu, ta phải <strong>thu thập</strong> chúng. Có nhiều cách thu thập dữ liệu:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Quan sát</strong> trực tiếp: ví dụ đếm số xe đạp đi qua cổng trường trong 10 phút, đọc số chỉ trên nhiệt kế mỗi buổi sáng.</li>
+<li><strong>Làm thí nghiệm</strong>: ví dụ tung một đồng xu 20 lần và ghi lại mặt xuất hiện mỗi lần, gieo một con xúc xắc nhiều lần và ghi lại số chấm.</li>
+<li><strong>Lập phiếu hỏi</strong> (phiếu điều tra): ví dụ phát phiếu cho cả lớp với câu hỏi "Môn học em yêu thích nhất là gì?" rồi tổng hợp các câu trả lời.</li>
+<li><strong>Thu thập từ những nguồn có sẵn</strong>: sách, báo, bảng tin của trường, trang web đáng tin cậy...</li>
+</ul>
+
+<div class="svg-fig"><svg viewBox="0 0 440 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bon cach thu thap du lieu">
+<rect x="2" y="2" width="436" height="296" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<rect x="14" y="14" width="204" height="132" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+<ellipse cx="116" cy="68" rx="34" ry="22" fill="#ffffff" stroke="#0369a1" stroke-width="3"/>
+<circle cx="116" cy="68" r="10" fill="#0369a1"/>
+<text x="116" y="124" font-family="sans-serif" font-size="15" font-weight="bold" fill="#0369a1" text-anchor="middle">Quan sát</text>
+<rect x="222" y="14" width="204" height="132" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+<polygon points="300,38 352,38 336,98 316,98" fill="#ffffff" stroke="#b45309" stroke-width="3"/>
+<polygon points="308,70 344,70 336,98 316,98" fill="#fbbf24"/>
+<text x="324" y="124" font-family="sans-serif" font-size="15" font-weight="bold" fill="#b45309" text-anchor="middle">Thí nghiệm</text>
+<rect x="14" y="154" width="204" height="132" rx="8" fill="#d1fae5" stroke="#059669" stroke-width="2"/>
+<rect x="70" y="170" width="70" height="88" rx="4" fill="#ffffff" stroke="#065f46" stroke-width="2.5"/>
+<line x1="78" y1="186" x2="132" y2="186" stroke="#6b7280" stroke-width="3"/>
+<line x1="78" y1="200" x2="132" y2="200" stroke="#6b7280" stroke-width="3"/>
+<line x1="78" y1="214" x2="112" y2="214" stroke="#6b7280" stroke-width="3"/>
+<polyline points="84,236 94,246 110,226" fill="none" stroke="#059669" stroke-width="4"/>
+<text x="116" y="278" font-family="sans-serif" font-size="15" font-weight="bold" fill="#065f46" text-anchor="middle">Phiếu hỏi</text>
+<rect x="222" y="154" width="204" height="132" rx="8" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+<rect x="282" y="174" width="84" height="60" rx="4" fill="#ffffff" stroke="#6d28d9" stroke-width="2.5"/>
+<line x1="292" y1="188" x2="356" y2="188" stroke="#9ca3af" stroke-width="3"/>
+<line x1="292" y1="200" x2="356" y2="200" stroke="#9ca3af" stroke-width="3"/>
+<line x1="292" y1="212" x2="340" y2="212" stroke="#9ca3af" stroke-width="3"/>
+<rect x="300" y="234" width="48" height="8" rx="2" fill="#6d28d9"/>
+<text x="324" y="278" font-family="sans-serif" font-size="15" font-weight="bold" fill="#6d28d9" text-anchor="middle">Nguồn có sẵn</text>
+</svg></div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Lớp 6A muốn biết loại truyện tranh được các bạn yêu thích nhất. Bạn lớp trưởng <strong>lập phiếu hỏi</strong> như sau:</p>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Câu hỏi</td><td class="border border-slate-300 px-4 py-1">Các lựa chọn trả lời (khoanh tròn)</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Bạn thích loại truyện tranh nào nhất?</td><td class="border border-slate-300 px-4 py-1">Truyện cười — Truyện cổ tích — Truyện khoa học — Truyện lịch sử</td></tr>
+</table></div>
+<p class="mt-2">Sau khi thu phiếu và đếm số lựa chọn, lớp trưởng có được <strong>dữ liệu</strong> về số bạn thích từng loại truyện.</p>
+</div>
+
+<p><strong>Lưu ý khi thu thập dữ liệu:</strong> cần thu thập <strong>đầy đủ, chính xác và trung thực</strong>; ghi chép cẩn thận, rõ ràng để tránh nhầm lẫn.</p>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Các cách thu thập dữ liệu thường dùng: <strong>quan sát</strong>, <strong>làm thí nghiệm</strong>, <strong>lập phiếu hỏi</strong> và <strong>thu thập từ nguồn có sẵn</strong> (sách, báo, Internet...).</p>
+</div>
+
+<!-- 3. Phân loại dữ liệu -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Phân loại dữ liệu</h2>
+
+<p>Tùy theo bản chất, dữ liệu được chia thành <strong>hai loại</strong>:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Dữ liệu là số</strong> (còn gọi là <strong>số liệu</strong>): là các con số thu được khi đo đạc, đếm, tính toán. Ví dụ: chiều cao (cm), cân nặng (kg), điểm kiểm tra, nhiệt độ (°C), số học sinh của lớp...</li>
+<li><strong>Dữ liệu không phải là số</strong>: là các thông tin không phải con số. Ví dụ: màu sắc yêu thích, môn thể thao yêu thích, quê quán, họ tên các bạn trong tổ...</li>
+</ul>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Loại dữ liệu</td><td class="border border-slate-300 px-4 py-1">Đặc điểm</td><td class="border border-slate-300 px-4 py-1">Ví dụ</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><strong>Dữ liệu là số</strong> (số liệu)</td><td class="border border-slate-300 px-4 py-1">Các con số thu được khi đo, đếm, tính toán</td><td class="border border-slate-300 px-4 py-1">Chiều cao, cân nặng, điểm số, nhiệt độ, số học sinh</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><strong>Dữ liệu không phải là số</strong></td><td class="border border-slate-300 px-4 py-1">Thông tin không phải con số</td><td class="border border-slate-300 px-4 py-1">Màu sắc, môn thể thao, quê quán, họ tên</td></tr>
+</table></div>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-emerald-800 mb-2">Bài tập ví dụ (có lời giải):</p>
+<p>Trong các dữ liệu sau, dữ liệu nào là số, dữ liệu nào không phải là số?</p>
+<p class="mt-1">a) Điểm kiểm tra môn Văn của tổ 1: $7;\ 8;\ 9;\ 6;\ 8$.</p>
+<p>b) Các môn thể thao mà tổ 1 yêu thích: bóng đá, cầu lông, bơi lội.</p>
+<p class="mt-2"><strong>Lời giải:</strong> a) Điểm kiểm tra là các con số nên là <strong>dữ liệu số</strong>. b) Tên các môn thể thao không phải con số nên là <strong>dữ liệu không phải là số</strong>.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Dữ liệu gồm hai loại: <strong>dữ liệu là số</strong> (số liệu: đo, đếm được bằng con số) và <strong>dữ liệu không phải là số</strong> (thông tin dạng chữ như tên gọi, màu sắc, sở thích...).</p>
+</div>
+
+<!-- 4. Tính hợp lí của dữ liệu -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Tính hợp lí của dữ liệu</h2>
+
+<p>Sau khi thu thập, ta cần <strong>kiểm tra tính hợp lí</strong> của dữ liệu: dữ liệu có phù hợp với thực tế không? Có số liệu nào bất thường, vô lí cần kiểm tra lại không?</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>Bạn Nam ghi chiều cao của mình là $180$ cm, trong khi các bạn cùng lớp chỉ khoảng $140$–$155$ cm. Số liệu này <strong>không hợp lí</strong>, cần đo lại.</li>
+<li>Bản tin ghi nhiệt độ mùa hè ở Hà Nội là $60$°C. Số liệu này <strong>không hợp lí</strong> (thực tế chỉ khoảng $30$–$40$°C), có thể đã ghi nhầm.</li>
+<li>Điểm kiểm tra của bạn Mai là $9$ điểm — số liệu này <strong>hợp lí</strong>.</li>
+</ul>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Luôn <strong>kiểm tra tính hợp lí</strong> của dữ liệu sau khi thu thập: loại bỏ hoặc kiểm tra lại những số liệu bất thường, không phù hợp với thực tế.</p>
+</div>
+
+<!-- Tóm tắt -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Nội dung</td><td class="border border-slate-300 px-4 py-1">Kiến thức cần nhớ</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Dữ liệu</td><td class="border border-slate-300 px-4 py-1">Thông tin, số liệu thu được khi quan sát, đo đạc, điều tra, làm thí nghiệm...</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Thu thập dữ liệu</td><td class="border border-slate-300 px-4 py-1">Quan sát; làm thí nghiệm; lập phiếu hỏi; thu thập từ nguồn có sẵn</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Phân loại dữ liệu</td><td class="border border-slate-300 px-4 py-1"><strong>Dữ liệu là số</strong> (số liệu) và <strong>dữ liệu không phải là số</strong></td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Tính hợp lí</td><td class="border border-slate-300 px-4 py-1">Kiểm tra dữ liệu có phù hợp với thực tế không; kiểm tra lại số liệu bất thường</td></tr>
+</table></div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
