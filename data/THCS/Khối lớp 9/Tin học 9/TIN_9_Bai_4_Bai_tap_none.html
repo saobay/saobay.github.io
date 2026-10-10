@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 4: Xử lí đa phương tiện - Bài tập</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: system-ui, sans-serif; padding: 16px; line-height: 1.6; }
+        .question { background: white; padding: 16px; margin: 12px 0; border-radius: 8px; border: 1px solid #e2e8f0; }
+        .options label { display: block; padding: 8px; margin: 4px 0; background: #f8fafc; border-radius: 4px; cursor: pointer; }
+        .options label:hover { background: #e0f2fe; }
+    </style>
+</head>
+<body class="bg-slate-50">
+<div class="max-w-3xl mx-auto">
+<h1 class="text-2xl font-bold mb-4">Bài 4: Xử lí đa phương tiện - Bài tập</h1>
+
+<div class="question">
+<p class="font-semibold mb-2">Câu 1: Đa phương tiện (multimedia) là gì?</p>
+<div class="options">
+<label><input type="radio" name="q1" value="A"> A. Chỉ bao gồm văn bản và số liệu</label>
+<label><input type="radio" name="q1" value="B"> B. Sự kết hợp của nhiều dạng thông tin: văn bản, âm thanh, hình ảnh, video</label>
+<label><input type="radio" name="q1" value="C"> C. Một loại phần mềm diệt virus</label>
+<label><input type="radio" name="q1" value="D"> D. Thiết bị phát Wi-Fi nhiều băng tần</label>
+</div>
+<button onclick="checkAnswer('q1', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q1" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 2: Định dạng âm thanh nào phổ biến nhất hiện nay nhờ dung lượng nhỏ và chất lượng tốt?</p>
+<div class="options">
+<label><input type="radio" name="q2" value="A"> A. MP3</label>
+<label><input type="radio" name="q2" value="B"> B. DOCX</label>
+<label><input type="radio" name="q2" value="C"> C. XLSX</label>
+<label><input type="radio" name="q2" value="D"> D. TXT</label>
+</div>
+<button onclick="checkAnswer('q2', 'A')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q2" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 3: Ảnh bitmap khác ảnh vector ở điểm nào?</p>
+<div class="options">
+<label><input type="radio" name="q3" value="A"> A. Ảnh bitmap phóng to không bị vỡ, ảnh vector thì bị vỡ</label>
+<label><input type="radio" name="q3" value="B"> B. Ảnh bitmap gồm các điểm ảnh, phóng to quá mức sẽ bị vỡ; ảnh vector phóng to không bị vỡ</label>
+<label><input type="radio" name="q3" value="C"> C. Ảnh vector chỉ có màu đen trắng</label>
+<label><input type="radio" name="q3" value="D"> D. Ảnh bitmap không thể chỉnh sửa được</label>
+</div>
+<button onclick="checkAnswer('q3', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q3" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 4: Định dạng hình ảnh nào lưu được nền trong suốt?</p>
+<div class="options">
+<label><input type="radio" name="q4" value="A"> A. JPG</label>
+<label><input type="radio" name="q4" value="B"> B. PNG</label>
+<label><input type="radio" name="q4" value="C"> C. MP3</label>
+<label><input type="radio" name="q4" value="D"> D. MP4</label>
+</div>
+<button onclick="checkAnswer('q4', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q4" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 5: Thao tác nào sau đây KHÔNG phải là xử lí hình ảnh cơ bản?</p>
+<div class="options">
+<label><input type="radio" name="q5" value="A"> A. Thay đổi kích thước và cắt xén ảnh</label>
+<label><input type="radio" name="q5" value="B"> B. Điều chỉnh độ sáng và màu sắc</label>
+<label><input type="radio" name="q5" value="C"> C. Biên dịch chương trình máy tính</label>
+<label><input type="radio" name="q5" value="D"> D. Chèn chữ vào ảnh</label>
+</div>
+<button onclick="checkAnswer('q5', 'C')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q5" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 6: Video thực chất được tạo thành từ gì?</p>
+<div class="options">
+<label><input type="radio" name="q6" value="A"> A. Chuỗi các hình ảnh (khung hình) chiếu liên tiếp rất nhanh, kết hợp âm thanh</label>
+<label><input type="radio" name="q6" value="B"> B. Một bức ảnh tĩnh duy nhất</label>
+<label><input type="radio" name="q6" value="C"> C. Các đoạn văn bản nối tiếp nhau</label>
+<label><input type="radio" name="q6" value="D"> D. Các tệp âm thanh ghép lại</label>
+</div>
+<button onclick="checkAnswer('q6', 'A')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q6" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 7: Định dạng video phổ biến nhất hiện nay, phát được trên hầu hết thiết bị là:</p>
+<div class="options">
+<label><input type="radio" name="q7" value="A"> A. WAV</label>
+<label><input type="radio" name="q7" value="B"> B. MP4</label>
+<label><input type="radio" name="q7" value="C"> C. PNG</label>
+<label><input type="radio" name="q7" value="D"> D. ZIP</label>
+</div>
+<button onclick="checkAnswer('q7', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q7" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 8: Khi dùng nhạc, hình ảnh của người khác trong sản phẩm của mình, em cần làm gì?</p>
+<div class="options">
+<label><input type="radio" name="q8" value="A"> A. Cứ dùng tự do, không cần quan tâm bản quyền</label>
+<label><input type="radio" name="q8" value="B"> B. Xoá tên tác giả để trông như của mình</label>
+<label><input type="radio" name="q8" value="C"> C. Xin phép tác giả hoặc dùng nguồn miễn phí bản quyền và ghi rõ nguồn gốc</label>
+<label><input type="radio" name="q8" value="D"> D. Chỉ dùng khi không ai phát hiện</label>
+</div>
+<button onclick="checkAnswer('q8', 'C')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q8" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 9: Thao tác "loại bỏ tạp âm" trong xử lí âm thanh có tác dụng gì?</p>
+<div class="options">
+<label><input type="radio" name="q9" value="A"> A. Làm cho bản ghi to hơn</label>
+<label><input type="radio" name="q9" value="B"> B. Giảm tiếng ồn nền để bản ghi trong và rõ hơn</label>
+<label><input type="radio" name="q9" value="C"> C. Thêm nhạc nền vào bản ghi</label>
+<label><input type="radio" name="q9" value="D"> D. Chuyển âm thanh thành văn bản</label>
+</div>
+<button onclick="checkAnswer('q9', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q9" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 10: Định dạng GIF có đặc điểm nào sau đây?</p>
+<div class="options">
+<label><input type="radio" name="q10" value="A"> A. Lưu được ảnh động đơn giản, ít màu</label>
+<label><input type="radio" name="q10" value="B"> B. Là định dạng video chất lượng cao</label>
+<label><input type="radio" name="q10" value="C"> C. Là định dạng âm thanh nén</label>
+<label><input type="radio" name="q10" value="D"> D. Chỉ dùng để lưu văn bản</label>
+</div>
+<button onclick="checkAnswer('q10', 'A')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q10" class="mt-2"></div>
+</div>
+</div>
+<script>
+function checkAnswer(qid, correct) {
+    const selected = document.querySelector(`input[name="${qid}"]:checked`);
+    const feedback = document.getElementById(`fb-${qid}`);
+    if (!selected) { feedback.innerHTML = '<span class="text-orange-600">Hãy chọn đáp án!</span>'; return; }
+    if (selected.value === correct) {
+        feedback.innerHTML = '<span class="text-green-600 font-bold">✓ Đúng!</span>';
+    } else {
+        feedback.innerHTML = '<span class="text-red-600">✗ Chưa đúng. Đáp án đúng: ' + correct + '</span>';
+    }
+}
+</script>
+</body>
+</html>
