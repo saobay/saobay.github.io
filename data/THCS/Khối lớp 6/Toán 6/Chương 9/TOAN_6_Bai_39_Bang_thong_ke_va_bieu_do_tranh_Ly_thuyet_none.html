@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 39: Bảng thống kê và biểu đồ tranh</title>
+    <meta name="lesson-title" content="Bài 39: Bảng thống kê và biểu đồ tranh">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 39: Bảng thống kê và biểu đồ tranh</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 9: Dữ liệu và xác suất thực nghiệm • Bài 39: Bảng thống kê và biểu đồ tranh</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 39: Bảng thống kê và biểu đồ tranh</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 9: Dữ liệu và xác suất thực nghiệm (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Bảng thống kê -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Bảng thống kê</h2>
+
+<p>Sau khi thu thập, dữ liệu thường được sắp xếp vào <strong>bảng thống kê</strong>: bảng gồm các hàng và cột, ghi <strong>tên các đối tượng</strong> và <strong>số liệu tương ứng</strong>. Bảng thống kê giúp ta nhìn dữ liệu một cách gọn gàng, dễ đọc, dễ so sánh.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Kết quả điều tra "Môn thể thao yêu thích" của lớp 6A được ghi vào bảng thống kê:</p>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Môn thể thao</td><td class="border border-slate-300 px-4 py-1">Bóng đá</td><td class="border border-slate-300 px-4 py-1">Cầu lông</td><td class="border border-slate-300 px-4 py-1">Bơi lội</td><td class="border border-slate-300 px-4 py-1">Cờ vua</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold bg-sky-50">Số bạn yêu thích</td><td class="border border-slate-300 px-4 py-1">$12$</td><td class="border border-slate-300 px-4 py-1">$8$</td><td class="border border-slate-300 px-4 py-1">$10$</td><td class="border border-slate-300 px-4 py-1">$6$</td></tr>
+</table></div>
+<p class="mt-2">Nhìn vào bảng, ta đọc được ngay: có $12$ bạn thích bóng đá, $8$ bạn thích cầu lông, $10$ bạn thích bơi lội và $6$ bạn thích cờ vua.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><strong>Bảng thống kê</strong> liệt kê dữ liệu theo hàng và cột: hàng (hoặc cột) ghi <strong>tên đối tượng</strong>, hàng (hoặc cột) còn lại ghi <strong>số liệu tương ứng</strong>.</p>
+</div>
+
+<!-- 2. Biểu đồ tranh -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Biểu đồ tranh</h2>
+
+<p><strong>Biểu đồ tranh</strong> dùng các <strong>hình ảnh</strong> (gọi là <strong>tranh</strong>) có cùng kích thước để thể hiện số liệu. Mỗi tranh tượng trưng cho <strong>một số lượng nhất định</strong>, số lượng này được ghi rõ trong <strong>phần chú thích</strong> của biểu đồ.</p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bieu do tranh so quyen sach cac to doc duoc">
+<rect x="2" y="2" width="436" height="316" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="28" font-family="sans-serif" font-size="16" font-weight="bold" fill="#0c4a6e" text-anchor="middle">Số quyển sách các tổ đọc được trong tháng</text>
+<text x="12" y="62" font-family="sans-serif" font-size="14" font-weight="bold" fill="#334155">Tổ 1</text>
+<rect x="70" y="44" width="16" height="22" rx="2" fill="#f59e0b" stroke="#b45309" stroke-width="1.5"/><line x1="75" y1="44" x2="75" y2="66" stroke="#b45309" stroke-width="1.5"/>
+<rect x="98" y="44" width="16" height="22" rx="2" fill="#f59e0b" stroke="#b45309" stroke-width="1.5"/><line x1="103" y1="44" x2="103" y2="66" stroke="#b45309" stroke-width="1.5"/>
+<rect x="126" y="44" width="16" height="22" rx="2" fill="#f59e0b" stroke="#b45309" stroke-width="1.5"/><line x1="131" y1="44" x2="131" y2="66" stroke="#b45309" stroke-width="1.5"/>
+<rect x="154" y="44" width="16" height="22" rx="2" fill="#f59e0b" stroke="#b45309" stroke-width="1.5"/><line x1="159" y1="44" x2="159" y2="66" stroke="#b45309" stroke-width="1.5"/>
+<rect x="182" y="44" width="16" height="22" rx="2" fill="#f59e0b" stroke="#b45309" stroke-width="1.5"/><line x1="187" y1="44" x2="187" y2="66" stroke="#b45309" stroke-width="1.5"/>
+<rect x="210" y="44" width="16" height="22" rx="2" fill="#f59e0b" stroke="#b45309" stroke-width="1.5"/><line x1="215" y1="44" x2="215" y2="66" stroke="#b45309" stroke-width="1.5"/>
+<text x="12" y="122" font-family="sans-serif" font-size="14" font-weight="bold" fill="#334155">Tổ 2</text>
+<rect x="70" y="104" width="16" height="22" rx="2" fill="#38bdf8" stroke="#0369a1" stroke-width="1.5"/><line x1="75" y1="104" x2="75" y2="126" stroke="#0369a1" stroke-width="1.5"/>
+<rect x="98" y="104" width="16" height="22" rx="2" fill="#38bdf8" stroke="#0369a1" stroke-width="1.5"/><line x1="103" y1="104" x2="103" y2="126" stroke="#0369a1" stroke-width="1.5"/>
+<rect x="126" y="104" width="16" height="22" rx="2" fill="#38bdf8" stroke="#0369a1" stroke-width="1.5"/><line x1="131" y1="104" x2="131" y2="126" stroke="#0369a1" stroke-width="1.5"/>
+<rect x="154" y="104" width="16" height="22" rx="2" fill="#38bdf8" stroke="#0369a1" stroke-width="1.5"/><line x1="159" y1="104" x2="159" y2="126" stroke="#0369a1" stroke-width="1.5"/>
+<text x="12" y="182" font-family="sans-serif" font-size="14" font-weight="bold" fill="#334155">Tổ 3</text>
+<rect x="70" y="164" width="16" height="22" rx="2" fill="#34d399" stroke="#065f46" stroke-width="1.5"/><line x1="75" y1="164" x2="75" y2="186" stroke="#065f46" stroke-width="1.5"/>
+<rect x="98" y="164" width="16" height="22" rx="2" fill="#34d399" stroke="#065f46" stroke-width="1.5"/><line x1="103" y1="164" x2="103" y2="186" stroke="#065f46" stroke-width="1.5"/>
+<rect x="126" y="164" width="16" height="22" rx="2" fill="#34d399" stroke="#065f46" stroke-width="1.5"/><line x1="131" y1="164" x2="131" y2="186" stroke="#065f46" stroke-width="1.5"/>
+<rect x="154" y="164" width="16" height="22" rx="2" fill="#34d399" stroke="#065f46" stroke-width="1.5"/><line x1="159" y1="164" x2="159" y2="186" stroke="#065f46" stroke-width="1.5"/>
+<rect x="182" y="164" width="16" height="22" rx="2" fill="#34d399" stroke="#065f46" stroke-width="1.5"/><line x1="187" y1="164" x2="187" y2="186" stroke="#065f46" stroke-width="1.5"/>
+<text x="12" y="242" font-family="sans-serif" font-size="14" font-weight="bold" fill="#334155">Tổ 4</text>
+<rect x="70" y="224" width="16" height="22" rx="2" fill="#f472b6" stroke="#be185d" stroke-width="1.5"/><line x1="75" y1="224" x2="75" y2="246" stroke="#be185d" stroke-width="1.5"/>
+<rect x="98" y="224" width="16" height="22" rx="2" fill="#f472b6" stroke="#be185d" stroke-width="1.5"/><line x1="103" y1="224" x2="103" y2="246" stroke="#be185d" stroke-width="1.5"/>
+<rect x="126" y="224" width="16" height="22" rx="2" fill="#f472b6" stroke="#be185d" stroke-width="1.5"/><line x1="131" y1="224" x2="131" y2="246" stroke="#be185d" stroke-width="1.5"/>
+<rect x="70" y="272" width="16" height="22" rx="2" fill="#94a3b8" stroke="#475569" stroke-width="1.5"/><line x1="75" y1="272" x2="75" y2="294" stroke="#475569" stroke-width="1.5"/>
+<text x="96" y="289" font-family="sans-serif" font-size="14" fill="#334155">= 4 quyển sách</text>
+</svg></div>
+
+<p><strong>Cách vẽ biểu đồ tranh:</strong></p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Bước 1:</strong> Chọn <strong>biểu tượng</strong> (hình ảnh) tượng trưng cho đối tượng, ví dụ hình quyển sách, hình người, hình quả táo...</li>
+<li><strong>Bước 2:</strong> Quy ước <strong>mỗi biểu tượng ứng với bao nhiêu đơn vị</strong> (ví dụ mỗi hình quyển sách ứng với $4$ quyển sách).</li>
+<li><strong>Bước 3:</strong> Với mỗi đối tượng, vẽ <strong>số biểu tượng tương ứng</strong> với số liệu của đối tượng đó.</li>
+<li><strong>Bước 4:</strong> Ghi <strong>tên biểu đồ</strong> và <strong>chú thích</strong> (mỗi biểu tượng ứng với bao nhiêu).</li>
+</ul>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Trong <strong>biểu đồ tranh</strong>, mỗi <strong>tranh</strong> (biểu tượng) tượng trưng cho <strong>một số lượng nhất định</strong> — phải đọc kĩ <strong>chú thích</strong> mới tính đúng số liệu.</p>
+</div>
+
+<!-- 3. Đọc biểu đồ tranh -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Đọc biểu đồ tranh</h2>
+
+<p>Để đọc biểu đồ tranh, ta làm như sau:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Đọc <strong>tên biểu đồ</strong> để biết biểu đồ nói về điều gì.</li>
+<li>Đọc <strong>chú thích</strong> để biết mỗi tranh ứng với bao nhiêu đơn vị.</li>
+<li><strong>Đếm số tranh</strong> của mỗi đối tượng rồi <strong>nhân</strong> với số đơn vị mỗi tranh để tìm số liệu.</li>
+<li><strong>So sánh</strong> số tranh giữa các đối tượng để biết đối tượng nào nhiều nhất, ít nhất.</li>
+</ul>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-emerald-800 mb-2">Bài tập ví dụ (có lời giải):</p>
+<p>Quan sát biểu đồ tranh "Số quyển sách các tổ đọc được trong tháng" ở trên, biết mỗi hình quyển sách ứng với $4$ quyển sách. Hỏi:</p>
+<p class="mt-1">a) Tổ 1 đọc được bao nhiêu quyển sách?</p>
+<p>b) Tổ nào đọc được nhiều sách nhất?</p>
+<p class="mt-2"><strong>Lời giải:</strong></p>
+<p>a) Tổ 1 có $6$ hình quyển sách, mỗi hình ứng với $4$ quyển. Vậy Tổ 1 đọc được $6 \times 4 = 24$ (quyển sách).</p>
+<p>b) Tổ 1 có $6$ hình, Tổ 2 có $4$ hình, Tổ 3 có $5$ hình, Tổ 4 có $3$ hình. Tổ 1 có nhiều hình nhất nên <strong>Tổ 1</strong> đọc được nhiều sách nhất.</p>
+</div>
+
+<!-- Tóm tắt -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Nội dung</td><td class="border border-slate-300 px-4 py-1">Kiến thức cần nhớ</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Bảng thống kê</td><td class="border border-slate-300 px-4 py-1">Bảng gồm hàng và cột: ghi tên đối tượng và số liệu tương ứng</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Biểu đồ tranh</td><td class="border border-slate-300 px-4 py-1">Dùng hình ảnh (tranh) tượng trưng; mỗi tranh ứng với một số lượng nhất định (xem chú thích)</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Vẽ biểu đồ tranh</td><td class="border border-slate-300 px-4 py-1">Chọn biểu tượng → quy ước số lượng → vẽ số tranh tương ứng → ghi tên và chú thích</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Đọc biểu đồ tranh</td><td class="border border-slate-300 px-4 py-1">Đọc tên và chú thích → đếm tranh → nhân để tính số liệu → so sánh</td></tr>
+</table></div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
