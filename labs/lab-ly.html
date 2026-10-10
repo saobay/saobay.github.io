@@ -52,6 +52,27 @@ canvas{max-width:100%;display:block;}
   @media (prefers-reduced-motion: reduce) {
     .tab-btn, .big-btn, .tab-panel > div, canvas { transition: none !important; animation: none !important; }
   }
+
+  /* ===== SAOBAY HOLLYWOOD CINEMA 3D 2026-10-10 ===== */
+  .tab-panel > div {
+    background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+    box-shadow: 0 10px 30px rgba(0,0,0,.12), 0 2px 6px rgba(0,0,0,.08), inset 0 1px 0 rgba(255,255,255,.9);
+  }
+  canvas {
+    box-shadow: inset 0 3px 12px rgba(0,0,0,.12), 0 8px 24px rgba(0,0,0,.14), 0 2px 6px rgba(0,0,0,.1) !important;
+  }
+  .tab-btn {
+    background: linear-gradient(145deg, #ffffff, #f1f5f9) !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,.1), inset 0 1px 0 rgba(255,255,255,.9);
+  }
+  .tab-btn.active {
+    background: linear-gradient(145deg, #2563eb, #1d4ed8) !important;
+    box-shadow: 0 8px 20px rgba(37,99,235,.4), inset 0 1px 0 rgba(255,255,255,.35) !important;
+  }
+  .big-btn {
+    box-shadow: 0 5px 12px rgba(0,0,0,.16), inset 0 1px 0 rgba(255,255,255,.35) !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,.2);
+  }
 </style>
 </head>
 <body class="bg-slate-100 min-h-screen">
@@ -61,7 +82,7 @@ canvas{max-width:100%;display:block;}
     <div class="flex items-center gap-3">
       <a href="../index.html" class="shrink-0 bg-white/25 hover:bg-white/40 border border-white/50 text-white font-black rounded-xl px-4 py-3 text-base leading-none">🏠 Trang chủ</a>
       <div>
-        <h1 class="text-lg font-black">⚗️ Phòng thí nghiệm Vật lý ảo</h1>
+        <h1 class="text-lg font-black">⚡ Phòng thí nghiệm Vật lý ảo</h1>
         <p class="text-xs opacity-80">Kéo • Chạm • Thử nghiệm — học Vật lý bằng tay</p>
       </div>
     </div>
@@ -257,10 +278,19 @@ window.__refits = window.__refits || [];
     // Dây
     ctx.strokeStyle = '#334155'; ctx.lineWidth = 3;
     ctx.beginPath(); ctx.moveTo(b.px, b.py+8); ctx.lineTo(b.bx, b.by); ctx.stroke();
-    // Quả nặng
-    var grad = ctx.createRadialGradient(b.bx-6,b.by-6,4,b.bx,b.by,22);
-    grad.addColorStop(0,'#93c5fd'); grad.addColorStop(1,'#1d4ed8');
+    // Quả nặng 3D Hollywood: vet sang + bong do + highlight
+    if (running){
+      ctx.save(); ctx.globalAlpha = 0.18; ctx.fillStyle = '#3b82f6';
+      ctx.beginPath(); ctx.arc(b.bx - omega*14, b.by, 20, 0, 7); ctx.fill(); ctx.restore();
+    }
+    ctx.save();
+    ctx.shadowColor = 'rgba(0,0,0,0.35)'; ctx.shadowBlur = 12; ctx.shadowOffsetY = 5;
+    var grad = ctx.createRadialGradient(b.bx-7,b.by-8,3,b.bx,b.by,22);
+    grad.addColorStop(0,'#dbeafe'); grad.addColorStop(0.45,'#60a5fa'); grad.addColorStop(1,'#1e3a8a');
     ctx.fillStyle = grad; ctx.beginPath(); ctx.arc(b.bx,b.by,20,0,7); ctx.fill();
+    ctx.restore();
+    ctx.fillStyle = 'rgba(255,255,255,0.85)';
+    ctx.beginPath(); ctx.ellipse(b.bx-6, b.by-8, 6, 4, -0.5, 0, 7); ctx.fill();
     ctx.fillStyle = '#1e3a8a'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'center';
     ctx.fillText('m', b.bx, b.by+4);
     // Góc: vòng cung từ phương thẳng đứng tới dây (không vẽ ngược lên trên)
@@ -366,9 +396,11 @@ window.__refits = window.__refits || [];
     var bx = W/2, by = yT;
     var on = closed;
     if (on){
-      var gl = ctx.createRadialGradient(bx,by,5,bx,by,55);
-      gl.addColorStop(0,'rgba(253,224,71,0.9)'); gl.addColorStop(1,'rgba(253,224,71,0)');
-      ctx.fillStyle = gl; ctx.beginPath(); ctx.arc(bx,by,55,0,7); ctx.fill();
+      var gl = ctx.createRadialGradient(bx,by,5,bx,by,70);
+      gl.addColorStop(0,'rgba(253,224,71,0.95)'); gl.addColorStop(0.5,'rgba(253,224,71,0.35)'); gl.addColorStop(1,'rgba(253,224,71,0)');
+      ctx.fillStyle = gl; ctx.beginPath(); ctx.arc(bx,by,70,0,7); ctx.fill();
+      ctx.save(); ctx.shadowColor = '#fde047'; ctx.shadowBlur = 25;
+      ctx.fillStyle = '#fef08a'; ctx.beginPath(); ctx.arc(bx,by,24,0,7); ctx.fill(); ctx.restore();
     }
     ctx.fillStyle = on ? '#fde047' : '#475569';
     ctx.beginPath(); ctx.arc(bx,by,24,0,7); ctx.fill();
@@ -395,7 +427,8 @@ window.__refits = window.__refits || [];
     // Dòng điện chạy
     if (closed){
       flowT += 0.06;
-      ctx.fillStyle = '#fde047';
+      ctx.save(); ctx.shadowColor = '#facc15'; ctx.shadowBlur = 10;
+      ctx.fillStyle = '#fef08a';
       var pts = [[x0,yB],[x0,yT],[bx,yT],[x1,yT],[x1,yB]];
       // nội suy đơn giản dọc đường dây
       for (var i=0;i<10;i++){
@@ -407,6 +440,7 @@ window.__refits = window.__refits || [];
         else { px = x1 - (tt-0.75)*4*(x1-x0); py = yB; }
         ctx.beginPath(); ctx.arc(px,py,4,0,7); ctx.fill();
       }
+      ctx.restore();
     }
     requestAnimationFrame(draw);
   }
@@ -456,11 +490,47 @@ window.__refits = window.__refits || [];
     ctx.fillStyle = '#86efac'; ctx.fillRect(0, groundY, W, H-groundY);
     ctx.fillStyle = '#166534'; ctx.font = '11px sans-serif';
     ctx.fillText('MẶT ĐẤT', 10, H-10);
-    // Vật
+    // Vật 3D Hollywood: vet chuyen dong + bong do
     var oy = falling ? (startY + y*scale) : startY;
     if (oy > groundY - 14) oy = groundY - 14;
+    if (falling && t > 0.08){
+      var vNow = g*t;
+      ctx.save(); ctx.globalAlpha = Math.min(0.35, vNow/60);
+      for (var tri=1; tri<=3; tri++){
+        var tryy = oy - vNow*scale*0.09*tri;
+        if (tryy > startY){
+          ctx.globalAlpha = Math.min(0.3, vNow/70) * (1 - tri/4);
+          ctx.font = '34px serif'; ctx.textAlign = 'center';
+          ctx.fillText(emojis[obj], W/2, tryy+12);
+        }
+      }
+      ctx.restore();
+      // Tia toc do
+      ctx.save(); ctx.strokeStyle = 'rgba(244,63,94,0.35)'; ctx.lineWidth = 2;
+      for (var sli=0; sli<3; sli++){
+        var slx = W/2 - 34 + sli*34;
+        ctx.beginPath(); ctx.moveTo(slx, oy-46); ctx.lineTo(slx, oy-14); ctx.stroke();
+      }
+      ctx.restore();
+    }
+    ctx.save();
+    ctx.shadowColor = 'rgba(0,0,0,0.3)'; ctx.shadowBlur = 8; ctx.shadowOffsetY = 4;
     ctx.font = '34px serif'; ctx.textAlign = 'center';
     ctx.fillText(emojis[obj], W/2, oy+12);
+    ctx.restore();
+    // Bui bung khi cham dat (Hollywood impact)
+    if (window.__dustT && (performance.now() - window.__dustT) < 700){
+      var dt2 = (performance.now() - window.__dustT) / 700;
+      ctx.save();
+      for (var di=0; di<10; di++){
+        var ang2 = Math.PI + (di/10)*Math.PI;
+        var dx2 = Math.cos(ang2)*(20+dt2*70), dy2 = Math.sin(ang2)*(10+dt2*36);
+        ctx.globalAlpha = 0.55*(1-dt2);
+        ctx.fillStyle = '#d6a86c';
+        ctx.beginPath(); ctx.arc(W/2+dx2, groundY+dy2, 5*(1-dt2)+1.5, 0, 7); ctx.fill();
+      }
+      ctx.restore();
+    }
     // Đồng hồ
     ctx.fillStyle = '#0f172a';
     ctx.fillRect(W-110, 8, 102, 34);
@@ -479,6 +549,7 @@ window.__refits = window.__refits || [];
     t += 0.02; y = 0.5*g*t*t;
     if (y >= h){
       falling = false;
+      try { window.__dustT = performance.now(); } catch(e){}
       var tTheory = Math.sqrt(2*h/g);
       var log = document.getElementById('fall-log');
       var div = document.createElement('div');
