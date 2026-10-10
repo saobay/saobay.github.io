@@ -401,7 +401,7 @@
                 let asciiBase = (typeof removeVietnameseTones === 'function' ? removeVietnameseTones(title) : title)
                     .replace(/[\\/:*?"<>|]/g, '_').replace(/\s+/g, '_').slice(0, 40);
                 let path = folder + '/' + m.subject + '_' + m.grade + '_' + asciiBase + '_Bai_tap_none.html';
-                await bankPushFile(path, page, 'Bank exam (moi HS 1 de): ' + safeTitle + ' [' + folder + ']');
+                await bankPushWithTimeout(path, page, 'Bank exam (moi HS 1 de): ' + safeTitle + ' [' + folder + ']');
                                 if (typeof showToast === 'function') showToast('Đã lưu đề (mỗi HS 1 đề): ' + path, 'success');
                 else alert('Đã lưu đề: ' + path);
                 if (typeof loadFolderTreeFromGit === 'function') loadFolderTreeFromGit();
@@ -425,6 +425,19 @@
                 exbClassExam._matrix = m;
                 exbRenderPicked(exbClassExam, 'Đề chung cả lớp (xem trước đầy đủ — bấm "Bốc đề & xem trước" để bốc bộ khác)');
             } catch(e){ pv.innerHTML = '<p class="text-xs text-rose-600">Lỗi: ' + String(e.message || e).replace(/</g,'&lt;') + '</p>'; }
+        }
+
+        // FIX 2026-10-10: wrapper goi bankPushFile co timeout rieng (phong khi AbortController khong kha dung)
+        // Bao ve moi nut "Luu de" khoi treo vo han khi GAS proxy khong phan hoi.
+        function bankPushWithTimeout(targetPath, htmlContent, commitMessage, ms){
+            ms = ms || 35000;
+            let _p = null;
+            try { _p = bankPushFile(targetPath, htmlContent, commitMessage); }
+            catch(e){ return Promise.reject(e); }
+            let _t = new Promise(function(_, reject){
+                setTimeout(function(){ reject(new Error('Hết thời gian chờ (' + Math.round(ms/1000) + 's) — GAS proxy không phản hồi. Kiểm tra mạng rồi bấm Lưu lại.')); }, ms);
+            });
+            return Promise.race([_p, _t]);
         }
 
         // Ca lop chung 1 de: luu de dong bang (khoa cung bo cau)
@@ -587,7 +600,7 @@
                 let asciiBase = (typeof removeVietnameseTones === 'function' ? removeVietnameseTones(m.title) : m.title)
                     .replace(/[\\/:*?"<>|]/g, '_').replace(/\s+/g, '_').slice(0, 40);
                 let path = folder + '/' + m.subject + '_' + m.grade + '_KIEM_TRA_' + asciiBase + '_Kiem_tra_none.html';
-                await bankPushFile(path, page, 'Exam: ' + safeTitle + ' [' + folder + ']');
+                await bankPushWithTimeout(path, page, 'Exam: ' + safeTitle + ' [' + folder + ']');
                                 if (typeof showToast === 'function') showToast('Đã lưu đề kiểm tra: ' + path, 'success');
                 else alert('Đã lưu đề kiểm tra: ' + path);
                 if (typeof loadFolderTreeFromGit === 'function') loadFolderTreeFromGit();
