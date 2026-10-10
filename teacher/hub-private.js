@@ -95,12 +95,14 @@
                     + '<p class="text-[11px] text-slate-500">Mã vào lớp: <b class="text-violet-700 font-mono">' + escHtml(c.join_code) + '</b> · ' + nS + ' học sinh</p></div>'
                     + '<div class="flex gap-1.5">'
                     + '<button onclick="pvSelectFolder(\'' + c.id + '\')" class="text-[11px] font-bold text-white bg-violet-600 hover:bg-violet-700 px-2.5 py-1.5 rounded-lg" title="Chọn thư mục này để đẩy bài"><i class="fa-solid fa-folder-open mr-1"></i>Đẩy bài vào lớp</button>'
+                    + '<button onclick="pvLoadClassStats(\'' + c.id + '\')" class="text-[11px] font-bold text-emerald-700 border border-emerald-300 hover:bg-emerald-50 px-2.5 py-1.5 rounded-lg" title="Xem thống kê điểm HS trong lớp"><i class="fa-solid fa-chart-line mr-1"></i>Thống kê</button>'
                     + '<button onclick="pvDeleteClass(\'' + c.id + '\')" class="text-[11px] font-bold text-rose-600 hover:bg-rose-50 px-2.5 py-1.5 rounded-lg border border-rose-200"><i class="fa-solid fa-trash"></i></button>'
                     + '</div></div>'
                     + '<div class="flex gap-2 mb-2">'
                     + '<input id="pv-add-' + c.id + '" placeholder="Tên HS cần thêm..." class="flex-1 text-xs border border-slate-300 rounded-lg px-2.5 py-1.5">'
                     + '<button onclick="pvAddStudent(\'' + c.id + '\')" class="text-[11px] font-bold text-violet-700 border border-violet-300 hover:bg-violet-50 px-2.5 py-1.5 rounded-lg"><i class="fa-solid fa-user-plus mr-1"></i>Thêm HS</button>'
                     + '</div>'
+                    + '<div id="pv-stats-' + c.id + '" class="mb-2"></div>'
                     + '<div class="flex flex-wrap gap-1.5">'
                     + (c.students || []).map(function(st){
                         return '<span class="text-[11px] bg-violet-50 border border-violet-200 text-violet-800 rounded-full px-2.5 py-1 flex items-center gap-1.5">'
@@ -165,6 +167,50 @@
             if (!c) return;
             c.students = (c.students || []).filter(function(st){ return st.id !== stuId; });
             try { await pvSaveClasses(); renderPrivateClasses(); } catch(e){ alert('Lỗi: ' + e.message); }
+        }
+        // FIX 2026-10-10 (loi 4): thong ke diem HS trong lop hoc them
+        var pvStatsCache = {};
+        function pvNormName(s){ return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/g,'d').replace(/Đ/g,'D').toLowerCase().replace(/[^a-z0-9]/g,''); }
+        async function pvLoadClassStats(classId){
+            var box = document.getElementById('pv-stats-' + classId);
+            var c = pvClasses.find(function(x){ return x.id === classId; });
+            if (!box || !c) return;
+            if (pvStatsCache[classId]) { box.innerHTML = pvStatsCache[classId]; return; }
+            box.innerHTML = '<p class="text-[11px] text-slate-400 italic">Đang tải thống kê...</p>';
+            try {
+                var tr = await (await fetch('https://api.github.com/repos/saobay/saobay.github.io/git/trees/main?recursive=1')).json();
+                var files = (tr.tree || []).filter(function(t){ return t.type === 'blob' && t.path.indexOf('data/scores/') === 0 && t.path.slice(-5) === '.json'; });
+                files.sort(function(a,b){ return a.path < b.path ? 1 : -1; });
+                files = files.slice(0, 200);
+                var all = [];
+                for (var i = 0; i < files.length; i += 6) {
+                    var rs = await Promise.all(files.slice(i, i+6).map(function(f){
+                        return fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/' + f.path + '?t=' + Date.now()).then(function(r){ return r.ok ? r.json() : null; }).catch(function(){ return null; });
+                    }));
+                    rs.forEach(function(d){ if (d) all.push(d); });
+                }
+                var rows = (c.students || []).map(function(st){
+                    var nm = pvNormName(st.name), sid = String(st.id || '');
+                    var mine = all.filter(function(d){
+                        if (d.student_id && sid && String(d.student_id) === sid && !/^hs_/.test(sid)) return true;
+                        return d.student_name && pvNormName(d.student_name) === nm;
+                    });
+                    var n = mine.length, avg = 0;
+                    if (n) {
+                        var sum = 0;
+                        mine.forEach(function(d){ var sc = parseFloat(d.score)||0, mx = parseFloat(d.max_score)||0; sum += (mx>0 ? sc/mx*10 : 0); });
+                        avg = sum / n;
+                    }
+                    return '<div class="flex justify-between text-[11px] bg-emerald-50/60 border border-emerald-100 rounded-lg px-2.5 py-1.5">'
+                        + '<span class="font-bold text-slate-700">' + escHtml(st.name) + '</span>'
+                        + '<span class="text-slate-500">' + n + ' bài · TB <b class="text-emerald-700">' + avg.toFixed(1) + '/10</b></span></div>';
+                }).join('');
+                var html = '<div class="bg-emerald-50/40 border border-emerald-200 rounded-xl p-2.5 space-y-1.5">'
+                    + '<p class="text-[11px] font-black text-emerald-800"><i class="fa-solid fa-chart-line mr-1"></i>THỐNG KÊ LỚP (' + (c.students||[]).length + ' HS)</p>'
+                    + (rows || '<p class="text-[11px] text-slate-400 italic">Chưa có học sinh.</p>') + '</div>';
+                pvStatsCache[classId] = html;
+                box.innerHTML = html;
+            } catch(e){ box.innerHTML = '<p class="text-[11px] text-rose-600">Lỗi tải thống kê: ' + escHtml(e.message || e) + '</p>'; }
         }
         // Chon thu muc lop de day bai (chuyen sang tab Soan bai + chon cay)
         function pvSelectFolder(classId){
