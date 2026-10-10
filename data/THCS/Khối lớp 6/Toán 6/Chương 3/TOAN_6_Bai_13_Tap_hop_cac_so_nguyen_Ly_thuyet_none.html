@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 13: Tập hợp các số nguyên</title>
+    <meta name="lesson-title" content="Bài 13: Tập hợp các số nguyên">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 13: Tập hợp các số nguyên</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 3: Số nguyên • Bài 13: Tập hợp các số nguyên</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 13: Tập hợp các số nguyên</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 3: Số nguyên (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Số nguyên âm, số 0 và số nguyên dương -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Số nguyên âm, số 0 và số nguyên dương</h2>
+
+<p>Trong đời sống, ngoài các số tự nhiên, người ta còn dùng các số có <strong>dấu trừ</strong> ($-$) đằng trước để chỉ những đại lượng có hướng ngược lại, chẳng hạn:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Nhiệt độ $3$ độ dưới $0^{\circ}C$ được viết là <strong>$-3^{\circ}C$</strong> (đọc là "âm ba độ C");</li>
+<li>Độ cao $10$m dưới mực nước biển được viết là <strong>$-10$m</strong>;</li>
+<li>Số tiền nợ $50$ nghìn đồng được viết là <strong>$-50$</strong> (nghìn đồng).</li>
+</ul>
+
+<p>Các số $-1, -2, -3, \dots$ gọi là các <strong>số nguyên âm</strong>.</p>
+<p>Các số $1, 2, 3, \dots$ gọi là các <strong>số nguyên dương</strong>. Số nguyên dương đôi khi còn được viết với dấu cộng ($+$) đằng trước, ví dụ $+5$ (đọc là "dương năm").</p>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Số $0$ <strong>không phải</strong> số nguyên âm, cũng <strong>không phải</strong> số nguyên dương.</p>
+</div>
+
+<!-- 2. Tập hợp các số nguyên -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Tập hợp các số nguyên</h2>
+
+<p>Tập hợp gồm các <strong>số nguyên âm</strong>, <strong>số $0$</strong> và các <strong>số nguyên dương</strong> gọi là <strong>tập hợp các số nguyên</strong>, kí hiệu là <strong>$Z$</strong>.</p>
+<p class="text-center text-lg my-2">$$Z = \{\dots; -3; -2; -1; 0; 1; 2; 3; \dots\}$$</p>
+<p>Dấu $\dots$ cho thấy tập hợp $Z$ có <strong>vô số</strong> phần tử, kéo dài mãi về cả hai phía: không có phần tử nhỏ nhất, cũng không có phần tử lớn nhất.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>$-7 \in Z$ ($-7$ là số nguyên); $5 \in Z$ ($5$ là số nguyên);</li>
+<li>$1,5 \notin Z$ (vì $1,5$ không phải là số nguyên).</li>
+</ul>
+</div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="So do phan loai tap hop cac so nguyen">
+<rect x="2" y="2" width="436" height="236" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<rect x="20" y="55" width="400" height="160" rx="12" fill="#e0f2fe" stroke="#0284c7" stroke-width="2.5"/>
+<text x="220" y="85" font-family="sans-serif" font-size="17" font-weight="bold" fill="#0369a1" text-anchor="middle">Tập hợp các số nguyên Z</text>
+<rect x="38" y="105" width="110" height="92" rx="8" fill="#ffe4e6" stroke="#e11d48" stroke-width="2"/>
+<text x="93" y="130" font-family="sans-serif" font-size="13" font-weight="bold" fill="#881337" text-anchor="middle">Số nguyên âm</text>
+<text x="93" y="152" font-family="sans-serif" font-size="12" fill="#881337" text-anchor="middle">..., -3, -2, -1</text>
+<rect x="165" y="105" width="110" height="92" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+<text x="220" y="130" font-family="sans-serif" font-size="13" font-weight="bold" fill="#92400e" text-anchor="middle">Số 0</text>
+<text x="220" y="152" font-family="sans-serif" font-size="12" fill="#92400e" text-anchor="middle">không âm,</text>
+<text x="220" y="168" font-family="sans-serif" font-size="12" fill="#92400e" text-anchor="middle">không dương</text>
+<rect x="292" y="105" width="110" height="92" rx="8" fill="#d1fae5" stroke="#059669" stroke-width="2"/>
+<text x="347" y="130" font-family="sans-serif" font-size="13" font-weight="bold" fill="#065f46" text-anchor="middle">Số nguyên dương</text>
+<text x="347" y="152" font-family="sans-serif" font-size="12" fill="#065f46" text-anchor="middle">1, 2, 3, ...</text>
+</svg></div>
+
+<!-- 3. Số đối -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Số đối của một số nguyên</h2>
+
+<p>Trên trục số, hai điểm $3$ và $-3$ nằm về <strong>hai phía</strong> của điểm $0$ và <strong>cách đều</strong> điểm $0$. Ta nói $3$ và $-3$ là <strong>hai số đối nhau</strong>.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>Số đối của $7$ là $-7$; số đối của $-4$ là $4$;</li>
+<li>Số đối của $0$ là $0$ (số $0$ là số đối của chính nó).</li>
+</ul>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Số đối của số nguyên $a$ kí hiệu là $-a$. Mỗi số nguyên có đúng một số đối; số đối của số đối của $a$ chính là $a$.</p>
+</div>
+
+<!-- 4. Thứ tự trong tập số nguyên -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Thứ tự trong tập hợp các số nguyên</h2>
+
+<p>Người ta biểu diễn các số nguyên trên <strong>trục số</strong>: vẽ một đường thẳng nằm ngang, chọn điểm $0$, các số nguyên dương nằm <strong>bên phải</strong> điểm $0$, các số nguyên âm nằm <strong>bên trái</strong> điểm $0$.</p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Truc so bieu dien cac so nguyen tu -5 den 5">
+<rect x="2" y="2" width="436" height="166" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<line x1="28" y1="85" x2="404" y2="85" stroke="#0f172a" stroke-width="2.5"/>
+<polygon points="412,85 400,79 400,91" fill="#0f172a"/>
+<text x="418" y="110" font-family="sans-serif" font-size="13" fill="#475569">tăng dần</text>
+<g font-family="sans-serif" font-size="14" font-weight="bold" text-anchor="middle">
+<line x1="40" y1="78" x2="40" y2="92" stroke="#0f172a" stroke-width="2"/><text x="40" y="112" fill="#64748b">-5</text>
+<line x1="76" y1="78" x2="76" y2="92" stroke="#0f172a" stroke-width="2"/><text x="76" y="112" fill="#64748b">-4</text>
+<line x1="112" y1="78" x2="112" y2="92" stroke="#0f172a" stroke-width="2"/><text x="112" y="112" fill="#64748b">-3</text>
+<line x1="148" y1="78" x2="148" y2="92" stroke="#0f172a" stroke-width="2"/><text x="148" y="112" fill="#64748b">-2</text>
+<line x1="184" y1="78" x2="184" y2="92" stroke="#0f172a" stroke-width="2"/><text x="184" y="112" fill="#64748b">-1</text>
+<circle cx="220" cy="85" r="6" fill="#e11d48"/><text x="220" y="112" fill="#e11d48">0</text>
+<line x1="256" y1="78" x2="256" y2="92" stroke="#0f172a" stroke-width="2"/><text x="256" y="112" fill="#059669">1</text>
+<line x1="292" y1="78" x2="292" y2="92" stroke="#0f172a" stroke-width="2"/><text x="292" y="112" fill="#059669">2</text>
+<line x1="328" y1="78" x2="328" y2="92" stroke="#0f172a" stroke-width="2"/><text x="328" y="112" fill="#059669">3</text>
+<line x1="364" y1="78" x2="364" y2="92" stroke="#0f172a" stroke-width="2"/><text x="364" y="112" fill="#059669">4</text>
+<line x1="400" y1="78" x2="400" y2="92" stroke="#0f172a" stroke-width="2"/><text x="400" y="112" fill="#059669">5</text>
+</g>
+<text x="220" y="40" font-family="sans-serif" font-size="15" font-weight="bold" fill="#0369a1" text-anchor="middle">Trục số: số nguyên âm (trái) — 0 — số nguyên dương (phải)</text>
+</svg></div>
+
+<p>Trên trục số nằm ngang, nếu điểm $a$ nằm <strong>bên trái</strong> điểm $b$ thì số nguyên $a$ <strong>nhỏ hơn</strong> số nguyên $b$, kí hiệu $a \lt b$ (cũng viết $b \gt a$).</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Quy tắc so sánh số nguyên:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>Mọi số nguyên âm đều <strong>nhỏ hơn</strong> $0$; mọi số nguyên dương đều <strong>lớn hơn</strong> $0$;</li>
+<li>Mọi số nguyên âm đều <strong>nhỏ hơn</strong> mọi số nguyên dương;</li>
+<li>Nếu $a, b$ là hai số nguyên dương và $a \gt b$ thì $-a \lt -b$ (trong hai số nguyên âm, số nào "gần $0$ hơn" thì lớn hơn).</li>
+</ul>
+</div>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-emerald-800 mb-2">Bài tập ví dụ 1 (có lời giải):</p>
+<p>So sánh $-7$ và $-3$.</p>
+<p class="mt-2"><strong>Lời giải:</strong> Vì $7 \gt 3$ (hai số nguyên dương) nên $-7 \lt -3$.</p>
+</div>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-emerald-800 mb-2">Bài tập ví dụ 2 (có lời giải):</p>
+<p>Sắp xếp các số $-2; 5; -6; 0; 3$ theo thứ tự tăng dần.</p>
+<p class="mt-2"><strong>Lời giải:</strong> Các số nguyên âm ($-6 \lt -2$) đứng trước, rồi đến $0$, rồi đến các số nguyên dương ($3 \lt 5$). Thứ tự tăng dần là:</p>
+<p class="text-center text-lg my-2">$$-6;\ -2;\ 0;\ 3;\ 5$$</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Trên trục số nằm ngang: điểm càng ở <strong>bên phải</strong> thì số càng <strong>lớn</strong>. Số nguyên âm $\lt 0 \lt$ số nguyên dương; số nguyên âm $\lt$ mọi số nguyên dương.</p>
+</div>
+
+<!-- Bảng tóm tắt -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Nội dung</td><td class="border border-slate-300 px-4 py-1">Kiến thức</td><td class="border border-slate-300 px-4 py-1">Ví dụ</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Số nguyên âm</td><td class="border border-slate-300 px-4 py-1">Số có dấu $-$ đằng trước</td><td class="border border-slate-300 px-4 py-1">$-1; -2; -3; \dots$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Số nguyên dương</td><td class="border border-slate-300 px-4 py-1">Số tự nhiên khác $0$</td><td class="border border-slate-300 px-4 py-1">$1; 2; 3; \dots$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Tập hợp số nguyên</td><td class="border border-slate-300 px-4 py-1">$Z = \{\dots; -2; -1; 0; 1; 2; \dots\}$</td><td class="border border-slate-300 px-4 py-1">$-5 \in Z;\ 1,5 \notin Z$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Số đối</td><td class="border border-slate-300 px-4 py-1">Số đối của $a$ là $-a$</td><td class="border border-slate-300 px-4 py-1">Số đối của $-6$ là $6$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">So sánh</td><td class="border border-slate-300 px-4 py-1">Âm $\lt 0 \lt$ dương; $a \gt b \gt 0 \Rightarrow -a \lt -b$</td><td class="border border-slate-300 px-4 py-1">$-9 \lt -4 \lt 0 \lt 2$</td></tr>
+</table></div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
