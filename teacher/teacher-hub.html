@@ -1230,13 +1230,13 @@
 
                 <!-- Bàn phím ký hiệu toán học nhanh (Một chạm để chèn) -->
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5 flex items-center">
+                    <label data-ui-label="mathkb_title" class="block text-xs font-bold text-slate-700 uppercase mb-1.5 flex items-center">
                         <i class="fa-solid fa-keyboard mr-1.5 text-indigo-600"></i> Bàn Phím Ký Hiệu Toán Học Nhanh (Bấm để chèn):
                     </label>
                     <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200 space-y-2">
                         <!-- Nhóm 1: Cơ bản -->
                         <div class="flex flex-wrap items-center gap-1.5">
-                            <span class="text-[10px] font-bold text-slate-500 uppercase w-14">Cơ bản:</span>
+                            <span data-ui-label="mathkb_group_basic" class="text-[10px] font-bold text-slate-500 uppercase w-14">Cơ bản:</span>
                             <button type="button" onclick="insertLatexSymbol('\\frac{a}{b}')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-serif font-bold transition shadow-xs" title="Phân số">\frac{a}{b}</button>
                             <button type="button" onclick="insertLatexSymbol('\\sqrt{x}')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-serif font-bold transition shadow-xs" title="Căn bậc hai">\sqrt{x}</button>
                             <button type="button" onclick="insertLatexSymbol('\\sqrt[n]{x}')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-serif font-bold transition shadow-xs" title="Căn bậc n">\sqrt[n]{x}</button>
@@ -1249,29 +1249,29 @@
 
                         <!-- Nhóm 2: Giải tích & Giới hạn -->
                         <div class="flex flex-wrap items-center gap-1.5">
-                            <span class="text-[10px] font-bold text-slate-500 uppercase w-14">Giải tích:</span>
-                            <button type="button" onclick="insertLatexSymbol('\\int_{a}^{b} f(x) dx')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-serif font-bold transition shadow-xs">∫ tích phân</button>
-                            <button type="button" onclick="insertLatexSymbol('\\lim_{x \\to x_0}')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-serif font-bold transition shadow-xs">lim</button>
-                            <button type="button" onclick="insertLatexSymbol('\\sum_{i=1}^{n}')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-serif font-bold transition shadow-xs">∑ tổng</button>
+                            <span data-ui-label="mathkb_group_calc" class="text-[10px] font-bold text-slate-500 uppercase w-14">Giải tích:</span>
+                            <button type="button" onclick="insertLatexSymbol('\\int_{a}^{b} f(x) dx')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-serif font-bold transition shadow-xs" data-ui-label="mathkb_integral">∫ tích phân</button>
+                            <button type="button" onclick="insertLatexSymbol('\\lim_{x \\to x_0}')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-serif font-bold transition shadow-xs" data-ui-label="mathkb_lim">lim</button>
+                            <button type="button" onclick="insertLatexSymbol('\\sum_{i=1}^{n}')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-serif font-bold transition shadow-xs" data-ui-label="mathkb_sum">∑ tổng</button>
                             <button type="button" onclick="insertLatexSymbol('\\infty')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-bold transition shadow-xs">∞</button>
-                            <button type="button" onclick="insertLatexSymbol('f\'(x)')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-bold transition shadow-xs">f'(x)</button>
+                            <button type="button" onclick="insertLatexSymbol('f\'(x)')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-bold transition shadow-xs" data-ui-label="mathkb_deriv">f'(x)</button>
                         </div>
 
                         <!-- Nhóm 3: Hình học & Vector -->
                         <div class="flex flex-wrap items-center gap-1.5">
-                            <span class="text-[10px] font-bold text-slate-500 uppercase w-14">Hình học:</span>
+                            <span data-ui-label="mathkb_group_geo" class="text-[10px] font-bold text-slate-500 uppercase w-14">Hình học:</span>
                             <button type="button" onclick="insertLatexSymbol('\\vec{a}')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-serif font-bold transition shadow-xs">\vec{a}</button>
                             <button type="button" onclick="insertLatexSymbol('\\overrightarrow{AB}')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-serif font-bold transition shadow-xs">\vec{AB}</button>
-                            <button type="button" onclick="insertLatexSymbol('\\widehat{ABC}')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-serif font-bold transition shadow-xs">Góc</button>
+                            <button type="button" onclick="insertLatexSymbol('\\widehat{ABC}')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-serif font-bold transition shadow-xs" data-ui-label="mathkb_angle">Góc</button>
                             <button type="button" onclick="insertLatexSymbol('\\Delta ')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-bold transition shadow-xs">Δ</button>
-                            <button type="button" onclick="insertLatexSymbol('\\parallel ')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-bold transition shadow-xs">∥ song song</button>
-                            <button type="button" onclick="insertLatexSymbol('\\perp ')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-bold transition shadow-xs">⊥ vuông góc</button>
+                            <button type="button" onclick="insertLatexSymbol('\\parallel ')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-bold transition shadow-xs" data-ui-label="mathkb_parallel">∥ song song</button>
+                            <button type="button" onclick="insertLatexSymbol('\\perp ')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-bold transition shadow-xs" data-ui-label="mathkb_perp">⊥ vuông góc</button>
                             <button type="button" onclick="insertLatexSymbol('^\\circ')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-bold transition shadow-xs">°</button>
                         </div>
 
                         <!-- Nhóm 4: Quan hệ & Tập hợp -->
                         <div class="flex flex-wrap items-center gap-1.5">
-                            <span class="text-[10px] font-bold text-slate-500 uppercase w-14">Logic/Tập:</span>
+                            <span data-ui-label="mathkb_group_logic" class="text-[10px] font-bold text-slate-500 uppercase w-14">Logic/Tập:</span>
                             <button type="button" onclick="insertLatexSymbol('\\in ')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-bold transition shadow-xs">∈</button>
                             <button type="button" onclick="insertLatexSymbol('\\notin ')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-bold transition shadow-xs">∉</button>
                             <button type="button" onclick="insertLatexSymbol('\\subset ')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-bold transition shadow-xs">⊂</button>
@@ -1292,17 +1292,17 @@
 
                         <!-- Nhóm 5: Hệ phương trình & Ma trận -->
                         <div class="flex flex-wrap items-center gap-1.5">
-                            <span class="text-[10px] font-bold text-slate-500 uppercase w-14">Cấu trúc:</span>
-                            <button type="button" onclick="insertLatexSymbol('\\begin{cases} x + y = 1 \\\\ x - y = 0 \\end{cases}')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-serif font-bold transition shadow-xs">Hệ PT</button>
-                            <button type="button" onclick="insertLatexSymbol('\\left[ \\begin{array}{l} x = 1 \\\\ x = 2 \\end{array} \\right.')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-serif font-bold transition shadow-xs">Ngoặc vuông [</button>
-                            <button type="button" onclick="insertLatexSymbol('\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-serif font-bold transition shadow-xs">Ma trận</button>
+                            <span data-ui-label="mathkb_group_struct" class="text-[10px] font-bold text-slate-500 uppercase w-14">Cấu trúc:</span>
+                            <button type="button" onclick="insertLatexSymbol('\\begin{cases} x + y = 1 \\\\ x - y = 0 \\end{cases}')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-serif font-bold transition shadow-xs" data-ui-label="mathkb_system">Hệ PT</button>
+                            <button type="button" onclick="insertLatexSymbol('\\left[ \\begin{array}{l} x = 1 \\\\ x = 2 \\end{array} \\right.')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-serif font-bold transition shadow-xs" data-ui-label="mathkb_bracket">Ngoặc vuông [</button>
+                            <button type="button" onclick="insertLatexSymbol('\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}')" class="px-2 py-1 bg-white hover:bg-indigo-50 border border-slate-200 rounded text-xs font-serif font-bold transition shadow-xs" data-ui-label="mathkb_matrix">Ma trận</button>
                         </div>
                     </div>
                 </div>
 
                 <!-- Ô nhập TeX / LaTeX -->
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Mã Nguồn TeX / LaTeX:</label>
+                    <label data-ui-label="mathkb_tex_label" class="block text-xs font-bold text-slate-700 uppercase mb-1">Mã Nguồn TeX / LaTeX:</label>
                     <textarea id="math-latex-input" rows="3" oninput="updateMathModalPreview()" class="w-full p-3 font-mono text-xs border rounded-xl border-slate-300 focus:ring-2 focus:ring-indigo-500 bg-slate-50 text-slate-900 leading-relaxed" placeholder="Ví dụ: x = \frac{-b \pm \sqrt{\Delta}}{2a}"></textarea>
                 </div>
 
