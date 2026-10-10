@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 6: Thuật toán - Bài tập</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: system-ui, sans-serif; padding: 16px; line-height: 1.6; }
+        .question { background: white; padding: 16px; margin: 12px 0; border-radius: 8px; border: 1px solid #e2e8f0; }
+        .options label { display: block; padding: 8px; margin: 4px 0; background: #f8fafc; border-radius: 4px; cursor: pointer; }
+        .options label:hover { background: #e0f2fe; }
+    </style>
+</head>
+<body class="bg-slate-50">
+<div class="max-w-3xl mx-auto">
+<h1 class="text-2xl font-bold mb-4">Bài 6: Thuật toán - Bài tập</h1>
+
+<div class="question">
+<p class="font-semibold mb-2">Câu 1: Thuật toán là gì?</p>
+<div class="options">
+<label><input type="radio" name="q1" value="A"> A. Một loại máy tính mới</label>
+<label><input type="radio" name="q1" value="B"> B. Dãy các bước được sắp xếp theo trình tự xác định để giải quyết một vấn đề</label>
+<label><input type="radio" name="q1" value="C"> C. Một phần mềm diệt virus</label>
+<label><input type="radio" name="q1" value="D"> D. Một thiết bị mạng</label>
+</div>
+<button onclick="checkAnswer('q1', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q1" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 2: Đâu là ví dụ về thuật toán trong đời sống?</p>
+<div class="options">
+<label><input type="radio" name="q2" value="A"> A. Chiếc bàn học</label>
+<label><input type="radio" name="q2" value="B"> B. Công thức nấu món canh chua với các bước rõ ràng</label>
+<label><input type="radio" name="q2" value="C"> C. Cây bút bi</label>
+<label><input type="radio" name="q2" value="D"> D. Quyển vở</label>
+</div>
+<button onclick="checkAnswer('q2', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q2" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 3: Có mấy cách mô tả thuật toán thường dùng ở lớp 6?</p>
+<div class="options">
+<label><input type="radio" name="q3" value="A"> A. 1 cách</label>
+<label><input type="radio" name="q3" value="B"> B. 2 cách: ngôn ngữ tự nhiên và sơ đồ khối</label>
+<label><input type="radio" name="q3" value="C"> C. 3 cách</label>
+<label><input type="radio" name="q3" value="D"> D. 4 cách</label>
+</div>
+<button onclick="checkAnswer('q3', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q3" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 4: Mô tả thuật toán bằng sơ đồ khối sử dụng:</p>
+<div class="options">
+<label><input type="radio" name="q4" value="A"> A. Chỉ dùng lời văn</label>
+<label><input type="radio" name="q4" value="B"> B. Các hình vẽ (hình chữ nhật, hình thoi...) nối với nhau bằng mũi tên</label>
+<label><input type="radio" name="q4" value="C"> C. Chỉ dùng các con số</label>
+<label><input type="radio" name="q4" value="D"> D. Chỉ dùng hình ảnh chụp</label>
+</div>
+<button onclick="checkAnswer('q4', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q4" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 5: Trong thuật toán tính trung bình cộng của hai số a và b, bước đầu tiên là:</p>
+<div class="options">
+<label><input type="radio" name="q5" value="A"> A. Tính tổng S = a + b</label>
+<label><input type="radio" name="q5" value="B"> B. Nhập hai số a và b</label>
+<label><input type="radio" name="q5" value="C"> C. Đưa ra kết quả</label>
+<label><input type="radio" name="q5" value="D"> D. Tính T = S / 2</label>
+</div>
+<button onclick="checkAnswer('q5', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q5" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 6: Thứ tự đúng các bước tính trung bình cộng của hai số a, b là:</p>
+<div class="options">
+<label><input type="radio" name="q6" value="A"> A. Nhập a, b - Tính S = a + b - Tính T = S / 2 - Đưa ra T</label>
+<label><input type="radio" name="q6" value="B"> B. Tính S = a + b - Nhập a, b - Đưa ra T - Tính T = S / 2</label>
+<label><input type="radio" name="q6" value="C"> C. Đưa ra T - Nhập a, b - Tính S = a + b - Tính T = S / 2</label>
+<label><input type="radio" name="q6" value="D"> D. Nhập a, b - Đưa ra T - Tính S = a + b - Tính T = S / 2</label>
+</div>
+<button onclick="checkAnswer('q6', 'A')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q6" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 7: Một thuật toán tốt cần có đặc điểm gì?</p>
+<div class="options">
+<label><input type="radio" name="q7" value="A"> A. Các bước mơ hồ, khó hiểu</label>
+<label><input type="radio" name="q7" value="B"> B. Các bước rõ ràng, đúng thứ tự, cho ra kết quả mong muốn</label>
+<label><input type="radio" name="q7" value="C"> C. Càng nhiều bước càng tốt</label>
+<label><input type="radio" name="q7" value="D"> D. Không cần thứ tự các bước</label>
+</div>
+<button onclick="checkAnswer('q7', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q7" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 8: Nếu đổi thứ tự các bước trong thuật toán nấu cơm (vo gạo trước khi lấy gạo), kết quả sẽ:</p>
+<div class="options">
+<label><input type="radio" name="q8" value="A"> A. Vẫn nấu được cơm ngon</label>
+<label><input type="radio" name="q8" value="B"> B. Không thực hiện được, vì sai trình tự</label>
+<label><input type="radio" name="q8" value="C"> C. Nấu cơm nhanh hơn</label>
+<label><input type="radio" name="q8" value="D"> D. Không ảnh hưởng gì</label>
+</div>
+<button onclick="checkAnswer('q8', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q8" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 9: Ai là người mô tả thuật toán để máy tính thực hiện?</p>
+<div class="options">
+<label><input type="radio" name="q9" value="A"> A. Máy tính tự nghĩ ra</label>
+<label><input type="radio" name="q9" value="B"> B. Con người mô tả, máy tính thực hiện theo</label>
+<label><input type="radio" name="q9" value="C"> C. Mạng Internet</label>
+<label><input type="radio" name="q9" value="D"> D. Không ai cả</label>
+</div>
+<button onclick="checkAnswer('q9', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q9" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 10: Mô tả thuật toán bằng ngôn ngữ tự nhiên có ưu điểm gì?</p>
+<div class="options">
+<label><input type="radio" name="q10" value="A"> A. Khó hiểu với người mới học</label>
+<label><input type="radio" name="q10" value="B"> B. Liệt kê các bước bằng lời văn hằng ngày nên dễ hiểu</label>
+<label><input type="radio" name="q10" value="C"> C. Chỉ máy tính mới hiểu được</label>
+<label><input type="radio" name="q10" value="D"> D. Không mô tả được trình tự các bước</label>
+</div>
+<button onclick="checkAnswer('q10', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q10" class="mt-2"></div>
+</div>
+</div>
+<script>
+function checkAnswer(qid, correct) {
+    const selected = document.querySelector(`input[name="${qid}"]:checked`);
+    const feedback = document.getElementById(`fb-${qid}`);
+    if (!selected) { feedback.innerHTML = '<span class="text-orange-600">Hãy chọn đáp án!</span>'; return; }
+    if (selected.value === correct) {
+        feedback.innerHTML = '<span class="text-green-600 font-bold">✓ Đúng!</span>';
+    } else {
+        feedback.innerHTML = '<span class="text-red-600">✗ Chưa đúng. Đáp án đúng: ' + correct + '</span>';
+    }
+}
+</script>
+</body>
+</html>
