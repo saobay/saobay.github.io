@@ -339,8 +339,10 @@ body{font-family:system-ui,-apple-system,sans-serif}
         try {
             let path = SCORES_DIR + '/' + curExamId + '/' + fileName;
             await gasClearScore(path, 'Admin xóa bài nộp: ' + studentName + ' (' + fileName + ')');
+            // Xoa ngay tren du lieu local (khong tai lai tu CDN vi raw.githubusercontent.com cache manh)
+            curResults = curResults.filter(function(r){ return r._fileName !== fileName; });
+            renderTable();
             alert('Đã xóa bài nộp của "' + studentName + '".');
-            selectExam(curExamId); // tai lai bang
         } catch(e){ alert('Lỗi xóa: ' + (e.message || e)); }
     };
 
@@ -350,16 +352,24 @@ body{font-family:system-ui,-apple-system,sans-serif}
         if (!confirm('Xóa TẤT CẢ ' + n + ' bài nộp của đề này?\n\nThống kê sẽ về 0. Hành động không thể hoàn tác!')) return;
         if (!confirm('Xác nhận lần cuối: XÓA HẾT ' + n + ' bài nộp?')) return;
         let ok = 0, fail = 0;
+        let deletedFiles = [];
         for (let r of curResults) {
             if (!r._fileName) { fail++; continue; }
             try {
                 let path = SCORES_DIR + '/' + curExamId + '/' + r._fileName;
                 await gasClearScore(path, 'Admin reset thống kê: xóa ' + r._fileName);
+                deletedFiles.push(r._fileName);
                 ok++;
             } catch(e){ fail++; }
         }
+        // Xoa ngay tren du lieu local (khong tai lai tu CDN vi cache manh)
+        if (deletedFiles.length){
+            let delSet = {};
+            deletedFiles.forEach(function(f){ delSet[f] = 1; });
+            curResults = curResults.filter(function(r){ return !delSet[r._fileName]; });
+            renderTable();
+        }
         alert('Đã xóa ' + ok + '/' + n + ' bài nộp.' + (fail ? ' Thất bại: ' + fail : ''));
-        selectExam(curExamId);
     };
 
     window.exportCsv = function(){
