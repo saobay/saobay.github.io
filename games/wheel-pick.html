@@ -84,9 +84,12 @@
     <div class="bg-white/95 rounded-2xl shadow-2xl p-4">
       <div class="flex items-center justify-between mb-2">
         <p class="text-sm font-bold text-slate-600">Còn lại: <span id="remain-count" class="text-violet-700 text-lg">0</span> HS</p>
-        <button id="btn-reset" class="text-xs bg-slate-200 hover:bg-slate-300 font-bold px-3 py-1.5 rounded-lg">
-          <i class="fa-solid fa-rotate-left mr-1"></i>Reset quay lại
-        </button>
+        <div class="flex gap-2">
+          <button id="btn-sound" title="Bật/tắt âm thanh" class="text-xs bg-slate-200 hover:bg-slate-300 font-bold px-3 py-1.5 rounded-lg">🔊</button>
+          <button id="btn-reset" class="text-xs bg-slate-200 hover:bg-slate-300 font-bold px-3 py-1.5 rounded-lg">
+            <i class="fa-solid fa-rotate-left mr-1"></i>Reset quay lại
+          </button>
+        </div>
       </div>
 
       <!-- Wheel -->
@@ -155,6 +158,64 @@ let spinning = false;
 try { scores = JSON.parse(localStorage.getItem('saobay_wheel_scores') || '{}'); } catch(e){ scores = {}; }
 function saveScores(){ localStorage.setItem('saobay_wheel_scores', JSON.stringify(scores)); }
 
+// ===== SOUND (Web Audio API, khong file ngoai) =====
+let soundOn = true;
+try { soundOn = localStorage.getItem('saobay_wheel_sound') !== '0'; } catch(e){}
+let audioCtx = null;
+function ensureAudio(){
+  if (!audioCtx){
+    try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e){ audioCtx = null; }
+  }
+  if (audioCtx && audioCtx.state === 'suspended'){ audioCtx.resume(); }
+  return audioCtx;
+}
+// khoi tao AudioContext o lan tuong tac dau tien (tranh chinh sach autoplay)
+['click','touchstart'].forEach(function(ev){
+  document.addEventListener(ev, ensureAudio);
+});
+// tick ngan moi khi kim di qua 1 o: square 800Hz, 0.03s
+function playTick(){
+  if (!soundOn) return;
+  let ac = ensureAudio();
+  if (!ac) return;
+  let o = ac.createOscillator();
+  let g = ac.createGain();
+  o.type = 'square';
+  o.frequency.value = 800;
+  g.gain.setValueAtTime(0.08, ac.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime + 0.03);
+  o.connect(g); g.connect(ac.destination);
+  o.start(); o.stop(ac.currentTime + 0.03);
+}
+// ding 2 not khi cong bo nguoi thang: E5 -> A5, sine
+function playDing(){
+  if (!soundOn) return;
+  let ac = ensureAudio();
+  if (!ac) return;
+  [659.25, 880].forEach(function(freq, i){
+    let o = ac.createOscillator();
+    let g = ac.createGain();
+    o.type = 'sine';
+    o.frequency.value = freq;
+    let t = ac.currentTime + i*0.18;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.15, t + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.5);
+    o.connect(g); g.connect(ac.destination);
+    o.start(t); o.stop(t + 0.55);
+  });
+}
+function renderSoundBtn(){
+  let b = document.getElementById('btn-sound');
+  if (b) b.textContent = soundOn ? '🔊' : '🔇';
+}
+document.getElementById('btn-sound').addEventListener('click', function(){
+  soundOn = !soundOn;
+  try { localStorage.setItem('saobay_wheel_sound', soundOn ? '1' : '0'); } catch(e){}
+  renderSoundBtn();
+});
+renderSoundBtn();
+
 // ===== TABS =====
 const tabs = { 'tab-setup':'panel-setup', 'tab-wheel':'panel-wheel', 'tab-scores':'panel-scores' };
 Object.keys(tabs).forEach(function(tid){
@@ -169,7 +230,39 @@ Object.keys(tabs).forEach(function(tid){
 function goTab(tid){ document.getElementById(tid).click(); }
 
 // ===== SETUP: TAI DS HS TU used.is =====
-let usedStudents = {};  // {className: [{id,name}, ...]}
+let usedStudents = {};  // {className: [name, ...]}
+let privateClasses = {}; // {'pv:<id>': {name, students:[name, ...]}}
+
+function getCurrentUser(){
+  try { return JSON.parse(localStorage.getItem('saobay_user') || 'null'); } catch(e){ return null; }
+}
+function makeClassOption(cls, count){
+  let o = document.createElement('option');
+  o.value = cls; o.textContent = cls + ' (' + count + ' HS)';
+  return o;
+}
+async function loadPrivateClasses(teacherId, sel){
+  try {
+    let res = await fetch('../data/private/classes.json?' + Date.now());
+    if (!res.ok) return;
+    let db = await res.json();
+    let mine = (db.classes || []).filter(function(c){
+      return c && c.id && String(c.teacher_id) === String(teacherId);
+    });
+    if (!mine.length) return;
+    let g = document.createElement('optgroup');
+    g.label = '🎓 Lớp dạy thêm của tôi';
+    mine.sort(function(a,b){ return String(a.name).localeCompare(String(b.name)); }).forEach(function(c){
+      let st = (c.students || []).map(function(s){ return s && s.name; }).filter(Boolean);
+      privateClasses['pv:' + c.id] = { name: c.name, students: st };
+      let o = document.createElement('option');
+      o.value = 'pv:' + c.id;
+      o.textContent = c.name + ' (' + st.length + ' HS)';
+      g.appendChild(o);
+    });
+    sel.appendChild(g);
+  } catch(e){ console.warn('Khong tai duoc classes.json', e); }
+}
 async function loadUsedData(){
   try {
     let res = await fetch('../used/used.is?' + Date.now());
@@ -180,28 +273,67 @@ async function loadUsedData(){
     catch(e){ db = JSON.parse(decodeURIComponent(escape(atob(txt)))); }
     let stu = db.students || {};
     let sel = document.getElementById('class-select');
-    Object.keys(stu).sort().forEach(function(cls){
+    // gom danh sach lop co HS (loai bo hang header), luu truoc de dung sau
+    let classNames = Object.keys(stu).filter(function(cls){
       let arr = (stu[cls] || []).filter(function(x){
         return x && x.name && x.name !== 'Họ và tên' && x.id !== 'Mã định danh Bộ GD&ĐT';
       });
-      if (!arr.length) return;
+      if (!arr.length) return false;
       usedStudents[cls] = arr.map(function(x){ return x.name; });
-      let o = document.createElement('option');
-      o.value = cls; o.textContent = cls + ' (' + arr.length + ' HS)';
-      sel.appendChild(o);
+      return true;
     });
+    let user = getCurrentUser();
+    let isStaff = user && (user.role === 'teacher' || user.role === 'bgh' || user.role === 'admin');
+    if (isStaff && user.id){
+      // "lop cua toi": cac lop trong assignments ma teachers chua "(<id>)"
+      let mySet = {};
+      (db.assignments || []).forEach(function(a){
+        if (a && a.class && typeof a.teachers === 'string' && a.teachers.indexOf('(' + user.id + ')') >= 0){
+          mySet[a.class] = true;
+        }
+      });
+      let my = classNames.filter(function(c){ return mySet[c]; }).sort();
+      let rest = classNames.filter(function(c){ return !mySet[c]; }).sort();
+      if (my.length){
+        let g = document.createElement('optgroup');
+        g.label = '📌 Lớp của tôi';
+        my.forEach(function(cls){ g.appendChild(makeClassOption(cls, usedStudents[cls].length)); });
+        sel.appendChild(g);
+      }
+      let g2 = document.createElement('optgroup');
+      g2.label = 'Tất cả lớp';
+      rest.forEach(function(cls){ g2.appendChild(makeClassOption(cls, usedStudents[cls].length)); });
+      sel.appendChild(g2);
+      // lop day them cua GV nay (khong doi, value dang pv:<id>)
+      loadPrivateClasses(user.id, sel);
+    } else {
+      // khong dang nhap hoac la HS: giu nguyen nhu cu (phang, khong optgroup)
+      classNames.sort().forEach(function(cls){
+        sel.appendChild(makeClassOption(cls, usedStudents[cls].length));
+      });
+    }
   } catch(e){ console.warn('Khong tai duoc used.is', e); }
 }
 document.getElementById('btn-load-class').addEventListener('click', function(){
   let cls = document.getElementById('class-select').value;
   if (!cls){ alert('Hãy chọn lớp trước!'); return; }
-  let names = usedStudents[cls] || [];
-  if (!names.length){ alert('Lớp ' + cls + ' chưa có danh sách HS.'); return; }
+  let names, label;
+  if (cls.indexOf('pv:') === 0){
+    // lop day them: nap truong name trong students
+    let pc = privateClasses[cls];
+    label = pc ? pc.name : cls;
+    names = pc ? pc.students : [];
+  } else {
+    // lop thuong: value van la ten lop nhu cu (tuong thich nguoc)
+    names = usedStudents[cls] || [];
+    label = cls;
+  }
+  if (!names.length){ alert('Lớp ' + label + ' chưa có danh sách HS.'); return; }
   names = [...new Set(names)];
   allStudents = names;
   picked = [];
   document.getElementById('loaded-info').classList.remove('hidden');
-  document.getElementById('loaded-count').textContent = names.length + ' (lớp ' + cls + ')';
+  document.getElementById('loaded-count').textContent = names.length + ' (lớp ' + label + ')';
   document.getElementById('loaded-preview').innerHTML = names.map(function(n){
     return '<span class="name-chip text-xs bg-violet-100 text-violet-800 font-semibold px-2.5 py-1 rounded-full">'+escapeHtml(n)+'</span>';
   }).join('');
@@ -307,11 +439,14 @@ document.getElementById('btn-spin').addEventListener('click', function(){
 
   let dur = 4200 + Math.random()*1500;
   let t0 = null;
+  let lastSeg = 0; // tick moi khi kim di qua 1 o (arc) trong luc quay
   function easeOut(t){ return 1 - Math.pow(1-t, 4); }
   function frame(ts){
     if (!t0) t0 = ts;
     let p = Math.min(1, (ts - t0)/dur);
     currentRotation = startRot + (endRot - startRot)*easeOut(p);
+    let seg = Math.floor((currentRotation - startRot) / arc);
+    if (seg > lastSeg){ lastSeg = seg; playTick(); }
     drawWheel();
     if (p < 1){ requestAnimationFrame(frame); }
     else { finishSpin(list[winIdx]); }
@@ -321,6 +456,7 @@ document.getElementById('btn-spin').addEventListener('click', function(){
 
 function finishSpin(name){
   spinning = false;
+  playDing();
   currentRotation = currentRotation % (Math.PI*2);
   document.body.classList.remove('spinning');
   document.getElementById('btn-spin').innerHTML = 'QUAY<br><i class="fa-solid fa-rotate text-2xl"></i>';
