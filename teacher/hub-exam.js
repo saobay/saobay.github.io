@@ -216,103 +216,119 @@
             };
         }
 
-        // Boc cau theo ma tran: moi chuong -> phan bo theo dang -> phan bo theo muc do
+        // Boc cau theo ma tran (FIX 2026-10-10, BUG 1):
+        // - matrix.types[tp] = SO CAU TUYET DOI can lay cua dang do (vd 8 TN + 2 D/S + 4 TLN + 1 TL = 15 cau)
+        // - matrix.chapters[ch] = trong so phan bo theo chuong; 9999 = chia deu (khi chua bam "Tai ma tran")
+        // - matrix.levels = ti le NB/TH/VD/VDC trong tung dang
         function exbMatrixPick(pool, matrix){
             let picked = [], used = {};
-            let typeTotal = (matrix.types.mcq || 0) + (matrix.types.truefalse || 0) + (matrix.types.short || 0) + (matrix.types.essay || 0);
-            if (!typeTotal) typeTotal = 1;
             let lvTotal = (matrix.levels.NB || 0) + (matrix.levels.TH || 0) + (matrix.levels.VD || 0) + (matrix.levels.VDC || 0);
             if (!lvTotal) lvTotal = 1;
-            Object.keys(matrix.chapters).forEach(function(ch){
-                let n = matrix.chapters[ch] || 0;
-                if (!n) return;
-                // 9999 = lay het theo ti le dang
-                let cpool = pool.filter(function(q){ return String(q.chapter) === String(ch); });
-                if (!cpool.length) return;
-                if (n >= 9999) n = cpool.length;
-                ['mcq', 'truefalse', 'short', 'essay'].forEach(function(tp){
-                    let want = (matrix.types[tp] || 0) > 0 ? Math.max(1, Math.round(n * ((matrix.types[tp] || 0) / typeTotal))) : 0;
+            let chKeys = Object.keys(matrix.chapters || {}).filter(function(ch){ return (matrix.chapters[ch] || 0) > 0; });
+            if (!chKeys.length) return picked;
+            // Trong so chuong: 9999 -> tinh nhu 1 (chia deu)
+            let wTotal = 0;
+            let wOf = {};
+            chKeys.forEach(function(ch){
+                let n = matrix.chapters[ch];
+                let w = (n >= 9999) ? 1 : n;
+                wOf[ch] = w; wTotal += w;
+            });
+            if (!wTotal) wTotal = 1;
+            ['mcq','truefalse','short','essay','listening','speaking','matching','ordering'].forEach(function(tp){
+                let wantTotal = Math.max(0, parseInt(matrix.types[tp], 10) || 0);
+                if (!wantTotal) return;
+                let gotType = 0;
+                chKeys.forEach(function(ch){
+                    if (gotType >= wantTotal) return;
+                    let want = Math.max(1, Math.round(wantTotal * (wOf[ch] / wTotal)));
+                    want = Math.min(want, wantTotal - gotType);
+                    // Gioi han theo so cau thuc te con lai trong pool cua chuong+dang nay
+                    let avail = 0;
+                    pool.forEach(function(q){ if (String(q.chapter) === String(ch) && q.type === tp && !used[q.id]) avail++; });
+                    want = Math.min(want, avail);
+                    if (want <= 0) return;
                     let groups = { NB: [], TH: [], VD: [], VDC: [] };
-                    cpool.forEach(function(q){ if (q.type === tp && !used[q.id]) (groups[q.level] || groups.NB).push(q); });
-                    Object.keys(groups).forEach(function(k){ exbShuffle(groups[k]); });
-                    ['NB', 'TH', 'VD', 'VDC'].forEach(function(lv){
-                        let w = Math.round(want * ((matrix.levels[lv] || 0) / lvTotal));
-                        let g = groups[lv];
-                        for (let i = 0; i < w && i < g.length; i++){ picked.push(g[i]); used[g[i].id] = 1; }
+                    pool.forEach(function(q){
+                        if (String(q.chapter) === String(ch) && q.type === tp && !used[q.id]) (groups[q.level] || groups.NB).push(q);
                     });
-                    let have = picked.filter(function(q){ return q.type === tp && String(q.chapter) === String(ch); }).length;
-                    if (have > want){ // cat bot khi lam tron vuot
-                        let over = have - want;
-                        for (let i = picked.length - 1; i >= 0 && over > 0; i--){
-                            if (picked[i].type === tp && String(picked[i].chapter) === String(ch)){
-                                delete used[picked[i].id]; picked.splice(i, 1); over--;
-                            }
-                        }
-                        have = want;
+                    Object.keys(groups).forEach(function(k){ exbShuffle(groups[k]); });
+                    let got = 0;
+                    ['NB','TH','VD','VDC'].forEach(function(lv){
+                        let wl = Math.round(want * ((matrix.levels[lv] || 0) / lvTotal));
+                        let g = groups[lv];
+                        for (let i = 0; i < wl && i < g.length && got < want; i++){ picked.push(g[i]); used[g[i].id] = 1; got++; }
+                    });
+                    if (got < want){
+                        let rest = [];
+                        ['NB','TH','VD','VDC'].forEach(function(lv){ groups[lv].forEach(function(q){ if (!used[q.id]) rest.push(q); }); });
+                        exbShuffle(rest);
+                        for (let i = 0; i < rest.length && got < want; i++){ picked.push(rest[i]); used[rest[i].id] = 1; got++; }
                     }
-                    if (have < want){
-                        let rest = exbShuffle(cpool.filter(function(q){ return q.type === tp && !used[q.id]; }));
-                        for (let i = 0; i < (want - have) && i < rest.length; i++){ picked.push(rest[i]); used[rest[i].id] = 1; }
-                    }
+                    gotType += got;
                 });
             });
-            let tOrd = { mcq: 0, truefalse: 1, short: 2, essay: 3 };
+            let tOrd = { mcq: 0, truefalse: 1, short: 2, essay: 3, listening: 4, speaking: 5, matching: 6, ordering: 7 };
             picked.sort(function(a, b){ return (tOrd[a.type] == null ? 9 : tOrd[a.type]) - (tOrd[b.type] == null ? 9 : tOrd[b.type]); });
             return picked;
         }
 
-        // Re-render MathJax cho nội dung preview inject động (2026-10-09)
-        function exbTypesetMath(el){
-            try {
-                if (window.MathJax && window.MathJax.typesetPromise){
-                    let target = el || document.getElementById('exb-bank-preview') || document.getElementById('exb-preview');
-                    if (target) window.MathJax.typesetPromise([target]).catch(function(){});
-                }
-            } catch(e){}
-        }
-
-        function exbRenderPicked(picked, label){
-            let pv = document.getElementById('exb-bank-preview');
-            let badge = { mcq: 'bg-blue-100 text-blue-800', truefalse: 'bg-amber-100 text-amber-800', short: 'bg-emerald-100 text-emerald-800', essay: 'bg-violet-100 text-violet-800' };
-            let tn = { mcq: 'TN', truefalse: 'Đ/S', short: 'TLN', essay: 'Tự luận' };
-            pv.innerHTML = '<div class="flex items-center justify-between mb-2">'
-                + '<p class="text-xs font-black text-slate-700">' + label + ': ' + picked.length + ' câu</p></div>'
-                + '<div class="space-y-2 max-h-96 overflow-y-auto pr-1">'
-                + picked.map(function(q, i){
-                    let h = '<div class="border border-slate-200 rounded-xl p-2.5 bg-white text-[13px]">'
-                        + '<p class="font-semibold text-slate-800"><span class="text-slate-400 font-bold mr-1">' + (i+1) + '.</span>'
-                        + String(q.q).replace(/</g, '&lt;') + '</p>';
-                    if (q.options && q.options.length){
-                        h += '<div class="mt-1.5 space-y-0.5">' + q.options.map(function(op){
-                            return '<p class="text-[12px] text-slate-600 pl-4">' + String(op).replace(/</g, '&lt;') + '</p>';
-                        }).join('') + '</div>';
-                    }
-                    if (q.statements && q.statements.length){
-                        h += '<div class="mt-1.5 space-y-0.5">' + q.statements.map(function(st, si){
-                            return '<p class="text-[12px] text-slate-600 pl-4"><b>' + 'abcd'[si] + ')</b> '
-                                + String(st.s != null ? st.s : st).replace(/</g, '&lt;') + '</p>';
-                        }).join('') + '</div>';
-                    }
-                    if (q.answer){
-                        h += '<p class="mt-1.5 text-[12px] font-bold text-emerald-700">Đáp án: '
-                            + String(q.answer).replace(/</g, '&lt;') + '</p>';
-                    }
-                    if (q.explain){
-                        h += '<p class="mt-1 text-[12px] text-slate-500"><b>Hướng dẫn:</b> '
-                            + String(q.explain).replace(/</g, '&lt;') + '</p>';
-                    }
-                    h += '<div class="flex gap-1.5 mt-1.5 text-[10px] font-bold">'
-                        + '<span class="px-2 py-0.5 rounded-full ' + (badge[q.type] || 'bg-slate-100') + '">' + (tn[q.type] || q.type) + '</span>'
-                        + '<span class="px-2 py-0.5 rounded-full bg-violet-100 text-violet-800">' + q.level + '</span>'
-                        + '<span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">chương ' + q.chapter + '</span>'
-                        + '</div></div>';
-                    return h;
-                }).join('') + '</div>';
-            exbTypesetMath(pv);
-        }
-
         // Day de tu bank ra khung soan (2026-10-10): boc cau theo ma tran -> dua vao WYSIWYG de xem/sua roi moi day cho HS
+        // Render cau hoi boc duoc thanh HTML nhin thay trong khung preview (FIX BUG 3, 2026-10-10).
+        // Giu JSON goc trong <script class="saobay-exam10-data"> de dong bo ve #item-content khong mat du lieu khi publish.
+        function exbRenderExamPreview(picked, examJson){
+            let pv = document.getElementById('preview-container');
+            if (!pv) return;
+            let esc = function(v){ return String(v == null ? '' : v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); };
+            let badge = { mcq:'bg-blue-100 text-blue-800', truefalse:'bg-amber-100 text-amber-800', short:'bg-emerald-100 text-emerald-800', essay:'bg-violet-100 text-violet-800', listening:'bg-cyan-100 text-cyan-800', speaking:'bg-pink-100 text-pink-800', matching:'bg-orange-100 text-orange-800', ordering:'bg-teal-100 text-teal-800' };
+            let tn = { mcq:'TN', truefalse:'Đ/S', short:'TLN', essay:'Tự luận', listening:'Nghe', speaking:'Nói', matching:'Nối', ordering:'Sắp xếp' };
+            let h = '<div class="saobay-exam10">'
+                + '<script type="application/json" class="saobay-exam10-data">\n' + JSON.stringify(examJson) + '\n<\/script>'
+                + '<div class="exam10-visible max-w-3xl mx-auto space-y-3 p-2">'
+                + '<div class="bg-indigo-50 border border-indigo-200 rounded-xl px-4 py-3"><p class="font-black text-indigo-900 text-sm"><i class="fa-solid fa-file-lines mr-2"></i>Đề kiểm tra — ' + picked.length + ' câu (bốc từ ngân hàng đề theo ma trận)</p>'
+                + '<p class="text-[11px] text-indigo-700 mt-1">Dữ liệu JSON đã lưu trong khung soạn (xem ở chế độ Mã HTML). Sửa trực tiếp từng câu bên dưới rồi bấm Đẩy bài.</p></div>';
+            picked.forEach(function(q, i){
+                h += '<div class="border border-slate-200 rounded-xl p-3 bg-white shadow-sm">'
+                    + '<p class="font-bold text-slate-800 text-[14px]"><span class="text-slate-400 mr-1">' + (i+1) + '.</span>' + esc(q.q) + '</p>';
+                if (q.options && q.options.length){
+                    h += '<div class="mt-2 space-y-1">' + q.options.map(function(op){ return '<p class="text-[13px] text-slate-600 pl-4">• ' + esc(op) + '</p>'; }).join('') + '</div>';
+                }
+                if (q.statements && q.statements.length){
+                    h += '<div class="mt-2 space-y-1">' + q.statements.map(function(st, si){
+                        let txt = (st && typeof st === 'object') ? (st.s != null ? st.s : '') : st;
+                        return '<p class="text-[13px] text-slate-600 pl-4"><b>' + 'abcd'[si] + ')</b> ' + esc(txt) + '</p>';
+                    }).join('') + '</div>';
+                }
+                if (q.answer != null && q.answer !== ''){
+                    let ans = Array.isArray(q.answer) ? q.answer.join(', ') : q.answer;
+                    h += '<p class="mt-2 text-[12px] font-bold text-emerald-700">Đáp án: ' + esc(ans) + '</p>';
+                }
+                if (q.explain){
+                    h += '<p class="mt-1 text-[12px] text-slate-500"><b>Hướng dẫn:</b> ' + esc(q.explain) + '</p>';
+                }
+                h += '<div class="flex gap-1.5 mt-2 text-[10px] font-bold">'
+                    + '<span class="px-2 py-0.5 rounded-full ' + (badge[q.type] || 'bg-slate-100 text-slate-600') + '">' + (tn[q.type] || esc(q.type)) + '</span>'
+                    + '<span class="px-2 py-0.5 rounded-full bg-violet-100 text-violet-800">' + esc(q.level || '') + '</span>'
+                    + '<span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">chương ' + esc(q.chapter || '') + '</span></div>';
+                h += '</div>';
+            });
+            h += '</div></div>';
+            pv.innerHTML = h;
+            try {
+                if (window.MathJax && window.MathJax.typesetPromise) window.MathJax.typesetPromise([pv]).catch(function(){});
+            } catch(e){}
+            // Dong bo nguoc ve textarea de che do Ma HTML / publish giu duoc JSON
+            try { if (typeof syncVisualToItemContent === 'function') syncVisualToItemContent(); } catch(e){}
+        }
+
+        // Day de tu bank ra khung soan (FIX 2026-10-10):
+        // - BUG 2: phan hoi ngay + chong bam dup (disable nut trong luc xu ly)
+        // - BUG 3: render truc quan cau hoi thay vi de JSON tran
         async function exbPushToComposer(){
+            let btn = document.querySelector('button[onclick="exbPushToComposer()"]');
+            if (btn && btn.disabled) return; // dang xu ly -> bo qua click dup
+            if (btn){ btn.disabled = true; btn.classList.add('opacity-50','pointer-events-none'); }
+            if (typeof showToast === 'function'){ try { showToast('Đang bốc câu theo ma trận...', 'info'); } catch(e){} }
             try {
                 let m = exbGetMatrix();
                 if (!exbBankPool.length){
@@ -322,9 +338,9 @@
                     exbBankPool = exbApplyApprovedFilter(r.data.questions || []);
                 }
                 let picked = exbMatrixPick(exbBankPool, m);
-                if (!picked.length) throw new Error('Không bốc được câu nào — kiểm tra ma trận.');
+                if (!picked.length) throw new Error('Không bốc được câu nào — kiểm tra ma trận (số câu mỗi dạng, chương).');
                 let examJson = { time_limit: m.time_limit || 0, sets: [{ name: 'Đề', questions: picked.map(function(q){
-                    let o = { type: q.type, level: q.level, q: q.q, options: q.options || [],
+                    let o = { type: q.type, level: q.level, chapter: q.chapter, q: q.q, options: q.options || [],
                              statements: q.statements || [], answer: q.answer, explain: q.explain || '' };
                     if (q.img) o.img = q.img;
                     return o;
@@ -334,14 +350,18 @@
                 let ta = document.getElementById('item-content');
                 if (!ta){ alert('Không tìm thấy khung soạn thảo.'); return; }
                 ta.value = frag;
-                if (typeof renderMathPreview === 'function'){ try { renderMathPreview(); } catch(e){} }
-                // Cuộn xuống khung soạn để user xem ngay
+                // FIX BUG 3: render truc quan (giu JSON de publish)
+                if (typeof exbRenderExamPreview === 'function'){ try { exbRenderExamPreview(picked, examJson); } catch(e){} }
+                // Dam bao dang xem visual
+                try { if (typeof setEditorMode === 'function') setEditorMode('visual'); } catch(e){}
                 let pw = document.getElementById('preview-wrapper');
                 if (pw) pw.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 if (typeof showToast === 'function') showToast('Đã đẩy ' + picked.length + ' câu ra khung soạn. Xem/sửa rồi bấm Đẩy bài.', 'success');
             } catch(e){
                 if (typeof showToast === 'function') showToast('Lỗi: ' + (e.message || e), 'error');
                 else alert('Lỗi: ' + (e.message || e));
+            } finally {
+                if (btn){ btn.disabled = false; btn.classList.remove('opacity-50','pointer-events-none'); }
             }
         }
 
