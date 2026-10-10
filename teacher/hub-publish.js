@@ -24,11 +24,10 @@ YÊU CẦU:
             }
 
             if (type === 'EXAM10') {
-                // PROMPT TẠO ĐỀ MỚI CHUẨN SÀO BÁY (2026-10-09):
-                // - AI soạn 1 ĐỀ MỚI HOÀN TOÀN theo đúng MA TRẬN người dùng cung cấp
-                // - AI chỉ sinh DỮ LIỆU JSON trong <script class="saobay-exam10-data">, KHÔNG viết HTML card, KHÔNG viết JS
-                //   (web tự render + chấm bài qua mountExam10Viewers trong index.html)
-                // - 4 dạng câu web hiểu: mcq / truefalse / short / essay
+                // PROMPT TẠO ĐỀ MỚI CHUẨN SÀO BÁY (2026-10-10, sửa theo test NotebookLM thật):
+                // - NotebookLM KHÔNG xuất được khối HTML thô <div class="saobay-exam10"> (test 4 lần đều lỗi/trống)
+                // - Đổi sang yêu cầu AI xuất JSON trong khối mã ```json — NotebookLM làm tốt dạng văn bản thuần
+                // - GV copy khối JSON → dán vào ô "Dán JSON từ AI" trên hub → pasteAiJsonToComposer() bọc thành khối exam10
                 promptText = `Bạn là chuyên gia biên soạn đề thi theo định hướng đánh giá năng lực của Bộ GD&ĐT.
 Nhiệm vụ: soạn 1 ĐỀ THI MỚI HOÀN TOÀN (chưa từng xuất hiện ở bất kỳ đâu) cho Bài: "${lesson}" - Môn: ${subject} - Lớp: ${grade}.
 
@@ -38,10 +37,9 @@ YÊU CẦU QUAN TRỌNG NHẤT:
 3. Bạn phải tuân thủ 100% ma trận — không tự ý thêm, bớt, hay đổi dạng câu/mức độ.
 4. Nếu ma trận chưa rõ chỗ nào, hãy hỏi lại thay vì tự đoán.
 
-ĐỊNH DẠNG BẮT BUỘC — chỉ xuất DUY NHẤT khối mã HTML thô dưới đây (không bọc markdown, không chữ giải thích ngoài, không thêm <html>/<head>/<body>):
+ĐỊNH DẠNG BẮT BUỘC — chỉ xuất DUY NHẤT 1 khối mã JSON đúng mẫu dưới đây (không viết thẻ HTML, không viết JavaScript, không chữ giải thích ngoài khối mã):
 
-<div class="saobay-exam10">
-<script type="application/json" class="saobay-exam10-data">
+\`\`\`json
 {
   "sets": [
     {
@@ -56,12 +54,13 @@ YÊU CẦU QUAN TRỌNG NHẤT:
     }
   ]
 }
-<\\/script>
-</div>
+\`\`\`
 
-QUY TẮC 4 DẠNG CÂU (web chỉ hiểu 4 dạng này):
+LƯU Ý QUAN TRỌNG: Tôi sẽ COPY NGUYÊN khối JSON trên rồi dán vào phần mềm để tạo đề thi — vì vậy JSON của bạn phải HỢP LỆ TUYỆT ĐỐI (đúng ngoặc, đúng dấu phẩy, chuỗi trong ngoặc kép). Chỉ xuất đúng 1 khối mã, không thêm bất kỳ chữ nào ngoài khối mã.
+
+QUY TẮC 4 DẠNG CÂU (phần mềm chỉ hiểu 4 dạng này):
 1. mcq — trắc nghiệm 4 đáp án: "options" đủ 4 chuỗi bắt đầu bằng "A. "/"B. "/"C. "/"D. ", "answer" là 1 ký tự A/B/C/D.
-2. truefalse — đúng/sai 4 ý a,b,c,d: "statements" đúng 4 chuỗi, "answer" là mảng 4 giá trị "T"/"F" theo thứ tự a→d. Thang điểm web: đúng 1 ý=0.125, 2 ý=0.25, 3 ý=0.5, 4 ý=1.
+2. truefalse — đúng/sai 4 ý a,b,c,d: "statements" đúng 4 chuỗi, "answer" là mảng 4 giá trị "T"/"F" theo thứ tự a→d. Thang điểm: đúng 1 ý=0.125, 2 ý=0.25, 3 ý=0.5, 4 ý=1.
 3. short — trả lời ngắn: "answer" là chuỗi đáp số chuẩn (chỉ 1 đáp án, vd "24").
 4. essay — tự luận: KHÔNG có "answer" (giáo viên chấm tay), "explain" ghi barem chấm từng ý.
 
@@ -74,10 +73,10 @@ QUY TẮC 4 MỨC ĐỘ (trường "level" bắt buộc mỗi câu):
 QUY TẮC KỸ THUẬT:
 - Viết TIẾNG VIỆT CÓ DẤU đầy đủ trong mọi chuỗi.
 - Công thức Toán giữ nguyên 100% cú pháp TeX trong $...$ hoặc $$...$$.
-- TUYỆT ĐỐI không dùng ký tự < > & trong chuỗi JSON (dấu < viết thành \\u003c). Không để dấu phẩy thừa cuối mảng/object.
+- TUYỆT ĐỐI không dùng ký tự < > & trong chuỗi JSON. Không để dấu phẩy thừa cuối mảng/object — JSON phải parse được.
 - Mỗi câu bắt buộc có "explain" ngắn gọn, dễ hiểu.
 - Nếu câu hỏi có hình minh họa (tôi sẽ cung cấp URL ảnh), thêm trường "img" với URL đó.
-- KHÔNG viết thẻ HTML câu hỏi, KHÔNG viết JavaScript — chỉ xuất đúng khối JSON trên.
+- KHÔNG viết thẻ HTML câu hỏi, KHÔNG viết JavaScript — chỉ xuất đúng 1 khối JSON trên.
 
 MA TRẬN CỦA TÔI (bạn tuân thủ tuyệt đối):`;
             }
@@ -87,10 +86,74 @@ MA TRẬN CỦA TÔI (bạn tuân thủ tuyệt đối):`;
             }
 
             navigator.clipboard.writeText(promptText).then(() => {
-                showToast("Đã copy Prompt NotebookLM vào Clipboard!", "success");
+                if (type === 'EXAM10') {
+                    showToast("Đã copy! Dán vào NotebookLM → copy khối JSON → dán vào ô 'Dán JSON' bên dưới.", "success");
+                } else {
+                    showToast("Đã copy Prompt NotebookLM vào Clipboard!", "success");
+                }
             }).catch(() => {
                 showToast("Vui lòng cấp quyền copy!", "error");
             });
+        }
+
+        // DÁN JSON TỪ AI (2026-10-10): GV copy khối ```json từ NotebookLM/Gemini → dán vào ô ai-json-input
+        // → hàm này bóc JSON, kiểm tra hợp lệ, bọc thành khối <div class="saobay-exam10"> rồi nạp vào khung soạn.
+        function pasteAiJsonToComposer(){
+            let ta = document.getElementById('ai-json-input');
+            let status = document.getElementById('ai-json-status');
+            let raw = ta ? ta.value.trim() : '';
+            function setStatus(msg, ok){
+                if (status){
+                    status.textContent = msg;
+                    status.className = 'text-[11px] font-bold ' + (ok ? 'text-emerald-700' : 'text-rose-600');
+                }
+            }
+            if (!raw){ setStatus('Chưa có JSON để nạp — hãy dán khối JSON AI trả về vào ô trên.', false); return; }
+            // Bóc bỏ hàng rào ```json / ``` (AI thường bọc khối mã)
+            let jsonStr = raw
+                .replace(/^\s*```\s*json\s*/i, '')
+                .replace(/^\s*```\s*/i, '')
+                .replace(/\s*```\s*$/i, '')
+                .trim();
+            let obj = null;
+            try { obj = JSON.parse(jsonStr); }
+            catch(e1){
+                // Thử tìm khối {...} lớn nhất trong văn bản (phòng khi AI chèn chữ thừa)
+                let m = jsonStr.match(/\{[\s\S]*\}/);
+                if (m){ try { obj = JSON.parse(m[0]); } catch(e2){} }
+            }
+            if (!obj || !obj.sets || !Array.isArray(obj.sets) || !obj.sets.length){
+                setStatus('JSON không hợp lệ hoặc thiếu "sets". Hãy copy đúng khối JSON AI trả về.', false);
+                showToast('JSON không hợp lệ!', 'error');
+                return;
+            }
+            let qCount = 0, setCount = obj.sets.length;
+            obj.sets.forEach(function(s){ qCount += ((s && s.questions) || []).length; });
+            if (!qCount){
+                setStatus('JSON hợp lệ nhưng không có câu hỏi nào trong "sets".', false);
+                showToast('Không tìm thấy câu hỏi!', 'error');
+                return;
+            }
+            let block = '<div class="saobay-exam10">\n<script type="application/json" class="saobay-exam10-data">\n'
+                + JSON.stringify(obj) + '\n<\/script>\n</div>';
+            let composer = document.getElementById('item-content');
+            if (composer){
+                let cur = composer.value.trim();
+                composer.value = cur ? (cur + '\n\n' + block) : block;
+                try { if (typeof onRawHtmlChange === 'function') onRawHtmlChange(); } catch(e){}
+                try { if (typeof updatePreviewDebounced === 'function') updatePreviewDebounced(); } catch(e){}
+            }
+            // Tự điền tiêu đề nếu đang trống
+            try {
+                let titleEl = document.getElementById('item-title');
+                let subj = (document.getElementById('prompt-subject')||{}).value || '';
+                let grd = (document.getElementById('prompt-grade')||{}).value || '';
+                let les = (document.getElementById('prompt-lesson')||{}).value || '';
+                if (titleEl && !titleEl.value.trim()) titleEl.value = '[' + subj + ' ' + grd + '] ' + les;
+            } catch(e){}
+            setStatus('Đã nạp ' + setCount + ' bộ đề (' + qCount + ' câu) vào khung soạn!', true);
+            showToast('Đã nạp đề vào khung soạn!', 'success');
+            ta.value = '';
         }
 
         async function handleFileUpload(event) {
