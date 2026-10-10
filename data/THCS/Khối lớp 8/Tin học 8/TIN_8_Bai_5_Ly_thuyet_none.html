@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 5: Giải quyết vấn đề - Làm quen lập trình</title>
+    <meta name="lesson-title" content="Bài 5: Giải quyết vấn đề - Làm quen lập trình">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; }
+        .content-body { max-width: 800px; margin: 0 auto; }
+        h2 { color: #0369a1; margin-top: 24px; }
+        .highlight { background: #e0f2fe; padding: 12px; border-radius: 8px; border-left: 4px solid #0284c7; margin: 12px 0; }
+        table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+        th, td { border: 1px solid #cbd5e1; padding: 8px; text-align: left; }
+        th { background: #f1f5f9; }
+        pre { background: #f1f5f9; padding: 12px; border-radius: 8px; overflow-x: auto; }
+    </style>
+</head>
+<body class="bg-slate-50">
+<div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+<div class="border-b pb-4 mb-6">
+<span class="text-xs font-bold text-blue-600 uppercase">Lý thuyết</span>
+<h1 class="text-2xl font-black mt-1">Bài 5: Giải quyết vấn đề - Làm quen lập trình</h1>
+<p class="text-xs text-slate-500 mt-1">Tin học 8 • Chủ đề 5: Giải quyết vấn đề - Làm quen lập trình</p>
+</div>
+<div class="content-body">
+
+<h2>1. Bài toán và thuật toán</h2>
+<p>Trong tin học, <strong>bài toán</strong> là một vấn đề cần giải quyết bằng máy tính, gồm phần <strong>đầu vào</strong> (dữ liệu đã biết) và <strong>đầu ra</strong> (kết quả cần tìm).</p>
+<p><strong>Thuật toán</strong> là dãy các bước rõ ràng, thực hiện theo trình tự để giải quyết một bài toán. Ví dụ thuật toán tính điểm trung bình hai môn Toán và Văn:</p>
+<pre>Bước 1: Nhập điểm Toán, điểm Văn.
+Bước 2: Tính tổng bằng điểm Toán cộng điểm Văn.
+Bước 3: Tính trung bình bằng tổng chia cho 2.
+Bước 4: In ra điểm trung bình.</pre>
+<p>Thuật toán có thể mô tả bằng cách liệt kê các bước hoặc bằng sơ đồ khối.</p>
+<div class="highlight">
+<strong>Ghi nhớ:</strong> Muốn máy tính giải quyết vấn đề giúp mình, trước hết con người phải xây dựng được thuật toán đúng.
+</div>
+
+<h2>2. Ngôn ngữ lập trình</h2>
+<p><strong>Ngôn ngữ lập trình</strong> là ngôn ngữ dùng để viết chương trình, ra lệnh cho máy tính thực hiện. <strong>Chương trình máy tính</strong> là tập hợp các câu lệnh được viết theo đúng quy tắc của một ngôn ngữ lập trình.</p>
+<p>Python là một ngôn ngữ lập trình bậc cao, phổ biến vì cú pháp đơn giản, gần với ngôn ngữ tự nhiên nên rất phù hợp cho người mới học.</p>
+
+<h2>3. Biến và hằng</h2>
+<p><strong>Biến</strong> là đại lượng dùng để lưu trữ dữ liệu, giá trị của biến có thể thay đổi trong quá trình chạy chương trình. Mỗi biến có một tên gọi để phân biệt.</p>
+<p>Ví dụ: biến có tên là diem dùng để lưu điểm số của học sinh; lúc đầu diem bằng 7, sau khi thi lại diem bằng 9.</p>
+<p><strong>Hằng</strong> là đại lượng có giá trị không thay đổi trong suốt chương trình, ví dụ số ngày trong tuần luôn là 7.</p>
+<div class="highlight">
+<strong>Ghi nhớ:</strong> Biến dùng để lưu dữ liệu có thể thay đổi; hằng dùng để lưu dữ liệu cố định.
+</div>
+
+<h2>4. Câu lệnh rẽ nhánh</h2>
+<p>Trong thực tế, nhiều việc chỉ làm khi một điều kiện nào đó đúng. <strong>Câu lệnh rẽ nhánh</strong> cho phép chương trình chọn thực hiện nhánh lệnh này hay nhánh lệnh khác tùy theo điều kiện.</p>
+<p>Trong Python, câu lệnh rẽ nhánh là <strong>if</strong>. Ý tưởng:</p>
+<pre>Nếu điểm từ 5 trở lên:
+    In ra "Đạt"
+Ngược lại:
+    In ra "Chưa đạt"</pre>
+<p>Các phép so sánh thường dùng: bằng, khác, lớn hơn, nhỏ hơn, lớn hơn hoặc bằng, nhỏ hơn hoặc bằng.</p>
+
+<h2>5. Câu lệnh lặp</h2>
+<p>Khi cần thực hiện lặp đi lặp lại một công việc, ta dùng <strong>câu lệnh lặp</strong>:</p>
+<table>
+<tr><th>Loại lặp</th><th>Câu lệnh trong Python</th><th>Khi nào dùng</th></tr>
+<tr><td>Lặp với số lần biết trước</td><td>for</td><td>Ví dụ: in bảng cửu chương, lặp đúng 10 lần</td></tr>
+<tr><td>Lặp với điều kiện</td><td>while</td><td>Ví dụ: lặp cho đến khi người dùng nhập đúng mật khẩu</td></tr>
+</table>
+<p>Ý tưởng vòng lặp for trong Python: "với mỗi giá trị trong một dãy số, thực hiện các lệnh".</p>
+<div class="highlight">
+<strong>Ghi nhớ:</strong> Ba cấu trúc điều khiển cơ bản của chương trình là: tuần tự (làm từng bước), rẽ nhánh (chọn theo điều kiện) và lặp (làm lại nhiều lần).
+</div>
+
+</div>
+</div>
+</body>
+</html>
