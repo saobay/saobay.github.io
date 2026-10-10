@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 22: Hình có tâm đối xứng</title>
+    <meta name="lesson-title" content="Bài 22: Hình có tâm đối xứng">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 22: Hình có tâm đối xứng</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 5: Tính đối xứng của hình phẳng trong tự nhiên • Bài 22: Hình có tâm đối xứng</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 22: Hình có tâm đối xứng</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 5: Tính đối xứng của hình phẳng trong tự nhiên (Kết nối tri thức với cuộc sống)</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Hình có tâm đối xứng trong tự nhiên</h2>
+
+<p>Bên cạnh những hình "cân xứng hai bên" qua một đường thẳng, trong tự nhiên còn có những hình "cân xứng" qua một <strong>điểm</strong>: bông hoa nhiều cánh đều nhau, chong chóng, mặt đồng hồ... Nếu ta quay những hình này <strong>nửa vòng</strong> ($180^\circ$) quanh điểm ở giữa mà hình <strong>trùng khít</strong> với chính nó thì điểm đó gọi là <strong>tâm đối xứng</strong> của hình.</p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bong hoa 4 canh co tam doi xung O">
+<rect x="2" y="2" width="436" height="296" rx="10" fill="#fdf2f8" stroke="#cbd5e1" stroke-width="1.5"/>
+<ellipse cx="220" cy="85" rx="34" ry="62" fill="#fbcfe8" stroke="#db2777" stroke-width="2"/>
+<ellipse cx="220" cy="85" rx="34" ry="62" fill="#fbcfe8" stroke="#db2777" stroke-width="2" transform="rotate(90 220 150)"/>
+<ellipse cx="220" cy="85" rx="34" ry="62" fill="#fbcfe8" stroke="#db2777" stroke-width="2" transform="rotate(180 220 150)"/>
+<ellipse cx="220" cy="85" rx="34" ry="62" fill="#fbcfe8" stroke="#db2777" stroke-width="2" transform="rotate(270 220 150)"/>
+<circle cx="220" cy="150" r="16" fill="#fde68a" stroke="#d97706" stroke-width="2"/>
+<circle cx="220" cy="150" r="5" fill="#e11d48"/>
+<text x="246" y="146" font-family="sans-serif" font-size="20" font-weight="bold" fill="#e11d48">O</text>
+<text x="220" y="280" font-family="sans-serif" font-size="15" fill="#475569" text-anchor="middle">Quay nửa vòng quanh O, bông hoa trùng khít với chính nó</text>
+</svg></div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Tâm đối xứng của một hình</h2>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4"><p class="font-semibold text-sky-800 mb-2">Khái niệm:</p>
+<p>Điểm $O$ được gọi là <strong>tâm đối xứng</strong> của một hình nếu <strong>mỗi điểm</strong> trên hình có <strong>điểm đối xứng</strong> với nó qua điểm $O$ cũng thuộc hình đó.</p>
+</div>
+
+<p>Hai điểm $A$ và $B$ gọi là <strong>đối xứng nhau qua điểm $O$</strong> nếu $O$ là <strong>trung điểm</strong> của đoạn thẳng $AB$, tức là $O$ nằm giữa $A$ và $B$ đồng thời $OA = OB$.</p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hai diem A B doi xung qua diem O">
+<rect x="2" y="2" width="436" height="236" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<line x1="120" y1="110" x2="320" y2="110" stroke="#64748b" stroke-width="2"/>
+<circle cx="120" cy="110" r="7" fill="#0284c7"/>
+<circle cx="320" cy="110" r="7" fill="#0284c7"/>
+<circle cx="220" cy="110" r="7" fill="#e11d48"/>
+<text x="120" y="92" font-family="sans-serif" font-size="20" font-weight="bold" fill="#0c4a6e" text-anchor="middle">A</text>
+<text x="320" y="92" font-family="sans-serif" font-size="20" font-weight="bold" fill="#0c4a6e" text-anchor="middle">B</text>
+<text x="220" y="142" font-family="sans-serif" font-size="20" font-weight="bold" fill="#e11d48" text-anchor="middle">O</text>
+<line x1="170" y1="103" x2="170" y2="117" stroke="#e11d48" stroke-width="2.5"/>
+<line x1="270" y1="103" x2="270" y2="117" stroke="#e11d48" stroke-width="2.5"/>
+<text x="220" y="192" font-family="sans-serif" font-size="15" fill="#475569" text-anchor="middle">O là trung điểm của AB: A và B đối xứng nhau qua O</text>
+<text x="220" y="216" font-family="sans-serif" font-size="15" fill="#475569" text-anchor="middle">OA = OB</text>
+</svg></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4"><p class="font-bold text-amber-800">📌 Ghi nhớ</p><p class="mt-1">Cách nhận biết: nếu <strong>quay hình nửa vòng</strong> ($180^\circ$) quanh điểm $O$ mà hình <strong>trùng khít</strong> với chính nó thì $O$ chính là <strong>tâm đối xứng</strong> của hình.</p></div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Tâm đối xứng của một số hình phẳng</h2>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">a) Đoạn thẳng và đường tròn</h3>
+
+<div class="svg-fig"><svg viewBox="0 0 440 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tam doi xung cua doan thang va duong tron">
+<rect x="2" y="2" width="436" height="256" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<line x1="40" y1="110" x2="200" y2="110" stroke="#0284c7" stroke-width="3"/>
+<circle cx="40" cy="110" r="7" fill="#0284c7"/>
+<circle cx="200" cy="110" r="7" fill="#0284c7"/>
+<circle cx="120" cy="110" r="7" fill="#e11d48"/>
+<text x="40" y="92" font-family="sans-serif" font-size="18" font-weight="bold" fill="#0c4a6e" text-anchor="middle">A</text>
+<text x="200" y="92" font-family="sans-serif" font-size="18" font-weight="bold" fill="#0c4a6e" text-anchor="middle">B</text>
+<text x="120" y="142" font-family="sans-serif" font-size="18" font-weight="bold" fill="#e11d48" text-anchor="middle">O</text>
+<text x="120" y="200" font-family="sans-serif" font-size="14" fill="#475569" text-anchor="middle">Trung điểm O là tâm</text>
+<text x="120" y="220" font-family="sans-serif" font-size="14" fill="#475569" text-anchor="middle">đối xứng của đoạn AB</text>
+<circle cx="330" cy="110" r="70" fill="#e0f2fe" stroke="#0284c7" stroke-width="2.5"/>
+<circle cx="330" cy="110" r="6" fill="#e11d48"/>
+<text x="348" y="106" font-family="sans-serif" font-size="18" font-weight="bold" fill="#e11d48">O</text>
+<text x="330" y="200" font-family="sans-serif" font-size="14" fill="#475569" text-anchor="middle">Tâm O là tâm đối xứng</text>
+<text x="330" y="220" font-family="sans-serif" font-size="14" fill="#475569" text-anchor="middle">của đường tròn</text>
+</svg></div>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Đoạn thẳng:</strong> tâm đối xứng là <strong>trung điểm</strong> của đoạn thẳng đó.</li>
+<li><strong>Đường tròn:</strong> tâm đối xứng chính là <strong>tâm</strong> của đường tròn.</li>
+</ul>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">b) Hình bình hành</h3>
+
+<div class="svg-fig"><svg viewBox="0 0 440 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tam doi xung cua hinh binh hanh">
+<rect x="2" y="2" width="436" height="296" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<polygon points="150,70 310,70 260,230 100,230" fill="#e0f2fe" stroke="#0284c7" stroke-width="2.5"/>
+<line x1="150" y1="70" x2="260" y2="230" stroke="#e11d48" stroke-width="2" stroke-dasharray="8 6"/>
+<line x1="310" y1="70" x2="100" y2="230" stroke="#e11d48" stroke-width="2" stroke-dasharray="8 6"/>
+<circle cx="205" cy="150" r="6" fill="#e11d48"/>
+<text x="224" y="146" font-family="sans-serif" font-size="19" font-weight="bold" fill="#e11d48">O</text>
+<text x="220" y="272" font-family="sans-serif" font-size="15" fill="#475569" text-anchor="middle">O là giao điểm hai đường chéo — tâm đối xứng của hình bình hành</text>
+</svg></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4"><p class="font-bold text-amber-800">📌 Ghi nhớ</p><p class="mt-1"><strong>Hình bình hành</strong> có tâm đối xứng là <strong>giao điểm của hai đường chéo</strong>. Đặc biệt: hình bình hành <strong>có tâm đối xứng nhưng không có trục đối xứng</strong>.</p></div>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">c) Hình chữ nhật, hình vuông, hình thoi, hình lục giác đều</h3>
+
+<p>Các hình này đều <strong>vừa có tâm đối xứng, vừa có trục đối xứng</strong>:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Hình chữ nhật, hình vuông, hình thoi:</strong> tâm đối xứng là <strong>giao điểm của hai đường chéo</strong> (cũng là giao điểm của các trục đối xứng).</li>
+<li><strong>Hình lục giác đều:</strong> tâm đối xứng là <strong>tâm của hình</strong> (giao điểm của các đường chéo chính).</li>
+</ul>
+
+<p>Ngược lại, <strong>tam giác</strong> (kể cả tam giác cân, tam giác đều) và <strong>hình thang cân không có tâm đối xứng</strong>.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Tâm đối xứng trong thực tiễn</h2>
+
+<p>Trong đời sống, tâm đối xứng cũng rất phổ biến:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Chữ cái in hoa</strong> có tâm đối xứng: <strong>H, I, N, O, S, X, Z</strong>. Trong đó, các chữ <strong>S, N, Z</strong> có tâm đối xứng nhưng <strong>không có</strong> trục đối xứng.</li>
+<li><strong>Chữ số:</strong> các chữ số <strong>0</strong> và <strong>8</strong> vừa có tâm đối xứng, vừa có trục đối xứng.</li>
+<li><strong>Hoa văn</strong> trang trí, mặt đồng hồ, biển báo giao thông hình tròn...</li>
+</ul>
+
+<div class="svg-fig"><svg viewBox="0 0 440 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cac chu cai in hoa co tam doi xung">
+<rect x="2" y="2" width="436" height="216" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="40" y="128" font-family="sans-serif" font-size="52" font-weight="bold" fill="#0369a1" text-anchor="middle">H</text>
+<text x="102" y="128" font-family="sans-serif" font-size="52" font-weight="bold" fill="#0369a1" text-anchor="middle">I</text>
+<text x="164" y="128" font-family="sans-serif" font-size="52" font-weight="bold" fill="#0369a1" text-anchor="middle">N</text>
+<text x="226" y="128" font-family="sans-serif" font-size="52" font-weight="bold" fill="#0369a1" text-anchor="middle">O</text>
+<text x="288" y="128" font-family="sans-serif" font-size="52" font-weight="bold" fill="#0369a1" text-anchor="middle">S</text>
+<text x="348" y="128" font-family="sans-serif" font-size="52" font-weight="bold" fill="#0369a1" text-anchor="middle">X</text>
+<text x="404" y="128" font-family="sans-serif" font-size="52" font-weight="bold" fill="#0369a1" text-anchor="middle">Z</text>
+<circle cx="40" cy="106" r="4" fill="#e11d48"/><circle cx="102" cy="106" r="4" fill="#e11d48"/><circle cx="164" cy="106" r="4" fill="#e11d48"/><circle cx="226" cy="106" r="4" fill="#e11d48"/><circle cx="288" cy="106" r="4" fill="#e11d48"/><circle cx="348" cy="106" r="4" fill="#e11d48"/><circle cx="404" cy="106" r="4" fill="#e11d48"/>
+<text x="220" y="182" font-family="sans-serif" font-size="15" fill="#475569" text-anchor="middle">Các chữ cái in hoa có tâm đối xứng (chấm đỏ)</text>
+<text x="220" y="204" font-family="sans-serif" font-size="14" fill="#475569" text-anchor="middle">S, N, Z: có tâm nhưng không có trục đối xứng</text>
+</svg></div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">5. Bài tập ví dụ (có lời giải)</h2>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4"><p class="font-semibold text-emerald-800 mb-2">Bài tập ví dụ 1:</p>
+<p>Trong các hình sau, hình nào có tâm đối xứng: hình thang cân, hình bình hành, tam giác đều?</p>
+<p class="mt-2"><strong>Lời giải:</strong> Hình bình hành có tâm đối xứng là giao điểm của hai đường chéo. Hình thang cân và tam giác đều không có tâm đối xứng. Vậy chỉ có <strong>hình bình hành</strong> là hình có tâm đối xứng.</p>
+</div>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4"><p class="font-semibold text-emerald-800 mb-2">Bài tập ví dụ 2:</p>
+<p>Cho đoạn thẳng $AB$ dài $12$ cm, $O$ là trung điểm của $AB$. Điểm $M$ cách $O$ một khoảng $5$ cm. Vẽ điểm $M'$ đối xứng với $M$ qua $O$. Tính độ dài đoạn thẳng $MM'$.</p>
+<p class="mt-2"><strong>Lời giải:</strong> Vì $M'$ đối xứng với $M$ qua $O$ nên $O$ là trung điểm của $MM'$. Do đó $OM = OM' = 5$ cm. Vậy $MM' = OM + OM' = 5 + 5 = 10$ cm.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Hình</td><td class="border border-slate-300 px-4 py-1">Tâm đối xứng</td><td class="border border-slate-300 px-4 py-1">Ghi chú</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Đoạn thẳng</td><td class="border border-slate-300 px-4 py-1">Trung điểm của đoạn thẳng</td><td class="border border-slate-300 px-4 py-1">Có đúng một tâm đối xứng</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Đường tròn</td><td class="border border-slate-300 px-4 py-1">Tâm của đường tròn</td><td class="border border-slate-300 px-4 py-1">Có đúng một tâm đối xứng</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Hình bình hành</td><td class="border border-slate-300 px-4 py-1">Giao điểm hai đường chéo</td><td class="border border-slate-300 px-4 py-1">Có tâm nhưng <strong>không có</strong> trục đối xứng</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Hình chữ nhật, hình vuông, hình thoi</td><td class="border border-slate-300 px-4 py-1">Giao điểm hai đường chéo</td><td class="border border-slate-300 px-4 py-1">Vừa có tâm, vừa có trục đối xứng</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Hình lục giác đều</td><td class="border border-slate-300 px-4 py-1">Tâm của hình</td><td class="border border-slate-300 px-4 py-1">Vừa có tâm, vừa có 6 trục đối xứng</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Tam giác, hình thang cân</td><td class="border border-slate-300 px-4 py-1">Không có</td><td class="border border-slate-300 px-4 py-1">Chỉ có trục đối xứng (trừ tam giác thường, thang thường)</td></tr>
+</table></div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
