@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 30: Làm tròn và ước lượng</title>
+    <meta name="lesson-title" content="Bài 30: Làm tròn và ước lượng">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 30: Làm tròn và ước lượng</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 7: Số thập phân • Bài 30: Làm tròn và ước lượng</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 30: Làm tròn và ước lượng</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 7: Số thập phân (Kết nối tri thức với cuộc sống)</p>
+
+<p>Khi đi siêu thị, em thấy bảng giá ghi "khoảng $25\,000$ đồng" thay vì $24\,800$ đồng; dự báo thời tiết nói "nhiệt độ khoảng $32^\circ$C". Trong tính toán, người ta cũng thường <strong>làm tròn</strong> số để tính nhẩm nhanh — đó chính là <strong>ước lượng</strong>.</p>
+
+<!-- 1. Làm tròn -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Làm tròn số thập phân</h2>
+
+<p>Làm tròn một số thập phân đến một hàng nào đó (hàng phần mười, phần trăm, hàng đơn vị, hàng chục, ...) nghĩa là thay số đó bằng một số "gọn" hơn mà vẫn <strong>gần</strong> với số ban đầu.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Quy tắc làm tròn</p>
+<p>Muốn làm tròn số thập phân đến một hàng nào đó, ta nhìn vào <strong>chữ số ngay bên phải</strong> hàng đó:</p>
+<ul class="list-disc ml-6 space-y-1 mt-2">
+<li>Nếu chữ số đó <strong>nhỏ hơn $5$</strong> thì <strong>giữ nguyên</strong> chữ số của hàng làm tròn, rồi bỏ (hoặc thay bằng $0$) các chữ số bên phải;</li>
+<li>Nếu chữ số đó <strong>lớn hơn hoặc bằng $5$</strong> thì <strong>cộng thêm $1$</strong> vào chữ số của hàng làm tròn, rồi bỏ (hoặc thay bằng $0$) các chữ số bên phải.</li>
+</ul>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>Làm tròn $24{,}037$ đến hàng <strong>phần mười</strong>: chữ số ngay bên phải là $3 \lt 5$ nên giữ nguyên → $24{,}0$ (viết gọn là $24$);</li>
+<li>Làm tròn $24{,}037$ đến hàng <strong>phần trăm</strong>: chữ số ngay bên phải là $7 \ge 5$ nên cộng thêm $1$ → $24{,}04$;</li>
+<li>Làm tròn $56{,}78$ đến hàng <strong>đơn vị</strong>: chữ số ngay bên phải là $7 \ge 5$ nên cộng thêm $1$ → $57$;</li>
+<li>Làm tròn $234{,}6$ đến hàng <strong>chục</strong>: chữ số ngay bên phải (hàng đơn vị) là $4 \lt 5$ nên giữ nguyên → $230$.</li>
+</ul>
+</div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Minh hoa lam tron 24,037 den hang phan tram">
+<rect x="2" y="2" width="436" height="196" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="32" font-family="sans-serif" font-size="16" font-weight="bold" fill="#0369a1" text-anchor="middle">Làm tròn 24,037 đến hàng phần trăm</text>
+<text x="110" y="90" font-family="monospace" font-size="34" font-weight="bold" fill="#0f172a">24,037</text>
+<rect x="196" y="58" width="34" height="44" rx="6" fill="none" stroke="#0284c7" stroke-width="3"/>
+<rect x="232" y="58" width="34" height="44" rx="6" fill="none" stroke="#e11d48" stroke-width="3"/>
+<text x="213" y="126" font-family="sans-serif" font-size="13" fill="#0284c7" text-anchor="middle">hàng làm tròn</text>
+<text x="249" y="126" font-family="sans-serif" font-size="13" fill="#e11d48" text-anchor="middle">nhìn vào đây</text>
+<text x="330" y="90" font-family="monospace" font-size="30" font-weight="bold" fill="#e11d48">7 ≥ 5</text>
+<text x="220" y="162" font-family="sans-serif" font-size="16" fill="#0f172a" text-anchor="middle">→ cộng thêm 1 vào hàng phần trăm:</text>
+<text x="220" y="188" font-family="monospace" font-size="24" font-weight="bold" fill="#0284c7" text-anchor="middle">24,04</text>
+</svg></div>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-emerald-800 mb-2">Bài tập ví dụ 1 (có lời giải):</p>
+<p>Làm tròn số $9{,}999$ đến hàng phần mười và đến hàng đơn vị.</p>
+<p class="mt-2"><strong>Lời giải:</strong></p>
+<ul class="list-disc ml-6 space-y-1">
+<li>Đến hàng phần mười: chữ số ngay bên phải là $9 \ge 5$ nên $9{,}9 + 0{,}1 = 10{,}0$;</li>
+<li>Đến hàng đơn vị: chữ số ngay bên phải là $9 \ge 5$ nên $9 + 1 = 10$.</li>
+</ul>
+<p class="mt-2">Chú ý: khi cộng thêm $1$ mà "tràn" sang hàng cao hơn thì ta viết tiếp như cộng số tự nhiên.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Nhìn chữ số <strong>ngay bên phải</strong> hàng làm tròn: <strong>nhỏ hơn $5$ thì giữ nguyên</strong>, <strong>lớn hơn hoặc bằng $5$ thì cộng thêm $1$</strong>. Kí hiệu "khoảng" hay "xấp xỉ" là $\approx$.</p>
+</div>
+
+<!-- 2. Ước lượng -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Ước lượng kết quả của phép đo, phép tính</h2>
+
+<p>Trong nhiều tình huống, ta không cần kết quả chính xác mà chỉ cần biết <strong>khoảng</strong> kết quả. Khi đó ta <strong>làm tròn các số</strong> trong phép tính thành các số "đẹp" rồi tính nhẩm — gọi là <strong>ước lượng</strong>.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>Ước lượng tích $5{,}9 \times 6{,}1$: làm tròn $5{,}9 \approx 6$; $6{,}1 \approx 6$ nên $5{,}9 \times 6{,}1 \approx 6 \times 6 = 36$ (kết quả đúng là $35{,}99$ — rất gần!);</li>
+<li>Ước lượng thương $63{,}5 : 8{,}2$: $63{,}5 \approx 64$; $8{,}2 \approx 8$ nên thương $\approx 64 : 8 = 8$;</li>
+<li>Ước lượng tổng $48{,}6 + 51{,}2 \approx 49 + 51 = 100$.</li>
+</ul>
+</div>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-emerald-800 mb-2">Bài tập ví dụ 2 (có lời giải):</p>
+<p>Ước lượng diện tích một mảnh vườn hình chữ nhật có chiều dài $19{,}8$ m và chiều rộng $10{,}2$ m.</p>
+<p class="mt-2"><strong>Lời giải:</strong> Làm tròn $19{,}8 \approx 20$; $10{,}2 \approx 10$. Diện tích ước lượng là $20 \times 10 = 200$ ($m^2$). (Diện tích chính xác là $201{,}96$ $m^2$.)</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><strong>Ước lượng</strong> = làm tròn các số trong phép tính thành số "đẹp" rồi tính nhẩm. Kết quả ước lượng giúp ta <strong>kiểm tra nhanh</strong> xem kết quả tính chính xác có hợp lí không.</p>
+</div>
+
+<!-- Thực tế -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Làm tròn trong đời sống</h2>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-emerald-800 mb-2">Bài toán thực tế (có lời giải):</p>
+<p>Lớp 6A có $41$ học sinh, mỗi bạn đóng $15{,}5$ nghìn đồng tiền quỹ lớp. Ước lượng tổng số tiền quỹ thu được.</p>
+<p class="mt-2"><strong>Lời giải:</strong> Làm tròn $41 \approx 40$; $15{,}5 \approx 16$. Tổng số tiền ước lượng là $40 \times 16 = 640$ (nghìn đồng), tức khoảng $640\,000$ đồng. (Số tiền chính xác là $635{,}5$ nghìn đồng.)</p>
+</div>
+
+<!-- Tóm tắt -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Nội dung</td><td class="border border-slate-300 px-4 py-1">Quy tắc</td><td class="border border-slate-300 px-4 py-1">Ví dụ</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Làm tròn</td><td class="border border-slate-300 px-4 py-1">Chữ số bên phải $\lt 5$: giữ nguyên; $\ge 5$: cộng thêm $1$</td><td class="border border-slate-300 px-4 py-1">$24{,}037 \approx 24{,}04$ (đến hàng phần trăm)</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Làm tròn đến hàng đơn vị, chục, trăm...</td><td class="border border-slate-300 px-4 py-1">Cùng quy tắc, các chữ số bỏ đi ở phần nguyên thay bằng $0$</td><td class="border border-slate-300 px-4 py-1">$234{,}6 \approx 230$ (đến hàng chục)</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Ước lượng phép tính</td><td class="border border-slate-300 px-4 py-1">Làm tròn các số thành số "đẹp" rồi tính nhẩm</td><td class="border border-slate-300 px-4 py-1">$5{,}9 \times 6{,}1 \approx 6 \times 6 = 36$</td></tr>
+</table></div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
