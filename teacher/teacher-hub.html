@@ -360,7 +360,70 @@
                         </div>
                         <p class="text-[10px] text-rose-700 mt-1">Đề kiểm tra được lưu RIÊNG (không vào bank chung). HS chỉ thấy banner thông báo và chỉ mở được đề khi đến giờ.</p>
                     </div>
+
+                    <!-- QUẢN LÝ ĐỀ KIỂM TRA (2026-10-10): danh sách đề chờ + nút hoàn thành/xóa theo quyền -->
+                    <div id="exam-manage-box" class="bg-amber-50 border-2 border-amber-200 rounded-xl p-3 mt-2">
+                        <div class="flex items-center justify-between mb-2">
+                            <p class="text-xs font-black text-amber-900">📋 Đề kiểm tra đang chờ</p>
+                            <button onclick="ExamSched && ExamSched.renderExamManageList('exam-manage-list')" class="text-[10px] px-2 py-1 bg-amber-200 hover:bg-amber-300 rounded font-bold">🔄 Tải lại</button>
+                        </div>
+                        <div id="exam-manage-list" data-exam-manage-list>
+                            <p class="text-xs text-slate-500 italic px-1">Bấm "Tải lại" để xem danh sách.</p>
+                        </div>
+                        <p class="text-[10px] text-amber-700 mt-1">Đề quá 10 ngày sau giờ thi sẽ <b>tự động</b> vào bank. GV thường chỉ sửa được đề của mình <b>trước khi</b> vào bank và <b>không được xóa</b>. Chỉ admin + GV thẩm định được xóa/sửa mọi đề.</p>
+                        <!-- PHÂN QUYỀN THẨM ĐỊNH (chỉ admin) -->
+                        <div id="exam-reviewer-box" class="hidden mt-2 pt-2 border-t border-amber-300">
+                            <p class="text-xs font-black text-amber-900 mb-1">🛡️ Phân quyền thẩm định đề (admin)</p>
+                            <div class="flex gap-1 mb-1">
+                                <input id="exam-reviewer-id" placeholder="Mã GV (VD: GV001)" class="flex-1 px-2 py-1 border border-amber-300 rounded text-xs">
+                                <input id="exam-reviewer-name" placeholder="Tên GV" class="flex-1 px-2 py-1 border border-amber-300 rounded text-xs">
+                                <button onclick="examReviewerAdd()" class="px-2 py-1 bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold rounded">+ Cấp quyền</button>
+                            </div>
+                            <div id="exam-reviewer-list" class="text-xs"></div>
+                        </div>
+                    </div>
                 </div>
+                <script>
+                // Quản lý GV thẩm định (chỉ admin) — 2026-10-10
+                async function examReviewerRefresh(){
+                    try {
+                        var box = document.getElementById('exam-reviewer-box');
+                        var list = document.getElementById('exam-reviewer-list');
+                        if (!box || !list) return;
+                        var isAdm = window.ExamSched && window.ExamSched.isAdminUser && window.ExamSched.isAdminUser();
+                        box.classList.toggle('hidden', !isAdm);
+                        if (!isAdm) return;
+                        var r = await fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/data/exam-reviewers.json?t=' + Date.now());
+                        var j = r.ok ? await r.json() : { reviewers: [] };
+                        var revs = (j && j.reviewers) || [];
+                        if (!revs.length){ list.innerHTML = '<p class="text-slate-500 italic">Chưa có GV thẩm định nào.</p>'; return; }
+                        list.innerHTML = revs.map(function(x){
+                            var id = String((x && x.id) || x || ''), nm = String((x && x.name) || '');
+                            return '<div class="flex items-center justify-between bg-white border rounded px-2 py-1 mb-1">'
+                                + '<span><b>' + id.replace(/</g,'&lt;') + '</b> ' + nm.replace(/</g,'&lt;') + ' <span class="text-emerald-700 font-bold">✓ thẩm định</span></span>'
+                                + '<button onclick="examReviewerRemove(\'' + id.replace(/'/g,"\\'") + '\')" class="text-rose-600 text-xs font-bold">Gỡ</button></div>';
+                        }).join('');
+                    } catch(e){}
+                }
+                async function examReviewerAdd(){
+                    var id = (document.getElementById('exam-reviewer-id').value || '').trim();
+                    var nm = (document.getElementById('exam-reviewer-name').value || '').trim();
+                    if (!id){ alert('Nhập mã GV.'); return; }
+                    if (window.ExamSched && window.ExamSched.setReviewerUser){
+                        var res = await window.ExamSched.setReviewerUser(id, nm, true);
+                        if (res && res.ok){ document.getElementById('exam-reviewer-id').value=''; document.getElementById('exam-reviewer-name').value=''; examReviewerRefresh(); }
+                    }
+                }
+                async function examReviewerRemove(id){
+                    if (!confirm('Gỡ quyền thẩm định của ' + id + '?')) return;
+                    if (window.ExamSched && window.ExamSched.setReviewerUser){
+                        var res = await window.ExamSched.setReviewerUser(id, '', false);
+                        if (res && res.ok) examReviewerRefresh();
+                    }
+                }
+                // Tự refresh danh sách thẩm định khi mở trang (sau 4s)
+                setTimeout(examReviewerRefresh, 4000);
+                </script>
 
 
                 <!-- TOGGLE CHẾ ĐỘ CON: Tạo đề mới / Soạn tay (chỉ hiện ở chế độ đề thi) -->
@@ -1924,6 +1987,23 @@ function openMyAccount(){
             btn.innerText = 'Đổi mật khẩu';
         }
     }
+    </script>
+    <script>
+        // AUTO-MERGE đề kiểm tra quá 10 ngày (2026-10-10) — chạy ngầm khi mở hub, không chặn UI
+        (function(){
+            function runAutoMerge(){
+                try {
+                    if (window.ExamSched && typeof window.ExamSched.autoMergeCheck === 'function'){
+                        window.ExamSched.autoMergeCheck().catch(function(){});
+                    }
+                } catch(e){}
+            }
+            if (document.readyState === 'complete' || document.readyState === 'interactive'){
+                setTimeout(runAutoMerge, 3000);
+            } else {
+                document.addEventListener('DOMContentLoaded', function(){ setTimeout(runAutoMerge, 3000); });
+            }
+        })();
     </script>
 </body>
 </html>
