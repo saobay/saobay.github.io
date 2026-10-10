@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 4: Phần mềm trình chiếu nâng cao - Bài tập</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: system-ui, sans-serif; padding: 16px; line-height: 1.6; }
+        .question { background: white; padding: 16px; margin: 12px 0; border-radius: 8px; border: 1px solid #e2e8f0; }
+        .options label { display: block; padding: 8px; margin: 4px 0; background: #f8fafc; border-radius: 4px; cursor: pointer; }
+        .options label:hover { background: #e0f2fe; }
+    </style>
+</head>
+<body class="bg-slate-50">
+<div class="max-w-3xl mx-auto">
+<h1 class="text-2xl font-bold mb-4">Bài 4: Phần mềm trình chiếu nâng cao - Bài tập</h1>
+
+<div class="question">
+<p class="font-semibold mb-2">Câu 1: Mẫu slide (theme) trong PowerPoint có tác dụng gì?</p>
+<div class="options">
+<label><input type="radio" name="q1" value="A"> A. Tăng tốc độ máy tính</label>
+<label><input type="radio" name="q1" value="B"> B. Giúp toàn bộ bài trình chiếu đồng nhất về màu sắc, phông chữ và bố cục</label>
+<label><input type="radio" name="q1" value="C"> C. Tự động viết nội dung slide</label>
+<label><input type="radio" name="q1" value="D"> D. Chèn video vào slide</label>
+</div>
+<button onclick="checkAnswer('q1', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q1" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 2: Slide master dùng để làm gì?</p>
+<div class="options">
+<label><input type="radio" name="q2" value="A"> A. Chiếu slide lên màn hình lớn</label>
+<label><input type="radio" name="q2" value="B"> B. Thiết kế định dạng chung áp dụng cho mọi slide, sửa một lần là cập nhật cả bài</label>
+<label><input type="radio" name="q2" value="C"> C. Lưu bài trình chiếu thành video</label>
+<label><input type="radio" name="q2" value="D"> D. In bài trình chiếu ra giấy</label>
+</div>
+<button onclick="checkAnswer('q2', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q2" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 3: Để chèn video vào slide PowerPoint, em dùng lệnh nào?</p>
+<div class="options">
+<label><input type="radio" name="q3" value="A"> A. Insert, chọn Video</label>
+<label><input type="radio" name="q3" value="B"> B. Insert, chọn Table</label>
+<label><input type="radio" name="q3" value="C"> C. Home, chọn New Slide</label>
+<label><input type="radio" name="q3" value="D"> D. View, chọn Slide Master</label>
+</div>
+<button onclick="checkAnswer('q3', 'A')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q3" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 4: Định dạng video phổ biến, tương thích tốt với PowerPoint là:</p>
+<div class="options">
+<label><input type="radio" name="q4" value="A"> A. .docx</label>
+<label><input type="radio" name="q4" value="B"> B. .xlsx</label>
+<label><input type="radio" name="q4" value="C"> C. .mp3</label>
+<label><input type="radio" name="q4" value="D"> D. .mp4</label>
+</div>
+<button onclick="checkAnswer('q4', 'D')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q4" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 5: Liên kết (hyperlink) trong bài trình chiếu có thể trỏ tới đâu?</p>
+<div class="options">
+<label><input type="radio" name="q5" value="A"> A. Chỉ trỏ tới slide đầu tiên</label>
+<label><input type="radio" name="q5" value="B"> B. Slide khác, tệp khác hoặc trang web</label>
+<label><input type="radio" name="q5" value="C"> C. Chỉ trỏ tới hình ảnh</label>
+<label><input type="radio" name="q5" value="D"> D. Không trỏ được tới đâu cả</label>
+</div>
+<button onclick="checkAnswer('q5', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q5" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 6: Nút hành động (action button) trong PowerPoint dùng để:</p>
+<div class="options">
+<label><input type="radio" name="q6" value="A"> A. Tắt máy tính</label>
+<label><input type="radio" name="q6" value="B"> B. Điều hướng khi trình chiếu, ví dụ chuyển slide, mở trang web</label>
+<label><input type="radio" name="q6" value="C"> C. Xóa slide</label>
+<label><input type="radio" name="q6" value="D"> D. Đổi mật khẩu máy tính</label>
+</div>
+<button onclick="checkAnswer('q6', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q6" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 7: Hiệu ứng chuyển slide (transition) là gì?</p>
+<div class="options">
+<label><input type="radio" name="q7" value="A"> A. Hiệu ứng của từng chữ trong slide</label>
+<label><input type="radio" name="q7" value="B"> B. Hiệu ứng xuất hiện khi chuyển từ slide này sang slide khác</label>
+<label><input type="radio" name="q7" value="C"> C. Hiệu ứng âm thanh của video</label>
+<label><input type="radio" name="q7" value="D"> D. Hiệu ứng khi mở phần mềm</label>
+</div>
+<button onclick="checkAnswer('q7', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q7" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 8: Hiệu ứng động (animation) trong PowerPoint áp dụng cho:</p>
+<div class="options">
+<label><input type="radio" name="q8" value="A"> A. Toàn bộ máy tính</label>
+<label><input type="radio" name="q8" value="B"> B. Từng đối tượng trong slide như chữ, hình ảnh</label>
+<label><input type="radio" name="q8" value="C"> C. Chỉ áp dụng cho slide đầu tiên</label>
+<label><input type="radio" name="q8" value="D"> D. Chỉ áp dụng cho tiêu đề bài</label>
+</div>
+<button onclick="checkAnswer('q8', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q8" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 9: Vì sao không nên lạm dụng hiệu ứng trong bài trình chiếu?</p>
+<div class="options">
+<label><input type="radio" name="q9" value="A"> A. Vì hiệu ứng làm tăng dung lượng tệp</label>
+<label><input type="radio" name="q9" value="B"> B. Vì quá nhiều hiệu ứng gây rối mắt, làm người xem mất tập trung vào nội dung</label>
+<label><input type="radio" name="q9" value="C"> C. Vì hiệu ứng làm máy tính bị virus</label>
+<label><input type="radio" name="q9" value="D"> D. Vì hiệu ứng chỉ dùng được một lần</label>
+</div>
+<button onclick="checkAnswer('q9', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q9" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 10: Khi chèn hình ảnh, âm thanh, video vào bài trình chiếu, em cần lưu ý điều gì?</p>
+<div class="options">
+<label><input type="radio" name="q10" value="A"> A. Chèn càng nhiều càng tốt</label>
+<label><input type="radio" name="q10" value="B"> B. Chỉ dùng tư liệu hợp lệ về bản quyền, phù hợp nội dung và kiểm tra phát được trước khi thuyết trình</label>
+<label><input type="radio" name="q10" value="C"> C. Dùng ảnh mờ cho nghệ thuật</label>
+<label><input type="radio" name="q10" value="D"> D. Để âm thanh thật to để gây chú ý</label>
+</div>
+<button onclick="checkAnswer('q10', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q10" class="mt-2"></div>
+</div>
+
+</div>
+<script>
+function checkAnswer(qid, correct) {
+    const selected = document.querySelector(`input[name="${qid}"]:checked`);
+    const feedback = document.getElementById(`fb-${qid}`);
+    if (!selected) { feedback.innerHTML = '<span class="text-orange-600">Hãy chọn đáp án!</span>'; return; }
+    if (selected.value === correct) {
+        feedback.innerHTML = '<span class="text-green-600 font-bold">✓ Đúng!</span>';
+    } else {
+        feedback.innerHTML = '<span class="text-red-600">✗ Chưa đúng. Đáp án đúng: ' + correct + '</span>';
+    }
+}
+</script>
+</body>
+</html>
