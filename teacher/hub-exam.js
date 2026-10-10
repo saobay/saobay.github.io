@@ -311,6 +311,40 @@
             exbTypesetMath(pv);
         }
 
+        // Day de tu bank ra khung soan (2026-10-10): boc cau theo ma tran -> dua vao WYSIWYG de xem/sua roi moi day cho HS
+        async function exbPushToComposer(){
+            try {
+                let m = exbGetMatrix();
+                if (!exbBankPool.length){
+                    let r = await bankApiRead(bankKey(m.subject, m.grade));
+                    if (r.notFound) throw new Error('Chưa có bank. Bấm "Tải ma trận" trước.');
+                    if (r.error) throw new Error(r.error);
+                    exbBankPool = exbApplyApprovedFilter(r.data.questions || []);
+                }
+                let picked = exbMatrixPick(exbBankPool, m);
+                if (!picked.length) throw new Error('Không bốc được câu nào — kiểm tra ma trận.');
+                let examJson = { time_limit: m.time_limit || 0, sets: [{ name: 'Đề', questions: picked.map(function(q){
+                    let o = { type: q.type, level: q.level, q: q.q, options: q.options || [],
+                             statements: q.statements || [], answer: q.answer, explain: q.explain || '' };
+                    if (q.img) o.img = q.img;
+                    return o;
+                }) }] };
+                let frag = '<div class="saobay-exam10">\n'
+                    + '<script type="application/json" class="saobay-exam10-data">\n' + JSON.stringify(examJson) + '\n<\/script>\n</div>';
+                let ta = document.getElementById('item-content');
+                if (!ta){ alert('Không tìm thấy khung soạn thảo.'); return; }
+                ta.value = frag;
+                if (typeof renderMathPreview === 'function'){ try { renderMathPreview(); } catch(e){} }
+                // Cuộn xuống khung soạn để user xem ngay
+                let pw = document.getElementById('preview-wrapper');
+                if (pw) pw.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                if (typeof showToast === 'function') showToast('Đã đẩy ' + picked.length + ' câu ra khung soạn. Xem/sửa rồi bấm Đẩy bài.', 'success');
+            } catch(e){
+                if (typeof showToast === 'function') showToast('Lỗi: ' + (e.message || e), 'error');
+                else alert('Lỗi: ' + (e.message || e));
+            }
+        }
+
         // Moi HS 1 de: xem 1 de mau boc tu bank theo ma tran
         async function exbPreviewSample(){
             let pv = document.getElementById('exb-bank-preview');
