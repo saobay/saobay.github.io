@@ -650,9 +650,9 @@
         function getAccountPasswordStatus(accountId) {
             let savedPass = masterDatabase.passwords ? masterDatabase.passwords[accountId] : undefined;
             if (savedPass && savedPass !== '12345678') {
-                // FIX 2026-10-09: giải mã base64 (register.html lưu btoa(unescape(encodeURIComponent(pass))))
+                // FIX 2026-10-10: giai ma base64 chuan UTF-8 (TextDecoder) - ban cu decodeURIComponent(escape(atob())) vo voi MK co dau Tieng Viet
                 let decoded = savedPass;
-                try { decoded = decodeURIComponent(escape(atob(savedPass))); } catch(e) {}
+                try { let _d = b64DecodeUtf8(savedPass); if (_d !== null) decoded = _d; } catch(e) {}
                 return {
                     isCustom: true,
                     statusText: 'Đã đổi MK riêng',
@@ -1998,57 +1998,47 @@
         btn.disabled = true;
         btn.innerText = 'Đang lưu...';
         try {
-            var GAS_URL = 'https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec';
-            var saved = false, lastErr = null;
-            for (var attempt = 0; attempt < 3 && !saved; attempt++) {
-                var res = await fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/used/used.is?t=' + Date.now());
-                if (!res.ok) throw new Error('Không tải được dữ liệu.');
-                var db = await res.json();
-                var dup = false;
-                Object.keys(db.teachers_registry || {}).forEach(function(tid){
-                    if (String(tid) !== uid && String((db.teachers_registry[tid]||{}).phone) === newPhone) dup = true;
-                });
-                if (db.students) {
-                    Object.keys(db.students).forEach(function(cls){
-                        (db.students[cls]||[]).forEach(function(s){
-                            if (String(s.id) !== uid && String(s.phone) === newPhone) dup = true;
-                        });
+            // FIX 2026-10-10: khoa ghi tuan tu + doc ban moi nhat de khong
+            // ghi de mat cac thay doi khac (vd doi mat khau) tren used/used.is
+            await withUsedIsWriteLock(async function(){
+                var saved = false, lastErr = null;
+                for (var attempt = 0; attempt < 3 && !saved; attempt++) {
+                    var f = await fetchUsedIsFresh();
+                    var db = f.db;
+                    var dup = false;
+                    Object.keys(db.teachers_registry || {}).forEach(function(tid){
+                        if (String(tid) !== uid && String((db.teachers_registry[tid]||{}).phone) === newPhone) dup = true;
                     });
-                }
-                if (dup) throw new Error('SĐT này đã được tài khoản khác sử dụng.');
-                var found = false;
-                if (db.students) {
-                    Object.keys(db.students).forEach(function(cls){
-                        (db.students[cls]||[]).forEach(function(s){
-                            if (String(s.id) === uid) { s.phone = newPhone; found = true; }
+                    if (db.students) {
+                        Object.keys(db.students).forEach(function(cls){
+                            (db.students[cls]||[]).forEach(function(s){
+                                if (String(s.id) !== uid && String(s.phone) === newPhone) dup = true;
+                            });
                         });
-                    });
+                    }
+                    if (dup) throw new Error('SĐT này đã được tài khoản khác sử dụng.');
+                    var found = false;
+                    if (db.students) {
+                        Object.keys(db.students).forEach(function(cls){
+                            (db.students[cls]||[]).forEach(function(s){
+                                if (String(s.id) === uid) { s.phone = newPhone; found = true; }
+                            });
+                        });
+                    }
+                    if (!found && db.teachers_registry && db.teachers_registry[uid]) {
+                        db.teachers_registry[uid].phone = newPhone;
+                        found = true;
+                    }
+                    if (!found) throw new Error('Không tìm thấy tài khoản trong cơ sở dữ liệu.');
+                    var rj = await pushUsedIs(db, f.sha, 'HS tu cap nhat SDT: ' + (u.name || uid), 'Cap nhat SDT HS', u.name || uid);
+                    if (rj && rj.status === 'success') { saved = true; break; }
+                    var emsg = String((rj && rj.message) || '');
+                    if (emsg.indexOf('409') < 0) throw new Error(emsg || 'Lưu thất bại.');
+                    lastErr = new Error(emsg || 'Xung đột, đang thử lại...');
+                    await new Promise(function(r){ setTimeout(r, 1500); });
                 }
-                if (!found && db.teachers_registry && db.teachers_registry[uid]) {
-                    db.teachers_registry[uid].phone = newPhone;
-                    found = true;
-                }
-                if (!found) throw new Error('Không tìm thấy tài khoản trong cơ sở dữ liệu.');
-                var pushRes = await fetch(GAS_URL, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'text/plain;charset=utf-8'},
-                    body: JSON.stringify({
-                        type: 'PUSH_TO_GITHUB',
-                        filePath: 'used/used.is',
-                        content: JSON.stringify(db),
-                        commitMessage: 'HS tu cap nhat SDT: ' + (u.name || uid),
-                        title: 'Cap nhat SDT HS',
-                        author: u.name || uid
-                    })
-                });
-                var rj = await pushRes.json();
-                if (rj && rj.status === 'success') { saved = true; break; }
-                var emsg = String((rj && rj.message) || '');
-                if (emsg.indexOf('409') < 0) throw new Error(emsg || 'Lưu thất bại.');
-                lastErr = new Error(emsg || 'Xung đột, đang thử lại...');
-                await new Promise(function(r){ setTimeout(r, 1200); });
-            }
-            if (!saved) throw lastErr || new Error('Không lưu được, vui lòng thử lại.');
+                if (!saved) throw lastErr || new Error('Không lưu được, vui lòng thử lại.');
+            });
             u.phone = newPhone;
             localStorage.setItem('saobay_user', JSON.stringify(u));
             try { if (typeof currentUser !== 'undefined' && currentUser) currentUser.phone = newPhone; } catch(e){}
@@ -2063,6 +2053,88 @@
             btn.disabled = false;
             btn.innerText = 'Lưu SĐT';
         }
+    }
+    // ========================================================
+    // FIX 2026-10-10 (loi doi mat khau - lost update + false success):
+    // - Khoa ghi tuan tu: moi thao tac read-modify-write tren used/used.is
+    //   phai doi thao tac truoc hoan tat (tranh 2 tab/hanh dong doc ban cu
+    //   roi ghi de lan nhau lam mat du lieu).
+    // - Doc ban MOI NHAT qua GitHub API truoc khi ghi (raw CDN co the cu).
+    // - XAC MINH sau ghi: chi bao "thanh cong" khi doc lai thay MK moi.
+    // - Giai ma base64 chuan UTF-8 (TextDecoder) - ban cu vo voi MK co dau.
+    // ========================================================
+    var _usedIsWriteLock = Promise.resolve();
+    function withUsedIsWriteLock(fn){
+        var run = _usedIsWriteLock.then(fn, fn);
+        _usedIsWriteLock = run.catch(function(){});
+        return run;
+    }
+    function b64EncodeUtf8(s){
+        return btoa(unescape(encodeURIComponent(s)));
+    }
+    function b64DecodeUtf8(s){
+        try {
+            var bin = atob(String(s).replace(/\s/g, ''));
+            var bytes = new Uint8Array(bin.length);
+            for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+            return new TextDecoder().decode(bytes);
+        } catch(e){ return null; }
+    }
+    async function fetchUsedIsFresh(){
+        // 1) GitHub API: tuoi hon raw CDN rat nhieu
+        try {
+            var api = await fetch('https://api.github.com/repos/saobay/saobay.github.io/contents/used/used.is?ref=main&t=' + Date.now(),
+                { headers: { 'Accept': 'application/vnd.github+json' } });
+            if (api.ok) {
+                var j = await api.json();
+                if (j && j.content) {
+                    var txt = b64DecodeUtf8(j.content);
+                    if (txt !== null) return { db: JSON.parse(txt), sha: j.sha || null };
+                }
+            }
+        } catch(e){}
+        // 2) Fallback: raw (co the cu vai phut do CDN)
+        var res = await fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/used/used.is?t=' + Date.now());
+        if (!res.ok) throw new Error('Không tải được dữ liệu.');
+        var txt2 = await res.text();
+        var db2;
+        try { db2 = JSON.parse(txt2); }
+        catch(e2){
+            var t2d = b64DecodeUtf8(txt2);
+            if (t2d === null) throw new Error('Dữ liệu máy chủ không đọc được.');
+            db2 = JSON.parse(t2d);
+        }
+        return { db: db2, sha: null };
+    }
+    async function pushUsedIs(db, sha, commitMessage, title, author){
+        var GAS_URL = 'https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec';
+        var body = {
+            type: 'PUSH_TO_GITHUB',
+            filePath: 'used/used.is',
+            content: JSON.stringify(db),
+            commitMessage: commitMessage,
+            title: title,
+            author: author
+        };
+        if (sha) body.baseSha = sha; // GAS proxy hien tai bo qua neu chua ho tro
+        var pushRes = await fetch(GAS_URL, {
+            method: 'POST',
+            headers: {'Content-Type': 'text/plain;charset=utf-8'},
+            body: JSON.stringify(body)
+        });
+        return await pushRes.json();
+    }
+    async function verifyPasswordOnServer(uid, expectPlain, maxWaitMs){
+        var t0 = Date.now(), limit = maxWaitMs || 60000;
+        while (Date.now() - t0 < limit) {
+            try {
+                var f = await fetchUsedIsFresh();
+                var v = f.db && f.db.passwords ? f.db.passwords[uid] : undefined;
+                if (v && v !== '12345678' && b64DecodeUtf8(v) === expectPlain) return true;
+            } catch(e){}
+            await new Promise(function(r){ setTimeout(r, 3000); });
+        }
+        return false;
     }
     async function changeHsPassword(){
         var msg = document.getElementById('hsa-pass-msg');
@@ -2083,45 +2155,46 @@
         btn.disabled = true;
         btn.innerText = 'Đang đổi...';
         try {
-            var GAS_URL = 'https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec';
-            var saved = false, lastErr = null;
-            for (var attempt = 0; attempt < 3 && !saved; attempt++) {
-                var res = await fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/used/used.is?t=' + Date.now());
-                if (!res.ok) throw new Error('Không tải được dữ liệu.');
-                var db = await res.json();
-                if (!db.passwords) db.passwords = {};
-                var savedPass = db.passwords[uid];
-                var currentPlain = '12345678';
-                if (savedPass && savedPass !== '12345678') {
-                    try { currentPlain = decodeURIComponent(escape(atob(savedPass))); }
-                    catch(e){ currentPlain = savedPass; }
+            // FIX 2026-10-10: khoa ghi tuan tu de tranh lost-update voi cac
+            // thao tac khac (doi SDT, dang ky...) cung ghi used/used.is
+            await withUsedIsWriteLock(async function(){
+                var saved = false, lastErr = null;
+                for (var attempt = 0; attempt < 3 && !saved; attempt++) {
+                    var f = await fetchUsedIsFresh();
+                    var db = f.db;
+                    if (!db.passwords) db.passwords = {};
+                    var savedPass = db.passwords[uid];
+                    var currentPlain = '12345678';
+                    if (savedPass && savedPass !== '12345678') {
+                        var dec0 = b64DecodeUtf8(savedPass);
+                        currentPlain = (dec0 === null) ? savedPass : dec0;
+                    }
+                    if (oldP !== currentPlain) throw new Error('Mật khẩu cũ không đúng.');
+                    db.passwords[uid] = b64EncodeUtf8(newP);
+                    var rj = await pushUsedIs(db, f.sha, 'HS tu doi mat khau: ' + (u.name || uid), 'Doi mat khau HS', u.name || uid);
+                    if (rj && rj.status === 'success') { saved = true; break; }
+                    var emsg = String((rj && rj.message) || '');
+                    if (emsg.indexOf('409') < 0) throw new Error(emsg || 'Đổi mật khẩu thất bại.');
+                    lastErr = new Error(emsg || 'Xung đột, đang thử lại...');
+                    await new Promise(function(r){ setTimeout(r, 1500); });
                 }
-                if (oldP !== currentPlain) throw new Error('Mật khẩu cũ không đúng.');
-                db.passwords[uid] = btoa(unescape(encodeURIComponent(newP)));
-                var pushRes = await fetch(GAS_URL, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'text/plain;charset=utf-8'},
-                    body: JSON.stringify({
-                        type: 'PUSH_TO_GITHUB',
-                        filePath: 'used/used.is',
-                        content: JSON.stringify(db),
-                        commitMessage: 'HS tu doi mat khau: ' + (u.name || uid),
-                        title: 'Doi mat khau HS',
-                        author: u.name || uid
-                    })
-                });
-                var rj = await pushRes.json();
-                if (rj && rj.status === 'success') { saved = true; break; }
-                var emsg = String((rj && rj.message) || '');
-                if (emsg.indexOf('409') < 0) throw new Error(emsg || 'Đổi mật khẩu thất bại.');
-                lastErr = new Error(emsg || 'Xung đột, đang thử lại...');
-                await new Promise(function(r){ setTimeout(r, 1200); });
-            }
-            if (!saved) throw lastErr || new Error('Không đổi được, vui lòng thử lại.');
+                if (!saved) throw lastErr || new Error('Không đổi được, vui lòng thử lại.');
+                // FIX 2026-10-10: XAC MINH doc lai tu server truoc khi bao thanh cong.
+                // Khong bao gio bao "thanh cong" gia khi MK moi chua duoc ghi nhan.
+                btn.innerText = 'Đang xác minh...';
+                var ok = await verifyPasswordOnServer(uid, newP, 60000);
+                if (!ok) throw new Error('Máy chủ chưa ghi nhận mật khẩu mới (có thể do nghẽn mạng). Mật khẩu cũ vẫn còn hiệu lực. Vui lòng thử lại sau ít phút.');
+                // Dong bo cache mat khau cuc bo de khong lech voi server
+                try {
+                    var cp = JSON.parse(localStorage.getItem('saobay_passwords_cache') || '{}');
+                    cp[uid] = b64EncodeUtf8(newP);
+                    localStorage.setItem('saobay_passwords_cache', JSON.stringify(cp));
+                } catch(e){}
+            });
             document.getElementById('hsa-pass-old').value = '';
             document.getElementById('hsa-pass-new').value = '';
             document.getElementById('hsa-pass-new2').value = '';
-            msg.innerText = 'Đổi mật khẩu thành công!';
+            msg.innerText = 'Đổi mật khẩu thành công! Hãy dùng mật khẩu mới cho lần đăng nhập tới.';
             msg.classList.add('text-emerald-600');
         } catch(e){
             msg.innerText = 'Lỗi: ' + (e.message || e);
