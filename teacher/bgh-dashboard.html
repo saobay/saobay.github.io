@@ -67,6 +67,10 @@ body{font-family:system-ui,-apple-system,sans-serif}
                     <button data-r="gv" onclick="setPwRole('gv')" class="pw-role-btn text-[11px] font-bold px-2.5 py-1.5 rounded-lg bg-slate-100 text-slate-600">Giáo viên</button>
                     <button data-r="hs" onclick="setPwRole('hs')" class="pw-role-btn text-[11px] font-bold px-2.5 py-1.5 rounded-lg bg-slate-100 text-slate-600">Học sinh</button>
                 </div>
+                <div id="pw-scope-group" class="flex gap-1">
+                    <button data-s="school" onclick="setPwScope('school')" class="pw-scope-btn text-[11px] font-bold px-2.5 py-1.5 rounded-lg bg-emerald-600 text-white">🏫 Trường</button>
+                    <button data-s="free" onclick="setPwScope('free')" class="pw-scope-btn text-[11px] font-bold px-2.5 py-1.5 rounded-lg bg-slate-100 text-slate-600">🌐 Tự do</button>
+                </div>
                 <input id="pw-search" oninput="renderPwTable()" placeholder="Tìm tên/mã..." class="ml-auto text-xs border rounded-lg px-2 py-1.5">
             </div>
             <div class="overflow-x-auto max-h-[60vh] overflow-y-auto">
@@ -271,50 +275,60 @@ async function loadAll(){
 }
 
 // ---- Tab 1: Password ----
-let pwList=[], pwFilter='notchanged', pwRole='all';
+let pwList=[], pwFilter='notchanged', pwRole='all', pwScope='school';
 window.setPwRole=function(r){ pwRole=r; renderPwTable(); };
 window.renderPwTable=function(){ renderPwTable(); };
 window.setPwFilter=function(f){ pwFilter=f; renderPwTable(); };
+window.setPwScope=function(s){ pwScope=s; updatePwStats(); renderPwTable(); };
 function renderPasswordTab(){
     if(!db) return;
     pwList=[];
     let pw = db.passwords||{};
     let students = db.students||{};
-    // FIX 2026-10-10: BGH chi thay GV truong (admin thay tat ca)
-    let visT = getVisibleTeachers();
-    visT.forEach(t=>{
+    // FIX 2026-10-10: tach tab Truong/Tu do — so lieu doi MK mac dinh chi dem GV/HS truong
+    getAllTeachers().forEach(t=>{
         let id=t.id;
+        if(!isValidPersonId(id)) return;
         let changed = pw[id] && pw[id]!=='12345678';
-        pwList.push({name:t.name||id, id:id, role:'Giáo viên', rk:'gv', group:(t.subjects||[]).join(', ')||t.group||'', changed:!!changed});
+        pwList.push({name:t.name||id, id:id, role:'Giáo viên', rk:'gv', group:(t.subjects||[]).join(', ')||t.group||'', changed:!!changed, scope:isSchoolId(id)?'school':'free'});
     });
     Object.keys(students).forEach(cls=>{
-        // FIX 2026-10-10: BGH loai lop tu do ('Trai nghiem'); bo qua dong tieu de
-        if(schoolOnly() && !isSchoolClass(cls)) return;
         (students[cls]||[]).forEach(st=>{
             let sid = st.id||st.code||'';
             if(!isValidPersonId(sid)) return;
-            if(schoolOnly() && !isSchoolId(sid)) return;
             let changed = pw[sid] && pw[sid]!=='12345678';
-            pwList.push({name:st.name||sid, id:sid, role:'Học sinh', rk:'hs', group:cls, changed:!!changed});
+            let sc = (isSchoolClass(cls) && isSchoolId(sid)) ? 'school' : 'free';
+            pwList.push({name:st.name||sid, id:sid, role:'Học sinh', rk:'hs', group:cls, changed:!!changed, scope:sc});
         });
     });
-    let nc = pwList.filter(x=>!x.changed).length;
-    document.getElementById('pw-not-changed').textContent = nc;
-    document.getElementById('pw-changed').textContent = pwList.length - nc;
-    document.getElementById('pw-teachers').textContent = visT.length;
-    document.getElementById('pw-students').textContent = pwList.filter(x=>x.rk==='hs').length;
+    // BGH chi xem truong: an tab Tu do, khoa scope=school
+    let sg = document.getElementById('pw-scope-group');
+    if(sg) sg.style.display = isAdmin() ? '' : 'none';
+    if(!isAdmin()) pwScope='school';
+    updatePwStats();
     renderPwTable();
+}
+// FIX 2026-10-10: so lieu doi MK dem theo tab hien tai (mac dinh: truong)
+function updatePwStats(){
+    let list = pwList.filter(x=>x.scope===pwScope);
+    let nc = list.filter(x=>!x.changed).length;
+    document.getElementById('pw-not-changed').textContent = nc;
+    document.getElementById('pw-changed').textContent = list.length - nc;
+    document.getElementById('pw-teachers').textContent = list.filter(x=>x.rk==='gv').length;
+    document.getElementById('pw-students').textContent = list.filter(x=>x.rk==='hs').length;
 }
 function renderPwTable(){
     let q = (document.getElementById('pw-search').value||'').toLowerCase();
-    let list = pwList.filter(x=> pwFilter==='all' ? true : (pwFilter==='changed' ? x.changed : !x.changed))
+    let list = pwList.filter(x=>x.scope===pwScope)
+                     .filter(x=> pwFilter==='all' ? true : (pwFilter==='changed' ? x.changed : !x.changed))
                      .filter(x=> pwRole==='all' ? true : x.rk===pwRole)
                      .filter(x=>!q || (x.name+' '+x.id).toLowerCase().includes(q));
     let h='';
     if(!list.length) h='<tr><td colspan="5" class="px-3 py-4 text-center text-slate-400 italic">Không có dữ liệu.</td></tr>';
     // Cap nhat tieu de + nut loc
     let t = document.getElementById('pw-table-title');
-    if(t) t.textContent = pwFilter==='changed' ? 'Danh sách đã đổi mật khẩu' : (pwFilter==='all' ? 'Danh sách tất cả tài khoản' : 'Danh sách chưa đổi mật khẩu mặc định');
+    let scopeTxt = pwScope==='school' ? ' — GV/HS trường' : ' — GV/HS tự do';
+    if(t) t.textContent = (pwFilter==='changed' ? 'Danh sách đã đổi mật khẩu' : (pwFilter==='all' ? 'Danh sách tất cả tài khoản' : 'Danh sách chưa đổi mật khẩu mặc định')) + scopeTxt;
     document.querySelectorAll('.pw-filter-btn').forEach(b=>{
         let on = b.dataset.f===pwFilter;
         b.classList.toggle('bg-blue-600', on); b.classList.toggle('text-white', on);
@@ -323,6 +337,11 @@ function renderPwTable(){
     document.querySelectorAll('.pw-role-btn').forEach(b=>{
         let on = b.dataset.r===pwRole;
         b.classList.toggle('bg-indigo-600', on); b.classList.toggle('text-white', on);
+        b.classList.toggle('bg-slate-100', !on); b.classList.toggle('text-slate-600', !on);
+    });
+    document.querySelectorAll('.pw-scope-btn').forEach(b=>{
+        let on = b.dataset.s===pwScope;
+        b.classList.toggle('bg-emerald-600', on); b.classList.toggle('text-white', on);
         b.classList.toggle('bg-slate-100', !on); b.classList.toggle('text-slate-600', !on);
     });
     list.slice(0,200).forEach(x=>{
