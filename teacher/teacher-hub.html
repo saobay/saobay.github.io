@@ -484,8 +484,11 @@
                         <div><label class="text-[11px] font-bold text-slate-600">Thời gian làm bài (phút, 0 = không tính giờ)</label><input id="exbb-timelimit" type="number" value="0" min="0" class="mt-1 w-full text-sm border rounded-lg px-3 py-2 font-bold"></div>
                         <p class="text-[11px] text-slate-500 bg-white border rounded-lg px-3 py-2"><i class="fa-solid fa-scale-balanced mr-1"></i><b>Thang điểm Đúng/Sai</b> (áp dụng mọi câu Đ/S): đúng 1/4 ý → <b>0.125</b> • 2/4 → <b>0.25</b> • 3/4 → <b>0.5</b> • 4/4 → <b>1</b> điểm.</p>
                         <div id="exb-act-mot" class="flex gap-2">
-                            <button type="button" onclick="exbPreviewSample()" class="flex-1 bg-slate-600 hover:bg-slate-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl"><i class="fa-solid fa-eye mr-1"></i>Xem đề mẫu</button>
-                            <button type="button" onclick="exbBankSave()" class="flex-1 bg-indigo-700 hover:bg-indigo-800 text-white text-xs font-bold px-4 py-2.5 rounded-xl"><i class="fa-solid fa-cloud-arrow-up mr-1"></i>Lưu đề</button>
+                            <button type="button" onclick="exbPushToComposer()" class="flex-1 bg-indigo-700 hover:bg-indigo-800 text-white text-xs font-bold px-4 py-2.5 rounded-xl"><i class="fa-solid fa-arrow-down mr-1"></i>Đẩy đề ra khung soạn</button>
+                        </div>
+                        <div class="flex gap-2">
+                            <button type="button" onclick="generateAndCopyPrompt('EXAM10')" class="flex-1 bg-violet-700 hover:bg-violet-800 text-white text-xs font-bold px-4 py-2.5 rounded-xl"><i class="fa-solid fa-copy mr-1"></i>Prompt đề cho Web</button>
+                            <button type="button" onclick="generateFullSpecPrompt()" class="flex-1 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold px-4 py-2.5 rounded-xl"><i class="fa-solid fa-file-word mr-1"></i>Prompt ma trận đặc tả (lưu Word)</button>
                         </div>
                         <div id="exb-act-lop" class="hidden gap-2">
                             <button type="button" onclick="exbPickClassExam()" class="flex-1 bg-slate-600 hover:bg-slate-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl"><i class="fa-solid fa-dice mr-1"></i>Bốc đề & xem trước</button>
