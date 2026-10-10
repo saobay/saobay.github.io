@@ -134,11 +134,11 @@
       });
   };
 
-  // Hiện tab 8 cho admin khi vào hub
+  // Hiện nút Tùy chỉnh giao diện cho admin (thanh toolbar trên)
   function showTabForAdmin(){
     if(isAdmin()){
-      var t = document.getElementById('mod-tab-uilabels');
-      if(t) t.style.display = '';
+      var t = document.getElementById('admin-uilabels-btn');
+      if(t) t.classList.remove('hidden');
     }
   }
 
@@ -153,8 +153,8 @@
       };
       // Nếu hàm gốc là const/let không ghi đè được, fallback: theo dõi click
     }
-    // Fallback: lắng nghe click nút tab
-    var btn = document.getElementById('mod-tab-uilabels');
+    // Fallback: lắng nghe click nút trên thanh toolbar
+    var btn = document.getElementById('admin-uilabels-btn');
     if(btn && !btn._uilabelsBound){
       btn._uilabelsBound = true;
       btn.addEventListener('click', function(){ setTimeout(window.uiLabelsRenderList, 300); });
