@@ -61,14 +61,17 @@ body{font-family:system-ui,-apple-system,sans-serif}
     const OWNER = 'saobay', REPO = 'saobay.github.io', BRANCH = 'main';
     const SCORES_DIR = 'data/scores';
     const GAS_URL = 'https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec';
-    // Xoa file qua GAS proxy (khong can token ca nhan)
-    async function gasDelete(filePath, commitMessage){
+    // Xoa bai nop qua GAS proxy (khong can token ca nhan).
+    // GAS proxy chi ho tro PUSH_TO_GITHUB (khong co DELETE) nen "xoa" = ghi de
+    // file thanh "null". rawJson() parse ra null -> bi filter(Boolean) loai bo
+    // -> dong bien mat khoi bang diem.
+    async function gasClearScore(filePath, commitMessage){
         let author = (sessionUser && (sessionUser.name || sessionUser.id)) || 'Admin';
         for (let attempt = 0; attempt < 3; attempt++){
             let res = await fetch(GAS_URL, {
                 method: 'POST',
                 headers: {'Content-Type': 'text/plain;charset=utf-8'},
-                body: JSON.stringify({ type: 'DELETE_FROM_GITHUB', filePath: filePath, commitMessage: commitMessage, title: commitMessage, author: author })
+                body: JSON.stringify({ type: 'PUSH_TO_GITHUB', filePath: filePath, content: 'null', commitMessage: commitMessage, title: commitMessage, author: author })
             });
             let j = await res.json();
             if (j && j.status === 'success') return true;
@@ -335,7 +338,7 @@ body{font-family:system-ui,-apple-system,sans-serif}
         if (!confirm('Xóa bài nộp của "' + studentName + '"?\nFile: ' + fileName + '\n\nHành động này không thể hoàn tác!')) return;
         try {
             let path = SCORES_DIR + '/' + curExamId + '/' + fileName;
-            await gasDelete(path, 'Admin xóa bài nộp: ' + studentName + ' (' + fileName + ')');
+            await gasClearScore(path, 'Admin xóa bài nộp: ' + studentName + ' (' + fileName + ')');
             alert('Đã xóa bài nộp của "' + studentName + '".');
             selectExam(curExamId); // tai lai bang
         } catch(e){ alert('Lỗi xóa: ' + (e.message || e)); }
@@ -351,7 +354,7 @@ body{font-family:system-ui,-apple-system,sans-serif}
             if (!r._fileName) { fail++; continue; }
             try {
                 let path = SCORES_DIR + '/' + curExamId + '/' + r._fileName;
-                await gasDelete(path, 'Admin reset thống kê: xóa ' + r._fileName);
+                await gasClearScore(path, 'Admin reset thống kê: xóa ' + r._fileName);
                 ok++;
             } catch(e){ fail++; }
         }
