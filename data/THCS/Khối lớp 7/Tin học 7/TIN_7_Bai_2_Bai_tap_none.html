@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 2: Công thức và hàm trong bảng tính - Bài tập</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: system-ui, sans-serif; padding: 16px; line-height: 1.6; }
+        .question { background: white; padding: 16px; margin: 12px 0; border-radius: 8px; border: 1px solid #e2e8f0; }
+        .options label { display: block; padding: 8px; margin: 4px 0; background: #f8fafc; border-radius: 4px; cursor: pointer; }
+        .options label:hover { background: #e0f2fe; }
+    </style>
+</head>
+<body class="bg-slate-50">
+<div class="max-w-3xl mx-auto">
+<h1 class="text-2xl font-bold mb-4">Bài 2: Công thức và hàm trong bảng tính - Bài tập</h1>
+
+<div class="question">
+<p class="font-semibold mb-2">Câu 1: Mọi công thức trong Excel đều phải bắt đầu bằng ký tự:</p>
+<div class="options">
+<label><input type="radio" name="q1" value="A"> A. Dấu cộng (+)</label>
+<label><input type="radio" name="q1" value="B"> B. Dấu bằng (=)</label>
+<label><input type="radio" name="q1" value="C"> C. Ký tự @</label>
+<label><input type="radio" name="q1" value="D"> D. Ký tự #</label>
+</div>
+<button onclick="checkAnswer('q1', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q1" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 2: Phép nhân trong công thức Excel được viết bằng ký tự:</p>
+<div class="options">
+<label><input type="radio" name="q2" value="A"> A. Chữ x</label>
+<label><input type="radio" name="q2" value="B"> B. Dấu *</label>
+<label><input type="radio" name="q2" value="C"> C. Dấu .</label>
+<label><input type="radio" name="q2" value="D"> D. Dấu ,</label>
+</div>
+<button onclick="checkAnswer('q2', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q2" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 3: Công thức =(A1+B1)*2 có nghĩa là:</p>
+<div class="options">
+<label><input type="radio" name="q3" value="A"> A. Cộng A1 với B1 rồi nhân kết quả với 2</label>
+<label><input type="radio" name="q3" value="B"> B. Nhân B1 với 2 rồi cộng A1</label>
+<label><input type="radio" name="q3" value="C"> C. Cộng A1, B1 và số 2</label>
+<label><input type="radio" name="q3" value="D"> D. Nhân A1 với B1 rồi nhân với 2</label>
+</div>
+<button onclick="checkAnswer('q3', 'A')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q3" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 4: Khi sao chép công thức sang ô khác, các địa chỉ ô trong công thức sẽ:</p>
+<div class="options">
+<label><input type="radio" name="q4" value="A"> A. Giữ nguyên không đổi</label>
+<label><input type="radio" name="q4" value="B"> B. Tự động điều chỉnh tương đối theo vị trí mới</label>
+<label><input type="radio" name="q4" value="C"> C. Bị xóa hết</label>
+<label><input type="radio" name="q4" value="D"> D. Biến thành dữ liệu chữ</label>
+</div>
+<button onclick="checkAnswer('q4', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q4" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 5: Ô C1 có công thức =A1+B1. Sao chép C1 xuống ô C2 thì công thức ở C2 là:</p>
+<div class="options">
+<label><input type="radio" name="q5" value="A"> A. =A1+B1</label>
+<label><input type="radio" name="q5" value="B"> B. =A2+B2</label>
+<label><input type="radio" name="q5" value="C"> C. =A2+B1</label>
+<label><input type="radio" name="q5" value="D"> D. =A1+B2</label>
+</div>
+<button onclick="checkAnswer('q5', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q5" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 6: Hàm nào dùng để tính tổng các số trong Excel?</p>
+<div class="options">
+<label><input type="radio" name="q6" value="A"> A. SUM</label>
+<label><input type="radio" name="q6" value="B"> B. ADD</label>
+<label><input type="radio" name="q6" value="C"> C. TOTAL</label>
+<label><input type="radio" name="q6" value="D"> D. PLUS</label>
+</div>
+<button onclick="checkAnswer('q6', 'A')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q6" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 7: Hàm nào dùng để tính điểm trung bình cộng trong Excel?</p>
+<div class="options">
+<label><input type="radio" name="q7" value="A"> A. AVG</label>
+<label><input type="radio" name="q7" value="B"> B. AVERAGE</label>
+<label><input type="radio" name="q7" value="C"> C. MEAN</label>
+<label><input type="radio" name="q7" value="D"> D. MID</label>
+</div>
+<button onclick="checkAnswer('q7', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q7" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 8: Công thức =MAX(A1:A10) cho kết quả là:</p>
+<div class="options">
+<label><input type="radio" name="q8" value="A"> A. Tổng các số từ A1 đến A10</label>
+<label><input type="radio" name="q8" value="B"> B. Trung bình cộng các số từ A1 đến A10</label>
+<label><input type="radio" name="q8" value="C"> C. Giá trị lớn nhất trong các ô từ A1 đến A10</label>
+<label><input type="radio" name="q8" value="D"> D. Giá trị nhỏ nhất trong các ô từ A1 đến A10</label>
+</div>
+<button onclick="checkAnswer('q8', 'C')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q8" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 9: Cú pháp đúng để tính tổng các ô từ A1 đến A5 là:</p>
+<div class="options">
+<label><input type="radio" name="q9" value="A"> A. SUM(A1:A5)</label>
+<label><input type="radio" name="q9" value="B"> B. =SUM(A1:A5)</label>
+<label><input type="radio" name="q9" value="C"> C. =SUM[A1:A5]</label>
+<label><input type="radio" name="q9" value="D"> D. SUM=A1:A5</label>
+</div>
+<button onclick="checkAnswer('q9', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q9" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 10: Muốn đếm xem có bao nhiêu ô chứa dữ liệu số trong vùng A1:A10, ta dùng hàm:</p>
+<div class="options">
+<label><input type="radio" name="q10" value="A"> A. COUNT</label>
+<label><input type="radio" name="q10" value="B"> B. SUM</label>
+<label><input type="radio" name="q10" value="C"> C. MAX</label>
+<label><input type="radio" name="q10" value="D"> D. MIN</label>
+</div>
+<button onclick="checkAnswer('q10', 'A')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q10" class="mt-2"></div>
+</div>
+
+</div>
+<script>
+function checkAnswer(qid, correct) {
+    const selected = document.querySelector(`input[name="${qid}"]:checked`);
+    const feedback = document.getElementById(`fb-${qid}`);
+    if (!selected) { feedback.innerHTML = '<span class="text-orange-600">Hãy chọn đáp án!</span>'; return; }
+    if (selected.value === correct) {
+        feedback.innerHTML = '<span class="text-green-600 font-bold">✓ Đúng!</span>';
+    } else {
+        feedback.innerHTML = '<span class="text-red-600">✗ Chưa đúng. Đáp án đúng: ' + correct + '</span>';
+    }
+}
+</script>
+</body>
+</html>
