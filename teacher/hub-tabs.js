@@ -34,6 +34,10 @@
             setVis('theory-copy-prompt-box', isTheory);
             setVis('exercise-copy-prompt-box', isExercise);
 
+            // Tiêu đề khung đẩy nội dung đổi theo chế độ (2026-10-10)
+            let upT = document.getElementById('push-upload-title');
+            if (upT) upT.textContent = isExercise ? 'Đưa nội dung bài tập lên web' : 'Đưa nội dung bài học lên web';
+
             // Ma trận đề: chỉ hiện ở bank (2026-10-10: gộp nút ma trận vào nút bank trên cùng)
             setVis('exam-matrix-panel', isBank);
 
