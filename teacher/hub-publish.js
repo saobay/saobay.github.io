@@ -125,6 +125,35 @@ MA TRẬN CỦA TÔI (bạn tuân thủ tuyệt đối):`;
         // PROMPT MA TRẬN ĐẶC TẢ ĐẦY ĐỦ ĐỂ LƯU WORD (2026-10-10)
         // Tạo prompt cho AI soạn ma trận đặc tả + đề thi + lời giải theo chuẩn Bộ GD&ĐT
         // ========================================================
+        // Đẩy đề từ ma trận ra khung soạn (2026-10-10): bốc câu theo ma trận, nạp vào editor
+        function exbPushToComposer() {
+            try {
+                let m = (typeof exbGetMatrix === 'function') ? exbGetMatrix() : null;
+                if (!m) { alert('Chưa có ma trận. Bấm "Tải ma trận từ ngân hàng" trước.'); return; }
+                let bank = (typeof exbGetBank === 'function') ? exbGetBank() : [];
+                if (!bank || !bank.length) { alert('Ngân hàng đề trống. Hãy đẩy bài tập/lý thuyết có câu hỏi trước.'); return; }
+                let picked = (typeof exbMatrixPick === 'function') ? exbMatrixPick(m, bank) : [];
+                if (!picked.length) { alert('Không bốc được câu nào phù hợp ma trận.'); return; }
+                // Tạo JSON đề thi
+                let examJson = {
+                    type: 'saobay-exam10',
+                    title: (document.getElementById('exbb-title')||{}).value || 'Đề kiểm tra',
+                    subject: m.subject || 'TOAN',
+                    grade: m.grade || 10,
+                    time_limit: m.time_limit || 90,
+                    questions: picked
+                };
+                let editor = document.getElementById('item-content');
+                if (editor) {
+                    editor.value = JSON.stringify(examJson, null, 2);
+                    if (typeof renderMathPreview === 'function') renderMathPreview();
+                    let pw = document.getElementById('preview-wrapper');
+                    if (pw) pw.scrollIntoView({behavior:'smooth'});
+                    if (typeof showToast === 'function') showToast('Đã đẩy ' + picked.length + ' câu ra khung soạn! Xem/sửa rồi bấm Đẩy đề.', 'success');
+                }
+            } catch(e){ console.error('[hub] exbPushToComposer loi:', e); alert('Lỗi: ' + e.message); }
+        }
+
         function generateFullSpecPrompt() {
             let m = null;
             try {
