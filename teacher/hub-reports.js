@@ -37,16 +37,25 @@
             return;
         }
         box.innerHTML = list.map(function(rp){
+            var isFormula = rp.type === 'formula_error';
+            var badge = isFormula
+                ? '<span class="text-[10px] font-bold bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full ml-2">⚠️ LỖI CÔNG THỨC</span>'
+                : '<span class="text-[10px] font-bold bg-rose-100 text-rose-700 px-2 py-0.5 rounded-full ml-2">BÁO LỖI HS</span>';
+            var reporter = isFormula
+                ? escHtml(rp.student_name || '') + ' (GV)'
+                : escHtml(rp.student_name || '') + ' (' + escHtml(rp.student_class || '') + ')';
+            var descBg = isFormula ? 'bg-amber-50 border-amber-200' : 'bg-rose-50 border-rose-100';
+            var okBtn = isFormula ? 'Đã sửa xong' : 'Đúng — sửa & +5đ';
             return '<div class="bg-white border border-slate-200 rounded-xl p-3 mb-2">'
                 + '<div class="flex items-start justify-between gap-2">'
                 + '<div class="flex-1">'
-                + '<p class="text-sm font-bold text-slate-800">' + escHtml(rp.page_title || '') + '</p>'
-                + '<p class="text-[11px] text-slate-500">' + escHtml(rp.student_name || '') + ' (' + escHtml(rp.student_class || '') + ')'
+                + '<p class="text-sm font-bold text-slate-800">' + escHtml(rp.page_title || '') + badge + '</p>'
+                + '<p class="text-[11px] text-slate-500">' + reporter
                 + (rp.question_num ? ' • Câu ' + escHtml(rp.question_num) : '') + '</p>'
-                + '<p class="text-xs text-slate-700 mt-1.5 bg-rose-50 border border-rose-100 rounded-lg px-2.5 py-2">' + escHtml(rp.description || '') + '</p>'
+                + '<p class="text-xs text-slate-700 mt-1.5 ' + descBg + ' border rounded-lg px-2.5 py-2">' + escHtml(rp.description || '') + '</p>'
                 + '</div></div>'
                 + '<div class="flex gap-2 mt-2">'
-                + '<button onclick="rpResolve(\'' + rp.id + '\', true)" class="text-[11px] font-bold bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg"><i class="fa-solid fa-check mr-1"></i>Đúng — sửa & +5đ</button>'
+                + '<button onclick="rpResolve(\'' + rp.id + '\', true)" class="text-[11px] font-bold bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg"><i class="fa-solid fa-check mr-1"></i>' + okBtn + '</button>'
                 + '<button onclick="rpResolve(\'' + rp.id + '\', false)" class="text-[11px] font-bold bg-slate-200 hover:bg-slate-300 text-slate-700 px-3 py-1.5 rounded-lg">Sai — bỏ qua</button>'
                 + '</div></div>';
         }).join('');
@@ -55,7 +64,12 @@
     function escHtml(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
     window.rpResolve = async function(id, valid){
-        if (!confirm(valid ? 'Xác nhận báo cáo ĐÚNG? HS sẽ được +5 điểm năng động.' : 'Xác nhận báo cáo SAI và bỏ qua?')) return;
+        var rp = (typeof reports !== 'undefined' ? reports : []).find(function(x){ return x.id === id; });
+        var isFormula = rp && rp.type === 'formula_error';
+        var msg = valid
+            ? (isFormula ? 'Xác nhận đã SỬA XONG lỗi công thức này?' : 'Xác nhận báo cáo ĐÚNG? HS sẽ được +5 điểm năng động.')
+            : 'Xác nhận báo cáo SAI và bỏ qua?';
+        if (!confirm(msg)) return;
         try {
             let r = await fetch('https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec', {
                 method: 'POST',
@@ -63,7 +77,9 @@
             });
             let j = await r.json();
             if (j.ok){
-                alert(valid ? 'Đã duyệt! HS được +5 điểm năng động. ⭐' : 'Đã bỏ qua báo cáo.');
+                var rp2 = (typeof reports !== 'undefined' ? reports : []).find(function(x){ return x.id === id; });
+                var isF = rp2 && rp2.type === 'formula_error';
+                alert(valid ? (isF ? 'Đã đánh dấu sửa xong!' : 'Đã duyệt! HS được +5 điểm năng động. ⭐') : 'Đã bỏ qua báo cáo.');
                 loadReports();
             } else alert('Lỗi, thử lại sau.');
         } catch(e){ alert('Lỗi kết nối.'); }
