@@ -17,8 +17,10 @@
             });
         }
         // Doc dinh dang dap an tu document.xml: chu do / gach chan / in dam
+        // 2026-10-10: them dinh dang cua CHU CAI DAU TIEN (firstU/firstRed/firstBold)
+        // de nhan dien dap an dung theo cach don gian: gach chan chu cai dau (a/b/c/d)
         async function detectAnswerFormatting(arrayBuffer){
-            let marks = []; // [{text, red, underline, bold}]
+            let marks = []; // [{text, red, underline, bold, firstU, firstRed, firstBold}]
             try {
                 await ensureJsZip();
                 let zip = await window.JSZip.loadAsync(arrayBuffer);
@@ -30,12 +32,12 @@
                     let p = paras[pi];
                     let runs = p.getElementsByTagName('w:r');
                     let pText = '', pRed = false, pU = false, pB = false;
+                    let runList = [];
                     for (let ri = 0; ri < runs.length; ri++){
                         let r = runs[ri];
                         let tEls = r.getElementsByTagName('w:t');
                         let rText = '';
                         for (let ti = 0; ti < tEls.length; ti++) rText += tEls[ti].textContent;
-                        if (!rText.trim()) continue;
                         let rPr = r.getElementsByTagName('w:rPr')[0];
                         let red = false, u = false, b = false;
                         if (rPr){
@@ -44,16 +46,39 @@
                                 let val = (color.getAttribute('w:val') || '').toUpperCase();
                                 if (val === 'FF0000' || val === 'RED' || val === 'C00000') red = true;
                             }
-                            if (rPr.getElementsByTagName('w:u')[0]) u = true;
-                            if (rPr.getElementsByTagName('w:b')[0]) b = true;
+                            // gach chan: <w:u> mac dinh la single; w:val="none" = KHONG gach
+                            let uEl = rPr.getElementsByTagName('w:u')[0];
+                            if (uEl){
+                                let uVal = (uEl.getAttribute('w:val') || 'single').toLowerCase();
+                                if (uVal !== 'none') u = true;
+                            }
+                            // in dam: <w:b> mac dinh la true; w:val=false/0/off = KHONG dam
+                            let bEl = rPr.getElementsByTagName('w:b')[0];
+                            if (bEl){
+                                let bVal = (bEl.getAttribute('w:val') || 'true').toLowerCase();
+                                if (bVal !== 'false' && bVal !== '0' && bVal !== 'off' && bVal !== 'none') b = true;
+                            }
                         }
+                        if (!rText.trim()) continue;
+                        runList.push({ text: rText, red: red, underline: u, bold: b });
                         pText += rText;
                         if (red) pRed = true;
                         if (u) pU = true;
                         if (b) pB = true;
                     }
+                    // dinh dang cua ky tu nhin thay dau tien trong doan (thuong la chu cai a/b/c/d)
+                    let firstU = false, firstRed = false, firstB = false;
+                    for (let ri = 0; ri < runList.length; ri++){
+                        if (runList[ri].text.replace(/^\s+/, '')){
+                            firstU = runList[ri].underline;
+                            firstRed = runList[ri].red;
+                            firstB = runList[ri].bold;
+                            break;
+                        }
+                    }
                     pText = pText.replace(/\s+/g, ' ').trim();
-                    if (pText) marks.push({ text: pText, red: pRed, underline: pU, bold: pB });
+                    if (pText) marks.push({ text: pText, red: pRed, underline: pU, bold: pB,
+                        firstU: firstU, firstRed: firstRed, firstBold: firstB });
                 }
             } catch(e){ console.warn('detectAnswerFormatting:', e); }
             return marks;
@@ -74,13 +99,14 @@
         function wordGuideHtml(){
             return '<p class="font-black text-indigo-900 mb-1"><i class="fa-solid fa-list-check mr-1"></i>QUY CÁCH SOẠN FILE WORD (.docx)</p>'
             + '<p class="mb-1">Soạn <b>dạng text thuần</b> theo đúng cấu trúc bên dưới (không dán mã HTML của AI). Mỗi câu gồm các dòng:</p>'
-            + '<div class="bg-slate-50 border rounded-lg p-2 font-mono text-[11px] whitespace-pre-wrap mb-2">Câu 1 [TN] [NB]\nNội dung câu hỏi viết ở đây...\nA. Phương án A\nB. Phương án B\nC. Phương án C\nD. Phương án D\nĐáp án: B\nGiải thích: Lời giải (không bắt buộc)...\n\nCâu 2 [ĐS] [TH]\nPhát biểu sau đúng hay sai?\na) Mệnh đề a\nb) Mệnh đề b\nc) Mệnh đề c\nd) Mệnh đề d\nĐáp án: Đ, S, Đ, S\n\nCâu 3 [TLN] [VD]\nNội dung câu hỏi...\nĐáp án: 42</div>'
+            + '<div class="bg-slate-50 border rounded-lg p-2 font-mono text-[11px] whitespace-pre-wrap mb-2">Câu 1 [TN] [NB]\nNội dung câu hỏi viết ở đây...\na. Phương án A\n<u>b</u>. Phương án B\nc. Phương án C\nd. Phương án D\nGiải thích: Lời giải (không bắt buộc)...\n\nCâu 2 [ĐS] [TH]\nPhát biểu sau đúng hay sai?\n<u>a</u>) Mệnh đề a\nb) Mệnh đề b\n<u>c</u>) Mệnh đề c\nd) Mệnh đề d\n\nCâu 3 [TLN] [VD]\nNội dung câu hỏi...\nĐáp án: 42</div>'
             + '<ul class="list-disc ml-4 space-y-0.5">'
             + '<li><b>Câu N</b>: bắt đầu một câu mới (N là số thứ tự).</li>'
             + '<li><b>[TN]</b> = trắc nghiệm 4 đáp án &nbsp; <b>[ĐS]</b> = đúng/sai &nbsp; <b>[TLN]</b> = trả lời ngắn &nbsp; <b>[TL]</b> = tự luận (GV chấm tay).</li>'
             + '<li><b>[NB]</b> nhận biết &nbsp; <b>[TH]</b> thông hiểu &nbsp; <b>[VD]</b> vận dụng &nbsp; <b>[VDC]</b> vận dụng cao (mặc định NB).</li>'
-            + '<li>Trắc nghiệm: phương án viết <b>A. B. C. D.</b> — Đúng/Sai: mệnh đề viết <b>a) b) c) d)</b>.</li>'
-            + '<li><b>Đáp án:</b> TN ghi chữ cái (vd: B) • Đ/S ghi Đ,S cách nhau dấu phẩy (vd: Đ, S, Đ, S) • TLN ghi nội dung.</li>'
+            + '<li>Trắc nghiệm: phương án viết <b>a. b. c. d.</b> (chữ thường cũng được) — Đúng/Sai: mệnh đề viết <b>a) b) c) d)</b>.</li>'
+            + '<li><b class="text-emerald-700">Đánh dấu đáp án đúng: GẠCH CHÂN chữ cái đầu</b> của đáp án đúng (vd: gạch chân chữ <u>b</u>). Câu Đúng/Sai: gạch chân chữ cái của mệnh đề <b>ĐÚNG</b> (vd: a, c đúng thì gạch chân a và c).</li>'
+            + '<li>Cách cũ vẫn dùng được: dòng <b>Đáp án:</b> — TN ghi chữ cái (vd: B) • Đ/S ghi Đ,S cách nhau dấu phẩy (vd: Đ, S, Đ, S) • TLN ghi nội dung. Chữ đỏ cả dòng cũng vẫn nhận.</li>'
             + '<li>Công thức Toán viết dạng text (vd: x^2, \\(x^2\\)).</li>'
             + '</ul>';
         }
@@ -120,7 +146,10 @@
                 });
                 wordState.rawText = lines.join('\n');
                 let qs = parseWordExam(lines);
-                // Nhan dien dap an tu dinh dang: chu do / gach chan o phuong an
+                // Nhan dien dap an tu dinh dang (2026-10-10):
+                // - Cach moi (uu tien): GACH CHAN chu cai dau tien cua phuong an (a/b/c/d) -> dap an dung
+                // - Cach cu (tuong thich nguoc): ca dong chu do / gach chan
+                // - Cau Dung/Sai: gach chan chu cai cua menh de DUNG
                 try {
                     let marks = await detectAnswerFormatting(buf);
                     let markIdx = 0;
@@ -131,15 +160,34 @@
                             if (marks[mi].text.indexOf(q.q.slice(0, 20)) >= 0){ qStart = mi; break; }
                         }
                         if (qStart < 0) return;
+                        let tfStates = []; // cho cau Dung/Sai: [{letter, isTrue}]
                         // Quet cac phuong an trong marks sau cau hoi
                         for (let mi = qStart + 1; mi < Math.min(qStart + 12, marks.length); mi++){
                             let mt = marks[mi].text;
-                            let om = mt.match(/^([A-D])\s*[\.\)\:]/i);
-                            if (om && (marks[mi].red || marks[mi].underline)){
-                                if (q.type === 'mcq' && !q.answer) q.answer = om[1].toUpperCase();
-                            }
+                            let mk = marks[mi];
                             // Gap cau moi thi dung
                             if (/^câu\s*\d+/i.test(mt)) break;
+                            let firstMarked = mk.firstU || mk.firstRed;
+                            let wholeMarked = mk.red || mk.underline;
+                            if (q.type === 'mcq' && !q.answer){
+                                let om = mt.match(/^([A-Da-d])\s*[\.\)\:]/);
+                                if (om && (firstMarked || wholeMarked)){
+                                    q.answer = om[1].toUpperCase();
+                                }
+                            } else if (q.type === 'truefalse'){
+                                let sm = mt.match(/^([a-d])\s*[\)\.\:]/i);
+                                if (sm){
+                                    tfStates.push({ letter: sm[1].toLowerCase(),
+                                        isTrue: firstMarked || wholeMarked });
+                                }
+                            }
+                        }
+                        // Cau Dung/Sai: neu co it nhat 1 menh de duoc gach chan chu cai
+                        // va chua co dap an tu dong "Dap an:", dung dinh dang de xac dinh D/S
+                        if (q.type === 'truefalse' && (!q.answer || !q.answer.length)
+                            && tfStates.length && tfStates.length === (q.statements || []).length
+                            && tfStates.some(function(s){ return s.isTrue; })){
+                            q.answer = tfStates.map(function(s){ return s.isTrue ? 'T' : 'F'; });
                         }
                         markIdx = qStart + 1;
                     });
@@ -217,8 +265,16 @@
                 if (mAns){ cur._ansRaw = mAns[2].trim(); cur._inExplain = false; return; }
                 let mExp = line.match(/^(giải thích|giai thich)\s*:\s*(.*)$/i);
                 if (mExp){ cur._inExplain = true; cur.explain = (mExp[2] || '').trim(); return; }
-                let mOpt = line.match(/^([A-D])[\.\)]\s*(.+)$/);
-                if (mOpt && cur.type !== 'truefalse' && cur.type !== 'essay'){ cur.type = cur.type || 'mcq'; cur.options.push(mOpt[1] + '. ' + mOpt[2].trim()); return; }
+                let mOpt = line.match(/^([A-Da-d])[\.\)]\s*(.+)$/);
+                if (mOpt && cur.type !== 'truefalse' && cur.type !== 'essay'){
+                    // chu thuong a-d: chi coi la dap an TN khi da co tag [TN];
+                    // neu chua co tag, chu thuong = menh de Dung/Sai (giu cach doan cu)
+                    if (mOpt[1] === mOpt[1].toUpperCase() || cur.type === 'mcq'){
+                        cur.type = cur.type || 'mcq';
+                        cur.options.push(mOpt[1].toUpperCase() + '. ' + mOpt[2].trim());
+                        return;
+                    }
+                }
                 let mSt = line.match(/^([a-d])[\.\)]\s*(.+)$/);
                 if (mSt && cur.type !== 'mcq' && cur.type !== 'essay'){ cur.type = cur.type || 'truefalse'; cur.statements.push(mSt[2].trim()); return; }
                 if (cur._inExplain){ cur.explain += (cur.explain ? ' ' : '') + line; }
