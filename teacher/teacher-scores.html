@@ -279,7 +279,7 @@ body{font-family:system-ui,-apple-system,sans-serif}
         let cf = document.getElementById('class-filter');
         let csvBtn = document.getElementById('csv-btn');
         let delAllBtn = document.getElementById('del-all-btn');
-        if (delAllBtn) delAllBtn.classList.toggle('hidden', !(sessionUser && sessionUser.role === 'admin' && curResults.length));
+        if (delAllBtn) delAllBtn.classList.toggle('hidden', !(sessionUser && (sessionUser.role === 'admin' || sessionUser.role === 'teacher' || sessionUser.role === 'bgh') && curResults.length));
         let curExam = exams.find(function(x){ return x.id === curExamId; });
         title.textContent = (curExam && curExam.title ? curExam.title : curExamId.replace(/_/g, ' ')) + ' (' + curResults.length + ' bài)';
         if (!curResults.length){
@@ -315,7 +315,8 @@ body{font-family:system-ui,-apple-system,sans-serif}
         let h = '<div class="overflow-x-auto"><table class="w-full text-xs"><thead><tr class="bg-slate-100 text-slate-600">'
             + '<th class="px-2 py-2 text-left">STT</th><th class="px-2 py-2 text-left">Họ tên</th><th class="px-2 py-2 text-left">Lớp</th>'
             + '<th class="px-2 py-2 text-right">Điểm</th><th class="px-2 py-2 text-right">Đúng</th><th class="px-2 py-2 text-left">Nộp lúc</th>'
-            + ((sessionUser && sessionUser.role === 'admin') ? '<th class="px-2 py-2 text-center">Xóa</th>' : '')
+            + '<th class="px-2 py-2 text-center">Xem</th>'
+            + ((sessionUser && (sessionUser.role === 'admin' || sessionUser.role === 'teacher' || sessionUser.role === 'bgh')) ? '<th class="px-2 py-2 text-center">Xóa</th>' : '')
             + '</tr></thead><tbody>';
         rows.forEach(function(r, i){
             let pct = (r.max_score > 0) ? Math.round(r.score / r.max_score * 100) : 0;
@@ -327,11 +328,50 @@ body{font-family:system-ui,-apple-system,sans-serif}
                 + '<td class="px-2 py-2 text-right font-black ' + color + '">' + esc(r.score) + '/' + esc(r.max_score) + '</td>'
                 + '<td class="px-2 py-2 text-right text-slate-500">' + esc(r.correct) + '/' + esc(r.total) + '</td>'
                 + '<td class="px-2 py-2 text-slate-500 whitespace-nowrap">' + esc(fmtTime(r.submitted_at)) + '</td>'
-                + ((sessionUser && sessionUser.role === 'admin') ? '<td class="px-2 py-2 text-center"><button onclick="deleteScore(\'' + esc(r._fileName || '') + '\', \'' + esc(r.student_name || '') + '\')" title="Xóa bài nộp này" class="text-rose-600 hover:text-rose-800 hover:bg-rose-50 px-2 py-1 rounded"><i class="fa-solid fa-trash"></i></button></td>' : '')
+                + '<td class="px-2 py-2 text-center"><button onclick="viewScoreDetail(' + i + ')" title="Xem bài làm chi tiết" class="text-blue-600 hover:text-blue-800 hover:bg-blue-50 px-2 py-1 rounded"><i class="fa-solid fa-eye"></i></button></td>'
+                + ((sessionUser && (sessionUser.role === 'admin' || sessionUser.role === 'teacher' || sessionUser.role === 'bgh')) ? '<td class="px-2 py-2 text-center"><button onclick="deleteScore(\'' + esc(r._fileName || '') + '\', \'' + esc(r.student_name || '') + '\')" title="Xóa bài nộp này" class="text-rose-600 hover:text-rose-800 hover:bg-rose-50 px-2 py-1 rounded"><i class="fa-solid fa-trash"></i></button></td>' : '')
                 + '</tr>';
         });
         body.innerHTML = h + '</tbody></table></div>';
     }
+
+    // Xem chi tiết bài làm của HS (2026-10-10)
+    window.viewScoreDetail = function(idx){
+        var r = curResults[idx];
+        if (!r) return;
+        var h = '<div class="p-4 max-h-[70vh] overflow-y-auto">';
+        h += '<h3 class="font-bold text-lg mb-1">' + esc(r.student_name || '') + ' <span class="text-sm font-normal text-slate-500">' + esc(r.student_class || '') + '</span></h3>';
+        h += '<p class="text-sm text-slate-600 mb-3">Điểm: <b class="text-emerald-700">' + esc(r.score) + '/' + esc(r.max_score) + '</b> • Đúng ' + esc(r.correct) + '/' + esc(r.total) + ' câu • Nộp lúc ' + esc(fmtTime(r.submitted_at)) + '</p>';
+        var ans = r.answers || r.details || [];
+        if (Array.isArray(ans) && ans.length){
+            h += '<table class="w-full text-xs border"><thead><tr class="bg-slate-100"><th class="px-2 py-1 text-left">Câu</th><th class="px-2 py-1 text-left">HS chọn</th><th class="px-2 py-1 text-left">Đáp án đúng</th><th class="px-2 py-1 text-center">KQ</th></tr></thead><tbody>';
+            ans.forEach(function(a, j){
+                var sa = (a.student_answer !== undefined) ? a.student_answer : (a.answer || '');
+                var ca = a.correct_answer || '';
+                var ok = (a.correct === true) || (String(sa) === String(ca) && sa !== '');
+                h += '<tr class="border-t"><td class="px-2 py-1">' + (j+1) + '</td>'
+                    + '<td class="px-2 py-1 font-semibold">' + esc(String(sa)) + '</td>'
+                    + '<td class="px-2 py-1 text-emerald-700">' + esc(String(ca)) + '</td>'
+                    + '<td class="px-2 py-1 text-center">' + (ok ? '<span class="text-emerald-600 font-bold">✓</span>' : '<span class="text-rose-600 font-bold">✗</span>') + '</td></tr>';
+            });
+            h += '</tbody></table>';
+        } else {
+            h += '<p class="text-xs text-slate-400 italic">Không có chi tiết từng câu trong file điểm này.</p>';
+            h += '<pre class="text-[10px] bg-slate-50 border rounded p-2 mt-2 overflow-x-auto">' + esc(JSON.stringify(r, null, 1).substring(0, 2000)) + '</pre>';
+        }
+        h += '</div>';
+        var m = document.getElementById('score-detail-modal');
+        if (!m){
+            m = document.createElement('div');
+            m.id = 'score-detail-modal';
+            m.className = 'fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4';
+            m.innerHTML = '<div class="bg-white rounded-2xl shadow-xl max-w-2xl w-full"><div class="flex justify-end p-2"><button onclick="document.getElementById(\'score-detail-modal\').remove()" class="text-slate-400 hover:text-slate-700 text-xl px-2">×</button></div><div id="score-detail-body"></div></div>';
+            m.addEventListener('click', function(e){ if (e.target === m) m.remove(); });
+            document.body.appendChild(m);
+        }
+        document.getElementById('score-detail-body').innerHTML = h;
+    };
+
 
     window.deleteScore = async function(fileName, studentName){
         if (!fileName) { alert('Không xác định được file điểm.'); return; }
