@@ -130,8 +130,8 @@
                             <i class="fa-solid fa-pen-ruler"></i>
                         </div>
                         <div class="truncate">
-                            <div class="text-xs font-extrabold uppercase">1. Soạn Bài & Đề Thi</div>
-                            <div class="text-[10px] text-blue-700">Tải Word & Đẩy lên Git</div>
+                            <div class="text-xs font-extrabold uppercase" data-ui-label="mod_compose">1. Soạn Bài & Đề Thi</div>
+                            <div class="text-[10px] text-blue-700" data-ui-label="mod_compose_sub">Tải Word & Đẩy lên Git</div>
                         </div>
                     </button>
 
@@ -140,8 +140,8 @@
                             <i class="fa-solid fa-pen-to-square"></i>
                         </div>
                         <div class="truncate">
-                            <div class="text-xs font-extrabold uppercase">2. Quản Lý & Sửa Bài</div>
-                            <div class="text-[10px] text-slate-500">Xem danh sách & sửa bài</div>
+                            <div class="text-xs font-extrabold uppercase" data-ui-label="mod_manage">2. Quản Lý & Sửa Bài</div>
+                            <div class="text-[10px] text-slate-500" data-ui-label="mod_manage_sub">Xem danh sách & sửa bài</div>
                         </div>
                     </button>
 
@@ -150,8 +150,8 @@
                             <i class="fa-solid fa-shield-halved"></i>
                         </div>
                         <div class="truncate">
-                            <div class="text-xs font-extrabold uppercase">3. Thẩm Định & Duyệt</div>
-                            <div class="text-[10px] text-slate-500">Tổ trưởng & Chuyên môn</div>
+                            <div class="text-xs font-extrabold uppercase" data-ui-label="mod_audit">3. Thẩm Định & Duyệt</div>
+                            <div class="text-[10px] text-slate-500" data-ui-label="mod_audit_sub">Tổ trưởng & Chuyên môn</div>
                         </div>
                     </button>
 
@@ -160,8 +160,8 @@
                             <i class="fa-solid fa-chart-pie"></i>
                         </div>
                         <div class="truncate">
-                            <div class="text-xs font-extrabold uppercase">4. Thống Kê & Học Liệu</div>
-                            <div class="text-[10px] text-slate-500">Điểm thưởng & Báo cáo</div>
+                            <div class="text-xs font-extrabold uppercase" data-ui-label="mod_stats">4. Thống Kê & Học Liệu</div>
+                            <div class="text-[10px] text-slate-500" data-ui-label="mod_stats_sub">Điểm thưởng & Báo cáo</div>
                         </div>
                     </button>
                     <button type="button" onclick="switchTeacherModule('private')" id="mod-tab-private" class="module-tab-btn flex items-center p-2.5 rounded-xl transition border text-left bg-white border-slate-200 text-slate-700 hover:bg-slate-100">
@@ -169,8 +169,8 @@
                             <i class="fa-solid fa-user-lock"></i>
                         </div>
                         <div class="truncate">
-                            <div class="text-xs font-extrabold uppercase">5. Lớp Học Thêm</div>
-                            <div class="text-[10px] text-slate-500">Lớp riêng & HS</div>
+                            <div class="text-xs font-extrabold uppercase" data-ui-label="mod_private">5. Lớp Học Thêm</div>
+                            <div class="text-[10px] text-slate-500" data-ui-label="mod_private_sub">Lớp riêng & HS</div>
                         </div>
                     </button>
                     <button type="button" onclick="switchTeacherModule('reports')" id="mod-tab-reports" class="module-tab-btn flex items-center p-2.5 rounded-xl transition border text-left bg-white border-slate-200 text-slate-700 hover:bg-slate-100">
@@ -178,8 +178,8 @@
                             <i class="fa-solid fa-flag"></i>
                         </div>
                         <div class="truncate">
-                            <div class="text-xs font-extrabold uppercase">6. Báo Lỗi</div>
-                            <div class="text-[10px] text-slate-500">HS báo &bull; duyệt + điểm</div>
+                            <div class="text-xs font-extrabold uppercase" data-ui-label="mod_reports">6. Báo Lỗi</div>
+                            <div class="text-[10px] text-slate-500" data-ui-label="mod_reports_sub">HS báo &bull; duyệt + điểm</div>
                         </div>
                     </button>
                     <button type="button" onclick="switchTeacherModule('groups')" id="mod-tab-groups" style="display:none" class="module-tab-btn flex items-center p-2.5 rounded-xl transition border text-left bg-white border-slate-200 text-slate-700 hover:bg-slate-100">
@@ -187,8 +187,17 @@
                             <i class="fa-solid fa-users"></i>
                         </div>
                         <div class="truncate">
-                            <div class="text-xs font-extrabold uppercase">7. Nhóm GV</div>
-                            <div class="text-[10px] text-slate-500">Thống kê nhóm (admin)</div>
+                            <div class="text-xs font-extrabold uppercase" data-ui-label="mod_groups">7. Nhóm GV</div>
+                            <div class="text-[10px] text-slate-500" data-ui-label="mod_groups_sub">Thống kê nhóm (admin)</div>
+                        </div>
+                    </button>
+                    <button type="button" onclick="switchTeacherModule('uilabels')" id="mod-tab-uilabels" style="display:none" class="module-tab-btn flex items-center p-2.5 rounded-xl transition border text-left bg-white border-slate-200 text-slate-700 hover:bg-slate-100">
+                        <div class="w-9 h-9 rounded-lg bg-cyan-200 text-cyan-700 flex items-center justify-center text-base font-bold shrink-0 mr-2.5">
+                            <i class="fa-solid fa-palette"></i>
+                        </div>
+                        <div class="truncate">
+                            <div class="text-xs font-extrabold uppercase" data-ui-label="mod_uilabels">8. Tùy Chỉnh Giao Diện</div>
+                            <div class="text-[10px] text-slate-500" data-ui-label="mod_uilabels_sub">Sửa chữ nút (admin)</div>
                         </div>
                     </button>
                 </div>
@@ -218,14 +227,14 @@
                 <!-- CHẾ ĐỘ ĐẨY: Lý thuyết / Đề thi (thiết kế mới 2026-10-09) -->
                 <div class="flex flex-col sm:flex-row gap-2 bg-white border border-slate-200 rounded-xl p-1.5 shadow-sm">
                     <button type="button" id="push-mode-theory" onclick="switchPushMode('theory')" class="flex-1 px-3 py-2.5 rounded-lg text-xs font-bold transition flex items-center justify-center bg-blue-700 text-white shadow">
-                        <i class="fa-solid fa-book-open mr-2"></i> 📖 Đẩy Bài Lý Thuyết
+                        <i class="fa-solid fa-book-open mr-2"></i> <span data-ui-label="push_theory">📖 Đẩy Bài Lý Thuyết</span>
                     </button>
                     <button type="button" id="push-mode-exam" onclick="switchPushMode('bank')" class="flex-1 px-3 py-2.5 rounded-lg text-xs font-bold transition flex items-center justify-center bg-slate-100 text-slate-600 hover:bg-slate-200">
-                        <i class="fa-solid fa-file-pen mr-2"></i> 📝 Đẩy Đề Thi / Bài Tập
+                        <i class="fa-solid fa-file-pen mr-2"></i> <span data-ui-label="push_exam">📝 Đẩy Đề Thi / Bài Tập</span>
                     </button>
                     <!-- Nút cũ giữ lại ẩn để tương thích JS -->
-                    <button type="button" id="push-mode-bank" onclick="switchPushMode('bank')" class="hidden">bank</button>
-                    <button type="button" id="push-mode-direct" onclick="switchPushMode('direct')" class="hidden">direct</button>
+                    <button type="button" id="push-mode-bank" onclick="switchPushMode('bank')" class="hidden" data-ui-label="bank">bank</button>
+                    <button type="button" id="push-mode-direct" onclick="switchPushMode('direct')" class="hidden" data-ui-label="direct">direct</button>
                 </div>
 
                 <!-- ============================================================ -->
@@ -303,10 +312,10 @@
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
                         <button type="button" id="exam-method-bank" onclick="switchExamMethod('bank')" class="text-left bg-amber-50 hover:bg-amber-100 border-2 border-amber-300 rounded-xl p-3 transition shadow-sm">
                             <div class="flex items-center justify-between">
-                                <span class="text-sm font-black text-amber-900"><i class="fa-solid fa-database mr-1"></i> 1. Tạo đề từ Bank</span>
+                                <span class="text-sm font-black text-amber-900"><i class="fa-solid fa-database mr-1"></i> <span data-ui-label="exam_bank">1. Tạo đề từ Bank</span></span>
                                 <i class="fa-solid fa-chevron-down text-amber-500 text-xs method-chev"></i>
                             </div>
-                            <p class="text-[11px] text-amber-800 mt-1">Random từ ngân hàng theo ma trận</p>
+                            <p class="text-[11px] text-amber-800 mt-1" data-ui-label="exam_bank_sub">Random từ ngân hàng theo ma trận</p>
                             <div class="flex items-center gap-3 mt-2 text-[11px] font-bold text-amber-900" onclick="event.stopPropagation()">
                                 <label class="flex items-center gap-1"><input type="radio" name="bank-count" value="1" checked class="accent-amber-600"> 1 đề</label>
                                 <label class="flex items-center gap-1"><input type="radio" name="bank-count" value="many" class="accent-amber-600"> Nhiều đề</label>
@@ -1338,6 +1347,27 @@
             </div>
 
             <!-- ======================================================== -->
+
+            <!-- CHỨC NĂNG 8: TÙY CHỈNH GIAO DIỆN (admin) -->
+            <div id="module-uilabels-view" class="hidden space-y-4">
+                <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+                    <h3 class="font-extrabold text-slate-800 mb-1"><i class="fa-solid fa-palette text-cyan-600 mr-2"></i>Tùy chỉnh chữ hiển thị</h3>
+                    <p class="text-xs text-slate-500 mb-3">Sửa chữ các nút theo ý bạn. Lưu xong tải lại trang để thấy thay đổi.</p>
+                    <div id="uilabels-list" class="space-y-2">
+                        <p class="text-xs text-slate-400 italic">Đang tải danh sách...</p>
+                    </div>
+                    <div class="flex gap-2 mt-4 pt-3 border-t border-slate-100">
+                        <input id="uilabel-new-key" placeholder="key mới (vd: my_btn)" class="flex-1 px-3 py-2 border border-slate-300 rounded-lg text-sm">
+                        <input id="uilabel-new-val" placeholder="Chữ hiển thị" class="flex-1 px-3 py-2 border border-slate-300 rounded-lg text-sm">
+                        <button type="button" onclick="uiLabelsAddNew()" class="px-4 py-2 bg-cyan-600 text-white rounded-lg text-sm font-bold hover:bg-cyan-700">+ Thêm</button>
+                    </div>
+                    <button type="button" onclick="uiLabelsSaveAll()" class="mt-3 w-full px-4 py-2.5 bg-blue-700 text-white rounded-xl text-sm font-extrabold hover:bg-blue-800">
+                        <i class="fa-solid fa-floppy-disk mr-2"></i>Lưu tất cả thay đổi
+                    </button>
+                    <p id="uilabels-msg" class="text-xs mt-2 text-slate-500"></p>
+                </div>
+            </div>
+
             <!-- CHỨC NĂNG 7: THỐNG KÊ NHÓM GV (admin) -->
             <!-- ======================================================== -->
             <div id="module-groups-view" class="hidden space-y-4 flex-1 flex flex-col">
@@ -1372,6 +1402,7 @@
     <script src="hub-private.js?v=20261010_1"></script>
     <script src="hub-reports.js?v=20261009_1"></script>
 <script src="hub-groups.js?v=20261010_1"></script>
+    <script src="hub-uilabels.js?v=20261010"></script>
 
     <!-- Modal Tài khoản của tôi - cài đặt SĐT đăng nhập (2026-10-09) -->
     <div id="my-account-modal" class="hidden fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/50">
