@@ -310,7 +310,39 @@
 <script>(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
 
     <!-- SCRIPT CHÍNH TẢI BÀI HIỆU NĂNG CAO -->
-    <script>const GITHUB_CONFIG={owner:"saobay",repo:"saobay.github.io",branch:"main"},API_URL="https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec";let currentUser=null,driveFolders=[],driveFiles=[],currentMode="theory";const notifyChannel=new BroadcastChannel("saobay_notifications");notifyChannel.onmessage=e=>{!e.data||"REFRESH_LESSON_LIST"!==e.data.action&&"NEW_CONTENT_PUSHED"!==e.data.type||syncSystemData(!1)};let _reportCtx={type:"",title:"",path:""};
+    <script>/* === SAOBAY usage tracking (2026-10-10): dem GAS calls + pageview, sync len data/stats/usage.json === */
+(function(){
+if(window.__sbUsageTracked)return;window.__sbUsageTracked=true;
+var GAS_HOST='script.google.com',LS_KEY='sb_usage_pending_v1';
+function todayStr(){try{return new Date().toISOString().slice(0,10);}catch(e){return 'unknown';}}
+function loadPending(){try{var o=JSON.parse(localStorage.getItem(LS_KEY)||'{}');return(o&&typeof o==='object')?o:{};}catch(e){return{};}}
+function savePending(o){try{localStorage.setItem(LS_KEY,JSON.stringify(o));}catch(e){}}
+function bump(f,n){try{var o=loadPending(),d=todayStr();o[d]=o[d]||{gas_calls:0,page_views:0,bytes_est:0};o[d][f]=(+o[d][f]||0)+n;savePending(o);}catch(e){}}
+try{if(window.fetch&&!window.fetch.__sbWrapped){var _of=window.fetch;var _wf=function(){try{var u=arguments[0];var su=String((u&&u.url)||u||'');if(su.indexOf(GAS_HOST)>=0)bump('gas_calls',1);}catch(e){}return _of.apply(this,arguments);};_wf.__sbWrapped=true;window.fetch=_wf;}}catch(e){}
+var _syncing=false;
+async function sbSyncUsage(){
+if(_syncing)return;_syncing=true;
+try{
+var pending=loadPending();
+var dates=Object.keys(pending).filter(function(d){var e=pending[d]||{};return((+e.gas_calls||0)+(+e.page_views||0)+(+e.bytes_est||0))>0;});
+if(!dates.length)return;
+var remote={days:{}};
+try{var r=await fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/data/stats/usage.json?t='+Date.now(),{cache:'no-store'});if(r&&r.ok){var j=await r.json();if(j&&j.days&&typeof j.days==='object')remote=j;}}catch(e){}
+if(!remote.days||typeof remote.days!=='object')remote={days:{}};
+dates.forEach(function(d){var p=pending[d]||{},c=remote.days[d]||{gas_calls:0,page_views:0,bytes_est:0};remote.days[d]={gas_calls:(+c.gas_calls||0)+(+p.gas_calls||0),page_views:(+c.page_views||0)+(+p.page_views||0),bytes_est:(+c.bytes_est||0)+(+p.bytes_est||0)};});
+var all=Object.keys(remote.days).sort();while(all.length>90){delete remote.days[all.shift()];}
+var res=await fetch('https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec',{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},keepalive:true,body:JSON.stringify({type:'PUSH_TO_GITHUB',filePath:'data/stats/usage.json',content:JSON.stringify(remote),commitMessage:'Usage stats sync '+todayStr(),title:'Usage stats sync',author:'saobay-tracker'})});
+var rj=null;try{rj=await res.json();}catch(e){}
+if(rj&&rj.status==='success'){var cur=loadPending();dates.forEach(function(d){var p0=pending[d]||{},c=cur[d]||{gas_calls:0,page_views:0,bytes_est:0};['gas_calls','page_views','bytes_est'].forEach(function(f){c[f]=Math.max(0,(+c[f]||0)-(+p0[f]||0));});cur[d]=c;});savePending(cur);try{localStorage.setItem('sb_usage_last_sync',String(Date.now()));}catch(e){}}
+}catch(e){}finally{_syncing=false;}
+}
+try{setInterval(function(){try{sbSyncUsage();}catch(e){}},30*60*1000+Math.floor(Math.random()*300000));}catch(e){}
+try{window.addEventListener('beforeunload',function(){try{sbSyncUsage();}catch(e){}});}catch(e){}
+var _pv=false;
+function sbRecordPV(){if(_pv)return;_pv=true;try{bump('page_views',1);var b=0;try{var nv=performance.getEntriesByType('navigation')[0];if(nv&&nv.transferSize)b=nv.transferSize;}catch(e){}bump('bytes_est',b>0?b:200000);}catch(e){}}
+try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catch(e){}
+})();
+const GITHUB_CONFIG={owner:"saobay",repo:"saobay.github.io",branch:"main"},API_URL="https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec";let currentUser=null,driveFolders=[],driveFiles=[],currentMode="theory";const notifyChannel=new BroadcastChannel("saobay_notifications");notifyChannel.onmessage=e=>{!e.data||"REFRESH_LESSON_LIST"!==e.data.action&&"NEW_CONTENT_PUSHED"!==e.data.type||syncSystemData(!1)};let _reportCtx={type:"",title:"",path:""};
 /* === SAOBAY exam-schedule-banner: banner thông báo lịch kiểm tra cho HS === */
 let _examScheduleList=[],_examScheduleTimer=null,_examBannerH=0;
 function _examEsc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
