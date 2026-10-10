@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 26: Phép nhân và phép chia phân số</title>
+    <meta name="lesson-title" content="Bài 26: Phép nhân và phép chia phân số">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 26: Phép nhân và phép chia phân số</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 6: Phân số • Bài 26: Phép nhân và phép chia phân số</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 26: Phép nhân và phép chia phân số</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 6: Phân số (Kết nối tri thức với cuộc sống)</p>
+
+<p>Một hình chữ nhật có chiều dài $\frac{3}{4}$m, chiều rộng $\frac{2}{5}$m thì diện tích bằng bao nhiêu? Để trả lời, ta cần biết cách <strong>nhân hai phân số</strong>. Còn muốn chia một phân số cho một phân số, ta dùng <strong>phân số nghịch đảo</strong> — tất cả có trong bài học này.</p>
+
+<!-- 1. Phép nhân hai phân số -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Phép nhân hai phân số</h2>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Quy tắc</p>
+<p class="mt-1">Muốn nhân hai phân số, ta <strong>nhân các tử số với nhau</strong> và <strong>nhân các mẫu số với nhau</strong>:</p>
+<p class="text-center text-lg my-2">$$\frac{a}{b} \cdot \frac{c}{d} = \frac{a \cdot c}{b \cdot d}$$</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>$\frac{2}{3} \cdot \frac{9}{4} = \frac{2 \cdot 9}{3 \cdot 4} = \frac{18}{12} = \frac{3}{2}$.</p>
+</div>
+
+<p><strong>Chú ý:</strong> Nên <strong>rút gọn trước khi nhân</strong> để tính toán gọn hơn. Chẳng hạn: $\frac{2}{3} \cdot \frac{9}{4} = \frac{2 \cdot 9}{3 \cdot 4}$, rút gọn $2$ với $4$ còn $1$ với $2$, rút gọn $3$ với $9$ còn $1$ với $3$, được $\frac{1 \cdot 3}{1 \cdot 2} = \frac{3}{2}$.</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-emerald-800 mb-2">Nhận xét:</p>
+<p>Muốn nhân một số nguyên với một phân số, ta nhân số nguyên với tử số và giữ nguyên mẫu số: $a \cdot \frac{c}{d} = \frac{a \cdot c}{d}$. Ví dụ: $3 \cdot \frac{2}{5} = \frac{6}{5}$.</p>
+</div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Minh hoa phep nhan 2 phan 3 voi 3 phan 4">
+<rect x="2" y="2" width="436" height="276" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="30" font-family="sans-serif" font-size="15" font-weight="bold" fill="#0369a1" text-anchor="middle">Minh họa (2/3) × (3/4) = 6/12 = 1/2</text>
+<rect x="70" y="50" width="300" height="180" fill="#ffffff" stroke="#0c4a6e" stroke-width="2.5"/>
+<rect x="70" y="50" width="200" height="180" fill="#38bdf8" opacity="0.45"/>
+<rect x="70" y="50" width="300" height="135" fill="#34d399" opacity="0.35"/>
+<rect x="70" y="50" width="200" height="135" fill="#0ea5e9" opacity="0.75"/>
+<line x1="170" y1="50" x2="170" y2="230" stroke="#0c4a6e" stroke-width="2"/>
+<line x1="270" y1="50" x2="270" y2="230" stroke="#0c4a6e" stroke-width="2"/>
+<line x1="70" y1="95" x2="370" y2="95" stroke="#0c4a6e" stroke-width="2"/>
+<line x1="70" y1="140" x2="370" y2="140" stroke="#0c4a6e" stroke-width="2"/>
+<line x1="70" y1="185" x2="370" y2="185" stroke="#0c4a6e" stroke-width="2"/>
+<text x="220" y="252" font-family="sans-serif" font-size="14" fill="#475569" text-anchor="middle">Hình chia 3 cột (lấy 2 cột) và 4 hàng (lấy 3 hàng):</text>
+<text x="220" y="270" font-family="sans-serif" font-size="14" fill="#475569" text-anchor="middle">phần giao nhau đậm màu gồm 6 ô trong 12 ô</text>
+</svg></div>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">Tính chất của phép nhân phân số</h3>
+
+<p>Phép nhân phân số có các tính chất: <strong>giao hoán</strong>, <strong>kết hợp</strong>, <strong>nhân với số $1$</strong>, <strong>tính chất phân phối của phép nhân đối với phép cộng</strong>, <strong>nhân với số $0$</strong>:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>$\frac{a}{b} \cdot 1 = 1 \cdot \frac{a}{b} = \frac{a}{b}$;</li>
+<li>$\frac{a}{b} \cdot 0 = 0 \cdot \frac{a}{b} = 0$;</li>
+<li>$\frac{a}{b} \cdot \left(\frac{c}{d} + \frac{e}{f}\right) = \frac{a}{b} \cdot \frac{c}{d} + \frac{a}{b} \cdot \frac{e}{f}$.</li>
+</ul>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ (tính nhanh):</p>
+<p>$\frac{5}{7} \cdot \frac{3}{4} + \frac{5}{7} \cdot \frac{1}{4} = \frac{5}{7} \cdot \left(\frac{3}{4} + \frac{1}{4}\right) = \frac{5}{7} \cdot 1 = \frac{5}{7}$.</p>
+</div>
+
+<!-- 2. Phân số nghịch đảo -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Phân số nghịch đảo</h2>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Định nghĩa</p>
+<p class="mt-1">Hai phân số gọi là <strong>nghịch đảo của nhau</strong> nếu <strong>tích của chúng bằng $1$</strong>.</p>
+<p class="mt-2">Phân số nghịch đảo của $\frac{a}{b}$ là $\frac{b}{a}$ (với $a, b \ne 0$), vì $\frac{a}{b} \cdot \frac{b}{a} = 1$.</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>Phân số nghịch đảo của $\frac{3}{5}$ là $\frac{5}{3}$;</li>
+<li>Phân số nghịch đảo của $\frac{-4}{7}$ là $\frac{-7}{4}$;</li>
+<li>Phân số nghịch đảo của $5$ là $\frac{1}{5}$ (vì $5 = \frac{5}{1}$).</li>
+</ul>
+</div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Minh hoa phan so nghich dao">
+<rect x="2" y="2" width="436" height="176" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="30" font-family="sans-serif" font-size="15" font-weight="bold" fill="#0369a1" text-anchor="middle">Cặp phân số nghịch đảo</text>
+<rect x="60" y="55" width="110" height="70" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+<text x="115" y="98" font-family="sans-serif" font-size="22" font-weight="bold" fill="#0369a1" text-anchor="middle">3/5</text>
+<line x1="185" y1="90" x2="255" y2="90" stroke="#64748b" stroke-width="2"/>
+<polygon points="185,90 197,84 197,96" fill="#64748b"/>
+<polygon points="255,90 243,84 243,96" fill="#64748b"/>
+<rect x="270" y="55" width="110" height="70" rx="8" fill="#d1fae5" stroke="#059669" stroke-width="2"/>
+<text x="325" y="98" font-family="sans-serif" font-size="22" font-weight="bold" fill="#065f46" text-anchor="middle">5/3</text>
+<text x="220" y="152" font-family="sans-serif" font-size="15" fill="#475569" text-anchor="middle">(3/5) × (5/3) = 15/15 = 1</text>
+</svg></div>
+
+<!-- 3. Phép chia phân số -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Phép chia phân số</h2>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Quy tắc</p>
+<p class="mt-1">Muốn chia một phân số cho một phân số, ta lấy phân số thứ nhất <strong>nhân với phân số nghịch đảo</strong> của phân số thứ hai:</p>
+<p class="text-center text-lg my-2">$$\frac{a}{b} : \frac{c}{d} = \frac{a}{b} \cdot \frac{d}{c} \quad (c \ne 0)$$</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>$\frac{5}{6} : \frac{2}{3} = \frac{5}{6} \cdot \frac{3}{2} = \frac{15}{12} = \frac{5}{4}$.</p>
+</div>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-emerald-800 mb-2">Nhận xét:</p>
+<p>Muốn chia một phân số cho một số nguyên (khác $0$), ta nhân mẫu số của phân số với số nguyên đó và giữ nguyên tử số: $\frac{a}{b} : c = \frac{a}{b \cdot c}$ (với $c \ne 0$). Ví dụ: $\frac{4}{7} : 2 = \frac{4}{14} = \frac{2}{7}$.</p>
+</div>
+
+<!-- Bài tập vận dụng -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Bài tập vận dụng</h2>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-emerald-800 mb-2">Bài tập ví dụ 1 (có lời giải):</p>
+<p>Tính $\frac{3}{4} \cdot \frac{8}{9} : \frac{2}{3}$.</p>
+<p class="mt-2"><strong>Lời giải:</strong> $\frac{3}{4} \cdot \frac{8}{9} : \frac{2}{3} = \frac{3}{4} \cdot \frac{8}{9} \cdot \frac{3}{2} = \frac{3 \cdot 8 \cdot 3}{4 \cdot 9 \cdot 2} = \frac{72}{72} = 1$.</p>
+</div>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-emerald-800 mb-2">Bài tập ví dụ 2 (có lời giải):</p>
+<p>Một hình chữ nhật có diện tích $\frac{3}{10}$m², chiều dài $\frac{3}{4}$m. Tính chiều rộng của hình chữ nhật.</p>
+<p class="mt-2"><strong>Lời giải:</strong> Chiều rộng của hình chữ nhật là:</p>
+<p class="text-center text-lg my-2">$$\frac{3}{10} : \frac{3}{4} = \frac{3}{10} \cdot \frac{4}{3} = \frac{12}{30} = \frac{2}{5} \text{ (m)}$$</p>
+</div>
+
+<!-- Bảng tóm tắt -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Nội dung</td><td class="border border-slate-300 px-4 py-1">Quy tắc</td><td class="border border-slate-300 px-4 py-1">Ví dụ</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Nhân hai phân số</td><td class="border border-slate-300 px-4 py-1">$\frac{a}{b} \cdot \frac{c}{d} = \frac{a \cdot c}{b \cdot d}$</td><td class="border border-slate-300 px-4 py-1">$\frac{2}{3} \cdot \frac{9}{4} = \frac{3}{2}$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Nhân với số nguyên</td><td class="border border-slate-300 px-4 py-1">$a \cdot \frac{c}{d} = \frac{a \cdot c}{d}$</td><td class="border border-slate-300 px-4 py-1">$3 \cdot \frac{2}{5} = \frac{6}{5}$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Tính chất phép nhân</td><td class="border border-slate-300 px-4 py-1">Giao hoán, kết hợp, nhân với $1$, phân phối, nhân với $0$</td><td class="border border-slate-300 px-4 py-1">$\frac{5}{7} \cdot \frac{3}{4} + \frac{5}{7} \cdot \frac{1}{4} = \frac{5}{7}$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Phân số nghịch đảo</td><td class="border border-slate-300 px-4 py-1">Nghịch đảo của $\frac{a}{b}$ là $\frac{b}{a}$ ($a, b \ne 0$)</td><td class="border border-slate-300 px-4 py-1">Nghịch đảo của $\frac{3}{5}$ là $\frac{5}{3}$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Chia hai phân số</td><td class="border border-slate-300 px-4 py-1">$\frac{a}{b} : \frac{c}{d} = \frac{a}{b} \cdot \frac{d}{c}$</td><td class="border border-slate-300 px-4 py-1">$\frac{5}{6} : \frac{2}{3} = \frac{5}{4}$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Chia cho số nguyên</td><td class="border border-slate-300 px-4 py-1">$\frac{a}{b} : c = \frac{a}{b \cdot c}$ ($c \ne 0$)</td><td class="border border-slate-300 px-4 py-1">$\frac{4}{7} : 2 = \frac{2}{7}$</td></tr>
+</table></div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
