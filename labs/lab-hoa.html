@@ -183,7 +183,14 @@ document.querySelectorAll('.tab-btn').forEach(function(b){
     b.classList.add('active');
     document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.add('hidden'); });
     document.getElementById('tab-' + b.dataset.tab).classList.remove('hidden');
-    if (window.__fitAll) { try { window.__fitAll(); } catch(e){} }
+    // Fit sau 1 frame + dự phòng 300ms để chắc chắn layout đã xong
+    // (fix dứt điểm canvas trắng khi chuyển tab)
+    requestAnimationFrame(function(){
+      if (window.__fitAll) { try { window.__fitAll(); } catch(e){} }
+    });
+    setTimeout(function(){
+      if (window.__fitAll) { try { window.__fitAll(); } catch(e){} }
+    }, 300);
   });
 });
 function fitCanvas(cv){
@@ -355,6 +362,11 @@ window.__refits = window.__refits || [];
 
   var __mixT = 0;
   function draw(){
+    // Tự phục hồi: nếu canvas đã hiện mà G còn ở trạng thái hidden → fit lại ngay
+    if (G.hidden && cv.offsetParent && cv.clientWidth > 0){
+      var g2 = fitCanvas(cv);
+      if (g2 && !g2.hidden) G = g2;
+    }
     var ctx = G.ctx, W = G.w, H = G.h;
     ctx.clearRect(0,0,W,H);
     __mixT += 0.06;
@@ -428,6 +440,11 @@ window.__refits = window.__refits || [];
   var __stars = [];
   for (var sti=0; sti<70; sti++){ __stars.push([Math.random(), Math.random(), Math.random()*1.6+0.4, Math.random()*2*Math.PI]); }
   function draw(){
+    // Tự phục hồi: nếu canvas đã hiện mà G còn ở trạng thái hidden → fit lại ngay
+    if (G.hidden && cv.offsetParent && cv.clientWidth > 0){
+      var g2 = fitCanvas(cv);
+      if (g2 && !g2.hidden) G = g2;
+    }
     var ctx = G.ctx, W = G.w, H = G.h;
     ctx.clearRect(0,0,W,H);
     t += 0.02;
