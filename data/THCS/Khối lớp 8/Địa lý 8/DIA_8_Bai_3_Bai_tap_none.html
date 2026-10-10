@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 3: Khí hậu Việt Nam - Bài tập</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: system-ui, sans-serif; padding: 16px; line-height: 1.6; }
+        .question { background: white; padding: 16px; margin: 12px 0; border-radius: 8px; border: 1px solid #e2e8f0; }
+        .options label { display: block; padding: 8px; margin: 4px 0; background: #f8fafc; border-radius: 4px; cursor: pointer; }
+        .options label:hover { background: #e0f2fe; }
+    </style>
+</head>
+<body class="bg-slate-50">
+<div class="max-w-3xl mx-auto">
+<h1 class="text-2xl font-bold mb-4">Bài 3: Khí hậu Việt Nam - Bài tập</h1>
+<div class="question">
+<p class="font-semibold mb-2">Câu 1: Khí hậu Việt Nam mang tính chất nào?</p>
+<div class="options">
+<label><input type="radio" name="q1" value="A"> A. Ôn đới hải dương</label>
+<label><input type="radio" name="q1" value="B"> B. Nhiệt đới ẩm gió mùa</label>
+<label><input type="radio" name="q1" value="C"> C. Cận nhiệt đới khô</label>
+<label><input type="radio" name="q1" value="D"> D. Hàn đới</label>
+</div>
+<button onclick="checkAnswer('q1', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q1" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 2: Lượng mưa trung bình năm ở nước ta khoảng bao nhiêu?</p>
+<div class="options">
+<label><input type="radio" name="q2" value="A"> A. 500 - 800 mm</label>
+<label><input type="radio" name="q2" value="B"> B. 1.500 - 2.000 mm</label>
+<label><input type="radio" name="q2" value="C"> C. 800 - 1.200 mm</label>
+<label><input type="radio" name="q2" value="D"> D. Trên 3.000 mm</label>
+</div>
+<button onclick="checkAnswer('q2', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q2" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 3: Loại gió gây mưa lớn vào mùa hạ ở nước ta là loại gió nào?</p>
+<div class="options">
+<label><input type="radio" name="q3" value="A"> A. Gió mùa Đông Bắc</label>
+<label><input type="radio" name="q3" value="B"> B. Gió mùa Tây Nam</label>
+<label><input type="radio" name="q3" value="C"> C. Gió Tây ôn đới</label>
+<label><input type="radio" name="q3" value="D"> D. Gió phơn khô nóng</label>
+</div>
+<button onclick="checkAnswer('q3', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q3" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 4: Gió mùa Đông Bắc gây ra hiện tượng thời tiết nào ở miền Bắc vào mùa đông?</p>
+<div class="options">
+<label><input type="radio" name="q4" value="A"> A. Nóng và khô</label>
+<label><input type="radio" name="q4" value="B"> B. Mùa đông lạnh</label>
+<label><input type="radio" name="q4" value="C"> C. Mưa phùn quanh năm</label>
+<label><input type="radio" name="q4" value="D"> D. Nắng nóng gay gắt</label>
+</div>
+<button onclick="checkAnswer('q4', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q4" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 5: Nhân tố nào quyết định tính chất gió mùa của khí hậu nước ta?</p>
+<div class="options">
+<label><input type="radio" name="q5" value="A"> A. Địa hình</label>
+<label><input type="radio" name="q5" value="B"> B. Vị trí gần biển</label>
+<label><input type="radio" name="q5" value="C"> C. Hoàn lưu gió mùa</label>
+<label><input type="radio" name="q5" value="D"> D. Vĩ độ địa lí</label>
+</div>
+<button onclick="checkAnswer('q5', 'C')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q5" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 6: Miền Nam nước ta có đặc điểm khí hậu nào?</p>
+<div class="options">
+<label><input type="radio" name="q6" value="A"> A. Có mùa đông lạnh</label>
+<label><input type="radio" name="q6" value="B"> B. Nóng quanh năm, phân hai mùa mưa - khô rõ rệt</label>
+<label><input type="radio" name="q6" value="C"> C. Mát mẻ quanh năm</label>
+<label><input type="radio" name="q6" value="D"> D. Khô hạn quanh năm</label>
+</div>
+<button onclick="checkAnswer('q6', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q6" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 7: Càng lên cao, nhiệt độ không khí thay đổi như thế nào?</p>
+<div class="options">
+<label><input type="radio" name="q7" value="A"> A. Càng tăng</label>
+<label><input type="radio" name="q7" value="B"> B. Không thay đổi</label>
+<label><input type="radio" name="q7" value="C"> C. Càng giảm</label>
+<label><input type="radio" name="q7" value="D"> D. Lúc tăng lúc giảm thất thường</label>
+</div>
+<button onclick="checkAnswer('q7', 'C')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q7" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 8: Thiên tai nào sau đây thường xuyên xảy ra ở nước ta?</p>
+<div class="options">
+<label><input type="radio" name="q8" value="A"> A. Động đất mạnh</label>
+<label><input type="radio" name="q8" value="B"> B. Bão và lũ lụt</label>
+<label><input type="radio" name="q8" value="C"> C. Núi lửa phun trào</label>
+<label><input type="radio" name="q8" value="D"> D. Sóng thần lớn</label>
+</div>
+<button onclick="checkAnswer('q8', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q8" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 9: Nơi nào ở nước ta có thể có tuyết rơi vào mùa đông?</p>
+<div class="options">
+<label><input type="radio" name="q9" value="A"> A. Đồng bằng sông Cửu Long</label>
+<label><input type="radio" name="q9" value="B"> B. Sa Pa (Lào Cai)</label>
+<label><input type="radio" name="q9" value="C"> C. Nha Trang (Khánh Hòa)</label>
+<label><input type="radio" name="q9" value="D"> D. Phú Quốc (Kiên Giang)</label>
+</div>
+<button onclick="checkAnswer('q9', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q9" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 10: Biện pháp nào sau đây giúp ứng phó với biến đổi khí hậu?</p>
+<div class="options">
+<label><input type="radio" name="q10" value="A"> A. Chặt phá rừng đầu nguồn</label>
+<label><input type="radio" name="q10" value="B"> B. Dự báo sớm, phòng tránh thiên tai và trồng rừng phòng hộ</label>
+<label><input type="radio" name="q10" value="C"> C. Xả rác thải ra biển</label>
+<label><input type="radio" name="q10" value="D"> D. Khai thác cát bừa bãi ở lòng sông</label>
+</div>
+<button onclick="checkAnswer('q10', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q10" class="mt-2"></div>
+</div>
+</div>
+<script>
+function checkAnswer(qid, correct) {
+    const selected = document.querySelector(`input[name="${qid}"]:checked`);
+    const feedback = document.getElementById(`fb-${qid}`);
+    if (!selected) { feedback.innerHTML = '<span class="text-orange-600">Hãy chọn đáp án!</span>'; return; }
+    if (selected.value === correct) {
+        feedback.innerHTML = '<span class="text-green-600 font-bold">✓ Đúng!</span>';
+    } else {
+        feedback.innerHTML = '<span class="text-red-600">✗ Chưa đúng. Đáp án đúng: ' + correct + '</span>';
+    }
+}
+</script>
+</body>
+</html>
