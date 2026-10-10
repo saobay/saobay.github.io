@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 40: Biểu đồ cột</title>
+    <meta name="lesson-title" content="Bài 40: Biểu đồ cột">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 40: Biểu đồ cột</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 9: Dữ liệu và xác suất thực nghiệm • Bài 40: Biểu đồ cột</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 40: Biểu đồ cột</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 9: Dữ liệu và xác suất thực nghiệm (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Biểu đồ cột là gì? -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Biểu đồ cột là gì?</h2>
+
+<p><strong>Biểu đồ cột</strong> thể hiện số liệu bằng các <strong>cột hình chữ nhật</strong>: chiều cao của mỗi cột <strong>tỉ lệ</strong> với số liệu mà nó thể hiện (số liệu càng lớn, cột càng cao). Các cột có <strong>cùng chiều rộng</strong> và được vẽ <strong>cách đều nhau</strong>.</p>
+
+<p>Một biểu đồ cột thường có:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Trục ngang</strong> (nằm ngang): ghi <strong>tên các đối tượng</strong> (ví dụ các môn thể thao, các lớp, các tháng...).</li>
+<li><strong>Trục dọc</strong> (thẳng đứng): ghi <strong>số lượng</strong> với các vạch chia đều nhau (ví dụ $0, 2, 4, 6, \dots$).</li>
+<li><strong>Tên của biểu đồ</strong> cho biết biểu đồ nói về điều gì.</li>
+</ul>
+
+<div class="svg-fig"><svg viewBox="0 0 440 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bieu do cot so ban thich cac mon the thao">
+<rect x="2" y="2" width="436" height="296" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="237" y="24" font-family="sans-serif" font-size="15" font-weight="bold" fill="#0c4a6e" text-anchor="middle">Số bạn thích các môn thể thao của lớp 6A</text>
+<line x1="50" y1="217" x2="425" y2="217" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4,3"/>
+<line x1="50" y1="184" x2="425" y2="184" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4,3"/>
+<line x1="50" y1="151" x2="425" y2="151" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4,3"/>
+<line x1="50" y1="119" x2="425" y2="119" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4,3"/>
+<line x1="50" y1="86" x2="425" y2="86" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4,3"/>
+<line x1="50" y1="53" x2="425" y2="53" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4,3"/>
+<line x1="50" y1="20" x2="425" y2="20" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4,3"/>
+<rect x="72" y="53" width="48" height="197" fill="#38bdf8" stroke="#0369a1" stroke-width="1.5"/>
+<rect x="165" y="119" width="48" height="131" fill="#34d399" stroke="#065f46" stroke-width="1.5"/>
+<rect x="257" y="86" width="48" height="164" fill="#fbbf24" stroke="#b45309" stroke-width="1.5"/>
+<rect x="350" y="151" width="48" height="99" fill="#f472b6" stroke="#be185d" stroke-width="1.5"/>
+<text x="96" y="46" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0c4a6e" text-anchor="middle">12</text>
+<text x="189" y="112" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0c4a6e" text-anchor="middle">8</text>
+<text x="281" y="79" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0c4a6e" text-anchor="middle">10</text>
+<text x="374" y="144" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0c4a6e" text-anchor="middle">6</text>
+<line x1="50" y1="250" x2="50" y2="20" stroke="#334155" stroke-width="2"/>
+<line x1="50" y1="250" x2="428" y2="250" stroke="#334155" stroke-width="2"/>
+<text x="42" y="254" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="end">0</text>
+<text x="42" y="221" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="end">2</text>
+<text x="42" y="188" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="end">4</text>
+<text x="42" y="155" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="end">6</text>
+<text x="42" y="123" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="end">8</text>
+<text x="42" y="90" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="end">10</text>
+<text x="42" y="57" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="end">12</text>
+<text x="42" y="24" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="end">14</text>
+<text x="96" y="270" font-family="sans-serif" font-size="13" fill="#334155" text-anchor="middle">Bóng đá</text>
+<text x="189" y="270" font-family="sans-serif" font-size="13" fill="#334155" text-anchor="middle">Cầu lông</text>
+<text x="281" y="270" font-family="sans-serif" font-size="13" fill="#334155" text-anchor="middle">Bơi lội</text>
+<text x="374" y="270" font-family="sans-serif" font-size="13" fill="#334155" text-anchor="middle">Cờ vua</text>
+<text x="14" y="140" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle" transform="rotate(-90 14 140)">Số bạn</text>
+</svg></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Trong <strong>biểu đồ cột</strong>, chiều cao mỗi cột <strong>tỉ lệ với số liệu</strong>: cột càng cao thì số liệu càng lớn. Trục ngang ghi <strong>tên đối tượng</strong>, trục dọc ghi <strong>số lượng</strong>.</p>
+</div>
+
+<!-- 2. Đọc biểu đồ cột -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Đọc biểu đồ cột</h2>
+
+<p>Để đọc biểu đồ cột, ta làm như sau:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Đọc <strong>tên biểu đồ</strong> và <strong>tên hai trục</strong> để biết biểu đồ nói về điều gì.</li>
+<li>Để tìm số liệu của một đối tượng: nhìn <strong>cột</strong> của đối tượng đó, <strong>gióng ngang</strong> sang <strong>trục dọc</strong> để đọc giá trị (hoặc đọc con số ghi trên đầu cột nếu có).</li>
+<li><strong>So sánh</strong> chiều cao các cột để biết đối tượng nào có số liệu lớn nhất, nhỏ nhất.</li>
+<li>Có thể <strong>tính tổng, hiệu</strong> các số liệu khi cần.</li>
+</ul>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-emerald-800 mb-2">Bài tập ví dụ (có lời giải):</p>
+<p>Quan sát biểu đồ cột "Số bạn thích các môn thể thao của lớp 6A" ở trên. Hỏi:</p>
+<p class="mt-1">a) Có bao nhiêu bạn thích bơi lội?</p>
+<p>b) Môn thể thao nào được ít bạn yêu thích nhất?</p>
+<p>c) Số bạn thích bóng đá nhiều hơn số bạn thích cờ vua bao nhiêu bạn?</p>
+<p class="mt-2"><strong>Lời giải:</strong></p>
+<p>a) Cột "Bơi lội" gióng sang trục dọc được giá trị $10$. Vậy có $10$ bạn thích bơi lội.</p>
+<p>b) Cột "Cờ vua" thấp nhất (giá trị $6$) nên môn <strong>cờ vua</strong> được ít bạn yêu thích nhất.</p>
+<p>c) Số bạn thích bóng đá là $12$, số bạn thích cờ vua là $6$. Hiệu là $12 - 6 = 6$ (bạn).</p>
+</div>
+
+<!-- 3. Vẽ biểu đồ cột -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Vẽ biểu đồ cột</h2>
+
+<p><strong>Các bước vẽ biểu đồ cột</strong> từ bảng số liệu:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Bước 1:</strong> Vẽ hai trục <strong>vuông góc</strong> với nhau: trục ngang ghi tên các đối tượng, trục dọc ghi số lượng.</li>
+<li><strong>Bước 2:</strong> Trên trục dọc, <strong>chia các vạch đều nhau</strong> theo tỉ lệ phù hợp (ví dụ $0, 2, 4, 6, \dots$).</li>
+<li><strong>Bước 3:</strong> Vẽ các <strong>cột hình chữ nhật</strong> có <strong>cùng chiều rộng</strong>, cách đều nhau; <strong>chiều cao</strong> mỗi cột tương ứng với số liệu của đối tượng đó. Có thể ghi số liệu trên đầu mỗi cột.</li>
+<li><strong>Bước 4:</strong> Ghi <strong>tên biểu đồ</strong>.</li>
+</ul>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Từ bảng thống kê số quyển sách các tổ đọc được (Tổ 1: $24$, Tổ 2: $16$, Tổ 3: $20$, Tổ 4: $12$), ta vẽ biểu đồ cột với trục ngang ghi "Tổ 1, Tổ 2, Tổ 3, Tổ 4", trục dọc chia vạch $0, 5, 10, 15, 20, 25$, rồi vẽ $4$ cột có chiều cao lần lượt là $24, 16, 20, 12$.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><strong>Vẽ biểu đồ cột:</strong> vẽ hai trục vuông góc → chia vạch đều trên trục dọc → vẽ các cột <strong>cùng chiều rộng, cách đều nhau</strong>, chiều cao <strong>tỉ lệ với số liệu</strong> → ghi tên biểu đồ.</p>
+</div>
+
+<!-- Tóm tắt -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Nội dung</td><td class="border border-slate-300 px-4 py-1">Kiến thức cần nhớ</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Biểu đồ cột</td><td class="border border-slate-300 px-4 py-1">Các cột hình chữ nhật; chiều cao tỉ lệ với số liệu; các cột cùng chiều rộng, cách đều nhau</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Hai trục</td><td class="border border-slate-300 px-4 py-1">Trục ngang ghi tên đối tượng; trục dọc ghi số lượng (chia vạch đều)</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Đọc biểu đồ cột</td><td class="border border-slate-300 px-4 py-1">Gióng cột sang trục dọc để đọc giá trị; so sánh chiều cao các cột; tính tổng, hiệu</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Vẽ biểu đồ cột</td><td class="border border-slate-300 px-4 py-1">Vẽ 2 trục vuông góc → chia vạch → vẽ cột theo số liệu → ghi tên biểu đồ</td></tr>
+</table></div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
