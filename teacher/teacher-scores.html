@@ -356,8 +356,11 @@ body{font-family:system-ui,-apple-system,sans-serif}
             });
             h += '</tbody></table>';
         } else {
-            h += '<p class="text-xs text-slate-400 italic">Không có chi tiết từng câu trong file điểm này.</p>';
-            h += '<pre class="text-[10px] bg-slate-50 border rounded p-2 mt-2 overflow-x-auto">' + esc(JSON.stringify(r, null, 1).substring(0, 2000)) + '</pre>';
+            h += '<div class="text-center py-8">';
+            h += '<div class="text-4xl mb-3">📋</div>';
+            h += '<p class="text-sm text-slate-500">Bài nộp này chỉ lưu điểm tổng, không có chi tiết từng câu.</p>';
+            h += '<p class="text-xs text-slate-400 mt-1">Các bài nộp mới sẽ hiện chi tiết đầy đủ tại đây.</p>';
+            h += '</div>';
         }
         h += '</div>';
         var m = document.getElementById('score-detail-modal');
