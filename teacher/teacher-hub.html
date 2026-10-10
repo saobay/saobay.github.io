@@ -71,6 +71,10 @@
                 <i class="fa-solid fa-palette mr-1"></i> Tùy Chỉnh Giao Diện
             </button>
 
+            <button id="admin-inline-edit-btn" onclick="toggleInlineEdit()" title="Bấm vào chữ/nút bất kỳ trên trang để sửa trực tiếp tại chỗ (admin)" class="hidden bg-orange-500 hover:bg-orange-400 text-white font-bold text-xs px-3 py-2 rounded-lg transition flex items-center shadow">
+                <span data-ui-label="inline_edit">✏️ Sửa giao diện</span>
+            </button>
+
             <a href="teacher-scores.html" title="Bảng điểm học sinh theo phân công" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-3 py-2 rounded-lg transition flex items-center shadow">
                 <i class="fa-solid fa-chart-column mr-1"></i> Bảng Điểm
             </a>
@@ -592,11 +596,11 @@
 
                 </div>
                 <!-- BỘ TẠO PROMPT NOTEBOOKLM NHANH -->
-                <div id="bo-tao-prompt-box" class="bg-gradient-to-r from-amber-50 via-orange-50 to-amber-50 border-2 border-amber-500 p-3.5 rounded-xl space-y-3 shadow-md">
-                    <div class="flex items-center border-b-2 border-amber-400 pb-2">
+                <div id="bo-tao-prompt-box" class="bg-slate-50 border border-slate-200 p-3.5 rounded-xl space-y-3">
+                    <div class="flex items-center border-b border-slate-200 pb-2">
                         <div class="flex items-center space-x-2">
-                            <i class="fa-solid fa-wand-magic-sparkles text-amber-600 text-lg"></i>
-                            <h3 class="text-sm font-extrabold uppercase text-amber-800 tracking-wide">&#9889; Tạo Prompt NotebookLM Nhanh</h3>
+                            <i class="fa-solid fa-wand-magic-sparkles text-amber-500 text-base"></i>
+                            <h3 class="text-xs font-bold uppercase text-slate-800">Tạo Prompt NotebookLM Nhanh</h3>
                         </div>
                     </div>
 
@@ -692,30 +696,26 @@
                     <!-- COPY PROMPT BÀI HỌC — đặt sau khi điền xong thông tin (2026-10-10) -->
                     <div id="theory-copy-prompt-box" class="bg-emerald-50/70 p-2.5 rounded-xl border border-emerald-200 space-y-2">
                         <p class="text-[11px] font-bold text-emerald-900"><i class="fa-solid fa-list-check mr-1.5 text-emerald-600"></i>Đã điền xong Môn / Khối / Chương / Bài và Tiêu đề? Bấm để copy prompt:</p>
-                        <div class="flex items-center justify-center gap-3 flex-wrap">
-                            <button type="button" onclick="generateAndCopyPrompt('KNOWLEDGE')" class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs px-4 py-1.5 rounded-lg font-bold shadow transition flex items-center">
-                                <i class="fa-solid fa-copy mr-1.5"></i> Copy Prompt Bài Học
-                            </button>
-                            <a href="https://docs.google.com/document/d/1fXvNSlbTHAKpzfMmTxuW_0D5mzkFnzW0sM78-UVzIKM/export?format=docx" target="_blank" class="text-emerald-700 font-bold text-[11px] hover:underline flex items-center">
-                                <i class="fa-solid fa-cloud-arrow-down mr-1"></i> Tải Quy Ước (.docx)
-                            </a>
-                        </div>
+                        <button type="button" onclick="generateAndCopyPrompt('KNOWLEDGE')" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white text-sm px-3 py-2.5 rounded-lg font-bold shadow transition flex items-center justify-center">
+                            <i class="fa-solid fa-copy mr-2"></i> Copy Prompt Bài Học
+                        </button>
+                        <a href="https://docs.google.com/document/d/1fXvNSlbTHAKpzfMmTxuW_0D5mzkFnzW0sM78-UVzIKM/export?format=docx" target="_blank" class="text-emerald-700 font-bold text-xs hover:underline flex items-center justify-center">
+                            <i class="fa-solid fa-cloud-arrow-down mr-1.5"></i> Tải Quy Ước Bài Học (.docx)
+                        </a>
                     </div>
 
                     <!-- COPY PROMPT BÀI TẬP — chỉ hiện ở chế độ Đẩy Bài Tập (2026-10-10) -->
                     <div id="exercise-copy-prompt-box" class="bg-amber-50/70 p-2.5 rounded-xl border border-amber-200 space-y-2" style="display:none">
                         <p class="text-[11px] font-bold text-amber-900"><i class="fa-solid fa-list-check mr-1.5 text-amber-600"></i>Đã điền xong Môn / Khối / Chương / Bài và Tiêu đề bài tập? Bấm để copy prompt:</p>
-                        <div class="flex items-center justify-center gap-3 flex-wrap">
-                            <button type="button" onclick="generateAndCopyPrompt('EXERCISE')" class="bg-amber-600 hover:bg-amber-700 text-white text-xs px-4 py-1.5 rounded-lg font-bold shadow transition flex items-center">
-                                <i class="fa-solid fa-copy mr-1.5"></i> Copy Prompt Bài Tập
-                            </button>
-                        </div>
+                        <button type="button" onclick="generateAndCopyPrompt('EXERCISE')" class="w-full bg-amber-600 hover:bg-amber-700 text-white text-sm px-3 py-2.5 rounded-lg font-bold shadow transition flex items-center justify-center">
+                            <i class="fa-solid fa-copy mr-2"></i> Copy Prompt Bài Tập
+                        </button>
                         <p class="text-[10px] text-slate-600 leading-snug text-center">Copy prompt → dán cho AI (NotebookLM/Gemini) → AI trả code HTML → dán vào khung soạn bên dưới → chọn đúng thư mục bài → Đẩy bài.</p>
                     </div>
 
                     <!-- THANH TẢI HỌC LIỆU & DÁN TỪ NOTEBOOKLM -->
-                    <div class="bg-gradient-to-r from-blue-100 via-sky-50 to-blue-100 border-2 border-blue-500 rounded-xl p-3 space-y-2 shadow-md">
-                        <p class="text-sm font-extrabold text-blue-900"><i class="fa-solid fa-cloud-arrow-up mr-1.5 text-blue-700 text-base"></i>&#128228; Đưa nội dung bài học lên web</p>
+                    <div class="bg-blue-50/70 border border-blue-200 rounded-xl p-2.5 space-y-2">
+                        <p class="text-[11px] font-bold text-blue-900"><i class="fa-solid fa-cloud-arrow-up mr-1.5 text-blue-600"></i>Đưa nội dung bài học lên web</p>
                         <p class="text-[10px] text-slate-600 leading-snug">Sau khi NotebookLM trả nội dung: <b>dán trực tiếp</b> vào khung soạn, hoặc <b>tải file Word (.docx)</b> đã soạn theo quy ước lên đây — hệ thống sẽ đưa bài học lên website.</p>
                     <div class="bg-slate-50 border border-slate-200 p-2.5 rounded-xl flex flex-wrap items-center justify-between gap-3">
                         <div class="flex items-center space-x-2 flex-1 min-w-[280px]">
@@ -1491,6 +1491,7 @@
     <script src="hub-reports.js?v=20261009_1"></script>
 <script src="hub-groups.js?v=20261010_1"></script>
     <script src="hub-uilabels.js?v=20261010"></script>
+    <script src="hub-inline-edit.js?v=20261010_1"></script>
     <script src="hub-examsched.js?v=20261010"></script>
     <script>
         // ============================================================
