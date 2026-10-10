@@ -1444,12 +1444,15 @@
                 if (typeof switchExamSubMode === 'function'){ try { switchExamSubMode('create'); } catch(e){} }
             } else if (method === 'manual'){
                 // Tự đẩy: hiện direct panel (Word/dán tay) + form
+                // FIX 2026-10-10: gọi switchPushMode('direct') TRƯỚC vì bên trong nó gọi
+                // switchExamSubMode('create') sẽ ẩn direct-panel; gọi switchExamSubMode('edit')
+                // SAU CÙNG để panel hiện đúng.
+                if (typeof switchPushMode === 'function'){ try { switchPushMode('direct'); } catch(e){} }
                 if (directPanel){ directPanel.style.display = ''; directPanel.classList.add('open'); }
                 if (bankPanel){ bankPanel.style.display = 'none'; }
                 if (promptBox) promptBox.classList.add('hidden');
                 if (formBox) formBox.classList.remove('hidden');
                 if (typeof switchExamSubMode === 'function'){ try { switchExamSubMode('edit'); } catch(e){} }
-                if (typeof switchPushMode === 'function'){ try { switchPushMode('direct'); } catch(e){} }
             }
         }
 
