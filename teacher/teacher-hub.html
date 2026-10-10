@@ -232,11 +232,29 @@
                 <!-- MA TRẬN ĐỀ CHUNG + 3 CÁCH TẠO ĐỀ (thiết kế mới 2026-10-09)   -->
                 <!-- ============================================================ -->
                 <div id="exam-method-section" class="hidden space-y-3">
-                    <!-- MA TRẬN CHUNG -->
-                    <div class="bg-violet-50 border border-violet-200 rounded-xl p-3 shadow-sm">
+                    <!-- 2 CÁCH TẠO ĐỀ THI (cải tổ 2026-10-10) -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                        <button type="button" id="exam-method-word" onclick="switchExamMethod('word')" class="text-left bg-indigo-50 hover:bg-indigo-100 border-2 border-indigo-300 rounded-xl p-3 transition shadow-sm">
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm font-black text-indigo-900"><i class="fa-solid fa-upload mr-1"></i> 📤 Đẩy đề thi từ Word lên</span>
+                                <i class="fa-solid fa-chevron-down text-indigo-400 text-xs method-chev"></i>
+                            </div>
+                            <p class="text-[11px] text-indigo-800 mt-1">Upload file Word — đề thi có sẵn</p>
+                        </button>
+                        <button type="button" id="exam-method-matrix" onclick="switchExamMethod('matrix')" class="text-left bg-violet-50 hover:bg-violet-100 border-2 border-slate-200 rounded-xl p-3 transition shadow-sm">
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm font-black text-violet-900"><i class="fa-solid fa-table-list mr-1"></i> 📋 Tạo ma trận đề thi</span>
+                                <i class="fa-solid fa-chevron-down text-violet-400 text-xs method-chev"></i>
+                            </div>
+                            <p class="text-[11px] text-violet-800 mt-1">Lọc từ ngân hàng đề hoặc tạo prompt cho AI</p>
+                        </button>
+                    </div>
+
+                    <!-- MA TRẬN ĐỀ THI (hiện khi chọn 'Tạo ma trận đề thi') -->
+                    <div id="exam-matrix-panel" class="hidden bg-violet-50 border border-violet-200 rounded-xl p-3 shadow-sm">
                         <div class="flex items-center justify-between mb-2">
                             <h3 class="text-xs font-black uppercase text-violet-900 flex items-center">
-                                <i class="fa-solid fa-table-list mr-2"></i> 📋 Ma trận đề (chung cho cả 3 cách)
+                                <i class="fa-solid fa-table-list mr-2"></i> 📋 Ma trận đề thi
                             </h3>
                             <button type="button" onclick="openExamGuidelineModal()" class="text-[11px] text-indigo-700 hover:underline font-bold">
                                 <i class="fa-solid fa-book-open mr-1"></i> Quy ước đề
@@ -245,11 +263,11 @@
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
                             <div>
                                 <label class="block text-[10px] font-bold text-slate-600 mb-1">Môn học</label>
-                                <input type="text" id="mx-subject" placeholder="VD: Toán" class="w-full px-2 py-1.5 border border-slate-300 rounded-lg text-xs font-semibold">
+                                <input type="text" id="mx-subject" placeholder="VD: Toán" onchange="loadLessonDropdowns()" class="w-full px-2 py-1.5 border border-slate-300 rounded-lg text-xs font-semibold">
                             </div>
                             <div>
                                 <label class="block text-[10px] font-bold text-slate-600 mb-1">Khối lớp</label>
-                                <select id="mx-grade" class="w-full px-2 py-1.5 border border-slate-300 rounded-lg text-xs font-semibold bg-white">
+                                <select id="mx-grade" onchange="loadLessonDropdowns()" class="w-full px-2 py-1.5 border border-slate-300 rounded-lg text-xs font-semibold bg-white">
                                     <option value="6">Lớp 6</option>
                                     <option value="7">Lớp 7</option>
                                     <option value="8">Lớp 8</option>
@@ -259,16 +277,17 @@
                                     <option value="12" selected>Lớp 12</option>
                                 </select>
                             </div>
-                            <div class="col-span-2">
-                                <label class="block text-[10px] font-bold text-slate-600 mb-1">Nội dung kiến thức</label>
-                                <input type="text" id="mx-topic" placeholder="VD: Hàm số bậc hai" class="w-full px-2 py-1.5 border border-slate-300 rounded-lg text-xs font-semibold">
-                                <button type="button" onclick="document.getElementById('mx-topic-examples').classList.toggle('hidden')" class="mt-1 text-[10px] text-violet-600 hover:text-violet-800 font-semibold underline">📋 Xem ví dụ</button>
-                                <div id="mx-topic-examples" class="hidden mt-1 p-2 bg-violet-50 border border-violet-200 rounded-lg text-[10px] text-slate-700 leading-relaxed">
-                                    <div class="font-bold text-violet-700 mb-1">Ví dụ nội dung kiến thức:</div>
-                                    <div><b>Chương 1:</b> Ứng dụng đạo hàm để khảo sát và vẽ đồ thị hàm số</div>
-                                    <div><b>Chương 2:</b> Vectơ và hệ trục tọa độ trong không gian</div>
-                                    <div><b>Chương 3:</b> Các số đặc trưng đo mức độ phân tán của mẫu số liệu ghép nhóm</div>
-                                </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-600 mb-1">Từ bài</label>
+                                <select id="mx-from-lesson" class="w-full px-2 py-1.5 border border-slate-300 rounded-lg text-xs font-semibold bg-white">
+                                    <option value="">-- Chọn bài --</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-600 mb-1">Đến bài</label>
+                                <select id="mx-to-lesson" class="w-full px-2 py-1.5 border border-slate-300 rounded-lg text-xs font-semibold bg-white">
+                                    <option value="">-- Chọn bài --</option>
+                                </select>
                             </div>
                             <div>
                                 <label class="block text-[10px] font-bold text-slate-600 mb-1">Tổng số câu</label>
@@ -304,38 +323,15 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- 3 CÁCH TẠO ĐỀ -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
-                        <button type="button" id="exam-method-bank" onclick="switchExamMethod('bank')" class="text-left bg-amber-50 hover:bg-amber-100 border-2 border-amber-300 rounded-xl p-3 transition shadow-sm">
-                            <div class="flex items-center justify-between">
-                                <span class="text-sm font-black text-amber-900"><i class="fa-solid fa-database mr-1"></i> <span data-ui-label="exam_bank">Soạn đề thi từ bank</span></span>
-                                <i class="fa-solid fa-chevron-down text-amber-500 text-xs method-chev"></i>
-                            </div>
-                            <p class="text-[11px] text-amber-800 mt-1" data-ui-label="exam_bank_sub">Random từ ngân hàng theo ma trận</p>
-                            <div class="flex items-center gap-3 mt-2 text-[11px] font-bold text-amber-900" onclick="event.stopPropagation()">
-                                <label class="flex items-center gap-1"><input type="radio" name="bank-count" value="1" checked class="accent-amber-600"> 1 đề</label>
-                                <label class="flex items-center gap-1"><input type="radio" name="bank-count" value="many" class="accent-amber-600"> Nhiều đề</label>
-                                <input type="number" id="bank-many-n" value="10" min="2" max="50" class="w-14 px-1 py-0.5 border border-amber-300 rounded text-xs hidden" title="Số đề">
-                            </div>
-                        </button>
-                        <button type="button" id="exam-method-ai" onclick="switchExamMethod('ai')" class="text-left bg-violet-50 hover:bg-violet-100 border-2 border-slate-200 rounded-xl p-3 transition shadow-sm">
-                            <div class="flex items-center justify-between">
-                                <span class="text-sm font-black text-violet-900"><i class="fa-solid fa-robot mr-1"></i> <span data-ui-label="exam_ai_new">Soạn đề thi mới từ AI</span></span>
-                                <i class="fa-solid fa-chevron-down text-violet-400 text-xs method-chev"></i>
-                            </div>
-                            <p class="text-[11px] text-violet-800 mt-1">Khóa nội dung theo ma trận, AI soạn đề mới</p>
-                            <p class="text-[10px] font-bold text-rose-600 mt-1">⚠️ Dữ liệu ngoài bank — chỉ lưu vào bank SAU KHI bài kiểm tra hoàn thành</p>
-                        </button>
-                        <button type="button" id="exam-method-manual" onclick="switchExamMethod('manual')" class="text-left bg-indigo-50 hover:bg-indigo-100 border-2 border-slate-200 rounded-xl p-3 transition shadow-sm">
-                            <div class="flex items-center justify-between">
-                                <span class="text-sm font-black text-indigo-900"><i class="fa-solid fa-upload mr-1"></i> <span data-ui-label="exam_word_new">Đẩy đề từ Word lên</span></span>
-                                <i class="fa-solid fa-chevron-down text-indigo-400 text-xs method-chev"></i>
-                            </div>
-                            <p class="text-[11px] text-indigo-800 mt-1">Upload Word / dán tay — GV quản lý nội dung</p>
-                            <p class="text-[10px] font-bold text-rose-600 mt-1">⚠️ Dữ liệu chỉ vào ngân hàng đề chung khi bài thi HS đã xong</p>
-                        </button>
+                        <!-- 2 nút bên dưới ma trận -->
+                        <div class="flex gap-2 mt-3">
+                            <button type="button" onclick="getExamFromLibrary()" class="flex-1 bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition">
+                                <i class="fa-solid fa-database mr-1"></i> Lấy đề từ Thư viện đề
+                            </button>
+                            <button type="button" onclick="copyExamPromptForAI()" class="flex-1 bg-violet-600 hover:bg-violet-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition">
+                                <i class="fa-solid fa-copy mr-1"></i> Copy prompt cho AI tạo đề mới
+                            </button>
+                        </div>
                     </div>
 
                     <!-- LÊN LỊCH KIỂM TRA CHỐNG LỘ ĐỀ (2026-10-10) -->
@@ -361,29 +357,7 @@
                         <p class="text-[10px] text-rose-700 mt-1">Đề kiểm tra được lưu RIÊNG (không vào bank chung). HS chỉ thấy banner thông báo và chỉ mở được đề khi đến giờ.</p>
                     </div>
 
-                    <!-- QUẢN LÝ ĐỀ KIỂM TRA (2026-10-10): danh sách đề chờ + nút hoàn thành/xóa theo quyền -->
-                    <div id="exam-manage-box" class="bg-amber-50 border-2 border-amber-200 rounded-xl p-3 mt-2">
-                        <div class="flex items-center justify-between mb-2">
-                            <p class="text-xs font-black text-amber-900">📋 Đề kiểm tra đang chờ</p>
-                            <button onclick="ExamSched && ExamSched.renderExamManageList('exam-manage-list')" class="text-[10px] px-2 py-1 bg-amber-200 hover:bg-amber-300 rounded font-bold">🔄 Tải lại</button>
-                        </div>
-                        <div id="exam-manage-list" data-exam-manage-list>
-                            <p class="text-xs text-slate-500 italic px-1">Bấm "Tải lại" để xem danh sách.</p>
-                        </div>
-                        <p class="text-[10px] text-amber-700 mt-1">Đề quá 10 ngày sau giờ thi sẽ <b>tự động</b> vào bank. GV thường chỉ sửa được đề của mình <b>trước khi</b> vào bank và <b>không được xóa</b>. Chỉ admin + GV thẩm định được xóa/sửa mọi đề.</p>
-                        <!-- PHÂN QUYỀN THẨM ĐỊNH (chỉ admin) -->
-                        <div id="exam-reviewer-box" class="hidden mt-2 pt-2 border-t border-amber-300">
-                            <p class="text-xs font-black text-amber-900 mb-1">🛡️ Phân quyền thẩm định đề (admin)</p>
-                            <div class="flex gap-1 mb-1">
-                                <input id="exam-reviewer-id" placeholder="Mã GV (VD: GV001)" class="flex-1 px-2 py-1 border border-amber-300 rounded text-xs">
-                                <input id="exam-reviewer-name" placeholder="Tên GV" class="flex-1 px-2 py-1 border border-amber-300 rounded text-xs">
-                                <button onclick="examReviewerAdd()" class="px-2 py-1 bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold rounded">+ Cấp quyền</button>
-                            </div>
-                            <div id="exam-reviewer-list" class="text-xs"></div>
-                        </div>
-                    </div>
-                </div>
-                <script>
+                    <script>
                 // Quản lý GV thẩm định (chỉ admin) — 2026-10-10
                 async function examReviewerRefresh(){
                     try {
@@ -864,7 +838,49 @@
                 <div id="manage-lessons-table-container" class="flex-1 overflow-y-auto space-y-2">
                     <!-- Danh sách bài học được render tại đây -->
                 </div>
-            </div>
+            
+                <!-- QUẢN LÝ ĐỀ KIỂM TRA (admin) - chuyển từ khu vực đề thi 2026-10-10 -->
+                <div id="admin-exam-manage-section" class="hidden mt-4 pt-4 border-t-2 border-slate-200">
+                    <h3 class="font-extrabold text-slate-800 text-base flex items-center mb-3">
+                        <i class="fa-solid fa-shield-halved text-amber-600 mr-2"></i> Quản Lý Đề Kiểm Tra (Admin)
+                    </h3>
+<div id="exam-manage-box" class="bg-amber-50 border-2 border-amber-200 rounded-xl p-3 mt-2">
+                        <div class="flex items-center justify-between mb-2">
+                            <p class="text-xs font-black text-amber-900">📋 Đề kiểm tra đang chờ</p>
+                            <button onclick="ExamSched && ExamSched.renderExamManageList('exam-manage-list')" class="text-[10px] px-2 py-1 bg-amber-200 hover:bg-amber-300 rounded font-bold">🔄 Tải lại</button>
+                        </div>
+                        <div id="exam-manage-list" data-exam-manage-list>
+                            <p class="text-xs text-slate-500 italic px-1">Bấm "Tải lại" để xem danh sách.</p>
+                        </div>
+                        <p class="text-[10px] text-amber-700 mt-1">Đề quá 10 ngày sau giờ thi sẽ <b>tự động</b> vào bank. GV thường chỉ sửa được đề của mình <b>trước khi</b> vào bank và <b>không được xóa</b>. Chỉ admin + GV thẩm định được xóa/sửa mọi đề.</p>
+                        <!-- PHÂN QUYỀN THẨM ĐỊNH (chỉ admin) -->
+                        <div id="exam-reviewer-box" class="hidden mt-2 pt-2 border-t border-amber-300">
+                            <p class="text-xs font-black text-amber-900 mb-1">🛡️ Phân quyền thẩm định đề (admin)</p>
+                            <div class="flex gap-1 mb-1">
+                                <input id="exam-reviewer-id" placeholder="Mã GV (VD: GV001)" class="flex-1 px-2 py-1 border border-amber-300 rounded text-xs">
+                                <input id="exam-reviewer-name" placeholder="Tên GV" class="flex-1 px-2 py-1 border border-amber-300 rounded text-xs">
+                                <button onclick="examReviewerAdd()" class="px-2 py-1 bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold rounded">+ Cấp quyền</button>
+                            </div>
+                            <div id="exam-reviewer-list" class="text-xs"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                </div>
+                <script>
+                // Hiện/ẩn khu vực quản lý đề kiểm tra cho admin
+                (function(){
+                    function toggleAdminExamSection(){
+                        var sec = document.getElementById('admin-exam-manage-section');
+                        if (!sec) return;
+                        var isAdm = window.ExamSched && window.ExamSched.isAdminUser && window.ExamSched.isAdminUser();
+                        sec.classList.toggle('hidden', !isAdm);
+                    }
+                    setTimeout(toggleAdminExamSection, 4000);
+                    setInterval(toggleAdminExamSection, 10000);
+                })();
+                </script>
+</div>
 
             <!-- ======================================================== -->
             <!-- CHỨC NĂNG 3: THẨM ĐỊNH & KIỂM DUYỆT BÀI HỌC -->
@@ -1718,67 +1734,115 @@
         // ========================================================
         // THIẾT KẾ MỚI 2026-10-09: 3 cách tạo đề + ma trận chung
         // ========================================================
-        let currentExamMethod = 'bank'; // 'bank' | 'ai' | 'manual'
+        let currentExamMethod = 'matrix'; // 'word' | 'matrix' (cải tổ 2026-10-10)
 
         // Chuyển đổi 3 cách tạo đề
         function switchExamMethod(method){
             currentExamMethod = method;
 
-            // Đổi màu nút
+            // Đổi màu nút (2 nút: word, matrix)
             let styles = {
-                bank:   ['exam-method-bank',   'bg-amber-50 hover:bg-amber-100 border-amber-300',   'bg-amber-500 text-white shadow'],
-                ai:     ['exam-method-ai',     'bg-violet-50 hover:bg-violet-100 border-slate-200', 'bg-violet-700 text-white shadow'],
-                manual: ['exam-method-manual', 'bg-indigo-50 hover:bg-indigo-100 border-slate-200', 'bg-indigo-700 text-white shadow']
+                word:   ['exam-method-word',   'bg-indigo-50 hover:bg-indigo-100 border-slate-200', 'bg-indigo-700 text-white shadow'],
+                matrix: ['exam-method-matrix', 'bg-violet-50 hover:bg-violet-100 border-slate-200', 'bg-violet-700 text-white shadow']
             };
-            ['bank','ai','manual'].forEach(function(m){
+            ['word','matrix'].forEach(function(m){
                 let btn = document.getElementById(styles[m][0]);
                 if (!btn) return;
                 let isActive = (m === method);
-                // Giữ class gốc, chỉ đổi border khi active
                 btn.classList.toggle('ring-2', isActive);
                 btn.classList.toggle('ring-offset-1', isActive);
-                btn.style.borderColor = isActive ? (m==='bank' ? '#f59e0b' : m==='ai' ? '#7c3aed' : '#4f46e5') : '';
+                btn.style.borderColor = isActive ? (m==='word' ? '#4f46e5' : '#7c3aed') : '';
                 btn.style.borderWidth = isActive ? '2px' : '';
             });
 
-            // Hiện/ẩn các panel tương ứng (giữ nguyên ID để JS cũ chạy)
-            let bankPanel = document.getElementById('exam-builder-panel');
-            let promptBox = document.getElementById('bo-tao-prompt-box');
+            // Hiện/ẩn các panel tương ứng
+            let matrixPanel = document.getElementById('exam-matrix-panel');
             let directPanel = document.getElementById('direct-panel');
             let formBox = document.getElementById('exam-form-box');
-            let examPanel = document.getElementById('prompt-panel-exam');
+            let schedBox = document.getElementById('exam-schedule-box');
 
-            if (examPanel) examPanel.classList.remove('hidden');
-
-            if (method === 'bank'){
-                // Bank: hiện panel ngân hàng, ẩn prompt AI và direct
-                if (bankPanel){ bankPanel.style.display = ''; bankPanel.classList.add('open'); }
-                if (promptBox) promptBox.classList.add('hidden');
-                if (directPanel){ directPanel.style.display = 'none'; }
-                if (formBox) formBox.classList.remove('hidden');
-                // Gọi switchPushMode để đồng bộ state bên trong
-                if (typeof switchPushMode === 'function'){ try { switchPushMode('bank'); } catch(e){} }
-                // Ẩn toggle cũ, hiện section mới
-                let st = document.getElementById('exam-submode-toggle');
-                if (st) st.style.display = 'none';
-            } else if (method === 'ai'){
-                // AI: hiện khung prompt/ma trận, ẩn bank và direct
-                if (promptBox) promptBox.classList.remove('hidden');
-                if (bankPanel){ bankPanel.style.display = 'none'; }
-                if (directPanel){ directPanel.style.display = 'none'; }
-                if (formBox) formBox.classList.remove('hidden');
-                if (typeof switchExamSubMode === 'function'){ try { switchExamSubMode('create'); } catch(e){} }
-            } else if (method === 'manual'){
-                // Tự đẩy: hiện direct panel (Word/dán tay) + form
-                // FIX 2026-10-10: gọi switchPushMode('direct') TRƯỚC vì bên trong nó gọi
-                // switchExamSubMode('create') sẽ ẩn direct-panel; gọi switchExamSubMode('edit')
-                // SAU CÙNG để panel hiện đúng.
-                if (typeof switchPushMode === 'function'){ try { switchPushMode('direct'); } catch(e){} }
+            if (method === 'word'){
+                // Đẩy đề từ Word: hiện direct panel (Word upload)
+                if (matrixPanel) matrixPanel.classList.add('hidden');
                 if (directPanel){ directPanel.style.display = ''; directPanel.classList.add('open'); }
-                if (bankPanel){ bankPanel.style.display = 'none'; }
-                if (promptBox) promptBox.classList.add('hidden');
                 if (formBox) formBox.classList.remove('hidden');
+                if (schedBox) schedBox.classList.remove('hidden');
+                if (typeof switchPushMode === 'function'){ try { switchPushMode('direct'); } catch(e){} }
                 if (typeof switchExamSubMode === 'function'){ try { switchExamSubMode('edit'); } catch(e){} }
+            } else if (method === 'matrix'){
+                // Tạo ma trận đề thi: hiện matrix panel
+                if (matrixPanel) matrixPanel.classList.remove('hidden');
+                if (directPanel){ directPanel.style.display = 'none'; }
+                if (formBox) formBox.classList.remove('hidden');
+                if (schedBox) schedBox.classList.remove('hidden');
+                // Load danh sách bài cho dropdowns
+                if (typeof loadLessonDropdowns === 'function'){ try { loadLessonDropdowns(); } catch(e){} }
+            }
+        }
+
+        // Tải danh sách bài học cho dropdowns Từ bài / Đến bài (2026-10-10)
+        async function loadLessonDropdowns(){
+            try {
+                var subject = (document.getElementById('mx-subject')||{}).value || '';
+                var grade = (document.getElementById('mx-grade')||{}).value || '12';
+                var fromSel = document.getElementById('mx-from-lesson');
+                var toSel = document.getElementById('mx-to-lesson');
+                if (!fromSel || !toSel) return;
+                
+                // Xác định thư mục dựa trên môn và khối
+                // Thử các pattern phổ biến
+                var basePaths = [];
+                var subjLower = subject.toLowerCase().trim();
+                if (grade >= 6 && grade <= 9) {
+                    basePaths.push('data/THCS/Khối lớp ' + grade + '/' + subject + ' ' + grade);
+                    basePaths.push('data/THCS/' + subject + ' ' + grade);
+                } else {
+                    basePaths.push('data/THPT/Khối lớp ' + grade + '/' + subject + ' ' + grade);
+                    basePaths.push('data/THPT/' + subject + ' ' + grade);
+                }
+                
+                var lessons = [];
+                for (var p of basePaths) {
+                    try {
+                        var url = 'https://api.github.com/repos/saobay/saobay.github.io/contents/' + encodeURIComponent(p).replace(/%2F/g, '/') + '?ref=main';
+                        var r = await fetch(url);
+                        if (r.ok) {
+                            var items = await r.json();
+                            if (Array.isArray(items)) {
+                                items.forEach(function(it){
+                                    if (it.type === 'dir' && it.name.indexOf('Chương') === 0) {
+                                        lessons.push(it.name);
+                                    } else if (it.type === 'file' && it.name.endsWith('.html')) {
+                                        lessons.push(it.name.replace(/\.html$/, '').replace(/_/g, ' '));
+                                    }
+                                });
+                                if (lessons.length) break;
+                            }
+                        }
+                    } catch(e){}
+                }
+                
+                var opts = '<option value="">-- Chọn bài --</option>' + lessons.map(function(l){
+                    var esc = l.replace(/</g,'&lt;').replace(/>/g,'&gt;');
+                    return '<option value="' + esc + '">' + esc + '</option>';
+                }).join('');
+                fromSel.innerHTML = opts;
+                toSel.innerHTML = opts;
+            } catch(e){}
+        }
+
+        // Lấy đề từ Thư viện đề (dùng ma trận để lọc bank)
+        function getExamFromLibrary(){
+            // Chuyển sang chế độ bank và áp dụng ma trận
+            alert('Đang phát triển: Lấy đề từ Thư viện đề theo ma trận đã nhập.');
+        }
+
+        // Copy prompt cho AI tạo đề mới (dùng ma trận hiện tại)
+        function copyExamPromptForAI(){
+            if (typeof generateAndCopyPrompt === 'function') {
+                generateAndCopyPrompt('EXAM10');
+            } else {
+                alert('Chức năng copy prompt chưa sẵn sàng.');
             }
         }
 
@@ -1786,7 +1850,7 @@
         function toggleExamMethodSection(show){
             let sec = document.getElementById('exam-method-section');
             if (sec) sec.classList.toggle('hidden', !show);
-            if (show) switchExamMethod(currentExamMethod || 'bank');
+            if (show) switchExamMethod(currentExamMethod || 'matrix');
         }
 
         // Wrap switchPushMode gốc để điều khiển section mới (2026-10-09; fix 2026-10-10: bọc trực tiếp không poll + ẩn ma trận/khoảng trống ở chế độ lý thuyết; 2026-10-10: thêm chế độ bài tập)
