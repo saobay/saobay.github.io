@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 6: Thực hành lập trình với Python</title>
+    <meta name="lesson-title" content="Bài 6: Thực hành lập trình với Python">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; }
+        .content-body { max-width: 800px; margin: 0 auto; }
+        h2 { color: #0369a1; margin-top: 24px; }
+        .highlight { background: #e0f2fe; padding: 12px; border-radius: 8px; border-left: 4px solid #0284c7; margin: 12px 0; }
+        table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+        th, td { border: 1px solid #cbd5e1; padding: 8px; text-align: left; }
+        th { background: #f1f5f9; }
+        pre { background: #f1f5f9; padding: 12px; border-radius: 8px; overflow-x: auto; }
+    </style>
+</head>
+<body class="bg-slate-50">
+<div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+<div class="border-b pb-4 mb-6">
+<span class="text-xs font-bold text-blue-600 uppercase">Lý thuyết</span>
+<h1 class="text-2xl font-black mt-1">Bài 6: Thực hành lập trình với Python</h1>
+<p class="text-xs text-slate-500 mt-1">Tin học 8 • Chủ đề 6: Thực hành lập trình với Python</p>
+</div>
+<div class="content-body">
+
+<h2>1. Cài đặt Python</h2>
+<p>Để lập trình Python trên máy tính, em cần cài đặt Python từ trang chủ python.org. Khi cài đặt trên Windows, nhớ đánh dấu chọn ô "Add python.exe to PATH" để có thể gọi Python từ mọi nơi.</p>
+<p>Sau khi cài đặt, em có thể viết chương trình bằng phần mềm <strong>IDLE</strong> đi kèm Python, hoặc các phần mềm khác như Visual Studio Code. Tệp chương trình Python có phần mở rộng là <strong>.py</strong>.</p>
+<div class="highlight">
+<strong>Ghi nhớ:</strong> Tệp chương trình Python có phần mở rộng là .py.
+</div>
+
+<h2>2. Lệnh print - đưa dữ liệu ra màn hình</h2>
+<p>Lệnh <strong>print()</strong> dùng để in dữ liệu ra màn hình. Văn bản cần đặt trong cặp dấu nháy đơn hoặc nháy kép.</p>
+<pre>print("Xin chào các bạn!")
+print('Chào mừng đến với Python')
+print(2026)</pre>
+<p>Lệnh print() có thể in nhiều giá trị cách nhau bởi dấu phẩy:</p>
+<pre>print("Năm nay là năm", 2026)</pre>
+<p>Kết quả trên màn hình: Năm nay là năm 2026</p>
+
+<h2>3. Lệnh input - nhập dữ liệu từ bàn phím</h2>
+<p>Lệnh <strong>input()</strong> dùng để nhập dữ liệu từ bàn phím khi chương trình đang chạy.</p>
+<pre>ten = input("Nhập tên của bạn: ")
+print("Chào bạn", ten)</pre>
+<p>Lưu ý quan trọng: kết quả của input() luôn là <strong>chuỗi ký tự</strong>. Nếu muốn tính toán với số, phải chuyển sang số nguyên bằng lệnh <strong>int()</strong>:</p>
+<pre>tuoi = int(input("Nhập tuổi của bạn: "))
+print("Năm sau bạn", tuoi + 1, "tuổi")</pre>
+<div class="highlight">
+<strong>Ghi nhớ:</strong> input() trả về chuỗi ký tự. Muốn tính toán với số nguyên, phải dùng int() để chuyển đổi.
+</div>
+
+<h2>4. Câu lệnh rẽ nhánh if</h2>
+<p>Câu lệnh <strong>if</strong> cho phép chương trình thực hiện công việc khác nhau tùy điều kiện đúng hay sai. Cú pháp:</p>
+<pre>if điều_kiện:
+    các lệnh thực hiện khi điều kiện đúng
+else:
+    các lệnh thực hiện khi điều kiện sai</pre>
+<p>Lưu ý: sau điều kiện có <strong>dấu hai chấm</strong>, và các lệnh bên trong phải <strong>thụt đầu dòng</strong> so với if.</p>
+<p>Ví dụ kiểm tra điểm 10:</p>
+<pre>diem = int(input("Nhập điểm: "))
+if diem == 10:
+    print("Điểm tuyệt đối! Thật xuất sắc!")
+else:
+    print("Cố gắng hơn ở lần sau nhé!")</pre>
+<p>Các phép so sánh trong Python: bằng (hai dấu bằng), khác nhau, lớn hơn, nhỏ hơn, lớn hơn hoặc bằng, nhỏ hơn hoặc bằng.</p>
+
+<h2>5. Vòng lặp for với range()</h2>
+<p>Vòng lặp <strong>for</strong> dùng để lặp lại công việc với số lần biết trước. Hàm <strong>range()</strong> tạo ra một dãy số:</p>
+<table>
+<tr><th>Cách viết</th><th>Dãy số tạo ra</th></tr>
+<tr><td>range(5)</td><td>0, 1, 2, 3, 4</td></tr>
+<tr><td>range(1, 6)</td><td>1, 2, 3, 4, 5</td></tr>
+<tr><td>range(1, 10, 2)</td><td>1, 3, 5, 7, 9</td></tr>
+</table>
+<p>Ví dụ in ra 5 dòng chào:</p>
+<pre>for i in range(5):
+    print("Chào lần thứ", i + 1)</pre>
+<div class="highlight">
+<strong>Ghi nhớ:</strong> range(n) tạo dãy số từ 0 đến n trừ 1. Câu lệnh for cũng cần dấu hai chấm và thụt đầu dòng cho các lệnh bên trong.
+</div>
+
+</div>
+</div>
+</body>
+</html>
