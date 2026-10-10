@@ -321,6 +321,28 @@ var _saobayConfirmCb=null;
 function saobayConfirm(msg,onOk){try{document.getElementById("saobay-confirm-msg").innerText=msg;_saobayConfirmCb=(typeof onOk==="function")?onOk:null;document.getElementById("saobay-confirm-modal").classList.remove("hidden");}catch(e){if(typeof onOk==="function")onOk();}}
 function saobayConfirmOk(){try{document.getElementById("saobay-confirm-modal").classList.add("hidden");}catch(e){}var cb=_saobayConfirmCb;_saobayConfirmCb=null;if(cb)cb();}
 function saobayConfirmCancel(){try{document.getElementById("saobay-confirm-modal").classList.add("hidden");}catch(e){}_saobayConfirmCb=null;}
+
+// === SAOBAY_AUTO_GRADE_20261010: Tự động chấm câu đã chọn đáp án nhưng chưa bấm Kiểm tra ===
+function checkSingleQuestionSilent(qid){
+  var card=document.querySelector('.question-card[data-question-id="'+qid+'"]');
+  if(!card)card=document.getElementById("card_"+qid)||document.getElementById(qid);
+  if(!card||card.getAttribute("data-checked")==="1")return card&&card.getAttribute("data-checked")==="1";
+  var origAlert=window.alert;
+  window.alert=function(){};
+  try{checkSingleQuestion(qid);}catch(e){}
+  window.alert=origAlert;
+  return card.getAttribute("data-checked")==="1";
+}
+function autoGradeUncheckedCards(cards){
+  var autoGraded=0,stillUnanswered=0;
+  cards.forEach(function(c){
+    if(c.getAttribute("data-checked")==="1")return;
+    var qid=c.getAttribute("data-question-id")||(c.id||"").replace(/^card_/,"");
+    if(!qid){stillUnanswered++;return;}
+    if(checkSingleQuestionSilent(qid))autoGraded++;else stillUnanswered++;
+  });
+  return{autoGraded:autoGraded,stillUnanswered:stillUnanswered};
+}
 function submitLegacyExam(){
   var list=document.getElementById("exam-questions-list");
   if(!list){alert("Chưa có bài làm để nộp!");return;}
@@ -337,6 +359,8 @@ function submitLegacyExam(){
     alert("Chưa có câu hỏi nào để nộp!");
     return;
   }
+  // === SAOBAY_AUTO_GRADE_20261010: Tự động chấm các câu đã chọn đáp án nhưng chưa bấm Kiểm tra ===
+  var _ag=autoGradeUncheckedCards(legacyCards);
   var totalQ=legacyCards.length, answered=0, correct=0, wrong=0;
   var earnedTotal=0, maxTotal=0;
   legacyCards.forEach(function(c){
@@ -355,6 +379,7 @@ function submitLegacyExam(){
   var msg="Bạn có chắc muốn nộp bài?\n\n";
   msg+="Tổng số câu: "+totalQ+"\n";
   msg+="Đã trả lời: "+answered+"\n";
+  if(_ag.autoGraded>0) msg+="Đã tự động chấm "+_ag.autoGraded+" câu bạn đã chọn đáp án\n";
   if(unanswered>0) msg+="Chưa trả lời: "+unanswered+" (tính là 0 điểm)\n";
   saobayConfirm(msg,function(){
   // Tính điểm
