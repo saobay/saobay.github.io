@@ -3,12 +3,19 @@
         // ========================================================
         function generateAndCopyPrompt(type) {
             let mxS = document.getElementById('mx-subject'), mxG = document.getElementById('mx-grade'), mxT = document.getElementById('mx-topic');
+            // 2026-10-10: ma trận mới dùng dropdown Từ bài / Đến bài
+            let mxFrom = document.getElementById('mx-from-lesson'), mxTo = document.getElementById('mx-to-lesson');
             // 2026-10-10: chế độ bài tập đọc từ form item-* (Môn/Khối/Chương/Bài + Tiêu đề), fallback về mx-*
             let itS = document.getElementById('item-subject'), itG = document.getElementById('item-grade'),
                 itT = document.getElementById('item-title');
             let subject = (mxS && mxS.value.trim()) || (itS && itS.value.trim()) || "Toán";
             let grade = (mxG && mxG.value) || (itG && itG.value) || "12";
             let lesson = (mxT && mxT.value.trim()) || "Nội dung học";
+            // 2026-10-10: ưu tiên dùng Từ bài / Đến bài nếu có
+            let fromL = (mxFrom && mxFrom.value) || '', toL = (mxTo && mxTo.value) || '';
+            if (fromL || toL) {
+                lesson = fromL ? (toL && toL !== fromL ? ('Từ ' + fromL + ' đến ' + toL) : fromL) : toL;
+            }
             // Nếu đang ở chế độ bài tập/lý thuyết và có tiêu đề riêng thì ưu tiên tiêu đề
             if ((type === 'EXERCISE' || type === 'KNOWLEDGE') && itT && itT.value.trim()) {
                 // Giữ nguyên subject/grade từ form, lesson lấy từ tiêu đề (bỏ prefix [Môn Lớp] nếu có)
@@ -168,6 +175,9 @@ MA TRẬN CỦA TÔI (bạn tuân thủ tuyệt đối):`;
                 let subj = ((document.getElementById('mx-subject')||{}).value || '').trim();
                 let grd = (document.getElementById('mx-grade')||{}).value || '';
                 let les = ((document.getElementById('mx-topic')||{}).value || '').trim();
+                // 2026-10-10: dùng Từ bài / Đến bài nếu có
+                let _from = ((document.getElementById('mx-from-lesson')||{}).value || ''), _to = ((document.getElementById('mx-to-lesson')||{}).value || '');
+                if (_from || _to) les = _from ? (_to && _to !== _from ? ('Từ ' + _from + ' đến ' + _to) : _from) : _to;
                 if (titleEl && !titleEl.value.trim() && (subj || grd || les)) titleEl.value = '[' + subj + ' ' + grd + '] ' + les;
             } catch(e){}
             setStatus('Đã nạp ' + setCount + ' bộ đề (' + qCount + ' câu) vào khung soạn!', true);
