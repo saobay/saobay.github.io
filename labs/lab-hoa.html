@@ -187,11 +187,16 @@ document.querySelectorAll('.tab-btn').forEach(function(b){
   });
 });
 function fitCanvas(cv){
-  var r = cv.getBoundingClientRect(), d = window.devicePixelRatio || 1;
-  cv.width = r.width * d; cv.height = (parseInt(cv.getAttribute('height')) || 300) * d;
+  var d = window.devicePixelRatio || 1;
+  var w = cv.clientWidth, h = cv.clientHeight;
+  if (!w || !h || !cv.offsetParent){
+    return {ctx: cv.getContext('2d'), w: 360, h: 250, hidden: true};
+  }
+  cv.width = Math.round(w * d); cv.height = Math.round(h * d);
   var ctx = cv.getContext('2d'); ctx.setTransform(d,0,0,d,0,0);
-  return {ctx: ctx, w: r.width, h: parseInt(cv.getAttribute('height')) || 300};
+  return {ctx: ctx, w: w, h: h, hidden: false};
 }
+window.__refits = window.__refits || [];
 
 // ================= 1. BẢNG TUẦN HOÀN =================
 (function(){
@@ -255,16 +260,9 @@ function fitCanvas(cv){
 (function(){
   var cv = document.getElementById('cv-mix');
   var G = fitCanvas(cv);
-  (function(){
-  var rT, lastW = 0;
-  window.addEventListener('resize', function(){
-    clearTimeout(rT);
-    rT = setTimeout(function(){
-      var w = cv.getBoundingClientRect().width;
-      if (Math.abs(w - lastW) > 5) { lastW = w; G = fitCanvas(cv); }
-    }, 200);
-  });
-})();
+  // Chi fit lai khi chuyen tab (qua __fitAll), KHONG fit khi resize/cuon
+  // de tranh canvas nhay kich thuoc tren mobile
+  window.__refits.push(function(){ var g2 = fitCanvas(cv); if (g2 && !g2.hidden) G = g2; });
   var state = 'empty', pourT = 0, colorNow = '#e0f2fe', colorTo = '#e0f2fe';
   var beakers = {acid:'#e0f2fe', base:'#e0f2fe'};
 
@@ -402,16 +400,9 @@ function fitCanvas(cv){
 (function(){
   var cv = document.getElementById('cv-atom');
   var G = fitCanvas(cv);
-  (function(){
-  var rT, lastW = 0;
-  window.addEventListener('resize', function(){
-    clearTimeout(rT);
-    rT = setTimeout(function(){
-      var w = cv.getBoundingClientRect().width;
-      if (Math.abs(w - lastW) > 5) { lastW = w; G = fitCanvas(cv); }
-    }, 200);
-  });
-})();
+  // Chi fit lai khi chuyen tab (qua __fitAll), KHONG fit khi resize/cuon
+  // de tranh canvas nhay kich thuoc tren mobile
+  window.__refits.push(function(){ var g2 = fitCanvas(cv); if (g2 && !g2.hidden) G = g2; });
   // [Z, symbol, name, shells[]]
   var ATOMS = [
     [1,'H','Hiđro',[1]], [2,'He','Heli',[2]], [3,'Li','Liti',[2,1]],
@@ -520,10 +511,9 @@ function fitCanvas(cv){
   draw();
 })();
 
-// Fit lai canvas khi chuyen tab (tab an co width=0)
+// Fit lai canvas khi chuyen tab (dung registry de cap nhat G tung tab)
 window.__fitAll = function(){
-  try { var c=document.getElementById('cv-mix'); if(c && c.offsetParent){ var r=c.getBoundingClientRect(),d=window.devicePixelRatio||1; c.width=r.width*d; c.height=(parseInt(c.getAttribute('height'))||300)*d; var x2=c.getContext('2d'); x2.setTransform(d,0,0,d,0,0); } } catch(e){}
-  try { var c=document.getElementById('cv-atom'); if(c && c.offsetParent){ var r=c.getBoundingClientRect(),d=window.devicePixelRatio||1; c.width=r.width*d; c.height=(parseInt(c.getAttribute('height'))||300)*d; var x2=c.getContext('2d'); x2.setTransform(d,0,0,d,0,0); } } catch(e){}
+  (window.__refits || []).forEach(function(fn){ try { fn(); } catch(e){} });
 };
 </script>
 <!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
