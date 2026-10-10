@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 5: Lập trình Python nâng cao</title>
+    <meta name="lesson-title" content="Bài 5: Lập trình Python nâng cao">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; }
+        .content-body { max-width: 800px; margin: 0 auto; }
+        h2 { color: #0369a1; margin-top: 24px; }
+        .highlight { background: #e0f2fe; padding: 12px; border-radius: 8px; border-left: 4px solid #0284c7; margin: 12px 0; }
+        .code { background: #1e293b; color: #e2e8f0; padding: 12px; border-radius: 8px; margin: 12px 0; font-family: monospace; white-space: pre; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+        th, td { border: 1px solid #cbd5e1; padding: 8px; text-align: left; }
+        th { background: #f1f5f9; }
+    </style>
+</head>
+<body class="bg-slate-50">
+<div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+<div class="border-b pb-4 mb-6">
+<span class="text-xs font-bold text-blue-600 uppercase">Lý thuyết</span>
+<h1 class="text-2xl font-black mt-1">Bài 5: Lập trình Python nâng cao</h1>
+<p class="text-xs text-slate-500 mt-1">Tin học 9 • Chủ đề 5: Giải quyết vấn đề với sự trợ giúp của máy tính</p>
+</div>
+<div class="content-body">
+
+<h2>1. Hàm trong Python</h2>
+<p><strong>Hàm (function)</strong> là một khối lệnh được đặt tên, thực hiện một nhiệm vụ cụ thể và có thể tái sử dụng nhiều lần. Dùng hàm giúp chương trình gọn gàng, dễ đọc và dễ sửa lỗi. Cú pháp định nghĩa hàm:</p>
+<div class="code">def ten_ham(tham_so_1, tham_so_2):
+    # các lệnh xử lí
+    return ket_qua</div>
+<p>Ví dụ hàm tính tổng hai số:</p>
+<div class="code">def tinh_tong(a, b):
+    return a + b
+
+ket_qua = tinh_tong(3, 5)
+print(ket_qua)   # in ra 8</div>
+<p>Trong đó <strong>a, b</strong> là tham số (dữ liệu đầu vào), lệnh <strong>return</strong> trả về kết quả cho nơi gọi hàm. Nếu hàm không có return, nó sẽ trả về giá trị rỗng None.</p>
+<div class="highlight">
+<strong>Ghi nhớ:</strong> Tên hàm nên đặt ngắn gọn, mô tả đúng việc hàm làm, ví dụ: tinh_diem_trung_binh, kiem_tra_so_chan.
+</div>
+
+<h2>2. Danh sách (List)</h2>
+<p><strong>Danh sách (list)</strong> là kiểu dữ liệu dùng để lưu trữ nhiều giá trị trong một biến duy nhất. Các phần tử trong danh sách được đặt trong cặp dấu ngoặc vuông, cách nhau bằng dấu phẩy.</p>
+<div class="code">diem = [8, 9, 7, 10]
+ten_lop = ["An", "Binh", "Chi"]</div>
+<p>Các phần tử được đánh chỉ số bắt đầu từ 0: diem[0] là 8, diem[1] là 9. Một số thao tác thường dùng:</p>
+<table>
+<tr><th>Thao tác</th><th>Cú pháp</th><th>Ý nghĩa</th></tr>
+<tr><td>Truy cập phần tử</td><td>diem[0]</td><td>Lấy phần tử đầu tiên của danh sách</td></tr>
+<tr><td>Thêm phần tử</td><td>diem.append(6)</td><td>Thêm số 6 vào cuối danh sách</td></tr>
+<tr><td>Số phần tử</td><td>len(diem)</td><td>Trả về số lượng phần tử trong danh sách</td></tr>
+<tr><td>Kiểm tra tồn tại</td><td>9 in diem</td><td>Trả về True nếu số 9 có trong danh sách</td></tr>
+</table>
+<p>Duyệt từng phần tử của danh sách bằng vòng lặp for:</p>
+<div class="code">for x in diem:
+    print(x)</div>
+
+<h2>3. Xử lí chuỗi kí tự (String)</h2>
+<p>Chuỗi là dãy các kí tự đặt trong cặp dấu ngoặc kép hoặc ngoặc đơn. Python cung cấp nhiều phương thức hữu ích để xử lí chuỗi:</p>
+<table>
+<tr><th>Phương thức</th><th>Ý nghĩa</th><th>Ví dụ</th></tr>
+<tr><td>len(s)</td><td>Độ dài chuỗi (số kí tự)</td><td>len("Tin hoc") cho kết quả 7</td></tr>
+<tr><td>s.upper()</td><td>Chuyển thành chữ hoa</td><td>"tin".upper() cho "TIN"</td></tr>
+<tr><td>s.lower()</td><td>Chuyển thành chữ thường</td><td>"TIN".lower() cho "tin"</td></tr>
+<tr><td>s.split()</td><td>Tách chuỗi thành danh sách các từ</td><td>"a b c".split() cho ["a", "b", "c"]</td></tr>
+<tr><td>s.strip()</td><td>Loại bỏ khoảng trắng ở hai đầu chuỗi</td><td>"  tin  ".strip() cho "tin"</td></tr>
+<tr><td>s.replace(a, b)</td><td>Thay thế chuỗi a bằng chuỗi b</td><td>"tin hoc".replace("hoc", "9") cho "tin 9"</td></tr>
+</table>
+<p>Có thể nối các chuỗi bằng dấu cộng và truy cập từng kí tự bằng chỉ số giống như danh sách:</p>
+<div class="code">ho = "Nguyen"
+ten = "An"
+ho_ten = ho + " " + ten
+print(ho_ten)      # in ra Nguyen An
+print(ho_ten[0])   # in ra N</div>
+
+<h2>4. Ví dụ tổng hợp</h2>
+<p>Chương trình đếm số từ trong một câu nhập từ bàn phím, kết hợp hàm, danh sách và xử lí chuỗi:</p>
+<div class="code">def dem_so_tu(cau):
+    cau_sach = cau.strip()
+    if cau_sach == "":
+        return 0
+    danh_sach_tu = cau_sach.split()
+    return len(danh_sach_tu)
+
+cau_nhap = input("Nhap mot cau: ")
+print("So tu trong cau la:", dem_so_tu(cau_nhap))</div>
+<p>Chương trình trên cho thấy cách chia nhỏ bài toán: hàm dem_so_tu đảm nhận việc đếm, phần chính chỉ lo nhập dữ liệu và in kết quả. Đây là tư duy quan trọng khi giải quyết các bài toán lớn hơn.</p>
+
+</div>
+</div>
+</body>
+</html>
