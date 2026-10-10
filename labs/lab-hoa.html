@@ -50,6 +50,26 @@
   @media (prefers-reduced-motion: reduce) {
     .tab-btn, .big-btn, .tab-panel > div, canvas { transition: none !important; animation: none !important; }
   }
+
+  /* ===== SAOBAY HOLLYWOOD 3D CHEMISTRY 2026-10-10 ===== */
+  #periodic-grid { perspective: 1000px; }
+  .el-cell {
+    transform-style: preserve-3d;
+    transition: transform .25s ease, box-shadow .25s ease, filter .25s ease !important;
+    box-shadow: 0 3px 6px rgba(0,0,0,.14), inset 0 1px 0 rgba(255,255,255,.55), inset 0 -2px 4px rgba(0,0,0,.08);
+    position: relative;
+  }
+  .el-cell:hover {
+    transform: translateZ(14px) rotateX(-8deg) rotateY(8deg) scale(1.18) !important;
+    box-shadow: 0 14px 28px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.7);
+    filter: brightness(1.12) saturate(1.2);
+    z-index: 10;
+  }
+  .el-cell:active { transform: translateZ(4px) scale(1.05) !important; }
+  #el-symbol {
+    box-shadow: 0 8px 20px rgba(0,0,0,.25), inset 0 2px 4px rgba(255,255,255,.4), inset 0 -3px 6px rgba(0,0,0,.2);
+    transform: perspective(400px) rotateY(-8deg);
+  }
 </style>
 </head>
 <body class="bg-slate-100 min-h-screen">
@@ -302,22 +322,44 @@ function fitCanvas(cv){
     ctx.lineTo(x+w-14, y+h); ctx.quadraticCurveTo(x+w, y+h, x+w, y+h-14);
     ctx.lineTo(x+w, y); ctx.closePath(); ctx.fill();
     ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 3; ctx.stroke();
-    // Chất lỏng
+    // Chất lỏng 3D Hollywood: mat song dong + chieu sau + phan xa
     var lh = h * 0.62;
-    ctx.fillStyle = color;
+    var waveT = (typeof __mixT === 'undefined') ? 0 : __mixT;
+    var surfY = y+h-lh;
+    var liqGrad = ctx.createLinearGradient(x, surfY, x, y+h);
+    liqGrad.addColorStop(0, color);
+    liqGrad.addColorStop(1, 'rgba(0,0,0,0.22)');
+    ctx.fillStyle = liqGrad;
     ctx.beginPath();
-    ctx.moveTo(x+4, y+h-lh);
-    ctx.lineTo(x+4, y+h-16);
-    ctx.quadraticCurveTo(x+4, y+h-4, x+16, y+h-4);
-    ctx.lineTo(x+w-16, y+h-4); ctx.quadraticCurveTo(x+w-4, y+h-4, x+w-4, y+h-16);
-    ctx.lineTo(x+w-4, y+h-lh); ctx.closePath(); ctx.fill();
+    ctx.moveTo(x+4, surfY + Math.sin(waveT*2)*3);
+    for (var wx = x+4; wx <= x+w-4; wx += 8){
+      ctx.lineTo(wx, surfY + Math.sin(waveT*2 + wx*0.09)*3.5);
+    }
+    ctx.lineTo(x+w-4, y+h-16);
+    ctx.quadraticCurveTo(x+w-4, y+h-4, x+w-16, y+h-4);
+    ctx.lineTo(x+16, y+h-4); ctx.quadraticCurveTo(x+4, y+h-4, x+4, y+h-16);
+    ctx.closePath(); ctx.fill();
+    // Phan xa anh sang tren mat chat long
+    ctx.save(); ctx.globalAlpha = 0.35; ctx.fillStyle = '#ffffff';
+    ctx.beginPath();
+    ctx.ellipse(x+w*0.32, surfY+10, w*0.2, 5, -0.25, 0, 7); ctx.fill();
+    ctx.restore();
+    // Bong kinh 3D ben trai
+    ctx.save();
+    var glassGrad = ctx.createLinearGradient(x, 0, x+22, 0);
+    glassGrad.addColorStop(0, 'rgba(255,255,255,0.5)'); glassGrad.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = glassGrad;
+    ctx.fillRect(x+5, y+6, 15, h-14);
+    ctx.restore();
     ctx.fillStyle = '#475569'; ctx.font = 'bold 12px sans-serif'; ctx.textAlign = 'center';
     ctx.fillText(label, x+w/2, y+h+18);
   }
 
+  var __mixT = 0;
   function draw(){
     var ctx = G.ctx, W = G.w, H = G.h;
     ctx.clearRect(0,0,W,H);
+    __mixT += 0.06;
     var bw = 90, bh = 130, y = 60;
     var a = document.getElementById('mix-acid').value;
     var b = document.getElementById('mix-base').value;
@@ -338,12 +380,17 @@ function fitCanvas(cv){
       if (pourT > 1.4){ /* chờ setTimeout chuyển done */ }
     }
     if (state === 'done'){
-      // Bong bóng
-      ctx.fillStyle = 'rgba(255,255,255,0.7)';
-      for (var i=0;i<8;i++){
+      // Bong bong 3D Hollywood: shading + highlight
+      for (var i=0;i<10;i++){
         var bx = W-20-bw + 15 + ((i*37)%(bw-30));
         var by = y+bh-20 - ((Date.now()/30 + i*53) % (bh*0.55));
-        ctx.beginPath(); ctx.arc(bx, by, 3, 0, 7); ctx.fill();
+        var br = 2.5 + (i%3);
+        var bg2 = ctx.createRadialGradient(bx-1,by-1,0.5,bx,by,br);
+        bg2.addColorStop(0,'rgba(255,255,255,0.95)'); bg2.addColorStop(0.6,'rgba(255,255,255,0.35)'); bg2.addColorStop(1,'rgba(255,255,255,0.08)');
+        ctx.fillStyle = bg2;
+        ctx.beginPath(); ctx.arc(bx, by, br, 0, 7); ctx.fill();
+        ctx.strokeStyle = 'rgba(255,255,255,0.5)'; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.arc(bx, by, br, 0, 7); ctx.stroke();
       }
     }
     requestAnimationFrame(draw);
@@ -386,40 +433,79 @@ function fitCanvas(cv){
   sel.addEventListener('change', function(){ cur = ATOMS[parseInt(sel.value)]; });
   var t = 0;
 
+  // Starfield Hollywood
+  var __stars = [];
+  for (var sti=0; sti<70; sti++){ __stars.push([Math.random(), Math.random(), Math.random()*1.6+0.4, Math.random()*2*Math.PI]); }
   function draw(){
     var ctx = G.ctx, W = G.w, H = G.h;
     ctx.clearRect(0,0,W,H);
     t += 0.02;
     var cx = W/2, cy = H/2, R = Math.min(W,H)/2 - 24;
     var n = cur[3].length;
-    // Vẽ lớp vỏ
+    // Nen sao Hollywood nhap nhay
+    for (var si=0; si<__stars.length; si++){
+      var st = __stars[si];
+      var tw = 0.35 + 0.65*Math.abs(Math.sin(t*1.5 + st[3]));
+      ctx.globalAlpha = tw*0.8;
+      ctx.fillStyle = '#e0e7ff';
+      ctx.beginPath(); ctx.arc(st[0]*W, st[1]*H, st[2], 0, 7); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+    // Quy dao 3D nghieng (perspective ellipse) - Hollywood
+    var tilt = 0.42;
     for (var s=0; s<n; s++){
       var r = R * (s+1)/n;
-      ctx.strokeStyle = 'rgba(148,163,184,0.5)'; ctx.lineWidth = 1.5;
+      ctx.strokeStyle = 'rgba(165,180,252,0.55)'; ctx.lineWidth = 1.5;
       ctx.setLineDash([6,5]);
-      ctx.beginPath(); ctx.arc(cx,cy,r,0,7); ctx.stroke();
+      ctx.beginPath(); ctx.ellipse(cx, cy, r, r*tilt, 0, 0, 7); ctx.stroke();
+      // Nua sau mo hon tao chieu sau
+      ctx.strokeStyle = 'rgba(165,180,252,0.22)';
+      ctx.beginPath(); ctx.ellipse(cx, cy, r, r*tilt, 0, Math.PI, 2*Math.PI); ctx.stroke();
       ctx.setLineDash([]);
-      ctx.fillStyle = '#94a3b8'; ctx.font = '10px sans-serif'; ctx.textAlign='center';
-      ctx.fillText('Lớp ' + (s+1), cx + r*0.72, cy - r*0.72);
+      ctx.fillStyle = '#a5b4fc'; ctx.font = '10px sans-serif'; ctx.textAlign='center';
+      ctx.fillText('Lớp ' + (s+1), cx + r*0.72, cy - r*tilt*0.72);
     }
-    // Hạt nhân
-    var grad = ctx.createRadialGradient(cx-5,cy-5,3,cx,cy,26);
-    grad.addColorStop(0,'#fca5a5'); grad.addColorStop(1,'#dc2626');
+    // Hat nhan 3D phat sang Hollywood (pulsing)
+    var pulse = 1 + 0.08*Math.sin(t*3);
+    var halo = ctx.createRadialGradient(cx,cy,10,cx,cy,60*pulse);
+    halo.addColorStop(0,'rgba(248,113,113,0.55)'); halo.addColorStop(1,'rgba(248,113,113,0)');
+    ctx.fillStyle = halo; ctx.beginPath(); ctx.arc(cx,cy,60*pulse,0,7); ctx.fill();
+    var grad = ctx.createRadialGradient(cx-7,cy-8,4,cx,cy,26);
+    grad.addColorStop(0,'#fecaca'); grad.addColorStop(0.5,'#ef4444'); grad.addColorStop(1,'#7f1d1d');
+    ctx.save();
+    ctx.shadowColor = '#ef4444'; ctx.shadowBlur = 22;
     ctx.fillStyle = grad; ctx.beginPath(); ctx.arc(cx,cy,24,0,7); ctx.fill();
+    ctx.restore();
+    ctx.fillStyle = 'rgba(255,255,255,0.9)';
+    ctx.beginPath(); ctx.ellipse(cx-7, cy-9, 7, 4.5, -0.5, 0, 7); ctx.fill();
     ctx.fillStyle = '#fff'; ctx.font = 'bold 13px sans-serif'; ctx.textAlign='center';
     ctx.fillText(cur[1], cx, cy-1);
     ctx.font = '10px sans-serif'; ctx.fillText(cur[0]+'p', cx, cy+13);
-    // Electron
+    // Electron 3D: sap xep theo do sau (z-order) + kich thuoc theo do sau
+    var eList = [];
     for (var s2=0; s2<n; s2++){
       var r2 = R * (s2+1)/n, cnt = cur[3][s2];
       for (var e=0; e<cnt; e++){
         var ang = t*(1.6 - s2*0.25) + e*(Math.PI*2/cnt);
-        var ex = cx + r2*Math.cos(ang), ey = cy + r2*Math.sin(ang);
-        var eg = ctx.createRadialGradient(ex-1,ey-1,1,ex,ey,7);
-        eg.addColorStop(0,'#bfdbfe'); eg.addColorStop(1,'#2563eb');
-        ctx.fillStyle = eg; ctx.beginPath(); ctx.arc(ex,ey,6,0,7); ctx.fill();
-        ctx.fillStyle = '#fff'; ctx.font = 'bold 8px sans-serif';
-        ctx.fillText('e', ex, ey+3);
+        var ex = cx + r2*Math.cos(ang), ey = cy + r2*Math.sin(ang)*tilt;
+        var depth = (Math.sin(ang)+1)/2; // 0=sau, 1=truoc
+        eList.push({x:ex, y:ey, d:depth, s:s2});
+      }
+    }
+    eList.sort(function(a,b){ return a.d - b.d; });
+    for (var ei=0; ei<eList.length; ei++){
+      var eo = eList[ei];
+      var er = 4.5 + eo.d*3;
+      ctx.save();
+      if (eo.d > 0.6){ ctx.shadowColor = '#60a5fa'; ctx.shadowBlur = 12; }
+      var eg = ctx.createRadialGradient(eo.x-1.5,eo.y-1.5,1,eo.x,eo.y,er+1);
+      eg.addColorStop(0,'#dbeafe'); eg.addColorStop(0.5,'#3b82f6'); eg.addColorStop(1,'#1e3a8a');
+      ctx.globalAlpha = 0.55 + eo.d*0.45;
+      ctx.fillStyle = eg; ctx.beginPath(); ctx.arc(eo.x,eo.y,er,0,7); ctx.fill();
+      ctx.restore();
+      if (eo.d > 0.45){
+        ctx.fillStyle = 'rgba(255,255,255,0.9)';
+        ctx.beginPath(); ctx.ellipse(eo.x-1.5, eo.y-2, er*0.32, er*0.2, -0.5, 0, 7); ctx.fill();
       }
     }
     requestAnimationFrame(draw);
