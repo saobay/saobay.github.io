@@ -181,12 +181,21 @@
                             <div class="text-[10px] text-slate-500" data-ui-label="mod_reports_sub">HS báo &bull; duyệt + điểm</div>
                         </div>
                     </button>
+                    <button type="button" onclick="switchTeacherModule('monitor')" id="mod-tab-monitor" class="module-tab-btn flex items-center p-2.5 rounded-xl transition border text-left bg-white border-slate-200 text-slate-700 hover:bg-slate-100">
+                        <div class="w-9 h-9 rounded-lg bg-cyan-200 text-cyan-700 flex items-center justify-center text-base font-bold shrink-0 mr-2.5">
+                            <i class="fa-solid fa-gauge-high"></i>
+                        </div>
+                        <div class="truncate">
+                            <div class="text-xs font-extrabold uppercase" data-ui-label="mod_monitor">7. Giám Sát</div>
+                            <div class="text-[10px] text-slate-500" data-ui-label="mod_monitor_sub">GAS &amp; băng thông</div>
+                        </div>
+                    </button>
                     <button type="button" onclick="switchTeacherModule('groups')" id="mod-tab-groups" style="display:none" class="module-tab-btn flex items-center p-2.5 rounded-xl transition border text-left bg-white border-slate-200 text-slate-700 hover:bg-slate-100">
                         <div class="w-9 h-9 rounded-lg bg-violet-200 text-violet-700 flex items-center justify-center text-base font-bold shrink-0 mr-2.5">
                             <i class="fa-solid fa-users"></i>
                         </div>
                         <div class="truncate">
-                            <div class="text-xs font-extrabold uppercase" data-ui-label="mod_groups">7. Nhóm GV</div>
+                            <div class="text-xs font-extrabold uppercase" data-ui-label="mod_groups">8. Nhóm GV</div>
                             <div class="text-[10px] text-slate-500" data-ui-label="mod_groups_sub">Thống kê nhóm (admin)</div>
                         </div>
                     </button>
@@ -1362,6 +1371,55 @@
 
             <!-- ======================================================== -->
 
+            <!-- ======================================================== -->
+            <!-- CHỨC NĂNG 9: GIÁM SÁT HỆ THỐNG (GAS & băng thông) -->
+            <!-- ======================================================== -->
+            <div id="module-monitor-view" class="hidden space-y-4 flex-1 flex flex-col">
+                <div class="border-b pb-3">
+                    <h3 class="font-extrabold text-slate-800 text-base flex items-center">
+                        <i class="fa-solid fa-gauge-high text-cyan-600 mr-2"></i> Giám Sát Hệ Thống
+                    </h3>
+                    <p class="text-xs text-slate-500 mt-0.5">Theo dõi lượt gọi GAS proxy &amp; băng thông ước tính — giúp admin biết khi nào gần chạm giới hạn.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-3">
+                    <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="text-xs font-extrabold uppercase text-slate-700"><i class="fa-solid fa-bolt text-amber-500 mr-1"></i>Lượt gọi GAS hôm nay</span>
+                            <span class="text-xs font-bold text-slate-600"><span id="mon-gas-today">…</span> / 20.000</span>
+                        </div>
+                        <div class="h-3 bg-slate-100 rounded-full overflow-hidden">
+                            <div id="mon-gas-bar" class="h-full rounded-full bg-emerald-500 transition-all" style="width:0%"></div>
+                        </div>
+                        <p id="mon-gas-warn" class="text-[11px] mt-1.5 text-slate-500"></p>
+                    </div>
+                    <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="text-xs font-extrabold uppercase text-slate-700"><i class="fa-solid fa-cloud text-sky-500 mr-1"></i>Băng thông tháng này (ước tính)</span>
+                            <span class="text-xs font-bold text-slate-600"><span id="mon-bw-month">…</span> / 100 GB</span>
+                        </div>
+                        <div class="h-3 bg-slate-100 rounded-full overflow-hidden">
+                            <div id="mon-bw-bar" class="h-full rounded-full bg-sky-500 transition-all" style="width:0%"></div>
+                        </div>
+                        <p id="mon-bw-note" class="text-[11px] mt-1.5 text-slate-500"></p>
+                    </div>
+                </div>
+                <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+                    <div class="flex items-center justify-between mb-2">
+                        <h4 class="text-xs font-extrabold uppercase text-slate-700">7 ngày gần nhất</h4>
+                        <button type="button" onclick="renderMonitor()" class="text-[11px] px-3 py-1.5 bg-slate-100 hover:bg-slate-200 rounded-lg font-bold text-slate-600"><i class="fa-solid fa-rotate mr-1"></i>Tải lại</button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-xs">
+                            <thead><tr class="text-left text-slate-500 border-b">
+                                <th class="py-2 pr-2">Ngày</th><th class="py-2 pr-2 text-right">Gọi GAS</th><th class="py-2 pr-2 text-right">Lượt xem trang</th><th class="py-2 text-right">Băng thông (ước tính)</th>
+                            </tr></thead>
+                            <tbody id="mon-table-body"><tr><td colspan="4" class="py-4 text-center text-slate-400 italic">Đang tải…</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+                <p class="text-[11px] text-slate-400 italic">⚠️ Số liệu ước tính từ tracking trên trình duyệt client (trang chính), không phải số chính thức từ Google/GitHub. Lượt gọi GAS bao gồm mọi thao tác động (đăng nhập, nộp bài, lưu điểm, báo lỗi, đồng bộ).</p>
+            </div>
+
             <!-- CHỨC NĂNG 8: TÙY CHỈNH GIAO DIỆN (admin) -->
             <div id="module-uilabels-view" class="hidden space-y-4">
                 <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
@@ -2076,6 +2134,80 @@ function openMyAccount(){
             }
             syncTitle();
         })();
+    </script>
+    <script>
+        /* === SAOBAY system monitor (2026-10-10): tab Giam Sat He Thong === */
+        (function(){
+            if (window.__sbMonitorPatched) return; window.__sbMonitorPatched = true;
+            function paintTab(id, active){
+                var tab = document.getElementById('mod-tab-' + id);
+                if (tab) tab.className = "module-tab-btn flex items-center p-2.5 rounded-xl transition border text-left " + (active ? "bg-blue-50 border-blue-600 text-blue-900 shadow-sm" : "bg-white border-slate-200 text-slate-700 hover:bg-slate-100");
+                var ib = tab ? tab.querySelector('div') : null;
+                if (ib) ib.className = "w-9 h-9 rounded-lg flex items-center justify-center text-base font-bold shrink-0 mr-2.5 " + (active ? "bg-blue-600 text-white shadow" : "bg-slate-200 text-slate-700");
+            }
+            function patchSwitch(){
+                if (typeof window.switchTeacherModule !== 'function' || window.switchTeacherModule.__sbMonWrapped) return false;
+                var _orig = window.switchTeacherModule;
+                var _w = function(modId){
+                    try {
+                        var mv = document.getElementById('module-monitor-view');
+                        if (mv && modId !== 'monitor') mv.classList.add('hidden');
+                        paintTab('monitor', modId === 'monitor');
+                        if (modId === 'monitor'){
+                            try {
+                                var all = document.querySelectorAll('[id^="module-"][id$="-view"]');
+                                for (var i = 0; i < all.length; i++){ if (all[i].id !== 'module-monitor-view') all[i].classList.add('hidden'); }
+                                if (mv) mv.classList.remove('hidden');
+                                var sb = document.getElementById('sidebar-container'); if (sb) sb.classList.add('hidden');
+                            } catch(e){}
+                            try { if (typeof renderMonitor === 'function') renderMonitor(); } catch(e){}
+                            return;
+                        }
+                    } catch(e){}
+                    return _orig.apply(this, arguments);
+                };
+                _w.__sbMonWrapped = true;
+                window.switchTeacherModule = _w;
+                return true;
+            }
+            var _t = 0, _tm = setInterval(function(){ _t++; try { if (patchSwitch()) clearInterval(_tm); } catch(e){} if (_t > 150) clearInterval(_tm); }, 200);
+        })();
+
+        async function renderMonitor(){
+            var USAGE_URL = 'https://raw.githubusercontent.com/saobay/saobay.github.io/main/data/stats/usage.json';
+            function fmtBytes(b){ b = +b || 0; if (b >= 1e9) return (b/1e9).toFixed(2)+' GB'; if (b >= 1e6) return (b/1e6).toFixed(1)+' MB'; if (b >= 1e3) return (b/1e3).toFixed(1)+' KB'; return b+' B'; }
+            function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+            var tb = document.getElementById('mon-table-body');
+            try {
+                var r = await fetch(USAGE_URL + '?t=' + Date.now(), {cache:'no-store'});
+                var data = (r && r.ok) ? await r.json() : {days:{}};
+                var days = (data && data.days && typeof data.days === 'object') ? data.days : {};
+                var today = new Date().toISOString().slice(0,10);
+                var t = days[today] || {gas_calls:0, page_views:0, bytes_est:0};
+                var gas = +t.gas_calls || 0, gasPct = Math.min(100, gas/20000*100);
+                var gt = document.getElementById('mon-gas-today'); if (gt) gt.textContent = gas.toLocaleString('vi-VN');
+                var gbar = document.getElementById('mon-gas-bar');
+                if (gbar){ gbar.style.width = gasPct.toFixed(1)+'%'; gbar.className = 'h-full rounded-full transition-all ' + (gasPct >= 80 ? 'bg-red-500' : (gasPct >= 50 ? 'bg-amber-500' : 'bg-emerald-500')); }
+                var gw = document.getElementById('mon-gas-warn');
+                if (gw){ gw.innerHTML = gasPct >= 80 ? '<span class="text-red-600 font-bold">⚠️ Đã dùng '+gasPct.toFixed(0)+'% hạn mức ngày! Hạn chế thao tác nặng, cân nhắc chia ca thi.</span>' : 'Còn '+(20000-gas).toLocaleString('vi-VN')+' lượt trong hạn mức 20.000/ngày.'; }
+                var mk = today.slice(0,7), mBytes = 0;
+                Object.keys(days).forEach(function(d){ if (d.indexOf(mk) === 0) mBytes += (+((days[d]||{}).bytes_est) || 0); });
+                var bwGB = mBytes/1e9, bwPct = Math.min(100, bwGB/100*100);
+                var bm = document.getElementById('mon-bw-month'); if (bm) bm.textContent = bwGB.toFixed(2)+' GB';
+                var bbar = document.getElementById('mon-bw-bar');
+                if (bbar){ bbar.style.width = bwPct.toFixed(1)+'%'; bbar.className = 'h-full rounded-full transition-all ' + (bwPct >= 80 ? 'bg-red-500' : 'bg-sky-500'); }
+                var bn = document.getElementById('mon-bw-note'); if (bn) bn.textContent = 'Ước tính từ transferSize các lượt tải trang chính.';
+                var keys = Object.keys(days).sort().reverse().slice(0,7);
+                if (tb){
+                    tb.innerHTML = keys.length ? keys.map(function(d){
+                        var e = days[d] || {};
+                        return '<tr class="border-b border-slate-100"><td class="py-2 pr-2 font-bold text-slate-700">'+esc(d)+'</td><td class="py-2 pr-2 text-right">'+(+e.gas_calls||0).toLocaleString('vi-VN')+'</td><td class="py-2 pr-2 text-right">'+(+e.page_views||0).toLocaleString('vi-VN')+'</td><td class="py-2 text-right">'+fmtBytes(+e.bytes_est||0)+'</td></tr>';
+                    }).join('') : '<tr><td colspan="4" class="py-4 text-center text-slate-400 italic">Chưa có số liệu. Tracking bắt đầu ghi khi HS mở trang chính.</td></tr>';
+                }
+            } catch(e){
+                if (tb) tb.innerHTML = '<tr><td colspan="4" class="py-4 text-center text-red-400">Không tải được số liệu. Thử lại sau.</td></tr>';
+            }
+        }
     </script>
 </body>
 </html>
