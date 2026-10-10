@@ -1586,6 +1586,29 @@
                 let role = reg.role_requested || 'student';
                 let regPw = reg.password || '';
                 
+                // FIX 2026-10-10 (gộp TK trùng): SĐT đăng ký đã là alias của TK ID trường → không tạo TK mới
+                try {
+                    let ridPhoneNorm = normalizePhone(rid);
+                    if (isPhoneLike(rid)) {
+                        let phoneOwner = findPhoneOwnerInDb(masterDatabase, ridPhoneNorm, rid);
+                        if (phoneOwner) {
+                            reg.status = 'approved';
+                            reg.decided_at = new Date().toISOString();
+                            try {
+                                let cu2 = JSON.parse(localStorage.getItem('saobay_user') || '{}');
+                                reg.decided_by = (cu2.name || 'Admin') + ' (tự động: SĐT đã liên kết)';
+                            } catch(e2) { reg.decided_by = 'Admin (tự động: SĐT đã liên kết)'; }
+                            reg.note = (reg.note ? reg.note + ' | ' : '') + 'SĐT đã liên kết với TK ' + phoneOwner + ' — không tạo TK mới';
+                            await saveMasterDatabaseToGit('Duyet dang ky (SĐT đã liên kết, không tạo mới): ' + rname + ' (' + rid + ')');
+                            await loadMasterDatabase();
+                            if (typeof renderAdminTable === 'function') renderAdminTable();
+                            if (typeof updateAdminStats === 'function') updateAdminStats();
+                            showToast('SĐT này đã liên kết với tài khoản ' + phoneOwner + '. Không tạo tài khoản mới.', 'info');
+                            return;
+                        }
+                    }
+                } catch(ePhoneCheck) {}
+                
                 // 1. Tạo/cập nhật mật khẩu
                 // Ưu tiên MK đã lưu lúc đăng ký; nếu không có, dùng MK mặc định và bắt đổi khi đăng nhập
                 if (!masterDatabase.passwords) masterDatabase.passwords = {};
