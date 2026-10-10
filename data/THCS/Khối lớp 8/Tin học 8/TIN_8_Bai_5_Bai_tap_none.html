@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 5: Giải quyết vấn đề - Làm quen lập trình - Bài tập</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: system-ui, sans-serif; padding: 16px; line-height: 1.6; }
+        .question { background: white; padding: 16px; margin: 12px 0; border-radius: 8px; border: 1px solid #e2e8f0; }
+        .options label { display: block; padding: 8px; margin: 4px 0; background: #f8fafc; border-radius: 4px; cursor: pointer; }
+        .options label:hover { background: #e0f2fe; }
+    </style>
+</head>
+<body class="bg-slate-50">
+<div class="max-w-3xl mx-auto">
+<h1 class="text-2xl font-bold mb-4">Bài 5: Giải quyết vấn đề - Làm quen lập trình - Bài tập</h1>
+
+<div class="question">
+<p class="font-semibold mb-2">Câu 1: Thuật toán là gì?</p>
+<div class="options">
+<label><input type="radio" name="q1" value="A"> A. Một loại máy tính mới</label>
+<label><input type="radio" name="q1" value="B"> B. Dãy các bước rõ ràng, thực hiện theo trình tự để giải quyết một bài toán</label>
+<label><input type="radio" name="q1" value="C"> C. Một ngôn ngữ lập trình</label>
+<label><input type="radio" name="q1" value="D"> D. Một phần mềm diệt virus</label>
+</div>
+<button onclick="checkAnswer('q1', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q1" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 2: Ngôn ngữ lập trình dùng để làm gì?</p>
+<div class="options">
+<label><input type="radio" name="q2" value="A"> A. Viết chương trình, ra lệnh cho máy tính thực hiện</label>
+<label><input type="radio" name="q2" value="B"> B. Trò chuyện với bạn bè</label>
+<label><input type="radio" name="q2" value="C"> C. Vẽ tranh</label>
+<label><input type="radio" name="q2" value="D"> D. Nghe nhạc</label>
+</div>
+<button onclick="checkAnswer('q2', 'A')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q2" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 3: Biến trong lập trình dùng để:</p>
+<div class="options">
+<label><input type="radio" name="q3" value="A"> A. Lưu trữ dữ liệu, giá trị có thể thay đổi khi chạy chương trình</label>
+<label><input type="radio" name="q3" value="B"> B. Lưu dữ liệu không bao giờ thay đổi</label>
+<label><input type="radio" name="q3" value="C"> C. Tắt máy tính</label>
+<label><input type="radio" name="q3" value="D"> D. Kết nối Internet</label>
+</div>
+<button onclick="checkAnswer('q3', 'A')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q3" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 4: Câu lệnh rẽ nhánh trong Python là:</p>
+<div class="options">
+<label><input type="radio" name="q4" value="A"> A. for</label>
+<label><input type="radio" name="q4" value="B"> B. while</label>
+<label><input type="radio" name="q4" value="C"> C. print</label>
+<label><input type="radio" name="q4" value="D"> D. if</label>
+</div>
+<button onclick="checkAnswer('q4', 'D')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q4" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 5: Muốn lặp lại một công việc với số lần biết trước trong Python, ta dùng:</p>
+<div class="options">
+<label><input type="radio" name="q5" value="A"> A. if</label>
+<label><input type="radio" name="q5" value="B"> B. for</label>
+<label><input type="radio" name="q5" value="C"> C. input</label>
+<label><input type="radio" name="q5" value="D"> D. print</label>
+</div>
+<button onclick="checkAnswer('q5', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q5" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 6: Muốn lặp cho đến khi một điều kiện không còn đúng nữa, ta dùng:</p>
+<div class="options">
+<label><input type="radio" name="q6" value="A"> A. while</label>
+<label><input type="radio" name="q6" value="B"> B. for</label>
+<label><input type="radio" name="q6" value="C"> C. if</label>
+<label><input type="radio" name="q6" value="D"> D. else</label>
+</div>
+<button onclick="checkAnswer('q6', 'A')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q6" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 7: Trong các ngôn ngữ sau, ngôn ngữ lập trình bậc cao, phù hợp cho người mới học là:</p>
+<div class="options">
+<label><input type="radio" name="q7" value="A"> A. Ngôn ngữ máy</label>
+<label><input type="radio" name="q7" value="B"> B. Hợp ngữ</label>
+<label><input type="radio" name="q7" value="C"> C. Python</label>
+<label><input type="radio" name="q7" value="D"> D. Mã nhị phân</label>
+</div>
+<button onclick="checkAnswer('q7', 'C')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q7" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 8: Chương trình máy tính là:</p>
+<div class="options">
+<label><input type="radio" name="q8" value="A"> A. Một chiếc máy tính xách tay</label>
+<label><input type="radio" name="q8" value="B"> B. Tập hợp các câu lệnh viết theo đúng quy tắc của một ngôn ngữ lập trình</label>
+<label><input type="radio" name="q8" value="C"> C. Một bài văn mẫu</label>
+<label><input type="radio" name="q8" value="D"> D. Một bức ảnh</label>
+</div>
+<button onclick="checkAnswer('q8', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q8" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 9: Để mô tả một thuật toán, có thể dùng cách nào?</p>
+<div class="options">
+<label><input type="radio" name="q9" value="A"> A. Chỉ dùng hình vẽ trang trí</label>
+<label><input type="radio" name="q9" value="B"> B. Liệt kê các bước hoặc vẽ sơ đồ khối</label>
+<label><input type="radio" name="q9" value="C"> C. Hát một bài hát</label>
+<label><input type="radio" name="q9" value="D"> D. Không thể mô tả được</label>
+</div>
+<button onclick="checkAnswer('q9', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q9" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 10: Ba cấu trúc điều khiển cơ bản của chương trình gồm:</p>
+<div class="options">
+<label><input type="radio" name="q10" value="A"> A. Nhập, xuất và lưu trữ</label>
+<label><input type="radio" name="q10" value="B"> B. Tuần tự, rẽ nhánh và lặp</label>
+<label><input type="radio" name="q10" value="C"> C. Bàn phím, chuột và màn hình</label>
+<label><input type="radio" name="q10" value="D"> D. Biến, hằng và hàm</label>
+</div>
+<button onclick="checkAnswer('q10', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q10" class="mt-2"></div>
+</div>
+
+</div>
+<script>
+function checkAnswer(qid, correct) {
+    const selected = document.querySelector(`input[name="${qid}"]:checked`);
+    const feedback = document.getElementById(`fb-${qid}`);
+    if (!selected) { feedback.innerHTML = '<span class="text-orange-600">Hãy chọn đáp án!</span>'; return; }
+    if (selected.value === correct) {
+        feedback.innerHTML = '<span class="text-green-600 font-bold">✓ Đúng!</span>';
+    } else {
+        feedback.innerHTML = '<span class="text-red-600">✗ Chưa đúng. Đáp án đúng: ' + correct + '</span>';
+    }
+}
+</script>
+</body>
+</html>
