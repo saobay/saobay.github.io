@@ -161,6 +161,8 @@
         }
 
         // Đẩy 1 file HTML lên GitHub qua GAS proxy (không cần token cá nhân — 2026-10-09)
+        // FIX 2026-10-10: AbortController timeout 30s — fetch treo thì tự hủy, không chờ vô hạn.
+        // Đây là điểm nghẽn chung cho mọi nút "Lưu đề" (bank, class, exam builder).
         async function bankPushFile(targetPath, htmlContent, commitMessage){
             let payload = {
                 type: 'PUSH_TO_GITHUB',
@@ -170,16 +172,32 @@
                 title: String(targetPath).split('/').pop(),
                 author: (typeof currentUser !== 'undefined' && currentUser.name) ? currentUser.name : 'Teacher'
             };
-            let res = await fetch(API_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                body: JSON.stringify(payload)
-            });
-            let result = await parseSafeResponse(res);
-            if (!result || result.status !== 'success'){
-                throw new Error('GAS proxy: ' + ((result && result.message) || 'lỗi không xác định'));
+            let _ctrl = null, _timer = null;
+            try {
+                let _opts = {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(payload)
+                };
+                if (typeof AbortController !== 'undefined'){
+                    _ctrl = new AbortController();
+                    _opts.signal = _ctrl.signal;
+                    _timer = setTimeout(function(){ try { _ctrl.abort(); } catch(e){} }, 30000);
+                }
+                let res = await fetch(API_URL, _opts);
+                let result = await parseSafeResponse(res);
+                if (!result || result.status !== 'success'){
+                    throw new Error('GAS proxy: ' + ((result && result.message) || 'lỗi không xác định'));
+                }
+                return result;
+            } catch(e){
+                if (e && e.name === 'AbortError'){
+                    throw new Error('Hết thời gian chờ (30s) — GAS proxy không phản hồi. Kiểm tra mạng rồi bấm Lưu lại.');
+                }
+                throw e;
+            } finally {
+                if (_timer) clearTimeout(_timer);
             }
-            return result;
         }
 
         // Chuẩn hoá HTML bọc ngoài cho file cầu nối / đề kiểm tra
