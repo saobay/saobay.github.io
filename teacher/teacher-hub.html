@@ -310,7 +310,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
                         <button type="button" id="exam-method-bank" onclick="switchExamMethod('bank')" class="text-left bg-amber-50 hover:bg-amber-100 border-2 border-amber-300 rounded-xl p-3 transition shadow-sm">
                             <div class="flex items-center justify-between">
-                                <span class="text-sm font-black text-amber-900"><i class="fa-solid fa-database mr-1"></i> <span data-ui-label="exam_bank">1. Tạo đề từ Bank</span></span>
+                                <span class="text-sm font-black text-amber-900"><i class="fa-solid fa-database mr-1"></i> <span data-ui-label="exam_bank">Soạn đề thi từ bank</span></span>
                                 <i class="fa-solid fa-chevron-down text-amber-500 text-xs method-chev"></i>
                             </div>
                             <p class="text-[11px] text-amber-800 mt-1" data-ui-label="exam_bank_sub">Random từ ngân hàng theo ma trận</p>
@@ -322,18 +322,43 @@
                         </button>
                         <button type="button" id="exam-method-ai" onclick="switchExamMethod('ai')" class="text-left bg-violet-50 hover:bg-violet-100 border-2 border-slate-200 rounded-xl p-3 transition shadow-sm">
                             <div class="flex items-center justify-between">
-                                <span class="text-sm font-black text-violet-900"><i class="fa-solid fa-robot mr-1"></i> 2. Tạo đề từ AI</span>
+                                <span class="text-sm font-black text-violet-900"><i class="fa-solid fa-robot mr-1"></i> <span data-ui-label="exam_ai_new">Soạn đề thi mới từ AI</span></span>
                                 <i class="fa-solid fa-chevron-down text-violet-400 text-xs method-chev"></i>
                             </div>
                             <p class="text-[11px] text-violet-800 mt-1">Khóa nội dung theo ma trận, AI soạn đề mới</p>
+                            <p class="text-[10px] font-bold text-rose-600 mt-1">⚠️ Dữ liệu ngoài bank — chỉ lưu vào bank SAU KHI bài kiểm tra hoàn thành</p>
                         </button>
                         <button type="button" id="exam-method-manual" onclick="switchExamMethod('manual')" class="text-left bg-indigo-50 hover:bg-indigo-100 border-2 border-slate-200 rounded-xl p-3 transition shadow-sm">
                             <div class="flex items-center justify-between">
-                                <span class="text-sm font-black text-indigo-900"><i class="fa-solid fa-upload mr-1"></i> 3. Tự đẩy đề lên</span>
+                                <span class="text-sm font-black text-indigo-900"><i class="fa-solid fa-upload mr-1"></i> <span data-ui-label="exam_word_new">Đẩy đề từ Word lên</span></span>
                                 <i class="fa-solid fa-chevron-down text-indigo-400 text-xs method-chev"></i>
                             </div>
                             <p class="text-[11px] text-indigo-800 mt-1">Upload Word / dán tay — GV quản lý nội dung</p>
+                            <p class="text-[10px] font-bold text-rose-600 mt-1">⚠️ Dữ liệu chỉ vào ngân hàng đề chung khi bài thi HS đã xong</p>
                         </button>
+                    </div>
+
+                    <!-- LÊN LỊCH KIỂM TRA CHỐNG LỘ ĐỀ (2026-10-10) -->
+                    <div id="exam-schedule-box" class="bg-rose-50 border-2 border-rose-200 rounded-xl p-3">
+                        <label class="flex items-center gap-2 text-xs font-black text-rose-900 cursor-pointer">
+                            <input type="checkbox" id="sched-is-exam" class="w-4 h-4 accent-rose-600" onchange="schedExamToggle(this)">
+                            📌 Đây là ĐỀ KIỂM TRA (chống lộ đề)
+                        </label>
+                        <div id="sched-fields" class="hidden mt-2 grid grid-cols-1 md:grid-cols-3 gap-2">
+                            <div>
+                                <label class="block text-[10px] font-bold text-rose-800 mb-1">Lớp kiểm tra</label>
+                                <select id="sched-class" class="w-full px-2 py-1.5 border border-rose-300 rounded-lg text-xs font-semibold bg-white"></select>
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-rose-800 mb-1">Ngày giờ kiểm tra</label>
+                                <input type="datetime-local" id="sched-time" class="w-full px-2 py-1.5 border border-rose-300 rounded-lg text-xs font-semibold bg-white">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-rose-800 mb-1">Thời gian làm bài (phút)</label>
+                                <input type="number" id="sched-duration" value="45" min="5" max="300" class="w-full px-2 py-1.5 border border-rose-300 rounded-lg text-xs font-semibold bg-white">
+                            </div>
+                        </div>
+                        <p class="text-[10px] text-rose-700 mt-1">Đề kiểm tra được lưu RIÊNG (không vào bank chung). HS chỉ thấy banner thông báo và chỉ mở được đề khi đến giờ.</p>
                     </div>
                 </div>
 
@@ -1371,6 +1396,202 @@
     <script src="hub-reports.js?v=20261009_1"></script>
 <script src="hub-groups.js?v=20261010_1"></script>
     <script src="hub-uilabels.js?v=20261010"></script>
+    <script src="hub-examsched.js?v=20261010"></script>
+    <script>
+        // ============================================================
+        // LÊN LỊCH KIỂM TRA CHỐNG LỘ ĐỀ — UI hook (2026-10-10)
+        // - populateSchedClasses(): nạp DS lớp từ pvMyClasses()/pvFetchClasses() (hub-private.js)
+        // - schedExamToggle(cb): hiện/ẩn khung giờ thi khi tick checkbox
+        // - wrap handleFormSubmit: nếu tick "Đây là ĐỀ KIỂM TRA" và đang ở chế độ đề thi
+        //   -> validate -> bóc exam JSON (cùng cách luồng save thường build) ->
+        //   window.ExamSched.saveScheduledExam({...}) -> toast -> DỪNG (không chạy luồng đẩy GitHub thường)
+        // ============================================================
+        var _schedClassCache = [];
+
+        function _schedEsc(s){
+            return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+        }
+
+        async function populateSchedClasses(){
+            var sel = document.getElementById('sched-class');
+            if (!sel) return;
+            var classes = [];
+            try {
+                if (typeof pvMyClasses === 'function') classes = pvMyClasses() || [];
+                // Nếu module Lớp Học Thêm chưa mở (pvClasses rỗng) -> fetch trực tiếp data/private/classes.json
+                if (!classes.length && typeof pvFetchClasses === 'function'){
+                    var all = await pvFetchClasses();
+                    var uid = '', isAdmin = false;
+                    try {
+                        if (typeof currentUser !== 'undefined' && currentUser){
+                            uid = String(currentUser.id || '');
+                            isAdmin = (currentUser.role === 'admin');
+                        }
+                    } catch(e){}
+                    classes = (all || []).filter(function(c){ return isAdmin || String(c.teacher_id) === uid; });
+                }
+            } catch(e){ classes = []; }
+            _schedClassCache = classes;
+            var keep = sel.value;
+            if (!classes.length){
+                sel.innerHTML = '<option value="">— Chưa có lớp (tạo ở mục 5. Lớp Học Thêm) —</option>';
+                return;
+            }
+            var html = '<option value="">— Chọn lớp kiểm tra —</option>';
+            classes.forEach(function(c){
+                var n = (c.students || []).length;
+                html += '<option value="' + _schedEsc(c.id) + '">' + _schedEsc(c.name) + ' (' + n + ' HS)</option>';
+            });
+            sel.innerHTML = html;
+            if (keep) sel.value = keep;
+        }
+
+        function schedExamToggle(cb){
+            var f = document.getElementById('sched-fields');
+            if (f) f.classList.toggle('hidden', !cb.checked);
+            if (cb.checked){
+                try { populateSchedClasses(); } catch(e){}
+                // Giới hạn ngày giờ kiểm tra từ hiện tại trở đi
+                var t = document.getElementById('sched-time');
+                if (t && !t.min){
+                    var d = new Date(); d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+                    t.min = d.toISOString().slice(0, 16);
+                }
+            }
+        }
+
+        // --- Hook: nạp lớp khi mở module Soạn (compose) ---
+        (function(){
+            var _t = 0, _tm = setInterval(function(){
+                _t++;
+                try {
+                    if (typeof window.switchTeacherModule === 'function' && !window.switchTeacherModule._schedWrapped){
+                        var _o = window.switchTeacherModule;
+                        var _w = function(modId){
+                            var r = _o.apply(this, arguments);
+                            if (modId === 'compose'){ try { populateSchedClasses(); } catch(e){} }
+                            return r;
+                        };
+                        _w._schedWrapped = true;
+                        window.switchTeacherModule = _w;
+                        clearInterval(_tm);
+                        try { populateSchedClasses(); } catch(e){} // compose là module mặc định khi mở hub
+                    }
+                } catch(e){}
+                if (_t > 50) clearInterval(_tm);
+            }, 200);
+        })();
+
+        // --- Hook: bọc handleFormSubmit (hub-publish.js) ---
+        (function(){
+            function _schedExamMode(){
+                var chk = document.getElementById('sched-is-exam');
+                var sec = document.getElementById('exam-method-section');
+                return !!(chk && chk.checked && sec && !sec.classList.contains('hidden'));
+            }
+            // Lấy exam JSON ĐÚNG CÁCH luồng save thường build: gọi syncVisualToItemContent()
+            // (dòng đầu của handleFormSubmit) rồi bóc khối <script class="saobay-exam10-data">
+            // trong #item-content — cùng regex hub-publish.js dùng (togglePerQScore / autoSaveToBank).
+            function _schedGetExamJson(){
+                try { if (typeof syncVisualToItemContent === 'function') syncVisualToItemContent(); } catch(e){}
+                var ta = document.getElementById('item-content');
+                var val = ta ? ta.value : '';
+                var m = val.match(/<script[^>]*class=["']saobay-exam10-data["'][^>]*>([\s\S]*?)<\/script>/);
+                if (!m) return null;
+                try { return JSON.parse(m[1]); } catch(e){ return null; }
+            }
+            function _schedSetBtn(busy){
+                var btn = document.getElementById('submit-btn');
+                if (!btn) return;
+                if (busy){ btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Đang lưu lịch kiểm tra...'; }
+                else { btn.disabled = false; try { if (typeof refreshPushSubmitBtn === 'function') refreshPushSubmitBtn(); } catch(e){} }
+            }
+            async function _schedExamSubmit(){
+                var sel = document.getElementById('sched-class');
+                var timeEl = document.getElementById('sched-time');
+                var durEl = document.getElementById('sched-duration');
+                var classId = sel ? String(sel.value || '').trim() : '';
+                var examTime = timeEl ? String(timeEl.value || '').trim() : '';
+                var durationMin = durEl ? parseInt(durEl.value, 10) : NaN;
+                if (!classId){ alert('Vui lòng chọn lớp kiểm tra!'); if (sel) sel.focus(); return false; }
+                if (!examTime){ alert('Vui lòng nhập ngày giờ kiểm tra!'); if (timeEl) timeEl.focus(); return false; }
+                var t = new Date(examTime).getTime();
+                if (isNaN(t) || t <= Date.now()){ alert('Ngày giờ kiểm tra phải ở TƯƠNG LAI!'); if (timeEl) timeEl.focus(); return false; }
+                if (!durationMin || durationMin < 5){ alert('Thời gian làm bài phải từ 5 phút trở lên!'); if (durEl) durEl.focus(); return false; }
+                var examJson = _schedGetExamJson();
+                if (!examJson || !examJson.sets || !examJson.sets.length){
+                    alert('Chưa có đề thi trong khung soạn. Hãy nạp đề (từ bank / AI / Word) trước khi lên lịch!');
+                    return false;
+                }
+                if (!window.ExamSched || typeof window.ExamSched.saveScheduledExam !== 'function'){
+                    alert('Chưa tải được module lưu lịch kiểm tra (hub-examsched.js). Hãy tải lại trang rồi thử lại!');
+                    return false;
+                }
+                var titleEl = document.getElementById('item-title');
+                var title = (titleEl ? String(titleEl.value).trim() : '') || examJson.title || 'Đề kiểm tra';
+                var meta = {}; try { if (typeof readBankMetaFromForm === 'function') meta = readBankMetaFromForm(); } catch(e){}
+                var mxS = document.getElementById('mx-subject'), mxG = document.getElementById('mx-grade');
+                var subject = meta.subject || (mxS ? mxS.value.trim() : '') || examJson.subject || '';
+                var grade = meta.grade || (mxG ? mxG.value : '') || examJson.grade || '';
+                var teacherId = '', teacherName = '';
+                try {
+                    if (typeof currentUser !== 'undefined' && currentUser){
+                        teacherId = currentUser.id || ''; teacherName = currentUser.name || '';
+                    }
+                } catch(e){}
+                var className = '';
+                for (var i = 0; i < _schedClassCache.length; i++){
+                    if (String(_schedClassCache[i].id) === classId){ className = _schedClassCache[i].name || ''; break; }
+                }
+                if (!className && sel && sel.selectedIndex >= 0){
+                    className = sel.options[sel.selectedIndex].text.replace(/\s*\(\d+\s*HS\)\s*$/, '');
+                }
+                _schedSetBtn(true);
+                try {
+                    await window.ExamSched.saveScheduledExam({
+                        title: title, subject: subject, grade: grade,
+                        classId: classId, className: className,
+                        examTime: new Date(examTime).toISOString(),
+                        durationMin: durationMin, examJson: examJson,
+                        teacherId: teacherId, teacherName: teacherName
+                    });
+                    if (typeof showToast === 'function') showToast('📌 Đã lên lịch kiểm tra! Đề lưu riêng, HS chỉ mở được khi đến giờ.', 'success');
+                    else alert('Đã lên lịch kiểm tra thành công!');
+                    var chk = document.getElementById('sched-is-exam');
+                    if (chk) chk.checked = false;
+                    var sf = document.getElementById('sched-fields');
+                    if (sf) sf.classList.add('hidden');
+                    return true;
+                } catch(err){
+                    alert('Lỗi lưu lịch kiểm tra: ' + (err && err.message ? err.message : err));
+                    return false;
+                } finally {
+                    _schedSetBtn(false);
+                }
+            }
+            var _tries = 0;
+            var _timer = setInterval(function(){
+                _tries++;
+                try {
+                    if (typeof window.handleFormSubmit === 'function' && !window.handleFormSubmit._schedWrapped){
+                        var _orig = window.handleFormSubmit;
+                        var _wrapped = async function(event){
+                            if (_schedExamMode()){
+                                if (event && event.preventDefault) event.preventDefault();
+                                await _schedExamSubmit(); // true/false đều DỪNG — không chạy luồng đẩy GitHub thường (chống lộ đề)
+                                return;
+                            }
+                            return _orig.call(this, event);
+                        };
+                        _wrapped._schedWrapped = true;
+                        window.handleFormSubmit = _wrapped;
+                        clearInterval(_timer);
+                    }
+                } catch(e){}
+                if (_tries > 50) clearInterval(_timer);
+            }, 200);
+        })();
+    </script>
 
     <!-- Modal Tài khoản của tôi - cài đặt SĐT đăng nhập (2026-10-09) -->
     <div id="my-account-modal" class="hidden fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/50">
