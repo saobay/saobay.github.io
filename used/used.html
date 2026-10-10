@@ -716,6 +716,11 @@
                 return;
             }
 
+            // FIX 2026-10-10: dam bao currentUser luon dong bo voi localStorage truoc khi xu ly tab
+            try {
+                var _stored = localStorage.getItem('saobay_user');
+                if (_stored) currentUser = JSON.parse(_stored);
+            } catch(e){}
             if (tabParam === 'admin' || (currentUser && currentUser.role === 'admin')) {
                 if (currentUser && currentUser.role === 'admin') {
                     showAdminDashboardView();
@@ -959,9 +964,17 @@
                 let exp = (expDb || {})[matchedUser.id];
                 if (exp && exp.expires_at) matchedUser.expires_at = exp.expires_at;
             } catch(e){}
+            // FIX 2026-10-10: xoa TRIET DE phien cu truoc khi luu phien moi (chong lan session)
+            try {
+                localStorage.removeItem('saobay_user');
+                localStorage.removeItem('saobay_pending_reg');
+                sessionStorage.removeItem('saobay_force_user');
+                sessionStorage.removeItem('saobay_user');
+            } catch(e){}
+            currentUser = null; // reset bien memory truoc
+            // Ghi phien moi
             localStorage.setItem('saobay_user', JSON.stringify(matchedUser));
             currentUser = matchedUser;
-            // FIX 2026-10-10 (loi 2): tieu thu pending_reg sau khi dung -> khong de pending cu gay nham session
             if (isPendingLogin) { try { localStorage.removeItem('saobay_pending_reg'); } catch(e){} }
             if (expCheck.daysLeft <= 15){
                 showToast(`Xin chào ${matchedUser.name}! Tài khoản của bạn còn ${expCheck.daysLeft} ngày sử dụng.`, 'warning');
@@ -2204,7 +2217,17 @@
             btn.innerText = 'Đổi mật khẩu';
         }
     }
-    </script>
+    
+// FIX 2026-10-10: dong bo session giua cac tab/window
+window.addEventListener('storage', function(e){
+    if (e.key === 'saobay_user') {
+        try {
+            currentUser = e.newValue ? JSON.parse(e.newValue) : null;
+            if (typeof renderUserHeaderUI === 'function') renderUserHeaderUI();
+        } catch(err){}
+    }
+});
+</script>
 
 <script src="../js/admin-toolbar.js"></script>
 </body>
