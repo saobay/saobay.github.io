@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 21: Hình có trục đối xứng</title>
+    <meta name="lesson-title" content="Bài 21: Hình có trục đối xứng">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 21: Hình có trục đối xứng</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 5: Tính đối xứng của hình phẳng trong tự nhiên • Bài 21: Hình có trục đối xứng</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 21: Hình có trục đối xứng</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 5: Tính đối xứng của hình phẳng trong tự nhiên (Kết nối tri thức với cuộc sống)</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Hình có trục đối xứng trong tự nhiên</h2>
+
+<p>Trong tự nhiên, ta thường bắt gặp những hình ảnh "cân xứng" hai bên: con bướm xòe cánh, chiếc lá, khuôn mặt người, mặt hồ phẳng lặng in bóng núi... Những hình như vậy được gọi là <strong>hình có trục đối xứng</strong>.</p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Con buom co truc doi xung d">
+<rect x="2" y="2" width="436" height="276" rx="10" fill="#fffbeb" stroke="#cbd5e1" stroke-width="1.5"/>
+<line x1="220" y1="12" x2="220" y2="268" stroke="#e11d48" stroke-width="2.5" stroke-dasharray="10 7"/>
+<text x="234" y="36" font-family="sans-serif" font-size="20" font-style="italic" font-weight="bold" fill="#e11d48">d</text>
+<path d="M220,118 C170,48 100,54 108,118 C114,168 168,162 220,138 Z" fill="#fdba74" stroke="#c2410c" stroke-width="2"/>
+<path d="M220,118 C270,48 340,54 332,118 C326,168 272,162 220,138 Z" fill="#fdba74" stroke="#c2410c" stroke-width="2"/>
+<path d="M220,158 C182,168 142,190 152,224 C160,250 200,240 220,202 Z" fill="#fed7aa" stroke="#c2410c" stroke-width="2"/>
+<path d="M220,158 C258,168 298,190 288,224 C280,250 240,240 220,202 Z" fill="#fed7aa" stroke="#c2410c" stroke-width="2"/>
+<circle cx="160" cy="110" r="12" fill="#fff7ed" stroke="#c2410c" stroke-width="2"/>
+<circle cx="280" cy="110" r="12" fill="#fff7ed" stroke="#c2410c" stroke-width="2"/>
+<ellipse cx="220" cy="160" rx="13" ry="58" fill="#44403c"/>
+<circle cx="220" cy="92" r="14" fill="#44403c"/>
+<path d="M212,82 C200,60 188,52 176,48" stroke="#44403c" stroke-width="2.5" fill="none"/>
+<path d="M228,82 C240,60 252,52 264,48" stroke="#44403c" stroke-width="2.5" fill="none"/>
+</svg></div>
+<p class="text-center text-sm text-slate-500 italic">Hình con bướm: đường thẳng $d$ là trục đối xứng</p>
+
+<p>Nếu ta gấp hình con bướm theo đường thẳng $d$ thì hai cánh của nó sẽ <strong>trùng khít</strong> lên nhau. Khi đó, đường thẳng $d$ được gọi là <strong>trục đối xứng</strong> của hình con bướm.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Trục đối xứng của một hình</h2>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4"><p class="font-semibold text-sky-800 mb-2">Khái niệm:</p>
+<p>Đường thẳng $d$ được gọi là <strong>trục đối xứng</strong> của một hình nếu <strong>mỗi điểm</strong> trên hình có <strong>điểm đối xứng</strong> với nó qua đường thẳng $d$ cũng thuộc hình đó.</p>
+</div>
+
+<p>Hai điểm $A$ và $B$ gọi là <strong>đối xứng nhau qua đường thẳng $d$</strong> nếu $d$ là <strong>đường trung trực</strong> của đoạn thẳng $AB$, tức là:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Đường thẳng $d$ <strong>vuông góc</strong> với đoạn thẳng $AB$ tại điểm $H$;</li>
+<li>Điểm $H$ là <strong>trung điểm</strong> của đoạn thẳng $AB$ ($HA = HB$).</li>
+</ul>
+
+<div class="svg-fig"><svg viewBox="0 0 440 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hai diem A B doi xung qua duong thang d">
+<rect x="2" y="2" width="436" height="246" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<line x1="220" y1="15" x2="220" y2="200" stroke="#0284c7" stroke-width="2.5" stroke-dasharray="10 7"/>
+<text x="234" y="38" font-family="sans-serif" font-size="20" font-style="italic" font-weight="bold" fill="#0284c7">d</text>
+<line x1="130" y1="120" x2="310" y2="120" stroke="#64748b" stroke-width="2"/>
+<circle cx="130" cy="120" r="7" fill="#0284c7"/>
+<circle cx="310" cy="120" r="7" fill="#0284c7"/>
+<text x="130" y="102" font-family="sans-serif" font-size="20" font-weight="bold" fill="#0c4a6e" text-anchor="middle">A</text>
+<text x="310" y="102" font-family="sans-serif" font-size="20" font-weight="bold" fill="#0c4a6e" text-anchor="middle">B</text>
+<circle cx="220" cy="120" r="4" fill="#e11d48"/>
+<text x="220" y="152" font-family="sans-serif" font-size="18" font-weight="bold" fill="#e11d48" text-anchor="middle">H</text>
+<path d="M220,106 L234,106 L234,120" fill="none" stroke="#e11d48" stroke-width="2"/>
+<line x1="175" y1="113" x2="175" y2="127" stroke="#e11d48" stroke-width="2.5"/>
+<line x1="265" y1="113" x2="265" y2="127" stroke="#e11d48" stroke-width="2.5"/>
+<text x="220" y="232" font-family="sans-serif" font-size="15" fill="#475569" text-anchor="middle">d là đường trung trực của đoạn thẳng AB</text>
+</svg></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4"><p class="font-bold text-amber-800">📌 Ghi nhớ</p><p class="mt-1">Khi gấp một hình theo <strong>trục đối xứng</strong> $d$ của nó thì hai nửa của hình sẽ <strong>trùng khít</strong> lên nhau. Đây là cách đơn giản nhất để kiểm tra một đường thẳng có phải là trục đối xứng hay không.</p></div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Trục đối xứng của một số hình phẳng</h2>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">a) Hình chữ nhật và hình vuông</h3>
+
+<div class="svg-fig"><svg viewBox="0 0 440 270" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Truc doi xung cua hinh chu nhat va hinh vuong">
+<rect x="2" y="2" width="436" height="266" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<rect x="30" y="85" width="160" height="100" fill="#e0f2fe" stroke="#0284c7" stroke-width="2.5"/>
+<line x1="110" y1="65" x2="110" y2="205" stroke="#e11d48" stroke-width="2" stroke-dasharray="8 6"/>
+<line x1="10" y1="135" x2="210" y2="135" stroke="#e11d48" stroke-width="2" stroke-dasharray="8 6"/>
+<text x="110" y="238" font-family="sans-serif" font-size="15" font-weight="bold" fill="#0369a1" text-anchor="middle">Hình chữ nhật: 2 trục</text>
+<rect x="255" y="60" width="150" height="150" fill="#d1fae5" stroke="#059669" stroke-width="2.5"/>
+<line x1="330" y1="40" x2="330" y2="230" stroke="#e11d48" stroke-width="2" stroke-dasharray="8 6"/>
+<line x1="235" y1="135" x2="425" y2="135" stroke="#e11d48" stroke-width="2" stroke-dasharray="8 6"/>
+<line x1="243" y1="48" x2="417" y2="222" stroke="#e11d48" stroke-width="2" stroke-dasharray="8 6"/>
+<line x1="417" y1="48" x2="243" y2="222" stroke="#e11d48" stroke-width="2" stroke-dasharray="8 6"/>
+<text x="330" y="252" font-family="sans-serif" font-size="15" font-weight="bold" fill="#065f46" text-anchor="middle">Hình vuông: 4 trục</text>
+</svg></div>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Hình chữ nhật</strong> có <strong>2 trục đối xứng</strong>: hai đường thẳng nối trung điểm của hai cặp cạnh đối diện. <em>Chú ý:</em> hai đường chéo của hình chữ nhật (không phải hình vuông) <strong>không phải</strong> là trục đối xứng.</li>
+<li><strong>Hình vuông</strong> có <strong>4 trục đối xứng</strong>: hai đường thẳng nối trung điểm hai cặp cạnh đối diện và hai đường chéo.</li>
+</ul>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">b) Hình tròn</h3>
+
+<div class="svg-fig"><svg viewBox="0 0 440 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hinh tron co vo so truc doi xung">
+<rect x="2" y="2" width="436" height="296" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<circle cx="220" cy="150" r="95" fill="#e0f2fe" stroke="#0284c7" stroke-width="2.5"/>
+<line x1="105" y1="150" x2="335" y2="150" stroke="#e11d48" stroke-width="2" stroke-dasharray="8 6"/>
+<line x1="220" y1="35" x2="220" y2="265" stroke="#e11d48" stroke-width="2" stroke-dasharray="8 6"/>
+<line x1="153" y1="83" x2="287" y2="217" stroke="#e11d48" stroke-width="2" stroke-dasharray="8 6"/>
+<line x1="287" y1="83" x2="153" y2="217" stroke="#e11d48" stroke-width="2" stroke-dasharray="8 6"/>
+<circle cx="220" cy="150" r="5" fill="#e11d48"/>
+<text x="234" y="144" font-family="sans-serif" font-size="18" font-weight="bold" fill="#e11d48">O</text>
+<text x="220" y="290" font-family="sans-serif" font-size="15" fill="#475569" text-anchor="middle">Mọi đường thẳng đi qua tâm O đều là trục đối xứng</text>
+</svg></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4"><p class="font-bold text-amber-800">📌 Ghi nhớ</p><p class="mt-1"><strong>Hình tròn</strong> có <strong>vô số trục đối xứng</strong>: mỗi trục đối xứng là một đường thẳng đi qua tâm của đường tròn.</p></div>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">c) Tam giác cân, tam giác đều, hình thang cân, hình thoi</h3>
+
+<div class="svg-fig"><svg viewBox="0 0 440 530" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Truc doi xung cua tam giac can, tam giac deu, hinh thang can, hinh thoi">
+<rect x="2" y="2" width="436" height="526" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<polygon points="110,45 42,205 178,205" fill="#e0f2fe" stroke="#0284c7" stroke-width="2.5"/>
+<line x1="110" y1="28" x2="110" y2="220" stroke="#e11d48" stroke-width="2" stroke-dasharray="8 6"/>
+<text x="110" y="246" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0369a1" text-anchor="middle">Tam giác cân: 1 trục</text>
+<polygon points="330,55 260,205 400,205" fill="#d1fae5" stroke="#059669" stroke-width="2.5"/>
+<line x1="330" y1="38" x2="330" y2="220" stroke="#e11d48" stroke-width="2" stroke-dasharray="8 6"/>
+<line x1="248" y1="216" x2="377" y2="119" stroke="#e11d48" stroke-width="2" stroke-dasharray="8 6"/>
+<line x1="412" y1="216" x2="283" y2="119" stroke="#e11d48" stroke-width="2" stroke-dasharray="8 6"/>
+<text x="330" y="246" font-family="sans-serif" font-size="14" font-weight="bold" fill="#065f46" text-anchor="middle">Tam giác đều: 3 trục</text>
+<polygon points="72,310 148,310 128,450 92,450" fill="#fef3c7" stroke="#d97706" stroke-width="2.5"/>
+<line x1="110" y1="295" x2="110" y2="465" stroke="#e11d48" stroke-width="2" stroke-dasharray="8 6"/>
+<text x="110" y="492" font-family="sans-serif" font-size="14" font-weight="bold" fill="#92400e" text-anchor="middle">Hình thang cân: 1 trục</text>
+<polygon points="330,300 392,375 330,450 268,375" fill="#fce7f3" stroke="#db2777" stroke-width="2.5"/>
+<line x1="330" y1="288" x2="330" y2="462" stroke="#e11d48" stroke-width="2" stroke-dasharray="8 6"/>
+<line x1="256" y1="375" x2="404" y2="375" stroke="#e11d48" stroke-width="2" stroke-dasharray="8 6"/>
+<text x="330" y="492" font-family="sans-serif" font-size="14" font-weight="bold" fill="#9d174d" text-anchor="middle">Hình thoi: 2 trục (hai đường chéo)</text>
+</svg></div>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Tam giác cân</strong> có <strong>1 trục đối xứng</strong>: đường thẳng đi qua đỉnh cân và trung điểm của cạnh đáy.</li>
+<li><strong>Tam giác đều</strong> có <strong>3 trục đối xứng</strong>: ba đường thẳng đi qua mỗi đỉnh và trung điểm của cạnh đối diện.</li>
+<li><strong>Hình thang cân</strong> có <strong>1 trục đối xứng</strong>: đường thẳng đi qua trung điểm của hai đáy.</li>
+<li><strong>Hình thoi</strong> có <strong>2 trục đối xứng</strong>: chính là hai đường chéo của hình thoi.</li>
+</ul>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">d) Hình lục giác đều</h3>
+
+<div class="svg-fig"><svg viewBox="0 0 440 310" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hinh luc giac deu co 6 truc doi xung">
+<rect x="2" y="2" width="436" height="306" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<polygon points="320,150 270,237 170,237 120,150 170,63 270,63" fill="#fef3c7" stroke="#d97706" stroke-width="2.5"/>
+<line x1="120" y1="150" x2="320" y2="150" stroke="#e11d48" stroke-width="2" stroke-dasharray="8 6"/>
+<line x1="170" y1="63" x2="270" y2="237" stroke="#e11d48" stroke-width="2" stroke-dasharray="8 6"/>
+<line x1="270" y1="63" x2="170" y2="237" stroke="#e11d48" stroke-width="2" stroke-dasharray="8 6"/>
+<line x1="220" y1="40" x2="220" y2="260" stroke="#e11d48" stroke-width="2" stroke-dasharray="8 6"/>
+<line x1="310" y1="202" x2="130" y2="98" stroke="#e11d48" stroke-width="2" stroke-dasharray="8 6"/>
+<line x1="130" y1="202" x2="310" y2="98" stroke="#e11d48" stroke-width="2" stroke-dasharray="8 6"/>
+<text x="220" y="300" font-family="sans-serif" font-size="15" fill="#475569" text-anchor="middle">Hình lục giác đều: 6 trục đối xứng</text>
+</svg></div>
+
+<p><strong>Hình lục giác đều</strong> có <strong>6 trục đối xứng</strong>: 3 đường thẳng đi qua hai đỉnh đối diện và 3 đường thẳng đi qua trung điểm của hai cạnh đối diện.</p>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4"><p class="font-bold text-amber-800">📌 Ghi nhớ</p><p class="mt-1"><strong>Chú ý:</strong> <strong>Hình bình hành</strong> (không phải hình chữ nhật, hình thoi) <strong>không có trục đối xứng</strong> nào.</p></div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Trục đối xứng trong thực tiễn</h2>
+
+<p>Trục đối xứng xuất hiện rất nhiều trong đời sống:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Chữ cái in hoa:</strong> các chữ <strong>A, M, T, O, V, ...</strong> có trục đối xứng thẳng đứng; các chữ <strong>B, C, D, E, ...</strong> có trục đối xứng nằm ngang; các chữ <strong>H, I, O, X</strong> có cả hai trục.</li>
+<li><strong>Kiến trúc:</strong> cổng chào, cầu, mặt tiền nhà thường được thiết kế đối xứng qua một trục thẳng đứng.</li>
+<li><strong>Cắt giấy thủ công:</strong> gấp đôi tờ giấy rồi cắt một hình, khi mở ra ta được một hình có trục đối xứng chính là nếp gấp.</li>
+</ul>
+
+<div class="svg-fig"><svg viewBox="0 0 440 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Chu cai in hoa co truc doi xung">
+<rect x="2" y="2" width="436" height="246" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="55" y="108" font-family="sans-serif" font-size="54" font-weight="bold" fill="#0369a1" text-anchor="middle">A</text>
+<text x="135" y="108" font-family="sans-serif" font-size="54" font-weight="bold" fill="#0369a1" text-anchor="middle">M</text>
+<text x="215" y="108" font-family="sans-serif" font-size="54" font-weight="bold" fill="#0369a1" text-anchor="middle">T</text>
+<text x="295" y="108" font-family="sans-serif" font-size="54" font-weight="bold" fill="#0369a1" text-anchor="middle">O</text>
+<text x="375" y="108" font-family="sans-serif" font-size="54" font-weight="bold" fill="#0369a1" text-anchor="middle">V</text>
+<line x1="55" y1="42" x2="55" y2="128" stroke="#e11d48" stroke-width="2" stroke-dasharray="7 5"/>
+<line x1="135" y1="42" x2="135" y2="128" stroke="#e11d48" stroke-width="2" stroke-dasharray="7 5"/>
+<line x1="215" y1="42" x2="215" y2="128" stroke="#e11d48" stroke-width="2" stroke-dasharray="7 5"/>
+<line x1="295" y1="42" x2="295" y2="128" stroke="#e11d48" stroke-width="2" stroke-dasharray="7 5"/>
+<line x1="375" y1="42" x2="375" y2="128" stroke="#e11d48" stroke-width="2" stroke-dasharray="7 5"/>
+<text x="95" y="216" font-family="sans-serif" font-size="46" font-weight="bold" fill="#065f46" text-anchor="middle">B</text>
+<text x="185" y="216" font-family="sans-serif" font-size="46" font-weight="bold" fill="#065f46" text-anchor="middle">C</text>
+<text x="275" y="216" font-family="sans-serif" font-size="46" font-weight="bold" fill="#065f46" text-anchor="middle">D</text>
+<text x="365" y="216" font-family="sans-serif" font-size="46" font-weight="bold" fill="#065f46" text-anchor="middle">E</text>
+<line x1="45" y1="198" x2="415" y2="198" stroke="#e11d48" stroke-width="2" stroke-dasharray="7 5"/>
+<text x="220" y="30" font-family="sans-serif" font-size="14" fill="#475569" text-anchor="middle">Trục thẳng đứng: A, M, T, O, V, ...</text>
+<text x="220" y="242" font-family="sans-serif" font-size="14" fill="#475569" text-anchor="middle">Trục nằm ngang: B, C, D, E, ...</text>
+</svg></div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">5. Bài tập ví dụ (có lời giải)</h2>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4"><p class="font-semibold text-emerald-800 mb-2">Bài tập ví dụ 1:</p>
+<p>Trong các hình sau, hình nào có trục đối xứng: hình chữ nhật, hình bình hành, hình thang vuông?</p>
+<p class="mt-2"><strong>Lời giải:</strong> Hình chữ nhật có 2 trục đối xứng. Hình bình hành (thường) không có trục đối xứng nào. Hình thang vuông cũng không có trục đối xứng. Vậy chỉ có <strong>hình chữ nhật</strong> là hình có trục đối xứng.</p>
+</div>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4"><p class="font-semibold text-emerald-800 mb-2">Bài tập ví dụ 2:</p>
+<p>Cho điểm $A$ cách đường thẳng $d$ một khoảng $4$ cm. Vẽ điểm $A'$ đối xứng với $A$ qua đường thẳng $d$. Tính độ dài đoạn thẳng $AA'$.</p>
+<p class="mt-2"><strong>Lời giải:</strong> Vì $A'$ đối xứng với $A$ qua $d$ nên $d$ là đường trung trực của $AA'$. Gọi $H$ là giao điểm của $AA'$ và $d$, ta có $HA = HA' = 4$ cm. Vậy $AA' = HA + HA' = 4 + 4 = 8$ cm.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Hình</td><td class="border border-slate-300 px-4 py-1">Số trục đối xứng</td><td class="border border-slate-300 px-4 py-1">Các trục đối xứng</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Hình tròn</td><td class="border border-slate-300 px-4 py-1">Vô số</td><td class="border border-slate-300 px-4 py-1">Mọi đường thẳng đi qua tâm</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Hình vuông</td><td class="border border-slate-300 px-4 py-1">$4$</td><td class="border border-slate-300 px-4 py-1">Hai đường chéo và hai đường nối trung điểm cạnh đối diện</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Hình chữ nhật</td><td class="border border-slate-300 px-4 py-1">$2$</td><td class="border border-slate-300 px-4 py-1">Hai đường nối trung điểm hai cặp cạnh đối diện</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Hình thoi</td><td class="border border-slate-300 px-4 py-1">$2$</td><td class="border border-slate-300 px-4 py-1">Hai đường chéo</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Hình thang cân</td><td class="border border-slate-300 px-4 py-1">$1$</td><td class="border border-slate-300 px-4 py-1">Đường thẳng đi qua trung điểm hai đáy</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Tam giác đều</td><td class="border border-slate-300 px-4 py-1">$3$</td><td class="border border-slate-300 px-4 py-1">Ba đường qua đỉnh và trung điểm cạnh đối diện</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Tam giác cân</td><td class="border border-slate-300 px-4 py-1">$1$</td><td class="border border-slate-300 px-4 py-1">Đường qua đỉnh cân và trung điểm cạnh đáy</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Hình lục giác đều</td><td class="border border-slate-300 px-4 py-1">$6$</td><td class="border border-slate-300 px-4 py-1">Ba đường qua hai đỉnh đối diện, ba đường qua trung điểm hai cạnh đối diện</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Hình bình hành</td><td class="border border-slate-300 px-4 py-1">$0$ (không có)</td><td class="border border-slate-300 px-4 py-1">—</td></tr>
+</table></div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
