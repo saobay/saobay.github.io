@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 43: Xác suất thực nghiệm</title>
+    <meta name="lesson-title" content="Bài 43: Xác suất thực nghiệm">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 43: Xác suất thực nghiệm</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 9: Dữ liệu và xác suất thực nghiệm • Bài 43: Xác suất thực nghiệm</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 43: Xác suất thực nghiệm</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 9: Dữ liệu và xác suất thực nghiệm (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Thí nghiệm và số lần xuất hiện của sự kiện -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Đếm số lần xuất hiện của sự kiện</h2>
+
+<p>Để tìm hiểu khả năng xảy ra của một sự kiện, ta <strong>thực hiện thí nghiệm nhiều lần</strong> và <strong>đếm số lần sự kiện đó xuất hiện</strong>.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Bạn An <strong>tung một đồng xu $20$ lần</strong> và ghi lại kết quả:</p>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Kết quả</td><td class="border border-slate-300 px-4 py-1">Mặt sấp ($S$)</td><td class="border border-slate-300 px-4 py-1">Mặt ngửa ($N$)</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold bg-sky-50">Số lần xuất hiện</td><td class="border border-slate-300 px-4 py-1">$12$</td><td class="border border-slate-300 px-4 py-1">$8$</td></tr>
+</table></div>
+<p class="mt-2">Tổng số lần thực hiện thí nghiệm là $N = 20$. Số lần sự kiện "Xuất hiện mặt sấp" xuất hiện là $n = 12$.</p>
+</div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Minh hoa xac suat thuc nghiem tung dong xu">
+<rect x="2" y="2" width="436" height="296" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="28" font-family="sans-serif" font-size="16" font-weight="bold" fill="#0c4a6e" text-anchor="middle">Tung đồng xu 20 lần</text>
+<circle cx="110" cy="80" r="28" fill="#fde68a" stroke="#b45309" stroke-width="3"/>
+<text x="110" y="91" font-family="sans-serif" font-size="24" font-weight="bold" fill="#92400e" text-anchor="middle">S</text>
+<text x="150" y="75" font-family="sans-serif" font-size="15" fill="#334155">Mặt sấp: 12 lần</text>
+<circle cx="110" cy="140" r="28" fill="#e0f2fe" stroke="#0369a1" stroke-width="3"/>
+<text x="110" y="151" font-family="sans-serif" font-size="24" font-weight="bold" fill="#0369a1" text-anchor="middle">N</text>
+<text x="150" y="135" font-family="sans-serif" font-size="15" fill="#334155">Mặt ngửa: 8 lần</text>
+<text x="150" y="158" font-family="sans-serif" font-size="13" fill="#64748b">Tổng: 20 lần</text>
+<rect x="60" y="196" width="320" height="36" rx="8" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="1.5"/>
+<rect x="60" y="196" width="192" height="36" rx="8" fill="#38bdf8" stroke="#0369a1" stroke-width="1.5"/>
+<text x="220" y="220" font-family="sans-serif" font-size="15" font-weight="bold" fill="#0c4a6e" text-anchor="middle">12/20 = 60%</text>
+<text x="220" y="262" font-family="sans-serif" font-size="14" fill="#334155" text-anchor="middle">Xác suất thực nghiệm xuất hiện mặt sấp</text>
+<text x="220" y="284" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0369a1" text-anchor="middle">= 12 : 20 = 3/5 = 0,6 = 60%</text>
+</svg></div>
+
+<!-- 2. Xác suất thực nghiệm -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Xác suất thực nghiệm</h2>
+
+<p>Thực hiện thí nghiệm <strong>$N$ lần</strong>, sự kiện $A$ xuất hiện <strong>$n$ lần</strong>. Tỉ số giữa số lần sự kiện $A$ xuất hiện và tổng số lần thực hiện thí nghiệm được gọi là <strong>xác suất thực nghiệm</strong> của sự kiện $A$:</p>
+
+<p class="text-center text-lg my-3">$$\text{Xác suất thực nghiệm của sự kiện } A = \frac{n}{N}$$</p>
+
+<p>trong đó $n$ là <strong>số lần sự kiện $A$ xuất hiện</strong>, $N$ là <strong>tổng số lần thực hiện thí nghiệm</strong>.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Bạn An tung đồng xu $20$ lần, mặt sấp xuất hiện $12$ lần. Xác suất thực nghiệm của sự kiện "Xuất hiện mặt sấp" là:</p>
+<p class="text-center text-lg my-2">$$\frac{12}{20} = \frac{3}{5} = 0{,}6 = 60\%$$</p>
+</div>
+
+<p><strong>Chú ý:</strong></p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>Xác suất thực nghiệm là một số <strong>từ $0$ đến $1$</strong> (sự kiện càng dễ xảy ra thì xác suất càng gần $1$).</li>
+<li>Có thể viết xác suất thực nghiệm dưới dạng <strong>phân số</strong> (ví dụ $\frac{3}{5}$), <strong>số thập phân</strong> (ví dụ $0{,}6$) hoặc <strong>phần trăm</strong> (ví dụ $60\%$).</li>
+<li>Số lần thực hiện thí nghiệm <strong>càng nhiều</strong> thì xác suất thực nghiệm càng <strong>ổn định</strong>.</li>
+</ul>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><strong>Xác suất thực nghiệm</strong> của sự kiện $A$ bằng <strong>số lần sự kiện $A$ xuất hiện</strong> chia cho <strong>tổng số lần thực hiện thí nghiệm</strong>: $\frac{n}{N}$.</p>
+</div>
+
+<!-- 3. Ví dụ tính xác suất thực nghiệm -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Ví dụ tính xác suất thực nghiệm</h2>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-emerald-800 mb-2">Bài tập ví dụ 1 (có lời giải):</p>
+<p>Bạn Bình <strong>gieo một con xúc xắc $30$ lần</strong>, mặt $6$ chấm xuất hiện $4$ lần. Tính xác suất thực nghiệm của sự kiện "Xuất hiện mặt $6$ chấm".</p>
+<p class="mt-2"><strong>Lời giải:</strong> Tổng số lần gieo là $N = 30$, số lần xuất hiện mặt $6$ chấm là $n = 4$. Vậy xác suất thực nghiệm là:</p>
+<p class="text-center text-lg my-2">$$\frac{4}{30} = \frac{2}{15}$$</p>
+</div>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-emerald-800 mb-2">Bài tập ví dụ 2 (có lời giải):</p>
+<p>Một hộp có bóng đỏ và bóng xanh. Bạn Mai <strong>lấy ngẫu nhiên $1$ quả bóng rồi bỏ lại vào hộp</strong>, lặp lại <strong>$50$ lần</strong>, thấy <strong>$20$ lần</strong> lấy được bóng đỏ. Tính xác suất thực nghiệm của sự kiện "Lấy được bóng đỏ" (viết dưới dạng phần trăm).</p>
+<p class="mt-2"><strong>Lời giải:</strong> Tổng số lần lấy bóng là $N = 50$, số lần lấy được bóng đỏ là $n = 20$. Xác suất thực nghiệm là:</p>
+<p class="text-center text-lg my-2">$$\frac{20}{50} = \frac{2}{5} = 0{,}4 = 40\%$$</p>
+</div>
+
+<!-- Tóm tắt -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Nội dung</td><td class="border border-slate-300 px-4 py-1">Kiến thức cần nhớ</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Đếm số lần xuất hiện</td><td class="border border-slate-300 px-4 py-1">Thực hiện thí nghiệm $N$ lần, đếm số lần $n$ sự kiện $A$ xuất hiện</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Xác suất thực nghiệm</td><td class="border border-slate-300 px-4 py-1">$\frac{n}{N} = \frac{\text{số lần sự kiện xuất hiện}}{\text{tổng số lần thí nghiệm}}$; giá trị từ $0$ đến $1$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Cách viết</td><td class="border border-slate-300 px-4 py-1">Phân số (ví dụ $\frac{3}{5}$), số thập phân (ví dụ $0{,}6$) hoặc phần trăm (ví dụ $60\%$)</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Nhận xét</td><td class="border border-slate-300 px-4 py-1">Số lần thí nghiệm càng nhiều, xác suất thực nghiệm càng ổn định</td></tr>
+</table></div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
