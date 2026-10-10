@@ -239,7 +239,7 @@
                 <!-- MA TRẬN ĐỀ CHUNG + 3 CÁCH TẠO ĐỀ (thiết kế mới 2026-10-09)   -->
                 <!-- ============================================================ -->
                 <div id="exam-method-section" class="space-y-3">
-                    <!-- 2026-10-10: 2 nút phương thức đã gộp vào 4 nút trên cùng (bank=ma trận, direct=Word) -->
+                    <!-- 2026-10-10 (chốt đúng): bank=ma trận đề (Thư viện/Copy prompt AI); direct=ma trận (Copy prompt AI) + nút đẩy Word -->
 
                     <!-- MA TRẬN ĐỀ THI (hiện khi chọn 'Tạo ma trận đề thi') -->
                     <div id="exam-matrix-panel" class="hidden bg-violet-50 border border-violet-200 rounded-xl p-3 shadow-sm">
@@ -389,18 +389,6 @@
                 // Tự refresh danh sách thẩm định khi mở trang (sau 4s)
                 setTimeout(examReviewerRefresh, 4000);
                 </script>
-
-
-                <!-- TOGGLE CHẾ ĐỘ CON: Tạo đề mới / Soạn tay (chỉ hiện ở chế độ đề thi) -->
-                <div id="exam-submode-toggle" class="hidden" style="display:none !important;">
-                    <button type="button" id="exam-submode-create" onclick="switchExamSubMode('create')" class="flex-1 px-3 py-2 rounded-lg text-xs font-bold transition flex items-center justify-center bg-violet-700 text-white shadow">
-                        <i class="fa-solid fa-wand-magic-sparkles mr-2"></i> 🎯 Tạo Đề Mới
-                    </button>
-                    <button type="button" id="exam-submode-edit" onclick="switchExamSubMode('edit')" class="flex-1 px-3 py-2 rounded-lg text-xs font-bold transition flex items-center justify-center bg-slate-100 text-slate-600 hover:bg-slate-200">
-                        <i class="fa-solid fa-pen-to-square mr-2"></i> ✏️ Soạn Tay / Sửa & Đẩy
-                    </button>
-                </div>
-
                 <!-- PANEL SOẠN ĐỀ TỪ NGÂN HÀNG (inline, thay popup cũ) -->
                 <div id="exam-builder-panel" class="eba-wrap">
                     <div class="eba-inner space-y-4 bg-amber-50/60 p-3 rounded-xl border border-amber-200">
@@ -512,15 +500,12 @@
                     </div>
                 </div>
                     </div>
-                <!-- PANEL ĐẨY TRỰC TIẾP: 2 dạng Soạn từ dán AI / Soạn từ file Word -->
+                <!-- PANEL SOẠN ĐỀ MỚI (2026-10-10 user chốt đúng): ma trận ở trên + nút đẩy Word -->
                 <div id="direct-panel" class="eba-wrap">
-                    <div class="eba-inner space-y-2 bg-indigo-50/60 p-2 rounded-xl border border-indigo-200">
-                    <div class="flex space-x-2">
-                        <button type="button" id="direct-tab-ai" onclick="switchDirectInput('ai')" class="flex-1 px-3 py-2 rounded-lg text-xs font-bold bg-indigo-700 text-white shadow">1. Soạn từ dán AI</button>
-                        <button type="button" id="direct-tab-word" onclick="document.getElementById('direct-word-box').classList.remove('hidden');document.getElementById('word-exam-input').click();return false;" class="flex-1 px-3 py-2 rounded-lg text-xs font-bold bg-white text-indigo-800 border border-indigo-200">2. Soạn từ đẩy file Word lên</button>
-                    </div>
-                    <p id="direct-ai-hint" class="text-[11px] text-indigo-900 bg-white/70 rounded-lg px-3 py-2 border border-indigo-100">
-                        <i class="fa-solid fa-paste mr-1 text-indigo-600"></i>Dán mã HTML đề thi (từ AI/NotebookLM) vào <b>khung soạn thảo</b> bên dưới, nhập tiêu đề, rồi bấm <b>Đẩy bài</b>. Đề được giữ <b>cố định</b> + gắn cờ tính giờ theo cài đặt.
+                    <div class="eba-inner space-y-2 bg-indigo-50/60 p-3 rounded-xl border border-indigo-200">
+                    <p class="text-[11px] text-indigo-900 bg-white/70 rounded-lg px-3 py-2 border border-indigo-100">
+                        <i class="fa-solid fa-wand-magic-sparkles mr-1 text-indigo-600"></i>
+                        <b>Soạn đề mới bằng AI:</b> nhập ma trận ở khung trên → bấm <b>"Copy prompt cho AI tạo đề mới"</b> → dán cho AI → dán kết quả vào <b>khung soạn</b> bên dưới (hoặc gộp nhiều bộ đề) rồi đẩy bài.
                     </p>
                     <div class="bg-white/70 rounded-lg border border-indigo-100 overflow-hidden">
                         <button type="button" onclick="document.getElementById('merge-sets-box').classList.toggle('hidden')" class="w-full px-3 py-2 text-left text-[11px] font-bold text-indigo-900 hover:bg-indigo-50 flex items-center">
@@ -535,54 +520,23 @@
                             </div>
                         </div>
                     </div>
-                    <div id="direct-word-box" class="hidden space-y-2">
-                        <div class="flex flex-wrap items-center gap-2 bg-white/70 rounded-lg px-3 py-2 border border-indigo-100">
-                            <label class="text-[11px] font-bold text-indigo-900 whitespace-nowrap"><i class="fa-solid fa-file-word text-blue-600 mr-1"></i>Chọn file Word (.docx):</label>
-                            <input type="file" id="word-exam-input" accept=".docx" onchange="handleWordExamFile(this)" class="block text-[11px] text-slate-500 file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:bg-blue-600 file:text-white file:font-bold cursor-pointer"/>
-                            <button type="button" onclick="toggleWordGuide()" class="text-[11px] font-bold text-indigo-700 hover:underline"><i class="fa-solid fa-circle-question mr-1"></i>Xem quy cách soạn Word</button>
-                            <button type="button" onclick="document.getElementById('ai-key-box').classList.toggle('hidden')" title="Cài đặt AI đọc đề" class="text-[11px] font-bold text-violet-700 hover:underline"><i class="fa-solid fa-robot mr-1"></i>AI đọc đề</button>
-                        </div>
-                        <div id="word-guide" class="hidden text-[11px] text-slate-700 bg-white rounded-lg p-3 border border-indigo-100 leading-relaxed"></div>
-                        <div id="word-preview" class="text-[11px]"></div>
-                        <div id="ai-key-box" class="hidden bg-violet-50 border border-violet-200 rounded-lg p-3 space-y-2">
-                            <p class="text-[11px] font-black text-violet-900"><i class="fa-solid fa-robot mr-1"></i>AI đọc đề thi lộn xộn</p>
-                            <div class="flex gap-2">
-                                <input type="password" id="gemini-key-input" placeholder="Dán Gemini API key của bạn (lấy miễn phí tại aistudio.google.com)" class="flex-1 text-xs border rounded-lg px-2.5 py-1.5">
-                                <button type="button" onclick="saveGeminiKeyUI()" class="bg-violet-600 hover:bg-violet-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg">Lưu key</button>
-                            </div>
-                            <p id="gemini-key-status" class="text-[10px] text-slate-500"></p>
-                            <div class="flex flex-wrap gap-2">
-                                <button type="button" onclick="aiParseExam()" class="bg-violet-600 hover:bg-violet-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg"><i class="fa-solid fa-bolt mr-1"></i>AI đọc ngay (Gemini)</button>
-                                <button type="button" onclick="copyNotebookLMPrompt()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg"><i class="fa-solid fa-copy mr-1"></i>Copy prompt gửi NotebookLM</button>
-                            </div>
-                            <p class="text-[10px] text-slate-500">Nếu Gemini API lỗi, dùng nút <b>Copy prompt gửi NotebookLM</b>: dán vào NotebookLM (kèm file Word), copy JSON trả về vào khung <b>"Gộp nhiều bộ đề"</b> bên dưới.</p>
-                        </div>
-                        <!-- B. ĐỀ NGUYÊN BẢN: giữ nguyên bố cục Word (công thức + hình vẽ) -->
-                        <div class="bg-white/70 rounded-lg border border-emerald-200 overflow-hidden">
-                            <button type="button" onclick="document.getElementById('paper-box').classList.toggle('hidden')" class="w-full px-3 py-2 text-left text-[11px] font-bold text-emerald-900 hover:bg-emerald-50 flex items-center">
-                                <i class="fa-solid fa-file-lines mr-1.5 text-emerald-600"></i>B. Đề nguyên bản — giữ nguyên bố cục Word (công thức + hình vẽ) <i class="fa-solid fa-chevron-down ml-auto text-[10px]"></i>
+                    <div class="bg-white/70 rounded-lg border border-indigo-100 px-3 py-2.5">
+                        <p class="text-[11px] font-black text-indigo-900 mb-1.5"><i class="fa-solid fa-file-word text-blue-600 mr-1.5"></i>Hoặc đẩy đề từ file Word có sẵn:</p>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <button type="button" onclick="document.getElementById('word-exam-input').click();return false;" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-4 py-2 rounded-xl">
+                                <i class="fa-solid fa-upload mr-1.5"></i>📤 Đẩy file Word lên
                             </button>
-                            <div id="paper-box" class="hidden px-3 pb-3 space-y-2 border-t border-emerald-100 pt-2">
-                                <p class="text-[10px] text-slate-500">Dành cho đề thi có <b>công thức toán</b> và <b>hình vẽ</b> — đẩy lên web giữ nguyên như bản Word để học sinh xem trực tiếp (không chấm tự động). Chọn 1 trong 2 cách:</p>
-                                <div class="flex flex-wrap gap-2">
-                                    <label class="cursor-pointer bg-blue-600 hover:bg-blue-700 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg">
-                                        <i class="fa-solid fa-upload mr-1"></i>Cách 1: Tải file .docx
-                                        <input type="file" id="paper-docx-input" accept=".docx" onchange="handlePaperDocxFile(this)" class="hidden"/>
-                                    </label>
-                                    <button type="button" onclick="togglePaperPaste()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg"><i class="fa-solid fa-paste mr-1"></i>Cách 2: Dán từ Word</button>
-                                </div>
-                                <div id="paper-paste-wrap" class="hidden">
-                                    <p class="text-[10px] text-slate-500 mb-1">Mở file trong Word → <b>Ctrl+A</b> → <b>Ctrl+C</b>, rồi dán (Ctrl+V) vào khung dưới. Dùng cho file <b>MathType cũ</b> mà Cách 1 báo không đọc được công thức:</p>
-                                    <div id="paper-paste-box" contenteditable="true" onpaste="onPaperPaste(event)" class="min-h-[90px] max-h-56 overflow-y-auto bg-white border-2 border-dashed border-emerald-300 rounded-lg p-2 text-[11px] text-slate-400">Dán nội dung Word vào đây...</div>
-                                </div>
-                                <div id="paper-preview" class="text-[11px]"></div>
-                            </div>
+                            <span class="text-[10px] text-slate-500">Bấm nút mở ngay hộp thoại chọn file .docx — không cần nhập prompt.</span>
+                        </div>
+                        <input type="file" id="word-exam-input" accept=".docx" onchange="document.getElementById('direct-word-preview-wrap').classList.remove('hidden');handleWordExamFile(this)" class="hidden"/>
+                        <div id="direct-word-preview-wrap" class="hidden mt-2">
+                            <div id="word-preview" class="text-[11px]"></div>
                         </div>
                     </div>
                 </div>
-
                 </div>
-                <!-- BỘ TẠO PROMPT NOTEBOOKLM NHANH -->
+
+<!-- BỘ TẠO PROMPT NOTEBOOKLM NHANH -->
                 <div id="bo-tao-prompt-box" class="bg-slate-50 border border-slate-200 p-3 rounded-xl space-y-2">
                     <div class="flex items-center border-b border-slate-200 pb-2">
                         <div class="flex items-center space-x-2">
@@ -1465,7 +1419,7 @@
                     <p class="text-xs text-slate-400 italic p-4">Chọn nhóm để xem thống kê.</p>
                 </div>
             </div>
-    <script src="hub-tabs.js?v=20261008_2"></script>
+    <script src="hub-tabs.js?v=20261010_2"></script>
     <script src="hub-editor.js?v=20261008_2"></script>
     <script src="hub-preview.js?v=20261008_2"></script>
     <script src="hub-publish.js?v=20261010_1"></script>
