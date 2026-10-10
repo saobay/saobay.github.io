@@ -24,7 +24,7 @@
             let promptText = "";
 
             if (type === 'KNOWLEDGE') {
-                promptText = `Xuất DUY NHẤT chuỗi mã HTML (raw code) bài học Môn: ${subject} - Lớp: ${grade}. Chủ đề: "${lesson}".
+                promptText = `Xuất DUY NHẤT chuỗi mã HTML (raw code) bài học Môn: ${subject} - Lớp: ${grade}. Nội dung kiến thức: "${lesson}".
 YÊU CẦU:
 1. Bọc trong <div class="bai-giang-container space-y-4 font-sans text-slate-800">. Thiết kế Tailwind CSS đẹp mắt, các mục I, II, III đóng khung card trắng (bg-white p-4 rounded-xl border border-slate-200 shadow-sm mb-3).
 2. Công thức Toán: Mọi ký hiệu toán bắt buộc kẹp trong $...$ hoặc $$...$$. Tuyệt đối không đổi sang Equation Word/Unicode.
