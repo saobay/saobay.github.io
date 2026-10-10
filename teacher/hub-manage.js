@@ -26,6 +26,18 @@
                     }
                 });
             } catch(eSw){ console.error('[hub] switchTeacherModule loi:', eSw); }
+            // Cây thư mục: ẩn khi ra khỏi module Soạn bài (2026-10-10)
+            try {
+                let sb2 = document.getElementById('sidebar-container');
+                if (sb2) {
+                    if (modId !== 'compose') sb2.classList.add('hidden');
+                    else {
+                        // Về lại compose: hiện/ẩn theo chế độ đẩy hiện tại
+                        let cpt = (typeof currentPushTab !== 'undefined') ? currentPushTab : 'theory';
+                        sb2.classList.toggle('hidden', !(cpt === 'theory' || cpt === 'exercise'));
+                    }
+                }
+            } catch(eSb){}
             try {
                 if (modId === 'manage') renderLessonManagementList();
                 if (modId === 'reports' && typeof rpInit === 'function') rpInit();
