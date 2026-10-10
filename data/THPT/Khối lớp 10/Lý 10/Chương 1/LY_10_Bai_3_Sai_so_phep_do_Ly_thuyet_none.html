@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 3: Thực hành tính sai số trong phép đo. Ghi kết quả đo</title>
+    <meta name="lesson-title" content="Bài 3: Thực hành tính sai số trong phép đo. Ghi kết quả đo">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 3: Thực hành tính sai số trong phép đo. Ghi kết quả đo</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 1: Mở đầu • Bài 3: Thực hành tính sai số trong phép đo. Ghi kết quả đo</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 3: Thực hành tính sai số trong phép đo. Ghi kết quả đo</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 1: Mở đầu — Vật lí 10 (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Phép đo trực tiếp và phép đo gián tiếp -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Phép đo trực tiếp và phép đo gián tiếp</h2>
+
+<p><strong>Định nghĩa:</strong> <em>Phép đo một đại lượng vật lí</em> là phép so sánh nó với đại lượng cùng loại được quy ước làm <strong>đơn vị</strong>.</p>
+
+<ul class="list-disc ml-6 space-y-2 my-3">
+<li><strong>Phép đo trực tiếp:</strong> kết quả được <strong>đọc trực tiếp</strong> từ dụng cụ đo, không cần tính toán qua công thức. Ví dụ: dùng thước đo chiều dài, dùng cân đo khối lượng, dùng đồng hồ bấm giây đo thời gian, dùng ampe kế đo cường độ dòng điện.</li>
+<li><strong>Phép đo gián tiếp:</strong> đại lượng cần đo được <strong>tính qua công thức</strong> liên hệ nó với các đại lượng đo trực tiếp. Ví dụ: đo đường kính $d$ của viên bi rồi tính chu vi $C = \pi d$; đo hai cạnh $a, b$ của hình chữ nhật rồi tính diện tích $S = a \times b$; đo hiệu điện thế $U$ và cường độ dòng điện $I$ rồi tính điện trở $R = \dfrac{U}{I}$.</li>
+</ul>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Đo trực tiếp: <strong>đọc số trên dụng cụ</strong>. Đo gián tiếp: <strong>đo các đại lượng liên quan rồi tính</strong> qua công thức. Mọi phép đo gián tiếp đều dựa trên các phép đo trực tiếp.</p>
+</div>
+
+<!-- 2. Sai số của phép đo -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Sai số của phép đo</h2>
+
+<p>Không có phép đo nào cho giá trị <strong>hoàn toàn chính xác</strong>. Kết quả đo luôn lệch khỏi giá trị thực một lượng gọi là <strong>sai số</strong>. Có hai loại sai số:</p>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">2.1. Sai số hệ thống</h3>
+
+<p><strong>Định nghĩa:</strong> <em>Sai số hệ thống</em> là sai số có <strong>tính quy luật</strong> (lặp lại giống nhau hoặc biến đổi theo quy luật ở các lần đo), thường do:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>dụng cụ đo:</strong> điểm 0 của thước bị lệch, cân chưa hiệu chỉnh, đồng hồ chạy nhanh/chậm đều;</li>
+<li><strong>phương pháp đo / cách bố trí thí nghiệm</strong> chưa hợp lí.</li>
+</ul>
+<p>Vì có tính quy luật nên sai số hệ thống <strong>có thể phát hiện và hiệu chỉnh</strong> (hiệu chỉnh lại điểm 0, sửa phương pháp đo...). Ví dụ: thước bị mòn mất vạch số 0 khiến mọi kết quả đều lớn hơn giá trị thực khoảng $2\,\text{mm}$ — trừ đi $2\,\text{mm}$ là hiệu chỉnh được.</p>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">2.2. Sai số ngẫu nhiên</h3>
+
+<p><strong>Định nghĩa:</strong> <em>Sai số ngẫu nhiên</em> là sai số không có tính quy luật — các lần đo cho kết quả <strong>lúc lớn, lúc nhỏ</strong> một cách ngẫu nhiên quanh giá trị thực, thường do:</p>
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li>thao tác của người đo (bấm đồng hồ sớm/muộn, đọc vạch chia lệch mắt);</li>
+<li>điều kiện môi trường thay đổi (nhiệt độ, độ ẩm, rung động).</li>
+</ul>
+<p>Sai số ngẫu nhiên <strong>không thể loại trừ hoàn toàn</strong>, nhưng có thể <strong>giảm</strong> bằng cách <strong>đo nhiều lần rồi lấy giá trị trung bình</strong>: các sai số ngẫu nhiên dương và âm có xu hướng triệt tiêu lẫn nhau.</p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 270" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Minh hoa sai so ngau nhien: gia tri thuc va cac lan do phan tan">
+<rect x="2" y="2" width="436" height="266" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="28" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0c4a6e" text-anchor="middle">Sai số ngẫu nhiên: các lần đo phân tán quanh giá trị thực</text>
+<circle cx="220" cy="150" r="100" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
+<circle cx="220" cy="150" r="66" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
+<circle cx="220" cy="150" r="33" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
+<circle cx="220" cy="150" r="7" fill="#dc2626" stroke="#991b1b" stroke-width="2"/>
+<text x="220" y="172" font-family="sans-serif" font-size="11" fill="#991b1b" text-anchor="middle">giá trị thực</text>
+<circle cx="168" cy="108" r="6" fill="#2563eb" opacity="0.85"/>
+<circle cx="272" cy="118" r="6" fill="#2563eb" opacity="0.85"/>
+<circle cx="248" cy="196" r="6" fill="#2563eb" opacity="0.85"/>
+<circle cx="192" cy="204" r="6" fill="#2563eb" opacity="0.85"/>
+<circle cx="286" cy="164" r="6" fill="#2563eb" opacity="0.85"/>
+<circle cx="154" cy="162" r="6" fill="#2563eb" opacity="0.85"/>
+<text x="220" y="252" font-family="sans-serif" font-size="11" fill="#1e40af" text-anchor="middle">● các lần đo (lúc lớn, lúc nhỏ — không theo quy luật)</text>
+</svg></div>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 my-2 text-sm">
+<tr class="bg-sky-100 font-semibold">
+<td class="border border-slate-300 px-4 py-2">Tiêu chí</td>
+<td class="border border-slate-300 px-4 py-2">Sai số hệ thống</td>
+<td class="border border-slate-300 px-4 py-2">Sai số ngẫu nhiên</td>
+</tr>
+<tr>
+<td class="border border-slate-300 px-4 py-2 font-semibold">Nguyên nhân</td>
+<td class="border border-slate-300 px-4 py-2">Dụng cụ (điểm 0 lệch...), phương pháp đo</td>
+<td class="border border-slate-300 px-4 py-2">Thao tác người đo, điều kiện môi trường thay đổi</td>
+</tr>
+<tr>
+<td class="border border-slate-300 px-4 py-2 font-semibold">Tính chất</td>
+<td class="border border-slate-300 px-4 py-2">Có tính quy luật, lặp lại</td>
+<td class="border border-slate-300 px-4 py-2">Ngẫu nhiên, lúc lớn lúc nhỏ</td>
+</tr>
+<tr>
+<td class="border border-slate-300 px-4 py-2 font-semibold">Cách giảm</td>
+<td class="border border-slate-300 px-4 py-2">Hiệu chỉnh dụng cụ, sửa phương pháp đo</td>
+<td class="border border-slate-300 px-4 py-2">Đo nhiều lần, lấy giá trị trung bình</td>
+</tr>
+</table></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Sai số hệ thống: <strong>có quy luật → hiệu chỉnh được</strong>. Sai số ngẫu nhiên: <strong>không quy luật → đo nhiều lần lấy trung bình</strong> để giảm.</p>
+</div>
+
+<!-- 3. Cách xác định sai số của phép đo trực tiếp -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Cách xác định sai số của phép đo trực tiếp</h2>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">3.1. Giá trị trung bình</h3>
+
+<p>Đo đại lượng $A$ được $n$ lần với các giá trị $A_1, A_2, \dots, A_n$. <strong>Giá trị trung bình</strong> (lấy làm giá trị gần đúng nhất với giá trị thực) là:</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$\bar{A} = \frac{A_1 + A_2 + \dots + A_n}{n}$$</p>
+</div>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">3.2. Sai số tuyệt đối của mỗi lần đo và sai số tuyệt đối trung bình</h3>
+
+<p><strong>Sai số tuyệt đối của mỗi lần đo</strong> là độ lệch (lấy trị tuyệt đối) giữa giá trị trung bình và giá trị của lần đo đó:</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$\Delta A_i = |\bar{A} - A_i| \quad (i = 1, 2, \dots, n)$$</p>
+</div>
+
+<p><strong>Sai số tuyệt đối trung bình</strong> của $n$ lần đo là trung bình cộng của các $\Delta A_i$:</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$\overline{\Delta A} = \frac{\Delta A_1 + \Delta A_2 + \dots + \Delta A_n}{n}$$</p>
+</div>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">3.3. Sai số dụng cụ và sai số tuyệt đối của phép đo</h3>
+
+<p>Mỗi dụng cụ đều có giới hạn chính xác, gọi là <strong>sai số dụng cụ</strong> $\Delta A'$, thường lấy bằng <strong>nửa độ chia nhỏ nhất (ĐCNN)</strong> của dụng cụ.</p>
+
+<div class="svg-fig"><svg viewBox="0 0 440 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Minh hoa do chia nho nhat cua thuoc va sai so dung cu">
+<rect x="2" y="2" width="436" height="186" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="220" y="28" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0c4a6e" text-anchor="middle">Thước có độ chia nhỏ nhất (ĐCNN) = 1 mm</text>
+<rect x="30" y="60" width="380" height="46" rx="4" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+<g stroke="#92400e" stroke-width="1.5">
+<line x1="40" y1="106" x2="40" y2="92"/><line x1="50" y1="106" x2="50" y2="98"/><line x1="60" y1="106" x2="60" y2="98"/><line x1="70" y1="106" x2="70" y2="98"/><line x1="80" y1="106" x2="80" y2="98"/>
+<line x1="90" y1="106" x2="90" y2="88"/><line x1="100" y1="106" x2="100" y2="98"/><line x1="110" y1="106" x2="110" y2="98"/><line x1="120" y1="106" x2="120" y2="98"/><line x1="130" y1="106" x2="130" y2="98"/>
+<line x1="140" y1="106" x2="140" y2="88"/><line x1="150" y1="106" x2="150" y2="98"/><line x1="160" y1="106" x2="160" y2="98"/><line x1="170" y1="106" x2="170" y2="98"/><line x1="180" y1="106" x2="180" y2="98"/>
+<line x1="190" y1="106" x2="190" y2="88"/><line x1="200" y1="106" x2="200" y2="98"/><line x1="210" y1="106" x2="210" y2="98"/><line x1="220" y1="106" x2="220" y2="98"/><line x1="230" y1="106" x2="230" y2="98"/>
+<line x1="240" y1="106" x2="240" y2="88"/><line x1="250" y1="106" x2="250" y2="98"/><line x1="260" y1="106" x2="260" y2="98"/><line x1="270" y1="106" x2="270" y2="98"/><line x1="280" y1="106" x2="280" y2="98"/>
+<line x1="290" y1="106" x2="290" y2="88"/><line x1="300" y1="106" x2="300" y2="98"/><line x1="310" y1="106" x2="310" y2="98"/><line x1="320" y1="106" x2="320" y2="98"/><line x1="330" y1="106" x2="330" y2="98"/>
+<line x1="340" y1="106" x2="340" y2="88"/><line x1="350" y1="106" x2="350" y2="98"/><line x1="360" y1="106" x2="360" y2="98"/><line x1="370" y1="106" x2="370" y2="98"/><line x1="380" y1="106" x2="380" y2="98"/>
+<line x1="390" y1="106" x2="390" y2="88"/>
+</g>
+<text x="40" y="80" font-family="sans-serif" font-size="11" fill="#92400e" text-anchor="middle">0</text>
+<text x="140" y="80" font-family="sans-serif" font-size="11" fill="#92400e" text-anchor="middle">1 cm</text>
+<text x="240" y="80" font-family="sans-serif" font-size="11" fill="#92400e" text-anchor="middle">2 cm</text>
+<text x="340" y="80" font-family="sans-serif" font-size="11" fill="#92400e" text-anchor="middle">3 cm</text>
+<line x1="40" y1="122" x2="50" y2="122" stroke="#dc2626" stroke-width="3"/>
+<polygon points="40,118 40,126 34,122" fill="#dc2626"/><polygon points="50,118 50,126 56,122" fill="#dc2626"/>
+<text x="45" y="142" font-family="sans-serif" font-size="12" font-weight="bold" fill="#dc2626" text-anchor="middle">1 mm = ĐCNN</text>
+<line x1="40" y1="158" x2="45" y2="158" stroke="#2563eb" stroke-width="3"/>
+<polygon points="40,154 40,162 34,158" fill="#2563eb"/><polygon points="45,154 45,162 51,158" fill="#2563eb"/>
+<text x="130" y="162" font-family="sans-serif" font-size="12" font-weight="bold" fill="#2563eb" text-anchor="middle">ΔA' = 0,5 mm (nửa ĐCNN)</text>
+</svg></div>
+
+<p><strong>Sai số tuyệt đối của phép đo</strong> là tổng của sai số tuyệt đối trung bình và sai số dụng cụ:</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$\Delta A = \overline{\Delta A} + \Delta A'$$</p>
+</div>
+
+<p class="text-sm text-slate-600 italic">Chú ý: nếu chỉ đo một lần duy nhất thì lấy $\Delta A = \Delta A'$ (sai số dụng cụ).</p>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">3.4. Sai số tỉ đối</h3>
+
+<p><strong>Sai số tỉ đối</strong> $\delta A$ cho biết <strong>mức độ chính xác</strong> của phép đo: $\delta A$ càng nhỏ thì phép đo càng chính xác.</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$\delta A = \frac{\Delta A}{\bar{A}} \times 100\%$$</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Quy trình tính sai số của phép đo trực tiếp: tính $\bar{A}$ → tính các $\Delta A_i$ → tính $\overline{\Delta A}$ → cộng $\Delta A'$ được $\Delta A$ → tính $\delta A$ → ghi kết quả $A = \bar{A} \pm \Delta A$.</p>
+</div>
+
+<!-- 4. Sai số của phép đo gián tiếp -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Sai số của phép đo gián tiếp</h2>
+
+<p>Đại lượng $F$ được tính qua công thức từ các đại lượng đo trực tiếp. Sai số của $F$ được suy ra từ sai số của các đại lượng thành phần:</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Sai số tỉ đối của một tích hoặc một thương</strong> bằng <strong>tổng</strong> các sai số tỉ đối của các thừa số. Ví dụ với $S = a \times b$: $\delta S = \delta a + \delta b$; với $R = \dfrac{U}{I}$: $\delta R = \delta U + \delta I$.</li>
+<li><strong>Sai số tỉ đối của một lũy thừa</strong> bằng số mũ nhân với sai số tỉ đối của cơ số. Ví dụ với $S = a^2$: $\delta S = 2\,\delta a$; với $V = a^3$: $\delta V = 3\,\delta a$.</li>
+<li>Từ $\delta F$ suy ra <strong>sai số tuyệt đối</strong>: $\Delta F = \bar{F} \times \dfrac{\delta F}{100\%}$, rồi ghi kết quả $F = \bar{F} \pm \Delta F$.</li>
+</ul>
+</div>
+
+<p><strong>Ví dụ:</strong> đo đường kính viên bi $d = 2{,}00 \pm 0{,}02\;(\text{cm})$. Chu vi trung bình $\bar{C} = \pi \bar{d} = 3{,}14 \times 2{,}00 = 6{,}28\;(\text{cm})$. Vì $C = \pi d$ nên $\delta C = \delta d = \dfrac{0{,}02}{2{,}00} \times 100\% = 1\%$, suy ra $\Delta C = 6{,}28 \times 1\% = 0{,}0628\;(\text{cm})$. Kết quả: $C = 6{,}28 \pm 0{,}0628\;(\text{cm})$.</p>
+
+<!-- 5. Cách ghi kết quả đo -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">5. Cách ghi kết quả đo</h2>
+
+<p>Kết quả của phép đo đại lượng $A$ được ghi dưới dạng:</p>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4 text-center">
+<p>$$A = \bar{A} \pm \Delta A$$</p>
+</div>
+
+<p>Cách ghi này có nghĩa là giá trị thực của $A$ nằm trong khoảng từ $\bar{A} - \Delta A$ đến $\bar{A} + \Delta A$.</p>
+
+<!-- 6. Chữ số có nghĩa -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">6. Chữ số có nghĩa</h2>
+
+<p><strong>Định nghĩa:</strong> <em>Chữ số có nghĩa</em> của một số là <strong>tất cả các chữ số tính từ trái sang phải, kể từ chữ số khác 0 đầu tiên</strong> (các số 0 đứng trước chữ số khác 0 đầu tiên không được tính).</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>$2{,}05\;\text{m}$ có <strong>3</strong> chữ số có nghĩa ($2$, $0$, $5$).</li>
+<li>$0{,}0205\;\text{m}$ có <strong>3</strong> chữ số có nghĩa ($2$, $0$, $5$ — hai số 0 đầu không tính).</li>
+<li>$100{,}5$ có <strong>4</strong> chữ số có nghĩa; $0{,}100$ có <strong>3</strong> chữ số có nghĩa.</li>
+</ul>
+</div>
+
+<p>Khi ghi kết quả $A = \bar{A} \pm \Delta A$, chữ số cuối cùng được giữ lại của $\bar{A}$ phải <strong>cùng hàng</strong> với chữ số có nghĩa cuối cùng của $\Delta A$.</p>
+
+<!-- 7. Ví dụ mẫu -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">7. Ví dụ mẫu</h2>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Đề bài:</p>
+<p>Dùng thước có độ chia nhỏ nhất $1\,\text{mm}$ đo chiều dài của một thanh kim loại $5$ lần, thu được các giá trị (tính theo mét):</p>
+<p class="text-center my-2">$2{,}01 \quad ; \quad 2{,}03 \quad ; \quad 2{,}02 \quad ; \quad 2{,}04 \quad ; \quad 2{,}00$</p>
+<p>Hãy tính giá trị trung bình, sai số tuyệt đối, sai số tỉ đối và ghi kết quả đo.</p>
+</div>
+
+<div class="bg-white border border-slate-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-slate-800 mb-2">Lời giải (từng bước):</p>
+<p><strong>Bước 1 — Giá trị trung bình:</strong></p>
+<p class="text-center my-2">$$\bar{A} = \frac{2{,}01 + 2{,}03 + 2{,}02 + 2{,}04 + 2{,}00}{5} = \frac{10{,}10}{5} = 2{,}02\;(\text{m})$$</p>
+<p><strong>Bước 2 — Sai số tuyệt đối của mỗi lần đo</strong> $\Delta A_i = |\bar{A} - A_i|$:</p>
+<p class="text-center my-2">$$\Delta A_1 = 0{,}01;\; \Delta A_2 = 0{,}01;\; \Delta A_3 = 0{,}00;\; \Delta A_4 = 0{,}02;\; \Delta A_5 = 0{,}02\;(\text{m})$$</p>
+<p><strong>Bước 3 — Sai số tuyệt đối trung bình:</strong></p>
+<p class="text-center my-2">$$\overline{\Delta A} = \frac{0{,}01 + 0{,}01 + 0{,}00 + 0{,}02 + 0{,}02}{5} = \frac{0{,}06}{5} = 0{,}012\;(\text{m})$$</p>
+<p><strong>Bước 4 — Sai số dụng cụ</strong> (nửa ĐCNN): $\Delta A' = \dfrac{1\,\text{mm}}{2} = 0{,}5\,\text{mm} = 0{,}0005\,\text{m}$.</p>
+<p><strong>Bước 5 — Sai số tuyệt đối của phép đo:</strong></p>
+<p class="text-center my-2">$$\Delta A = \overline{\Delta A} + \Delta A' = 0{,}012 + 0{,}0005 = 0{,}0125\;(\text{m})$$</p>
+<p><strong>Bước 6 — Sai số tỉ đối:</strong></p>
+<p class="text-center my-2">$$\delta A = \frac{\Delta A}{\bar{A}} \times 100\% = \frac{0{,}0125}{2{,}02} \times 100\% \approx 0{,}62\%$$</p>
+<p><strong>Bước 7 — Ghi kết quả:</strong></p>
+<p class="text-center my-2 font-semibold">$$A = 2{,}02 \pm 0{,}0125\;(\text{m}) \quad \text{với} \quad \delta A \approx 0{,}62\%$$</p>
+</div>
+
+<!-- Tổng kết -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Phép đo trực tiếp:</strong> đọc trực tiếp trên dụng cụ. <strong>Phép đo gián tiếp:</strong> tính qua công thức từ các đại lượng đo trực tiếp.</li>
+<li><strong>Sai số hệ thống:</strong> có tính quy luật (dụng cụ, phương pháp) → hiệu chỉnh được. <strong>Sai số ngẫu nhiên:</strong> không quy luật (thao tác, môi trường) → đo nhiều lần lấy trung bình.</li>
+<li>$\bar{A} = \dfrac{A_1 + A_2 + \dots + A_n}{n}$; $\Delta A_i = |\bar{A} - A_i|$; $\overline{\Delta A} = \dfrac{\Delta A_1 + \dots + \Delta A_n}{n}$.</li>
+<li>$\Delta A' = $ nửa ĐCNN; $\Delta A = \overline{\Delta A} + \Delta A'$; $\delta A = \dfrac{\Delta A}{\bar{A}} \times 100\%$.</li>
+<li>Ghi kết quả: $A = \bar{A} \pm \Delta A$.</li>
+<li>Phép đo gián tiếp: $\delta$ của tích/thương = tổng các $\delta$ thành phần; $\delta$ của lũy thừa bậc $n$ = $n$ lần $\delta$ cơ số.</li>
+<li><strong>Chữ số có nghĩa:</strong> đếm từ chữ số khác 0 đầu tiên tính từ trái sang.</li>
+</ul>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+</body>
+</html>
