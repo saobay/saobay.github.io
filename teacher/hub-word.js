@@ -105,8 +105,9 @@
             + '<li><b>[TN]</b> = trắc nghiệm 4 đáp án &nbsp; <b>[ĐS]</b> = đúng/sai &nbsp; <b>[TLN]</b> = trả lời ngắn &nbsp; <b>[TL]</b> = tự luận (GV chấm tay).</li>'
             + '<li><b>[NB]</b> nhận biết &nbsp; <b>[TH]</b> thông hiểu &nbsp; <b>[VD]</b> vận dụng &nbsp; <b>[VDC]</b> vận dụng cao (mặc định NB).</li>'
             + '<li>Trắc nghiệm: phương án viết <b>a. b. c. d.</b> (chữ thường cũng được) — Đúng/Sai: mệnh đề viết <b>a) b) c) d)</b>.</li>'
-            + '<li><b class="text-emerald-700">Đánh dấu đáp án đúng: GẠCH CHÂN chữ cái đầu</b> của đáp án đúng (vd: gạch chân chữ <u>b</u>). Câu Đúng/Sai: gạch chân chữ cái của mệnh đề <b>ĐÚNG</b> (vd: a, c đúng thì gạch chân a và c).</li>'
-            + '<li>Cách cũ vẫn dùng được: dòng <b>Đáp án:</b> — TN ghi chữ cái (vd: B) • Đ/S ghi Đ,S cách nhau dấu phẩy (vd: Đ, S, Đ, S) • TLN ghi nội dung. Chữ đỏ cả dòng cũng vẫn nhận.</li>'
+            + '<li><b class="text-rose-700">⭐ ƯU TIÊN — ghi rõ dòng <b>Đáp án:</b></b> (hình thức <b>nên dùng</b>, chính xác nhất, không phụ thuộc định dạng chữ): TN ghi chữ cái (vd: <b>Đáp án: C</b>) • Đ/S ghi Đ,S cách nhau dấu phẩy (vd: Đáp án: Đ, S, Đ, S) • TLN ghi nội dung (vd: Đáp án: 42).</li>'
+            + '<li><b class="text-emerald-700">Cách 2 — GẠCH CHÂN chữ cái đầu</b> của đáp án đúng (vd: gạch chân chữ <u>b</u>). Câu Đúng/Sai: gạch chân chữ cái của mệnh đề <b>ĐÚNG</b> (vd: a, c đúng thì gạch chân a và c).</li>'
+            + '<li><b>Cách 3</b> — bôi đỏ hoặc gạch chân <b>cả dòng đáp án</b> đúng (vẫn được chấp nhận).</li>'
             + '<li>Công thức Toán viết dạng text (vd: x^2, \\(x^2\\)).</li>'
             + '</ul>';
         }
