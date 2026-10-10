@@ -67,8 +67,8 @@
                 <span id="admin-users-badge" class="hidden absolute -top-1.5 -right-1.5 bg-rose-600 text-white text-[10px] font-black rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1"></span>
             </button>
 
-            <button id="admin-uilabels-btn" onclick="switchTeacherModule('uilabels')" title="Tùy chỉnh chữ hiển thị trên giao diện (admin)" class="hidden bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs px-3 py-2 rounded-lg transition flex items-center shadow">
-                <i class="fa-solid fa-palette mr-1"></i> Tùy Chỉnh Giao Diện
+            <button onclick="openMyClasses()" title="Lớp riêng ngoài danh sách trường (dạy thêm)" class="bg-teal-600 hover:bg-teal-500 text-white font-bold text-xs px-3 py-2 rounded-lg transition flex items-center shadow">
+                <i class="fa-solid fa-users-rectangle mr-1"></i> Lớp Riêng
             </button>
 
             <a href="teacher-scores.html" title="Bảng điểm học sinh theo phân công" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-3 py-2 rounded-lg transition flex items-center shadow">
@@ -189,6 +189,15 @@
                         <div class="truncate">
                             <div class="text-xs font-extrabold uppercase" data-ui-label="mod_groups">7. Nhóm GV</div>
                             <div class="text-[10px] text-slate-500" data-ui-label="mod_groups_sub">Thống kê nhóm (admin)</div>
+                        </div>
+                    </button>
+                    <button type="button" onclick="switchTeacherModule('uilabels')" id="mod-tab-uilabels" style="display:none" class="module-tab-btn flex items-center p-2.5 rounded-xl transition border text-left bg-white border-slate-200 text-slate-700 hover:bg-slate-100">
+                        <div class="w-9 h-9 rounded-lg bg-cyan-200 text-cyan-700 flex items-center justify-center text-base font-bold shrink-0 mr-2.5">
+                            <i class="fa-solid fa-palette"></i>
+                        </div>
+                        <div class="truncate">
+                            <div class="text-xs font-extrabold uppercase" data-ui-label="mod_uilabels">8. Tùy Chỉnh Giao Diện</div>
+                            <div class="text-[10px] text-slate-500" data-ui-label="mod_uilabels_sub">Sửa chữ nút (admin)</div>
                         </div>
                     </button>
                 </div>
@@ -459,30 +468,10 @@
                     </div>
                 </div>
                     </div>
-                <!-- PANEL ĐẨY TRỰC TIẾP: 2 dạng Soạn từ dán AI / Soạn từ file Word -->
+                <!-- PANEL ĐẨY WORD: chỉ đẩy file Word (2026-10-10: gộp tab AI vào mục 2) -->
                 <div id="direct-panel" class="eba-wrap">
                     <div class="eba-inner space-y-2 bg-indigo-50/60 p-2 rounded-xl border border-indigo-200">
-                    <div class="flex space-x-2">
-                        <button type="button" id="direct-tab-ai" onclick="switchDirectInput('ai')" class="flex-1 px-3 py-2 rounded-lg text-xs font-bold bg-indigo-700 text-white shadow">1. Soạn từ dán AI</button>
-                        <button type="button" id="direct-tab-word" onclick="switchDirectInput('word')" class="flex-1 px-3 py-2 rounded-lg text-xs font-bold bg-white text-indigo-800 border border-indigo-200">2. Soạn từ đẩy file Word lên</button>
-                    </div>
-                    <p id="direct-ai-hint" class="text-[11px] text-indigo-900 bg-white/70 rounded-lg px-3 py-2 border border-indigo-100">
-                        <i class="fa-solid fa-paste mr-1 text-indigo-600"></i>Dán mã HTML đề thi (từ AI/NotebookLM) vào <b>khung soạn thảo</b> bên dưới, nhập tiêu đề, rồi bấm <b>Đẩy bài</b>. Đề được giữ <b>cố định</b> + gắn cờ tính giờ theo cài đặt.
-                    </p>
-                    <div class="bg-white/70 rounded-lg border border-indigo-100 overflow-hidden">
-                        <button type="button" onclick="document.getElementById('merge-sets-box').classList.toggle('hidden')" class="w-full px-3 py-2 text-left text-[11px] font-bold text-indigo-900 hover:bg-indigo-50 flex items-center">
-                            <i class="fa-solid fa-layer-group mr-1.5 text-indigo-600"></i>Gộp nhiều bộ đề rời rạc (AI trả từng đề 1) <i class="fa-solid fa-chevron-down ml-auto text-[10px]"></i>
-                        </button>
-                        <div id="merge-sets-box" class="hidden px-3 pb-3 space-y-2 border-t border-indigo-100 pt-2">
-                            <p class="text-[10px] text-slate-500">Dán <b>tất cả</b> các khối AI trả về vào đây (dán nối tiếp nhau, mỗi lần 1 đề cũng được), rồi bấm Gộp:</p>
-                            <textarea id="merge-sets-input" rows="4" placeholder='Dán các khối <div class="saobay-exam10">... vào đây...' class="w-full text-[11px] border rounded-lg px-2 py-1.5 font-mono"></textarea>
-                            <div class="flex items-center gap-2">
-                                <button type="button" onclick="mergeExamSets()" class="bg-indigo-700 hover:bg-indigo-800 text-white text-xs font-bold px-4 py-1.5 rounded-lg"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i>Gộp các bộ đề</button>
-                                <span id="merge-sets-status" class="text-[11px] font-bold text-slate-500"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="direct-word-box" class="hidden space-y-2">
+                    <div id="direct-word-box" class="space-y-2">
                         <div class="flex flex-wrap items-center gap-2 bg-white/70 rounded-lg px-3 py-2 border border-indigo-100">
                             <label class="text-[11px] font-bold text-indigo-900 whitespace-nowrap"><i class="fa-solid fa-file-word text-blue-600 mr-1"></i>Chọn file Word (.docx):</label>
                             <input type="file" id="word-exam-input" accept=".docx" onchange="handleWordExamFile(this)" class="block text-[11px] text-slate-500 file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:bg-blue-600 file:text-white file:font-bold cursor-pointer"/>
@@ -577,6 +566,7 @@
                                     <button type="button" onclick="pasteAiJsonToComposer()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-1.5 rounded-lg"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i>Nạp vào khung soạn</button>
                                     <span id="ai-json-status" class="text-[11px] font-bold text-slate-500"></span>
                                 </div>
+                            </div>
                             </div>
                             <details class="bg-white border border-slate-200 rounded-xl shadow-sm">
                                 <summary class="px-3 py-2 cursor-pointer text-xs font-bold text-slate-700 hover:text-slate-900 flex items-center select-none">
