@@ -6,20 +6,6 @@
             let subject = (mxS && mxS.value.trim()) || "Toán";
             let grade = (mxG && mxG.value) || "12";
             let lesson = (mxT && mxT.value.trim()) || "Nội dung học";
-            // Đọc ma trận đề để nhúng TRỰC TIẾP vào prompt AI (2026-10-10)
-            function mxVal(id, def){ let e = document.getElementById(id); return (e && e.value.trim()) || def; }
-            function mxNum(id, def){ let e = document.getElementById(id); let v = e ? parseInt(e.value, 10) : NaN; return isNaN(v) ? def : v; }
-            function mxType(ckId, nId, label){ let ck = document.getElementById(ckId); if (ck && ck.checked){ return label + ": " + mxNum(nId, 0) + " câu"; } return null; }
-            let mxTotal = mxNum("mx-total", 40);
-            let mxTime = mxNum("mx-time", 90);
-            let mxLevels = mxVal("mx-levels", "40/30/20/10");
-            let mxTypes = [mxType("mx-tn","mx-tn-n","TN trắc nghiệm"), mxType("mx-ds","mx-ds-n","Đ-S đúng/sai"), mxType("mx-tln","mx-tln-n","TLN trả lời ngắn"), mxType("mx-tl","mx-tl-n","TL tự luận")].filter(Boolean);
-            let mxTypesStr = mxTypes.length ? mxTypes.join(", ") : "TN trắc nghiệm: " + mxTotal + " câu";
-            let mxMatrixText = "- Môn: " + subject + " - Lớp: " + grade
-                + "\n- Nội dung kiến thức: " + lesson
-                + "\n- Tổng số câu: " + mxTotal + " | Thời gian: " + mxTime + " phút"
-                + "\n- Tỉ lệ mức độ % (NB/TH/VD/VDC): " + mxLevels
-                + "\n- Số câu từng loại: " + mxTypesStr;
 
             let promptText = "";
 
@@ -48,9 +34,9 @@ Nhiệm vụ: soạn 1 ĐỀ THI MỚI HOÀN TOÀN (chưa từng xuất hiện �
 
 YÊU CẦU QUAN TRỌNG NHẤT:
 1. Đề phải MỚI TINH — học sinh chưa từng thấy. Không sao chép, không biến thể nhẹ từ đề cũ.
-2. MA TRẬN CHI TIẾT đã nhúng sẵn ở cuối prompt này — bạn tuân thủ 100%, KHÔNG hỏi lại, làm NGAY (gồm: nội dung kiến thức, số câu mỗi nội dung, phân bố mức độ NB/TH/VD/VDC, dạng câu mcq/truefalse/short/essay, thời gian làm bài).
+2. Tôi sẽ cung cấp MA TRẬN CHI TIẾT ngay sau prompt này (gồm: nội dung kiến thức, số câu mỗi nội dung, phân bố mức độ NB/TH/VD/VDC, dạng câu mcq/truefalse/short/essay, thời gian làm bài).
 3. Bạn phải tuân thủ 100% ma trận — không tự ý thêm, bớt, hay đổi dạng câu/mức độ.
-4. KHÔNG hỏi lại bất kỳ điều gì — dùng đúng ma trận bên dưới, thiếu chỗ nào thì tự chọn hợp lý rồi làm ngay.
+4. Nếu ma trận chưa rõ chỗ nào, hãy hỏi lại thay vì tự đoán.
 
 ĐỊNH DẠNG BẮT BUỘC — chỉ xuất DUY NHẤT 1 khối mã JSON đúng mẫu dưới đây (không viết thẻ HTML, không viết JavaScript, không chữ giải thích ngoài khối mã):
 
@@ -93,7 +79,7 @@ QUY TẮC KỸ THUẬT:
 - Nếu câu hỏi có hình minh họa (tôi sẽ cung cấp URL ảnh), thêm trường "img" với URL đó.
 - KHÔNG viết thẻ HTML câu hỏi, KHÔNG viết JavaScript — chỉ xuất đúng 1 khối JSON trên.
 
-MA TRẬN CỦA TÔI (bạn tuân thủ tuyệt đối — làm NGAY, không hỏi lại):\n" + mxMatrixText + "`;
+MA TRẬN CỦA TÔI (bạn tuân thủ tuyệt đối):`;
             }
 
             if(!document.getElementById('item-title').value.trim()){
