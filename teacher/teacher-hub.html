@@ -498,6 +498,10 @@
                 <!-- PANEL SOẠN ĐỀ MỚI (2026-10-10 user chốt đúng): ma trận ở trên + nút đẩy Word -->
                 <div id="direct-panel" class="eba-wrap">
                     <div class="eba-inner space-y-2 bg-indigo-50/60 p-3 rounded-xl border border-indigo-200">
+                    <p class="text-[11px] text-indigo-900 bg-white/70 rounded-lg px-3 py-2 border border-indigo-100">
+                        <i class="fa-solid fa-wand-magic-sparkles mr-1 text-indigo-600"></i>
+                        <b>Soạn đề mới bằng AI:</b> nhập ma trận ở khung trên → bấm <b>"Copy prompt cho AI tạo đề mới"</b> → dán cho AI → dán kết quả vào <b>khung soạn</b> bên dưới (hoặc gộp nhiều bộ đề) rồi đẩy bài.
+                    </p>
                     <div class="bg-white/70 rounded-lg border border-indigo-100 overflow-hidden">
                         <button type="button" onclick="document.getElementById('merge-sets-box').classList.toggle('hidden')" class="w-full px-3 py-2 text-left text-[11px] font-bold text-indigo-900 hover:bg-indigo-50 flex items-center">
                             <i class="fa-solid fa-layer-group mr-1.5 text-indigo-600"></i>Gộp nhiều bộ đề rời rạc (AI trả từng đề 1) <i class="fa-solid fa-chevron-down ml-auto text-[10px]"></i>
@@ -539,21 +543,7 @@
 
                     <!-- PANEL ĐỀ THI / BÀI TẬP (hiện khi chọn tab Đẩy Đề Thi) -->
                     <div id="prompt-panel-exam" class="hidden space-y-2">
-                        <div class="bg-violet-50/70 p-2 rounded-lg border border-violet-200">
-                            <button type="button" onclick="generateAndCopyPrompt('EXAM10')" class="w-full bg-violet-700 hover:bg-violet-800 text-white text-sm px-3 py-2.5 rounded-lg font-bold shadow transition flex items-center justify-center">
-                                <i class="fa-solid fa-copy mr-2"></i> Copy Prompt Tạo Đề Mới
-                            </button>
-                        </div>
                         <!-- DÁN JSON TỪ AI (2026-10-10): NotebookLM/Gemini trả khối ```json → dán vào đây → nạp vào khung soạn -->
-                        <div class="bg-emerald-50/70 border border-emerald-200 rounded-xl p-3 space-y-2">
-                            <p class="text-[11px] font-bold text-emerald-900"><i class="fa-solid fa-paste mr-1.5 text-emerald-600"></i>Dán JSON từ AI (NotebookLM / Gemini)</p>
-                            <p class="text-[10px] text-slate-500 leading-snug">Quy trình: bấm <b>"Copy Prompt Tạo Đề Mới"</b> → dán vào NotebookLM kèm ma trận → AI trả về khối <b>```json</b> → copy toàn bộ khối đó → dán vào ô dưới → bấm <b>"Nạp vào khung soạn"</b>:</p>
-                            <textarea id="ai-json-input" rows="4" placeholder="Dán khối ```json ... ``` mà AI trả về vào đây..." class="w-full text-[11px] border rounded-lg px-2 py-1.5 font-mono"></textarea>
-                            <div class="flex items-center gap-2">
-                                <button type="button" onclick="pasteAiJsonToComposer()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-1.5 rounded-lg"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i>Nạp vào khung soạn</button>
-                                <span id="ai-json-status" class="text-[11px] font-bold text-slate-500"></span>
-                            </div>
-                        </div>
                         <details class="bg-white border border-slate-200 rounded-xl shadow-sm">
                             <summary class="px-3 py-2 cursor-pointer text-xs font-bold text-slate-700 hover:text-slate-900 flex items-center select-none">
                                 <i class="fa-solid fa-gear mr-2 text-slate-500"></i>
