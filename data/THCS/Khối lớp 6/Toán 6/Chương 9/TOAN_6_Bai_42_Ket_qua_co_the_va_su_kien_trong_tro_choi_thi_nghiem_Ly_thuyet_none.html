@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 42: Kết quả có thể và sự kiện trong trò chơi, thí nghiệm</title>
+    <meta name="lesson-title" content="Bài 42: Kết quả có thể và sự kiện trong trò chơi, thí nghiệm">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 42: Kết quả có thể và sự kiện trong trò chơi, thí nghiệm</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 9: Dữ liệu và xác suất thực nghiệm • Bài 42: Kết quả có thể và sự kiện trong trò chơi, thí nghiệm</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 42: Kết quả có thể và sự kiện trong trò chơi, thí nghiệm</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 9: Dữ liệu và xác suất thực nghiệm (Kết nối tri thức với cuộc sống)</p>
+
+<!-- 1. Kết quả có thể -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Kết quả có thể</h2>
+
+<p>Khi thực hiện một <strong>hành động, trò chơi hay thí nghiệm</strong>, ta có thể <strong>liệt kê</strong> tất cả các <strong>kết quả có thể</strong> xảy ra.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li><strong>Tung một đồng xu:</strong> đồng xu có thể xuất hiện <strong>mặt sấp</strong> (kí hiệu $S$) hoặc <strong>mặt ngửa</strong> (kí hiệu $N$). Vậy có $2$ kết quả có thể: $S$ và $N$.</li>
+<li><strong>Gieo một con xúc xắc:</strong> có $6$ kết quả có thể: xuất hiện mặt $1$ chấm, $2$ chấm, $3$ chấm, $4$ chấm, $5$ chấm, $6$ chấm.</li>
+<li><strong>Lấy ngẫu nhiên $1$ quả bóng</strong> từ hộp có $3$ quả bóng màu đỏ, xanh, vàng: có $3$ kết quả có thể: lấy được bóng đỏ, bóng xanh, bóng vàng.</li>
+</ul>
+</div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cac ket qua co the cua tro choi thi nghiem">
+<rect x="2" y="2" width="436" height="296" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="12" y="40" font-family="sans-serif" font-size="15" font-weight="bold" fill="#0c4a6e">Tung đồng xu</text>
+<circle cx="170" cy="62" r="30" fill="#fde68a" stroke="#b45309" stroke-width="3"/>
+<circle cx="170" cy="62" r="23" fill="none" stroke="#b45309" stroke-width="1.5"/>
+<text x="170" y="73" font-family="sans-serif" font-size="24" font-weight="bold" fill="#92400e" text-anchor="middle">S</text>
+<circle cx="260" cy="62" r="30" fill="#fde68a" stroke="#b45309" stroke-width="3"/>
+<circle cx="260" cy="62" r="23" fill="none" stroke="#b45309" stroke-width="1.5"/>
+<text x="260" y="73" font-family="sans-serif" font-size="24" font-weight="bold" fill="#92400e" text-anchor="middle">N</text>
+<text x="320" y="70" font-family="sans-serif" font-size="14" fill="#334155">2 kết quả có thể: S, N</text>
+<line x1="14" y1="108" x2="426" y2="108" stroke="#e2e8f0" stroke-width="1.5"/>
+<text x="12" y="146" font-family="sans-serif" font-size="15" font-weight="bold" fill="#0c4a6e">Gieo xúc xắc</text>
+<rect x="140" y="120" width="64" height="64" rx="10" fill="#ffffff" stroke="#334155" stroke-width="3"/>
+<circle cx="158" cy="138" r="6" fill="#334155"/><circle cx="186" cy="138" r="6" fill="#334155"/>
+<circle cx="172" cy="152" r="6" fill="#334155"/>
+<circle cx="158" cy="166" r="6" fill="#334155"/><circle cx="186" cy="166" r="6" fill="#334155"/>
+<text x="226" y="150" font-family="sans-serif" font-size="14" fill="#334155">6 kết quả có thể:</text>
+<text x="226" y="172" font-family="sans-serif" font-size="14" fill="#334155">1, 2, 3, 4, 5, 6 chấm</text>
+<line x1="14" y1="202" x2="426" y2="202" stroke="#e2e8f0" stroke-width="1.5"/>
+<text x="12" y="240" font-family="sans-serif" font-size="15" font-weight="bold" fill="#0c4a6e">Lấy bóng từ hộp</text>
+<rect x="150" y="216" width="100" height="62" rx="6" fill="#e0f2fe" stroke="#0284c7" stroke-width="2.5"/>
+<circle cx="175" cy="250" r="14" fill="#ef4444" stroke="#991b1b" stroke-width="2"/>
+<circle cx="203" cy="250" r="14" fill="#3b82f6" stroke="#1e3a8a" stroke-width="2"/>
+<circle cx="231" cy="250" r="14" fill="#eab308" stroke="#854d0e" stroke-width="2"/>
+<text x="272" y="248" font-family="sans-serif" font-size="14" fill="#334155">3 kết quả có thể:</text>
+<text x="272" y="270" font-family="sans-serif" font-size="14" fill="#334155">bóng đỏ, xanh, vàng</text>
+</svg></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Trước khi thực hiện một hành động, trò chơi hay thí nghiệm, ta <strong>liệt kê tất cả các kết quả có thể</strong> xảy ra. Ví dụ: tung đồng xu có $2$ kết quả ($S, N$); gieo xúc xắc có $6$ kết quả ($1$ đến $6$ chấm).</p>
+</div>
+
+<!-- 2. Sự kiện -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Sự kiện</h2>
+
+<p>Khi thực hiện một hành động, trò chơi hay thí nghiệm, một <strong>sự kiện</strong> có thể <strong>xảy ra</strong> hoặc <strong>không xảy ra</strong>.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>Gieo một con xúc xắc. Xét sự kiện "Xuất hiện mặt $6$ chấm": sự kiện này <strong>có thể xảy ra</strong> (nếu gieo được mặt $6$ chấm) hoặc <strong>không xảy ra</strong> (nếu gieo được mặt khác).</li>
+<li>Tung một đồng xu. Xét sự kiện "Xuất hiện mặt sấp": sự kiện này có thể xảy ra hoặc không xảy ra.</li>
+<li>Hộp có $3$ quả bóng màu đỏ, xanh, vàng; lấy ngẫu nhiên $1$ quả. Xét sự kiện "Lấy được bóng màu xanh": sự kiện này có thể xảy ra hoặc không xảy ra.</li>
+</ul>
+</div>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-emerald-800 mb-2">Bài tập ví dụ (có lời giải):</p>
+<p>Một vòng quay được chia thành $4$ phần bằng nhau, tô màu đỏ, xanh, vàng, tím. Quay vòng quay một lần.</p>
+<p class="mt-1">a) Liệt kê các kết quả có thể.</p>
+<p>b) Xét sự kiện "Mũi tên chỉ vào phần màu đỏ". Sự kiện này có thể xảy ra hay không?</p>
+<p class="mt-2"><strong>Lời giải:</strong></p>
+<p>a) Có $4$ kết quả có thể: mũi tên chỉ vào phần màu đỏ, màu xanh, màu vàng, màu tím.</p>
+<p>b) Sự kiện "Mũi tên chỉ vào phần màu đỏ" <strong>có thể xảy ra</strong> (nếu quay trúng phần màu đỏ) hoặc <strong>không xảy ra</strong> (nếu quay trúng phần màu khác).</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Một <strong>sự kiện</strong> trong trò chơi, thí nghiệm có thể <strong>xảy ra</strong> hoặc <strong>không xảy ra</strong> khi ta thực hiện hành động đó.</p>
+</div>
+
+<!-- Tóm tắt -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Nội dung</td><td class="border border-slate-300 px-4 py-1">Kiến thức cần nhớ</td><td class="border border-slate-300 px-4 py-1">Ví dụ</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Kết quả có thể</td><td class="border border-slate-300 px-4 py-1">Liệt kê tất cả các kết quả có thể xảy ra khi thực hiện hành động, trò chơi, thí nghiệm</td><td class="border border-slate-300 px-4 py-1">Tung đồng xu: $S, N$; gieo xúc xắc: $1$–$6$ chấm</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Sự kiện</td><td class="border border-slate-300 px-4 py-1">Một sự kiện có thể <strong>xảy ra</strong> hoặc <strong>không xảy ra</strong></td><td class="border border-slate-300 px-4 py-1">Gieo xúc xắc, sự kiện "Xuất hiện mặt $6$ chấm"</td></tr>
+</table></div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
