@@ -300,10 +300,13 @@ async function loadUsedData(){
         my.forEach(function(cls){ g.appendChild(makeClassOption(cls, usedStudents[cls].length)); });
         sel.appendChild(g);
       }
-      let g2 = document.createElement('optgroup');
-      g2.label = 'Tất cả lớp';
-      rest.forEach(function(cls){ g2.appendChild(makeClassOption(cls, usedStudents[cls].length)); });
-      sel.appendChild(g2);
+      // FIX 2026-10-11: GV chi thay lop cua minh (bo nhom "Tat ca lop"); BGH/Admin giu tat ca de quan ly
+      if (user.role === 'bgh' || user.role === 'admin'){
+        let g2 = document.createElement('optgroup');
+        g2.label = 'Tất cả lớp';
+        rest.forEach(function(cls){ g2.appendChild(makeClassOption(cls, usedStudents[cls].length)); });
+        sel.appendChild(g2);
+      }
       // lop day them cua GV nay (khong doi, value dang pv:<id>)
       loadPrivateClasses(user.id, sel);
     } else {
