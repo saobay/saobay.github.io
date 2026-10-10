@@ -65,8 +65,8 @@
       box.innerHTML = '<p class="text-xs text-rose-600 font-bold">Chỉ admin mới được tùy chỉnh giao diện.</p>';
       return;
     }
-    var showTab = document.getElementById('mod-tab-uilabels');
-    if(showTab) showTab.style.display = '';
+    var showBtn = document.getElementById('admin-uilabels-btn');
+    if(showBtn) showBtn.classList.remove('hidden');
     if(!cache){
       box.innerHTML = '<p class="text-xs text-slate-400 italic">Đang tải...</p>';
       fetch(LABELS_URL + '?v=' + Date.now()).then(function(r){ return r.json(); }).then(function(j){
