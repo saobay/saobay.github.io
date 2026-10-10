@@ -220,8 +220,8 @@
                     <button type="button" id="push-mode-theory" onclick="switchPushMode('theory')" class="flex-1 px-3 py-2.5 rounded-lg text-xs font-bold transition flex items-center justify-center bg-blue-700 text-white shadow">
                         <i class="fa-solid fa-book-open mr-2"></i> <span data-ui-label="push_theory">📖 Đẩy Bài Lý Thuyết</span>
                     </button>
-                    <button type="button" id="push-mode-exam" onclick="switchPushMode('bank')" class="flex-1 px-3 py-2.5 rounded-lg text-xs font-bold transition flex items-center justify-center bg-slate-100 text-slate-600 hover:bg-slate-200">
-                        <i class="fa-solid fa-file-pen mr-2"></i> <span data-ui-label="push_exam">📝 Đẩy Đề Thi / Bài Tập</span>
+                    <button type="button" id="push-mode-exercise" onclick="switchPushMode('exercise')" class="flex-1 px-3 py-2.5 rounded-lg text-xs font-bold transition flex items-center justify-center bg-slate-100 text-slate-600 hover:bg-slate-200">
+                        <i class="fa-solid fa-file-pen mr-2"></i> <span data-ui-label="push_exercise">📝 Đẩy Bài Tập</span>
                     </button>
                     <!-- Nút cũ giữ lại ẩn để tương thích JS -->
                     <button type="button" id="push-mode-bank" onclick="switchPushMode('bank')" class="hidden" data-ui-label="bank">bank</button>
@@ -724,6 +724,15 @@
                         <a href="https://docs.google.com/document/d/1fXvNSlbTHAKpzfMmTxuW_0D5mzkFnzW0sM78-UVzIKM/export?format=docx" target="_blank" class="text-emerald-700 font-bold text-xs hover:underline flex items-center justify-center">
                             <i class="fa-solid fa-cloud-arrow-down mr-1.5"></i> Tải Quy Ước Bài Học (.docx)
                         </a>
+                    </div>
+
+                    <!-- COPY PROMPT BÀI TẬP — chỉ hiện ở chế độ Đẩy Bài Tập (2026-10-10) -->
+                    <div id="exercise-copy-prompt-box" class="bg-amber-50/70 p-2.5 rounded-xl border border-amber-200 space-y-2" style="display:none">
+                        <p class="text-[11px] font-bold text-amber-900"><i class="fa-solid fa-list-check mr-1.5 text-amber-600"></i>Đã điền xong Môn / Khối / Chương / Bài và Tiêu đề bài tập? Bấm để copy prompt:</p>
+                        <button type="button" onclick="generateAndCopyPrompt('EXERCISE')" class="w-full bg-amber-600 hover:bg-amber-700 text-white text-sm px-3 py-2.5 rounded-lg font-bold shadow transition flex items-center justify-center">
+                            <i class="fa-solid fa-copy mr-2"></i> Copy Prompt Bài Tập
+                        </button>
+                        <p class="text-[10px] text-slate-600 leading-snug text-center">Copy prompt → dán cho AI (NotebookLM/Gemini) → AI trả code HTML → dán vào khung soạn bên dưới → chọn đúng thư mục bài → Đẩy bài.</p>
                     </div>
 
                     <!-- THANH TẢI HỌC LIỆU & DÁN TỪ NOTEBOOKLM -->
@@ -1780,23 +1789,29 @@
             if (show) switchExamMethod(currentExamMethod || 'bank');
         }
 
-        // Wrap switchPushMode gốc để điều khiển section mới (2026-10-09; fix 2026-10-10: bọc trực tiếp không poll + ẩn ma trận/khoảng trống ở chế độ lý thuyết)
+        // Wrap switchPushMode gốc để điều khiển section mới (2026-10-09; fix 2026-10-10: bọc trực tiếp không poll + ẩn ma trận/khoảng trống ở chế độ lý thuyết; 2026-10-10: thêm chế độ bài tập)
         (function(){
             function applyTheoryMode(){
-                var isTheory = (typeof currentPushTab !== 'undefined') ? currentPushTab === 'theory' : true;
+                var tab = (typeof currentPushTab !== 'undefined') ? currentPushTab : 'theory';
+                var isTheory = (tab === 'theory');
+                var isExercise = (tab === 'exercise');
+                var hideExamUI = isTheory || isExercise; // ẩn ma trận đề ở cả 2 chế độ lý thuyết & bài tập
                 var sec = document.getElementById('exam-method-section');
-                if (sec) sec.classList.toggle('hidden', isTheory);
+                if (sec) sec.classList.toggle('hidden', hideExamUI);
                 // Kéo kín khoảng trống: display:none các panel thu gọn (eba-wrap vẫn giữ margin từ space-y)
                 var bp = document.getElementById('exam-builder-panel');
                 var dp = document.getElementById('direct-panel');
-                if (bp) bp.style.display = isTheory ? 'none' : '';
-                if (dp) dp.style.display = isTheory ? 'none' : '';
-                // Ẩn hint ngân hàng đề khi đẩy lý thuyết
+                if (bp) bp.style.display = hideExamUI ? 'none' : '';
+                if (dp) dp.style.display = hideExamUI ? 'none' : '';
+                // Ẩn hint ngân hàng đề khi đẩy lý thuyết / bài tập
                 var hn = document.getElementById('bank-hint-note');
-                if (hn) hn.style.display = isTheory ? 'none' : '';
-                // Box Copy Prompt bài học (dưới form): chỉ hiện ở chế độ lý thuyết
+                if (hn) hn.style.display = hideExamUI ? 'none' : '';
+                // Box Copy Prompt bài học: chỉ hiện ở chế độ lý thuyết
                 var tcpb = document.getElementById('theory-copy-prompt-box');
                 if (tcpb) tcpb.style.display = isTheory ? '' : 'none';
+                // Box Copy Prompt bài tập: chỉ hiện ở chế độ bài tập
+                var exBox = document.getElementById('exercise-copy-prompt-box');
+                if (exBox) exBox.style.display = isExercise ? '' : 'none';
             }
             if (typeof switchPushMode === 'function'){
                 var _origSwitch = switchPushMode;
