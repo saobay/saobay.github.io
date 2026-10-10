@@ -98,10 +98,6 @@
                     + '<button onclick="pvLoadClassStats(\'' + c.id + '\')" class="text-[11px] font-bold text-emerald-700 border border-emerald-300 hover:bg-emerald-50 px-2.5 py-1.5 rounded-lg" title="Xem thống kê điểm HS trong lớp"><i class="fa-solid fa-chart-line mr-1"></i>Thống kê</button>'
                     + '<button onclick="pvDeleteClass(\'' + c.id + '\')" class="text-[11px] font-bold text-rose-600 hover:bg-rose-50 px-2.5 py-1.5 rounded-lg border border-rose-200"><i class="fa-solid fa-trash"></i></button>'
                     + '</div></div>'
-                    + '<div class="flex gap-2 mb-2">'
-                    + '<input id="pv-add-' + c.id + '" placeholder="Tên HS cần thêm..." class="flex-1 text-xs border border-slate-300 rounded-lg px-2.5 py-1.5">'
-                    + '<button onclick="pvAddStudent(\'' + c.id + '\')" class="text-[11px] font-bold text-violet-700 border border-violet-300 hover:bg-violet-50 px-2.5 py-1.5 rounded-lg"><i class="fa-solid fa-user-plus mr-1"></i>Thêm HS</button>'
-                    + '</div>'
                     + '<div id="pv-stats-' + c.id + '" class="mb-2"></div>'
                     + '<div class="flex flex-wrap gap-1.5">'
                     + (c.students || []).map(function(st){
@@ -148,18 +144,6 @@
         async function pvDeleteClass(id){
             if (!confirm('Xóa lớp này? Bài đã đẩy trong thư mục lớp vẫn giữ nguyên.')) return;
             pvClasses = pvClasses.filter(function(c){ return c.id !== id; });
-            try { await pvSaveClasses(); renderPrivateClasses(); } catch(e){ alert('Lỗi: ' + e.message); }
-        }
-        async function pvAddStudent(classId){
-            let inp = document.getElementById('pv-add-' + classId);
-            let nm = inp ? inp.value.trim() : '';
-            if (!nm) return;
-            let c = pvClasses.find(function(x){ return x.id === classId; });
-            if (!c) return;
-            c.students = c.students || [];
-            // Đính chính 2026-10-10: GV thêm HS SỐ LƯỢNG TÙY Ý, không giới hạn.
-            // HS chưa vào nhóm nào → mặc định ở nhóm "Trải nghiệm" (không thống kê điểm).
-            c.students.push({ id: 'hs_' + Date.now().toString(36), name: nm, class: '' });
             try { await pvSaveClasses(); renderPrivateClasses(); } catch(e){ alert('Lỗi: ' + e.message); }
         }
         async function pvRemoveStudent(classId, stuId){
