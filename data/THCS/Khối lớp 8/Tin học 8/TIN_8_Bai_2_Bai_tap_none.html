@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 2: Tổ chức lưu trữ và tìm kiếm thông tin - Bài tập</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: system-ui, sans-serif; padding: 16px; line-height: 1.6; }
+        .question { background: white; padding: 16px; margin: 12px 0; border-radius: 8px; border: 1px solid #e2e8f0; }
+        .options label { display: block; padding: 8px; margin: 4px 0; background: #f8fafc; border-radius: 4px; cursor: pointer; }
+        .options label:hover { background: #e0f2fe; }
+    </style>
+</head>
+<body class="bg-slate-50">
+<div class="max-w-3xl mx-auto">
+<h1 class="text-2xl font-bold mb-4">Bài 2: Tổ chức lưu trữ và tìm kiếm thông tin - Bài tập</h1>
+
+<div class="question">
+<p class="font-semibold mb-2">Câu 1: Đơn vị lưu trữ thông tin cơ bản trong máy tính là:</p>
+<div class="options">
+<label><input type="radio" name="q1" value="A"> A. Thư mục</label>
+<label><input type="radio" name="q1" value="B"> B. Tệp (file)</label>
+<label><input type="radio" name="q1" value="C"> C. Ổ đĩa</label>
+<label><input type="radio" name="q1" value="D"> D. Đường dẫn</label>
+</div>
+<button onclick="checkAnswer('q1', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q1" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 2: Phần mở rộng của tệp văn bản Word thường là:</p>
+<div class="options">
+<label><input type="radio" name="q2" value="A"> A. .docx</label>
+<label><input type="radio" name="q2" value="B"> B. .xlsx</label>
+<label><input type="radio" name="q2" value="C"> C. .pptx</label>
+<label><input type="radio" name="q2" value="D"> D. .mp3</label>
+</div>
+<button onclick="checkAnswer('q2', 'A')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q2" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 3: Với đường dẫn D:\Hoc tap\Toan\bai1.docx, thư mục cha trực tiếp của tệp bai1.docx là:</p>
+<div class="options">
+<label><input type="radio" name="q3" value="A"> A. Ổ D:</label>
+<label><input type="radio" name="q3" value="B"> B. Hoc tap</label>
+<label><input type="radio" name="q3" value="C"> C. Toan</label>
+<label><input type="radio" name="q3" value="D"> D. bai1.docx</label>
+</div>
+<button onclick="checkAnswer('q3', 'C')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q3" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 4: Ký tự đại diện * có ý nghĩa gì khi tìm kiếm tệp?</p>
+<div class="options">
+<label><input type="radio" name="q4" value="A"> A. Đại diện cho đúng một ký tự</label>
+<label><input type="radio" name="q4" value="B"> B. Đại diện cho một chữ số</label>
+<label><input type="radio" name="q4" value="C"> C. Đại diện cho một chuỗi ký tự bất kỳ</label>
+<label><input type="radio" name="q4" value="D"> D. Đại diện cho dấu cách</label>
+</div>
+<button onclick="checkAnswer('q4', 'C')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q4" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 5: Ký tự đại diện ? có ý nghĩa gì khi tìm kiếm tệp?</p>
+<div class="options">
+<label><input type="radio" name="q5" value="A"> A. Đại diện cho đúng một ký tự</label>
+<label><input type="radio" name="q5" value="B"> B. Đại diện cho một chuỗi ký tự bất kỳ</label>
+<label><input type="radio" name="q5" value="C"> C. Đại diện cho phần mở rộng tệp</label>
+<label><input type="radio" name="q5" value="D"> D. Đại diện cho tên ổ đĩa</label>
+</div>
+<button onclick="checkAnswer('q5', 'A')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q5" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 6: Mẫu tìm kiếm bai? sẽ tìm được tệp nào?</p>
+<div class="options">
+<label><input type="radio" name="q6" value="A"> A. baitap.docx</label>
+<label><input type="radio" name="q6" value="B"> B. bai1.docx</label>
+<label><input type="radio" name="q6" value="C"> C. bai123.docx</label>
+<label><input type="radio" name="q6" value="D"> D. baive.docx</label>
+</div>
+<button onclick="checkAnswer('q6', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q6" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 7: Mục đích chính của việc sao lưu dữ liệu là:</p>
+<div class="options">
+<label><input type="radio" name="q7" value="A"> A. Làm cho máy tính chạy nhanh hơn</label>
+<label><input type="radio" name="q7" value="B"> B. Tiết kiệm dung lượng ổ đĩa</label>
+<label><input type="radio" name="q7" value="C"> C. Phòng mất dữ liệu khi có sự cố</label>
+<label><input type="radio" name="q7" value="D"> D. Chia sẻ dữ liệu cho người khác</label>
+</div>
+<button onclick="checkAnswer('q7', 'C')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q7" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 8: Quy tắc sao lưu an toàn 3-2-1 nghĩa là:</p>
+<div class="options">
+<label><input type="radio" name="q8" value="A"> A. Sao lưu 3 lần mỗi ngày, 2 lần mỗi tuần, 1 lần mỗi tháng</label>
+<label><input type="radio" name="q8" value="B"> B. Giữ 3 bản sao, trên 2 loại thiết bị khác nhau, 1 bản ở nơi khác</label>
+<label><input type="radio" name="q8" value="C"> C. Dùng 3 USB, 2 ổ cứng, 1 đám mây</label>
+<label><input type="radio" name="q8" value="D"> D. Sao lưu trong 3 phút, 2 bước, 1 lần bấm</label>
+</div>
+<button onclick="checkAnswer('q8', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q8" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 9: Đâu là nơi phù hợp để sao lưu dữ liệu quan trọng?</p>
+<div class="options">
+<label><input type="radio" name="q9" value="A"> A. Thùng rác của máy tính</label>
+<label><input type="radio" name="q9" value="B"> B. Chỉ lưu một bản duy nhất trên ổ C:</label>
+<label><input type="radio" name="q9" value="C"> C. Ghi ra giấy</label>
+<label><input type="radio" name="q9" value="D"> D. USB, ổ cứng di động hoặc dịch vụ đám mây</label>
+</div>
+<button onclick="checkAnswer('q9', 'D')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q9" class="mt-2"></div>
+</div>
+<div class="question">
+<p class="font-semibold mb-2">Câu 10: Phần mở rộng nào dưới đây là của tệp hình ảnh?</p>
+<div class="options">
+<label><input type="radio" name="q10" value="A"> A. .mp3</label>
+<label><input type="radio" name="q10" value="B"> B. .mp4</label>
+<label><input type="radio" name="q10" value="C"> C. .xlsx</label>
+<label><input type="radio" name="q10" value="D"> D. .png</label>
+</div>
+<button onclick="checkAnswer('q10', 'D')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
+<div id="fb-q10" class="mt-2"></div>
+</div>
+
+</div>
+<script>
+function checkAnswer(qid, correct) {
+    const selected = document.querySelector(`input[name="${qid}"]:checked`);
+    const feedback = document.getElementById(`fb-${qid}`);
+    if (!selected) { feedback.innerHTML = '<span class="text-orange-600">Hãy chọn đáp án!</span>'; return; }
+    if (selected.value === correct) {
+        feedback.innerHTML = '<span class="text-green-600 font-bold">✓ Đúng!</span>';
+    } else {
+        feedback.innerHTML = '<span class="text-red-600">✗ Chưa đúng. Đáp án đúng: ' + correct + '</span>';
+    }
+}
+</script>
+</body>
+</html>
