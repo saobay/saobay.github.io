@@ -64,6 +64,7 @@
                 document.getElementById('admin-accounts-btn')?.classList.remove('hidden');
                 document.getElementById('admin-assign-btn')?.classList.remove('hidden');
                 document.getElementById('admin-users-btn')?.classList.remove('hidden');
+                document.getElementById('admin-uilabels-btn')?.classList.remove('hidden');
                 if (typeof updateRegBadge === 'function') updateRegBadge();
             }
             // BGH khong xem lop hoc them
