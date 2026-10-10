@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài tập cuối chương 4</title>
+    <meta name="lesson-title" content="Bài tập cuối chương 4">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài tập cuối chương 4</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 4: Một số hình phẳng trong thực tiễn • Bài tập cuối chương 4</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài tập cuối chương 4</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 4: Một số hình phẳng trong thực tiễn (Kết nối tri thức với cuộc sống)</p>
+
+<p>Bài ôn tập này hệ thống lại toàn bộ kiến thức của chương 4: các hình phẳng đã học, tính chất của chúng và công thức tính chu vi, diện tích. Em hãy đọc kĩ phần tóm tắt, làm các ví dụ rồi thử sức với 10 bộ đề ôn tập bên dưới nhé!</p>
+
+<!-- 1. Các hình đã học -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Các hình phẳng đã học trong chương 4</h2>
+
+<div class="svg-fig"><svg viewBox="0 0 440 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cac hinh phang da hoc: tam giac deu, hinh vuong, luc giac deu, hinh chu nhat">
+<rect x="2" y="2" width="436" height="166" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<polygon points="60,130 20,130 40,95" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+<text x="40" y="152" font-family="sans-serif" font-size="12" fill="#0369a1" text-anchor="middle">Tam giác đều</text>
+<rect x="120" y="95" width="35" height="35" fill="#d1fae5" stroke="#059669" stroke-width="2"/>
+<text x="137" y="152" font-family="sans-serif" font-size="12" fill="#065f46" text-anchor="middle">Hình vuông</text>
+<polygon points="215,92 232,102 232,122 215,132 198,122 198,102" fill="#fef3c7" stroke="#b45309" stroke-width="2"/>
+<text x="215" y="152" font-family="sans-serif" font-size="12" fill="#92400e" text-anchor="middle">Lục giác đều</text>
+<rect x="280" y="98" width="50" height="32" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+<text x="305" y="152" font-family="sans-serif" font-size="12" fill="#0369a1" text-anchor="middle">Chữ nhật</text>
+<polygon points="395,95 420,112 395,129 370,112" fill="#fce7f3" stroke="#db2777" stroke-width="2"/>
+<text x="395" y="152" font-family="sans-serif" font-size="12" fill="#9d174d" text-anchor="middle">Hình thoi</text>
+</svg></div>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Hình</td><td class="border border-slate-300 px-4 py-1">Đặc điểm về cạnh</td><td class="border border-slate-300 px-4 py-1">Đặc điểm về góc</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Tam giác đều</td><td class="border border-slate-300 px-4 py-1">Ba cạnh bằng nhau</td><td class="border border-slate-300 px-4 py-1">Ba góc bằng nhau, mỗi góc $60^\circ$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Hình vuông</td><td class="border border-slate-300 px-4 py-1">Bốn cạnh bằng nhau</td><td class="border border-slate-300 px-4 py-1">Bốn góc vuông; hai đường chéo bằng nhau</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Lục giác đều</td><td class="border border-slate-300 px-4 py-1">Sáu cạnh bằng nhau</td><td class="border border-slate-300 px-4 py-1">Sáu góc bằng nhau, mỗi góc $120^\circ$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Hình chữ nhật</td><td class="border border-slate-300 px-4 py-1">Các cạnh đối bằng nhau</td><td class="border border-slate-300 px-4 py-1">Bốn góc vuông; hai đường chéo bằng nhau</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Hình thoi</td><td class="border border-slate-300 px-4 py-1">Bốn cạnh bằng nhau</td><td class="border border-slate-300 px-4 py-1">Hai đường chéo vuông góc với nhau</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Hình bình hành</td><td class="border border-slate-300 px-4 py-1">Các cặp cạnh đối song song và bằng nhau</td><td class="border border-slate-300 px-4 py-1">Các góc đối bằng nhau</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Hình thang cân</td><td class="border border-slate-300 px-4 py-1">Hai đáy song song; hai cạnh bên bằng nhau</td><td class="border border-slate-300 px-4 py-1">Hai góc kề một đáy bằng nhau; hai đường chéo bằng nhau</td></tr>
+</table></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Nhận biết nhanh: <strong>tam giác đều</strong> (3 cạnh bằng nhau), <strong>hình vuông</strong> (4 cạnh bằng nhau + 4 góc vuông), <strong>lục giác đều</strong> (6 cạnh bằng nhau), <strong>hình chữ nhật</strong> (4 góc vuông), <strong>hình thoi</strong> (4 cạnh bằng nhau + 2 đường chéo vuông góc), <strong>hình bình hành</strong> (cặp cạnh đối song song và bằng nhau), <strong>hình thang cân</strong> (2 đáy song song + 2 cạnh bên bằng nhau).</p>
+</div>
+
+<!-- 2. Công thức chu vi, diện tích -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Công thức chu vi và diện tích</h2>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">a) Chu vi (tổng độ dài các cạnh)</h3>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Hình</td><td class="border border-slate-300 px-4 py-1">Công thức chu vi</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Tam giác đều (cạnh $a$)</td><td class="border border-slate-300 px-4 py-1">$P = 3 \times a$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Hình vuông, hình thoi (cạnh $a$)</td><td class="border border-slate-300 px-4 py-1">$P = 4 \times a$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Lục giác đều (cạnh $a$)</td><td class="border border-slate-300 px-4 py-1">$P = 6 \times a$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Hình chữ nhật, hình bình hành (hai cạnh kề $a, b$)</td><td class="border border-slate-300 px-4 py-1">$P = 2 \times (a + b)$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Hình thang cân (hai đáy $a, b$; cạnh bên $c$)</td><td class="border border-slate-300 px-4 py-1">$P = a + b + 2 \times c$</td></tr>
+</table></div>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">b) Diện tích</h3>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Hình</td><td class="border border-slate-300 px-4 py-1">Công thức diện tích</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Hình chữ nhật (dài $a$, rộng $b$)</td><td class="border border-slate-300 px-4 py-1">$S = a \times b$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Hình vuông (cạnh $a$)</td><td class="border border-slate-300 px-4 py-1">$S = a \times a$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Hình thoi (hai đường chéo $d_1, d_2$)</td><td class="border border-slate-300 px-4 py-1">$S = (d_1 \times d_2) : 2$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Hình bình hành (cạnh đáy $a$, chiều cao $h$)</td><td class="border border-slate-300 px-4 py-1">$S = a \times h$</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Hình thang (hai đáy $a, b$; chiều cao $h$)</td><td class="border border-slate-300 px-4 py-1">$S = (a + b) \times h : 2$</td></tr>
+</table></div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Mẹo nhớ công thức diện tích: chữ nhật <strong>dài × rộng</strong>; vuông <strong>cạnh × cạnh</strong>; thoi <strong>nửa tích 2 đường chéo</strong>; bình hành <strong>đáy × cao</strong>; thang <strong>(tổng 2 đáy) × cao : 2</strong>.</p>
+</div>
+
+<!-- 3. Ví dụ tổng hợp -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Ví dụ tổng hợp (có lời giải)</h2>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-emerald-800 mb-2">Ví dụ 1:</p>
+<p>Một hình lục giác đều có cạnh $11$ cm. Tính chu vi của hình lục giác đều đó.</p>
+<p class="mt-2"><strong>Lời giải:</strong> Chu vi hình lục giác đều là: $6 \times 11 = 66$ (cm).</p>
+</div>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-emerald-800 mb-2">Ví dụ 2:</p>
+<p>Một mảnh đất hình bình hành có cạnh đáy $45$ m, chiều cao tương ứng $28$ m. Tính diện tích của mảnh đất.</p>
+<p class="mt-2"><strong>Lời giải:</strong> Diện tích mảnh đất là: $45 \times 28 = 1260$ (m<sup>2</sup>).</p>
+</div>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-emerald-800 mb-2">Ví dụ 3:</p>
+<p>Một hình chữ nhật có chu vi $96$ cm, chiều dài $30$ cm. Tính diện tích của hình chữ nhật đó.</p>
+<p class="mt-2"><strong>Lời giải:</strong> Chiều rộng của hình chữ nhật là: $96 : 2 - 30 = 18$ (cm). Diện tích là: $30 \times 18 = 540$ (cm<sup>2</sup>).</p>
+</div>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-emerald-800 mb-2">Ví dụ 4:</p>
+<p>Một hình thang cân có hai đáy dài $19$ cm và $13$ cm, cạnh bên $8$ cm. Tính chu vi của hình thang cân đó.</p>
+<p class="mt-2"><strong>Lời giải:</strong> Chu vi hình thang cân là: $19 + 13 + 2 \times 8 = 48$ (cm).</p>
+</div>
+
+<!-- 4. Vận dụng -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Bài tập vận dụng</h2>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Vận dụng 1:</p>
+<p>Một sân bóng hình chữ nhật có chiều dài $50$ m, chiều rộng $35$ m. Tính chu vi và diện tích của sân bóng. (Đáp số: chu vi $170$ m; diện tích $1750$ m<sup>2</sup>)</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Vận dụng 2:</p>
+<p>Một lá cờ hình thoi có hai đường chéo dài $45$ cm và $60$ cm. Tính diện tích của lá cờ. (Đáp số: $1350$ cm<sup>2</sup>)</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Vận dụng 3:</p>
+<p>Một khu đất hình bình hành có cạnh đáy $60$ m, chiều cao tương ứng $42$ m. Tính diện tích của khu đất. (Đáp số: $2520$ m<sup>2</sup>)</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Vận dụng 4:</p>
+<p>Một thửa ruộng hình thang có hai đáy dài $35$ m và $25$ m, chiều cao $18$ m. Tính diện tích của thửa ruộng. (Đáp số: $540$ m<sup>2</sup>)</p>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Ôn kĩ phần tóm tắt rồi làm 10 bộ đề ôn tập bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
