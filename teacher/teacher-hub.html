@@ -627,15 +627,7 @@
                     </div>
 
                     <div class="pt-1 border-t border-slate-200 space-y-2">
-                        <!-- PANEL LÝ THUYẾT -->
-                        <div id="prompt-panel-theory" class="bg-emerald-50/70 p-2 rounded-lg border border-emerald-200 space-y-2">
-                            <button type="button" onclick="generateAndCopyPrompt('KNOWLEDGE')" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white text-sm px-3 py-2.5 rounded-lg font-bold shadow transition flex items-center justify-center">
-                                <i class="fa-solid fa-copy mr-2"></i> Copy Prompt Bài Học
-                            </button>
-                            <a href="https://docs.google.com/document/d/1fXvNSlbTHAKpzfMmTxuW_0D5mzkFnzW0sM78-UVzIKM/export?format=docx" target="_blank" class="text-emerald-700 font-bold text-xs hover:underline flex items-center justify-center">
-                                <i class="fa-solid fa-cloud-arrow-down mr-1.5"></i> Tải Quy Ước Bài Học (.docx)
-                            </a>
-                        </div>
+                        <!-- PANEL LÝ THUYẾT: đã chuyển xuống dưới form (sau khi điền Môn/Khối/Chương/Bài + Tiêu đề) theo yêu cầu 2026-10-10 -->
 
                         <!-- PANEL ĐỀ THI / BÀI TẬP (hiện khi chọn tab Đẩy Đề Thi) -->
                         <div id="prompt-panel-exam" class="hidden space-y-2">
@@ -691,10 +683,6 @@
                             </details>
 
                     </div>
-                    <p class="text-[11px] text-emerald-800 bg-emerald-50/90 border border-emerald-200 px-3 py-1.5 rounded-lg font-medium flex items-center">
-                        <i class="fa-solid fa-circle-check text-emerald-600 mr-1.5 text-xs"></i>
-                        <span>Prompt đã tối ưu: ép NotebookLM xuất trọn vẹn <strong>mã HTML nguyên bản</strong> vào file Word (.docx) để khi tải về nạp vào web giữ nguyên 100% giao diện đẹp mắt và công thức Toán MathJax!</span>
-                    </p>
                 </div>
 
                 <!-- FORM ĐIỀU HÀNH & BIÊN TẬP -->
@@ -727,7 +715,21 @@
                         </div>
                     </div>
 
+                    <!-- COPY PROMPT BÀI HỌC — đặt sau khi điền xong thông tin (2026-10-10) -->
+                    <div id="theory-copy-prompt-box" class="bg-emerald-50/70 p-2.5 rounded-xl border border-emerald-200 space-y-2">
+                        <p class="text-[11px] font-bold text-emerald-900"><i class="fa-solid fa-list-check mr-1.5 text-emerald-600"></i>Đã điền xong Môn / Khối / Chương / Bài và Tiêu đề? Bấm để copy prompt:</p>
+                        <button type="button" onclick="generateAndCopyPrompt('KNOWLEDGE')" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white text-sm px-3 py-2.5 rounded-lg font-bold shadow transition flex items-center justify-center">
+                            <i class="fa-solid fa-copy mr-2"></i> Copy Prompt Bài Học
+                        </button>
+                        <a href="https://docs.google.com/document/d/1fXvNSlbTHAKpzfMmTxuW_0D5mzkFnzW0sM78-UVzIKM/export?format=docx" target="_blank" class="text-emerald-700 font-bold text-xs hover:underline flex items-center justify-center">
+                            <i class="fa-solid fa-cloud-arrow-down mr-1.5"></i> Tải Quy Ước Bài Học (.docx)
+                        </a>
+                    </div>
+
                     <!-- THANH TẢI HỌC LIỆU & DÁN TỪ NOTEBOOKLM -->
+                    <div class="bg-blue-50/70 border border-blue-200 rounded-xl p-2.5 space-y-2">
+                        <p class="text-[11px] font-bold text-blue-900"><i class="fa-solid fa-cloud-arrow-up mr-1.5 text-blue-600"></i>Đưa nội dung bài học lên web</p>
+                        <p class="text-[10px] text-slate-600 leading-snug">Sau khi NotebookLM trả nội dung: <b>dán trực tiếp</b> vào khung soạn, hoặc <b>tải file Word (.docx)</b> đã soạn theo quy ước lên đây — hệ thống sẽ đưa bài học lên website.</p>
                     <div class="bg-slate-50 border border-slate-200 p-2.5 rounded-xl flex flex-wrap items-center justify-between gap-3">
                         <div class="flex items-center space-x-2 flex-1 min-w-[280px]">
                             <label class="text-[11px] font-bold text-slate-700 whitespace-nowrap"><i class="fa-solid fa-file-word text-blue-600 mr-1"></i> Tải file (.docx/.txt/.html):</label>
@@ -743,6 +745,7 @@
                             <input type="url" id="drive-url-input" placeholder="Dán đường dẫn..." class="w-full md:w-48 px-2.5 py-1 border rounded-lg text-xs bg-white"/>
                             <button type="button" onclick="showToast('Đang kết nối URL Drive...', 'info')" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-3 py-1 rounded-lg whitespace-nowrap">Nạp</button>
                         </div>
+                    </div>
                     </div>
 
                     <!-- KHU VỰC BIÊN TẬP & XEM TRƯỚC TRỰC QUAN (WYSIWYG LIVE EDITOR) -->
@@ -1791,6 +1794,9 @@
                 // Ẩn hint ngân hàng đề khi đẩy lý thuyết
                 var hn = document.getElementById('bank-hint-note');
                 if (hn) hn.style.display = isTheory ? 'none' : '';
+                // Box Copy Prompt bài học (dưới form): chỉ hiện ở chế độ lý thuyết
+                var tcpb = document.getElementById('theory-copy-prompt-box');
+                if (tcpb) tcpb.style.display = isTheory ? '' : 'none';
             }
             if (typeof switchPushMode === 'function'){
                 var _origSwitch = switchPushMode;
