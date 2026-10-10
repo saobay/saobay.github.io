@@ -565,13 +565,13 @@
 
                     <div class="pt-1 border-t border-slate-200 space-y-2">
                         <!-- PANEL LÝ THUYẾT -->
-                        <div id="prompt-panel-theory" class="flex items-center justify-between bg-emerald-50/70 p-2 rounded-lg border border-emerald-200">
-                            <a href="https://docs.google.com/document/d/1fXvNSlbTHAKpzfMmTxuW_0D5mzkFnzW0sM78-UVzIKM/export?format=docx" target="_blank" class="text-emerald-700 font-bold text-xs hover:underline flex items-center">
-                                <i class="fa-solid fa-file-word mr-1 text-emerald-600"></i> Quy Ước Bài Học
-                            </a>
-                            <button type="button" onclick="generateAndCopyPrompt('KNOWLEDGE')" class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs px-3 py-1.5 rounded-lg font-bold shadow transition flex items-center">
-                                <i class="fa-solid fa-copy mr-1"></i> Copy Prompt Bài Học
+                        <div id="prompt-panel-theory" class="bg-emerald-50/70 p-2 rounded-lg border border-emerald-200 space-y-2">
+                            <button type="button" onclick="generateAndCopyPrompt('KNOWLEDGE')" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white text-sm px-3 py-2.5 rounded-lg font-bold shadow transition flex items-center justify-center">
+                                <i class="fa-solid fa-copy mr-2"></i> Copy Prompt Bài Học
                             </button>
+                            <a href="https://docs.google.com/document/d/1fXvNSlbTHAKpzfMmTxuW_0D5mzkFnzW0sM78-UVzIKM/export?format=docx" target="_blank" class="text-emerald-700 font-bold text-xs hover:underline flex items-center justify-center">
+                                <i class="fa-solid fa-cloud-arrow-down mr-1.5"></i> Tải Quy Ước Bài Học (.docx)
+                            </a>
                         </div>
 
                         <!-- PANEL ĐỀ THI / BÀI TẬP (hiện khi chọn tab Đẩy Đề Thi) -->
@@ -639,6 +639,15 @@
                     <input type="hidden" id="edit-mode-flag" value="CREATE">
                     <input type="hidden" id="editing-item-id" value="">
 
+                    <!-- VÙNG KIẾN THỨC: để bank biết câu hỏi thuộc chương/bài nào (2026-10-08) -->
+                    <div class="grid grid-cols-4 gap-2 bg-violet-50/60 border border-violet-200 rounded-xl p-2.5">
+                        <div><label class="block text-[11px] font-bold text-violet-900 mb-1">Môn</label><input id="item-subject" value="TOAN" autocomplete="off" class="w-full px-2 py-1.5 border rounded-lg text-xs font-bold uppercase border-slate-300"/></div>
+                        <div><label class="block text-[11px] font-bold text-violet-900 mb-1">Khối</label><input id="item-grade" type="number" value="10" class="w-full px-2 py-1.5 border rounded-lg text-xs font-bold border-slate-300"/></div>
+                        <div><label class="block text-[11px] font-bold text-violet-900 mb-1">Chương</label><input id="item-chapter" type="number" value="1" min="0" class="w-full px-2 py-1.5 border rounded-lg text-xs font-bold border-slate-300"/></div>
+                        <div><label class="block text-[11px] font-bold text-violet-900 mb-1">Bài</label><input id="item-lesson" type="number" value="1" min="0" class="w-full px-2 py-1.5 border rounded-lg text-xs font-bold border-slate-300"/></div>
+                        <p id="bank-hint-note" class="col-span-4 text-[10px] text-violet-700 italic">Khi đẩy đề thi, các câu hỏi sẽ tự động vào ngân hàng và được gắn đúng chương/bài này để lọc khi soạn đề.</p>
+                    </div>
+
                     <div class="grid grid-cols-1 gap-3">
                         <!-- Ẩn: loại bài đẩy giờ do 2 tab phía trên điều khiển (switchPushTab) -->
                         <div style="display:none">
@@ -653,15 +662,6 @@
                             <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Tiêu Đề Bài Học / Đề Thi</label>
                             <input type="text" id="item-title" autocomplete="off" required placeholder="Nhập tiêu đề bài học / đề thi..." class="w-full px-3.5 py-2 border rounded-xl text-xs font-semibold focus:ring-2 focus:ring-blue-500 border-slate-300"/>
                         </div>
-                    </div>
-
-                    <!-- VÙNG KIẾN THỨC: để bank biết câu hỏi thuộc chương/bài nào (2026-10-08) -->
-                    <div class="grid grid-cols-4 gap-2 bg-violet-50/60 border border-violet-200 rounded-xl p-2.5">
-                        <div><label class="block text-[11px] font-bold text-violet-900 mb-1">Môn</label><input id="item-subject" value="TOAN" autocomplete="off" class="w-full px-2 py-1.5 border rounded-lg text-xs font-bold uppercase border-slate-300"/></div>
-                        <div><label class="block text-[11px] font-bold text-violet-900 mb-1">Khối</label><input id="item-grade" type="number" value="10" class="w-full px-2 py-1.5 border rounded-lg text-xs font-bold border-slate-300"/></div>
-                        <div><label class="block text-[11px] font-bold text-violet-900 mb-1">Chương</label><input id="item-chapter" type="number" value="1" min="0" class="w-full px-2 py-1.5 border rounded-lg text-xs font-bold border-slate-300"/></div>
-                        <div><label class="block text-[11px] font-bold text-violet-900 mb-1">Bài</label><input id="item-lesson" type="number" value="1" min="0" class="w-full px-2 py-1.5 border rounded-lg text-xs font-bold border-slate-300"/></div>
-                        <p class="col-span-4 text-[10px] text-violet-700 italic">Khi đẩy đề thi, các câu hỏi sẽ tự động vào ngân hàng và được gắn đúng chương/bài này để lọc khi soạn đề.</p>
                     </div>
 
                     <!-- THANH TẢI HỌC LIỆU & DÁN TỪ NOTEBOOKLM -->
@@ -1714,24 +1714,30 @@
             if (show) switchExamMethod(currentExamMethod || 'bank');
         }
 
-        // Wrap switchPushMode gốc để điều khiển section mới (2026-10-09)
+        // Wrap switchPushMode gốc để điều khiển section mới (2026-10-09; fix 2026-10-10: bọc trực tiếp không poll + ẩn ma trận/khoảng trống ở chế độ lý thuyết)
         (function(){
-            let _origSwitch = null;
-            let _tries = 0;
-            let _timer = setInterval(function(){
-                _tries++;
-                if (typeof switchPushMode === 'function' && !_origSwitch){
-                    _origSwitch = switchPushMode;
-                    switchPushMode = function(mode){
-                        _origSwitch(mode);
-                        // Hiện section 3 cách khi vào chế độ đề thi (bank/direct), ẩn khi về theory
-                        let isExam = (mode !== 'theory');
-                        toggleExamMethodSection(isExam);
-                    };
-                    clearInterval(_timer);
-                }
-                if (_tries > 50) clearInterval(_timer);
-            }, 200);
+            function applyTheoryMode(){
+                var isTheory = (typeof currentPushTab !== 'undefined') ? currentPushTab === 'theory' : true;
+                var sec = document.getElementById('exam-method-section');
+                if (sec) sec.classList.toggle('hidden', isTheory);
+                // Kéo kín khoảng trống: display:none các panel thu gọn (eba-wrap vẫn giữ margin từ space-y)
+                var bp = document.getElementById('exam-builder-panel');
+                var dp = document.getElementById('direct-panel');
+                if (bp) bp.style.display = isTheory ? 'none' : '';
+                if (dp) dp.style.display = isTheory ? 'none' : '';
+                // Ẩn hint ngân hàng đề khi đẩy lý thuyết
+                var hn = document.getElementById('bank-hint-note');
+                if (hn) hn.style.display = isTheory ? 'none' : '';
+            }
+            if (typeof switchPushMode === 'function'){
+                var _origSwitch = switchPushMode;
+                switchPushMode = function(mode){
+                    _origSwitch(mode);
+                    applyTheoryMode();
+                };
+            }
+            // Áp dụng ngay cho trạng thái ban đầu
+            applyTheoryMode();
         })();
 
 
