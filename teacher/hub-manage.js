@@ -11,7 +11,7 @@
         })();
         function switchTeacherModule(modId) {
             try {
-                ['compose', 'manage', 'stats', 'private', 'reports'].forEach(function(id){
+                ['compose', 'manage', 'stats', 'private', 'reports', 'groups'].forEach(function(id){
                     let tab = document.getElementById('mod-tab-' + id);
                     let view = document.getElementById('module-' + id + '-view');
                     let iconBox = tab ? tab.querySelector('div') : null;
@@ -29,6 +29,7 @@
             try {
                 if (modId === 'manage') renderLessonManagementList();
                 if (modId === 'reports' && typeof rpInit === 'function') rpInit();
+                else if (modId === 'groups' && typeof renderGroupStats === 'function') renderGroupStats();
                 else if (modId === 'audit') renderAuditList();
                 else if (modId === 'stats') renderStatsOverview();
             } catch(eR){ console.error('[hub] render module loi:', eR); }
