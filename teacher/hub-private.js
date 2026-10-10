@@ -517,10 +517,26 @@ function pvEnsurePvModals(){
 
 function pvExcelImport(classId){
     pvEnsurePvModals();
-    if (typeof XLSX === 'undefined'){ alert('Chưa tải được thư viện đọc Excel (SheetJS). Kiểm tra mạng rồi thử lại.'); return; }
     pvExcelState.classId = classId;
     pvExcelState.rows = [];
-    document.getElementById('pv-excel-file').click();
+    var m = document.getElementById('pv-excel-modal');
+    var body = document.getElementById('pv-excel-body');
+    if (body) body.innerHTML = ''
+        + '<div class="text-center py-6">'
+        + '<div class="text-5xl mb-3">📥</div>'
+        + '<p class="text-sm font-bold text-slate-700 mb-1">Nhập danh sách học sinh từ file Excel</p>'
+        + '<p class="text-xs text-slate-500 mb-4">File cần 2 cột: <b>Họ và tên</b> và <b>SĐT</b> (hoặc Mã HS).<br>Tối đa 100 HS/lần.</p>'
+        + '<button onclick="pvChooseExcelFile()" class="px-6 py-3 rounded-xl bg-violet-600 hover:bg-violet-700 text-white text-sm font-bold shadow-lg"><i class="fa-solid fa-folder-open mr-2"></i>Chọn file Excel...</button>'
+        + '<p class="text-[11px] text-slate-400 mt-3">Chưa có file? Bấm <b>"Tải file mẫu"</b> ở góc dưới để tải mẫu về điền.</p>'
+        + '</div>';
+    if (m) m.classList.remove('hidden');
+    var cb = document.getElementById('pv-excel-confirm');
+    if (cb) cb.style.display = 'none';
+}
+function pvChooseExcelFile(){
+    if (typeof XLSX === 'undefined'){ alert('Chưa tải được thư viện đọc Excel (SheetJS). Kiểm tra mạng rồi thử lại.'); return; }
+    var fi = document.getElementById('pv-excel-file');
+    if (fi) fi.click();
 }
 function pvCloseExcelModal(){ var m = document.getElementById('pv-excel-modal'); if (m) m.classList.add('hidden'); }
 
@@ -569,6 +585,7 @@ function pvParseExcel(data){
     pvShowExcelPreview();
 }
 async function pvShowExcelPreview(){
+    var _cbx = document.getElementById('pv-excel-confirm'); if (_cbx) _cbx.style.display = '';
     var body = document.getElementById('pv-excel-body');
     var m = document.getElementById('pv-excel-modal');
     if (m) m.classList.remove('hidden');
