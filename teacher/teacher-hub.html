@@ -182,6 +182,15 @@
                             <div class="text-[10px] text-slate-500">HS báo &bull; duyệt + điểm</div>
                         </div>
                     </button>
+                    <button type="button" onclick="switchTeacherModule('groups')" id="mod-tab-groups" style="display:none" class="module-tab-btn flex items-center p-2.5 rounded-xl transition border text-left bg-white border-slate-200 text-slate-700 hover:bg-slate-100">
+                        <div class="w-9 h-9 rounded-lg bg-violet-200 text-violet-700 flex items-center justify-center text-base font-bold shrink-0 mr-2.5">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                        <div class="truncate">
+                            <div class="text-xs font-extrabold uppercase">7. Nhóm GV</div>
+                            <div class="text-[10px] text-slate-500">Thống kê nhóm (admin)</div>
+                        </div>
+                    </button>
                 </div>
             </div>
 
@@ -1327,6 +1336,28 @@
                     <p class="text-xs text-slate-400 italic p-4">Đang tải...</p>
                 </div>
             </div>
+
+            <!-- ======================================================== -->
+            <!-- CHỨC NĂNG 7: THỐNG KÊ NHÓM GV (admin) -->
+            <!-- ======================================================== -->
+            <div id="module-groups-view" class="hidden space-y-4 flex-1 flex flex-col">
+                <div class="border-b pb-3">
+                    <h3 class="font-extrabold text-slate-800 text-base flex items-center">
+                        <i class="fa-solid fa-users text-violet-600 mr-2"></i> Thống Kê Nhóm Giáo Viên Tự Do
+                    </h3>
+                    <p class="text-xs text-slate-500 mt-0.5">Mỗi nhóm 20 GV — chọn nhóm để xem chi tiết từng giáo viên</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <label class="text-xs font-bold text-slate-700">Chọn nhóm:</label>
+                    <select id="groups-select" onchange="renderGroupStats()" class="text-xs bg-violet-50 border border-violet-200 rounded-lg px-3 py-2 font-bold text-violet-800">
+                        <option value="">-- Chọn nhóm --</option>
+                    </select>
+                    <span id="groups-count" class="text-xs text-slate-500"></span>
+                </div>
+                <div id="groups-stats-list" class="space-y-3">
+                    <p class="text-xs text-slate-400 italic p-4">Chọn nhóm để xem thống kê.</p>
+                </div>
+            </div>
     <script src="hub-tabs.js?v=20261008_2"></script>
     <script src="hub-editor.js?v=20261008_2"></script>
     <script src="hub-preview.js?v=20261008_2"></script>
@@ -1340,6 +1371,7 @@
     <script src="hub-word.js?v=20261008_3"></script>
     <script src="hub-private.js?v=20261010_1"></script>
     <script src="hub-reports.js?v=20261009_1"></script>
+<script src="hub-groups.js?v=20261010_1"></script>
 
     <!-- Modal Tài khoản của tôi - cài đặt SĐT đăng nhập (2026-10-09) -->
     <div id="my-account-modal" class="hidden fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/50">
