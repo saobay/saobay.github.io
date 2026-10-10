@@ -185,7 +185,7 @@
                 <i class="fa-solid fa-user-gear mr-2"></i>&#9881;&#65039; T&#224;i kho&#7843;n c&#7911;a t&#244;i
             </button>
             <a href="../index.html" class="block w-full text-center bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm px-4 py-3 rounded-xl transition">V&#7873; trang ch&#7911; h&#7885;c t&#7853;p</a>
-            <button onclick="hsLogout()" class="w-full text-rose-600 hover:text-rose-700 font-bold text-xs py-2">&#272;&#259;ng xu&#7845;t</button>
+            <button onclick="hsLogout(this)" class="w-full text-rose-600 hover:text-rose-700 font-bold text-xs py-2">&#272;&#259;ng xu&#7845;t</button>
         </div>
     </div>
 
@@ -677,6 +677,35 @@
                 let u = localStorage.getItem('saobay_user');
                 if (u) currentUser = JSON.parse(u);
             } catch(e) {}
+            // FIX 2026-10-10 (loi 2): neu session la skeleton tu pending-login, thu nap ho so day du tu DB
+            if (currentUser && currentUser._pendingLogin) {
+                try {
+                    let full = null;
+                    let pid = String(currentUser.id || '');
+                    let pphone = String(currentUser.phone || '');
+                    (cachedTeachers || []).forEach(function(t){
+                        if (!full && (String(t.id) === pid || (pphone && String(t.phone) === pphone))) {
+                            full = { id: t.id, name: t.name, role: t.role === 'bgh' ? 'bgh' : 'teacher',
+                                     subjects: t.subjects, classes: t.classes, group: t.group || '', phone: t.phone || '' };
+                        }
+                    });
+                    if (!full) (cachedStudents || []).forEach(function(st){
+                        if (!full && (String(st.id) === pid || (pphone && String(st.phone) === pphone))) {
+                            full = { id: st.id, name: st.name, role: 'student', className: st.className,
+                                     dob: st.dob, phone: st.phone || '' };
+                        }
+                    });
+                    if (full) {
+                        try {
+                            let expDb2 = await getExpiryDb();
+                            let ex2 = (expDb2 || {})[full.id];
+                            if (ex2 && ex2.expires_at) full.expires_at = ex2.expires_at;
+                        } catch(e2){}
+                        currentUser = full;
+                        localStorage.setItem('saobay_user', JSON.stringify(full));
+                    }
+                } catch(ehy){}
+            }
 
             const urlParams = new URLSearchParams(window.location.search);
             let tabParam = urlParams.get('tab');
@@ -723,12 +752,28 @@
             }
         }
 
-        function hsLogout() {
-            if (confirm('Bạn có chắc chắn muốn đăng xuất?')) {
-                localStorage.removeItem('saobay_user');
-                currentUser = null;
-                showLoginView();
+        // FIX 2026-10-10 (loi 1): dang xuat 2 cham (khong dung confirm() goc de test tu dong cung chay duoc)
+        var _hsLogoutArm = 0;
+        function hsLogout(btn) {
+            var now = Date.now();
+            if (now - _hsLogoutArm < 6000) {
+                _hsLogoutArm = 0;
+                doHsLogout();
+                return;
             }
+            _hsLogoutArm = now;
+            if (btn) { btn.innerHTML = 'Bấm lại để xác nhận đăng xuất'; }
+            if (typeof showToast === 'function') showToast('Bấm "Đăng xuất" lần nữa để xác nhận.', 'warning');
+            setTimeout(function(){ _hsLogoutArm = 0; }, 6000);
+        }
+        function doHsLogout() {
+            try {
+                localStorage.removeItem('saobay_user');
+                localStorage.removeItem('saobay_pending_reg');
+                sessionStorage.removeItem('saobay_force_user');
+            } catch(e){}
+            try { currentUser = null; } catch(e){}
+            window.location.href = '../index.html';
         }
 
         function showForceChangePasswordView(user) {
@@ -916,6 +961,8 @@
             } catch(e){}
             localStorage.setItem('saobay_user', JSON.stringify(matchedUser));
             currentUser = matchedUser;
+            // FIX 2026-10-10 (loi 2): tieu thu pending_reg sau khi dung -> khong de pending cu gay nham session
+            if (isPendingLogin) { try { localStorage.removeItem('saobay_pending_reg'); } catch(e){} }
             if (expCheck.daysLeft <= 15){
                 showToast(`Xin chào ${matchedUser.name}! Tài khoản của bạn còn ${expCheck.daysLeft} ngày sử dụng.`, 'warning');
             } else {
@@ -1765,6 +1812,11 @@
                 <div class="flex justify-between"><span class="text-slate-500 font-bold text-xs">Vai tr&#242;:</span><span id="hsa-role" class="font-bold text-slate-800 text-xs"></span></div>
             </div>
             <div class="border-t pt-4">
+                <h4 class="font-bold text-slate-700 text-xs mb-2"><i class="fa-solid fa-clock-rotate-left text-violet-600 mr-1"></i>Lịch sử làm bài</h4>
+                <div id="hsa-history-list" class="text-xs text-slate-500 italic">Bấm "Tải lịch sử" để xem các lần làm bài của bạn.</div>
+                <button id="hsa-history-btn" onclick="loadHsHistory()" class="mt-2 w-full bg-violet-600 hover:bg-violet-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow transition">Tải lịch sử làm bài</button>
+            </div>
+            <div class="border-t pt-4">
                 <h4 class="font-bold text-slate-700 text-xs mb-2"><i class="fa-solid fa-phone text-emerald-600 mr-1"></i>S&#272;T &#272;&#259;ng Nh&#7853;p</h4>
                 <p class="text-[11px] text-slate-500 mb-3">D&#249;ng S&#272;T &#273;&#7875; <b>&#273;&#259;ng nh&#7853;p thay cho m&#227; HS</b> (d&#7877; nh&#7899; h&#417;n). Qu&#7843;n l&#253; &#273;i&#7875;m/l&#7899;p v&#7851;n theo m&#227; HS c&#7911;a b&#7841;n.</p>
                 <div class="mb-3">
@@ -1818,7 +1870,58 @@
             document.getElementById('hsa-pass-new2').value = '';
             document.getElementById('hsa-pass-msg').innerText = '';
             document.getElementById('hs-account-modal').classList.remove('hidden');
+            document.getElementById('hsa-history-list').innerHTML = 'Bấm "Tải lịch sử" để xem các lần làm bài của bạn.';
+            var _hb = document.getElementById('hsa-history-btn'); if (_hb) _hb.disabled = false;
         } catch(e){ alert('Lỗi: ' + e.message); }
+    }
+    /* FIX 2026-10-10 (loi 3): HS tu xem lich su lam bai tu data/scores/ */
+    function hsNormName(s){ return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/g,'d').replace(/Đ/g,'D').toLowerCase().replace(/[^a-z0-9]/g,''); }
+    function hsScoreBelongsTo(d, u){
+        if (!d || !u) return false;
+        if (d.student_id && u.id && String(d.student_id) === String(u.id)) return true;
+        if (d.student_name && u.name && hsNormName(d.student_name) === hsNormName(u.name)) return true;
+        return false;
+    }
+    async function loadHsHistory(){
+        var box = document.getElementById('hsa-history-list');
+        var btn = document.getElementById('hsa-history-btn');
+        var u = null;
+        try { u = JSON.parse(localStorage.getItem('saobay_user') || 'null'); } catch(e){}
+        if (!u || !u.id) { box.innerHTML = '<span class="text-rose-600">Vui lòng đăng nhập trước.</span>'; return; }
+        box.innerHTML = 'Đang tải lịch sử...'; if (btn) btn.disabled = true;
+        try {
+            var tr = await (await fetch('https://api.github.com/repos/saobay/saobay.github.io/git/trees/main?recursive=1')).json();
+            var files = (tr.tree || []).filter(function(t){ return t.type === 'blob' && t.path.indexOf('data/scores/') === 0 && t.path.slice(-5) === '.json'; });
+            files.sort(function(a,b){ return a.path < b.path ? 1 : -1; });
+            files = files.slice(0, 120);
+            var mine = [];
+            for (var i = 0; i < files.length; i += 6) {
+                var batch = files.slice(i, i + 6);
+                var rs = await Promise.all(batch.map(function(f){
+                    return fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/' + f.path + '?t=' + Date.now()).then(function(r){ return r.ok ? r.json() : null; }).catch(function(){ return null; });
+                }));
+                rs.forEach(function(d){ if (d && hsScoreBelongsTo(d, u)) mine.push(d); });
+                if (mine.length >= 50) break;
+            }
+            if (!mine.length) { box.innerHTML = 'Bạn chưa có lần làm bài nào được lưu.'; return; }
+            mine.sort(function(a,b){ return String(b.submitted_at||'') < String(a.submitted_at||'') ? -1 : 1; });
+            var tot = 0, sum = 0;
+            var rows = mine.slice(0, 50).map(function(d){
+                var sc = parseFloat(d.score) || 0, mx = parseFloat(d.max_score) || 0;
+                tot++; sum += (mx > 0 ? sc/mx*10 : 0);
+                var dt = ''; try { dt = new Date(d.submitted_at).toLocaleString('vi-VN'); } catch(e){}
+                var title = d.exam_title || d.exam_id || 'Bài làm';
+                return '<div class="flex justify-between items-center bg-white border border-slate-200 rounded-lg px-2.5 py-2 not-italic">'
+                    + '<div class="min-w-0"><p class="font-bold text-slate-700 truncate">' + title.replace(/</g,'&lt;') + '</p>'
+                    + '<p class="text-[10px] text-slate-400">' + dt + '</p></div>'
+                    + '<span class="font-black text-violet-700 whitespace-nowrap ml-2">' + sc + '/' + mx + '</span></div>';
+            }).join('');
+            var avg = (sum / tot).toFixed(1);
+            box.innerHTML = '<div class="not-italic mb-2 text-slate-700">Đã làm <b>' + tot + '</b> bài · Điểm TB: <b class="text-violet-700">' + avg + '/10</b></div>'
+                + '<div class="space-y-1.5 max-h-64 overflow-y-auto not-italic">' + rows + '</div>';
+        } catch(e){
+            box.innerHTML = '<span class="text-rose-600">Không tải được lịch sử: ' + String(e.message || e).replace(/</g,'&lt;') + '</span>';
+        } finally { if (btn) btn.disabled = false; }
     }
     function closeHsAccount(){
         document.getElementById('hs-account-modal').classList.add('hidden');
