@@ -62,6 +62,11 @@ body{font-family:system-ui,-apple-system,sans-serif}
                     <button data-f="changed" onclick="setPwFilter('changed')" class="pw-filter-btn text-[11px] font-bold px-2.5 py-1.5 rounded-lg bg-slate-100 text-slate-600">Đã đổi</button>
                     <button data-f="all" onclick="setPwFilter('all')" class="pw-filter-btn text-[11px] font-bold px-2.5 py-1.5 rounded-lg bg-slate-100 text-slate-600">Tất cả</button>
                 </div>
+                <div class="flex gap-1">
+                    <button data-r="all" onclick="setPwRole('all')" class="pw-role-btn text-[11px] font-bold px-2.5 py-1.5 rounded-lg bg-indigo-600 text-white">Tất cả</button>
+                    <button data-r="gv" onclick="setPwRole('gv')" class="pw-role-btn text-[11px] font-bold px-2.5 py-1.5 rounded-lg bg-slate-100 text-slate-600">Giáo viên</button>
+                    <button data-r="hs" onclick="setPwRole('hs')" class="pw-role-btn text-[11px] font-bold px-2.5 py-1.5 rounded-lg bg-slate-100 text-slate-600">Học sinh</button>
+                </div>
                 <input id="pw-search" oninput="renderPwTable()" placeholder="Tìm tên/mã..." class="ml-auto text-xs border rounded-lg px-2 py-1.5">
             </div>
             <div class="overflow-x-auto max-h-[60vh] overflow-y-auto">
@@ -177,6 +182,26 @@ body{font-family:system-ui,-apple-system,sans-serif}
 const OWNER='saobay', REPO='saobay.github.io', BRANCH='main';
 let me=null, db=null, allScores=[];
 
+// FIX 2026-10-10: phan biet thanh vien truong vs tai khoan tu do
+// - ID truong: toan so, KHONG bat dau bang 0 (VD: 1700465817)
+// - Tai khoan tu do: SDT (bat dau bang 0) hoac email (chua @)
+function isSchoolId(id){ return /^[1-9][0-9]*$/.test(String(id||'').trim()); }
+function isFreeId(id){ id=String(id||'').trim(); return /^0[0-9]+$/.test(id) || id.indexOf('@')>0; }
+function isValidPersonId(id){ return isSchoolId(id) || isFreeId(id); }
+// Lop chinh khoa: 10A1, 11A4, 12A8 ... (khong phai 'Trai nghiem')
+function isSchoolClass(c){ return /^[0-9]{1,2}A[0-9]+$/.test(String(c||'').trim()); }
+function isAdmin(){ return !!(me && me.role==='admin'); }
+// BGH chi xem nguoi truong; admin xem tat ca
+function schoolOnly(){ return !isAdmin(); }
+function getVisibleTeachers(){
+    let all = getAllTeachers();
+    return schoolOnly() ? all.filter(t=>isSchoolId(t.id)) : all;
+}
+function visibleScores(){
+    if(!schoolOnly()) return allScores;
+    return allScores.filter(s=>isSchoolClass(s.student_class||s.class));
+}
+
 function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 async function fetchJson(url){ let r=await fetch(url); if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); }
 
@@ -211,7 +236,7 @@ function checkAuth(){
         document.getElementById('login-warn').classList.remove('hidden');
         return false;
     }
-    document.getElementById('user-badge').textContent = me.name + ' (Ban Giám Hiệu)';
+    document.getElementById('user-badge').textContent = me.name + (isAdmin() ? ' (Quản trị viên — xem toàn hệ thống)' : ' (Ban Giám Hiệu — chỉ xem trường)');
     document.getElementById('tabs').classList.remove('hidden');
     document.getElementById('tabs').classList.add('flex');
     return true;
@@ -220,6 +245,14 @@ function showTab(name){
     document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active', b.dataset.tab===name));
     document.querySelectorAll('.tab-panel').forEach(p=>p.classList.add('hidden'));
     document.getElementById('tab-'+name).classList.remove('hidden');
+    // FIX 2026-10-10: tab duoc chon thi load du lieu ngay, khong de tab sang ma list trong
+    try{
+        if(!db) return;
+        if(name==='password') renderPasswordTab();
+        else if(name==='students') renderStudentTab();
+        else if(name==='teachers') renderTeacherTab();
+        else if(name==='scores') renderScoreTab();
+    }catch(e){ console.error(e); }
 }
 window.showTab = showTab; // FIX 2026-10-09: expose ra global cho onclick
 
@@ -238,37 +271,44 @@ async function loadAll(){
 }
 
 // ---- Tab 1: Password ----
-let pwList=[], pwFilter='notchanged';
+let pwList=[], pwFilter='notchanged', pwRole='all';
+window.setPwRole=function(r){ pwRole=r; renderPwTable(); };
 window.renderPwTable=function(){ renderPwTable(); };
 window.setPwFilter=function(f){ pwFilter=f; renderPwTable(); };
 function renderPasswordTab(){
+    if(!db) return;
     pwList=[];
     let pw = db.passwords||{};
     let students = db.students||{};
-    getAllTeachers().forEach(t=>{
+    // FIX 2026-10-10: BGH chi thay GV truong (admin thay tat ca)
+    let visT = getVisibleTeachers();
+    visT.forEach(t=>{
         let id=t.id;
         let changed = pw[id] && pw[id]!=='12345678';
-        pwList.push({name:t.name||id, id:id, role:'Giáo viên', group:(t.subjects||[]).join(', ')||t.group||'', changed:!!changed});
+        pwList.push({name:t.name||id, id:id, role:'Giáo viên', rk:'gv', group:(t.subjects||[]).join(', ')||t.group||'', changed:!!changed});
     });
     Object.keys(students).forEach(cls=>{
+        // FIX 2026-10-10: BGH loai lop tu do ('Trai nghiem'); bo qua dong tieu de
+        if(schoolOnly() && !isSchoolClass(cls)) return;
         (students[cls]||[]).forEach(st=>{
             let sid = st.id||st.code||'';
-            if(!sid) return;
+            if(!isValidPersonId(sid)) return;
+            if(schoolOnly() && !isSchoolId(sid)) return;
             let changed = pw[sid] && pw[sid]!=='12345678';
-            pwList.push({name:st.name||sid, id:sid, role:'Học sinh', group:cls, changed:!!changed});
+            pwList.push({name:st.name||sid, id:sid, role:'Học sinh', rk:'hs', group:cls, changed:!!changed});
         });
     });
     let nc = pwList.filter(x=>!x.changed).length;
     document.getElementById('pw-not-changed').textContent = nc;
     document.getElementById('pw-changed').textContent = pwList.length - nc;
-    document.getElementById('pw-teachers').textContent = Object.keys(teachers).length;
-    let sc = 0; Object.keys(students).forEach(c=>sc+=(students[c]||[]).length);
-    document.getElementById('pw-students').textContent = sc;
+    document.getElementById('pw-teachers').textContent = visT.length;
+    document.getElementById('pw-students').textContent = pwList.filter(x=>x.rk==='hs').length;
     renderPwTable();
 }
 function renderPwTable(){
     let q = (document.getElementById('pw-search').value||'').toLowerCase();
     let list = pwList.filter(x=> pwFilter==='all' ? true : (pwFilter==='changed' ? x.changed : !x.changed))
+                     .filter(x=> pwRole==='all' ? true : x.rk===pwRole)
                      .filter(x=>!q || (x.name+' '+x.id).toLowerCase().includes(q));
     let h='';
     if(!list.length) h='<tr><td colspan="5" class="px-3 py-4 text-center text-slate-400 italic">Không có dữ liệu.</td></tr>';
@@ -278,6 +318,11 @@ function renderPwTable(){
     document.querySelectorAll('.pw-filter-btn').forEach(b=>{
         let on = b.dataset.f===pwFilter;
         b.classList.toggle('bg-blue-600', on); b.classList.toggle('text-white', on);
+        b.classList.toggle('bg-slate-100', !on); b.classList.toggle('text-slate-600', !on);
+    });
+    document.querySelectorAll('.pw-role-btn').forEach(b=>{
+        let on = b.dataset.r===pwRole;
+        b.classList.toggle('bg-indigo-600', on); b.classList.toggle('text-white', on);
         b.classList.toggle('bg-slate-100', !on); b.classList.toggle('text-slate-600', !on);
     });
     list.slice(0,200).forEach(x=>{
@@ -294,15 +339,33 @@ function renderPwTable(){
 }
 
 // ---- Scores data ----
+// FIX 2026-10-10: quet ca thu muc con (moi de thi 1 thu muc) + ho tro file JSON 1 object
 async function loadScores(){
+    allScores=[];
     try {
         let tree = await fetchJson('https://api.github.com/repos/'+OWNER+'/'+REPO+'/contents/data/scores?ref='+BRANCH);
-        let files = tree.filter(f=>f.name.endsWith('.json')).slice(0,60);
-        for(let f of files){
+        if(!Array.isArray(tree)) tree=[];
+        let queue=[];
+        tree.forEach(f=>{ if(f.type==='file' && /\.json$/i.test(f.name||'')) queue.push({f:f, dir:''}); });
+        let dirs = tree.filter(f=>f.type==='dir').slice(0,30);
+        for(let d of dirs){
+            try{
+                let sub = await fetchJson(d.url);
+                (Array.isArray(sub)?sub:[]).forEach(f=>{
+                    if(f.type==='file' && /\.json$/i.test(f.name||'')) queue.push({f:f, dir:d.name});
+                });
+            }catch(e){}
+        }
+        let files = queue.slice(0,150);
+        for(let it of files){
             try {
-                let j = await fetchJson(f.download_url);
-                let arr = Array.isArray(j)?j:(j.results||j.data||[]);
-                arr.forEach(x=>{ x._exam = f.name.replace('.json',''); });
+                let j = await fetchJson(it.f.download_url);
+                let arr = Array.isArray(j)?j:(j.results||j.data||((j&&typeof j==='object'&&(j.student_name||j.name))?[j]:[]));
+                arr.forEach(x=>{
+                    let label = x.exam_id || it.dir || it.f.name.replace(/\.json$/i,'');
+                    if(x.exam_title) label += ' ('+x.exam_title+')';
+                    x._exam = label;
+                });
                 allScores = allScores.concat(arr);
             } catch(e){}
         }
@@ -312,7 +375,7 @@ async function loadScores(){
 // ---- Tab 2: Students ----
 function renderStudentTab(){
     let byClass={};
-    allScores.forEach(s=>{
+    visibleScores().forEach(s=>{
         let c = s.student_class||s.class||'(chưa rõ lớp)';
         if(!byClass[c]) byClass[c]={students:{}, total:0, sum:0, cnt:0};
         let n = s.student_name||s.name||'?';
@@ -334,7 +397,7 @@ function renderStudentTab(){
 function renderStudentTable(){
     let f=document.getElementById('st-class-filter').value;
     let byClass={};
-    allScores.forEach(s=>{
+    visibleScores().forEach(s=>{
         let c=s.student_class||s.class||'(chưa rõ lớp)';
         if(f && c!==f) return;
         if(!byClass[c]) byClass[c]={students:{}, total:0, sum:0, cnt:0};
@@ -356,18 +419,18 @@ function renderStudentTable(){
 
 // ---- Tab 3: Teachers ----
 function renderTeacherTab(){
-    let teachers = getAllTeachers();
+    let teachers = getVisibleTeachers();
     document.getElementById('tch-total').textContent=teachers.length;
     // Dem de theo nguoi tao (tu exam meta neu co)
     let byTeacher={};
-    allScores.forEach(s=>{
+    visibleScores().forEach(s=>{
         let t = s.teacher_id||s.teacher||s.created_by||'';
         if(t){ if(!byTeacher[t]) byTeacher[t]={exams:{}, graded:0}; byTeacher[t].exams[s._exam]=1; byTeacher[t].graded++; }
     });
     document.getElementById('tch-active').textContent=Object.keys(byTeacher).length;
     let te=0; Object.keys(byTeacher).forEach(t=>te+=Object.keys(byTeacher[t].exams).length);
     document.getElementById('tch-exams').textContent=te;
-    document.getElementById('tch-graded').textContent=allScores.length;
+    document.getElementById('tch-graded').textContent=visibleScores().length;
     let h='';
     teachers.forEach(t=>{
         let id=t.id, b=byTeacher[id]||{exams:{},graded:0};
@@ -384,7 +447,7 @@ function renderTeacherTab(){
 let exams=[], curResults=[], curExamId='';
 function renderScoreTab(){
     let byExam={};
-    allScores.forEach(s=>{ if(!byExam[s._exam]) byExam[s._exam]=[]; byExam[s._exam].push(s); });
+    visibleScores().forEach(s=>{ if(!byExam[s._exam]) byExam[s._exam]=[]; byExam[s._exam].push(s); });
     exams=Object.keys(byExam).sort();
     let h='';
     exams.forEach(e=>{
@@ -397,7 +460,7 @@ function renderScoreTab(){
 window.selectExam=function(eid){
     curExamId=eid;
     document.querySelectorAll('.exam-item').forEach(b=>b.classList.toggle('active', b.dataset.exam===eid));
-    curResults=allScores.filter(s=>s._exam===eid);
+    curResults=visibleScores().filter(s=>s._exam===eid);
     document.getElementById('result-title').textContent=eid+' ('+curResults.length+' bài)';
     let classes={};
     curResults.forEach(r=>{ if(r.student_class) classes[r.student_class]=1; });
