@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài tập cuối chương 9</title>
+    <meta name="lesson-title" content="Bài tập cuối chương 9">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài tập cuối chương 9</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 9: Dữ liệu và xác suất thực nghiệm • Bài tập cuối chương 9</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài tập cuối chương 9</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 9: Dữ liệu và xác suất thực nghiệm (Kết nối tri thức với cuộc sống)</p>
+
+<!-- Sơ đồ tổng kết -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Sơ đồ tổng kết chương 9</h2>
+
+<div class="svg-fig"><svg viewBox="0 0 440 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="So do tong ket chuong 9">
+<rect x="2" y="2" width="436" height="376" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<rect x="70" y="14" width="300" height="52" rx="10" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+<text x="220" y="36" font-family="sans-serif" font-size="15" font-weight="bold" fill="#0369a1" text-anchor="middle">Dữ liệu và thu thập dữ liệu</text>
+<text x="220" y="56" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">Quan sát — Thí nghiệm — Phiếu hỏi — Nguồn có sẵn</text>
+<line x1="220" y1="66" x2="220" y2="82" stroke="#64748b" stroke-width="2.5"/>
+<polygon points="220,90 213,80 227,80" fill="#64748b"/>
+<rect x="70" y="90" width="300" height="52" rx="10" fill="#d1fae5" stroke="#059669" stroke-width="2"/>
+<text x="220" y="112" font-family="sans-serif" font-size="15" font-weight="bold" fill="#065f46" text-anchor="middle">Bảng thống kê</text>
+<text x="220" y="132" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">Sắp xếp dữ liệu theo hàng và cột</text>
+<line x1="220" y1="142" x2="220" y2="158" stroke="#64748b" stroke-width="2.5"/>
+<polygon points="220,166 213,156 227,156" fill="#64748b"/>
+<rect x="70" y="166" width="300" height="52" rx="10" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+<text x="220" y="188" font-family="sans-serif" font-size="15" font-weight="bold" fill="#92400e" text-anchor="middle">Biểu đồ</text>
+<text x="220" y="208" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">Biểu đồ tranh — Biểu đồ cột — Biểu đồ cột kép</text>
+<line x1="220" y1="218" x2="220" y2="234" stroke="#64748b" stroke-width="2.5"/>
+<polygon points="220,242 213,232 227,232" fill="#64748b"/>
+<rect x="70" y="242" width="300" height="52" rx="10" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+<text x="220" y="264" font-family="sans-serif" font-size="15" font-weight="bold" fill="#6d28d9" text-anchor="middle">Kết quả có thể và sự kiện</text>
+<text x="220" y="284" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">Liệt kê kết quả — Sự kiện xảy ra / không xảy ra</text>
+<line x1="220" y1="294" x2="220" y2="310" stroke="#64748b" stroke-width="2.5"/>
+<polygon points="220,318 213,308 227,308" fill="#64748b"/>
+<rect x="70" y="318" width="300" height="52" rx="10" fill="#fce7f3" stroke="#db2777" stroke-width="2"/>
+<text x="220" y="340" font-family="sans-serif" font-size="15" font-weight="bold" fill="#be185d" text-anchor="middle">Xác suất thực nghiệm = n / N</text>
+<text x="220" y="360" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">Số lần sự kiện xuất hiện chia tổng số lần thí nghiệm</text>
+</svg></div>
+
+<!-- Tóm tắt kiến thức -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt kiến thức toàn chương</h2>
+
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Bài</td><td class="border border-slate-300 px-4 py-1">Nội dung chính</td><td class="border border-slate-300 px-4 py-1">Cần nhớ</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><strong>38</strong></td><td class="border border-slate-300 px-4 py-1">Dữ liệu và thu thập dữ liệu</td><td class="border border-slate-300 px-4 py-1">Dữ liệu là thông tin, số liệu thu được khi quan sát, đo đạc, điều tra, làm thí nghiệm; có 4 cách thu thập; 2 loại dữ liệu (số / không phải số); kiểm tra tính hợp lí</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><strong>39</strong></td><td class="border border-slate-300 px-4 py-1">Bảng thống kê và biểu đồ tranh</td><td class="border border-slate-300 px-4 py-1">Bảng thống kê sắp xếp dữ liệu theo hàng, cột; biểu đồ tranh dùng hình ảnh tượng trưng, mỗi tranh ứng với một số lượng nhất định (xem chú thích)</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><strong>40</strong></td><td class="border border-slate-300 px-4 py-1">Biểu đồ cột</td><td class="border border-slate-300 px-4 py-1">Các cột hình chữ nhật, chiều cao tỉ lệ với số liệu; trục ngang ghi tên đối tượng, trục dọc ghi số lượng; đọc bằng cách gióng cột sang trục dọc</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><strong>41</strong></td><td class="border border-slate-300 px-4 py-1">Biểu đồ cột kép</td><td class="border border-slate-300 px-4 py-1">Mỗi nhóm có hai cột cạnh nhau (hai màu) để so sánh hai bộ số liệu; đọc chú thích màu trước khi đọc số liệu</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><strong>42</strong></td><td class="border border-slate-300 px-4 py-1">Kết quả có thể và sự kiện</td><td class="border border-slate-300 px-4 py-1">Liệt kê tất cả các kết quả có thể; sự kiện có thể xảy ra hoặc không xảy ra</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1"><strong>43</strong></td><td class="border border-slate-300 px-4 py-1">Xác suất thực nghiệm</td><td class="border border-slate-300 px-4 py-1">Xác suất thực nghiệm $= \frac{n}{N}$ ($n$: số lần sự kiện xuất hiện, $N$: tổng số lần thí nghiệm); giá trị từ $0$ đến $1$</td></tr>
+</table></div>
+
+<!-- Ví dụ tổng hợp -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Ví dụ tổng hợp</h2>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-emerald-800 mb-2">Bài tập ví dụ (có lời giải):</p>
+<p>Lớp 6A điều tra "Môn thể thao yêu thích" bằng <strong>phiếu hỏi</strong> và ghi kết quả vào <strong>bảng thống kê</strong>:</p>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Môn thể thao</td><td class="border border-slate-300 px-4 py-1">Bóng đá</td><td class="border border-slate-300 px-4 py-1">Cầu lông</td><td class="border border-slate-300 px-4 py-1">Bơi lội</td><td class="border border-slate-300 px-4 py-1">Cờ vua</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1 font-semibold bg-sky-50">Số bạn yêu thích</td><td class="border border-slate-300 px-4 py-1">$12$</td><td class="border border-slate-300 px-4 py-1">$8$</td><td class="border border-slate-300 px-4 py-1">$10$</td><td class="border border-slate-300 px-4 py-1">$6$</td></tr>
+</table></div>
+<p class="mt-2">a) Dữ liệu "môn thể thao yêu thích" thuộc loại nào?</p>
+<p>b) Vẽ <strong>biểu đồ cột</strong> thể hiện số liệu trên, cho biết môn nào được yêu thích nhất.</p>
+<p>c) Chọn ngẫu nhiên $1$ bạn trong lớp. Xét sự kiện "Bạn được chọn thích bóng đá". Liệt kê các kết quả có thể của việc chọn bạn.</p>
+<p class="mt-2"><strong>Lời giải:</strong></p>
+<p>a) "Môn thể thao yêu thích" là thông tin dạng chữ nên thuộc loại <strong>dữ liệu không phải là số</strong>.</p>
+<p>b) Vẽ biểu đồ cột với trục ngang ghi $4$ môn thể thao, trục dọc chia vạch $0, 2, 4, \dots, 12$; vẽ $4$ cột có chiều cao lần lượt là $12, 8, 10, 6$. Cột "Bóng đá" cao nhất nên môn <strong>bóng đá</strong> được yêu thích nhất.</p>
+<p>c) Các kết quả có thể: bạn được chọn thích bóng đá, thích cầu lông, thích bơi lội hoặc thích cờ vua. Sự kiện "Bạn được chọn thích bóng đá" <strong>có thể xảy ra</strong> hoặc <strong>không xảy ra</strong>.</p>
+</div>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Quy trình làm việc với dữ liệu: <strong>thu thập</strong> → sắp xếp vào <strong>bảng thống kê</strong> → vẽ <strong>biểu đồ</strong> để trình bày và so sánh → phân tích <strong>kết quả có thể, sự kiện</strong> → tính <strong>xác suất thực nghiệm</strong> khi thực hiện thí nghiệm nhiều lần.</p>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Ôn tập xong, hãy làm 10 bộ đề tổng hợp bên dưới để kiểm tra nhé! 💪</p>
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
