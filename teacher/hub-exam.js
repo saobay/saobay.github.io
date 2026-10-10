@@ -429,7 +429,13 @@
 
         // Ca lop chung 1 de: luu de dong bang (khoa cung bo cau)
         async function exbClassSave(){
+            var _btn = null, _origHtml = '';
             try {
+                // FIX 2026-10-10: hien trang thai "Dang luu" tren nut (chong bam 2 lan)
+                if (typeof event !== 'undefined' && event && event.target) {
+                    _btn = event.target.closest ? event.target.closest('button') : null;
+                }
+                if (_btn) { _origHtml = _btn.innerHTML; _btn.disabled = true; _btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i>Dang luu...'; }
                 if (!exbClassExam.length){ alert('Hãy bấm "Bốc đề & xem trước" trước khi lưu.'); return; }
                 let m = exbClassExam._matrix || exbGetMatrix();
                 let title = exbBankVal('exbb-title') || ('Đề chung ' + m.subject + ' ' + m.grade);
@@ -455,12 +461,27 @@
                 let asciiBase = (typeof removeVietnameseTones === 'function' ? removeVietnameseTones(title) : title)
                     .replace(/[\\/:*?"<>|]/g, '_').replace(/\s+/g, '_').slice(0, 40);
                 let path = folder + '/' + m.subject + '_' + m.grade + '_' + asciiBase + '_Kiem_tra_none.html';
-                await bankPushFile(path, page, 'Class exam (chung 1 de): ' + safeTitle + ' [' + folder + ']');
-                                if (typeof showToast === 'function') showToast('Đã lưu đề chung cả lớp: ' + path, 'success');
-                else alert('Đã lưu đề: ' + path);
+                // FIX 2026-10-10: timeout 30s cho bankPushFile (khong treo vo han)
+                let _pushPromise = bankPushFile(path, page, 'Class exam (chung 1 de): ' + safeTitle + ' [' + folder + ']');
+                let _timeout = new Promise(function(_, reject){
+                    setTimeout(function(){ reject(new Error('Hết thời gian chờ (30s). Kiểm tra kết nối GitHub.')); }, 30000);
+                });
+                await Promise.race([_pushPromise, _timeout]);
+                // FIX 2026-10-10: thong bao RO RANG khi thanh cong
+                if (typeof showToast === 'function') showToast('✅ Đã lưu đề chung cả lớp: ' + path, 'success');
+                else alert('✅ Đã lưu đề: ' + path);
                 if (typeof loadFolderTreeFromGit === 'function') loadFolderTreeFromGit();
-            } catch(e){ alert('Lỗi lưu đề: ' + (e.message || e)); }
+            } catch(e){
+                // FIX 2026-10-10: thong bao RO RANG khi that bai
+                var _msg = '❌ Lỗi lưu đề: ' + (e.message || e);
+                if (typeof showToast === 'function') showToast(_msg, 'error');
+                else alert(_msg);
+            } finally {
+                if (_btn) { _btn.disabled = false; _btn.innerHTML = _origHtml; }
+            }
         }
+        // FIX 2026-10-10: dam bao onclick goi duoc
+        window.exbClassSave = exbClassSave;
 
         async function examBuilderPreview(){
             let pv = document.getElementById('exb-preview');
