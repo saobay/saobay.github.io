@@ -2,9 +2,10 @@
         // TẠO PROMPT TỐI ƯU SIÊU GỌN CHO NOTEBOOKLM
         // ========================================================
         function generateAndCopyPrompt(type) {
-            let subject = document.getElementById('prompt-subject').value.trim() || "Toán";
-            let grade = document.getElementById('prompt-grade').value || "12";
-            let lesson = document.getElementById('prompt-lesson').value.trim() || "Nội dung học";
+            let mxS = document.getElementById('mx-subject'), mxG = document.getElementById('mx-grade'), mxT = document.getElementById('mx-topic');
+            let subject = (mxS && mxS.value.trim()) || "Toán";
+            let grade = (mxG && mxG.value) || "12";
+            let lesson = (mxT && mxT.value.trim()) || "Nội dung học";
 
             let promptText = "";
 
@@ -29,11 +30,11 @@ YÊU CẦU:
                 // - Đổi sang yêu cầu AI xuất JSON trong khối mã ```json — NotebookLM làm tốt dạng văn bản thuần
                 // - GV copy khối JSON → dán vào ô "Dán JSON từ AI" trên hub → pasteAiJsonToComposer() bọc thành khối exam10
                 promptText = `Bạn là chuyên gia biên soạn đề thi theo định hướng đánh giá năng lực của Bộ GD&ĐT.
-Nhiệm vụ: soạn 1 ĐỀ THI MỚI HOÀN TOÀN (chưa từng xuất hiện ở bất kỳ đâu) cho Bài: "${lesson}" - Môn: ${subject} - Lớp: ${grade}.
+Nhiệm vụ: soạn 1 ĐỀ THI MỚI HOÀN TOÀN (chưa từng xuất hiện ở bất kỳ đâu) cho Nội dung kiến thức: "${lesson}" - Môn: ${subject} - Lớp: ${grade}.
 
 YÊU CẦU QUAN TRỌNG NHẤT:
 1. Đề phải MỚI TINH — học sinh chưa từng thấy. Không sao chép, không biến thể nhẹ từ đề cũ.
-2. Tôi sẽ cung cấp MA TRẬN CHI TIẾT ngay sau prompt này (gồm: chủ đề/chương, số câu mỗi chủ đề, phân bố mức độ NB/TH/VD/VDC, dạng câu mcq/truefalse/short/essay, thời gian làm bài).
+2. Tôi sẽ cung cấp MA TRẬN CHI TIẾT ngay sau prompt này (gồm: nội dung kiến thức, số câu mỗi nội dung, phân bố mức độ NB/TH/VD/VDC, dạng câu mcq/truefalse/short/essay, thời gian làm bài).
 3. Bạn phải tuân thủ 100% ma trận — không tự ý thêm, bớt, hay đổi dạng câu/mức độ.
 4. Nếu ma trận chưa rõ chỗ nào, hãy hỏi lại thay vì tự đoán.
 
@@ -146,10 +147,10 @@ MA TRẬN CỦA TÔI (bạn tuân thủ tuyệt đối):`;
             // Tự điền tiêu đề nếu đang trống
             try {
                 let titleEl = document.getElementById('item-title');
-                let subj = (document.getElementById('prompt-subject')||{}).value || '';
-                let grd = (document.getElementById('prompt-grade')||{}).value || '';
-                let les = (document.getElementById('prompt-lesson')||{}).value || '';
-                if (titleEl && !titleEl.value.trim()) titleEl.value = '[' + subj + ' ' + grd + '] ' + les;
+                let subj = ((document.getElementById('mx-subject')||{}).value || '').trim();
+                let grd = (document.getElementById('mx-grade')||{}).value || '';
+                let les = ((document.getElementById('mx-topic')||{}).value || '').trim();
+                if (titleEl && !titleEl.value.trim() && (subj || grd || les)) titleEl.value = '[' + subj + ' ' + grd + '] ' + les;
             } catch(e){}
             setStatus('Đã nạp ' + setCount + ' bộ đề (' + qCount + ' câu) vào khung soạn!', true);
             showToast('Đã nạp đề vào khung soạn!', 'success');
