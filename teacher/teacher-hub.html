@@ -10,6 +10,9 @@
     <!-- THƯ VIỆN ĐỌC FILE WORD (.docx) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
 
+    <!-- THU VIEN DOC FILE EXCEL (.xlsx/.csv) — tab Quan ly lop cua toi -->
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+
     <!-- CẤU HÌNH MATHJAX -->
     <script>
         window.MathJax = {
@@ -200,8 +203,8 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
                             <i class="fa-solid fa-user-lock"></i>
                         </div>
                         <div class="truncate">
-                            <div class="text-xs font-extrabold uppercase" data-ui-label="mod_private">5. Lớp Học Thêm</div>
-                            <div class="text-[10px] text-slate-500" data-ui-label="mod_private_sub">Lớp riêng & HS</div>
+                            <div class="text-xs font-extrabold uppercase" data-ui-label="mod_private">5. Quản lý lớp của tôi</div>
+                            <div class="text-[10px] text-slate-500" data-ui-label="mod_private_sub">Lớp dạy · dạy thêm · thống kê</div>
                         </div>
                     </button>
                     <button type="button" onclick="switchTeacherModule('reports')" id="mod-tab-reports" class="module-tab-btn flex items-center p-2.5 rounded-xl transition border text-left bg-white border-slate-200 text-slate-700 hover:bg-slate-100">
@@ -901,14 +904,21 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
             </div>
 
             <!-- ======================================================== -->
-            <!-- CHỨC NĂNG 5: LỚP HỌC THÊM (riêng tư) -->
+            <!-- CHỨC NĂNG 5: QUẢN LÝ LỚP CỦA TÔI (lớp chính khóa + lớp dạy thêm) -->
             <!-- ======================================================== -->
             <div id="module-private-view" class="hidden space-y-4 flex-1 flex flex-col">
                 <div class="border-b pb-3">
                     <h3 class="font-extrabold text-slate-800 text-base flex items-center">
-                        <i class="fa-solid fa-user-lock text-violet-600 mr-2"></i> Lớp Học Thêm Của Tôi
+                        <i class="fa-solid fa-user-lock text-violet-600 mr-2"></i> Quản lý lớp của tôi
                     </h3>
-                    <p class="text-xs text-slate-500 mt-0.5">Tạo lớp riêng — chỉ bạn và quản trị viên thấy. Đẩy bài riêng cho từng lớp.</p>
+                    <p class="text-xs text-slate-500 mt-0.5">Lớp chính khóa đang dạy · lớp dạy thêm riêng (chỉ bạn và quản trị viên thấy) — nhập HS từ Excel, chống trùng tài khoản, thống kê điểm & học tập.</p>
+                </div>
+                <div class="bg-blue-50 border border-blue-200 rounded-xl p-3">
+                    <p class="text-[11px] font-black text-blue-800 mb-2"><i class="fa-solid fa-chalkboard-user mr-1"></i>📚 Lớp tôi đang dạy</p>
+                    <div id="pv-teach-chips" class="flex flex-wrap gap-1.5">
+                        <p class="text-xs text-slate-400 italic">Đang tải...</p>
+                    </div>
+                    <div id="pv-teach-stats" class="mt-2"></div>
                 </div>
                 <div class="bg-violet-50 border border-violet-200 rounded-xl p-3 flex flex-wrap gap-2 items-end">
                     <div class="flex-1 min-w-[200px]">
@@ -918,6 +928,18 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
                     <button onclick="createPrivateClass()" class="bg-violet-600 hover:bg-violet-700 text-white text-sm font-bold px-4 py-2 rounded-lg">
                         <i class="fa-solid fa-plus mr-1"></i> Tạo lớp
                     </button>
+                </div>
+                <div id="pv-admin-filter-wrap" class="hidden bg-amber-50 border border-amber-200 rounded-xl p-2.5 flex items-center gap-2">
+                    <label class="text-[11px] font-black text-amber-800 shrink-0">👤 Giáo viên:</label>
+                    <select id="pv-teacher-filter" class="text-xs border border-amber-300 rounded-lg px-2 py-1.5 bg-white max-w-full"></select>
+                </div>
+                <div id="pv-danger-zone" class="hidden bg-red-50 border-2 border-red-300 rounded-xl p-3">
+                    <p class="text-[12px] font-black text-red-700 mb-1">⚠️ Vùng nguy hiểm — chỉ quản trị viên</p>
+                    <p class="text-[11px] text-red-600 mb-2">Thao tác xóa dữ liệu vĩnh viễn trên GitHub, không thể hoàn tác. Cân nhắc kỹ trước khi dùng.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="pvWipeStep1()" class="text-[11px] font-bold text-white bg-red-600 hover:bg-red-700 px-3 py-2 rounded-lg">🗑 Xóa toàn bộ TK HS trường</button>
+                        <button onclick="pvRefreshTestStep1()" class="text-[11px] font-bold text-amber-800 bg-amber-100 border border-amber-300 hover:bg-amber-200 px-3 py-2 rounded-lg">🧹 Refresh TK test</button>
+                    </div>
                 </div>
                 <div id="pv-class-list" class="space-y-3">
                     <p class="text-xs text-slate-400 italic">Đang tải...</p>
@@ -1503,7 +1525,7 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
     <script src="hub-assign.js?v=20261008_2"></script>
     <script src="hub-users.js?v=20261008_2"></script>
     <script src="hub-word.js?v=20261008_3"></script>
-    <script src="hub-private.js?v=20261010_1"></script>
+    <script src="hub-private.js?v=20261011_1"></script>
     <script src="hub-reports.js?v=20261009_1"></script>
 <script src="hub-groups.js?v=20261010_1"></script>
     <script src="hub-uilabels.js?v=20261010"></script>
@@ -1530,7 +1552,7 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
             var classes = [];
             try {
                 if (typeof pvMyClasses === 'function') classes = pvMyClasses() || [];
-                // Nếu module Lớp Học Thêm chưa mở (pvClasses rỗng) -> fetch trực tiếp data/private/classes.json
+                // Nếu module Quản lý lớp của tôi chưa mở (pvClasses rỗng) -> fetch trực tiếp data/private/classes.json
                 if (!classes.length && typeof pvFetchClasses === 'function'){
                     var all = await pvFetchClasses();
                     var uid = '', isAdmin = false;
@@ -1546,7 +1568,7 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
             _schedClassCache = classes;
             var keep = sel.value;
             if (!classes.length){
-                sel.innerHTML = '<option value="">— Chưa có lớp (tạo ở mục 5. Lớp Học Thêm) —</option>';
+                sel.innerHTML = '<option value="">— Chưa có lớp (tạo ở mục 5. Quản lý lớp của tôi) —</option>';
                 return;
             }
             var html = '<option value="">— Chọn lớp kiểm tra —</option>';
