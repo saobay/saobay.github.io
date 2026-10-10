@@ -121,6 +121,72 @@ MA TRẬN CỦA TÔI (bạn tuân thủ tuyệt đối):`;
                 showToast("Vui lòng cấp quyền copy!", "error");
             });
         }
+        // ========================================================
+        // PROMPT MA TRẬN ĐẶC TẢ ĐẦY ĐỦ ĐỂ LƯU WORD (2026-10-10)
+        // Tạo prompt cho AI soạn ma trận đặc tả + đề thi + lời giải theo chuẩn Bộ GD&ĐT
+        // ========================================================
+        function generateFullSpecPrompt() {
+            let m = null;
+            try {
+                if (typeof exbGetMatrix === 'function') m = exbGetMatrix();
+            } catch(e){}
+            let subject = (m && m.subject) || 'Toán';
+            let grade = (m && m.grade) || 10;
+            let totalQ = 0, typeStr = [];
+            if (m && m.types) {
+                for (let t in m.types) {
+                    if (m.types[t] > 0) {
+                        totalQ += m.types[t];
+                        let tn = {mcq:'trắc nghiệm 4 lựa chọn', truefalse:'đúng/sai 4 ý', short:'trả lời ngắn', essay:'tự luận'}[t] || t;
+                        typeStr.push(m.types[t] + ' câu ' + tn);
+                    }
+                }
+            }
+            let levelStr = '';
+            if (m && m.levels) {
+                levelStr = 'NB ' + (m.levels.NB||0) + '% / TH ' + (m.levels.TH||0) + '% / VD ' + (m.levels.VD||0) + '% / VDC ' + (m.levels.VDC||0) + '%';
+            }
+            let timeStr = (m && m.time_limit) ? m.time_limit + ' phút' : '90 phút';
+
+            let promptText = `Bạn là chuyên gia biên soạn đề kiểm tra theo đúng quy định của Bộ Giáo dục và Đào tạo Việt Nam.
+Nhiệm vụ: Soạn HOÀN CHỈNH bộ hồ sơ đề kiểm tra môn ${subject} - Lớp ${grade}, gồm 3 phần: MA TRẬN ĐẶC TẢ, ĐỀ THI, ĐÁP ÁN VÀ LỜI GIẢI CHI TIẾT.
+
+THÔNG SỐ ĐỀ (bạn phải tuân thủ tuyệt đối):
+- Tổng số câu: ${totalQ || 40} câu (${typeStr.join(', ') || 'trắc nghiệm, đúng/sai, trả lời ngắn, tự luận'})
+- Phân bố mức độ: ${levelStr || 'NB 40% / TH 30% / VD 20% / VDC 10%'}
+- Thời gian làm bài: ${timeStr}
+
+YÊU CẦU VỀ MA TRẬN ĐẶC TẢ (theo mẫu chuẩn của Bộ GD&ĐT):
+1. Lập bảng ma trận với các cột: Nội dung kiến thức | Đơn vị kiến thức | Mức độ (NB/TH/VD/VDC) | Số câu | Dạng câu | Ghi chú.
+2. Mỗi nội dung kiến thức phải có đủ 4 mức độ NB/TH/VD/VDC theo tỉ lệ đã cho.
+3. Tổng số câu và tỉ lệ phải khớp 100% với thông số trên.
+
+YÊU CẦU VỀ ĐỀ THI:
+1. Soạn ${totalQ || 40} câu HOÀN TOÀN MỚI, chưa từng xuất hiện ở đâu, bám sát ma trận đặc tả.
+2. Trắc nghiệm 4 lựa chọn: 4 đáp án A/B/C/D, chỉ 1 đáp án đúng, các đáp án nhiễu phải hợp lý.
+3. Đúng/Sai: mỗi câu 4 ý a/b/c/d, ghi rõ Đúng hoặc Sai từng ý.
+4. Trả lời ngắn: đáp số ngắn gọn, chính xác.
+5. Tự luận: đề bài rõ ràng, có gợi ý hướng làm.
+6. Công thức Toán viết bằng ký hiệu chuẩn, rõ ràng.
+
+YÊU CẦU VỀ ĐÁP ÁN VÀ LỜI GIẢI:
+1. Bảng đáp án trắc nghiệm/đúng-sai/trả lời ngắn (câu → đáp án).
+2. Lời giải chi tiết TỪNG CÂU, trình bày từng bước rõ ràng theo đúng phương pháp sư phạm.
+3. Tự luận: barem chấm chi tiết từng ý (0.25/0.5/0.75/1.0 điểm).
+
+ĐỊNH DẠNG XUẤT:
+- Trình bày dưới dạng văn bản có cấu trúc rõ ràng với tiêu đề các phần: "MA TRẬN ĐẶC TẢ", "ĐỀ THI", "ĐÁP ÁN VÀ LỜI GIẢI CHI TIẾT".
+- Dùng bảng cho ma trận và bảng đáp án.
+- Tôi sẽ copy toàn bộ vào Word để lưu trữ và in ấn, nên trình bày sạch sẽ, dễ đọc.`;
+
+            navigator.clipboard.writeText(promptText).then(() => {
+                if (typeof showToast === 'function') showToast('Đã copy prompt ma trận đặc tả! Dán cho AI để tạo đề chuẩn Bộ GD&ĐT.', 'success');
+                else alert('Đã copy prompt!');
+            }).catch(() => {
+                prompt('Copy prompt bên dưới:', promptText);
+            });
+        }
+
 
         // DÁN JSON TỪ AI (2026-10-10): GV copy khối ```json từ NotebookLM/Gemini → dán vào ô ai-json-input
         // → hàm này bóc JSON, kiểm tra hợp lệ, bọc thành khối <div class="saobay-exam10"> rồi nạp vào khung soạn.
