@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 18: Hình tam giác đều. Hình vuông. Hình lục giác đều</title>
+    <meta name="lesson-title" content="Bài 18: Hình tam giác đều. Hình vuông. Hình lục giác đều">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 18: Hình tam giác đều. Hình vuông. Hình lục giác đều</h1>
+            <p class="text-xs text-slate-500 mt-1">Chương 4: Một số hình phẳng trong thực tiễn • Bài 18: Hình tam giác đều. Hình vuông. Hình lục giác đều</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 18: Hình tam giác đều. Hình vuông. Hình lục giác đều</h1>
+<p class="text-center text-slate-500 italic mb-8">Chương 4: Một số hình phẳng trong thực tiễn (Kết nối tri thức với cuộc sống)</p>
+
+<p>Trong đời sống, ta bắt gặp rất nhiều hình phẳng đều đặn: biển báo giao thông hình tam giác, gạch lát nền hình vuông, tổ ong hình lục giác… Bài này giúp em nhận biết và vẽ được ba hình phẳng quen thuộc: <strong>tam giác đều</strong>, <strong>hình vuông</strong> và <strong>lục giác đều</strong>.</p>
+
+<!-- 1. Tam giác đều -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Hình tam giác đều</h2>
+
+<p><strong>Hình tam giác đều</strong> là hình tam giác có <strong>ba cạnh bằng nhau</strong> và <strong>ba góc bằng nhau</strong>.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Tam giác đều $ABC$ có:</p>
+<ul class="list-disc ml-6 space-y-1 mt-2">
+<li>Ba cạnh bằng nhau: $AB = BC = CA$;</li>
+<li>Ba góc bằng nhau: $\widehat{A} = \widehat{B} = \widehat{C} = 60^\circ$.</li>
+</ul>
+</div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tam giac deu ABC voi 3 canh bang nhau">
+<rect x="2" y="2" width="436" height="296" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<polygon points="220,50 88,268 352,268" fill="#e0f2fe" stroke="#0284c7" stroke-width="3"/>
+<line x1="196" y1="112" x2="204" y2="118" stroke="#0284c7" stroke-width="2.5"/>
+<line x1="204" y1="112" x2="196" y2="118" stroke="#0284c7" stroke-width="2.5"/>
+<line x1="120" y1="238" x2="128" y2="244" stroke="#0284c7" stroke-width="2.5"/>
+<line x1="128" y1="238" x2="120" y2="244" stroke="#0284c7" stroke-width="2.5"/>
+<line x1="312" y1="238" x2="320" y2="244" stroke="#0284c7" stroke-width="2.5"/>
+<line x1="320" y1="238" x2="312" y2="244" stroke="#0284c7" stroke-width="2.5"/>
+<path d="M 206 84 A 40 40 0 0 0 190 92" fill="none" stroke="#0c4a6e" stroke-width="2"/>
+<path d="M 122 240 A 40 40 0 0 0 150 254" fill="none" stroke="#0c4a6e" stroke-width="2"/>
+<path d="M 318 240 A 40 40 0 0 0 290 254" fill="none" stroke="#0c4a6e" stroke-width="2"/>
+<text x="220" y="38" font-family="sans-serif" font-size="18" font-weight="bold" fill="#0c4a6e" text-anchor="middle">A</text>
+<text x="74" y="292" font-family="sans-serif" font-size="18" font-weight="bold" fill="#0c4a6e" text-anchor="middle">B</text>
+<text x="366" y="292" font-family="sans-serif" font-size="18" font-weight="bold" fill="#0c4a6e" text-anchor="middle">C</text>
+<text x="150" y="270" font-family="sans-serif" font-size="13" fill="#0369a1" text-anchor="middle">AB</text>
+<text x="292" y="270" font-family="sans-serif" font-size="13" fill="#0369a1" text-anchor="middle">BC</text>
+<text x="246" y="160" font-family="sans-serif" font-size="13" fill="#0369a1" text-anchor="middle">CA</text>
+</svg></div>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">Cách vẽ tam giác đều cạnh $a$ bằng compa</h3>
+<ol class="list-decimal ml-6 space-y-1 my-3">
+<li>Vẽ đoạn thẳng $BC = a$;</li>
+<li>Vẽ đường tròn tâm $B$ bán kính $a$;</li>
+<li>Vẽ đường tròn tâm $C$ bán kính $a$. Hai đường tròn cắt nhau tại điểm $A$;</li>
+<li>Kẻ đoạn thẳng $AB$ và $AC$. Ta được tam giác đều $ABC$ cạnh $a$.</li>
+</ol>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Tam giác đều có <strong>ba cạnh bằng nhau</strong>, <strong>ba góc bằng nhau</strong> và mỗi góc bằng <strong>$60^\circ$</strong>.</p>
+</div>
+
+<!-- 2. Hình vuông -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Hình vuông</h2>
+
+<p><strong>Hình vuông</strong> là hình tứ giác có <strong>bốn cạnh bằng nhau</strong> và <strong>bốn góc vuông</strong>.</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Hình vuông $MNPQ$ có:</p>
+<ul class="list-disc ml-6 space-y-1 mt-2">
+<li>Bốn cạnh bằng nhau: $MN = NP = PQ = QM$;</li>
+<li>Bốn góc bằng nhau và bằng $90^\circ$;</li>
+<li>Hai đường chéo bằng nhau: $MP = NQ$.</li>
+</ul>
+</div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hinh vuong MNPQ voi 4 canh bang nhau">
+<rect x="2" y="2" width="436" height="296" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<rect x="110" y="55" width="220" height="220" fill="#d1fae5" stroke="#059669" stroke-width="3"/>
+<line x1="110" y1="55" x2="330" y2="275" stroke="#059669" stroke-width="1.5" stroke-dasharray="8,6"/>
+<line x1="330" y1="55" x2="110" y2="275" stroke="#059669" stroke-width="1.5" stroke-dasharray="8,6"/>
+<line x1="110" y1="95" x2="150" y2="95" stroke="#059669" stroke-width="2"/><line x1="110" y1="95" x2="110" y2="135" stroke="#059669" stroke-width="2"/>
+<line x1="290" y1="55" x2="330" y2="55" stroke="#059669" stroke-width="2"/><line x1="330" y1="95" x2="330" y2="55" stroke="#059669" stroke-width="2"/>
+<line x1="110" y1="235" x2="110" y2="275" stroke="#059669" stroke-width="2"/><line x1="150" y1="275" x2="110" y2="275" stroke="#059669" stroke-width="2"/>
+<line x1="290" y1="275" x2="330" y2="275" stroke="#059669" stroke-width="2"/><line x1="330" y1="235" x2="330" y2="275" stroke="#059669" stroke-width="2"/>
+<text x="100" y="50" font-family="sans-serif" font-size="18" font-weight="bold" fill="#064e3b" text-anchor="middle">M</text>
+<text x="340" y="50" font-family="sans-serif" font-size="18" font-weight="bold" fill="#064e3b" text-anchor="middle">N</text>
+<text x="340" y="292" font-family="sans-serif" font-size="18" font-weight="bold" fill="#064e3b" text-anchor="middle">P</text>
+<text x="100" y="292" font-family="sans-serif" font-size="18" font-weight="bold" fill="#064e3b" text-anchor="middle">Q</text>
+<text x="220" y="45" font-family="sans-serif" font-size="13" fill="#065f46" text-anchor="middle">MN</text>
+<text x="345" y="170" font-family="sans-serif" font-size="13" fill="#065f46" text-anchor="middle">NP</text>
+</svg></div>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">Cách vẽ hình vuông cạnh $a$ bằng êke</h3>
+<ol class="list-decimal ml-6 space-y-1 my-3">
+<li>Vẽ đoạn thẳng $MN = a$;</li>
+<li>Dùng êke vẽ góc vuông tại $M$, lấy điểm $Q$ trên tia vuông góc sao cho $MQ = a$;</li>
+<li>Dùng êke vẽ góc vuông tại $N$, lấy điểm $P$ trên tia vuông góc sao cho $NP = a$;</li>
+<li>Nối $Q$ với $P$. Ta được hình vuông $MNPQ$ cạnh $a$.</li>
+</ol>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Hình vuông có <strong>bốn cạnh bằng nhau</strong>, <strong>bốn góc bằng nhau</strong> (mỗi góc $90^\circ$) và <strong>hai đường chéo bằng nhau</strong>.</p>
+</div>
+
+<!-- 3. Lục giác đều -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Hình lục giác đều</h2>
+
+<p><strong>Hình lục giác đều</strong> là hình có <strong>sáu cạnh bằng nhau</strong> và <strong>sáu góc bằng nhau</strong>.</p>
+
+<p>Một điều thú vị: nối tâm của hình lục giác đều với các đỉnh, ta chia hình thành <strong>sáu tam giác đều bằng nhau</strong>!</p>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Ví dụ:</p>
+<p>Hình lục giác đều $ABCDEF$ tâm $O$ có:</p>
+<ul class="list-disc ml-6 space-y-1 mt-2">
+<li>Sáu cạnh bằng nhau: $AB = BC = CD = DE = EF = FA$;</li>
+<li>Sáu góc bằng nhau;</li>
+<li>Các tam giác $OAB,\ OBC,\ OCD,\ ODE,\ OEF,\ OFA$ là sáu tam giác đều bằng nhau.</li>
+</ul>
+</div>
+
+<div class="svg-fig"><svg viewBox="0 0 440 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Luc giac deu ABCDEF chia thanh 6 tam giac deu">
+<rect x="2" y="2" width="436" height="316" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<polygon points="220,40 333,105 333,235 220,300 107,235 107,105" fill="#fef3c7" stroke="#b45309" stroke-width="3"/>
+<line x1="220" y1="170" x2="220" y2="40" stroke="#b45309" stroke-width="1.5"/>
+<line x1="220" y1="170" x2="333" y2="105" stroke="#b45309" stroke-width="1.5"/>
+<line x1="220" y1="170" x2="333" y2="235" stroke="#b45309" stroke-width="1.5"/>
+<line x1="220" y1="170" x2="220" y2="300" stroke="#b45309" stroke-width="1.5"/>
+<line x1="220" y1="170" x2="107" y2="235" stroke="#b45309" stroke-width="1.5"/>
+<line x1="220" y1="170" x2="107" y2="105" stroke="#b45309" stroke-width="1.5"/>
+<circle cx="220" cy="170" r="5" fill="#b45309"/>
+<text x="220" y="32" font-family="sans-serif" font-size="17" font-weight="bold" fill="#78350f" text-anchor="middle">A</text>
+<text x="347" y="102" font-family="sans-serif" font-size="17" font-weight="bold" fill="#78350f" text-anchor="middle">B</text>
+<text x="347" y="252" font-family="sans-serif" font-size="17" font-weight="bold" fill="#78350f" text-anchor="middle">C</text>
+<text x="220" y="314" font-family="sans-serif" font-size="17" font-weight="bold" fill="#78350f" text-anchor="middle">D</text>
+<text x="93" y="252" font-family="sans-serif" font-size="17" font-weight="bold" fill="#78350f" text-anchor="middle">E</text>
+<text x="93" y="102" font-family="sans-serif" font-size="17" font-weight="bold" fill="#78350f" text-anchor="middle">F</text>
+<text x="228" y="164" font-family="sans-serif" font-size="16" font-weight="bold" fill="#78350f">O</text>
+</svg></div>
+
+<h3 class="text-lg font-semibold text-sky-600 mt-4 mb-2">Cách vẽ hình lục giác đều cạnh $a$ bằng compa</h3>
+<ol class="list-decimal ml-6 space-y-1 my-3">
+<li>Vẽ đường tròn tâm $O$ bán kính $a$;</li>
+<li>Lấy một điểm $A$ trên đường tròn. Đặt compa bán kính $a$, lấy $A$ làm tâm, vẽ cung cắt đường tròn tại điểm $B$;</li>
+<li>Lặp lại: lấy $B$ làm tâm vẽ cung cắt đường tròn tại $C$, cứ tiếp tục như vậy ta được các điểm $C, D, E, F$ trên đường tròn;</li>
+<li>Nối $A$ với $B$, $B$ với $C$, $C$ với $D$, $D$ với $E$, $E$ với $F$, $F$ với $A$. Ta được hình lục giác đều $ABCDEF$ cạnh $a$.</li>
+</ol>
+
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Lục giác đều có <strong>sáu cạnh bằng nhau</strong>, <strong>sáu góc bằng nhau</strong> và chia được thành <strong>sáu tam giác đều bằng nhau</strong> (bằng cách nối tâm với các đỉnh).</p>
+</div>
+
+<!-- Ví dụ + bài tập vận dụng -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Bài tập ví dụ và vận dụng</h2>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-emerald-800 mb-2">Bài tập ví dụ (có lời giải):</p>
+<p>Cho tam giác đều $ABC$ có $AB = 5$ cm. Tính độ dài các cạnh $BC, CA$.</p>
+<p class="mt-2"><strong>Lời giải:</strong> Vì tam giác $ABC$ đều nên ba cạnh bằng nhau: $AB = BC = CA = 5$ cm. Vậy $BC = 5$ cm và $CA = 5$ cm.</p>
+</div>
+
+<div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-emerald-800 mb-2">Bài tập ví dụ (có lời giải):</p>
+<p>Hình vuông $MNPQ$ có đường chéo $MP = 8$ cm. Tính độ dài đường chéo $NQ$.</p>
+<p class="mt-2"><strong>Lời giải:</strong> Hình vuông có hai đường chéo bằng nhau nên $NQ = MP = 8$ cm.</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Vận dụng 1:</p>
+<p>Em hãy kể tên ba đồ vật xung quanh em có dạng: tam giác đều, hình vuông, hình lục giác đều.</p>
+</div>
+
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Vận dụng 2:</p>
+<p>Một hình lục giác đều có cạnh dài $4$ cm được chia thành sáu tam giác đều bằng nhau (bằng cách nối tâm với các đỉnh). Tính độ dài cạnh của mỗi tam giác đều đó.</p>
+<p class="mt-2"><strong>Gợi ý:</strong> Mỗi cạnh của tam giác đều là bán kính của đường tròn ngoại tiếp, bằng đúng cạnh của hình lục giác đều.</p>
+</div>
+
+<!-- Bảng tóm tắt -->
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 text-center my-2">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-1">Hình</td><td class="border border-slate-300 px-4 py-1">Cạnh</td><td class="border border-slate-300 px-4 py-1">Góc</td><td class="border border-slate-300 px-4 py-1">Đặc điểm khác</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Tam giác đều</td><td class="border border-slate-300 px-4 py-1">Ba cạnh bằng nhau</td><td class="border border-slate-300 px-4 py-1">Ba góc bằng nhau, mỗi góc $60^\circ$</td><td class="border border-slate-300 px-4 py-1">Vẽ bằng compa</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Hình vuông</td><td class="border border-slate-300 px-4 py-1">Bốn cạnh bằng nhau</td><td class="border border-slate-300 px-4 py-1">Bốn góc vuông</td><td class="border border-slate-300 px-4 py-1">Hai đường chéo bằng nhau; vẽ bằng êke</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Lục giác đều</td><td class="border border-slate-300 px-4 py-1">Sáu cạnh bằng nhau</td><td class="border border-slate-300 px-4 py-1">Sáu góc bằng nhau</td><td class="border border-slate-300 px-4 py-1">Chia được thành 6 tam giác đều bằng nhau; vẽ bằng compa</td></tr>
+</table></div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề trắc nghiệm bên dưới để kiểm tra nhé! 💪</p>
+
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
