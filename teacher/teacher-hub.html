@@ -227,32 +227,19 @@
                     <button type="button" id="push-mode-exercise" onclick="switchPushMode('exercise')" class="flex-1 px-3 py-2.5 rounded-lg text-xs font-bold transition flex items-center justify-center bg-slate-100 text-slate-600 hover:bg-slate-200">
                         <i class="fa-solid fa-file-pen mr-2"></i> <span data-ui-label="push_exercise">📝 Đẩy Bài Tập</span>
                     </button>
-                    <!-- Nút cũ giữ lại ẩn để tương thích JS -->
-                    <button type="button" id="push-mode-bank" onclick="switchPushMode('bank')" class="hidden" data-ui-label="bank">bank</button>
-                    <button type="button" id="push-mode-direct" onclick="switchPushMode('direct')" class="hidden" data-ui-label="direct">direct</button>
+                    <button type="button" id="push-mode-bank" onclick="switchPushMode('bank')" class="flex-1 px-3 py-2.5 rounded-lg text-xs font-bold transition flex items-center justify-center bg-slate-100 text-slate-600 hover:bg-slate-200">
+                        <i class="fa-solid fa-database mr-2"></i> <span data-ui-label="bank">Tạo đề kiểm tra từ Ngân hàng đề</span>
+                    </button>
+                    <button type="button" id="push-mode-direct" onclick="switchPushMode('direct')" class="flex-1 px-3 py-2.5 rounded-lg text-xs font-bold transition flex items-center justify-center bg-slate-100 text-slate-600 hover:bg-slate-200">
+                        <i class="fa-solid fa-wand-magic-sparkles mr-2"></i> <span data-ui-label="direct">Soạn đề kiểm tra mới</span>
+                    </button>
                 </div>
 
                 <!-- ============================================================ -->
                 <!-- MA TRẬN ĐỀ CHUNG + 3 CÁCH TẠO ĐỀ (thiết kế mới 2026-10-09)   -->
                 <!-- ============================================================ -->
-                <div id="exam-method-section" class="hidden space-y-3">
-                    <!-- 2 CÁCH TẠO ĐỀ THI (cải tổ 2026-10-10) -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-                        <button type="button" id="exam-method-word" onclick="switchExamMethod('word')" class="text-left bg-indigo-50 hover:bg-indigo-100 border-2 border-indigo-300 rounded-xl p-3 transition shadow-sm">
-                            <div class="flex items-center justify-between">
-                                <span class="text-sm font-black text-indigo-900"><i class="fa-solid fa-upload mr-1"></i> 📤 Đẩy đề thi từ Word lên</span>
-                                <i class="fa-solid fa-chevron-down text-indigo-400 text-xs method-chev"></i>
-                            </div>
-                            <p class="text-[11px] text-indigo-800 mt-1">Upload file Word — đề thi có sẵn</p>
-                        </button>
-                        <button type="button" id="exam-method-matrix" onclick="switchExamMethod('matrix')" class="text-left bg-violet-50 hover:bg-violet-100 border-2 border-slate-200 rounded-xl p-3 transition shadow-sm">
-                            <div class="flex items-center justify-between">
-                                <span class="text-sm font-black text-violet-900"><i class="fa-solid fa-table-list mr-1"></i> 📋 Tạo ma trận đề thi</span>
-                                <i class="fa-solid fa-chevron-down text-violet-400 text-xs method-chev"></i>
-                            </div>
-                            <p class="text-[11px] text-violet-800 mt-1">Lọc từ ngân hàng đề hoặc tạo prompt cho AI</p>
-                        </button>
-                    </div>
+                <div id="exam-method-section" class="space-y-3">
+                    <!-- 2026-10-10: 2 nút phương thức đã gộp vào 4 nút trên cùng (bank=ma trận, direct=Word) -->
 
                     <!-- MA TRẬN ĐỀ THI (hiện khi chọn 'Tạo ma trận đề thi') -->
                     <div id="exam-matrix-panel" class="hidden bg-violet-50 border border-violet-200 rounded-xl p-3 shadow-sm">
@@ -530,7 +517,7 @@
                     <div class="eba-inner space-y-2 bg-indigo-50/60 p-2 rounded-xl border border-indigo-200">
                     <div class="flex space-x-2">
                         <button type="button" id="direct-tab-ai" onclick="switchDirectInput('ai')" class="flex-1 px-3 py-2 rounded-lg text-xs font-bold bg-indigo-700 text-white shadow">1. Soạn từ dán AI</button>
-                        <button type="button" id="direct-tab-word" onclick="switchDirectInput('word')" class="flex-1 px-3 py-2 rounded-lg text-xs font-bold bg-white text-indigo-800 border border-indigo-200">2. Soạn từ đẩy file Word lên</button>
+                        <button type="button" id="direct-tab-word" onclick="document.getElementById('direct-word-box').classList.remove('hidden');document.getElementById('word-exam-input').click();return false;" class="flex-1 px-3 py-2 rounded-lg text-xs font-bold bg-white text-indigo-800 border border-indigo-200">2. Soạn từ đẩy file Word lên</button>
                     </div>
                     <p id="direct-ai-hint" class="text-[11px] text-indigo-900 bg-white/70 rounded-lg px-3 py-2 border border-indigo-100">
                         <i class="fa-solid fa-paste mr-1 text-indigo-600"></i>Dán mã HTML đề thi (từ AI/NotebookLM) vào <b>khung soạn thảo</b> bên dưới, nhập tiêu đề, rồi bấm <b>Đẩy bài</b>. Đề được giữ <b>cố định</b> + gắn cờ tính giờ theo cài đặt.
@@ -1741,47 +1728,15 @@
         // ========================================================
         let currentExamMethod = 'matrix'; // 'word' | 'matrix' (cải tổ 2026-10-10)
 
-        // Chuyển đổi 3 cách tạo đề
+        // 2026-10-10: 2 nút phương thức đã gộp vào 4 nút trên cùng.
+        // Hàm này giữ lại để tương thích - delegate sang switchPushMode.
         function switchExamMethod(method){
-            currentExamMethod = method;
-
-            // Đổi màu nút (2 nút: word, matrix)
-            let styles = {
-                word:   ['exam-method-word',   'bg-indigo-50 hover:bg-indigo-100 border-slate-200', 'bg-indigo-700 text-white shadow'],
-                matrix: ['exam-method-matrix', 'bg-violet-50 hover:bg-violet-100 border-slate-200', 'bg-violet-700 text-white shadow']
-            };
-            ['word','matrix'].forEach(function(m){
-                let btn = document.getElementById(styles[m][0]);
-                if (!btn) return;
-                let isActive = (m === method);
-                btn.classList.toggle('ring-2', isActive);
-                btn.classList.toggle('ring-offset-1', isActive);
-                btn.style.borderColor = isActive ? (m==='word' ? '#4f46e5' : '#7c3aed') : '';
-                btn.style.borderWidth = isActive ? '2px' : '';
-            });
-
-            // Hiện/ẩn các panel tương ứng
-            let matrixPanel = document.getElementById('exam-matrix-panel');
-            let directPanel = document.getElementById('direct-panel');
-            let formBox = document.getElementById('exam-form-box');
-            let schedBox = document.getElementById('exam-schedule-box');
-
-            if (method === 'word'){
-                // Đẩy đề từ Word: hiện direct panel (Word upload)
-                if (matrixPanel) matrixPanel.classList.add('hidden');
-                if (directPanel){ directPanel.style.display = ''; directPanel.classList.add('open'); }
-                if (formBox) formBox.classList.remove('hidden');
-                if (schedBox) schedBox.classList.remove('hidden');
-                if (typeof switchPushMode === 'function'){ try { switchPushMode('direct'); } catch(e){} }
-                if (typeof switchExamSubMode === 'function'){ try { switchExamSubMode('edit'); } catch(e){} }
-            } else if (method === 'matrix'){
-                // Tạo ma trận đề thi: hiện matrix panel
-                if (matrixPanel) matrixPanel.classList.remove('hidden');
-                if (directPanel){ directPanel.style.display = 'none'; }
-                if (formBox) formBox.classList.remove('hidden');
-                if (schedBox) schedBox.classList.remove('hidden');
-                // Load danh sách bài cho dropdowns
-                if (typeof loadLessonDropdowns === 'function'){ try { loadLessonDropdowns(); } catch(e){} }
+            if (typeof switchPushMode === 'function'){
+                if (method === 'word'){
+                    switchPushMode('direct');
+                } else {
+                    switchPushMode('bank');
+                }
             }
         }
 
@@ -1853,44 +1808,17 @@
 
         // Hiện/ẩn section 3 cách khi vào tab đề thi
         function toggleExamMethodSection(show){
-            let sec = document.getElementById('exam-method-section');
-            if (sec) sec.classList.toggle('hidden', !show);
-            if (show) switchExamMethod(currentExamMethod || 'matrix');
+            // 2026-10-10: section không còn ẩn/hiện nữa - các panel điều khiển riêng qua switchPushMode
+            return;
         }
 
-        // Wrap switchPushMode gốc để điều khiển section mới (2026-10-09; fix 2026-10-10: bọc trực tiếp không poll + ẩn ma trận/khoảng trống ở chế độ lý thuyết; 2026-10-10: thêm chế độ bài tập)
+        // 2026-10-10: switchPushMode trong hub-tabs.js đã xử lý toàn bộ hiện/ẩn.
+        // Wrapper này chỉ đảm bảo section không bao giờ bị ẩn (fix trắng trang).
         (function(){
-            function applyTheoryMode(){
-                var tab = (typeof currentPushTab !== 'undefined') ? currentPushTab : 'theory';
-                var isTheory = (tab === 'theory');
-                var isExercise = (tab === 'exercise');
-                var hideExamUI = isTheory || isExercise; // ẩn ma trận đề ở cả 2 chế độ lý thuyết & bài tập
-                var sec = document.getElementById('exam-method-section');
-                if (sec) sec.classList.toggle('hidden', hideExamUI);
-                // Kéo kín khoảng trống: display:none các panel thu gọn (eba-wrap vẫn giữ margin từ space-y)
-                var bp = document.getElementById('exam-builder-panel');
-                var dp = document.getElementById('direct-panel');
-                if (bp) bp.style.display = hideExamUI ? 'none' : '';
-                if (dp) dp.style.display = hideExamUI ? 'none' : '';
-                // Ẩn hint ngân hàng đề khi đẩy lý thuyết / bài tập
-                var hn = document.getElementById('bank-hint-note');
-                if (hn) hn.style.display = hideExamUI ? 'none' : '';
-                // Box Copy Prompt bài học: chỉ hiện ở chế độ lý thuyết
-                var tcpb = document.getElementById('theory-copy-prompt-box');
-                if (tcpb) tcpb.style.display = isTheory ? '' : 'none';
-                // Box Copy Prompt bài tập: chỉ hiện ở chế độ bài tập
-                var exBox = document.getElementById('exercise-copy-prompt-box');
-                if (exBox) exBox.style.display = isExercise ? '' : 'none';
-            }
-            if (typeof switchPushMode === 'function'){
-                var _origSwitch = switchPushMode;
-                switchPushMode = function(mode){
-                    _origSwitch(mode);
-                    applyTheoryMode();
-                };
-            }
-            // Áp dụng ngay cho trạng thái ban đầu
-            applyTheoryMode();
+            var sec = document.getElementById('exam-method-section');
+            if (sec) sec.classList.remove('hidden');
+            // Ẩn hint ngân hàng đề mặc định (hiện khi vào chế độ đề thi qua switchPushMode nếu cần)
+            // Không gọi applyTheoryMode ở đây để tránh đè logic của hub-tabs.js
         })();
 
 
