@@ -149,12 +149,6 @@
                         <input type="text" id="tree-search-input" oninput="filterTreeNodes()" placeholder="Tìm nhanh bài học..." class="w-full text-xs bg-slate-50 border border-slate-200 rounded-lg pl-8 pr-3 py-2 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"/>
                         <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2.5 text-slate-400 text-xs"></i>
                     </div>
-                    <div class="relative">
-                        <select id="tree-group-filter" onchange="setTreeGroupFilter(this.value)" title="Lọc cây theo nhóm giáo viên tự do (20 GV/nhóm)" class="w-full text-xs bg-violet-50 border border-violet-200 rounded-lg pl-8 pr-3 py-2 font-bold text-violet-800 focus:outline-none focus:ring-2 focus:ring-violet-500">
-                            <option value="0">👥 Tất cả nhóm GV</option>
-                        </select>
-                        <i class="fa-solid fa-users absolute left-2.5 top-2.5 text-violet-400 text-xs"></i>
-                    </div>
 
                     <div id="tree-directory-container" class="flex-1 overflow-y-auto space-y-2 text-xs pr-1">
                         <!-- Tải dữ liệu danh mục phân cấp tại đây -->
@@ -690,100 +684,5 @@ function submitLegacyExam(){
     }
     </script>
 
-<script>
-    // LỌC CÂY THƯ MỤC THEO NHÓM GV TỰ DO (2026-10-10) — 20 GV/nhóm
-    // Chọn Nhóm N: chỉ hiện bài của GV thuộc nhóm N (dựa vào exam-registry owner_id + teachers_registry teacher_group)
-    (function(){
-        let _treeGroup = 0;
-        let _ownerGroup = null;  // owner_id -> group num
-        let _groups = [];        // [{num, name, count}]
-        let _examReg = null;
-        let _loading = null;
-
-        function _tgNum(gn){ var m = String(gn || '').match(/([0-9]+)/); return m ? parseInt(m[1], 10) : 0; }
-
-        async function _load(){
-            if (_ownerGroup) return;
-            if (_loading) return _loading;
-            _loading = (async function(){
-                _ownerGroup = {}; _groups = [];
-                try {
-                    // 1. teachers_registry -> teacher_group
-                    let r1 = await fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/used/used.is', { cache: 'no-store' });
-                    let gcount = {};
-                    if (r1.ok){
-                        let db = await r1.json();
-                        let treg = db.teachers_registry || {};
-                        Object.keys(treg).forEach(function(tid){
-                            let t = treg[tid] || {};
-                            let id = String(tid);
-                            let isFree = /^0[0-9]{8,11}$/.test(id) || id.indexOf('@') >= 0;
-                            if (t.role === 'teacher' && isFree && t.teacher_group){
-                                _ownerGroup[id] = _tgNum(t.teacher_group);
-                                gcount[t.teacher_group] = (gcount[t.teacher_group] || 0) + 1;
-                            }
-                        });
-                    }
-                    // 2. exam-registry -> owner_id từng file
-                    try {
-                        let r2 = await fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/data/exam-registry.json', { cache: 'no-store' });
-                        if (r2.ok) _examReg = await r2.json(); else _examReg = {};
-                    } catch(e){ _examReg = {}; }
-                    // 3. Dựng dropdown
-                    let sorted = Object.keys(gcount).sort(function(a,b){ return _tgNum(a) - _tgNum(b); });
-                    _groups = sorted.map(function(gn){ return { num: _tgNum(gn), name: gn, count: gcount[gn] }; });
-                    let sel = document.getElementById('tree-group-filter');
-                    if (sel){
-                        _groups.forEach(function(g){
-                            let o = document.createElement('option');
-                            o.value = g.num;
-                            o.textContent = g.name + ' (' + g.count + ' GV)';
-                            sel.appendChild(o);
-                        });
-                    }
-                } catch(e){ _examReg = _examReg || {}; }
-            })();
-            return _loading;
-        }
-
-        function _fileGroupNum(f){
-            if (!_examReg) return 0;
-            let fp = f.filePath || f.path || '';
-            let o = _examReg[fp];
-            if (!o || !o.owner_id) return 0;
-            return _ownerGroup[String(o.owner_id)] || 0;
-        }
-
-        window.setTreeGroupFilter = function(v){
-            _treeGroup = parseInt(v, 10) || 0;
-            _load().then(function(){
-                if (typeof renderTreeDirectory === 'function') renderTreeDirectory();
-            });
-        };
-
-        // Wrap renderTreeDirectory để lọc file theo nhóm (không sửa code minified gốc)
-        function _wrap(){
-            if (typeof renderTreeDirectory !== 'function' || renderTreeDirectory._tgWrapped) return;
-            let _orig = renderTreeDirectory;
-            let _wrapped = function(){
-                // driveFiles là `let` global (không nằm trên window) — truy cập trực tiếp
-                let saved = null;
-                try { saved = driveFiles; } catch(e){}
-                if (_treeGroup > 0 && saved){
-                    driveFiles = saved.filter(function(f){ return _fileGroupNum(f) === _treeGroup; });
-                    try { return _orig(); } finally { driveFiles = saved; }
-                }
-                return _orig();
-            };
-            _wrapped._tgWrapped = true;
-            window.renderTreeDirectory = _wrapped;
-        }
-
-        // Khởi tạo: nạp dữ liệu nhóm + wrap render
-        if (document.readyState === 'loading'){
-            document.addEventListener('DOMContentLoaded', function(){ _wrap(); _load(); });
-        } else { _wrap(); _load(); }
-    })();
-    </script>
 </body>
 </html>
