@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_1955
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2000
 // Rebuilt - fixed structure
 (function(){
     'use strict';
@@ -640,5 +640,40 @@ Hãy điền chi tiết từng ô trong bảng (chủ đề kiến thức cụ t
         setTimeout(resetDefaultFolder, 2000);
     }
     setInterval(resetDefaultFolder, 8000);
+})();
+
+// 2026-10-11: Tự động thêm "/kiểm tra" khi lưu đề thi
+(function(){
+    function autoKiemTraFolder(){
+        try {
+            // Hook vào hàm lưu để tự thêm /kiểm tra
+            if (!window._kiemTraHooked) {
+                window._kiemTraHooked = true;
+                // Lưu lại hàm gốc nếu có
+                var origCheck = window.checkFolderBeforePush;
+                if (typeof origCheck === 'function') {
+                    window.checkFolderBeforePush = function(event, origOnclick){
+                        try {
+                            var folder = window.selectedFolderPath || '';
+                            // Nếu là đề thi (có từ khóa exam/kiemtra trong onclick) và chưa có /kiểm tra
+                            if (origOnclick && origOnclick.toLowerCase().indexOf('exam') >= 0) {
+                                if (folder && folder.indexOf('/kiểm tra') < 0 && folder.indexOf('/kiemtra') < 0) {
+                                    window.selectedFolderPath = folder + '/kiểm tra';
+                                    console.log('Tự động thêm thư mục kiểm tra:', window.selectedFolderPath);
+                                }
+                            }
+                        } catch(e){}
+                        return origCheck(event, origOnclick);
+                    };
+                }
+            }
+        } catch(e){}
+    }
+    
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function(){ setTimeout(autoKiemTraFolder, 2000); });
+    } else {
+        setTimeout(autoKiemTraFolder, 2000);
+    }
 })();
 
