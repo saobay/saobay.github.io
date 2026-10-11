@@ -113,6 +113,14 @@ body{font-family:system-ui,-apple-system,sans-serif}
         let tk = token(); if (tk) headers['Authorization'] = 'Bearer ' + tk;
         let res = await fetch(url, { headers: headers });
         if (res.status === 404) return [];
+        // 401: token hết hạn -> xóa token và thử lại không cần auth (repo public)
+        if (res.status === 401 && tk) {
+            try { localStorage.removeItem('saobay_github_token'); } catch(e){}
+            let res2 = await fetch(url, { headers: { 'Accept': 'application/vnd.github+json' } });
+            if (res2.status === 404) return [];
+            if (!res2.ok) throw new Error('GitHub API ' + res2.status);
+            return res2.json();
+        }
         if (!res.ok) throw new Error('GitHub API ' + res.status);
         return res.json();
     }
