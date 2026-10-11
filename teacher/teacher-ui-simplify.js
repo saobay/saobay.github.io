@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2123
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2132
 // Rebuilt - fixed structure
 (function(){
     'use strict';
@@ -1259,5 +1259,41 @@ Hãy điền chi tiết từng ô trong bảng (chủ đề kiến thức cụ t
         }
         return origAlert(msg);
     };
+})();
+
+// 2026-10-11: MutationObserver xóa thanh top ngay khi xuất hiện
+(function(){
+    function isTopBar(el){
+        if (!el || el.nodeType !== 1) return false;
+        var t = el.textContent || '';
+        return t.indexOf('VỊ TRÍ LƯU TRỮ') >= 0 && t.indexOf('Sẵn sàng đẩy bài') >= 0;
+    }
+    
+    function removeTopBars(){
+        document.querySelectorAll('div').forEach(function(d){
+            if (isTopBar(d)) {
+                // Chỉ xóa div ngoài cùng
+                var parent = d.parentElement;
+                var parentIsBar = parent && isTopBar(parent);
+                if (!parentIsBar) {
+                    d.remove();
+                }
+            }
+        });
+    }
+    
+    // Chạy ngay
+    removeTopBars();
+    
+    // Theo dõi DOM thay đổi
+    var observer = new MutationObserver(function(mutations){
+        var shouldCheck = false;
+        mutations.forEach(function(m){
+            if (m.addedNodes.length > 0) shouldCheck = true;
+        });
+        if (shouldCheck) removeTopBars();
+    });
+    
+    observer.observe(document.body, { childList: true, subtree: true });
 })();
 
