@@ -376,8 +376,10 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
                                 <select id="sched-class" class="w-full px-2 py-1.5 border border-rose-300 rounded-lg text-xs font-semibold bg-white"></select>
                             </div>
                             <div>
-                                <label class="block text-[10px] font-bold text-rose-800 mb-1">Ngày giờ kiểm tra</label>
-                                <input type="datetime-local" id="sched-time" class="w-full px-2 py-1.5 border border-rose-300 rounded-lg text-xs font-semibold bg-white">
+                                <label class="block text-[10px] font-bold text-rose-800 mb-1">Ngày giờ kiểm tra
+                                    <span class="inline-flex items-center gap-1 ml-2 font-black text-emerald-700 cursor-pointer" title="Không cần chọn ngày giờ khi tạo đề — đề ở trạng thái chuẩn bị, bấm &quot;Đưa đề cho HS&quot; khi muốn giao"><input type="checkbox" id="sched-later" checked class="w-3.5 h-3.5 accent-emerald-600" onchange="schedLaterToggle(this)"> 📅 Xác định sau</span>
+                                </label>
+                                <input type="datetime-local" id="sched-time" class="w-full px-2 py-1.5 border border-rose-300 rounded-lg text-xs font-semibold bg-white" disabled>
                             </div>
                             <div>
                                 <label class="block text-[10px] font-bold text-rose-800 mb-1">Thời gian làm bài (phút)</label>
@@ -1563,6 +1565,11 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
             if (keep) sel.value = keep;
         }
 
+        /* SCHED_LATER_V1: bật/tắt ô ngày giờ khi tick "Xác định sau" (mặc định BẬT) */
+        function schedLaterToggle(cb){
+            var t = document.getElementById('sched-time');
+            if (t){ t.disabled = !!(cb && cb.checked); if (cb && cb.checked) t.value = ''; }
+        }
         function schedExamToggle(cb){
             var f = document.getElementById('sched-fields');
             if (f) f.classList.toggle('hidden', !cb.checked);
@@ -1627,13 +1634,17 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
                 var sel = document.getElementById('sched-class');
                 var timeEl = document.getElementById('sched-time');
                 var durEl = document.getElementById('sched-duration');
+                var laterEl = document.getElementById('sched-later');
+                var laterChecked = !!(laterEl && laterEl.checked); /* SCHED_LATER_V1: mặc định xác định sau */
                 var classId = sel ? String(sel.value || '').trim() : '';
-                var examTime = timeEl ? String(timeEl.value || '').trim() : '';
+                var examTime = laterChecked ? '' : (timeEl ? String(timeEl.value || '').trim() : '');
                 var durationMin = durEl ? parseInt(durEl.value, 10) : NaN;
                 if (!classId){ alert('Vui lòng chọn lớp kiểm tra!'); if (sel) sel.focus(); return false; }
-                if (!examTime){ alert('Vui lòng nhập ngày giờ kiểm tra!'); if (timeEl) timeEl.focus(); return false; }
-                var t = new Date(examTime).getTime();
-                if (isNaN(t) || t <= Date.now()){ alert('Ngày giờ kiểm tra phải ở TƯƠNG LAI!'); if (timeEl) timeEl.focus(); return false; }
+                if (!laterChecked){
+                    if (!examTime){ alert('Vui lòng nhập ngày giờ kiểm tra (hoặc tick "📅 Xác định sau")!'); if (timeEl) timeEl.focus(); return false; }
+                    var t = new Date(examTime).getTime();
+                    if (isNaN(t) || t <= Date.now()){ alert('Ngày giờ kiểm tra phải ở TƯƠNG LAI!'); if (timeEl) timeEl.focus(); return false; }
+                }
                 if (!durationMin || durationMin < 5){ alert('Thời gian làm bài phải từ 5 phút trở lên!'); if (durEl) durEl.focus(); return false; }
                 var examJson = _schedGetExamJson();
                 if (!examJson || !examJson.sets || !examJson.sets.length){
@@ -1668,14 +1679,17 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
                     await window.ExamSched.saveScheduledExam({
                         title: title, subject: subject, grade: grade,
                         classId: classId, className: className,
-                        examTime: new Date(examTime).toISOString(),
+                        examTime: laterChecked ? '' : new Date(examTime).toISOString(),
                         durationMin: durationMin, examJson: examJson,
-                        teacherId: teacherId, teacherName: teacherName
+                        teacherId: teacherId, teacherName: teacherName,
+                        status: laterChecked ? 'draft' : 'scheduled' /* SCHED_LATER_V1 */
                     });
                     if (typeof showToast === 'function') showToast('📌 Đã lên lịch kiểm tra! Đề lưu riêng, HS chỉ mở được khi đến giờ.', 'success');
                     else alert('Đã lên lịch kiểm tra thành công!');
                     var chk = document.getElementById('sched-is-exam');
                     if (chk) chk.checked = false;
+                    var lat = document.getElementById('sched-later'); /* SCHED_LATER_V1: reset về mặc định */
+                    if (lat){ lat.checked = true; schedLaterToggle(lat); }
                     var sf = document.getElementById('sched-fields');
                     if (sf) sf.classList.add('hidden');
                     return true;
