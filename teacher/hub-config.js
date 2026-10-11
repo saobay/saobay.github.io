@@ -83,51 +83,51 @@
         }
 
         // HÀM TẢI DANH MỤC TRỰC TIẾP TỪ GITHUB API
+        // 2026-10-11: doc cay thu muc tu file index tinh (khong goi GitHub API)
+        var _treeIndexCache = null;
+        async function _loadTreeIndex(){
+            if (_treeIndexCache) return _treeIndexCache;
+            try {
+                var r = await fetch('https://saobay.github.io/data/_index/folders.json?v=' + Date.now());
+                if (!r.ok) return null;
+                _treeIndexCache = await r.json();
+                return _treeIndexCache;
+            } catch(e){ return null; }
+        }
         async function loadFolderTreeFromGit(forceRefresh = false, expectPath = null) {
             let container = document.getElementById('dynamic-folder-list');
-            container.innerHTML = '<span class="text-slate-400 text-xs italic"><i class="fa-solid fa-spinner fa-spin mr-1"></i> Đang nạp danh mục từ GitHub...</span>';
+            container.innerHTML = '<span class="text-slate-400 text-xs italic"><i class="fa-solid fa-spinner fa-spin mr-1"></i> Đang nạp danh mục...</span>';
 
             let folders = [];
-            let token = getGithubToken();
-            let headers = { "Accept": "application/vnd.github+json" };
-            if (token) headers["Authorization"] = `Bearer ${token}`;
-            let apiUrl = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/git/trees/${GITHUB_CONFIG.branch}?recursive=1`;
-
-            async function fetchTreeFolders(){
-                try {
-                    let res = await fetch(apiUrl, { headers });
-                    if (!res.ok){ console.warn("GitHub Tree API phản hồi không thành công:", res.status); return null; }
-                    let data = await res.json();
-                    if (!data || !Array.isArray(data.tree)) return null;
-                    let list = data.tree
-                        .filter(item => {
-                            if (item.type !== 'tree') return false;
-                            let p = item.path;
-                            // QUY TẮC BẢO MẬT: TUYỆT ĐỐI KHÔNG ĐỤNG ĐẾN THƯ MỤC BACKUP VÀ HỆ THỐNG
-                            if (p === 'backup' || p.startsWith('backup/')) return false;
-                            if (p === 'data/bank' || p.startsWith('data/bank/')) return false; // Bank tu dong trich, khong phai noi day bai
-                            if (p === 'data/scores' || p.startsWith('data/scores/')) return false; // Diem thi, khong phai noi day bai
-                            if (p === 'data/private' || p.startsWith('data/private/')) return false; // Lop hoc them rieng tu
-                            if (p === 'data/reports' || p.startsWith('data/reports/')) return false; // Bao cao loi
-                            if (p === 'teacher' || p.startsWith('teacher/')) return false;
-                            if (p === 'used' || p.startsWith('used/')) return false;
-                            if (p === 'tienganh6' || p.startsWith('tienganh6/')) return false;
-                            if (p === '.git' || p.startsWith('.git/')) return false;
-                            return true;
-                        })
-                        .map(item => ({
-                            path: item.path,
-                            sha: item.sha
-                        }));
-                    try { localStorage.setItem('saobay_git_folders', JSON.stringify(list)); } catch(e){}
-                    return list;
-                } catch (err) {
-                    console.warn("Lỗi gọi GitHub API, thử đọc từ cache/folders.json:", err);
-                    return null;
+            // Doc tu file index tinh
+            try {
+                var idx = await _loadTreeIndex();
+                if (idx && idx.grades){
+                    Object.keys(idx.grades).forEach(function(gk){
+                        var subjMap = idx.grades[gk];
+                        Object.keys(subjMap).forEach(function(sk){
+                            var sm = subjMap[sk];
+                            var basePath = sm.path; // vd: data/THCS/Khối lớp 6/Toán 6
+                            folders.push({ path: basePath });
+                            (sm.chapters || []).forEach(function(ch){
+                                folders.push({ path: basePath + '/' + ch });
+                            });
+                        });
+                    });
+                    // Them cac cap cha (data, data/THCS, khoi lop...)
+                    var seen = {};
+                    var withParents = [];
+                    folders.forEach(function(f){
+                        var parts = f.path.split('/');
+                        var cur = '';
+                        parts.forEach(function(pt, i){
+                            cur = i === 0 ? pt : cur + '/' + pt;
+                            if (!seen[cur]){ seen[cur] = 1; withParents.push({ path: cur }); }
+                        });
+                    });
+                    folders = withParents;
                 }
-            }
-
-            folders = await fetchTreeFolders() || [];
+            } catch(e){ console.warn('Load tree from index:', e); }
 
             // FIX 2026-10-08: vừa tạo thư mục mới mà GitHub API chưa kịp cập nhật -> thử lại
             if (expectPath){
@@ -140,15 +140,8 @@
                 }
             }
 
-            // Phương án dự phòng 1: Cache localStorage
-            if (!folders || folders.length === 0) {
-                let cached = localStorage.getItem('saobay_git_folders');
-                if (cached) {
-                    try { folders = JSON.parse(cached); } catch(e) {}
-                }
-            }
-
-            // Phương án dự phòng 2: File folders.json tĩnh
+            // 2026-10-11: KHONG dung localStorage
+            // Phương án dự phòng: File folders.json tĩnh
             if (!folders || folders.length === 0) {
                 try {
                     let resJson = await fetch("../folders.json?t=" + new Date().getTime());
