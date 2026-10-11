@@ -614,18 +614,18 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
                             </div>
                             <div class="grid md:grid-cols-2 gap-2 mb-2">
                                 <div class="bg-blue-50 border border-blue-200 rounded-lg p-2.5">
-                                    <p class="text-[11px] font-black text-blue-800 mb-1">📘 DẠNG 1: Đề có cấu trúc → tự chấm</p>
-                                    <p class="text-[11px] text-slate-600 mb-1">Soạn: <b>Câu 1 [TN] [NB]</b> ... <b>a. b. c. d.</b> ... <b>Đáp án: C</b></p>
+                                    <p class="text-[11px] font-black text-blue-800 mb-1">📘 DẠNG 1: Đánh dấu đáp án ngay tại câu hỏi</p>
+                                    <p class="text-[11px] text-slate-600 mb-1">3 cách: <b>gạch chân</b> phương án đúng · <b>bôi đỏ/in đậm</b> phương án đúng · ghi <b>Đáp án: X</b> ngay sau câu</p>
                                     <p class="text-[11px] text-slate-600 mb-1">Thẻ: [TN] trắc nghiệm · [ĐS] đúng/sai · [TLN] trả lời ngắn · [TL] tự luận</p>
-                                    <p class="text-[11px] text-slate-600 mb-2">Mức độ: [NB] [TH] [VD] [VDC] · Bảng đáp án cuối file (tùy chọn)</p>
-                                    <a href="word-samples/mau_de_thi_co_cau_truc.docx" download class="text-[11px] font-bold text-white bg-blue-600 hover:bg-blue-700 px-3 py-1.5 rounded-lg inline-block"><i class="fa-solid fa-download mr-1"></i>Tải file mẫu Dạng 1</a>
+                                    <p class="text-[11px] text-slate-600 mb-2">Mức độ: [NB] [TH] [VD] [VDC]</p>
+                                    <button onclick="showWordSample(1)" class="text-[11px] font-bold text-white bg-blue-600 hover:bg-blue-700 px-3 py-1.5 rounded-lg inline-block"><i class="fa-solid fa-eye mr-1"></i>Xem mẫu Dạng 1</button>
                                 </div>
                                 <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-2.5">
-                                    <p class="text-[11px] font-black text-emerald-800 mb-1">📗 DẠNG 2: Đề nguyên bản → giữ bố cục</p>
-                                    <p class="text-[11px] text-slate-600 mb-1">Giữ nguyên công thức, hình vẽ, bảng biểu như trong Word.</p>
-                                    <p class="text-[11px] text-slate-600 mb-1">2 cách: <b>tải file .docx</b> hoặc <b>copy trong Word rồi dán</b> vào khung.</p>
-                                    <p class="text-[11px] text-slate-600 mb-2">Không tự chấm điểm — chỉ hiển thị đề.</p>
-                                    <a href="word-samples/mau_de_nguyen_ban.docx" download class="text-[11px] font-bold text-white bg-emerald-600 hover:bg-emerald-700 px-3 py-1.5 rounded-lg inline-block"><i class="fa-solid fa-download mr-1"></i>Tải file mẫu Dạng 2</a>
+                                    <p class="text-[11px] font-black text-emerald-800 mb-1">📗 DẠNG 2: Bảng đáp án ở cuối file</p>
+                                    <p class="text-[11px] text-slate-600 mb-1">Đề thi ở trên, <b>bảng đáp án riêng</b> ở cuối (phần Đáp án/Hướng dẫn chấm).</p>
+                                    <p class="text-[11px] text-slate-600 mb-1">Bảng có hàng <b>Câu: 1, 2, 3...</b> và hàng <b>Đáp án: A, B, C...</b></p>
+                                    <p class="text-[11px] text-slate-600 mb-2">Web tự đọc bảng và gán đáp án vào từng câu.</p>
+                                    <button onclick="showWordSample(2)" class="text-[11px] font-bold text-white bg-emerald-600 hover:bg-emerald-700 px-3 py-1.5 rounded-lg inline-block"><i class="fa-solid fa-eye mr-1"></i>Xem mẫu Dạng 2</button>
                                 </div>
                             </div>
                             <div class="bg-amber-50 border border-amber-200 rounded-lg p-2">
@@ -2302,5 +2302,85 @@ function openMyAccount(){
             }
         }
     </script>
+
+<script>
+function showWordSample(kind){
+    var content1 = `MẪU DẠNG 1: ĐÁNH DẤU ĐÁP ÁN TẠI CÂU HỎI
+=====================================
+Web nhận diện đáp án qua 3 cách (chọn 1):
+
+CÁCH 1 - Gạch chân phương án đúng:
+Câu 1. [TN] [NB] Cho tập hợp A gồm các số tự nhiên nhỏ hơn 8. Cách viết nào đúng?
+A. A = {1, 2, 3, 4, 5, 6, 7}
+B. A = {0, 1, 2, 3, 4, 5, 6, 7}  ← (gạch chân phương án này trong Word)
+C. A = {8, 9, 10}
+D. A = {0, 8}
+
+CÁCH 2 - Bôi đỏ hoặc in đậm phương án đúng:
+Câu 2. [TN] [TH] Số 11 trong hệ La Mã viết là:
+A. IX  B. X  C. XI (tô đỏ/in đậm)  D. XII
+
+CÁCH 3 - Ghi đáp án ngay sau câu:
+Câu 3. [TN] [VD] Cho các số 123; 541; 677; 440. Số chia hết cho 2 là:
+A. 123  B. 541  C. 677  D. 440
+Đáp án: D
+
+Câu 4. [ĐS] Xét tính đúng sai:
+a) Số 0 là số tự nhiên nhỏ nhất. → Đ
+b) 11 viết La Mã là IX. → S
+
+Thẻ loại: [TN] trắc nghiệm · [ĐS] đúng/sai · [TLN] trả lời ngắn · [TL] tự luận
+Thẻ mức độ: [NB] · [TH] · [VD] · [VDC]`;
+
+    var content2 = `MẪU DẠNG 2: BẢNG ĐÁP ÁN CUỐI FILE
+============================
+Đề thi ở trên, bảng đáp án riêng ở cuối file.
+Web tự đọc bảng và gán đáp án vào từng câu.
+
+Ví dụ đề:
+
+ĐỀ 1 - KIỂM TRA GIỮA KỲ
+
+Câu 1. Cho tập hợp A gồm các số tự nhiên nhỏ hơn 8. Cách viết nào đúng?
+A. A = {1, 2, 3, 4, 5, 6, 7}
+B. A = {0, 1, 2, 3, 4, 5, 6, 7}
+C. A = {8, 9, 10}
+D. A = {0, 8}
+
+Câu 2. Số 11 trong hệ La Mã viết là:
+A. IX   B. X   C. XI   D. XII
+
+... (các câu tiếp theo)
+
+ĐÁP ÁN (đặt cuối file, dạng bảng Word):
+
+| Câu    | 1 | 2 | 3 | 4 |
+| Đáp án | B | C | A | D |
+
+Lưu ý:
+- Hàng đầu ghi "Câu", hàng sau ghi "Đáp án" (hoặc "Đ.án")
+- Có thể chia nhiều bảng cho nhiều đề trong 1 file
+- Câu Đúng/Sai: ghi Đ/S hoặc True/False`;
+
+    var title = kind === 1 ? '📘 Mẫu Dạng 1: Đánh dấu tại câu hỏi' : '📗 Mẫu Dạng 2: Bảng đáp án cuối file';
+    var content = kind === 1 ? content1 : content2;
+    var html = '<div id="word-sample-modal" style="position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;padding:16px" onclick="if(event.target===this)this.remove()">'
+        + '<div style="background:white;border-radius:12px;max-width:600px;width:100%;max-height:80vh;overflow:auto;padding:20px">'
+        + '<h3 style="font-weight:bold;margin-bottom:12px">' + title + '</h3>'
+        + '<pre id="word-sample-text" style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;font-size:12px;white-space:pre-wrap;max-height:50vh;overflow:auto">' + content.replace(/</g,'&lt;') + '</pre>'
+        + '<div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end">'
+        + '<button onclick="copyWordSample()" style="background:#2563eb;color:white;font-weight:bold;font-size:12px;padding:8px 16px;border-radius:8px">📋 Copy mẫu</button>'
+        + '<button onclick="document.getElementById(&quot;word-sample-modal&quot;).remove()" style="background:#e2e8f0;font-weight:bold;font-size:12px;padding:8px 16px;border-radius:8px">Đóng</button>'
+        + '</div></div></div>';
+    document.body.insertAdjacentHTML('beforeend', html);
+}
+function copyWordSample(){
+    var el = document.getElementById('word-sample-text');
+    if (!el) return;
+    var txt = el.innerText;
+    if (navigator.clipboard) navigator.clipboard.writeText(txt).then(function(){ alert('Đã copy mẫu! Dán vào Word để dùng.'); });
+    else { var t = document.createElement('textarea'); t.value = txt; document.body.appendChild(t); t.select(); document.execCommand('copy'); document.body.removeChild(t); alert('Đã copy mẫu!'); }
+}
+</script>
 </body>
 </html>
