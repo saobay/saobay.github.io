@@ -225,8 +225,8 @@ window.__refits = [];
       } else {
         svg += '<circle cx="'+o.x+'" cy="'+o.y+'" r="'+o.r+'" fill="'+grad+'" stroke="#fff" stroke-width="2" filter="url(#soft_'+mode+')" class="org" data-id="'+o.id+'"/>';
         if (o.id === 'nucleus'){
-          svg += '<circle cx="'+o.x+'" cy="'+o.y+'" r="'+(o.r*0.45)+'" fill="#6d28d9" opacity="0.92"/>';
-          svg += '<circle cx="'+(o.x-o.r*0.16)+'" cy="'+(o.y-o.r*0.2)+'" r="'+(o.r*0.13)+'" fill="#fff" opacity="0.75"/>';
+          svg += '<circle cx="'+o.x+'" cy="'+o.y+'" r="'+(o.r*0.45)+'" fill="#6d28d9" opacity="0.92" class="org" data-id="nucleus"/>';
+          svg += '<circle cx="'+(o.x-o.r*0.16)+'" cy="'+(o.y-o.r*0.2)+'" r="'+(o.r*0.13)+'" fill="#fff" opacity="0.75" class="org" data-id="nucleus"/>';
         }
       }
       svg += '</g>';
@@ -657,7 +657,9 @@ window.__refits = [];
       s.addEventListener('click', function(){
         var si = parseInt(s.dataset.slot);
         if (selected !== null && placed[si] === undefined){
-          placed[si] = selected; selected = null;
+          placed[si] = selected;
+          order = order.filter(function(c){ return c !== selected; });
+          selected = null;
           renderSlots(); renderBank();
         } else if (placed[si] !== undefined){
           // Gỡ ra
