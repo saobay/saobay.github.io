@@ -137,13 +137,16 @@
             let name = inp ? inp.value.trim() : '';
             if (!name){ alert('Nhập tên lớp.'); return; }
             if (!pvLoaded) pvClasses = await pvFetchClasses();
+            let gradeEl = document.getElementById('pv-class-grade');
+            let grade = gradeEl ? gradeEl.value : '';
+            if (!grade){ alert('Chọn KHỐI LỚP cho lớp mới — để giao nhiệm vụ đúng khối.'); return; }
             let id = 'lop_' + Date.now().toString(36);
             let ownerTag = pvOwnerTag();  // FIX 2026-10-10: tag phân biệt chủ lớp
             pvClasses.push({
                 id: id, name: name,
                 teacher_id: currentUser.id, teacher_name: currentUser.name,
                 owner_tag: ownerTag,
-                join_code: pvGenCode(), students: [],
+                join_code: pvGenCode(), students: [], grade: grade,
                 created_at: new Date().toISOString()
             });
             try {
