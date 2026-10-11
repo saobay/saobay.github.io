@@ -1,4 +1,4 @@
-// SAOBAY_HUB_EXAM_VERSION:20261011_1820
+// SAOBAY_HUB_EXAM_VERSION:20261011_1822
         // ========================================================
         // TRÌNH SOẠN ĐỀ KIỂM TRA (Phase 4, 2026-10-08)
 
@@ -323,33 +323,28 @@
                     return Array.isArray(j) ? j : [];
                 }
                 try {
-                    // 2026-10-11: lay path tu index (0 API call)
-                    var subjPath = null;
+                    // 2026-10-11: lay danh sach bai tu folders.json (0 API call, tranh 403)
                     var idx2 = await exbLoadFolderIndex();
                     if (idx2 && idx2.grades && idx2.grades[String(grade)]){
                         var sm = idx2.grades[String(grade)];
-                        // subj tu dropdown la norm UPPERCASE, can lower de so sanh
                         var sk = Object.keys(sm).find(function(k){ return k.toLowerCase() === subjNorm; });
-                        if (sk) subjPath = sm[sk].path;
-                    }
-                    if (subjPath){
-                        var chapters = await _contents(subjPath);
-                        for (var ci = 0; ci < chapters.length; ci++){
-                            var cd = chapters[ci];
-                            if (cd.type !== 'dir') continue;
-                            var files = await _contents(subjPath + '/' + cd.name);
-                            for (var fi = 0; fi < files.length; fi++){
-                                var fn = files[fi].name || '';
-                                if (!/\.html?$/i.test(fn)) continue;
-                                var lm = fn.match(/_Bai_(\d+)_/i) || fn.match(/Bai(\d+)/i);
-                                if (lm){
-                                    var ln = parseInt(lm[1], 10);
-                                    if (!seenL[ln]){
-                                        seenL[ln] = 1;
-                                        lessons.push({ num: ln, ch: cd.name, count: 0 });
+                        if (sk && sm[sk].chapter_files) {
+                            var cf = sm[sk].chapter_files;
+                            Object.keys(cf).forEach(function(chName){
+                                var files = cf[chName] || [];
+                                files.forEach(function(fn){
+                                    fn = String(fn || '');
+                                    if (!/\.html?$/i.test(fn)) return;
+                                    var lm = fn.match(/_Bai_(\d+)_/i) || fn.match(/Bai(\d+)/i);
+                                    if (lm){
+                                        var ln = parseInt(lm[1], 10);
+                                        if (!seenL[ln]){
+                                            seenL[ln] = 1;
+                                            lessons.push({ num: ln, ch: chName, count: 0 });
+                                        }
                                     }
-                                }
-                            }
+                                });
+                            });
                         }
                     }
                     lessons.sort(function(a,b){ return a.num - b.num; });
