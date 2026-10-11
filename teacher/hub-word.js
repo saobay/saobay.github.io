@@ -83,6 +83,173 @@
             } catch(e){ console.warn('detectAnswerFormatting:', e); }
             return marks;
         }
+        // ========================================================
+        // DOC BANG DAP AN TU document.xml (2026-10-11)
+        // - Nhan dien bang dap an TN: hang [Câu, 1, 2, ...] + hang [Đáp án/Đ.án/Đ/án, A, B, ...]
+        // - Nhan dien bang D/S: dap an la Đ/S hoac True/False
+        // - Tra ve [{nums:[1,2,...], answers:['B','C',...], kind:'mcq'|'truefalse'}] theo thu tu xuat hien
+        // ========================================================
+        function parseAnswerTable(grid){
+            if (!grid || grid.length < 2) return null;
+            for (let hi = 0; hi < grid.length; hi++){
+                let row = grid[hi];
+                if (!row || !row.length) continue;
+                let first = (row[0] || '').trim().toLowerCase();
+                if (first !== 'câu' && first !== 'cau') continue;
+                let nums = [], numKeys = [];
+                for (let ci = 1; ci < row.length; ci++){
+                    let cell = (row[ci] || '').trim();
+                    // Ho tro dang "1a", "1b" (dap an cho tung y cua cau D/S)
+                    let mSub = cell.match(/^(\d+)\s*([a-d])$/i);
+                    if (mSub){ nums.push(parseInt(mSub[1], 10)); numKeys.push(mSub[1] + mSub[2].toLowerCase()); continue; }
+                    let n = parseInt(cell, 10);
+                    if (isNaN(n)) break;
+                    nums.push(n); numKeys.push(String(n));
+                }
+                if (nums.length < 2) continue;
+                for (let ai = hi + 1; ai < grid.length; ai++){
+                    let arow = grid[ai];
+                    if (!arow || !arow.length) continue;
+                    let afirst = (arow[0] || '').toLowerCase().replace(/[\.\/\s]/g, '');
+                    if (['đápán','dapan','đán','dan'].indexOf(afirst) < 0) continue;
+                    let answers = [], subAnswers = {}, kind = 'mcq';
+                    for (let ci = 1; ci < arow.length && (answers.length + Object.keys(subAnswers).length) < nums.length; ci++){
+                        let v = (arow[ci] || '').trim();
+                        let vu = v.toUpperCase();
+                        let key = numKeys[answers.length + Object.keys(subAnswers).length] || '';
+                        let mQ = key.match(/^(\d+)([a-d])$/);
+                        if (/^[A-D]$/.test(vu)){ 
+                            if (mQ){ subAnswers[mQ[1]] = subAnswers[mQ[1]] || []; subAnswers[mQ[1]].push(vu); }
+                            else answers.push(vu);
+                        }
+                        else if (['Đ','D','ĐÚNG','DUNG','TRUE','T'].indexOf(vu) >= 0){
+                            if (mQ){ subAnswers[mQ[1]] = subAnswers[mQ[1]] || []; subAnswers[mQ[1]].push('T'); }
+                            else answers.push('T');
+                            kind = 'truefalse';
+                        }
+                        else if (['S','SAI','FALSE','F'].indexOf(vu) >= 0){
+                            if (mQ){ subAnswers[mQ[1]] = subAnswers[mQ[1]] || []; subAnswers[mQ[1]].push('F'); }
+                            else answers.push('F');
+                            kind = 'truefalse';
+                        }
+                        else if (v && v.indexOf(',') >= 0){
+                            // O chua "Đ, S, Đ, S" -> dap an cho 1 cau D/S
+                            let parts = v.split(/[,;\/\s]+/).filter(Boolean).map(function(p){
+                                let pu = p.trim().toUpperCase();
+                                if (['Đ','D','ĐÚNG','DUNG','TRUE','T'].indexOf(pu) >= 0) return 'T';
+                                if (['S','SAI','FALSE','F'].indexOf(pu) >= 0) return 'F';
+                                if (/^[A-D]$/.test(pu)) return pu;
+                                return '';
+                            }).filter(Boolean);
+                            if (parts.length){ answers.push(parts.length === 1 ? parts[0] : parts); if (parts[0] === 'T' || parts[0] === 'F') kind = 'truefalse'; }
+                            else answers.push('');
+                        }
+                        else answers.push('');
+                    }
+                    if (!answers.length && !Object.keys(subAnswers).length) continue;
+                    let hasABCD = answers.some(function(a){ return /^[A-D]$/.test(a); });
+                    let hasTF = answers.some(function(a){ return a === 'T' || a === 'F' || Array.isArray(a); });
+                    if (hasABCD && !hasTF) kind = 'mcq';
+                    else if (hasTF && !hasABCD) kind = 'truefalse';
+                    return { nums: nums.slice(0, Math.max(answers.length, Object.keys(subAnswers).length)), 
+                             answers: answers, subAnswers: subAnswers, kind: kind };
+                }
+            }
+            return null;
+        }
+
+        async function extractAnswerTables(arrayBuffer){
+            let tables = [];
+            try {
+                await ensureJsZip();
+                let zip = await window.JSZip.loadAsync(arrayBuffer);
+                let docXml = await zip.file('word/document.xml').async('text');
+                let parser = new DOMParser();
+                let xml = parser.parseFromString(docXml, 'text/xml');
+                let tbls = xml.getElementsByTagName('w:tbl');
+                for (let ti = 0; ti < tbls.length; ti++){
+                    let rows = tbls[ti].getElementsByTagName('w:tr');
+                    let grid = [];
+                    for (let ri = 0; ri < rows.length; ri++){
+                        let cells = rows[ri].getElementsByTagName('w:tc');
+                        let row = [];
+                        for (let ci = 0; ci < cells.length; ci++){
+                            let ts = cells[ci].getElementsByTagName('w:t');
+                            let txt = '';
+                            for (let k = 0; k < ts.length; k++) txt += ts[k].textContent;
+                            row.push(txt.replace(/\s+/g, ' ').trim());
+                        }
+                        grid.push(row);
+                    }
+                    let at = parseAnswerTable(grid);
+                    if (at){ at.order = tables.length; tables.push(at); }
+                }
+            } catch(e){ console.warn('extractAnswerTables:', e); }
+            return tables;
+        }
+
+        // Map dap an tu bang vao cau hoi (2026-10-11)
+        // - Moi bang ung voi 1 de thi (theo thu tu xuat hien)
+        // - Cau hoi duoc danh dau examIdx khi gap "I. TRAC NGHIEM" / "PHAN I"
+        function applyAnswerTables(qs, tables){
+            if (!tables || !tables.length || !qs || !qs.length) return 0;
+            let mapped = 0;
+            // Nhom cau hoi theo exam
+            let exams = {};
+            qs.forEach(function(q){
+                let e = (q.examIdx == null ? 0 : q.examIdx);
+                if (!exams[e]) exams[e] = [];
+                exams[e].push(q);
+            });
+            let examKeys = Object.keys(exams).map(Number).sort(function(a,b){return a-b;});
+            let posMappedSet = new Set(); // 2026-10-11: tranh map trung vi tri
+            tables.forEach(function(tb, ti){
+                let ek = examKeys[Math.min(ti, examKeys.length - 1)];
+                let qlist = exams[ek] || [];
+                let mcqList = qlist.filter(function(q){ return q.type === 'mcq' && !q.answer; });
+                let tfList = qlist.filter(function(q){ return q.type === 'truefalse' && (!q.answer || !q.answer.length); });
+                // Map theo so cau
+                tb.nums.forEach(function(num, ni){
+                    let ans = tb.answers[ni];
+                    if (ans === undefined || ans === '') return;
+                    let done = false;
+                    // Tim cau khop: type phu hop + num khop + chua co dap an
+                    for (let qi = 0; qi < qlist.length && !done; qi++){
+                        let q = qlist[qi];
+                        if (q.num !== num) continue;
+                        if (tb.kind === 'mcq' && q.type === 'mcq' && !q.answer){
+                            q.answer = ans; mapped++; done = true;
+                        }
+                        else if (tb.kind === 'truefalse' && q.type === 'truefalse' && (!q.answer || !q.answer.length)){
+                            q.answer = Array.isArray(ans) ? ans : [ans]; mapped++; done = true;
+                        }
+                    }
+                    // 2026-10-11: fallback theo vi tri (vd: cau danh so 19-30, bang ghi 1-12)
+                    if (!done && ni < (tb.kind === 'mcq' ? mcqList.length : tfList.length)){
+                        let q = tb.kind === 'mcq' ? mcqList[ni] : tfList[ni];
+                        // Chi fallback khi so luong cau khop so cot bang
+                        let targetList = tb.kind === 'mcq' ? qlist.filter(function(x){ return x.type === 'mcq'; }) : tfList;
+                        if (targetList.length === tb.nums.length && q && !posMappedSet.has(q)){
+                            if (tb.kind === 'mcq'){ q.answer = ans; }
+                            else { q.answer = Array.isArray(ans) ? ans : [ans]; }
+                            posMappedSet.add(q); mapped++;
+                        }
+                    }
+                });
+                // Map sub-answers (1a, 1b, 1c, 1d) cho cau D/S
+                Object.keys(tb.subAnswers || {}).forEach(function(qnum){
+                    let sa = tb.subAnswers[qnum];
+                    for (let qi = 0; qi < qlist.length; qi++){
+                        let q = qlist[qi];
+                        if (q.num === parseInt(qnum, 10) && q.type === 'truefalse' && (!q.answer || !q.answer.length)){
+                            q.answer = sa; mapped++; break;
+                        }
+                    }
+                });
+            });
+            return mapped;
+        }
+
         let wordState = { questions: [], fileName: '', extractedImages: [] };
 
         function ensureMammoth(){
@@ -147,6 +314,15 @@
                 });
                 wordState.rawText = lines.join('\n');
                 let qs = parseWordExam(lines);
+                // Doc bang dap an tu document.xml va map vao cau hoi (2026-10-11)
+                try {
+                    let ansTables = await extractAnswerTables(buf);
+                    if (ansTables && ansTables.length){
+                        let nMapped = applyAnswerTables(qs, ansTables);
+                        wordState.answerTables = ansTables;
+                        console.log('Bang dap an:', ansTables.length, 'da map:', nMapped);
+                    }
+                } catch(eTbl){ console.warn('answer table:', eTbl); }
                 // Nhan dien dap an tu dinh dang (2026-10-10):
                 // - Cach moi (uu tien): GACH CHAN chu cai dau tien cua phuong an (a/b/c/d) -> dap an dung
                 // - Cach cu (tuong thich nguoc): ca dong chu do / gach chan
@@ -201,8 +377,11 @@
                 }
                 let badge = { mcq: 'bg-blue-100 text-blue-800', truefalse: 'bg-amber-100 text-amber-800', short: 'bg-emerald-100 text-emerald-800' };
                 let typeName = { mcq: 'TN', truefalse: 'Đ/S', short: 'TLN', essay: 'TL' };
+                let nAnsTable = (wordState.answerTables || []).length;
+                let nMappedAns = qs.filter(function(q){ return q.answer && (typeof q.answer === 'string' ? q.answer : q.answer.length); }).length;
                 let h = '<div class="bg-white border border-indigo-200 rounded-xl p-3">'
-                    + '<p class="text-xs font-black text-slate-800 mb-2"><i class="fa-solid fa-check-circle text-emerald-600 mr-1"></i>Đã đọc ' + qs.length + ' câu từ "' + String(f.name).replace(/</g,'&lt;') + '"</p>'
+                    + '<p class="text-xs font-black text-slate-800 mb-2"><i class="fa-solid fa-check-circle text-emerald-600 mr-1"></i>Đã đọc ' + qs.length + ' câu từ "' + String(f.name).replace(/</g,'&lt;') + '"'
+                    + (nAnsTable ? ' <span class="text-[10px] font-normal text-emerald-700">(' + nAnsTable + ' bảng đáp án → ' + nMappedAns + ' câu có đáp án)</span>' : '') + '</p>'
                     + '<div class="space-y-1.5 max-h-56 overflow-y-auto pr-1">'
                     + qs.map(function(q, i){
                         return '<div class="border border-slate-200 rounded-lg px-2.5 py-1.5 text-[12px]">'
@@ -240,16 +419,50 @@
             input.value = '';
         }
 
+        // Tach phuong an inline: "A. IX B. X C. XI D. XIX" -> [{letter:'A',text:'IX'},...]
+        function splitInlineOptions(text){
+            let parts = [], re = /([A-Da-d])[\.\)]\s*/g, m;
+            let lastLetter = null, lastIdx = 0;
+            while ((m = re.exec(text)) !== null){
+                if (lastLetter !== null){
+                    let content = text.substring(lastIdx, m.index).trim();
+                    if (content) parts.push({ letter: lastLetter, text: content });
+                }
+                lastLetter = m[1].toUpperCase();
+                lastIdx = m.index + m[0].length;
+            }
+            if (lastLetter !== null){
+                let content = text.substring(lastIdx).trim();
+                if (content) parts.push({ letter: lastLetter, text: content });
+            }
+            return parts;
+        }
+
         function parseWordExam(lines){
-            let questions = [], cur = null;
+            let questions = [], cur = null, examIdx = 0, inTN = false;
             let pushCur = function(){ if (cur && cur.q) questions.push(cur); cur = null; };
             lines.forEach(function(raw){
                 let line = String(raw || '').trim();
                 if (!line) return;
+                // 2026-10-11: bo qua hang bang dap an ("Câu 1 2 3..." / "Đáp án A B...")
+                if (/^(câu|cau)\s*(\d+\s*)+$/i.test(line)) return;
+                if (/^(đáp án|đ\.án|đ\/án)\b/i.test(line)) return;
+                // Phat hien de thi moi qua marker "ĐỀ N" (2026-10-11: de map bang dap an dung de)
+                // VD: "MÔN TOÁN 6-ĐỀ 1", "ĐỀ 2"
+                if (/^(ĐỀ\s*\d+|MÔN\s+.*[\s-]ĐỀ\s*\d+)/i.test(line)){
+                    if (questions.length > 0 || cur) examIdx++;
+                    inTN = false; return;
+                }
+                // Dau phan TN/TL (khong tang examIdx - tranh nham voi HUONG DAN CHAM)
+                if (/TRẮC NGHIỆM|TRAC NGHIEM/i.test(line) && /^(I|PHẦN I|PHAN I)\b/i.test(line)){
+                    inTN = true; return;
+                }
+                if (/^(II|PHẦN II|PHAN II)\b/i.test(line)){ inTN = false; return; }
                 let mCau = line.match(/^(câu|cau)\s*(\d+)\s*(.*)$/i);
                 if (mCau){
                     pushCur();
-                    cur = { type: null, level: 'NB', q: '', options: [], statements: [], answer: null, explain: '' };
+                    cur = { type: null, level: 'NB', q: '', options: [], statements: [], answer: null, explain: '',
+                            num: parseInt(mCau[2], 10), examIdx: examIdx, inTN: inTN };
                     let rest = mCau[3] || '';
                     let tags = rest.match(/\[[^\]]+\]/g) || [];
                     tags.forEach(function(t){
@@ -260,7 +473,7 @@
                         else if (v === 'TL' || v.indexOf('TỰ LUẬN') >= 0 || v.indexOf('TU LUAN') >= 0) cur.type = 'essay';
                         else if (['NB','TH','VD','VDC'].indexOf(v) >= 0) cur.level = v;
                     });
-                    let qtext = rest.replace(/\[[^\]]+\]/g, '').trim();
+                    let qtext = rest.replace(/\[[^\]]+\]/g, '').replace(/^[\.\)\:\s]+/, '').trim();
                     if (qtext) cur.q = qtext;
                     return;
                 }
@@ -269,24 +482,40 @@
                 if (mAns){ cur._ansRaw = mAns[2].trim(); cur._inExplain = false; return; }
                 let mExp = line.match(/^(giải thích|giai thich)\s*:\s*(.*)$/i);
                 if (mExp){ cur._inExplain = true; cur.explain = (mExp[2] || '').trim(); return; }
-                let mOpt = line.match(/^([A-Da-d])[\.\)]\s*(.+)$/);
+                let mOpt = line.match(/^([A-Da-d])[\.\)]\s*(.*)$/);
                 if (mOpt && cur.type !== 'truefalse' && cur.type !== 'essay'){
                     // chu thuong a-d: chi coi la dap an TN khi da co tag [TN];
                     // neu chua co tag, chu thuong = menh de Dung/Sai (giu cach doan cu)
                     if (mOpt[1] === mOpt[1].toUpperCase() || cur.type === 'mcq'){
                         cur.type = cur.type || 'mcq';
-                        cur.options.push(mOpt[1].toUpperCase() + '. ' + mOpt[2].trim());
+                        // 2026-10-11: tach phuong an inline "A. IX B. X C. XI D. XIX"
+                        let inlines = splitInlineOptions(line);
+                        if (inlines.length >= 2){
+                            inlines.forEach(function(io){
+                                cur.options.push(io.letter + '. ' + io.text);
+                            });
+                        } else {
+                            cur.options.push(mOpt[1].toUpperCase() + '. ' + mOpt[2].trim());
+                        }
                         return;
                     }
                 }
                 let mSt = line.match(/^([a-d])[\.\)]\s*(.+)$/);
-                if (mSt && cur.type !== 'mcq' && cur.type !== 'essay'){ cur.type = cur.type || 'truefalse'; cur.statements.push(mSt[2].trim()); return; }
+                if (mSt && cur.type !== 'mcq' && cur.type !== 'essay'){
+                    // 2026-10-11: cau trong phan TU LUAN co cac y a/b/c/d la cau hoi con, KHONG phai menh de D/S
+                    if (cur.inTN === false){ cur.q += (cur.q ? ' ' : '') + line; return; }
+                    cur.type = cur.type || 'truefalse'; cur.statements.push(mSt[2].trim()); return; }
                 if (cur._inExplain){ cur.explain += (cur.explain ? ' ' : '') + line; }
                 else cur.q += (cur.q ? ' ' : '') + line;
             });
             pushCur();
             questions.forEach(function(q){
-                if (!q.type) q.type = q.options.length ? 'mcq' : (q.statements.length ? 'truefalse' : 'short');
+                if (!q.type){
+                    if (q.options.length) q.type = 'mcq';
+                    else if (q.statements.length) q.type = 'truefalse';
+                    else if (q.inTN) q.type = 'mcq'; // 2026-10-11: cau trong phan TN mac dinh la TN
+                    else q.type = 'short';
+                }
                 let raw = (q._ansRaw || '').trim();
                 if (q.type === 'mcq'){
                     let m = raw.match(/[A-D]/i);
@@ -303,7 +532,7 @@
                 } else {
                     q.answer = raw;
                 }
-                delete q._ansRaw; delete q._inExplain;
+                delete q._ansRaw; delete q._inExplain; delete q.inTN;
             });
             return questions;
         }
