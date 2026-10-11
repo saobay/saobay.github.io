@@ -671,7 +671,7 @@
                     if (pvBox2) pvBox2.innerHTML = '<p style="color:red;padding:20px">Lỗi hiển thị: ' + String(eRender.message || eRender) + '</p>';
                 } catch(e2){}
             }
-            if (typeof renderMathPreview === 'function'){ try { renderMathPreview(); } catch(e){} }
+            // 2026-10-11: KHONG goi renderMathPreview o day vi no ghi de lam trang khung
             if (typeof showToast === 'function') showToast('Đã chuyển ' + qs.length + ' câu vào khung soạn. Nhập tiêu đề rồi bấm Đẩy bài.', 'success');
             else alert('Đã chuyển ' + qs.length + ' câu vào khung soạn.');
             let titleInput = document.getElementById('item-title');
