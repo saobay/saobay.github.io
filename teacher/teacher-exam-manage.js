@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_EXAM_MANAGE_VERSION:20261011_1950
+// SAOBAY_TEACHER_EXAM_MANAGE_VERSION:20261011_1952
 // SAOBAY Teacher Exam Management - 2026-10-11
 // Quản lý đề kiểm tra của GV: danh sách đề đã tạo từ ma trận, nút "Giao cho HS"
 (function(){
@@ -67,8 +67,8 @@
             + '<div class="flex gap-1.5">'
             + '<button onclick="exbPreviewExam(\'' + (exam.id || '') + '\')" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1.5 rounded-lg font-bold" title="Xem trước">'
             + '<i class="fa-solid fa-eye"></i></button>'
-            + '<button onclick="exbAssignExam(\'' + (exam.id || '') + '\')" class="text-xs bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg font-bold">'
-            + '<i class="fa-solid fa-paper-plane mr-1"></i>Giao cho HS</button>'
+            + '<button onclick="exbSendToClass(\'' + (exam.id || '') + '\', \'' + (exam.bank_path || exam.private_path || '') + '\')" class="text-xs bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg font-bold">'
+            + '<i class="fa-solid fa-paper-plane mr-1"></i>Gửi cho lớp</button>'
             + '<button onclick="exbDeleteExam(\'' + (exam.id || '') + '\')" class="text-xs bg-rose-100 hover:bg-rose-200 text-rose-700 px-2.5 py-1.5 rounded-lg font-bold" title="Xóa">'
             + '<i class="fa-solid fa-trash"></i></button>'
             + '</div>'
@@ -314,6 +314,81 @@
         } catch(e) {
             alert('Lỗi: ' + e.message);
         }
+    };
+
+
+    // Gửi đề cho lớp - chọn từ cả lớp trường và lớp tự tạo
+    window.exbSendToClass = async function(examId, examPath){
+        try {
+            // Lấy danh sách lớp
+            var classes = [];
+            // Lớp tự tạo (private)
+            if (typeof pvMyClasses === 'function') {
+                var priv = pvMyClasses() || [];
+                priv.forEach(function(c){ classes.push({id: c.id, name: c.name + ' (lớp tự tạo)', type: 'private'}); });
+            }
+            // Lớp trường (từ phân công)
+            if (typeof pvTeachAssigns !== 'undefined' && pvTeachAssigns.length) {
+                pvTeachAssigns.forEach(function(a){
+                    classes.push({id: 'school:' + a.class, name: a.class + ' - ' + a.subject + ' (lớp trường)', type: 'school'});
+                });
+            }
+            
+            if (!classes.length) {
+                alert('Chưa có lớp nào. Hãy tạo lớp ở mục "Quản lý lớp học của tôi".');
+                return;
+            }
+            
+            // Tạo modal chọn lớp
+            var html = '<div style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:99999;display:flex;align-items:center;justify-content:center;" id="send-class-modal">';
+            html += '<div style="background:white;border-radius:12px;padding:20px;max-width:400px;width:90%;">';
+            html += '<h3 style="font-weight:bold;margin-bottom:12px;">Chọn lớp để gửi đề</h3>';
+            html += '<select id="send-class-select" style="width:100%;border:1px solid #ccc;border-radius:8px;padding:8px;margin-bottom:12px;">';
+            classes.forEach(function(c){
+                html += '<option value="' + c.id + '">' + c.name + '</option>';
+            });
+            html += '</select>';
+            html += '<div style="display:flex;gap:8px;justify-content:flex-end;">';
+            html += '<button onclick="document.getElementById(\'send-class-modal\').remove()" style="padding:8px 16px;border-radius:8px;background:#e5e7eb;">Hủy</button>';
+            html += '<button onclick="exbDoSendToClass(\'' + examId + '\', \'' + examPath + '\')" style="padding:8px 16px;border-radius:8px;background:#2563eb;color:white;font-weight:bold;">Gửi</button>';
+            html += '</div></div></div>';
+            
+            document.body.insertAdjacentHTML('beforeend', html);
+        } catch(e){ alert('Lỗi: ' + e.message); }
+    };
+    
+    window.exbDoSendToClass = async function(examId, examPath){
+        try {
+            var sel = document.getElementById('send-class-select');
+            var classId = sel ? sel.value : '';
+            if (!classId) return;
+            
+            // Lưu assignment
+            var assignData = {
+                exam_id: examId,
+                exam_path: examPath, // Link tự động là bank nếu đã duyệt
+                class_id: classId,
+                assigned_at: new Date().toISOString(),
+                assigned_by: (typeof currentUser !== 'undefined' && currentUser.id) ? currentUser.id : ''
+            };
+            
+            // Gọi API lưu assignment (dùng exam-assignments.json)
+            var resp = await fetch('https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec', {
+                method: 'POST',
+                headers: {'Content-Type': 'text/plain;charset=utf-8'},
+                body: JSON.stringify({
+                    type: 'PUSH_TO_GITHUB',
+                    filePath: 'data/exam-assignments/' + examId + '_' + Date.now() + '.json',
+                    content: JSON.stringify(assignData, null, 2),
+                    commitMessage: 'Giao đề cho lớp: ' + classId,
+                    title: 'Giao đề',
+                    author: 'saobay-teacher'
+                })
+            });
+            
+            document.getElementById('send-class-modal').remove();
+            alert('Đã gửi đề cho lớp!');
+        } catch(e){ alert('Lỗi: ' + e.message); }
     };
 
 })();
