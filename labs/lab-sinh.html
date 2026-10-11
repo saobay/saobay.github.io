@@ -12,7 +12,15 @@
   .org { cursor: pointer; transition: transform .15s; }
   .org:active { transform: scale(1.1); }
   .org.selected { filter: drop-shadow(0 0 6px #f59e0b); }
-  .food-card { touch-action: none; user-select: none; }
+  .food-card { touch-action: none; user-select: none; box-shadow: 0 4px 0 rgba(0,0,0,.10); transition: transform .15s, box-shadow .15s; }
+  .food-card:active { transform: translateY(3px); box-shadow: 0 1px 0 rgba(0,0,0,.10); }
+  .food-card .text-2xl, .slot .text-3xl { filter: drop-shadow(0 3px 3px rgba(0,0,0,.25)); }
+  @keyframes orgFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+  .org-float { animation: orgFloat 4.5s ease-in-out infinite; }
+  @keyframes slotPop { 0%{transform:scale(.6)} 60%{transform:scale(1.12)} 100%{transform:scale(1)} }
+  .slot.filled { animation: slotPop .3s ease; box-shadow: 0 4px 10px rgba(0,0,0,.12); }
+  @keyframes flowArrow { 0%,100%{ transform: translateX(0); opacity:.55;} 50%{ transform: translateX(5px); opacity:1;} }
+  .flow-arrow { animation: flowArrow 1.2s ease-in-out infinite; }
   .slot.filled { border-style: solid; }
 canvas { touch-action: pan-y; display: block; }
 
@@ -144,6 +152,7 @@ function fitCanvas(cv){
   var ctx = cv.getContext('2d'); ctx.setTransform(d,0,0,d,0,0);
   return {ctx: ctx, w: r.width, h: H};
 }
+window.__refits = [];
 
 // ================= 1. TẾ BÀO TƯƠNG TÁC =================
 (function(){
@@ -177,26 +186,44 @@ function fitCanvas(cv){
   var wrap = document.getElementById('cell-svg-wrap');
 
   function render(){
-    var orgs = ORGS[mode], W = 340, H = 300;
-    var svg = '<svg viewBox="0 0 '+W+' '+H+'" class="w-full" style="max-height:320px">';
-    // Nền tế bào
+    var orgs = ORGS[mode], W = 340, H = 300, fi = 0;
+    // Gradient cau 3D cho tung bao quan + bong do mem
+    var defs = '<defs><filter id="soft_'+mode+'" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="4" stdDeviation="5" flood-opacity="0.35"/></filter>';
+    orgs.forEach(function(o){
+      if (o.ring) return;
+      defs += '<radialGradient id="g3d_'+mode+'_'+o.id+'" cx="35%" cy="28%" r="85%">'
+        + '<stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>'
+        + '<stop offset="38%" stop-color="'+o.color+'"/>'
+        + '<stop offset="100%" stop-color="'+o.color+'"/>'
+        + '</radialGradient>';
+    });
+    var bgFill = mode === 'plant' ? '#e6f7e6' : '#fdeef4';
+    defs += '<radialGradient id="g3d_'+mode+'_bg" cx="42%" cy="36%" r="95%">'
+      + '<stop offset="0%" stop-color="#ffffff" stop-opacity="0.85"/>'
+      + '<stop offset="100%" stop-color="'+bgFill+'"/></radialGradient></defs>';
+    var svg = '<svg viewBox="0 0 '+W+' '+H+'" class="w-full" style="max-height:320px">' + defs;
+    // Nền tế bào 3D
     if (mode === 'plant'){
-      svg += '<rect x="20" y="15" width="300" height="270" rx="40" fill="#f0fdf4" stroke="#65a30d" stroke-width="10" class="org" data-id="wall"/>';
+      svg += '<rect x="20" y="15" width="300" height="270" rx="40" fill="url(#g3d_'+mode+'_bg)" stroke="#65a30d" stroke-width="10" filter="url(#soft_'+mode+')" class="org" data-id="wall"/>';
     } else {
-      svg += '<ellipse cx="170" cy="150" rx="148" ry="132" fill="#fdf2f8" stroke="#f472b6" stroke-width="6" class="org" data-id="membrane"/>';
+      svg += '<ellipse cx="170" cy="150" rx="148" ry="132" fill="url(#g3d_'+mode+'_bg)" stroke="#f472b6" stroke-width="6" filter="url(#soft_'+mode+')" class="org" data-id="membrane"/>';
     }
     orgs.forEach(function(o){
       if (o.ring) return;
+      fi++;
+      var grad = 'url(#g3d_'+mode+'_'+o.id+')';
+      svg += '<g class="org-float" style="animation-delay:'+((fi%5)*0.7).toFixed(1)+'s">';
       if (o.ellipse){
-        svg += '<ellipse cx="'+o.x+'" cy="'+o.y+'" rx="'+o.r+'" ry="'+(o.r*0.62)+'" fill="'+o.color+'" opacity="0.85" stroke="#fff" stroke-width="2" class="org" data-id="'+o.id+'"/>';
-        // Gạch trong ti thể / lục lạp
+        svg += '<ellipse cx="'+o.x+'" cy="'+o.y+'" rx="'+o.r+'" ry="'+(o.r*0.62)+'" fill="'+grad+'" stroke="#fff" stroke-width="2" filter="url(#soft_'+mode+')" class="org" data-id="'+o.id+'"/>';
         svg += '<path d="M '+(o.x-o.r*0.6)+' '+o.y+' Q '+o.x+' '+(o.y-o.r*0.4)+' '+(o.x+o.r*0.6)+' '+o.y+'" stroke="#fff" stroke-width="2" fill="none" opacity="0.7"/>';
       } else {
-        svg += '<circle cx="'+o.x+'" cy="'+o.y+'" r="'+o.r+'" fill="'+o.color+'" opacity="0.85" stroke="#fff" stroke-width="2" class="org" data-id="'+o.id+'"/>';
+        svg += '<circle cx="'+o.x+'" cy="'+o.y+'" r="'+o.r+'" fill="'+grad+'" stroke="#fff" stroke-width="2" filter="url(#soft_'+mode+')" class="org" data-id="'+o.id+'"/>';
         if (o.id === 'nucleus'){
-          svg += '<circle cx="'+o.x+'" cy="'+o.y+'" r="'+(o.r*0.45)+'" fill="#7c3aed" opacity="0.9"/>';
+          svg += '<circle cx="'+o.x+'" cy="'+o.y+'" r="'+(o.r*0.45)+'" fill="#6d28d9" opacity="0.92"/>';
+          svg += '<circle cx="'+(o.x-o.r*0.16)+'" cy="'+(o.y-o.r*0.2)+'" r="'+(o.r*0.13)+'" fill="#fff" opacity="0.75"/>';
         }
       }
+      svg += '</g>';
       // Nhãn
       svg += '<text x="'+o.x+'" y="'+(o.y+o.r+16)+'" text-anchor="middle" font-size="11" font-weight="bold" fill="#475569">'+o.name.split(' ')[0]+'</text>';
     });
@@ -234,6 +261,7 @@ function fitCanvas(cv){
 (function(){
   var cv = document.getElementById('cv-micro');
   var G = fitCanvas(cv);
+  window.__refits.push(function(){ if (cv.offsetParent) G = fitCanvas(cv); });
   (function(){
   var rT, lastW = 0;
   window.addEventListener('resize', function(){
@@ -244,7 +272,9 @@ function fitCanvas(cv){
     }, 200);
   });
 })();
-  var zoom = 0;
+  var zoom = 0, zt = 9;
+  var parts = [];
+  for (var pi=0; pi<16; pi++) parts.push({s: pi*37.7, sp: 4+rnd(pi)*8, r: 1.5+rnd(pi+9)*2.5});
   var labels = ['Mẫu lá cây — 40×', 'Mô lá — 100×', 'Tế bào thực vật — 400×', 'Lục lạp — 1000×'];
   var descs = [
     'Nhìn bằng mắt thường qua thị kính nhỏ nhất: thấy gân lá và màu xanh.',
@@ -253,7 +283,7 @@ function fitCanvas(cv){
     'Phóng to 1000 lần (vật kính dầu): thấy lục lạp với các hạt grana bên trong.'
   ];
   document.getElementById('micro-zoom').addEventListener('input', function(e){
-    zoom = parseInt(e.target.value);
+    zoom = parseInt(e.target.value); zt = 0;
     document.getElementById('micro-label').textContent = labels[zoom];
     document.getElementById('micro-desc').textContent = descs[zoom];
   });
@@ -262,6 +292,7 @@ function fitCanvas(cv){
 
   function rnd(seed){ var x = Math.sin(seed*999)*10000; return x - Math.floor(x); }
   function draw(){
+    if (!cv.offsetParent || G.w < 10){ requestAnimationFrame(draw); return; }
     var ctx = G.ctx, W = G.w, H = G.h, cx = W/2, cy = H/2, R = Math.min(W,H)/2 - 6;
     ctx.clearRect(0,0,W,H);
     // Nền đen kính hiển vi
@@ -269,6 +300,10 @@ function fitCanvas(cv){
     ctx.beginPath(); ctx.arc(cx,cy,R,0,7); ctx.fill();
     ctx.save();
     ctx.beginPath(); ctx.arc(cx,cy,R,0,7); ctx.clip();
+    // Zoom muot: phong to nay nhe khi doi cap do
+    var zscale = 1 + 0.35*Math.exp(-zt*5); zt += 1/60;
+    ctx.save();
+    ctx.translate(cx,cy); ctx.scale(zscale,zscale); ctx.translate(-cx,-cy);
 
     if (zoom === 0){
       // Lá cây
@@ -325,6 +360,25 @@ function fitCanvas(cv){
       ctx.fillStyle = '#bbf7d0'; ctx.font = 'bold 13px sans-serif'; ctx.textAlign='center';
       ctx.fillText('Grana (chồng tilacôit)', cx, cy+R*0.72);
     }
+    ctx.restore(); // dong scale zoom
+    // Hat bui noi (chuyen dong Brown) — tao chieu sau 3D
+    var bt = performance.now()/1000;
+    ctx.fillStyle = 'rgba(255,255,255,0.35)';
+    parts.forEach(function(p){
+      var px2 = cx + ((rnd(p.s)*2-1)*R + Math.sin(bt*p.sp*0.3+p.s)*10);
+      var py2 = cy + ((rnd(p.s+3)*2-1)*R + Math.cos(bt*p.sp*0.23+p.s)*10);
+      if (Math.hypot(px2-cx,py2-cy) < R-4){
+        ctx.beginPath(); ctx.arc(px2,py2,p.r,0,7); ctx.fill();
+      }
+    });
+    // Vignette toi vien — cam giac nhin qua thau kinh
+    var vg = ctx.createRadialGradient(cx,cy,R*0.55,cx,cy,R);
+    vg.addColorStop(0,'rgba(0,0,0,0)'); vg.addColorStop(1,'rgba(0,0,0,0.55)');
+    ctx.fillStyle = vg;
+    ctx.beginPath(); ctx.arc(cx,cy,R,0,7); ctx.fill();
+    // Phan xa anh sang tren mat kinh
+    ctx.strokeStyle = 'rgba(255,255,255,0.28)'; ctx.lineWidth = 10; ctx.lineCap='round';
+    ctx.beginPath(); ctx.arc(cx,cy,R-14,-2.4,-1.7); ctx.stroke();
     ctx.restore();
     // Vòng tròn thị kính
     ctx.strokeStyle = '#334155'; ctx.lineWidth = 10;
@@ -369,7 +423,7 @@ function fitCanvas(cv){
         h += '<div class="text-2xl text-orange-200">'+(i+1)+'</div>';
       }
       h += '</div>';
-      if (i<5) h += '<div class="text-orange-400 font-black shrink-0">→</div>';
+      if (i<5) h += '<div class="flow-arrow text-orange-500 font-black shrink-0 text-xl">→</div>';
     }
     slotsEl.innerHTML = h;
     slotsEl.querySelectorAll('.slot').forEach(function(s){
@@ -417,6 +471,24 @@ function fitCanvas(cv){
         tag.textContent = CHAIN[ci].role;
         s.appendChild(tag);
       });
+      // Confetti an mung
+      try{
+        var panel = document.getElementById('tab-food');
+        panel.style.position = 'relative';
+        for (var ci2=0; ci2<28; ci2++){
+          var cf = document.createElement('div');
+          cf.textContent = ['🎉','✨','🌿','⭐'][ci2%4];
+          cf.style.cssText = 'position:absolute;left:'+(8+Math.random()*84)+'%;top:24px;font-size:20px;pointer-events:none;z-index:30;transition:transform 1.4s ease-out,opacity 1.4s;';
+          panel.appendChild(cf);
+          (function(el){
+            requestAnimationFrame(function(){
+              el.style.transform='translateY('+(170+Math.random()*170)+'px) rotate('+(Math.random()*540-270)+'deg)';
+              el.style.opacity='0';
+            });
+            setTimeout(function(){ el.remove(); }, 1600);
+          })(cf);
+        }
+      }catch(e){}
     } else {
       msg.textContent = '❌ Chưa đúng. Nhớ: Cỏ → động vật ăn cỏ → ... → sinh vật phân giải.';
       msg.className = 'mt-2 text-center text-sm font-bold text-rose-600';
@@ -425,9 +497,9 @@ function fitCanvas(cv){
   init();
 })();
 
-// Fit lai canvas khi chuyen tab (tab an co width=0)
+// Fit lai canvas khi chuyen tab (dung registry de cap nhat G tung tab)
 window.__fitAll = function(){
-  try { var c=document.getElementById('cv-micro'); if(c && c.offsetParent){ var r=c.getBoundingClientRect(),d=window.devicePixelRatio||1; c.width=r.width*d; c.height=(parseInt(c.getAttribute('height'))||300)*d; var x2=c.getContext('2d'); x2.setTransform(d,0,0,d,0,0); } } catch(e){}
+  try { (window.__refits||[]).forEach(function(fn){ try{fn();}catch(e){} }); } catch(e){}
 };
 </script>
 <!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
@@ -435,7 +507,7 @@ window.__fitAll = function(){
 <p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
 <p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
 </footer>
-<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();</script>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
 <script src="../js/admin-toolbar.js"></script>
 </body>
 </html>
