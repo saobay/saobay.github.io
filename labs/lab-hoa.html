@@ -255,7 +255,9 @@
         radial-gradient(circle at 42% 58%, rgba(255,255,255,.95) 0 1.8px, rgba(255,255,255,0) 3px),
         radial-gradient(circle at 60% 72%, rgba(255,255,255,.80) 0 1.4px, rgba(255,255,255,0) 2.6px),
         radial-gradient(circle at 50% 42%, rgba(255,255,255,.85) 0 1.2px, rgba(255,255,255,0) 2.2px),
-        radial-gradient(circle at 34% 76%, rgba(255,255,255,.70) 0 1.5px, rgba(255,255,255,0) 2.5px)}
+        radial-gradient(circle at 34% 76%, rgba(255,255,255,.70) 0 1.5px, rgba(255,255,255,0) 2.5px);
+      animation:bubbleShimmer 2.5s ease-in-out infinite}
+    @keyframes bubbleShimmer{0%,100%{opacity:.7;transform:translateY(0)}50%{opacity:1;transform:translateY(-1.5px)}}
     .chem-bottle .bliq::after{content:'';position:absolute;top:-1px;left:5%;right:5%;height:6px;
       background:radial-gradient(ellipse at center,rgba(255,255,255,.95),rgba(255,255,255,.12) 70%,rgba(255,255,255,0));
       pointer-events:none;z-index:2}
@@ -523,7 +525,7 @@ window.__refits = window.__refits || [];
         var d = buf.getChannelData(0);
         for (var i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
         this.noiseBuf = buf;
-        this.mkLoop('pour', 'bandpass', 1400, 0.8, 6.5, 0.22);  // rót nước róc rách
+        this.mkLoop('pour', 'bandpass', 900, 1.2, 0, 0);  // rót: nền nhẹ, chính là glug
         this.mkLoop('boil', 'lowpass', 420, 0.7, 3.2, 0.30);    // sôi sủi bọt
         this.mkLoop('fire', 'lowpass', 850, 0.6, 11, 0.12);     // lửa cháy phừng phựt
         this.mkLoop('gas', 'highpass', 3600, 0.7, 0, 0);        // khí xì xì
@@ -544,7 +546,7 @@ window.__refits = window.__refits || [];
     },
     set: function(name, target){
       if (!this.ctx || !this.loops[name]) return;
-      try { this.loops[name].gain.setTargetAtTime(this.enabled ? target : 0, this.ctx.currentTime, 0.18); }
+      try { this.loops[name].gain.setTargetAtTime(this.enabled ? target : 0, this.ctx.currentTime, 0.06); }
       catch(e){}
     },
     allOff: function(){
@@ -585,16 +587,18 @@ window.__refits = window.__refits || [];
     glug: function(){
       if (!this.ctx || !this.enabled) return;
       try {
-        var c = this.ctx, t = c.currentTime;
-        var o = c.createOscillator(); o.type = 'sine';
-        var f0 = 300 + Math.random() * 400;
-        o.frequency.setValueAtTime(f0, t);
-        o.frequency.exponentialRampToValueAtTime(90, t + 0.09);
-        o.frequency.exponentialRampToValueAtTime(f0 * 0.7, t + 0.16);
-        var g = c.createGain();
-        g.gain.setValueAtTime(0.22, t);
-        g.gain.exponentialRampToValueAtTime(0.001, t + 0.18);
-        o.connect(g); g.connect(this.master); o.start(t); o.stop(t + 0.2);
+        var c = this.ctx, t = c.currentTime, self = this;
+        [0, 1].forEach(function(i){
+          var o = c.createOscillator(); o.type = 'triangle';
+          var f0 = (i === 0 ? 280 : 560) + Math.random() * 250;
+          var dt = t + i * 0.035;
+          o.frequency.setValueAtTime(f0, dt);
+          o.frequency.exponentialRampToValueAtTime(85, dt + 0.07);
+          var g = c.createGain();
+          g.gain.setValueAtTime(i === 0 ? 0.30 : 0.15, dt);
+          g.gain.exponentialRampToValueAtTime(0.001, dt + 0.14);
+          o.connect(g); g.connect(self.master); o.start(dt); o.stop(dt + 0.16);
+        });
       } catch(e){}
     },
     crackle: function(){
@@ -624,8 +628,8 @@ window.__refits = window.__refits || [];
           if ((v.fizz || 0) > 0.45) gassing = true;
         }
       } catch(e){}
-      this.set('pour', pouring ? 0.50 : 0);
-      if (pouring && Math.random() < 0.18) this.glug();
+      this.set('pour', pouring ? 0.12 : 0);
+      if (pouring && Math.random() < 0.40) this.glug(); // róc rách liên tục
       this.set('fire', heating ? 0.12 : 0);
       this.set('boil', boiling ? 0.42 : 0);
       this.set('gas', gassing ? 0.26 : 0);
