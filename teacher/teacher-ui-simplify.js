@@ -1,80 +1,110 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2345
-// Tab2: panel noi co dinh hien de thi (khong phu thuoc view cu)
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2358
+// Tab 2: hien danh sach DE THI dung cho (trong module-manage-view).
+// Nguyen tac on dinh: KHONG popup, KHONG interval vo han, fetch cay Git 1 lan/phien (cache), chi tai lai khi bam nut.
 (function(){
 'use strict';
+var examsCache = null;      // ket qua da loc (array) hoac null = chua tai
+var examsPromise = null;    // promise dang tai (chong goi trung)
 
 function addClearBtn(){
-  if(document.getElementById('btn-clear-cache'))return;
+  if(document.getElementById('btn-clear-cache')) return true;
+  if(!document.body) return false;
   var b=document.createElement('button');
-  b.id='btn-clear-cache';b.textContent='🧹 Xóa cache';
+  b.id='btn-clear-cache'; b.textContent='🧹 Xóa cache';
   b.style.cssText='position:fixed;bottom:20px;right:20px;z-index:9998;padding:8px 12px;background:#dc2626;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:13px;';
   b.onclick=function(){
-    if(!confirm('Xoa cache? (giu dang nhap)'))return;
+    if(!confirm('Xoa cache? (giu dang nhap)')) return;
     var bk={};
-    ['saobay_user','github_token','saobay_admin_token','saobay_github_token'].forEach(function(k){var v=localStorage.getItem(k);if(v)bk[k]=v;});
-    if('caches'in window)caches.keys().then(function(n){n.forEach(function(x){caches.delete(x);});});
+    ['saobay_user','github_token','saobay_admin_token','saobay_github_token'].forEach(function(k){var v=localStorage.getItem(k); if(v) bk[k]=v;});
+    if('caches' in window) caches.keys().then(function(ns){ ns.forEach(function(x){ caches.delete(x); }); });
     localStorage.clear();
-    Object.keys(bk).forEach(function(k){localStorage.setItem(k,bk[k]);});
+    Object.keys(bk).forEach(function(k){ localStorage.setItem(k,bk[k]); });
     location.href=location.href.split('?')[0]+'?_cb='+Date.now();
   };
-  if(document.body)document.body.appendChild(b);
+  document.body.appendChild(b);
+  return true;
 }
-setInterval(addClearBtn,2000);
+// Thu toi da 15 lan x 1s roi DUNG HAN (khong interval vo han)
+(function(){
+  var n=0, t=setInterval(function(){
+    n++;
+    if(addClearBtn() || n>=15) clearInterval(t);
+  },1000);
+})();
 
-// Tao panel noi
-function getPanel(){
-  var p=document.getElementById('exams-overlay');
-  if(p)return p;
-  p=document.createElement('div');
-  p.id='exams-overlay';
-  p.style.cssText='display:none;position:fixed;top:70px;left:50%;transform:translateX(-50%);width:min(860px,94vw);max-height:82vh;overflow-y:auto;background:#fff;z-index:9990;border-radius:12px;box-shadow:0 10px 40px rgba(0,0,0,.3);padding:18px;border:1px solid #e5e7eb';
-  p.innerHTML='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">'
-    +'<h2 style="font-size:17px;font-weight:bold;margin:0">📝 Đề thi đã tải lên</h2>'
-    +'<button id="exams-close" style="background:#ef4444;color:#fff;border:none;border-radius:6px;padding:4px 10px;cursor:pointer">✕ Đóng</button></div>'
-    +'<button id="exams-load" style="padding:8px 16px;background:#2563eb;color:#fff;border:none;border-radius:6px;cursor:pointer">🔄 Tải danh sách đề</button>'
-    +'<div id="exams-list" style="margin-top:12px"><p style="color:#666">Danh sách đề thi tải lên qua Word / AI / Bank.</p></div>';
-  document.body.appendChild(p);
-  document.getElementById('exams-close').onclick=function(){p.style.display='none';};
-  document.getElementById('exams-load').onclick=loadExams;
-  return p;
+function fetchExamFiles(){
+  if(examsCache) return Promise.resolve(examsCache);
+  if(examsPromise) return examsPromise;
+  var headers={'Accept':'application/vnd.github+json'};
+  var tk=localStorage.getItem('saobay_github_token')||localStorage.getItem('github_token');
+  if(tk) headers['Authorization']='Bearer '+tk;
+  examsPromise=fetch('https://api.github.com/repos/saobay/saobay.github.io/git/trees/main?recursive=1',{headers:headers})
+    .then(function(r){ if(!r.ok) throw new Error('GitHub API: '+r.status); return r.json(); })
+    .then(function(data){
+      var f=(data.tree||[]).filter(function(i){
+        if(i.type!=='blob'||!i.path.endsWith('.html')) return false;
+        if(i.path.indexOf('data/')!==0) return false;
+        var n=i.path.toLowerCase();
+        if(n.indexOf('data/bank')===0||n.indexOf('data/scores')===0) return false;
+        if(n.indexOf('_bai_tap_')>=0||n.indexOf('_ly_thuyet_')>=0) return false;
+        if(n.indexOf('bai_tap_none')>=0||n.indexOf('ly_thuyet_none')>=0) return false;
+        if(n.indexOf('_ly_thuyet')>=0||n.indexOf('ly_thuyet_')>=0) return false;
+        return true;
+      });
+      examsCache=f; examsPromise=null;
+      return f;
+    })
+    .catch(function(e){ examsPromise=null; throw e; });
+  return examsPromise;
 }
-async function loadExams(){
-  var l=document.getElementById('exams-list');
-  if(!l)return;
-  l.innerHTML='<p>⏳ Đang tải...</p>';
-  try{
-    var headers={'Accept':'application/vnd.github+json'};
-    var tk=localStorage.getItem('saobay_github_token')||localStorage.getItem('github_token');
-    if(tk)headers['Authorization']='Bearer '+tk;
-    var r=await fetch('https://api.github.com/repos/saobay/saobay.github.io/git/trees/main?recursive=1',{headers:headers});
-    if(!r.ok){l.innerHTML='<p style="color:red">Lỗi tải: '+r.status+'</p>';return;}
-    var data=await r.json();
-    var f=data.tree.filter(function(i){
-      if(i.type!=='blob'||!i.path.endsWith('.html'))return false;
-      if(i.path.indexOf('data/')!==0)return false;
-      var n=i.path.toLowerCase();
-      if(n.indexOf('data/bank')===0||n.indexOf('data/scores')===0)return false;
-      if(n.indexOf('_bai_tap_')>=0||n.indexOf('_ly_thuyet_')>=0)return false;
-      if(n.indexOf('bai_tap_none')>=0||n.indexOf('ly_thuyet_none')>=0)return false;
-      return true;
-    });
-    if(!f.length){l.innerHTML='<p>Chưa có đề thi nào (đề Word/AI/Bank sẽ hiện ở đây).</p>';return;}
-    var h='<p><b>'+f.length+'</b> đề:</p><ul style="list-style:none;padding:0">';
-    f.forEach(function(x){
-      var name=x.path.split('/').pop().replace('.html','');
-      h+='<li style="padding:8px;border-bottom:1px solid #eee">📝 <b>'+name+'</b><br><small style="color:#888">'+x.path+'</small> <a href="https://saobay.github.io/'+x.path+'" target="_blank" style="color:#2563eb">Mở</a></li>';
-    });
-    l.innerHTML=h+'</ul>';
-  }catch(e){l.innerHTML='<p style="color:red">Lỗi: '+e.message+'</p>';}
-}
-// Bam tab manage thi mo panel
-document.addEventListener('click',function(e){
-  var t=e.target,found=false;
-  while(t&&t!==document){if(t.id==='mod-tab-manage'){found=true;break;}t=t.parentElement;}
-  if(found){
-    var p=getPanel();
-    setTimeout(function(){p.style.display='block';loadExams();},150);
+
+function renderExams(){
+  var c=document.getElementById('manage-lessons-table-container');
+  if(!c) return;
+  c.setAttribute('data-saobay-exams','1');
+  if(!examsCache){
+    c.innerHTML='<div id="saobay-exams-box"><p style="color:#666">⏳ Đang tải danh sách đề thi...</p></div>';
   }
-},true);
-console.log('SAOBAY overlay 2345 loaded');
+  fetchExamFiles().then(function(f){
+    var cc=document.getElementById('manage-lessons-table-container');
+    if(!cc) return;
+    cc.setAttribute('data-saobay-exams','1');
+    if(!f.length){
+      cc.innerHTML='<div id="saobay-exams-box" style="padding:16px;background:#f8fafc;border:1px dashed #cbd5e1;border-radius:10px">'
+        +'<p style="font-weight:bold;margin:0 0 6px">📝 Đề thi đã tải lên</p>'
+        +'<p style="color:#64748b;margin:0">Chưa có đề thi nào. Đề tải lên qua Word / AI / tạo từ Bank sẽ hiện ở đây.</p></div>';
+      return;
+    }
+    var h='<div id="saobay-exams-box" style="padding:6px 2px"><p style="font-weight:bold;margin:0 0 8px">📝 Đề thi đã tải lên: '+f.length+' đề</p>'
+      +'<ul style="list-style:none;padding:0;margin:0">';
+    f.forEach(function(x){
+      var name=x.path.split('/').pop().replace(/\.html$/,'');
+      h+='<li style="padding:8px;border-bottom:1px solid #eee">📝 <b>'+name+'</b><br>'
+        +'<small style="color:#888">'+x.path+'</small> '
+        +'<a href="https://saobay.github.io/'+x.path+'" target="_blank" style="color:#2563eb">Mở</a></li>';
+    });
+    cc.innerHTML=h+'</ul></div>';
+  }).catch(function(e){
+    var cc=document.getElementById('manage-lessons-table-container');
+    if(cc) cc.innerHTML='<div id="saobay-exams-box"><p style="color:red">Không tải được danh sách đề ('+e.message+'). Kiểm tra mạng rồi bấm lại tab 2.</p></div>';
+  });
+}
+
+// Khi bam tab 2: doi code goc chay xong roi chen danh sach de vao dung container cua tab.
+// Code goc (renderLessonManagementList) co the ghi de bang ds 3058 bai sau khi fetch xong,
+// nen kiem tra lai 3 lan co gioi han (1s, 2.5s, 5s) — het 3 lan la dung, khong lap vo han.
+document.addEventListener('click',function(e){
+  var t=e.target, found=false;
+  while(t && t!==document){ if(t.id==='mod-tab-manage'){ found=true; break; } t=t.parentElement; }
+  if(!found) return;
+  setTimeout(renderExams, 250);
+  [1000, 2500, 5000].forEach(function(ms){
+    setTimeout(function(){
+      var c=document.getElementById('manage-lessons-table-container');
+      if(c && !c.querySelector('#saobay-exams-box')) renderExams();
+    }, ms);
+  });
+}, true);
+
+console.log('SAOBAY inplace 2358 loaded');
 })();
