@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_1849
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_1851
 // SAOBAY Teacher Hub UI Simplify - 2026-10-11
 // Ẩn cây thư mục bên trái, chọn thư mục qua popup tại "Vị trí lưu trữ"
 (function(){
@@ -247,19 +247,33 @@
                         b.className = 'flex-1 px-3 py-2.5 rounded-lg text-xs font-bold transition flex items-center justify-center bg-slate-100 text-slate-600 hover:bg-slate-200';
                     }
                 });
-                // Ẩn/hiện panel AI
+                
                 var aiPanel = document.getElementById('push-ai-panel');
-                if (aiPanel) aiPanel.classList.toggle('hidden', mode !== 'ai');
                 
                 if (mode === 'ai') {
-                    // Ẩn các panel khác (để orig xử lý, nhưng đảm bảo AI hiện)
-                    if (typeof orig === 'function') {
-                        try { orig('bank'); } catch(e){}
+                    // Ẩn TẤT CẢ panel gốc trước
+                    document.querySelectorAll('[id*="push-"][id*="panel"], [id*="push-"][id*="content"], .push-panel').forEach(function(p){
+                        if (p.id !== 'push-ai-panel') p.classList.add('hidden');
+                    });
+                    // Gọi orig với mode không tồn tại để nó ẩn hết
+                    try { origSwitch('__hide_all__'); } catch(e){}
+                    // Hiện panel AI
+                    if (aiPanel) {
+                        aiPanel.classList.remove('hidden');
+                        // Di chuyển panel AI vào vị trí đúng (sau thanh nút)
+                        var btnRow = document.getElementById('push-mode-ai');
+                        if (btnRow) {
+                            var container = btnRow.closest('div').parentNode;
+                            // Tìm vị trí chèn: sau div chứa các nút
+                            var btnContainer = btnRow.closest('div.flex');
+                            if (btnContainer && btnContainer.nextSibling !== aiPanel) {
+                                btnContainer.parentNode.insertBefore(aiPanel, btnContainer.nextSibling);
+                            }
+                        }
                     }
-                    if (aiPanel) aiPanel.classList.remove('hidden');
                 } else {
-                    if (typeof orig === 'function') orig(mode);
                     if (aiPanel) aiPanel.classList.add('hidden');
+                    origSwitch(mode);
                 }
             };
         }
