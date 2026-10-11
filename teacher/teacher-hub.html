@@ -433,7 +433,7 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
                 <!-- PANEL SOẠN ĐỀ TỪ NGÂN HÀNG (inline, thay popup cũ) -->
                 <div id="exam-builder-panel" class="eba-wrap">
                     <div class="eba-inner space-y-4 bg-amber-50/60 p-3 rounded-xl border border-amber-200">
-                    <div id="exb-pane-bank" class="space-y-4">
+                    <div id="exb-pane-bank" class="space-y-2">
                         <div class="flex gap-4 items-center">
                             <label class="flex items-center gap-2 text-xs font-bold text-slate-700 cursor-pointer">
                                 <input type="checkbox" id="exb-sub-lop" checked onchange="exbSwitchSub(this.checked?'lop':'mot')" class="w-4 h-4 accent-indigo-600">
@@ -442,6 +442,10 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
                             <label class="flex items-center gap-2 text-xs font-bold text-slate-700 cursor-pointer">
                                 <input type="checkbox" id="exb-sub-mot" onchange="exbSwitchSub(this.checked?'mot':'lop')" class="w-4 h-4 accent-indigo-600">
                                 Mỗi HS 1 đề cùng ma trận
+                            </label>
+                            <label class="flex items-center gap-2 text-xs font-bold text-slate-700 cursor-pointer">
+                                <input type="checkbox" id="exbb-only-approved" class="w-4 h-4 accent-emerald-600">
+                                <span><i class="fa-solid fa-circle-check text-emerald-600 mr-1"></i>Chỉ lấy câu từ bài đã duyệt</span>
                             </label>
                         </div>
                         <p id="exb-sub-desc" class="text-[11px] text-indigo-900 bg-indigo-50 border border-indigo-200 rounded-lg px-3 py-2 leading-relaxed"><i class="fa-solid fa-shuffle mr-1"></i><b>Mỗi HS 1 đề cùng ma trận:</b> file chỉ lưu <b>ma trận</b> — mỗi em mở ra web bốc 1 bộ câu <b>khác nhau</b> nhưng cùng ma trận (cùng vùng kiến thức, số câu, tỉ lệ).</p>
@@ -453,12 +457,7 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
                             <div><label class="text-[11px] font-bold text-slate-600">Từ chương</label><input id="exbb-ch-from" type="number" value="1" class="mt-1 w-full text-sm border rounded-lg px-2 py-2 font-bold"></div>
                             <div><label class="text-[11px] font-bold text-slate-600">Đến chương</label><input id="exbb-ch-to" type="number" value="1" class="mt-1 w-full text-sm border rounded-lg px-2 py-2 font-bold"></div>
                         </div>
-                        <label class="flex items-center gap-2 text-xs font-bold text-slate-700 bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-2 cursor-pointer">
-                            <input type="checkbox" id="exbb-only-approved" class="w-4 h-4 accent-emerald-600">
-                            <span><i class="fa-solid fa-circle-check text-emerald-600 mr-1"></i>Chỉ lấy câu từ bài đã duyệt</span>
-                        </label>
-                        <p class="text-[10px] text-slate-400 -mt-1">Bỏ tick để lấy cả câu từ bài chưa duyệt.</p>
-                        <div id="exb-matrix"><p class="text-xs text-slate-400 italic">Bấm "Tải ma trận" để xem số câu từng chương trong bank. (Cần đăng nhập GitHub / đã đẩy 1 bài để có token.)</p></div>
+                        <div id="exb-matrix"></div>
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
                             <div class="bg-blue-50 border border-blue-200 rounded-xl p-2.5">
                                 <label class="text-[11px] font-bold text-blue-900">Trắc nghiệm</label>
