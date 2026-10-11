@@ -683,7 +683,7 @@
                 }
                 let picked = exbMatrixPick(exbBankPool, m);
                 if (!picked.length) throw new Error('Không bốc được câu nào — kiểm tra ma trận.');
-                exbRenderPicked(picked, 'Đề mẫu (mỗi HS sẽ bốc 1 đề khác cùng ma trận)');
+                exbRenderExamPreview(picked, 'Đề mẫu (mỗi HS sẽ bốc 1 đề khác cùng ma trận)');
             } catch(e){ pv.innerHTML = '<p class="text-xs text-rose-600">Lỗi: ' + String(e.message || e).replace(/</g,'&lt;') + '</p>'; }
         }
 
@@ -727,7 +727,7 @@
                 exbClassExam = exbMatrixPick(exbBankPool, m);
                 if (!exbClassExam.length) throw new Error('Không bốc được câu nào — kiểm tra ma trận.');
                 exbClassExam._matrix = m;
-                exbRenderPicked(exbClassExam, 'Đề chung cả lớp (xem trước đầy đủ — không ưng thì bấm "🔄 Bốc lại đề" bên dưới khung soạn)');
+                exbRenderExamPreview(exbClassExam, 'Đề chung cả lớp (xem trước đầy đủ — không ưng thì bấm "🔄 Bốc lại đề" bên dưới khung soạn)');
                 // MXENG_V1: đẩy thẳng đề đã bốc ra khung soạn để GV xem/sửa ngay
                 try { exbPushClassExamToComposer(exbClassExam, m); } catch(e){ console.warn('push to composer:', e); }
             } catch(e){ pv.innerHTML = '<p class="text-xs text-rose-600">Lỗi: ' + String(e.message || e).replace(/</g,'&lt;') + '</p>'; }
@@ -765,6 +765,7 @@
         async function exbRepickExam(){
             if (typeof exbPickClassExam === 'function') { await exbPickClassExam(); }
         }
+        try { window.exbRepickExam = exbRepickExam; } catch(e){}
 
         // FIX 2026-10-10: wrapper goi bankPushFile co timeout rieng (phong khi AbortController khong kha dung)
         // Bao ve moi nut "Luu de" khoi treo vo han khi GAS proxy khong phan hoi.
