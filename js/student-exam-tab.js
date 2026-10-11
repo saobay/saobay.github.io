@@ -2,6 +2,77 @@
 // Tab "Bài Kiểm Tra" cho HS: hiện danh sách bài kiểm tra được giao, không cần chọn thư mục
 (function(){
     'use strict';
+
+    // Tự động thêm nút tab "Bài Kiểm Tra" vào thanh tab
+    function injectExamTab(){
+        if (document.getElementById('tab-exam')) return;
+        var practiceBtn = document.getElementById('tab-practice');
+        if (!practiceBtn) return;
+        
+        var btn = document.createElement('button');
+        btn.id = 'tab-exam';
+        btn.onclick = function(){ switchMode('exam'); };
+        btn.className = 'flex-1 sm:flex-initial px-4 py-2 rounded-lg text-xs md:text-sm font-bold transition flex items-center justify-center bg-slate-100 text-slate-600 hover:bg-slate-200 relative';
+        btn.innerHTML = '<i class="fa-solid fa-clipboard-check mr-2"></i> Bài Kiểm Tra'
+            + '<span id="exam-tab-badge" class="hidden absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center">0</span>';
+        
+        practiceBtn.parentNode.insertBefore(btn, practiceBtn.nextSibling);
+        
+        // Thêm container cho danh sách bài kiểm tra
+        var treeContainer = document.getElementById('tree-directory-container');
+        if (treeContainer && !document.getElementById('exam-list-container')) {
+            var examDiv = document.createElement('div');
+            examDiv.id = 'exam-list-container';
+            examDiv.className = 'hidden p-2';
+            treeContainer.parentNode.insertBefore(examDiv, treeContainer.nextSibling);
+        }
+    }
+    
+    // Cập nhật switchMode để xử lý tab exam
+    function patchSwitchMode(){
+        if (window._examTabPatched) return;
+        window._examTabPatched = true;
+        
+        var orig = window.switchMode;
+        window.switchMode = function(mode){
+            // Cập nhật style nút tab
+            ['theory', 'practice', 'exam'].forEach(function(m){
+                var b = document.getElementById('tab-' + m);
+                if (!b) return;
+                if (m === mode) {
+                    b.className = b.className.replace(/bg-slate-100 text-slate-600( hover:bg-slate-200)?/, 'bg-blue-600 text-white shadow');
+                    if (!b.className.includes('bg-blue-600')) b.classList.add('bg-blue-600', 'text-white', 'shadow');
+                } else {
+                    b.className = b.className.replace(/bg-blue-600 text-white shadow/, 'bg-slate-100 text-slate-600 hover:bg-slate-200');
+                }
+            });
+            
+            // Ẩn/hiện container phù hợp
+            var treeContainer = document.getElementById('tree-directory-container');
+            var examContainer = document.getElementById('exam-list-container');
+            if (mode === 'exam') {
+                if (treeContainer) treeContainer.classList.add('hidden');
+                if (examContainer) {
+                    examContainer.classList.remove('hidden');
+                    setTimeout(loadMyExams, 100);
+                }
+            } else {
+                if (treeContainer) treeContainer.classList.remove('hidden');
+                if (examContainer) examContainer.classList.add('hidden');
+                if (typeof orig === 'function') orig(mode);
+            }
+        };
+    }
+    
+    // Inject khi DOM sẵn sàng
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function(){ 
+            setTimeout(function(){ injectExamTab(); patchSwitchMode(); }, 1500); 
+        });
+    } else {
+        setTimeout(function(){ injectExamTab(); patchSwitchMode(); }, 1500);
+    }
+
     
     // Load danh sách bài kiểm tra được giao cho HS hiện tại
     async function loadMyExams(){
