@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_EXAM_MANAGE_VERSION:20261011_1856
+// SAOBAY_TEACHER_EXAM_MANAGE_VERSION:20261011_1858
 // SAOBAY Teacher Exam Management - 2026-10-11
 // Quản lý đề kiểm tra của GV: danh sách đề đã tạo từ ma trận, nút "Giao cho HS"
 (function(){
@@ -223,16 +223,16 @@
     }
     
     // Admin duyệt đề -> đưa vào data bank
-    window.exbApproveExam = async function(teacherId, examId){
-        if (!confirm('Duyệt đề này và đưa vào data bank?')) return;
+    window.exbAddToBank = async function(teacherId, examId){
+        if (!confirm('Đưa đề này vào Bank chung?')) return;
         try {
             // Tải đề
             var examResp = await fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/data/teacher-exams/' + teacherId + '/' + examId + '.json');
             var exam = await examResp.json();
             
             // Cập nhật status
-            exam.status = 'approved';
-            exam.approved_at = new Date().toISOString();
+            exam.status = 'in_bank';
+            exam.in_bank_at = new Date().toISOString();
             
             // Lưu lại
             var saveResp = await fetch(GAS_URL, {
@@ -259,16 +259,16 @@
     var origRender = renderExamCard;
     renderExamCard = function(exam){
         var html = origRender(exam);
-        if (isAdmin() && exam.status !== 'approved') {
+        if (isAdmin() && exam.status !== 'in_bank') {
             // Thêm nút duyệt
             html = html.replace('</div></div>', 
-                '<button onclick="exbApproveExam(\'' + (exam.teacher_id || '') + '\',\'' + (exam.id || '') + '\')" class="text-xs bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg font-bold ml-1">'
-                + '<i class="fa-solid fa-check mr-1"></i>Duyệt</button></div></div>');
+                '<button onclick="exbAddToBank(\'' + (exam.teacher_id || '') + '\',\'' + (exam.id || '') + '\')" class="text-xs bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg font-bold ml-1">'
+                + '<i class="fa-solid fa-database mr-1"></i>Đưa vào Bank</button></div></div>');
         }
         // Hiện trạng thái
         var statusBadge = '';
-        if (exam.status === 'approved') statusBadge = '<span class="text-[10px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full font-bold ml-2">Đã duyệt</span>';
-        else if (exam.status === 'pending') statusBadge = '<span class="text-[10px] bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-bold ml-2">Chờ duyệt</span>';
+        if (exam.status === 'in_bank') statusBadge = '<span class="text-[10px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full font-bold ml-2">Đã vào Bank</span>';
+        else statusBadge = '<span class="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full font-bold ml-2">Đề riêng</span>';
         html = html.replace('</p>', statusBadge + '</p>');
         return html;
     };
