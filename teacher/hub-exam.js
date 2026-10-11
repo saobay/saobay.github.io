@@ -408,7 +408,7 @@
             } catch(e){ alert('Lỗi lưu đề: ' + (e.message || e)); }
         }
 
-        // Ca lop chung 1 de: boc 1 lan, xem truoc day du
+        // Ca lop chung 1 de: boc 1 lan, xem truoc day du + DAY THANG RA KHUNG SOAN (MXENG_V1)
         async function exbPickClassExam(){
             let pv = document.getElementById('exb-bank-preview');
             pv.innerHTML = '<p class="text-xs text-slate-400 italic"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Đang bốc đề...</p>';
@@ -423,8 +423,43 @@
                 exbClassExam = exbMatrixPick(exbBankPool, m);
                 if (!exbClassExam.length) throw new Error('Không bốc được câu nào — kiểm tra ma trận.');
                 exbClassExam._matrix = m;
-                exbRenderPicked(exbClassExam, 'Đề chung cả lớp (xem trước đầy đủ — bấm "Bốc đề & xem trước" để bốc bộ khác)');
+                exbRenderPicked(exbClassExam, 'Đề chung cả lớp (xem trước đầy đủ — không ưng thì bấm "🔄 Bốc lại đề" bên dưới khung soạn)');
+                // MXENG_V1: đẩy thẳng đề đã bốc ra khung soạn để GV xem/sửa ngay
+                try { exbPushClassExamToComposer(exbClassExam, m); } catch(e){ console.warn('push to composer:', e); }
             } catch(e){ pv.innerHTML = '<p class="text-xs text-rose-600">Lỗi: ' + String(e.message || e).replace(/</g,'&lt;') + '</p>'; }
+        }
+
+        // MXENG_V1: đẩy đề cả lớp đã bốc ra khung soạn (khung sửa) để GV xem/sửa ngay
+        function exbPushClassExamToComposer(picked, m){
+            let examJson = {
+                frozen_bank_exam: true,
+                shuffle_within_type: true,
+                time_limit: (m && m.time_limit) || 0,
+                scoring: (m && m.scores) || {},
+                meta: { title: (typeof exbBankVal === 'function' ? exbBankVal('exbb-title') : '') || 'Đề chung cả lớp' },
+                sets: [{ name: 'Đề', questions: picked.map(function(q){
+                    let o = { type: q.type, level: q.level, chapter: q.chapter, q: q.q, options: q.options || [],
+                             statements: q.statements || [], answer: q.answer, explain: q.explain || '' };
+                    if (q.img) o.img = q.img;
+                    return o;
+                }) }]
+            };
+            let frag = '<div class="saobay-exam10">\n'
+                + '<script type="application/json" class="saobay-exam10-data">\n' + JSON.stringify(examJson) + '\n<\/script>\n</div>';
+            let ta = document.getElementById('item-content');
+            if (!ta){ return; }
+            ta.value = frag;
+            try { if (typeof syncVisualToItemContent === 'function') syncVisualToItemContent(); } catch(e){}
+            if (typeof exbRenderExamPreview === 'function'){ try { exbRenderExamPreview(picked, examJson); } catch(e){} }
+            try { if (typeof setEditorMode === 'function') setEditorMode('visual'); } catch(e){}
+            let pw = document.getElementById('preview-wrapper');
+            if (pw) pw.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (typeof showToast === 'function'){ try { showToast('Đã đẩy ' + picked.length + ' câu ra khung soạn. Không ưng thì bấm "🔄 Bốc lại đề" bên dưới.', 'success'); } catch(e){} }
+        }
+
+        // MXENG_V1: nút "Bốc lại đề" dưới khung soạn — bốc bộ khác nếu GV không ưng
+        async function exbRepickExam(){
+            if (typeof exbPickClassExam === 'function') { await exbPickClassExam(); }
         }
 
         // FIX 2026-10-10: wrapper goi bankPushFile co timeout rieng (phong khi AbortController khong kha dung)
