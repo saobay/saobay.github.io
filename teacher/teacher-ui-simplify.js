@@ -1,3 +1,4 @@
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_1820
 // SAOBAY Teacher Hub UI Simplify - 2026-10-11
 // Ẩn cây thư mục bên trái, chọn thư mục qua popup tại "Vị trí lưu trữ"
 (function(){
