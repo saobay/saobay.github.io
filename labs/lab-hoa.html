@@ -532,11 +532,15 @@ window.__refits = window.__refits || [];
 
   // ---------- Bình thí nghiệm ----------
   var _vid = 0;
+  function vesselCap(type){
+    if (type === 'tube') return 1;
+    return 5;
+  }
   function makeVessel(type, chemKey, vol){
     var c = CHEMS[chemKey] || CHEMS.HCl;
     return {
       id: ++_vid, type: type, chemKey: chemKey,
-      vol: vol, volShown: vol,
+      vol: vol, volShown: vol, cap: vesselCap(type),
       contents: (chemKey && vol > 0) ? [{k: chemKey, v: vol}] : [],
       bubbles: [], fizz: 0, sel: false,
       tilt: 0, tiltDir: 1, swirl: Math.random()*6.28,
@@ -546,7 +550,8 @@ window.__refits = window.__refits || [];
   }
   function vesselColor(v){
     if (!v || !v.contents) return {color:'#1e293b', glow:'#334155'};
-    if (v.indColor) return {color: v.indColor, glow: v.indColor};
+    // Đổi màu từ từ: dùng màu đang hiển thị (dispColor) thay vì nhảy ngay sang indColor
+    if (v.dispColor) return {color: v.dispColor, glow: v.dispColor};
     // Màu pha trộn theo thể tích từng chất
     var tot = 0, r = 0, g = 0, b = 0, gr = 0, gg = 0, gb = 0;
     for (var i=0;i<v.contents.length;i++){
@@ -1686,16 +1691,24 @@ function drawMiniFlask(ctx, x, y, col){
   }
   function startPour(a, b){
     if (!a || !b || a === b || pour) return;
-    // POUR_ML: ô nhập ml (bình 100ml); để trống = mặc định 42ml
-    var amt;
+    var capA = a.cap || 1, capB = b.cap || 1;
+    // Tính theo đơn vị tuyệt đối: 1 ống nghiệm = 1 đơn vị
+    var absA = (a.vol || 0) * capA; // lượng tuyệt đối trong nguồn
+    var absB = (b.vol || 0) * capB; // lượng tuyệt đối trong đích
+    var spaceB = capB - absB; // chỗ trống trong đích
+    // POUR_ML: ô nhập ml; để trống = mặc định 42% bình nguồn
+    var amtAbs;
     try {
       var _mlEl = document.getElementById('pour-ml');
       var _ml = _mlEl ? parseFloat(_mlEl.value) : NaN;
-      if (!isNaN(_ml) && _ml > 0) amt = Math.min(_ml/100, a.vol, 1 - b.vol);
-      else amt = Math.min(0.42, a.vol, 1 - b.vol);
-    } catch(_mle){ amt = Math.min(0.42, a.vol, 1 - b.vol); }
-    if (amt <= 0.01){ flashMsg(b, 'Đã đầy!'); return; }
-    pour = {a:a, b:b, t:0, dur:4.5, amt:amt, a0:a.vol, b0:b.vol, // SLOW_POUR: đổ từ từ ~4.5s
+      if (!isNaN(_ml) && _ml > 0) amtAbs = Math.min(_ml/100 * capA, absA, spaceB);
+      else amtAbs = Math.min(0.42 * capA, absA, spaceB);
+    } catch(_mle){ amtAbs = Math.min(0.42 * capA, absA, spaceB); }
+    if (amtAbs <= 0.01){ flashMsg(b, 'Đã đầy!'); return; }
+    // Chuyển về fraction cho animation
+    var amtA = amtAbs / capA; // fraction mất đi ở nguồn
+    var amtB = amtAbs / capB; // fraction tăng thêm ở đích
+    pour = {a:a, b:b, t:0, dur:4.5, amt:amtA, amtB:amtB, a0:a.vol, b0:b.vol,
             colA: vesselColor(a)};
     a.tiltDir = (b.x >= a.x) ? 1 : -1;
     var _sb = document.getElementById('pour-stop'); if (_sb) _sb.classList.remove('hidden');
@@ -1707,12 +1720,13 @@ function drawMiniFlask(ctx, x, y, col){
     var _sb3 = document.getElementById('pour-stop'); if (_sb3) _sb3.classList.add('hidden');
     var pr = Math.min(1, p.t / p.dur);
     var e = pr<0.5 ? 2*pr*pr : 1-Math.pow(-2*pr+2,2)/2;
-    var transferred = p.amt * e;
+    var transferredA = p.amt * e;
+    var transferredB = (p.amtB || p.amt) * e;
     p.a.carried = false; p.a.returning = true; p.a.tilt = 0;
-    p.a.vol = +(p.a0 - transferred).toFixed(3);
-    p.b.vol = +(p.b0 + transferred).toFixed(3);
-    if (transferred > 0.005 && p.a.chemKey){
-      p.b.contents.push({k: p.a.chemKey, v: transferred});
+    p.a.vol = +(p.a0 - transferredA).toFixed(3);
+    p.b.vol = +(p.b0 + transferredB).toFixed(3);
+    if (transferredB > 0.005 && p.a.chemKey){
+      p.b.contents.push({k: p.a.chemKey, v: transferredB});
       p.a.contents = [{k: p.a.chemKey, v: p.a.vol}];
       p.a.chemKey = p.a.contents[0].k;
       checkReaction(p.b, p.a.chemKey);
@@ -1726,9 +1740,9 @@ function drawMiniFlask(ctx, x, y, col){
     var _sb2 = document.getElementById('pour-stop'); if (_sb2) _sb2.classList.add('hidden');
     p.a.carried = false; p.a.returning = true;
     p.a.tilt = 0; p.a.vol = +(p.a0 - p.amt).toFixed(3);
-    p.b.vol = +(p.b0 + p.amt).toFixed(3);
+    p.b.vol = +(p.b0 + (p.amtB || p.amt)).toFixed(3);
     // Gộp chất đã rót vào bình đích
-    p.b.contents.push({k: p.a.chemKey, v: p.amt});
+    p.b.contents.push({k: p.a.chemKey, v: (p.amtB || p.amt)});
     p.a.contents = [{k: p.a.chemKey, v: p.a.vol}];
     p.a.chemKey = p.a.contents[0].k;
     if (p.b.vol <= 0.001) p.b.contents = [];
@@ -1753,6 +1767,34 @@ function drawMiniFlask(ctx, x, y, col){
     if (hasPhenol && base && !acid) v.indColor = '#f472b6';
     else if (hasLitmus && acid && !base) v.indColor = '#ef4444';
     else if (hasLitmus && base && !acid) v.indColor = '#3b82f6';
+    // Khởi tạo màu hiển thị nếu chưa có (để chuyển dần từ màu hiện tại)
+    if (v.indColor && !v.dispColor){
+      // Lấy màu pha trộn hiện tại làm điểm bắt đầu
+      var tot = 0, r = 0, g = 0, b = 0;
+      for (var j=0;j<v.contents.length;j++){
+        var c = CHEMS[v.contents[j].k]; if(!c) continue;
+        var vv = v.contents[j].v; tot += vv;
+        var cc = hexRgb(c.color);
+        r+=cc[0]*vv; g+=cc[1]*vv; b+=cc[2]*vv;
+      }
+      v.dispColor = tot > 0 ? rgbStr(r/tot,g/tot,b/tot) : v.indColor;
+    }
+    if (!v.indColor) v.dispColor = null;
+  }
+  // Chuyển màu dần dần mỗi frame (từ dispColor về indColor)
+  function updateColorTransition(v){
+    if (!v.indColor || !v.dispColor || v.indColor === v.dispColor) return;
+    var cur = hexRgb(v.dispColor), tgt = hexRgb(v.indColor);
+    var speed = 0.08; // tốc độ chuyển (càng nhỏ càng chậm, càng tự nhiên)
+    var r = cur[0] + (tgt[0]-cur[0])*speed;
+    var g = cur[1] + (tgt[1]-cur[1])*speed;
+    var b = cur[2] + (tgt[2]-cur[2])*speed;
+    // Nếu gần đủ thì chốt luôn
+    if (Math.abs(tgt[0]-r)<2 && Math.abs(tgt[1]-g)<2 && Math.abs(tgt[2]-b)<2){
+      v.dispColor = v.indColor;
+    } else {
+      v.dispColor = rgbStr(r,g,b);
+    }
   }
   function showPrecipEq(){
     document.getElementById('mix-result').classList.remove('hidden');
@@ -2301,6 +2343,7 @@ function layout(){
         ctx.beginPath(); ctx.ellipse(v.x, G.h-44, v.w*0.55, 9, 0, 0, 7); ctx.fill();
       }
     });
+    vessels.forEach(function(v){ updateColorTransition(v); });
     vessels.forEach(function(v){ drawVessel(ctx, v, t); });
     drawChemistArm(ctx, t);
     // chữ flash (vd: "Đã đầy!")
