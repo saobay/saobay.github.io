@@ -509,6 +509,28 @@
                     + '<thead><tr class="bg-slate-100 text-slate-600"><th class="px-2 py-1.5 text-left">Vùng kiến thức</th><th class="px-2 py-1.5 text-left">Trong bank</th><th class="px-2 py-1.5 text-left">Số câu lấy</th></tr></thead>'
                     + '<tbody>' + rows + '</tbody></table>'
                     + '<p class="text-[10px] text-slate-400 mt-1">Chỉnh "Số câu lấy" mỗi chương cho đúng ý đồ ma trận.</p>';
+                // 2026-10-11: tu dong boc cau theo ti le ma tran va hien ra khung nhin
+                try {
+                    let mAuto = exbGetMatrix();
+                    let pickedAuto = exbMatrixPick(exbBankPool, mAuto);
+                    if (pickedAuto.length && typeof exbRenderExamPreview === 'function'){
+                        let examJsonAuto = { time_limit: mAuto.time_limit || 0, sets: [{ name: 'Đề', questions: pickedAuto.map(function(q){
+                            let o = { type: q.type, level: q.level, chapter: q.chapter, q: q.q, options: q.options || [],
+                                     statements: q.statements || [], answer: q.answer, explain: q.explain || '' };
+                            if (q.img) o.img = q.img;
+                            return o;
+                        }) }] };
+                        // Luu JSON vao khung soan
+                        let taAuto = document.getElementById('item-content');
+                        if (taAuto){
+                            taAuto.value = '<div class="saobay-exam10">\n<script type="application/json" class="saobay-exam10-data">\n'
+                                + JSON.stringify(examJsonAuto) + '\n<\/script>\n</div>';
+                        }
+                        exbRenderExamPreview(pickedAuto, examJsonAuto);
+                        try { if (typeof setEditorMode === 'function') setEditorMode('visual'); } catch(e){}
+                        if (typeof showToast === 'function') showToast('Đã bốc ' + pickedAuto.length + ' câu theo ma trận ra khung nhìn.', 'success');
+                    }
+                } catch(eAuto){ console.warn('Auto pick:', eAuto); }
             } catch(e){
                 let msg = String(e.message || e);
                 if (msg === 'no-token') msg = 'Chưa có token GitHub — hãy đăng nhập GitHub rồi đẩy 1 bài bất kỳ bằng form chính trước (để lưu token), sau đó bấm lại "Tải ma trận".';
