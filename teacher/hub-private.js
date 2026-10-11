@@ -100,7 +100,7 @@
                     + '<div class="flex items-center justify-between mb-2">'
                     + '<div><p class="font-bold text-sm text-slate-800">' + escHtml(c.name) + tag
                     + ' <button onclick="pvRenameClass(\'' + c.id + '\')" class="text-[11px] text-slate-400 hover:text-amber-600 font-bold" title="Đổi tên lớp"><i class="fa-solid fa-pen"></i></button></p>'
-                    + '<p class="text-[11px] text-slate-500">' + ((typeof pvIsAdmin === 'function' && pvIsAdmin()) ? 'GV: <b class="text-slate-700">' + escHtml(c.teacher_name || c.teacher_id || '') + '</b> · ' : '') + 'Mã vào lớp: <b class="text-violet-700 font-mono">' + escHtml(c.join_code) + '</b> · ' + nS + ' học sinh</p></div>'
+                    + '<p class="text-[11px] text-slate-500">' + ((typeof pvIsAdmin === 'function' && pvIsAdmin()) ? 'GV: <b class="text-slate-700">' + escHtml(c.teacher_name || c.teacher_id || '') + '</b> · ' : '') + 'Mã vào lớp: <b class="text-violet-700 font-mono">' + escHtml(c.join_code) + '</b> <button onclick="pvCopyCode(\'' + c.join_code + '\',this)" class="text-[10px] text-violet-600 hover:text-violet-800 font-bold border border-violet-300 hover:bg-violet-50 px-1.5 py-0.5 rounded" title="Copy mã lớp"><i class="fa-solid fa-copy mr-0.5"></i>Copy</button> · ' + nS + ' học sinh</p></div>'
                     + '<div class="flex gap-1.5 flex-wrap justify-end">'
                     + '<button onclick="pvSelectFolder(\'' + c.id + '\')" class="text-[11px] font-bold text-white bg-violet-600 hover:bg-violet-700 px-2.5 py-1.5 rounded-lg" title="Chọn thư mục này để đẩy bài"><i class="fa-solid fa-folder-open mr-1"></i>Đẩy bài vào lớp</button>'
                     + '<button onclick="pvLoadClassStats(\'' + c.id + '\')" class="text-[11px] font-bold text-emerald-700 border border-emerald-300 hover:bg-emerald-50 px-2.5 py-1.5 rounded-lg" title="Xem thống kê điểm HS trong lớp"><i class="fa-solid fa-chart-line mr-1"></i>Thống kê</button>'
@@ -579,6 +579,12 @@ function pvBuildLookup(db){
     });
     Object.keys(db.passwords || {}).forEach(function(id){ if (!byId[id]) byId[id] = {id: id, name: '', cls: '', free: false}; });
     return {byId: byId, byPhone: byPhone};
+}
+function pvCopyCode(code, btn){
+    var done = function(){ if(btn){ var o=btn.innerHTML; btn.innerHTML='<i class="fa-solid fa-check mr-0.5"></i>Đã copy'; setTimeout(function(){btn.innerHTML=o;},1500); } };
+    if (navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(code).then(done).catch(function(){fallbackCopy();}); }
+    else fallbackCopy();
+    function fallbackCopy(){ var t=document.createElement('textarea'); t.value=code; document.body.appendChild(t); t.select(); try{document.execCommand('copy');}catch(e){} document.body.removeChild(t); done(); }
 }
 function pvLookupStudent(lk, code){
     if (!code) return null;
