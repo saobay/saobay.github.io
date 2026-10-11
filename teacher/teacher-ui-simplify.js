@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_1847
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_1849
 // SAOBAY Teacher Hub UI Simplify - 2026-10-11
 // Ẩn cây thư mục bên trái, chọn thư mục qua popup tại "Vị trí lưu trữ"
 (function(){
@@ -21,9 +21,18 @@
             #main-content {
                 padding-left: 24px !important;
                 padding-right: 24px !important;
-                max-width: 1400px !important;
+                max-width: 1280px !important;
                 margin-left: auto !important;
                 margin-right: auto !important;
+            }
+            /* Đồng bộ lề với trang chủ */
+            body > div.min-h-screen > div,
+            .teacher-hub-container {
+                max-width: 1280px !important;
+                margin-left: auto !important;
+                margin-right: auto !important;
+                padding-left: 16px !important;
+                padding-right: 16px !important;
             }
             @media (max-width: 768px) {
                 body > div.flex > div:last-child,
