@@ -187,10 +187,11 @@
             var examJson = opts.examJson || {};
             var teacherId = String(opts.teacherId || '').trim();
             var teacherName = String(opts.teacherName || '').trim();
+            var examStatus = String(opts.status || '').trim() || 'scheduled'; /* SCHED_LATER_V1: draft|scheduled */
 
             if (!title) throw new Error('Thiếu tiêu đề đề kiểm tra.');
             if (!classId) throw new Error('Chưa chọn lớp kiểm tra.');
-            if (!examTime) throw new Error('Chưa chọn giờ kiểm tra.');
+            if (examStatus !== 'draft' && !examTime) throw new Error('Chưa chọn giờ kiểm tra.');
             if (!durationMin || durationMin <= 0) throw new Error('Thời lượng làm bài không hợp lệ.');
             if (!examJson.sets || !examJson.sets.length) throw new Error('Đề thi chưa có bộ câu hỏi (sets trống).');
 
@@ -221,7 +222,7 @@
                 examTime: examTime,
                 durationMin: durationMin,
                 file: PENDING_DIR + id + '.json',
-                status: 'scheduled',
+                status: examStatus, /* SCHED_LATER_V1 */
                 teacherId: teacherId,
                 teacherName: teacherName,
                 createdAt: new Date().toISOString()
@@ -231,7 +232,8 @@
                 'Len lich kiem tra: ' + title + ' (' + className + ')', 'De kiem tra ' + title);
             await writeSchedule(sched);
 
-            notify('Đã lên lịch kiểm tra "' + title + '" cho lớp ' + className + '.');
+            if (examStatus === 'draft') notify('Đã lưu đề "' + title + '" ở trạng thái CHUẨN BỊ. Bấm "Đưa đề cho HS" khi muốn giao.');
+            else notify('Đã lên lịch kiểm tra "' + title + '" cho lớp ' + className + '.');
             return { ok: true, id: id };
         } catch(e){
             notify('Không lưu được lịch kiểm tra: ' + (e.message || e), true);
@@ -247,7 +249,7 @@
             var exams = (sched && Array.isArray(sched.exams)) ? sched.exams : [];
             return exams.filter(function(x){
                 if (!x) return false;
-                if (x.status !== 'scheduled' && x.status !== 'active') return false;
+                if (x.status !== 'scheduled' && x.status !== 'active' && x.status !== 'published') return false; /* SCHED_LATER_V1 */
                 return String(x.classId || '') === key || String(x.className || '') === key;
             });
         } catch(e){ return []; }
@@ -344,6 +346,27 @@
         }
     }
 
+    // ============ ĐƯA ĐỀ CHO HS (SCHED_LATER_V1): draft → published, HS thấy ngay ============
+    async function publishDraftExam(examId){
+        try {
+            examId = String(examId || '').trim();
+            if (!examId) throw new Error('Thiếu mã đề.');
+            var sched = await loadSchedule();
+            var ex = (sched.exams || []).find(function(x){ return x && x.id === examId; });
+            if (!ex) throw new Error('Không tìm thấy đề ' + examId + '.');
+            if (!(await canEditExam(ex))){ throw new Error('Bạn không có quyền giao đề này.'); }
+            if (ex.status === 'published'){ notify('Đề này đã giao cho HS rồi.'); return { ok: true }; }
+            ex.status = 'published';
+            ex.publishedAt = new Date().toISOString();
+            await writeSchedule(sched);
+            notify('Đã đưa đề "' + ex.title + '" cho HS lớp ' + (ex.className || '') + '.');
+            return { ok: true };
+        } catch(e){
+            notify('Không giao được đề: ' + (e.message || e), true);
+            return { ok: false, error: String((e && e.message) || e) };
+        }
+    }
+
     // ============ XÓA ĐỀ KIỂM TRA (chỉ admin + GV thẩm định) ============
     async function deleteScheduledExam(examId){
         try {
@@ -392,27 +415,35 @@
                 var ex = exams[i];
                 var canEdit = isAdm || reviewer || (String(ex.teacherId || '') === uid);
                 var canDel = isAdm || reviewer;
+                var isDraft = (ex.status === 'draft'); /* SCHED_LATER_V1 */
+                var isPublished = (ex.status === 'published');
                 var examDate = '';
-                try { examDate = new Date(ex.examTime).toLocaleString('vi-VN'); } catch(e){ examDate = ex.examTime || ''; }
-                // Đếm ngược auto-merge
+                try { examDate = ex.examTime ? new Date(ex.examTime).toLocaleString('vi-VN') : ''; } catch(e){ examDate = ex.examTime || ''; }
+                // Đếm ngược auto-merge (chỉ cho đề đã lên lịch)
                 var autoInfo = '';
-                try {
-                    var examMs = new Date(ex.examTime).getTime();
-                    var deadline = examMs + AUTO_MERGE_DAYS * 24 * 60 * 60 * 1000;
-                    var daysLeft = Math.ceil((deadline - Date.now()) / (24 * 60 * 60 * 1000));
-                    if (daysLeft > 0) autoInfo = '<span class="text-[10px] text-amber-700">⏳ Tự vào bank sau ' + daysLeft + ' ngày</span>';
-                    else autoInfo = '<span class="text-[10px] text-rose-700">⚠️ Quá hạn 10 ngày — sẽ tự vào bank</span>';
-                } catch(e){}
+                if (!isDraft && !isPublished){
+                    try {
+                        var examMs = new Date(ex.examTime).getTime();
+                        var deadline = examMs + AUTO_MERGE_DAYS * 24 * 60 * 60 * 1000;
+                        var daysLeft = Math.ceil((deadline - Date.now()) / (24 * 60 * 60 * 1000));
+                        if (daysLeft > 0) autoInfo = '<span class="text-[10px] text-amber-700">⏳ Tự vào bank sau ' + daysLeft + ' ngày</span>';
+                        else autoInfo = '<span class="text-[10px] text-rose-700">⚠️ Quá hạn 10 ngày — sẽ tự vào bank</span>';
+                    } catch(e){}
+                }
                 html += '<div class="border border-rose-200 rounded-lg p-2 mb-2 bg-white">'
                     + '<div class="flex items-start justify-between gap-2">'
                     + '<div class="min-w-0">'
                     + '<p class="text-xs font-black text-slate-800 truncate">' + escapeHtml(ex.title) + '</p>'
                     + '<p class="text-[10px] text-slate-500">' + escapeHtml(ex.subject || '') + ' • ' + escapeHtml(ex.grade || '')
                     + ' • Lớp: ' + escapeHtml(ex.className || '') + '</p>'
-                    + '<p class="text-[10px] text-slate-500">🕐 ' + escapeHtml(examDate) + ' • GV: ' + escapeHtml(ex.teacherName || '') + '</p>'
+                    + '<p class="text-[10px] text-slate-500">' + (isDraft ? '📝 <b class="text-amber-700">CHUẨN BỊ</b> — chưa giao cho HS' : (isPublished ? '✅ <b class="text-emerald-700">ĐÃ GIAO CHO HS</b>' : '🕐 ' + escapeHtml(examDate))) + ' • GV: ' + escapeHtml(ex.teacherName || '') + '</p>'
                     + '<p class="mt-0.5">' + autoInfo + '</p>'
                     + '</div>'
                     + '<div class="flex flex-col gap-1 shrink-0">';
+                if (canEdit && isDraft){ /* SCHED_LATER_V1: nút đưa đề cho HS */
+                    html += '<button onclick="ExamSched.publishDraftExam(\'' + ex.id + '\').then(function(){ExamSched.renderExamManageList(\'' + containerId + '\');})"'
+                        + ' class="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-[10px] font-bold rounded">📤 Đưa đề cho HS</button>';
+                }
                 if (canEdit){
                     html += '<button onclick="ExamSched.uiMergeExam(\'' + ex.id + '\')"'
                         + ' class="px-2 py-1 bg-emerald-600 hover:bg-emerald-700 text-white text-[10px] font-bold rounded">✅ Hoàn thành & đưa vào bank</button>';
@@ -459,6 +490,7 @@
         mergeExamToBank: mergeExamToBank,
         markExamDone: markExamDone,
         deleteScheduledExam: deleteScheduledExam,
+        publishDraftExam: publishDraftExam, /* SCHED_LATER_V1 */
         renderExamManageList: renderExamManageList,
         autoMergeCheck: autoMergeCheck,
         canEditExam: canEditExam,
