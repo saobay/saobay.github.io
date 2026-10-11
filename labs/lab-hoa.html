@@ -2054,7 +2054,7 @@ function drawMiniFlask(ctx, x, y, col){
     var onClose = v && v.closeBtn && (function(){var dx=p.x-v.closeBtn.x,dy=p.y-v.closeBtn.y;return dx*dx+dy*dy<17*17;})();
     if (pipetOn && v && !onClose){ addDrop(v); return; }
     if (v && !onClose && v.type !== 'tube'){
-      var _isAcid = hasType(v,'acid'), _isBase = hasType(v,'base'), _isFuel = hasType(v,'fuel'), _isInd = hasType(v,'ind');
+      var _isFuel = hasType(v,'fuel');
       if (_isFuel){
         // BUGFIX4: toggle đèn cồn - đang đun thì bấm lại để tắt/bỏ ra
         if (typeof heatDemo !== 'undefined' && heatDemo && heatDemo.tube){
@@ -2065,12 +2065,48 @@ function drawMiniFlask(ctx, x, y, col){
         }
         demoHeatTube(v); return;
       }
-      if (_isAcid || _isBase || _isInd){ demoPourToTube(v); return; }
+      // POUR_MANUAL: bấm chọn nguồn đổ -> bấm bình đích -> đổ đúng thứ tự
+      // (không tự động đổ vào ống nghiệm nữa)
     }
     if (v){
-      if (selV && selV !== v){ startPour(selV, v); selV.sel = false; selV = null; }
-      else { if (selV) selV.sel = false; selV = (selV===v) ? null : v; if (selV) selV.sel = true; }
-    } else { if (selV){ selV.sel = false; selV = null; } }
+      if (selV && selV !== v){
+        // Đã chọn nguồn, giờ chọn đích -> đổ từ nguồn sang đích
+        var srcV = selV, dstV = v;
+        selV.sel = false; selV = null;
+        // Kiểm tra nguồn có dung dịch không
+        if ((srcV.vol || 0) < 0.03){
+          flashMsg(srcV, 'Bình nguồn hết rồi!');
+          return;
+        }
+        if ((dstV.vol || 0) > 0.97){
+          flashMsg(dstV, 'Bình đích đã đầy!');
+          return;
+        }
+        startPour(srcV, dstV);
+        flashMsg(dstV, 'Đang đổ...');
+      }
+      else {
+        // Chọn nguồn đổ (bấm lần 1) hoặc bỏ chọn (bấm lại)
+        if (selV) selV.sel = false;
+        if (selV === v){
+          selV = null;
+          flashMsg(v, 'Đã bỏ chọn');
+        } else {
+          selV = v;
+          selV.sel = true;
+          // Gợi ý rõ ràng cho người dùng
+          var chemName = '';
+          try {
+            if (v.contents && v.contents.length){
+              chemName = v.contents.map(function(c){ return c.name || c.key || ''; }).filter(Boolean).join('+');
+            }
+          } catch(eNm){}
+          flashMsg(v, chemName ? ('Đã chọn: ' + chemName + ' - bấm bình đích để đổ') : 'Đã chọn bình nguồn - bấm bình đích để đổ');
+        }
+      }
+    } else {
+      if (selV){ selV.sel = false; selV = null; }
+    }
   });
   cv.addEventListener('contextmenu', function(e){ e.preventDefault(); }); // LONGPRESS_DEL: chặn menu khi bấm giữ
   cv.addEventListener('pointercancel', function(){
