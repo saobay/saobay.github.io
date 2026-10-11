@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_1835
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_1847
 // SAOBAY Teacher Hub UI Simplify - 2026-10-11
 // Ẩn cây thư mục bên trái, chọn thư mục qua popup tại "Vị trí lưu trữ"
 (function(){
@@ -143,4 +143,198 @@
     
     // Expose để gọi lại nếu cần
     window.saobaySimplifyUI = init;
+
+// 2026-10-11: Thêm tab "Tạo Đề từ AI" và đổi tên "Đề kiểm tra theo ma trận" -> "Tạo đề thi từ Bank"
+(function(){
+    function initAITab(){
+        // 1. Đổi tên nút bank
+        var bankBtn = document.getElementById('push-mode-bank');
+        if (bankBtn) {
+            var span = bankBtn.querySelector('span[data-ui-label="bank"]');
+            if (span) span.textContent = 'Tạo đề thi từ Bank';
+        }
+        
+        // 2. Thêm nút AI sau nút direct
+        var directBtn = document.getElementById('push-mode-direct');
+        if (directBtn && !document.getElementById('push-mode-ai')) {
+            var aiBtn = document.createElement('button');
+            aiBtn.type = 'button';
+            aiBtn.id = 'push-mode-ai';
+            aiBtn.onclick = function(){ switchPushMode('ai'); };
+            aiBtn.className = 'flex-1 px-3 py-2.5 rounded-lg text-xs font-bold transition flex items-center justify-center bg-slate-100 text-slate-600 hover:bg-slate-200';
+            aiBtn.innerHTML = '<i class="fa-solid fa-robot mr-2"></i> <span>Tạo Đề từ AI</span>';
+            directBtn.parentNode.insertBefore(aiBtn, directBtn.nextSibling);
+        }
+        
+        // 3. Tạo nội dung tab AI (ẩn mặc định)
+        if (!document.getElementById('push-ai-panel')) {
+            var panel = document.createElement('div');
+            panel.id = 'push-ai-panel';
+            panel.className = 'hidden space-y-4';
+            panel.innerHTML = `
+                <div class="bg-purple-50 border border-purple-200 rounded-xl p-4">
+                    <h3 class="font-bold text-purple-800 mb-3"><i class="fa-solid fa-robot mr-2"></i>Tạo đề từ AI (tự nhập thông tin)</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-3">
+                        <div><label class="text-xs font-bold text-slate-600">Khối</label>
+                            <input id="ai-grade" type="text" placeholder="vd: 10" class="w-full border rounded-lg px-3 py-2 text-sm"></div>
+                        <div><label class="text-xs font-bold text-slate-600">Môn</label>
+                            <input id="ai-subject" type="text" placeholder="vd: Toán" class="w-full border rounded-lg px-3 py-2 text-sm"></div>
+                        <div><label class="text-xs font-bold text-slate-600">Bài / Phạm vi</label>
+                            <input id="ai-lessons" type="text" placeholder="vd: Bài 1-5" class="w-full border rounded-lg px-3 py-2 text-sm"></div>
+                        <div><label class="text-xs font-bold text-slate-600">Thời gian (phút)</label>
+                            <input id="ai-time" type="number" value="45" class="w-full border rounded-lg px-3 py-2 text-sm"></div>
+                    </div>
+                    <div class="mb-3"><label class="text-xs font-bold text-slate-600">Nội dung kiến thức</label>
+                        <textarea id="ai-knowledge" rows="3" placeholder="Mô tả kiến thức cần kiểm tra..." class="w-full border rounded-lg px-3 py-2 text-sm"></textarea></div>
+                    
+                    <h4 class="font-bold text-sm text-slate-700 mb-2">Ma trận đề</h4>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mb-3">
+                        <div class="bg-blue-50 rounded-lg p-2"><label class="text-xs font-bold text-blue-700">Trắc nghiệm</label>
+                            <div class="flex gap-1 mt-1"><input id="ai-n-mcq" type="number" value="8" class="w-1/2 border rounded px-2 py-1 text-sm text-center"><input id="ai-p-mcq" type="number" value="0.25" step="0.25" class="w-1/2 border rounded px-2 py-1 text-sm text-center"></div>
+                            <p class="text-[10px] text-slate-500 mt-0.5">số câu • điểm/câu</p></div>
+                        <div class="bg-amber-50 rounded-lg p-2"><label class="text-xs font-bold text-amber-700">Đúng/Sai</label>
+                            <div class="flex gap-1 mt-1"><input id="ai-n-tf" type="number" value="2" class="w-1/2 border rounded px-2 py-1 text-sm text-center"><input id="ai-p-tf" type="number" value="1" class="w-1/2 border rounded px-2 py-1 text-sm text-center"></div>
+                            <p class="text-[10px] text-slate-500 mt-0.5">số câu • điểm/câu</p></div>
+                        <div class="bg-emerald-50 rounded-lg p-2"><label class="text-xs font-bold text-emerald-700">Trả lời ngắn</label>
+                            <div class="flex gap-1 mt-1"><input id="ai-n-short" type="number" value="0" class="w-1/2 border rounded px-2 py-1 text-sm text-center"><input id="ai-p-short" type="number" value="0.5" step="0.25" class="w-1/2 border rounded px-2 py-1 text-sm text-center"></div>
+                            <p class="text-[10px] text-slate-500 mt-0.5">số câu • điểm/câu</p></div>
+                        <div class="bg-violet-50 rounded-lg p-2"><label class="text-xs font-bold text-violet-700">Tự luận</label>
+                            <div class="flex gap-1 mt-1"><input id="ai-n-essay" type="number" value="0" class="w-full border rounded px-2 py-1 text-sm text-center"></div>
+                            <p class="text-[10px] text-slate-500 mt-0.5">số câu (GV chấm tay)</p></div>
+                    </div>
+                    <div class="mb-3"><label class="text-xs font-bold text-slate-600">Tỉ lệ mức độ % (NB / TH / VD / VDC)</label>
+                        <div class="flex gap-2"><input id="ai-lv-nb" type="number" value="40" class="w-1/4 border rounded px-2 py-1 text-sm text-center"><input id="ai-lv-th" type="number" value="30" class="w-1/4 border rounded px-2 py-1 text-sm text-center"><input id="ai-lv-vd" type="number" value="20" class="w-1/4 border rounded px-2 py-1 text-sm text-center"><input id="ai-lv-vdc" type="number" value="10" class="w-1/4 border rounded px-2 py-1 text-sm text-center"></div></div>
+                    
+                    <div class="flex gap-2">
+                        <button onclick="aiGenPromptWeb()" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold px-4 py-2.5 rounded-xl"><i class="fa-solid fa-copy mr-2"></i>Prompt tạo đề đẩy Web</button>
+                        <button onclick="aiGenPromptMatrix()" class="flex-1 bg-purple-600 hover:bg-purple-700 text-white text-sm font-bold px-4 py-2.5 rounded-xl"><i class="fa-solid fa-table mr-2"></i>Prompt ma trận đặc tả (gửi NotebookLM)</button>
+                    </div>
+                    <div id="ai-prompt-output" class="hidden mt-3"><label class="text-xs font-bold text-slate-600">Prompt (bấm để copy):</label>
+                        <textarea id="ai-prompt-text" rows="8" readonly class="w-full border rounded-lg px-3 py-2 text-xs font-mono mt-1"></textarea>
+                        <button onclick="navigator.clipboard.writeText(document.getElementById('ai-prompt-text').value);alert('Đã copy!')" class="mt-2 bg-slate-600 hover:bg-slate-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg">📋 Copy</button></div>
+                </div>`;
+            
+            // Chèn sau panel bank
+            var bankPanel = document.querySelector('[id*="bank"]');
+            var refNode = document.getElementById('push-mode-bank');
+            if (refNode) {
+                var container = refNode.closest('div').parentNode;
+                container.appendChild(panel);
+            }
+        }
+        
+        // 4. Hook switchPushMode để xử lý tab AI
+        var origSwitch = window.switchPushMode;
+        if (typeof origSwitch === 'function' && !window._aiTabHooked) {
+            window._aiTabHooked = true;
+            window.switchPushMode = function(mode){
+                // Cập nhật style nút
+                ['theory','exercise','bank','direct','ai'].forEach(function(m){
+                    var b = document.getElementById('push-mode-' + m);
+                    if (!b) return;
+                    if (m === mode) {
+                        b.className = 'flex-1 px-3 py-2.5 rounded-lg text-xs font-bold transition flex items-center justify-center bg-blue-700 text-white shadow';
+                    } else {
+                        b.className = 'flex-1 px-3 py-2.5 rounded-lg text-xs font-bold transition flex items-center justify-center bg-slate-100 text-slate-600 hover:bg-slate-200';
+                    }
+                });
+                // Ẩn/hiện panel AI
+                var aiPanel = document.getElementById('push-ai-panel');
+                if (aiPanel) aiPanel.classList.toggle('hidden', mode !== 'ai');
+                
+                if (mode === 'ai') {
+                    // Ẩn các panel khác (để orig xử lý, nhưng đảm bảo AI hiện)
+                    if (typeof orig === 'function') {
+                        try { orig('bank'); } catch(e){}
+                    }
+                    if (aiPanel) aiPanel.classList.remove('hidden');
+                } else {
+                    if (typeof orig === 'function') orig(mode);
+                    if (aiPanel) aiPanel.classList.add('hidden');
+                }
+            };
+        }
+    }
+    
+    // Tạo prompt đẩy web từ ma trận AI
+    window.aiGenPromptWeb = function(){
+        var g = document.getElementById('ai-grade').value || '[Khối]';
+        var s = document.getElementById('ai-subject').value || '[Môn]';
+        var l = document.getElementById('ai-lessons').value || '[Phạm vi bài]';
+        var k = document.getElementById('ai-knowledge').value || '[Nội dung kiến thức]';
+        var t = document.getElementById('ai-time').value || '45';
+        var nmcq = document.getElementById('ai-n-mcq').value || '0';
+        var pmcq = document.getElementById('ai-p-mcq').value || '0.25';
+        var ntf = document.getElementById('ai-n-tf').value || '0';
+        var ptf = document.getElementById('ai-p-tf').value || '1';
+        var nshort = document.getElementById('ai-n-short').value || '0';
+        var pshort = document.getElementById('ai-p-short').value || '0.5';
+        var nessay = document.getElementById('ai-n-essay').value || '0';
+        var nb = document.getElementById('ai-lv-nb').value || '40';
+        var th = document.getElementById('ai-lv-th').value || '30';
+        var vd = document.getElementById('ai-lv-vd').value || '20';
+        var vdc = document.getElementById('ai-lv-vdc').value || '10';
+        
+        var prompt = `Tạo đề kiểm tra ${s} khối ${g}, phạm vi ${l}, thời gian ${t} phút.
+
+Nội dung kiến thức:
+${k}
+
+Ma trận đề:
+- Trắc nghiệm: ${nmcq} câu x ${pmcq} điểm
+- Đúng/Sai: ${ntf} câu x ${ptf} điểm
+- Trả lời ngắn: ${nshort} câu x ${pshort} điểm
+- Tự luận: ${nessay} câu (GV chấm tay)
+- Tỉ lệ mức độ: NB ${nb}% / TH ${th}% / VD ${vd}% / VDC ${vdc}%
+
+Yêu cầu: Tạo đề dưới dạng HTML theo cấu trúc SAOBAY exam10 (mỗi câu có type, q, options, answer, explain).`;
+        
+        document.getElementById('ai-prompt-text').value = prompt;
+        document.getElementById('ai-prompt-output').classList.remove('hidden');
+    };
+    
+    // Tạo prompt ma trận đặc tả gửi NotebookLM
+    window.aiGenPromptMatrix = function(){
+        var g = document.getElementById('ai-grade').value || '[Khối]';
+        var s = document.getElementById('ai-subject').value || '[Môn]';
+        var l = document.getElementById('ai-lessons').value || '[Phạm vi bài]';
+        var k = document.getElementById('ai-knowledge').value || '[Nội dung kiến thức]';
+        var nmcq = document.getElementById('ai-n-mcq').value || '0';
+        var ntf = document.getElementById('ai-n-tf').value || '0';
+        var nshort = document.getElementById('ai-n-short').value || '0';
+        var nessay = document.getElementById('ai-n-essay').value || '0';
+        var nb = document.getElementById('ai-lv-nb').value || '40';
+        var th = document.getElementById('ai-lv-th').value || '30';
+        var vd = document.getElementById('ai-lv-vd').value || '20';
+        var vdc = document.getElementById('ai-lv-vdc').value || '10';
+        
+        var prompt = `Lập ma trận đặc tả đề kiểm tra ${s} khối ${g}.
+
+Phạm vi: ${l}
+Nội dung kiến thức:
+${k}
+
+Cấu trúc đề:
+| Dạng câu | Số câu | Mức độ NB | Mức độ TH | Mức độ VD | Mức độ VDC |
+|----------|--------|-----------|-----------|-----------|------------|
+| Trắc nghiệm | ${nmcq} | | | | |
+| Đúng/Sai | ${ntf} | | | | |
+| Trả lời ngắn | ${nshort} | | | | |
+| Tự luận | ${nessay} | | | | |
+
+Tỉ lệ mức độ chung: NB ${nb}% / TH ${th}% / VD ${vd}% / VDC ${vdc}%
+
+Hãy điền chi tiết từng ô trong bảng (chủ đề kiến thức cụ thể cho từng dạng câu và mức độ).`;
+        
+        document.getElementById('ai-prompt-text').value = prompt;
+        document.getElementById('ai-prompt-output').classList.remove('hidden');
+    };
+    
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function(){ setTimeout(initAITab, 2500); });
+    } else {
+        setTimeout(initAITab, 2500);
+    }
+})();
+
 })();
