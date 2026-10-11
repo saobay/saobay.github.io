@@ -234,3 +234,19 @@
   else
     init();
 })();
+
+// 2026-10-11: Tự động tải student-exam-tab.js (tab Bài Kiểm Tra cho HS)
+(function(){
+    if (document.querySelector('script[src*="student-exam-tab"]')) return;
+    // Chỉ tải cho HS (không phải GV/admin)
+    try {
+        var u = JSON.parse(localStorage.getItem('saobay_user') || 'null');
+        var role = u && u.role;
+        if (role === 'teacher' || role === 'admin' || role === 'bgh') return;
+    } catch(e){}
+    var sc = document.createElement('script');
+    sc.src = 'js/student-exam-tab.js?t=' + Date.now();
+    sc.async = true;
+    document.head.appendChild(sc);
+})();
+
