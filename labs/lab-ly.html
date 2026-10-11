@@ -18,6 +18,10 @@ canvas{max-width:100%;display:block;}
 #cv-magnet{width:100%;height:300px;}
 #cv-electro{width:100%;height:300px;}
 #cv-incline{width:100%;height:300px;}
+#cv-wave{width:100%;height:300px;}
+#cv-collide{width:100%;height:280px;}
+#cv-spring{width:100%;height:300px;}
+#cv-proj{width:100%;height:300px;}
 
   /* ===== SAOBAY LAB 3D UPGRADE 2026-10-10 ===== */
   .tab-panel { perspective: 1200px; }
@@ -100,6 +104,10 @@ canvas{max-width:100%;display:block;}
     <button class="tab-btn flex-1 big-btn rounded-xl bg-white shadow font-bold text-sm" data-tab="magnet">🧲 Đường sức từ</button>
     <button class="tab-btn flex-1 big-btn rounded-xl bg-white shadow font-bold text-sm" data-tab="electro">🔋 Nam châm điện</button>
     <button class="tab-btn flex-1 big-btn rounded-xl bg-white shadow font-bold text-sm" data-tab="incline">📐 Lực & nghiêng</button>
+    <button class="tab-btn flex-1 big-btn rounded-xl bg-white shadow font-bold text-sm" data-tab="wave">🌊 Sóng cơ</button>
+    <button class="tab-btn flex-1 big-btn rounded-xl bg-white shadow font-bold text-sm" data-tab="collide">💥 Va chạm</button>
+    <button class="tab-btn flex-1 big-btn rounded-xl bg-white shadow font-bold text-sm" data-tab="spring">🌀 Lò xo</button>
+    <button class="tab-btn flex-1 big-btn rounded-xl bg-white shadow font-bold text-sm" data-tab="proj">🎯 Ném xiên</button>
   </div>
 
   <!-- ===== TAB 1: CON LẮC ĐƠN ===== -->
@@ -269,6 +277,130 @@ canvas{max-width:100%;display:block;}
         <div class="bg-slate-50 rounded-xl p-2"><div class="text-[11px] text-slate-500">a</div><div class="font-black text-indigo-700" id="inc-A">–</div></div>
       </div>
       <p class="text-[11px] text-slate-500 mt-2">💡 a = g(sinθ − μcosθ). Nếu μ ≥ tanθ, vật <b>đứng yên</b>!</p>
+    </div>
+  </div>
+
+  <!-- ===== TAB 7: SONG CO ===== -->
+  <div id="tab-wave" class="tab-panel px-3 mt-3 hidden">
+    <div class="bg-white rounded-2xl shadow p-4">
+      <h2 class="font-black text-cyan-700 mb-1">Sóng cơ</h2>
+      <p class="text-xs text-slate-500 mb-2">Máy rung tạo sóng truyền trên dây. Chỉnh <b>tần số</b> và <b>biên độ</b>, xem bước sóng thay đổi!</p>
+      <canvas id="cv-wave" class="w-full rounded-xl bg-slate-900 border" height="300"></canvas>
+      <div class="grid grid-cols-2 gap-2 mt-3">
+        <div>
+          <label class="text-xs font-bold text-slate-600">Tần số f (Hz)</label>
+          <input id="wv-f" type="range" min="0.5" max="3" step="0.1" value="1.2" class="w-full">
+          <div class="text-center font-black text-cyan-700"><span id="wv-f-val">1.2</span> Hz</div>
+        </div>
+        <div>
+          <label class="text-xs font-bold text-slate-600">Biên độ A</label>
+          <input id="wv-a" type="range" min="10" max="40" step="2" value="26" class="w-full">
+          <div class="text-center font-black text-cyan-700"><span id="wv-a-val">26</span> px</div>
+        </div>
+      </div>
+      <div class="flex gap-2 mt-3">
+        <button id="wv-run" class="big-btn flex-1 bg-cyan-600 text-white font-black rounded-xl">⏸ Dừng</button>
+        <button id="wv-mode" class="big-btn flex-1 bg-slate-200 font-black rounded-xl text-sm">🌊 Sóng chạy</button>
+      </div>
+      <div class="grid grid-cols-3 gap-2 mt-3 text-center text-sm">
+        <div class="bg-slate-50 rounded-xl p-2"><div class="text-[11px] text-slate-500">Bước sóng λ</div><div class="font-black text-cyan-700" id="wv-lambda">–</div></div>
+        <div class="bg-slate-50 rounded-xl p-2"><div class="text-[11px] text-slate-500">Tốc độ v</div><div class="font-black text-cyan-700" id="wv-v">–</div></div>
+        <div class="bg-slate-50 rounded-xl p-2"><div class="text-[11px] text-slate-500">Chu kỳ T</div><div class="font-black text-cyan-700" id="wv-T">–</div></div>
+      </div>
+      <p class="text-[11px] text-slate-500 mt-2">💡 v = λf. Sóng dừng: 2 đầu cố định, giữa dây xuất hiện <b>bụng</b> và <b>nút</b> sóng!</p>
+    </div>
+  </div>
+
+  <!-- ===== TAB 8: VA CHAM ===== -->
+  <div id="tab-collide" class="tab-panel px-3 mt-3 hidden">
+    <div class="bg-white rounded-2xl shadow p-4">
+      <h2 class="font-black text-orange-700 mb-1">Va chạm đàn hồi</h2>
+      <p class="text-xs text-slate-500 mb-2">Chỉnh khối lượng & vận tốc 2 xe, bấm <b>Chạy</b> xem va chạm! Động lượng được bảo toàn.</p>
+      <canvas id="cv-collide" class="w-full rounded-xl bg-slate-900 border" height="280"></canvas>
+      <div class="grid grid-cols-2 gap-2 mt-3">
+        <div class="bg-orange-50 rounded-xl p-2">
+          <div class="text-xs font-black text-orange-700 mb-1">🚗 Xe 1</div>
+          <label class="text-[11px] text-slate-600">m1 (kg)</label>
+          <input id="cl-m1" type="range" min="0.5" max="4" step="0.5" value="2" class="w-full">
+          <div class="text-center text-xs font-black"><span id="cl-m1-val">2</span> kg</div>
+          <label class="text-[11px] text-slate-600">v1 (m/s)</label>
+          <input id="cl-v1" type="range" min="0" max="6" step="0.5" value="3" class="w-full">
+          <div class="text-center text-xs font-black"><span id="cl-v1-val">3</span> m/s</div>
+        </div>
+        <div class="bg-sky-50 rounded-xl p-2">
+          <div class="text-xs font-black text-sky-700 mb-1">🚙 Xe 2</div>
+          <label class="text-[11px] text-slate-600">m2 (kg)</label>
+          <input id="cl-m2" type="range" min="0.5" max="4" step="0.5" value="1" class="w-full">
+          <div class="text-center text-xs font-black"><span id="cl-m2-val">1</span> kg</div>
+          <label class="text-[11px] text-slate-600">v2 (m/s)</label>
+          <input id="cl-v2" type="range" min="-4" max="4" step="0.5" value="0" class="w-full">
+          <div class="text-center text-xs font-black"><span id="cl-v2-val">0</span> m/s</div>
+        </div>
+      </div>
+      <div class="flex gap-2 mt-3">
+        <button id="cl-run" class="big-btn flex-1 bg-orange-600 text-white font-black rounded-xl">▶ Chạy</button>
+        <button id="cl-reset" class="big-btn px-4 bg-slate-300 font-black rounded-xl">↺</button>
+      </div>
+      <div id="cl-log" class="mt-3 space-y-1 text-sm"></div>
+      <p class="text-[11px] text-slate-500 mt-2">💡 Va chạm đàn hồi: p<sub>trước</sub> = p<sub>sau</sub>, động năng bảo toàn.</p>
+    </div>
+  </div>
+
+  <!-- ===== TAB 9: LO XO ===== -->
+  <div id="tab-spring" class="tab-panel px-3 mt-3 hidden">
+    <div class="bg-white rounded-2xl shadow p-4">
+      <h2 class="font-black text-violet-700 mb-1">Lò xo dao động</h2>
+      <p class="text-xs text-slate-500 mb-2"><b>Kéo</b> quả nặng xuống rồi thả tay! Xem dao động điều hòa và đồ thị x–t.</p>
+      <canvas id="cv-spring" class="w-full rounded-xl bg-slate-900 border" height="300"></canvas>
+      <div class="grid grid-cols-2 gap-2 mt-3">
+        <div>
+          <label class="text-xs font-bold text-slate-600">Độ cứng k (N/m)</label>
+          <input id="sp-k" type="range" min="10" max="60" step="5" value="25" class="w-full">
+          <div class="text-center font-black text-violet-700"><span id="sp-k-val">25</span> N/m</div>
+        </div>
+        <div>
+          <label class="text-xs font-bold text-slate-600">Khối lượng m (kg)</label>
+          <input id="sp-m" type="range" min="0.5" max="3" step="0.5" value="1" class="w-full">
+          <div class="text-center font-black text-violet-700"><span id="sp-m-val">1</span> kg</div>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-2 mt-3 text-center text-sm">
+        <div class="bg-slate-50 rounded-xl p-2"><div class="text-[11px] text-slate-500">T lý thuyết</div><div class="font-black text-violet-700" id="sp-Tt">–</div></div>
+        <div class="bg-slate-50 rounded-xl p-2"><div class="text-[11px] text-slate-500">T đo được</div><div class="font-black text-violet-700" id="sp-Tm">–</div></div>
+      </div>
+      <p class="text-[11px] text-slate-500 mt-2">💡 T = 2π√(m/k). Lò xo càng cứng hoặc vật càng nhẹ → dao động càng nhanh!</p>
+    </div>
+  </div>
+
+  <!-- ===== TAB 10: NEM XIEN ===== -->
+  <div id="tab-proj" class="tab-panel px-3 mt-3 hidden">
+    <div class="bg-white rounded-2xl shadow p-4">
+      <h2 class="font-black text-emerald-700 mb-1">Ném xiên</h2>
+      <p class="text-xs text-slate-500 mb-2">Chỉnh <b>góc bắn</b> và <b>vận tốc đầu</b>, ngắm trúng bia! 🎯</p>
+      <canvas id="cv-proj" class="w-full rounded-xl border" height="300"></canvas>
+      <div class="grid grid-cols-2 gap-2 mt-3">
+        <div>
+          <label class="text-xs font-bold text-slate-600">Góc bắn α</label>
+          <input id="pj-ang" type="range" min="15" max="75" step="1" value="45" class="w-full">
+          <div class="text-center font-black text-emerald-700"><span id="pj-ang-val">45</span>°</div>
+        </div>
+        <div>
+          <label class="text-xs font-bold text-slate-600">Vận tốc đầu v₀ (m/s)</label>
+          <input id="pj-v" type="range" min="8" max="26" step="1" value="18" class="w-full">
+          <div class="text-center font-black text-emerald-700"><span id="pj-v-val">18</span> m/s</div>
+        </div>
+      </div>
+      <div class="flex gap-2 mt-3">
+        <button id="pj-fire" class="big-btn flex-1 bg-emerald-600 text-white font-black rounded-xl">💥 Bắn!</button>
+        <button id="pj-reset" class="big-btn px-4 bg-slate-300 font-black rounded-xl">↺</button>
+      </div>
+      <div class="grid grid-cols-4 gap-2 mt-3 text-center text-sm">
+        <div class="bg-slate-50 rounded-xl p-2"><div class="text-[11px] text-slate-500">Tầm xa R</div><div class="font-black" id="pj-R">–</div></div>
+        <div class="bg-slate-50 rounded-xl p-2"><div class="text-[11px] text-slate-500">Cao nhất H</div><div class="font-black" id="pj-H">–</div></div>
+        <div class="bg-slate-50 rounded-xl p-2"><div class="text-[11px] text-slate-500">Thời gian</div><div class="font-black" id="pj-T">–</div></div>
+        <div class="bg-slate-50 rounded-xl p-2"><div class="text-[11px] text-slate-500">Điểm</div><div class="font-black text-emerald-700" id="pj-score">0</div></div>
+      </div>
+      <p class="text-[11px] text-slate-500 mt-2">💡 Tầm xa nhất khi α = 45°! R = v₀²·sin2α/g.</p>
     </div>
   </div>
 
@@ -1727,6 +1859,593 @@ window.__spark = function(ctx, W, H, t, n, col){
 
   frame(performance.now());
 })();
+
+
+// ================= 7. SONG CO =================
+(function(){
+  var cv = document.getElementById('cv-wave');
+  var G = fitCanvas(cv);
+  window.__refits.push(function(){ var g2 = fitCanvas(cv); if (g2 && !g2.hidden) G = g2; });
+  var f=1.2, A=26, running=true, standing=false, T=0, last=performance.now();
+  var WV=70;
+  function upd(){
+    document.getElementById('wv-lambda').textContent=(WV/f).toFixed(0)+' px';
+    document.getElementById('wv-v').textContent=WV+' px/s';
+    document.getElementById('wv-T').textContent=(1/f).toFixed(2)+' s';
+  }
+  upd();
+  document.getElementById('wv-f').addEventListener('input', function(e){
+    f=parseFloat(e.target.value);
+    document.getElementById('wv-f-val').textContent=f.toFixed(1); upd();
+  });
+  document.getElementById('wv-a').addEventListener('input', function(e){
+    A=parseInt(e.target.value,10);
+    document.getElementById('wv-a-val').textContent=A;
+  });
+  var runBtn=document.getElementById('wv-run');
+  runBtn.addEventListener('click', function(){
+    running=!running; runBtn.textContent=running?'\u23F8 D\u1EEBng':'\u25B6 Ch\u1EA1y';
+  });
+  var modeBtn=document.getElementById('wv-mode');
+  modeBtn.addEventListener('click', function(){
+    standing=!standing;
+    modeBtn.textContent=standing?'\u3030\uFE0F S\u00F3ng d\u1EEBng':'\uD83C\uDF0A S\u00F3ng ch\u1EA1y';
+    modeBtn.className='big-btn flex-1 font-black rounded-xl text-sm '+(standing?'bg-cyan-600 text-white':'bg-slate-200');
+  });
+  function waveY(x, t, W){
+    var x0=58, L=W-76, xr=x-x0, w=2*Math.PI*f;
+    if (xr<0) xr=0;
+    if (standing) return 1.15*A*Math.sin(Math.PI*xr/L)*Math.cos(w*t);
+    var lam=WV/f, k=2*Math.PI/lam;
+    return A*Math.sin(k*xr-w*t);
+  }
+  function draw(){
+    if (!cv.offsetParent){ requestAnimationFrame(draw); return; }
+    var ctx=G.ctx, W=G.w, H=G.h;
+    var now=performance.now(), dt=Math.min(0.05,(now-last)/1000); last=now;
+    if (running) T+=dt;
+    ctx.clearRect(0,0,W,H);
+    var bg=ctx.createLinearGradient(0,0,0,H);
+    bg.addColorStop(0,'#0b1226'); bg.addColorStop(1,'#1c2a45');
+    ctx.fillStyle=bg; ctx.fillRect(0,0,W,H);
+    try{ window.__spark(ctx,W,H,T,14,'103,232,249'); }catch(e){}
+    var cy=H*0.42, x0=58, x1=W-18;
+    var w=2*Math.PI*f;
+    // may rung 3D
+    var srcY=standing?0:A*Math.sin(-w*T);
+    ctx.save();
+    ctx.shadowColor='rgba(0,0,0,0.5)'; ctx.shadowBlur=10; ctx.shadowOffsetY=4;
+    var mbG=ctx.createLinearGradient(8,0,48,0);
+    mbG.addColorStop(0,'#334155'); mbG.addColorStop(0.5,'#94a3b8'); mbG.addColorStop(1,'#475569');
+    ctx.fillStyle=mbG;
+    ctx.beginPath();
+    if (ctx.roundRect) ctx.roundRect(8,cy-34,40,68,8); else ctx.rect(8,cy-34,40,68);
+    ctx.fill(); ctx.restore();
+    ctx.fillStyle='rgba(255,255,255,0.3)'; ctx.fillRect(12,cy-30,8,60);
+    // can rung
+    ctx.strokeStyle='#64748b'; ctx.lineWidth=7; ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(48,cy); ctx.lineTo(x0,cy+srcY); ctx.stroke();
+    ctx.strokeStyle='rgba(226,232,240,0.7)'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(48,cy-2); ctx.lineTo(x0,cy+srcY-2); ctx.stroke();
+    ctx.fillStyle='#22d3ee'; ctx.font='bold 10px sans-serif'; ctx.textAlign='center';
+    ctx.fillText('MÁY RUNG', 28, cy+52);
+    // day dan 3D: 3 lop
+    function ropePass(lw, col, dy){
+      ctx.strokeStyle=col; ctx.lineWidth=lw; ctx.lineCap='round'; ctx.lineJoin='round';
+      ctx.beginPath();
+      for (var x=x0;x<=x1;x+=5){
+        var y=cy+waveY(x,T,W)+(dy||0);
+        if (x===x0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+      }
+      ctx.stroke();
+    }
+    ropePass(10,'#164e63',0);
+    ctx.save(); ctx.shadowColor='rgba(34,211,238,0.8)'; ctx.shadowBlur=12;
+    ropePass(5.5,'#22d3ee',0); ctx.restore();
+    ropePass(2,'rgba(255,255,255,0.75)',-2);
+    // diem pha chay theo song (song chay)
+    if (!standing && running){
+      var L=x1-x0;
+      for (var pi=0; pi<3; pi++){
+        var pxx=x0+((T*WV+pi*L/3)%L), pyy=cy+waveY(pxx,T,W);
+        ctx.save(); ctx.shadowColor='#f0abfc'; ctx.shadowBlur=10;
+        ctx.fillStyle='#f0abfc'; ctx.beginPath(); ctx.arc(pxx,pyy,4.5,0,7); ctx.fill(); ctx.restore();
+      }
+    }
+    // nut / bung (song dung)
+    if (standing){
+      var L2=x1-x0;
+      ctx.font='bold 10px sans-serif'; ctx.textAlign='center';
+      [[x0,'NÚT'],[x0+L2/2,'BỤNG'],[x1,'NÚT']].forEach(function(n2){
+        ctx.fillStyle=n2[1]==='NÚT'?'#f87171':'#4ade80';
+        ctx.beginPath(); ctx.arc(n2[0],cy,6,0,7); ctx.fill();
+        ctx.fillText(n2[1], n2[0], cy+44);
+      });
+    }
+    // dau phai co dinh
+    ctx.fillStyle='#475569'; ctx.fillRect(x1-4,cy-40,8,80);
+    ctx.fillStyle='#94a3b8'; ctx.font='bold 10px sans-serif'; ctx.textAlign='center';
+    ctx.fillText(standing?'CỐ ĐỊNH':'TỰ DO', x1-2, cy+56);
+    ctx.fillStyle='rgba(148,163,184,0.9)'; ctx.font='11px sans-serif'; ctx.textAlign='left';
+    ctx.fillText(standing?'Sóng dừng: 2 đầu cố định':'Sóng chạy: v = λf = '+(WV*f/f).toFixed(0)+' px/s', 8, H-10);
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+
+// ================= 8. VA CHAM DAN HOI =================
+(function(){
+  var cv=document.getElementById('cv-collide');
+  var G=fitCanvas(cv);
+  window.__refits.push(function(){ var g2=fitCanvas(cv); if (g2 && !g2.hidden) G=g2; });
+  var m1=2, v1=3, m2=1, v2=0, running=false, last=performance.now();
+  var VSC=34, CW=58;
+  var c1={x:0.20,v:0}, c2={x:0.72,v:0}, booms=[], flashT=0;
+  function bind(id, valId, fn){
+    document.getElementById(id).addEventListener('input', function(e){
+      var x=parseFloat(e.target.value); fn(x);
+      document.getElementById(valId).textContent=x;
+    });
+  }
+  bind('cl-m1','cl-m1-val',function(x){m1=x;});
+  bind('cl-v1','cl-v1-val',function(x){v1=x;});
+  bind('cl-m2','cl-m2-val',function(x){m2=x;});
+  bind('cl-v2','cl-v2-val',function(x){v2=x;});
+  function reset(){ c1.x=0.20; c2.x=0.72; c1.v=0; c2.v=0; running=false; booms=[]; }
+  document.getElementById('cl-run').addEventListener('click', function(){
+    reset(); c1.v=v1*VSC; c2.v=v2*VSC; running=true;
+  });
+  document.getElementById('cl-reset').addEventListener('click', reset);
+  function geom(){
+    var W=G.w, H=G.h;
+    return {W:W,H:H,railY:H-64};
+  }
+  function collide(){
+    var a=c1.v/VSC, b=c2.v/VSC;
+    var na=((m1-m2)*a+2*m2*b)/(m1+m2), nb=((m2-m1)*b+2*m1*a)/(m1+m2);
+    c1.v=na*VSC; c2.v=nb*VSC;
+    flashT=0.35;
+    var gm=geom();
+    for (var i=0;i<18;i++) booms.push({x:(c1.x+c2.x)/2*gm.W, y:gm.railY-30,
+      vx:(Math.random()-0.5)*300, vy:-Math.random()*220-40, life:1});
+    var log=document.getElementById('cl-log');
+    var div=document.createElement('div');
+    div.className='bg-orange-50 border border-orange-200 rounded-xl px-3 py-2 text-xs';
+    div.innerHTML='\uD83D\uDCA5 Va ch\u1EA1m! v1: '+a.toFixed(1)+'\u2192<b>'+na.toFixed(1)+'</b> m/s, v2: '+b.toFixed(1)+'\u2192<b>'+nb.toFixed(1)+'</b> m/s<br><span class="text-slate-500">p tr\u01B0\u1EDBc='+(m1*a+m2*b).toFixed(2)+', p sau='+(m1*na+m2*nb).toFixed(2)+' kg\u00B7m/s</span>';
+    log.prepend(div);
+    while (log.children.length>3) log.removeChild(log.lastChild);
+  }
+  function drawCart(ctx, c, m, col1, col2, label){
+    var gm=geom(), px=c.x*gm.W, py=gm.railY;
+    var wd=CW*(0.8+0.15*m);
+    // banh xe
+    [[-wd/2+12],[wd/2-12]].forEach(function(o){
+      var wx=px+o[0];
+      ctx.fillStyle='#0f172a'; ctx.beginPath(); ctx.arc(wx,py-6,9,0,7); ctx.fill();
+      ctx.fillStyle='#94a3b8'; ctx.beginPath(); ctx.arc(wx,py-6,3.5,0,7); ctx.fill();
+    });
+    // than xe 3D
+    ctx.save();
+    ctx.shadowColor='rgba(0,0,0,0.5)'; ctx.shadowBlur=10; ctx.shadowOffsetY=4;
+    var bg=ctx.createLinearGradient(0,py-44,0,py-12);
+    bg.addColorStop(0,col1); bg.addColorStop(1,col2);
+    ctx.fillStyle=bg;
+    ctx.beginPath();
+    if (ctx.roundRect) ctx.roundRect(px-wd/2,py-44,wd,32,7); else ctx.rect(px-wd/2,py-44,wd,32);
+    ctx.fill(); ctx.restore();
+    ctx.fillStyle='rgba(255,255,255,0.45)'; ctx.fillRect(px-wd/2+6,py-40,wd-12,6);
+    ctx.fillStyle='#fff'; ctx.font='bold 12px sans-serif'; ctx.textAlign='center';
+    ctx.fillText(m+'kg', px, py-20);
+    // vector van toc
+    var vv=c.v/VSC;
+    if (Math.abs(vv)>0.05){
+      var dx=vv*22, col=vv>0?'#4ade80':'#f87171';
+      ctx.save(); ctx.strokeStyle=col; ctx.fillStyle=col; ctx.lineWidth=4; ctx.lineCap='round';
+      ctx.shadowColor=col; ctx.shadowBlur=8;
+      ctx.beginPath(); ctx.moveTo(px,py-58); ctx.lineTo(px+dx,py-58); ctx.stroke();
+      var an=dx>0?0:Math.PI;
+      ctx.beginPath(); ctx.moveTo(px+dx,py-58);
+      ctx.lineTo(px+dx-10*Math.cos(an-0.42),py-58-10*Math.sin(an-0.42));
+      ctx.lineTo(px+dx-10*Math.cos(an+0.42),py-58-10*Math.sin(an+0.42));
+      ctx.closePath(); ctx.fill(); ctx.restore();
+      ctx.fillStyle=col; ctx.font='bold 10px sans-serif';
+      ctx.fillText(vv.toFixed(1)+'m/s', px+dx/2, py-66);
+    }
+    return {px:px, py:py, wd:wd};
+  }
+  function draw(){
+    if (!cv.offsetParent){ requestAnimationFrame(draw); return; }
+    var ctx=G.ctx, now=performance.now(), dt=Math.min(0.04,(now-last)/1000); last=now;
+    var gm=geom(), W=gm.W, H=gm.H;
+    ctx.clearRect(0,0,W,H);
+    var bg=ctx.createLinearGradient(0,0,0,H);
+    bg.addColorStop(0,'#0b1226'); bg.addColorStop(1,'#24304d');
+    ctx.fillStyle=bg; ctx.fillRect(0,0,W,H);
+    try{ window.__spark(ctx,W,H,now/1000,12,'251,146,60'); }catch(e){}
+    if (running){
+      c1.x+=c1.v*dt/W; c2.x+=c2.v*dt/W;
+      if (c1.x<0.05){c1.x=0.05;c1.v=Math.abs(c1.v);}
+      if (c1.x>0.95){c1.x=0.95;c1.v=-Math.abs(c1.v);}
+      if (c2.x<0.05){c2.x=0.05;c2.v=Math.abs(c2.v);}
+      if (c2.x>0.95){c2.x=0.95;c2.v=-Math.abs(c2.v);}
+      var dx=(c2.x-c1.x)*W;
+      if (dx<CW && c1.v>c2.v){
+        var mid=(c1.x+c2.x)/2, half=CW/2/W;
+        c1.x=mid-half; c2.x=mid+half;
+        collide();
+      }
+    }
+    // duong ray 3D
+    var ry=gm.railY;
+    ctx.fillStyle='rgba(0,0,0,0.35)'; ctx.fillRect(14,ry+8,W-28,10);
+    ctx.fillStyle='#3b4a63'; ctx.fillRect(14,ry+4,W-28,12);
+    var rg=ctx.createLinearGradient(0,ry-6,0,ry+4);
+    rg.addColorStop(0,'#e2e8f0'); rg.addColorStop(1,'#94a3b8');
+    ctx.fillStyle=rg; ctx.fillRect(14,ry-6,W-28,10);
+    ctx.fillStyle='rgba(255,255,255,0.5)'; ctx.fillRect(14,ry-5,W-28,2);
+    for (var si=0; si*36<W-28; si++){
+      ctx.fillStyle='#5b6b85'; ctx.fillRect(20+si*36,ry+4,14,12);
+    }
+    drawCart(ctx,c1,m1,'#fdba74','#c2410c');
+    drawCart(ctx,c2,m2,'#7dd3fc','#0369a1');
+    // chom sang va cham
+    if (flashT>0){
+      flashT-=dt;
+      var fx=(c1.x+c2.x)/2*W;
+      var fg=ctx.createRadialGradient(fx,ry-28,2,fx,ry-28,60);
+      fg.addColorStop(0,'rgba(254,240,138,'+(flashT*2).toFixed(2)+')');
+      fg.addColorStop(1,'rgba(254,240,138,0)');
+      ctx.fillStyle=fg; ctx.beginPath(); ctx.arc(fx,ry-28,60,0,7); ctx.fill();
+    }
+    for (var bi=booms.length-1; bi>=0; bi--){
+      var b=booms[bi];
+      b.x+=b.vx*dt; b.y+=b.vy*dt; b.vy+=500*dt; b.life-=dt*1.6;
+      if (b.life<=0){ booms.splice(bi,1); continue; }
+      ctx.save(); ctx.globalAlpha=Math.max(0,b.life);
+      ctx.fillStyle=b.life>0.5?'#fde047':'#f97316';
+      ctx.shadowColor='#f59e0b'; ctx.shadowBlur=6;
+      ctx.beginPath(); ctx.arc(b.x,b.y,3*b.life+1,0,7); ctx.fill(); ctx.restore();
+    }
+    ctx.fillStyle='rgba(148,163,184,0.9)'; ctx.font='11px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('Xe va t\u01B0\u1EDDng n\u1EA3y l\u1EA1i \u0111\u00E0n h\u1ED3i', 8, H-10);
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+
+// ================= 9. LO XO DAO DONG =================
+(function(){
+  var cv=document.getElementById('cv-spring');
+  var G=fitCanvas(cv);
+  window.__refits.push(function(){ var g2=fitCanvas(cv); if (g2 && !g2.hidden) G=g2; });
+  var k=25, m=1, x=0, v=0, dragging=false, T=0, last=performance.now();
+  var periods=[], lastCross=-1, hist=[], prevX=0;
+  var PX=60, GRAPH_H=86;
+  function updT(){
+    document.getElementById('sp-Tt').textContent=(2*Math.PI*Math.sqrt(m/k)).toFixed(2)+' s';
+  }
+  updT();
+  document.getElementById('sp-k').addEventListener('input', function(e){
+    k=parseFloat(e.target.value);
+    document.getElementById('sp-k-val').textContent=k; updT();
+  });
+  document.getElementById('sp-m').addEventListener('input', function(e){
+    m=parseFloat(e.target.value);
+    document.getElementById('sp-m-val').textContent=m; updT();
+  });
+  function massXY(){
+    var mx=G.w*0.32, eqY=30+118;
+    return {x:mx, y:eqY+x*PX};
+  }
+  function posAt(e){
+    var r=cv.getBoundingClientRect();
+    return {x:(e.touches?e.touches[0].clientX:e.clientX)-r.left,
+            y:(e.touches?e.touches[0].clientY:e.clientY)-r.top};
+  }
+  cv.addEventListener('pointerdown', function(e){
+    var p=posAt(e), mp=massXY();
+    if (Math.hypot(p.x-mp.x,p.y-mp.y)<34){
+      dragging=true; v=0;
+      try{ cv.setPointerCapture(e.pointerId); }catch(err){}
+      cv.style.touchAction='none';
+    }
+  });
+  cv.addEventListener('pointermove', function(e){
+    if (!dragging) return;
+    var p=posAt(e), eqY=30+118;
+    x=Math.max(-1.1,Math.min(1.4,(p.y-eqY)/PX)); v=0;
+  });
+  function endDrag(){ if(dragging){ dragging=false; cv.style.touchAction=''; } }
+  cv.addEventListener('pointerup', endDrag);
+  cv.addEventListener('pointercancel', endDrag);
+  function drawSpring(ctx, x1, y1, y2){
+    var turns=9, amp=15, n=turns*2;
+    function coil(lw, col, dx){
+      ctx.strokeStyle=col; ctx.lineWidth=lw; ctx.lineCap='round'; ctx.lineJoin='round';
+      ctx.beginPath();
+      for (var i=0;i<=n;i++){
+        var yy=y1+(y2-y1)*i/n;
+        var xx=x1+((i%2===0)?-amp:amp)*(i===0||i===n?0:1)+dx;
+        if (i===0) ctx.moveTo(xx,yy); else ctx.lineTo(xx,yy);
+      }
+      ctx.stroke();
+    }
+    coil(8,'#3f3f46',0);
+    coil(5,'#a1a1aa',0);
+    coil(2,'rgba(255,255,255,0.8)',-1.5);
+  }
+  function draw(){
+    if (!cv.offsetParent){ requestAnimationFrame(draw); return; }
+    var ctx=G.ctx, W=G.w, H=G.h;
+    var now=performance.now(), dt=Math.min(0.04,(now-last)/1000); last=now;
+    if (!dragging){
+      T+=dt;
+      var a=-(k/m)*x-(0.35/m)*v;
+      v+=a*dt; x+=v*dt;
+      if (prevX>0 && x<=0 && v<0 && T-lastCross>0.4){
+        if (lastCross>0){
+          periods.push(T-lastCross); if (periods.length>4) periods.shift();
+          var avg=periods.reduce(function(s2,c2){return s2+c2;},0)/periods.length;
+          document.getElementById('sp-Tm').textContent=avg.toFixed(2)+' s';
+        }
+        lastCross=T;
+      }
+      prevX=x;
+      hist.push({t:T,x:x});
+      while (hist.length && hist[0].t<T-7) hist.shift();
+    }
+    ctx.clearRect(0,0,W,H);
+    var bg=ctx.createLinearGradient(0,0,0,H);
+    bg.addColorStop(0,'#0b1226'); bg.addColorStop(1,'#24304d');
+    ctx.fillStyle=bg; ctx.fillRect(0,0,W,H);
+    try{ window.__spark(ctx,W,H,T,12,'196,181,253'); }catch(e){}
+    var mp=massXY(), mx=mp.x, eqY=30+118;
+    var graphTop=H-GRAPH_H;
+    // gia treo 3D
+    ctx.fillStyle='rgba(0,0,0,0.3)'; ctx.fillRect(mx-44,32,92,12);
+    var brG=ctx.createLinearGradient(0,24,0,38);
+    brG.addColorStop(0,'#e9d5ff'); brG.addColorStop(0.5,'#a78bfa'); brG.addColorStop(1,'#6d28d9');
+    ctx.fillStyle=brG;
+    ctx.beginPath();
+    if (ctx.roundRect) ctx.roundRect(mx-46,22,92,14,5); else ctx.rect(mx-46,22,92,14);
+    ctx.fill();
+    ctx.fillStyle='rgba(255,255,255,0.5)'; ctx.fillRect(mx-42,23,84,3);
+    // vach can bang
+    ctx.save(); ctx.setLineDash([7,6]);
+    ctx.strokeStyle='rgba(167,139,250,0.6)'; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.moveTo(14,eqY); ctx.lineTo(W-14,eqY); ctx.stroke(); ctx.restore();
+    ctx.fillStyle='#c4b5fd'; ctx.font='bold 10px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('VTCB', 16, eqY-6);
+    // lo xo 3D
+    drawSpring(ctx, mx, 38, mp.y-16);
+    // qua nang 3D: hinh tru kim loai
+    var mr=22, my=mp.y;
+    ctx.save();
+    ctx.shadowColor='rgba(0,0,0,0.5)'; ctx.shadowBlur=12; ctx.shadowOffsetY=5;
+    var mg2=ctx.createLinearGradient(mx-mr,0,mx+mr,0);
+    mg2.addColorStop(0,'#52525b'); mg2.addColorStop(0.35,'#e4e4e7'); mg2.addColorStop(0.65,'#a1a1aa'); mg2.addColorStop(1,'#3f3f46');
+    ctx.fillStyle=mg2;
+    ctx.beginPath();
+    if (ctx.roundRect) ctx.roundRect(mx-mr,my-16,mr*2,34,9); else ctx.rect(mx-mr,my-16,mr*2,34);
+    ctx.fill(); ctx.restore();
+    ctx.fillStyle='rgba(255,255,255,0.35)'; ctx.fillRect(mx-mr+5,my-12,7,26);
+    ctx.fillStyle='#fff'; ctx.font='bold 12px sans-serif'; ctx.textAlign='center';
+    ctx.fillText(m+'kg', mx, my+4);
+    if (dragging || (Math.abs(x)<0.02 && Math.abs(v)<0.02 && T<0.1)){
+      ctx.fillStyle='rgba(196,181,253,0.9)'; ctx.font='11px sans-serif';
+      ctx.fillText('K\u00E9o qu\u1EA3 n\u1EB7ng xu\u1ED1ng r\u1ED3i th\u1EA3!', mx, my+34);
+    }
+    // do thi x-t
+    ctx.fillStyle='rgba(2,6,23,0.72)'; ctx.fillRect(0,graphTop,W,GRAPH_H);
+    ctx.strokeStyle='rgba(148,163,184,0.4)'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(0,graphTop+GRAPH_H/2); ctx.lineTo(W,graphTop+GRAPH_H/2); ctx.stroke();
+    ctx.strokeStyle='#a78bfa'; ctx.lineWidth=2.5; ctx.lineJoin='round';
+    ctx.shadowColor='rgba(167,139,250,0.8)'; ctx.shadowBlur=6;
+    ctx.beginPath();
+    var started=false;
+    for (var hi=0; hi<hist.length; hi++){
+      var hh2=hist[hi];
+      var hx=W-8-(T-hh2.t)*(W-16)/7;
+      var hy=graphTop+GRAPH_H/2-hh2.x*PX*0.55;
+      if (!started){ ctx.moveTo(hx,hy); started=true; } else ctx.lineTo(hx,hy);
+    }
+    ctx.stroke(); ctx.shadowBlur=0;
+    ctx.fillStyle='#c4b5fd'; ctx.font='bold 10px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('x\u2013t', 6, graphTop+14);
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+
+// ================= 10. NEM XIEN =================
+(function(){
+  var cv=document.getElementById('cv-proj');
+  var G=fitCanvas(cv);
+  window.__refits.push(function(){ var g2=fitCanvas(cv); if (g2 && !g2.hidden) G=g2; });
+  var ang=45, v0=18, g=9.8, PX=7;
+  var flying=false, bx=0, by=0, bvx=0, bvy=0, trail=[], boom=null, score=0, T=0, last=performance.now();
+  var target={m:24};
+  function newTarget(){ target.m=16+Math.random()*16; }
+  newTarget();
+  function groundY(){ return G.h-44; }
+  function muzzle(){
+    var gx=54, gy=groundY(), a=ang*Math.PI/180;
+    return {x:gx+38*Math.cos(a), y:gy-12-38*Math.sin(a)};
+  }
+  document.getElementById('pj-ang').addEventListener('input', function(e){
+    ang=parseInt(e.target.value,10);
+    document.getElementById('pj-ang-val').textContent=ang;
+  });
+  document.getElementById('pj-v').addEventListener('input', function(e){
+    v0=parseInt(e.target.value,10);
+    document.getElementById('pj-v-val').textContent=v0;
+  });
+  document.getElementById('pj-fire').addEventListener('click', function(){
+    if (flying) return;
+    var mz=muzzle(), a=ang*Math.PI/180;
+    bx=mz.x; by=mz.y; bvx=v0*Math.cos(a)*PX; bvy=-v0*Math.sin(a)*PX;
+    flying=true; trail=[];
+    document.getElementById('pj-R').textContent=(v0*v0*Math.sin(2*a)/g).toFixed(1)+' m';
+    document.getElementById('pj-H').textContent=(v0*v0*Math.sin(a)*Math.sin(a)/(2*g)).toFixed(1)+' m';
+    document.getElementById('pj-T').textContent=(2*v0*Math.sin(a)/g).toFixed(2)+' s';
+  });
+  document.getElementById('pj-reset').addEventListener('click', function(){
+    flying=false; trail=[]; boom=null;
+  });
+  function drawCannon(ctx, gx, gy){
+    var a=ang*Math.PI/180;
+    // de phao 3D
+    ctx.save();
+    ctx.shadowColor='rgba(0,0,0,0.4)'; ctx.shadowBlur=10; ctx.shadowOffsetY=4;
+    var bsG=ctx.createLinearGradient(0,gy-26,0,gy);
+    bsG.addColorStop(0,'#78716c'); bsG.addColorStop(1,'#44403c');
+    ctx.fillStyle=bsG;
+    ctx.beginPath();
+    ctx.moveTo(gx-30,gy); ctx.lineTo(gx-20,gy-26); ctx.lineTo(gx+20,gy-26); ctx.lineTo(gx+30,gy);
+    ctx.closePath(); ctx.fill(); ctx.restore();
+    // banh xe
+    [[-20],[20]].forEach(function(o){
+      var wx=gx+o[0];
+      ctx.fillStyle='#1c1917'; ctx.beginPath(); ctx.arc(wx,gy-8,13,0,7); ctx.fill();
+      ctx.strokeStyle='#a8a29e'; ctx.lineWidth=3;
+      for (var si=0; si<4; si++){
+        var sa=si*Math.PI/4+T*0;
+        ctx.beginPath(); ctx.moveTo(wx,gy-8);
+        ctx.lineTo(wx+9*Math.cos(sa),gy-8+9*Math.sin(sa)); ctx.stroke();
+      }
+      ctx.fillStyle='#d6d3d1'; ctx.beginPath(); ctx.arc(wx,gy-8,3,0,7); ctx.fill();
+    });
+    // nong phao 3D xoay theo goc
+    ctx.save();
+    ctx.translate(gx,gy-14); ctx.rotate(-a);
+    ctx.shadowColor='rgba(0,0,0,0.45)'; ctx.shadowBlur=8; ctx.shadowOffsetY=3;
+    var brG=ctx.createLinearGradient(0,-10,0,10);
+    brG.addColorStop(0,'#e7e5e4'); brG.addColorStop(0.5,'#78716c'); brG.addColorStop(1,'#292524');
+    ctx.fillStyle=brG;
+    ctx.beginPath();
+    if (ctx.roundRect) ctx.roundRect(-6,-10,52,20,8); else ctx.rect(-6,-10,52,20,8);
+    ctx.fill();
+    ctx.shadowColor='transparent';
+    ctx.fillStyle='rgba(255,255,255,0.4)'; ctx.fillRect(-2,-7,44,5);
+    ctx.fillStyle='#1c1917'; ctx.fillRect(42,-12,7,24);
+    ctx.restore();
+  }
+  function drawTarget(ctx, tx, gy){
+    // coc dung
+    ctx.fillStyle='#57534e'; ctx.fillRect(tx-3,gy-52,6,52);
+    // bia 3 vong 3D
+    var cols=['#dc2626','#f8fafc','#dc2626'];
+    for (var i=0;i<3;i++){
+      var r=24-i*8;
+      ctx.save();
+      ctx.shadowColor='rgba(0,0,0,0.35)'; ctx.shadowBlur=6;
+      var tg=ctx.createRadialGradient(tx-6,gy-64,2,tx,gy-58,r);
+      tg.addColorStop(0,i===1?'#ffffff':(i===0?'#fca5a5':'#f87171'));
+      tg.addColorStop(1,cols[i]);
+      ctx.fillStyle=tg; ctx.beginPath(); ctx.arc(tx,gy-58,r,0,7); ctx.fill();
+      ctx.restore();
+    }
+    ctx.fillStyle='rgba(255,255,255,0.5)';
+    ctx.beginPath(); ctx.ellipse(tx-8,gy-66,6,4,-0.6,0,7); ctx.fill();
+  }
+  function draw(){
+    if (!cv.offsetParent){ requestAnimationFrame(draw); return; }
+    var ctx=G.ctx, W=G.w, H=G.h;
+    var now=performance.now(), dt=Math.min(0.04,(now-last)/1000); last=now; T+=dt;
+    var gy=groundY(), a=ang*Math.PI/180;
+    ctx.clearRect(0,0,W,H);
+    // troi
+    var sky=ctx.createLinearGradient(0,0,0,gy);
+    sky.addColorStop(0,'#38bdf8'); sky.addColorStop(1,'#e0f2fe');
+    ctx.fillStyle=sky; ctx.fillRect(0,0,W,gy+2);
+    var sg=ctx.createRadialGradient(W-60,56,4,W-60,56,46);
+    sg.addColorStop(0,'rgba(254,240,138,1)'); sg.addColorStop(1,'rgba(254,240,138,0)');
+    ctx.fillStyle=sg; ctx.beginPath(); ctx.arc(W-60,56,46,0,7); ctx.fill();
+    // dat 3D + moc 10m
+    var gg2=ctx.createLinearGradient(0,gy,0,H);
+    gg2.addColorStop(0,'#4ade80'); gg2.addColorStop(1,'#166534');
+    ctx.fillStyle=gg2; ctx.fillRect(0,gy,W,H-gy);
+    ctx.fillStyle='rgba(0,0,0,0.22)'; ctx.fillRect(0,gy,W,4);
+    ctx.fillStyle='rgba(255,255,255,0.75)'; ctx.font='9px sans-serif'; ctx.textAlign='center';
+    for (var m10=10; m10*PX<W-60; m10+=10){
+      var mxp=54+m10*PX;
+      ctx.fillRect(mxp-1,gy+8,2,8);
+      ctx.fillText(m10+'m', mxp, gy+30);
+    }
+    drawTarget(ctx, 54+target.m*PX, gy);
+    drawCannon(ctx, 54, gy);
+    // duong ngam dot
+    if (!flying){
+      var mz=muzzle();
+      ctx.save(); ctx.fillStyle='rgba(5,150,105,0.55)';
+      var sx=mz.x, sy=mz.y, svx=v0*Math.cos(a)*PX, svy=-v0*Math.sin(a)*PX;
+      for (var st=0; st<160; st++){
+        svy+=g*PX*0.03; sx+=svx*0.03; sy+=svy*0.03;
+        if (sy>=gy-6) break;
+        if (st%5===0){ ctx.beginPath(); ctx.arc(sx,sy,2.4,0,7); ctx.fill(); }
+      }
+      ctx.restore();
+    }
+    // vet dan
+    if (trail.length>1){
+      ctx.save(); ctx.strokeStyle='rgba(5,150,105,0.5)'; ctx.lineWidth=2.5; ctx.lineCap='round';
+      ctx.beginPath(); ctx.moveTo(trail[0].x,trail[0].y);
+      for (var ti=1;ti<trail.length;ti++) ctx.lineTo(trail[ti].x,trail[ti].y);
+      ctx.stroke(); ctx.restore();
+    }
+    // vien dan 3D
+    if (flying){
+      ctx.save();
+      ctx.shadowColor='rgba(0,0,0,0.4)'; ctx.shadowBlur=8;
+      var pg=ctx.createRadialGradient(bx-4,by-5,2,bx,by,11);
+      pg.addColorStop(0,'#fef3c7'); pg.addColorStop(0.5,'#f59e0b'); pg.addColorStop(1,'#92400e');
+      ctx.fillStyle=pg; ctx.beginPath(); ctx.arc(bx,by,10,0,7); ctx.fill();
+      ctx.restore();
+      ctx.fillStyle='rgba(255,255,255,0.7)';
+      ctx.beginPath(); ctx.ellipse(bx-3,by-4,3.5,2.2,-0.6,0,7); ctx.fill();
+    }
+    // no khi trung bia
+    if (boom){
+      boom.t+=dt;
+      var bt=boom.t;
+      for (var bi=0; bi<3; bi++){
+        ctx.save(); ctx.globalAlpha=Math.max(0,1-bt*1.8);
+        ctx.strokeStyle=['#fde047','#f97316','#ef4444'][bi]; ctx.lineWidth=4;
+        ctx.beginPath(); ctx.arc(boom.x,boom.y-14,8+bt*(36+bi*22),0,7); ctx.stroke();
+        ctx.restore();
+      }
+      if (bt>0.7) boom=null;
+      else {
+        ctx.save(); ctx.fillStyle='#16a34a'; ctx.font='bold 22px sans-serif'; ctx.textAlign='center';
+        ctx.globalAlpha=Math.max(0,1-bt);
+        ctx.fillText('TR\u00DANG! +1', boom.x, boom.y-64); ctx.restore();
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  setInterval(function(){
+    if (!flying) return;
+    var dt=0.02, gy=groundY();
+    bvy+=g*PX*dt; bx+=bvx*dt; by+=bvy*dt;
+    trail.push({x:bx,y:by}); if (trail.length>90) trail.shift();
+    if (by>=gy-6){
+      flying=false;
+      var landM=(bx-54)/PX;
+      if (Math.abs(landM-target.m)<1.7){
+        score++;
+        document.getElementById('pj-score').textContent=score;
+        boom={x:bx,y:gy,t:0};
+        newTarget();
+      }
+    }
+    if (bx>G.w+40) flying=false;
+  }, 20);
+  draw();
+})();
+
 
 // Fit lai canvas khi chuyen tab (dung registry de cap nhat G tung tab)
 window.__fitAll = function(){
