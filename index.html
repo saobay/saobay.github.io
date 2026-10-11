@@ -95,8 +95,8 @@
             </a>
 
             <a id="btn-account" href="used/used.html" onclick="return handleAccountClick(event)" title="Tài Khoản / Đổi MK" class="bg-blue-800 hover:bg-blue-700 text-white text-xs p-2 md:px-3 md:py-2 rounded-lg font-medium transition flex items-center border border-blue-700">
-                <i class="fa-solid fa-key"></i>
-                <span class="hidden md:inline ml-1.5">Tài Khoản</span>
+                <i class="fa-solid fa-circle-user"></i>
+                <span class="ml-1.5">Tài khoản của tôi</span>
             </a>
             <!-- JOIN_CLASS_V1: nút nhập mã lớp học cho HS -->
             <button id="btn-join-class" onclick="openJoinClassModal()" title="Nhập mã lớp học để vào lớp riêng" class="hidden bg-violet-700 hover:bg-violet-600 text-white text-xs p-2 md:px-3 md:py-2 rounded-lg font-bold transition flex items-center border border-violet-600 shadow">
@@ -1012,5 +1012,110 @@ function saobayReportQ(btn){
     window.addEventListener('hashchange', scrollToQ);
 })();
 </script>
+<!-- SAOBAY HS ACCOUNT MENU 20261012: Tai khoan cua toi gom 3 muc (Nhap ma lop / Thong ke / Doi mat khau); an nut Nhap ma lop rieng o header -->
+<style>#btn-join-class{display:none!important}</style>
+<script>
+(function(){
+  function sbSlug(str){return String(str||'').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/đ/g,'d').replace(/Đ/g,'D').replace(/[^a-zA-Z0-9]+/g,'_').replace(/^_+|_+$/g,'');}
+  var sbStatsLoaded=false;
+  function sbFmtTs(fn){var m=String(fn).match(/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/);return m?(m[3]+'/'+m[2]+'/'+m[1]+' '+m[4]+':'+m[5]):'';}
+  function sbEsc(t){return String(t==null?'':t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  function sbBuildSections(){
+    var nameEl=document.getElementById('hsa-name'); if(!nameEl) return false;
+    var infoBox=nameEl.closest('div.bg-slate-50'); if(!infoBox) return false;
+    if(document.getElementById('hsa-join-section')) return true;
+    var join=document.createElement('div');
+    join.id='hsa-join-section'; join.className='border-t pt-4';
+    join.innerHTML='<h4 class="font-bold text-slate-700 text-xs mb-2"><i class="fa-solid fa-ticket text-violet-600 mr-1"></i>1. Nhập Mã Lớp Để Vào Lớp</h4>'
+      +'<p class="text-[11px] text-slate-500 mb-3">Nhập mã lớp giáo viên đưa để vào lớp riêng và nhận các bài kiểm tra được giao.</p>'
+      +'<button onclick="closeHsAccount();openJoinClassModal();" class="w-full bg-violet-700 hover:bg-violet-600 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow transition">Nhập mã lớp</button>';
+    infoBox.parentNode.insertBefore(join, infoBox.nextSibling);
+    var st=document.createElement('div');
+    st.id='hsa-stats-section'; st.className='border-t pt-4';
+    st.innerHTML='<h4 class="font-bold text-slate-700 text-xs mb-2"><i class="fa-solid fa-chart-line text-emerald-600 mr-1"></i>2. Thống Kê Học Tập &amp; Điểm Kiểm Tra</h4>'
+      +'<div class="grid grid-cols-2 gap-2 mb-3">'
+      +'<div class="bg-emerald-50 border border-emerald-200 rounded-xl p-3 text-center"><p class="text-[10px] font-bold text-emerald-700 uppercase">Điểm năng động</p><p id="hsa-stat-score" class="text-lg font-black text-emerald-800">—</p></div>'
+      +'<div class="bg-blue-50 border border-blue-200 rounded-xl p-3 text-center"><p class="text-[10px] font-bold text-blue-700 uppercase">Bài đã nộp</p><p id="hsa-stat-count" class="text-lg font-black text-blue-800">—</p></div>'
+      +'</div>'
+      +'<div id="hsa-stat-list" class="space-y-2 text-xs text-slate-500 italic">Đang tải lịch sử nộp bài...</div>'
+      +'<button onclick="sbLoadStats(true)" class="mt-3 w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs px-4 py-2 rounded-xl transition">Làm mới thống kê</button>';
+    join.parentNode.insertBefore(st, join.nextSibling);
+    try{
+      var passOld=document.getElementById('hsa-pass-old');
+      var phoneSave=document.getElementById('hsa-phone-save');
+      if(passOld&&phoneSave){
+        var passSec=passOld.closest('div.border-t'), phoneSec=phoneSave.closest('div.border-t');
+        if(passSec&&phoneSec&&passSec!==phoneSec){
+          phoneSec.parentNode.insertBefore(passSec, phoneSec);
+          var ph=passSec.querySelector('h4'); if(ph) ph.innerHTML='<i class="fa-solid fa-key text-amber-600 mr-1"></i>3. Đổi Mật Khẩu';
+          var sh=phoneSec.querySelector('h4'); if(sh) sh.innerHTML='<i class="fa-solid fa-phone text-emerald-600 mr-1"></i>4. SĐT Đăng Nhập';
+        }
+      }
+    }catch(e){}
+    return true;
+  }
+  window.sbLoadStats=function(force){
+    var u=(typeof syncCurrentUser==='function')?syncCurrentUser():(typeof currentUser!=='undefined'?currentUser:null);
+    var listEl=document.getElementById('hsa-stat-list'); if(!listEl) return;
+    var scEl=document.getElementById('hsa-stat-score'), ctEl=document.getElementById('hsa-stat-count');
+    if(scEl&&u) scEl.textContent=(u.score||0)+'đ';
+    if(!u||!u.id){ listEl.textContent='Vui lòng đăng nhập.'; return; }
+    if(sbStatsLoaded&&!force) return;
+    listEl.innerHTML='Đang tải lịch sử nộp bài...';
+    var mySlug=sbSlug(u.name||'');
+    fetch('https://api.github.com/repos/saobay/saobay.github.io/git/trees/main?recursive=1',{headers:{'Accept':'application/vnd.github+json'}})
+    .then(function(r){return r.json();})
+    .then(function(j){
+      var files=(j.tree||[]).filter(function(t){return t.type==='blob'&&t.path.indexOf('data/scores/')===0;})
+        .map(function(t){return t.path;})
+        .filter(function(p){var fn=p.split('/').pop().replace(/\.json$/,'');return mySlug&&fn.slice(-(mySlug.length+1))==='_'+mySlug;})
+        .sort().reverse();
+      if(ctEl) ctEl.textContent=files.length;
+      if(!files.length){ listEl.innerHTML='Chưa có bài kiểm tra nào đã nộp. Khi bạn nộp bài, điểm sẽ hiện ở đây.'; sbStatsLoaded=true; return; }
+      var top=files.slice(0,12);
+      Promise.all(top.map(function(p){
+        return fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/'+p.split('/').map(encodeURIComponent).join('/'))
+          .then(function(r){return r.json();}).catch(function(){return null;})
+          .then(function(d){return {p:p,d:d};});
+      })).then(function(rows){
+        var html='';
+        rows.forEach(function(row){
+          var d=row.d||{}; var fn=row.p.split('/').pop();
+          var score=(d.score!=null?d.score:(d.total_score!=null?d.total_score:(d.point!=null?d.point:'—')));
+          html+='<div class="flex items-center justify-between bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 not-italic">'
+            +'<div class="min-w-0"><p class="font-bold text-slate-700 truncate">'+sbEsc(d.exam_title||'Bài kiểm tra')+'</p>'
+            +'<p class="text-[10px] text-slate-400">'+sbFmtTs(fn)+'</p></div>'
+            +'<span class="font-black text-blue-700 ml-2">'+sbEsc(score)+'</span></div>';
+        });
+        listEl.innerHTML=html||'Chưa có bài kiểm tra nào đã nộp.';
+        sbStatsLoaded=true;
+      });
+    })
+    .catch(function(){ listEl.innerHTML='Không tải được thống kê (kiểm tra mạng rồi bấm Làm mới).'; });
+  };
+  (function(){
+    var tries=0; var iv=setInterval(function(){
+      tries++;
+      if(typeof window.openHsAccount==='function'&&!window.openHsAccount.__sbMenu){
+        var orig=window.openHsAccount;
+        var wrapped=function(){
+          var r=orig.apply(this,arguments);
+          try{
+            sbBuildSections();
+            var u=(typeof syncCurrentUser==='function')?syncCurrentUser():null;
+            var joinSec=document.getElementById('hsa-join-section');
+            if(joinSec) joinSec.style.display=(u&&(!u.role||u.role==='student'))?'':'none';
+            sbLoadStats(false);
+          }catch(e){}
+          return r;
+        };
+        wrapped.__sbMenu=true; window.openHsAccount=wrapped; clearInterval(iv);
+      }
+      if(tries>80) clearInterval(iv);
+    },250);
+  })();
+})();
+</script>
+
 </body>
 </html>
