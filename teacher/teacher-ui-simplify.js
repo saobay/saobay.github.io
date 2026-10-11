@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_1935
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_1932
 // Rebuilt - fixed structure
 (function(){
     'use strict';
@@ -435,4 +435,58 @@ Hãy điền chi tiết từng ô trong bảng (chủ đề kiến thức cụ t
     setInterval(addRefreshBtn, 10000);
 })();
 
+// 2026-10-11: Gộp tab Thống kê vào Quản lý -> "Quản lý học liệu của bạn"
+(function(){
+    function mergeTabs(){
+        try {
+            // 1. Ẩn tab Thống kê
+            var statsTab = document.getElementById('mod-tab-stats');
+            if (statsTab) statsTab.style.display = 'none';
+            
+            // 2. Đổi tên tab Quản lý
+            var manageTab = document.getElementById('mod-tab-manage');
+            if (manageTab) {
+                var title = manageTab.querySelector('[data-ui-label="mod_manage"]');
+                var sub = manageTab.querySelector('[data-ui-label="mod_manage_sub"]');
+                if (title) title.textContent = '2. Quản lý học liệu của bạn';
+                if (sub) sub.textContent = 'Bài giảng, đề thi & thống kê';
+            }
+            
+            // 3. Hook để hiện cả 2 nội dung khi bấm tab Quản lý
+            if (!window._mergeTabsHooked && typeof window.switchTeacherModule === 'function') {
+                window._mergeTabsHooked = true;
+                var orig = window.switchTeacherModule;
+                window.switchTeacherModule = function(modId){
+                    orig(modId);
+                    if (modId === 'manage') {
+                        // Hiện thêm nội dung stats bên dưới manage
+                        setTimeout(function(){
+                            var statsView = document.getElementById('module-stats-view');
+                            var manageView = document.getElementById('module-manage-view');
+                            if (statsView && manageView && !manageView.classList.contains('hidden')) {
+                                // Di chuyển stats view vào trong manage view
+                                if (!document.getElementById('merged-stats-section')) {
+                                    var wrapper = document.createElement('div');
+                                    wrapper.id = 'merged-stats-section';
+                                    wrapper.className = 'mt-6 pt-4 border-t-2 border-slate-200';
+                                    wrapper.innerHTML = '<h3 class="font-extrabold text-slate-800 text-base mb-3"><i class="fa-solid fa-chart-pie text-slate-600 mr-2"></i>Thống kê học liệu</h3>';
+                                    wrapper.appendChild(statsView);
+                                    manageView.appendChild(wrapper);
+                                    statsView.classList.remove('hidden');
+                                }
+                            }
+                        }, 300);
+                    }
+                };
+            }
+        } catch(e){ console.warn('mergeTabs:', e); }
+    }
+    
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function(){ setTimeout(mergeTabs, 2000); });
+    } else {
+        setTimeout(mergeTabs, 2000);
+    }
+    setInterval(mergeTabs, 10000);
+})();
 
