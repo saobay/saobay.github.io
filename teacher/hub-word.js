@@ -308,12 +308,53 @@
                 });
                 let doc = new DOMParser().parseFromString(result.value || '', 'text/html');
                 let lines = [];
-                doc.querySelectorAll('p, li, h1, h2, h3, h4, tr').forEach(function(el){
+                // Theo dõi vị trí ảnh so với câu hỏi để tự động gán
+                let imgPositions = []; // [{imgIdx, lineIdx}]
+                let els = doc.querySelectorAll('p, li, h1, h2, h3, h4, tr');
+                els.forEach(function(el){
                     let t = (el.textContent || '').replace(/\s+/g, ' ').trim();
+                    // Kiểm tra xem element này có chứa ảnh không
+                    let imgs = el.querySelectorAll('img');
                     if (t) lines.push(t);
+                    if (imgs.length){
+                        // Ghi nhận ảnh ở vị trí dòng hiện tại
+                        for (let k = 0; k < imgs.length; k++){
+                            imgPositions.push({ lineIdx: lines.length - 1, el: el });
+                        }
+                    }
                 });
                 wordState.rawText = lines.join('\n');
                 let qs = parseWordExam(lines);
+                // Tự động gán ảnh vào câu hỏi dựa trên vị trí
+                // Ảnh nằm sau câu hỏi nào thì gán vào câu đó
+                try {
+                    if (wordState.extractedImages && wordState.extractedImages.length && imgPositions.length){
+                        // Map từng ảnh theo thứ tự xuất hiện
+                        wordState.extractedImages.forEach(function(im, imgIdx){
+                            if (imgIdx < imgPositions.length){
+                                let pos = imgPositions[imgIdx];
+                                // Tìm câu hỏi gần nhất trước vị trí ảnh
+                                let bestQi = -1;
+                                let qLineMap = {}; // ánh xạ câu hỏi -> dòng bắt đầu
+                                // Đơn giản: ảnh thứ imgIdx -> ước lượng câu hỏi
+                                // Dùng heuristic: tìm câu hỏi có text xuất hiện gần vị trí ảnh nhất
+                                let lineText = lines[pos.lineIdx] || '';
+                                for (let qi = 0; qi < qs.length; qi++){
+                                    let qText = (qs[qi].q || '').substring(0, 30);
+                                    if (qText && lineText.indexOf(qText.substring(0, 20)) >= 0){
+                                        bestQi = qi;
+                                        break;
+                                    }
+                                }
+                                // Fallback: chia đều theo tỷ lệ
+                                if (bestQi < 0 && qs.length > 0){
+                                    bestQi = Math.min(qs.length - 1, Math.floor((imgIdx + 1) * qs.length / (wordState.extractedImages.length + 1)));
+                                }
+                                if (bestQi >= 0) im.questionIdx = bestQi;
+                            }
+                        });
+                    }
+                } catch(eAuto){ console.warn('auto map img:', eAuto); }
                 // Doc bang dap an tu document.xml va map vao cau hoi (2026-10-11)
                 try {
                     let ansTables = await extractAnswerTables(buf);
@@ -391,32 +432,53 @@
                             + '<span class="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-violet-100 text-violet-800">' + q.level + '</span>'
                             + '</div>';
                     }).join('') + '</div>'
-                    + '<button onclick="sendWordToEditor()" class="mt-2 w-full bg-indigo-700 hover:bg-indigo-800 text-white text-xs font-bold px-4 py-2.5 rounded-xl"><i class="fa-solid fa-arrow-down mr-1"></i>Đưa ' + qs.length + ' câu vào khung soạn để đẩy</button>'
                     + '</div>';
                 // UI gan anh vao cau hoi (neu co anh trich xuat) — 2026-10-10: thu gon mac dinh, mo ra khi can de do roi
                 if (wordState.extractedImages && wordState.extractedImages.length){
-                    h += '<details class="mt-2 bg-white border border-amber-200 rounded-xl">'
+                    h += '<details class="mt-2 bg-white border border-amber-200 rounded-xl" open>'
                         + '<summary class="px-3 py-2.5 cursor-pointer text-xs font-black text-slate-800 flex items-center select-none">'
                         + '<i class="fa-solid fa-images text-amber-600 mr-2"></i>Gán ảnh vào câu hỏi (' + wordState.extractedImages.length + ' ảnh)'
                         + '<span class="ml-auto text-[10px] text-slate-400 font-normal">bấm để mở rộng nếu cần chèn ảnh</span>'
                         + '</summary>'
                         + '<div class="px-3 pb-3 space-y-2 max-h-64 overflow-y-auto pr-1">'
                         + wordState.extractedImages.map(function(im, ii){
+                            // Tự động đoán câu hỏi: ảnh thường nằm ngay sau câu hỏi của nó
+                            // Dùng vị trí ước lượng: ảnh thứ ii -> câu hỏi gần nhất
+                            var autoQi = '';
+                            if (im.questionIdx !== undefined && im.questionIdx !== null && im.questionIdx >= 0 && im.questionIdx < qs.length){
+                                autoQi = im.questionIdx;
+                            }
                             var opts = '<option value="">-- Không gán --</option>' + qs.map(function(q, qi){
-                                return '<option value="' + qi + '">Câu ' + (qi+1) + '</option>';
+                                var sel = (String(qi) === String(autoQi)) ? ' selected' : '';
+                                return '<option value="' + qi + '"' + sel + '>Câu ' + (qi+1) + '</option>';
                             }).join('');
                             return '<div class="flex items-center gap-2 border border-slate-200 rounded-lg p-2">'
-                                + '<img src="data:' + im.contentType + ';base64,' + im.b64 + '" class="w-16 h-16 object-contain rounded border border-slate-200 bg-slate-50">'
+                                + '<img src="data:' + im.contentType + ';base64,' + im.b64 + '" onclick="wordImgZoom(this)" class="w-16 h-16 object-contain rounded border border-slate-200 bg-slate-50 cursor-zoom-in hover:opacity-80" title="Bấm để phóng to">'
                                 + '<div class="flex-1"><p class="text-[11px] font-bold text-slate-600 mb-1">Ảnh ' + (ii+1) + '</p>'
                                 + '<select id="img-map-' + ii + '" class="w-full text-xs border rounded-lg px-2 py-1">' + opts + '</select></div>'
                                 + '</div>';
                         }).join('') + '</div></details>';
                 }
+                // Nút đưa vào khung soạn đặt DƯỚI phần gán ảnh
+                h += '<button onclick="sendWordToEditor()" class="mt-2 w-full bg-indigo-700 hover:bg-indigo-800 text-white text-xs font-bold px-4 py-2.5 rounded-xl"><i class="fa-solid fa-arrow-down mr-1"></i>Đưa ' + qs.length + ' câu vào khung soạn để đẩy</button>';
                 pv.innerHTML = h;
             } catch(e){
                 pv.innerHTML = '<p class="text-xs text-rose-600">Lỗi đọc file: ' + String(e.message || e).replace(/</g,'&lt;') + '</p>';
             }
             input.value = '';
+        }
+
+        // Phóng to ảnh khi bấm (để xem đúng câu)
+        function wordImgZoom(imgEl){
+            var src = imgEl.src;
+            var overlay = document.createElement('div');
+            overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;display:flex;align-items:center;justify-content:center;cursor:zoom-out;padding:20px';
+            overlay.onclick = function(){ document.body.removeChild(overlay); };
+            var img = document.createElement('img');
+            img.src = src;
+            img.style.cssText = 'max-width:90%;max-height:90%;border-radius:12px;box-shadow:0 0 40px rgba(255,255,255,0.2)';
+            overlay.appendChild(img);
+            document.body.appendChild(overlay);
         }
 
         // Tach phuong an inline: "A. IX B. X C. XI D. XIX" -> [{letter:'A',text:'IX'},...]
