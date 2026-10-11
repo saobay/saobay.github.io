@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2120
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2121
 // Rebuilt - fixed structure
 (function(){
     'use strict';
@@ -1154,5 +1154,64 @@ Hãy điền chi tiết từng ô trong bảng (chủ đề kiến thức cụ t
     // Chạy ngay
     if (document.readyState !== 'loading') fixTopBar();
     else document.addEventListener('DOMContentLoaded', fixTopBar);
+})();
+
+// 2026-10-11: Xóa hẳn thanh top + thêm chọn thư mục vào từng panel
+(function(){
+    var PANELS = {
+        'theory': 'theory-copy-prompt-box',
+        'exercise': 'exercise-copy-prompt-box', 
+        'bank': 'exam-builder-panel',
+        'direct': 'direct-panel',
+        'ai': 'bo-tao-prompt-box'
+    };
+    var SHOW_CHAPTERS = { 'theory': true, 'exercise': true, 'bank': false, 'direct': false, 'ai': false };
+    
+    function setup(){
+        try {
+            // 1. XÓA HẲN thanh top (không chỉ ẩn)
+            var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+            var node;
+            while (node = walker.nextNode()) {
+                if (node.textContent.indexOf('VỊ TRÍ LƯU TRỮ') >= 0) {
+                    var bar = node.parentElement;
+                    for (var i = 0; i < 6 && bar; i++) {
+                        if ((bar.textContent || '').indexOf('Sẵn sàng đẩy bài') >= 0) {
+                            bar.remove();
+                            break;
+                        }
+                        bar = bar.parentElement;
+                    }
+                    break;
+                }
+            }
+            
+            // 2. Thêm chọn thư mục vào từng panel
+            Object.keys(PANELS).forEach(function(mode){
+                var panelId = PANELS[mode];
+                var panel = document.getElementById(panelId);
+                if (!panel) return;
+                if (panel.querySelector('.per-tab-folder')) return;
+                
+                var showCh = SHOW_CHAPTERS[mode];
+                var div = document.createElement('div');
+                div.className = 'per-tab-folder p-3 mb-3 bg-yellow-50 border border-yellow-300 rounded';
+                div.innerHTML = 
+                    '<div class="font-bold text-sm mb-2">📁 Nơi lưu ' + mode + ': ' +
+                    '<span class="ft-display-' + mode + ' text-red-600">Chưa chọn</span></div>' +
+                    '<button class="ft-btn-' + mode + ' px-3 py-1 bg-blue-600 text-white text-sm rounded">Chọn thư mục ' + 
+                    (showCh ? '(đến chương)' : '(đến môn)') + '</button>';
+                panel.insertBefore(div, panel.firstChild);
+                
+                div.querySelector('.ft-btn-' + mode).onclick = function(){
+                    window._ftMode = mode;
+                    window._ftShowCh = showCh;
+                    alert('Bấm vào nút "Chưa chọn" ở thanh trên để mở popup.\n(Chức năng đang hoàn thiện)');
+                };
+            });
+        } catch(e){}
+    }
+    
+    setInterval(setup, 2000);
 })();
 
