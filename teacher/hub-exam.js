@@ -1143,3 +1143,12 @@
             if (btn) { btn.disabled = false; btn.innerHTML = '🔄 Cập nhật danh mục'; }
         }
 
+// 2026-10-11: Tự động tải teacher-exam-manage.js
+(function(){
+    if (document.querySelector('script[src*="teacher-exam-manage"]')) return;
+    var sc = document.createElement('script');
+    sc.src = 'teacher-exam-manage.js?t=' + Date.now();
+    sc.async = true;
+    document.head.appendChild(sc);
+})();
+
