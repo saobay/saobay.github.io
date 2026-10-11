@@ -91,6 +91,11 @@
 
         // Đồng bộ từ giao diện trực quan về textarea ẩn (loại bỏ thẻ rác, khôi phục TeX nguyên bản)
         function syncVisualToItemContent() {
+            // 2026-10-11: neu dang o che do STUDENT thi KHONG sync (preview dang hien dang HS, khong phai noi dung goc)
+            try {
+                var btnS = document.getElementById('mode-btn-student');
+                if (btnS && btnS.className && btnS.className.indexOf('bg-blue-600') >= 0) return;
+            } catch(e){}
             let previewBox = document.getElementById('preview-container');
             let itemContent = document.getElementById('item-content');
             if (!previewBox || !itemContent) return;
