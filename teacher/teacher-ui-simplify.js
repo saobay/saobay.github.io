@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2137
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2146
 // Rebuilt - fixed structure
 (function(){
     'use strict';
@@ -914,7 +914,7 @@ Hãy điền chi tiết từng ô trong bảng (chủ đề kiến thức cụ t
 (function(){
     async function loadStats(){
         try {
-            var tab2 = document.querySelector('#tab-2, [id*="tab2"], [data-tab="2"]');
+            var tab2 = document.getElementById('module-manage-view');
             if (!tab2) return;
             if (document.getElementById('hoclieu-stats')) return;
             
