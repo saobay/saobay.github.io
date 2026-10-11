@@ -161,7 +161,7 @@
         <div class="text-[11px] font-black text-amber-200 mb-1">🗄️ TỦ HÓA CHẤT <span class="font-normal opacity-70">— chạm vào lọ để lấy bình mới</span></div>
         <div id="chem-shelf" class="flex gap-2 overflow-x-auto pb-1"></div>
       </div>
-      <canvas id="cv-mix" class="w-full rounded-xl border border-slate-700" height="440" style="touch-action:pan-y;display:block;background:#0b1626;"></canvas>
+      <canvas id="cv-mix" class="w-full rounded-xl border border-slate-700" height="320" style="touch-action:pan-y;display:block;background:#0b1626;height:320px;"></canvas>
       <div class="text-[11px] text-slate-500 mt-1">💡 Chạm bình ✕ để cất • Tối đa 4 bình • Bật pipet rồi chạm bình để nhỏ giọt chỉ thị</div>
       <div id="mix-result" class="mt-3 hidden bg-teal-50 border border-teal-200 rounded-xl p-3">
         <div class="text-sm font-bold text-teal-900">Phương trình phản ứng:</div>
@@ -422,7 +422,7 @@ window.__refits = window.__refits || [];
 
   var vessels = [];
   function resetBench(){
-    vessels = [ makeVessel('beaker','HCl',0.55), makeVessel('beaker','NaOH',0.55) ];
+    vessels = [ makeVessel('flask','HCl',0.55), makeVessel('flask','NaOH',0.55) ];
     pourQ = []; pour = null; selV = null;
     document.getElementById('mix-result').classList.add('hidden');
   }
@@ -511,13 +511,13 @@ window.__refits = window.__refits || [];
   function innerW(v){ return v.type==='tube' ? v.w*0.44-8 : (v.type==='bottle' ? v.w*0.62-12 : v.w-12); }
 
   // ---------- Vẽ một bình (phong cách video: viền sáng + dung dịch phát sáng) ----------
-  function drawVessel(ctx, v, t){
-    if (!v || !isFinite(v.x) || !isFinite(v.y) || !(v.w > 0) || !(v.h > 0)) return; // du lieu hong -> bo qua
+function drawVessel(ctx, v, t){
+    if (!v || !isFinite(v.x) || !isFinite(v.y) || !(v.w > 0) || !(v.h > 0)) return;
     var col = vesselColor(v) || {color:'#1e293b', glow:'#334155'};
     ctx.save();
     ctx.translate(v.x, v.y);
-    if (pour && pour.a===v) ctx.translate(0,-16); // nhân vật nhấc bình lên khi rót
-    if ((v.shake||0)>0.01){ ctx.translate(0,-v.h/2); ctx.rotate(Math.sin(t*26+v.id*1.7)*0.11*v.shake); ctx.translate(0,v.h/2); } // lắc lắc
+    if (pour && pour.a===v) ctx.translate(0,-16);
+    if ((v.shake||0)>0.01){ ctx.translate(0,-v.h/2); ctx.rotate(Math.sin(t*26+v.id*1.7)*0.11*v.shake); ctx.translate(0,v.h/2); }
     if (v.pop){ var s = 1 + 0.25*Math.sin(Math.min(1,v.pop)*Math.PI); ctx.scale(s,s); v.pop = Math.max(0, v.pop-0.06); }
     if (v.dragging){ ctx.scale(1.08, 1.08); }
     if (v.tilt){ ctx.translate(0,-v.h); ctx.rotate(v.tilt*v.tiltDir); ctx.translate(0,v.h); }
@@ -529,31 +529,31 @@ window.__refits = window.__refits || [];
 
     // --- 0. Bóng đổ dưới đáy bình ---
     ctx.save();
-    ctx.fillStyle = 'rgba(0,0,0,0.42)';
-    ctx.beginPath(); ctx.ellipse(0, 3, v.w*0.52, 9, 0, 0, 7); ctx.fill();
-    ctx.fillStyle = 'rgba(0,0,0,0.20)';
-    ctx.beginPath(); ctx.ellipse(0, 3, v.w*0.62, 12, 0, 0, 7); ctx.fill();
+    ctx.fillStyle = 'rgba(0,0,0,0.45)';
+    ctx.beginPath(); ctx.ellipse(0, 4, v.w*0.52, 9, 0, 0, 7); ctx.fill();
+    ctx.fillStyle = 'rgba(0,0,0,0.22)';
+    ctx.beginPath(); ctx.ellipse(0, 4, v.w*0.64, 12, 0, 0, 7); ctx.fill();
     ctx.restore();
+
     // --- 1. Dung dịch (cắt theo thân bình) ---
     ctx.save();
     traceVessel(ctx, v); ctx.clip();
     if (liqH > 2){
-      // Nền phát sáng
       var g = ctx.createLinearGradient(0, surfY, 0, 0);
       g.addColorStop(0, col.color);
       g.addColorStop(0.55, col.glow);
       g.addColorStop(1, shade(col.glow, -30));
       ctx.fillStyle = g;
       ctx.fillRect(-v.w/2, surfY, v.w, liqH+8);
-      // Vầng sáng lõi (kiểu video: sáng rực ở giữa đáy)
-      var rg = ctx.createRadialGradient(0, -liqH*0.40, 2, 0, -liqH*0.40, iw*0.90);
-      rg.addColorStop(0, 'rgba(255,255,255,0.80)');
-      rg.addColorStop(0.30, hexA(col.glow, 0.70));
-      rg.addColorStop(0.65, hexA(col.glow, 0.30));
+      // Lõi phát sáng mạnh
+      var rg = ctx.createRadialGradient(0, -liqH*0.40, 2, 0, -liqH*0.40, iw*0.95);
+      rg.addColorStop(0, 'rgba(255,255,255,0.85)');
+      rg.addColorStop(0.30, hexA(col.glow, 0.75));
+      rg.addColorStop(0.65, hexA(col.glow, 0.32));
       rg.addColorStop(1, 'rgba(255,255,255,0)');
       ctx.fillStyle = rg;
       ctx.fillRect(-v.w/2, surfY, v.w, liqH+8);
-      // Xoáy thiên hà cho bình cầu (như frame 3 video)
+      // Xoáy thiên hà cho bình cầu
       if (v.type === 'round'){
         ctx.save();
         ctx.globalCompositeOperation = 'lighter';
@@ -576,12 +576,17 @@ window.__refits = window.__refits || [];
       ctx.lineTo(x1, surfY+7); ctx.lineTo(x0, surfY+7); ctx.closePath();
       ctx.fillStyle = hexA('#ffffff', 0.28);
       ctx.fill();
-      // Ellipse sáng trên mặt (phản chiếu)
-      ctx.save(); ctx.globalAlpha = 0.5; ctx.fillStyle = '#ffffff';
-      ctx.beginPath(); ctx.ellipse(-iw*0.18, surfY+3, iw*0.22, 3.2, -0.2, 0, 7); ctx.fill();
-      ctx.restore();
-      // Bọt khí nổi lên
-      var nb = Math.round((5 + Math.round(v.fizz*22)) * (1 + (v.heat||0)*1.6));
+      // LABV3: mặt dung dịch cong ellipse
+      ctx.beginPath();
+      ctx.ellipse(0, surfY+1, iw/2*0.94, 5, 0, 0, Math.PI*2);
+      ctx.fillStyle = hexA('#ffffff', 0.30);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.ellipse(-iw*0.14, surfY-0.5, iw*0.26, 2.4, -0.12, 0, Math.PI*2);
+      ctx.fillStyle = 'rgba(255,255,255,0.60)';
+      ctx.fill();
+      // Bọt khí: 9-27 bọt nổi lên
+      var nb = Math.round((9 + Math.round(v.fizz*22)) * (1 + (v.heat||0)*1.6));
       for (var bi=0; bi<nb; bi++){
         var bb = v.bubbles[bi];
         if (!bb){ bb = v.bubbles[bi] = {bx: Math.random(), by: Math.random(), r: 1.5+Math.random()*2.5, sp: 0.25+Math.random()*0.6}; }
@@ -638,7 +643,7 @@ window.__refits = window.__refits || [];
     gg2.addColorStop(0.78, 'rgba(8,18,38,0.22)');
     gg2.addColorStop(1, 'rgba(8,18,38,0.04)');
     ctx.fillStyle = gg2; ctx.fill();
-    // Viền phát quang THẬT (shadowBlur) + viền trắng-cyan dày
+    // Viền phát quang
     ctx.save();
     ctx.lineJoin = 'round';
     ctx.shadowColor = col.glow; ctx.shadowBlur = 24;
@@ -650,7 +655,7 @@ window.__refits = window.__refits || [];
     ctx.strokeStyle = hexA(col.glow, 0.40); ctx.lineWidth = 11; ctx.stroke();
     traceVessel(ctx, v);
     ctx.strokeStyle = 'rgba(230,250,255,0.98)'; ctx.lineWidth = 2.6; ctx.stroke();
-    // 3 vệt sáng chéo kiểu thủy tinh thật
+    // LABV3: 2 vệt sáng chéo dài kiểu thủy tinh thật
     ctx.save();
     traceVessel(ctx, v); ctx.clip();
     function vStreak(x0, wd, alpha){
@@ -660,22 +665,21 @@ window.__refits = window.__refits || [];
       ctx.fillStyle = hg;
       ctx.beginPath();
       ctx.moveTo(x0, -v.h); ctx.lineTo(x0+wd, -v.h);
-      ctx.lineTo(x0+wd*0.35, 0); ctx.lineTo(x0-wd*0.65, 0); ctx.closePath(); ctx.fill();
+      ctx.lineTo(x0+wd*0.30, 0); ctx.lineTo(x0-wd*0.70, 0); ctx.closePath(); ctx.fill();
     }
-    vStreak(-v.w/2+6, 30, 0.75);
-    vStreak(-v.w*0.10, 16, 0.45);
-    vStreak(v.w*0.22, 10, 0.30);
+    vStreak(-v.w/2+8, 26, 0.80);
+    vStreak(v.w*0.06, 13, 0.42);
     ctx.restore();
-    // Ống nghiệm 3D: cong trụ + kẹp gỗ (như lab thật)
+    // Ống nghiệm 3D: cong trụ + kẹp gỗ
     if (v.type === 'tube'){
       ctx.save(); traceVessel(ctx, v); ctx.clip();
-      var cg = ctx.createLinearGradient(-v.w*0.22, 0, v.w*0.22, 0);
-      cg.addColorStop(0,'rgba(8,18,36,0.38)');
-      cg.addColorStop(0.30,'rgba(8,18,36,0)');
-      cg.addColorStop(0.50,'rgba(255,255,255,0.10)');
-      cg.addColorStop(0.70,'rgba(8,18,36,0)');
-      cg.addColorStop(1,'rgba(8,18,36,0.38)');
-      ctx.fillStyle = cg; ctx.fillRect(-v.w*0.24, -v.h, v.w*0.48, v.h);
+      var cg2 = ctx.createLinearGradient(-v.w*0.22, 0, v.w*0.22, 0);
+      cg2.addColorStop(0,'rgba(8,18,36,0.38)');
+      cg2.addColorStop(0.30,'rgba(8,18,36,0)');
+      cg2.addColorStop(0.50,'rgba(255,255,255,0.10)');
+      cg2.addColorStop(0.70,'rgba(8,18,36,0)');
+      cg2.addColorStop(1,'rgba(8,18,36,0.38)');
+      ctx.fillStyle = cg2; ctx.fillRect(-v.w*0.24, -v.h, v.w*0.48, v.h);
       var hg2 = ctx.createLinearGradient(-7,0,7,0);
       hg2.addColorStop(0,'rgba(255,255,255,0)');
       hg2.addColorStop(0.5,'rgba(255,255,255,0.60)');
@@ -701,63 +705,48 @@ window.__refits = window.__refits || [];
       ctx.beginPath(); ctx.arc(jw+8, gy-11, 3, 0, 7); ctx.fill();
       ctx.restore();
     }
-    // Chai hóa chất kiểu video: nút bần gỗ + viền miệng phát sáng + quầng sáng trong thân
-    if (v.type === 'bottle'){
-      var nwb2 = v.w*0.30;
-      ctx.save();
-      ctx.strokeStyle = hexA(col.glow, 0.9); ctx.lineWidth = 2.5;
-      ctx.beginPath(); ctx.ellipse(0, -v.h, nwb2/2, 4, 0, 0, 7); ctx.stroke();
-      ctx.restore();
-      if ((v.tilt||0) < 0.25){ // đang rót thì coi như đã mở nút
-        var capW = nwb2 + 8, capH = 13, capY = -v.h - capH + 3;
-        var cwg = ctx.createLinearGradient(0, capY, 0, capY+capH);
-        cwg.addColorStop(0, '#d9a866'); cwg.addColorStop(0.5, '#b07f3e'); cwg.addColorStop(1, '#7c5426');
-        ctx.fillStyle = cwg;
-        ctx.beginPath();
-        if (ctx.roundRect) ctx.roundRect(-capW/2, capY, capW, capH, 3); else ctx.rect(-capW/2, capY, capW, capH);
-        ctx.fill();
-        ctx.strokeStyle = 'rgba(60,35,10,0.6)'; ctx.lineWidth = 1.2; ctx.stroke();
-        ctx.fillStyle = 'rgba(255,235,190,0.55)';
-        ctx.fillRect(-capW/2+2, capY+2, 3, capH-4);
-        ctx.strokeStyle = 'rgba(90,55,20,0.55)'; ctx.lineWidth = 1;
-        for (var cgi2=1; cgi2<4; cgi2++){
-          var cly = capY + (capH/cgi2);
-          ctx.beginPath(); ctx.moveTo(-capW/2+1, cly); ctx.lineTo(capW/2-1, cly); ctx.stroke();
-        }
+    // LABV3: Nút bần gỗ trên miệng bình tam giác + chai (kiểu video quảng cáo)
+    if ((v.type === 'flask' || v.type === 'bottle') && (v.tilt||0) < 0.25){
+      var neckW = v.type==='flask' ? v.w*0.26 : v.w*0.30;
+      var capW = neckW + 10, capH = 14, capY = -v.h - capH + 4;
+      var cwg = ctx.createLinearGradient(0, capY, 0, capY+capH);
+      cwg.addColorStop(0, '#e0aa5e'); cwg.addColorStop(0.5, '#b07f3e'); cwg.addColorStop(1, '#7c5426');
+      ctx.fillStyle = cwg;
+      ctx.beginPath();
+      if (ctx.roundRect) ctx.roundRect(-capW/2, capY, capW, capH, 4); else ctx.rect(-capW/2, capY, capW, capH);
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(60,35,10,0.65)'; ctx.lineWidth = 1.3; ctx.stroke();
+      ctx.fillStyle = 'rgba(255,235,190,0.55)';
+      ctx.fillRect(-capW/2+2, capY+2, 3, capH-4);
+      ctx.strokeStyle = 'rgba(90,55,20,0.55)'; ctx.lineWidth = 1;
+      for (var cgi=1; cgi<4; cgi++){
+        var cly = capY + (capH*cgi/3);
+        ctx.beginPath(); ctx.moveTo(-capW/2+1, cly); ctx.lineTo(capW/2-1, cly); ctx.stroke();
       }
-      ctx.save();
-      traceVessel(ctx, v); ctx.clip();
-      var bg2 = ctx.createRadialGradient(0, -v.h*0.45, 4, 0, -v.h*0.45, v.w*0.55);
-      bg2.addColorStop(0, hexA('#ffffff', 0.20));
-      bg2.addColorStop(0.6, hexA(col.glow, 0.18));
-      bg2.addColorStop(1, 'rgba(255,255,255,0)');
-      ctx.fillStyle = bg2;
-      ctx.fillRect(-v.w/2, -v.h, v.w, v.h);
-      ctx.restore();
     }
-    // 3 tia lấp lánh to rõ nhấp nháy
+    // 3 tia lấp lánh
     for (var gi=0; gi<3; gi++){
-      var gx = -v.w/2 + v.w*(0.18+gi*0.32), gy = -v.h*(0.25+gi*0.28);
+      var gx = -v.w/2 + v.w*(0.18+gi*0.32), gyy = -v.h*(0.25+gi*0.28);
       var tw = 0.35 + 0.65*Math.abs(Math.sin(t*2.2 + gi*2.4 + v.id));
-      drawSpark(ctx, gx, gy, 11*tw, 'rgba(255,255,255,'+(0.9*tw).toFixed(2)+')');
+      drawSpark(ctx, gx, gyy, 11*tw, 'rgba(255,255,255,'+(0.9*tw).toFixed(2)+')');
     }
     // Vạch chia độ cho cốc đong
     if (v.type === 'beaker'){
       ctx.strokeStyle = 'rgba(205,240,255,0.5)'; ctx.lineWidth = 1.5;
-      for (var mi=1; mi<=3; mi++){
-        var myy = -(v.h/4)*mi;
+      for (var mi2=1; mi2<=3; mi2++){
+        var myy = -(v.h/4)*mi2;
         ctx.beginPath(); ctx.moveTo(v.w/2-16, myy); ctx.lineTo(v.w/2-6, myy); ctx.stroke();
       }
     }
     ctx.restore();
 
-    // --- 3. Nhãn + % thể tích (không nghiêng) ---
+    // --- 3. Nhãn tên + % thể tích (LABV3: nằm trên mặt bàn gỗ) ---
     var chem = CHEMS[v.chemKey];
-    ctx.fillStyle = '#a5f3fc'; ctx.font = 'bold 12px sans-serif'; ctx.textAlign = 'center';
-    ctx.fillText(chem ? chem.f : '', v.x, v.y + 18);
-    ctx.fillStyle = 'rgba(165,243,252,0.55)'; ctx.font = '10px sans-serif';
-    ctx.fillText(Math.round(v.volShown*100) + '%', v.x, v.y + 32);
-    // Huy hiệu góc nghiêng khi rót (đúng vật lý 45-60°)
+    ctx.fillStyle = '#a5f3fc'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText(chem ? chem.f : '', v.x, v.y + 13);
+    ctx.fillStyle = 'rgba(165,243,252,0.60)'; ctx.font = '9px sans-serif';
+    ctx.fillText(Math.round(v.volShown*100) + '%', v.x, v.y + 25);
+    // Huy hiệu góc nghiêng khi rót
     if ((v.tilt||0) > 0.08){
       var deg = Math.round(v.tilt*57.2958);
       var mxw = v.x, myw = v.y - v.h;
@@ -778,7 +767,7 @@ window.__refits = window.__refits || [];
         ctx.beginPath(); ctx.arc(v.x+sm.x, v.y+sm.y, sm.r, 0, 7); ctx.fill();
       });
       ctx.fillStyle = '#fdba74'; ctx.font = 'bold 11px sans-serif';
-      ctx.fillText('🔥 Đang đun', v.x, v.y - v.h - 30);
+      ctx.fillText('Đang đun', v.x, v.y - v.h - 30);
     }
     // Khói nhẹ khi đun mạnh
     if ((v.heat||0) > 0.72){
@@ -801,7 +790,6 @@ window.__refits = window.__refits || [];
       ctx.setLineDash([7,5]); ctx.lineDashOffset = -t*20;
       ctx.beginPath(); ctx.arc(v.x, v.y - v.h/2, Math.max(v.w,v.h)/2 + 12, 0, 7); ctx.stroke();
       ctx.setLineDash([]);
-      // nút ✕
       v.closeBtn = {x: v.x + v.w/2 + 2, y: v.y - v.h - 6, r: 11};
       ctx.fillStyle = '#f87171';
       ctx.beginPath(); ctx.arc(v.closeBtn.x, v.closeBtn.y, 11, 0, 7); ctx.fill();
@@ -891,7 +879,7 @@ window.__refits = window.__refits || [];
   // ---------- Nhân vật hoạt hình 3D (phong cách video quảng cáo) ----------
   var chemist = { hx:0, hy:0, mode:'idle', hold:null, armT:0, bobP: Math.random()*6.28, _sx:null, _sy:0 };
   var lampDrag = false;
-  function chemistHome(W,H){ return {x: 54, y: H-22}; }
+  function chemistHome(W,H){ return {x: 62, y: H-32}; }
   function ikSolve(sx, sy, tx, ty, L1, L2){
     var dx = tx-sx, dy = ty-sy, d = Math.hypot(dx,dy) || 0.001;
     var maxD = L1+L2-2, minD = Math.abs(L1-L2)+2;
@@ -926,102 +914,163 @@ window.__refits = window.__refits || [];
     chemist.hx += (tgt.x-chemist.hx)*k; chemist.hy += (tgt.y-chemist.hy)*k;
     chemist.armT += ((mode==='idle'?0:1)-chemist.armT)*0.1;
   }
-  function drawChemistBack(ctx, t, W, H){
-    // Cậu bé áo cổ trang kiểu video quảng cáo: áo navy viền vàng, búi tóc, mắt long lanh
+function drawChemistBack(ctx, t, W, H){
+    // LABV3: cậu bé anime vẽ lại — tóc búi dây vàng, mắt to long lanh, áo cổ trang navy viền vàng
     var home = chemistHome(W,H);
-    var bob = Math.sin(t*2.2+chemist.bobP)*1.6;
+    var bob = Math.sin(t*2.2+chemist.bobP)*1.5;
     var x = home.x, fy = home.y;
-    ctx.save(); ctx.translate(x, fy+bob*0.4); ctx.scale(1.5, 1.5); // TO 1.5x
-    ctx.fillStyle='rgba(0,0,0,0.32)';
-    ctx.beginPath(); ctx.ellipse(0, 2, 27, 7, 0, 0, 7); ctx.fill();
-    ctx.fillStyle='#141c2e';
-    ctx.beginPath(); ctx.ellipse(-9, -4, 9, 5, 0, 0, 7); ctx.fill();
-    ctx.beginPath(); ctx.ellipse(9, -4, 9, 5, 0, 0, 7); ctx.fill();
+    ctx.save(); ctx.translate(x, fy+bob*0.4);
+    // Bóng đổ
+    ctx.fillStyle='rgba(0,0,0,0.35)';
+    ctx.beginPath(); ctx.ellipse(0,2,22,6,0,0,7); ctx.fill();
+    // Giày
+    ctx.fillStyle='#10182c';
+    ctx.beginPath(); ctx.ellipse(-8,-5,8,5,0,0,7); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(8,-5,8,5,0,0,7); ctx.fill();
+    // Chân
     ctx.fillStyle='#232f52';
-    ctx.fillRect(-13, -26, 10, 22); ctx.fillRect(3, -26, 10, 22);
-    var cg = ctx.createLinearGradient(-19,0,19,0);
-    cg.addColorStop(0,'#1a2450'); cg.addColorStop(0.5,'#2e4480'); cg.addColorStop(1,'#1a2450');
-    ctx.fillStyle = cg;
+    ctx.fillRect(-12,-24,9,20); ctx.fillRect(3,-24,9,20);
+    // Áo choàng navy
+    var cg = ctx.createLinearGradient(-20,0,20,0);
+    cg.addColorStop(0,'#18224a'); cg.addColorStop(0.5,'#2c3f7e'); cg.addColorStop(1,'#18224a');
+    ctx.fillStyle=cg;
     ctx.beginPath();
-    ctx.moveTo(-19,-82); ctx.lineTo(19,-82); ctx.lineTo(14,-30); ctx.lineTo(-14,-30); ctx.closePath(); ctx.fill();
-    ctx.strokeStyle='rgba(10,16,38,0.5)'; ctx.lineWidth=1.5;
-    ctx.beginPath(); ctx.moveTo(-6,-78); ctx.quadraticCurveTo(-8,-54,-5,-32); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(7,-78); ctx.quadraticCurveTo(9,-54,6,-32); ctx.stroke();
-    ctx.strokeStyle='#e3b34e'; ctx.lineWidth=2.6;
-    ctx.beginPath(); ctx.moveTo(-19,-82); ctx.lineTo(-14,-30); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(19,-82); ctx.lineTo(14,-30); ctx.stroke();
-    ctx.lineWidth=2.2;
-    ctx.beginPath(); ctx.moveTo(-9,-82); ctx.lineTo(0,-66); ctx.lineTo(9,-82); ctx.stroke();
-    ctx.fillStyle='#e3b34e'; ctx.fillRect(-15,-48,30,6);
-    ctx.fillStyle='#8a6420'; ctx.fillRect(-4,-48,8,6);
-    ctx.fillStyle='#ffe9b0'; ctx.fillRect(-15,-48,30,1.5);
-    ctx.strokeStyle='#2e4480'; ctx.lineCap='round'; ctx.lineWidth=12;
-    ctx.beginPath(); ctx.moveTo(-17,-76); ctx.quadraticCurveTo(-25,-60,-21,-42); ctx.stroke();
-    ctx.strokeStyle='#e3b34e'; ctx.lineWidth=2.4;
-    ctx.beginPath(); ctx.moveTo(-25,-46); ctx.quadraticCurveTo(-23,-42,-20,-40); ctx.stroke();
-    ctx.fillStyle='#ffd9b3'; ctx.beginPath(); ctx.arc(-20,-36,5.5,0,7); ctx.fill();
-    ctx.fillStyle='#ffd9b3'; ctx.fillRect(-5,-88,10,9);
-    var hy2=-102;
-    ctx.fillStyle='#241a1a';
-    ctx.beginPath(); ctx.arc(0,hy2-17,6.5,0,7); ctx.fill();
-    ctx.fillRect(-3.5,hy2-19,7,7);
-    ctx.strokeStyle='#e3b34e'; ctx.lineWidth=1.6;
-    ctx.beginPath(); ctx.arc(0,hy2-17,6.5,0.3,Math.PI-0.3); ctx.stroke();
-    ctx.fillStyle='#241a1a';
-    ctx.beginPath(); ctx.arc(0,hy2,16,Math.PI*0.9,Math.PI*2.1); ctx.fill();
-    ctx.fillRect(-16,hy2-17,32,7);
-    ctx.beginPath(); ctx.moveTo(-16,hy2-10); ctx.quadraticCurveTo(-4,hy2-16,8,hy2-11);
-    ctx.lineTo(8,hy2-7); ctx.quadraticCurveTo(-4,hy2-12,-16,hy2-6); ctx.closePath(); ctx.fill();
-    ctx.fillStyle='#ffdcbb'; ctx.beginPath(); ctx.arc(0,hy2,14.5,0,7); ctx.fill();
-    ctx.fillStyle='#ffdcbb';
-    ctx.beginPath(); ctx.arc(-14.5,hy2+1,3.2,0,7); ctx.fill();
-    ctx.beginPath(); ctx.arc(14.5,hy2+1,3.2,0,7); ctx.fill();
-    var blink = (t%3.7)<0.13;
+    ctx.moveTo(-17,-92); ctx.lineTo(17,-92);
+    ctx.lineTo(22,-24); ctx.lineTo(-22,-24); ctx.closePath(); ctx.fill();
+    // Nếp gấp áo
+    ctx.strokeStyle='rgba(10,16,38,0.45)'; ctx.lineWidth=1.4;
+    ctx.beginPath(); ctx.moveTo(-6,-88); ctx.quadraticCurveTo(-8,-56,-5,-28); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(7,-88); ctx.quadraticCurveTo(9,-56,6,-28); ctx.stroke();
+    // Viền vàng 2 bên áo
+    ctx.strokeStyle='#e8b84b'; ctx.lineWidth=2.4;
+    ctx.beginPath(); ctx.moveTo(-17,-92); ctx.lineTo(-22,-24); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(17,-92); ctx.lineTo(22,-24); ctx.stroke();
+    // Tay áo rộng bên trái (tay buông)
+    ctx.strokeStyle='#2c3f7e'; ctx.lineCap='round'; ctx.lineWidth=11;
+    ctx.beginPath(); ctx.moveTo(-15,-86); ctx.quadraticCurveTo(-22,-68,-19,-50); ctx.stroke();
+    ctx.strokeStyle='#e8b84b'; ctx.lineWidth=2.2;
+    ctx.beginPath(); ctx.moveTo(-22,-56); ctx.quadraticCurveTo(-21,-52,-19,-50); ctx.stroke();
+    ctx.fillStyle='#ffd9b3'; ctx.beginPath(); ctx.arc(-19,-44,5,0,7); ctx.fill();
+    // Cổ áo chữ V vàng
+    ctx.strokeStyle='#e8b84b'; ctx.lineWidth=2.6;
+    ctx.beginPath(); ctx.moveTo(-8,-92); ctx.lineTo(0,-78); ctx.lineTo(8,-92); ctx.stroke();
+    // Đai lưng vàng
+    ctx.fillStyle='#e8b84b'; ctx.fillRect(-19,-52,38,7);
+    ctx.fillStyle='#8a6420'; ctx.fillRect(-4,-52,8,7);
+    ctx.fillStyle='#ffe9b0'; ctx.fillRect(-19,-52,38,1.6);
+    // Cổ
+    ctx.fillStyle='#ffdcbb'; ctx.fillRect(-5,-100,10,9);
+    // Đầu
+    var hy=-114;
+    ctx.fillStyle='#ffdcbb'; ctx.beginPath(); ctx.arc(0,hy,16,0,7); ctx.fill();
+    ctx.beginPath(); ctx.arc(-16,hy+1,3.4,0,7); ctx.fill();
+    ctx.beginPath(); ctx.arc(16,hy+1,3.4,0,7); ctx.fill();
+    // Tóc đen
+    ctx.fillStyle='#1d1414';
+    ctx.beginPath(); ctx.arc(0,hy-2,16.5,Math.PI*0.92,Math.PI*2.08); ctx.fill();
+    ctx.fillRect(-16.5,hy-18,33,8);
+    // Mái 3 chỏm
+    ctx.beginPath();
+    ctx.moveTo(-16,hy-10); ctx.lineTo(-9,hy-2); ctx.lineTo(-5,hy-11); ctx.closePath(); ctx.fill();
+    ctx.beginPath();
+    ctx.moveTo(-6,hy-11); ctx.lineTo(0,hy-1); ctx.lineTo(6,hy-11); ctx.closePath(); ctx.fill();
+    ctx.beginPath();
+    ctx.moveTo(5,hy-11); ctx.lineTo(11,hy-3); ctx.lineTo(16,hy-10); ctx.closePath(); ctx.fill();
+    // Tóc mai
+    ctx.fillRect(-18,hy-8,4,12); ctx.fillRect(14,hy-8,4,12);
+    // Búi tóc cao + dây vàng + tua rua
+    ctx.beginPath(); ctx.arc(0,hy-24,7,0,7); ctx.fill();
+    ctx.strokeStyle='#e8b84b'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.arc(0,hy-24,7,0.4,Math.PI-0.4); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(5,hy-27); ctx.quadraticCurveTo(10,hy-22,8,hy-16); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(8,hy-26); ctx.quadraticCurveTo(13,hy-21,11,hy-15); ctx.stroke();
+    // Bóng tóc
+    ctx.strokeStyle='rgba(255,255,255,0.25)'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.arc(-4,hy-6,10,Math.PI*1.15,Math.PI*1.55); ctx.stroke();
+    // Mắt to long lanh
+    var blink=(t%3.7)<0.13;
     if (blink){
-      ctx.fillStyle='#241a1a';
-      ctx.fillRect(-9,hy2,6,1.8); ctx.fillRect(3,hy2,6,1.8);
+      ctx.fillStyle='#1d1414';
+      ctx.fillRect(-10,hy-2,7,2); ctx.fillRect(3,hy-2,7,2);
     } else {
       ctx.fillStyle='#fff';
-      ctx.beginPath(); ctx.ellipse(-6,hy2,4.2,5,0,0,7); ctx.fill();
-      ctx.beginPath(); ctx.ellipse(6,hy2,4.2,5,0,0,7); ctx.fill();
-      ctx.fillStyle='#20242e';
-      ctx.beginPath(); ctx.arc(-6,hy2+0.8,2.5,0,7); ctx.fill();
-      ctx.beginPath(); ctx.arc(6,hy2+0.8,2.5,0,7); ctx.fill();
+      ctx.beginPath(); ctx.ellipse(-6.5,hy-1,4.6,5.4,0,0,7); ctx.fill();
+      ctx.beginPath(); ctx.ellipse(6.5,hy-1,4.6,5.4,0,0,7); ctx.fill();
+      ctx.fillStyle='#2b6cb0';
+      ctx.beginPath(); ctx.arc(-6.5,hy,3,0,7); ctx.fill();
+      ctx.beginPath(); ctx.arc(6.5,hy,3,0,7); ctx.fill();
+      ctx.fillStyle='#141821';
+      ctx.beginPath(); ctx.arc(-6.5,hy+0.5,1.8,0,7); ctx.fill();
+      ctx.beginPath(); ctx.arc(6.5,hy+0.5,1.8,0,7); ctx.fill();
       ctx.fillStyle='#fff';
-      ctx.beginPath(); ctx.arc(-6.9,hy2-0.6,1.1,0,7); ctx.fill();
-      ctx.beginPath(); ctx.arc(5.1,hy2-0.6,1.1,0,7); ctx.fill();
-      ctx.beginPath(); ctx.arc(-5.2,hy2+1.6,0.6,0,7); ctx.fill();
-      ctx.beginPath(); ctx.arc(6.8,hy2+1.6,0.6,0,7); ctx.fill();
+      ctx.beginPath(); ctx.arc(-7.3,hy-1.6,1.2,0,7); ctx.fill();
+      ctx.beginPath(); ctx.arc(5.7,hy-1.6,1.2,0,7); ctx.fill();
+      ctx.beginPath(); ctx.arc(-5.7,hy+1.4,0.6,0,7); ctx.fill();
+      ctx.beginPath(); ctx.arc(7.3,hy+1.4,0.6,0,7); ctx.fill();
     }
-    ctx.strokeStyle='#241a1a'; ctx.lineWidth=2;
-    ctx.beginPath(); ctx.moveTo(-10.5,hy2-8); ctx.quadraticCurveTo(-6,hy2-10.5,-1.5,hy2-8); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(1.5,hy2-8); ctx.quadraticCurveTo(6,hy2-10.5,10.5,hy2-8); ctx.stroke();
-    ctx.fillStyle='rgba(244,114,182,0.55)';
-    ctx.beginPath(); ctx.arc(-10,hy2+6.5,3.2,0,7); ctx.fill();
-    ctx.beginPath(); ctx.arc(10,hy2+6.5,3.2,0,7); ctx.fill();
+    // Lông mày
+    ctx.strokeStyle='#1d1414'; ctx.lineWidth=2; ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(-11,hy-9); ctx.quadraticCurveTo(-6.5,hy-11.5,-2,hy-9); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(2,hy-9); ctx.quadraticCurveTo(6.5,hy-11.5,11,hy-9); ctx.stroke();
+    // Má hồng
+    ctx.fillStyle='rgba(244,114,182,0.5)';
+    ctx.beginPath(); ctx.arc(-11,hy+6,3.4,0,7); ctx.fill();
+    ctx.beginPath(); ctx.arc(11,hy+6,3.4,0,7); ctx.fill();
+    // Miệng cười
     ctx.fillStyle='#8a2f1d';
-    ctx.beginPath(); ctx.ellipse(0,hy2+7,4.6,3.4,0,0.15*Math.PI,0.85*Math.PI); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(0,hy+7.5,4.8,3.6,0,0.12*Math.PI,0.88*Math.PI); ctx.fill();
     ctx.fillStyle='#ff9d9d';
-    ctx.beginPath(); ctx.ellipse(0,hy2+8.6,2.6,1.6,0,0,7); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(0,hy+9,2.6,1.6,0,0,7); ctx.fill();
     ctx.restore();
-    chemist._sx = x+21; chemist._sy = fy+bob*0.4-111; // neo tay theo ti le 1.5x
+    // Neo tay phải ở vai phải
+    chemist._sx = x+14; chemist._sy = fy+bob*0.4-86;
+  }
+function drawMiniFlask(ctx, x, y, col){
+    // LABV3: bình erlenmeyer mini phát sáng trong tay khi rót
+    var c = (col && col.color) ? col : {color:'#7dd3fc', glow:'#22d3ee'};
+    ctx.save(); ctx.translate(x, y); ctx.rotate(0.55);
+    function mp(){
+      ctx.beginPath();
+      ctx.moveTo(-4,-20); ctx.lineTo(-4,-11); ctx.lineTo(-10,-1);
+      ctx.quadraticCurveTo(-11,1,-8,1); ctx.lineTo(8,1);
+      ctx.quadraticCurveTo(11,1,10,-1); ctx.lineTo(4,-11); ctx.lineTo(4,-20);
+      ctx.closePath();
+    }
+    ctx.save(); mp(); ctx.clip();
+    var lg=ctx.createLinearGradient(0,-8,0,2);
+    lg.addColorStop(0,c.color); lg.addColorStop(1,c.glow);
+    ctx.fillStyle=lg; ctx.fillRect(-12,-6,24,9);
+    var rg=ctx.createRadialGradient(0,-2,1,0,-2,10);
+    rg.addColorStop(0,'rgba(255,255,255,0.85)'); rg.addColorStop(1,'rgba(255,255,255,0)');
+    ctx.fillStyle=rg; ctx.fillRect(-12,-8,24,11);
+    ctx.restore();
+    ctx.save(); ctx.shadowColor=c.glow; ctx.shadowBlur=10;
+    mp(); ctx.strokeStyle=c.glow; ctx.lineWidth=2.4; ctx.stroke(); ctx.restore();
+    mp(); ctx.strokeStyle='rgba(235,250,255,0.95)'; ctx.lineWidth=1.1; ctx.stroke();
+    ctx.strokeStyle='rgba(255,255,255,0.8)'; ctx.lineWidth=1.6;
+    ctx.beginPath(); ctx.moveTo(-7,-9); ctx.lineTo(-4,-2); ctx.stroke();
+    ctx.restore();
   }
   function drawChemistArm(ctx, t){
     if (chemist._sx==null) return;
     var sx = chemist._sx, sy = chemist._sy;
     var k = chemist.armT;
-    var rx = sx+2, ry = sy+34;
+    var rx = sx+2, ry = sy+30;
     var tx = rx+(chemist.hx-rx)*k, ty = ry+(chemist.hy-ry)*k;
-    var sol = ikSolve(sx, sy, tx, ty, 45, 42);
+    var sol = ikSolve(sx, sy, tx, ty, 36, 34);
     ctx.save(); ctx.lineCap='round';
-    ctx.strokeStyle='#33477f'; ctx.lineWidth=15;
+    // Tay áo trên (navy)
+    ctx.strokeStyle='#2c3f7e'; ctx.lineWidth=13;
     ctx.beginPath(); ctx.moveTo(sx,sy); ctx.lineTo(sol.ex,sol.ey); ctx.stroke();
-    ctx.strokeStyle='#e3b34e'; ctx.lineWidth=3;
-    ctx.beginPath(); ctx.moveTo(sol.ex-9,sol.ey-9); ctx.lineTo(sol.ex+9,sol.ey+3); ctx.stroke();
-    ctx.strokeStyle='#ffd9b3'; ctx.lineWidth=12;
+    // Viền vàng cổ tay áo
+    ctx.strokeStyle='#e8b84b'; ctx.lineWidth=2.6;
+    ctx.beginPath(); ctx.moveTo(sol.ex-7,sol.ey-7); ctx.lineTo(sol.ex+7,sol.ey+2); ctx.stroke();
+    // Cẳng tay
+    ctx.strokeStyle='#ffd9b3'; ctx.lineWidth=10;
     ctx.beginPath(); ctx.moveTo(sol.ex,sol.ey); ctx.lineTo(sol.hx,sol.hy); ctx.stroke();
+    // Bàn tay
     ctx.fillStyle='#ffd9b3';
-    ctx.beginPath(); ctx.arc(sol.hx,sol.hy,9.5,0,7); ctx.fill();
+    ctx.beginPath(); ctx.arc(sol.hx,sol.hy,8,0,7); ctx.fill();
     var hold = chemist.hold;
     if (k > 0.5 && hold==='clamp'){
       ctx.fillStyle='#c89b62'; ctx.fillRect(sol.hx-9, sol.hy-14, 18, 10);
@@ -1034,23 +1083,14 @@ window.__refits = window.__refits || [];
       ctx.fillStyle='#1f2937'; ctx.fillRect(-4,-32,8,7);
       ctx.restore();
     } else if (k > 0.5 && hold==='pour'){
-      ctx.strokeStyle='rgba(253,224,71,0.9)'; ctx.lineWidth=3;
-      ctx.beginPath(); ctx.arc(sol.hx, sol.hy, 20, -Math.PI/2, -Math.PI/2+0.85); ctx.stroke();
-      // Bình tam giác mini phát sáng trong tay khi rót
-      ctx.save(); ctx.translate(sol.hx, sol.hy-4); ctx.rotate(0.5);
-      ctx.shadowColor='#22d3ee'; ctx.shadowBlur=14;
-      ctx.fillStyle='rgba(34,211,238,0.75)';
-      ctx.beginPath();
-      ctx.moveTo(-5,-22); ctx.lineTo(-5,-12); ctx.lineTo(-11,-2);
-      ctx.quadraticCurveTo(-12,0,-9,0); ctx.lineTo(9,0);
-      ctx.quadraticCurveTo(12,0,11,-2); ctx.lineTo(5,-12); ctx.lineTo(5,-22);
-      ctx.closePath(); ctx.fill();
-      ctx.shadowBlur=0;
-      ctx.strokeStyle='rgba(230,250,255,0.95)'; ctx.lineWidth=1.6; ctx.stroke();
-      ctx.restore();
+      // Cầm bình erlenmeyer mini nghiêng đổ
+      drawMiniFlask(ctx, sol.hx, sol.hy-6, pour ? pour.colA : null);
     } else if (k > 0.5 && hold==='lamp'){
       ctx.strokeStyle='rgba(147,197,253,0.9)'; ctx.lineWidth=2.5;
       ctx.beginPath(); ctx.arc(sol.hx, sol.hy, 11, 0, 7); ctx.stroke();
+    } else if (k > 0.5 && hold==='grip'){
+      ctx.strokeStyle='rgba(253,224,71,0.85)'; ctx.lineWidth=2.5;
+      ctx.beginPath(); ctx.arc(sol.hx, sol.hy, 12, 0, 7); ctx.stroke();
     }
     ctx.restore();
   }
@@ -1337,30 +1377,50 @@ window.__refits = window.__refits || [];
   });
 
   // ---------- Bố cục bàn ----------
-  function layout(){
+function layout(){
     if (!G || !(G.w > 0) || !(G.h > 0)) return;
     var W = G.w, n = vessels.length;
-    var h = Math.min(150, G.h*0.42);
-    var availW = Math.max(180, W - 132); // chừa chỗ đèn cồn bên phải
+    var h = Math.min(140, G.h*0.44);
+    var charW = 96; // LABV3: chừa chỗ nhân vật bên trái
+    var availW = Math.max(170, W - charW - 66); // chừa chỗ đèn cồn bên phải
     vessels.forEach(function(v, i){
       v.w = Math.min(92, (availW/Math.max(1,n))*0.70);
       if (v.type==='bottle') v.w = Math.min(76, v.w);
       v.h = h * (v.type==='tube' ? 1.12 : v.type==='round' ? 0.95 : v.type==='bottle' ? 1.05 : 1);
-      v.hx = 14 + availW*(i+1)/(n+1);
-      v.hy = G.h - 52;
+      v.hx = charW + availW*(i+1)/(n+1);
+      v.hy = G.h - 30; // LABV3: đứng trên mặt bàn gỗ
       if (v.x === 0 && v.y === 0){ v.x = v.hx; v.y = v.hy; }
     });
-    lamp.hx = W - 62; lamp.hy = G.h - 52;
+    lamp.hx = W - 58; lamp.hy = G.h - 30;
     if (!lampDrag){ lamp.x += (((lamp.tx!=null)?lamp.tx:lamp.hx)-lamp.x)*0.12; lamp.y = lamp.hy; }
   }
 
   // ---------- Nền phòng lab kiểu video ----------
   var motes = [];
   for (var mi=0; mi<14; mi++) motes.push({x:Math.random(), y:Math.random(), r:1+Math.random()*2, sp:0.05+Math.random()*0.12, ph:Math.random()*6.28});
+  // LABV3: đốm bokeh mờ kiểu video quảng cáo
+  var bokeh = [];
+  var __bokehCols = ['#22d3ee','#818cf8','#c084fc','#38bdf8','#f0abfc'];
+  for (var bki=0; bki<9; bki++) bokeh.push({fx:Math.random(), fy:Math.random()*0.72, r:16+Math.random()*30,
+    dx:(Math.random()-0.5)*10, dy:(Math.random()-0.5)*6, c:__bokehCols[bki%5]});
   function drawBG(ctx, W, H, t){
+    // Nền: xanh navy đậm → đen
     var g = ctx.createLinearGradient(0,0,0,H);
-    g.addColorStop(0,'#0a1424'); g.addColorStop(0.7,'#0e1e33'); g.addColorStop(1,'#132a44');
+    g.addColorStop(0,'#0b1830'); g.addColorStop(0.55,'#081222'); g.addColorStop(1,'#04070e');
     ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+    // Đốm bokeh trôi nhẹ
+    for (var bi=0;bi<bokeh.length;bi++){
+      var b = bokeh[bi];
+      b.fx += b.dx*0.016/W; b.fy += b.dy*0.016/H;
+      if (b.fx<0) b.fx+=1; if (b.fx>1) b.fx-=1;
+      if (b.fy<0) b.fy+=1; if (b.fy>1) b.fy-=1;
+      var bx = b.fx*W, by = b.fy*H;
+      var bg2 = ctx.createRadialGradient(bx,by,1,bx,by,b.r);
+      bg2.addColorStop(0, hexA(b.c, 0.15));
+      bg2.addColorStop(1, hexA(b.c, 0));
+      ctx.fillStyle = bg2;
+      ctx.beginPath(); ctx.arc(bx,by,b.r,0,7); ctx.fill();
+    }
     // Hạt sáng trôi (bụi phòng lab)
     for (var i=0;i<motes.length;i++){
       var m = motes[i];
@@ -1369,12 +1429,21 @@ window.__refits = window.__refits || [];
       ctx.fillStyle = 'rgba(140,220,255,'+a.toFixed(2)+')';
       ctx.beginPath(); ctx.arc(m.x*W, m.y*H, m.r, 0, 7); ctx.fill();
     }
-    // Mặt bàn gỗ
-    var by = H-8;
-    var wg = ctx.createLinearGradient(0,by-14,0,H);
-    wg.addColorStop(0,'#5a4128'); wg.addColorStop(1,'#2e2114');
-    ctx.fillStyle = wg; ctx.fillRect(0, by-14, W, 14+8);
-    ctx.fillStyle = 'rgba(255,220,160,0.18)'; ctx.fillRect(0, by-14, W, 2);
+    // Bàn gỗ 30px ở đáy
+    var by = H-30;
+    var wg = ctx.createLinearGradient(0,by,0,H);
+    wg.addColorStop(0,'#7a5636'); wg.addColorStop(0.25,'#5d3f24'); wg.addColorStop(1,'#2c1e10');
+    ctx.fillStyle = wg; ctx.fillRect(0, by, W, 30);
+    // Vân gỗ
+    ctx.strokeStyle='rgba(40,24,10,0.5)'; ctx.lineWidth=1.4;
+    for (var k2=0;k2<3;k2++){
+      var wy = by+8+k2*8;
+      ctx.beginPath();
+      for (var wx=0; wx<=W; wx+=24) ctx.lineTo(wx, wy+Math.sin(wx*0.05+k2*2)*1.6);
+      ctx.stroke();
+    }
+    // Viền sáng mặt bàn
+    ctx.fillStyle='rgba(255,214,150,0.35)'; ctx.fillRect(0,by,W,2);
   }
 
   // ---------- Vòng lặp chính ----------
