@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261012_0540
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261012_0545
 // Tab 2: thay the renderLessonManagementList goc bang DS DE THI GV tai len, gom:
 //  (a) file de .html trong data/ (Word/AI day cong khai)
 //  (b) de luu rieng/len lich trong data/exam-schedule.json (exams-pending) - de Word/matran deu vao day
@@ -381,5 +381,23 @@ function _sbInitPickers(){
   }, 250);
 })();
 
-console.log('SAOBAY wrap 0540 loaded');
+
+// === 0545: an luon nut "An/Hien Cau Truc Thu Muc" + vo hieu hoa toggleSidebar (cay da bo han theo yeu cau) ===
+(function(){
+  var tries = 0;
+  var iv = setInterval(function(){
+    tries++;
+    var btns = document.querySelectorAll('button[onclick="toggleSidebar()"]');
+    btns.forEach(function(b){ b.style.display = 'none'; });
+    if (typeof window.toggleSidebar === 'function' && !window.toggleSidebar.__sbOff) {
+      var off = function(){ try { _sbHideTreeAside(); } catch(e) {} };
+      off.__sbOff = true;
+      window.toggleSidebar = off;
+    }
+    if (btns.length && window.toggleSidebar && window.toggleSidebar.__sbOff) clearInterval(iv);
+    if (tries > 60) clearInterval(iv);
+  }, 250);
+})();
+
+console.log('SAOBAY wrap 0545 loaded');
 })();
