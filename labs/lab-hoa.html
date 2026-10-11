@@ -114,7 +114,7 @@
   </div>
 
   <div class="flex gap-2 px-3 mt-3">
-    <button class="tab-btn active flex-1 big-btn rounded-xl bg-white shadow font-bold text-sm" data-tab="mix">🌈 Trộn dung dịch</button>
+    <button class="tab-btn active flex-1 big-btn rounded-xl bg-white shadow font-bold text-sm" data-tab="mix">⚗️ Trộn dung dịch</button>
     <button class="tab-btn flex-1 big-btn rounded-xl bg-white shadow font-bold text-sm" data-tab="mol">🔮 Phân tử 3D</button>
     <button class="tab-btn flex-1 big-btn rounded-xl bg-white shadow font-bold text-sm" data-tab="atom">⚛️ Nguyên tử</button>
     <button class="tab-btn flex-1 big-btn rounded-xl bg-white shadow font-bold text-sm" data-tab="periodic">🧬 Bảng tuần hoàn</button>
@@ -159,10 +159,11 @@
       <!-- TỦ HÓA CHẤT -->
       <div class="rounded-xl p-2 mb-2" style="background:linear-gradient(180deg,#4a3520,#241a10);box-shadow:inset 0 2px 8px rgba(0,0,0,.5);">
         <div class="text-[11px] font-black text-amber-200 mb-1">🗄️ TỦ HÓA CHẤT <span class="font-normal opacity-70">— chạm vào lọ để lấy bình mới</span></div>
+        <div id="shelf-cats" class="flex gap-1 flex-wrap mb-1"></div>
         <div id="chem-shelf" class="flex gap-2 overflow-x-auto pb-1"></div>
       </div>
       <canvas id="cv-mix" class="w-full rounded-xl border border-slate-700" height="320" style="touch-action:pan-y;display:block;background:#0b1626;height:320px;"></canvas>
-      <div class="text-[11px] text-slate-500 mt-1">💡 Chạm bình ✕ để cất • Tối đa 4 bình • Bật pipet rồi chạm bình để nhỏ giọt chỉ thị</div>
+      <div class="text-[11px] text-slate-500 mt-1">💡 Chạm bình ✕ để cất • Tối đa 4 bình • Chạm bình axit/bazơ: nhân vật rót vào ống nghiệm • Chạm lọ cồn: đun sôi ống nghiệm • Bật pipet rồi chạm bình để nhỏ giọt chỉ thị</div>
       <div id="mix-result" class="mt-3 hidden bg-teal-50 border border-teal-200 rounded-xl p-3">
         <div class="text-sm font-bold text-teal-900">Phương trình phản ứng:</div>
         <div id="mix-eq" class="text-center text-lg font-black text-teal-800 my-1"></div>
@@ -177,6 +178,24 @@
     .chem-bottle{background:transparent;border:none;cursor:pointer;padding:3px 2px;display:flex;flex-direction:column;align-items:center;gap:1px;min-width:66px;transition:transform .15s ease}
     .chem-bottle:hover{transform:translateY(-3px)}
     .chem-bottle:active{transform:scale(.93)}
+    /* SHELF_CATS: nút chọn mục tủ hóa chất */
+    .shelf-cat{font-size:11px;font-weight:800;padding:5px 10px;border-radius:999px;border:1px solid #8a6a3f;
+      background:rgba(255,255,255,.06);color:#f5deb3;cursor:pointer;transition:all .15s}
+    .shelf-cat.active{background:#f59e0b;color:#3a2408;border-color:#fbbf24;box-shadow:0 0 10px rgba(245,158,11,.5)}
+    .shelf-cat:hover{transform:translateY(-1px)}
+    /* SHELF_CATS: giá gỗ đựng ống nghiệm */
+    .tube-rack{display:flex;gap:16px;align-items:flex-end;justify-content:center;padding:12px 18px 8px;border-radius:10px;
+      background:linear-gradient(180deg,#6b4a2a,#3d2812);box-shadow:inset 0 3px 8px rgba(0,0,0,.55);border:1px solid #8a6a3f}
+    .rack-tube{background:transparent;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;transition:transform .15s}
+    .rack-tube:hover{transform:translateY(-4px)}
+    .rack-hole{width:30px;height:10px;border-radius:50%;background:#1c1108;margin-bottom:-7px;box-shadow:inset 0 2px 4px #000;position:relative;z-index:1}
+    .rack-tube .rt{width:22px;height:64px;border-radius:0 0 11px 11px;position:relative;
+      background:linear-gradient(90deg,rgba(255,255,255,.05),rgba(160,220,255,.28),rgba(255,255,255,.05));
+      border:2px solid rgba(170,225,255,.75);border-top:none;
+      box-shadow:0 0 10px rgba(120,200,255,.35), inset 0 0 8px rgba(160,220,255,.25)}
+    .rack-tube .rt::before{content:'';position:absolute;top:0;left:2px;right:2px;height:14px;border-radius:0 0 6px 6px;
+      background:linear-gradient(90deg,rgba(255,255,255,.5),rgba(255,255,255,.12))}
+    .rack-tube .rl{font-size:9px;color:#ffe9c4;font-weight:800}
     /* ROUND_FLASK_V2: bình cầu thủy tinh 3D chau chuốt như ảnh mẫu */
     .chem-bottle .bbody{position:relative;width:58px;height:58px;border-radius:50%;
       background:
@@ -394,9 +413,14 @@ window.__refits = window.__refits || [];
     AgNO3:    {f:'AgNO₃',     name:'bạc nitrat',      color:'#bae6fd', glow:'#38bdf8', type:'salt', cat:'Muối'},
     FeCl3:    {f:'FeCl₃',     name:'sắt(III) clorua', color:'#fbbf24', glow:'#d97706', type:'salt', cat:'Muối'},
     litmus:   {f:'Quỳ tím',   name:'quỳ tím',         color:'#a78bfa', glow:'#7c3aed', type:'ind',  cat:'Chỉ thị'},
-    phenol:   {f:'Phenolphtalein', name:'phenolphtalein', color:'#fbcfe8', glow:'#ec4899', type:'ind', cat:'Chỉ thị'}
+    phenol:   {f:'Phenolphtalein', name:'phenolphtalein', color:'#fbcfe8', glow:'#ec4899', type:'ind', cat:'Chỉ thị'},
+    Zn:       {f:'Zn',        name:'kẽm',         color:'#cbd5e1', glow:'#94a3b8', type:'metal', cat:'Kim loại'},
+    Fe:       {f:'Fe',        name:'sắt',         color:'#e8c98a', glow:'#b45309', type:'metal', cat:'Kim loại'},
+    Mg:       {f:'Mg',        name:'magie',       color:'#f8fafc', glow:'#e2e8f0', type:'metal', cat:'Kim loại'},
+    Cu:       {f:'Cu',        name:'đồng',        color:'#fdba74', glow:'#c2410c', type:'metal', cat:'Kim loại'},
+    C2H5OH:   {f:'C₂H₅OH',    name:'cồn 96 độ',   color:'#a5f3fc', glow:'#06b6d4', type:'fuel',  cat:'Cồn'}
   };
-  var SHELF_ORDER = ['HCl','H2SO4','CH3COOH','NaOH','KOH','Ca(OH)2','CuSO4','NaCl','AgNO3','FeCl3','litmus','phenol'];
+  var SHELF_ORDER = ['HCl','H2SO4','CH3COOH','NaOH','KOH','Ca(OH)2','CuSO4','NaCl','AgNO3','FeCl3','litmus','phenol','Zn','Fe','Mg','Cu','C2H5OH'];
 
   var eqs = {
     'HCl|NaOH':  'HCl + NaOH → NaCl + H₂O',
@@ -453,11 +477,35 @@ window.__refits = window.__refits || [];
   }
 
   // ---------- Tủ hóa chất ----------
+  // ---------- Tủ hóa chất chia mục (SHELF_CATS) ----------
+  var shelfCat = 'all';
+  function buildShelfCats(){
+    var bar = document.getElementById('shelf-cats');
+    if (!bar || bar.children.length) return;
+    var defs = [['all','Tất cả'],['Axit','Axit'],['Bazơ','Bazơ'],['Muối','Muối'],
+                ['Kim loại','Kim loại'],['Chỉ thị','Chỉ thị'],['Cồn','Cồn'],['tube','🧪 Ống nghiệm']];
+    defs.forEach(function(d){
+      var b = document.createElement('button');
+      b.className = 'shelf-cat' + (d[0]==='all' ? ' active' : '');
+      b.type = 'button'; b.textContent = d[1];
+      b.addEventListener('click', function(){
+        shelfCat = d[0];
+        var bs = bar.querySelectorAll('.shelf-cat');
+        for (var i=0;i<bs.length;i++) bs[i].classList.remove('active');
+        b.classList.add('active');
+        buildShelf();
+      });
+      bar.appendChild(b);
+    });
+  }
   function buildShelf(){
     var shelf = document.getElementById('chem-shelf');
-    if (!shelf || shelf.children.length) return;
+    if (!shelf) return;
+    shelf.innerHTML = '';
+    if (shelfCat === 'tube'){ buildTubeRack(shelf); return; }
     SHELF_ORDER.forEach(function(k){
       var c = CHEMS[k];
+      if (shelfCat !== 'all' && c.cat !== shelfCat) return;
       var b = document.createElement('button');
       b.className = 'chem-bottle'; b.type = 'button';
       b.innerHTML = '<span class="bcork"></span><span class="bneck"></span>' +
@@ -473,6 +521,33 @@ window.__refits = window.__refits || [];
       });
       shelf.appendChild(b);
     });
+  }
+  // Giá gỗ đựng ống nghiệm trống trong tủ
+  function buildTubeRack(shelf){
+    var wrap = document.createElement('div');
+    wrap.style.cssText = 'display:flex;justify-content:center;width:100%;padding:4px 0;';
+    var rack = document.createElement('div');
+    rack.className = 'tube-rack';
+    for (var i=1;i<=3;i++){
+      (function(n){
+        var b = document.createElement('button');
+        b.className = 'rack-tube'; b.type = 'button';
+        b.innerHTML = '<span class="rack-hole"></span><span class="rt"></span><span class="rl">Ống '+n+'</span>';
+        b.addEventListener('click', function(){ addEmptyTube(); });
+        rack.appendChild(b);
+      })(i);
+    }
+    wrap.appendChild(rack);
+    shelf.appendChild(wrap);
+  }
+  function addEmptyTube(){
+    if (vessels.length >= 4){ alert('Bàn đã có 4 bình rồi! Cất bớt bình (chạm ✕) rồi lấy thêm nhé.'); return; }
+    var t = makeVessel('tube','HCl',0.02);
+    t.contents = []; t.vol = 0.02; t.volShown = 0.02; t.shake = 0; t.pop = 1;
+    t.x = 0; t.y = 0;
+    vessels.push(t);
+    try { layout(); } catch(eLay2){}
+    flashMsg(t,'Đã thêm ống nghiệm trống!');
   }
   var _vtypeCycle = 0;
   function addVesselFromShelf(chemKey){
@@ -920,6 +995,8 @@ function drawVessel(ctx, v, t){
   function updateChemist(t, W, H){
     var mode = 'idle', tgt = null, hold = null;
     if (pour){ mode='pour'; var a=pour.a; tgt={x:a.x-a.tiltDir*(a.w*0.5+16), y:a.y-a.h*0.52}; hold='pour'; }
+    else if (typeof carryAnim!=='undefined' && carryAnim){ mode='carry'; tgt={x:carryAnim.a.x, y:carryAnim.a.y-carryAnim.a.h*0.5}; hold='grip'; }
+    else if (typeof heatDemo!=='undefined' && heatDemo && heatDemo.tube){ mode='heat'; tgt={x:lamp.x-30, y:lamp.y-34}; hold='lamp'; }
     else if (lampDrag){ mode='heat'; tgt={x:lamp.x-30, y:lamp.y-34}; hold='lamp'; }
     else {
       var dg=null, pd=null, i;
@@ -1121,6 +1198,43 @@ function drawMiniFlask(ctx, x, y, col){
   }
   // ---------- Rót: dòng chảy phát sáng + chuyển thể tích ----------
   var pour = null, pourQ = [], selV = null, dragV = null, mixDemo = null;
+  // ---------- Nhân vật tự thao tác khi chạm bình (theo yêu cầu user) ----------
+  var carryAnim = null;   // bình đang được nhân vật "cầm" bay tới ống nghiệm
+  var heatDemo = null;    // nhân vật đang đem đèn cồn đun ống nghiệm
+  function demoPourToTube(src){
+    if (pour || carryAnim){ if (src) flashMsg(src,'Đợi chút nhé...'); return; }
+    if (!src || (src.vol||0) < 0.05){ flashMsg(src,'Bình hết rồi! Lấy bình mới từ tủ nhé.'); return; }
+    var tube = null, i;
+    for (i=0;i<vessels.length;i++) if (vessels[i].type==='tube' && vessels[i]!==src){ tube = vessels[i]; break; }
+    if (!tube){
+      if (vessels.length >= 4){ flashMsg(src,'Bàn đầy! Cất bớt bình (chạm ✕) rồi thử lại.'); return; }
+      tube = makeVessel('tube', src.chemKey, 0.02);
+      tube.contents = []; tube.vol = 0.02; tube.volShown = 0.02; tube.shake = 0; tube.pop = 1;
+      tube.x = 0; tube.y = 0;
+      vessels.push(tube);
+    }
+    if (typeof selV !== 'undefined' && selV){ selV.sel = false; selV = null; }
+    try { layout(); } catch(eLay3){}
+    carryAnim = {a:src, b:tube, t:0, dur:0.85, fx:src.x, fy:src.y, tx:tube.x, ty:tube.y - tube.h - src.h*0.32};
+    src.carried = true; src.returning = false;
+    flashMsg(tube,'Nhân vật đang rót vào ống nghiệm...');
+  }
+  function demoHeatTube(src){
+    var tube = null, i, best = 1e9;
+    for (i=0;i<vessels.length;i++){
+      var v = vessels[i];
+      if (v.type==='tube' && (v.volShown||0) > 0.03){
+        var d = Math.abs(v.x - (lamp.x||0));
+        if (d < best){ best = d; tube = v; }
+      }
+    }
+    if (!tube){ for (i=0;i<vessels.length;i++) if (vessels[i].type==='tube'){ tube = vessels[i]; break; } }
+    if (!tube){ flashMsg(src,'Chưa có ống nghiệm! Vào tủ → mục 🧪 Ống nghiệm để lấy nhé.'); return; }
+    if (typeof selV !== 'undefined' && selV){ selV.sel = false; selV = null; }
+    lamp.tx = Math.max(48, Math.min(G.w-48, tube.x));
+    heatDemo = {tube: tube, t:0};
+    flashMsg(tube,'Nhân vật đem đèn cồn tới đun...');
+  }
   function startPour(a, b){
     if (!a || !b || a === b || pour) return;
     var amt = Math.min(0.42, a.vol, 1 - b.vol);
@@ -1131,6 +1245,7 @@ function drawMiniFlask(ctx, x, y, col){
   }
   function finishPour(){
     var p = pour; pour = null;
+    p.a.carried = false; p.a.returning = true;
     p.a.tilt = 0; p.a.vol = +(p.a0 - p.amt).toFixed(3);
     p.b.vol = +(p.b0 + p.amt).toFixed(3);
     // Gộp chất đã rót vào bình đích
@@ -1352,7 +1467,7 @@ function drawMiniFlask(ctx, x, y, col){
   }
   cv.addEventListener('pointerdown', function(e){
     var p = canvasPos(e);
-    if (Math.abs(p.x-lamp.x) < 44 && p.y > lamp.y-70 && p.y < lamp.y+14){ lampDrag = true; e.preventDefault(); return; }
+    if (Math.abs(p.x-lamp.x) < 44 && p.y > lamp.y-70 && p.y < lamp.y+14){ lampDrag = true; if (typeof heatDemo!=='undefined') heatDemo = null; e.preventDefault(); return; }
     var v = vesselAt(p);
     if (v && v.closeBtn){
       var dx = p.x-v.closeBtn.x, dy = p.y-v.closeBtn.y;
@@ -1391,6 +1506,11 @@ function drawMiniFlask(ctx, x, y, col){
     dragInfo = null;
     var onClose = v && v.closeBtn && (function(){var dx=p.x-v.closeBtn.x,dy=p.y-v.closeBtn.y;return dx*dx+dy*dy<17*17;})();
     if (pipetOn && v && !onClose){ addDrop(v); return; }
+    if (v && !onClose && v.type !== 'tube'){
+      var _isAcid = hasType(v,'acid'), _isBase = hasType(v,'base'), _isFuel = hasType(v,'fuel');
+      if (_isFuel){ demoHeatTube(v); return; }
+      if (_isAcid || _isBase){ demoPourToTube(v); return; }
+    }
     if (v){
       if (selV && selV !== v){ startPour(selV, v); selV.sel = false; selV = null; }
       else { if (selV) selV.sel = false; selV = (selV===v) ? null : v; if (selV) selV.sel = true; }
@@ -1487,6 +1607,18 @@ function layout(){
     ctx.clearRect(0,0,W,H);
     drawBG(ctx, W, H, t);
     layout();
+    // Nhân vật "cầm" bình bay tới ống nghiệm rồi mới rót
+    if (typeof carryAnim !== 'undefined' && carryAnim){
+      var _ca = carryAnim; _ca.t += 0.016;
+      var _ck = Math.min(1, _ca.t / _ca.dur), _ce = 1 - Math.pow(1-_ck, 3);
+      _ca.a.x = _ca.fx + (_ca.tx-_ca.fx)*_ce;
+      _ca.a.y = _ca.fy + (_ca.ty-_ca.fy)*_ce;
+      if (_ck >= 1){ var _pa=_ca.a, _pb=_ca.b; carryAnim = null; startPour(_pa,_pb); }
+    }
+    if (typeof heatDemo !== 'undefined' && heatDemo){
+      heatDemo.t += 0.016;
+      if (heatDemo.t > 30 || vessels.indexOf(heatDemo.tube) < 0) heatDemo = null;
+    }
     // Cập nhật rót
     if (pour){
       pour.t += 0.016;
@@ -1538,7 +1670,7 @@ function layout(){
       if (v.returning){
         v.x += (v.hx - v.x)*0.18; v.y += (v.hy - v.y)*0.18;
         if (Math.hypot(v.hx-v.x, v.hy-v.y) < 2){ v.x = v.hx; v.y = v.hy; v.returning = false; }
-      } else if (!v.dragging){ v.x = v.hx; v.y = v.hy; }
+      } else if (!v.dragging && !v.carried){ v.x = v.hx; v.y = v.hy; }
       // Đun nóng: ống nghiệm gần ngọn lửa
       if (v.type === 'tube' && v.volShown > 0.03){
         var dx = v.x - lamp.flameX, dy = (v.y - v.h*0.55) - lamp.flameY;
@@ -1582,6 +1714,7 @@ function layout(){
     requestAnimationFrame(draw);
   }
 
+  buildShelfCats();
   buildShelf();
   resetBench();
   draw();
