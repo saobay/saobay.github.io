@@ -167,24 +167,59 @@
             return { owner: 'saobay', repo: 'saobay.github.io', branch: 'main' };
         }
 
-        // 2026-10-11: đọc từ cây thư mục lý thuyết (localStorage saobay_git_folders) thay vì data/bank
+        // 2026-10-11: Lấy TRỰC TIẾP từ GitHub API (giống cây trang chủ) - đầy đủ môn
         async function exbFetchBankIndex(){
             if (exbBankIndex) return exbBankIndex;
+            var cfg = exbGhCfg();
+            var out = [], seen = {};
+            try {
+                // Lấy danh sách khối từ data/THCS và data/THPT
+                var roots = ['data/THCS', 'data/THPT'];
+                for (var ri = 0; ri < roots.length; ri++){
+                    var rootUrl = 'https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + '/contents/' + encodeURIComponent(roots[ri]).replace(/%2F/g, '/') + '?ref=' + cfg.branch;
+                    // Dùng path trực tiếp
+                    rootUrl = 'https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + '/contents/' + roots[ri] + '?ref=' + cfg.branch;
+                    var rr = await fetch(rootUrl);
+                    if (!rr.ok) continue;
+                    var gradeDirs = await rr.json();
+                    for (var gi = 0; gi < gradeDirs.length; gi++){
+                        var gDir = gradeDirs[gi];
+                        if (gDir.type !== 'dir') continue;
+                        var gm = String(gDir.name || '').match(/Kh[ốo]i l[ớo]p\s*(\d+)/i);
+                        if (!gm) continue;
+                        var grade = parseInt(gm[1], 10);
+                        // Lấy danh sách môn trong khối
+                        var subjUrl = 'https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + '/contents/' + roots[ri] + '/' + encodeURIComponent(gDir.name) + '?ref=' + cfg.branch;
+                        var sr = await fetch(subjUrl);
+                        if (!sr.ok) continue;
+                        var subjDirs = await sr.json();
+                        for (var si = 0; si < subjDirs.length; si++){
+                            var sDir = subjDirs[si];
+                            if (sDir.type !== 'dir') continue;
+                            var rawSubj = sDir.name.trim();
+                            // Chuẩn hóa: "Toán 6" -> "TOAN"
+                            var subject = rawSubj.replace(/\s*\d+\s*$/, '').trim().toUpperCase();
+                            subject = subject.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/Đ/g, 'D').replace(/đ/g, 'd');
+                            subject = subject.replace(/\s+/g, '_');
+                            var key = subject + '_' + grade;
+                            if (!seen[key]){ seen[key] = 1; out.push({ subject: subject, grade: grade, label: rawSubj }); }
+                        }
+                    }
+                }
+                if (out.length){ exbBankIndex = out; return out; }
+            } catch(e){ console.warn('exbFetchBankIndex GitHub API failed:', e); }
+            // Fallback: localStorage như cũ
             try {
                 var raw = localStorage.getItem('saobay_git_folders');
                 if (raw){
                     var folders = JSON.parse(raw);
-                    var out = [], seen = {};
                     (folders || []).forEach(function(f){
                         var p = f.path || '';
-                        // Parse: data/THPT/Khối lớp 10/Toán 10/Chăn nuôi/Bài 1
                         var m = p.match(/^data\/[^\/]+\/Kh[ốo]i l[ớo]p (\d+)\/([^\/]+)\//i);
                         if (m){
                             var grade = parseInt(m[1], 10);
-                            // "Toán 10" -> "TOAN" (bỏ số khối, chuẩn hóa)
                             var rawSubj = m[2].trim();
                             var subject = rawSubj.replace(/\s*\d+\s*$/, '').trim().toUpperCase();
-                            // Chuẩn hóa tiếng Việt: TOÁN -> TOAN
                             subject = subject.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/Đ/g, 'D').replace(/đ/g, 'd');
                             subject = subject.replace(/\s+/g, '_');
                             var key = subject + '_' + grade;
@@ -192,21 +227,6 @@
                         }
                     });
                     if (out.length){ exbBankIndex = out; return out; }
-                }
-            } catch(e){}
-            // Fallback: thử data/bank như cũ
-            var cfg = exbGhCfg();
-            try {
-                var url = 'https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + '/contents/data/bank?ref=' + cfg.branch;
-                var r = await fetch(url);
-                if (r.ok){
-                    var j = await r.json();
-                    var out2 = [];
-                    (j || []).forEach(function(it){
-                        var m2 = String(it.name || '').match(/^([A-Za-z0-9_]+)_(\d+)\.json$/);
-                        if (m2) out2.push({ subject: m2[1].toUpperCase(), grade: parseInt(m2[2], 10) });
-                    });
-                    if (out2.length){ exbBankIndex = out2; return out2; }
                 }
             } catch(e2){}
             return null;
