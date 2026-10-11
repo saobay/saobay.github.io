@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2040
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2044
 // Rebuilt - fixed structure
 (function(){
     'use strict';
@@ -891,12 +891,78 @@ Hãy điền chi tiết từng ô trong bảng (chủ đề kiến thức cụ t
                 }
             };
             
-            // Thêm vào header hoặc toolbar
-            var toolbar = document.querySelector('header') || document.body;
-            toolbar.appendChild(btn);
+            // Thêm vào đầu tab Soạn bài & Đề thi
+            var tab1 = document.querySelector('[id*="tab-1"], [id*="tab1"], [data-tab="1"]');
+            if (tab1) {
+                tab1.insertBefore(btn, tab1.firstChild);
+            } else {
+                // Fallback: thêm vào sau các nút module
+                var modules = document.querySelector('.grid, [class*="grid"]');
+                if (modules && modules.parentElement) {
+                    modules.parentElement.insertBefore(btn, modules.nextSibling);
+                } else {
+                    document.body.insertBefore(btn, document.body.firstChild);
+                }
+            }
         } catch(e){}
     }
     
     setInterval(addReorganizeBtn, 3000);
+})();
+
+// 2026-10-11: Thống kê học liệu trong tab 2
+(function(){
+    async function loadStats(){
+        try {
+            var tab2 = document.querySelector('#tab-2, [id*="tab2"], [data-tab="2"]');
+            if (!tab2) return;
+            if (document.getElementById('hoclieu-stats')) return;
+            
+            var statsDiv = document.createElement('div');
+            statsDiv.id = 'hoclieu-stats';
+            statsDiv.className = 'p-4 mb-4 bg-blue-50 rounded-lg border border-blue-200';
+            statsDiv.innerHTML = '<p class="text-gray-500">⏳ Đang tải thống kê...</p>';
+            tab2.insertBefore(statsDiv, tab2.firstChild);
+            
+            // Đếm đề thi từ GitHub API
+            var examCount = 0;
+            var questionStats = { mcq: 0, truefalse: 0, short: 0, essay: 0 };
+            
+            try {
+                // Lấy danh sách bank files
+                var res = await fetch('https://api.github.com/repos/saobay/saobay.github.io/contents/data/bank');
+                if (res.ok) {
+                    var files = await res.json();
+                    // Đếm nhanh từ tên file (không tải nội dung chi tiết để nhanh)
+                    examCount = files.filter(f => f.name.endsWith('.json')).length;
+                }
+            } catch(e){}
+            
+            statsDiv.innerHTML = `
+                <h3 class="font-bold text-lg mb-3 text-blue-900">📊 Thống kê học liệu</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    <div class="bg-white p-3 rounded shadow text-center">
+                        <div class="text-2xl font-bold text-blue-600">${examCount}</div>
+                        <div class="text-sm text-gray-600">File trong Bank</div>
+                    </div>
+                    <div class="bg-white p-3 rounded shadow text-center">
+                        <div class="text-2xl font-bold text-green-600">0</div>
+                        <div class="text-sm text-gray-600">Đề đã đẩy</div>
+                    </div>
+                    <div class="bg-white p-3 rounded shadow text-center">
+                        <div class="text-2xl font-bold text-purple-600">0</div>
+                        <div class="text-sm text-gray-600">Bài lý thuyết</div>
+                    </div>
+                    <div class="bg-white p-3 rounded shadow text-center">
+                        <div class="text-2xl font-bold text-orange-600">0</div>
+                        <div class="text-sm text-gray-600">Bài tập</div>
+                    </div>
+                </div>
+                <p class="text-xs text-gray-500 mt-2">Thống kê chi tiết theo loại câu hỏi đang phát triển...</p>
+            `;
+        } catch(e){}
+    }
+    
+    setInterval(loadStats, 3000);
 })();
 
