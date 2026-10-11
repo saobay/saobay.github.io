@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2151
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2154
 // Rebuilt - fixed structure
 (function(){
     'use strict';
@@ -466,7 +466,7 @@ Hãy điền chi tiết từng ô trong bảng (chủ đề kiến thức cụ t
             }
             
             // 3. Hook để hiện cả 2 nội dung khi bấm tab Quản lý
-            if (!window._mergeTabsHooked && typeof window.switchTeacherModule === 'function') {
+            if (false && !window._mergeTabsHooked && typeof window.switchTeacherModule === 'function') { // TẮT HOÀN TOÀN
                 window._mergeTabsHooked = true;
                 var orig = window.switchTeacherModule;
                 window.switchTeacherModule = function(modId){
