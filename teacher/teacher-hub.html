@@ -1577,7 +1577,7 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
     <script src="hub-reports.js?v=20261009_1"></script>
 <script src="hub-groups.js?v=20261010_1"></script>
     <script src="hub-uilabels.js?v=20261010"></script>
-    <script src="teacher-ui-simplify.js?v=20261012_0015"></script>
+    <script src="teacher-ui-simplify.js?v=20261012_0110"></script>
     <script src="hub-inline-edit.js?v=20261010_1"></script>
     <script src="hub-examsched.js?v=20261012_0045"></script>
     <script>
@@ -1725,6 +1725,23 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
                 var mxS = document.getElementById('mx-subject'), mxG = document.getElementById('mx-grade');
                 var subject = meta.subject || (mxS ? mxS.value.trim() : '') || examJson.subject || '';
                 var grade = meta.grade || (mxG ? mxG.value : '') || examJson.grade || '';
+                // SAOBAY FIX 20261012: Mon/Khoi lay theo THU MUC da chon o cay (de Word/AI bi mac dinh TOAN 10 do o meta an).
+                try {
+                    if (typeof currentSelectedFolderId !== 'undefined' && currentSelectedFolderId) {
+                        var _fp = String(currentSelectedFolderId);
+                        var _gm = _fp.match(/Khối lớp\s*(\d+)/);
+                        var _parts = _fp.split('/');
+                        var _subjName = '';
+                        for (var _pi = 0; _pi < _parts.length; _pi++) {
+                            var _pm = _parts[_pi].match(/^(.+?)\s+(\d{1,2})$/);
+                            if (_pm && !/Khối lớp/.test(_parts[_pi]) && !/Chương/.test(_parts[_pi])) _subjName = _pm[1].trim().toLowerCase();
+                        }
+                        var _map = {'toán':'TOAN','ngữ văn':'VAN','văn':'VAN','tiếng anh':'ANH','anh':'ANH','vật lý':'LY','lý':'LY','hóa học':'HOA','hóa':'HOA','sinh học':'SINH','sinh':'SINH','lịch sử':'SU','sử':'SU','địa lý':'DIA','địa':'DIA','tin học':'TIN','tin':'TIN','gdcd':'GDCD','công nghệ':'CONGNGHE','khtn':'KHTN','gdktpl':'GDKTPL'};
+                        if (_gm) grade = _gm[1];
+                        if (_subjName && _map[_subjName]) subject = _map[_subjName];
+                        if (title && subject && grade) title = title.replace(/^\[[^\]]*\]/, '[' + subject + ' ' + grade + ']');
+                    }
+                } catch(e) {}
                 var teacherId = '', teacherName = '';
                 try {
                     if (typeof currentUser !== 'undefined' && currentUser){
