@@ -49,6 +49,20 @@ label{font-weight:bold;font-size:14px}
 </div>
 
 <script>
+function autoFillPath(input){
+  if(input.files[0]){
+    var name=input.files[0].name;
+    // Tự đoán đường dẫn: nếu tên có 'teacher-ui-simplify' thì là teacher/
+    var pathInput=document.getElementById('filepath');
+    if(name.indexOf('teacher-ui-simplify')>=0){
+      pathInput.value='teacher/teacher-ui-simplify.js';
+    } else {
+      // Giữ nguyên tên file
+      pathInput.value=name;
+    }
+  }
+}
+
 function getToken(){return document.getElementById('token').value.trim()||localStorage.getItem('saobay_github_token')||'';}
 function saveToken(){var t=document.getElementById('token').value.trim();if(t){localStorage.setItem('saobay_github_token',t);show('status','Đã lưu token!','ok');}}
 function show(id,msg,cls){var e=document.getElementById(id);e.textContent=msg;e.className=cls;}
@@ -142,7 +156,7 @@ setInterval(function(){
 <label>Đường dẫn trên GitHub:</label>
 <input type="text" id="filepath" value="teacher/teacher-ui-simplify.js">
 <label>Chọn file:</label>
-<input type="file" id="fileinput" accept=".js">
+<input type="file" id="fileinput" accept=".js" onchange="autoFillPath(this)">
 <button id="btn-upload" onclick="uploadFile()">📤 Đẩy file</button>
 <div id="upload-status"></div>
 </div>
