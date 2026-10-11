@@ -629,7 +629,9 @@
                 var pvBox = document.getElementById('preview-container');
                 if (pvBox){
                     var htmlOut = '<div class="space-y-4">';
-                    examJson.sets[0].questions.forEach(function(q, qi){
+                    var qList = (examJson.sets && examJson.sets[0] && examJson.sets[0].questions) || [];
+                    qList.forEach(function(q, qi){
+                        try {
                         var qNum = qi + 1;
                         var qText = (q.q || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
                         htmlOut += '<div class="border border-slate-200 rounded-xl p-3 bg-white shadow-sm">';
@@ -671,6 +673,7 @@
                         if (q.level) badges += '<span class="text-[10px] bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full font-bold">' + q.level + '</span>';
                         if (badges) htmlOut += '<div class="mt-2">' + badges + '</div>';
                         htmlOut += '</div>';
+                        } catch(eQ){ console.warn('render q', qi, eQ); }
                     });
                     htmlOut += '</div>';
                     // Thêm div ẩn chứa JSON để khi đẩy bài vẫn lấy được dữ liệu
