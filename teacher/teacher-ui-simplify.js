@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2047
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2050
 // Rebuilt - fixed structure
 (function(){
     'use strict';
@@ -1045,5 +1045,61 @@ Hãy điền chi tiết từng ô trong bảng (chủ đề kiến thức cụ t
     }
     
     setInterval(setupTabFolders, 3000);
+})();
+
+// 2026-10-11: Nút xóa cache giữ đăng nhập
+(function(){
+    function addClearCacheBtn(){
+        try {
+            if (document.getElementById('btn-clear-cache')) return;
+            
+            var btn = document.createElement('button');
+            btn.id = 'btn-clear-cache';
+            btn.textContent = '🧹 Xóa cache';
+            btn.title = 'Xóa cache để test (giữ lại đăng nhập)';
+            btn.style.cssText = 'position:fixed;bottom:20px;right:20px;z-index:9999;padding:8px 12px;background:#dc2626;color:white;border:none;border-radius:8px;cursor:pointer;font-size:13px;box-shadow:0 2px 8px rgba(0,0,0,0.3);';
+            btn.onclick = async function(){
+                if (!confirm('Xóa cache và tải lại trang?\n(Đăng nhập sẽ được giữ lại)')) return;
+                
+                // Lưu lại thông tin đăng nhập
+                var backup = {};
+                ['saobay_user', 'github_token', 'saobay_admin_token'].forEach(function(k){
+                    var v = localStorage.getItem(k);
+                    if (v) backup[k] = v;
+                });
+                // Lưu sessionStorage nữa
+                var sessBackup = {};
+                for (var i = 0; i < sessionStorage.length; i++) {
+                    var k = sessionStorage.key(i);
+                    if (k && k.indexOf('saobay') >= 0) sessBackup[k] = sessionStorage.getItem(k);
+                }
+                
+                // Xóa cache của service worker
+                if ('caches' in window) {
+                    var names = await caches.keys();
+                    for (var n of names) await caches.delete(n);
+                }
+                
+                // Xóa localStorage (trừ backup)
+                localStorage.clear();
+                Object.keys(backup).forEach(function(k){ localStorage.setItem(k, backup[k]); });
+                
+                // Khôi phục sessionStorage
+                Object.keys(sessBackup).forEach(function(k){ sessionStorage.setItem(k, sessBackup[k]); });
+                
+                // Hard reload với cache-buster
+                var url = new URL(window.location.href);
+                url.searchParams.set('_cb', Date.now());
+                window.location.href = url.toString();
+            };
+            
+            document.body.appendChild(btn);
+        } catch(e){}
+    }
+    
+    // Thêm sau khi trang tải xong
+    if (document.readyState === 'complete') addClearCacheBtn();
+    else window.addEventListener('load', addClearCacheBtn);
+    setInterval(addClearCacheBtn, 5000);
 })();
 
