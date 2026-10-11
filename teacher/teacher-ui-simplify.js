@@ -1,4 +1,16 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2055
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2116
+// 2026-10-11: CSS ẩn giao diện cũ ngay từ đầu (chống FOUC)
+(function(){
+    var style = document.createElement('style');
+    style.textContent = `
+        /* Ẩn cây thư mục cũ ngay khi tải */
+        [id*="folder-tree"], .folder-tree, [id*="tree-container"] { display: none !important; }
+    `;
+    // Chèn vào head ngay lập tức
+    if (document.head) document.head.appendChild(style);
+    else document.addEventListener('DOMContentLoaded', function(){ document.head.appendChild(style); });
+})();
+
 // Rebuilt - fixed structure
 (function(){
     'use strict';
