@@ -232,7 +232,12 @@ canvas{max-width:100%;display:block;}
         <input id="el-turns" type="range" min="24" max="120" step="12" value="60" class="w-full">
         <div class="font-black text-amber-700 w-10 text-center"><span id="el-turns-val">60</span></div>
       </div>
-      <p class="text-[11px] text-slate-500 mt-2">💡 Càng nhiều vòng dây, từ trường càng mạnh, hút được kẹp giấy ở <b>xa hơn</b>.</p>
+      <div class="flex items-center gap-2 mt-2 text-sm">
+        <label class="text-xs font-bold text-slate-600 whitespace-nowrap">Nguồn điện</label>
+        <input id="el-volt" type="range" min="3" max="12" step="3" value="9" class="w-full">
+        <div class="font-black text-amber-700 w-12 text-center"><span id="el-volt-val">9</span>V</div>
+      </div>
+      <p class="text-[11px] text-slate-500 mt-2">💡 Từ trường mạnh theo <b>cả</b> số vòng dây và nguồn điện (B ~ N·I). Bật loa để nghe tiếng "keng" khi kẹp giấy chạm vào nam châm!</p>
     </div>
   </div>
 
@@ -863,7 +868,7 @@ window.__spark = function(ctx, W, H, t, n, col){
   var cv = document.getElementById('cv-electro');
   var G = fitCanvas(cv);
   window.__refits.push(function(){ var g2 = fitCanvas(cv); if (g2 && !g2.hidden) G = g2; });
-  var powered = false, turns = 60, T = 0, flowT = 0;
+  var powered = false, turns = 60, volt = 9, T = 0, flowT = 0;
   var clips = [];
   function RR(c,x,y,w,h,r){
     c.beginPath();
@@ -878,9 +883,36 @@ window.__spark = function(ctx, W, H, t, n, col){
     });
   }
   resetClips();
+  var sparkles=[];
+  for (var spi=0;spi<28;spi++) sparkles.push({ox:Math.random(),oy:Math.random(),ph:Math.random()*7,sp:1.5+Math.random()*2.5,sz:1+Math.random()*1.8});
+  // ---- Am thanh "keng" kim loai khi kep giay cham nam cham ----
+  var AC=null;
+  function audio(){
+    if(!AC){ var A=window.AudioContext||window.webkitAudioContext; if(A){ try{AC=new A();}catch(e){} } }
+    if(AC && AC.state==='suspended'){ try{AC.resume();}catch(e){} }
+    return AC;
+  }
+  document.addEventListener('pointerdown', function(){ audio(); }, {once:true});
+  function keng(){
+    var ac=audio(); if(!ac) return;
+    var t=ac.currentTime, f0=2300+Math.random()*1100;
+    var parts=[[1,0.45,0.30],[2.71,0.20,0.20],[5.13,0.10,0.12]];
+    for(var ki=0;ki<parts.length;ki++){
+      var o=ac.createOscillator(), g=ac.createGain();
+      o.type='triangle'; o.frequency.value=f0*parts[ki][0];
+      g.gain.setValueAtTime(parts[ki][1],t);
+      g.gain.exponentialRampToValueAtTime(0.0001,t+parts[ki][2]);
+      o.connect(g); g.connect(ac.destination);
+      o.start(t); o.stop(t+parts[ki][2]+0.05);
+    }
+  }
   document.getElementById('el-turns').addEventListener('input', function(e){
     turns=parseInt(e.target.value,10);
     document.getElementById('el-turns-val').textContent=turns;
+  });
+  document.getElementById('el-volt').addEventListener('input', function(e){
+    volt=parseFloat(e.target.value);
+    document.getElementById('el-volt-val').textContent=volt;
   });
   var tglBtn = document.getElementById('el-toggle');
   function setPower(p){
@@ -922,7 +954,7 @@ window.__spark = function(ctx, W, H, t, n, col){
 
   function stepClips(gm){
     var W=gm.W, H=gm.H, gy=gm.gy, dt=1/60;
-    var R=80+turns*1.6;
+    var R=(80+turns*1.6)*(volt/9);
     var pL={x:gm.cx0-16,y:gm.cy}, pR={x:gm.cx1+16,y:gm.cy};
     T+=dt;
     clips.forEach(function(c){
@@ -938,10 +970,10 @@ window.__spark = function(ctx, W, H, t, n, col){
       var d=Math.min(dL,dR), p=dL<dR?pL:pR;
       if (d<1) d=1;
       if (powered && d<R){
-        var F=3200/(d+26);
+        var F=3200*(turns/60)*(volt/9)/(d+26);
         c.vx+=(p.x-x)/d*F*dt; c.vy+=(p.y-y)/d*F*dt;
         c.vx*=0.982; c.vy*=0.982;
-        if (d<17){ c.stuck=(dL<dR?1:2); c.vx=0; c.vy=0; return; }
+        if (d<17){ c.stuck=(dL<dR?1:2); c.vx=0; c.vy=0; keng(); return; }
       } else {
         c.vy+=1500*dt; c.vx*=0.995;
       }
@@ -990,30 +1022,51 @@ window.__spark = function(ctx, W, H, t, n, col){
       var ccx=(gm.cx0+gm.cx1)/2;
       ctx.save();
       ctx.setLineDash([16,12]); ctx.lineDashOffset=-flowT*46;
-      for (var f=0;f<5;f++){
+      var nF=3+Math.round(turns/30), vK=0.55+0.45*(volt/9);
+      for (var f=0;f<nF;f++){
         var rx=(gm.cx1-gm.cx0)/2+20+f*26, ry=gm.ch+16+f*20;
-        ctx.strokeStyle='rgba(34,211,238,'+(0.8-f*0.13).toFixed(2)+')';
-        ctx.lineWidth=3-f*0.4;
+        var fa=Math.max(0.08,Math.min(0.95,(0.8-f*0.13)*vK));
+        ctx.strokeStyle='rgba(34,211,238,'+fa.toFixed(2)+')';
+        ctx.lineWidth=Math.max(1,3-f*0.4);
         ctx.shadowColor='rgba(34,211,238,0.8)'; ctx.shadowBlur=9;
         ctx.beginPath(); ctx.ellipse(ccx,gm.cy,rx,ry,0,0,7); ctx.stroke();
       }
       ctx.restore();
-      var inten=Math.min(0.5, 0.18+turns/400);
+      var inten=Math.min(0.65,(0.18+turns/400)*(volt/9));
       var halo=ctx.createRadialGradient(ccx,gm.cy,10,ccx,gm.cy,150);
       halo.addColorStop(0,'rgba(34,211,238,'+inten.toFixed(2)+')');
       halo.addColorStop(1,'rgba(34,211,238,0)');
       ctx.fillStyle=halo; ctx.fillRect(0,0,W,H);
     }
 
-    // loi sat 3D
+    // loi sat 3D — phat sang khi co dien, 2 dau cuc N/S
+    if (powered){
+      var coreGlow=ctx.createRadialGradient((gm.cx0+gm.cx1)/2,gm.cy,8,(gm.cx0+gm.cx1)/2,gm.cy,(gm.cx1-gm.cx0)/2+46);
+      coreGlow.addColorStop(0,'rgba(56,189,248,'+(0.35*Math.min(1.4,volt/9)).toFixed(2)+')');
+      coreGlow.addColorStop(1,'rgba(56,189,248,0)');
+      ctx.fillStyle=coreGlow;
+      ctx.fillRect(gm.cx0-60,gm.cy-gm.ch-56,(gm.cx1-gm.cx0)+120,gm.ch*2+112);
+    }
     ctx.save();
-    ctx.shadowColor='rgba(0,0,0,0.55)'; ctx.shadowBlur=12; ctx.shadowOffsetY=5;
+    ctx.shadowColor=powered?'rgba(56,189,248,0.9)':'rgba(0,0,0,0.55)';
+    ctx.shadowBlur=powered?16:12; ctx.shadowOffsetY=5;
     var cg=ctx.createLinearGradient(0,gm.cy-gm.ch,0,gm.cy+gm.ch);
-    cg.addColorStop(0,'#f1f5f9'); cg.addColorStop(0.5,'#94a3b8'); cg.addColorStop(1,'#475569');
+    if (powered){ cg.addColorStop(0,'#e0f2fe'); cg.addColorStop(0.5,'#7dd3fc'); cg.addColorStop(1,'#0369a1'); }
+    else { cg.addColorStop(0,'#f1f5f9'); cg.addColorStop(0.5,'#94a3b8'); cg.addColorStop(1,'#475569'); }
     RR(ctx,gm.cx0-16,gm.cy-gm.ch,(gm.cx1-gm.cx0)+32,gm.ch*2,10);
     ctx.fillStyle=cg; ctx.fill(); ctx.restore();
-    ctx.fillStyle='rgba(255,255,255,0.4)';
+    ctx.fillStyle='rgba(255,255,255,0.45)';
     RR(ctx,gm.cx0-10,gm.cy-gm.ch+4,(gm.cx1-gm.cx0)+20,7,3.5); ctx.fill();
+    if (powered){
+      ctx.save(); ctx.textAlign='center'; ctx.font='bold 12px sans-serif';
+      ctx.fillStyle='#2563eb';
+      RR(ctx,gm.cx0-16,gm.cy-gm.ch,26,gm.ch*2,10); ctx.fill();
+      ctx.fillStyle='#fff'; ctx.fillText('S',gm.cx0-3,gm.cy+4);
+      ctx.fillStyle='#dc2626';
+      RR(ctx,gm.cx1-10,gm.cy-gm.ch,26,gm.ch*2,10); ctx.fill();
+      ctx.fillStyle='#fff'; ctx.fillText('N',gm.cx1+3,gm.cy+4);
+      ctx.restore();
+    }
 
     // cac vong day dong 3D
     var n=Math.max(3,Math.round(turns/8)), x0=gm.cx0+4, x1=gm.cx1-4;
@@ -1026,6 +1079,36 @@ window.__spark = function(ctx, W, H, t, n, col){
       ctx.shadowColor=powered?'rgba(251,191,36,0.9)':'rgba(0,0,0,0.35)';
       ctx.shadowBlur=powered?12:4;
       ctx.beginPath(); ctx.ellipse(wx,gm.cy,9,gm.ch+8,0,0,7); ctx.stroke();
+      ctx.restore();
+    }
+    if (powered){
+      // anh sang chay doc cuon day
+      var swX=x0+((T*46)%Math.max(1,(x1-x0)));
+      var swG=ctx.createLinearGradient(swX-26,0,swX+26,0);
+      swG.addColorStop(0,'rgba(255,255,255,0)');
+      swG.addColorStop(0.5,'rgba(255,255,255,0.55)');
+      swG.addColorStop(1,'rgba(255,255,255,0)');
+      ctx.save(); ctx.globalCompositeOperation='lighter';
+      ctx.fillStyle=swG;
+      ctx.fillRect(swX-26,gm.cy-gm.ch-12,52,gm.ch*2+24);
+      ctx.restore();
+      // tia lap lanh quanh cuon day
+      ctx.save();
+      for (var si2=0;si2<sparkles.length;si2++){
+        var spk=sparkles[si2];
+        var tw=Math.pow(Math.sin(T*spk.sp+spk.ph)*0.5+0.5,2);
+        if (tw<0.12) continue;
+        var px2=gm.cx0-24+spk.ox*((gm.cx1-gm.cx0)+48);
+        var py2=gm.cy-gm.ch-18+spk.oy*(gm.ch*2+44);
+        ctx.globalAlpha=tw;
+        ctx.strokeStyle='#fef9c3'; ctx.lineWidth=1.4;
+        ctx.shadowColor='#fde047'; ctx.shadowBlur=6;
+        var s2=spk.sz*(0.7+tw);
+        ctx.beginPath();
+        ctx.moveTo(px2-s2*2,py2); ctx.lineTo(px2+s2*2,py2);
+        ctx.moveTo(px2,py2-s2*2); ctx.lineTo(px2,py2+s2*2);
+        ctx.stroke();
+      }
       ctx.restore();
     }
     ctx.fillStyle='#fcd34d'; ctx.font='bold 11px sans-serif'; ctx.textAlign='center';
@@ -1042,7 +1125,7 @@ window.__spark = function(ctx, W, H, t, n, col){
     ctx.fillText('+', gm.bx-gm.bw/2+12, gm.by-6);
     ctx.fillText('–', gm.bx-gm.bw/2+12, gm.by+16);
     ctx.fillStyle='#bbf7d0'; ctx.font='bold 11px sans-serif';
-    ctx.fillText('PIN 9V', gm.bx, gm.by+gm.bh/2-8);
+    ctx.fillText('PIN '+volt+'V', gm.bx, gm.by+gm.bh/2-8);
 
     // cong tac
     var sx=gm.sx, sy=gm.sy;
@@ -1065,7 +1148,8 @@ window.__spark = function(ctx, W, H, t, n, col){
     clips.forEach(function(c){ drawClip(ctx, c.rx*W, c.ry*H, c.rot); });
 
     ctx.fillStyle='rgba(148,163,184,0.9)'; ctx.font='11px sans-serif'; ctx.textAlign='left';
-    ctx.fillText(powered ? 'Từ trường BẬT — kẹp giấy bị hút!' : 'Đóng điện để tạo từ trường', 8, H-10);
+    var bPct=Math.round(turns*volt/(60*9)*100);
+    ctx.fillText(powered ? 'Từ trường BẬT — mạnh '+bPct+'% — kẹp giấy bị hút!' : 'Đóng điện để tạo từ trường', 8, H-10);
     requestAnimationFrame(draw);
   }
   draw();
