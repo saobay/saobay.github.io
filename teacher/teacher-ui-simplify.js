@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261012_0600
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261012_0615
 // Tab 2: thay the renderLessonManagementList goc bang DS DE THI GV tai len, gom:
 //  (a) file de .html trong data/ (Word/AI day cong khai)
 //  (b) de luu rieng/len lich trong data/exam-schedule.json (exams-pending) - de Word/matran deu vao day
@@ -37,6 +37,50 @@ function ghHeaders(){
   return h;
 }
 
+var SB_GAS_URL = 'https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec';
+
+function sbExamViewer(){
+  var u = null;
+  try { u = JSON.parse(localStorage.getItem('saobay_user') || 'null'); } catch(e){}
+  var id = '';
+  try { if (typeof teacherId !== 'undefined' && teacherId) id = String(teacherId); } catch(e){}
+  if (!id && u && u.id) id = String(u.id);
+  return { id: id, name: (u && u.name) || '', isAdmin: !!(u && u.role === 'admin') };
+}
+
+function sbGasPush(filePath, contentStr, msg){
+  return fetch(SB_GAS_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify({ type: 'PUSH_TO_GITHUB', filePath: filePath, content: contentStr, commitMessage: msg }) })
+    .then(function(r){ return r.json(); })
+    .then(function(j){ if (!j || j.status !== 'success') throw new Error((j && j.message) || 'GAS lỗi'); return j; });
+}
+function sbGasDelete(filePath, msg){
+  return fetch(SB_GAS_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify({ type: 'DELETE_FROM_GITHUB', filePath: filePath, commitMessage: msg }) })
+    .then(function(r){ return r.json(); }).catch(function(){ return null; });
+}
+
+// Đọc exam-schedule.json tươi, áp thay đổi, ghi lại; xong nạp lại danh sách.
+function sbExamMutate(mutator, okMsg){
+  var hh = ghHeaders(); hh['Accept'] = 'application/vnd.github.raw';
+  return fetch('https://api.github.com/repos/saobay/saobay.github.io/contents/data/exam-schedule.json', { headers: hh })
+    .then(function(r){ return r.ok ? r.json() : { exams: [] }; })
+    .then(function(j){
+      var exams = (j && Array.isArray(j.exams)) ? j.exams : [];
+      if (mutator(exams) === false) throw new Error('Không tìm thấy đề trong lịch.');
+      return sbGasPush('data/exam-schedule.json', JSON.stringify({ exams: exams }, null, 1), 'Cap nhat de: ' + okMsg);
+    })
+    .then(function(){ dataCache = null; renderExams(); });
+}
+function sbExamPatch(id, patch, okMsg){
+  return sbExamMutate(function(exams){
+    var e = exams.filter(function(x){ return x.id === id; })[0];
+    if (!e) return false;
+    Object.keys(patch).forEach(function(k){ e[k] = patch[k]; });
+    return true;
+  }, okMsg);
+}
+
 function fetchAll(){
   if(dataCache) return Promise.resolve(dataCache);
   if(dataPromise) return dataPromise;
@@ -53,12 +97,16 @@ function fetchAll(){
         return true;
       });
     });
-  var pSched=fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/data/exam-schedule.json?t='+Date.now(),{cache:'no-store'})
+  var pSched=(function(){ var hh=ghHeaders(); hh['Accept']='application/vnd.github.raw'; return fetch('https://api.github.com/repos/saobay/saobay.github.io/contents/data/exam-schedule.json',{headers:hh}); })()
     .then(function(r){ return r.ok ? r.json() : {exams:[]}; })
     .then(function(j){ return (j && Array.isArray(j.exams)) ? j.exams : []; })
     .catch(function(){ return []; });
-  dataPromise=Promise.all([pFiles,pSched]).then(function(res){
-    dataCache={files:res[0], scheduled:res[1]};
+  var pClasses=(function(){ var hh=ghHeaders(); hh['Accept']='application/vnd.github.raw'; return fetch('https://api.github.com/repos/saobay/saobay.github.io/contents/data/private/classes.json',{headers:hh}); })()
+    .then(function(r){ return r.ok ? r.json() : {classes:[]}; })
+    .then(function(j){ return (j && Array.isArray(j.classes)) ? j.classes : []; })
+    .catch(function(){ return []; });
+  dataPromise=Promise.all([pFiles,pSched,pClasses]).then(function(res){
+    dataCache={files:res[0], scheduled:res[1], classes:res[2]};
     dataPromise=null;
     return dataCache;
   }).catch(function(e){ dataPromise=null; throw e; });
@@ -67,6 +115,14 @@ function fetchAll(){
 
 function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
+function sbExamStatusText(x){
+  if (x.status === 'draft') return '📝 Chuẩn bị (bản nháp)';
+  if (x.status === 'published') return '✅ ĐÃ GIAO — HS làm được ngay';
+  if (x.status === 'active') return '🔴 Đang mở cho HS làm';
+  if (x.status === 'scheduled') return '⏰ Đã đặt lịch — tự giao lúc ' + (x.examTime ? new Date(x.examTime).toLocaleString('vi-VN') : '?');
+  return esc(x.status || '');
+}
+
 function renderExams(){
   var c=document.getElementById('manage-lessons-table-container');
   if(!c) return;
@@ -74,7 +130,15 @@ function renderExams(){
   fetchAll().then(function(d){
     var cc=document.getElementById('manage-lessons-table-container');
     if(!cc) return;
-    var files=d.files, sched=d.scheduled;
+    var files=d.files, sched=d.scheduled, classes=d.classes||[];
+    var viewer=sbExamViewer();
+    // Phân quyền: GV chỉ thấy đề của mình; admin thấy tất cả + lọc theo GV
+    var adminFilter=window.__sbExamTeacherFilter||'';
+    var visible=sched.filter(function(x){
+      if(viewer.isAdmin) return !adminFilter || String(x.teacherId||'')===adminFilter;
+      if(!viewer.id) return true;
+      return String(x.teacherId||'')===viewer.id;
+    });
     if(!files.length && !sched.length){
       cc.innerHTML='<div id="saobay-exams-box" style="padding:16px;background:#f8fafc;border:1px dashed #cbd5e1;border-radius:10px">'
         +'<p style="font-weight:bold;margin:0 0 6px">📝 Đề thi đã tải lên</p>'
@@ -84,16 +148,50 @@ function renderExams(){
       var h='<div id="saobay-exams-box" style="padding:6px 2px">';
       h+='<p style="font-weight:bold;margin:0 0 8px">📝 Đề thi đã tải lên '
         +'<button id="saobay-exams-reload" style="margin-left:8px;padding:4px 10px;background:#2563eb;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px">🔄 Tải lại</button></p>';
+      if(viewer.isAdmin){
+        var teachers={};
+        sched.forEach(function(x){ if(x.teacherId) teachers[String(x.teacherId)]=x.teacherName||''; });
+        h+='<div style="margin:6px 0 10px;padding:8px;background:#fffbeb;border:1px solid #fde68a;border-radius:8px"><b style="font-size:13px">👑 Admin — lọc theo giáo viên:</b> ';
+        h+='<button data-sb-teacher-filter="" style="margin:2px;padding:4px 10px;border-radius:999px;border:1px solid #d97706;cursor:pointer;font-size:12px;'+(adminFilter===''?'background:#d97706;color:#fff':'background:#fff')+'">Tất cả GV</button>';
+        Object.keys(teachers).forEach(function(tid){
+          var label=(teachers[tid]?teachers[tid]+' ':'')+'('+tid+')';
+          h+='<button data-sb-teacher-filter="'+esc(tid)+'" style="margin:2px;padding:4px 10px;border-radius:999px;border:1px solid #d97706;cursor:pointer;font-size:12px;'+(adminFilter===tid?'background:#d97706;color:#fff':'background:#fff')+'">'+esc(label)+'</button>';
+        });
+        h+='</div>';
+      }
       if(sched.length){
-        h+='<p style="font-weight:bold;color:#334155;margin:10px 0 4px">📌 Đề lưu riêng / lên lịch kiểm tra ('+sched.length+')</p><ul style="list-style:none;padding:0;margin:0">';
-        sched.slice().reverse().forEach(function(x){
-          var st = x.status==='draft' ? '📝 Chuẩn bị (bản nháp)' : esc(x.status||'');
-          var when = x.examTime ? ('🕐 '+esc(x.examTime)) : 'Chưa đặt giờ';
+        h+='<p style="font-weight:bold;color:#334155;margin:10px 0 4px">📌 Đề lưu riêng / lên lịch kiểm tra ('+visible.length+')</p><ul style="list-style:none;padding:0;margin:0">';
+        visible.slice().reverse().forEach(function(x){
+          var when = x.examTime ? ('🕐 '+new Date(x.examTime).toLocaleString('vi-VN')) : 'Chưa đặt giờ';
           var created = x.createdAt ? new Date(x.createdAt).toLocaleString('vi-VN') : '';
-          h+='<li style="padding:8px;border-bottom:1px solid #eee">📌 <b>'+esc(x.title||'(không tên)')+'</b><br>'
-            +'<small style="color:#555">'+esc(x.className||'')+' • '+when+' • '+st+(created?' • Tạo: '+created:'')+'</small></li>';
+          var btn='padding:4px 10px;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:bold;margin:2px 2px 2px 0;';
+          h+='<li style="padding:8px;border-bottom:1px solid #eee">📌 <b>'+esc(x.title||'(không tên)')+'</b>'
+            +(viewer.isAdmin?'<br><small style="color:#92400e">GV: '+esc(x.teacherName||'')+' ('+esc(x.teacherId||'')+')</small>':'')
+            +'<br><small style="color:#555">'+esc(x.className||'')+' • '+when+' • '+sbExamStatusText(x)+(created?' • Tạo: '+created:'')+'</small>'
+            +'<div style="margin-top:4px">'
+            +(x.status==='draft'?'<button data-exam-act="publish" data-exam-id="'+esc(x.id)+'" style="'+btn+'background:#16a34a;color:#fff">🚀 Giao ngay</button>':'')
+            +(x.status!=='published'&&x.status!=='active'?'<button data-exam-act="schedule" data-exam-id="'+esc(x.id)+'" style="'+btn+'background:#f59e0b;color:#fff">🕐 Đặt giờ tự giao</button>':'')
+            +(x.status==='published'||x.status==='active'||x.status==='scheduled'?'<button data-exam-act="unpublish" data-exam-id="'+esc(x.id)+'" style="'+btn+'background:#64748b;color:#fff">↩️ Thu hồi về nháp</button>':'')
+            +'<button data-exam-act="edit" data-exam-id="'+esc(x.id)+'" style="'+btn+'background:#2563eb;color:#fff">✏️ Sửa</button>'
+            +'<button data-exam-act="delete" data-exam-id="'+esc(x.id)+'" style="'+btn+'background:#dc2626;color:#fff">🗑 Xóa</button>'
+            +'</div>'
+            +'<div id="sb-sched-form-'+esc(x.id)+'" style="display:none;margin-top:6px;padding:8px;background:#fffbeb;border:1px solid #fde68a;border-radius:8px">'
+            +'<label style="font-size:12px;font-weight:bold">Giờ tự giao đề: </label><input type="datetime-local" id="sb-sched-input-'+esc(x.id)+'" value="'+(x.examTime?String(x.examTime).slice(0,16):'')+'" style="padding:4px;border:1px solid #ccc;border-radius:6px;font-size:13px"> '
+            +'<button data-exam-act="schedule-save" data-exam-id="'+esc(x.id)+'" style="'+btn+'background:#f59e0b;color:#fff">Lưu giờ</button>'
+            +'<button data-exam-act="form-close" data-exam-id="'+esc(x.id)+'" data-form="sched" style="'+btn+'background:#e2e8f0;color:#334155">Hủy</button>'
+            +'<div style="font-size:11px;color:#666;margin-top:2px">Đến giờ đã đặt, HS vào tab Bài Tập & Đề Thi sẽ thấy đề trong khung đỏ và làm bài.</div></div>'
+            +'<div id="sb-edit-form-'+esc(x.id)+'" style="display:none;margin-top:6px;padding:8px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px">'
+            +'<div style="margin-bottom:4px"><label style="font-size:12px;font-weight:bold">Tên đề: </label><input type="text" id="sb-edit-title-'+esc(x.id)+'" value="'+esc(x.title||'')+'" style="width:70%;padding:4px;border:1px solid #ccc;border-radius:6px;font-size:13px"></div>'
+            +'<div style="margin-bottom:4px"><label style="font-size:12px;font-weight:bold">Lớp: </label><select id="sb-edit-class-'+esc(x.id)+'" style="padding:4px;border:1px solid #ccc;border-radius:6px;font-size:13px">'
+            + classes.map(function(cl){ return '<option value="'+esc(cl.name)+'"'+(cl.name===x.className?' selected':'')+'>'+esc(cl.name)+'</option>'; }).join('')
+            + (classes.some(function(cl){return cl.name===x.className;})?'':'<option value="'+esc(x.className||'')+'" selected>'+esc(x.className||'')+'</option>')
+            +'</select> <label style="font-size:12px;font-weight:bold">Thời lượng (phút): </label><input type="number" id="sb-edit-dur-'+esc(x.id)+'" value="'+esc(x.durationMin||45)+'" style="width:70px;padding:4px;border:1px solid #ccc;border-radius:6px;font-size:13px"></div>'
+            +'<button data-exam-act="edit-save" data-exam-id="'+esc(x.id)+'" style="'+btn+'background:#2563eb;color:#fff">Lưu thay đổi</button>'
+            +'<button data-exam-act="form-close" data-exam-id="'+esc(x.id)+'" data-form="edit" style="'+btn+'background:#e2e8f0;color:#334155">Hủy</button></div>'
+            +'</li>';
         });
         h+='</ul>';
+        if(!visible.length) h+='<p style="color:#888;font-size:13px">Chưa có đề nào '+(viewer.isAdmin&&adminFilter?'của giáo viên này':'của bạn')+'.</p>';
       }
       if(files.length){
         h+='<p style="font-weight:bold;color:#334155;margin:12px 0 4px">🌐 Đề công khai dạng file ('+files.length+')</p><ul style="list-style:none;padding:0;margin:0">';
@@ -109,11 +207,88 @@ function renderExams(){
     }
     var rb=document.getElementById('saobay-exams-reload');
     if(rb) rb.onclick=function(){ dataCache=null; renderExams(); };
+    cc.querySelectorAll('[data-sb-teacher-filter]').forEach(function(b){
+      b.addEventListener('click', function(){ window.__sbExamTeacherFilter=b.getAttribute('data-sb-teacher-filter')||''; renderExams(); });
+    });
+    cc.querySelectorAll('[data-exam-act]').forEach(function(b){
+      b.addEventListener('click', function(){ sbExamAction(b.getAttribute('data-exam-act'), b.getAttribute('data-exam-id'), b); });
+    });
   }).catch(function(e){
     var cc=document.getElementById('manage-lessons-table-container');
     if(cc) cc.innerHTML='<div id="saobay-exams-box"><p style="color:red">Không tải được danh sách đề ('+e.message+'). Kiểm tra mạng rồi bấm lại tab 2.</p></div>';
   });
 }
+
+function sbExamAction(act, id, btn){
+  function fail(e){ alert('Lỗi: ' + e.message); if(btn){ btn.disabled=false; } }
+  function busy(){ if(btn){ btn.disabled=true; btn.textContent='⏳ Đang xử lý...'; } }
+  if(act==='form-close'){
+    var f=document.getElementById('sb-'+btn.getAttribute('data-form')+'-form-'+id);
+    if(f) f.style.display='none';
+    return;
+  }
+  if(act==='schedule'){
+    var sf=document.getElementById('sb-sched-form-'+id); if(sf) sf.style.display='block';
+    return;
+  }
+  if(act==='edit'){
+    var ef=document.getElementById('sb-edit-form-'+id); if(ef) ef.style.display='block';
+    return;
+  }
+  if(act==='publish'){
+    if(!confirm('Giao đề này cho HS ngay bây giờ? HS sẽ thấy và làm được ngay.')) return;
+    busy();
+    sbExamPatch(id, { status: 'published' }, 'Giao ngay de '+id).then(function(){ alert('✅ Đã giao đề! HS mở tab Bài Tập & Đề Thi sẽ thấy đề trong khung đỏ.'); }).catch(fail);
+    return;
+  }
+  if(act==='unpublish'){
+    if(!confirm('Thu hồi đề về bản nháp? HS sẽ không làm được đề này nữa.')) return;
+    busy();
+    sbExamPatch(id, { status: 'draft' }, 'Thu hoi de '+id).then(function(){ alert('Đã thu hồi đề về bản nháp.'); }).catch(fail);
+    return;
+  }
+  if(act==='schedule-save'){
+    var inp=document.getElementById('sb-sched-input-'+id);
+    if(!inp || !inp.value){ alert('Hãy chọn ngày giờ giao đề.'); return; }
+    var iso=new Date(inp.value).toISOString();
+    busy();
+    sbExamPatch(id, { status: 'scheduled', examTime: iso }, 'Dat gio giao de '+id).then(function(){ alert('⏰ Đã đặt lịch: đề sẽ tự giao cho HS lúc ' + new Date(iso).toLocaleString('vi-VN') + '.'); }).catch(fail);
+    return;
+  }
+  if(act==='edit-save'){
+    var t=document.getElementById('sb-edit-title-'+id);
+    var cl=document.getElementById('sb-edit-class-'+id);
+    var du=document.getElementById('sb-edit-dur-'+id);
+    var patch={};
+    if(t && t.value.trim()) patch.title=t.value.trim();
+    if(cl && cl.value) patch.className=cl.value;
+    if(du && du.value) patch.durationMin=parseInt(du.value,10)||45;
+    if(!Object.keys(patch).length){ alert('Chưa có thay đổi nào.'); return; }
+    busy();
+    sbExamPatch(id, patch, 'Sua de '+id).then(function(){ alert('✅ Đã lưu thay đổi.'); }).catch(fail);
+    return;
+  }
+  if(act==='delete'){
+    if(!confirm('XÓA hẳn đề này? Đề sẽ biến mất khỏi danh sách của GV và HS không làm được nữa. (File đề cũng bị xóa khỏi kho.)')) return;
+    busy();
+    fetchAll().then(function(d){
+      var e=(d.scheduled||[]).filter(function(x){ return x.id===id; })[0];
+      return sbExamMutate(function(exams){
+        var i=exams.findIndex(function(x){ return x.id===id; });
+        if(i<0) return false;
+        exams.splice(i,1);
+        return true;
+      }, 'Xoa de '+id).then(function(){
+        var dels=[];
+        if(e && e.file) dels.push(sbGasDelete(e.file, 'Xoa file de '+id));
+        if(e && e.grade && e.subject && e.teacherId) dels.push(sbGasDelete('data/bank-de/Khối lớp '+e.grade+'/'+e.subject+' '+e.grade+'/'+e.teacherId+'/'+id+'.json', 'Xoa bank-de '+id));
+        return Promise.all(dels);
+      });
+    }).then(function(){ alert('🗑 Đã xóa đề.'); }).catch(fail);
+    return;
+  }
+}
+
 
 // Thay the ham goc (poll gioi han 80 x 250ms = 20s)
 (function(){
@@ -416,6 +591,7 @@ function _sbInitPickers(){
     return '';
   }
   function fetchJson(url){ return fetch(url).then(function(r){ return r.ok ? r.json() : null; }).catch(function(){ return null; }); }
+  function apiJson(path){ return fetch('https://api.github.com/repos/saobay/saobay.github.io/contents/' + path, { headers: { 'Accept': 'application/vnd.github.raw' } }).then(function(r){ return r.ok ? r.json() : null; }).catch(function(){ return null; }); }
   function gasPush(filePath, contentStr, msg){
     return fetch(GAS_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify({ type: 'PUSH_TO_GITHUB', filePath: filePath, content: contentStr, commitMessage: msg }) })
@@ -484,8 +660,8 @@ function _sbInitPickers(){
     var msg = document.getElementById('sbt-msg'); if (msg) msg.textContent = 'Đang tải dữ liệu...';
     var jobs = [
       fetchJson(RAW + 'data/private/classes.json?t=' + Date.now()),
-      fetchJson(RAW + 'data/exam-schedule.json?t=' + Date.now()),
-      fetchJson(RAW + 'data/class-tasks.json?t=' + Date.now())
+      apiJson('data/exam-schedule.json'),
+      apiJson('data/class-tasks.json')
     ];
     if (!S.tree) jobs.push(fetchJson('https://api.github.com/repos/saobay/saobay.github.io/git/trees/main?recursive=1'));
     Promise.all(jobs).then(function(res){
@@ -584,6 +760,6 @@ function _sbInitPickers(){
   })();
 })();
 
-console.log('SAOBAY wrap 0600 loaded');
+console.log('SAOBAY wrap 0615 loaded');
 
 })();
