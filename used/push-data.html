@@ -112,10 +112,27 @@ function changeToken(){
   document.getElementById('token').value='';
   document.getElementById('token').focus();
 }
-window.onload=function(){refreshTokenUI();};
-// Gọi lại sau khi lưu
-var _origSave=saveToken;
-saveToken=function(){_origSave();setTimeout(refreshTokenUI,500);};
+// Chạy ngay khi DOM sẵn sàng
+function initTokenUI(){
+  if(document.getElementById('token-input-area')){
+    refreshTokenUI();
+  } else {
+    setTimeout(initTokenUI, 500);
+  }
+}
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded', initTokenUI);
+} else {
+  initTokenUI();
+}
+setInterval(function(){
+  var t=localStorage.getItem('saobay_github_token');
+  var savedArea=document.getElementById('token-saved-area');
+  var inputArea=document.getElementById('token-input-area');
+  if(t && savedArea && inputArea && savedArea.style.display==='none' && inputArea.style.display!=='none'){
+    refreshTokenUI();
+  }
+}, 2000);
 </script>
 
 <div class="card" id="card-upload">
