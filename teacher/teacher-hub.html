@@ -2403,18 +2403,22 @@ function copyWordSample(){
 </script>
 
 <script>
-// SAOBAY_TAB2_FIX 20261011: thay tab2 bằng trang đề thi
+// SAOBAY_TAB2_FIX 20261011_2315: ép hiện tab2
 (function(){
   function fixTab2(){
     var v=document.getElementById('module-manage-view');
-    if(v && !v.dataset.fixed){
-      v.dataset.fixed='1';
-      v.innerHTML='<iframe src="teacher-my-exams.html" style="width:100%;min-height:600px;border:none" title="Đề thi"></iframe>';
+    if(!v)return;
+    // Ép hiện div
+    v.classList.remove('hidden');
+    v.style.display='block';
+    // Thay nội dung nếu chưa có iframe
+    if(!v.querySelector('iframe')){
+      v.innerHTML='<iframe src="teacher-my-exams.html" style="width:100%;min-height:600px;border:none;display:block" title="Đề thi"></iframe>';
     }
   }
+  setInterval(fixTab2,1000);
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fixTab2);
   else fixTab2();
-  setInterval(fixTab2,2000);
 })();
 </script>
 </body>
