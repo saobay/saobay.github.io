@@ -71,8 +71,12 @@ async function testToken(){
   if(!t){show('status','Chưa có token!','err');return;}
   show('status','Đang kiểm tra...','info');
   try{
-    var r=await fetch('https://api.github.com/repos/saobay/saobay.github.io',{headers:{'Authorization':'token '+t}});
-    if(r.ok){show('status','✅ Token hợp lệ!','ok');document.getElementById('token').value=t;}
+    var r=await fetch('https://api.github.com/user',{headers:{'Authorization':'Bearer '+t}});
+    if(r.ok){
+      var u=await r.json();
+      var hint=t.substring(0,7)+'...'+t.substring(t.length-4);
+      show('status','✅ Token hợp lệ! User: '+u.login+' | Token: '+hint+' (so 4 ký tự cuối với trang GitHub)','ok');
+    }
     else show('status','❌ Token không hợp lệ!','err');
   }catch(e){show('status','❌ Lỗi: '+e.message,'err');}
 }
