@@ -53,8 +53,8 @@
             // Lịch kiểm tra chống lộ đề (checkbox "Đây là ĐỀ KIỂM TRA"): cả 2 chế độ đề thi
             setVis('exam-schedule-box', isExam);
 
-            // 2026-10-11: an o Mon/Khoi/Chuong/Bai khi o che do day Word (direct)
-            setVis('subject-meta-grid', !isDirect);
+            // 2026-10-11: an o Mon/Khoi/Chuong/Bai khi o che do de thi (bank/direct) - ma tran da co o rieng
+            setVis('subject-meta-grid', isTheory || isExercise);
 
             // Panel legacy
             let panelT = document.getElementById('prompt-panel-theory');
