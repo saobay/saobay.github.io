@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_1934
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_1939
 // Rebuilt - fixed structure
 (function(){
     'use strict';
@@ -501,5 +501,56 @@ Hãy điền chi tiết từng ô trong bảng (chủ đề kiến thức cụ t
         setTimeout(mergeTabs, 2000);
     }
     setInterval(mergeTabs, 10000);
+})();
+
+// 2026-10-11: Đổi tên tab + thêm lớp trường vào dropdown kiểm tra
+(function(){
+    function initClassMerge(){
+        // 1. Đổi tên tab "5. LỚP HỌC THÊM" -> "5. Quản lý lớp học của tôi"
+        var tab = document.getElementById('mod-tab-private');
+        if (tab) {
+            var title = tab.querySelector('[data-ui-label="mod_private"]');
+            var sub = tab.querySelector('[data-ui-label="mod_private_sub"]');
+            if (title) title.textContent = '5. Quản lý lớp học của tôi';
+            if (sub) sub.textContent = 'Lớp trường & lớp thêm';
+        }
+        
+        // 2. Hook populateSchedClasses để thêm lớp trường
+        if (!window._schedHooked && typeof window.populateSchedClasses === 'function') {
+            window._schedHooked = true;
+            var orig = window.populateSchedClasses;
+            window.populateSchedClasses = async function(){
+                await orig();
+                try {
+                    var sel = document.getElementById('sched-class');
+                    if (!sel) return;
+                    // Lấy lớp trường từ pvTeachAssigns
+                    var teachClasses = [];
+                    if (typeof pvTeachAssigns !== 'undefined' && pvTeachAssigns.length) {
+                        teachClasses = pvTeachAssigns;
+                    }
+                    if (teachClasses.length) {
+                        var html = sel.innerHTML;
+                        // Thêm optgroup cho lớp trường
+                        var optHtml = '<optgroup label="Lớp trường (phân công)">';
+                        teachClasses.forEach(function(a){
+                            var label = (a.class || '') + ' - ' + (a.subject || '');
+                            optHtml += '<option value="school:' + label.replace(/"/g, '&quot;') + '">' + label + '</option>';
+                        });
+                        optHtml += '</optgroup>';
+                        // Chèn trước </select> (cuối options)
+                        sel.innerHTML = html + optHtml;
+                    }
+                } catch(e){ console.warn('Thêm lớp trường:', e); }
+            };
+        }
+    }
+    
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function(){ setTimeout(initClassMerge, 2500); });
+    } else {
+        setTimeout(initClassMerge, 2500);
+    }
+    setInterval(initClassMerge, 10000);
 })();
 
