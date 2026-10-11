@@ -74,77 +74,84 @@
         }
 
         // 2026-10-11: bank doc TRUC TIEP tu file bai hoc (khong can file bank rieng -> khong x2 data)
-        // Khi data/bank/SUBJECT_GRADE.json khong ton tai, tu quet thu muc mon/khoi va boc cau hoi tu HTML
+        // Toi uu 2026-10-11: dung Git Trees API recursive (1 call) + cache localStorage
         var _bankLessonCache = {};
+        function _bankCacheGet(key){
+            if (_bankLessonCache[key]) return _bankLessonCache[key];
+            try {
+                var raw = localStorage.getItem('saobay_bank_' + key);
+                if (raw){
+                    var o = JSON.parse(raw);
+                    // Cache 24h
+                    if (o && o._ts && (Date.now() - o._ts) < 24*3600*1000) return o.data;
+                }
+            } catch(e){}
+            return null;
+        }
+        function _bankCacheSet(key, data){
+            _bankLessonCache[key] = data;
+            try {
+                localStorage.setItem('saobay_bank_' + key, JSON.stringify({ _ts: Date.now(), data: data }));
+            } catch(e){}
+        }
         async function bankBuildFromLessons(subject, grade){
             var cacheKey = subject + '_' + grade;
-            if (_bankLessonCache[cacheKey]) return _bankLessonCache[cacheKey];
+            var cached = _bankCacheGet(cacheKey);
+            if (cached) return cached;
             var cfg = GITHUB_CONFIG;
             var normSubj = String(subject || '').toUpperCase();
             try {
-                var roots = ['data/THCS', 'data/THPT'];
-                var subjectPath = null, subjectLabel = null;
-                for (var ri = 0; ri < roots.length && !subjectPath; ri++){
-                    var gUrl = 'https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + '/contents/' + roots[ri] + '?ref=' + cfg.branch;
-                    var gr = await fetch(gUrl);
-                    if (!gr.ok) continue;
-                    var gDirs = await gr.json();
-                    for (var gi = 0; gi < gDirs.length && !subjectPath; gi++){
-                        var gd = gDirs[gi];
-                        if (gd.type !== 'dir') continue;
-                        var gm = String(gd.name || '').match(/Kh[\u1ed1\u1ed5]i l[\u1edb\u1ed7]p\s*(\d+)/i);
-                        if (!gm || parseInt(gm[1], 10) !== grade) continue;
-                        var sUrl = 'https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + '/contents/' + roots[ri] + '/' + encodeURIComponent(gd.name) + '?ref=' + cfg.branch;
-                        var sr = await fetch(sUrl);
-                        if (!sr.ok) continue;
-                        var sDirs = await sr.json();
-                        for (var si = 0; si < sDirs.length && !subjectPath; si++){
-                            var sd = sDirs[si];
-                            if (sd.type !== 'dir') continue;
-                            var rawSubj = sd.name.trim();
-                            var norm = rawSubj.replace(/\s*\d+\s*$/, '').trim().toUpperCase();
-                            norm = norm.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\u0110/g, 'D').replace(/\u0111/g, 'd').replace(/\s+/g, '_');
-                            if (norm === normSubj){
-                                subjectPath = roots[ri] + '/' + gd.name + '/' + sd.name;
-                                subjectLabel = sd.name;
-                            }
-                        }
+                // 1 CALL duy nhat: lay toan bo cay thu muc
+                var treeUrl = 'https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + '/git/trees/' + cfg.branch + '?recursive=1';
+                var tr = await fetch(treeUrl);
+                if (!tr.ok) return { notFound: true };
+                var tree = await tr.json();
+                var items = tree.tree || [];
+                // Tim thu muc mon: data/THCS|THPT/Khoi lop <grade>/<Mon>
+                var subjPrefix = null;
+                for (var i = 0; i < items.length; i++){
+                    var p = items[i].path || '';
+                    if (items[i].type !== 'tree') continue;
+                    var m = p.match(/^data\/(THCS|THPT)\/Kh[^\/]*l[^\/]*p\s*(\d+)\/([^\/]+)$/i);
+                    if (m && parseInt(m[2], 10) === grade){
+                        var rawSubj = m[3].trim();
+                        var norm = rawSubj.replace(/\s*\d+\s*$/, '').trim().toUpperCase();
+                        norm = norm.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\u0110/g, 'D').replace(/\u0111/g, 'd').replace(/\s+/g, '_');
+                        if (norm === normSubj){ subjPrefix = p + '/'; break; }
                     }
                 }
-                if (!subjectPath) return { notFound: true };
-                // Liet ke cac chuong va file HTML
+                if (!subjPrefix) return { notFound: true };
+                // Loc file HTML trong thu muc mon
+                var htmlFiles = [];
+                for (var j = 0; j < items.length; j++){
+                    var fp = items[j].path || '';
+                    if (items[j].type === 'blob' && fp.indexOf(subjPrefix) === 0 && /\.html?$/i.test(fp)){
+                        htmlFiles.push(fp);
+                    }
+                }
+                if (!htmlFiles.length) return { notFound: true };
+                // Tai song song theo batch 10 file
                 var questions = [];
-                var cUrl = 'https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + '/contents/' + subjectPath.split('/').map(encodeURIComponent).join('/') + '?ref=' + cfg.branch;
-                var cr = await fetch(cUrl);
-                if (!cr.ok) return { notFound: true };
-                var cDirs = await cr.json();
-                for (var ci = 0; ci < cDirs.length; ci++){
-                    var cd = cDirs[ci];
-                    if (cd.type !== 'dir') continue;
-                    var chM = String(cd.name || '').match(/Ch[\u01b0\u01b0]ng\s*(\d+)/i) || String(cd.name || '').match(/Chuong\s*(\d+)/i);
-                    var chapter = chM ? parseInt(chM[1], 10) : 0;
-                    var fUrl = 'https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + '/contents/' + (subjectPath + '/' + cd.name).split('/').map(encodeURIComponent).join('/') + '?ref=' + cfg.branch;
-                    var fr = await fetch(fUrl);
-                    if (!fr.ok) continue;
-                    var files = await fr.json();
-                    for (var fi = 0; fi < files.length; fi++){
-                        var f = files[fi];
-                        if (f.type !== 'file' || !/\.html?$/i.test(f.name)) continue;
-                        var lM = String(f.name || '').match(/Bai_(\d+)/i);
-                        var lesson = lM ? parseInt(lM[1], 10) : 0;
+                for (var b = 0; b < htmlFiles.length; b += 10){
+                    var batch = htmlFiles.slice(b, b + 10);
+                    var results = await Promise.all(batch.map(async function(fp){
                         try {
-                            var hr = await fetch(f.download_url);
-                            if (!hr.ok) continue;
+                            var chM = fp.match(/Ch[^\/]*ng\s*(\d+)/i);
+                            var chapter = chM ? parseInt(chM[1], 10) : 0;
+                            var lM = fp.match(/Bai_(\d+)/i);
+                            var lesson = lM ? parseInt(lM[1], 10) : 0;
+                            var hr = await fetch('https://raw.githubusercontent.com/' + cfg.owner + '/' + cfg.repo + '/' + cfg.branch + '/' + fp.split('/').map(encodeURIComponent).join('/'));
+                            if (!hr.ok) return [];
                             var html = await hr.text();
                             var meta = { subject: normSubj, grade: grade, chapter: chapter, lesson: lesson };
-                            var qs = extractQuestionsFromExam10(html, meta, subjectPath + '/' + cd.name + '/' + f.name);
-                            questions = questions.concat(qs);
-                        } catch(eF){}
-                    }
+                            return extractQuestionsFromExam10(html, meta, fp);
+                        } catch(e){ return []; }
+                    }));
+                    results.forEach(function(qs){ questions = questions.concat(qs); });
                 }
                 if (!questions.length) return { notFound: true };
                 var result = { sha: null, data: { subject: normSubj, grade: grade, updated: new Date().toISOString().slice(0,10), questions: questions, _fromLessons: true } };
-                _bankLessonCache[cacheKey] = result;
+                _bankCacheSet(cacheKey, result);
                 return result;
             } catch(e){
                 return { notFound: true };
