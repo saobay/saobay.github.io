@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2003
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2008
 // Rebuilt - fixed structure
 (function(){
     'use strict';
@@ -677,57 +677,56 @@ Hãy điền chi tiết từng ô trong bảng (chủ đề kiến thức cụ t
     }
 })();
 
-// 2026-10-11: Cho phép bấm chọn thư mục môn trực tiếp (không cần mở chương)
+// 2026-10-11: Double-click vào tên môn để chọn luôn (không cần mở chương)
 (function(){
-    function enableSubjectSelect(){
+    function enableDblClick(){
         try {
-            // Tìm popup chọn thư mục
-            var modal = document.querySelector('[id*="folder"][id*="modal"], .folder-modal');
-            if (!modal) return;
-            
-            // Thêm nút "Chọn thư mục này" vào mỗi thư mục môn
-            var folders = modal.querySelectorAll('[data-path]');
-            folders.forEach(function(f){
-                if (f._selectBtnAdded) return;
-                f._selectBtnAdded = true;
-                
-                // Kiểm tra có phải thư mục môn không (có chương con)
-                var path = f.getAttribute('data-path') || '';
-                // Môn thường có dạng .../Toán 6 (không có /Chương)
-                if (path && path.indexOf('/Chương') < 0) {
-                    var btn = document.createElement('button');
-                    btn.textContent = '✓ Chọn';
-                    btn.className = 'ml-2 text-xs bg-blue-600 text-white px-2 py-0.5 rounded hover:bg-blue-700';
-                    btn.onclick = function(e){
+            // Tìm tất cả text tên thư mục trong popup
+            document.querySelectorAll('*').forEach(function(el){
+                if (el._dblHooked) return;
+                var txt = el.textContent || '';
+                // Nhận diện tên môn: "Toán 6", "Tiếng Anh 6", etc. (ngắn, không chứa Chương)
+                if (el.children.length === 0 && txt.length < 30 && txt.length > 3 
+                    && /[6-9]|10|11|12/.test(txt) && txt.indexOf('Chương') < 0
+                    && (txt.indexOf('Toán') >= 0 || txt.indexOf('Văn') >= 0 || txt.indexOf('Anh') >= 0 
+                        || txt.indexOf('Lý') >= 0 || txt.indexOf('Hóa') >= 0 || txt.indexOf('Sinh') >= 0
+                        || txt.indexOf('Sử') >= 0 || txt.indexOf('Địa') >= 0 || txt.indexOf('Tin') >= 0)) {
+                    el._dblHooked = true;
+                    el.style.cursor = 'pointer';
+                    el.title = 'Double-click để chọn môn này';
+                    el.addEventListener('dblclick', function(e){
                         e.stopPropagation();
-                        // Đặt đường dẫn (tự thêm /kiểm tra nếu là đề thi)
-                        var savePath = path;
-                        // Kiểm tra có phải đang đẩy đề thi không
-                        var isExam = document.querySelector('#push-mode-bank.active, #push-mode-ai.active, #push-mode-direct.active');
-                        if (isExam) {
-                            savePath = path + '/kiểm tra';
+                        // Tìm đường dẫn từ text
+                        var subject = txt.trim();
+                        // Đoán đường dẫn (cần cải thiện)
+                        var path = 'data/THCS/Khối lớp 6/' + subject;
+                        // Thử tìm khối từ context
+                        var parent = el.closest('[id*="modal"], [class*="modal"]');
+                        if (parent) {
+                            var modalText = parent.textContent || '';
+                            var gradeMatch = modalText.match(/Khối lớp (\d+)/);
+                            if (gradeMatch) {
+                                path = 'data/THCS/Khối lớp ' + gradeMatch[1] + '/' + subject;
+                            }
                         }
-                        if (typeof window.selectedFolderPath !== 'undefined') {
-                            window.selectedFolderPath = savePath;
-                        }
-                        // Cập nhật hiển thị
-                        var display = document.querySelector('#folder-display, [id*="folder"][id*="display"]');
-                        if (display) display.textContent = savePath;
-                        // Đóng modal
-                        var closeBtn = modal.querySelector('[id*="close"], .close');
-                        if (closeBtn) closeBtn.click();
-                        else modal.style.display = 'none';
+                        // Thêm /kiểm tra nếu đang ở tab đề thi
+                        var activeTab = document.querySelector('#push-mode-bank.bg-blue-700, #push-mode-ai.bg-blue-700, #push-mode-direct.bg-blue-700');
+                        if (activeTab) path += '/kiểm tra';
                         
-                        if (typeof showToast === 'function') {
-                            showToast('Đã chọn: ' + savePath, 'success');
+                        if (typeof window.selectedFolderPath !== 'undefined') {
+                            window.selectedFolderPath = path;
                         }
-                    };
-                    f.appendChild(btn);
+                        // Đóng modal
+                        var modal = el.closest('[style*="position:fixed"], [class*="fixed"]');
+                        if (modal) modal.style.display = 'none';
+                        
+                        if (typeof showToast === 'function') showToast('Đã chọn: ' + path, 'success');
+                        else alert('Đã chọn: ' + path);
+                    });
                 }
             });
         } catch(e){}
     }
-    
-    setInterval(enableSubjectSelect, 3000);
+    setInterval(enableDblClick, 3000);
 })();
 
