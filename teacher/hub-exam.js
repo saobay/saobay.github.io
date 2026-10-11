@@ -1,4 +1,4 @@
-// SAOBAY_HUB_EXAM_VERSION:20261011_1909
+// SAOBAY_HUB_EXAM_VERSION:20261011_1950
         // ========================================================
         // TRÌNH SOẠN ĐỀ KIỂM TRA (Phase 4, 2026-10-08)
 
@@ -763,7 +763,15 @@
                     })
                 };
                 
-                var path = 'data/teacher-exams/' + teacherId + '/' + examId + '.json';
+                var classId = '';
+                // Lấy class_id từ dropdown lớp kiểm tra hoặc biến global
+                try {
+                    var schedSel = document.getElementById('sched-class');
+                    if (schedSel && schedSel.value) classId = schedSel.value;
+                    else if (typeof window.selectedClassId !== 'undefined') classId = window.selectedClassId;
+                } catch(e){}
+                if (!classId) classId = teacherId; // Fallback về teacher_id nếu chưa chọn lớp
+                var path = 'data/private/' + classId + '/' + examId + '.json';
                 // Dùng GAS proxy để lưu
                 // Dùng AbortController với timeout 30s để tránh treo
                 var controller = new AbortController();
@@ -811,7 +819,7 @@
                         headers: {'Content-Type': 'text/plain;charset=utf-8'},
                         body: JSON.stringify({
                             type: 'PUSH_TO_GITHUB',
-                            filePath: 'data/teacher-exams/' + teacherId + '/index.json',
+                            filePath: 'data/private/' + classId + '/index.json',
                             content: JSON.stringify(idxData, null, 2),
                             commitMessage: 'Cập nhật index đề: ' + title,
                             title: 'Cập nhật index',
