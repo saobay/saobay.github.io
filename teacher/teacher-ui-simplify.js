@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2011
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2020
 // Rebuilt - fixed structure
 (function(){
     'use strict';
@@ -681,8 +681,14 @@ Hãy điền chi tiết từng ô trong bảng (chủ đề kiến thức cụ t
 (function(){
     function hideChaptersInExamMode(){
         try {
-            // Kiểm tra có đang ở tab đề thi không
-            var isExamMode = document.querySelector('#push-mode-bank.bg-blue-700, #push-mode-ai.bg-blue-700, #push-mode-direct.bg-blue-700');
+            // Kiểm tra có đang ở tab đề thi không (nút có màu nền đậm = đang active)
+            var isExamMode = false;
+            ['push-mode-bank', 'push-mode-ai', 'push-mode-direct'].forEach(function(id){
+                var btn = document.getElementById(id);
+                if (btn && (btn.className.indexOf('bg-blue-700') >= 0 || btn.className.indexOf('bg-purple-700') >= 0 || btn.className.indexOf('bg-indigo-700') >= 0)) {
+                    isExamMode = true;
+                }
+            });
             if (!isExamMode) return;
             
             // Tìm popup chọn thư mục đang mở
