@@ -161,7 +161,7 @@
         <div class="text-[11px] font-black text-amber-200 mb-1">🗄️ TỦ HÓA CHẤT <span class="font-normal opacity-70">— chạm vào lọ để lấy bình mới</span></div>
         <div id="chem-shelf" class="flex gap-2 overflow-x-auto pb-1"></div>
       </div>
-      <canvas id="cv-mix" class="w-full rounded-xl border border-slate-700" height="440" style="touch-action:pan-y;display:block;background:#0b1626;"></canvas>
+      <canvas id="cv-mix" class="w-full rounded-xl border border-slate-700" height="320" style="touch-action:pan-y;display:block;background:#0b1626;"></canvas>
       <div class="text-[11px] text-slate-500 mt-1">💡 Chạm bình ✕ để cất • Tối đa 4 bình • Bật pipet rồi chạm bình để nhỏ giọt chỉ thị</div>
       <div id="mix-result" class="mt-3 hidden bg-teal-50 border border-teal-200 rounded-xl p-3">
         <div class="text-sm font-bold text-teal-900">Phương trình phản ứng:</div>
@@ -540,8 +540,8 @@ window.__refits = window.__refits || [];
       ctx.fillRect(-v.w/2, surfY, v.w, liqH+8);
       // Vầng sáng lõi (kiểu video: sáng rực ở giữa đáy)
       var rg = ctx.createRadialGradient(0, -liqH*0.35, 4, 0, -liqH*0.35, iw*0.75);
-      rg.addColorStop(0, 'rgba(255,255,255,0.35)');
-      rg.addColorStop(0.5, hexA(col.glow, 0.25));
+      rg.addColorStop(0, 'rgba(255,255,255,0.55)');
+      rg.addColorStop(0.45, hexA(col.glow, 0.45));
       rg.addColorStop(1, 'rgba(255,255,255,0)');
       ctx.fillStyle = rg;
       ctx.fillRect(-v.w/2, surfY, v.w, liqH+8);
@@ -629,8 +629,10 @@ window.__refits = window.__refits || [];
     gg2.addColorStop(0.5, 'rgba(255,255,255,0.02)');
     gg2.addColorStop(1, 'rgba(255,255,255,0.08)');
     ctx.fillStyle = gg2; ctx.fill();
-    // Viền sáng 2 lớp (giả glow, rẻ hơn shadowBlur)
+    // Viền sáng 3 lớp kiểu ảnh mẫu (glow ngoài mạnh + quầng màu + viền trắng)
     ctx.lineJoin = 'round';
+    traceVessel(ctx, v);
+    ctx.strokeStyle = hexA(col.glow, 0.30); ctx.lineWidth = 14; ctx.stroke();
     traceVessel(ctx, v);
     ctx.strokeStyle = 'rgba(140,220,255,0.45)'; ctx.lineWidth = 8; ctx.stroke();
     traceVessel(ctx, v);
@@ -712,11 +714,11 @@ window.__refits = window.__refits || [];
       ctx.fillRect(-v.w/2, -v.h, v.w, v.h);
       ctx.restore();
     }
-    // Tia lấp lánh nhấp nháy
-    for (var gi=0; gi<2; gi++){
-      var gx = -v.w/2 + v.w*(0.2+gi*0.55), gy = -v.h*(0.3+gi*0.35);
+    // Tia lấp lánh nhấp nháy (kiểu ảnh mẫu: nhiều tia sáng hơn)
+    for (var gi=0; gi<3; gi++){
+      var gx = -v.w/2 + v.w*(0.15+gi*0.35), gy = -v.h*(0.25+gi*0.25);
       var tw = 0.35 + 0.65*Math.abs(Math.sin(t*2.2 + gi*2.4 + v.id));
-      drawSpark(ctx, gx, gy, 7*tw, 'rgba(255,255,255,'+(0.75*tw).toFixed(2)+')');
+      drawSpark(ctx, gx, gy, 9*tw, 'rgba(255,255,255,'+(0.85*tw).toFixed(2)+')');
     }
     // Vạch chia độ cho cốc đong
     if (v.type === 'beaker'){
@@ -942,11 +944,25 @@ window.__refits = window.__refits || [];
     ctx.fillStyle='#241a1a';
     ctx.beginPath(); ctx.arc(0,hy2-17,6.5,0,7); ctx.fill();
     ctx.fillRect(-3.5,hy2-19,7,7);
+    // Dây buộc tóc vàng + tua rua (kiểu ảnh mẫu)
+    ctx.strokeStyle='#e3b34e'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.arc(0,hy2-17,6.5,0.3,Math.PI-0.3); ctx.stroke();
+    ctx.fillStyle='#e3b34e'; ctx.beginPath(); ctx.arc(7,hy2-15,2.2,0,7); ctx.fill();
+    ctx.strokeStyle='#c9982f'; ctx.lineWidth=1.4;
+    ctx.beginPath(); ctx.moveTo(7,hy2-13); ctx.quadraticCurveTo(9,hy2-6,7,hy2-2); ctx.stroke();
     ctx.strokeStyle='#e3b34e'; ctx.lineWidth=1.6;
     ctx.beginPath(); ctx.arc(0,hy2-17,6.5,0.3,Math.PI-0.3); ctx.stroke();
     ctx.fillStyle='#241a1a';
     ctx.beginPath(); ctx.arc(0,hy2,16,Math.PI*0.9,Math.PI*2.1); ctx.fill();
     ctx.fillRect(-16,hy2-17,32,7);
+    // Sợi tóc mái chi tiết kiểu anime
+    ctx.fillStyle='#241a1a';
+    ctx.beginPath(); ctx.moveTo(-13,hy2-14); ctx.quadraticCurveTo(-9,hy2-4,-6,hy2-13); ctx.closePath(); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(-4,hy2-15); ctx.quadraticCurveTo(0,hy2-5,4,hy2-14); ctx.closePath(); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(6,hy2-14); ctx.quadraticCurveTo(10,hy2-5,13,hy2-13); ctx.closePath(); ctx.fill();
+    // Độ bóng tóc
+    ctx.fillStyle='rgba(255,255,255,0.28)';
+    ctx.beginPath(); ctx.ellipse(-7,hy2-11,5,2.6,-0.5,0,7); ctx.fill();
     ctx.beginPath(); ctx.moveTo(-16,hy2-10); ctx.quadraticCurveTo(-4,hy2-16,8,hy2-11);
     ctx.lineTo(8,hy2-7); ctx.quadraticCurveTo(-4,hy2-12,-16,hy2-6); ctx.closePath(); ctx.fill();
     ctx.fillStyle='#ffdcbb'; ctx.beginPath(); ctx.arc(0,hy2,14.5,0,7); ctx.fill();
@@ -959,16 +975,22 @@ window.__refits = window.__refits || [];
       ctx.fillRect(-9,hy2,6,1.8); ctx.fillRect(3,hy2,6,1.8);
     } else {
       ctx.fillStyle='#fff';
-      ctx.beginPath(); ctx.ellipse(-6,hy2,4.2,5,0,0,7); ctx.fill();
-      ctx.beginPath(); ctx.ellipse(6,hy2,4.2,5,0,0,7); ctx.fill();
-      ctx.fillStyle='#20242e';
-      ctx.beginPath(); ctx.arc(-6,hy2+0.8,2.5,0,7); ctx.fill();
-      ctx.beginPath(); ctx.arc(6,hy2+0.8,2.5,0,7); ctx.fill();
+      ctx.beginPath(); ctx.ellipse(-6,hy2,4.8,5.6,0,0,7); ctx.fill();
+      ctx.beginPath(); ctx.ellipse(6,hy2,4.8,5.6,0,0,7); ctx.fill();
+      ctx.fillStyle='#1f2a44';
+      ctx.beginPath(); ctx.arc(-6,hy2+1,3.1,0,7); ctx.fill();
+      ctx.beginPath(); ctx.arc(6,hy2+1,3.1,0,7); ctx.fill();
+      ctx.fillStyle='#4a6fa5';
+      ctx.beginPath(); ctx.arc(-6,hy2+1,1.5,0,7); ctx.fill();
+      ctx.beginPath(); ctx.arc(6,hy2+1,1.5,0,7); ctx.fill();
       ctx.fillStyle='#fff';
-      ctx.beginPath(); ctx.arc(-6.9,hy2-0.6,1.1,0,7); ctx.fill();
-      ctx.beginPath(); ctx.arc(5.1,hy2-0.6,1.1,0,7); ctx.fill();
-      ctx.beginPath(); ctx.arc(-5.2,hy2+1.6,0.6,0,7); ctx.fill();
-      ctx.beginPath(); ctx.arc(6.8,hy2+1.6,0.6,0,7); ctx.fill();
+      ctx.beginPath(); ctx.arc(-7,hy2-0.8,1.4,0,7); ctx.fill();
+      ctx.beginPath(); ctx.arc(5,hy2-0.8,1.4,0,7); ctx.fill();
+      ctx.beginPath(); ctx.arc(-5,hy2+2,0.7,0,7); ctx.fill();
+      ctx.beginPath(); ctx.arc(7,hy2+2,0.7,0,7); ctx.fill();
+      // Tia sáng mắt kiểu anime
+      ctx.fillStyle='rgba(255,255,255,0.9)';
+      ctx.fillRect(-6.6,hy2-3.4,0.8,2.2); ctx.fillRect(5.4,hy2-3.4,0.8,2.2);
     }
     ctx.strokeStyle='#241a1a'; ctx.lineWidth=2;
     ctx.beginPath(); ctx.moveTo(-10.5,hy2-8); ctx.quadraticCurveTo(-6,hy2-10.5,-1.5,hy2-8); ctx.stroke();
