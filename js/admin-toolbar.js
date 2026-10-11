@@ -1,4 +1,4 @@
-// SAOBAY_ADMIN_TOOLBAR_VERSION:20261011_1823
+// SAOBAY_ADMIN_TOOLBAR_VERSION:20261011_1829
 /* js/admin-toolbar.js — Thanh công cụ admin nổi trên MỌI trang SAOBAY (2026-10-10)
  * - Chỉ hiện khi admin đăng nhập (localStorage saobay_user.role === 'admin')
  * - Nút "✏️ Sửa giao diện": bật chế độ sửa inline — bấm vào chữ/nút có [data-ui-label]
@@ -274,5 +274,26 @@
     }
     // Theo dõi thay đổi đăng nhập
     setInterval(hideAdminBtn, 5000);
+})();
+
+// 2026-10-11: Hiện nút teacher-hub cho GV (sửa lỗi bị ẩn)
+(function(){
+    function fixTeacherBtn(){
+        try {
+            var u = JSON.parse(localStorage.getItem('saobay_user') || 'null');
+            var btn = document.getElementById('btn-teacher-space');
+            if (!btn) return;
+            if (u && (u.role === 'teacher' || u.role === 'admin')) {
+                btn.classList.remove('hidden');
+                btn.style.display = '';
+            }
+        } catch(e){}
+    }
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function(){ setTimeout(fixTeacherBtn, 1000); setTimeout(fixTeacherBtn, 3000); });
+    } else {
+        setTimeout(fixTeacherBtn, 1000); setTimeout(fixTeacherBtn, 3000);
+    }
+    setInterval(fixTeacherBtn, 5000);
 })();
 
