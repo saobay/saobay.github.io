@@ -379,19 +379,21 @@ function _renderExamScheduleBanner(){
   var old=document.getElementById("exam-schedule-banner");
   if(old){_examApplyPad(-(_examBannerH||0));_examBannerH=0;old.remove();}
   var now=Date.now();
-  var list=(_examScheduleList||[]).filter(function(e){var t=new Date(e.examTime).getTime();var dur=(parseFloat(e.durationMin)||45)*60000;return isFinite(t)&&t>=now-dur&&t<=now+7*864e5;});
+  var list=(_examScheduleList||[]).filter(function(e){if(e.status==="published")return true;var t=new Date(e.examTime).getTime();var dur=(parseFloat(e.durationMin)||45)*60000;return isFinite(t)&&t>=now-dur&&t<=now+7*864e5;}); /* SCHED_LATER_V1 */
   _examScheduleList=list;
   if(!list.length)return;
   var rows=list.map(function(e){
+    var isPub=e.status==="published"; /* SCHED_LATER_V1 */
     var t=new Date(e.examTime).getTime(),dur=(parseFloat(e.durationMin)||45)*60000;
     var f=_examFmtDT(e.examTime);
-    var inWin=now>=t&&now<=t+dur;
-    var line=inWin?'<div style="font-weight:900;color:#fef08a;">🔴 ĐANG DIỄN RA — vào làm bài ngay!</div>':'<div style="font-weight:700;">'+_examEsc(_examRemain(t-now)||"")+'</div>';
+    var inWin=isPub||(now>=t&&now<=t+dur);
+    var line=isPub?'<div style="font-weight:900;color:#fef08a;">✅ ĐÃ GIAO — bấm để làm bài ngay!</div>':(inWin?'<div style="font-weight:900;color:#fef08a;">🔴 ĐANG DIỄN RA — vào làm bài ngay!</div>':'<div style="font-weight:700;">'+_examEsc(_examRemain(t-now)||"")+'</div>');
     var btn=inWin?'<div style="margin-top:8px;"><button type="button" data-f="'+_examEsc(e.file||"")+'" onclick="startScheduledExam(this.dataset.f)" style="background:#fff;color:#dc2626;font-weight:900;font-size:16px;padding:10px 26px;border-radius:12px;border:none;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.3);">👉 BẤM VÀO ĐÂY ĐỂ LÀM BÀI</button></div>':"";
+    var timeLine=isPub?'<div style="font-size:14px;margin-top:2px;">📤 GV đã giao đề — làm bất cứ lúc nào</div>':'<div style="font-size:14px;margin-top:2px;">🕐 Vào lúc '+f.hm+', ngày '+f.dmy+'</div>';
     return '<div style="margin:8px auto;max-width:640px;background:rgba(0,0,0,.22);border-radius:12px;padding:10px 14px;">'
       +'<div style="font-weight:900;font-size:16px;">'+_examEsc(e.title||"Bài kiểm tra")+'</div>'
       +'<div style="font-size:13px;opacity:.95;">'+(_examEsc(e.subject||"")?("Môn: "+_examEsc(e.subject)):"")+(_examEsc(e.grade||"")?(" • Khối "+_examEsc(e.grade)):"")+(_examEsc(e.className||"")?(" • Lớp "+_examEsc(e.className)):"")+'</div>'
-      +'<div style="font-size:14px;margin-top:2px;">🕐 Vào lúc '+f.hm+', ngày '+f.dmy+'</div>'
+      +timeLine
       +line+btn+'</div>';
   }).join("");
   var html='<div id="exam-schedule-banner" style="position:fixed;top:0;left:0;right:0;z-index:99998;background:linear-gradient(135deg,#dc2626,#ea580c);color:#fff;text-align:center;padding:14px 12px;box-shadow:0 3px 12px rgba(0,0,0,.35);">'
@@ -412,9 +414,10 @@ async function checkExamSchedule(){
     if(!myClass)return;
     _examScheduleList=exams.filter(function(e){
       if(!e)return false;
-      if(e.status!=="scheduled"&&e.status!=="active")return false;
+      if(e.status!=="scheduled"&&e.status!=="active"&&e.status!=="published")return false;
       var cid=String(e.classId==null?"":e.classId).trim(),cn=String(e.className==null?"":e.className).trim();
       if(!(cid===myClass||cn===myClass))return false;
+      if(e.status==="published")return true; /* SCHED_LATER_V1: đề đã giao — HS thấy ngay */
       var t=new Date(e.examTime).getTime();var dur=(parseFloat(e.durationMin)||45)*60000;
       return isFinite(t)&&t>=now-dur&&t<=now+7*864e5;
     });
