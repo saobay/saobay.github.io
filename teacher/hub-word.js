@@ -445,8 +445,9 @@
                 let line = String(raw || '').trim();
                 if (!line) return;
                 // 2026-10-11: bo qua hang bang dap an ("Câu 1 2 3..." / "Đáp án A B...")
+                // (fix 2026-10-11: khong skip dong "Đáp án: X" co dau hai cham)
                 if (/^(câu|cau)\s*(\d+\s*)+$/i.test(line)) return;
-                if (/^(đáp án|đ\.án|đ\/án)\b/i.test(line)) return;
+                if (/^(đáp án|đ\.án|đ\/án)\b(?!\s*:)/i.test(line)) return;
                 // Phat hien de thi moi qua marker "ĐỀ N" (2026-10-11: de map bang dap an dung de)
                 // VD: "MÔN TOÁN 6-ĐỀ 1", "ĐỀ 2"
                 if (/^(ĐỀ\s*\d+|MÔN\s+.*[\s-]ĐỀ\s*\d+)/i.test(line)){
