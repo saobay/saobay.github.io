@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_1832
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_1835
 // SAOBAY Teacher Hub UI Simplify - 2026-10-11
 // Ẩn cây thư mục bên trái, chọn thư mục qua popup tại "Vị trí lưu trữ"
 (function(){
@@ -13,8 +13,26 @@
             aside { display: none !important; }
             /* Ẩn nút hamburger */
             button[onclick*="toggleSidebar"] { display: none !important; }
-            /* Mở rộng nội dung chính */
+            /* Mở rộng nội dung chính + thêm lề */
             main, .main-content { margin-left: 0 !important; width: 100% !important; }
+            /* Thêm padding cho container chính */
+            body > div.flex > div:last-child,
+            body > div > main,
+            #main-content {
+                padding-left: 24px !important;
+                padding-right: 24px !important;
+                max-width: 1400px !important;
+                margin-left: auto !important;
+                margin-right: auto !important;
+            }
+            @media (max-width: 768px) {
+                body > div.flex > div:last-child,
+                body > div > main,
+                #main-content {
+                    padding-left: 12px !important;
+                    padding-right: 12px !important;
+                }
+            }
         `;
         if (!document.getElementById('saobay-hide-sidebar')) {
             document.head.appendChild(style);
