@@ -600,18 +600,64 @@
             return questions;
         }
 
-        function sendWordToEditor(){
+        // Upload ảnh lên GitHub, trả về URL thay vì base64
+        async function uploadWordImageToGitHub(b64, contentType, idx){
+            var ext = 'png';
+            if (contentType && contentType.indexOf('jpeg') >= 0) ext = 'jpg';
+            else if (contentType && contentType.indexOf('gif') >= 0) ext = 'gif';
+            var timestamp = Date.now();
+            var fileName = 'teacher/word-images/' + timestamp + '_' + idx + '.' + ext;
+            var GAS_URL = 'https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec';
+            // Chuyển base64 thành binary để upload
+            var byteChars = atob(b64);
+            var byteArray = new Uint8Array(byteChars.length);
+            for (var i = 0; i < byteChars.length; i++) byteArray[i] = byteChars.charCodeAt(i);
+            // GAS nhận base64, server decode thành binary
+            var payload = {
+                type: 'PUSH_TO_GITHUB',
+                filePath: fileName,
+                content: b64,
+                contentEncoding: 'base64',
+                commitMessage: 'Upload ảnh từ Word: ' + fileName,
+                title: 'Word image',
+                author: 'word-upload'
+            };
+            var res = await fetch(GAS_URL, {
+                method: 'POST',
+                headers: {'Content-Type': 'text/plain;charset=utf-8'},
+                body: JSON.stringify(payload)
+            });
+            var result = await res.json();
+            if (result.status !== 'success') throw new Error('Upload ảnh thất bại');
+            return 'https://raw.githubusercontent.com/saobay/saobay.github.io/main/' + fileName;
+        }
+
+        async function sendWordToEditor(){
             let qs = wordState.questions || [];
             if (!qs.length){ alert('Chưa có câu hỏi nào để chuyển.'); return; }
-            // Gan anh vao cau hoi theo mapping cua giao vien
+            // Upload ảnh lên GitHub trước, dùng URL thay vì base64
             let imgMap = {};
+            let uploadPromises = [];
             (wordState.extractedImages || []).forEach(function(im, ii){
                 let sel = document.getElementById('img-map-' + ii);
                 if (sel && sel.value !== ''){
                     let qi = parseInt(sel.value, 10);
-                    if (!isNaN(qi) && qs[qi]) imgMap[qi] = 'data:' + im.contentType + ';base64,' + im.b64;
+                    if (!isNaN(qi) && qs[qi]){
+                        uploadPromises.push(
+                            uploadWordImageToGitHub(im.b64, im.contentType, ii).then(function(url){
+                                imgMap[qi] = url;
+                            }).catch(function(e){
+                                console.warn('Upload ảnh ' + ii + ' thất bại, dùng base64:', e);
+                                imgMap[qi] = 'data:' + im.contentType + ';base64,' + im.b64;
+                            })
+                        );
+                    }
                 }
             });
+            if (uploadPromises.length){
+                showToast('Đang tải ' + uploadPromises.length + ' ảnh lên...', 'info');
+                await Promise.all(uploadPromises);
+            }
             let examJson = { time_limit: 0, sets: [{ name: 'Đề', questions: qs.map(function(q, qi){
                 let o = { type: q.type, level: q.level, q: q.q, options: q.options || [],
                          statements: q.statements || [], answer: q.answer, explain: q.explain || '' };
@@ -645,7 +691,7 @@
                             html += '<p style="margin:2px 0 2px 16px;font-size:13px;' + (isAns ? 'color:#15803d;font-weight:bold' : 'color:#475569') + '">' + letter + '. ' + optText + (isAns ? ' ✓' : '') + '</p>';
                         }
                         if (q.img){
-                            html += '<p style="font-size:12px;color:#7c3aed;margin:4px 0 0 16px">📷 Có ảnh minh họa</p>';
+                            html += '<img src="' + q.img + '" style="max-width:100%;max-height:200px;margin-top:8px;border-radius:8px;border:1px solid #e2e8f0" loading="lazy"/>';
                         }
                         html += '</div>';
                     }
