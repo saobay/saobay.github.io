@@ -458,6 +458,15 @@
                 Object.keys(lvNames).forEach(function(lv){
                     statHtml += '<span class="px-2 py-0.5 rounded-full font-bold ' + (lvColors[lv] || 'bg-slate-100 text-slate-600') + '">' + lvNames[lv] + ': ' + (lvCount[lv] || 0) + '</span>';
                 });
+                statHtml += '</div>';
+                // 2026-10-11: hien so cau moi LOAI de GV biet co du de boc khong
+                var typeNames = { mcq: 'Trắc nghiệm', truefalse: 'Đúng/Sai', short: 'Trả lời ngắn', essay: 'Tự luận', listening: 'Nghe', speaking: 'Nói', matching: 'Nối từ', ordering: 'Sắp xếp' };
+                var typeColors = { mcq: 'bg-blue-100 text-blue-700', truefalse: 'bg-amber-100 text-amber-700', short: 'bg-emerald-100 text-emerald-700', essay: 'bg-violet-100 text-violet-700', listening: 'bg-cyan-100 text-cyan-700', speaking: 'bg-pink-100 text-pink-700', matching: 'bg-orange-100 text-orange-700', ordering: 'bg-teal-100 text-teal-700' };
+                statHtml += '<div class="flex flex-wrap gap-1.5 mt-1.5">';
+                Object.keys(typeNames).forEach(function(tp){
+                    var c = typeCount[tp] || 0;
+                    if (c > 0) statHtml += '<span class="px-2 py-0.5 rounded-full font-bold ' + (typeColors[tp] || 'bg-slate-100 text-slate-600') + '">' + typeNames[tp] + ': ' + c + '</span>';
+                });
                 statHtml += '</div></div>';
                 let rows = '';
                 chList.forEach(function(c){
