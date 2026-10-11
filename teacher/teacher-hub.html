@@ -2401,5 +2401,21 @@ function copyWordSample(){
     else { var t = document.createElement('textarea'); t.value = txt; document.body.appendChild(t); t.select(); document.execCommand('copy'); document.body.removeChild(t); alert('Đã copy mẫu!'); }
 }
 </script>
+
+<script>
+// SAOBAY_TAB2_FIX 20261011: thay tab2 bằng trang đề thi
+(function(){
+  function fixTab2(){
+    var v=document.getElementById('module-manage-view');
+    if(v && !v.dataset.fixed){
+      v.dataset.fixed='1';
+      v.innerHTML='<iframe src="teacher-my-exams.html" style="width:100%;min-height:600px;border:none" title="Đề thi"></iframe>';
+    }
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fixTab2);
+  else fixTab2();
+  setInterval(fixTab2,2000);
+})();
+</script>
 </body>
 </html>
