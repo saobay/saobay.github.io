@@ -841,6 +841,24 @@
             } catch(e){}
             if (!confirm(`Bạn có chắc muốn xóa bài "${title}" (${filePath}) trên GitHub?`)) return;
             try {
+                // Tìm và xóa ảnh đính kèm (tránh rác)
+                let imagePaths = [];
+                try {
+                    let contentRes = await fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/' + filePath + '?t=' + Date.now());
+                    if (contentRes.ok){
+                        let content = await contentRes.text();
+                        // Tìm các URL ảnh word-images
+                        let imgRegex = /teacher\/word-images\/[^"'\s)]+/g;
+                        let matches = content.match(imgRegex);
+                        if (matches){
+                            matches.forEach(function(m){
+                                if (imagePaths.indexOf(m) < 0) imagePaths.push(m);
+                            });
+                        }
+                    }
+                } catch(eImg){ console.warn('Không tìm được ảnh đính kèm:', eImg); }
+                
+                // Xóa bài chính
                 let res = await fetch(API_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -852,7 +870,26 @@
                 });
                 let result = await parseSafeResponse(res);
                 if (result.status === 'success') {
-                    alert(`Đã xóa bài "${title}" thành công!`);
+                    // Xóa các ảnh đính kèm
+                    let deletedImages = 0;
+                    for (let i = 0; i < imagePaths.length; i++){
+                        try {
+                            let delRes = await fetch(API_URL, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                                body: JSON.stringify({
+                                    type: 'DELETE_FROM_GITHUB',
+                                    filePath: imagePaths[i],
+                                    commitMessage: `Xóa ảnh đính kèm: ${imagePaths[i]} (xóa cùng ${filePath})`
+                                })
+                            });
+                            let delResult = await parseSafeResponse(delRes);
+                            if (delResult.status === 'success') deletedImages++;
+                        } catch(eDel){ console.warn('Xóa ảnh thất bại:', imagePaths[i]); }
+                    }
+                    let msg = `Đã xóa bài "${title}" thành công!`;
+                    if (deletedImages > 0) msg += `\nĐã xóa kèm ${deletedImages} ảnh đính kèm.`;
+                    alert(msg);
                     renderLessonManagementList();
                 } else {
                     alert(`Lỗi khi xóa bài: ${result.message || 'Không xác định'}`);
