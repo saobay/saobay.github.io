@@ -88,7 +88,7 @@
         async function _loadTreeIndex(){
             if (_treeIndexCache) return _treeIndexCache;
             try {
-                var r = await fetch('https://saobay.github.io/data/_index/folders.json?v=' + Date.now());
+                var r = await fetch('https://saobay.github.io/data/folder-index/folders.json?v=' + Date.now());
                 if (!r.ok) return null;
                 _treeIndexCache = await r.json();
                 return _treeIndexCache;
