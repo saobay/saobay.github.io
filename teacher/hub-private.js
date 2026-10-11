@@ -98,7 +98,8 @@
                 let tag = c.owner_tag ? '<span class="text-[10px] bg-slate-100 border border-slate-200 text-slate-600 rounded px-1.5 py-0.5 ml-1 font-mono">' + escHtml(c.owner_tag) + '</span>' : '';
                 html += '<div class="bg-white border border-violet-200 rounded-xl p-3">'
                     + '<div class="flex items-center justify-between mb-2">'
-                    + '<div><p class="font-bold text-sm text-slate-800">' + escHtml(c.name) + tag + '</p>'
+                    + '<div><p class="font-bold text-sm text-slate-800">' + escHtml(c.name) + tag
+                    + ' <button onclick="pvRenameClass(\'' + c.id + '\')" class="text-[11px] text-slate-400 hover:text-amber-600 font-bold" title="Đổi tên lớp"><i class="fa-solid fa-pen"></i></button></p>'
                     + '<p class="text-[11px] text-slate-500">' + ((typeof pvIsAdmin === 'function' && pvIsAdmin()) ? 'GV: <b class="text-slate-700">' + escHtml(c.teacher_name || c.teacher_id || '') + '</b> · ' : '') + 'Mã vào lớp: <b class="text-violet-700 font-mono">' + escHtml(c.join_code) + '</b> · ' + nS + ' học sinh</p></div>'
                     + '<div class="flex gap-1.5 flex-wrap justify-end">'
                     + '<button onclick="pvSelectFolder(\'' + c.id + '\')" class="text-[11px] font-bold text-white bg-violet-600 hover:bg-violet-700 px-2.5 py-1.5 rounded-lg" title="Chọn thư mục này để đẩy bài"><i class="fa-solid fa-folder-open mr-1"></i>Đẩy bài vào lớp</button>'
@@ -156,6 +157,82 @@
             await pvGasPush(path, '',
                 'Tao thu muc lop hoc them ' + classId,
                 'Tao thu muc lop');
+        }
+        /* PV_RENAME_V1 — Doi ten lop (2026-10-11): lop day them -> luu data/private/classes.json;
+           lop chinh khoa -> chi doi ten hien thi rieng cua GV (localStorage), khong doi du lieu goc */
+        function pvEnsureRenameModal(){
+            if (document.getElementById('pv-rename-modal')) return;
+            var h = ''
+            + '<div id="pv-rename-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">'
+            + '<div class="absolute inset-0 bg-black/50" onclick="pvCloseRenameModal()"></div>'
+            + '<div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden">'
+            + '<div class="bg-amber-500 text-white px-5 py-3 flex items-center justify-between">'
+            + '<h3 class="font-bold text-sm"><i class="fa-solid fa-pen mr-1"></i>Đổi tên lớp</h3>'
+            + '<button onclick="pvCloseRenameModal()" class="text-white/80 hover:text-white text-xl leading-none px-2">&times;</button></div>'
+            + '<div class="p-5 space-y-3">'
+            + '<p id="pv-rename-hint" class="text-xs text-slate-500"></p>'
+            + '<input id="pv-rename-input" type="text" maxlength="60" class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400" placeholder="Nhập tên lớp mới...">'
+            + '</div>'
+            + '<div class="px-5 py-3 bg-slate-50 border-t flex justify-end gap-2">'
+            + '<button onclick="pvCloseRenameModal()" class="px-4 py-2 rounded-xl bg-white border border-slate-300 text-sm font-bold text-slate-600 hover:bg-slate-100">Hủy</button>'
+            + '<button onclick="pvConfirmRename()" class="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-sm font-bold shadow"><i class="fa-solid fa-check mr-1"></i>Lưu</button>'
+            + '</div></div></div>';
+            document.body.insertAdjacentHTML('beforeend', h);
+            var inp = document.getElementById('pv-rename-input');
+            if (inp) inp.addEventListener('keydown', function(e){ if (e.key === 'Enter') pvConfirmRename(); });
+        }
+        var _pvRenameTarget = null; // {mode:'class', id} | {mode:'chip', key, label}
+        function pvCloseRenameModal(){ var m = document.getElementById('pv-rename-modal'); if (m) m.classList.add('hidden'); _pvRenameTarget = null; }
+        async function pvRenameClass(classId){
+            if (!pvLoaded) pvClasses = await pvFetchClasses();
+            var c = pvClasses.find(function(x){ return x.id === classId; });
+            if (!c) return;
+            var isAdmin = (typeof pvIsAdmin === 'function' && pvIsAdmin());
+            if (!isAdmin && c.teacher_id !== currentUser.id){ alert('Bạn chỉ đổi tên được lớp của mình.'); return; }
+            pvEnsureRenameModal();
+            _pvRenameTarget = {mode: 'class', id: classId};
+            var hint = document.getElementById('pv-rename-hint');
+            if (hint) hint.innerHTML = 'Tên hiện tại: <b>' + escHtml(c.name) + '</b>';
+            var inp = document.getElementById('pv-rename-input');
+            if (inp) inp.value = c.name;
+            document.getElementById('pv-rename-modal').classList.remove('hidden');
+            if (inp){ inp.focus(); inp.select(); }
+        }
+        async function pvConfirmRename(){
+            var inp = document.getElementById('pv-rename-input');
+            var nn = inp ? String(inp.value || '').trim() : '';
+            if (!nn){ alert('Tên lớp không được để trống.'); return; }
+            if (!_pvRenameTarget) return;
+            if (_pvRenameTarget.mode === 'chip'){
+                // Lop chinh khoa: chi luu ten hien thi rieng cua GV (localStorage), khong doi du lieu goc
+                var key = _pvRenameTarget.key;
+                var aliases = pvGetTeachAliases();
+                var defLbl = _pvRenameTarget.label;
+                if (nn === defLbl) delete aliases[key]; else aliases[key] = nn;
+                try { localStorage.setItem(pvTeachAliasKey(), JSON.stringify(aliases)); } catch(e){}
+                pvCloseRenameModal();
+                if (typeof pvLoadTeachChips === 'function') pvLoadTeachChips();
+                if (typeof showToast === 'function') showToast('Đã đổi tên hiển thị lớp', 'success');
+                return;
+            }
+            if (!pvLoaded) pvClasses = await pvFetchClasses();
+            var c = pvClasses.find(function(x){ return x.id === _pvRenameTarget.id; });
+            if (!c){ pvCloseRenameModal(); return; }
+            if (nn === c.name){ pvCloseRenameModal(); return; }
+            var isAdmin = (typeof pvIsAdmin === 'function' && pvIsAdmin());
+            var dup = pvClasses.some(function(x){
+                return x.id !== c.id && String(x.name || '').trim().toLowerCase() === nn.toLowerCase()
+                    && (isAdmin || x.teacher_id === currentUser.id);
+            });
+            if (dup){ alert('Đã có lớp tên "' + nn + '". Vui lòng chọn tên khác.'); return; }
+            c.name = nn;
+            try {
+                await pvSaveClasses();
+                pvCloseRenameModal();
+                renderPrivateClasses();
+                if (typeof showToast === 'function') showToast('Đã đổi tên lớp thành "' + nn + '"', 'success');
+                else alert('Đã đổi tên lớp thành "' + nn + '"');
+            } catch(e){ alert('Lỗi lưu tên lớp: ' + (e.message || e)); }
         }
         /* PV_DELETECLASS_V1 — xoa lop day them: phan biet "xoa khoi lop" vs "xoa TK" (2026-10-11)
            - HS truong: chi xoa khoi roster, TUYET DOI khong dung TK (passwords, han, bai nop giu nguyen).
@@ -362,6 +439,35 @@ async function pvScanScores(){
     return all;
 }
 var pvTeachAssigns = [];
+/* PV_RENAME_V1 — alias ten hien thi lop chinh khoa theo GV (localStorage) */
+function pvTeachAliasKey(){
+    var me = (typeof currentUser !== 'undefined' && currentUser && currentUser.id) ? String(currentUser.id) : 'anon';
+    return 'saobay_class_alias_' + me;
+}
+function pvGetTeachAliases(){
+    try { return JSON.parse(localStorage.getItem(pvTeachAliasKey()) || '{}') || {}; }
+    catch(e){ return {}; }
+}
+function pvTeachAlias(key){
+    var m = pvGetTeachAliases();
+    return m[key] || '';
+}
+function pvRenameTeachChip(idx){
+    var a = (typeof pvTeachAssigns !== 'undefined' && pvTeachAssigns[idx]) ? pvTeachAssigns[idx] : null;
+    if (!a) return;
+    if (typeof pvEnsureRenameModal !== 'function'){ alert('Chức năng chưa sẵn sàng, thử lại.'); return; }
+    pvEnsureRenameModal();
+    var key = a.class + '|' + a.subject;
+    var defLbl = a.class + ' \u00b7 ' + a.subject;
+    var cur = pvTeachAlias(key) || defLbl;
+    _pvRenameTarget = {mode: 'chip', key: key, label: defLbl};
+    var hint = document.getElementById('pv-rename-hint');
+    if (hint) hint.innerHTML = 'Tên gốc: <b>' + escHtml(defLbl) + '</b><br><span class="text-amber-600">Chỉ đổi tên hiển thị của bạn, không đổi dữ liệu trường. Để trống về tên gốc bằng cách nhập lại đúng tên gốc.</span>';
+    var inp = document.getElementById('pv-rename-input');
+    if (inp) inp.value = cur;
+    document.getElementById('pv-rename-modal').classList.remove('hidden');
+    if (inp){ inp.focus(); inp.select(); }
+}
 async function pvLoadTeachChips(){
     var box = document.getElementById('pv-teach-chips');
     if (!box) return;
@@ -376,8 +482,11 @@ async function pvLoadTeachChips(){
             return;
         }
         box.innerHTML = pvTeachAssigns.map(function(a, i){
-            return '<button onclick="pvChipStats(' + i + ')" class="text-[11px] font-bold bg-white border border-blue-300 text-blue-800 rounded-full px-3 py-1.5 hover:bg-blue-100" title="Bấm để xem thống kê lớp này">'
-                + escHtml(a.class) + ' · ' + escHtml(a.subject) + '</button>';
+            var _k = a.class + '|' + a.subject;
+            var _disp = (typeof pvTeachAlias === 'function' && pvTeachAlias(_k)) || (a.class + ' · ' + a.subject);
+            return '<span class="inline-flex items-center text-[11px] font-bold bg-white border border-blue-300 text-blue-800 rounded-full pl-3 pr-1.5 py-1 hover:bg-blue-100">'
+                + '<button onclick="pvChipStats(' + i + ')" title="Bấm để xem thống kê lớp này">' + escHtml(_disp) + '</button>'
+                + '<button onclick="event.stopPropagation();pvRenameTeachChip(' + i + ')" class="ml-1 text-blue-300 hover:text-amber-600" title="Đổi tên hiển thị (chỉ mình bạn thấy, không đổi dữ liệu trường)"><i class="fa-solid fa-pen"></i></button></span>';
         }).join('');
     } catch(e){
         box.innerHTML = '<p class="text-xs text-rose-500">Lỗi tải: ' + escHtml(e.message || e) + '</p>';
