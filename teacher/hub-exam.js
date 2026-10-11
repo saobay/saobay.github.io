@@ -225,49 +225,83 @@
         }
 
         async function exbInitMatrixDropdowns(){
-            var subjEl = document.getElementById('exbb-subject');
-            if (!subjEl || subjEl.dataset.exbInit) return;
-            subjEl.dataset.exbInit = '1';
-            var idx = await exbFetchBankIndex();
-            var subjects = [];
-            if (idx){
-                var seen = {};
-                idx.forEach(function(b){ if (!seen[b.subject]){ seen[b.subject] = 1; subjects.push(b.subject); } });
-                subjects.sort();
-            }
-            if (!subjects.length) subjects = ['TOAN','VAN','ANH','LY','HOA','SINH','SU','DIA','GDCD','TIN','KHTN'];
-            // Dùng label đẹp nếu có, mặc định chọn TOAN
-            var subjOpts = subjects.map(function(x){
-                var lbl = x;
-                if (idx){
-                    for (var i = 0; i < idx.length; i++){
-                        if (idx[i].subject === x && idx[i].label){ lbl = idx[i].label; break; }
-                    }
+            var gradeEl = document.getElementById('exbb-grade');
+            if (!gradeEl || gradeEl.dataset.exbInit) return;
+            gradeEl.dataset.exbInit = '1';
+            // Load KHỐI từ thư mục to nhất trong cây thư mục
+            var grades = await exbFetchGrades();
+            if (!grades.length) grades = [6,7,8,9,10,11,12];
+            exbFillSelect('exbb-grade', grades.map(function(g){ return { value: g, label: 'Khối ' + g }; }), '-- Chọn khối --');
+            // Mặc định chọn khối 10
+            gradeEl.value = grades.indexOf(10) >= 0 ? 10 : grades[0];
+            await exbOnMatrixGradeChange();
+        }
+
+        // Lấy danh sách khối từ thư mục cấp cao nhất: data/THPT/Khối lớp 10, data/THCS/Khối lớp 6...
+        async function exbFetchGrades(){
+            try {
+                var raw = localStorage.getItem('saobay_git_folders');
+                if (raw){
+                    var folders = JSON.parse(raw);
+                    var grades = [], seen = {};
+                    (folders || []).forEach(function(f){
+                        var p = f.path || '';
+                        var m = p.match(/^data\/[^\/]+\/Kh[ốo]i l[ớo]p (\d+)\//i);
+                        if (m){
+                            var g = parseInt(m[1], 10);
+                            if (!seen[g]){ seen[g] = 1; grades.push(g); }
+                        }
+                    });
+                    grades.sort(function(a,b){ return a - b; });
+                    if (grades.length) return grades;
                 }
-                return { value: x, label: lbl };
-            });
-            exbFillSelect('exbb-subject', subjOpts, '-- Chọn môn --');
-            subjEl.value = subjects.indexOf('TOAN') >= 0 ? 'TOAN' : subjects[0];
+            } catch(e){}
+            return [];
+        }
+
+        // Lấy danh sách môn theo khối: data/.../Khối lớp 10/Toán 10/...
+        async function exbFetchSubjectsByGrade(grade){
+            try {
+                var raw = localStorage.getItem('saobay_git_folders');
+                if (raw){
+                    var folders = JSON.parse(raw);
+                    var out = [], seen = {};
+                    (folders || []).forEach(function(f){
+                        var p = f.path || '';
+                        var m = p.match(/^data\/[^\/]+\/Kh[ốo]i l[ớo]p (\d+)\/([^\/]+)\//i);
+                        if (m && parseInt(m[1], 10) === grade){
+                            var rawSubj = m[2].trim();
+                            var norm = rawSubj.replace(/\s*\d+\s*$/, '').trim().toUpperCase()
+                                .normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/Đ/g, 'D').replace(/\s+/g, '_');
+                            var key = norm + '_' + grade;
+                            if (!seen[key]){ seen[key] = 1; out.push({ value: norm, label: rawSubj }); }
+                        }
+                    });
+                    out.sort(function(a,b){ return a.label.localeCompare(b.label, 'vi'); });
+                    if (out.length) return out;
+                }
+            } catch(e){}
+            return [];
+        }
+
+        async function exbOnMatrixGradeChange(){
+            var grade = parseInt(exbBankVal('exbb-grade'), 10);
+            var subjEl = document.getElementById('exbb-subject');
+            // Load môn theo khối đã chọn
+            var subjects = await exbFetchSubjectsByGrade(grade);
+            if (!subjects.length){
+                subjects = ['TOAN','VAN','ANH','LY','HOA','SINH','SU','DIA','GDCD','TIN','KHTN'].map(function(x){
+                    return { value: x, label: x };
+                });
+            }
+            exbFillSelect('exbb-subject', subjects, '-- Chọn môn --');
+            // Mặc định chọn Toán
+            var toanOpt = subjects.find(function(o){ return o.value === 'TOAN'; });
+            if (subjEl) subjEl.value = toanOpt ? 'TOAN' : (subjects[0] ? subjects[0].value : '');
             await exbOnMatrixSubjectChange();
         }
 
         async function exbOnMatrixSubjectChange(){
-            var subj = exbBankVal('exbb-subject');
-            var idx = exbBankIndex || await exbFetchBankIndex();
-            var grades = [];
-            if (idx && subj){
-                var seen = {};
-                idx.forEach(function(b){ if (b.subject === subj && !seen[b.grade]){ seen[b.grade] = 1; grades.push(b.grade); } });
-                grades.sort(function(a,b){ return a - b; });
-            }
-            if (!grades.length) grades = [6,7,8,9,10,11,12];
-            exbFillSelect('exbb-grade', grades.map(function(g){ return { value: g, label: 'Khoi ' + g }; }), '-- Chon khoi --');
-            var gEl = document.getElementById('exbb-grade');
-            if (gEl) gEl.value = grades.indexOf(10) >= 0 ? 10 : grades[0];
-            await exbOnMatrixGradeChange();
-        }
-
-        async function exbOnMatrixGradeChange(){
             var subj = exbBankVal('exbb-subject');
             var grade = parseInt(exbBankVal('exbb-grade'), 10);
             exbFillSelect('exbb-lesson-from', [], 'Dang tai...');
