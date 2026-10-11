@@ -101,12 +101,27 @@
             var cfg = GITHUB_CONFIG;
             var normSubj = String(subject || '').toUpperCase();
             try {
-                // 1 CALL duy nhat: lay toan bo cay thu muc
-                var treeUrl = 'https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + '/git/trees/' + cfg.branch + '?recursive=1';
-                var tr = await fetch(treeUrl);
-                if (!tr.ok) return { notFound: true };
-                var tree = await tr.json();
-                var items = tree.tree || [];
+                // 2026-10-11: dung localStorage (loadFolderTreeFromGit da nap), tranh 403 tu Tree API
+                var items = [];
+                try {
+                    var rawT = localStorage.getItem('saobay_git_folders');
+                    if (rawT){
+                        var arr = JSON.parse(rawT);
+                        // Chuyen sang format {path, type}
+                        items = arr.map(function(f){ return { path: f.path, type: 'tree' }; });
+                        // Can them blob entries? localStorage chi co tree. Dung cach khac:
+                        // fetch tung chuong qua contents API (it hon nhieu so voi truoc)
+                    }
+                    if (!items.length && typeof loadFolderTreeFromGit === 'function'){
+                        await loadFolderTreeFromGit();
+                        var rawT2 = localStorage.getItem('saobay_git_folders');
+                        if (rawT2){
+                            var arr2 = JSON.parse(rawT2);
+                            items = arr2.map(function(f){ return { path: f.path, type: 'tree' }; });
+                        }
+                    }
+                } catch(eT){}
+                if (!items.length) return { notFound: true };
                 // Tim thu muc mon: data/THCS|THPT/Khoi lop <grade>/<Mon>
                 var subjPrefix = null;
                 for (var i = 0; i < items.length; i++){
@@ -121,13 +136,28 @@
                     }
                 }
                 if (!subjPrefix) return { notFound: true };
-                // Loc file HTML trong thu muc mon
-                var htmlFiles = [];
-                for (var j = 0; j < items.length; j++){
-                    var fp = items[j].path || '';
-                    if (items[j].type === 'blob' && fp.indexOf(subjPrefix) === 0 && /\.html?$/i.test(fp)){
-                        htmlFiles.push(fp);
+                // Liet ke chuong tu localStorage, roi fetch files tung chuong (contents API)
+                var chapters = [];
+                for (var ci = 0; ci < items.length; ci++){
+                    var cp = items[ci].path || '';
+                    if (cp.indexOf(subjPrefix) === 0 && cp.length > subjPrefix.length){
+                        var rest = cp.substring(subjPrefix.length);
+                        if (rest.indexOf('/') < 0) chapters.push(cp);
                     }
+                }
+                var htmlFiles = [];
+                for (var chi = 0; chi < chapters.length; chi++){
+                    try {
+                        var curl = 'https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + '/contents/' + chapters[chi].split('/').map(encodeURIComponent).join('/') + '?ref=' + cfg.branch;
+                        var cr2 = await fetch(curl);
+                        if (!cr2.ok) continue;
+                        var flist = await cr2.json();
+                        (flist || []).forEach(function(fl){
+                            if (fl.type === 'file' && /\.html?$/i.test(fl.name || '')){
+                                htmlFiles.push(chapters[chi] + '/' + fl.name);
+                            }
+                        });
+                    } catch(eC){}
                 }
                 if (!htmlFiles.length) return { notFound: true };
                 // Tai song song theo batch 10 file
