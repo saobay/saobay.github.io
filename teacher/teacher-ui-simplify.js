@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2146
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2147
 // Rebuilt - fixed structure
 (function(){
     'use strict';
@@ -1153,36 +1153,80 @@ Hãy điền chi tiết từng ô trong bảng (chủ đề kiến thức cụ t
     };
 })();
 
-// 2026-10-11: Ẩn thanh VỊ TRÍ LƯU TRỮ bằng cách tìm theo vị trí
+// 2026-10-11: Ẩn thanh VỊ TRÍ LƯU TRỮ (đơn giản)
 (function(){
     function hide(){
-        try {
-            // Tìm nút tab đầu tiên, thanh xanh nằm ngay trước khối chứa nó
-            var tabBtn = document.getElementById('push-mode-theory');
-            if (tabBtn) {
-                var tabsContainer = tabBtn.parentElement;
-                if (tabsContainer) {
-                    var prev = tabsContainer.previousElementSibling;
-                    // Kiểm tra có phải thanh xanh không
-                    if (prev) {
-                        var t = prev.textContent || '';
-                        if (t.indexOf('VỊ TRÍ') >= 0 || t.indexOf('Sẵn sàng') >= 0 || t.indexOf('Chưa chọn') >= 0) {
-                            prev.style.display = 'none';
-                        }
-                        // Cũng thử prev của prev (có thể bọc thêm div)
-                        var prev2 = prev.previousElementSibling;
-                        if (prev2) {
-                            var t2 = prev2.textContent || '';
-                            if (t2.indexOf('VỊ TRÍ') >= 0 && t2.indexOf('Sẵn sàng') >= 0) {
-                                prev2.style.display = 'none';
-                            }
-                        }
-                    }
-                }
+        document.querySelectorAll('div').forEach(function(d){
+            var t = d.textContent || '';
+            if (t.indexOf('VỊ TRÍ LƯU TRỮ') >= 0 && t.indexOf('Sẵn sàng đẩy bài') >= 0) {
+                d.style.setProperty('display', 'none', 'important');
             }
-        } catch(e){}
+        });
     }
     setInterval(hide, 500);
     hide();
+})();
+
+// 2026-10-11: Nút Đẩy data bằng token admin trong tab 2
+(function(){
+    function addPushBtn(){
+        try {
+            var tab2 = document.getElementById('module-manage-view');
+            if (!tab2) return;
+            if (document.getElementById('btn-push-data-admin')) return;
+            
+            // Chỉ hiện cho admin
+            var adminBtn = document.getElementById('btn-admin-space');
+            if (!adminBtn) return;
+            
+            var div = document.createElement('div');
+            div.className = 'p-4 mb-4 bg-green-50 border border-green-300 rounded-lg';
+            div.innerHTML = `
+                <h3 class="font-bold text-green-900 mb-2">📤 Đẩy data (Admin)</h3>
+                <p class="text-sm text-gray-600 mb-2">Dùng GitHub token của bạn để đẩy trực tiếp, không qua GAS.</p>
+                <button id="btn-push-data-admin" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 font-bold">
+                    📤 Đẩy data
+                </button>
+                <div id="push-data-status" class="mt-2 text-sm"></div>
+            `;
+            tab2.insertBefore(div, tab2.firstChild);
+            
+            document.getElementById('btn-push-data-admin').onclick = async function(){
+                var status = document.getElementById('push-data-status');
+                
+                // Lấy token
+                var tokenInput = document.getElementById('cfg-github-token');
+                var token = tokenInput ? tokenInput.value.trim() : '';
+                if (!token) token = localStorage.getItem('github_token') || '';
+                if (!token) {
+                    status.innerHTML = '<span class="text-red-600">❌ Chưa có token! Vào Cài đặt Admin để nhập.</span>';
+                    return;
+                }
+                
+                status.innerHTML = '<span class="text-blue-600">⏳ Đang kiểm tra token...</span>';
+                
+                try {
+                    // Test token
+                    var res = await fetch('https://api.github.com/repos/saobay/saobay.github.io', {
+                        headers: { 'Authorization': 'token ' + token }
+                    });
+                    if (!res.ok) {
+                        status.innerHTML = '<span class="text-red-600">❌ Token không hợp lệ!</span>';
+                        return;
+                    }
+                    
+                    status.innerHTML = '<span class="text-green-600">✅ Token OK! Sẵn sàng đẩy.</span><br>' +
+                        '<span class="text-gray-500 text-xs">Chức năng đẩy file đang phát triển. Token đã lưu để dùng cho các tác vụ khác.</span>';
+                    
+                    // Lưu token vào localStorage để dùng chung
+                    localStorage.setItem('github_token', token);
+                } catch(e) {
+                    status.innerHTML = '<span class="text-red-600">❌ Lỗi: ' + e.message + '</span>';
+                }
+            };
+        } catch(e){}
+    }
+    
+    setInterval(addPushBtn, 3000);
 })();
 
