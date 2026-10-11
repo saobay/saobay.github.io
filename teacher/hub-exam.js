@@ -336,52 +336,51 @@
             exbLessonCache = [];
             if (!subj || !grade) return;
             try {
-                // 2026-10-11: đọc danh sách bài từ cây thư mục lý thuyết
+                // 2026-10-11: đọc danh sách bài TRỰC TIẾP từ Git Trees API (1 call, không phụ thuộc localStorage)
                 var lessons = [], seenL = {};
                 try {
-                    // 2026-10-11 FIX: File bài nằm trực tiếp trong thư mục Chương
-                    // VD: data/THCS/Khối lớp 6/Toán 6/Chương 2/TOAN_6_Bai_10_...html
-                    // Dùng GitHub API để liệt kê files trong từng Chương
-                    var rawF = localStorage.getItem('saobay_git_folders');
-                    if (rawF){
-                        var foldersF = JSON.parse(rawF);
-                        var subjNorm = subj.toLowerCase();
-                        var chapters = [];
-                        (foldersF || []).forEach(function(f){
-                            var fp = f.path || '';
-                            // Match: data/.../Khối lớp 6/Toán 6/<Chương>
-                            var fm = fp.match(/^data\/[^\/]+\/Kh[ốo]i l[ớo]p (\d+)\/([^\/]+)\/([^\/]+)$/i);
-                            if (!fm) return;
-                            if (parseInt(fm[1], 10) !== grade) return;
-                            var fSubjRaw = fm[2].trim().replace(/\s*\d+\s*$/, '');
-                            var fSubjNorm = fSubjRaw.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/Đ/g,'D').toLowerCase().replace(/\s+/g, '_');
-                            if (fSubjNorm !== subjNorm) return;
-                            chapters.push({ path: fp, name: fm[3].trim() });
-                        });
-                        // Với mỗi chương, fetch danh sách files để lấy Bài N từ tên file
-                        for (var ci = 0; ci < chapters.length; ci++){
-                            try {
-                                var apiUrl = 'https://api.github.com/repos/saobay/saobay.github.io/contents/' + encodeURIComponent(chapters[ci].path) + '?ref=main';
-                                var cr = await fetch(apiUrl);
-                                if (!cr.ok) continue;
-                                var files = await cr.json();
-                                (files || []).forEach(function(fl){
-                                    var fn = fl.name || '';
-                                    // Pattern: TOAN_6_Bai_10_...html hoặc ..._Bai_10_...
+                    var subjNorm = subj.toLowerCase();
+                    var treeUrl = 'https://api.github.com/repos/saobay/saobay.github.io/git/trees/main?recursive=1';
+                    var tr = await fetch(treeUrl);
+                    if (tr.ok){
+                        var tree = await tr.json();
+                        var items = tree.tree || [];
+                        // Tìm prefix thư mục môn: data/THCS|THPT/Khối lớp <grade>/<Môn>/
+                        var subjPrefix = null;
+                        for (var ti = 0; ti < items.length; ti++){
+                            var tp = items[ti].path || '';
+                            if (items[ti].type !== 'tree') continue;
+                            var tm = tp.match(/^data\/(THCS|THPT)\/Kh[^\/]*l[^\/]*p\s*(\d+)\/([^\/]+)$/i);
+                            if (tm && parseInt(tm[2], 10) === grade){
+                                var tSubjRaw = tm[3].trim().replace(/\s*\d+\s*$/, '');
+                                var tSubjNorm = tSubjRaw.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/Đ/g,'D').toLowerCase().replace(/\s+/g, '_');
+                                if (tSubjNorm === subjNorm){ subjPrefix = tp + '/'; break; }
+                            }
+                        }
+                        if (subjPrefix){
+                            var chMap = {};
+                            items.forEach(function(it){
+                                var ip = it.path || '';
+                                if (ip.indexOf(subjPrefix) !== 0) return;
+                                var rest = ip.substring(subjPrefix.length);
+                                var parts = rest.split('/');
+                                if (parts.length >= 2 && it.type === 'blob' && /\.html?$/i.test(ip)){
+                                    var chName = parts[0];
+                                    var fn = parts[parts.length - 1];
                                     var lm = fn.match(/_Bai_(\d+)_/i) || fn.match(/Bai(\d+)/i);
                                     if (lm){
                                         var ln = parseInt(lm[1], 10);
                                         if (!seenL[ln]){
                                             seenL[ln] = 1;
-                                            lessons.push({ num: ln, ch: chapters[ci].name, count: 0 });
+                                            lessons.push({ num: ln, ch: chName, count: 0 });
                                         }
                                     }
-                                });
-                            } catch(eCh){}
+                                }
+                            });
                         }
                         lessons.sort(function(a,b){ return a.num - b.num; });
                     }
-                } catch(eF){}
+                } catch(eF){ console.warn('Load lessons:', eF); }
                 // Vẫn load bank để bốc câu (giữ nguyên logic bốc)
                 var r = await bankApiRead(bankKey(subj, grade));
                 var pool = [];
