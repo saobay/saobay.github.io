@@ -131,7 +131,7 @@
         <button id="mix-reset" class="big-btn px-4 bg-slate-300 font-black rounded-xl">↺ Làm lại</button>
         <button id="pipet-btn" class="big-btn bg-violet-600 text-white font-black rounded-xl px-3">💧 Pipet: TẮT</button>
         <button id="pour-stop" class="big-btn bg-red-500 text-white font-black rounded-xl px-3 hidden">⏹ Ngừng đổ</button>
-        <label class="big-btn bg-white border border-slate-300 rounded-xl px-2 flex items-center gap-1 font-bold text-xs text-slate-700" title="Số ml muốn đổ (bình 100ml). Để trống = mặc định.">🧪<input id="pour-ml" type="number" min="1" max="100" placeholder="ml" class="w-14 border rounded-lg px-1 py-1 text-sm font-bold text-center"></label>
+        <label class="big-btn bg-white border border-slate-300 rounded-xl px-2 flex items-center gap-1 font-bold text-xs text-slate-700">🧪 Lượng đổ:<input id="pour-ml" type="number" min="1" max="100" placeholder="ml" class="w-16 border rounded-lg px-1 py-1 text-sm font-bold text-center"><span>ml</span></label>
       </div>
       <div class="grid grid-cols-3 gap-2 mb-2 text-sm">
         <div>
@@ -166,7 +166,7 @@
         <div id="chem-shelf" class="flex gap-2 overflow-x-auto pb-1"></div>
       </div>
       <canvas id="cv-mix" class="w-full rounded-xl border border-slate-700" height="430" style="touch-action:pan-y;display:block;background:#0b1626;height:430px;"></canvas>
-      <div class="text-[11px] text-slate-500 mt-1">💡 Chạm bình ✕ để cất • Tối đa 4 bình • Chạm bình axit/bazơ: nhân vật rót vào ống nghiệm • Chạm lọ cồn: đun sôi ống nghiệm • Bật pipet rồi chạm bình để nhỏ giọt chỉ thị</div>
+      <div class="text-[11px] text-slate-500 mt-1">💡 Chạm bình ✕ để cất • <b>Bấm giữ bình để xóa</b> • Tối đa 4 bình • Chạm bình axit/bazơ: nhân vật rót vào ống nghiệm • Chạm lọ cồn: đun sôi ống nghiệm • Bật pipet rồi chạm bình để nhỏ giọt chỉ thị</div>
       <div id="mix-result" class="mt-3 hidden bg-teal-50 border border-teal-200 rounded-xl p-3">
         <div class="text-sm font-bold text-teal-900">Phương trình phản ứng:</div>
         <div id="mix-eq" class="text-center text-lg font-black text-teal-800 my-1"></div>
@@ -237,7 +237,8 @@
     .rack-tube .rl{font-size:9px;color:#ffe9c4;font-weight:800}
     /* ERLEN_SHELF: bình tam giác erlenmeyer trong tủ — giống bình dưới canvas */
     .chem-bottle .bbody{position:relative;width:58px;height:58px;margin-top:0;
-      clip-path:polygon(36% 0,64% 0,100% 100%,0 100%);
+      /* ROUND_ERLEN: bình erlenmeyer bo tròn mềm mại, giữ hiệu ứng 3D long lanh */
+      clip-path:path('M24 3 L34 3 Q36.6 3 37.3 5.6 L55 51 Q57.6 57 51 57 L7 57 Q0.4 57 3 51 L20.7 5.6 Q21.4 3 24 3 Z');
       background:
         linear-gradient(115deg,rgba(255,255,255,.80) 0%,rgba(255,255,255,.10) 24%,rgba(255,255,255,0) 42%),
         linear-gradient(180deg,rgba(190,225,248,.12) 0%,rgba(150,200,240,.10) 55%,rgba(150,200,240,.30) 100%);
@@ -517,7 +518,7 @@ window.__refits = window.__refits || [];
     var bar = document.getElementById('shelf-cats');
     if (!bar || bar.children.length) return;
     var defs = [['all','Tất cả'],['Axit','Axit'],['Bazơ','Bazơ'],['Muối','Muối'],
-                ['Kim loại','Kim loại'],['Chỉ thị','Chỉ thị'],['Cồn','Cồn'],['tube','🧪 Ống nghiệm']];
+                ['Kim loại','Kim loại'],['Chỉ thị','Chỉ thị'],['Cồn','Cồn'],['tube','🧪 Ống nghiệm'],['tools','🧰 Dụng cụ']];
     defs.forEach(function(d){
       var b = document.createElement('button');
       b.className = 'shelf-cat' + (d[0]==='all' ? ' active' : '');
@@ -528,6 +529,7 @@ window.__refits = window.__refits || [];
         for (var i=0;i<bs.length;i++) bs[i].classList.remove('active');
         b.classList.add('active');
         buildShelf();
+        if (d[0]==='tube'){ addEmptyTube(); } // TUBE_1TAP: bấm 1 lần là ống ra canvas luôn
       });
       bar.appendChild(b);
     });
@@ -537,6 +539,7 @@ window.__refits = window.__refits || [];
     if (!shelf) return;
     shelf.innerHTML = '';
     if (shelfCat === 'tube'){ buildTubeRack(shelf); return; }
+    if (shelfCat === 'tools'){ buildToolShelf(shelf); return; }
     SHELF_ORDER.forEach(function(k){
       var c = CHEMS[k];
       if (shelfCat !== 'all' && c.cat !== shelfCat) return;
@@ -572,6 +575,27 @@ window.__refits = window.__refits || [];
     rack.appendChild(b);
     wrap.appendChild(rack);
     shelf.appendChild(wrap);
+  }
+  // Dụng cụ thu khí (GAS_COLLECT): bình thu khí úp ngược + ống dẫn khí
+  function buildToolShelf(shelf){
+    var wrap = document.createElement('div');
+    wrap.style.cssText = 'display:flex;gap:10px;justify-content:center;width:100%;padding:6px 0;';
+    var b = document.createElement('button');
+    b.className = 'shelf-cat'; b.type = 'button';
+    b.style.cssText = 'font-size:12px;padding:10px 16px;';
+    b.innerHTML = '🧪 Bình thu khí <span style="opacity:.7;font-weight:400">(ống dẫn + bình úp ngược)</span>';
+    b.title = 'Lắp / tháo bộ thu khí cho ống nghiệm';
+    b.addEventListener('click', function(){ addGasCollector(); });
+    wrap.appendChild(b);
+    shelf.appendChild(wrap);
+  }
+  function addGasCollector(){
+    var tube = null, i;
+    if (typeof selV !== 'undefined' && selV && selV.type === 'tube') tube = selV;
+    if (!tube) for (i=0;i<vessels.length;i++) if (vessels[i].type === 'tube'){ tube = vessels[i]; break; }
+    if (!tube){ alert('Chưa có ống nghiệm! Vào mục 🧪 Ống nghiệm lấy 1 ống trước nhé.'); return; }
+    if (tube.collector){ tube.collector = null; flashMsg(tube, 'Đã tháo bộ thu khí!'); }
+    else { tube.collector = {gas: 0}; flashMsg(tube, 'Đã lắp bộ thu khí!'); }
   }
   function addEmptyTube(){
     if (vessels.length >= 4){ alert('Bàn đã có 4 bình rồi! Cất bớt bình (chạm ✕) rồi lấy thêm nhé.'); return; }
@@ -649,6 +673,63 @@ window.__refits = window.__refits || [];
   }
   function innerW(v){ return v.type==='tube' ? v.w*0.40-8 : (v.type==='bottle' ? v.w*0.62-12 : v.w-12); }
 
+  // GAS_COLLECT: vẽ ống dẫn khí cong + bình thu khí úp ngược; nước bị khí đẩy xuống dần
+  function drawGasCollector(ctx, v, t){
+    var jw = 46, jh = 66;
+    var jx = v.x + v.w/2 + 62;
+    var jTop = v.y - v.h - jh - 26, jBot = jTop + jh;
+    var gas = Math.max(0, Math.min(1, v.collector.gas || 0));
+    ctx.save();
+    ctx.lineCap = 'round';
+    // Ống dẫn khí cong từ miệng ống nghiệm sang miệng bình thu
+    var mx0 = v.x, my0 = v.y - v.h, cx1 = v.x + 44, cy1 = v.y - v.h - 34;
+    ctx.strokeStyle = 'rgba(160,220,245,0.28)'; ctx.lineWidth = 11;
+    ctx.beginPath(); ctx.moveTo(mx0,my0); ctx.quadraticCurveTo(cx1,cy1,jx,jBot-6); ctx.stroke();
+    ctx.strokeStyle = 'rgba(225,245,255,0.85)'; ctx.lineWidth = 7;
+    ctx.beginPath(); ctx.moveTo(mx0,my0); ctx.quadraticCurveTo(cx1,cy1,jx,jBot-6); ctx.stroke();
+    ctx.strokeStyle = 'rgba(255,255,255,0.5)'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(mx0,my0); ctx.quadraticCurveTo(cx1,cy1,jx,jBot-6); ctx.stroke();
+    // Bọt khí chạy dọc ống dẫn khi đang sủi
+    if ((v.fizz||0) > 0.25){
+      for (var gi2=0; gi2<4; gi2++){
+        var gu = ((t*0.9 + gi2/4) % 1);
+        var bx = (1-gu)*(1-gu)*mx0 + 2*(1-gu)*gu*cx1 + gu*gu*jx;
+        var by = (1-gu)*(1-gu)*my0 + 2*(1-gu)*gu*cy1 + gu*gu*(jBot-6);
+        ctx.fillStyle = 'rgba(255,255,255,0.9)';
+        ctx.beginPath(); ctx.arc(bx, by, 2.6, 0, 7); ctx.fill();
+      }
+    }
+    // Thân bình úp ngược
+    var jg = ctx.createLinearGradient(jx-jw/2, 0, jx+jw/2, 0);
+    jg.addColorStop(0,'rgba(140,200,235,0.20)'); jg.addColorStop(0.5,'rgba(220,245,255,0.10)'); jg.addColorStop(1,'rgba(140,200,235,0.20)');
+    ctx.fillStyle = jg;
+    ctx.beginPath();
+    if (ctx.roundRect) ctx.roundRect(jx-jw/2, jTop, jw, jh, 8); else ctx.rect(jx-jw/2, jTop, jw, jh);
+    ctx.fill();
+    // Nước trong bình (bị khí đẩy xuống)
+    var waterH = (jh - 10) * (1 - gas);
+    if (waterH > 2){
+      var wg2 = ctx.createLinearGradient(0, jBot - waterH, 0, jBot);
+      wg2.addColorStop(0, 'rgba(125,211,252,0.85)'); wg2.addColorStop(1, 'rgba(2,132,199,0.85)');
+      ctx.fillStyle = wg2;
+      ctx.fillRect(jx-jw/2+4, jBot - 4 - waterH, jw-8, waterH);
+    }
+    // Vùng khí đã thu
+    if (gas > 0.02){
+      ctx.fillStyle = 'rgba(255,255,255,0.10)';
+      ctx.fillRect(jx-jw/2+4, jTop+4, jw-8, (jh-10)*gas);
+      ctx.fillStyle = '#fef9c3'; ctx.font = 'bold 9px sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText('H₂ ' + Math.round(gas*100) + '%', jx, jTop + 16);
+    }
+    // Viền bình + nhãn
+    ctx.strokeStyle = 'rgba(200,240,255,0.9)'; ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    if (ctx.roundRect) ctx.roundRect(jx-jw/2, jTop, jw, jh, 8); else ctx.rect(jx-jw/2, jTop, jw, jh);
+    ctx.stroke();
+    ctx.fillStyle = '#a5f3fc'; ctx.font = 'bold 10px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('Bình thu khí', jx, jBot + 14);
+    ctx.restore();
+  }
   // ---------- Vẽ một bình (phong cách video: viền sáng + dung dịch phát sáng) ----------
 function drawVessel(ctx, v, t){
     if (!v || !isFinite(v.x) || !isFinite(v.y) || !(v.w > 0) || !(v.h > 0)) return;
@@ -914,6 +995,10 @@ function drawVessel(ctx, v, t){
       })();
     }
 
+    // GAS_COLLECT: vẽ bộ thu khí cho ống nghiệm (world coords)
+    if (v.type==='tube' && v.collector && !v.dragging && (v.tilt||0) < 0.3){
+      drawGasCollector(ctx, v, t);
+    }
     // --- 3. Nhãn tên + % thể tích (LABV3: nằm trên mặt bàn gỗ) ---
     var chem = CHEMS[v.chemKey];
     ctx.fillStyle = '#a5f3fc'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'center';
@@ -929,6 +1014,33 @@ function drawVessel(ctx, v, t){
       ctx.beginPath(); ctx.arc(mxw, myw, 26, Math.min(aa0,aa1), Math.max(aa0,aa1)); ctx.stroke();
       ctx.fillStyle = '#fde047'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'center';
       ctx.fillText('≈' + deg + '°', mxw + v.tiltDir*36, myw - 16);
+    }
+    // BOOM_FX: quả cầu lửa + tia lửa khi nổ
+    if ((v.boom||0) > 0.01){
+      var br2 = (1 - v.boom) * 64 + 12;
+      var fg2 = ctx.createRadialGradient(v.x, v.y - v.h/2, 2, v.x, v.y - v.h/2, br2);
+      fg2.addColorStop(0, 'rgba(255,255,220,' + (0.95*v.boom).toFixed(2) + ')');
+      fg2.addColorStop(0.45, 'rgba(255,170,60,' + (0.75*v.boom).toFixed(2) + ')');
+      fg2.addColorStop(1, 'rgba(255,80,20,0)');
+      ctx.fillStyle = fg2;
+      ctx.beginPath(); ctx.arc(v.x, v.y - v.h/2, br2, 0, 7); ctx.fill();
+      for (var spi2=0; spi2<12; spi2++){
+        var sa2 = (spi2/12)*6.28 + t*2.5, sr2 = br2*(0.5 + 0.5*((spi2*37)%10)/10);
+        drawSpark(ctx, v.x + Math.cos(sa2)*sr2, v.y - v.h/2 + Math.sin(sa2)*sr2, 5, 'rgba(255,200,90,' + (v.boom*0.9).toFixed(2) + ')');
+      }
+    }
+    // BURN_FX: ngọn lửa xanh khi cồn cháy
+    if (v.type==='tube' && hasType(v,'fuel') && (v.heat||0) > 0.5){
+      var fl = 26 + 8*Math.sin(t*14);
+      var flg = ctx.createLinearGradient(0, v.y - v.h, 0, v.y - v.h - fl);
+      flg.addColorStop(0, 'rgba(59,130,246,0.9)');
+      flg.addColorStop(0.6, 'rgba(147,197,253,0.55)');
+      flg.addColorStop(1, 'rgba(147,197,253,0)');
+      ctx.fillStyle = flg;
+      ctx.beginPath();
+      ctx.moveTo(v.x - 9, v.y - v.h);
+      ctx.quadraticCurveTo(v.x, v.y - v.h - fl - 10, v.x + 9, v.y - v.h);
+      ctx.closePath(); ctx.fill();
     }
     // Hơi nước khi đun nóng
     if ((v.heat||0) > 0.5){
@@ -1096,7 +1208,7 @@ function drawChemistBack(ctx, t, W, H){
     var home = chemistHome(W,H);
     var bob = Math.sin(t*2.2+chemist.bobP)*1.5;
     var x = home.x, fy = home.y;
-    ctx.save(); ctx.translate(x, fy+bob*0.4);
+    ctx.save(); ctx.translate(x, fy+bob*0.4); ctx.scale(1.5,1.5); /* CHAR_BIG: phóng to 1.5x, đứng nền sau */
     // Bóng đổ
     ctx.fillStyle='rgba(0,0,0,0.35)';
     ctx.beginPath(); ctx.ellipse(0,2,22,6,0,0,7); ctx.fill();
@@ -1200,7 +1312,7 @@ function drawChemistBack(ctx, t, W, H){
     ctx.beginPath(); ctx.ellipse(0,hy+9,2.6,1.6,0,0,7); ctx.fill();
     ctx.restore();
     // Neo tay phải ở vai phải
-    chemist._sx = x+14; chemist._sy = fy+bob*0.4-86;
+    chemist._sx = x+14*1.5; chemist._sy = fy+bob*0.4-86*1.5; /* CHAR_BIG: neo tay theo scale */
   }
 function drawMiniFlask(ctx, x, y, col){
     // LABV3: bình erlenmeyer mini phát sáng trong tay khi rót
@@ -1350,7 +1462,7 @@ function drawMiniFlask(ctx, x, y, col){
       else amt = Math.min(0.42, a.vol, 1 - b.vol);
     } catch(_mle){ amt = Math.min(0.42, a.vol, 1 - b.vol); }
     if (amt <= 0.01){ flashMsg(b, 'Đã đầy!'); return; }
-    pour = {a:a, b:b, t:0, dur:3.2, amt:amt, a0:a.vol, b0:b.vol,
+    pour = {a:a, b:b, t:0, dur:4.5, amt:amt, a0:a.vol, b0:b.vol, // SLOW_POUR: đổ từ từ ~4.5s
             colA: vesselColor(a)};
     a.tiltDir = (b.x >= a.x) ? 1 : -1;
     var _sb = document.getElementById('pour-stop'); if (_sb) _sb.classList.remove('hidden');
@@ -1461,6 +1573,19 @@ function drawMiniFlask(ctx, x, y, col){
       }
       if (ak && bk) showEquation(ak, bk);
     }
+    // 2b. Kim loại + axit → khí H2 bay ra (sủi bọt mạnh)
+    if (!v.gasDone && hasType(v,'metal') && hasType(v,'acid')){
+      v.gasDone = true; v.fizz = Math.max(v.fizz, 1.6);
+      var mk=null, ak2=null, jj;
+      for (jj=0;jj<v.contents.length;jj++){ var cc2=CHEMS[v.contents[jj].k]; if(!cc2) continue;
+        if (cc2.type==='metal' && !mk) mk=v.contents[jj].k;
+        if (cc2.type==='acid' && !ak2) ak2=v.contents[jj].k; }
+      flashMsg(v, 'Sủi bọt khí H₂!');
+      var geq = (mk&&ak2) ? (CHEMS[mk].f+' + '+CHEMS[ak2].f+' → muối + H₂↑') : 'Kim loại + Axit → muối + H₂↑';
+      showResultHTML(geq, 'Kim loại tan dần, <b>khí hiđro (H₂)</b> sủi bọt bay lên.' +
+        (v.collector ? ' Đã thu vào <b>bình thu khí</b>.' : ' Lắp <b>🧰 Bình thu khí</b> (tủ → Dụng cụ) để thu khí!'));
+      if (v.collector) v.collector.gas = Math.min(1, (v.collector.gas||0) + 0.4);
+    }
     // 3. Chỉ thị đổi màu theo pH
     var prev = v.indColor;
     applyIndicator(v);
@@ -1524,6 +1649,12 @@ function drawMiniFlask(ctx, x, y, col){
     }
   }
 
+  // Hiển thị kết quả sau khi trộn (dùng chung: trung hòa / kết tủa / khí / cháy)
+  function showResultHTML(eq, note){
+    document.getElementById('mix-result').classList.remove('hidden');
+    document.getElementById('mix-eq').textContent = eq;
+    document.getElementById('mix-note').innerHTML = note;
+  }
   // ---------- Phương trình (giữ nguyên tính năng cũ) ----------
   function showEquation(aKey, bKey){
     var key = aKey + '|' + bKey;
@@ -1604,6 +1735,8 @@ function drawMiniFlask(ctx, x, y, col){
 
   // ---------- Tương tác chạm/kéo ----------
   var dragInfo = null;
+  var lpTimer = null, lpV = null; // LONGPRESS_DEL: bấm giữ để xóa bình
+  function clearLp(){ if (lpTimer){ clearTimeout(lpTimer); lpTimer = null; lpV = null; } }
   function canvasPos(e){
     var r = cv.getBoundingClientRect();
     var cx = (e.touches && e.touches[0] ? e.touches[0].clientX : e.clientX);
@@ -1630,6 +1763,20 @@ function drawMiniFlask(ctx, x, y, col){
       }
     }
     if (v) dragInfo = {v:v, sx:p.x, sy:p.y, moved:false};
+    // LONGPRESS_DEL: bấm giữ 650ms để xóa bình khỏi bàn (lấy bình khác)
+    if (v && !pour && !carryAnim){
+      (function(_vv){
+        lpV = _vv;
+        lpTimer = setTimeout(function(){
+          if (lpV && vessels.indexOf(lpV) >= 0){
+            vessels = vessels.filter(function(x){ return x !== lpV; });
+            if (selV === lpV) selV = null;
+            try { layout(); } catch(eLpr){}
+          }
+          lpTimer = null; lpV = null; dragInfo = null;
+        }, 650);
+      })(v);
+    }
   });
   cv.addEventListener('pointermove', function(e){
     var p = canvasPos(e);
@@ -1639,7 +1786,7 @@ function drawMiniFlask(ctx, x, y, col){
     }
     if (lampDrag){ lamp.x = Math.max(48, Math.min(G.w-48, p.x)); lamp.tx = null; return; }
     if (!dragInfo) return;
-    if (Math.hypot(p.x-dragInfo.sx, p.y-dragInfo.sy) > 10) dragInfo.moved = true;
+    if (Math.hypot(p.x-dragInfo.sx, p.y-dragInfo.sy) > 10){ dragInfo.moved = true; clearLp(); }
     if (dragInfo.moved){
       var dv = dragInfo.v;
       dv.dragging = true; dv.returning = false;
@@ -1650,6 +1797,8 @@ function drawMiniFlask(ctx, x, y, col){
     }
   });
   cv.addEventListener('pointerup', function(e){
+    clearLp();
+    if (pour){ stopPour(); e.preventDefault(); return; } // TAP_STOP: bấm vào canvas khi đang đổ = dừng đổ
     if (lampPress){ lampPress = null; toggleLamp(); e.preventDefault(); return; }
     lampDrag = false;
     var p = canvasPos(e), v = vesselAt(p);
@@ -1682,7 +1831,9 @@ function drawMiniFlask(ctx, x, y, col){
       else { if (selV) selV.sel = false; selV = (selV===v) ? null : v; if (selV) selV.sel = true; }
     } else { if (selV){ selV.sel = false; selV = null; } }
   });
+  cv.addEventListener('contextmenu', function(e){ e.preventDefault(); }); // LONGPRESS_DEL: chặn menu khi bấm giữ
   cv.addEventListener('pointercancel', function(){
+    clearLp();
     lampDrag = false; lampPress = null;
     if (dragInfo){ dragInfo.v.dragging = false; dragInfo.v.returning = true; dragInfo = null; }
   });
@@ -1692,13 +1843,14 @@ function layout(){
     if (!G || !(G.w > 0) || !(G.h > 0)) return;
     var W = G.w, n = vessels.length;
     var h = Math.min(140, G.h*0.44);
-    var charW = 96; // LABV3: chừa chỗ nhân vật bên trái
+    var charW = 132; // CHAR_BIG: nhân vật to hơn — chừa chỗ rộng hơn
     var availW = Math.max(170, W - charW - 66); // chừa chỗ đèn cồn bên phải
     vessels.forEach(function(v, i){
       v.w = Math.min(92, (availW/Math.max(1,n))*0.70);
       if (v.type==='bottle') v.w = Math.min(76, v.w);
       v.h = h * (v.type==='tube' ? 1.12 : v.type==='round' ? 0.95 : v.type==='bottle' ? 1.05 : 1);
       v.hx = charW + availW*(i+1)/(n+1);
+      if (v.type==='tube') v.hx = Math.max(charW+24, v.hx-48); // TUBE_LEFT: ống lùi sang trái, tránh đèn cồn tự đun khi chưa dùng
       v.hy = G.h - 30 - (v.type==='tube' ? 80 : 0); // TUBE_STAND_V1: ống nghiệm treo cao trên giá đỡ, đáy cách bàn 80px
       if (v.x === 0 && v.y === 0){ v.x = v.hx; v.y = v.hy; }
     });
@@ -1843,6 +1995,21 @@ function layout(){
         if (dx*dx + dy*dy < 62*62) v.heat = Math.min(1, (v.heat||0) + 0.03);
         else v.heat = Math.max(0, (v.heat||0) - 0.006);
       } else v.heat = Math.max(0, (v.heat||0) - 0.01);
+      // BOOM: H2 + lửa → nổ nhỏ
+      if (v.type==='tube' && v.gasDone && !v.popped && (v.heat||0) > 0.55){
+        v.popped = true; v.boom = 1; v.fizz = Math.max(v.fizz, 1.2);
+        flashMsg(v, '💥 H₂ cháy — nổ nhỏ!');
+        showResultHTML('2H₂ + O₂ → 2H₂O', 'Khí hiđro <b>cháy</b> trong không khí với tiếng <b>nổ nhỏ</b> (hỗn hợp nổ).');
+        v.gasDone = false;
+        if (v.collector) v.collector.gas = 0;
+      }
+      // BURN: cồn trong ống bị đun → cháy với ngọn lửa xanh
+      if (v.type==='tube' && hasType(v,'fuel') && (v.heat||0) > 0.5 && !v.burnMsg){
+        v.burnMsg = true; flashMsg(v, '🔥 Cồn đang cháy!');
+        showResultHTML('C₂H₅OH + 3O₂ → 2CO₂ + 3H₂O', 'Cồn <b>cháy</b> với ngọn lửa xanh, tỏa nhiều nhiệt.');
+      }
+      if (!(v.type==='tube' && hasType(v,'fuel') && (v.heat||0) > 0.3)) v.burnMsg = false;
+      v.boom = Math.max(0, (v.boom||0) - 0.025);
     });
     updateChemist(t, W, H);
     lamp.flare = 0;
