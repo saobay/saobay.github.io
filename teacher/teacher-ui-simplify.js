@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2210
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2219
 // Rebuilt - fixed structure
 (function(){
     'use strict';
@@ -1294,12 +1294,13 @@ Hãy điền chi tiết từng ô trong bảng (chủ đề kiến thức cụ t
                 div.innerHTML =
                     '<div class="text-sm font-bold mb-1">📁 Nơi lưu ' + cfg.label + ': ' +
                     '<span class="fix-fd-' + mode + '" style="color:#dc2626">Chưa chọn</span></div>' +
-                    '<button class="fix-fb-' + mode + '" style="padding:6px 12px;background:#2563eb;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:13px">Chọn thư mục' +
+                    '<button type="button" class="fix-fb-' + mode + '" style="padding:6px 12px;background:#2563eb;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:13px">Chọn thư mục' +
                     (cfg.chapters ? ' (đến chương)' : ' (đến môn)') + '</button>' +
                     (cfg.chapters ? '' : '<div style="font-size:11px;color:#666;margin-top:4px">Đề thi nhiều chương → chỉ cần chọn đến môn</div>');
                 panel.insertBefore(div, panel.firstChild);
                 
-                div.querySelector('.fix-fb-' + mode).onclick = function(){
+                div.querySelector('.fix-fb-' + mode).onclick = function(e){
+                    if (e) { e.preventDefault(); e.stopPropagation(); }
                     // Cuộn đến cây thư mục để chọn
                     var tree = document.getElementById('folder-tree');
                     if (tree) {
