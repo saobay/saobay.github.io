@@ -1,3 +1,4 @@
+// SAOBAY_STUDENT_EXAM_TAB_VERSION:20261011_1816
 // SAOBAY Student Exam Tab - 2026-10-11
 // Tab "Bài Kiểm Tra" cho HS: hiện danh sách bài kiểm tra được giao, không cần chọn thư mục
 (function(){
