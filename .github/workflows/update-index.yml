@@ -1,0 +1,58 @@
+name: Cập nhật danh mục bài học
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'data/**/*.html'
+  workflow_dispatch:
+jobs:
+  update-index:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Quét thư mục và tạo index
+        run: |
+          python3 << 'PYEOF'
+          import os, json, re
+          index_path = 'data/folder-index/folders.json'
+          try:
+              with open(index_path, encoding='utf-8') as f:
+                  index = json.load(f)
+          except:
+              index = {"grades": {}}
+          file_map = {}
+          for root, dirs, files in os.walk('data'):
+              if 'folder-index' in root:
+                  continue
+              html_files = [f for f in files if re.search(r'\.html?$', f, re.I)]
+              if html_files:
+                  rel = os.path.relpath(root, '.').replace(os.sep, '/')
+                  lst = []
+                  for fn in sorted(html_files):
+                      t = re.sub(r'\.html?$', '', fn, flags=re.I)
+                      t = re.sub(r'_none$', '', t).replace('_', ' ')
+                      lst.append({'name': fn, 'title': t, 'path': rel + '/' + fn})
+                  file_map[rel] = lst
+          for gk, subjects in index.get('grades', {}).items():
+              for sk, sm in subjects.items():
+                  bp = sm.get('path', '')
+                  if not bp:
+                      continue
+                  sm.setdefault('chapter_files', {})
+                  for ch in sm.get('chapters', []):
+                      cp = bp + '/' + ch
+                      sm['chapter_files'][ch] = file_map.get(cp, [])
+          os.makedirs(os.path.dirname(index_path), exist_ok=True)
+          with open(index_path, 'w', encoding='utf-8') as f:
+              json.dump(index, f, ensure_ascii=False)
+          print("Done")
+          PYEOF
+      - name: Commit và đẩy
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add data/folder-index/folders.json
+          git diff --staged --quiet || git commit -m "Tự động cập nhật danh mục"
+          git push
