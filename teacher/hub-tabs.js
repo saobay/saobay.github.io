@@ -57,6 +57,8 @@
             setVis('subject-meta-grid', isTheory || isExercise);
             // 2026-10-11: an khung "Soan & dua de thi len web" o che do direct (da co khung day Word rieng)
             setVis('push-upload-box', !isDirect);
+            // 2026-10-11: an nut "Boc lai de" o che do direct (nut nay cua ma tran)
+            setVis('exb-repick-wrap', isBank);
 
             // Panel legacy
             let panelT = document.getElementById('prompt-panel-theory');
