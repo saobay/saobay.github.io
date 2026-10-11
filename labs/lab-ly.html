@@ -220,7 +220,7 @@ canvas{max-width:100%;display:block;}
   <div id="tab-electro" class="tab-panel px-3 mt-3 hidden">
     <div class="bg-white rounded-2xl shadow p-4">
       <h2 class="font-black text-amber-700 mb-1">Nam châm điện</h2>
-      <p class="text-xs text-slate-500 mb-2">Đóng công tắc → cuộn dây có điện → lõi sắt thành nam châm, <b>hút kẹp giấy</b>! Ngắt điện → kẹp rơi xuống.</p>
+      <p class="text-xs text-slate-500 mb-2">Đóng công tắc → cuộn dây có điện → lõi sắt thành nam châm, <b>hút kẹp giấy</b>! Ngắt điện → kẹp rơi xuống. <b>Kéo-thả</b> kẹp giấy để di chuyển, ném chúng vào nam châm!</p>
       <canvas id="cv-electro" class="w-full rounded-xl bg-slate-900 border" height="300"></canvas>
       <div class="flex gap-2 mt-3">
         <button id="el-toggle" class="big-btn flex-1 bg-amber-500 text-white font-black rounded-xl">🔌 Đóng điện</button>
@@ -1038,7 +1038,7 @@ window.__spark = function(ctx, W, H, t, n, col){
   var cv = document.getElementById('cv-electro');
   var G = fitCanvas(cv);
   window.__refits.push(function(){ var g2 = fitCanvas(cv); if (g2 && !g2.hidden) G = g2; });
-  var powered = false, turns = 60, volt = 9, T = 0, flowT = 0;
+  var powered = false, turns = 60, volt = 9, T = 0, flowT = 0, dragC = null, lastClink = 0;
   var clips = [];
   function RR(c,x,y,w,h,r){
     c.beginPath();
@@ -1076,6 +1076,18 @@ window.__spark = function(ctx, W, H, t, n, col){
       o.start(t); o.stop(t+parts[ki][2]+0.05);
     }
   }
+  function clink(v){
+    var ac=audio(); if(!ac) return;
+    var now=performance.now();
+    if (now-lastClink<70) return; lastClink=now;
+    var t=ac.currentTime, f0=1700+Math.random()*900;
+    var o=ac.createOscillator(), gn=ac.createGain();
+    o.type='triangle'; o.frequency.value=f0;
+    gn.gain.setValueAtTime(Math.max(0.02,0.22*v),t);
+    gn.gain.exponentialRampToValueAtTime(0.0001,t+0.12);
+    o.connect(gn); gn.connect(ac.destination);
+    o.start(t); o.stop(t+0.16);
+  }
   document.getElementById('el-turns').addEventListener('input', function(e){
     turns=parseInt(e.target.value,10);
     document.getElementById('el-turns-val').textContent=turns;
@@ -1094,7 +1106,7 @@ window.__spark = function(ctx, W, H, t, n, col){
     });
   }
   tglBtn.addEventListener('click', function(){ setPower(!powered); });
-  document.getElementById('el-reset').addEventListener('click', resetClips);
+  document.getElementById('el-reset').addEventListener('click', function(){ dragC=null; resetClips(); });
 
   function geom(){
     var W=G.w, H=G.h;
@@ -1108,6 +1120,52 @@ window.__spark = function(ctx, W, H, t, n, col){
     var x=e.clientX-r.left, y=e.clientY-r.top;
     if (x>gm.sx-32 && x<gm.sx+32 && y>gm.sy-26 && y<gm.sy+26) setPower(!powered);
   });
+
+  // keo-tha kep giay bang chuot / ngon tay
+  var dPX=0, dPY=0, dVX=0, dVY=0, dPT=0;
+  function hitClip(x,y,gm){
+    for (var i=clips.length-1;i>=0;i--){
+      var c=clips[i];
+      if (Math.hypot(x-c.rx*gm.W, y-c.ry*gm.H)<22) return c;
+    }
+    return null;
+  }
+  cv.addEventListener('pointerdown', function(e){
+    var r=cv.getBoundingClientRect(), gm=geom();
+    var x=e.clientX-r.left, y=e.clientY-r.top;
+    if (x>gm.sx-32 && x<gm.sx+32 && y>gm.sy-26 && y<gm.sy+26) return; // vung cong tac
+    var c=hitClip(x,y,gm);
+    if (c){
+      dragC=c; dPX=x; dPY=y; dPT=performance.now(); dVX=0; dVY=0;
+      c.stuck=0; c.vx=0; c.vy=0;
+      cv.style.touchAction='none'; cv.style.cursor='grabbing';
+      try{ cv.setPointerCapture(e.pointerId); }catch(err){}
+      e.preventDefault();
+    }
+  });
+  cv.addEventListener('pointermove', function(e){
+    var r=cv.getBoundingClientRect(), gm=geom();
+    var x=e.clientX-r.left, y=e.clientY-r.top;
+    if (dragC){
+      var now=performance.now(), dt=Math.max(1,now-dPT)/1000;
+      dVX=(x-dPX)/dt; dVY=(y-dPY)/dt; dPX=x; dPY=y; dPT=now;
+      dragC.rx=Math.max(0.02,Math.min(0.98,x/gm.W));
+      dragC.ry=Math.max(0.02,Math.min(0.97,y/gm.H));
+      dragC.vx=0; dragC.vy=0;
+      e.preventDefault();
+    } else {
+      cv.style.cursor=hitClip(x,y,gm)?'grab':'default';
+    }
+  });
+  function endDrag(){
+    if (dragC){
+      dragC.vx=Math.max(-600,Math.min(600,dVX));
+      dragC.vy=Math.max(-600,Math.min(600,dVY));
+      dragC=null; cv.style.touchAction=''; cv.style.cursor='default';
+    }
+  }
+  cv.addEventListener('pointerup', endDrag);
+  cv.addEventListener('pointercancel', endDrag);
 
   function drawClip(ctx,x,y,rot){
     ctx.save(); ctx.translate(x,y); ctx.rotate(rot||0);
@@ -1128,6 +1186,7 @@ window.__spark = function(ctx, W, H, t, n, col){
     var pL={x:gm.cx0-16,y:gm.cy}, pR={x:gm.cx1+16,y:gm.cy};
     T+=dt;
     clips.forEach(function(c){
+      if (c===dragC) return;
       if (c.stuck){
         var p=c.stuck===1?pL:pR;
         c.rx=(p.x+(c.stuck===1?-1:1)*8)/W;
@@ -1148,7 +1207,7 @@ window.__spark = function(ctx, W, H, t, n, col){
         c.vy+=1500*dt; c.vx*=0.995;
       }
       x+=c.vx*dt; y+=c.vy*dt;
-      if (y>gy-5){ y=gy-5; c.vy*=-0.25; c.vx*=0.7; if(Math.abs(c.vy)<32) c.vy=0; }
+      if (y>gy-5){ if (Math.abs(c.vy)>120) clink(Math.min(1,Math.abs(c.vy)/700)); y=gy-5; c.vy*=-0.25; c.vx*=0.7; if(Math.abs(c.vy)<32) c.vy=0; }
       if (x<9){x=9;c.vx*=-0.4;} if (x>W-9){x=W-9;c.vx*=-0.4;}
       c.rx=x/W; c.ry=y/H;
       c.rot+=c.vx*0.00035;
