@@ -55,6 +55,8 @@
 
             // 2026-10-11: an o Mon/Khoi/Chuong/Bai khi o che do de thi (bank/direct) - ma tran da co o rieng
             setVis('subject-meta-grid', isTheory || isExercise);
+            // 2026-10-11: an khung "Soan & dua de thi len web" o che do direct (da co khung day Word rieng)
+            setVis('push-upload-box', !isDirect);
 
             // Panel legacy
             let panelT = document.getElementById('prompt-panel-theory');
