@@ -132,6 +132,7 @@
         <button id="pipet-btn" class="big-btn bg-violet-600 text-white font-black rounded-xl px-3">💧 Pipet: TẮT</button>
         <button id="pour-stop" class="big-btn bg-red-500 text-white font-black rounded-xl px-3 hidden">⏹ Ngừng đổ</button>
         <label class="big-btn bg-white border border-slate-300 rounded-xl px-2 flex items-center gap-1 font-bold text-xs text-slate-700">🧪 Lượng đổ:<input id="pour-ml" type="number" min="1" max="100" placeholder="ml" class="w-16 border rounded-lg px-1 py-1 text-sm font-bold text-center"><span>ml</span></label>
+        <button id="snd-btn" class="big-btn bg-amber-500 text-white font-black rounded-xl px-3">🔊 Âm thanh: BẬT</button>
       </div>
       <div class="grid grid-cols-3 gap-2 mb-2 text-sm">
         <div>
@@ -505,6 +506,120 @@ window.__refits = window.__refits || [];
   }
 
   var vessels = [];
+  // ===== SOUND_FX: âm thanh tổng hợp bằng Web Audio API (không cần file ngoài) =====
+  var SND = {
+    ctx: null, master: null, noiseBuf: null, enabled: true, loops: {},
+    init: function(){
+      if (this.ctx) { try { if (this.ctx.state === 'suspended') this.ctx.resume(); } catch(e){} return; }
+      try {
+        var AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC) return;
+        this.ctx = new AC();
+        this.master = this.ctx.createGain();
+        this.master.gain.value = 0.9;
+        this.master.connect(this.ctx.destination);
+        // buffer noise trắng dùng chung 2s
+        var len = this.ctx.sampleRate * 2, buf = this.ctx.createBuffer(1, len, this.ctx.sampleRate);
+        var d = buf.getChannelData(0);
+        for (var i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+        this.noiseBuf = buf;
+        this.mkLoop('pour', 'bandpass', 1400, 0.8, 6.5, 0.22);  // rót nước róc rách
+        this.mkLoop('boil', 'lowpass', 420, 0.7, 3.2, 0.30);    // sôi sủi bọt
+        this.mkLoop('fire', 'lowpass', 850, 0.6, 11, 0.12);     // lửa cháy phừng phựt
+        this.mkLoop('gas', 'highpass', 3600, 0.7, 0, 0);        // khí xì xì
+      } catch(e){ this.ctx = null; }
+    },
+    mkLoop: function(name, type, freq, q, lfoHz, lfoDepth){
+      var c = this.ctx;
+      var src = c.createBufferSource(); src.buffer = this.noiseBuf; src.loop = true;
+      var f = c.createBiquadFilter(); f.type = type; f.frequency.value = freq; f.Q.value = q;
+      var g = c.createGain(); g.gain.value = 0;
+      src.connect(f); f.connect(g); g.connect(this.master); src.start();
+      if (lfoHz > 0){
+        var lfo = c.createOscillator(); lfo.frequency.value = lfoHz;
+        var lg = c.createGain(); lg.gain.value = lfoDepth;
+        lfo.connect(lg); lg.connect(g.gain); lfo.start();
+      }
+      this.loops[name] = g;
+    },
+    set: function(name, target){
+      if (!this.ctx || !this.loops[name]) return;
+      try { this.loops[name].gain.setTargetAtTime(this.enabled ? target : 0, this.ctx.currentTime, 0.18); }
+      catch(e){}
+    },
+    allOff: function(){
+      var self = this;
+      Object.keys(this.loops).forEach(function(k){ self.set(k, 0); });
+    },
+    // tiếng nổ: noise bùng + sine trầm rơi
+    boom: function(){
+      if (!this.ctx || !this.enabled) return;
+      try {
+        var c = this.ctx, t = c.currentTime;
+        var n = c.createBufferSource(); n.buffer = this.noiseBuf;
+        var nf = c.createBiquadFilter(); nf.type = 'lowpass';
+        nf.frequency.setValueAtTime(3200, t); nf.frequency.exponentialRampToValueAtTime(120, t + 0.55);
+        var ng = c.createGain();
+        ng.gain.setValueAtTime(0.95, t); ng.gain.exponentialRampToValueAtTime(0.001, t + 0.7);
+        n.connect(nf); nf.connect(ng); ng.connect(this.master); n.start(t); n.stop(t + 0.75);
+        var o = c.createOscillator(); o.type = 'sine';
+        o.frequency.setValueAtTime(130, t); o.frequency.exponentialRampToValueAtTime(34, t + 0.5);
+        var og = c.createGain();
+        og.gain.setValueAtTime(0.85, t); og.gain.exponentialRampToValueAtTime(0.001, t + 0.55);
+        o.connect(og); og.connect(this.master); o.start(t); o.stop(t + 0.6);
+      } catch(e){}
+    },
+    // blub: bọt nước vỡ (sôi) — crackle: tia lửa tách (lửa)
+    blub: function(){
+      if (!this.ctx || !this.enabled) return;
+      try {
+        var c = this.ctx, t = c.currentTime;
+        var o = c.createOscillator(); o.type = 'sine';
+        var f0 = 220 + Math.random() * 260;
+        o.frequency.setValueAtTime(f0, t); o.frequency.exponentialRampToValueAtTime(70, t + 0.11);
+        var g = c.createGain();
+        g.gain.setValueAtTime(0.16, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.12);
+        o.connect(g); g.connect(this.master); o.start(t); o.stop(t + 0.13);
+      } catch(e){}
+    },
+    crackle: function(){
+      if (!this.ctx || !this.enabled) return;
+      try {
+        var c = this.ctx, t = c.currentTime, dur = 0.03 + Math.random() * 0.05;
+        var n = c.createBufferSource(); n.buffer = this.noiseBuf;
+        n.playbackRate.value = 0.7 + Math.random() * 0.8;
+        var f = c.createBiquadFilter(); f.type = 'highpass'; f.frequency.value = 1800;
+        var g = c.createGain();
+        g.gain.setValueAtTime(0.10 + Math.random() * 0.12, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+        n.connect(f); f.connect(g); g.connect(this.master);
+        n.start(t, Math.random() * 1.5); n.stop(t + dur + 0.02);
+      } catch(e){}
+    },
+    // gọi mỗi frame: điều chỉnh âm lượng theo trạng thái thí nghiệm
+    tick: function(){
+      if (!this.ctx) return;
+      var pouring = (typeof pour !== 'undefined') && !!pour;
+      var heating = false, boiling = false, gassing = false, i, v;
+      try {
+        for (i = 0; i < vessels.length; i++){
+          v = vessels[i];
+          if ((v.heat || 0) > 0.08) heating = true;
+          if ((v.heat || 0) > 0.85 && (v.volShown || 0) > 0.03) boiling = true;
+          if ((v.fizz || 0) > 0.45) gassing = true;
+        }
+      } catch(e){}
+      this.set('pour', pouring ? 0.50 : 0);
+      this.set('fire', heating ? 0.20 : 0);
+      this.set('boil', boiling ? 0.42 : 0);
+      this.set('gas', gassing ? 0.26 : 0);
+      if (this.enabled){
+        if (heating && Math.random() < 0.055) this.crackle();
+        if (boiling && Math.random() < 0.11) this.blub();
+        if (gassing && !boiling && Math.random() < 0.05) this.blub();
+      }
+    }
+  };
   function resetBench(){
     vessels = []; // BENCH_EMPTY: canvas khởi động trống, user tự lấy bình từ tủ
     pourQ = []; pour = null; selV = null;
@@ -1732,6 +1847,14 @@ function drawMiniFlask(ctx, x, y, col){
     if (el) el.textContent = this.options[this.selectedIndex].text;
   });
   document.getElementById('pour-stop').addEventListener('click', function(){ stopPour(); });
+  // SOUND_FX: nút bật/tắt + khởi tạo AudioContext ở lần chạm đầu (chính sách autoplay)
+  document.addEventListener('pointerdown', function(){ SND.init(); }, {once: true});
+  document.getElementById('snd-btn').addEventListener('click', function(){
+    SND.init();
+    SND.enabled = !SND.enabled;
+    this.textContent = SND.enabled ? '\U0001F50A Âm thanh: BẬT' : '\U0001F507 Âm thanh: TẮT';
+    if (!SND.enabled) SND.allOff();
+  });
 
   // ---------- Tương tác chạm/kéo ----------
   var dragInfo = null;
@@ -2002,6 +2125,7 @@ function layout(){
         showResultHTML('2H₂ + O₂ → 2H₂O', 'Khí hiđro <b>cháy</b> trong không khí với tiếng <b>nổ nhỏ</b> (hỗn hợp nổ).');
         v.gasDone = false;
         if (v.collector) v.collector.gas = 0;
+        try { SND.boom(); } catch(_sb){}
       }
       // BURN: cồn trong ống bị đun → cháy với ngọn lửa xanh
       if (v.type==='tube' && hasType(v,'fuel') && (v.heat||0) > 0.5 && !v.burnMsg){
@@ -2044,6 +2168,7 @@ function layout(){
       if (_frameErr <= 3) console.warn('[lab-mix] frame loi (tu phuc hoi):', _de && _de.message);
       // Khong throw tiep — giu vong lap RAF song
     }
+    try { SND.tick(); } catch(_se){}
     requestAnimationFrame(draw);
   }
 
