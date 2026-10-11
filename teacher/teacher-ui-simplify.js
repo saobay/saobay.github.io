@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_1932
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_1934
 // Rebuilt - fixed structure
 (function(){
     'use strict';
@@ -211,8 +211,7 @@
                         <div><label class="text-xs font-bold text-slate-600">Thời gian (phút)</label>
                             <input id="ai-time" type="number" value="45" class="w-full border rounded-lg px-3 py-2 text-sm"></div>
                     </div>
-                    <div class="mb-3"><label class="text-xs font-bold text-slate-600">Nội dung kiến thức</label>
-                        <textarea id="ai-knowledge" rows="3" placeholder="Mô tả kiến thức cần kiểm tra..." class="w-full border rounded-lg px-3 py-2 text-sm"></textarea></div>
+
                     
                     <h4 class="font-bold text-sm text-slate-700 mb-2">Ma trận đề</h4>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mb-3">
@@ -302,7 +301,7 @@
         var g = document.getElementById('ai-grade').value || '[Khối]';
         var s = document.getElementById('ai-subject').value || '[Môn]';
         var l = document.getElementById('ai-lessons').value || '[Phạm vi bài]';
-        var k = document.getElementById('ai-knowledge').value || '[Nội dung kiến thức]';
+        var k = '';
         var t = document.getElementById('ai-time').value || '45';
         var nmcq = document.getElementById('ai-n-mcq').value || '0';
         var pmcq = document.getElementById('ai-p-mcq').value || '0.25';
@@ -330,8 +329,16 @@ Ma trận đề:
 
 Yêu cầu: Tạo đề dưới dạng HTML theo cấu trúc SAOBAY exam10 (mỗi câu có type, q, options, answer, explain).`;
         
-        document.getElementById('ai-prompt-text').value = prompt;
-        document.getElementById('ai-prompt-output').classList.remove('hidden');
+        // Tự copy luôn
+        try {
+            navigator.clipboard.writeText(prompt).then(function(){
+                alert('Đã copy prompt!');
+            });
+        } catch(e){
+            // Fallback: hiện textarea nếu không copy được
+            document.getElementById('ai-prompt-text').value = prompt;
+            document.getElementById('ai-prompt-output').classList.remove('hidden');
+        }
     };
     
     // Tạo prompt ma trận đặc tả gửi NotebookLM
@@ -339,7 +346,7 @@ Yêu cầu: Tạo đề dưới dạng HTML theo cấu trúc SAOBAY exam10 (mỗ
         var g = document.getElementById('ai-grade').value || '[Khối]';
         var s = document.getElementById('ai-subject').value || '[Môn]';
         var l = document.getElementById('ai-lessons').value || '[Phạm vi bài]';
-        var k = document.getElementById('ai-knowledge').value || '[Nội dung kiến thức]';
+        var k = '';
         var nmcq = document.getElementById('ai-n-mcq').value || '0';
         var ntf = document.getElementById('ai-n-tf').value || '0';
         var nshort = document.getElementById('ai-n-short').value || '0';
@@ -367,8 +374,14 @@ Tỉ lệ mức độ chung: NB ${nb}% / TH ${th}% / VD ${vd}% / VDC ${vdc}%
 
 Hãy điền chi tiết từng ô trong bảng (chủ đề kiến thức cụ thể cho từng dạng câu và mức độ).`;
         
-        document.getElementById('ai-prompt-text').value = prompt;
-        document.getElementById('ai-prompt-output').classList.remove('hidden');
+        try {
+            navigator.clipboard.writeText(prompt).then(function(){
+                alert('Đã copy prompt ma trận!');
+            });
+        } catch(e){
+            document.getElementById('ai-prompt-text').value = prompt;
+            document.getElementById('ai-prompt-output').classList.remove('hidden');
+        }
     };
     
     if (document.readyState === 'loading') {
