@@ -1030,3 +1030,82 @@
             w.document.write(h.replace('<body', '<body onload="setTimeout(function(){window.print()},400)"'));
             w.document.close();
         }
+
+        // 2026-10-11: Nut "Cap nhat danh muc" - quet lai cau truc thu muc va day len
+        async function exbUpdateFolderIndex(){
+            var btn = document.getElementById('exb-idx-btn');
+            var st = document.getElementById('exb-idx-status');
+            if (btn) { btn.disabled = true; btn.innerHTML = '⏳ Đang quét...'; }
+            if (st) st.textContent = 'Đang quét cấu trúc thư mục...';
+            try {
+                var token = '';
+                try { token = localStorage.getItem('saobay_github_token') || ''; } catch(e){}
+                var headers = token ? { 'Authorization': 'token ' + token } : {};
+                async function apiGet(path){
+                    var url = 'https://api.github.com/repos/saobay/saobay.github.io/contents/' + path.split('/').map(encodeURIComponent).join('/') + '?ref=main';
+                    var r = await fetch(url, { headers: headers });
+                    if (!r.ok) return [];
+                    var j = await r.json();
+                    return Array.isArray(j) ? j : [];
+                }
+                function normS(raw){
+                    var n = raw.trim().replace(/\s*\d+\s*$/, '').trim().toUpperCase();
+                    n = n.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\u0110/g, 'D').replace(/\u0111/g, 'd');
+                    return n.replace(/\s+/g, '_');
+                }
+                var index = { updated: new Date().toISOString().slice(0,10), grades: {} };
+                for (var ri = 0; ri < 2; ri++){
+                    var root = ri === 0 ? 'data/THCS' : 'data/THPT';
+                    var grades = await apiGet(root);
+                    for (var gi = 0; gi < grades.length; gi++){
+                        var gd = grades[gi];
+                        if (gd.type !== 'dir') continue;
+                        var gm = String(gd.name || '').match(/Kh[\u1ed1\u1ed5]i l[\u1edb\u1ed7]p\s*(\d+)/i);
+                        if (!gm) continue;
+                        var grade = parseInt(gm[1], 10);
+                        var gk = String(grade);
+                        if (!index.grades[gk]) index.grades[gk] = {};
+                        var subjects = await apiGet(root + '/' + gd.name);
+                        for (var si = 0; si < subjects.length; si++){
+                            var sd = subjects[si];
+                            if (sd.type !== 'dir') continue;
+                            var norm = normS(sd.name);
+                            var chapters = await apiGet(root + '/' + gd.name + '/' + sd.name);
+                            var chList = chapters.filter(function(c){ return c.type === 'dir'; }).map(function(c){ return c.name; });
+                            index.grades[gk][norm] = { label: sd.name, path: root + '/' + gd.name + '/' + sd.name, chapters: chList.sort() };
+                        }
+                    }
+                    if (st) st.textContent = 'Đã quét ' + root + '...';
+                }
+                var jsonStr = JSON.stringify(index);
+                // Đẩy lên qua GAS proxy
+                if (st) st.textContent = 'Đang đẩy lên GitHub...';
+                var gasUrl = '';
+                try { gasUrl = localStorage.getItem('saobay_gas_url') || ''; } catch(e){}
+                if (!gasUrl && typeof GAS_PROXY_URL !== 'undefined') gasUrl = GAS_PROXY_URL;
+                if (gasUrl){
+                    var resp = await fetch(gasUrl, {
+                        method: 'POST',
+                        body: JSON.stringify({ action: 'PUSH_TO_GITHUB', owner: 'saobay', repo: 'saobay.github.io', branch: 'main', message: 'Cap nhat index danh muc', files: [{ path: 'data/_index/folders.json', content: jsonStr }] })
+                    });
+                    var rj = await resp.json();
+                    if (rj && (rj.ok || rj.success)){
+                        _folderIndex = index; // cập nhật cache
+                        if (st) st.textContent = '✅ Đã cập nhật xong!';
+                        if (typeof showToast === 'function') showToast('Đã cập nhật danh mục!', 'success');
+                        // Reload dropdowns
+                        _folderIndex = null;
+                        await exbInitMatrixDropdowns();
+                    } else {
+                        throw new Error('GAS push failed');
+                    }
+                } else {
+                    throw new Error('Chưa cấu hình GAS URL');
+                }
+            } catch(e){
+                if (st) st.textContent = '❌ Lỗi: ' + e.message;
+                console.error('Update index:', e);
+            }
+            if (btn) { btn.disabled = false; btn.innerHTML = '🔄 Cập nhật danh mục'; }
+        }
+
