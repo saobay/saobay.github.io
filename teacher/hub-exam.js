@@ -1,4 +1,4 @@
-// SAOBAY_HUB_EXAM_VERSION:20261011_1822
+// SAOBAY_HUB_EXAM_VERSION:20261011_1836
         // ========================================================
         // TRÌNH SOẠN ĐỀ KIỂM TRA (Phase 4, 2026-10-08)
 
@@ -332,8 +332,8 @@
                             var cf = sm[sk].chapter_files;
                             Object.keys(cf).forEach(function(chName){
                                 var files = cf[chName] || [];
-                                files.forEach(function(fn){
-                                    fn = String(fn || '');
+                                files.forEach(function(fItem){
+                                    var fn = (fItem && fItem.name) ? fItem.name : String(fItem || '');
                                     if (!/\.html?$/i.test(fn)) return;
                                     var lm = fn.match(/_Bai_(\d+)_/i) || fn.match(/Bai(\d+)/i);
                                     if (lm){
