@@ -208,27 +208,7 @@
                 }
                 if (out.length){ exbBankIndex = out; return out; }
             } catch(e){ console.warn('exbFetchBankIndex GitHub API failed:', e); }
-            // Fallback: localStorage như cũ
-            try {
-                var raw = localStorage.getItem('saobay_git_folders');
-                if (raw){
-                    var folders = JSON.parse(raw);
-                    (folders || []).forEach(function(f){
-                        var p = f.path || '';
-                        var m = p.match(/^data\/[^\/]+\/Kh[ốo]i l[ớo]p (\d+)\/([^\/]+)\//i);
-                        if (m){
-                            var grade = parseInt(m[1], 10);
-                            var rawSubj = m[2].trim();
-                            var subject = rawSubj.replace(/\s*\d+\s*$/, '').trim().toUpperCase();
-                            subject = subject.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/Đ/g, 'D').replace(/đ/g, 'd');
-                            subject = subject.replace(/\s+/g, '_');
-                            var key = subject + '_' + grade;
-                            if (!seen[key]){ seen[key] = 1; out.push({ subject: subject, grade: grade, label: rawSubj }); }
-                        }
-                    });
-                    if (out.length){ exbBankIndex = out; return out; }
-                }
-            } catch(e2){}
+            // 2026-10-11: KHONG dung localStorage (nhieu user khac nhau)
             return null;
         }
 
@@ -248,14 +228,8 @@
             var gradeEl = document.getElementById('exbb-grade');
             if (!gradeEl || gradeEl.dataset.exbInit) return;
             gradeEl.dataset.exbInit = '1';
-            // Đảm bảo cây thư mục đã tải xong trước khi đọc
-            try {
-                var raw0 = localStorage.getItem('saobay_git_folders');
-                if (!raw0 && typeof loadFolderTreeFromGit === 'function'){
-                    await loadFolderTreeFromGit();
-                }
-            } catch(eWait){}
-            // Load KHỐI từ thư mục to nhất trong cây thư mục
+            // 2026-10-11: khong dung localStorage, load truc tiep tu API
+            // Load KHỐI
             var grades = await exbFetchGrades();
             if (!grades.length) grades = [6,7,8,9,10,11,12];
             exbFillSelect('exbb-grade', grades.map(function(g){ return { value: g, label: 'Khối ' + g }; }), '-- Chọn khối --');
@@ -265,50 +239,63 @@
         }
 
         // Lấy danh sách khối từ thư mục cấp cao nhất: data/THPT/Khối lớp 10, data/THCS/Khối lớp 6...
+        // 2026-10-11: lay danh sach khoi bang Contents API (khong localStorage)
         async function exbFetchGrades(){
             try {
-                var raw = localStorage.getItem('saobay_git_folders');
-                if (raw){
-                    var folders = JSON.parse(raw);
-                    var grades = [], seen = {};
-                    (folders || []).forEach(function(f){
-                        var p = f.path || '';
-                        var m = p.match(/^data\/[^\/]+\/Kh[ốo]i l[ớo]p (\d+)\//i);
+                var grades = [], seen = {};
+                for (var ri = 0; ri < 2; ri++){
+                    var root = ri === 0 ? 'data/THCS' : 'data/THPT';
+                    var url = 'https://api.github.com/repos/saobay/saobay.github.io/contents/' + root + '?ref=main';
+                    var r = await fetch(url);
+                    if (!r.ok) continue;
+                    var j = await r.json();
+                    (j || []).forEach(function(it){
+                        if (it.type !== 'dir') return;
+                        var m = String(it.name || '').match(/Kh[\u1ed1\u1ed5]i l[\u1edb\u1ed7]p\s*(\d+)/i);
                         if (m){
                             var g = parseInt(m[1], 10);
                             if (!seen[g]){ seen[g] = 1; grades.push(g); }
                         }
                     });
-                    grades.sort(function(a,b){ return a - b; });
-                    if (grades.length) return grades;
                 }
-            } catch(e){}
-            return [];
+                grades.sort(function(a,b){ return a - b; });
+                return grades;
+            } catch(e){ return []; }
         }
 
         // Lấy danh sách môn theo khối: data/.../Khối lớp 10/Toán 10/...
+        // 2026-10-11: lay danh sach mon theo khoi bang Contents API (khong localStorage)
         async function exbFetchSubjectsByGrade(grade){
             try {
-                var raw = localStorage.getItem('saobay_git_folders');
-                if (raw){
-                    var folders = JSON.parse(raw);
-                    var out = [], seen = {};
-                    (folders || []).forEach(function(f){
-                        var p = f.path || '';
-                        var m = p.match(/^data\/[^\/]+\/Kh[ốo]i l[ớo]p (\d+)\/([^\/]+)\//i);
-                        if (m && parseInt(m[1], 10) === grade){
-                            var rawSubj = m[2].trim();
+                var out = [], seen = {};
+                for (var ri = 0; ri < 2; ri++){
+                    var root = ri === 0 ? 'data/THCS' : 'data/THPT';
+                    var gUrl = 'https://api.github.com/repos/saobay/saobay.github.io/contents/' + root + '?ref=main';
+                    var gr = await fetch(gUrl);
+                    if (!gr.ok) continue;
+                    var gList = await gr.json();
+                    for (var gi = 0; gi < gList.length; gi++){
+                        var gd = gList[gi];
+                        if (gd.type !== 'dir') continue;
+                        var gm = String(gd.name || '').match(/Kh[\u1ed1\u1ed5]i l[\u1edb\u1ed7]p\s*(\d+)/i);
+                        if (!gm || parseInt(gm[1], 10) !== grade) continue;
+                        var sUrl = 'https://api.github.com/repos/saobay/saobay.github.io/contents/' + root + '/' + encodeURIComponent(gd.name) + '?ref=main';
+                        var sr = await fetch(sUrl);
+                        if (!sr.ok) continue;
+                        var sList = await sr.json();
+                        (sList || []).forEach(function(sd){
+                            if (sd.type !== 'dir') return;
+                            var rawSubj = sd.name.trim();
                             var norm = rawSubj.replace(/\s*\d+\s*$/, '').trim().toUpperCase()
-                                .normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/Đ/g, 'D').replace(/\s+/g, '_');
+                                .normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\u0110/g, 'D').replace(/\u0111/g, 'd').replace(/\s+/g, '_');
                             var key = norm + '_' + grade;
                             if (!seen[key]){ seen[key] = 1; out.push({ value: norm, label: rawSubj }); }
-                        }
-                    });
-                    out.sort(function(a,b){ return a.label.localeCompare(b.label, 'vi'); });
-                    if (out.length) return out;
+                        });
+                    }
                 }
-            } catch(e){}
-            return [];
+                out.sort(function(a,b){ return a.label.localeCompare(b.label, 'vi'); });
+                return out;
+            } catch(e){ return []; }
         }
 
         async function exbOnMatrixGradeChange(){
