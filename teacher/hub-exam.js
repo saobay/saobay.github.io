@@ -783,6 +783,36 @@
                 var result = await resp.json();
                 if (result.error) throw new Error(result.error);
                 
+                // Cập nhật index.json
+                try {
+                    var idxUrl = 'https://raw.githubusercontent.com/saobay/saobay.github.io/main/data/teacher-exams/' + teacherId + '/index.json?t=' + Date.now();
+                    var idxResp = await fetch(idxUrl);
+                    var idxData = idxResp.ok ? await idxResp.json() : { exams: [] };
+                    idxData.exams = idxData.exams || [];
+                    // Thêm hoặc cập nhật
+                    var found = false;
+                    for (var i = 0; i < idxData.exams.length; i++) {
+                        if (idxData.exams[i].id === examId) {
+                            idxData.exams[i] = { id: examId, title: title, subject: m.subject || '', grade: m.grade || '', created_at: examData.created_at, question_count: picked.length };
+                            found = true; break;
+                        }
+                    }
+                    if (!found) idxData.exams.push({ id: examId, title: title, subject: m.subject || '', grade: m.grade || '', created_at: examData.created_at, question_count: picked.length });
+                    
+                    await fetch('https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'text/plain;charset=utf-8'},
+                        body: JSON.stringify({
+                            type: 'PUSH_TO_GITHUB',
+                            filePath: 'data/teacher-exams/' + teacherId + '/index.json',
+                            content: JSON.stringify(idxData, null, 2),
+                            commitMessage: 'Cập nhật index đề: ' + title,
+                            title: 'Cập nhật index',
+                            author: 'saobay-teacher'
+                        })
+                    });
+                } catch(eIdx){ console.warn('Lỗi cập nhật index:', eIdx); }
+                
                 if (typeof showToast === 'function') showToast('Đã lưu đề "' + title + '" vào mục Quản lý!', 'success');
                 // Refresh danh sách đề trong tab quản lý
                 if (typeof exbLoadTeacherExams === 'function') exbLoadTeacherExams();
