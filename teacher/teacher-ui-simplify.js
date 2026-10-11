@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_1912
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_1914
 // SAOBAY Teacher Hub UI Simplify - 2026-10-11
 // Ẩn cây thư mục bên trái, chọn thư mục qua popup tại "Vị trí lưu trữ"
 (function(){
@@ -382,5 +382,38 @@ Hãy điền chi tiết từng ô trong bảng (chủ đề kiến thức cụ t
         setTimeout(hideMonitorTab, 1500);
     }
     setInterval(hideMonitorTab, 5000);
+})();
+
+// 2026-10-11: Thêm nút tải lại cho tab Giám Sát
+(function(){
+    function addRefreshBtn(){
+        var title = document.querySelector('#module-monitor-view h3');
+        if (!title || document.getElementById('mon-refresh-btn')) return;
+        
+        var btn = document.createElement('button');
+        btn.id = 'mon-refresh-btn';
+        btn.className = 'ml-3 text-xs bg-cyan-600 hover:bg-cyan-700 text-white px-3 py-1.5 rounded-lg font-bold';
+        btn.innerHTML = '<i class="fa-solid fa-rotate mr-1"></i>Tải lại';
+        btn.onclick = function(){
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i>Đang tải...';
+            btn.disabled = true;
+            try {
+                if (typeof renderMonitor === 'function') {
+                    renderMonitor();
+                }
+            } catch(e){}
+            setTimeout(function(){
+                btn.innerHTML = '<i class="fa-solid fa-rotate mr-1"></i>Tải lại';
+                btn.disabled = false;
+            }, 2000);
+        };
+        title.appendChild(btn);
+    }
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function(){ setTimeout(addRefreshBtn, 2000); });
+    } else {
+        setTimeout(addRefreshBtn, 2000);
+    }
+    setInterval(addRefreshBtn, 10000);
 })();
 
