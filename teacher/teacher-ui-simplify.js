@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261012_0015
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261012_0110
 // Tab 2: thay the renderLessonManagementList goc bang DS DE THI GV tai len, gom:
 //  (a) file de .html trong data/ (Word/AI day cong khai)
 //  (b) de luu rieng/len lich trong data/exam-schedule.json (exams-pending) - de Word/matran deu vao day
@@ -143,5 +143,33 @@ document.addEventListener('click',function(e){
   },600);
 }, true);
 
-console.log('SAOBAY wrap 0015 loaded');
+// === 0110: Ma tran (che do 'bank') KHONG can cay thu muc -> an cot cay; che do khac giu nguyen ===
+var _sbTreeHiddenByBank = false;
+function _sbToggleTreeForMode(mode){
+  var tree = document.getElementById('folder-tree');
+  var aside = tree ? tree.closest('aside') : null;
+  if(!aside) return;
+  if(mode === 'bank'){ aside.style.display = 'none'; _sbTreeHiddenByBank = true; }
+  else if(_sbTreeHiddenByBank){ aside.style.display = ''; _sbTreeHiddenByBank = false; }
+}
+(function(){
+  var tries = 0;
+  var iv = setInterval(function(){
+    tries++;
+    if(typeof window.switchPushMode === 'function' && !window.switchPushMode.__sbWrapped){
+      var orig = window.switchPushMode;
+      var wrapped = function(mode){
+        var r = orig.apply(this, arguments);
+        try { _sbToggleTreeForMode(mode); } catch(e) {}
+        return r;
+      };
+      wrapped.__sbWrapped = true;
+      window.switchPushMode = wrapped;
+      clearInterval(iv);
+    }
+    if(tries > 60) clearInterval(iv);
+  }, 250);
+})();
+
+console.log('SAOBAY wrap 0110 loaded');
 })();
