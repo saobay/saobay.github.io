@@ -1,6 +1,5 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_1915
-// SAOBAY Teacher Hub UI Simplify - 2026-10-11
-// Ẩn cây thư mục bên trái, chọn thư mục qua popup tại "Vị trí lưu trữ"
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_1935
+// Rebuilt - fixed structure
 (function(){
     'use strict';
     
@@ -381,7 +380,7 @@ Hãy điền chi tiết từng ô trong bảng (chủ đề kiến thức cụ t
 
 })();
 
-// 2026-10-11: Ẩn tab Giám Sát với GV thường (chỉ admin thấy)
+
 (function(){
     function hideMonitorTab(){
         try {
@@ -403,7 +402,7 @@ Hãy điền chi tiết từng ô trong bảng (chủ đề kiến thức cụ t
     setInterval(hideMonitorTab, 5000);
 })();
 
-// 2026-10-11: Thêm nút tải lại cho tab Giám Sát
+
 (function(){
     function addRefreshBtn(){
         var title = document.querySelector('#module-monitor-view h3');
@@ -435,4 +434,5 @@ Hãy điền chi tiết từng ô trong bảng (chủ đề kiến thức cụ t
     }
     setInterval(addRefreshBtn, 10000);
 })();
+
 
