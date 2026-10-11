@@ -560,54 +560,17 @@
         // - matrix.chapters[ch] = trong so phan bo theo chuong; 9999 = chia deu (khi chua bam "Tai ma tran")
         // - matrix.levels = ti le NB/TH/VD/VDC trong tung dang
         function exbMatrixPick(pool, matrix){
-            let picked = [], used = {};
+            let picked = [];
             let _lFrom = (matrix && matrix.lessonFrom) || 0, _lTo = (matrix && matrix.lessonTo) || 9999;
             let _lessonOk = function(q){ return exbLessonInRange(q, _lFrom, _lTo); };
-            let lvTotal = (matrix.levels.NB || 0) + (matrix.levels.TH || 0) + (matrix.levels.VD || 0) + (matrix.levels.VDC || 0);
-            if (!lvTotal) lvTotal = 1;
-            let chKeys = Object.keys(matrix.chapters || {}).filter(function(ch){ return (matrix.chapters[ch] || 0) > 0; });
-            if (!chKeys.length) return picked;
-            // Trong so chuong: 9999 -> tinh nhu 1 (chia deu)
-            let wTotal = 0;
-            let wOf = {};
-            chKeys.forEach(function(ch){
-                let n = matrix.chapters[ch];
-                let w = (n >= 9999) ? 1 : n;
-                wOf[ch] = w; wTotal += w;
-            });
-            if (!wTotal) wTotal = 1;
-            ['mcq','truefalse','short','essay','listening','speaking','matching','ordering'].forEach(function(tp){
-                let wantTotal = Math.max(0, parseInt(matrix.types[tp], 10) || 0);
-                if (!wantTotal) return;
-                let gotType = 0;
-                chKeys.forEach(function(ch){
-                    if (gotType >= wantTotal) return;
-                    let want = Math.max(1, Math.round(wantTotal * (wOf[ch] / wTotal)));
-                    want = Math.min(want, wantTotal - gotType);
-                    // Gioi han theo so cau thuc te con lai trong pool cua chuong+dang nay
-                    let avail = 0;
-                    pool.forEach(function(q){ if (String(q.chapter) === String(ch) && _lessonOk(q) && q.type === tp && !used[q.id]) avail++; });
-                    want = Math.min(want, avail);
-                    if (want <= 0) return;
-                    let groups = { NB: [], TH: [], VD: [], VDC: [] };
-                    pool.forEach(function(q){
-                        if (String(q.chapter) === String(ch) && _lessonOk(q) && q.type === tp && !used[q.id]) (groups[q.level] || groups.NB).push(q);
-                    });
-                    Object.keys(groups).forEach(function(k){ exbShuffle(groups[k]); });
-                    let got = 0;
-                    ['NB','TH','VD','VDC'].forEach(function(lv){
-                        let wl = Math.round(want * ((matrix.levels[lv] || 0) / lvTotal));
-                        let g = groups[lv];
-                        for (let i = 0; i < wl && i < g.length && got < want; i++){ picked.push(g[i]); used[g[i].id] = 1; got++; }
-                    });
-                    if (got < want){
-                        let rest = [];
-                        ['NB','TH','VD','VDC'].forEach(function(lv){ groups[lv].forEach(function(q){ if (!used[q.id]) rest.push(q); }); });
-                        exbShuffle(rest);
-                        for (let i = 0; i < rest.length && got < want; i++){ picked.push(rest[i]); used[rest[i].id] = 1; got++; }
-                    }
-                    gotType += got;
-                });
+            let types = ['mcq','truefalse','short','essay','listening','speaking','matching','ordering'];
+            types.forEach(function(tp){
+                let want = Math.max(0, parseInt((matrix.types || {})[tp], 10) || 0);
+                if (!want) return;
+                let candidates = pool.filter(function(q){ return q.type === tp && _lessonOk(q); });
+                if (typeof exbShuffle === 'function') exbShuffle(candidates);
+                let take = Math.min(want, candidates.length);
+                for (let i = 0; i < take; i++) picked.push(candidates[i]);
             });
             let tOrd = { mcq: 0, truefalse: 1, short: 2, essay: 3, listening: 4, speaking: 5, matching: 6, ordering: 7 };
             picked.sort(function(a, b){ return (tOrd[a.type] == null ? 9 : tOrd[a.type]) - (tOrd[b.type] == null ? 9 : tOrd[b.type]); });
