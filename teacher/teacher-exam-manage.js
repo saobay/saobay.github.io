@@ -1,3 +1,4 @@
+// SAOBAY_TEACHER_EXAM_MANAGE_VERSION:20261011_1816
 // SAOBAY Teacher Exam Management - 2026-10-11
 // Quản lý đề kiểm tra của GV: danh sách đề đã tạo từ ma trận, nút "Giao cho HS"
 (function(){
