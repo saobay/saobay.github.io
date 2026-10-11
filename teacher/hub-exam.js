@@ -465,19 +465,50 @@
                 if (r.notFound) throw new Error('Chưa có bank ' + subject + ' khối ' + grade + '. Hãy đẩy đề để tạo bank trước.');
                 if (r.error) throw new Error(r.error);
                 exbBankPool = exbApplyApprovedFilter(r.data.questions || []);
+                // 2026-10-11: loc cau theo pham vi bai
+                let poolInRange = exbBankPool.filter(function(q){ return exbLessonInRange(q, lr.from, lr.to); });
                 let chList = exbChaptersForLessons(exbBankPool, lr.from, lr.to);
                 if (!chList.length) throw new Error('Không có câu nào từ Bài ' + lr.from + ' đến Bài ' + lr.to + ' trong bank ' + subject + ' khối ' + grade + '.');
+                // 2026-10-11: thong ke theo muc do kho
+                let lvCount = { NB: 0, TH: 0, VD: 0, VDC: 0 };
+                let typeCount = {};
+                poolInRange.forEach(function(q){
+                    let lv = String(q.level || 'NB').toUpperCase();
+                    if (lvCount[lv] === undefined) lvCount[lv] = 0;
+                    lvCount[lv]++;
+                    let t = q.type || 'mcq';
+                    typeCount[t] = (typeCount[t] || 0) + 1;
+                });
+                let lvNames = { NB: 'Nhận biết', TH: 'Thông hiểu', VD: 'Vận dụng', VDC: 'Vận dụng cao' };
+                let lvColors = { NB: 'bg-emerald-100 text-emerald-700', TH: 'bg-sky-100 text-sky-700', VD: 'bg-amber-100 text-amber-700', VDC: 'bg-rose-100 text-rose-700' };
+                let statHtml = '<div class="mb-2 p-2.5 bg-indigo-50 border border-indigo-200 rounded-lg text-xs">'
+                    + '<p class="font-bold text-indigo-800 mb-1.5"><i class="fa-solid fa-chart-simple mr-1"></i>Phạm vi: Bài ' + lr.from + ' – Bài ' + lr.to + ' → <span class="text-indigo-600">' + poolInRange.length + ' câu</span></p>'
+                    + '<div class="flex flex-wrap gap-1.5">';
+                Object.keys(lvNames).forEach(function(lv){
+                    statHtml += '<span class="px-2 py-0.5 rounded-full font-bold ' + (lvColors[lv] || 'bg-slate-100 text-slate-600') + '">' + lvNames[lv] + ': ' + (lvCount[lv] || 0) + '</span>';
+                });
+                statHtml += '</div></div>';
                 let rows = '';
                 chList.forEach(function(c){
                     let n = exbBankPool.filter(function(q){ return (parseInt(q.chapter,10)||0) === c && exbLessonInRange(q, lr.from, lr.to); }).length;
-                    rows += '<tr class="border-t"><td class="px-2 py-1.5 font-bold text-slate-700">Chương ' + c + '</td>'
+                    // Thong ke muc do theo chuong
+                    let cLv = { NB: 0, TH: 0, VD: 0, VDC: 0 };
+                    exbBankPool.forEach(function(q){
+                        if ((parseInt(q.chapter,10)||0) === c && exbLessonInRange(q, lr.from, lr.to)){
+                            let lv = String(q.level || 'NB').toUpperCase();
+                            cLv[lv] = (cLv[lv] || 0) + 1;
+                        }
+                    });
+                    let cLvStr = Object.keys(lvNames).map(function(lv){ return lv + ':' + (cLv[lv] || 0); }).join(' ');
+                    rows += '<tr class="border-t"><td class="px-2 py-1.5 font-bold text-slate-700">Chương ' + c + '<br><span class="font-normal text-[10px] text-slate-400">' + cLvStr + '</span></td>'
                         + '<td class="px-2 py-1.5 text-slate-500">' + n + ' câu</td>'
                         + '<td class="px-2 py-1.5"><input data-ch="' + c + '" type="number" value="' + n + '" min="0" class="exb-ch-count w-16 text-xs border rounded px-1.5 py-1 text-center font-bold"></td></tr>';
                 });
-                mx.innerHTML = '<table class="w-full text-xs border border-slate-200 rounded-lg overflow-hidden">'
+                mx.innerHTML = statHtml
+                    + '<table class="w-full text-xs border border-slate-200 rounded-lg overflow-hidden">'
                     + '<thead><tr class="bg-slate-100 text-slate-600"><th class="px-2 py-1.5 text-left">Vùng kiến thức</th><th class="px-2 py-1.5 text-left">Trong bank</th><th class="px-2 py-1.5 text-left">Số câu lấy</th></tr></thead>'
                     + '<tbody>' + rows + '</tbody></table>'
-                    + '<p class="text-[10px] text-slate-400 mt-1">Phạm vi: Bài ' + lr.from + ' – Bài ' + lr.to + '. Chỉnh "Số câu lấy" mỗi chương cho đúng ý đồ ma trận.</p>';
+                    + '<p class="text-[10px] text-slate-400 mt-1">Chỉnh "Số câu lấy" mỗi chương cho đúng ý đồ ma trận.</p>';
             } catch(e){
                 let msg = String(e.message || e);
                 if (msg === 'no-token') msg = 'Chưa có token GitHub — hãy đăng nhập GitHub rồi đẩy 1 bài bất kỳ bằng form chính trước (để lưu token), sau đó bấm lại "Tải ma trận".';
