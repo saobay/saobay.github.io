@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_1941
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_1955
 // Rebuilt - fixed structure
 (function(){
     'use strict';
@@ -606,5 +606,39 @@ Hãy điền chi tiết từng ô trong bảng (chủ đề kiến thức cụ t
         setTimeout(enforceFolderSelection, 3000);
     }
     setInterval(enforceFolderSelection, 10000);
+})();
+
+// 2026-10-11: Đổi hiển thị mặc định thành "Chưa chọn" thay vì "data"
+(function(){
+    function resetDefaultFolder(){
+        try {
+            // Tìm và đổi text hiển thị
+            var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+            var node;
+            while (node = walker.nextNode()) {
+                if (node.textContent && node.textContent.indexOf('data (Thư viện bài giảng)') >= 0) {
+                    // Chỉ đổi nếu là text node đơn lẻ trong label
+                    var parent = node.parentElement;
+                    if (parent && parent.children.length <= 2) {
+                        node.textContent = node.textContent.replace('data (Thư viện bài giảng)', '⚠️ Chưa chọn (bấm để chọn)');
+                    }
+                }
+                if (node.textContent && node.textContent.trim() === '[data]') {
+                    node.textContent = '[chưa chọn]';
+                }
+            }
+            // Reset biến global
+            if (typeof window.selectedFolderPath !== 'undefined' && window.selectedFolderPath === 'data') {
+                window.selectedFolderPath = '';
+            }
+        } catch(e){}
+    }
+    
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function(){ setTimeout(resetDefaultFolder, 2000); });
+    } else {
+        setTimeout(resetDefaultFolder, 2000);
+    }
+    setInterval(resetDefaultFolder, 8000);
 })();
 
