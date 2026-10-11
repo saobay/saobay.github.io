@@ -118,7 +118,6 @@
     <button class="tab-btn flex-1 big-btn rounded-xl bg-white shadow font-bold text-sm" data-tab="mol">🔮 Phân tử 3D</button>
     <button class="tab-btn flex-1 big-btn rounded-xl bg-white shadow font-bold text-sm" data-tab="atom">⚛️ Nguyên tử</button>
     <button class="tab-btn flex-1 big-btn rounded-xl bg-white shadow font-bold text-sm" data-tab="periodic">🧬 Bảng tuần hoàn</button>
-    <button class="tab-btn flex-1 big-btn rounded-xl bg-white shadow font-bold text-sm" data-tab="demo">🧨 Thí nghiệm</button>
   </div>
 
   <!-- ===== TAB 1: TRỘN DUNG DỊCH ===== -->
@@ -174,6 +173,18 @@
         <div id="mix-eq" class="text-center text-lg font-black text-teal-800 my-1"></div>
         <div id="mix-note" class="text-xs text-slate-600"></div>
       </div>
+      <hr class="my-4 border-slate-200">
+      <h2 class="font-black text-rose-700 mb-1">🧨 Thí nghiệm mẫu</h2>
+      <p class="text-xs text-slate-500 mb-2">Bấm vào một thí nghiệm để xem biểu diễn! <b>Cẩn thận với thí nghiệm 💥...</b></p>
+      <canvas id="cv-demo" class="w-full rounded-xl border" style="touch-action:pan-y;display:block;height:340px;" height="340"></canvas>
+      <div class="flex gap-2 mt-3 flex-wrap">
+        <button id="dm-fizz" class="big-btn flex-1 bg-sky-500 text-white font-black rounded-xl text-sm">🫧 Sủi bọt</button>
+        <button id="dm-rainbow" class="big-btn flex-1 bg-violet-500 text-white font-black rounded-xl text-sm">🌈 Cầu vồng</button>
+        <button id="dm-flame" class="big-btn flex-1 bg-orange-500 text-white font-black rounded-xl text-sm">🔥 Lửa xanh</button>
+        <button id="dm-boom" class="big-btn flex-1 bg-rose-600 text-white font-black rounded-xl text-sm">💥 NỔ</button>
+      </div>
+      <div id="dm-msg" class="mt-2 text-center text-sm font-bold text-slate-600" style="min-height:1.5rem;"></div>
+      <p class="text-[11px] text-slate-500 mt-2">💡 Đây là mô phỏng hoạt hình cho vui — ngoài đời thật, làm thí nghiệm phải có thầy cô hướng dẫn nhé!</p>
     </div>
   </div>
 
@@ -393,23 +404,6 @@
     </div>
   </div>
 
-  </div>
-
-  <!-- ===== TAB 5: THI NGHIEM MAU ===== -->
-  <div id="tab-demo" class="tab-panel px-3 mt-3 hidden">
-    <div class="bg-white rounded-2xl shadow p-4">
-      <h2 class="font-black text-rose-700 mb-1">🧨 Thí nghiệm mẫu</h2>
-      <p class="text-xs text-slate-500 mb-2">Bấm vào một thí nghiệm để xem biểu diễn! <b>Cẩn thận với thí nghiệm 💥...</b></p>
-      <canvas id="cv-demo" class="w-full rounded-xl border" style="touch-action:pan-y;display:block;height:340px;" height="340"></canvas>
-      <div class="flex gap-2 mt-3 flex-wrap">
-        <button id="dm-fizz" class="big-btn flex-1 bg-sky-500 text-white font-black rounded-xl text-sm">🫧 Sủi bọt</button>
-        <button id="dm-rainbow" class="big-btn flex-1 bg-violet-500 text-white font-black rounded-xl text-sm">🌈 Cầu vồng</button>
-        <button id="dm-flame" class="big-btn flex-1 bg-orange-500 text-white font-black rounded-xl text-sm">🔥 Lửa xanh</button>
-        <button id="dm-boom" class="big-btn flex-1 bg-rose-600 text-white font-black rounded-xl text-sm">💥 NỔ</button>
-      </div>
-      <div id="dm-msg" class="mt-2 text-center text-sm font-bold text-slate-600" style="min-height:1.5rem;"></div>
-      <p class="text-[11px] text-slate-500 mt-2">💡 Đây là mô phỏng hoạt hình cho vui — ngoài đời thật, làm thí nghiệm phải có thầy cô hướng dẫn nhé!</p>
-    </div>
   </div>
 
 <script>
@@ -762,7 +756,7 @@ window.__refits = window.__refits || [];
 
 // Fit lai canvas khi chuyen tab (dung registry de cap nhat G tung tab)
 
-// ================= 5. THI NGHIEM MAU =================
+// ================= THI NGHIEM MAU (nam trong tab Tron dung dich) =================
 (function(){
   var cv = document.getElementById('cv-demo');
   var G = fitCanvas(cv);
