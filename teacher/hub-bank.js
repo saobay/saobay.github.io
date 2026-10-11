@@ -77,22 +77,10 @@
         // Toi uu 2026-10-11: dung Git Trees API recursive (1 call) + cache localStorage
         var _bankLessonCache = {};
         function _bankCacheGet(key){
-            if (_bankLessonCache[key]) return _bankLessonCache[key];
-            try {
-                var raw = localStorage.getItem('saobay_bank_' + key);
-                if (raw){
-                    var o = JSON.parse(raw);
-                    // Cache 24h
-                    if (o && o._ts && (Date.now() - o._ts) < 24*3600*1000) return o.data;
-                }
-            } catch(e){}
-            return null;
+            return _bankLessonCache[key] || null;
         }
         function _bankCacheSet(key, data){
             _bankLessonCache[key] = data;
-            try {
-                localStorage.setItem('saobay_bank_' + key, JSON.stringify({ _ts: Date.now(), data: data }));
-            } catch(e){}
         }
         async function bankBuildFromLessons(subject, grade){
             var cacheKey = subject + '_' + grade;
@@ -101,74 +89,61 @@
             var cfg = GITHUB_CONFIG;
             var normSubj = String(subject || '').toUpperCase();
             try {
-                // 2026-10-11: dung localStorage (loadFolderTreeFromGit da nap), tranh 403 tu Tree API
-                var items = [];
-                try {
-                    var rawT = localStorage.getItem('saobay_git_folders');
-                    if (rawT){
-                        var arr = JSON.parse(rawT);
-                        // Chuyen sang format {path, type}
-                        items = arr.map(function(f){ return { path: f.path, type: 'tree' }; });
-                        // Can them blob entries? localStorage chi co tree. Dung cach khac:
-                        // fetch tung chuong qua contents API (it hon nhieu so voi truoc)
-                    }
-                    if (!items.length && typeof loadFolderTreeFromGit === 'function'){
-                        await loadFolderTreeFromGit();
-                        var rawT2 = localStorage.getItem('saobay_git_folders');
-                        if (rawT2){
-                            var arr2 = JSON.parse(rawT2);
-                            items = arr2.map(function(f){ return { path: f.path, type: 'tree' }; });
+                // 2026-10-11: Contents API tung buoc (khong localStorage, khong recursive tree bi 403)
+                function _normS(raw){
+                    var n = raw.trim().replace(/\s*\d+\s*$/, '').trim().toUpperCase();
+                    n = n.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\u0110/g, 'D').replace(/\u0111/g, 'd');
+                    return n.replace(/\s+/g, '_');
+                }
+                async function _ct(path){
+                    var url = 'https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + '/contents/' + path.split('/').map(encodeURIComponent).join('/') + '?ref=' + cfg.branch;
+                    var r = await fetch(url);
+                    if (!r.ok) return [];
+                    var j = await r.json();
+                    return Array.isArray(j) ? j : [];
+                }
+                var subjPath = null;
+                var roots = ['data/THCS', 'data/THPT'];
+                for (var ri = 0; ri < roots.length && !subjPath; ri++){
+                    var grades = await _ct(roots[ri]);
+                    for (var gi = 0; gi < grades.length && !subjPath; gi++){
+                        var gd = grades[gi];
+                        if (gd.type !== 'dir') continue;
+                        var gm = String(gd.name || '').match(/Kh[\u1ed1\u1ed5]i l[\u1edb\u1ed7]p\s*(\d+)/i);
+                        if (!gm || parseInt(gm[1], 10) !== grade) continue;
+                        var subjects = await _ct(roots[ri] + '/' + gd.name);
+                        for (var si = 0; si < subjects.length && !subjPath; si++){
+                            var sd = subjects[si];
+                            if (sd.type !== 'dir') continue;
+                            if (_normS(sd.name) === normSubj) subjPath = roots[ri] + '/' + gd.name + '/' + sd.name;
                         }
                     }
-                } catch(eT){}
-                if (!items.length) return { notFound: true };
-                // Tim thu muc mon: data/THCS|THPT/Khoi lop <grade>/<Mon>
-                var subjPrefix = null;
-                for (var i = 0; i < items.length; i++){
-                    var p = items[i].path || '';
-                    if (items[i].type !== 'tree') continue;
-                    var m = p.match(/^data\/(THCS|THPT)\/Kh[^\/]*l[^\/]*p\s*(\d+)\/([^\/]+)$/i);
-                    if (m && parseInt(m[2], 10) === grade){
-                        var rawSubj = m[3].trim();
-                        var norm = rawSubj.replace(/\s*\d+\s*$/, '').trim().toUpperCase();
-                        norm = norm.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\u0110/g, 'D').replace(/\u0111/g, 'd').replace(/\s+/g, '_');
-                        if (norm === normSubj){ subjPrefix = p + '/'; break; }
-                    }
                 }
-                if (!subjPrefix) return { notFound: true };
-                // Liet ke chuong tu localStorage, roi fetch files tung chuong (contents API)
-                var chapters = [];
-                for (var ci = 0; ci < items.length; ci++){
-                    var cp = items[ci].path || '';
-                    if (cp.indexOf(subjPrefix) === 0 && cp.length > subjPrefix.length){
-                        var rest = cp.substring(subjPrefix.length);
-                        if (rest.indexOf('/') < 0) chapters.push(cp);
-                    }
-                }
+                if (!subjPath) return { notFound: true };
+                var chapters = await _ct(subjPath);
                 var htmlFiles = [];
                 for (var chi = 0; chi < chapters.length; chi++){
-                    try {
-                        var curl = 'https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + '/contents/' + chapters[chi].split('/').map(encodeURIComponent).join('/') + '?ref=' + cfg.branch;
-                        var cr2 = await fetch(curl);
-                        if (!cr2.ok) continue;
-                        var flist = await cr2.json();
-                        (flist || []).forEach(function(fl){
-                            if (fl.type === 'file' && /\.html?$/i.test(fl.name || '')){
-                                htmlFiles.push(chapters[chi] + '/' + fl.name);
-                            }
-                        });
-                    } catch(eC){}
+                    var chd = chapters[chi];
+                    if (chd.type !== 'dir') continue;
+                    var flist = await _ct(subjPath + '/' + chd.name);
+                    for (var fli = 0; fli < flist.length; fli++){
+                        var fl = flist[fli];
+                        if (fl.type === 'file' && /\.html?$/i.test(fl.name || '')){
+                            htmlFiles.push({ path: subjPath + '/' + chd.name + '/' + fl.name, chapter: chd.name, file: fl.name });
+                        }
+                    }
                 }
                 if (!htmlFiles.length) return { notFound: true };
                 // Tai song song theo batch 10 file
                 var questions = [];
                 for (var b = 0; b < htmlFiles.length; b += 10){
                     var batch = htmlFiles.slice(b, b + 10);
-                    var results = await Promise.all(batch.map(async function(fp){
+                    var results = await Promise.all(batch.map(async function(item){
                         try {
-                            var chM = fp.match(/Ch[^\/]*ng\s*(\d+)/i);
+                            var fp = item.path;
+                            var chM = String(item.chapter || '').match(/(\d+)/);
                             var chapter = chM ? parseInt(chM[1], 10) : 0;
-                            var lM = fp.match(/Bai_(\d+)/i);
+                            var lM = String(item.file || '').match(/Bai_(\d+)/i);
                             var lesson = lM ? parseInt(lM[1], 10) : 0;
                             var hr = await fetch('https://raw.githubusercontent.com/' + cfg.owner + '/' + cfg.repo + '/' + cfg.branch + '/' + fp.split('/').map(encodeURIComponent).join('/'));
                             if (!hr.ok) return [];
