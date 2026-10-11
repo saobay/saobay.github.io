@@ -561,36 +561,21 @@
             let ta = document.getElementById('item-content');
             if (!ta){ alert('Không tìm thấy khung soạn thảo.'); return; }
             ta.value = frag;
-            // Cập nhật cả khung WYSIWYG (preview-container) để hiển thị ngay
+            // Đồng bộ sang khung WYSIWYG bằng hàm có sẵn
             try {
-                var pv = document.getElementById('preview-container');
-                if (pv){
-                    // Render preview từ exam JSON
-                    if (typeof renderExamPreview === 'function'){
-                        renderExamPreview(examJson, pv);
-                    } else {
-                        // Fallback: hiển thị danh sách câu hỏi đơn giản
-                        var html = '<div class="space-y-3">';
-                        examJson.sets[0].questions.forEach(function(q, i){
-                            html += '<div class="border rounded-lg p-3 bg-white"><p class="font-bold text-sm">' + (i+1) + '. ' + (q.q || '') + '</p>';
-                            if (q.options && q.options.length){
-                                html += '<div class="ml-4 mt-1 text-sm">' + q.options.map(function(op, oi){
-                                    var letter = String.fromCharCode(65 + oi);
-                                    var isAns = (q.answer === letter || q.answer === oi);
-                                    return '<p class="' + (isAns ? 'text-green-700 font-bold' : 'text-slate-600') + '">' + letter + '. ' + op + (isAns ? ' ✓' : '') + '</p>';
-                                }).join('') + '</div>';
-                            }
-                            if (q.answer && (!q.options || !q.options.length)){
-                                html += '<p class="text-xs text-green-700 mt-1">Đáp án: ' + q.answer + '</p>';
-                            }
-                            html += '</div>';
-                        });
-                        html += '</div>';
-                        pv.innerHTML = html;
+                if (typeof onRawHtmlChange === 'function'){
+                    // Gọi trực tiếp logic sync (bỏ qua debounce)
+                    var rawHtml = ta.value;
+                    var pvBox = document.getElementById('preview-container');
+                    if (pvBox && rawHtml){
+                        pvBox.innerHTML = rawHtml;
+                        if (typeof wrapMathInBadges === 'function'){ try { wrapMathInBadges(pvBox); } catch(e){} }
+                        if (window.MathJax && window.MathJax.typesetPromise){
+                            window.MathJax.typesetPromise([pvBox]).catch(function(){});
+                        }
                     }
-                    if (typeof onVisualContentChange === 'function'){ try { onVisualContentChange(); } catch(e){} }
                 }
-            } catch(e){ console.warn('preview update failed', e); }
+            } catch(e){ console.warn('sync preview failed', e); }
             if (typeof renderMathPreview === 'function'){ try { renderMathPreview(); } catch(e){} }
             if (typeof showToast === 'function') showToast('Đã chuyển ' + qs.length + ' câu vào khung soạn. Nhập tiêu đề rồi bấm Đẩy bài.', 'success');
             else alert('Đã chuyển ' + qs.length + ' câu vào khung soạn.');
