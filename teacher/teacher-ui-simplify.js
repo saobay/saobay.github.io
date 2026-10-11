@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2044
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2047
 // Rebuilt - fixed structure
 (function(){
     'use strict';
@@ -964,5 +964,86 @@ Hãy điền chi tiết từng ô trong bảng (chủ đề kiến thức cụ t
     }
     
     setInterval(loadStats, 3000);
+})();
+
+// 2026-10-11: Chuyển chọn thư mục vào trong từng tab
+(function(){
+    var MODES = {
+        'theory': { name: 'Lý thuyết', showChapters: true },
+        'exercise': { name: 'Bài tập', showChapters: true },
+        'bank': { name: 'Đề từ Bank', showChapters: false },
+        'direct': { name: 'Đề từ Word', showChapters: false },
+        'ai': { name: 'Đề từ AI', showChapters: false }
+    };
+    
+    function setupTabFolders(){
+        try {
+            // Ẩn thanh chọn thư mục chung ở trên (nếu có)
+            var topBar = document.querySelector('[id*="folder"][id*="bar"], .folder-select-bar');
+            // Không ẩn hẳn, chỉ ghi chú
+            
+            // Với mỗi mode, thêm nút chọn thư mục riêng
+            Object.keys(MODES).forEach(function(mode){
+                var modeContent = document.getElementById('push-mode-' + mode + '-content') 
+                    || document.querySelector('[data-push-mode="' + mode + '"]');
+                if (!modeContent) return;
+                if (modeContent.querySelector('.tab-folder-select')) return;
+                
+                var cfg = MODES[mode];
+                var div = document.createElement('div');
+                div.className = 'tab-folder-select mb-3 p-3 bg-gray-50 rounded border';
+                div.innerHTML = `
+                    <div class="text-sm font-medium mb-2">
+                        📁 Nơi lưu ${cfg.name}: 
+                        <span class="folder-display-${mode} text-orange-600 font-bold">Chưa chọn (bấm để chọn)</span>
+                    </div>
+                    <button class="btn-select-folder-${mode} px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700">
+                        Chọn thư mục ${cfg.showChapters ? '(đến chương)' : '(đến môn)'}
+                    </button>
+                    ${cfg.showChapters ? '' : '<p class="text-xs text-gray-500 mt-1">Đề thi nhiều chương → chỉ chọn đến môn, tự lưu vào thư mục "kiểm tra"</p>'}
+                `;
+                modeContent.insertBefore(div, modeContent.firstChild);
+                
+                // Xử lý bấm chọn
+                div.querySelector('.btn-select-folder-' + mode).onclick = function(){
+                    window._selectingForMode = mode;
+                    window._modeShowChapters = cfg.showChapters;
+                    // Mở popup chọn thư mục chung
+                    var folderBtn = document.querySelector('[id*="folder"][id*="select"], .btn-folder-select');
+                    if (folderBtn) folderBtn.click();
+                    else {
+                        // Fallback: trigger click vào chỗ "Chưa chọn" ở thanh trên
+                        var topSelect = document.querySelector('.text-orange-600');
+                        if (topSelect) topSelect.click();
+                    }
+                };
+            });
+            
+            // Hook vào việc chọn thư mục xong để cập nhật đúng tab
+            if (!window._folderHookDone) {
+                window._folderHookDone = true;
+                var origSetPath = window.setSelectedFolderPath;
+                // Theo dõi thay đổi selectedFolderPath
+                setInterval(function(){
+                    var mode = window._selectingForMode;
+                    if (mode && window.selectedFolderPath) {
+                        var display = document.querySelector('.folder-display-' + mode);
+                        if (display) {
+                            var path = window.selectedFolderPath;
+                            // Nếu là đề thi và chưa có /kiểm tra thì thêm
+                            if (!MODES[mode].showChapters && path.indexOf('/kiểm tra') < 0 && path.indexOf('SUBJECT:') < 0) {
+                                // Sẽ xử lý khi đẩy
+                            }
+                            display.textContent = path.replace('SUBJECT:', '');
+                            display.className = 'folder-display-' + mode + ' text-green-600 font-bold';
+                        }
+                        window._selectingForMode = null;
+                    }
+                }, 1000);
+            }
+        } catch(e){}
+    }
+    
+    setInterval(setupTabFolders, 3000);
 })();
 
