@@ -487,6 +487,13 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
                                 </div>
                                 <p class="text-[10px] text-violet-700 mt-1">GV chấm tay</p>
                             </div>
+                        </div>
+                        <!-- MXENG_V1: dạng riêng tiếng Anh thu gọn, mặc định ẩn -->
+                        <button type="button" id="exb-eng-toggle" onclick="toggleEnglishTypes()" class="w-full text-[11px] font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg px-3 py-2">
+                            <i class="fa-solid fa-chevron-down mr-1"></i>🇬🇧 Dạng riêng tiếng Anh (Nghe • Nói • Nối từ • Sắp xếp từ) — bấm để hiện
+                        </button>
+                        <div id="exb-english-types" class="hidden">
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mt-2">
                             <div class="bg-cyan-50 border border-cyan-200 rounded-xl p-2.5">
                                 <label class="text-[11px] font-bold text-cyan-900">Nghe</label>
                                 <div class="flex gap-1.5 mt-1">
@@ -520,6 +527,7 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
                                 <p class="text-[10px] text-teal-700 mt-1">số câu • điểm/câu</p>
                             </div>
                         </div>
+                        </div>
                         <div><label class="text-[11px] font-bold text-slate-600">Tỉ lệ mức độ % — NB / TH / VD / VDC</label>
                         <div class="grid grid-cols-4 gap-2 mt-1">
                             <input id="exbb-lv-nb" type="number" value="40" class="text-sm border rounded-lg px-2 py-2 text-center font-bold">
@@ -550,14 +558,31 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
                             if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',apply); else apply();
                         })();
                         </script>
+                        <script>
+                        /* MXENG_V1: thu gọn/mở rộng dạng riêng tiếng Anh */
+                        function toggleEnglishTypes(){
+                            var box = document.getElementById('exb-english-types');
+                            var btn = document.getElementById('exb-eng-toggle');
+                            if(!box) return;
+                            var show = box.classList.contains('hidden');
+                            box.classList.toggle('hidden', !show);
+                            if(btn) btn.innerHTML = show
+                                ? '<i class="fa-solid fa-chevron-up mr-1"></i>🇬🇧 Dạng riêng tiếng Anh — bấm để ẩn'
+                                : '<i class="fa-solid fa-chevron-down mr-1"></i>🇬🇧 Dạng riêng tiếng Anh (Nghe • Nói • Nối từ • Sắp xếp từ) — bấm để hiện';
+                        }
+                        </script>
                         <div id="exb-act-mot" class="flex gap-2">
-                            <button type="button" onclick="exbPushToComposer()" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl"><i class="fa-solid fa-arrow-down mr-1"></i>Đẩy đề ra khung soạn</button>
+<!-- MXENG_V1: bỏ nút Đẩy đề ra khung soạn (Bốc đề & xem trước đã đẩy thẳng ra khung soạn) -->
                             <button type="button" onclick="copyExamPromptForAI()" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl"><i class="fa-solid fa-copy mr-1"></i>Prompt đề cho Web</button>
                             <button type="button" onclick="generateFullSpecPrompt()" class="flex-1 bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl"><i class="fa-solid fa-file-word mr-1"></i>Prompt ma trận đặc tả (lưu Word)</button>
                         </div>
                         <div id="exb-act-lop" class="hidden gap-2">
                             <button type="button" onclick="exbPickClassExam()" class="flex-1 bg-slate-600 hover:bg-slate-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl"><i class="fa-solid fa-dice mr-1"></i>Bốc đề & xem trước</button>
                             <button type="button" onclick="exbClassSave()" class="flex-1 bg-indigo-700 hover:bg-indigo-800 text-white text-xs font-bold px-4 py-2.5 rounded-xl"><i class="fa-solid fa-cloud-arrow-up mr-1"></i>Lưu đề</button>
+                        </div>
+                        <!-- MXENG_V1: khôi phục nút Copy prompt tạo đề mới từ AI -->
+                        <div class="flex gap-2">
+                            <button type="button" onclick="copyExamPromptForAI()" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl"><i class="fa-solid fa-copy mr-1"></i>Copy prompt tạo đề mới từ AI</button>
                         </div>
                         <div id="exb-bank-preview" class="border-t border-amber-200 pt-3"><p class="text-xs text-slate-400 italic">Tải ma trận rồi xem trước đề.</p></div>
                     </div>
@@ -727,6 +752,10 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
                                       spellcheck="false"
                                       placeholder="Mã HTML nguồn của bài học..."
                                       class="hidden w-full flex-1 min-h-[440px] p-4 font-mono text-xs text-emerald-300 bg-slate-900 border-2 border-slate-700 rounded-2xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 leading-relaxed"></textarea>
+                        </div>
+                        <!-- MXENG_V1: nút Bốc lại đề dưới khung soạn -->
+                        <div class="flex justify-center pt-2">
+                            <button type="button" onclick="exbRepickExam()" class="bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold px-6 py-2.5 rounded-xl shadow"><i class="fa-solid fa-rotate mr-1.5"></i>🔄 Bốc lại đề (không ưng thì bốc bộ khác)</button>
                         </div>
                     </div>
 
