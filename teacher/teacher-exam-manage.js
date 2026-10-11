@@ -22,33 +22,26 @@
             
             var teacherId = String(user.id).replace(/[^a-zA-Z0-9]/g, '_');
             
-            // Lấy danh sách file trong thư mục của GV qua GitHub API
-            var apiUrl = 'https://api.github.com/repos/saobay/saobay.github.io/contents/data/teacher-exams/' + teacherId;
-            var resp = await fetch(apiUrl);
+            // Tải index.json (tránh dùng GitHub API bị 403)
+            var indexUrl = 'https://raw.githubusercontent.com/saobay/saobay.github.io/main/data/teacher-exams/' + teacherId + '/index.json?t=' + Date.now();
+            var resp = await fetch(indexUrl);
             if (!resp.ok) {
                 container.innerHTML = '<p class="text-sm text-slate-500 text-center py-6"><i class="fa-solid fa-folder-open text-2xl mb-2 block text-slate-300"></i>Chưa có đề nào. Dùng ma trận để tạo đề mới.</p>';
                 return;
             }
             
-            var files = await resp.json();
-            if (!files.length) {
+            var indexData = await resp.json();
+            var exams = indexData.exams || [];
+            if (!exams.length) {
                 container.innerHTML = '<p class="text-sm text-slate-500 text-center py-6">Chưa có đề nào.</p>';
                 return;
             }
             
-            // Tải thông tin từng đề
+            // Render từ index (đã có sẵn title, không cần tải từng file)
             var html = '<div class="space-y-2">';
-            for (var i = 0; i < files.length; i++) {
-                var f = files[i];
-                if (!f.name.endsWith('.json')) continue;
-                try {
-                    var dr = await fetch(f.download_url);
-                    var exam = await dr.json();
-                    html += renderExamCard(exam);
-                } catch(e) {
-                    console.warn('Lỗi tải đề:', f.name, e);
-                }
-            }
+            exams.forEach(function(ex){
+                html += renderExamCard(ex);
+            });
             html += '</div>';
             container.innerHTML = html;
             
