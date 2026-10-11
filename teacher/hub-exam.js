@@ -240,62 +240,45 @@
 
         // Lấy danh sách khối từ thư mục cấp cao nhất: data/THPT/Khối lớp 10, data/THCS/Khối lớp 6...
         // 2026-10-11: lay danh sach khoi bang Contents API (khong localStorage)
+        // 2026-10-11: doc tu file index tinh (khong goi GitHub API -> khong gioi han luot)
+        var _folderIndex = null;
+        var _folderIndexUrl = 'https://saobay.github.io/data/_index/folders.json';
+        async function exbLoadFolderIndex(){
+            if (_folderIndex) return _folderIndex;
+            try {
+                var r = await fetch(_folderIndexUrl + '?v=' + Date.now());
+                if (!r.ok) return null;
+                _folderIndex = await r.json();
+                return _folderIndex;
+            } catch(e){ return null; }
+        }
         async function exbFetchGrades(){
             try {
-                var grades = [], seen = {};
-                for (var ri = 0; ri < 2; ri++){
-                    var root = ri === 0 ? 'data/THCS' : 'data/THPT';
-                    var url = 'https://api.github.com/repos/saobay/saobay.github.io/contents/' + root + '?ref=main';
-                    var r = await fetch(url);
-                    if (!r.ok) continue;
-                    var j = await r.json();
-                    (j || []).forEach(function(it){
-                        if (it.type !== 'dir') return;
-                        var m = String(it.name || '').match(/Kh[\u1ed1\u1ed5]i l[\u1edb\u1ed7]p\s*(\d+)/i);
-                        if (m){
-                            var g = parseInt(m[1], 10);
-                            if (!seen[g]){ seen[g] = 1; grades.push(g); }
-                        }
-                    });
+                var idx = await exbLoadFolderIndex();
+                if (idx && idx.grades){
+                    var grades = Object.keys(idx.grades).map(function(k){ return parseInt(k, 10); });
+                    grades.sort(function(a,b){ return a - b; });
+                    return grades;
                 }
-                grades.sort(function(a,b){ return a - b; });
-                return grades;
-            } catch(e){ return []; }
+            } catch(e){}
+            return [];
         }
 
         // Lấy danh sách môn theo khối: data/.../Khối lớp 10/Toán 10/...
         // 2026-10-11: lay danh sach mon theo khoi bang Contents API (khong localStorage)
         async function exbFetchSubjectsByGrade(grade){
             try {
-                var out = [], seen = {};
-                for (var ri = 0; ri < 2; ri++){
-                    var root = ri === 0 ? 'data/THCS' : 'data/THPT';
-                    var gUrl = 'https://api.github.com/repos/saobay/saobay.github.io/contents/' + root + '?ref=main';
-                    var gr = await fetch(gUrl);
-                    if (!gr.ok) continue;
-                    var gList = await gr.json();
-                    for (var gi = 0; gi < gList.length; gi++){
-                        var gd = gList[gi];
-                        if (gd.type !== 'dir') continue;
-                        var gm = String(gd.name || '').match(/Kh[\u1ed1\u1ed5]i l[\u1edb\u1ed7]p\s*(\d+)/i);
-                        if (!gm || parseInt(gm[1], 10) !== grade) continue;
-                        var sUrl = 'https://api.github.com/repos/saobay/saobay.github.io/contents/' + root + '/' + encodeURIComponent(gd.name) + '?ref=main';
-                        var sr = await fetch(sUrl);
-                        if (!sr.ok) continue;
-                        var sList = await sr.json();
-                        (sList || []).forEach(function(sd){
-                            if (sd.type !== 'dir') return;
-                            var rawSubj = sd.name.trim();
-                            var norm = rawSubj.replace(/\s*\d+\s*$/, '').trim().toUpperCase()
-                                .normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\u0110/g, 'D').replace(/\u0111/g, 'd').replace(/\s+/g, '_');
-                            var key = norm + '_' + grade;
-                            if (!seen[key]){ seen[key] = 1; out.push({ value: norm, label: rawSubj }); }
-                        });
-                    }
+                var idx = await exbLoadFolderIndex();
+                if (idx && idx.grades && idx.grades[String(grade)]){
+                    var subjMap = idx.grades[String(grade)];
+                    var out = Object.keys(subjMap).map(function(norm){
+                        return { value: norm, label: subjMap[norm].label || norm };
+                    });
+                    out.sort(function(a,b){ return a.label.localeCompare(b.label, 'vi'); });
+                    return out;
                 }
-                out.sort(function(a,b){ return a.label.localeCompare(b.label, 'vi'); });
-                return out;
-            } catch(e){ return []; }
+            } catch(e){}
+            return [];
         }
 
         async function exbOnMatrixGradeChange(){
@@ -339,22 +322,14 @@
                     return Array.isArray(j) ? j : [];
                 }
                 try {
+                    // 2026-10-11: lay path tu index (0 API call)
                     var subjPath = null;
-                    var roots = ['data/THCS', 'data/THPT'];
-                    for (var ri = 0; ri < roots.length && !subjPath; ri++){
-                        var grades = await _contents(roots[ri]);
-                        for (var gi = 0; gi < grades.length && !subjPath; gi++){
-                            var gd = grades[gi];
-                            if (gd.type !== 'dir') continue;
-                            var gm = String(gd.name || '').match(/Kh[\u1ed1\u1ed5]i l[\u1edb\u1ed7]p\s*(\d+)/i);
-                            if (!gm || parseInt(gm[1], 10) !== grade) continue;
-                            var subjects = await _contents(roots[ri] + '/' + gd.name);
-                            for (var si = 0; si < subjects.length && !subjPath; si++){
-                                var sd = subjects[si];
-                                if (sd.type !== 'dir') continue;
-                                if (_normSubj(sd.name) === subjNorm) subjPath = roots[ri] + '/' + gd.name + '/' + sd.name;
-                            }
-                        }
+                    var idx2 = await exbLoadFolderIndex();
+                    if (idx2 && idx2.grades && idx2.grades[String(grade)]){
+                        var sm = idx2.grades[String(grade)];
+                        // subj tu dropdown la norm UPPERCASE, can lower de so sanh
+                        var sk = Object.keys(sm).find(function(k){ return k.toLowerCase() === subjNorm; });
+                        if (sk) subjPath = sm[sk].path;
                     }
                     if (subjPath){
                         var chapters = await _contents(subjPath);
