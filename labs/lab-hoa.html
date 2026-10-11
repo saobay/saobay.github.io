@@ -400,6 +400,7 @@ window.__refits = window.__refits || [];
     };
   }
   function vesselColor(v){
+    if (!v || !v.contents) return {color:'#1e293b', glow:'#334155'};
     if (v.indColor) return {color: v.indColor, glow: v.indColor};
     // Màu pha trộn theo thể tích từng chất
     var tot = 0, r = 0, g = 0, b = 0, gr = 0, gg = 0, gb = 0;
@@ -438,10 +439,12 @@ window.__refits = window.__refits || [];
         '<span class="bbody"><span class="bliq" style="background:linear-gradient(180deg,'+shade(c.color,70)+','+c.color+' 55%);color:'+c.glow+'"></span></span>' +
         '<span class="blabel">'+c.f+'</span><span class="bcat">'+c.cat+'</span>';
       b.addEventListener('click', function(){
-        var sibs = shelf.querySelectorAll('.chem-bottle');
-        for (var si=0; si<sibs.length; si++) sibs[si].classList.remove('sel');
-        b.classList.add('sel');
-        addVesselFromShelf(k);
+        try {
+          var sibs = shelf.querySelectorAll('.chem-bottle');
+          for (var si=0; si<sibs.length; si++) sibs[si].classList.remove('sel');
+          b.classList.add('sel');
+          addVesselFromShelf(k);
+        } catch(eClick){ console.warn('[lab-mix] loi khi lay binh:', eClick && eClick.message); }
       });
       shelf.appendChild(b);
     });
@@ -450,10 +453,11 @@ window.__refits = window.__refits || [];
   function addVesselFromShelf(chemKey){
     if (vessels.length >= 4){ alert('Bàn đã có 4 bình rồi! Cất bớt bình (chạm ✕) rồi lấy thêm nhé.'); return; }
     var types = ['beaker','flask','tube','round','bottle'];
-    var v = makeVessel(types[_vtypeCycle % 4], chemKey, 0.55);
+    var v = makeVessel(types[_vtypeCycle % types.length], chemKey, 0.55);
     _vtypeCycle++;
     vessels.push(v);
     v.pop = 1; // hiệu ứng nảy khi xuất hiện
+    try { layout(); } catch(e){} // dat vi tri ngay lap tuc, khong doi frame sau
     flashMsg(v, (CHEMS[chemKey]||{}).f || '');
   }
 
@@ -508,7 +512,8 @@ window.__refits = window.__refits || [];
 
   // ---------- Vẽ một bình (phong cách video: viền sáng + dung dịch phát sáng) ----------
   function drawVessel(ctx, v, t){
-    var col = vesselColor(v);
+    if (!v || !isFinite(v.x) || !isFinite(v.y) || !(v.w > 0) || !(v.h > 0)) return; // du lieu hong -> bo qua
+    var col = vesselColor(v) || {color:'#1e293b', glow:'#334155'};
     ctx.save();
     ctx.translate(v.x, v.y);
     if (pour && pour.a===v) ctx.translate(0,-16); // nhân vật nhấc bình lên khi rót
@@ -1298,6 +1303,7 @@ window.__refits = window.__refits || [];
 
   // ---------- Bố cục bàn ----------
   function layout(){
+    if (!G || !(G.w > 0) || !(G.h > 0)) return;
     var W = G.w, n = vessels.length;
     var h = Math.min(150, G.h*0.42);
     var availW = Math.max(180, W - 132); // chừa chỗ đèn cồn bên phải
@@ -1338,11 +1344,15 @@ window.__refits = window.__refits || [];
 
   // ---------- Vòng lặp chính ----------
   var T0 = performance.now()/1000;
+  // FIX 2026-10-11 (LAB_ERR_V1): 1 frame loi khong duoc giet vong lap RAF — tu phuc hoi
+  var _frameErr = 0;
   function draw(){
+    try {
     if (G.hidden && cv.offsetParent && cv.clientWidth > 0){
       var g2 = fitCanvas(cv);
       if (g2 && !g2.hidden) G = g2;
     }
+    if (!G || !G.ctx || !(G.w > 0) || !(G.h > 0)) throw new Error('canvas chua san sang');
     var ctx = G.ctx, W = G.w, H = G.h;
     var t = performance.now()/1000 - T0;
     ctx.clearRect(0,0,W,H);
@@ -1433,6 +1443,12 @@ window.__refits = window.__refits || [];
     if (!vessels.length){
       ctx.fillStyle = 'rgba(165,243,252,0.6)'; ctx.font = '13px sans-serif'; ctx.textAlign = 'center';
       ctx.fillText('Mở Tủ hóa chất ở trên để lấy bình mới ↓', W/2, H/2);
+    }
+    _frameErr = 0;
+    } catch(_de){
+      _frameErr++;
+      if (_frameErr <= 3) console.warn('[lab-mix] frame loi (tu phuc hoi):', _de && _de.message);
+      // Khong throw tiep — giu vong lap RAF song
     }
     requestAnimationFrame(draw);
   }
