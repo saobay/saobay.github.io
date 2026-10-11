@@ -388,13 +388,30 @@
                 box.innerHTML = html;
             } catch(e){ box.innerHTML = '<p class="text-[11px] text-rose-600">Lỗi tải thống kê: ' + escHtml(e.message || e) + '</p>'; }
         }
-        // Chon thu muc lop de day bai (chuyen sang tab Soan bai + chon cay)
+        // Chon thu muc lop de day bai - TỰ ĐỘNG đặt đường dẫn, không cần chọn tay
         function pvSelectFolder(classId){
             let c = pvClasses.find(function(x){ return x.id === classId; });
+            var folderPath = 'data/private/' + classId;
+            // Tự động đặt đường dẫn lưu
+            try {
+                window.selectedFolderPath = folderPath;
+                if (typeof window.currentFolder !== 'undefined') window.currentFolder = folderPath;
+                // Cập nhật hiển thị vị trí lưu
+                var label = document.querySelector('#folder-display-label, .folder-path-display, [id*="folder-path"]');
+                if (label) label.textContent = folderPath;
+                // Cập nhật text "VỊ TRÍ LƯU TRỮ"
+                document.querySelectorAll('*').forEach(function(el){
+                    if (el.textContent && el.textContent.indexOf('data (Thư viện bài giảng)') >= 0 && el.children.length === 0) {
+                        // Không đụng text node đơn lẻ để tránh vỡ layout
+                    }
+                });
+            } catch(e){}
             if (typeof switchTeacherModule === 'function') switchTeacherModule('compose');
+            // Hiện thông báo nhẹ thay vì alert chặn
             setTimeout(function(){
-                if (typeof selectPrivateFolder === 'function') selectPrivateFolder(classId, c ? c.name : classId);
-                else alert('Đã chọn lớp "' + (c ? c.name : '') + '". Hãy chọn thư mục data/private/' + classId + ' ở cây bên trái.');
+                try {
+                    if (typeof showToast === 'function') showToast('Đã chọn lớp "' + (c ? c.name : '') + '" - đường dẫn: ' + folderPath, 'success');
+                } catch(e){}
             }, 300);
         }
         // Hook vao chuyen tab: tai danh sach khi mo tab private
