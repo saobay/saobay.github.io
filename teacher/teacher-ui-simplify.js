@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2132
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2137
 // Rebuilt - fixed structure
 (function(){
     'use strict';
@@ -1103,117 +1103,9 @@ Hãy điền chi tiết từng ô trong bảng (chủ đề kiến thức cụ t
     setInterval(addClearCacheBtn, 5000);
 })();
 
-// 2026-10-11: Ẩn thanh chọn thư mục chung + bỏ chặn tab
-(function(){
-    function fixTopBar(){
-        try {
-            // Cách 1: Tìm bằng text
-            var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
-            var node;
-            while (node = walker.nextNode()) {
-                if (node.textContent.indexOf('VỊ TRÍ LƯU TRỮ') >= 0) {
-                    var bar = node.parentElement;
-                    // Đi lên tìm container lớn (có nút "Sẵn sàng đẩy bài")
-                    for (var i = 0; i < 5 && bar; i++) {
-                        if ((bar.textContent || '').indexOf('Sẵn sàng đẩy bài') >= 0) {
-                            bar.style.display = 'none';
-                            break;
-                        }
-                        bar = bar.parentElement;
-                    }
-                    break;
-                }
-            }
-            
-            // Cách 2: Bỏ chặn click tab (xóa validation yêu cầu chọn thư mục)
-            ['push-mode-theory', 'push-mode-exercise', 'push-mode-bank', 'push-mode-direct', 'push-mode-ai'].forEach(function(id){
-                var btn = document.getElementById(id);
-                if (btn && !btn._unblocked) {
-                    btn._unblocked = true;
-                    // Clone để xóa event listener cũ
-                    var clone = btn.cloneNode(true);
-                    btn.parentNode.replaceChild(clone, btn);
-                    clone.addEventListener('click', function(e){
-                        // Gọi switchPushMode trực tiếp, bỏ qua validation
-                        var mode = id.replace('push-mode-', '');
-                        if (typeof window.switchPushMode === 'function') {
-                            window.switchPushMode(mode);
-                        }
-                        // Cập nhật UI active
-                        document.querySelectorAll('[id^="push-mode-"]').forEach(function(b){
-                            b.classList.remove('bg-blue-700', 'text-white');
-                        });
-                        clone.classList.add('bg-blue-700', 'text-white');
-                    });
-                }
-            });
-        } catch(e){}
-    }
-    
-    setInterval(fixTopBar, 2000);
-    // Chạy ngay
-    if (document.readyState !== 'loading') fixTopBar();
-    else document.addEventListener('DOMContentLoaded', fixTopBar);
-})();
 
-// 2026-10-11: Xóa hẳn thanh top + thêm chọn thư mục vào từng panel
-(function(){
-    var PANELS = {
-        'theory': 'theory-copy-prompt-box',
-        'exercise': 'exercise-copy-prompt-box', 
-        'bank': 'exam-builder-panel',
-        'direct': 'direct-panel',
-        'ai': 'bo-tao-prompt-box'
-    };
-    var SHOW_CHAPTERS = { 'theory': true, 'exercise': true, 'bank': false, 'direct': false, 'ai': false };
-    
-    function setup(){
-        try {
-            // 1. XÓA HẲN thanh top (không chỉ ẩn)
-            var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
-            var node;
-            while (node = walker.nextNode()) {
-                if (node.textContent.indexOf('VỊ TRÍ LƯU TRỮ') >= 0) {
-                    var bar = node.parentElement;
-                    for (var i = 0; i < 6 && bar; i++) {
-                        if ((bar.textContent || '').indexOf('Sẵn sàng đẩy bài') >= 0) {
-                            bar.remove();
-                            break;
-                        }
-                        bar = bar.parentElement;
-                    }
-                    break;
-                }
-            }
-            
-            // 2. Thêm chọn thư mục vào từng panel
-            Object.keys(PANELS).forEach(function(mode){
-                var panelId = PANELS[mode];
-                var panel = document.getElementById(panelId);
-                if (!panel) return;
-                if (panel.querySelector('.per-tab-folder')) return;
-                
-                var showCh = SHOW_CHAPTERS[mode];
-                var div = document.createElement('div');
-                div.className = 'per-tab-folder p-3 mb-3 bg-yellow-50 border border-yellow-300 rounded';
-                div.innerHTML = 
-                    '<div class="font-bold text-sm mb-2">📁 Nơi lưu ' + mode + ': ' +
-                    '<span class="ft-display-' + mode + ' text-red-600">Chưa chọn</span></div>' +
-                    '<button class="ft-btn-' + mode + ' px-3 py-1 bg-blue-600 text-white text-sm rounded">Chọn thư mục ' + 
-                    (showCh ? '(đến chương)' : '(đến môn)') + '</button>';
-                panel.insertBefore(div, panel.firstChild);
-                
-                div.querySelector('.ft-btn-' + mode).onclick = function(){
-                    window._ftMode = mode;
-                    window._ftShowCh = showCh;
-                    alert('Bấm vào nút "Chưa chọn" ở thanh trên để mở popup.\n(Chức năng đang hoàn thiện)');
-                };
-            });
-        } catch(e){}
-    }
-    
-    setInterval(setup, 2000);
-})();
+
+
 
 // 2026-10-11: Ẩn thanh top bằng CSS + tắt popup validation cũ
 (function(){
@@ -1261,39 +1153,17 @@ Hãy điền chi tiết từng ô trong bảng (chủ đề kiến thức cụ t
     };
 })();
 
-// 2026-10-11: MutationObserver xóa thanh top ngay khi xuất hiện
+// 2026-10-11: Ẩn thanh VỊ TRÍ LƯU TRỮ (đơn giản)
 (function(){
-    function isTopBar(el){
-        if (!el || el.nodeType !== 1) return false;
-        var t = el.textContent || '';
-        return t.indexOf('VỊ TRÍ LƯU TRỮ') >= 0 && t.indexOf('Sẵn sàng đẩy bài') >= 0;
-    }
-    
-    function removeTopBars(){
+    function hide(){
         document.querySelectorAll('div').forEach(function(d){
-            if (isTopBar(d)) {
-                // Chỉ xóa div ngoài cùng
-                var parent = d.parentElement;
-                var parentIsBar = parent && isTopBar(parent);
-                if (!parentIsBar) {
-                    d.remove();
-                }
+            var t = d.textContent || '';
+            if (t.indexOf('VỊ TRÍ LƯU TRỮ') >= 0 && t.indexOf('Sẵn sàng đẩy bài') >= 0) {
+                d.style.setProperty('display', 'none', 'important');
             }
         });
     }
-    
-    // Chạy ngay
-    removeTopBars();
-    
-    // Theo dõi DOM thay đổi
-    var observer = new MutationObserver(function(mutations){
-        var shouldCheck = false;
-        mutations.forEach(function(m){
-            if (m.addedNodes.length > 0) shouldCheck = true;
-        });
-        if (shouldCheck) removeTopBars();
-    });
-    
-    observer.observe(document.body, { childList: true, subtree: true });
+    setInterval(hide, 500);
+    hide();
 })();
 
