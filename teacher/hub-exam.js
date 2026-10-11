@@ -336,50 +336,58 @@
             exbLessonCache = [];
             if (!subj || !grade) return;
             try {
-                // 2026-10-11: đọc danh sách bài TRỰC TIẾP từ Git Trees API (1 call, không phụ thuộc localStorage)
+                // 2026-10-11: đọc danh sách bài từ localStorage (loadFolderTreeFromGit đã nạp)
+                // Fallback: Git Trees API nếu localStorage trống
                 var lessons = [], seenL = {};
-                try {
-                    var subjNorm = subj.toLowerCase();
-                    var treeUrl = 'https://api.github.com/repos/saobay/saobay.github.io/git/trees/main?recursive=1';
-                    var tr = await fetch(treeUrl);
-                    if (tr.ok){
-                        var tree = await tr.json();
-                        var items = tree.tree || [];
-                        // Tìm prefix thư mục môn: data/THCS|THPT/Khối lớp <grade>/<Môn>/
-                        var subjPrefix = null;
-                        for (var ti = 0; ti < items.length; ti++){
-                            var tp = items[ti].path || '';
-                            if (items[ti].type !== 'tree') continue;
-                            var tm = tp.match(/^data\/(THCS|THPT)\/Kh[^\/]*l[^\/]*p\s*(\d+)\/([^\/]+)$/i);
-                            if (tm && parseInt(tm[2], 10) === grade){
-                                var tSubjRaw = tm[3].trim().replace(/\s*\d+\s*$/, '');
-                                var tSubjNorm = tSubjRaw.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/Đ/g,'D').toLowerCase().replace(/\s+/g, '_');
-                                if (tSubjNorm === subjNorm){ subjPrefix = tp + '/'; break; }
+                var subjNorm = subj.toLowerCase();
+                function _parseLessonsFromPaths(paths){
+                    // paths: mảng {path} hoặc {path, type}
+                    var subjPrefix = null;
+                    for (var ti = 0; ti < paths.length; ti++){
+                        var tp = paths[ti].path || '';
+                        var isTree = !paths[ti].type || paths[ti].type === 'tree';
+                        if (!isTree) continue;
+                        var tm = tp.match(/^data\/(THCS|THPT)\/Kh[^\/]*l[^\/]*p\s*(\d+)\/([^\/]+)$/i);
+                        if (tm && parseInt(tm[2], 10) === grade){
+                            var tSubjRaw = tm[3].trim().replace(/\s*\d+\s*$/, '');
+                            var tSubjNorm = tSubjRaw.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/Đ/g,'D').toLowerCase().replace(/\s+/g, '_');
+                            if (tSubjNorm === subjNorm){ subjPrefix = tp + '/'; break; }
+                        }
+                    }
+                    if (!subjPrefix) return;
+                    paths.forEach(function(it){
+                        var ip = it.path || '';
+                        var isBlob = !it.type || it.type === 'blob';
+                        if (ip.indexOf(subjPrefix) !== 0) return;
+                        var rest = ip.substring(subjPrefix.length);
+                        var parts = rest.split('/');
+                        if (parts.length >= 2 && isBlob && /\.html?$/i.test(ip)){
+                            var chName = parts[0];
+                            var fn = parts[parts.length - 1];
+                            var lm = fn.match(/_Bai_(\d+)_/i) || fn.match(/Bai(\d+)/i);
+                            if (lm){
+                                var ln = parseInt(lm[1], 10);
+                                if (!seenL[ln]){
+                                    seenL[ln] = 1;
+                                    lessons.push({ num: ln, ch: chName, count: 0 });
+                                }
                             }
                         }
-                        if (subjPrefix){
-                            var chMap = {};
-                            items.forEach(function(it){
-                                var ip = it.path || '';
-                                if (ip.indexOf(subjPrefix) !== 0) return;
-                                var rest = ip.substring(subjPrefix.length);
-                                var parts = rest.split('/');
-                                if (parts.length >= 2 && it.type === 'blob' && /\.html?$/i.test(ip)){
-                                    var chName = parts[0];
-                                    var fn = parts[parts.length - 1];
-                                    var lm = fn.match(/_Bai_(\d+)_/i) || fn.match(/Bai(\d+)/i);
-                                    if (lm){
-                                        var ln = parseInt(lm[1], 10);
-                                        if (!seenL[ln]){
-                                            seenL[ln] = 1;
-                                            lessons.push({ num: ln, ch: chName, count: 0 });
-                                        }
-                                    }
-                                }
-                            });
+                    });
+                }
+                try {
+                    var rawF = localStorage.getItem('saobay_git_folders');
+                    if (rawF){
+                        _parseLessonsFromPaths(JSON.parse(rawF));
+                    } else {
+                        // Fallback: đảm bảo cây đã nạp rồi đọc lại
+                        if (typeof loadFolderTreeFromGit === 'function'){
+                            await loadFolderTreeFromGit();
+                            var rawF2 = localStorage.getItem('saobay_git_folders');
+                            if (rawF2) _parseLessonsFromPaths(JSON.parse(rawF2));
                         }
-                        lessons.sort(function(a,b){ return a.num - b.num; });
                     }
+                    lessons.sort(function(a,b){ return a.num - b.num; });
                 } catch(eF){ console.warn('Load lessons:', eF); }
                 // Vẫn load bank để bốc câu (giữ nguyên logic bốc)
                 var r = await bankApiRead(bankKey(subj, grade));
