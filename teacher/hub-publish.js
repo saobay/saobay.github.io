@@ -1,3 +1,28 @@
+// FIX 2026-10-11 (SB_TIMEOUT_V1): fetch co timeout — chong treo khi GAS proxy / GitHub API khong phan hoi.
+if (typeof window.sbFetchTimeout === 'undefined') {
+    window.sbFetchTimeout = async function(url, opts, ms){
+        opts = opts || {}; ms = ms || 30000;
+        var ctrl = null, timer = null;
+        try {
+            if (typeof AbortController !== 'undefined'){
+                ctrl = new AbortController();
+                opts.signal = ctrl.signal;
+                timer = setTimeout(function(){ try { ctrl.abort(); } catch(e){} }, ms);
+            }
+            return await fetch(url, opts);
+        } catch(e){
+            if (e && e.name === 'AbortError') throw new Error('Het thoi gian cho (' + Math.round(ms/1000) + 's) — may chu khong phan hoi. Kiem tra mang roi bam Luu lai.');
+            throw e;
+        } finally { if (timer) clearTimeout(timer); }
+    };
+    window.sbTimeout = async function(promise, ms, label){
+        ms = ms || 30000;
+        var timer = null;
+        var to = new Promise(function(_, rej){ timer = setTimeout(function(){ rej(new Error('Timeout ' + Math.round(ms/1000) + 's' + (label ? ' (' + label + ')' : ''))); }, ms); });
+        try { return await Promise.race([promise, to]); }
+        finally { if (timer) clearTimeout(timer); }
+    };
+}
         // ========================================================
         // TẠO PROMPT TỐI ƯU SIÊU GỌN CHO NOTEBOOKLM
         // ========================================================
@@ -558,11 +583,11 @@ PHẦN 4 - ĐÁP ÁN VÀ HƯỚNG DẪN CHẤM:
                         author: currentUser.name
                     };
 
-                    let res = await fetch(API_URL, {
+                    let res = await window.sbFetchTimeout(API_URL, {
                         method: 'POST',
                         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                         body: JSON.stringify(payload)
-                    });
+                    }, 90000);
                     let result = await parseSafeResponse(res);
 
                     if (result.status === 'success') {
@@ -585,7 +610,7 @@ PHẦN 4 - ĐÁP ÁN VÀ HƯỚNG DẪN CHẤM:
                         // Quyen so huu de thi: ai day thi la chu (khong chan luong chinh)
                         registerExamOwner(targetGitPath, safeTitle).catch(function(){});
                         resetFormToCreate();
-                        await loadFolderTreeFromGit();
+                        try { await window.sbTimeout(loadFolderTreeFromGit(), 30000, 'tai lai danh muc'); } catch(eTree){ console.log('reload tree note:', eTree); }
                     } else {
                         alert(`Lỗi khi đẩy bài qua Google Proxy: ${result.message || 'Không xác định'}`);
                     }
@@ -605,12 +630,12 @@ PHẦN 4 - ĐÁP ÁN VÀ HƯỚNG DẪN CHẤM:
                 // 1. Kiểm tra SHA nếu file đã tồn tại trên GitHub
                 let sha = undefined;
                 try {
-                    let checkRes = await fetch(`${apiUrl}?ref=${GITHUB_CONFIG.branch}`, {
+                    let checkRes = await window.sbFetchTimeout(`${apiUrl}?ref=${GITHUB_CONFIG.branch}`, {
                         headers: {
                             'Authorization': `Bearer ${token}`,
                             'Accept': 'application/vnd.github+json'
                         }
-                    });
+                    }, 30000);
                     if (checkRes.ok) {
                         let checkData = await checkRes.json();
                         if (checkData && checkData.sha) sha = checkData.sha;
@@ -621,7 +646,7 @@ PHẦN 4 - ĐÁP ÁN VÀ HƯỚNG DẪN CHẤM:
 
                 // 2. Gửi request PUT ghi file lên GitHub
                 let base64Content = utf8ToBase64(finalHtml);
-                let putRes = await fetch(apiUrl, {
+                let putRes = await window.sbFetchTimeout(apiUrl, {
                     method: 'PUT',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -634,7 +659,7 @@ PHẦN 4 - ĐÁP ÁN VÀ HƯỚNG DẪN CHẤM:
                         branch: GITHUB_CONFIG.branch,
                         ...(sha ? { sha } : {})
                     })
-                });
+                }, 60000);
 
                 if (putRes.ok) {
                     // Tính điểm thưởng
@@ -657,7 +682,7 @@ PHẦN 4 - ĐÁP ÁN VÀ HƯỚNG DẪN CHẤM:
                     // Quyen so huu de thi: ai day thi la chu (khong chan luong chinh)
                     registerExamOwner(targetGitPath, safeTitle).catch(function(){});
                         resetFormToCreate();
-                    await loadFolderTreeFromGit();
+                    try { await window.sbTimeout(loadFolderTreeFromGit(), 30000, 'tai lai danh muc'); } catch(eTree){ console.log('reload tree note:', eTree); }
                 } else {
                     let err = await putRes.json();
                     alert(`Lỗi khi đẩy lên GitHub: ${err.message || 'Không xác định'}`);
@@ -727,23 +752,23 @@ PHẦN 4 - ĐÁP ÁN VÀ HƯỚNG DẪN CHẤM:
                     + '/contents/' + getEncodedGitHubPath(EXAM_REGISTRY_PATH);
                 let sha;
                 try {
-                    let chk = await fetch(apiUrl + '?ref=' + GITHUB_CONFIG.branch,
-                        { headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github+json' } });
+                    let chk = await window.sbFetchTimeout(apiUrl + '?ref=' + GITHUB_CONFIG.branch,
+                        { headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github+json' } }, 20000);
                     if (chk.ok){ let jd = await chk.json(); sha = jd.sha; }
                 } catch(e){}
                 let body = { message: 'Cập nhật quyền sở hữu đề thi', content: utf8ToBase64(content), branch: GITHUB_CONFIG.branch };
                 if (sha) body.sha = sha;
-                let res = await fetch(apiUrl, { method: 'PUT',
+                let res = await window.sbFetchTimeout(apiUrl, { method: 'PUT',
                     headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json' },
-                    body: JSON.stringify(body) });
+                    body: JSON.stringify(body) }, 30000);
                 if (!res.ok) throw new Error('GitHub API ' + res.status);
             } else {
-                let res2 = await fetch(API_URL, { method: 'POST',
+                let res2 = await window.sbFetchTimeout(API_URL, { method: 'POST',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify({ type: 'PUSH_TO_GITHUB', filePath: EXAM_REGISTRY_PATH, content: content,
                         commitMessage: 'Cập nhật quyền sở hữu đề thi',
                         title: 'exam-registry', author: (typeof currentUser !== 'undefined' ? currentUser.name : '') })
-                });
+                }, 30000);
                 let rj = await res2.json();
                 if (!rj || rj.status !== 'success') throw new Error((rj && rj.message) || 'Proxy lỗi');
             }
