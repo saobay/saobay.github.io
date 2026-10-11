@@ -615,6 +615,56 @@ PHẦN 4 - ĐÁP ÁN VÀ HƯỚNG DẪN CHẤM:
                 localStorage.setItem('lesson_cache_' + targetGitPath, finalHtml);
             } catch(eCache) {}
 
+            // 2026-10-11: Upload anh base64 trong de len GitHub TRUOC KHI day bai
+            // (chi upload khi GV bam "Day bai" that su -> khong bao gio co anh mo coi)
+            try {
+                if (finalHtml.indexOf('data:image') !== -1 && finalHtml.indexOf('saobay-exam10-data') !== -1){
+                    showToast('Đang tải ảnh lên...', 'info');
+                    finalHtml = await (async function(html){
+                        var imgMap = {};
+                        var idx = 0;
+                        // Thu thap tat ca base64
+                        var re = /data:image\/(png|jpeg|jpg|gif);base64,[A-Za-z0-9+\/=]+/g;
+                        var m, list = [];
+                        while ((m = re.exec(html)) !== null){
+                            if (list.indexOf(m[0]) < 0) list.push(m[0]);
+                        }
+                        for (var i = 0; i < list.length; i++){
+                            try {
+                                var b64 = list[i];
+                                var ct = 'image/png';
+                                var cm = b64.match(/data:(image\/[^;]+);/);
+                                if (cm) ct = cm[1];
+                                var ext = ct.indexOf('jpeg') >= 0 || ct.indexOf('jpg') >= 0 ? 'jpg' : (ct.indexOf('gif') >= 0 ? 'gif' : 'png');
+                                var fname = 'teacher/word-images/' + Date.now() + '_' + (idx++) + '.' + ext;
+                                var b64data = b64.split(',')[1];
+                                var pr = await window.sbFetchTimeout(API_URL, {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                                    body: JSON.stringify({
+                                        type: 'PUSH_TO_GITHUB',
+                                        filePath: fname,
+                                        content: b64data,
+                                        contentEncoding: 'base64',
+                                        commitMessage: 'Upload anh de: ' + fname,
+                                        title: 'Word image', author: (currentUser && currentUser.name) || 'gv'
+                                    })
+                                }, 60000);
+                                var prr = await parseSafeResponse(pr);
+                                if (prr.status === 'success'){
+                                    imgMap[b64] = 'https://raw.githubusercontent.com/saobay/saobay.github.io/main/' + fname;
+                                }
+                            } catch(eUp){ console.warn('Upload anh that bai:', eUp); }
+                        }
+                        // Thay base64 bang URL
+                        Object.keys(imgMap).forEach(function(b64){
+                            html = html.split(b64).join(imgMap[b64]);
+                        });
+                        return html;
+                    })(finalHtml);
+                }
+            } catch(eImgUp){ console.warn('Upload anh truoc khi day:', eImgUp); }
+
             let token = getGithubToken();
             if (!token) {
                 // Đẩy an toàn qua Google Apps Script Proxy (Token ẩn trên server Google)
