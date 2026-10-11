@@ -82,6 +82,17 @@
         function _bankCacheSet(key, data){
             _bankLessonCache[key] = data;
         }
+        // 2026-10-11: doc tu file index tinh
+        var _bankFolderIndex = null;
+        async function _bankLoadIndex(){
+            if (_bankFolderIndex) return _bankFolderIndex;
+            try {
+                var r = await fetch('https://saobay.github.io/data/_index/folders.json?v=' + Date.now());
+                if (!r.ok) return null;
+                _bankFolderIndex = await r.json();
+                return _bankFolderIndex;
+            } catch(e){ return null; }
+        }
         async function bankBuildFromLessons(subject, grade){
             var cacheKey = subject + '_' + grade;
             var cached = _bankCacheGet(cacheKey);
@@ -103,21 +114,11 @@
                     return Array.isArray(j) ? j : [];
                 }
                 var subjPath = null;
-                var roots = ['data/THCS', 'data/THPT'];
-                for (var ri = 0; ri < roots.length && !subjPath; ri++){
-                    var grades = await _ct(roots[ri]);
-                    for (var gi = 0; gi < grades.length && !subjPath; gi++){
-                        var gd = grades[gi];
-                        if (gd.type !== 'dir') continue;
-                        var gm = String(gd.name || '').match(/Kh[\u1ed1\u1ed5]i l[\u1edb\u1ed7]p\s*(\d+)/i);
-                        if (!gm || parseInt(gm[1], 10) !== grade) continue;
-                        var subjects = await _ct(roots[ri] + '/' + gd.name);
-                        for (var si = 0; si < subjects.length && !subjPath; si++){
-                            var sd = subjects[si];
-                            if (sd.type !== 'dir') continue;
-                            if (_normS(sd.name) === normSubj) subjPath = roots[ri] + '/' + gd.name + '/' + sd.name;
-                        }
-                    }
+                var bIdx = await _bankLoadIndex();
+                if (bIdx && bIdx.grades && bIdx.grades[String(grade)]){
+                    var bSm = bIdx.grades[String(grade)];
+                    var bSk = Object.keys(bSm).find(function(k){ return k === normSubj || k.toLowerCase() === normSubj.toLowerCase(); });
+                    if (bSk) subjPath = bSm[bSk].path;
                 }
                 if (!subjPath) return { notFound: true };
                 var chapters = await _ct(subjPath);
