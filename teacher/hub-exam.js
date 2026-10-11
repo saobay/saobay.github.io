@@ -336,55 +336,57 @@
             exbLessonCache = [];
             if (!subj || !grade) return;
             try {
-                // 2026-10-11: đọc danh sách bài từ localStorage (loadFolderTreeFromGit đã nạp)
-                // Fallback: Git Trees API nếu localStorage trống
+                // 2026-10-11: doc danh sach bai bang Contents API tung buoc (khong localStorage, khong recursive tree)
                 var lessons = [], seenL = {};
                 var subjNorm = subj.toLowerCase();
-                function _parseLessonsFromPaths(paths){
-                    // paths: mảng {path} hoặc {path, type}
-                    var subjPrefix = null;
-                    for (var ti = 0; ti < paths.length; ti++){
-                        var tp = paths[ti].path || '';
-                        var isTree = !paths[ti].type || paths[ti].type === 'tree';
-                        if (!isTree) continue;
-                        var tm = tp.match(/^data\/(THCS|THPT)\/Kh[^\/]*l[^\/]*p\s*(\d+)\/([^\/]+)$/i);
-                        if (tm && parseInt(tm[2], 10) === grade){
-                            var tSubjRaw = tm[3].trim().replace(/\s*\d+\s*$/, '');
-                            var tSubjNorm = tSubjRaw.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/Đ/g,'D').toLowerCase().replace(/\s+/g, '_');
-                            if (tSubjNorm === subjNorm){ subjPrefix = tp + '/'; break; }
-                        }
-                    }
-                    if (!subjPrefix) return;
-                    paths.forEach(function(it){
-                        var ip = it.path || '';
-                        var isBlob = !it.type || it.type === 'blob';
-                        if (ip.indexOf(subjPrefix) !== 0) return;
-                        var rest = ip.substring(subjPrefix.length);
-                        var parts = rest.split('/');
-                        if (parts.length >= 2 && isBlob && /\.html?$/i.test(ip)){
-                            var chName = parts[0];
-                            var fn = parts[parts.length - 1];
-                            var lm = fn.match(/_Bai_(\d+)_/i) || fn.match(/Bai(\d+)/i);
-                            if (lm){
-                                var ln = parseInt(lm[1], 10);
-                                if (!seenL[ln]){
-                                    seenL[ln] = 1;
-                                    lessons.push({ num: ln, ch: chName, count: 0 });
-                                }
-                            }
-                        }
-                    });
+                function _normSubj(raw){
+                    var n = raw.trim().replace(/\s*\d+\s*$/, '').trim().toUpperCase();
+                    n = n.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\u0110/g, 'D').replace(/\u0111/g, 'd');
+                    return n.replace(/\s+/g, '_').toLowerCase();
+                }
+                async function _contents(path){
+                    var url = 'https://api.github.com/repos/saobay/saobay.github.io/contents/' + path.split('/').map(encodeURIComponent).join('/') + '?ref=main';
+                    var r = await fetch(url);
+                    if (!r.ok) return [];
+                    var j = await r.json();
+                    return Array.isArray(j) ? j : [];
                 }
                 try {
-                    var rawF = localStorage.getItem('saobay_git_folders');
-                    if (rawF){
-                        _parseLessonsFromPaths(JSON.parse(rawF));
-                    } else {
-                        // Fallback: đảm bảo cây đã nạp rồi đọc lại
-                        if (typeof loadFolderTreeFromGit === 'function'){
-                            await loadFolderTreeFromGit();
-                            var rawF2 = localStorage.getItem('saobay_git_folders');
-                            if (rawF2) _parseLessonsFromPaths(JSON.parse(rawF2));
+                    var subjPath = null;
+                    var roots = ['data/THCS', 'data/THPT'];
+                    for (var ri = 0; ri < roots.length && !subjPath; ri++){
+                        var grades = await _contents(roots[ri]);
+                        for (var gi = 0; gi < grades.length && !subjPath; gi++){
+                            var gd = grades[gi];
+                            if (gd.type !== 'dir') continue;
+                            var gm = String(gd.name || '').match(/Kh[\u1ed1\u1ed5]i l[\u1edb\u1ed7]p\s*(\d+)/i);
+                            if (!gm || parseInt(gm[1], 10) !== grade) continue;
+                            var subjects = await _contents(roots[ri] + '/' + gd.name);
+                            for (var si = 0; si < subjects.length && !subjPath; si++){
+                                var sd = subjects[si];
+                                if (sd.type !== 'dir') continue;
+                                if (_normSubj(sd.name) === subjNorm) subjPath = roots[ri] + '/' + gd.name + '/' + sd.name;
+                            }
+                        }
+                    }
+                    if (subjPath){
+                        var chapters = await _contents(subjPath);
+                        for (var ci = 0; ci < chapters.length; ci++){
+                            var cd = chapters[ci];
+                            if (cd.type !== 'dir') continue;
+                            var files = await _contents(subjPath + '/' + cd.name);
+                            for (var fi = 0; fi < files.length; fi++){
+                                var fn = files[fi].name || '';
+                                if (!/\.html?$/i.test(fn)) continue;
+                                var lm = fn.match(/_Bai_(\d+)_/i) || fn.match(/Bai(\d+)/i);
+                                if (lm){
+                                    var ln = parseInt(lm[1], 10);
+                                    if (!seenL[ln]){
+                                        seenL[ln] = 1;
+                                        lessons.push({ num: ln, ch: cd.name, count: 0 });
+                                    }
+                                }
+                            }
                         }
                     }
                     lessons.sort(function(a,b){ return a.num - b.num; });
