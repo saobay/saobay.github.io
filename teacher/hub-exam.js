@@ -208,8 +208,8 @@
                          ordering: Math.max(0, parseInt(exbBankVal('exbb-n-ordering'), 10) || 0) },
                 scores: { mcq: exbBankNum('exbb-s-mcq', 0.25), truefalse: exbBankNum('exbb-s-tf', 1),
                           short: exbBankNum('exbb-s-short', 0.5), essay: exbBankNum('exbb-s-essay', 0),
-                          listening: exbBankNum('exbb-s-listening', 1), speaking: exbBankNum('exbb-s-speaking', 1),
-                          matching: exbBankNum('exbb-s-matching', 1), ordering: exbBankNum('exbb-s-ordering', 1) },
+                          listening: exbBankNum('exbb-s-listening', 0), speaking: exbBankNum('exbb-s-speaking', 0),
+                          matching: exbBankNum('exbb-s-matching', 0), ordering: exbBankNum('exbb-s-ordering', 0) },
                 levels: { NB: exbBankNum('exbb-lv-nb', 25), TH: exbBankNum('exbb-lv-th', 25),
                           VD: exbBankNum('exbb-lv-vd', 25), VDC: exbBankNum('exbb-lv-vdc', 25) },
                 time_limit: Math.max(0, exbBankNum('exbb-timelimit', 0))
