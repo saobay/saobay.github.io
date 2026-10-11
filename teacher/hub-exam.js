@@ -727,12 +727,73 @@
                 exbClassExam = exbMatrixPick(exbBankPool, m);
                 if (!exbClassExam.length) throw new Error('Không bốc được câu nào — kiểm tra ma trận.');
                 exbClassExam._matrix = m;
-                exbRenderExamPreview(exbClassExam, 'Đề chung cả lớp (xem trước đầy đủ — không ưng thì bấm "🔄 Bốc lại đề" bên dưới khung soạn)');
-                // MXENG_V1: đẩy thẳng đề đã bốc ra khung soạn để GV xem/sửa ngay
-                try { exbPushClassExamToComposer(exbClassExam, m); } catch(e){ console.warn('push to composer:', e); }
+                exbRenderExamPreview(exbClassExam, 'Đề chung cả lớp (xem trước đầy đủ — không ưng thì bấm "🔄 Bốc lại đề" để bốc bộ khác)');
+                // 2026-10-11: Lưu vào thư mục riêng của GV (không đẩy lên data công khai)
+                try { await exbSaveExamToTeacherFolder(exbClassExam, m); } catch(e){ console.warn('save to teacher folder:', e); }
             } catch(e){ pv.innerHTML = '<p class="text-xs text-rose-600">Lỗi: ' + String(e.message || e).replace(/</g,'&lt;') + '</p>'; }
         }
 
+        // 2026-10-11: Lưu đề ma trận vào thư mục riêng của GV (không đẩy lên data công khai)
+        async function exbSaveExamToTeacherFolder(picked, m){
+            try {
+                var user = null;
+                try { user = JSON.parse(localStorage.getItem('saobay_user') || 'null'); } catch(e){}
+                if (!user || !user.id) throw new Error('Vui lòng đăng nhập.');
+                var teacherId = String(user.id).replace(/[^a-zA-Z0-9]/g, '_');
+                var examId = 'exam_' + Date.now();
+                var title = (typeof exbBankVal === 'function' ? exbBankVal('exbb-title') : '') || 'Đề kiểm tra ' + new Date().toLocaleDateString('vi-VN');
+                
+                var examData = {
+                    id: examId,
+                    title: title,
+                    subject: m.subject || '',
+                    grade: m.grade || '',
+                    teacher_id: user.id,
+                    teacher_name: user.name || '',
+                    created_at: new Date().toISOString(),
+                    matrix: {
+                        types: m.types || {},
+                        levels: m.levels || {},
+                        lessonFrom: m.lessonFrom,
+                        lessonTo: m.lessonTo
+                    },
+                    questions: picked.map(function(q){
+                        return {
+                            type: q.type, level: q.level, chapter: q.chapter,
+                            q: q.q, options: q.options || [], statements: q.statements || [],
+                            answer: q.answer, explain: q.explain || '', img: q.img || ''
+                        };
+                    })
+                };
+                
+                var path = 'data/teacher-exams/' + teacherId + '/' + examId + '.json';
+                // Dùng GAS proxy để lưu
+                var resp = await fetch('https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'text/plain;charset=utf-8'},
+                    body: JSON.stringify({
+                        type: 'PUSH_TO_GITHUB',
+                        filePath: path,
+                        content: JSON.stringify(examData, null, 2),
+                        commitMessage: 'Lưu đề kiểm tra: ' + title,
+                        title: 'Lưu đề kiểm tra',
+                        author: 'saobay-teacher'
+                    })
+                });
+                var result = await resp.json();
+                if (result.error) throw new Error(result.error);
+                
+                if (typeof showToast === 'function') showToast('Đã lưu đề "' + title + '" vào mục Quản lý!', 'success');
+                // Refresh danh sách đề trong tab quản lý
+                if (typeof exbLoadTeacherExams === 'function') exbLoadTeacherExams();
+                return examData;
+            } catch(e) {
+                console.error('exbSaveExamToTeacherFolder:', e);
+                if (typeof showToast === 'function') showToast('Lỗi lưu đề: ' + e.message, 'error');
+                throw e;
+            }
+        }
+        
         // MXENG_V1: đẩy đề cả lớp đã bốc ra khung soạn (khung sửa) để GV xem/sửa ngay
         function exbPushClassExamToComposer(picked, m){
             let examJson = {
