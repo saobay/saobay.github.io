@@ -1577,7 +1577,7 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
     <script src="hub-reports.js?v=20261009_1"></script>
 <script src="hub-groups.js?v=20261010_1"></script>
     <script src="hub-uilabels.js?v=20261010"></script>
-    <script src="teacher-ui-simplify.js?v=20261012_0110"></script>
+    <script src="teacher-ui-simplify.js?v=20261012_0540"></script>
     <script src="hub-inline-edit.js?v=20261010_1"></script>
     <script src="hub-examsched.js?v=20261012_0045"></script>
     <script>
@@ -1739,6 +1739,14 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
                         var _map = {'toán':'TOAN','ngữ văn':'VAN','văn':'VAN','tiếng anh':'ANH','anh':'ANH','vật lý':'LY','lý':'LY','hóa học':'HOA','hóa':'HOA','sinh học':'SINH','sinh':'SINH','lịch sử':'SU','sử':'SU','địa lý':'DIA','địa':'DIA','tin học':'TIN','tin':'TIN','gdcd':'GDCD','công nghệ':'CONGNGHE','khtn':'KHTN','gdktpl':'GDKTPL'};
                         if (_gm) grade = _gm[1];
                         if (_subjName && _map[_subjName]) subject = _map[_subjName];
+                        if (title && subject && grade) title = title.replace(/^\[[^\]]*\]/, '[' + subject + ' ' + grade + ']');
+                    }
+                } catch(e) {}
+                // SAOBAY BANK2 20261012: uu tien bo chon Bank 2 (de thi) neu GV da chon khoi/mon
+                try {
+                    if (window.SB_BANK2 && window.SB_BANK2.subject && window.SB_BANK2.grade) {
+                        subject = window.SB_BANK2.subject;
+                        grade = window.SB_BANK2.grade;
                         if (title && subject && grade) title = title.replace(/^\[[^\]]*\]/, '[' + subject + ' ' + grade + ']');
                     }
                 } catch(e) {}
