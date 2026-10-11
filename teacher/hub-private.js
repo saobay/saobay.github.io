@@ -8,10 +8,14 @@
             try {
                 let url = 'https://raw.githubusercontent.com/' + GITHUB_CONFIG.owner + '/' + GITHUB_CONFIG.repo + '/' + GITHUB_CONFIG.branch + '/data/private/classes.json?t=' + Date.now();
                 let r = await fetch(url);
-                if (!r.ok) return [];
+                if (!r.ok) return (typeof pvClasses !== 'undefined' && pvClasses.length) ? pvClasses : [];
                 let j = await r.json();
-                return j.classes || [];
-            } catch(e){ return []; }
+                let list = j.classes || [];
+                // SAOBAY FIX 20261012: CDN chua kip cap nhat sau khi day co the tra danh sach rong/cu.
+                // Giu ban trong bo nho neu no day du hon, tranh hien "chua co lop" va tranh ghi de lam mat lop.
+                if (!list.length && typeof pvClasses !== 'undefined' && pvClasses.length) return pvClasses;
+                return list;
+            } catch(e){ return (typeof pvClasses !== 'undefined' && pvClasses.length) ? pvClasses : []; }
         }
         // FIX 2026-10-10: dung GAS proxy thay vi token ca nhan — GV nao cung tao lop duoc
         var PV_GAS_URL = (typeof API_URL !== 'undefined') ? API_URL : 'https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec';
