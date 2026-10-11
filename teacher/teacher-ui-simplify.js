@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2020
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2023
 // Rebuilt - fixed structure
 (function(){
     'use strict';
@@ -681,14 +681,18 @@ Hãy điền chi tiết từng ô trong bảng (chủ đề kiến thức cụ t
 (function(){
     function hideChaptersInExamMode(){
         try {
-            // Kiểm tra có đang ở tab đề thi không (nút có màu nền đậm = đang active)
-            var isExamMode = false;
-            ['push-mode-bank', 'push-mode-ai', 'push-mode-direct'].forEach(function(id){
-                var btn = document.getElementById(id);
-                if (btn && (btn.className.indexOf('bg-blue-700') >= 0 || btn.className.indexOf('bg-purple-700') >= 0 || btn.className.indexOf('bg-indigo-700') >= 0)) {
-                    isExamMode = true;
-                }
-            });
+            // Kiểm tra có đang ở tab đề thi không (dùng biến global theo dõi)
+            var mode = window._currentPushMode || '';
+            // Nếu chưa có biến, đoán từ nút active
+            if (!mode) {
+                var bankBtn = document.getElementById('push-mode-bank');
+                var aiBtn = document.getElementById('push-mode-ai');
+                var directBtn = document.getElementById('push-mode-direct');
+                if (bankBtn && bankBtn.className.indexOf('text-white') >= 0) mode = 'bank';
+                else if (aiBtn && aiBtn.className.indexOf('text-white') >= 0) mode = 'ai';
+                else if (directBtn && directBtn.className.indexOf('text-white') >= 0) mode = 'direct';
+            }
+            var isExamMode = (mode === 'bank' || mode === 'ai' || mode === 'direct');
             if (!isExamMode) return;
             
             // Tìm popup chọn thư mục đang mở
@@ -758,5 +762,35 @@ Hãy điền chi tiết từng ô trong bảng (chủ đề kiến thức cụ t
     }
     
     setInterval(hideChaptersInExamMode, 2000);
+})();
+
+// Theo dõi push mode hiện tại
+(function(){
+    if (window._pushModeTracked) return;
+    window._pushModeTracked = true;
+    window._currentPushMode = 'theory';
+    
+    // Hook vào các nút chuyển mode
+    ['theory', 'exercise', 'bank', 'direct', 'ai'].forEach(function(m){
+        var btn = document.getElementById('push-mode-' + m);
+        if (btn) {
+            btn.addEventListener('click', function(){
+                window._currentPushMode = m;
+            });
+        }
+    });
+    
+    // Cũng hook vào hàm switchPushMode nếu có
+    var checkExist = setInterval(function(){
+        if (typeof window.switchPushMode === 'function' && !window._switchHooked) {
+            window._switchHooked = true;
+            var orig = window.switchPushMode;
+            window.switchPushMode = function(mode){
+                window._currentPushMode = mode;
+                return orig(mode);
+            };
+            clearInterval(checkExist);
+        }
+    }, 1000);
 })();
 
