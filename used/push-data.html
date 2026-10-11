@@ -89,5 +89,46 @@ async function reorganize(){
 // Tự điền token đã lưu
 window.onload=function(){var t=localStorage.getItem('saobay_github_token');if(t)document.getElementById('token').value=t;};
 </script>
+
+<div class="card">
+<h2>📤 Đẩy file JS sửa lỗi</h2>
+<p style="color:#666;font-size:14px">Chọn file teacher-ui-simplify.js đã sửa để đẩy lên.</p>
+<label>Đường dẫn trên GitHub:</label>
+<input type="text" id="filepath" value="teacher/teacher-ui-simplify.js">
+<label>Chọn file:</label>
+<input type="file" id="fileinput" accept=".js">
+<button id="btn-upload" onclick="uploadFile()">📤 Đẩy file</button>
+<div id="upload-status"></div>
+</div>
+
+<script>
+async function uploadFile(){
+  var t=getToken();
+  if(!t){show('upload-status','Chưa có token!','err');return;}
+  var fp=document.getElementById('filepath').value.trim();
+  var fi=document.getElementById('fileinput');
+  if(!fi.files[0]){show('upload-status','Chưa chọn file!','err');return;}
+  var btn=document.getElementById('btn-upload');btn.disabled=true;
+  show('upload-status','Đang đọc file...','info');
+  try{
+    var content=await fi.files[0].text();
+    show('upload-status','Đang đẩy lên GitHub...','info');
+    // Lấy SHA hiện tại
+    var gr=await fetch('https://api.github.com/repos/saobay/saobay.github.io/contents/'+encodeURIComponent(fp),{headers:{'Authorization':'token '+t}});
+    var sha=null;
+    if(gr.ok){var gd=await gr.json();sha=gd.sha;}
+    var body={message:'Fix teacher hub 3 loi',content:btoa(unescape(encodeURIComponent(content)))};
+    if(sha)body.sha=sha;
+    var pr=await fetch('https://api.github.com/repos/saobay/saobay.github.io/contents/'+encodeURIComponent(fp),{
+      method:'PUT',headers:{'Authorization':'token '+t,'Content-Type':'application/json'},
+      body:JSON.stringify(body)
+    });
+    if(pr.ok)show('upload-status','✅ Đẩy thành công!','ok');
+    else show('upload-status','❌ Lỗi: '+(await pr.text()).substring(0,200),'err');
+  }catch(e){show('upload-status','❌ Lỗi: '+e.message,'err');}
+  btn.disabled=false;
+}
+</script>
+
 </body>
 </html>
