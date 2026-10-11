@@ -53,10 +53,24 @@
                 try { obj = JSON.parse(m[1]); } catch(e){ continue; }
                 (obj.sets || []).forEach(function(set, si){
                     (set.questions || []).forEach(function(qq, qi){
+                        // 2026-10-11: nhan dien type linh hoat (nhieu bien the)
+                        let rawT = String(qq.type || qq.kind || '').toLowerCase().trim();
+                        let detType = 'mcq';
+                        if (['truefalse','tf','ds','dung_sai','dungsai'].indexOf(rawT) >= 0) detType = 'truefalse';
+                        else if (['short','tln','traloi_ngan','tra_loi_ngan'].indexOf(rawT) >= 0) detType = 'short';
+                        else if (['essay','tl','tuluan','tu_luan'].indexOf(rawT) >= 0) detType = 'essay';
+                        else if (['listening','nghe'].indexOf(rawT) >= 0) detType = 'listening';
+                        else if (['speaking','noi'].indexOf(rawT) >= 0) detType = 'speaking';
+                        else if (['matching','noi_tu'].indexOf(rawT) >= 0) detType = 'matching';
+                        else if (['ordering','sapxep','sap_xep'].indexOf(rawT) >= 0) detType = 'ordering';
+                        else if (qq.statements && qq.statements.length) detType = 'truefalse';
+                        else if (qq.options && qq.options.length) detType = 'mcq';
+                        else if (qq.answer != null && String(qq.answer).length < 50) detType = 'short';
+                        else detType = 'essay';
                         let q = {
                             subject: meta.subject, grade: meta.grade,
                             chapter: meta.chapter, lesson: meta.lesson,
-                            type: (qq.type === 'truefalse' || qq.type === 'short' || qq.type === 'essay') ? qq.type : 'mcq',
+                            type: detType,
                             level: bankNormLevel(qq.level),
                             q: String(qq.q || ''), options: qq.options || [],
                             statements: qq.statements || [],
