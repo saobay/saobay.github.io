@@ -130,6 +130,8 @@
         <button id="mix-go" class="big-btn flex-1 bg-teal-600 text-white font-black rounded-xl px-3" style="min-width:150px">🌀 Trộn dung dịch</button>
         <button id="mix-reset" class="big-btn px-4 bg-slate-300 font-black rounded-xl">↺ Làm lại</button>
         <button id="pipet-btn" class="big-btn bg-violet-600 text-white font-black rounded-xl px-3">💧 Pipet: TẮT</button>
+        <button id="pour-stop" class="big-btn bg-red-500 text-white font-black rounded-xl px-3 hidden">⏹ Ngừng đổ</button>
+        <label class="big-btn bg-white border border-slate-300 rounded-xl px-2 flex items-center gap-1 font-bold text-xs text-slate-700" title="Số ml muốn đổ (bình 100ml). Để trống = mặc định.">🧪<input id="pour-ml" type="number" min="1" max="100" placeholder="ml" class="w-14 border rounded-lg px-1 py-1 text-sm font-bold text-center"></label>
       </div>
       <div class="grid grid-cols-3 gap-2 mb-2 text-sm">
         <div>
@@ -233,39 +235,34 @@
       border:2px solid rgba(190,235,255,.9);border-bottom:none;
       box-shadow:0 0 9px rgba(150,215,255,.55)}
     .rack-tube .rl{font-size:9px;color:#ffe9c4;font-weight:800}
-    /* ROUND_FLASK_V3: bình cầu thon gọn elegant như ảnh mẫu - thân 52px, cổ cao thon 22px */
-    .chem-bottle .bbody{position:relative;width:52px;height:52px;border-radius:50%;
+    /* ERLEN_SHELF: bình tam giác erlenmeyer trong tủ — giống bình dưới canvas */
+    .chem-bottle .bbody{position:relative;width:58px;height:58px;margin-top:0;
+      clip-path:polygon(36% 0,64% 0,100% 100%,0 100%);
       background:
-        radial-gradient(circle at 50% 108%, rgba(255,255,255,.55) 0%, rgba(255,255,255,0) 26%),
-        radial-gradient(circle at 34% 26%, rgba(255,255,255,.85) 0%, rgba(255,255,255,.12) 30%, rgba(255,255,255,0) 46%),
-        radial-gradient(circle at 50% 50%, rgba(170,215,248,.06) 0%, rgba(170,215,248,.02) 55%, rgba(150,200,240,.30) 82%, rgba(215,242,255,.55) 100%);
-      border:2px solid rgba(218,243,255,.95);
-      box-shadow:0 0 26px 5px rgba(140,220,255,.50), inset -7px -9px 16px rgba(80,140,200,.38), inset 7px 9px 14px rgba(255,255,255,.30);
-      overflow:hidden;margin-top:0} /* BUGFIX5: không chồng lấn cổ */
-    .chem-bottle .bbody::after{content:'';position:absolute;top:5px;left:8px;width:13px;height:32px;border-radius:50%;
-      background:linear-gradient(180deg,rgba(255,255,255,.95) 0%,rgba(255,255,255,.35) 55%,rgba(255,255,255,0) 100%);
-      transform:rotate(18deg);filter:blur(.6px);pointer-events:none;z-index:3}
-    .chem-bottle .bbody::before{content:'';position:absolute;top:12px;right:7px;width:4px;height:20px;border-radius:50%;
-      background:linear-gradient(180deg,rgba(255,255,255,.70),rgba(255,255,255,0));
-      transform:rotate(18deg);filter:blur(.5px);pointer-events:none;z-index:3}
-    .chem-bottle .bliq{position:absolute;left:-4px;right:-4px;bottom:-4px;height:66%;border-radius:50%;
-      box-shadow:0 0 26px 6px currentColor, inset 0 0 14px rgba(255,255,255,.50), inset 0 10px 12px rgba(255,255,255,.35)}
-    .chem-bottle .bliq::before{content:'';position:absolute;inset:0;border-radius:50%;
+        linear-gradient(115deg,rgba(255,255,255,.80) 0%,rgba(255,255,255,.10) 24%,rgba(255,255,255,0) 42%),
+        linear-gradient(180deg,rgba(190,225,248,.12) 0%,rgba(150,200,240,.10) 55%,rgba(150,200,240,.30) 100%);
+      filter:drop-shadow(0 0 7px rgba(160,220,255,.55));
+      overflow:hidden}
+    .chem-bottle .bbody::after{content:'';position:absolute;left:7px;top:7px;bottom:5px;width:6px;
+      background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(255,255,255,.05));
+      transform:skewX(-13deg);filter:blur(.6px);pointer-events:none;z-index:3}
+    .chem-bottle .bliq{position:absolute;left:0;right:0;bottom:0;height:58%;border-radius:0;
+      box-shadow:0 0 20px 5px currentColor, inset 0 8px 10px rgba(255,255,255,.40), inset 0 -6px 10px rgba(255,255,255,.25)}
+    .chem-bottle .bliq::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:1;
       background:
-        radial-gradient(circle at 32% 62%, rgba(255,255,255,.95) 0 2px, rgba(255,255,255,0) 3px),
-        radial-gradient(circle at 58% 74%, rgba(255,255,255,.80) 0 1.6px, rgba(255,255,255,0) 2.6px),
-        radial-gradient(circle at 44% 48%, rgba(255,255,255,.90) 0 1.2px, rgba(255,255,255,0) 2.2px),
-        radial-gradient(circle at 68% 55%, rgba(255,255,255,.75) 0 1.8px, rgba(255,255,255,0) 2.8px),
-        radial-gradient(circle at 24% 78%, rgba(255,255,255,.70) 0 1.4px, rgba(255,255,255,0) 2.4px);
-      pointer-events:none;z-index:1}
-    .chem-bottle .bliq::after{content:'';position:absolute;top:-1px;left:6%;right:6%;height:7px;border-radius:50%;
-      background:radial-gradient(ellipse at center,rgba(255,255,255,.95),rgba(255,255,255,.15) 70%,rgba(255,255,255,0));
+        radial-gradient(circle at 42% 58%, rgba(255,255,255,.95) 0 1.8px, rgba(255,255,255,0) 3px),
+        radial-gradient(circle at 60% 72%, rgba(255,255,255,.80) 0 1.4px, rgba(255,255,255,0) 2.6px),
+        radial-gradient(circle at 50% 42%, rgba(255,255,255,.85) 0 1.2px, rgba(255,255,255,0) 2.2px),
+        radial-gradient(circle at 34% 76%, rgba(255,255,255,.70) 0 1.5px, rgba(255,255,255,0) 2.5px)}
+    .chem-bottle .bliq::after{content:'';position:absolute;top:-1px;left:5%;right:5%;height:6px;
+      background:radial-gradient(ellipse at center,rgba(255,255,255,.95),rgba(255,255,255,.12) 70%,rgba(255,255,255,0));
       pointer-events:none;z-index:2}
-    .chem-bottle .bneck{width:10px;height:22px;margin:0 auto;position:relative;z-index:1;
-      background:linear-gradient(90deg,rgba(255,255,255,.08),rgba(255,255,255,.50) 30%,rgba(255,255,255,.12) 65%,rgba(255,255,255,.40));
-      border:2px solid rgba(218,243,255,.95);border-top:none;border-bottom:none;border-radius:0 0 3px 3px;
-      box-shadow:0 0 12px rgba(140,220,255,.55), inset 2px 0 3px rgba(255,255,255,.50);
-      margin-bottom:0} /* BUGFIX5: không chồng lấn thân */
+    .chem-bottle .bneck{width:15px;height:15px;margin:0 auto -1px;position:relative;z-index:1;
+      background:linear-gradient(90deg,rgba(255,255,255,.10),rgba(255,255,255,.48) 35%,rgba(255,255,255,.12) 65%,rgba(255,255,255,.38));
+      border-left:2px solid rgba(218,243,255,.95);border-right:2px solid rgba(218,243,255,.95);
+      box-shadow:0 0 10px rgba(140,220,255,.55), inset 2px 0 3px rgba(255,255,255,.45)}
+    .chem-bottle.sel .bbody{filter:drop-shadow(0 0 12px rgba(253,224,71,.9))}
+    .chem-bottle:hover .bbody{filter:drop-shadow(0 0 14px rgba(140,220,255,.8))}
     .chem-bottle .bcork{width:13px;height:10px;margin:0 auto 1px;position:relative;z-index:2; /* BUGFIX5: nằm trên cổ */
       border-radius:5px 5px 3px 3px;
       background:linear-gradient(180deg,#f0c078 0%,#dfa558 30%,#c08a45 70%,#a06a32 100%);
@@ -439,23 +436,23 @@ window.__refits = window.__refits || [];
 
   // ---------- Dữ liệu hóa chất: màu phát sáng kiểu video ----------
   var CHEMS = {
-    HCl:      {f:'HCl',       name:'axit clohiđric',  color:'#7dd3fc', glow:'#22d3ee', type:'acid', cat:'Axit'},
-    H2SO4:    {f:'H₂SO₄',     name:'axit sunfuric',   color:'#fde68a', glow:'#f59e0b', type:'acid', cat:'Axit'},
-    CH3COOH:  {f:'CH₃COOH',   name:'axit axetic',     color:'#e2e8f0', glow:'#94a3b8', type:'acid', cat:'Axit'},
-    NaOH:     {f:'NaOH',      name:'natri hiđroxit',  color:'#a5b4fc', glow:'#6366f1', type:'base', cat:'Bazơ'},
-    KOH:      {f:'KOH',       name:'kali hiđroxit',   color:'#c4b5fd', glow:'#8b5cf6', type:'base', cat:'Bazơ'},
-    'Ca(OH)2':{f:'Ca(OH)₂',   name:'canxi hiđroxit',  color:'#e7e5e4', glow:'#a8a29e', type:'base', cat:'Bazơ'},
+    HCl:      {f:'HCl',       name:'axit clohiđric',  color:'#edf3f5', glow:'#9fc3d4', type:'acid', cat:'Axit'},
+    H2SO4:    {f:'H₂SO₄',     name:'axit sunfuric',   color:'#f4f1e8', glow:'#c9bfa5', type:'acid', cat:'Axit'},
+    CH3COOH:  {f:'CH₃COOH',   name:'axit axetic',     color:'#eef1f1', glow:'#a9bcbc', type:'acid', cat:'Axit'},
+    NaOH:     {f:'NaOH',      name:'natri hiđroxit',  color:'#edf2f4', glow:'#9db8c4', type:'base', cat:'Bazơ'},
+    KOH:      {f:'KOH',       name:'kali hiđroxit',   color:'#eef0f3', glow:'#a5b0c0', type:'base', cat:'Bazơ'},
+    'Ca(OH)2':{f:'Ca(OH)₂',   name:'canxi hiđroxit',  color:'#f1f1ee', glow:'#b0b0a5', type:'base', cat:'Bazơ'},
     CuSO4:    {f:'CuSO₄',     name:'đồng(II) sunfat', color:'#38bdf8', glow:'#0284c7', type:'salt', cat:'Muối'},
-    NaCl:     {f:'NaCl',      name:'natri clorua',    color:'#f1f5f9', glow:'#cbd5e1', type:'salt', cat:'Muối'},
-    AgNO3:    {f:'AgNO₃',     name:'bạc nitrat',      color:'#bae6fd', glow:'#38bdf8', type:'salt', cat:'Muối'},
+    NaCl:     {f:'NaCl',      name:'natri clorua',    color:'#f0f3f4', glow:'#b6c4c9', type:'salt', cat:'Muối'},
+    AgNO3:    {f:'AgNO₃',     name:'bạc nitrat',      color:'#eef2f5', glow:'#a9bfd0', type:'salt', cat:'Muối'},
     FeCl3:    {f:'FeCl₃',     name:'sắt(III) clorua', color:'#fbbf24', glow:'#d97706', type:'salt', cat:'Muối'},
     litmus:   {f:'Quỳ tím',   name:'quỳ tím',         color:'#a78bfa', glow:'#7c3aed', type:'ind',  cat:'Chỉ thị'},
-    phenol:   {f:'Phenolphtalein', name:'phenolphtalein', color:'#fbcfe8', glow:'#ec4899', type:'ind', cat:'Chỉ thị'},
+    phenol:   {f:'Phenolphtalein', name:'phenolphtalein', color:'#f2f4f5', glow:'#b9c2c9', type:'ind', cat:'Chỉ thị'},
     Zn:       {f:'Zn',        name:'kẽm',         color:'#cbd5e1', glow:'#94a3b8', type:'metal', cat:'Kim loại'},
     Fe:       {f:'Fe',        name:'sắt',         color:'#e8c98a', glow:'#b45309', type:'metal', cat:'Kim loại'},
     Mg:       {f:'Mg',        name:'magie',       color:'#f8fafc', glow:'#e2e8f0', type:'metal', cat:'Kim loại'},
     Cu:       {f:'Cu',        name:'đồng',        color:'#fdba74', glow:'#c2410c', type:'metal', cat:'Kim loại'},
-    C2H5OH:   {f:'C₂H₅OH',    name:'cồn 96 độ',   color:'#a5f3fc', glow:'#06b6d4', type:'fuel',  cat:'Cồn'}
+    C2H5OH:   {f:'C₂H₅OH',    name:'cồn 96 độ',   color:'#edf3f5', glow:'#9fc3d4', type:'fuel',  cat:'Cồn'}
   };
   var SHELF_ORDER = ['HCl','H2SO4','CH3COOH','NaOH','KOH','Ca(OH)2','CuSO4','NaCl','AgNO3','FeCl3','litmus','phenol','Zn','Fe','Mg','Cu','C2H5OH'];
 
@@ -508,7 +505,7 @@ window.__refits = window.__refits || [];
 
   var vessels = [];
   function resetBench(){
-    vessels = [ makeVessel('flask','HCl',0.55), makeVessel('flask','NaOH',0.55) ];
+    vessels = []; // BENCH_EMPTY: canvas khởi động trống, user tự lấy bình từ tủ
     pourQ = []; pour = null; selV = null;
     document.getElementById('mix-result').classList.add('hidden');
   }
@@ -1056,6 +1053,7 @@ function drawVessel(ctx, v, t){
   // ---------- Nhân vật hoạt hình 3D (phong cách video quảng cáo) ----------
   var chemist = { hx:0, hy:0, mode:'idle', hold:null, armT:0, bobP: Math.random()*6.28, _sx:null, _sy:0 };
   var lampDrag = false;
+  var lampPress = null; // LAMP_TOGGLE: phân biệt bấm (toggle) vs kéo (drag)
   function chemistHome(W,H){ return {x: 62, y: H-32}; }
   function ikSolve(sx, sy, tx, ty, L1, L2){
     var dx = tx-sx, dy = ty-sy, d = Math.hypot(dx,dy) || 0.001;
@@ -1292,7 +1290,13 @@ function drawMiniFlask(ctx, x, y, col){
     }
     if (typeof selV !== 'undefined' && selV){ selV.sel = false; selV = null; }
     try { layout(); } catch(eLay3){}
-    carryAnim = {a:src, b:tube, t:0, dur:0.85, fx:src.x, fy:src.y, tx:tube.x, ty:tube.y - tube.h - src.h*0.32};
+    // POUR_SIDE: đem bình sang BÊN CẠNH ống nghiệm — miệng bình khớp miệng ống khi nghiêng
+    var _side = (src.x <= tube.x) ? -1 : 1;
+    var _gw = (typeof G!=='undefined' && G && G.w) ? G.w : 800;
+    var _tx = tube.x + _side*(tube.w*0.5 + src.w*0.30 + 10);
+    _tx = Math.max(60, Math.min(_gw-60, _tx));
+    var _ty = tube.y - tube.h - 16 + src.h;
+    carryAnim = {a:src, b:tube, t:0, dur:0.85, fx:src.x, fy:src.y, tx:_tx, ty:_ty};
     src.carried = true; src.returning = false;
     flashMsg(tube,'Nhân vật đang rót vào ống nghiệm...');
   }
@@ -1312,16 +1316,69 @@ function drawMiniFlask(ctx, x, y, col){
     heatDemo = {tube: tube, t:0};
     flashMsg(tube,'Nhân vật đem đèn cồn tới đun...');
   }
+  // LAMP_TOGGLE: bấm đèn cồn = tự bay sang đun ống nghiệm; bấm lần nữa = tự quay về
+  function toggleLamp(){
+    if (typeof heatDemo!=='undefined' && heatDemo && heatDemo.tube){
+      var _ht = heatDemo.tube; heatDemo = null;
+      try { lamp.tx = null; } catch(eLT){}
+      flashMsg(_ht,'Đã tắt đèn cồn!');
+      return;
+    }
+    var tube = null, best = 1e9, i;
+    for (i=0;i<vessels.length;i++){
+      var v = vessels[i];
+      if (v.type==='tube' && (v.volShown||0) > 0.03){
+        var d = Math.abs(v.x - (lamp.x||0));
+        if (d < best){ best = d; tube = v; }
+      }
+    }
+    if (!tube){ for (i=0;i<vessels.length;i++) if (vessels[i].type==='tube'){ tube = vessels[i]; break; } }
+    if (!tube) return;
+    var _gw2 = (typeof G!=='undefined' && G && G.w) ? G.w : 800;
+    lamp.tx = Math.max(48, Math.min(_gw2-48, tube.x));
+    heatDemo = {tube: tube, t:0};
+    flashMsg(tube,'Đèn cồn tự bay sang đun!');
+  }
   function startPour(a, b){
     if (!a || !b || a === b || pour) return;
-    var amt = Math.min(0.42, a.vol, 1 - b.vol);
+    // POUR_ML: ô nhập ml (bình 100ml); để trống = mặc định 42ml
+    var amt;
+    try {
+      var _mlEl = document.getElementById('pour-ml');
+      var _ml = _mlEl ? parseFloat(_mlEl.value) : NaN;
+      if (!isNaN(_ml) && _ml > 0) amt = Math.min(_ml/100, a.vol, 1 - b.vol);
+      else amt = Math.min(0.42, a.vol, 1 - b.vol);
+    } catch(_mle){ amt = Math.min(0.42, a.vol, 1 - b.vol); }
     if (amt <= 0.01){ flashMsg(b, 'Đã đầy!'); return; }
-    pour = {a:a, b:b, t:0, dur:1.5, amt:amt, a0:a.vol, b0:b.vol,
+    pour = {a:a, b:b, t:0, dur:3.2, amt:amt, a0:a.vol, b0:b.vol,
             colA: vesselColor(a)};
     a.tiltDir = (b.x >= a.x) ? 1 : -1;
+    var _sb = document.getElementById('pour-stop'); if (_sb) _sb.classList.remove('hidden');
+  }
+  // STOP_POUR: ngừng đổ giữa chừng — giữ lại phần đã rót
+  function stopPour(){
+    if (!pour) return;
+    var p = pour; pour = null;
+    var _sb3 = document.getElementById('pour-stop'); if (_sb3) _sb3.classList.add('hidden');
+    var pr = Math.min(1, p.t / p.dur);
+    var e = pr<0.5 ? 2*pr*pr : 1-Math.pow(-2*pr+2,2)/2;
+    var transferred = p.amt * e;
+    p.a.carried = false; p.a.returning = true; p.a.tilt = 0;
+    p.a.vol = +(p.a0 - transferred).toFixed(3);
+    p.b.vol = +(p.b0 + transferred).toFixed(3);
+    if (transferred > 0.005 && p.a.chemKey){
+      p.b.contents.push({k: p.a.chemKey, v: transferred});
+      p.a.contents = [{k: p.a.chemKey, v: p.a.vol}];
+      p.a.chemKey = p.a.contents[0].k;
+      checkReaction(p.b, p.a.chemKey);
+      p.b.shake = 0.9;
+    }
+    pourQ = [];
+    if (mixDemo){ var _md = mixDemo; mixDemo = null; _md.tubes.forEach(function(tb){ tb.shake = 1.5; }); }
   }
   function finishPour(){
     var p = pour; pour = null;
+    var _sb2 = document.getElementById('pour-stop'); if (_sb2) _sb2.classList.add('hidden');
     p.a.carried = false; p.a.returning = true;
     p.a.tilt = 0; p.a.vol = +(p.a0 - p.amt).toFixed(3);
     p.b.vol = +(p.b0 + p.amt).toFixed(3);
@@ -1543,6 +1600,7 @@ function drawMiniFlask(ctx, x, y, col){
     var el = document.getElementById('pipet-ind-name');
     if (el) el.textContent = this.options[this.selectedIndex].text;
   });
+  document.getElementById('pour-stop').addEventListener('click', function(){ stopPour(); });
 
   // ---------- Tương tác chạm/kéo ----------
   var dragInfo = null;
@@ -1561,7 +1619,7 @@ function drawMiniFlask(ctx, x, y, col){
   }
   cv.addEventListener('pointerdown', function(e){
     var p = canvasPos(e);
-    if (Math.abs(p.x-lamp.x) < 44 && p.y > lamp.y-70 && p.y < lamp.y+14){ lampDrag = true; if (typeof heatDemo!=='undefined') heatDemo = null; e.preventDefault(); return; }
+    if (Math.abs(p.x-lamp.x) < 44 && p.y > lamp.y-70 && p.y < lamp.y+14){ lampPress = {x:p.x, y:p.y}; e.preventDefault(); return; }
     var v = vesselAt(p);
     if (v && v.closeBtn){
       var dx = p.x-v.closeBtn.x, dy = p.y-v.closeBtn.y;
@@ -1575,6 +1633,10 @@ function drawMiniFlask(ctx, x, y, col){
   });
   cv.addEventListener('pointermove', function(e){
     var p = canvasPos(e);
+    if (lampPress){
+      if (Math.hypot(p.x-lampPress.x, p.y-lampPress.y) > 12){ lampDrag = true; lampPress = null; if (typeof heatDemo!=='undefined') heatDemo = null; }
+      else return;
+    }
     if (lampDrag){ lamp.x = Math.max(48, Math.min(G.w-48, p.x)); lamp.tx = null; return; }
     if (!dragInfo) return;
     if (Math.hypot(p.x-dragInfo.sx, p.y-dragInfo.sy) > 10) dragInfo.moved = true;
@@ -1588,6 +1650,7 @@ function drawMiniFlask(ctx, x, y, col){
     }
   });
   cv.addEventListener('pointerup', function(e){
+    if (lampPress){ lampPress = null; toggleLamp(); e.preventDefault(); return; }
     lampDrag = false;
     var p = canvasPos(e), v = vesselAt(p);
     if (dragInfo && dragInfo.moved){
@@ -1601,7 +1664,7 @@ function drawMiniFlask(ctx, x, y, col){
     var onClose = v && v.closeBtn && (function(){var dx=p.x-v.closeBtn.x,dy=p.y-v.closeBtn.y;return dx*dx+dy*dy<17*17;})();
     if (pipetOn && v && !onClose){ addDrop(v); return; }
     if (v && !onClose && v.type !== 'tube'){
-      var _isAcid = hasType(v,'acid'), _isBase = hasType(v,'base'), _isFuel = hasType(v,'fuel');
+      var _isAcid = hasType(v,'acid'), _isBase = hasType(v,'base'), _isFuel = hasType(v,'fuel'), _isInd = hasType(v,'ind');
       if (_isFuel){
         // BUGFIX4: toggle đèn cồn - đang đun thì bấm lại để tắt/bỏ ra
         if (typeof heatDemo !== 'undefined' && heatDemo && heatDemo.tube){
@@ -1612,7 +1675,7 @@ function drawMiniFlask(ctx, x, y, col){
         }
         demoHeatTube(v); return;
       }
-      if (_isAcid || _isBase){ demoPourToTube(v); return; }
+      if (_isAcid || _isBase || _isInd){ demoPourToTube(v); return; }
     }
     if (v){
       if (selV && selV !== v){ startPour(selV, v); selV.sel = false; selV = null; }
@@ -1620,7 +1683,7 @@ function drawMiniFlask(ctx, x, y, col){
     } else { if (selV){ selV.sel = false; selV = null; } }
   });
   cv.addEventListener('pointercancel', function(){
-    lampDrag = false;
+    lampDrag = false; lampPress = null;
     if (dragInfo){ dragInfo.v.dragging = false; dragInfo.v.returning = true; dragInfo = null; }
   });
 
