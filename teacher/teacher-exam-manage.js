@@ -176,4 +176,30 @@
             };
         }
     });
+
+    // Tự động thêm section "Đề kiểm tra của tôi" vào tab Quản lý
+    function injectExamSection(){
+        var container = document.getElementById('manage-lessons-table-container');
+        if (!container) return;
+        if (document.getElementById('teacher-exams-section')) return;
+        
+        var section = document.createElement('div');
+        section.id = 'teacher-exams-section';
+        section.className = 'mt-6 pt-4 border-t-2 border-blue-200';
+        section.innerHTML = '<h3 class="font-extrabold text-slate-800 text-base flex items-center mb-3">'
+            + '<i class="fa-solid fa-clipboard-list text-blue-600 mr-2"></i> Đề Kiểm Tra Của Tôi (từ ma trận)'
+            + '<button onclick="exbLoadTeacherExams()" class="ml-auto text-xs bg-blue-100 hover:bg-blue-200 text-blue-700 px-2.5 py-1 rounded-lg font-bold">'
+            + '<i class="fa-solid fa-rotate mr-1"></i>Làm mới</button></h3>'
+            + '<div id="teacher-exams-list" class="space-y-2"></div>';
+        
+        container.parentNode.insertBefore(section, container.nextSibling);
+    }
+    
+    // Inject khi DOM sẵn sàng
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function(){ setTimeout(injectExamSection, 1000); });
+    } else {
+        setTimeout(injectExamSection, 1000);
+    }
+
 })();
