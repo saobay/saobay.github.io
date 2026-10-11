@@ -1153,15 +1153,34 @@ Hãy điền chi tiết từng ô trong bảng (chủ đề kiến thức cụ t
     };
 })();
 
-// 2026-10-11: Ẩn thanh VỊ TRÍ LƯU TRỮ (đơn giản)
+// 2026-10-11: Ẩn thanh VỊ TRÍ LƯU TRỮ bằng cách tìm theo vị trí
 (function(){
     function hide(){
-        document.querySelectorAll('div').forEach(function(d){
-            var t = d.textContent || '';
-            if (t.indexOf('VỊ TRÍ LƯU TRỮ') >= 0 && t.indexOf('Sẵn sàng đẩy bài') >= 0) {
-                d.style.setProperty('display', 'none', 'important');
+        try {
+            // Tìm nút tab đầu tiên, thanh xanh nằm ngay trước khối chứa nó
+            var tabBtn = document.getElementById('push-mode-theory');
+            if (tabBtn) {
+                var tabsContainer = tabBtn.parentElement;
+                if (tabsContainer) {
+                    var prev = tabsContainer.previousElementSibling;
+                    // Kiểm tra có phải thanh xanh không
+                    if (prev) {
+                        var t = prev.textContent || '';
+                        if (t.indexOf('VỊ TRÍ') >= 0 || t.indexOf('Sẵn sàng') >= 0 || t.indexOf('Chưa chọn') >= 0) {
+                            prev.style.display = 'none';
+                        }
+                        // Cũng thử prev của prev (có thể bọc thêm div)
+                        var prev2 = prev.previousElementSibling;
+                        if (prev2) {
+                            var t2 = prev2.textContent || '';
+                            if (t2.indexOf('VỊ TRÍ') >= 0 && t2.indexOf('Sẵn sàng') >= 0) {
+                                prev2.style.display = 'none';
+                            }
+                        }
+                    }
+                }
             }
-        });
+        } catch(e){}
     }
     setInterval(hide, 500);
     hide();
