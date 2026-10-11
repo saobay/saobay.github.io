@@ -21,6 +21,7 @@ canvas{max-width:100%;display:block;}
 #cv-wave{width:100%;height:300px;}
 #cv-collide{width:100%;height:280px;}
 #cv-spring{width:100%;height:300px;}
+#cv-lever{width:100%;height:300px;}
 
   /* ===== SAOBAY LAB 3D UPGRADE 2026-10-10 ===== */
   .tab-panel { perspective: 1200px; }
@@ -106,6 +107,7 @@ canvas{max-width:100%;display:block;}
     <button class="tab-btn flex-1 big-btn rounded-xl bg-white shadow font-bold text-sm" data-tab="wave">🌊 Sóng cơ</button>
     <button class="tab-btn flex-1 big-btn rounded-xl bg-white shadow font-bold text-sm" data-tab="collide">💥 Va chạm</button>
     <button class="tab-btn flex-1 big-btn rounded-xl bg-white shadow font-bold text-sm" data-tab="spring">🌀 Lò xo</button>
+    <button class="tab-btn flex-1 big-btn rounded-xl bg-white shadow font-bold text-sm" data-tab="lever">🏋️ Đòn bẩy</button>
   </div>
 
   <!-- ===== TAB 1: CON LẮC ĐƠN ===== -->
@@ -367,6 +369,29 @@ canvas{max-width:100%;display:block;}
         <div class="bg-slate-50 rounded-xl p-2"><div class="text-[11px] text-slate-500">T đo được</div><div class="font-black text-violet-700" id="sp-Tm">–</div></div>
       </div>
       <p class="text-[11px] text-slate-500 mt-2">💡 T = 2π√(m/k). Lò xo càng cứng hoặc vật càng nhẹ → dao động càng nhanh!</p>
+    </div>
+  </div>
+
+  <!-- ===== TAB 11: DON BAY ===== -->
+  <div id="tab-lever" class="tab-panel px-3 mt-3 hidden">
+    <div class="bg-white rounded-2xl shadow p-4">
+      <h2 class="font-black text-amber-700 mb-1">Đòn bẩy</h2>
+      <p class="text-xs text-slate-500 mb-2"><b>Kéo</b> quả nặng từ khay đặt lên đòn bẩy, xem mômen lực! Bấm vào quả nặng để gỡ ra.</p>
+      <canvas id="cv-lever" class="w-full rounded-xl border" height="300"></canvas>
+      <div class="mt-3">
+        <label class="text-xs font-bold text-slate-600">Vị trí điểm tựa</label>
+        <input id="lv-ful" type="range" min="30" max="70" step="1" value="50" class="w-full">
+        <div class="text-center font-black text-amber-700">Điểm tựa ở <span id="lv-ful-val">50</span>% đòn</div>
+      </div>
+      <div class="flex gap-2 mt-2">
+        <button id="lv-clear" class="big-btn flex-1 bg-slate-200 font-black rounded-xl text-sm">🧹 Gỡ hết quả nặng</button>
+      </div>
+      <div class="grid grid-cols-3 gap-2 mt-3 text-center text-sm">
+        <div class="bg-slate-50 rounded-xl p-2"><div class="text-[11px] text-slate-500">M trái</div><div class="font-black text-sky-700" id="lv-Ml">0 N·m</div></div>
+        <div class="bg-slate-50 rounded-xl p-2"><div class="text-[11px] text-slate-500">M phải</div><div class="font-black text-orange-700" id="lv-Mr">0 N·m</div></div>
+        <div class="bg-slate-50 rounded-xl p-2"><div class="text-[11px] text-slate-500">Trạng thái</div><div class="font-black" id="lv-state">⚖️</div></div>
+      </div>
+      <p class="text-[11px] text-slate-500 mt-2">💡 Mômen M = F·d. Đòn bẩy cân bằng khi M<sub>trái</sub> = M<sub>phải</sub>.</p>
     </div>
   </div>
 
@@ -2220,6 +2245,227 @@ window.__spark = function(ctx, W, H, t, n, col){
     ctx.stroke(); ctx.shadowBlur=0;
     ctx.fillStyle='#c4b5fd'; ctx.font='bold 10px sans-serif'; ctx.textAlign='left';
     ctx.fillText('x\u2013t', 6, graphTop+14);
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+
+
+// ================= 11. DON BAY =================
+(function(){
+  var cv=document.getElementById('cv-lever');
+  var G=fitCanvas(cv);
+  window.__refits.push(function(){ var g2=fitCanvas(cv); if(g2&&!g2.hidden) G=g2; });
+  var ful=0.5, th=0, om=0, T=0, last=performance.now(), uiT=0;
+  var weights=[], drag=null;
+  var PX_M=150, BEAM_M=3, GRAV=9.8;
+  var TRAY=[1,2,5];
+  function beamGeom(){
+    var W=G.w, H=G.h;
+    var cx=W/2, py=H*0.60;
+    var half=Math.min(W*0.44,250);
+    return {cx:cx, py:py, half:half, px0:cx-half, px1:cx+half, W:W, H:H};
+  }
+  function pivotX(gm){ return gm.px0+ful*2*gm.half; }
+  function moments(){
+    var gm=beamGeom(), L=2*gm.half/PX_M, Ml=0, Mr=0;
+    weights.forEach(function(w){
+      var d=(w.fx-ful)*L;
+      var mm=w.m*GRAV*Math.abs(d);
+      if (d<0) Ml+=mm; else Mr+=mm;
+    });
+    return {Ml:Ml, Mr:Mr, L:L};
+  }
+  document.getElementById('lv-ful').addEventListener('input', function(e){
+    ful=parseInt(e.target.value,10)/100;
+    document.getElementById('lv-ful-val').textContent=e.target.value;
+  });
+  document.getElementById('lv-clear').addEventListener('click', function(){ weights=[]; });
+  function posAt(e){
+    var r=cv.getBoundingClientRect();
+    return {x:(e.touches?e.touches[0].clientX:e.clientX)-r.left,
+            y:(e.touches?e.touches[0].clientY:e.clientY)-r.top};
+  }
+  function wScreen(w, gm, pvx){
+    var bx=(w.fx-ful)*2*gm.half, r=9+2*w.m;
+    return {x:pvx+bx*Math.cos(th), y:gm.py+bx*Math.sin(th)+30+r, r:r};
+  }
+  function trayPos(i, gm){
+    var m=TRAY[i];
+    return {x:gm.W*(0.25+0.25*i), y:gm.H-30, r:9+2*m, m:m};
+  }
+  function beamYat(x, gm, pvx){
+    return gm.py+(x-pvx)*Math.sin(th);
+  }
+  function overBeam(p, gm, pvx){
+    return p.x>gm.px0-12 && p.x<gm.px1+12 &&
+           p.y>beamYat(p.x,gm,pvx)-30 && p.y<beamYat(p.x,gm,pvx)+52;
+  }
+  cv.addEventListener('pointerdown', function(e){
+    var p=posAt(e), gm=beamGeom(), pvx=pivotX(gm);
+    for (var i=0;i<TRAY.length;i++){
+      var tp=trayPos(i,gm);
+      if (Math.hypot(p.x-tp.x,p.y-tp.y)<tp.r+8){
+        drag={kind:'new', m:tp.m, x:p.x, y:p.y};
+        cv.style.touchAction='none';
+        try{ cv.setPointerCapture(e.pointerId); }catch(err){}
+        return;
+      }
+    }
+    for (var wi=weights.length-1; wi>=0; wi--){
+      var ws=wScreen(weights[wi],gm,pvx);
+      if (Math.hypot(p.x-ws.x,p.y-ws.y)<ws.r+8){
+        drag={kind:'move', w:weights[wi], idx:wi, x:p.x, y:p.y, moved:false};
+        cv.style.touchAction='none';
+        try{ cv.setPointerCapture(e.pointerId); }catch(err){}
+        return;
+      }
+    }
+  });
+  cv.addEventListener('pointermove', function(e){
+    if (!drag) return;
+    var p=posAt(e);
+    if (Math.hypot(p.x-drag.x,p.y-drag.y)>6) drag.moved=true;
+    drag.x=p.x; drag.y=p.y;
+  });
+  function endDrag(){
+    if (!drag) return;
+    var gm=beamGeom(), pvx=pivotX(gm);
+    var p={x:drag.x, y:drag.y};
+    if (drag.kind==='new'){
+      if (overBeam(p,gm,pvx)){
+        var fx=Math.max(0.03,Math.min(0.97,(p.x-gm.px0)/(2*gm.half)));
+        weights.push({m:drag.m, fx:fx});
+      }
+    } else {
+      if (!drag.moved){
+        weights.splice(drag.idx,1);
+      } else if (overBeam(p,gm,pvx)){
+        drag.w.fx=Math.max(0.03,Math.min(0.97,(p.x-gm.px0)/(2*gm.half)));
+      } else {
+        weights.splice(drag.idx,1);
+      }
+    }
+    drag=null; cv.style.touchAction='';
+  }
+  cv.addEventListener('pointerup', endDrag);
+  cv.addEventListener('pointercancel', function(){ drag=null; cv.style.touchAction=''; });
+  function drawWeight(ctx, x, y, m, ghost){
+    var r=9+2*m;
+    ctx.save();
+    if (ghost) ctx.globalAlpha=0.75;
+    ctx.shadowColor='rgba(0,0,0,0.4)'; ctx.shadowBlur=8; ctx.shadowOffsetY=3;
+    var wg=ctx.createRadialGradient(x-r*0.4,y-r*0.4,r*0.2,x,y,r);
+    wg.addColorStop(0,'#e2e8f0'); wg.addColorStop(0.6,'#64748b'); wg.addColorStop(1,'#1e293b');
+    ctx.fillStyle=wg; ctx.beginPath(); ctx.arc(x,y,r,0,7); ctx.fill();
+    ctx.shadowColor='transparent';
+    ctx.fillStyle='rgba(255,255,255,0.55)';
+    ctx.beginPath(); ctx.ellipse(x-r*0.35,y-r*0.4,r*0.28,r*0.18,-0.6,0,7); ctx.fill();
+    ctx.fillStyle='#fff'; ctx.font='bold '+(m>=5?12:11)+'px sans-serif'; ctx.textAlign='center';
+    ctx.fillText(m+'kg', x, y+4);
+    ctx.restore();
+  }
+  function draw(){
+    if (!cv.offsetParent){ requestAnimationFrame(draw); return; }
+    var ctx=G.ctx, now=performance.now(), dt=Math.min(0.04,(now-last)/1000); last=now; T+=dt;
+    var gm=beamGeom(), W=gm.W, H=gm.H, pvx=pivotX(gm);
+    // vat ly: quay quanh diem tua
+    var mm=moments(), L=mm.L;
+    var tau=0, iner=(1/12)*BEAM_M*L*L;
+    tau+=BEAM_M*GRAV*(0.5-ful)*L;
+    weights.forEach(function(w){
+      var d=(w.fx-ful)*L;
+      tau+=w.m*GRAV*d;
+      iner+=w.m*d*d;
+    });
+    var acc=tau/Math.max(0.05,iner)-2.2*om;
+    om+=acc*dt; th+=om*dt;
+    if (th>0.42){th=0.42;om=0;} if (th<-0.42){th=-0.42;om=0;}
+    ctx.clearRect(0,0,W,H);
+    // nen phong lab sang
+    var bg=ctx.createLinearGradient(0,0,0,H);
+    bg.addColorStop(0,'#fefce8'); bg.addColorStop(0.7,'#fef3c7'); bg.addColorStop(1,'#fde68a');
+    ctx.fillStyle=bg; ctx.fillRect(0,0,W,H);
+    try{ window.__spark(ctx,W,H,T,10,'180,120,40'); }catch(e){}
+    var gy=gm.py+64;
+    // san nha
+    ctx.fillStyle='#d6c79a'; ctx.fillRect(0,gy,W,H-gy);
+    ctx.fillStyle='rgba(0,0,0,0.12)'; ctx.fillRect(0,gy,W,5);
+    // diem tua 3D: hinh tam giac co be day
+    ctx.save();
+    ctx.shadowColor='rgba(0,0,0,0.3)'; ctx.shadowBlur=10; ctx.shadowOffsetY=4;
+    ctx.fillStyle='#78716c';
+    ctx.beginPath();
+    ctx.moveTo(pvx-26+9,gy); ctx.lineTo(pvx+26+9,gy); ctx.lineTo(pvx+9,gm.py+4);
+    ctx.closePath(); ctx.fill();
+    var tg=ctx.createLinearGradient(pvx-26,0,pvx+26,0);
+    tg.addColorStop(0,'#a8a29e'); tg.addColorStop(0.5,'#e7e5e4'); tg.addColorStop(1,'#57534e');
+    ctx.fillStyle=tg;
+    ctx.beginPath();
+    ctx.moveTo(pvx-26,gy); ctx.lineTo(pvx+26,gy); ctx.lineTo(pvx,gm.py+4);
+    ctx.closePath(); ctx.fill();
+    ctx.restore();
+    ctx.fillStyle='rgba(255,255,255,0.5)';
+    ctx.beginPath();
+    ctx.moveTo(pvx-14,gy-24); ctx.lineTo(pvx-6,gy-24); ctx.lineTo(pvx-2,gm.py+14);
+    ctx.closePath(); ctx.fill();
+    // don bay 3D (xoay quanh diem tua)
+    ctx.save();
+    ctx.translate(pvx,gm.py); ctx.rotate(th);
+    var lx=-ful*2*gm.half, rx=(1-ful)*2*gm.half;
+    ctx.shadowColor='rgba(0,0,0,0.35)'; ctx.shadowBlur=10; ctx.shadowOffsetY=5;
+    ctx.fillStyle='#92400e'; ctx.fillRect(lx,2,rx-lx,12);
+    var wg2=ctx.createLinearGradient(0,-10,0,10);
+    wg2.addColorStop(0,'#fbbf24'); wg2.addColorStop(0.5,'#d97706'); wg2.addColorStop(1,'#92400e');
+    ctx.fillStyle=wg2;
+    ctx.beginPath();
+    if (ctx.roundRect) ctx.roundRect(lx,-10,rx-lx,20,6); else ctx.rect(lx,-10,rx-lx,20,6);
+    ctx.fill();
+    ctx.shadowColor='transparent';
+    ctx.fillStyle='rgba(255,255,255,0.4)'; ctx.fillRect(lx+4,-8,rx-lx-8,4);
+    // vach chia moi 10cm
+    ctx.fillStyle='rgba(120,53,15,0.8)'; ctx.font='8px sans-serif'; ctx.textAlign='center';
+    for (var dcm=-10; dcm<=10; dcm++){
+      var tx=dcm*PX_M/10;
+      if (tx<lx+6||tx>rx-6) continue;
+      ctx.fillRect(tx-0.75,-10,1.5,dcm%5===0?10:6);
+      if (dcm%5===0 && dcm!==0) ctx.fillText(Math.abs(dcm*10)+'', tx, 26);
+    }
+    // moc treo qua nang
+    weights.forEach(function(w){
+      var bx=(w.fx-ful)*2*gm.half, r=9+2*w.m;
+      ctx.strokeStyle='#44403c'; ctx.lineWidth=3;
+      ctx.beginPath(); ctx.moveTo(bx,8); ctx.lineTo(bx,30); ctx.stroke();
+      ctx.fillStyle='#44403c'; ctx.beginPath(); ctx.arc(bx,10,4,0,7); ctx.fill();
+      drawWeight(ctx, bx, 30+r, w.m, false);
+    });
+    ctx.restore();
+    // khay qua nang
+    var trayY=H-64;
+    ctx.fillStyle='rgba(120,53,15,0.15)';
+    ctx.beginPath();
+    if (ctx.roundRect) ctx.roundRect(8,trayY-28,W-16,58,12); else ctx.rect(8,trayY-28,W-16,58,12);
+    ctx.fill();
+    ctx.fillStyle='#92400e'; ctx.font='bold 10px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('KHAY QUẢ NẶNG — kéo lên đòn bẩy', 16, trayY-12);
+    for (var ti=0; ti<TRAY.length; ti++){
+      var tp2=trayPos(ti,gm);
+      if (drag && drag.kind==='new' && drag.m===tp2.m) continue;
+      drawWeight(ctx, tp2.x, tp2.y, tp2.m, false);
+    }
+    if (drag) drawWeight(ctx, drag.x, drag.y, drag.m, true);
+    // so lieu
+    uiT+=dt;
+    if (uiT>0.2){
+      uiT=0;
+      document.getElementById('lv-Ml').textContent=mm.Ml.toFixed(1)+' N·m';
+      document.getElementById('lv-Mr').textContent=mm.Mr.toFixed(1)+' N·m';
+      var st=document.getElementById('lv-state');
+      if (Math.abs(th)<0.02 && Math.abs(om)<0.08){ st.textContent='⚖️ Cân bằng'; st.style.color='#15803d'; }
+      else if (th>0){ st.textContent='Nghiêng phải ⤵'; st.style.color='#c2410c'; }
+      else { st.textContent='⤵ Nghiêng trái'; st.style.color='#0369a1'; }
+    }
     requestAnimationFrame(draw);
   }
   draw();
