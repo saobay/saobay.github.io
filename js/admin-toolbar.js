@@ -1,4 +1,4 @@
-// SAOBAY_ADMIN_TOOLBAR_VERSION:20261011_1829
+// SAOBAY_ADMIN_TOOLBAR_VERSION:20261011_1849
 /* js/admin-toolbar.js — Thanh công cụ admin nổi trên MỌI trang SAOBAY (2026-10-10)
  * - Chỉ hiện khi admin đăng nhập (localStorage saobay_user.role === 'admin')
  * - Nút "✏️ Sửa giao diện": bật chế độ sửa inline — bấm vào chữ/nút có [data-ui-label]
@@ -295,5 +295,36 @@
         setTimeout(fixTeacherBtn, 1000); setTimeout(fixTeacherBtn, 3000);
     }
     setInterval(fixTeacherBtn, 5000);
+})();
+
+// 2026-10-11: Đổi "Giáo Viên" -> "Công cụ giáo viên"
+(function(){
+    function renameTeacherBtn(){
+        var btn = document.getElementById('btn-teacher-space');
+        if (btn) {
+            var html = btn.innerHTML;
+            if (html.includes('Giáo Viên') && !html.includes('Công cụ')) {
+                btn.innerHTML = html.replace('Giáo Viên', 'Công cụ giáo viên');
+            }
+            // Cũng xử lý text node
+            btn.childNodes.forEach(function(n){
+                if (n.nodeType === 3 && n.textContent.includes('Giáo Viên')) {
+                    n.textContent = n.textContent.replace('Giáo Viên', 'Công cụ giáo viên');
+                }
+            });
+        }
+        // Tìm theo text
+        document.querySelectorAll('a, button').forEach(function(el){
+            if (el.textContent.trim() === 'Giáo Viên' && el.id !== 'btn-teacher-space') {
+                el.innerHTML = el.innerHTML.replace('Giáo Viên', 'Công cụ giáo viên');
+            }
+        });
+    }
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function(){ setTimeout(renameTeacherBtn, 1000); });
+    } else {
+        setTimeout(renameTeacherBtn, 1000);
+    }
+    setInterval(renameTeacherBtn, 5000);
 })();
 
