@@ -623,33 +623,46 @@
             let ta = document.getElementById('item-content');
             if (!ta){ alert('Không tìm thấy khung soạn thảo.'); return; }
             ta.value = frag;
-            // Hiển thị câu hỏi trong khung WYSIWYG (bản đơn giản)
+            // Hiển thị câu hỏi trong khung WYSIWYG (bản siêu đơn giản - không ảnh)
             try {
                 var pvBox = document.getElementById('preview-container');
                 if (pvBox){
                     var qList = (examJson.sets && examJson.sets[0] && examJson.sets[0].questions) || [];
-                    var html = '';
+                    var html = '<div style="padding:10px">';
+                    html += '<p style="font-weight:bold;color:#1e40af;margin-bottom:10px">Đã chuyển ' + qList.length + ' câu vào khung soạn:</p>';
                     for (var qi = 0; qi < qList.length; qi++){
                         var q = qList[qi] || {};
-                        html += '<div style="border:1px solid #ddd;border-radius:8px;padding:10px;margin-bottom:10px;background:#fff">';
-                        html += '<p style="font-weight:bold;margin:0 0 8px 0">Câu ' + (qi+1) + ': ' + escapeHtml(q.q || '') + '</p>';
+                        var qText = String(q.q || '').substring(0, 100);
+                        // Escape HTML đơn giản inline
+                        qText = qText.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+                        html += '<div style="border:1px solid #ddd;border-radius:8px;padding:8px;margin-bottom:8px;background:#fff">';
+                        html += '<p style="font-weight:bold;margin:0;font-size:14px">Câu ' + (qi+1) + ': ' + qText + (String(q.q||'').length > 100 ? '...' : '') + '</p>';
                         var opts = q.options || [];
-                        for (var oi = 0; oi < opts.length; oi++){
+                        for (var oi = 0; oi < opts.length && oi < 4; oi++){
                             var letter = String.fromCharCode(65 + oi);
+                            var optText = String(opts[oi] || '').substring(0, 60).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
                             var isAns = String(q.answer || '').toUpperCase() === letter;
-                            html += '<p style="margin:2px 0 2px 16px;' + (isAns ? 'color:#15803d;font-weight:bold' : 'color:#475569') + '">' + letter + '. ' + escapeHtml(opts[oi]) + (isAns ? ' ✓' : '') + '</p>';
+                            html += '<p style="margin:2px 0 2px 16px;font-size:13px;' + (isAns ? 'color:#15803d;font-weight:bold' : 'color:#475569') + '">' + letter + '. ' + optText + (isAns ? ' ✓' : '') + '</p>';
                         }
                         if (q.img){
-                            html += '<img src="' + q.img + '" style="max-width:100%;max-height:200px;margin-top:8px;border-radius:8px"/>';
+                            html += '<p style="font-size:12px;color:#7c3aed;margin:4px 0 0 16px">📷 Có ảnh minh họa</p>';
                         }
                         html += '</div>';
                     }
-                    // Giữ lại JSON ẩn để đẩy bài
-                    html += '<div class="saobay-exam10" style="display:none"><script type="application/json" class="saobay-exam10-data">' + JSON.stringify(examJson).replace(/</g, '\\u003c') + '<\/script></div>';
+                    html += '</div>';
+                    // JSON ẩn để đẩy bài (đặt riêng, không lẫn với visible)
+                    html += '<div class="saobay-exam10" style="display:none"><script type="application/json" class="saobay-exam10-data">' + JSON.stringify(examJson).split('<').join('\\u003c') + '<\/script></div>';
                     pvBox.innerHTML = html;
+                } else {
+                    console.error('preview-container not found');
                 }
-            } catch(eRender){ console.error('render failed:', eRender); }
-            function escapeHtml(t){ return String(t || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+            } catch(eRender){ 
+                console.error('render failed:', eRender);
+                try {
+                    var pvBox2 = document.getElementById('preview-container');
+                    if (pvBox2) pvBox2.innerHTML = '<p style="color:red;padding:20px">Lỗi hiển thị: ' + String(eRender.message || eRender) + '</p>';
+                } catch(e2){}
+            }
             if (typeof renderMathPreview === 'function'){ try { renderMathPreview(); } catch(e){} }
             if (typeof showToast === 'function') showToast('Đã chuyển ' + qs.length + ' câu vào khung soạn. Nhập tiêu đề rồi bấm Đẩy bài.', 'success');
             else alert('Đã chuyển ' + qs.length + ' câu vào khung soạn.');
