@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đẩy Data - SAOBAY Admin</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:600px;margin:20px auto;padding:20px;background:#f5f5f5}
+.card{background:#fff;padding:20px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.1);margin-bottom:15px}
+h2{color:#1a56db;margin-top:0}
+button{background:#1a56db;color:#fff;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;font-size:15px;font-weight:bold}
+button:disabled{background:#999}
+#status{margin-top:10px;padding:10px;border-radius:6px;display:none}
+.ok{background:#d1fae5;color:#065f46;display:block!important}
+.err{background:#fee2e2;color:#991b1b;display:block!important}
+.info{background:#dbeafe;color:#1e40af;display:block!important}
+input{width:100%;padding:8px;margin:5px 0;border:1px solid #ddd;border-radius:6px;box-sizing:border-box}
+label{font-weight:bold;font-size:14px}
+</style>
+</head>
+<body>
+<div class="card">
+<h2>📤 Đẩy Data - SAOBAY Admin</h2>
+<p style="color:#666;font-size:14px">Dùng GitHub token để đẩy trực tiếp, không qua GAS.</p>
+<label>GitHub Token:</label>
+<input type="password" id="token" placeholder="ghp_...">
+<button onclick="saveToken()">💾 Lưu token</button>
+<button onclick="testToken()">🔍 Kiểm tra token</button>
+<div id="status"></div>
+</div>
+
+<div class="card">
+<h2>📁 Tổ chức lại Ôn thi vào 10</h2>
+<p style="color:#666;font-size:14px">Chia 38 file thành 3 thư mục môn (Toán, Tiếng Anh, Ngữ Văn).</p>
+<button id="btn-reorg" onclick="reorganize()">📁 Bắt đầu tổ chức</button>
+<div id="reorg-status"></div>
+</div>
+
+<script>
+function getToken(){return document.getElementById('token').value.trim()||localStorage.getItem('saobay_github_token')||'';}
+function saveToken(){var t=document.getElementById('token').value.trim();if(t){localStorage.setItem('saobay_github_token',t);show('status','Đã lưu token!','ok');}}
+function show(id,msg,cls){var e=document.getElementById(id);e.textContent=msg;e.className=cls;}
+async function testToken(){
+  var t=getToken();
+  if(!t){show('status','Chưa có token!','err');return;}
+  show('status','Đang kiểm tra...','info');
+  try{
+    var r=await fetch('https://api.github.com/repos/saobay/saobay.github.io',{headers:{'Authorization':'token '+t}});
+    if(r.ok){show('status','✅ Token hợp lệ!','ok');document.getElementById('token').value=t;}
+    else show('status','❌ Token không hợp lệ!','err');
+  }catch(e){show('status','❌ Lỗi: '+e.message,'err');}
+}
+async function reorganize(){
+  var t=getToken();
+  if(!t){show('reorg-status','Chưa có token!','err');return;}
+  if(!confirm('Chia 38 file Ôn thi vào 10 thành 3 thư mục môn?'))return;
+  var btn=document.getElementById('btn-reorg');btn.disabled=true;
+  var st=document.getElementById('reorg-status');
+  try{
+    var r=await fetch('https://api.github.com/repos/saobay/saobay.github.io/contents/data/THCS/'+encodeURIComponent('Ôn thi vào 10'),{headers:{'Authorization':'token '+t}});
+    var files=await r.json();
+    var moved=0;
+    for(var f of files){
+      if(f.type!=='file')continue;
+      var subj=null;
+      if(f.name.indexOf('VAO10_Toan_')===0)subj='Toán';
+      else if(f.name.indexOf('VAO10_Anh_')===0)subj='Tiếng Anh';
+      else if(f.name.indexOf('VAO10_Van_')===0)subj='Ngữ Văn';
+      if(!subj)continue;
+      st.innerHTML='<span style="color:blue">⏳ Đang chuyển '+f.name+'...</span>';st.className='info';
+      var cr=await fetch(f.download_url);var content=await cr.text();
+      var np='data/THCS/Ôn thi vào 10/'+subj+'/'+f.name;
+      await fetch('https://api.github.com/repos/saobay/saobay.github.io/contents/'+encodeURIComponent(np),{
+        method:'PUT',headers:{'Authorization':'token '+t,'Content-Type':'application/json'},
+        body:JSON.stringify({message:'Move '+f.name+' to '+subj,content:btoa(unescape(encodeURIComponent(content)))})
+      });
+      await fetch('https://api.github.com/repos/saobay/saobay.github.io/contents/'+encodeURIComponent('data/THCS/Ôn thi vào 10/'+f.name),{
+        method:'DELETE',headers:{'Authorization':'token '+t,'Content-Type':'application/json'},
+        body:JSON.stringify({message:'Remove old '+f.name,sha:f.sha})
+      });
+      moved++;
+    }
+    show('reorg-status','✅ Xong! Đã chuyển '+moved+' file.','ok');
+  }catch(e){show('reorg-status','❌ Lỗi: '+e.message,'err');}
+  btn.disabled=false;
+}
+// Tự điền token đã lưu
+window.onload=function(){var t=localStorage.getItem('saobay_github_token');if(t)document.getElementById('token').value=t;};
+</script>
+</body>
+</html>
