@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_EXAM_MANAGE_VERSION:20261011_1858
+// SAOBAY_TEACHER_EXAM_MANAGE_VERSION:20261011_1950
 // SAOBAY Teacher Exam Management - 2026-10-11
 // Quản lý đề kiểm tra của GV: danh sách đề đã tạo từ ma trận, nút "Giao cho HS"
 (function(){
@@ -24,7 +24,7 @@
             var teacherId = String(user.id).replace(/[^a-zA-Z0-9]/g, '_');
             
             // Tải index.json (tránh dùng GitHub API bị 403)
-            var indexUrl = 'https://raw.githubusercontent.com/saobay/saobay.github.io/main/data/teacher-exams/' + teacherId + '/index.json?t=' + Date.now();
+            var indexUrl = 'https://raw.githubusercontent.com/saobay/saobay.github.io/main/data/private/' + classId + '/index.json?t=' + Date.now();
             var resp = await fetch(indexUrl);
             if (!resp.ok) {
                 container.innerHTML = '<p class="text-sm text-slate-500 text-center py-6"><i class="fa-solid fa-folder-open text-2xl mb-2 block text-slate-300"></i>Chưa có đề nào. Dùng ma trận để tạo đề mới.</p>';
@@ -90,7 +90,7 @@
             var teacherId = String(user.id).replace(/[^a-zA-Z0-9]/g, '_');
             
             // Tải thông tin đề
-            var examResp = await fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/data/teacher-exams/' + teacherId + '/' + examId + '.json');
+            var examResp = await fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/data/private/' + classId + '/' + examId + '.json');
             var exam = await examResp.json();
             
             // Hỏi đối tượng giao: lớp học thêm, tất cả, hoặc nhập tay
@@ -109,7 +109,7 @@
             assignData.assignments.push({
                 id: 'assign_' + Date.now(),
                 exam_id: examId,
-                exam_path: 'data/teacher-exams/' + teacherId + '/' + examId + '.json',
+                exam_path: 'data/private/' + classId + '/' + examId + '.json',
                 title: exam.title,
                 subject: exam.subject,
                 targets: [target],
@@ -227,7 +227,7 @@
         if (!confirm('Đưa đề này vào Bank chung?')) return;
         try {
             // Tải đề
-            var examResp = await fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/data/teacher-exams/' + teacherId + '/' + examId + '.json');
+            var examResp = await fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/data/private/' + classId + '/' + examId + '.json');
             var exam = await examResp.json();
             
             // Cập nhật status
@@ -240,7 +240,7 @@
                 headers: {'Content-Type': 'text/plain;charset=utf-8'},
                 body: JSON.stringify({
                     type: 'PUSH_TO_GITHUB',
-                    filePath: 'data/teacher-exams/' + teacherId + '/' + examId + '.json',
+                    filePath: 'data/private/' + classId + '/' + examId + '.json',
                     content: JSON.stringify(exam, null, 2),
                     commitMessage: 'Duyệt đề: ' + exam.title,
                     title: 'Duyệt đề',
@@ -271,6 +271,49 @@
         else statusBadge = '<span class="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full font-bold ml-2">Đề riêng</span>';
         html = html.replace('</p>', statusBadge + '</p>');
         return html;
+    };
+
+
+    // Admin duyệt: chuyển đề từ private sang bank + cập nhật link
+    window.exbApproveToBank = async function(classId, examId){
+        if (!confirm('Chuyển đề này sang Bank chung? Link bài sẽ được cập nhật.')) return;
+        try {
+            // 1. Tải đề từ private
+            var srcUrl = 'https://raw.githubusercontent.com/saobay/saobay.github.io/main/data/private/' + classId + '/' + examId + '.json?t=' + Date.now();
+            var examResp = await fetch(srcUrl);
+            if (!examResp.ok) throw new Error('Không tải được đề');
+            var exam = await examResp.json();
+            
+            // 2. Lưu sang bank
+            var bankPath = 'data/bank/exams/' + examId + '.json';
+            exam.bank_path = bankPath;
+            exam.approved_at = new Date().toISOString();
+            exam.status = 'in_bank';
+            
+            var saveResp = await fetch('https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec', {
+                method: 'POST',
+                headers: {'Content-Type': 'text/plain;charset=utf-8'},
+                body: JSON.stringify({
+                    type: 'PUSH_TO_GITHUB',
+                    filePath: bankPath,
+                    content: JSON.stringify(exam, null, 2),
+                    commitMessage: 'Duyệt đề vào bank: ' + exam.title,
+                    title: 'Duyệt đề',
+                    author: 'saobay-admin'
+                })
+            });
+            var result = await saveResp.json();
+            if (result.error) throw new Error(result.error);
+            
+            // 3. Xóa file ở private (hoặc đánh dấu đã chuyển)
+            // Giữ lại file private nhưng cập nhật status
+            exam.private_path = 'data/private/' + classId + '/' + examId + '.json';
+            alert('Đã chuyển đề "' + exam.title + '" sang Bank!\nLink mới: ' + bankPath);
+            
+            if (typeof exbLoadTeacherExams === 'function') exbLoadTeacherExams();
+        } catch(e) {
+            alert('Lỗi: ' + e.message);
+        }
     };
 
 })();
