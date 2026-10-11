@@ -982,24 +982,70 @@ function saobayReportQ(btn){
         let qIdx = qEl ? (qEl.getAttribute('data-qidx') || '') : '';
         let qText = '';
         let qTitle = qEl ? qEl.querySelector('.exam10-qtitle, .q-title, b') : null;
-        if(qTitle) qText = qTitle.innerText.substring(0,200);
-        let pageUrl = location.href.split('#')[0] + (qIdx !== '' ? '#q'+qIdx : '');
+        if(qTitle) qText = qTitle.innerText.substring(0,300);
+        let pageUrl = location.href.split('#')[0];
+        let qLink = pageUrl + (qIdx !== '' ? '#q'+qIdx : '');
         let msg = prompt('Mô tả lỗi của câu hỏi này:\n(Ví dụ: đáp án sai, công thức không hiện, ...)');
         if(msg === null) return;
         if(!msg.trim()){ alert('Bạn chưa nhập mô tả lỗi.'); return; }
-        // Tạo nội dung báo cáo để HS gửi cho GV qua Zalo
-        let report = '🚨 BÁO LỖI CÂU HỎI\n\nBài: ' + document.title + '\nLink: ' + pageUrl + '\nCâu: ' + (qText || '(không lấy được nội dung)') + '\nLỗi: ' + msg.trim();
-        // Copy vào clipboard
-        if(navigator.clipboard){
-            navigator.clipboard.writeText(report).then(function(){
-                alert('Đã copy nội dung báo lỗi!\nBạn hãy gửi cho thầy cô qua Zalo để được sửa.\n\n' + report.substring(0,200) + '...');
-            }).catch(function(){
-                prompt('Copy nội dung dưới đây để gửi cho thầy cô:', report);
-            });
-        } else {
-            prompt('Copy nội dung dưới đây để gửi cho thầy cô:', report);
-        }
-    }catch(e){ alert('Có lỗi xảy ra: ' + e.message); }
+        btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i>Đang gửi...';
+        // Lấy tên HS nếu đăng nhập
+        let studentName = '';
+        try{
+            let u = JSON.parse(localStorage.getItem('saobay_user') || '{}');
+            studentName = u.name || u.username || '';
+        }catch(e){}
+        let reportData = {
+            pageTitle: document.title,
+            pageUrl: pageUrl,
+            questionLink: qLink,
+            questionIndex: qIdx,
+            questionText: qText,
+            errorDesc: msg.trim(),
+            studentName: studentName,
+            timestamp: new Date().toISOString(),
+            userAgent: navigator.userAgent.substring(0,100)
+        };
+        // Gửi qua GAS để lưu lên GitHub
+        let gasUrl = (typeof API_URL !== 'undefined' ? API_URL : '') || 'https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec';
+        // Lấy GAS URL từ config nếu có
+        try{
+            let scripts = document.scripts;
+            for(let sc of scripts){
+                if(sc.src && sc.src.includes('gas')){}
+            }
+        }catch(e){}
+        fetch(gasUrl, {
+            method: 'POST',
+            body: JSON.stringify({
+                action: 'PUSH_TO_GITHUB',
+                path: 'data/reports/pending/report_' + Date.now() + '_' + Math.random().toString(36).substring(2,8) + '.json',
+                content: JSON.stringify(reportData, null, 2),
+                message: 'Báo lỗi câu hỏi từ HS'
+            })
+        }).then(r => r.json()).then(d => {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fa-solid fa-flag mr-1"></i>Báo lỗi câu này';
+            if(d && (d.status === 'ok' || d.ok)){
+                alert('✅ Đã gửi báo lỗi! Thầy cô sẽ kiểm tra và sửa sớm.\nCảm ơn bạn đã góp ý!');
+                btn.innerHTML = '<i class="fa-solid fa-check mr-1"></i>Đã báo lỗi';
+                btn.disabled = true;
+            } else {
+                throw new Error(d.message || 'Lỗi không xác định');
+            }
+        }).catch(e => {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fa-solid fa-flag mr-1"></i>Báo lỗi câu này';
+            // Fallback: copy để gửi tay
+            let report = '🚨 BÁO LỖI\nBài: ' + document.title + '\nLink: ' + qLink + '\nLỗi: ' + msg.trim();
+            if(navigator.clipboard){
+                navigator.clipboard.writeText(report);
+                alert('Không gửi tự động được. Đã copy nội dung, bạn hãy gửi cho thầy cô qua Zalo nhé!');
+            } else {
+                prompt('Copy để gửi cho thầy cô:', report);
+            }
+        });
+    }catch(e){ alert('Có lỗi: ' + e.message); }
 }
 // Tự động cuộn đến câu hỏi khi có hash #qN
 (function(){
