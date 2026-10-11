@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2000
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2003
 // Rebuilt - fixed structure
 (function(){
     'use strict';
@@ -675,5 +675,59 @@ Hãy điền chi tiết từng ô trong bảng (chủ đề kiến thức cụ t
     } else {
         setTimeout(autoKiemTraFolder, 2000);
     }
+})();
+
+// 2026-10-11: Cho phép bấm chọn thư mục môn trực tiếp (không cần mở chương)
+(function(){
+    function enableSubjectSelect(){
+        try {
+            // Tìm popup chọn thư mục
+            var modal = document.querySelector('[id*="folder"][id*="modal"], .folder-modal');
+            if (!modal) return;
+            
+            // Thêm nút "Chọn thư mục này" vào mỗi thư mục môn
+            var folders = modal.querySelectorAll('[data-path]');
+            folders.forEach(function(f){
+                if (f._selectBtnAdded) return;
+                f._selectBtnAdded = true;
+                
+                // Kiểm tra có phải thư mục môn không (có chương con)
+                var path = f.getAttribute('data-path') || '';
+                // Môn thường có dạng .../Toán 6 (không có /Chương)
+                if (path && path.indexOf('/Chương') < 0) {
+                    var btn = document.createElement('button');
+                    btn.textContent = '✓ Chọn';
+                    btn.className = 'ml-2 text-xs bg-blue-600 text-white px-2 py-0.5 rounded hover:bg-blue-700';
+                    btn.onclick = function(e){
+                        e.stopPropagation();
+                        // Đặt đường dẫn (tự thêm /kiểm tra nếu là đề thi)
+                        var savePath = path;
+                        // Kiểm tra có phải đang đẩy đề thi không
+                        var isExam = document.querySelector('#push-mode-bank.active, #push-mode-ai.active, #push-mode-direct.active');
+                        if (isExam) {
+                            savePath = path + '/kiểm tra';
+                        }
+                        if (typeof window.selectedFolderPath !== 'undefined') {
+                            window.selectedFolderPath = savePath;
+                        }
+                        // Cập nhật hiển thị
+                        var display = document.querySelector('#folder-display, [id*="folder"][id*="display"]');
+                        if (display) display.textContent = savePath;
+                        // Đóng modal
+                        var closeBtn = modal.querySelector('[id*="close"], .close');
+                        if (closeBtn) closeBtn.click();
+                        else modal.style.display = 'none';
+                        
+                        if (typeof showToast === 'function') {
+                            showToast('Đã chọn: ' + savePath, 'success');
+                        }
+                    };
+                    f.appendChild(btn);
+                }
+            });
+        } catch(e){}
+    }
+    
+    setInterval(enableSubjectSelect, 3000);
 })();
 
