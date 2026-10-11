@@ -460,7 +460,7 @@
         let masterDatabase = {
             assignments: [],
             students: {},
-            passwords: { 'admin': 'Dung2207@' }
+            passwords: {}
         };
 
         let cachedTeachers = [];
@@ -868,7 +868,7 @@
             }
 
             // 1. Kiểm tra tài khoản Admin
-            let adminPass = (masterDatabase.passwords && masterDatabase.passwords['admin']) || 'Dung2207@';
+            let adminPass = (masterDatabase.passwords && masterDatabase.passwords['admin']) || '';
             if (usernameInput.toLowerCase() === 'admin') {
                 if (passwordInput === adminPass) {
                     let adminUser = {
@@ -1043,7 +1043,7 @@
             btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Đang lưu mật khẩu lên hệ thống...`;
 
             try {
-                if (!masterDatabase.passwords) masterDatabase.passwords = { 'admin': 'Dung2207@' };
+                if (!masterDatabase.passwords) masterDatabase.passwords = {};
                 masterDatabase.passwords[forceUser.id] = newPass;
 
                 if (phoneNorm) {
@@ -1741,7 +1741,7 @@
             btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1"></i> Đang lưu...`;
 
             try {
-                if (!masterDatabase.passwords) masterDatabase.passwords = { 'admin': 'Dung2207@' };
+                if (!masterDatabase.passwords) masterDatabase.passwords = {};
                 masterDatabase.passwords[currentEditingAccountId] = newPass;
 
                 await saveMasterDatabaseToGit(`Admin cập nhật mật khẩu cho ID: ${currentEditingAccountId}`);
