@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_1939
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_1941
 // Rebuilt - fixed structure
 (function(){
     'use strict';
@@ -552,5 +552,59 @@ Hãy điền chi tiết từng ô trong bảng (chủ đề kiến thức cụ t
         setTimeout(initClassMerge, 2500);
     }
     setInterval(initClassMerge, 10000);
+})();
+
+// 2026-10-11: Bắt buộc chọn nơi lưu, không để mặc định data
+(function(){
+    function enforceFolderSelection(){
+        try {
+            // 1. Xóa lựa chọn mặc định (nếu đang là data gốc)
+            // Tìm biến lưu thư mục hiện tại
+            if (typeof window.selectedFolderPath !== 'undefined' && window.selectedFolderPath === 'data') {
+                window.selectedFolderPath = '';
+            }
+            // Cập nhật hiển thị
+            var folderLabel = document.querySelector('[id*="folder"] [class*="label"], .folder-display');
+            // (Giữ nguyên hiển thị, chỉ chặn khi đẩy)
+            
+            // 2. Hook các nút đẩy để kiểm tra
+            var pushBtns = document.querySelectorAll('button[onclick*="publish"], button[onclick*="Push"], button[onclick*="push"]');
+            pushBtns.forEach(function(btn){
+                if (btn._folderCheckHooked) return;
+                btn._folderCheckHooked = true;
+                var origOnclick = btn.getAttribute('onclick');
+                btn.setAttribute('onclick', 'return checkFolderBeforePush(event, \'' + origOnclick.replace(/'/g, "\\'") + '\')');
+            });
+        } catch(e){}
+    }
+    
+    window.checkFolderBeforePush = function(event, origOnclick){
+        try {
+            var folder = '';
+            // Thử lấy từ các biến global thông dụng
+            if (typeof window.selectedFolderPath !== 'undefined') folder = window.selectedFolderPath;
+            else if (typeof window.currentFolder !== 'undefined') folder = window.currentFolder;
+            else if (typeof selectedFolder !== 'undefined') folder = selectedFolder;
+            
+            // Kiểm tra: chưa chọn hoặc đang là data gốc
+            if (!folder || folder === 'data' || folder === 'data/') {
+                alert('⚠️ Bạn chưa chọn nơi lưu!\n\nXin vui lòng chọn đúng khối lớp và môn học tại "VỊ TRÍ LƯU TRỮ BÀI ĐẨY LÊN" trước khi đẩy bài.');
+                if (event) event.preventDefault();
+                return false;
+            }
+        } catch(e){}
+        // Cho phép chạy tiếp
+        try {
+            eval(origOnclick);
+        } catch(e){ console.warn(e); }
+        return true;
+    };
+    
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function(){ setTimeout(enforceFolderSelection, 3000); });
+    } else {
+        setTimeout(enforceFolderSelection, 3000);
+    }
+    setInterval(enforceFolderSelection, 10000);
 })();
 
