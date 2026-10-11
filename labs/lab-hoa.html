@@ -175,7 +175,7 @@
   <style>
     #chem-shelf::-webkit-scrollbar{height:6px}
     #chem-shelf::-webkit-scrollbar-thumb{background:#8a6a3f;border-radius:3px}
-    .chem-bottle{background:transparent;border:none;cursor:pointer;padding:3px 2px;display:flex;flex-direction:column;align-items:center;gap:1px;min-width:66px;transition:transform .15s ease}
+    .chem-bottle{background:transparent;border:none;cursor:pointer;padding:3px 2px;display:flex;flex-direction:column;align-items:center;gap:1px;min-width:60px;transition:transform .15s ease}
     .chem-bottle:hover{transform:translateY(-3px)}
     .chem-bottle:active{transform:scale(.93)}
     /* SHELF_CATS: nút chọn mục tủ hóa chất */
@@ -196,8 +196,8 @@
     .rack-tube .rt::before{content:'';position:absolute;top:0;left:2px;right:2px;height:14px;border-radius:0 0 6px 6px;
       background:linear-gradient(90deg,rgba(255,255,255,.5),rgba(255,255,255,.12))}
     .rack-tube .rl{font-size:9px;color:#ffe9c4;font-weight:800}
-    /* ROUND_FLASK_V2: bình cầu thủy tinh 3D chau chuốt như ảnh mẫu */
-    .chem-bottle .bbody{position:relative;width:58px;height:58px;border-radius:50%;
+    /* ROUND_FLASK_V3: bình cầu thon gọn elegant như ảnh mẫu - thân 52px, cổ cao thon 22px */
+    .chem-bottle .bbody{position:relative;width:52px;height:52px;border-radius:50%;
       background:
         radial-gradient(circle at 50% 108%, rgba(255,255,255,.55) 0%, rgba(255,255,255,0) 26%),
         radial-gradient(circle at 34% 26%, rgba(255,255,255,.85) 0%, rgba(255,255,255,.12) 30%, rgba(255,255,255,0) 46%),
@@ -205,10 +205,10 @@
       border:2px solid rgba(218,243,255,.95);
       box-shadow:0 0 26px 5px rgba(140,220,255,.50), inset -7px -9px 16px rgba(80,140,200,.38), inset 7px 9px 14px rgba(255,255,255,.30);
       overflow:hidden;margin-top:-5px}
-    .chem-bottle .bbody::after{content:'';position:absolute;top:6px;left:9px;width:15px;height:36px;border-radius:50%;
+    .chem-bottle .bbody::after{content:'';position:absolute;top:5px;left:8px;width:13px;height:32px;border-radius:50%;
       background:linear-gradient(180deg,rgba(255,255,255,.95) 0%,rgba(255,255,255,.35) 55%,rgba(255,255,255,0) 100%);
       transform:rotate(18deg);filter:blur(.6px);pointer-events:none;z-index:3}
-    .chem-bottle .bbody::before{content:'';position:absolute;top:14px;right:8px;width:5px;height:22px;border-radius:50%;
+    .chem-bottle .bbody::before{content:'';position:absolute;top:12px;right:7px;width:4px;height:20px;border-radius:50%;
       background:linear-gradient(180deg,rgba(255,255,255,.70),rgba(255,255,255,0));
       transform:rotate(18deg);filter:blur(.5px);pointer-events:none;z-index:3}
     .chem-bottle .bliq{position:absolute;left:-4px;right:-4px;bottom:-4px;height:66%;border-radius:50%;
@@ -224,20 +224,20 @@
     .chem-bottle .bliq::after{content:'';position:absolute;top:-1px;left:6%;right:6%;height:7px;border-radius:50%;
       background:radial-gradient(ellipse at center,rgba(255,255,255,.95),rgba(255,255,255,.15) 70%,rgba(255,255,255,0));
       pointer-events:none;z-index:2}
-    .chem-bottle .bneck{width:12px;height:16px;margin:0 auto;position:relative;z-index:1;
+    .chem-bottle .bneck{width:10px;height:22px;margin:0 auto;position:relative;z-index:1;
       background:linear-gradient(90deg,rgba(255,255,255,.08),rgba(255,255,255,.50) 30%,rgba(255,255,255,.12) 65%,rgba(255,255,255,.40));
       border:2px solid rgba(218,243,255,.95);border-top:none;border-bottom:none;border-radius:0 0 3px 3px;
       box-shadow:0 0 12px rgba(140,220,255,.55), inset 2px 0 3px rgba(255,255,255,.50);
       margin-bottom:-5px}
-    .chem-bottle .bcork{width:19px;height:11px;margin:0 auto;position:relative;z-index:2;
+    .chem-bottle .bcork{width:13px;height:10px;margin:0 auto;position:relative;z-index:2;
       border-radius:5px 5px 3px 3px;
       background:linear-gradient(180deg,#f0c078 0%,#dfa558 30%,#c08a45 70%,#a06a32 100%);
       box-shadow:0 2px 4px rgba(0,0,0,.60), inset 0 2px 2px rgba(255,240,200,.80), inset 0 -2px 3px rgba(90,50,15,.50), 0 0 8px rgba(255,200,120,.30)}
-    .chem-bottle .bcork::after{content:'';position:absolute;left:3px;top:1px;bottom:2px;width:8px;border-radius:2px;
+    .chem-bottle .bcork::after{content:'';position:absolute;left:2px;top:1px;bottom:2px;width:6px;border-radius:2px;
       background:repeating-linear-gradient(180deg,rgba(120,70,25,.35) 0 1px,rgba(255,240,200,.25) 1px 3px)}
-    .chem-bottle .bcork::before{content:'';position:absolute;right:3px;top:1px;bottom:1px;width:4px;border-radius:2px;
+    .chem-bottle .bcork::before{content:'';position:absolute;right:2px;top:1px;bottom:1px;width:3px;border-radius:2px;
       background:linear-gradient(180deg,rgba(255,244,214,.75),rgba(255,244,214,.10))}
-    .chem-bottle .blabel{font-size:10px;font-weight:800;color:#ffe9c4;text-align:center;line-height:1.15;max-width:64px;text-shadow:0 0 8px rgba(255,200,120,.8)}
+    .chem-bottle .blabel{font-size:10px;font-weight:800;color:#ffe9c4;text-align:center;line-height:1.15;max-width:60px;text-shadow:0 0 8px rgba(255,200,120,.8)}
     .chem-bottle .bcat{font-size:8px;color:#d9b878;text-align:center;font-weight:700}
     .chem-bottle.sel .bbody{border-color:#fde047;box-shadow:0 0 22px 5px rgba(253,224,71,.85), inset -7px -9px 16px rgba(80,140,200,.38), inset 7px 9px 14px rgba(255,255,255,.30)}
     .chem-bottle:hover .bbody{box-shadow:0 0 28px 6px rgba(140,220,255,.70), inset -7px -9px 16px rgba(80,140,200,.38), inset 7px 9px 14px rgba(255,255,255,.30)}
