@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2050
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2055
 // Rebuilt - fixed structure
 (function(){
     'use strict';
@@ -1101,5 +1101,33 @@ Hãy điền chi tiết từng ô trong bảng (chủ đề kiến thức cụ t
     if (document.readyState === 'complete') addClearCacheBtn();
     else window.addEventListener('load', addClearCacheBtn);
     setInterval(addClearCacheBtn, 5000);
+})();
+
+// 2026-10-11: Ẩn thanh chọn thư mục chung ở trên (đã chuyển vào từng tab)
+(function(){
+    function hideTopFolderBar(){
+        try {
+            // Tìm thanh "VỊ TRÍ LƯU TRỮ BÀI ĐẨY LÊN"
+            var allDivs = document.querySelectorAll('div');
+            for (var i = 0; i < allDivs.length; i++) {
+                var d = allDivs[i];
+                var txt = d.textContent || '';
+                if (txt.indexOf('VỊ TRÍ LƯU TRỮ') >= 0 && txt.indexOf('Chưa chọn') >= 0) {
+                    // Kiểm tra có phải thanh top không (chứa nút "Sẵn sàng đẩy bài")
+                    if (txt.indexOf('Sẵn sàng đẩy bài') >= 0) {
+                        d.style.display = 'none';
+                        // Đánh dấu đã ẩn
+                        if (!window._topBarHidden) {
+                            window._topBarHidden = true;
+                            console.log('Đã ẩn thanh thư mục top');
+                        }
+                        break;
+                    }
+                }
+            }
+        } catch(e){}
+    }
+    
+    setInterval(hideTopFolderBar, 2000);
 })();
 
