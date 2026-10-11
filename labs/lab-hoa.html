@@ -582,6 +582,22 @@ window.__refits = window.__refits || [];
         o.connect(g); g.connect(this.master); o.start(t); o.stop(t + 0.13);
       } catch(e){}
     },
+    // glug: tiếng nước rót ục ục róc rách
+    glug: function(){
+      if (!this.ctx || !this.enabled) return;
+      try {
+        var c = this.ctx, t = c.currentTime;
+        var o = c.createOscillator(); o.type = 'sine';
+        var f0 = 300 + Math.random() * 400;
+        o.frequency.setValueAtTime(f0, t);
+        o.frequency.exponentialRampToValueAtTime(90, t + 0.09);
+        o.frequency.exponentialRampToValueAtTime(f0 * 0.7, t + 0.16);
+        var g = c.createGain();
+        g.gain.setValueAtTime(0.22, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + 0.18);
+        o.connect(g); g.connect(this.master); o.start(t); o.stop(t + 0.2);
+      } catch(e){}
+    },
     crackle: function(){
       if (!this.ctx || !this.enabled) return;
       try {
@@ -604,13 +620,14 @@ window.__refits = window.__refits || [];
       try {
         for (i = 0; i < vessels.length; i++){
           v = vessels[i];
-          if ((v.heat || 0) > 0.08) heating = true;
+          if ((v.heat || 0) > 0.25) heating = true; // FIX 11:41 - ngưỡng cao hơn, tránh kêu liên tục
           if ((v.heat || 0) > 0.85 && (v.volShown || 0) > 0.03) boiling = true;
           if ((v.fizz || 0) > 0.45) gassing = true;
         }
       } catch(e){}
       this.set('pour', pouring ? 0.50 : 0);
-      this.set('fire', heating ? 0.20 : 0);
+      this.set('fire', heating ? 0.12 : 0);
+      if (pouring && Math.random() < 0.18) this.glug(); // róc rách khi rót
       this.set('boil', boiling ? 0.42 : 0);
       this.set('gas', gassing ? 0.26 : 0);
       if (this.enabled){
