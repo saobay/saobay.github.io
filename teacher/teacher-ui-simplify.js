@@ -1,16 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2116
-// 2026-10-11: CSS ẩn giao diện cũ ngay từ đầu (chống FOUC)
-(function(){
-    var style = document.createElement('style');
-    style.textContent = `
-        /* Ẩn cây thư mục cũ ngay khi tải */
-        [id*="folder-tree"], .folder-tree, [id*="tree-container"] { display: none !important; }
-    `;
-    // Chèn vào head ngay lập tức
-    if (document.head) document.head.appendChild(style);
-    else document.addEventListener('DOMContentLoaded', function(){ document.head.appendChild(style); });
-})();
-
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2120
 // Rebuilt - fixed structure
 (function(){
     'use strict';
@@ -1115,31 +1103,56 @@ Hãy điền chi tiết từng ô trong bảng (chủ đề kiến thức cụ t
     setInterval(addClearCacheBtn, 5000);
 })();
 
-// 2026-10-11: Ẩn thanh chọn thư mục chung ở trên (đã chuyển vào từng tab)
+// 2026-10-11: Ẩn thanh chọn thư mục chung + bỏ chặn tab
 (function(){
-    function hideTopFolderBar(){
+    function fixTopBar(){
         try {
-            // Tìm thanh "VỊ TRÍ LƯU TRỮ BÀI ĐẨY LÊN"
-            var allDivs = document.querySelectorAll('div');
-            for (var i = 0; i < allDivs.length; i++) {
-                var d = allDivs[i];
-                var txt = d.textContent || '';
-                if (txt.indexOf('VỊ TRÍ LƯU TRỮ') >= 0 && txt.indexOf('Chưa chọn') >= 0) {
-                    // Kiểm tra có phải thanh top không (chứa nút "Sẵn sàng đẩy bài")
-                    if (txt.indexOf('Sẵn sàng đẩy bài') >= 0) {
-                        d.style.display = 'none';
-                        // Đánh dấu đã ẩn
-                        if (!window._topBarHidden) {
-                            window._topBarHidden = true;
-                            console.log('Đã ẩn thanh thư mục top');
+            // Cách 1: Tìm bằng text
+            var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+            var node;
+            while (node = walker.nextNode()) {
+                if (node.textContent.indexOf('VỊ TRÍ LƯU TRỮ') >= 0) {
+                    var bar = node.parentElement;
+                    // Đi lên tìm container lớn (có nút "Sẵn sàng đẩy bài")
+                    for (var i = 0; i < 5 && bar; i++) {
+                        if ((bar.textContent || '').indexOf('Sẵn sàng đẩy bài') >= 0) {
+                            bar.style.display = 'none';
+                            break;
                         }
-                        break;
+                        bar = bar.parentElement;
                     }
+                    break;
                 }
             }
+            
+            // Cách 2: Bỏ chặn click tab (xóa validation yêu cầu chọn thư mục)
+            ['push-mode-theory', 'push-mode-exercise', 'push-mode-bank', 'push-mode-direct', 'push-mode-ai'].forEach(function(id){
+                var btn = document.getElementById(id);
+                if (btn && !btn._unblocked) {
+                    btn._unblocked = true;
+                    // Clone để xóa event listener cũ
+                    var clone = btn.cloneNode(true);
+                    btn.parentNode.replaceChild(clone, btn);
+                    clone.addEventListener('click', function(e){
+                        // Gọi switchPushMode trực tiếp, bỏ qua validation
+                        var mode = id.replace('push-mode-', '');
+                        if (typeof window.switchPushMode === 'function') {
+                            window.switchPushMode(mode);
+                        }
+                        // Cập nhật UI active
+                        document.querySelectorAll('[id^="push-mode-"]').forEach(function(b){
+                            b.classList.remove('bg-blue-700', 'text-white');
+                        });
+                        clone.classList.add('bg-blue-700', 'text-white');
+                    });
+                }
+            });
         } catch(e){}
     }
     
-    setInterval(hideTopFolderBar, 2000);
+    setInterval(fixTopBar, 2000);
+    // Chạy ngay
+    if (document.readyState !== 'loading') fixTopBar();
+    else document.addEventListener('DOMContentLoaded', fixTopBar);
 })();
 
