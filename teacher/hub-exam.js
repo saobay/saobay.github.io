@@ -465,7 +465,7 @@
                 statHtml += '<div class="flex flex-wrap gap-1.5 mt-1.5">';
                 Object.keys(typeNames).forEach(function(tp){
                     var c = typeCount[tp] || 0;
-                    if (c > 0) statHtml += '<span class="px-2 py-0.5 rounded-full font-bold ' + (typeColors[tp] || 'bg-slate-100 text-slate-600') + '">' + typeNames[tp] + ': ' + c + '</span>';
+                    statHtml += '<span class="px-2 py-0.5 rounded-full font-bold ' + (typeColors[tp] || 'bg-slate-100 text-slate-600') + (c === 0 ? ' opacity-50' : '') + '">' + typeNames[tp] + ': ' + c + '</span>';
                 });
                 statHtml += '</div></div>';
                 let rows = '';
