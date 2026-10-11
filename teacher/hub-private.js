@@ -420,9 +420,15 @@
 
 /* PV_MANAGE_V1 — "Quan ly lop cua toi": chips lop chinh khoa + helpers (2026-10-11) */
 async function pvFetchUsedIs(){
-    var r = await fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/used/used.is?t=' + Date.now(), {cache: 'no-store'});
-    if (!r.ok) throw new Error('Không tải được used.is (HTTP ' + r.status + ')');
-    return r.json();
+    var controller = new AbortController();
+    var timeoutId = setTimeout(function(){ controller.abort(); }, 15000);
+    try {
+        var r = await fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/used/used.is?t=' + Date.now(), {cache: 'no-store', signal: controller.signal});
+        if (!r.ok) throw new Error('Không tải được used.is (HTTP ' + r.status + ')');
+        return r.json();
+    } finally {
+        clearTimeout(timeoutId);
+    }
 }
 async function pvScanScores(){
     var tr = await (await fetch('https://api.github.com/repos/saobay/saobay.github.io/git/trees/main?recursive=1')).json();
