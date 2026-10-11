@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2035
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2040
 // Rebuilt - fixed structure
 (function(){
     'use strict';
@@ -809,5 +809,94 @@ Hãy điền chi tiết từng ô trong bảng (chủ đề kiến thức cụ t
             clearInterval(checkExist);
         }
     }, 1000);
+})();
+
+// 2026-10-11: Nút tổ chức lại Ôn thi vào 10 dùng token admin
+(function(){
+    function addReorganizeBtn(){
+        try {
+            // Chỉ hiện cho admin (có nút Quản trị)
+            var adminBtn = document.getElementById('btn-admin-space');
+            if (!adminBtn) return;
+            if (document.getElementById('btn-reorg-vao10')) return;
+            
+            var btn = document.createElement('button');
+            btn.id = 'btn-reorg-vao10';
+            btn.textContent = '📁 Tổ chức lại Ôn thi vào 10';
+            btn.className = 'ml-2 px-3 py-1 bg-orange-600 text-white text-sm rounded hover:bg-orange-700';
+            btn.title = 'Chia 38 file thành 3 thư mục môn (dùng token admin)';
+            btn.onclick = async function(){
+                if (!confirm('Chia thư mục "Ôn thi vào 10" thành 3 môn (Toán, Tiếng Anh, Ngữ Văn)?\nSẽ di chuyển 38 file.')) return;
+                
+                // Lấy token từ cài đặt
+                var tokenInput = document.getElementById('cfg-github-token');
+                var token = tokenInput ? tokenInput.value : localStorage.getItem('github_token');
+                if (!token) {
+                    alert('Chưa có GitHub token! Vào Cài đặt Admin để nhập token.');
+                    return;
+                }
+                
+                btn.disabled = true;
+                btn.textContent = '⏳ Đang xử lý...';
+                
+                try {
+                    // Lấy danh sách file
+                    var res = await fetch('https://api.github.com/repos/saobay/saobay.github.io/contents/data/THCS/' + encodeURIComponent('Ôn thi vào 10'), {
+                        headers: { 'Authorization': 'token ' + token }
+                    });
+                    var files = await res.json();
+                    
+                    var moved = 0;
+                    for (var f of files) {
+                        if (f.type !== 'file') continue;
+                        var name = f.name;
+                        var subject = null;
+                        if (name.indexOf('VAO10_Toan_') === 0) subject = 'Toán';
+                        else if (name.indexOf('VAO10_Anh_') === 0) subject = 'Tiếng Anh';
+                        else if (name.indexOf('VAO10_Van_') === 0) subject = 'Ngữ Văn';
+                        if (!subject) continue;
+                        
+                        // Lấy nội dung file
+                        var contentRes = await fetch(f.download_url);
+                        var content = await contentRes.text();
+                        
+                        // Tạo file mới trong thư mục môn
+                        var newPath = 'data/THCS/Ôn thi vào 10/' + subject + '/' + name;
+                        await fetch('https://api.github.com/repos/saobay/saobay.github.io/contents/' + encodeURIComponent(newPath), {
+                            method: 'PUT',
+                            headers: { 'Authorization': 'token ' + token, 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                message: 'Move ' + name + ' to ' + subject,
+                                content: btoa(unescape(encodeURIComponent(content)))
+                            })
+                        });
+                        
+                        // Xóa file cũ
+                        await fetch('https://api.github.com/repos/saobay/saobay.github.io/contents/' + encodeURIComponent('data/THCS/Ôn thi vào 10/' + name), {
+                            method: 'DELETE',
+                            headers: { 'Authorization': 'token ' + token, 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ message: 'Delete old ' + name, sha: f.sha })
+                        });
+                        
+                        moved++;
+                        btn.textContent = '⏳ Đã chuyển ' + moved + ' file...';
+                    }
+                    
+                    alert('Xong! Đã chuyển ' + moved + ' file vào 3 thư mục môn.');
+                    btn.textContent = '✅ Đã xong';
+                } catch(e) {
+                    alert('Lỗi: ' + e.message);
+                    btn.disabled = false;
+                    btn.textContent = '📁 Tổ chức lại Ôn thi vào 10';
+                }
+            };
+            
+            // Thêm vào header hoặc toolbar
+            var toolbar = document.querySelector('header') || document.body;
+            toolbar.appendChild(btn);
+        } catch(e){}
+    }
+    
+    setInterval(addReorganizeBtn, 3000);
 })();
 
