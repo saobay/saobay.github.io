@@ -16,10 +16,15 @@ button:disabled{background:#999}
 .info{background:#dbeafe;color:#1e40af;display:block!important}
 input{width:100%;padding:8px;margin:5px 0;border:1px solid #ddd;border-radius:6px;box-sizing:border-box}
 label{font-weight:bold;font-size:14px}
+
+.card{position:relative}
+.btn-hide{position:absolute;top:10px;right:10px;background:#ef4444;color:#fff;border:none;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:14px;line-height:1}
+.btn-hide:hover{background:#dc2626}
 </style>
 </head>
 <body>
-<div class="card">
+<div class="card" id="card-token">
+<button class="btn-hide" onclick="hideCard('card-token')" title="Ẩn">✕</button>
 <h2>📤 Đẩy Data - SAOBAY Admin</h2>
 <p style="color:#666;font-size:14px">Dùng GitHub token để đẩy trực tiếp, không qua GAS.</p>
 <label>GitHub Token:</label>
@@ -29,7 +34,8 @@ label{font-weight:bold;font-size:14px}
 <div id="status"></div>
 </div>
 
-<div class="card">
+<div class="card" id="card-reorg">
+<button class="btn-hide" onclick="hideCard('card-reorg')" title="Ẩn">✕</button>
 <h2>📁 Tổ chức lại Ôn thi vào 10</h2>
 <p style="color:#666;font-size:14px">Chia 38 file thành 3 thư mục môn (Toán, Tiếng Anh, Ngữ Văn).</p>
 <button id="btn-reorg" onclick="reorganize()">📁 Bắt đầu tổ chức</button>
@@ -90,7 +96,8 @@ async function reorganize(){
 window.onload=function(){var t=localStorage.getItem('saobay_github_token');if(t)document.getElementById('token').value=t;};
 </script>
 
-<div class="card">
+<div class="card" id="card-upload">
+<button class="btn-hide" onclick="hideCard('card-upload')" title="Ẩn">✕</button>
 <h2>📤 Đẩy file JS sửa lỗi</h2>
 <p style="color:#666;font-size:14px">Chọn file teacher-ui-simplify.js đã sửa để đẩy lên.</p>
 <label>Đường dẫn trên GitHub:</label>
@@ -128,6 +135,33 @@ async function uploadFile(){
   }catch(e){show('upload-status','❌ Lỗi: '+e.message,'err');}
   btn.disabled=false;
 }
+</script>
+
+
+<script>
+// Ẩn/hiện card
+function hideCard(id){
+  document.getElementById(id).style.display='none';
+  var hidden=JSON.parse(localStorage.getItem('push_hidden')||'[]');
+  if(hidden.indexOf(id)<0){hidden.push(id);localStorage.setItem('push_hidden',JSON.stringify(hidden));}
+}
+function showAllCards(){
+  localStorage.removeItem('push_hidden');
+  document.querySelectorAll('.card').forEach(function(c){c.style.display='';});
+}
+// Khôi phục trạng thái ẩn khi tải trang
+window.addEventListener('load',function(){
+  var hidden=JSON.parse(localStorage.getItem('push_hidden')||'[]');
+  hidden.forEach(function(id){var e=document.getElementById(id);if(e)e.style.display='none';});
+  // Thêm nút hiện lại nếu có card bị ẩn
+  if(hidden.length>0){
+    var b=document.createElement('button');
+    b.textContent='👁 Hiện các mục đã ẩn ('+hidden.length+')';
+    b.style.cssText='margin:10px;padding:8px 16px;background:#6b7280;color:#fff;border:none;border-radius:6px;cursor:pointer';
+    b.onclick=showAllCards;
+    document.body.insertBefore(b,document.body.firstChild);
+  }
+});
 </script>
 
 </body>
