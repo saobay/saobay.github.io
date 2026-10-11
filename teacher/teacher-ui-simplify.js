@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2008
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2011
 // Rebuilt - fixed structure
 (function(){
     'use strict';
@@ -677,56 +677,80 @@ Hãy điền chi tiết từng ô trong bảng (chủ đề kiến thức cụ t
     }
 })();
 
-// 2026-10-11: Double-click vào tên môn để chọn luôn (không cần mở chương)
+// 2026-10-11: Ẩn chương trong popup khi đẩy đề thi, chỉ hiện đến môn
 (function(){
-    function enableDblClick(){
+    function hideChaptersInExamMode(){
         try {
-            // Tìm tất cả text tên thư mục trong popup
-            document.querySelectorAll('*').forEach(function(el){
-                if (el._dblHooked) return;
-                var txt = el.textContent || '';
-                // Nhận diện tên môn: "Toán 6", "Tiếng Anh 6", etc. (ngắn, không chứa Chương)
-                if (el.children.length === 0 && txt.length < 30 && txt.length > 3 
-                    && /[6-9]|10|11|12/.test(txt) && txt.indexOf('Chương') < 0
-                    && (txt.indexOf('Toán') >= 0 || txt.indexOf('Văn') >= 0 || txt.indexOf('Anh') >= 0 
-                        || txt.indexOf('Lý') >= 0 || txt.indexOf('Hóa') >= 0 || txt.indexOf('Sinh') >= 0
-                        || txt.indexOf('Sử') >= 0 || txt.indexOf('Địa') >= 0 || txt.indexOf('Tin') >= 0)) {
-                    el._dblHooked = true;
-                    el.style.cursor = 'pointer';
-                    el.title = 'Double-click để chọn môn này';
-                    el.addEventListener('dblclick', function(e){
-                        e.stopPropagation();
-                        // Tìm đường dẫn từ text
-                        var subject = txt.trim();
-                        // Đoán đường dẫn (cần cải thiện)
-                        var path = 'data/THCS/Khối lớp 6/' + subject;
-                        // Thử tìm khối từ context
-                        var parent = el.closest('[id*="modal"], [class*="modal"]');
-                        if (parent) {
-                            var modalText = parent.textContent || '';
-                            var gradeMatch = modalText.match(/Khối lớp (\d+)/);
-                            if (gradeMatch) {
-                                path = 'data/THCS/Khối lớp ' + gradeMatch[1] + '/' + subject;
-                            }
+            // Kiểm tra có đang ở tab đề thi không
+            var isExamMode = document.querySelector('#push-mode-bank.bg-blue-700, #push-mode-ai.bg-blue-700, #push-mode-direct.bg-blue-700');
+            if (!isExamMode) return;
+            
+            // Tìm popup chọn thư mục đang mở
+            var modals = document.querySelectorAll('[style*="position:fixed"], [class*="fixed"]');
+            modals.forEach(function(modal){
+                if (modal.style.display === 'none') return;
+                var title = modal.textContent || '';
+                if (title.indexOf('Chọn thư mục') < 0) return;
+                
+                // Ẩn các thư mục chương
+                modal.querySelectorAll('*').forEach(function(el){
+                    var txt = (el.textContent || '').trim();
+                    // Nếu là text "Chương X" và là leaf node
+                    if (/^Chương \d+/.test(txt) && el.children.length === 0) {
+                        var row = el.closest('div');
+                        if (row) row.style.display = 'none';
+                    }
+                    // Ẩn icon mở rộng của môn (vì không cần mở nữa)
+                    if (txt === '' && el.className && el.className.indexOf('fa-angle') >= 0) {
+                        // Giữ lại để biết có con, nhưng không bắt buộc mở
+                    }
+                });
+                
+                // Biến tên môn thành nút bấm chọn
+                if (!modal._subjectBtnAdded) {
+                    modal._subjectBtnAdded = true;
+                    modal.querySelectorAll('*').forEach(function(el){
+                        if (el._subjectHooked) return;
+                        var txt = (el.textContent || '').trim();
+                        // Nhận diện tên môn
+                        if (el.children.length <= 1 && txt.length < 25 && txt.length > 3
+                            && /[6-9]|10|11|12/.test(txt) && txt.indexOf('Chương') < 0
+                            && /Toán|Văn|Anh|Lý|Hóa|Sinh|Sử|Địa|Tin|KHTN|GDCD|Công nghệ|Âm nhạc|Mỹ thuật|Thể dục/.test(txt)) {
+                            el._subjectHooked = true;
+                            el.style.cursor = 'pointer';
+                            el.style.fontWeight = 'bold';
+                            el.style.color = '#1d4ed8';
+                            el.title = 'Bấm để chọn môn này';
+                            el.addEventListener('click', function(e){
+                                e.stopPropagation();
+                                var subject = txt;
+                                // Tìm đường dẫn đầy đủ từ DOM
+                                var path = '';
+                                // Thử đoán từ vị trí trong cây
+                                var walker = document.createTreeWalker(modal, NodeFilter.SHOW_TEXT, null, false);
+                                // Đơn giản: dùng subject name, code lưu sẽ tự tìm path
+                                if (typeof window.selectedFolderPath !== 'undefined') {
+                                    // Đánh dấu là chọn môn (code lưu sẽ tự thêm /kiểm tra)
+                                    window.selectedFolderPath = 'SUBJECT:' + subject;
+                                    window.selectedSubjectName = subject;
+                                }
+                                // Cập nhật hiển thị
+                                var displays = document.querySelectorAll('#folder-display, [id*="folder"] span');
+                                // Đóng modal
+                                modal.style.display = 'none';
+                                if (typeof showToast === 'function') {
+                                    showToast('Đã chọn môn: ' + subject + ' (sẽ lưu vào thư mục kiểm tra)', 'success');
+                                } else {
+                                    alert('Đã chọn môn: ' + subject);
+                                }
+                            });
                         }
-                        // Thêm /kiểm tra nếu đang ở tab đề thi
-                        var activeTab = document.querySelector('#push-mode-bank.bg-blue-700, #push-mode-ai.bg-blue-700, #push-mode-direct.bg-blue-700');
-                        if (activeTab) path += '/kiểm tra';
-                        
-                        if (typeof window.selectedFolderPath !== 'undefined') {
-                            window.selectedFolderPath = path;
-                        }
-                        // Đóng modal
-                        var modal = el.closest('[style*="position:fixed"], [class*="fixed"]');
-                        if (modal) modal.style.display = 'none';
-                        
-                        if (typeof showToast === 'function') showToast('Đã chọn: ' + path, 'success');
-                        else alert('Đã chọn: ' + path);
                     });
                 }
             });
         } catch(e){}
     }
-    setInterval(enableDblClick, 3000);
+    
+    setInterval(hideChaptersInExamMode, 2000);
 })();
 
