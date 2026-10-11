@@ -623,70 +623,33 @@
             let ta = document.getElementById('item-content');
             if (!ta){ alert('Không tìm thấy khung soạn thảo.'); return; }
             ta.value = frag;
-            // Render câu hỏi thành HTML hiển thị trong khung WYSIWYG
-            // (script JSON không render được nên phải vẽ câu hỏi ra)
+            // Hiển thị câu hỏi trong khung WYSIWYG (bản đơn giản)
             try {
                 var pvBox = document.getElementById('preview-container');
                 if (pvBox){
-                    var htmlOut = '<div class="space-y-4">';
                     var qList = (examJson.sets && examJson.sets[0] && examJson.sets[0].questions) || [];
-                    qList.forEach(function(q, qi){
-                        try {
-                        var qNum = qi + 1;
-                        var qText = (q.q || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-                        htmlOut += '<div class="border border-slate-200 rounded-xl p-3 bg-white shadow-sm">';
-                        htmlOut += '<p class="font-bold text-sm text-slate-800 mb-2">Câu ' + qNum + ': ' + qText + '</p>';
-                        // Trắc nghiệm: hiện các phương án
-                        if (q.options && q.options.length){
-                            htmlOut += '<div class="ml-4 space-y-1">';
-                            q.options.forEach(function(op, oi){
-                                var letter = String.fromCharCode(65 + oi);
-                                var opText = String(op || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-                                var isAns = (String(q.answer).toUpperCase() === letter);
-                                var cls = isAns ? 'text-green-700 font-bold bg-green-50' : 'text-slate-600';
-                                htmlOut += '<p class="text-sm ' + cls + ' px-2 py-1 rounded">' + letter + '. ' + opText + (isAns ? ' ✓' : '') + '</p>';
-                            });
-                            htmlOut += '</div>';
+                    var html = '';
+                    for (var qi = 0; qi < qList.length; qi++){
+                        var q = qList[qi] || {};
+                        html += '<div style="border:1px solid #ddd;border-radius:8px;padding:10px;margin-bottom:10px;background:#fff">';
+                        html += '<p style="font-weight:bold;margin:0 0 8px 0">Câu ' + (qi+1) + ': ' + escapeHtml(q.q || '') + '</p>';
+                        var opts = q.options || [];
+                        for (var oi = 0; oi < opts.length; oi++){
+                            var letter = String.fromCharCode(65 + oi);
+                            var isAns = String(q.answer || '').toUpperCase() === letter;
+                            html += '<p style="margin:2px 0 2px 16px;' + (isAns ? 'color:#15803d;font-weight:bold' : 'color:#475569') + '">' + letter + '. ' + escapeHtml(opts[oi]) + (isAns ? ' ✓' : '') + '</p>';
                         }
-                        // Đúng/Sai: hiện các mệnh đề
-                        if (q.statements && q.statements.length){
-                            htmlOut += '<div class="ml-4 space-y-1">';
-                            q.statements.forEach(function(st, si){
-                                var stText = String(st.text || st).replace(/</g, '&lt;').replace(/>/g, '&gt;');
-                                var ans = q.answer && q.answer[si] ? q.answer[si] : '';
-                                htmlOut += '<p class="text-sm text-slate-600">' + String.fromCharCode(97 + si) + ') ' + stText + (ans ? ' <span class="font-bold text-blue-600">(' + ans + ')</span>' : '') + '</p>';
-                            });
-                            htmlOut += '</div>';
-                        }
-                        // TLN/TL: hiện đáp án nếu có
-                        if ((!q.options || !q.options.length) && (!q.statements || !q.statements.length) && q.answer){
-                            var ansText = String(q.answer).replace(/</g, '&lt;').replace(/>/g, '&gt;');
-                            htmlOut += '<p class="text-xs text-green-700 mt-1 ml-4">Đáp án: <b>' + ansText + '</b></p>';
-                        }
-                        // Ảnh nếu có
                         if (q.img){
-                            htmlOut += '<img src="' + q.img + '" class="mt-2 max-w-full rounded-lg" style="max-height:200px"/>';
+                            html += '<img src="' + q.img + '" style="max-width:100%;max-height:200px;margin-top:8px;border-radius:8px"/>';
                         }
-                        // Badge loại + mức độ
-                        var badges = '';
-                        if (q.type) badges += '<span class="text-[10px] bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-bold mr-1">' + q.type + '</span>';
-                        if (q.level) badges += '<span class="text-[10px] bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full font-bold">' + q.level + '</span>';
-                        if (badges) htmlOut += '<div class="mt-2">' + badges + '</div>';
-                        htmlOut += '</div>';
-                        } catch(eQ){ console.warn('render q', qi, eQ); }
-                    });
-                    htmlOut += '</div>';
-                    // Thêm div ẩn chứa JSON để khi đẩy bài vẫn lấy được dữ liệu
-                    htmlOut += '<div class="saobay-exam10" style="display:none"><script type="application/json" class="saobay-exam10-data">' + JSON.stringify(examJson).replace(/</g, '\\u003c') + '<\/script></div>';
-                    pvBox.innerHTML = htmlOut;
-                    if (typeof wrapMathInBadges === 'function'){ try { wrapMathInBadges(pvBox); } catch(e){} }
-                    if (window.MathJax && window.MathJax.typesetPromise){
-                        window.MathJax.typesetPromise([pvBox]).catch(function(){});
+                        html += '</div>';
                     }
-                    // Đồng bộ ngược lại vào textarea để đảm bảo nhất quán
-                    if (typeof onVisualContentChange === 'function'){ try { onVisualContentChange(); } catch(e){} }
+                    // Giữ lại JSON ẩn để đẩy bài
+                    html += '<div class="saobay-exam10" style="display:none"><script type="application/json" class="saobay-exam10-data">' + JSON.stringify(examJson).replace(/</g, '\\u003c') + '<\/script></div>';
+                    pvBox.innerHTML = html;
                 }
-            } catch(e){ console.warn('render preview failed', e); }
+            } catch(eRender){ console.error('render failed:', eRender); }
+            function escapeHtml(t){ return String(t || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
             if (typeof renderMathPreview === 'function'){ try { renderMathPreview(); } catch(e){} }
             if (typeof showToast === 'function') showToast('Đã chuyển ' + qs.length + ' câu vào khung soạn. Nhập tiêu đề rồi bấm Đẩy bài.', 'success');
             else alert('Đã chuyển ' + qs.length + ' câu vào khung soạn.');
