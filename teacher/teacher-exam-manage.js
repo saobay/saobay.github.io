@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_EXAM_MANAGE_VERSION:20261011_1816
+// SAOBAY_TEACHER_EXAM_MANAGE_VERSION:20261011_1856
 // SAOBAY Teacher Exam Management - 2026-10-11
 // Quản lý đề kiểm tra của GV: danh sách đề đã tạo từ ma trận, nút "Giao cho HS"
 (function(){
@@ -195,5 +195,82 @@
     } else {
         setTimeout(injectExamSection, 1000);
     }
+
+
+    // Kiểm tra có phải admin không
+    function isAdmin(){
+        try {
+            var u = JSON.parse(localStorage.getItem('saobay_user') || 'null');
+            return u && u.role === 'admin';
+        } catch(e){ return false; }
+    }
+    
+    // Tải danh sách TẤT CẢ đề (cho admin)
+    async function exbLoadAllExams(teacherFilter){
+        var container = document.getElementById('teacher-exams-list');
+        if (!container) return;
+        
+        container.innerHTML = '<p class="text-xs text-slate-400 italic"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Đang tải...</p>';
+        
+        try {
+            // Lấy danh sách GV từ index tổng
+            var allExams = [];
+            // TODO: cần API liệt kê thư mục, tạm thời dùng cách khác
+            container.innerHTML = '<p class="text-sm text-slate-500">Chức năng admin đang phát triển. Tạm thời xem từng GV.</p>';
+        } catch(e) {
+            container.innerHTML = '<p class="text-sm text-rose-500">Lỗi: ' + escapeHtml(e.message) + '</p>';
+        }
+    }
+    
+    // Admin duyệt đề -> đưa vào data bank
+    window.exbApproveExam = async function(teacherId, examId){
+        if (!confirm('Duyệt đề này và đưa vào data bank?')) return;
+        try {
+            // Tải đề
+            var examResp = await fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/data/teacher-exams/' + teacherId + '/' + examId + '.json');
+            var exam = await examResp.json();
+            
+            // Cập nhật status
+            exam.status = 'approved';
+            exam.approved_at = new Date().toISOString();
+            
+            // Lưu lại
+            var saveResp = await fetch(GAS_URL, {
+                method: 'POST',
+                headers: {'Content-Type': 'text/plain;charset=utf-8'},
+                body: JSON.stringify({
+                    type: 'PUSH_TO_GITHUB',
+                    filePath: 'data/teacher-exams/' + teacherId + '/' + examId + '.json',
+                    content: JSON.stringify(exam, null, 2),
+                    commitMessage: 'Duyệt đề: ' + exam.title,
+                    title: 'Duyệt đề',
+                    author: 'saobay-admin'
+                })
+            });
+            
+            alert('Đã duyệt đề "' + exam.title + '"!');
+            exbLoadTeacherExams();
+        } catch(e) {
+            alert('Lỗi: ' + e.message);
+        }
+    };
+    
+    // Cập nhật renderExamCard để hiện nút duyệt cho admin
+    var origRender = renderExamCard;
+    renderExamCard = function(exam){
+        var html = origRender(exam);
+        if (isAdmin() && exam.status !== 'approved') {
+            // Thêm nút duyệt
+            html = html.replace('</div></div>', 
+                '<button onclick="exbApproveExam(\'' + (exam.teacher_id || '') + '\',\'' + (exam.id || '') + '\')" class="text-xs bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg font-bold ml-1">'
+                + '<i class="fa-solid fa-check mr-1"></i>Duyệt</button></div></div>');
+        }
+        // Hiện trạng thái
+        var statusBadge = '';
+        if (exam.status === 'approved') statusBadge = '<span class="text-[10px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full font-bold ml-2">Đã duyệt</span>';
+        else if (exam.status === 'pending') statusBadge = '<span class="text-[10px] bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-bold ml-2">Chờ duyệt</span>';
+        html = html.replace('</p>', statusBadge + '</p>');
+        return html;
+    };
 
 })();
