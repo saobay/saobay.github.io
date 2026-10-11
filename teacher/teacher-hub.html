@@ -528,7 +528,28 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
                             <input id="exbb-lv-vdc" type="number" value="10" class="text-sm border rounded-lg px-2 py-2 text-center font-bold">
                         </div></div>
                         <div><label class="text-[11px] font-bold text-slate-600">Thời gian làm bài (phút, 0 = không tính giờ)</label><input id="exbb-timelimit" type="number" value="0" min="0" class="mt-1 w-full text-sm border rounded-lg px-3 py-2 font-bold"></div>
-                        <p class="text-[11px] text-slate-500 bg-white border rounded-lg px-3 py-2"><i class="fa-solid fa-scale-balanced mr-1"></i><b>Thang điểm Đúng/Sai</b> (áp dụng mọi câu Đ/S): đúng 1/4 ý → <b>0.125</b> • 2/4 → <b>0.25</b> • 3/4 → <b>0.5</b> • 4/4 → <b>1</b> điểm.</p>
+                        <div class="bg-white border rounded-lg px-3 py-2 space-y-1.5">
+                            <p class="text-[11px] text-slate-500"><i class="fa-solid fa-scale-balanced mr-1"></i><b>Thang điểm Đúng/Sai</b> (áp dụng mọi câu Đ/S) — bấm vào số để sửa, tự lưu:</p>
+                            <div class="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[11px] text-slate-600 font-semibold">
+                                <label>đúng 1/4 ý → <input id="tfscale-1" type="number" step="0.025" min="0" value="0.125" class="w-16 text-xs border border-slate-300 rounded px-1.5 py-1 font-bold text-center"></label>
+                                <label>2/4 → <input id="tfscale-2" type="number" step="0.025" min="0" value="0.25" class="w-16 text-xs border border-slate-300 rounded px-1.5 py-1 font-bold text-center"></label>
+                                <label>3/4 → <input id="tfscale-3" type="number" step="0.025" min="0" value="0.5" class="w-16 text-xs border border-slate-300 rounded px-1.5 py-1 font-bold text-center"></label>
+                                <label>4/4 → <input id="tfscale-4" type="number" step="0.025" min="0" value="1" class="w-16 text-xs border border-slate-300 rounded px-1.5 py-1 font-bold text-center"></label>
+                                <span class="text-slate-400 font-normal">điểm</span>
+                            </div>
+                        </div>
+                        <script>
+                        /* TFSCALE_V1: thang điểm Đ/S sửa trực tiếp, tự lưu localStorage */
+                        (function(){
+                            var DEF=[0.125,0.25,0.5,1], KEY='saobay_tfscale';
+                            function load(){ try{var a=JSON.parse(localStorage.getItem(KEY)); if(a&&a.length===4) return a.map(function(x){var n=parseFloat(x); return (isNaN(n)||n<0)?0:n;});}catch(e){} return DEF.slice(); }
+                            window.getTFScale=function(){ return load(); };
+                            function apply(){ var v=load(); for(var i=1;i<=4;i++){ var el=document.getElementById('tfscale-'+i); if(el) el.value=v[i-1]; } }
+                            function save(){ var v=[]; for(var i=1;i<=4;i++){ var el=document.getElementById('tfscale-'+i); var n=el?parseFloat(el.value):NaN; v.push((isNaN(n)||n<0)?DEF[i-1]:n); } try{localStorage.setItem(KEY,JSON.stringify(v));}catch(e){} }
+                            document.addEventListener('change',function(e){ if(e.target&&/^tfscale-[1-4]$/.test(e.target.id)) save(); });
+                            if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',apply); else apply();
+                        })();
+                        </script>
                         <div id="exb-act-mot" class="flex gap-2">
                             <button type="button" onclick="exbPushToComposer()" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl"><i class="fa-solid fa-arrow-down mr-1"></i>Đẩy đề ra khung soạn</button>
                             <button type="button" onclick="copyExamPromptForAI()" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl"><i class="fa-solid fa-copy mr-1"></i>Prompt đề cho Web</button>
@@ -558,58 +579,6 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
                             <div id="word-preview" class="text-[11px]"></div>
                         </div>
                     </div>
-                </div>
-                </div>
-
-<!-- BỘ TẠO PROMPT NOTEBOOKLM NHANH -->
-                <div id="bo-tao-prompt-box" class="bg-slate-50 border border-slate-200 p-3 rounded-xl space-y-2">
-                    <div class="flex items-center border-b border-slate-200 pb-2">
-                        <div class="flex items-center space-x-2">
-                            <i class="fa-solid fa-wand-magic-sparkles text-amber-500 text-base"></i>
-                            <h3 class="text-xs font-bold uppercase text-slate-800">Tạo Prompt NotebookLM Nhanh</h3>
-                        </div>
-                    </div>
-
-
-                    <!-- PANEL ĐỀ THI / BÀI TẬP (hiện khi chọn tab Đẩy Đề Thi) -->
-                    <div id="prompt-panel-exam" class="hidden space-y-2">
-                        <!-- DÁN JSON TỪ AI (2026-10-10): NotebookLM/Gemini trả khối ```json → dán vào đây → nạp vào khung soạn -->
-                        <details class="bg-white border border-slate-200 rounded-xl shadow-sm">
-                            <summary class="px-3 py-2 cursor-pointer text-xs font-bold text-slate-700 hover:text-slate-900 flex items-center select-none">
-                                <i class="fa-solid fa-gear mr-2 text-slate-500"></i>
-                                ⚙️ Cài đặt thêm (giờ làm bài, điểm số)
-                                <span class="ml-auto text-[10px] text-slate-400 font-normal">bấm để mở rộng</span>
-                            </summary>
-                            <div class="px-2 pb-2 pt-1 space-y-2">
-                        <div class="flex flex-wrap items-center gap-2 bg-amber-50/70 p-2 rounded-lg border border-amber-200">
-                            <label for="exam-time-limit" class="text-[11px] text-amber-900 font-bold flex items-center whitespace-nowrap">
-                                <i class="fa-solid fa-stopwatch mr-1.5 text-amber-600"></i>
-                                Bài kiểm tra tính giờ:
-                            </label>
-                            <input id="exam-time-limit" type="number" min="1" max="180" placeholder="Số phút"
-                                class="text-xs border border-amber-300 rounded-lg px-2 py-1.5 w-28 bg-white font-semibold text-amber-900" />
-                            <span class="text-[10px] text-amber-700 leading-snug">Nhập số phút để gắn cờ <b>bài kiểm tra</b> (hiện đồng hồ đếm ngược, hết giờ tự khóa + chấm điểm, mỗi câu chấm xong khóa luôn không cho sửa).<br class="hidden md:block" /> Để trống = <b>bài tập</b> thường (không tính giờ, vẫn khóa câu + cộng điểm sau mỗi lần chấm).</span>
-                        </div>
-                        <div class="bg-sky-50/70 p-2 rounded-lg border border-sky-200">
-                            <div class="flex flex-wrap items-center gap-2">
-                                <label class="text-[11px] text-sky-900 font-bold flex items-center whitespace-nowrap">
-                                    <i class="fa-solid fa-scale-balanced mr-1.5 text-sky-600"></i>
-                                    Cài điểm mặc định:
-                                </label>
-                                <label class="text-[11px] text-sky-800">TN <input id="score-mcq" type="number" step="0.05" min="0" value="0.25" class="text-xs border border-sky-300 rounded px-1.5 py-1 w-16 bg-white font-semibold"></label>
-                                <label class="text-[11px] text-sky-800">Đ/S <input id="score-tf" type="number" step="0.05" min="0" value="1" class="text-xs border border-sky-300 rounded px-1.5 py-1 w-16 bg-white font-semibold"></label>
-                                <label class="text-[11px] text-sky-800">TLN <input id="score-short" type="number" step="0.05" min="0" value="0.5" class="text-xs border border-sky-300 rounded px-1.5 py-1 w-16 bg-white font-semibold"></label>
-                                <label class="text-[11px] text-sky-800">Tự luận <input id="score-essay" type="number" step="0.05" min="0" value="0" class="text-xs border border-sky-300 rounded px-1.5 py-1 w-16 bg-white font-semibold"></label>
-                                <button type="button" onclick="togglePerQScore()" class="text-[11px] font-bold text-sky-700 hover:underline"><i class="fa-solid fa-list-ol mr-1"></i>Điểm từng câu</button>
-                            </div>
-                            <div id="perq-score-box" class="hidden mt-2 bg-white rounded-lg border border-sky-200 p-2 max-h-48 overflow-y-auto">
-                                <p class="text-[10px] text-slate-500 mb-1.5">Để trống = dùng điểm mặc định theo dạng câu. Chỉ áp dụng khi nội dung đã có đề thi (JSON).</p>
-                                <div id="perq-score-list" class="space-y-1"></div>
-                            </div>
-                        </div>
-                            </div>
-                        </details>
-
                 </div>
                 </div>
 
