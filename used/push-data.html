@@ -27,9 +27,15 @@ label{font-weight:bold;font-size:14px}
 <button class="btn-hide" onclick="hideCard('card-token')" title="Ẩn">✕</button>
 <h2>📤 Đẩy Data - SAOBAY Admin</h2>
 <p style="color:#666;font-size:14px">Dùng GitHub token để đẩy trực tiếp, không qua GAS.</p>
+<div id="token-input-area">
 <label>GitHub Token:</label>
-<input type="password" id="token" placeholder="ghp_...">
+<input type="text" id="token" placeholder="ghp_..." autocomplete="off" data-lpignore="true" style="-webkit-text-security:disc">
 <button onclick="saveToken()">💾 Lưu token</button>
+</div>
+<div id="token-saved-area" style="display:none">
+<span style="color:green">✅ Đã lưu token</span>
+<button onclick="changeToken()" style="margin-left:10px;padding:5px 10px;background:#6b7280;color:#fff;border:none;border-radius:4px;cursor:pointer">Đổi token</button>
+</div>
 <button onclick="testToken()">🔍 Kiểm tra token</button>
 <div id="status"></div>
 </div>
@@ -92,8 +98,24 @@ async function reorganize(){
   }catch(e){show('reorg-status','❌ Lỗi: '+e.message,'err');}
   btn.disabled=false;
 }
-// Tự điền token đã lưu
-window.onload=function(){var t=localStorage.getItem('saobay_github_token');if(t)document.getElementById('token').value=t;};
+// Tự điền token đã lưu - ẩn ô nhập nếu đã có
+function refreshTokenUI(){
+  var t=localStorage.getItem('saobay_github_token');
+  var inputArea=document.getElementById('token-input-area');
+  var savedArea=document.getElementById('token-saved-area');
+  if(t){inputArea.style.display='none';savedArea.style.display='block';}
+  else{inputArea.style.display='block';savedArea.style.display='none';document.getElementById('token').value='';}
+}
+function changeToken(){
+  document.getElementById('token-input-area').style.display='block';
+  document.getElementById('token-saved-area').style.display='none';
+  document.getElementById('token').value='';
+  document.getElementById('token').focus();
+}
+window.onload=function(){refreshTokenUI();};
+// Gọi lại sau khi lưu
+var _origSave=saveToken;
+saveToken=function(){_origSave();setTimeout(refreshTokenUI,500);};
 </script>
 
 <div class="card" id="card-upload">
