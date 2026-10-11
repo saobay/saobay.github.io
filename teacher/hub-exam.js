@@ -167,22 +167,46 @@
             return { owner: 'saobay', repo: 'saobay.github.io', branch: 'main' };
         }
 
+        // 2026-10-11: đọc từ cây thư mục lý thuyết (localStorage saobay_git_folders) thay vì data/bank
         async function exbFetchBankIndex(){
             if (exbBankIndex) return exbBankIndex;
+            try {
+                var raw = localStorage.getItem('saobay_git_folders');
+                if (raw){
+                    var folders = JSON.parse(raw);
+                    var out = [], seen = {};
+                    (folders || []).forEach(function(f){
+                        var p = f.path || '';
+                        // Parse: data/THPT/Khối lớp 10/Toán 10/Chương 1/Bài 1
+                        // hoặc: data/THCS/Khối lớp 6/Toán 6/...
+                        var m = p.match(/^data\/[^\/]+\/Kh[ốo]i l[ớo]p (\d+)\/([^\/]+)(\/.*)?$/i);
+                        if (m){
+                            var grade = parseInt(m[1], 10);
+                            var subject = m[2].trim().toUpperCase().replace(/\s+/g, '_');
+                            // Lấy tên môn không có số khối: "TOÁN 10" -> "TOAN"
+                            subject = subject.replace(/_?\d+$/, '');
+                            var key = subject + '_' + grade;
+                            if (!seen[key]){ seen[key] = 1; out.push({ subject: subject, grade: grade }); }
+                        }
+                    });
+                    if (out.length){ exbBankIndex = out; return out; }
+                }
+            } catch(e){}
+            // Fallback: thử data/bank như cũ
             var cfg = exbGhCfg();
             try {
                 var url = 'https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + '/contents/data/bank?ref=' + cfg.branch;
                 var r = await fetch(url);
                 if (r.ok){
                     var j = await r.json();
-                    var out = [];
+                    var out2 = [];
                     (j || []).forEach(function(it){
-                        var m = String(it.name || '').match(/^([A-Za-z0-9_]+)_(\d+)\.json$/);
-                        if (m) out.push({ subject: m[1].toUpperCase(), grade: parseInt(m[2], 10) });
+                        var m2 = String(it.name || '').match(/^([A-Za-z0-9_]+)_(\d+)\.json$/);
+                        if (m2) out2.push({ subject: m2[1].toUpperCase(), grade: parseInt(m2[2], 10) });
                     });
-                    if (out.length){ exbBankIndex = out; return out; }
+                    if (out2.length){ exbBankIndex = out2; return out2; }
                 }
-            } catch(e){}
+            } catch(e2){}
             return null;
         }
 
@@ -239,23 +263,51 @@
             exbLessonCache = [];
             if (!subj || !grade) return;
             try {
+                // 2026-10-11: đọc danh sách bài từ cây thư mục lý thuyết
+                var lessons = [], seenL = {};
+                try {
+                    var rawF = localStorage.getItem('saobay_git_folders');
+                    if (rawF){
+                        var foldersF = JSON.parse(rawF);
+                        var subjNorm = subj.replace(/_/g, ' ').toLowerCase();
+                        (foldersF || []).forEach(function(f){
+                            var fp = f.path || '';
+                            // Match: data/.../Khối lớp 10/Toán 10/Chương 1/Bài 1
+                            var fm = fp.match(/^data\/[^\/]+\/Kh[ốo]i l[ớo]p (\d+)\/([^\/]+)\/([^\/]+)\/(.+)$/i);
+                            if (!fm) return;
+                            if (parseInt(fm[1], 10) !== grade) return;
+                            var fSubj = fm[2].trim().toLowerCase().replace(/\s+\d+$/, '');
+                            if (fSubj !== subjNorm && fSubj.replace(/\s+/g,'_') !== subj.toLowerCase()) return;
+                            // Lấy Bài N từ phần cuối
+                            var lm = fm[4].match(/B[àa]i\s*(\d+)/i);
+                            var cm = fm[3].match(/Ch[ươu][ơo]ng\s*(\d+)/i);
+                            if (lm){
+                                var ln = parseInt(lm[1], 10);
+                                if (!seenL[ln]){
+                                    seenL[ln] = 1;
+                                    lessons.push({ num: ln, ch: cm ? parseInt(cm[1], 10) : 0, count: 0 });
+                                }
+                            }
+                        });
+                        lessons.sort(function(a,b){ return a.num - b.num; });
+                    }
+                } catch(eF){}
+                // Vẫn load bank để bốc câu (giữ nguyên logic bốc)
                 var r = await bankApiRead(bankKey(subj, grade));
-                if (r.notFound || r.error || !r.data){
-                    exbFillSelect('exbb-lesson-from', [], '-- Chua co bank --');
-                    exbFillSelect('exbb-lesson-to', [], '-- Chua co bank --');
-                    return;
+                var pool = [];
+                if (r && !r.notFound && !r.error && r.data){
+                    pool = exbApplyApprovedFilter(r.data.questions || []);
                 }
-                var pool = exbApplyApprovedFilter(r.data.questions || []);
                 exbBankPool = pool;
                 var map = {};
+                // Đếm câu theo bài từ bank (nếu có)
                 pool.forEach(function(q){
                     var l = parseInt(q.lesson, 10) || 0;
                     if (l <= 0) return;
-                    var ch = parseInt(q.chapter, 10) || 0;
-                    if (!map[l]) map[l] = { num: l, ch: ch, count: 0 };
-                    map[l].count++;
+                    if (!map[l]) map[l] = 0;
+                    map[l]++;
                 });
-                var lessons = Object.keys(map).map(function(k){ return map[k]; }).sort(function(a,b){ return a.num - b.num; });
+                lessons.forEach(function(ls){ ls.count = map[ls.num] || 0; });
                 exbLessonCache = lessons;
                 if (!lessons.length){
                     exbFillSelect('exbb-lesson-from', [], '-- Chua chia bai --');
