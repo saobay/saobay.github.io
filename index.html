@@ -1013,7 +1013,7 @@ function saobayReportQ(btn){
 })();
 </script>
 <!-- SAOBAY HS ACCOUNT MENU 20261012: Tai khoan cua toi gom 3 muc (Nhap ma lop / Thong ke / Doi mat khau); an nut Nhap ma lop rieng o header -->
-<style>#btn-join-class{display:none!important}</style>
+<style>#btn-join-class{display:none!important} #exam-verify-badge,#lesson-verify-badge{display:none!important}</style>
 <script>
 (function(){
   function sbSlug(str){return String(str||'').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/đ/g,'d').replace(/Đ/g,'D').replace(/[^a-zA-Z0-9]+/g,'_').replace(/^_+|_+$/g,'');}
@@ -1117,242 +1117,380 @@ function saobayReportQ(btn){
 })();
 </script>
 
-<!-- SAOBAY MYCLASS TASKS 20261012: "Lớp của tôi" — HS chỉ thấy lớp của mình (lớp trường theo tài khoản + lớp học thêm đã tham gia).
-     Nhiệm vụ lý thuyết/bài tập GV giao đọc từ data/class-tasks.json; đề kiểm tra đọc từ data/exam-schedule.json,
-     hiện khung đỏ trong tab Bài Tập & Đề Thi; có badge "Có nhiệm vụ mới" phía trên hàng tab. -->
+<!-- ===== SAOBAY MYCLASS TASKS v2 20261012 ===== -->
 <script>
 (function(){
-  var RAW = 'https://raw.githubusercontent.com/saobay/saobay.github.io/main/';
-  function norm(s){ return String(s == null ? '' : s).trim().toLowerCase().replace(/\s+/g, ' '); }
-  function esc(t){ return String(t == null ? '' : t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
-  function fmtDT(iso){ var d = new Date(iso); if (isNaN(d.getTime())) return ''; function p(n){ return (n < 10 ? '0' : '') + n; } return p(d.getHours()) + ':' + p(d.getMinutes()) + ' ' + p(d.getDate()) + '/' + p(d.getMonth() + 1) + '/' + d.getFullYear(); }
-  function seenKey(uid){ return 'sb_seen_tasks_v1_' + uid; }
-  function getSeen(uid){ try { return JSON.parse(localStorage.getItem(seenKey(uid)) || '[]'); } catch(e){ return []; } }
-  function markSeen(uid, ids){ try { var cur = getSeen(uid); var set = {}; cur.forEach(function(x){ set[x] = 1; }); ids.forEach(function(x){ set[x] = 1; }); var out = Object.keys(set).slice(-200); localStorage.setItem(seenKey(uid), JSON.stringify(out)); } catch(e){} }
-  var state = { uid: null, tasks: [], exams: [], groups: [], unseen: [] };
+  'use strict';
+  var SB_MC_VERSION = '20261012_0700';
+  var GAS = 'https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec';
+  var S = { loaded: false, loading: false, tasks: [], exams: [], myClassNames: [], doneSet: {}, myScoreKeys: {} };
+  var theory = null; // {task, secs, endSeen}
 
+  function el(id){ return document.getElementById(id); }
+  function esc(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  function norm(s){ return String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd').replace(/\s+/g, ' ').trim(); }
+  function keyOf(s){ return norm(s).replace(/[^a-z0-9]/g, ''); }
+  function slugName(s){ return String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd').replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, ''); }
+  function user(){ try { if (typeof currentUser !== 'undefined' && currentUser) return currentUser; } catch(e){} try { return JSON.parse(localStorage.getItem('saobay_user') || 'null'); } catch(e){ return null; } }
   function fetchJson(path){
-    var api = 'https://api.github.com/repos/saobay/saobay.github.io/contents/' + path.split('/').map(encodeURIComponent).join('/');
-    return fetch(api, { headers: { 'Accept': 'application/vnd.github.raw' } })
-      .then(function(r){ if (!r.ok) throw new Error('api ' + r.status); return r.json(); })
-      .catch(function(){
-        return fetch(RAW + path + '?t=' + Date.now()).then(function(r){ return r.ok ? r.json() : null; }).catch(function(){ return null; });
-      });
+    var enc = path.split('/').map(encodeURIComponent).join('/');
+    return fetch('https://api.github.com/repos/saobay/saobay.github.io/contents/' + enc, { headers: { 'Accept': 'application/vnd.github.raw' }, cache: 'no-store' })
+      .then(function(r){ if (r.ok) return r.json(); throw new Error('api'); })
+      .catch(function(){ return fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/' + path + '?t=' + Date.now(), { cache: 'no-store' }).then(function(r){ return r.json(); }); });
+  }
+  function gasPush(filePath, content, msg){
+    return fetch(GAS, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ type: 'PUSH_TO_GITHUB', filePath: filePath, content: content, commitMessage: msg }) })
+      .then(function(r){ return r.json(); }).then(function(j){ if (!j || (j.status !== 'success' && j.status !== 'ok')) throw new Error((j && j.message) || 'GAS lỗi'); return j; });
   }
 
-  function buildBadge(){
-    var old = document.getElementById('sb-newtask-badge'); if (old) old.remove();
-    if (!state.unseen.length) return;
-    var tabTheory = document.getElementById('tab-theory'); if (!tabTheory) return;
-    var card = tabTheory.closest('div.bg-white'); if (!card || !card.parentNode) return;
-    var b = document.createElement('div');
-    b.id = 'sb-newtask-badge';
-    b.className = 'bg-red-600 text-white rounded-xl px-4 py-2.5 shadow flex items-center justify-between cursor-pointer animate-pulse';
-    b.innerHTML = '<span class="font-black text-sm"><i class="fa-solid fa-bell mr-2"></i>Có nhiệm vụ mới</span>'
-      + '<span class="bg-white text-red-700 text-xs font-black px-2 py-0.5 rounded-full">' + state.unseen.length + ' nhiệm vụ</span>';
-    b.onclick = function(){
-      markSeen(state.uid, state.unseen); state.unseen = [];
-      b.remove();
-      var p = document.getElementById('sb-myclass-panel');
-      if (p) p.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    };
-    card.parentNode.insertBefore(b, card);
-  }
-
-  function taskRow(t){
-    var icon = t.type === 'theory' ? '<i class="fa-solid fa-book-open text-sky-600 mr-2"></i>' : '<i class="fa-solid fa-pen-to-square text-violet-600 mr-2"></i>';
-    return '<div class="flex items-center justify-between bg-white border border-slate-200 rounded-xl px-3 py-2 cursor-pointer hover:shadow transition" data-sb-task="' + esc(t.id) + '" data-sb-path="' + esc(t.path) + '">'
-      + '<div class="min-w-0 flex items-center">' + icon + '<div class="min-w-0"><p class="font-bold text-slate-700 text-xs truncate">' + esc(t.title) + '</p>'
-      + '<p class="text-[10px] text-slate-400">GV giao: ' + fmtDT(t.createdAt) + '</p></div></div>'
-      + '<span class="text-[10px] font-black text-white bg-blue-600 px-2 py-1 rounded-lg ml-2 shrink-0">' + (t.type === 'theory' ? 'HỌC NGAY' : 'LÀM NGAY') + '</span></div>';
-  }
-
-  function examRowInPanel(e){
-    return '<div class="flex items-center justify-between bg-red-50 border border-red-200 rounded-xl px-3 py-2">'
-      + '<div class="min-w-0"><p class="font-bold text-red-800 text-xs truncate">' + esc(e.title) + '</p>'
-      + '<p class="text-[10px] text-red-500">' + (e.status === 'published' ? 'Đã giao — làm trong tab Bài Tập & Đề Thi' : ('Giờ thi: ' + fmtDT(e.examTime))) + '</p></div>'
-      + '<button class="text-[10px] font-black text-white bg-red-600 px-2 py-1 rounded-lg ml-2 shrink-0" data-sb-goexam="1">LÀM BÀI</button></div>';
-  }
-
-  function buildMyClassPanel(){
-    var old = document.getElementById('sb-myclass-panel'); if (old) old.remove();
-    var tree = document.getElementById('tree-directory-container'); if (!tree || !tree.parentNode) return;
-    var u = (typeof syncCurrentUser === 'function') ? syncCurrentUser() : null;
-    var panel = document.createElement('div');
-    panel.id = 'sb-myclass-panel';
-    panel.className = 'bg-violet-50 border border-violet-300 rounded-2xl p-3 shadow-sm mb-3';
-    var html = '<div class="flex items-center justify-between mb-2"><h3 class="font-black text-violet-900 text-sm"><i class="fa-solid fa-users-rectangle mr-2"></i>LỚP CỦA TÔI — NHIỆM VỤ GV GIAO</h3></div>';
-    if (!state.groups.length) {
-      html += '<p class="text-xs text-slate-500">Bạn chưa thuộc lớp nào. Hãy nhập mã lớp trong mục <b>Tài khoản của tôi</b> để tham gia lớp và nhận nhiệm vụ từ giáo viên.</p>';
-    } else {
-      state.groups.forEach(function(g){
-        html += '<div class="mb-3"><p class="text-xs font-black text-violet-800 uppercase tracking-wide mb-1.5">' + esc(g.label) + '</p>';
-        var th = g.tasks.filter(function(t){ return t.type === 'theory'; });
-        var ex = g.tasks.filter(function(t){ return t.type === 'exercise'; });
-        if (th.length) { html += '<p class="text-[11px] font-bold text-sky-700 mt-1 mb-1">📚 Lý thuyết cần học</p><div class="space-y-1.5">' + th.map(taskRow).join('') + '</div>'; }
-        if (ex.length) { html += '<p class="text-[11px] font-bold text-violet-700 mt-2 mb-1">✏️ Bài tập cần làm</p><div class="space-y-1.5">' + ex.map(taskRow).join('') + '</div>'; }
-        if (g.exams.length) { html += '<p class="text-[11px] font-bold text-red-700 mt-2 mb-1">📝 Bài kiểm tra</p><div class="space-y-1.5">' + g.exams.map(examRowInPanel).join('') + '</div>'; }
-        if (!th.length && !ex.length && !g.exams.length) html += '<p class="text-xs text-slate-400 italic">Chưa có nhiệm vụ nào được giao cho lớp này.</p>';
-        html += '</div>';
-      });
-    }
-    panel.innerHTML = html;
-    tree.parentNode.insertBefore(panel, tree);
-    panel.querySelectorAll('[data-sb-task]').forEach(function(el){
-      el.addEventListener('click', function(){
-        var id = el.getAttribute('data-sb-task'), p = el.getAttribute('data-sb-path');
-        markSeen(state.uid, ['t_' + id]); state.unseen = state.unseen.filter(function(x){ return x !== 't_' + id; }); buildBadge();
-        if (p) window.location.href = encodeURI(p);
-      });
-    });
-    panel.querySelectorAll('[data-sb-goexam]').forEach(function(el){
-      el.addEventListener('click', function(){
-        try { switchMode('practice'); } catch(e){}
-        var ep = document.getElementById('sb-exam-panel');
-        if (ep) setTimeout(function(){ ep.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 150);
-      });
-    });
-  }
-
-  function buildExamPanel(){
-    var old = document.getElementById('sb-exam-panel'); if (old) old.remove();
-    if (!state.exams.length) return;
-    var tree = document.getElementById('tree-directory-container'); if (!tree || !tree.parentNode) return;
-    var now = Date.now();
-    var panel = document.createElement('div');
-    panel.id = 'sb-exam-panel';
-    panel.className = 'rounded-2xl p-[3px] bg-gradient-to-r from-red-600 via-rose-500 to-red-600 shadow-lg mb-3';
-    var inner = '<div class="bg-white rounded-[14px] p-3"><div class="flex items-center gap-2 mb-2">'
-      + '<span class="bg-red-600 text-white text-xs font-black px-2.5 py-1 rounded-lg animate-pulse">🚨 QUAN TRỌNG</span>'
-      + '<h3 class="font-black text-red-700 text-sm uppercase">Bài kiểm tra GV giao cho lớp của bạn</h3></div>';
-    state.exams.forEach(function(e){
-      var t = new Date(e.examTime).getTime(), dur = (parseFloat(e.durationMin) || 45) * 60000;
-      var isPub = e.status === 'published';
-      var inWin = isPub || (isFinite(t) && now >= t && now <= t + dur);
-      var line = isPub ? '✅ GV đã giao — bấm Làm bài để bắt đầu' : (inWin ? '🔴 ĐANG DIỄN RA — vào làm bài ngay!' : ('🕐 Bắt đầu lúc ' + fmtDT(e.examTime)));
-      inner += '<div class="flex items-center justify-between border border-red-200 bg-red-50 rounded-xl px-3 py-2 mb-1.5">'
-        + '<div class="min-w-0"><p class="font-bold text-slate-800 text-sm truncate">' + esc(e.title) + '</p>'
-        + '<p class="text-[11px] text-red-600 font-semibold">' + line + '</p></div>'
-        + (inWin ? '<button class="bg-red-600 hover:bg-red-500 text-white text-xs font-black px-3 py-2 rounded-xl ml-2 shrink-0" data-sb-startexam="' + esc(e.file || '') + '" data-sb-examid="' + esc(e.id) + '">LÀM BÀI</button>'
-                 : '<span class="text-[10px] font-bold text-slate-400 ml-2 shrink-0">CHƯA ĐẾN GIỜ</span>')
-        + '</div>';
-    });
-    inner += '</div>';
-    panel.innerHTML = inner;
-    var anchor = document.getElementById('sb-myclass-panel') || tree;
-    anchor.parentNode.insertBefore(panel, anchor);
-    panel.querySelectorAll('[data-sb-startexam]').forEach(function(el){
-      el.addEventListener('click', function(){
-        markSeen(state.uid, ['e_' + el.getAttribute('data-sb-examid')]);
-        if (typeof startScheduledExam === 'function') startScheduledExam(el.getAttribute('data-sb-startexam'));
-      });
-    });
-    applyModeVisibility();
-  }
-
-  function applyModeVisibility(){
-    var p = document.getElementById('sb-exam-panel'); if (!p) return;
-    var mode = (typeof currentMode !== 'undefined') ? currentMode : 'theory';
-    p.style.display = (mode === 'practice') ? '' : 'none';
-  }
-
-  function loadAll(){
-    var u = (typeof syncCurrentUser === 'function') ? syncCurrentUser() : (typeof currentUser !== 'undefined' ? currentUser : null);
-    if (!u || !u.id || (u.role && u.role !== 'student')) { state.uid = null; return; }
-    if (state.uid === String(u.id) && state.loaded) return;
-    state.uid = String(u.id); state.loaded = true;
-    Promise.all([fetchJson('data/private/classes.json'), fetchJson('data/class-tasks.json'), fetchJson('data/exam-schedule.json')])
-    .then(function(res){
-      var classes = (res[0] && res[0].classes) || [];
-      var tasks = (res[1] && res[1].tasks) || [];
-      var exams = (res[2] && res[2].exams) || [];
-      var keys = {};
-      if (u.class) keys[norm(u.class)] = 1;
-      if (u.className) keys[norm(u.className)] = 1;
-      if (u.group) keys[norm(u.group)] = 1;
-      var myPv = classes.filter(function(c){ return (c.students || []).some(function(st){ return String(st && st.id) === state.uid; }); });
-      myPv.forEach(function(c){ keys[norm(c.id)] = 1; keys[norm(c.name)] = 1; });
-      function mine(x){ return keys[norm(x.classId)] || keys[norm(x.className)]; }
-      state.tasks = tasks.filter(mine);
-      var now = Date.now();
-      state.exams = exams.filter(function(e){
-        if (!e || !mine(e)) return false;
-        if (e.status === 'published') return true;
-        if (e.status !== 'scheduled' && e.status !== 'active') return false;
-        var t = new Date(e.examTime).getTime();
-        return isFinite(t) && t >= now - 2 * 864e5 && t <= now + 30 * 864e5;
-      });
-      // Nhóm theo lớp: lớp trường (theo tài khoản) trước, rồi các lớp học thêm
-      var groups = [];
-      var schoolName = u.className || u.class || u.group || '';
-      if (schoolName) groups.push({ label: '🏫 Lớp ' + schoolName, key: norm(schoolName), tasks: [], exams: [] });
-      myPv.forEach(function(c){ groups.push({ label: '👥 ' + c.name, key: norm(c.id), key2: norm(c.name), tasks: [], exams: [] }); });
-      function put(item, isExam){
-        var placed = false;
-        groups.forEach(function(g){
-          if (norm(item.classId) === g.key || norm(item.className) === g.key || (g.key2 && (norm(item.classId) === g.key2 || norm(item.className) === g.key2))) {
-            (isExam ? g.exams : g.tasks).push(item); placed = true;
-          }
-        });
-        if (!placed && groups.length) (isExam ? groups[0].exams : groups[0].tasks).push(item);
-      }
-      state.tasks.forEach(function(t){ put(t, false); });
-      state.exams.forEach(function(e){ put(e, true); });
-      state.groups = groups;
-      var seen = getSeen(state.uid);
-      state.unseen = state.tasks.map(function(t){ return 't_' + t.id; }).concat(state.exams.map(function(e){ return 'e_' + e.id; }))
-        .filter(function(id){ return seen.indexOf(id) < 0; });
-      buildBadge(); buildMyClassPanel(); buildExamPanel();
-    })
-    .catch(function(){});
-  }
-
-  // Gỡ tab Bài Kiểm Tra nếu bản student-exam-tab.js cũ còn trong cache trình duyệt
-  (function(){
-    var n = 0; var iv = setInterval(function(){
+  // --- Bo tab "Bai Kiem Tra" cu (neu trinh duyet con cache ban student-exam-tab cu) ---
+  (function killOld(){
+    var n = 0;
+    var iv = setInterval(function(){
       n++;
-      var b = document.getElementById('tab-exam'); if (b) b.remove();
-      var c = document.getElementById('exam-list-container'); if (c) c.remove();
-      if (n > 30) clearInterval(iv);
+      var t = el('tab-exam'); if (t) t.remove();
+      var c = el('exam-list-container'); if (c) c.remove();
+      if (n > 40) clearInterval(iv);
+    }, 500);
+  })();
+  // --- Doi ten "Lop hoc them" -> "Lop cua toi" ---
+  (function rename(){
+    var n = 0;
+    var iv = setInterval(function(){
+      n++;
+      var spans = document.querySelectorAll('span');
+      for (var i = 0; i < spans.length; i++){
+        if (spans[i].textContent.trim() === 'Lớp học thêm'){ spans[i].textContent = 'Lớp của tôi'; clearInterval(iv); return; }
+      }
+      if (n > 40) clearInterval(iv);
     }, 500);
   })();
 
-  // Bọc switchMode để hiện/ẩn khung đỏ đề thi theo tab
-  (function(){
-    var n = 0; var iv = setInterval(function(){
-      n++;
-      if (typeof window.switchMode === 'function' && !window.switchMode.__sbMyClass) {
-        var orig = window.switchMode;
-        var wrapped = function(m){ var r = orig.apply(this, arguments); try { if (typeof currentMode !== 'undefined') currentMode = m; } catch(e){} setTimeout(applyModeVisibility, 30); return r; };
-        wrapped.__sbMyClass = true; window.switchMode = wrapped; clearInterval(iv);
-      }
-      if (n > 80) clearInterval(iv);
-    }, 250);
-  })();
+  function seenKey(){ var u = user(); return 'sb_seen_tasks_v1_' + (u ? (u.id || u.name || 'x') : 'guest'); }
+  function getSeen(){ try { return JSON.parse(localStorage.getItem(seenKey()) || '[]'); } catch(e){ return []; } }
+  function setSeen(ids){ try { localStorage.setItem(seenKey(), JSON.stringify(ids)); } catch(e){} }
 
-  // Nạp lại khi đổi người dùng (đăng nhập/đăng xuất)
-  (function(){
-    var n = 0; var iv = setInterval(function(){
-      n++;
-      if (typeof window.renderUserHeaderUI === 'function' && !window.renderUserHeaderUI.__sbMyClass) {
-        var orig = window.renderUserHeaderUI;
-        var wrapped = function(){
-          var r = orig.apply(this, arguments);
-          setTimeout(function(){
-            var u = (typeof syncCurrentUser === 'function') ? syncCurrentUser() : null;
-            var uid = u && u.id ? String(u.id) : null;
-            if (uid !== state.uid) { state.loaded = false; state.uid = uid; if (uid) loadAll(); }
-          }, 300);
-          return r;
-        };
-        wrapped.__sbMyClass = true; window.renderUserHeaderUI = wrapped; clearInterval(iv);
-      }
-      if (n > 80) clearInterval(iv);
-    }, 250);
-  })();
+  function ensureUi(){
+    var treeBox = el('tree-directory-container'); if (!treeBox) return false;
+    if (!el('sb-newtask-badge')){
+      var tabsCard = treeBox.closest('.glass-card') || treeBox.parentElement;
+      var badge = document.createElement('div');
+      badge.id = 'sb-newtask-badge';
+      badge.className = 'hidden mb-2 bg-rose-600 text-white text-sm font-black rounded-xl px-4 py-2.5 shadow cursor-pointer animate-pulse';
+      badge.addEventListener('click', function(){
+        var ids = S.tasks.map(function(t){ return t.id; }).concat(S.exams.map(function(e){ return e.id; }));
+        setSeen(ids); renderBadge();
+        var p = el('sb-myclass-panel'); if (p) p.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+      tabsCard.parentElement.insertBefore(badge, tabsCard);
+    }
+    if (!el('sb-myclass-panel')){
+      var panel = document.createElement('div');
+      panel.id = 'sb-myclass-panel';
+      panel.className = 'mb-3';
+      treeBox.parentElement.insertBefore(panel, treeBox);
+    }
+    if (!el('sb-exam-panel')){
+      var ep = document.createElement('div');
+      ep.id = 'sb-exam-panel';
+      ep.className = 'hidden mb-3 rounded-2xl p-[3px] bg-gradient-to-r from-red-600 via-rose-500 to-red-600 shadow-lg';
+      ep.innerHTML = '<div class="bg-white rounded-[14px] p-4"><h3 class="font-black text-red-700 text-sm mb-2">🚨 QUAN TRỌNG — Bài kiểm tra GV giao cho lớp của bạn</h3><div id="sb-exam-list"></div></div>';
+      var detail = el('lesson-detail-view');
+      if (detail && detail.parentElement) detail.parentElement.insertBefore(ep, detail);
+      else treeBox.parentElement.insertBefore(ep, treeBox.nextSibling);
+    }
+    return true;
+  }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function(){ setTimeout(loadAll, 1200); });
-  else setTimeout(loadAll, 1200);
+  function loadAll(){
+    if (S.loading) return; S.loading = true;
+    var u = user();
+    if (!u || !u.id){ S.loading = false; S.loaded = true; renderPanel(); return; }
+    var uid = String(u.id);
+    var pClasses = fetchJson('data/private/classes.json').catch(function(){ return []; });
+    var pTasks = fetchJson('data/class-tasks.json').catch(function(){ return { tasks: [] }; });
+    var pSched = fetchJson('data/exam-schedule.json').catch(function(){ return { exams: [] }; });
+    var pDone = fetchJson('data/class-task-done.json').catch(function(){ return { done: [] }; });
+    var pTree = fetch('https://api.github.com/repos/saobay/saobay.github.io/git/trees/main?recursive=1', { cache: 'no-store' }).then(function(r){ return r.json(); }).then(function(j){ return (j.tree || []).map(function(t){ return t.path; }); }).catch(function(){ return []; });
+    Promise.all([pClasses, pTasks, pSched, pDone, pTree]).then(function(rs){
+      S.loading = false; S.loaded = true;
+      var classes = Array.isArray(rs[0]) ? rs[0] : (rs[0].classes || []);
+      var classIds = {}, names = [], nameSeen = {};
+      function addName(n, isSchool){ n = String(n || '').trim(); if (!n) return; var k = norm(n); if (!nameSeen[k]){ nameSeen[k] = 1; names.push({ name: n, school: !!isSchool }); } }
+      addName(u.class || u.className || u.group, true);
+      classes.forEach(function(c){ (c.students || []).forEach(function(st){ if (String(st.id) === uid){ classIds[c.id] = 1; addName(c.name, false); } }); });
+      S.myClassNames = names;
+      var allTasks = (rs[1] && rs[1].tasks) || [];
+      S.tasks = allTasks.filter(function(t){ return (t.classId && classIds[t.classId]) || nameSeen[norm(t.className)]; });
+      var now = Date.now();
+      var allExams = (rs[2] && rs[2].exams) || [];
+      S.exams = allExams.filter(function(e){
+        var inClass = (e.classId && classIds[e.classId]) || nameSeen[norm(e.className)];
+        if (!inClass) return false;
+        if (e.status === 'published' || e.status === 'active') return true;
+        if (e.status === 'scheduled' && e.examTime){ var t = new Date(e.examTime).getTime(); return t >= now - 2 * 864e5 && t <= now + 30 * 864e5; }
+        return false;
+      });
+      S.doneSet = {};
+      ((rs[3] && rs[3].done) || []).forEach(function(r){ if (String(r.studentId) === uid) S.doneSet[r.taskId] = r; });
+      S.myScoreKeys = {};
+      var mySlug = slugName(u.name);
+      (rs[4] || []).forEach(function(p){
+        var m = p.match(/^data\/scores\/([^\/]+)\/(.+)\.json$/);
+        if (m && mySlug && m[2].endsWith('_' + mySlug)) S.myScoreKeys[keyOf(m[1])] = 1;
+      });
+      ensureUi(); renderBadge(); renderPanel(); renderExamPanel();
+    }).catch(function(){ S.loading = false; });
+  }
+
+  function taskDone(t){
+    if (t.type === 'theory') return !!S.doneSet[t.id];
+    var k = keyOf(t.title);
+    if (S.myScoreKeys[k]) return true;
+    for (var key in S.myScoreKeys){ if (key.length >= 6 && (key.indexOf(k) >= 0 || k.indexOf(key) >= 0)) return true; }
+    return false;
+  }
+
+  function renderBadge(){
+    var b = el('sb-newtask-badge'); if (!b) return;
+    var seen = getSeen();
+    var fresh = S.tasks.concat(S.exams).filter(function(x){ return seen.indexOf(x.id) < 0; });
+    if (fresh.length){ b.textContent = '🔔 Có nhiệm vụ mới (' + fresh.length + ') — bấm để xem'; b.classList.remove('hidden'); }
+    else b.classList.add('hidden');
+  }
+
+  function statusChip(t){
+    return taskDone(t)
+      ? '<span class="text-[11px] font-black text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-full px-2 py-0.5">✅ ĐÃ HOÀN THÀNH</span>'
+      : '<span class="text-[11px] font-black text-amber-700 bg-amber-50 border border-amber-200 rounded-full px-2 py-0.5">⏳ CHƯA LÀM</span>';
+  }
+
+  function renderPanel(){
+    var p = el('sb-myclass-panel'); if (!p) return;
+    var u = user();
+    if (!u){ p.innerHTML = ''; return; }
+    if (!S.tasks.length && !S.exams.length){
+      p.innerHTML = '<div class="bg-white/70 border border-indigo-100 rounded-2xl px-4 py-3 text-xs text-slate-500">📌 <b>Lớp của tôi:</b> GV chưa giao nhiệm vụ nào cho lớp của bạn. Vào lớp học thêm bằng mã lớp trong mục <b>Tài khoản của tôi</b> nếu bạn có lớp học thêm.</div>';
+      return;
+    }
+    var groups = {};
+    S.myClassNames.forEach(function(c){ groups[norm(c.name)] = { name: c.name, school: c.school, theory: [], exercise: [], exams: [] }; });
+    function grp(className, classId){
+      var k = norm(className || '');
+      if (!groups[k]) groups[k] = { name: className || 'Lớp của tôi', school: false, theory: [], exercise: [], exams: [] };
+      return groups[k];
+    }
+    S.tasks.forEach(function(t){ var g = grp(t.className, t.classId); if (t.type === 'theory') g.theory.push(t); else g.exercise.push(t); });
+    S.exams.forEach(function(e){ grp(e.className, e.classId).exams.push(e); });
+    var html = '<div class="bg-gradient-to-br from-indigo-50 to-white border-2 border-indigo-200 rounded-2xl p-4 shadow-sm">';
+    html += '<div class="flex items-center gap-2 mb-3"><h3 class="font-black text-indigo-900 text-sm flex-1">🏠 Lớp của tôi — nhiệm vụ GV giao</h3><button data-sbrecheck="1" class="text-[11px] font-black text-indigo-700 bg-indigo-100 hover:bg-indigo-200 rounded-lg px-2.5 py-1.5 shrink-0">↻ Kiểm tra lại</button></div>';
+    Object.keys(groups).forEach(function(k){
+      var g = groups[k];
+      if (!g.theory.length && !g.exercise.length && !g.exams.length) return;
+      html += '<div class="mb-3"><div class="text-xs font-black text-slate-700 mb-1.5">' + (g.school ? '🏫' : '👥') + ' LỚP ' + esc(g.name.toUpperCase()) + '</div>';
+      if (g.theory.length){
+        html += '<div class="text-[11px] font-bold text-sky-700 mb-1">📚 Lý thuyết cần học</div>';
+        g.theory.forEach(function(t){
+          html += '<div class="flex items-center gap-2 bg-white border border-sky-200 rounded-lg px-3 py-2 mb-1.5"><span class="flex-1 text-sm font-bold text-slate-800">' + esc(t.title) + '</span>' + statusChip(t) + '<button data-sbtask="' + esc(t.id) + '" class="bg-sky-600 hover:bg-sky-700 text-white text-xs font-black px-3 py-1.5 rounded-lg shrink-0">HỌC NGAY</button></div>';
+        });
+      }
+      if (g.exercise.length){
+        html += '<div class="text-[11px] font-bold text-violet-700 mb-1 mt-2">✏️ Bài tập cần làm (nộp bài = hoàn thành)</div>';
+        g.exercise.forEach(function(t){
+          html += '<div class="flex items-center gap-2 bg-white border border-violet-200 rounded-lg px-3 py-2 mb-1.5"><span class="flex-1 text-sm font-bold text-slate-800">' + esc(t.title) + '</span>' + statusChip(t) + '<button data-sbtask="' + esc(t.id) + '" class="bg-violet-600 hover:bg-violet-700 text-white text-xs font-black px-3 py-1.5 rounded-lg shrink-0">LÀM BÀI</button></div>';
+        });
+      }
+      if (g.exams.length){
+        html += '<div class="text-[11px] font-bold text-red-700 mb-1 mt-2">📝 Bài kiểm tra</div>';
+        g.exams.forEach(function(e){
+          html += '<div class="flex items-center gap-2 bg-red-50 border border-red-300 rounded-lg px-3 py-2 mb-1.5"><span class="flex-1 text-sm font-bold text-slate-800">' + esc(e.title) + '</span><button data-sbexam="' + esc(e.id) + '" class="bg-red-600 hover:bg-red-700 text-white text-xs font-black px-3 py-1.5 rounded-lg shrink-0">LÀM BÀI</button></div>';
+        });
+      }
+      html += '</div>';
+    });
+    html += '</div>';
+    p.innerHTML = html;
+    var rc = p.querySelector('[data-sbrecheck]'); if (rc) rc.addEventListener('click', function(){ rc.textContent = 'Đang kiểm tra...'; loadAll(); });
+    p.querySelectorAll('[data-sbtask]').forEach(function(b){
+      b.addEventListener('click', function(){
+        var id = b.getAttribute('data-sbtask');
+        var t = null; S.tasks.forEach(function(x){ if (x.id === id) t = x; });
+        if (t) openTask(t);
+      });
+    });
+    p.querySelectorAll('[data-sbexam]').forEach(function(b){
+      b.addEventListener('click', function(){
+        try { switchMode('practice'); } catch(e){}
+        var ep = el('sb-exam-panel'); if (ep) ep.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+    });
+  }
+
+  function openTask(t){
+    var seen = getSeen(); if (seen.indexOf(t.id) < 0){ seen.push(t.id); setSeen(seen); renderBadge(); }
+    if (t.type === 'theory') activateTheory(t);
+    if (!openInViewer(t)) location.href = encodeURI(t.path);
+  }
+  function openInViewer(t){
+    try {
+      var items = (typeof driveFiles !== 'undefined' && Array.isArray(driveFiles)) ? driveFiles : [];
+      var target = null, i, it, p;
+      for (i = 0; i < items.length; i++){
+        it = items[i]; p = '';
+        try { p = decodeURIComponent(String(it.filePath || it.FolderID || '')); } catch(e){ p = String(it.filePath || it.FolderID || ''); }
+        if (p && (p === t.path || p.endsWith('/' + t.path))) { target = it; break; }
+      }
+      if (!target){
+        for (i = 0; i < items.length; i++){
+          it = items[i];
+          var raw = String(it.rawFileName || it.Title || it.title || it.name || '');
+          var isT = /_Ly_thuyet_/i.test(raw), isE = /_Bai_tap_/i.test(raw);
+          if ((t.type === 'theory' && isT) || (t.type === 'exercise' && isE)){
+            var fn = raw.split('/').pop().replace(/\.html$/i, '');
+            var m = fn.match(/^([A-Z]+)_(\d+)_(.+)$/); if (m) fn = m[3];
+            fn = fn.replace(/_(Ly_thuyet|Bai_tap)_.+$/i, '').replace(/_(Ly_thuyet|Bai_tap)$/i, '').replace(/_/g, ' ').replace(/\s+/g, ' ').trim();
+            if (norm(fn) === norm(t.title)) { target = it; break; }
+          }
+        }
+      }
+      if (!target || typeof selectItemDetail !== 'function') return false;
+      if (typeof switchMode === 'function') switchMode(t.type === 'theory' ? 'theory' : 'practice');
+      selectItemDetail(target.ItemID || target.id, null);
+      return true;
+    } catch(e){ return false; }
+  }
+
+  // ===== Lý thuyết: học đủ 5 phút + kéo xuống cuối bài -> báo cáo đã học xong =====
+  function ensureTheoryBar(){
+    if (el('sb-theory-bar')) return;
+    var bar = document.createElement('div');
+    bar.id = 'sb-theory-bar';
+    bar.className = 'hidden fixed left-1/2 -translate-x-1/2 bottom-4 z-[9990] w-[94%] max-w-xl bg-sky-900 text-white rounded-2xl shadow-2xl px-4 py-3';
+    bar.innerHTML = '<div class="flex items-start gap-2"><div class="flex-1 min-w-0">' +
+      '<div id="sb-theory-title" class="text-sm font-black truncate">📖 Nhiệm vụ lý thuyết</div>' +
+      '<div id="sb-theory-status" class="text-[12px] text-sky-200 mt-0.5">Đang theo dõi thời gian học...</div></div>' +
+      '<button id="sb-theory-close" class="text-sky-300 hover:text-white font-black px-1">✕</button></div>' +
+      '<button id="sb-theory-done" disabled class="mt-2 w-full bg-slate-500 text-white text-sm font-black px-4 py-2 rounded-xl opacity-70 cursor-not-allowed">✅ Báo cáo: Đã học xong lý thuyết</button>';
+    document.body.appendChild(bar);
+    el('sb-theory-close').addEventListener('click', function(){ theory = null; bar.classList.add('hidden'); });
+    el('sb-theory-done').addEventListener('click', reportTheoryDone);
+  }
+  function activateTheory(t){
+    ensureTheoryBar();
+    theory = { task: t, secs: 0, endSeen: false };
+    var bar = el('sb-theory-bar'); if (bar) bar.classList.remove('hidden');
+    var tt = el('sb-theory-title'); if (tt) tt.textContent = '📖 Nhiệm vụ lý thuyết: ' + t.title;
+    updateTheoryBar();
+  }
+  function updateTheoryBar(){
+    if (!theory) return;
+    var st = el('sb-theory-status'), btn = el('sb-theory-done'); if (!st || !btn) return;
+    var mm = Math.floor(theory.secs / 60), ss = ('0' + (theory.secs % 60)).slice(-2);
+    var timeOk = theory.secs >= 300;
+    st.innerHTML = '⏱ Đã học: <b>' + mm + ':' + ss + '</b> / 5:00 ' + (timeOk ? '✅' : '(cần đủ 5 phút)') +
+      ' · ' + (theory.endSeen ? '✅ Đã kéo xuống cuối bài' : '⬇️ Hãy kéo xuống cuối bài học');
+    if (timeOk && theory.endSeen){
+      btn.disabled = false;
+      btn.className = 'mt-2 w-full bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-black px-4 py-2 rounded-xl';
+    } else {
+      btn.disabled = true;
+      btn.className = 'mt-2 w-full bg-slate-500 text-white text-sm font-black px-4 py-2 rounded-xl opacity-70 cursor-not-allowed';
+    }
+  }
+  function reportTheoryDone(){
+    if (!theory) return;
+    var t = theory.task, u = user(); if (!u) return;
+    var btn = el('sb-theory-done'); if (btn){ btn.disabled = true; btn.textContent = 'Đang ghi nhận...'; }
+    fetchJson('data/class-task-done.json').catch(function(){ return { done: [] }; }).then(function(j){
+      if (!Array.isArray(j.done)) j.done = [];
+      var has = j.done.some(function(r){ return r.taskId === t.id && String(r.studentId) === String(u.id); });
+      if (has) return null;
+      j.done.push({ taskId: t.id, studentId: String(u.id), studentName: u.name || '', className: t.className || '', type: 'theory', doneAt: new Date().toISOString() });
+      return gasPush('data/class-task-done.json', JSON.stringify(j, null, 1), 'HS ' + (u.name || u.id) + ' bao cao hoc xong ly thuyet ' + t.title);
+    }).then(function(){
+      S.doneSet[t.id] = { taskId: t.id };
+      theory = null;
+      var bar = el('sb-theory-bar'); if (bar) bar.classList.add('hidden');
+      renderPanel();
+      alert('✅ Đã ghi nhận hoàn thành nhiệm vụ lý thuyết: ' + t.title);
+    }).catch(function(e){
+      if (btn){ btn.disabled = false; btn.textContent = '✅ Báo cáo: Đã học xong lý thuyết'; }
+      alert('Lỗi ghi nhận: ' + e.message);
+    });
+  }
+  setInterval(function(){
+    var lv = el('lesson-detail-view');
+    var lvOpen = lv && !lv.classList.contains('hidden');
+    if (!theory){
+      // Tự kích hoạt khi HS mở đúng bài lý thuyết được giao (dù mở từ cây thư mục)
+      if (lvOpen && S.loaded){
+        var p = ''; try { p = decodeURIComponent(String(window._currentFilePath || '')); } catch(e){}
+        var titleEl = el('lesson-title-display'); var ttl = titleEl ? titleEl.textContent.trim() : '';
+        for (var i = 0; i < S.tasks.length; i++){
+          var t = S.tasks[i];
+          if (t.type !== 'theory' || S.doneSet[t.id]) continue;
+          if ((p && (p === t.path || p.endsWith('/' + t.path) || t.path.endsWith(p))) || (ttl && norm(ttl) === norm(t.title))){ activateTheory(t); break; }
+        }
+      }
+      return;
+    }
+    if (!lvOpen){ updateTheoryBar(); return; }
+    theory.secs++;
+    try { var r = lv.getBoundingClientRect(); if (r.bottom <= window.innerHeight + 150) theory.endSeen = true; } catch(e){}
+    updateTheoryBar();
+  }, 1000);
+
+  // ===== Khung đỏ: đề GV giao (tab Bài tập) =====
+  function renderExamPanel(){
+    var ep = el('sb-exam-panel'), list = el('sb-exam-list'); if (!ep || !list) return;
+    try {
+      if (typeof currentMode !== 'undefined' && currentMode !== 'practice'){ ep.classList.add('hidden'); return; }
+    } catch(e){}
+    if (!S.exams.length){ ep.classList.add('hidden'); return; }
+    ep.classList.remove('hidden');
+    list.innerHTML = S.exams.map(function(e){
+      return '<div class="flex items-center gap-2 bg-red-50 border-2 border-red-300 rounded-xl px-3 py-2.5 mb-2">' +
+        '<span class="text-xl">📝</span><div class="flex-1 min-w-0"><div class="text-sm font-black text-slate-800 truncate">' + esc(e.title) + '</div>' +
+        '<div class="text-[11px] text-red-600 font-bold">Lớp: ' + esc(e.className || '') + (e.examTime ? ' · Giờ thi: ' + esc(String(e.examTime).replace('T', ' ').slice(0, 16)) : ' · Làm ngay') + '</div></div>' +
+        '<button data-sbstart="' + esc(e.id) + '" class="bg-red-600 hover:bg-red-700 text-white text-sm font-black px-4 py-2 rounded-xl shrink-0">LÀM BÀI</button></div>';
+    }).join('');
+    list.querySelectorAll('[data-sbstart]').forEach(function(b){
+      b.addEventListener('click', function(){
+        var id = b.getAttribute('data-sbstart');
+        var ex = null; S.exams.forEach(function(x){ if (x.id === id) ex = x; });
+        if (ex){
+          var seen = getSeen(); if (seen.indexOf(ex.id) < 0){ seen.push(ex.id); setSeen(seen); renderBadge(); }
+          if (typeof startScheduledExam === 'function') startScheduledExam(ex.file);
+          else if (ex.file) location.href = encodeURI(ex.file);
+        }
+      });
+    });
+  }
+  try {
+    if (typeof switchMode === 'function' && !switchMode.__sbMyClass){
+      var origSM = switchMode;
+      var wrapped = function(m){ var r = origSM.apply(this, arguments); setTimeout(renderExamPanel, 80); return r; };
+      wrapped.__sbMyClass = true;
+      switchMode = wrapped;
+    }
+  } catch(e){}
+  try {
+    if (typeof renderUserHeaderUI === 'function' && !renderUserHeaderUI.__sbMyClass){
+      var origRH = renderUserHeaderUI;
+      var wrappedRH = function(){ var r = origRH.apply(this, arguments); S.loaded = false; setTimeout(loadAll, 120); return r; };
+      wrappedRH.__sbMyClass = true;
+      renderUserHeaderUI = wrappedRH;
+    }
+  } catch(e){}
+
+  var tries = 0;
+  var iv = setInterval(function(){
+    tries++;
+    if (ensureUi()){ loadAll(); clearInterval(iv); }
+    if (tries > 40) clearInterval(iv);
+  }, 500);
+  console.log('SAOBAY MYCLASS v2 VERSION:20261012_0700');
 })();
 </script>
 
