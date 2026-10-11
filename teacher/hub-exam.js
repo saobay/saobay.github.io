@@ -1,4 +1,4 @@
-// SAOBAY_HUB_EXAM_VERSION:20261011_1816
+// SAOBAY_HUB_EXAM_VERSION:20261011_1820
         // ========================================================
         // TRÌNH SOẠN ĐỀ KIỂM TRA (Phase 4, 2026-10-08)
 
@@ -1179,6 +1179,15 @@
     if (document.querySelector('script[src*="teacher-exam-manage"]')) return;
     var sc = document.createElement('script');
     sc.src = 'teacher-exam-manage.js?t=' + Date.now();
+    sc.async = true;
+    document.head.appendChild(sc);
+})();
+
+// 2026-10-11: Tự động tải teacher-ui-simplify.js (ẩn sidebar)
+(function(){
+    if (document.querySelector('script[src*="teacher-ui-simplify"]')) return;
+    var sc = document.createElement('script');
+    sc.src = 'teacher-ui-simplify.js?t=' + Date.now();
     sc.async = true;
     document.head.appendChild(sc);
 })();
