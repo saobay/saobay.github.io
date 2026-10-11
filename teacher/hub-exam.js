@@ -113,7 +113,7 @@
             if (mf) mf.className = 'flex-1 px-3 py-2 rounded-lg text-xs font-bold ' + (mode === 'fixed' ? 'bg-amber-600 text-white shadow' : 'bg-white text-slate-700 border border-slate-300');
         }
 
-        let exbSub = 'mot'; // 'mot' = moi HS 1 de | 'lop' = ca lop chung 1 de
+        let exbSub = 'lop'; // 'mot' = moi HS 1 de | 'lop' = ca lop chung 1 de
         let exbBankPool = [];
         function exbSourceApproved(src){
             let fn = String(src || '');
@@ -137,8 +137,10 @@
             let bm = document.getElementById('exb-sub-mot'), bl = document.getElementById('exb-sub-lop');
             let am = document.getElementById('exb-act-mot'), al = document.getElementById('exb-act-lop');
             let desc = document.getElementById('exb-sub-desc');
-            if (bm) bm.className = 'flex-1 px-3 py-2.5 rounded-xl text-xs font-bold ' + (sub === 'mot' ? 'bg-indigo-700 text-white shadow' : 'bg-white text-slate-700 border border-slate-300');
-            if (bl) bl.className = 'flex-1 px-3 py-2.5 rounded-xl text-xs font-bold ' + (sub === 'lop' ? 'bg-indigo-700 text-white shadow' : 'bg-white text-slate-700 border border-slate-300');
+            if (bm && bm.type === 'checkbox') bm.checked = (sub === 'mot');
+            if (bl && bl.type === 'checkbox') bl.checked = (sub === 'lop');
+            if (bm && bm.type !== 'checkbox') bm.className = 'flex-1 px-3 py-2.5 rounded-xl text-xs font-bold ' + (sub === 'mot' ? 'bg-indigo-700 text-white shadow' : 'bg-white text-slate-700 border border-slate-300');
+            if (bl && bl.type !== 'checkbox') bl.className = 'flex-1 px-3 py-2.5 rounded-xl text-xs font-bold ' + (sub === 'lop' ? 'bg-indigo-700 text-white shadow' : 'bg-white text-slate-700 border border-slate-300');
             if (am) am.classList.toggle('hidden', sub !== 'mot');
             if (al){ al.classList.toggle('hidden', sub !== 'lop'); al.classList.toggle('flex', sub === 'lop'); }
             if (desc) desc.innerHTML = sub === 'mot'
