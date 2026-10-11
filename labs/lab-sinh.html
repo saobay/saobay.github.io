@@ -104,7 +104,7 @@ canvas { touch-action: pan-y; display: block; }
   <div id="tab-micro" class="tab-panel px-3 mt-3 hidden">
     <div class="bg-white rounded-2xl shadow p-4">
       <h2 class="font-black text-lime-800 mb-1">Kính hiển vi ảo</h2>
-      <p class="text-xs text-slate-500 mb-2">Chọn <b>mẫu vật</b> rồi kéo thanh trượt để phóng to qua các cấp độ.</p>
+      <p class="text-xs text-slate-500 mb-2">Chọn <b>mẫu vật</b> rồi kéo thanh trượt để phóng to. <b>Kéo</b> trên kính để di chuyển mẫu, <b>cuộn/chụm</b> để zoom thêm, <b>bấm đúp</b> để đặt lại.</p>
       <div class="flex gap-1 justify-center mb-2 flex-wrap">
         <button data-spec="0" class="micro-spec-btn px-3 py-2 rounded-xl text-xs font-black bg-lime-600 text-white">🌿 Lá cây</button>
         <button data-spec="1" class="micro-spec-btn px-3 py-2 rounded-xl text-xs font-black bg-slate-200">🩸 Máu</button>
@@ -313,18 +313,56 @@ window.__refits = [];
     document.getElementById('micro-desc').textContent = SPECS[spec].descs[zoom];
   }
   document.getElementById('micro-zoom').addEventListener('input', function(e){
-    zoom = parseInt(e.target.value); zt = 0;
+    zoom = parseInt(e.target.value); zt = 0; resetView();
     updMicro();
   });
   document.querySelectorAll('.micro-spec-btn').forEach(function(b){
     b.addEventListener('click', function(){
-      spec = parseInt(b.dataset.spec, 10); zt = 0; updMicro();
+      spec = parseInt(b.dataset.spec, 10); zt = 0; resetView(); updMicro();
       document.querySelectorAll('.micro-spec-btn').forEach(function(x){
         x.className = 'micro-spec-btn px-3 py-2 rounded-xl text-xs font-black ' + (x===b ? 'bg-lime-600 text-white' : 'bg-slate-200');
       });
     });
   });
   updMicro();
+
+  // Tuong tac: keo di chuyen mau + cuon/chum de zoom + bam dup dat lai
+  var view = {ox:0, oy:0, fz:1, R:150};
+  var BASEMAG = [40,100,400,1000];
+  function resetView(){ view.ox=0; view.oy=0; view.fz=1; }
+  cv.style.touchAction='none';
+  cv.style.cursor='grab';
+  var ptrs = {};
+  cv.addEventListener('pointerdown', function(e){
+    ptrs[e.pointerId]={x:e.clientX,y:e.clientY};
+    cv.style.cursor='grabbing';
+    try{ cv.setPointerCapture(e.pointerId); }catch(err){}
+  });
+  cv.addEventListener('pointermove', function(e){
+    if (!ptrs[e.pointerId]) return;
+    var p0=ptrs[e.pointerId];
+    var dx=e.clientX-p0.x, dy=e.clientY-p0.y;
+    var ids=Object.keys(ptrs);
+    if (ids.length===2){
+      var other=ptrs[ids[ids[0]==e.pointerId?1:0]];
+      var d0=Math.hypot(p0.x-other.x,p0.y-other.y);
+      var d1=Math.hypot(e.clientX-other.x,e.clientY-other.y);
+      if (d0>10) view.fz=Math.max(0.6,Math.min(4,view.fz*d1/d0));
+    } else {
+      var lim=view.R*0.9;
+      view.ox=Math.max(-lim,Math.min(lim,view.ox+dx));
+      view.oy=Math.max(-lim,Math.min(lim,view.oy+dy));
+    }
+    ptrs[e.pointerId]={x:e.clientX,y:e.clientY};
+  });
+  function endPtr(e){ delete ptrs[e.pointerId]; if(!Object.keys(ptrs).length) cv.style.cursor='grab'; }
+  cv.addEventListener('pointerup', endPtr);
+  cv.addEventListener('pointercancel', endPtr);
+  cv.addEventListener('wheel', function(e){
+    e.preventDefault();
+    view.fz=Math.max(0.6,Math.min(4,view.fz*Math.exp(-e.deltaY*0.0012)));
+  }, {passive:false});
+  cv.addEventListener('dblclick', resetView);
 
   function rnd(seed){ var x = Math.sin(seed*999)*10000; return x - Math.floor(x); }
   function draw(){
@@ -338,8 +376,11 @@ window.__refits = [];
     ctx.beginPath(); ctx.arc(cx,cy,R,0,7); ctx.clip();
     // Zoom muot: phong to nay nhe khi doi cap do
     var zscale = 1 + 0.35*Math.exp(-zt*5); zt += 1/60;
+    view.R = R;
     ctx.save();
-    ctx.translate(cx,cy); ctx.scale(zscale,zscale); ctx.translate(-cx,-cy);
+    ctx.translate(cx+view.ox,cy+view.oy);
+    ctx.scale(zscale*view.fz,zscale*view.fz);
+    ctx.translate(-cx,-cy);
 
     var bt2 = performance.now()/1000;
     if (zoom === 0){
@@ -561,6 +602,10 @@ window.__refits = [];
     // Phan xa anh sang tren mat kinh
     ctx.strokeStyle = 'rgba(255,255,255,0.28)'; ctx.lineWidth = 10; ctx.lineCap='round';
     ctx.beginPath(); ctx.arc(cx,cy,R-14,-2.4,-1.7); ctx.stroke();
+    // Do phong dai thuc te (nac x zoom tay)
+    var effMag=Math.round(BASEMAG[zoom]*view.fz);
+    ctx.fillStyle='rgba(255,255,255,0.85)'; ctx.font='bold 12px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('≈ '+effMag+'×', cx-R+14, cy+R-16);
     ctx.restore();
     // Vòng tròn thị kính
     ctx.strokeStyle = '#334155'; ctx.lineWidth = 10;
