@@ -595,16 +595,30 @@ window.__refits = window.__refits || [];
       var f = c.createBiquadFilter(); f.type = type; f.frequency.value = freq; f.Q.value = q;
       var g = c.createGain(); g.gain.value = 0;
       src.connect(f); f.connect(g); g.connect(this.master); src.start();
+      var lg = null;
       if (lfoHz > 0){
         var lfo = c.createOscillator(); lfo.frequency.value = lfoHz;
-        var lg = c.createGain(); lg.gain.value = lfoDepth;
+        lg = c.createGain(); lg.gain.value = 0; // Bắt đầu = 0, chỉ tăng khi có target > 0
         lfo.connect(lg); lg.connect(g.gain); lfo.start();
       }
       this.loops[name] = g;
+      this.loops[name + '_lfo'] = lg;
+      this.loops[name + '_lfoDepth'] = lfoDepth;
     },
     set: function(name, target){
       if (!this.ctx || !this.loops[name]) return;
-      try { this.loops[name].gain.setTargetAtTime(this.enabled ? target : 0, this.ctx.currentTime, 0.06); }
+      try {
+        var t = this.enabled ? target : 0;
+        this.loops[name].gain.setTargetAtTime(t, this.ctx.currentTime, 0.06);
+        // Scale LFO theo target để khi tắt thì im hoàn toàn
+        var lg = this.loops[name + '_lfo'];
+        var depth = this.loops[name + '_lfoDepth'] || 0;
+        if (lg){
+          // LFO depth tỉ lệ với target (target 0 -> LFO 0 -> im hoàn toàn)
+          var lfoTarget = t > 0.01 ? depth * Math.min(1, t * 3) : 0;
+          lg.gain.setTargetAtTime(lfoTarget, this.ctx.currentTime, 0.06);
+        }
+      }
       catch(e){}
     },
     allOff: function(){
