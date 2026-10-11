@@ -461,10 +461,7 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
                             <div><label class="text-[11px] font-bold text-slate-600">Từ bài</label><select id="exbb-lesson-from" onchange="exbOnMatrixLessonChange()" class="mt-1 w-full text-sm border rounded-lg px-2 py-2 font-bold bg-white"><option value="">--</option></select></div>
                             <div><label class="text-[11px] font-bold text-slate-600">Đến bài</label><select id="exbb-lesson-to" onchange="exbOnMatrixLessonChange()" class="mt-1 w-full text-sm border rounded-lg px-2 py-2 font-bold bg-white"><option value="">--</option></select></div>
                         </div>
-                        <div class="mt-2 flex items-center gap-2">
-                            <button onclick="exbUpdateFolderIndex()" id="exb-idx-btn" class="text-xs px-3 py-1.5 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg font-bold text-slate-600">🔄 Cập nhật danh mục</button>
-                            <span id="exb-idx-status" class="text-[11px] text-slate-400"></span>
-                        </div>
+
                         <div id="exb-matrix"></div>
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
                             <div class="bg-blue-50 border border-blue-200 rounded-xl p-2.5">
@@ -1059,6 +1056,12 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
                     <label class="block font-bold text-slate-700 mb-1">GitHub Access Token (PAT)</label>
                     <input type="password" id="cfg-github-token" placeholder="ghp_..." class="w-full p-2 border rounded-lg font-mono text-xs text-blue-900"/>
                     <p class="text-[10px] text-slate-400 mt-0.5">Dùng để đọc cấu trúc thư mục và lưu đề trực tiếp vào GitHub repo.</p>
+                </div>
+                <div class="pt-2 border-t">
+                    <label class="block font-bold text-slate-700 mb-1">Danh mục toàn web</label>
+                    <button onclick="exbUpdateFolderIndex()" id="exb-idx-btn" class="w-full px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-bold text-xs">🔄 Cập nhật danh mục toàn web</button>
+                    <p id="exb-idx-status" class="text-[10px] text-slate-400 mt-1"></p>
+                    <p class="text-[10px] text-slate-400 mt-0.5">Bấm sau khi tạo/xóa thư mục hoặc thêm bài mới. Danh mục dùng chung cho cả web (HS + GV).</p>
                 </div>
             </div>
 
