@@ -450,16 +450,16 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
                         </div>
                         <p id="exb-sub-desc" class="text-[11px] text-indigo-900 bg-indigo-50 border border-indigo-200 rounded-lg px-3 py-2 leading-relaxed"><i class="fa-solid fa-shuffle mr-1"></i><b>Mỗi HS 1 đề cùng ma trận:</b> file chỉ lưu <b>ma trận</b> — mỗi em mở ra web bốc 1 bộ câu <b>khác nhau</b> nhưng cùng ma trận (cùng vùng kiến thức, số câu, tỉ lệ).</p>
                         <div class="grid grid-cols-3 gap-2">
-                            <div class="col-span-2"><label class="text-[11px] font-bold text-slate-600">Tên đề</label>
+                            <div class="col-span-2"><label class="text-[11px] font-bold text-slate-600">Nội dung kiểm tra</label>
                             <input id="exbb-title" autocomplete="off" value="Luyện tập chương 1" class="mt-1 w-full text-sm border rounded-lg px-3 py-2 font-bold"></div>
                             <div><label class="text-[11px] font-bold text-slate-600">Thời gian (phút, 0 = không tính giờ)</label>
                             <input id="exbb-timelimit" type="number" value="0" min="0" class="mt-1 w-full text-sm border rounded-lg px-3 py-2 font-bold"></div>
                         </div>
                         <div class="grid grid-cols-4 gap-2">
-                            <div><label class="text-[11px] font-bold text-slate-600">Môn</label><input id="exbb-subject" value="TOAN" class="mt-1 w-full text-sm border rounded-lg px-2 py-2 font-bold uppercase"></div>
-                            <div><label class="text-[11px] font-bold text-slate-600">Khối</label><input id="exbb-grade" type="number" value="10" class="mt-1 w-full text-sm border rounded-lg px-2 py-2 font-bold"></div>
-                            <div><label class="text-[11px] font-bold text-slate-600">Từ chương</label><input id="exbb-ch-from" type="number" value="1" class="mt-1 w-full text-sm border rounded-lg px-2 py-2 font-bold"></div>
-                            <div><label class="text-[11px] font-bold text-slate-600">Đến chương</label><input id="exbb-ch-to" type="number" value="1" class="mt-1 w-full text-sm border rounded-lg px-2 py-2 font-bold"></div>
+                            <div><label class="text-[11px] font-bold text-slate-600">Môn</label><select id="exbb-subject" onchange="exbOnMatrixSubjectChange()" class="mt-1 w-full text-sm border rounded-lg px-2 py-2 font-bold bg-white"><option value="">Đang tải...</option></select></div>
+                            <div><label class="text-[11px] font-bold text-slate-600">Khối</label><select id="exbb-grade" onchange="exbOnMatrixGradeChange()" class="mt-1 w-full text-sm border rounded-lg px-2 py-2 font-bold bg-white"><option value="">--</option></select></div>
+                            <div><label class="text-[11px] font-bold text-slate-600">Từ bài</label><select id="exbb-lesson-from" onchange="exbOnMatrixLessonChange()" class="mt-1 w-full text-sm border rounded-lg px-2 py-2 font-bold bg-white"><option value="">--</option></select></div>
+                            <div><label class="text-[11px] font-bold text-slate-600">Đến bài</label><select id="exbb-lesson-to" onchange="exbOnMatrixLessonChange()" class="mt-1 w-full text-sm border rounded-lg px-2 py-2 font-bold bg-white"><option value="">--</option></select></div>
                         </div>
                         <div id="exb-matrix"></div>
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
