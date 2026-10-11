@@ -1,4 +1,4 @@
-// SAOBAY_ADMIN_TOOLBAR_VERSION:20261011_1849
+// SAOBAY_ADMIN_TOOLBAR_VERSION:20261011_1911
 /* js/admin-toolbar.js — Thanh công cụ admin nổi trên MỌI trang SAOBAY (2026-10-10)
  * - Chỉ hiện khi admin đăng nhập (localStorage saobay_user.role === 'admin')
  * - Nút "✏️ Sửa giao diện": bật chế độ sửa inline — bấm vào chữ/nút có [data-ui-label]
@@ -256,7 +256,7 @@
     function hideAdminBtn(){
         try {
             var u = JSON.parse(localStorage.getItem('saobay_user') || 'null');
-            var btn = document.getElementById('btn-admin');
+            var btn = document.getElementById('btn-admin-space') || document.getElementById('btn-admin');
             if (!btn) return;
             if (!u || u.role !== 'admin') {
                 btn.classList.add('hidden');
