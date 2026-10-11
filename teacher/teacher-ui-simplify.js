@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2121
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2123
 // Rebuilt - fixed structure
 (function(){
     'use strict';
@@ -1213,5 +1213,51 @@ Hãy điền chi tiết từng ô trong bảng (chủ đề kiến thức cụ t
     }
     
     setInterval(setup, 2000);
+})();
+
+// 2026-10-11: Ẩn thanh top bằng CSS + tắt popup validation cũ
+(function(){
+    // CSS ẩn ngay
+    var style = document.createElement('style');
+    style.textContent = `
+        /* Ẩn thanh VỊ TRÍ LƯU TRỮ ở trên */
+        div:has(> *:contains("VỊ TRÍ LƯU TRỮ")) { display: none !important; }
+    `;
+    document.head.appendChild(style);
+    
+    // Tìm và ẩn bằng JS mạnh hơn
+    function hideTop(){
+        try {
+            document.querySelectorAll('div').forEach(function(d){
+                var t = d.textContent || '';
+                // Thanh top có cả 2 cụm từ này và là div lớn màu xanh
+                if (t.indexOf('VỊ TRÍ LƯU TRỮ') >= 0 && t.indexOf('Sẵn sàng đẩy bài') >= 0) {
+                    // Chỉ ẩn div ngoài cùng (không ẩn div con)
+                    var isOutermost = true;
+                    var p = d.parentElement;
+                    while (p && p !== document.body) {
+                        var pt = p.textContent || '';
+                        if (pt.indexOf('VỊ TRÍ LƯU TRỮ') >= 0 && pt.indexOf('Sẵn sàng đẩy bài') >= 0 && p !== d) {
+                            isOutermost = false;
+                            break;
+                        }
+                        p = p.parentElement;
+                    }
+                    if (isOutermost) d.style.display = 'none';
+                }
+            });
+        } catch(e){}
+    }
+    setInterval(hideTop, 1000);
+    
+    // Tắt popup validation cũ bằng cách override alert cho message này
+    var origAlert = window.alert;
+    window.alert = function(msg){
+        if (typeof msg === 'string' && msg.indexOf('chưa chọn nơi lưu') >= 0) {
+            console.log('Đã chặn popup validation cũ');
+            return;
+        }
+        return origAlert(msg);
+    };
 })();
 
