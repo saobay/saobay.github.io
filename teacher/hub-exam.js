@@ -228,6 +228,13 @@
             var gradeEl = document.getElementById('exbb-grade');
             if (!gradeEl || gradeEl.dataset.exbInit) return;
             gradeEl.dataset.exbInit = '1';
+            // Đảm bảo cây thư mục đã tải xong trước khi đọc
+            try {
+                var raw0 = localStorage.getItem('saobay_git_folders');
+                if (!raw0 && typeof loadFolderTreeFromGit === 'function'){
+                    await loadFolderTreeFromGit();
+                }
+            } catch(eWait){}
             // Load KHỐI từ thư mục to nhất trong cây thư mục
             var grades = await exbFetchGrades();
             if (!grades.length) grades = [6,7,8,9,10,11,12];
@@ -312,31 +319,46 @@
                 // 2026-10-11: đọc danh sách bài từ cây thư mục lý thuyết
                 var lessons = [], seenL = {};
                 try {
+                    // 2026-10-11 FIX: File bài nằm trực tiếp trong thư mục Chương
+                    // VD: data/THCS/Khối lớp 6/Toán 6/Chương 2/TOAN_6_Bai_10_...html
+                    // Dùng GitHub API để liệt kê files trong từng Chương
                     var rawF = localStorage.getItem('saobay_git_folders');
                     if (rawF){
                         var foldersF = JSON.parse(rawF);
-                        var subjNorm = subj.replace(/_/g, ' ').toLowerCase();
+                        var subjNorm = subj.toLowerCase();
+                        var chapters = [];
                         (foldersF || []).forEach(function(f){
                             var fp = f.path || '';
-                            // Match: data/.../Khối lớp 10/Toán 10/<Chương>/<Bài N>
-                            var fm = fp.match(/^data\/[^\/]+\/Kh[ốo]i l[ớo]p (\d+)\/([^\/]+)\/([^\/]+)\/(.+)$/i);
+                            // Match: data/.../Khối lớp 6/Toán 6/<Chương>
+                            var fm = fp.match(/^data\/[^\/]+\/Kh[ốo]i l[ớo]p (\d+)\/([^\/]+)\/([^\/]+)$/i);
                             if (!fm) return;
                             if (parseInt(fm[1], 10) !== grade) return;
-                            // Chuẩn hóa tên môn để so sánh
                             var fSubjRaw = fm[2].trim().replace(/\s*\d+\s*$/, '');
                             var fSubjNorm = fSubjRaw.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/Đ/g,'D').toLowerCase().replace(/\s+/g, '_');
-                            if (fSubjNorm !== subj.toLowerCase()) return;
-                            // Lấy Bài N từ phần cuối (có thể là "Bài 1" hoặc lồng sâu hơn)
-                            var lm = fm[4].match(/B[àa]i\s*(\d+)/i);
-                            if (lm){
-                                var ln = parseInt(lm[1], 10);
-                                var chName = fm[3].trim();
-                                if (!seenL[ln]){
-                                    seenL[ln] = 1;
-                                    lessons.push({ num: ln, ch: chName, count: 0 });
-                                }
-                            }
+                            if (fSubjNorm !== subjNorm) return;
+                            chapters.push({ path: fp, name: fm[3].trim() });
                         });
+                        // Với mỗi chương, fetch danh sách files để lấy Bài N từ tên file
+                        for (var ci = 0; ci < chapters.length; ci++){
+                            try {
+                                var apiUrl = 'https://api.github.com/repos/saobay/saobay.github.io/contents/' + encodeURIComponent(chapters[ci].path) + '?ref=main';
+                                var cr = await fetch(apiUrl);
+                                if (!cr.ok) continue;
+                                var files = await cr.json();
+                                (files || []).forEach(function(fl){
+                                    var fn = fl.name || '';
+                                    // Pattern: TOAN_6_Bai_10_...html hoặc ..._Bai_10_...
+                                    var lm = fn.match(/_Bai_(\d+)_/i) || fn.match(/Bai(\d+)/i);
+                                    if (lm){
+                                        var ln = parseInt(lm[1], 10);
+                                        if (!seenL[ln]){
+                                            seenL[ln] = 1;
+                                            lessons.push({ num: ln, ch: chapters[ci].name, count: 0 });
+                                        }
+                                    }
+                                });
+                            } catch(eCh){}
+                        }
                         lessons.sort(function(a,b){ return a.num - b.num; });
                     }
                 } catch(eF){}
