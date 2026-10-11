@@ -361,8 +361,8 @@ var rj=null;try{rj=await res.json();}catch(e){}
 if(rj&&rj.status==='success'){var cur=loadPending();dates.forEach(function(d){var p0=pending[d]||{},c=cur[d]||{gas_calls:0,page_views:0,bytes_est:0};['gas_calls','page_views','bytes_est'].forEach(function(f){c[f]=Math.max(0,(+c[f]||0)-(+p0[f]||0));});cur[d]=c;});savePending(cur);try{localStorage.setItem('sb_usage_last_sync',String(Date.now()));}catch(e){}}
 }catch(e){}finally{_syncing=false;}
 }
-try{setInterval(function(){try{sbSyncUsage();}catch(e){}},30*60*1000+Math.floor(Math.random()*300000));}catch(e){}
-try{window.addEventListener('beforeunload',function(){try{sbSyncUsage();}catch(e){}});}catch(e){}
+/* DISABLED 2026-10-11: auto usage sync off per admin request (spam commits). Call sbSyncUsage() manually if needed. */
+/* DISABLED 2026-10-11: auto sync on unload off */
 var _pv=false;
 function sbRecordPV(){if(_pv)return;_pv=true;try{bump('page_views',1);var b=0;try{var nv=performance.getEntriesByType('navigation')[0];if(nv&&nv.transferSize)b=nv.transferSize;}catch(e){}bump('bytes_est',b>0?b:200000);}catch(e){}}
 try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catch(e){}
