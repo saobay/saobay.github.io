@@ -29,7 +29,7 @@
             }
 
             // Box prompt/AI: hiện ở exam (chứa prompt-panel-exam); form soạn (exam-form-box) đã tách ra ngoài nên luôn hiện mọi chế độ (2026-10-10)
-            setVis('bo-tao-prompt-box', isExam);
+            setVis('bo-tao-prompt-box', isBank); // 2026-10-11: direct chi day Word -> an khung NotebookLM
             // Cây thư mục: chỉ hiện ở Đẩy Lý Thuyết / Đẩy Bài Tập (2026-10-10)
             let sb = document.getElementById('sidebar-container');
             if (sb) sb.classList.toggle('hidden', !(isTheory || isExercise));
@@ -42,7 +42,7 @@
             if (upT) upT.textContent = isExercise ? 'Đưa nội dung bài tập lên web' : (isExam ? 'Soạn & đưa đề thi lên web' : 'Đưa nội dung bài học lên web');
 
             // Ma trận đề: chỉ hiện ở bank (2026-10-10: gộp nút ma trận vào nút bank trên cùng)
-            setVis('exam-matrix-panel', isExam);
+            setVis('exam-matrix-panel', isBank); // 2026-10-11: direct chi day Word -> an ma tran
 
             // Panel builder ngân hàng: mở ở bank
             let bp = document.getElementById('exam-builder-panel');
@@ -54,6 +54,9 @@
 
             // Lịch kiểm tra chống lộ đề (checkbox "Đây là ĐỀ KIỂM TRA"): cả 2 chế độ đề thi
             setVis('exam-schedule-box', isExam);
+
+            // 2026-10-11: an o Mon/Khoi/Chuong/Bai khi o che do day Word (direct)
+            setVis('subject-meta-grid', !isDirect);
 
             // Panel legacy
             let panelT = document.getElementById('prompt-panel-theory');
