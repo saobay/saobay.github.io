@@ -242,7 +242,7 @@
         // 2026-10-11: lay danh sach khoi bang Contents API (khong localStorage)
         // 2026-10-11: doc tu file index tinh (khong goi GitHub API -> khong gioi han luot)
         var _folderIndex = null;
-        var _folderIndexUrl = 'https://saobay.github.io/data/_index/folders.json';
+        var _folderIndexUrl = 'https://saobay.github.io/data/folder-index/folders.json';
         async function exbLoadFolderIndex(){
             if (_folderIndex) return _folderIndex;
             try {
@@ -1086,7 +1086,7 @@
                 if (gasUrl){
                     var resp = await fetch(gasUrl, {
                         method: 'POST',
-                        body: JSON.stringify({ action: 'PUSH_TO_GITHUB', owner: 'saobay', repo: 'saobay.github.io', branch: 'main', message: 'Cap nhat index danh muc', files: [{ path: 'data/_index/folders.json', content: jsonStr }] })
+                        body: JSON.stringify({ action: 'PUSH_TO_GITHUB', owner: 'saobay', repo: 'saobay.github.io', branch: 'main', message: 'Cap nhat index danh muc', files: [{ path: 'data/folder-index/folders.json', content: jsonStr }] })
                     });
                     var rj = await resp.json();
                     if (rj && (rj.ok || rj.success)){
