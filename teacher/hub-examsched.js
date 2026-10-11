@@ -232,6 +232,20 @@
                 'Len lich kiem tra: ' + title + ' (' + className + ')', 'De kiem tra ' + title);
             await writeSchedule(sched);
 
+            // SAOBAY BANK-DE (2026-10-12): luu them 1 ban vao bank de rieng theo Khoi/Mon/ID dang nhap GV
+            // (data/bank-de/Khoi lop <khoi>/<MON> <khoi>/<loginId>/<id>.json) de sau nay boc nguyen de.
+            // Day chi la ban luu tru bo sung; loi o day KHONG lam hong viec luu lich o tren.
+            try {
+                var _loginId = String(teacherId || '').replace(/[^a-zA-Z0-9]/g, '_');
+                var _g = String(grade || '').trim();
+                var _s = String(subject || '').trim().toUpperCase();
+                if (_loginId && _g && _s) {
+                    var _bankPath = 'data/bank-de/Khối lớp ' + _g + '/' + _s + ' ' + _g + '/' + _loginId + '/' + id + '.json';
+                    await gasPush(_bankPath, JSON.stringify(pending, null, 1),
+                        'Luu bank de: ' + title, 'Bank de ' + title);
+                }
+            } catch(e) {}
+
             if (examStatus === 'draft') notify('Đã lưu đề "' + title + '" ở trạng thái CHUẨN BỊ. Bấm "Đưa đề cho HS" khi muốn giao.');
             else notify('Đã lên lịch kiểm tra "' + title + '" cho lớp ' + className + '.');
             return { ok: true, id: id };
