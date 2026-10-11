@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2023
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2035
 // Rebuilt - fixed structure
 (function(){
     'use strict';
@@ -702,13 +702,30 @@ Hãy điền chi tiết từng ô trong bảng (chủ đề kiến thức cụ t
                 var title = modal.textContent || '';
                 if (title.indexOf('Chọn thư mục') < 0) return;
                 
-                // Ẩn các thư mục chương
+                // XÓA HẲN các node chương khỏi DOM (không chỉ ẩn)
+                var toRemove = [];
                 modal.querySelectorAll('*').forEach(function(el){
                     var txt = (el.textContent || '').trim();
-                    // Nếu là text "Chương X" và là leaf node
-                    if (/^Chương \d+/.test(txt) && el.children.length === 0) {
+                    if (/^Chương \d+/.test(txt)) {
                         var row = el.closest('div');
-                        if (row) row.style.display = 'none';
+                        if (row && toRemove.indexOf(row) < 0) toRemove.push(row);
+                    }
+                });
+                toRemove.forEach(function(r){ r.remove(); });
+                
+                // Xóa nút mở rộng (mũi tên) của các môn
+                modal.querySelectorAll('*').forEach(function(el){
+                    var txt = (el.textContent || '').trim();
+                    if (txt === '' || txt === '›' || txt === '>' || txt === '∨' || txt === 'v') {
+                        // Kiểm tra có phải nút expand không
+                        var parent = el.parentElement;
+                        if (parent && /Toán|Văn|Anh|Lý|Hóa|Sinh|Sử|Địa|Tin/.test(parent.textContent || '')) {
+                            el.style.display = 'none';
+                        }
+                    }
+                    // Ẩn icon folder-expand
+                    if (el.className && typeof el.className === 'string' && el.className.indexOf('fa-angle') >= 0) {
+                        el.style.display = 'none';
                     }
                     // Ẩn icon mở rộng của môn (vì không cần mở nữa)
                     if (txt === '' && el.className && el.className.indexOf('fa-angle') >= 0) {
