@@ -75,6 +75,54 @@ YÊU CẦU:
             }
 
             if (type === 'EXAM10') {
+                // 2026-10-11 FIX: thang điểm Đ/S lấy theo cài đặt của GV + điền ma trận thật vào prompt
+                // (trước đây phần "MA TRẬN CỦA TÔI" để trống → NotebookLM hỏi lại)
+                let _tfs = [0.125, 0.25, 0.5, 1];
+                try { if (typeof window.getTFScale === 'function') { let _v = window.getTFScale(); if (_v && _v.length === 4) _tfs = _v; } } catch(e){}
+                let _tfRuleTxt = 'đúng 1 ý=' + _tfs[0] + ', 2 ý=' + _tfs[1] + ', 3 ý=' + _tfs[2] + ', 4 ý=' + _tfs[3];
+                let _mxDetail = (function(){
+                    try {
+                        let mx = (typeof exbGetMatrix === 'function') ? exbGetMatrix() : null;
+                        let L = [];
+                        L.push('Dưới đây là TOÀN BỘ ma trận tôi đã nhập trên web — bạn KHÔNG cần hỏi thêm, soạn đề ngay theo đúng số liệu này.');
+                        L.push('');
+                        L.push('1) Môn: ' + subject + '  |  Lớp: ' + grade);
+                        L.push('2) Nội dung kiến thức: "' + lesson + '"');
+                        let li = 3;
+                        if (mx) {
+                            let chK = Object.keys(mx.chapters || {}).filter(function(c){ return (mx.chapters[c]||0) > 0; }).sort(function(a,b){ return a-b; });
+                            if (chK.length) L.push((li++) + ') Phạm vi chương: ' + chK.map(function(c){ return 'Chương ' + c + ' (' + mx.chapters[c] + ' câu)'; }).join(' + '));
+                            let tN = {mcq:'Trắc nghiệm 4 lựa chọn', truefalse:'Đúng/Sai 4 ý a,b,c,d', short:'Trả lời ngắn (đáp số)', essay:'Tự luận (giáo viên chấm tay, có barem)', listening:'Nghe', speaking:'Nói', matching:'Nối từ', ordering:'Sắp xếp từ thành câu'};
+                            let order = ['mcq','truefalse','short','essay','listening','speaking','matching','ordering'];
+                            let tot = 0, totP = 0, rows = [];
+                            order.forEach(function(t){
+                                let n = mx.types ? (mx.types[t]||0) : 0;
+                                if (n > 0) {
+                                    let sc = mx.scores ? (mx.scores[t]||0) : 0;
+                                    tot += n; totP += n * sc;
+                                    rows.push('   - ' + n + ' câu ' + (tN[t]||t) + ' — ' + sc + ' điểm/câu');
+                                }
+                            });
+                            totP = Math.round(totP * 100) / 100;
+                            if (tot > 0) {
+                                L.push((li++) + ') Tổng số câu: ' + tot + ' câu. Chi tiết từng dạng:');
+                                rows.forEach(function(r){ L.push(r); });
+                                L.push('   => Tổng điểm phần chấm máy: ' + totP + ' điểm' + (mx.types && mx.types.essay ? ' (chưa tính điểm tự luận do giáo viên chấm tay theo barem)' : ''));
+                            }
+                            if (mx.levels) {
+                                let lvTxt = 'NB ' + mx.levels.NB + '% / TH ' + mx.levels.TH + '% / VD ' + mx.levels.VD + '% / VDC ' + mx.levels.VDC + '%';
+                                let per = '';
+                                if (tot > 0) {
+                                    per = ['NB','TH','VD','VDC'].map(function(k){ return k + ' ≈ ' + Math.round(tot * (mx.levels[k]||0) / 100) + ' câu'; }).join(', ');
+                                }
+                                L.push((li++) + ') Tỉ lệ mức độ nhận thức: ' + lvTxt + (per ? '  →  phân bố: ' + per + ' (làm tròn, tổng phải khớp ' + tot + ' câu)' : ''));
+                            }
+                            L.push((li++) + ') Thời gian làm bài: ' + ((mx.time_limit > 0) ? mx.time_limit + ' phút (bài kiểm tra tính giờ)' : '0 = không tính giờ (bài tập thường)'));
+                        }
+                        L.push((li++) + ') Thang điểm Đúng/Sai (mỗi câu 4 ý): đúng 1/4 ý → ' + _tfs[0] + ' điểm; 2/4 → ' + _tfs[1] + '; 3/4 → ' + _tfs[2] + '; 4/4 → ' + _tfs[3] + ' điểm.');
+                        return L.join('\n');
+                    } catch(e){ return '(không đọc được ma trận từ web: ' + String(e && e.message || e) + ')'; }
+                })();
                 // PROMPT TẠO ĐỀ MỚI CHUẨN SÀO BÁY (2026-10-10, sửa theo test NotebookLM thật):
                 // - NotebookLM KHÔNG xuất được khối HTML thô <div class="saobay-exam10"> (test 4 lần đều lỗi/trống)
                 // - Đổi sang yêu cầu AI xuất JSON trong khối mã ```json — NotebookLM làm tốt dạng văn bản thuần
@@ -84,7 +132,7 @@ Nhiệm vụ: soạn 1 ĐỀ THI MỚI HOÀN TOÀN (chưa từng xuất hiện �
 
 YÊU CẦU QUAN TRỌNG NHẤT:
 1. Đề phải MỚI TINH — học sinh chưa từng thấy. Không sao chép, không biến thể nhẹ từ đề cũ.
-2. Tôi sẽ cung cấp MA TRẬN CHI TIẾT ngay sau prompt này (gồm: nội dung kiến thức, số câu mỗi nội dung, phân bố mức độ NB/TH/VD/VDC, dạng câu mcq/truefalse/short/essay, thời gian làm bài).
+2. MA TRẬN CHI TIẾT nằm ở cuối prompt này (phần "MA TRẬN CỦA TÔI") — tôi đã điền đầy đủ số liệu từ form trên web, bạn dùng ĐÚNG số liệu đó, không tự ý đổi.
 3. Bạn phải tuân thủ 100% ma trận — không tự ý thêm, bớt, hay đổi dạng câu/mức độ.
 4. Nếu ma trận chưa rõ chỗ nào, hãy hỏi lại thay vì tự đoán.
 
@@ -111,7 +159,7 @@ LƯU Ý QUAN TRỌNG: Tôi sẽ COPY NGUYÊN khối JSON trên rồi dán vào p
 
 QUY TẮC 4 DẠNG CÂU (phần mềm chỉ hiểu 4 dạng này):
 1. mcq — trắc nghiệm 4 đáp án: "options" đủ 4 chuỗi bắt đầu bằng "A. "/"B. "/"C. "/"D. ", "answer" là 1 ký tự A/B/C/D.
-2. truefalse — đúng/sai 4 ý a,b,c,d: "statements" đúng 4 chuỗi, "answer" là mảng 4 giá trị "T"/"F" theo thứ tự a→d. Thang điểm: đúng 1 ý=0.125, 2 ý=0.25, 3 ý=0.5, 4 ý=1.
+2. truefalse — đúng/sai 4 ý a,b,c,d: "statements" đúng 4 chuỗi, "answer" là mảng 4 giá trị "T"/"F" theo thứ tự a→d. Thang điểm: ${_tfRuleTxt}.
 3. short — trả lời ngắn: "answer" là chuỗi đáp số chuẩn (chỉ 1 đáp án, vd "24").
 4. essay — tự luận: KHÔNG có "answer" (giáo viên chấm tay), "explain" ghi barem chấm từng ý.
 
@@ -129,7 +177,7 @@ QUY TẮC KỸ THUẬT:
 - Nếu câu hỏi có hình minh họa (tôi sẽ cung cấp URL ảnh), thêm trường "img" với URL đó.
 - KHÔNG viết thẻ HTML câu hỏi, KHÔNG viết JavaScript — chỉ xuất đúng 1 khối JSON trên.
 
-MA TRẬN CỦA TÔI (bạn tuân thủ tuyệt đối):`;
+MA TRẬN CỦA TÔI (bạn tuân thủ tuyệt đối):\n${_mxDetail}`;
             }
 
             if(!document.getElementById('item-title').value.trim()){
