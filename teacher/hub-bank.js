@@ -73,6 +73,84 @@
             return out;
         }
 
+        // 2026-10-11: bank doc TRUC TIEP tu file bai hoc (khong can file bank rieng -> khong x2 data)
+        // Khi data/bank/SUBJECT_GRADE.json khong ton tai, tu quet thu muc mon/khoi va boc cau hoi tu HTML
+        var _bankLessonCache = {};
+        async function bankBuildFromLessons(subject, grade){
+            var cacheKey = subject + '_' + grade;
+            if (_bankLessonCache[cacheKey]) return _bankLessonCache[cacheKey];
+            var cfg = GITHUB_CONFIG;
+            var normSubj = String(subject || '').toUpperCase();
+            try {
+                var roots = ['data/THCS', 'data/THPT'];
+                var subjectPath = null, subjectLabel = null;
+                for (var ri = 0; ri < roots.length && !subjectPath; ri++){
+                    var gUrl = 'https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + '/contents/' + roots[ri] + '?ref=' + cfg.branch;
+                    var gr = await fetch(gUrl);
+                    if (!gr.ok) continue;
+                    var gDirs = await gr.json();
+                    for (var gi = 0; gi < gDirs.length && !subjectPath; gi++){
+                        var gd = gDirs[gi];
+                        if (gd.type !== 'dir') continue;
+                        var gm = String(gd.name || '').match(/Kh[\u1ed1\u1ed5]i l[\u1edb\u1ed7]p\s*(\d+)/i);
+                        if (!gm || parseInt(gm[1], 10) !== grade) continue;
+                        var sUrl = 'https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + '/contents/' + roots[ri] + '/' + encodeURIComponent(gd.name) + '?ref=' + cfg.branch;
+                        var sr = await fetch(sUrl);
+                        if (!sr.ok) continue;
+                        var sDirs = await sr.json();
+                        for (var si = 0; si < sDirs.length && !subjectPath; si++){
+                            var sd = sDirs[si];
+                            if (sd.type !== 'dir') continue;
+                            var rawSubj = sd.name.trim();
+                            var norm = rawSubj.replace(/\s*\d+\s*$/, '').trim().toUpperCase();
+                            norm = norm.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\u0110/g, 'D').replace(/\u0111/g, 'd').replace(/\s+/g, '_');
+                            if (norm === normSubj){
+                                subjectPath = roots[ri] + '/' + gd.name + '/' + sd.name;
+                                subjectLabel = sd.name;
+                            }
+                        }
+                    }
+                }
+                if (!subjectPath) return { notFound: true };
+                // Liet ke cac chuong va file HTML
+                var questions = [];
+                var cUrl = 'https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + '/contents/' + subjectPath.split('/').map(encodeURIComponent).join('/') + '?ref=' + cfg.branch;
+                var cr = await fetch(cUrl);
+                if (!cr.ok) return { notFound: true };
+                var cDirs = await cr.json();
+                for (var ci = 0; ci < cDirs.length; ci++){
+                    var cd = cDirs[ci];
+                    if (cd.type !== 'dir') continue;
+                    var chM = String(cd.name || '').match(/Ch[\u01b0\u01b0]ng\s*(\d+)/i) || String(cd.name || '').match(/Chuong\s*(\d+)/i);
+                    var chapter = chM ? parseInt(chM[1], 10) : 0;
+                    var fUrl = 'https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + '/contents/' + (subjectPath + '/' + cd.name).split('/').map(encodeURIComponent).join('/') + '?ref=' + cfg.branch;
+                    var fr = await fetch(fUrl);
+                    if (!fr.ok) continue;
+                    var files = await fr.json();
+                    for (var fi = 0; fi < files.length; fi++){
+                        var f = files[fi];
+                        if (f.type !== 'file' || !/\.html?$/i.test(f.name)) continue;
+                        var lM = String(f.name || '').match(/Bai_(\d+)/i);
+                        var lesson = lM ? parseInt(lM[1], 10) : 0;
+                        try {
+                            var hr = await fetch(f.download_url);
+                            if (!hr.ok) continue;
+                            var html = await hr.text();
+                            var meta = { subject: normSubj, grade: grade, chapter: chapter, lesson: lesson };
+                            var qs = extractQuestionsFromExam10(html, meta, subjectPath + '/' + cd.name + '/' + f.name);
+                            questions = questions.concat(qs);
+                        } catch(eF){}
+                    }
+                }
+                if (!questions.length) return { notFound: true };
+                var result = { sha: null, data: { subject: normSubj, grade: grade, updated: new Date().toISOString().slice(0,10), questions: questions, _fromLessons: true } };
+                _bankLessonCache[cacheKey] = result;
+                return result;
+            } catch(e){
+                return { notFound: true };
+            }
+        }
+
         async function bankApiRead(bankPath){
             // FIX 2026-10-09: bank la public nen doc qua raw.githubusercontent.com, KHONG can token
             // (truoc day bat buoc token -> GV khong phai admin khong dung duoc)
@@ -80,7 +158,12 @@
                 let rawUrl = 'https://raw.githubusercontent.com/' + GITHUB_CONFIG.owner + '/' + GITHUB_CONFIG.repo
                     + '/' + GITHUB_CONFIG.branch + '/' + getEncodedGitHubPath(bankPath);
                 let rr = await fetch(rawUrl);
-                if (rr.status === 404) return { notFound: true };
+                if (rr.status === 404){
+                    // 2026-10-11: khong co file bank -> doc truc tiep tu bai hoc (khong x2 data)
+                    let m = String(bankPath || '').match(/data\/bank\/([A-Z0-9_]+)_(\d+)\.json$/i);
+                    if (m) return await bankBuildFromLessons(m[1], parseInt(m[2], 10));
+                    return { notFound: true };
+                }
                 if (rr.ok) return { sha: null, data: JSON.parse(await rr.text()) };
             } catch(eRaw){}
             let token = getGithubToken();
@@ -88,7 +171,11 @@
             let apiUrl = 'https://api.github.com/repos/' + GITHUB_CONFIG.owner + '/' + GITHUB_CONFIG.repo
                 + '/contents/' + getEncodedGitHubPath(bankPath) + '?ref=' + GITHUB_CONFIG.branch;
             let res = await fetch(apiUrl, { headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github+json' } });
-            if (res.status === 404) return { notFound: true };
+            if (res.status === 404){
+                let m2 = String(bankPath || '').match(/data\/bank\/([A-Z0-9_]+)_(\d+)\.json$/i);
+                if (m2) return await bankBuildFromLessons(m2[1], parseInt(m2[2], 10));
+                return { notFound: true };
+            }
             if (!res.ok) return { error: 'http-' + res.status };
             let data = await res.json();
             let bin = atob(String(data.content || '').replace(/\s/g,''));
