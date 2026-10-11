@@ -40,6 +40,20 @@
                 <option value="teacher">Giáo viên</option>
             </select>
         </div>
+        <div id="rg-grade-wrap">
+            <label class="text-xs font-bold text-slate-600">Khối lớp *</label>
+            <select id="rg-grade" class="mt-1 w-full border rounded-lg px-3 py-2.5 font-semibold">
+                <option value="" selected>-- Chọn khối lớp --</option>
+                <option value="6">Khối 6</option>
+                <option value="7">Khối 7</option>
+                <option value="8">Khối 8</option>
+                <option value="9">Khối 9</option>
+                <option value="10">Khối 10</option>
+                <option value="11">Khối 11</option>
+                <option value="12">Khối 12</option>
+            </select>
+        </div>
+        <!-- RG_GRADE_V1 -->
         <div id="rg-school-wrap" style="display:none">
             <label class="text-xs font-bold text-slate-600">Tên trường *</label>
             <input id="rg-school" class="mt-1 w-full border rounded-lg px-3 py-2.5" placeholder="VD: THPT Sào Báy">
@@ -119,7 +133,7 @@ function userRecordExists(db, phone, role){
 }
 
 // Thêm hồ sơ vào đúng danh sách (có chống trùng lặp khi thử lại)
-function addUserRecord(db, phone, name, role, note, school){
+function addUserRecord(db, phone, name, role, note, school, grade){
     if (role === 'teacher'){
         if (!db.teachers_registry || Array.isArray(db.teachers_registry)) db.teachers_registry = {};
         db.teachers_registry[phone] = { name: name, group: 'Trải nghiệm', role: 'teacher', note: note, school: school || '' };
@@ -129,7 +143,7 @@ function addUserRecord(db, phone, name, role, note, school){
         let arr = db.students['Trải nghiệm'];
         let dup = false;
         for (let i = 0; i < arr.length; i++){ if (String(arr[i].id) === String(phone)){ dup = true; break; } }
-        if (!dup) arr.push({ id: phone, name: name, dob: '' });
+        if (!dup) arr.push({ id: phone, name: name, dob: '', grade: grade || '' }); // RG_GRADE_V1
     }
 }
 
@@ -138,6 +152,8 @@ function onRoleChange(){
     let role = document.getElementById('rg-role').value;
     let wrap = document.getElementById('rg-school-wrap');
     if (wrap) wrap.style.display = (role === 'teacher') ? '' : 'none';
+    let gw = document.getElementById('rg-grade-wrap');
+    if (gw) gw.style.display = (role === 'student') ? '' : 'none'; // RG_GRADE_V1
 }
 
 
@@ -193,9 +209,12 @@ async function submitRegistration(){
     let note = document.getElementById('rg-note').value.trim();
     let schoolEl = document.getElementById('rg-school');
     let school = schoolEl ? schoolEl.value.trim() : '';
+    let gradeEl = document.getElementById('rg-grade');
+    let grade = gradeEl ? gradeEl.value : ''; // RG_GRADE_V1
     msg.className = 'text-xs text-center';
     if (!name){ msg.textContent = 'Vui lòng nhập họ tên.'; msg.classList.add('text-rose-600'); return; }
     if (role === 'teacher' && !school){ msg.textContent = 'Giáo viên vui lòng nhập tên trường.'; msg.classList.add('text-rose-600'); return; }
+    if (role === 'student' && !grade){ msg.textContent = 'Vui lòng chọn khối lớp.'; msg.classList.add('text-rose-600'); return; } // RG_GRADE_V1
     let isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(phone);
     let isPhone = /^\d{9,12}$/.test(phone);
     if (!isEmail && !isPhone){ msg.textContent = 'Vui lòng nhập SĐT (9-12 số) hoặc Gmail đúng.'; msg.classList.add('text-rose-600'); return; }
@@ -239,7 +258,7 @@ async function submitRegistration(){
             }
             if (!db.passwords) db.passwords = {};
             db.passwords[phone] = passB64;
-            addUserRecord(db, phone, name, role, note, school);
+            addUserRecord(db, phone, name, role, note, school, grade); // RG_GRADE_V1
             let rj = await gasPush('used/used.is', JSON.stringify(db),
                 'Đăng ký tự động: tạo TK Trải nghiệm cho ' + name + ' (' + phone + ')',
                 'Đăng ký tài khoản', name);
@@ -253,7 +272,7 @@ async function submitRegistration(){
         // FIX 2026-10-10: push đã success (commit có trên GitHub) => TK chắc chắn tồn tại.
         // Lưu pending reg NGAY để đăng nhập ngay được, không phụ thuộc CDN.
         try {
-            localStorage.setItem('saobay_pending_reg', JSON.stringify({ phone: phone, passB64: passB64, name: name, role: role, school: school, ts: Date.now() }));
+            localStorage.setItem('saobay_pending_reg', JSON.stringify({ phone: phone, passB64: passB64, name: name, role: role, school: school, grade: grade, ts: Date.now() })); // RG_GRADE_V1
         } catch(e){}
         clearFailCount(phone);
         window.__saobayLastRegEnd = Date.now();
