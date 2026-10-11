@@ -190,7 +190,7 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
                         </div>
                         <div class="truncate">
                             <div class="text-xs font-extrabold uppercase" data-ui-label="mod_manage">2. Quản Lý & Sửa Bài</div>
-                            <div class="text-[10px] text-slate-500" data-ui-label="mod_manage_sub">Xem danh sách & sửa bài</div>
+                            <div class="text-[10px] text-slate-500" data-ui-label="mod_manage_sub">Đề thi đã tải lên</div>
                         </div>
                     </button>
 
@@ -2402,24 +2402,20 @@ function copyWordSample(){
 }
 </script>
 
+
+
 <script>
-// SAOBAY_TAB2_FIX 20261011_2315: ép hiện tab2
+// SAOBAY_NEW_TAB 20261011: tab Đề thi của tôi
 (function(){
-  function fixTab2(){
+  setInterval(function(){
     var v=document.getElementById('module-manage-view');
-    if(!v)return;
-    // Ép hiện div
-    v.classList.remove('hidden');
-    v.style.display='block';
-    // Thay nội dung nếu chưa có iframe
-    if(!v.querySelector('iframe')){
-      v.innerHTML='<iframe src="teacher-my-exams.html" style="width:100%;min-height:600px;border:none;display:block" title="Đề thi"></iframe>';
+    if(v){
+      v.classList.remove('hidden');
+      if(!v.querySelector('iframe')){
+        v.innerHTML='<iframe src="teacher-my-exams.html" style="width:100%;min-height:600px;border:none;display:block" title="Đề thi của tôi"></iframe>';
+      }
     }
-  }
-  setInterval(fixTab2,1000);
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fixTab2);
-  else fixTab2();
+  },1000);
 })();
 </script>
 </body>
-</html>
