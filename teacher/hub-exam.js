@@ -1,4 +1,4 @@
-// SAOBAY_HUB_EXAM_VERSION:20261011_1858
+// SAOBAY_HUB_EXAM_VERSION:20261011_1909
         // ========================================================
         // TRÌNH SOẠN ĐỀ KIỂM TRA (Phase 4, 2026-10-08)
 
@@ -765,18 +765,27 @@
                 
                 var path = 'data/teacher-exams/' + teacherId + '/' + examId + '.json';
                 // Dùng GAS proxy để lưu
-                var resp = await fetch('https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'text/plain;charset=utf-8'},
-                    body: JSON.stringify({
-                        type: 'PUSH_TO_GITHUB',
-                        filePath: path,
-                        content: JSON.stringify(examData, null, 2),
-                        commitMessage: 'Lưu đề kiểm tra: ' + title,
-                        title: 'Lưu đề kiểm tra',
-                        author: 'saobay-teacher'
-                    })
-                });
+                // Dùng AbortController với timeout 30s để tránh treo
+                var controller = new AbortController();
+                var timeoutId = setTimeout(function(){ controller.abort(); }, 30000);
+                var resp;
+                try {
+                    resp = await fetch('https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'text/plain;charset=utf-8'},
+                        signal: controller.signal,
+                        body: JSON.stringify({
+                            type: 'PUSH_TO_GITHUB',
+                            filePath: path,
+                            content: JSON.stringify(examData, null, 2),
+                            commitMessage: 'Lưu đề kiểm tra: ' + title,
+                            title: 'Lưu đề kiểm tra',
+                            author: 'saobay-teacher'
+                        })
+                    });
+                } finally {
+                    clearTimeout(timeoutId);
+                }
                 var result = await resp.json();
                 if (result.error) throw new Error(result.error);
                 
@@ -796,7 +805,8 @@
                     }
                     if (!found) idxData.exams.push({ id: examId, title: title, subject: m.subject || '', grade: m.grade || '', created_at: examData.created_at, question_count: picked.length });
                     
-                    await fetch('https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec', {
+                    // Cập nhật index chạy ngầm, không chờ (tránh treo)
+                    fetch('https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec', {
                         method: 'POST',
                         headers: {'Content-Type': 'text/plain;charset=utf-8'},
                         body: JSON.stringify({
@@ -807,7 +817,7 @@
                             title: 'Cập nhật index',
                             author: 'saobay-teacher'
                         })
-                    });
+                    }).catch(function(e){ console.warn('Lỗi cập nhật index (ngầm):', e); });
                 } catch(eIdx){ console.warn('Lỗi cập nhật index:', eIdx); }
                 
                 if (typeof showToast === 'function') showToast('Đã lưu đề "' + title + '" vào mục Quản lý!', 'success');
