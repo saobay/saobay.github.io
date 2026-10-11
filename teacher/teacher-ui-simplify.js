@@ -1,57 +1,7 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2230
-// Clean rebuild - 3 fixes only
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2235
+// Minimal - chỉ nút xóa cache, không can thiệp gì khác
 (function(){
 'use strict';
-
-// CSS ẩn ngay khi JS chạy (chống nháy)
-var css=document.createElement('style');
-css.textContent='#folder-tree{display:none!important}.sidebar-folder-tree{display:none!important}';
-if(document.head)document.head.appendChild(css);
-
-// Ẩn sidebar cây thư mục (chạy liên tục)
-function hideSidebar(){
-  try{
-    var t=document.getElementById('folder-tree');
-    if(t)t.style.display='none';
-    // Ẩn container trái chứa cây
-    var left=document.querySelector('[class*="sidebar"]');
-    if(left&&left.textContent.indexOf('Cấu Trúc Thư Mục')>=0)left.style.display='none';
-  }catch(e){}
-}
-setInterval(hideSidebar,1000);
-
-// Đổi tên modules
-function renameModules(){
-  try{
-    document.querySelectorAll('*').forEach(function(el){
-      if(el.children.length>0)return;
-      var t=(el.textContent||'').trim();
-      if(t==='2. QUẢN LÝ & SỬA BÀI')el.textContent='2. QUẢN LÝ HỌC LIỆU CỦA BẠN';
-      else if(t==='4. THỐNG KÊ & HỌC LIỆU')el.textContent='4. THỐNG KÊ';
-      else if(t==='5. LỚP HỌC THÊM')el.textContent='5. QUẢN LÝ LỚP HỌC CỦA TÔI';
-      else if(t==='Đề kiểm tra theo ma trận')el.textContent='Tạo đề thi từ Bank';
-    });
-  }catch(e){}
-}
-setInterval(renameModules,2000);
-
-// Thêm tab AI
-function addAITab(){
-  try{
-    if(document.getElementById('push-mode-ai'))return;
-    var bank=document.getElementById('push-mode-bank');
-    if(!bank||!bank.parentElement)return;
-    var b=document.createElement('button');
-    b.id='push-mode-ai';b.type='button';
-    b.className=bank.className;
-    b.innerHTML='🤖 Tạo Đề từ AI';
-    b.onclick=function(){if(typeof switchPushMode==='function')switchPushMode('ai');};
-    bank.parentElement.appendChild(b);
-  }catch(e){}
-}
-setInterval(addAITab,2000);
-
-// Nút xóa cache
 function addClearBtn(){
   try{
     if(document.getElementById('btn-clear-cache'))return;
@@ -71,19 +21,5 @@ function addClearBtn(){
   }catch(e){}
 }
 setInterval(addClearBtn,3000);
-
-// Tab 2: đảm bảo hiện khi bấm
-if(typeof window.switchTeacherModule==='function'&&!window._ct2){
-  window._ct2=true;
-  var o=window.switchTeacherModule;
-  window.switchTeacherModule=function(m){
-    o(m);
-    if(m==='manage')setTimeout(function(){
-      var v=document.getElementById('module-manage-view');
-      if(v){v.classList.remove('hidden');if(typeof renderLessonManagementList==='function')try{renderLessonManagementList();}catch(e){}}
-    },300);
-  };
-}
-
-console.log('SAOBAY clean JS 2230 loaded');
+console.log('SAOBAY minimal JS 2235');
 })();
