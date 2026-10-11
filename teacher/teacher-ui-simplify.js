@@ -1,36 +1,47 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_1820
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_1832
 // SAOBAY Teacher Hub UI Simplify - 2026-10-11
 // Ẩn cây thư mục bên trái, chọn thư mục qua popup tại "Vị trí lưu trữ"
 (function(){
     'use strict';
     
     function init(){
-        // 1. Ẩn sidebar cây thư mục
-        var sidebar = document.querySelector('aside, #sidebar, .sidebar');
-        // Tìm sidebar chứa "Cấu Trúc Thư Mục"
-        var headings = document.querySelectorAll('h2');
-        headings.forEach(function(h){
-            if (h.textContent.includes('Cấu Trúc Thư Mục')) {
-                var aside = h.closest('aside') || h.closest('div[class*="w-"]');
-                // Tìm container cha lớn
-                var parent = h.parentElement;
-                while (parent && parent.tagName !== 'BODY') {
-                    if (parent.classList.contains('flex') && parent.children.length >= 2) break;
-                    parent = parent.parentElement;
-                }
-                if (parent) {
-                    // Ẩn phần tử đầu tiên (sidebar)
-                    var firstChild = parent.children[0];
-                    if (firstChild && firstChild.textContent.includes('Cấu Trúc Thư Mục')) {
-                        firstChild.style.display = 'none';
+        // 1. Ẩn sidebar bằng CSS trực tiếp
+        var style = document.createElement('style');
+        style.id = 'saobay-hide-sidebar';
+        style.textContent = `
+            /* Ẩn sidebar cây thư mục */
+            aside { display: none !important; }
+            /* Ẩn nút hamburger */
+            button[onclick*="toggleSidebar"] { display: none !important; }
+            /* Mở rộng nội dung chính */
+            main, .main-content { margin-left: 0 !important; width: 100% !important; }
+        `;
+        if (!document.getElementById('saobay-hide-sidebar')) {
+            document.head.appendChild(style);
+        }
+        
+        // 2. Tìm và ẩn sidebar theo nhiều cách
+        setTimeout(function(){
+            // Cách 1: tìm phần tử chứa "THƯ MỤC CHỌN Ở CÂY"
+            var els = document.querySelectorAll('*');
+            for (var i = 0; i < els.length; i++) {
+                var el = els[i];
+                if (el.textContent && el.textContent.includes('THƯ MỤC CHỌN Ở CÂY') && el.children.length > 0) {
+                    // Tìm container cha là sidebar
+                    var p = el.parentElement;
+                    var depth = 0;
+                    while (p && depth < 5) {
+                        if (p.tagName === 'ASIDE' || (p.className && p.className.includes('w-'))) {
+                            p.style.display = 'none';
+                            break;
+                        }
+                        p = p.parentElement;
+                        depth++;
                     }
+                    break;
                 }
             }
-        });
-        
-        // 2. Ẩn nút hamburger (toggle sidebar)
-        var hamburger = document.querySelector('button[onclick*="toggleSidebar"]');
-        if (hamburger) hamburger.style.display = 'none';
+        }, 500);
         
         // 3. Biến "Vị trí lưu trữ" thành nút bấm mở popup chọn thư mục
         var storageBar = document.getElementById('main-working-folder-display');
