@@ -21,7 +21,6 @@ canvas{max-width:100%;display:block;}
 #cv-wave{width:100%;height:300px;}
 #cv-collide{width:100%;height:280px;}
 #cv-spring{width:100%;height:300px;}
-#cv-proj{width:100%;height:300px;}
 
   /* ===== SAOBAY LAB 3D UPGRADE 2026-10-10 ===== */
   .tab-panel { perspective: 1200px; }
@@ -107,7 +106,6 @@ canvas{max-width:100%;display:block;}
     <button class="tab-btn flex-1 big-btn rounded-xl bg-white shadow font-bold text-sm" data-tab="wave">🌊 Sóng cơ</button>
     <button class="tab-btn flex-1 big-btn rounded-xl bg-white shadow font-bold text-sm" data-tab="collide">💥 Va chạm</button>
     <button class="tab-btn flex-1 big-btn rounded-xl bg-white shadow font-bold text-sm" data-tab="spring">🌀 Lò xo</button>
-    <button class="tab-btn flex-1 big-btn rounded-xl bg-white shadow font-bold text-sm" data-tab="proj">🎯 Ném xiên</button>
   </div>
 
   <!-- ===== TAB 1: CON LẮC ĐƠN ===== -->
@@ -369,38 +367,6 @@ canvas{max-width:100%;display:block;}
         <div class="bg-slate-50 rounded-xl p-2"><div class="text-[11px] text-slate-500">T đo được</div><div class="font-black text-violet-700" id="sp-Tm">–</div></div>
       </div>
       <p class="text-[11px] text-slate-500 mt-2">💡 T = 2π√(m/k). Lò xo càng cứng hoặc vật càng nhẹ → dao động càng nhanh!</p>
-    </div>
-  </div>
-
-  <!-- ===== TAB 10: NEM XIEN ===== -->
-  <div id="tab-proj" class="tab-panel px-3 mt-3 hidden">
-    <div class="bg-white rounded-2xl shadow p-4">
-      <h2 class="font-black text-emerald-700 mb-1">Ném xiên</h2>
-      <p class="text-xs text-slate-500 mb-2">Chỉnh <b>góc bắn</b> và <b>vận tốc đầu</b>, ngắm trúng bia! 🎯</p>
-      <canvas id="cv-proj" class="w-full rounded-xl border" height="300"></canvas>
-      <div class="grid grid-cols-2 gap-2 mt-3">
-        <div>
-          <label class="text-xs font-bold text-slate-600">Góc bắn α</label>
-          <input id="pj-ang" type="range" min="15" max="75" step="1" value="45" class="w-full">
-          <div class="text-center font-black text-emerald-700"><span id="pj-ang-val">45</span>°</div>
-        </div>
-        <div>
-          <label class="text-xs font-bold text-slate-600">Vận tốc đầu v₀ (m/s)</label>
-          <input id="pj-v" type="range" min="8" max="26" step="1" value="18" class="w-full">
-          <div class="text-center font-black text-emerald-700"><span id="pj-v-val">18</span> m/s</div>
-        </div>
-      </div>
-      <div class="flex gap-2 mt-3">
-        <button id="pj-fire" class="big-btn flex-1 bg-emerald-600 text-white font-black rounded-xl">💥 Bắn!</button>
-        <button id="pj-reset" class="big-btn px-4 bg-slate-300 font-black rounded-xl">↺</button>
-      </div>
-      <div class="grid grid-cols-4 gap-2 mt-3 text-center text-sm">
-        <div class="bg-slate-50 rounded-xl p-2"><div class="text-[11px] text-slate-500">Tầm xa R</div><div class="font-black" id="pj-R">–</div></div>
-        <div class="bg-slate-50 rounded-xl p-2"><div class="text-[11px] text-slate-500">Cao nhất H</div><div class="font-black" id="pj-H">–</div></div>
-        <div class="bg-slate-50 rounded-xl p-2"><div class="text-[11px] text-slate-500">Thời gian</div><div class="font-black" id="pj-T">–</div></div>
-        <div class="bg-slate-50 rounded-xl p-2"><div class="text-[11px] text-slate-500">Điểm</div><div class="font-black text-emerald-700" id="pj-score">0</div></div>
-      </div>
-      <p class="text-[11px] text-slate-500 mt-2">💡 Tầm xa nhất khi α = 45°! R = v₀²·sin2α/g.</p>
     </div>
   </div>
 
@@ -2256,193 +2222,6 @@ window.__spark = function(ctx, W, H, t, n, col){
     ctx.fillText('x\u2013t', 6, graphTop+14);
     requestAnimationFrame(draw);
   }
-  draw();
-})();
-
-
-// ================= 10. NEM XIEN =================
-(function(){
-  var cv=document.getElementById('cv-proj');
-  var G=fitCanvas(cv);
-  window.__refits.push(function(){ var g2=fitCanvas(cv); if (g2 && !g2.hidden) G=g2; });
-  var ang=45, v0=18, g=9.8, PX=7;
-  var flying=false, bx=0, by=0, bvx=0, bvy=0, trail=[], boom=null, score=0, T=0, last=performance.now();
-  var target={m:24};
-  function newTarget(){ target.m=16+Math.random()*16; }
-  newTarget();
-  function groundY(){ return G.h-44; }
-  function muzzle(){
-    var gx=54, gy=groundY(), a=ang*Math.PI/180;
-    return {x:gx+38*Math.cos(a), y:gy-12-38*Math.sin(a)};
-  }
-  document.getElementById('pj-ang').addEventListener('input', function(e){
-    ang=parseInt(e.target.value,10);
-    document.getElementById('pj-ang-val').textContent=ang;
-  });
-  document.getElementById('pj-v').addEventListener('input', function(e){
-    v0=parseInt(e.target.value,10);
-    document.getElementById('pj-v-val').textContent=v0;
-  });
-  document.getElementById('pj-fire').addEventListener('click', function(){
-    if (flying) return;
-    var mz=muzzle(), a=ang*Math.PI/180;
-    bx=mz.x; by=mz.y; bvx=v0*Math.cos(a)*PX; bvy=-v0*Math.sin(a)*PX;
-    flying=true; trail=[];
-    document.getElementById('pj-R').textContent=(v0*v0*Math.sin(2*a)/g).toFixed(1)+' m';
-    document.getElementById('pj-H').textContent=(v0*v0*Math.sin(a)*Math.sin(a)/(2*g)).toFixed(1)+' m';
-    document.getElementById('pj-T').textContent=(2*v0*Math.sin(a)/g).toFixed(2)+' s';
-  });
-  document.getElementById('pj-reset').addEventListener('click', function(){
-    flying=false; trail=[]; boom=null;
-  });
-  function drawCannon(ctx, gx, gy){
-    var a=ang*Math.PI/180;
-    // de phao 3D
-    ctx.save();
-    ctx.shadowColor='rgba(0,0,0,0.4)'; ctx.shadowBlur=10; ctx.shadowOffsetY=4;
-    var bsG=ctx.createLinearGradient(0,gy-26,0,gy);
-    bsG.addColorStop(0,'#78716c'); bsG.addColorStop(1,'#44403c');
-    ctx.fillStyle=bsG;
-    ctx.beginPath();
-    ctx.moveTo(gx-30,gy); ctx.lineTo(gx-20,gy-26); ctx.lineTo(gx+20,gy-26); ctx.lineTo(gx+30,gy);
-    ctx.closePath(); ctx.fill(); ctx.restore();
-    // banh xe
-    [[-20],[20]].forEach(function(o){
-      var wx=gx+o[0];
-      ctx.fillStyle='#1c1917'; ctx.beginPath(); ctx.arc(wx,gy-8,13,0,7); ctx.fill();
-      ctx.strokeStyle='#a8a29e'; ctx.lineWidth=3;
-      for (var si=0; si<4; si++){
-        var sa=si*Math.PI/4+T*0;
-        ctx.beginPath(); ctx.moveTo(wx,gy-8);
-        ctx.lineTo(wx+9*Math.cos(sa),gy-8+9*Math.sin(sa)); ctx.stroke();
-      }
-      ctx.fillStyle='#d6d3d1'; ctx.beginPath(); ctx.arc(wx,gy-8,3,0,7); ctx.fill();
-    });
-    // nong phao 3D xoay theo goc
-    ctx.save();
-    ctx.translate(gx,gy-14); ctx.rotate(-a);
-    ctx.shadowColor='rgba(0,0,0,0.45)'; ctx.shadowBlur=8; ctx.shadowOffsetY=3;
-    var brG=ctx.createLinearGradient(0,-10,0,10);
-    brG.addColorStop(0,'#e7e5e4'); brG.addColorStop(0.5,'#78716c'); brG.addColorStop(1,'#292524');
-    ctx.fillStyle=brG;
-    ctx.beginPath();
-    if (ctx.roundRect) ctx.roundRect(-6,-10,52,20,8); else ctx.rect(-6,-10,52,20,8);
-    ctx.fill();
-    ctx.shadowColor='transparent';
-    ctx.fillStyle='rgba(255,255,255,0.4)'; ctx.fillRect(-2,-7,44,5);
-    ctx.fillStyle='#1c1917'; ctx.fillRect(42,-12,7,24);
-    ctx.restore();
-  }
-  function drawTarget(ctx, tx, gy){
-    // coc dung
-    ctx.fillStyle='#57534e'; ctx.fillRect(tx-3,gy-52,6,52);
-    // bia 3 vong 3D
-    var cols=['#dc2626','#f8fafc','#dc2626'];
-    for (var i=0;i<3;i++){
-      var r=24-i*8;
-      ctx.save();
-      ctx.shadowColor='rgba(0,0,0,0.35)'; ctx.shadowBlur=6;
-      var tg=ctx.createRadialGradient(tx-6,gy-64,2,tx,gy-58,r);
-      tg.addColorStop(0,i===1?'#ffffff':(i===0?'#fca5a5':'#f87171'));
-      tg.addColorStop(1,cols[i]);
-      ctx.fillStyle=tg; ctx.beginPath(); ctx.arc(tx,gy-58,r,0,7); ctx.fill();
-      ctx.restore();
-    }
-    ctx.fillStyle='rgba(255,255,255,0.5)';
-    ctx.beginPath(); ctx.ellipse(tx-8,gy-66,6,4,-0.6,0,7); ctx.fill();
-  }
-  function draw(){
-    if (!cv.offsetParent){ requestAnimationFrame(draw); return; }
-    var ctx=G.ctx, W=G.w, H=G.h;
-    var now=performance.now(), dt=Math.min(0.04,(now-last)/1000); last=now; T+=dt;
-    var gy=groundY(), a=ang*Math.PI/180;
-    ctx.clearRect(0,0,W,H);
-    // troi
-    var sky=ctx.createLinearGradient(0,0,0,gy);
-    sky.addColorStop(0,'#38bdf8'); sky.addColorStop(1,'#e0f2fe');
-    ctx.fillStyle=sky; ctx.fillRect(0,0,W,gy+2);
-    var sg=ctx.createRadialGradient(W-60,56,4,W-60,56,46);
-    sg.addColorStop(0,'rgba(254,240,138,1)'); sg.addColorStop(1,'rgba(254,240,138,0)');
-    ctx.fillStyle=sg; ctx.beginPath(); ctx.arc(W-60,56,46,0,7); ctx.fill();
-    // dat 3D + moc 10m
-    var gg2=ctx.createLinearGradient(0,gy,0,H);
-    gg2.addColorStop(0,'#4ade80'); gg2.addColorStop(1,'#166534');
-    ctx.fillStyle=gg2; ctx.fillRect(0,gy,W,H-gy);
-    ctx.fillStyle='rgba(0,0,0,0.22)'; ctx.fillRect(0,gy,W,4);
-    ctx.fillStyle='rgba(255,255,255,0.75)'; ctx.font='9px sans-serif'; ctx.textAlign='center';
-    for (var m10=10; m10*PX<W-60; m10+=10){
-      var mxp=54+m10*PX;
-      ctx.fillRect(mxp-1,gy+8,2,8);
-      ctx.fillText(m10+'m', mxp, gy+30);
-    }
-    drawTarget(ctx, 54+target.m*PX, gy);
-    drawCannon(ctx, 54, gy);
-    // duong ngam dot
-    if (!flying){
-      var mz=muzzle();
-      ctx.save(); ctx.fillStyle='rgba(5,150,105,0.55)';
-      var sx=mz.x, sy=mz.y, svx=v0*Math.cos(a)*PX, svy=-v0*Math.sin(a)*PX;
-      for (var st=0; st<160; st++){
-        svy+=g*PX*0.03; sx+=svx*0.03; sy+=svy*0.03;
-        if (sy>=gy-6) break;
-        if (st%5===0){ ctx.beginPath(); ctx.arc(sx,sy,2.4,0,7); ctx.fill(); }
-      }
-      ctx.restore();
-    }
-    // vet dan
-    if (trail.length>1){
-      ctx.save(); ctx.strokeStyle='rgba(5,150,105,0.5)'; ctx.lineWidth=2.5; ctx.lineCap='round';
-      ctx.beginPath(); ctx.moveTo(trail[0].x,trail[0].y);
-      for (var ti=1;ti<trail.length;ti++) ctx.lineTo(trail[ti].x,trail[ti].y);
-      ctx.stroke(); ctx.restore();
-    }
-    // vien dan 3D
-    if (flying){
-      ctx.save();
-      ctx.shadowColor='rgba(0,0,0,0.4)'; ctx.shadowBlur=8;
-      var pg=ctx.createRadialGradient(bx-4,by-5,2,bx,by,11);
-      pg.addColorStop(0,'#fef3c7'); pg.addColorStop(0.5,'#f59e0b'); pg.addColorStop(1,'#92400e');
-      ctx.fillStyle=pg; ctx.beginPath(); ctx.arc(bx,by,10,0,7); ctx.fill();
-      ctx.restore();
-      ctx.fillStyle='rgba(255,255,255,0.7)';
-      ctx.beginPath(); ctx.ellipse(bx-3,by-4,3.5,2.2,-0.6,0,7); ctx.fill();
-    }
-    // no khi trung bia
-    if (boom){
-      boom.t+=dt;
-      var bt=boom.t;
-      for (var bi=0; bi<3; bi++){
-        ctx.save(); ctx.globalAlpha=Math.max(0,1-bt*1.8);
-        ctx.strokeStyle=['#fde047','#f97316','#ef4444'][bi]; ctx.lineWidth=4;
-        ctx.beginPath(); ctx.arc(boom.x,boom.y-14,8+bt*(36+bi*22),0,7); ctx.stroke();
-        ctx.restore();
-      }
-      if (bt>0.7) boom=null;
-      else {
-        ctx.save(); ctx.fillStyle='#16a34a'; ctx.font='bold 22px sans-serif'; ctx.textAlign='center';
-        ctx.globalAlpha=Math.max(0,1-bt);
-        ctx.fillText('TR\u00DANG! +1', boom.x, boom.y-64); ctx.restore();
-      }
-    }
-    requestAnimationFrame(draw);
-  }
-  setInterval(function(){
-    if (!flying) return;
-    var dt=0.02, gy=groundY();
-    bvy+=g*PX*dt; bx+=bvx*dt; by+=bvy*dt;
-    trail.push({x:bx,y:by}); if (trail.length>90) trail.shift();
-    if (by>=gy-6){
-      flying=false;
-      var landM=(bx-54)/PX;
-      if (Math.abs(landM-target.m)<1.7){
-        score++;
-        document.getElementById('pj-score').textContent=score;
-        boom={x:bx,y:gy,t:0};
-        newTarget();
-      }
-    }
-    if (bx>G.w+40) flying=false;
-  }, 20);
   draw();
 })();
 
