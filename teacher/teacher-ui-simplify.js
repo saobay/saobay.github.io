@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2154
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2210
 // Rebuilt - fixed structure
 (function(){
     'use strict';
@@ -1219,5 +1219,118 @@ Hãy điền chi tiết từng ô trong bảng (chủ đề kiến thức cụ t
     }
     
     setInterval(addPushBtn, 3000);
+})();
+
+/* ============================================================
+   FIX 2026-10-11 22:10: Sửa 3 lỗi teacher hub
+   1. Tab 2 trắng -> đảm bảo nội dung hiện
+   2. Cây thư mục nháy -> ẩn ngay bằng CSS đầu file
+   3. Thanh chọn thư mục vào trong 4 tabs (trừ bank)
+   ============================================================ */
+(function(){
+    'use strict';
+    
+    // ---- 2. Chống nháy: CSS ẩn ngay lập tức ----
+    var css = document.createElement('style');
+    css.id = 'fix-fouc-css';
+    css.textContent = [
+        '#folder-tree{display:none!important}',
+        '.folder-tree{display:none!important}'
+    ].join('\n');
+    if (document.head) document.head.insertBefore(css, document.head.firstChild);
+    
+    // ---- 1. Tab 2: đảm bảo hiện nội dung khi bấm ----
+    var _origSwitch = window.switchTeacherModule;
+    if (typeof _origSwitch === 'function' && !window._fixTab2Done) {
+        window._fixTab2Done = true;
+        window.switchTeacherModule = function(modId){
+            _origSwitch(modId);
+            if (modId === 'manage') {
+                setTimeout(function(){
+                    var v = document.getElementById('module-manage-view');
+                    if (v) {
+                        v.classList.remove('hidden');
+                        // Kích hoạt render danh sách
+                        if (typeof renderLessonManagementList === 'function') {
+                            try { renderLessonManagementList(); } catch(e){}
+                        }
+                    }
+                }, 300);
+            }
+        };
+    }
+    
+    // ---- 3. Thanh chọn thư mục vào trong 4 tabs (trừ bank) ----
+    var TAB_CFG = {
+        'theory':   {panel: 'theory-copy-prompt-box', label: 'Lý thuyết', chapters: true},
+        'exercise': {panel: 'exercise-copy-prompt-box', label: 'Bài tập', chapters: true},
+        'direct':   {panel: 'direct-panel', label: 'Đề Word', chapters: false},
+        'ai':       {panel: 'bo-tao-prompt-box', label: 'Đề AI', chapters: false}
+        // bank: KHÔNG thêm (theo yêu cầu)
+    };
+    
+    function hideTopBar(){
+        try {
+            var btn = document.getElementById('push-mode-theory');
+            if (btn && btn.parentElement && btn.parentElement.previousElementSibling) {
+                var prev = btn.parentElement.previousElementSibling;
+                var t = prev.textContent || '';
+                if (t.indexOf('VỊ TRÍ') >= 0 || t.indexOf('Sẵn sàng') >= 0) {
+                    prev.style.display = 'none';
+                }
+            }
+        } catch(e){}
+    }
+    
+    function addTabFolderUI(){
+        try {
+            Object.keys(TAB_CFG).forEach(function(mode){
+                var cfg = TAB_CFG[mode];
+                var panel = document.getElementById(cfg.panel);
+                if (!panel || panel.querySelector('.fix-tabfolder')) return;
+                
+                var div = document.createElement('div');
+                div.className = 'fix-tabfolder p-3 mb-3 rounded border ' + (cfg.chapters ? 'bg-blue-50 border-blue-200' : 'bg-amber-50 border-amber-200');
+                div.innerHTML =
+                    '<div class="text-sm font-bold mb-1">📁 Nơi lưu ' + cfg.label + ': ' +
+                    '<span class="fix-fd-' + mode + '" style="color:#dc2626">Chưa chọn</span></div>' +
+                    '<button class="fix-fb-' + mode + '" style="padding:6px 12px;background:#2563eb;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:13px">Chọn thư mục' +
+                    (cfg.chapters ? ' (đến chương)' : ' (đến môn)') + '</button>' +
+                    (cfg.chapters ? '' : '<div style="font-size:11px;color:#666;margin-top:4px">Đề thi nhiều chương → chỉ cần chọn đến môn</div>');
+                panel.insertBefore(div, panel.firstChild);
+                
+                div.querySelector('.fix-fb-' + mode).onclick = function(){
+                    // Cuộn đến cây thư mục để chọn
+                    var tree = document.getElementById('folder-tree');
+                    if (tree) {
+                        tree.style.display = '';
+                        tree.scrollIntoView({behavior:'smooth', block:'center'});
+                        // Highlight
+                        tree.style.border = '3px solid #2563eb';
+                        setTimeout(function(){ tree.style.border = ''; }, 3000);
+                    }
+                    window._fixSelectingMode = mode;
+                    window._fixSelectingChapters = cfg.chapters;
+                };
+            });
+            
+            // Theo dõi khi user chọn thư mục từ cây
+            setInterval(function(){
+                var mode = window._fixSelectingMode;
+                if (mode && window.selectedFolderPath) {
+                    var disp = document.querySelector('.fix-fd-' + mode);
+                    if (disp) {
+                        disp.textContent = window.selectedFolderPath;
+                        disp.style.color = '#059669';
+                    }
+                    window._fixSelectingMode = null;
+                }
+            }, 1000);
+        } catch(e){}
+    }
+    
+    setInterval(hideTopBar, 1000);
+    setInterval(addTabFolderUI, 2000);
+    hideTopBar();
 })();
 
