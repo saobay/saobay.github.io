@@ -104,7 +104,13 @@ canvas { touch-action: pan-y; display: block; }
   <div id="tab-micro" class="tab-panel px-3 mt-3 hidden">
     <div class="bg-white rounded-2xl shadow p-4">
       <h2 class="font-black text-lime-800 mb-1">Kính hiển vi ảo</h2>
-      <p class="text-xs text-slate-500 mb-2">Kéo thanh trượt để phóng to mẫu vật qua các cấp độ.</p>
+      <p class="text-xs text-slate-500 mb-2">Chọn <b>mẫu vật</b> rồi kéo thanh trượt để phóng to qua các cấp độ.</p>
+      <div class="flex gap-1 justify-center mb-2 flex-wrap">
+        <button data-spec="0" class="micro-spec-btn px-3 py-2 rounded-xl text-xs font-black bg-lime-600 text-white">🌿 Lá cây</button>
+        <button data-spec="1" class="micro-spec-btn px-3 py-2 rounded-xl text-xs font-black bg-slate-200">🩸 Máu</button>
+        <button data-spec="2" class="micro-spec-btn px-3 py-2 rounded-xl text-xs font-black bg-slate-200">🦠 Vi khuẩn</button>
+        <button data-spec="3" class="micro-spec-btn px-3 py-2 rounded-xl text-xs font-black bg-slate-200">🧅 Hành tây</button>
+      </div>
       <canvas id="cv-micro" class="w-full rounded-full border-8 border-slate-700 mx-auto block" style="touch-action:pan-y;max-width:340px; aspect-ratio:1;" height="340"></canvas>
       <div class="mt-3 px-2">
         <input id="micro-zoom" type="range" min="0" max="3" step="1" value="0" class="w-full">
@@ -275,20 +281,50 @@ window.__refits = [];
   var zoom = 0, zt = 9;
   var parts = [];
   for (var pi=0; pi<16; pi++) parts.push({s: pi*37.7, sp: 4+rnd(pi)*8, r: 1.5+rnd(pi+9)*2.5});
-  var labels = ['Mẫu lá cây — 40×', 'Mô lá — 100×', 'Tế bào thực vật — 400×', 'Lục lạp — 1000×'];
-  var descs = [
-    'Nhìn bằng mắt thường qua thị kính nhỏ nhất: thấy gân lá và màu xanh.',
-    'Phóng to 100 lần: thấy các mô tế bào xếp khít nhau như tổ ong.',
-    'Phóng to 400 lần: thấy rõ thành tế bào, nhân và các lục lạp xanh.',
-    'Phóng to 1000 lần (vật kính dầu): thấy lục lạp với các hạt grana bên trong.'
+  var spec = 0;
+  var SPECS = [
+    { labels: ['Mẫu lá cây — 40×', 'Mô lá — 100×', 'Tế bào thực vật — 400×', 'Lục lạp — 1000×'],
+      descs: [
+        'Nhìn bằng mắt thường qua thị kính nhỏ nhất: thấy gân lá và màu xanh.',
+        'Phóng to 100 lần: thấy các mô tế bào xếp khít nhau như tổ ong.',
+        'Phóng to 400 lần: thấy rõ thành tế bào, nhân và các lục lạp xanh.',
+        'Phóng to 1000 lần (vật kính dầu): thấy lục lạp với các hạt grana bên trong.' ] },
+    { labels: ['Giọt máu — 40×', 'Hồng cầu — 100×', 'Hồng cầu & bạch cầu — 400×', 'Hồng cầu cận cảnh — 1000×'],
+      descs: [
+        'Giọt máu đỏ tươi dưới thị kính nhỏ nhất.',
+        'Phóng to 100 lần: hàng triệu hồng cầu hình đĩa, lõm hai mặt.',
+        'Phóng to 400 lần: hồng cầu chen chúc, lác đác bạch cầu tím to hơn.',
+        'Phóng to 1000 lần: hồng cầu lõm giữa như bánh donut, tiểu cầu li ti.' ] },
+    { labels: ['Giọt nước ao — 40×', 'Vi sinh vật — 100×', 'Vi khuẩn que — 400×', 'Vi khuẩn cận cảnh — 1000×'],
+      descs: [
+        'Giọt nước ao tưởng sạch mà đầy cặn lơ lửng.',
+        'Phóng to 100 lần: các chấm nhỏ bơi lội — đó là vi khuẩn!',
+        'Phóng to 400 lần: vi khuẩn hình que, có con đang phân đôi.',
+        'Phóng to 1000 lần: một vi khuẩn với roi bơi và hạt ribôxôm.' ] },
+    { labels: ['Lát hành tây — 40×', 'Mô hành — 100×', 'Tế bào hành — 400×', 'Nhân tế bào — 1000×'],
+      descs: [
+        'Lát hành tây mỏng trong suốt.',
+        'Phóng to 100 lần: các tế bào hình chữ nhật xếp như gạch xây.',
+        'Phóng to 400 lần: thấy rõ nhân tím nằm lệch một bên mỗi tế bào.',
+        'Phóng to 1000 lần: nhân tế bào với hạch nhân bên trong.' ] }
   ];
+  function updMicro(){
+    document.getElementById('micro-label').textContent = SPECS[spec].labels[zoom];
+    document.getElementById('micro-desc').textContent = SPECS[spec].descs[zoom];
+  }
   document.getElementById('micro-zoom').addEventListener('input', function(e){
     zoom = parseInt(e.target.value); zt = 0;
-    document.getElementById('micro-label').textContent = labels[zoom];
-    document.getElementById('micro-desc').textContent = descs[zoom];
+    updMicro();
   });
-  document.getElementById('micro-label').textContent = labels[0];
-  document.getElementById('micro-desc').textContent = descs[0];
+  document.querySelectorAll('.micro-spec-btn').forEach(function(b){
+    b.addEventListener('click', function(){
+      spec = parseInt(b.dataset.spec, 10); zt = 0; updMicro();
+      document.querySelectorAll('.micro-spec-btn').forEach(function(x){
+        x.className = 'micro-spec-btn px-3 py-2 rounded-xl text-xs font-black ' + (x===b ? 'bg-lime-600 text-white' : 'bg-slate-200');
+      });
+    });
+  });
+  updMicro();
 
   function rnd(seed){ var x = Math.sin(seed*999)*10000; return x - Math.floor(x); }
   function draw(){
@@ -305,60 +341,206 @@ window.__refits = [];
     ctx.save();
     ctx.translate(cx,cy); ctx.scale(zscale,zscale); ctx.translate(-cx,-cy);
 
+    var bt2 = performance.now()/1000;
     if (zoom === 0){
-      // Lá cây
-      ctx.fillStyle = '#166534';
-      ctx.beginPath(); ctx.ellipse(cx,cy,R*0.7,R*0.45,0.4,0,7); ctx.fill();
-      ctx.strokeStyle = '#4ade80'; ctx.lineWidth = 3;
-      ctx.beginPath(); ctx.moveTo(cx-R*0.6,cy+R*0.25); ctx.quadraticCurveTo(cx,cy-R*0.1,cx+R*0.6,cy-R*0.3); ctx.stroke();
-      for (var i=0;i<5;i++){
-        ctx.beginPath(); ctx.moveTo(cx-R*0.3+i*R*0.15, cy+R*0.05-i*4);
-        ctx.lineTo(cx-R*0.3+i*R*0.15+R*0.25, cy-R*0.25+i*6); ctx.stroke();
+      if (spec === 0){
+        // La cay
+        ctx.fillStyle = '#166534';
+        ctx.beginPath(); ctx.ellipse(cx,cy,R*0.7,R*0.45,0.4,0,7); ctx.fill();
+        ctx.strokeStyle = '#4ade80'; ctx.lineWidth = 3;
+        ctx.beginPath(); ctx.moveTo(cx-R*0.6,cy+R*0.25); ctx.quadraticCurveTo(cx,cy-R*0.1,cx+R*0.6,cy-R*0.3); ctx.stroke();
+        for (var i=0;i<5;i++){
+          ctx.beginPath(); ctx.moveTo(cx-R*0.3+i*R*0.15, cy+R*0.05-i*4);
+          ctx.lineTo(cx-R*0.3+i*R*0.15+R*0.25, cy-R*0.25+i*6); ctx.stroke();
+        }
+      } else if (spec === 1){
+        // Giot mau
+        ctx.fillStyle = '#7f1d1d';
+        ctx.beginPath(); ctx.ellipse(cx,cy,R*0.72,R*0.5,0.3,0,7); ctx.fill();
+        ctx.fillStyle = '#ef4444';
+        ctx.beginPath(); ctx.ellipse(cx-10,cy-8,R*0.5,R*0.34,0.3,0,7); ctx.fill();
+        ctx.strokeStyle = 'rgba(255,255,255,0.5)'; ctx.lineWidth = 6; ctx.lineCap='round';
+        ctx.beginPath(); ctx.ellipse(cx,cy,R*0.55,R*0.38,0.3,-2.6,-1.8); ctx.stroke();
+      } else if (spec === 2){
+        // Giot nuoc ao
+        ctx.fillStyle = 'rgba(56,189,248,0.25)';
+        ctx.beginPath(); ctx.arc(cx,cy,R*0.8,0,7); ctx.fill();
+        ctx.fillStyle = 'rgba(186,230,253,0.5)';
+        for (var di=0; di<14; di++){
+          ctx.beginPath(); ctx.arc(cx+(rnd(di+3)-0.5)*R*1.2, cy+(rnd(di+40)-0.5)*R*1.2, 2+rnd(di+80)*3, 0, 7); ctx.fill();
+        }
+      } else {
+        // Lat hanh tay
+        for (var li=0; li<6; li++){
+          ctx.strokeStyle = 'rgba(216,180,254,'+(0.9-li*0.12).toFixed(2)+')'; ctx.lineWidth = 10-li;
+          ctx.beginPath(); ctx.arc(cx-R*0.9, cy+R*1.1, R*(0.5+li*0.22), -1.1, -0.2); ctx.stroke();
+        }
       }
     } else if (zoom === 1){
-      // Mô tế bào tổ ong
-      ctx.strokeStyle = '#4ade80'; ctx.lineWidth = 2;
-      for (var r2=-2;r2<=2;r2++) for (var c2=-2;c2<=2;c2++){
-        var hx = cx + c2*46 + (r2%2?23:0), hy = cy + r2*40;
-        ctx.beginPath();
-        for (var k=0;k<6;k++){ var a2 = Math.PI/3*k + Math.PI/6;
-          var px = hx + 24*Math.cos(a2), py = hy + 24*Math.sin(a2);
-          k?ctx.lineTo(px,py):ctx.moveTo(px,py); }
-        ctx.closePath(); ctx.stroke();
+      if (spec === 0){
+        // Mo te bao to ong
+        ctx.strokeStyle = '#4ade80'; ctx.lineWidth = 2;
+        for (var r2=-2;r2<=2;r2++) for (var c2=-2;c2<=2;c2++){
+          var hx = cx + c2*46 + (r2%2?23:0), hy = cy + r2*40;
+          ctx.beginPath();
+          for (var k=0;k<6;k++){ var a2 = Math.PI/3*k + Math.PI/6;
+            var px = hx + 24*Math.cos(a2), py = hy + 24*Math.sin(a2);
+            k?ctx.lineTo(px,py):ctx.moveTo(px,py); }
+          ctx.closePath(); ctx.stroke();
+        }
+      } else if (spec === 1){
+        // Hong cau rai rac
+        for (var bi=0; bi<42; bi++){
+          var bx2=cx+(rnd(bi+11)-0.5)*R*1.7, by2=cy+(rnd(bi+61)-0.5)*R*1.7;
+          if (Math.hypot(bx2-cx,by2-cy)>R-12) continue;
+          ctx.fillStyle='#ef4444'; ctx.beginPath(); ctx.arc(bx2,by2,9,0,7); ctx.fill();
+          ctx.fillStyle='#fecaca'; ctx.beginPath(); ctx.arc(bx2,by2,4,0,7); ctx.fill();
+        }
+      } else if (spec === 2){
+        // Vi khuan boi loi
+        for (var bj=0; bj<26; bj++){
+          var mjx=cx+(rnd(bj+21)-0.5)*R*1.6+Math.sin(bt2*1.5+bj)*10;
+          var mjy=cy+(rnd(bj+71)-0.5)*R*1.6+Math.cos(bt2*1.2+bj*2)*10;
+          if (Math.hypot(mjx-cx,mjy-cy)>R-8) continue;
+          if (bj%3===0){
+            var an2=rnd(bj)*3;
+            ctx.strokeStyle='#a3e635'; ctx.lineWidth=4; ctx.lineCap='round';
+            ctx.beginPath(); ctx.moveTo(mjx-7*Math.cos(an2),mjy-7*Math.sin(an2));
+            ctx.lineTo(mjx+7*Math.cos(an2),mjy+7*Math.sin(an2)); ctx.stroke();
+          } else {
+            ctx.fillStyle='#a3e635'; ctx.beginPath(); ctx.arc(mjx,mjy,2.6,0,7); ctx.fill();
+          }
+        }
+      } else {
+        // Mo hanh xep gach
+        ctx.strokeStyle='#c4b5fd'; ctx.lineWidth=3;
+        for (var rr=0; rr<6; rr++) for (var cc=0; cc<6; cc++){
+          var ox2=(rr%2)?32:0;
+          var rx2=cx-160+cc*64+ox2, ry2=cy-100+rr*36;
+          ctx.fillStyle='rgba(196,181,253,0.10)';
+          ctx.fillRect(rx2,ry2,60,32); ctx.strokeRect(rx2,ry2,60,32);
+        }
       }
     } else if (zoom === 2){
-      // Tế bào thực vật
-      for (var i2=0;i2<7;i2++){
-        var tx = cx + (rnd(i2)-0.5)*R*1.2, ty = cy + (rnd(i2+50)-0.5)*R*1.2;
-        var tr = 44 + rnd(i2+99)*18;
-        ctx.fillStyle = 'rgba(34,197,94,0.25)';
-        ctx.strokeStyle = '#4ade80'; ctx.lineWidth = 4;
-        ctx.beginPath(); ctx.arc(tx,ty,tr,0,7); ctx.fill(); ctx.stroke();
-        // Nhân
-        ctx.fillStyle = '#a78bfa';
-        ctx.beginPath(); ctx.arc(tx+tr*0.25,ty-tr*0.2,tr*0.3,0,7); ctx.fill();
-        // Lục lạp
-        ctx.fillStyle = '#22c55e';
-        for (var j=0;j<6;j++){
-          ctx.beginPath();
-          ctx.ellipse(tx-tr*0.4+rnd(i2*10+j)*tr*0.8, ty-tr*0.4+rnd(i2*20+j)*tr*0.8, 9, 6, rnd(j)*3, 0, 7);
-          ctx.fill();
+      if (spec === 0){
+        // Te bao thuc vat
+        for (var i2=0;i2<7;i2++){
+          var tx = cx + (rnd(i2)-0.5)*R*1.2, ty = cy + (rnd(i2+50)-0.5)*R*1.2;
+          var tr = 44 + rnd(i2+99)*18;
+          ctx.fillStyle = 'rgba(34,197,94,0.25)';
+          ctx.strokeStyle = '#4ade80'; ctx.lineWidth = 4;
+          ctx.beginPath(); ctx.arc(tx,ty,tr,0,7); ctx.fill(); ctx.stroke();
+          ctx.fillStyle = '#a78bfa';
+          ctx.beginPath(); ctx.arc(tx+tr*0.25,ty-tr*0.2,tr*0.3,0,7); ctx.fill();
+          ctx.fillStyle = '#22c55e';
+          for (var j=0;j<6;j++){
+            ctx.beginPath();
+            ctx.ellipse(tx-tr*0.4+rnd(i2*10+j)*tr*0.8, ty-tr*0.4+rnd(i2*20+j)*tr*0.8, 9, 6, rnd(j)*3, 0, 7);
+            ctx.fill();
+          }
+        }
+      } else if (spec === 1){
+        // Hong cau + bach cau
+        for (var bk=0; bk<10; bk++){
+          var cx3=cx+(rnd(bk+31)-0.5)*R*1.3, cy3=cy+(rnd(bk+81)-0.5)*R*1.3;
+          ctx.fillStyle='#ef4444'; ctx.beginPath(); ctx.arc(cx3,cy3,20,0,7); ctx.fill();
+          ctx.fillStyle='#fecaca'; ctx.beginPath(); ctx.arc(cx3,cy3,9,0,7); ctx.fill();
+        }
+        ctx.fillStyle='#ddd6fe'; ctx.beginPath(); ctx.arc(cx+R*0.3,cy-R*0.25,30,0,7); ctx.fill();
+        ctx.fillStyle='#7c3aed';
+        ctx.beginPath(); ctx.arc(cx+R*0.3-10,cy-R*0.25,10,0,7); ctx.fill();
+        ctx.beginPath(); ctx.arc(cx+R*0.3+10,cy-R*0.25+4,10,0,7); ctx.fill();
+        ctx.fillStyle='#e9d5ff'; ctx.font='bold 11px sans-serif'; ctx.textAlign='center';
+        ctx.fillText('Bạch cầu', cx+R*0.3, cy-R*0.25+48);
+      } else if (spec === 2){
+        // Vi khuan hinh que
+        for (var bl=0; bl<12; bl++){
+          var lx2=cx+(rnd(bl+41)-0.5)*R*1.3, ly2=cy+(rnd(bl+91)-0.5)*R*1.3;
+          var an3=rnd(bl+5)*3.14;
+          var dx3=Math.cos(an3), dy3=Math.sin(an3);
+          ctx.lineCap='round';
+          ctx.strokeStyle='#166534'; ctx.lineWidth=15;
+          ctx.beginPath(); ctx.moveTo(lx2-16*dx3,ly2-16*dy3); ctx.lineTo(lx2+16*dx3,ly2+16*dy3); ctx.stroke();
+          ctx.strokeStyle='#4ade80'; ctx.lineWidth=10;
+          ctx.beginPath(); ctx.moveTo(lx2-16*dx3,ly2-16*dy3); ctx.lineTo(lx2+16*dx3,ly2+16*dy3); ctx.stroke();
+          if (bl%4===0){
+            ctx.strokeStyle='#14532d'; ctx.lineWidth=3;
+            ctx.beginPath(); ctx.moveTo(lx2-2*dy3,ly2+2*dx3); ctx.lineTo(lx2+2*dy3,ly2-2*dx3); ctx.stroke();
+          }
+        }
+      } else {
+        // Te bao hanh co nhan
+        for (var or2=0; or2<3; or2++) for (var oc2=0; oc2<3; oc2++){
+          var qx=cx-165+oc2*110, qy=cy-100+or2*66;
+          ctx.fillStyle='rgba(196,181,253,0.10)'; ctx.fillRect(qx,qy,104,60);
+          ctx.strokeStyle='#c4b5fd'; ctx.lineWidth=4; ctx.strokeRect(qx,qy,104,60);
+          ctx.fillStyle='#8b5cf6'; ctx.beginPath(); ctx.ellipse(qx+70,qy+32,14,10,0.4,0,7); ctx.fill();
         }
       }
     } else {
-      // Lục lạp cận cảnh
-      ctx.fillStyle = '#14532d';
-      ctx.beginPath(); ctx.ellipse(cx,cy,R*0.75,R*0.5,0.3,0,7); ctx.fill();
-      ctx.strokeStyle = '#4ade80'; ctx.lineWidth = 4; ctx.stroke();
-      ctx.fillStyle = '#22c55e';
-      for (var g2=0; g2<9; g2++){
-        var gx = cx + (rnd(g2+7)-0.5)*R*0.9, gy = cy + (rnd(g2+77)-0.5)*R*0.55;
-        for (var s2=0;s2<5;s2++){
-          ctx.beginPath(); ctx.arc(gx, gy-8+s2*4, 12, 0, 7); ctx.fill();
+      if (spec === 0){
+        // Luc lap can canh
+        ctx.fillStyle = '#14532d';
+        ctx.beginPath(); ctx.ellipse(cx,cy,R*0.75,R*0.5,0.3,0,7); ctx.fill();
+        ctx.strokeStyle = '#4ade80'; ctx.lineWidth = 4; ctx.stroke();
+        ctx.fillStyle = '#22c55e';
+        for (var g2=0; g2<9; g2++){
+          var gx = cx + (rnd(g2+7)-0.5)*R*0.9, gy = cy + (rnd(g2+77)-0.5)*R*0.55;
+          for (var s2=0;s2<5;s2++){
+            ctx.beginPath(); ctx.arc(gx, gy-8+s2*4, 12, 0, 7); ctx.fill();
+          }
         }
+        ctx.fillStyle = '#bbf7d0'; ctx.font = 'bold 13px sans-serif'; ctx.textAlign='center';
+        ctx.fillText('Grana (chồng tilacôit)', cx, cy+R*0.72);
+      } else if (spec === 1){
+        // Hong cau khong lo
+        var rg2=ctx.createRadialGradient(cx,cy,10,cx,cy,R*0.6);
+        rg2.addColorStop(0,'#fecaca'); rg2.addColorStop(0.55,'#f87171'); rg2.addColorStop(1,'#dc2626');
+        ctx.fillStyle=rg2; ctx.beginPath(); ctx.arc(cx,cy,R*0.6,0,7); ctx.fill();
+        ctx.strokeStyle='rgba(255,255,255,0.4)'; ctx.lineWidth=5;
+        ctx.beginPath(); ctx.arc(cx,cy,R*0.6,0,7); ctx.stroke();
+        ctx.fillStyle='#c4b5fd';
+        for (var pl=0; pl<9; pl++){
+          ctx.beginPath(); ctx.arc(cx+(rnd(pl+51)-0.5)*R*1.5, cy+(rnd(pl+95)-0.5)*R*1.5, 5, 0, 7); ctx.fill();
+        }
+        ctx.fillStyle='#fecaca'; ctx.font='bold 13px sans-serif'; ctx.textAlign='center';
+        ctx.fillText('Hồng cầu — lõm hai mặt', cx, cy+R*0.8);
+      } else if (spec === 2){
+        // Vi khuan don co roi
+        ctx.save(); ctx.translate(cx,cy); ctx.rotate(0.25+Math.sin(bt2*0.8)*0.08);
+        ctx.strokeStyle='#86efac'; ctx.lineWidth=4; ctx.lineCap='round';
+        for (var fg=0; fg<3; fg++){
+          ctx.beginPath(); ctx.moveTo(-R*0.42,(fg-1)*14);
+          ctx.bezierCurveTo(-R*0.6+Math.sin(bt2*3+fg)*12,(fg-1)*22,-R*0.75,(fg-1)*8,-R*0.9+Math.sin(bt2*3+fg+1)*14,(fg-1)*18);
+          ctx.stroke();
+        }
+        var bgrad=ctx.createLinearGradient(0,-R*0.2,0,R*0.2);
+        bgrad.addColorStop(0,'#86efac'); bgrad.addColorStop(0.5,'#22c55e'); bgrad.addColorStop(1,'#15803d');
+        ctx.fillStyle=bgrad;
+        ctx.beginPath();
+        if (ctx.roundRect) ctx.roundRect(-R*0.42,-R*0.18,R*0.84,R*0.36,R*0.18); else ctx.rect(-R*0.42,-R*0.18,R*0.84,R*0.36);
+        ctx.fill();
+        ctx.strokeStyle='#14532d'; ctx.lineWidth=4; ctx.stroke();
+        ctx.fillStyle='#bbf7d0';
+        for (var rb=0; rb<14; rb++){
+          ctx.beginPath(); ctx.arc(-R*0.35+rnd(rb+61)*R*0.7, -R*0.12+rnd(rb+65)*R*0.24, 4, 0, 7); ctx.fill();
+        }
+        ctx.restore();
+        ctx.fillStyle='#bbf7d0'; ctx.font='bold 13px sans-serif'; ctx.textAlign='center';
+        ctx.fillText('Vi khuẩn — roi bơi', cx, cy+R*0.72);
+      } else {
+        // Nhan te bao hanh
+        ctx.fillStyle='rgba(196,181,253,0.12)';
+        ctx.beginPath(); ctx.arc(cx,cy,R*0.75,0,7); ctx.fill();
+        ctx.strokeStyle='#a78bfa'; ctx.lineWidth=8;
+        ctx.beginPath(); ctx.arc(cx,cy,R*0.75,0,7); ctx.stroke();
+        var ng=ctx.createRadialGradient(cx-20,cy-24,8,cx,cy,R*0.42);
+        ng.addColorStop(0,'#c4b5fd'); ng.addColorStop(1,'#6d28d9');
+        ctx.fillStyle=ng; ctx.beginPath(); ctx.arc(cx,cy,R*0.42,0,7); ctx.fill();
+        ctx.fillStyle='#4c1d95'; ctx.beginPath(); ctx.arc(cx+14,cy+10,R*0.14,0,7); ctx.fill();
+        ctx.fillStyle='#ddd6fe'; ctx.font='bold 13px sans-serif'; ctx.textAlign='center';
+        ctx.fillText('Nhân tế bào hành tây', cx, cy+R*0.9);
       }
-      ctx.fillStyle = '#bbf7d0'; ctx.font = 'bold 13px sans-serif'; ctx.textAlign='center';
-      ctx.fillText('Grana (chồng tilacôit)', cx, cy+R*0.72);
     }
     ctx.restore(); // dong scale zoom
     // Hat bui noi (chuyen dong Brown) — tao chieu sau 3D
