@@ -177,16 +177,18 @@
                     var out = [], seen = {};
                     (folders || []).forEach(function(f){
                         var p = f.path || '';
-                        // Parse: data/THPT/Khối lớp 10/Toán 10/Chương 1/Bài 1
-                        // hoặc: data/THCS/Khối lớp 6/Toán 6/...
-                        var m = p.match(/^data\/[^\/]+\/Kh[ốo]i l[ớo]p (\d+)\/([^\/]+)(\/.*)?$/i);
+                        // Parse: data/THPT/Khối lớp 10/Toán 10/Chăn nuôi/Bài 1
+                        var m = p.match(/^data\/[^\/]+\/Kh[ốo]i l[ớo]p (\d+)\/([^\/]+)\//i);
                         if (m){
                             var grade = parseInt(m[1], 10);
-                            var subject = m[2].trim().toUpperCase().replace(/\s+/g, '_');
-                            // Lấy tên môn không có số khối: "TOÁN 10" -> "TOAN"
-                            subject = subject.replace(/_?\d+$/, '');
+                            // "Toán 10" -> "TOAN" (bỏ số khối, chuẩn hóa)
+                            var rawSubj = m[2].trim();
+                            var subject = rawSubj.replace(/\s*\d+\s*$/, '').trim().toUpperCase();
+                            // Chuẩn hóa tiếng Việt: TOÁN -> TOAN
+                            subject = subject.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/Đ/g, 'D').replace(/đ/g, 'd');
+                            subject = subject.replace(/\s+/g, '_');
                             var key = subject + '_' + grade;
-                            if (!seen[key]){ seen[key] = 1; out.push({ subject: subject, grade: grade }); }
+                            if (!seen[key]){ seen[key] = 1; out.push({ subject: subject, grade: grade, label: rawSubj }); }
                         }
                     });
                     if (out.length){ exbBankIndex = out; return out; }
@@ -234,7 +236,17 @@
                 subjects.sort();
             }
             if (!subjects.length) subjects = ['TOAN','VAN','ANH','LY','HOA','SINH','SU','DIA','GDCD','TIN','KHTN'];
-            exbFillSelect('exbb-subject', subjects.map(function(x){ return { value: x, label: x }; }), '-- Chon mon --');
+            // Dùng label đẹp nếu có, mặc định chọn TOAN
+            var subjOpts = subjects.map(function(x){
+                var lbl = x;
+                if (idx){
+                    for (var i = 0; i < idx.length; i++){
+                        if (idx[i].subject === x && idx[i].label){ lbl = idx[i].label; break; }
+                    }
+                }
+                return { value: x, label: lbl };
+            });
+            exbFillSelect('exbb-subject', subjOpts, '-- Chọn môn --');
             subjEl.value = subjects.indexOf('TOAN') >= 0 ? 'TOAN' : subjects[0];
             await exbOnMatrixSubjectChange();
         }
@@ -272,20 +284,22 @@
                         var subjNorm = subj.replace(/_/g, ' ').toLowerCase();
                         (foldersF || []).forEach(function(f){
                             var fp = f.path || '';
-                            // Match: data/.../Khối lớp 10/Toán 10/Chương 1/Bài 1
+                            // Match: data/.../Khối lớp 10/Toán 10/<Chương>/<Bài N>
                             var fm = fp.match(/^data\/[^\/]+\/Kh[ốo]i l[ớo]p (\d+)\/([^\/]+)\/([^\/]+)\/(.+)$/i);
                             if (!fm) return;
                             if (parseInt(fm[1], 10) !== grade) return;
-                            var fSubj = fm[2].trim().toLowerCase().replace(/\s+\d+$/, '');
-                            if (fSubj !== subjNorm && fSubj.replace(/\s+/g,'_') !== subj.toLowerCase()) return;
-                            // Lấy Bài N từ phần cuối
+                            // Chuẩn hóa tên môn để so sánh
+                            var fSubjRaw = fm[2].trim().replace(/\s*\d+\s*$/, '');
+                            var fSubjNorm = fSubjRaw.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/Đ/g,'D').toLowerCase().replace(/\s+/g, '_');
+                            if (fSubjNorm !== subj.toLowerCase()) return;
+                            // Lấy Bài N từ phần cuối (có thể là "Bài 1" hoặc lồng sâu hơn)
                             var lm = fm[4].match(/B[àa]i\s*(\d+)/i);
-                            var cm = fm[3].match(/Ch[ươu][ơo]ng\s*(\d+)/i);
                             if (lm){
                                 var ln = parseInt(lm[1], 10);
+                                var chName = fm[3].trim();
                                 if (!seenL[ln]){
                                     seenL[ln] = 1;
-                                    lessons.push({ num: ln, ch: cm ? parseInt(cm[1], 10) : 0, count: 0 });
+                                    lessons.push({ num: ln, ch: chName, count: 0 });
                                 }
                             }
                         });
@@ -315,7 +329,8 @@
                     return;
                 }
                 var opts = lessons.map(function(l){
-                    return { value: l.num, label: 'Bai ' + l.num + (l.ch ? ' (Chuong ' + l.ch + ')' : '') + ' - ' + l.count + ' cau' };
+                    var chLbl = l.ch ? ' (' + l.ch + ')' : '';
+                    return { value: l.num, label: 'Bài ' + l.num + chLbl + (l.count ? ' - ' + l.count + ' câu' : '') };
                 });
                 exbFillSelect('exbb-lesson-from', opts, '-- Tu bai --');
                 exbFillSelect('exbb-lesson-to', opts, '-- Den bai --');
