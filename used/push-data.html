@@ -58,7 +58,9 @@ async function reorganize(){
   var st=document.getElementById('reorg-status');
   try{
     var r=await fetch('https://api.github.com/repos/saobay/saobay.github.io/contents/data/THCS/'+encodeURIComponent('Ôn thi vào 10'),{headers:{'Authorization':'token '+t}});
+    if(!r.ok){show('reorg-status','❌ Lỗi API '+r.status+': '+(await r.text()).substring(0,200),'err');btn.disabled=false;return;}
     var files=await r.json();
+    if(!Array.isArray(files)){show('reorg-status','❌ API không trả về danh sách: '+JSON.stringify(files).substring(0,200),'err');btn.disabled=false;return;}
     var moved=0;
     for(var f of files){
       if(f.type!=='file')continue;
