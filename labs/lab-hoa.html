@@ -162,7 +162,7 @@
         <div id="shelf-cats" class="flex gap-1 flex-wrap mb-1"></div>
         <div id="chem-shelf" class="flex gap-2 overflow-x-auto pb-1"></div>
       </div>
-      <canvas id="cv-mix" class="w-full rounded-xl border border-slate-700" height="320" style="touch-action:pan-y;display:block;background:#0b1626;height:320px;"></canvas>
+      <canvas id="cv-mix" class="w-full rounded-xl border border-slate-700" height="430" style="touch-action:pan-y;display:block;background:#0b1626;height:430px;"></canvas>
       <div class="text-[11px] text-slate-500 mt-1">💡 Chạm bình ✕ để cất • Tối đa 4 bình • Chạm bình axit/bazơ: nhân vật rót vào ống nghiệm • Chạm lọ cồn: đun sôi ống nghiệm • Bật pipet rồi chạm bình để nhỏ giọt chỉ thị</div>
       <div id="mix-result" class="mt-3 hidden bg-teal-50 border border-teal-200 rounded-xl p-3">
         <div class="text-sm font-bold text-teal-900">Phương trình phản ứng:</div>
@@ -184,17 +184,26 @@
     .shelf-cat.active{background:#f59e0b;color:#3a2408;border-color:#fbbf24;box-shadow:0 0 10px rgba(245,158,11,.5)}
     .shelf-cat:hover{transform:translateY(-1px)}
     /* SHELF_CATS: giá gỗ đựng ống nghiệm */
-    .tube-rack{display:flex;gap:16px;align-items:flex-end;justify-content:center;padding:12px 18px 8px;border-radius:10px;
-      background:linear-gradient(180deg,#6b4a2a,#3d2812);box-shadow:inset 0 3px 8px rgba(0,0,0,.55);border:1px solid #8a6a3f}
+    /* TUBE_STAND_V1: giá gỗ + ống nghiệm trong tủ — thon dài, miệng loe, dung dịch phát sáng */
+    .tube-rack{display:flex;gap:18px;align-items:flex-end;justify-content:center;padding:16px 22px 10px;border-radius:12px;
+      background:linear-gradient(180deg,#7a5633 0%,#5a3d22 45%,#3d2812 100%);
+      box-shadow:inset 0 3px 10px rgba(0,0,0,.6),0 2px 8px rgba(0,0,0,.4);border:1px solid #a37c4b}
     .rack-tube{background:transparent;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;transition:transform .15s}
-    .rack-tube:hover{transform:translateY(-4px)}
-    .rack-hole{width:30px;height:10px;border-radius:50%;background:#1c1108;margin-bottom:-7px;box-shadow:inset 0 2px 4px #000;position:relative;z-index:1}
-    .rack-tube .rt{width:22px;height:64px;border-radius:0 0 11px 11px;position:relative;
-      background:linear-gradient(90deg,rgba(255,255,255,.05),rgba(160,220,255,.28),rgba(255,255,255,.05));
-      border:2px solid rgba(170,225,255,.75);border-top:none;
-      box-shadow:0 0 10px rgba(120,200,255,.35), inset 0 0 8px rgba(160,220,255,.25)}
-    .rack-tube .rt::before{content:'';position:absolute;top:0;left:2px;right:2px;height:14px;border-radius:0 0 6px 6px;
-      background:linear-gradient(90deg,rgba(255,255,255,.5),rgba(255,255,255,.12))}
+    .rack-tube:hover{transform:translateY(-5px)}
+    .rack-hole{width:32px;height:11px;border-radius:50%;background:#1c1108;margin-bottom:-8px;box-shadow:inset 0 2px 5px #000,0 1px 0 rgba(255,220,160,.25);position:relative;z-index:1}
+    .rack-tube .rt{width:20px;height:76px;border-radius:0 0 10px 10px;position:relative;
+      background:linear-gradient(90deg,rgba(255,255,255,.03),rgba(170,225,255,.32),rgba(255,255,255,.03));
+      border:2px solid rgba(180,230,255,.85);border-top:none;
+      box-shadow:0 0 12px rgba(130,205,255,.45), inset 0 0 10px rgba(170,225,255,.28)}
+    .rack-tube .rt .rliq{position:absolute;left:2px;right:2px;bottom:2px;height:52%;border-radius:0 0 7px 7px;
+      box-shadow:0 0 10px currentColor}
+    .rack-tube .rt .rhl{position:absolute;top:10px;bottom:10px;left:4px;width:4px;border-radius:2px;
+      background:linear-gradient(180deg,rgba(255,255,255,.8),rgba(255,255,255,.06))}
+    .rack-tube .rt::after{content:'';position:absolute;top:-9px;left:50%;transform:translateX(-50%);width:27px;height:10px;
+      border-radius:5px 5px 3px 3px;
+      background:linear-gradient(180deg,rgba(235,250,255,.95),rgba(170,225,255,.5));
+      border:2px solid rgba(190,235,255,.9);border-bottom:none;
+      box-shadow:0 0 9px rgba(150,215,255,.55)}
     .rack-tube .rl{font-size:9px;color:#ffe9c4;font-weight:800}
     /* ROUND_FLASK_V3: bình cầu thon gọn elegant như ảnh mẫu - thân 52px, cổ cao thon 22px */
     .chem-bottle .bbody{position:relative;width:52px;height:52px;border-radius:50%;
@@ -532,7 +541,8 @@ window.__refits = window.__refits || [];
       (function(n){
         var b = document.createElement('button');
         b.className = 'rack-tube'; b.type = 'button';
-        b.innerHTML = '<span class="rack-hole"></span><span class="rt"></span><span class="rl">Ống '+n+'</span>';
+        var __rcols = ['#22d3ee','#a78bfa','#fbbf24'];
+        b.innerHTML = '<span class="rack-hole"></span><span class="rt"><i class="rliq" style="color:'+__rcols[(n-1)%3]+';background:radial-gradient(circle at 50% 72%,#ffffff,'+__rcols[(n-1)%3]+' 55%,'+__rcols[(n-1)%3]+')"></i><i class="rhl"></i></span><span class="rl">Ống '+n+'</span>';
         b.addEventListener('click', function(){ addEmptyTube(); });
         rack.appendChild(b);
       })(i);
@@ -581,11 +591,17 @@ window.__refits = window.__refits || [];
       ctx.lineTo(w/2-10, 0);  ctx.quadraticCurveTo(w/2+2, -3, w/2-4, -16);
       ctx.lineTo(nw/2, -h+nh); ctx.lineTo(nw/2, -h); ctx.closePath();
       return {mx:0, my:-h};
-    } else if (v.type === 'tube'){ // ống nghiệm
-      var tw = w*0.44, tr = tw/2;
-      ctx.moveTo(-tr, -h);
+    } else if (v.type === 'tube'){ // TUBE_STAND_V1: ống nghiệm thon dài, miệng loe nhẹ
+      var tw = w*0.40, tr = tw/2;
+      var rimW = tw*1.30, rimH = 11;
+      ctx.moveTo(-rimW/2, -h);
+      ctx.lineTo(-rimW/2, -h+rimH);
+      ctx.lineTo(-tr, -h+rimH+7);
       ctx.lineTo(-tr, -tr); ctx.arc(0, -tr, tr, Math.PI, 0, false);
-      ctx.lineTo(tr, -h); ctx.closePath();
+      ctx.lineTo(tr, -h+rimH+7);
+      ctx.lineTo(rimW/2, -h+rimH);
+      ctx.lineTo(rimW/2, -h);
+      ctx.closePath();
       return {mx:0, my:-h};
     } else if (v.type === 'bottle'){ // chai đựng hóa chất
       var bw2 = w*0.62, bh2 = h*0.62, nwb = w*0.30, nhb = h*0.30, r2 = 10;
@@ -608,7 +624,7 @@ window.__refits = window.__refits || [];
       return {mx:0, my:-h};
     }
   }
-  function innerW(v){ return v.type==='tube' ? v.w*0.44-8 : (v.type==='bottle' ? v.w*0.62-12 : v.w-12); }
+  function innerW(v){ return v.type==='tube' ? v.w*0.40-8 : (v.type==='bottle' ? v.w*0.62-12 : v.w-12); }
 
   // ---------- Vẽ một bình (phong cách video: viền sáng + dung dịch phát sáng) ----------
 function drawVessel(ctx, v, t){
@@ -629,10 +645,19 @@ function drawVessel(ctx, v, t){
 
     // --- 0. Bóng đổ dưới đáy bình ---
     ctx.save();
-    ctx.fillStyle = 'rgba(0,0,0,0.45)';
-    ctx.beginPath(); ctx.ellipse(0, 4, v.w*0.52, 9, 0, 0, 7); ctx.fill();
-    ctx.fillStyle = 'rgba(0,0,0,0.22)';
-    ctx.beginPath(); ctx.ellipse(0, 4, v.w*0.64, 12, 0, 0, 7); ctx.fill();
+    if (v.type==='tube' && !v.dragging){
+      // TUBE_STAND_V1: ống treo cao — bóng đổ xuống mặt bàn
+      var _shY = (G.h - 30) - v.y;
+      ctx.fillStyle = 'rgba(0,0,0,0.30)';
+      ctx.beginPath(); ctx.ellipse(0, _shY, v.w*0.46, 11, 0, 0, 7); ctx.fill();
+      ctx.fillStyle = 'rgba(0,0,0,0.15)';
+      ctx.beginPath(); ctx.ellipse(0, _shY, v.w*0.58, 14, 0, 0, 7); ctx.fill();
+    } else {
+      ctx.fillStyle = 'rgba(0,0,0,0.45)';
+      ctx.beginPath(); ctx.ellipse(0, 4, v.w*0.52, 9, 0, 0, 7); ctx.fill();
+      ctx.fillStyle = 'rgba(0,0,0,0.22)';
+      ctx.beginPath(); ctx.ellipse(0, 4, v.w*0.64, 12, 0, 0, 7); ctx.fill();
+    }
     ctx.restore();
 
     // --- 1. Dung dịch (cắt theo thân bình) ---
@@ -770,7 +795,7 @@ function drawVessel(ctx, v, t){
     vStreak(-v.w/2+8, 26, 0.80);
     vStreak(v.w*0.06, 13, 0.42);
     ctx.restore();
-    // Ống nghiệm 3D: cong trụ + kẹp gỗ
+    // Ống nghiệm 3D: cong trụ thủy tinh
     if (v.type === 'tube'){
       ctx.save(); traceVessel(ctx, v); ctx.clip();
       var cg2 = ctx.createLinearGradient(-v.w*0.22, 0, v.w*0.22, 0);
@@ -788,22 +813,7 @@ function drawVessel(ctx, v, t){
       ctx.strokeStyle = 'rgba(205,240,255,0.65)'; ctx.lineWidth = 3;
       ctx.beginPath(); ctx.arc(0, -v.w*0.22, v.w*0.22-3, 0.12*Math.PI, 0.88*Math.PI); ctx.stroke();
       ctx.restore();
-      // Kẹp gỗ giữ ống nghiệm
-      var gy = -v.h*0.70, jw = v.w*0.22;
-      ctx.save();
-      ctx.strokeStyle = '#7c4f2c'; ctx.lineCap = 'round'; ctx.lineWidth = 10;
-      ctx.beginPath(); ctx.moveTo(jw+2, gy-2); ctx.lineTo(jw+46, gy-40); ctx.stroke();
-      ctx.strokeStyle = '#c89b62'; ctx.lineWidth = 5;
-      ctx.beginPath(); ctx.moveTo(jw+2, gy-2); ctx.lineTo(jw+46, gy-40); ctx.stroke();
-      ctx.fillStyle = '#a5713f';
-      ctx.fillRect(-jw-8, gy-10, 11, 20);
-      ctx.fillRect(jw-3, gy-10, 11, 20);
-      ctx.strokeStyle = '#9aa5b1'; ctx.lineWidth = 2.5;
-      ctx.strokeRect(-jw-9, gy-11, 13, 22);
-      ctx.strokeRect(jw-4, gy-11, 13, 22);
-      ctx.fillStyle = '#6b7280';
-      ctx.beginPath(); ctx.arc(jw+8, gy-11, 3, 0, 7); ctx.fill();
-      ctx.restore();
+      // TUBE_STAND_V1: bỏ kẹp gỗ cũ — ống được giữ bởi giá đỡ kim loại vẽ ở world coords (sau ctx.restore)
     }
     // LABV3: Nút bần gỗ trên miệng bình tam giác + chai (kiểu video quảng cáo)
     if ((v.type === 'flask' || v.type === 'bottle') && (v.tilt||0) < 0.25){
@@ -839,6 +849,47 @@ function drawVessel(ctx, v, t){
       }
     }
     ctx.restore();
+
+    // TUBE_STAND_V1: giá đỡ ống nghiệm — thanh đứng + tay kẹp, ống treo cao cách bàn 80px (có chỗ đặt đèn cồn đun bên dưới)
+    if (v.type==='tube' && !v.dragging && (v.tilt||0) < 0.3){
+      (function(){
+        var tableY = G.h - 30;
+        var rodX = v.x + v.w*0.30 + 14;
+        var clampY = v.y - v.h*0.62;
+        var twHalf = v.w*0.20;
+        // đế nặng trên mặt bàn
+        var bgd = ctx.createLinearGradient(0, tableY-10, 0, tableY);
+        bgd.addColorStop(0,'#6b7280'); bgd.addColorStop(1,'#1f2937');
+        ctx.fillStyle = bgd;
+        ctx.beginPath();
+        if (ctx.roundRect) ctx.roundRect(rodX-26, tableY-10, 52, 10, 5); else ctx.rect(rodX-26, tableY-10, 52, 10);
+        ctx.fill();
+        ctx.fillStyle = 'rgba(255,255,255,0.18)'; ctx.fillRect(rodX-26, tableY-10, 52, 2);
+        // thanh đứng kim loại
+        var rgd = ctx.createLinearGradient(rodX-4, 0, rodX+4, 0);
+        rgd.addColorStop(0,'#6b7280'); rgd.addColorStop(0.5,'#e5e7eb'); rgd.addColorStop(1,'#6b7280');
+        ctx.fillStyle = rgd; ctx.fillRect(rodX-4, clampY-6, 8, tableY-10-(clampY-6));
+        // khớp nối (bosshead)
+        ctx.fillStyle = '#374151';
+        ctx.beginPath();
+        if (ctx.roundRect) ctx.roundRect(rodX-9, clampY-11, 18, 12, 3); else ctx.rect(rodX-9, clampY-11, 18, 12);
+        ctx.fill();
+        ctx.fillStyle = '#9ca3af'; ctx.fillRect(rodX-9, clampY-7, 18, 3);
+        // tay kẹp ngang tới ống nghiệm
+        ctx.fillStyle = '#4b5563'; ctx.fillRect(v.x+twHalf-2, clampY-3.5, rodX-4-(v.x+twHalf-2), 7);
+        ctx.fillStyle = 'rgba(255,255,255,0.25)'; ctx.fillRect(v.x+twHalf-2, clampY-3.5, rodX-4-(v.x+twHalf-2), 2);
+        // hàm kẹp gỗ quanh ống
+        ctx.fillStyle = '#a5713f';
+        ctx.fillRect(v.x-twHalf-7, clampY-9, 7, 18);
+        ctx.fillRect(v.x+twHalf, clampY-9, 7, 18);
+        ctx.strokeStyle = 'rgba(60,35,10,0.6)'; ctx.lineWidth = 1;
+        ctx.strokeRect(v.x-twHalf-7, clampY-9, 7, 18);
+        ctx.strokeRect(v.x+twHalf, clampY-9, 7, 18);
+        ctx.fillStyle = 'rgba(255,235,190,0.5)';
+        ctx.fillRect(v.x-twHalf-6, clampY-8, 2, 16);
+        ctx.fillRect(v.x+twHalf+1, clampY-8, 2, 16);
+      })();
+    }
 
     // --- 3. Nhãn tên + % thể tích (LABV3: nằm trên mặt bàn gỗ) ---
     var chem = CHEMS[v.chemKey];
@@ -1533,7 +1584,7 @@ function layout(){
       if (v.type==='bottle') v.w = Math.min(76, v.w);
       v.h = h * (v.type==='tube' ? 1.12 : v.type==='round' ? 0.95 : v.type==='bottle' ? 1.05 : 1);
       v.hx = charW + availW*(i+1)/(n+1);
-      v.hy = G.h - 30; // LABV3: đứng trên mặt bàn gỗ
+      v.hy = G.h - 30 - (v.type==='tube' ? 80 : 0); // TUBE_STAND_V1: ống nghiệm treo cao trên giá đỡ, đáy cách bàn 80px
       if (v.x === 0 && v.y === 0){ v.x = v.hx; v.y = v.hy; }
     });
     lamp.hx = W - 58; lamp.hy = G.h - 30;
@@ -1673,7 +1724,7 @@ function layout(){
       } else if (!v.dragging && !v.carried){ v.x = v.hx; v.y = v.hy; }
       // Đun nóng: ống nghiệm gần ngọn lửa
       if (v.type === 'tube' && v.volShown > 0.03){
-        var dx = v.x - lamp.flameX, dy = (v.y - v.h*0.55) - lamp.flameY;
+        var dx = v.x - lamp.flameX, dy = (v.y - v.h*0.12) - lamp.flameY; // TUBE_STAND_V1: ngọn lửa chạm đáy ống treo cao
         if (dx*dx + dy*dy < 62*62) v.heat = Math.min(1, (v.heat||0) + 0.03);
         else v.heat = Math.max(0, (v.heat||0) - 0.006);
       } else v.heat = Math.max(0, (v.heat||0) - 0.01);
