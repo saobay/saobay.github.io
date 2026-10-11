@@ -151,31 +151,190 @@
         function exbBankVal(id){ let el = document.getElementById(id); return el ? el.value.trim() : ''; }
         function exbBankNum(id, def){ let v = parseFloat(exbBankVal(id)); return isNaN(v) ? def : v; }
 
+        // ========================================================
+        // EXBB DROPDOWNS: Mon / Khoi / Tu bai / Den bai (2026-10-11)
+        // - Mon: tu danh sach bank data/bank/ tren GitHub
+        // - Khoi: loc theo mon da chon
+        // - Tu bai / Den bai: tu lessons trong bank cua mon+khoi
+        // Ma tran noi bo van theo chuong (tuong thich phia HS);
+        // khoang bai duoc doi ra tap chuong + loc them theo bai khi boc.
+        // ========================================================
+        var exbBankIndex = null;   // [{subject, grade}]
+        var exbLessonCache = [];   // [{num, ch, count}] cho mon+khoi hien tai
+
+        function exbGhCfg(){
+            try { if (typeof GITHUB_CONFIG !== 'undefined' && GITHUB_CONFIG.owner) return GITHUB_CONFIG; } catch(e){}
+            return { owner: 'saobay', repo: 'saobay.github.io', branch: 'main' };
+        }
+
+        async function exbFetchBankIndex(){
+            if (exbBankIndex) return exbBankIndex;
+            var cfg = exbGhCfg();
+            try {
+                var url = 'https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + '/contents/data/bank?ref=' + cfg.branch;
+                var r = await fetch(url);
+                if (r.ok){
+                    var j = await r.json();
+                    var out = [];
+                    (j || []).forEach(function(it){
+                        var m = String(it.name || '').match(/^([A-Za-z0-9_]+)_(\d+)\.json$/);
+                        if (m) out.push({ subject: m[1].toUpperCase(), grade: parseInt(m[2], 10) });
+                    });
+                    if (out.length){ exbBankIndex = out; return out; }
+                }
+            } catch(e){}
+            return null;
+        }
+
+        function exbFillSelect(id, opts, placeholder){
+            var el = document.getElementById(id);
+            if (!el) return;
+            var h = '';
+            if (placeholder) h += '<option value="">' + placeholder + '</option>';
+            (opts || []).forEach(function(o){
+                h += '<option value="' + String(o.value).replace(/"/g,'&quot;') + '">'
+                   + String(o.label).replace(/</g,'&lt;') + '</option>';
+            });
+            el.innerHTML = h;
+        }
+
+        async function exbInitMatrixDropdowns(){
+            var subjEl = document.getElementById('exbb-subject');
+            if (!subjEl || subjEl.dataset.exbInit) return;
+            subjEl.dataset.exbInit = '1';
+            var idx = await exbFetchBankIndex();
+            var subjects = [];
+            if (idx){
+                var seen = {};
+                idx.forEach(function(b){ if (!seen[b.subject]){ seen[b.subject] = 1; subjects.push(b.subject); } });
+                subjects.sort();
+            }
+            if (!subjects.length) subjects = ['TOAN','VAN','ANH','LY','HOA','SINH','SU','DIA','GDCD','TIN','KHTN'];
+            exbFillSelect('exbb-subject', subjects.map(function(x){ return { value: x, label: x }; }), '-- Chon mon --');
+            subjEl.value = subjects.indexOf('TOAN') >= 0 ? 'TOAN' : subjects[0];
+            await exbOnMatrixSubjectChange();
+        }
+
+        async function exbOnMatrixSubjectChange(){
+            var subj = exbBankVal('exbb-subject');
+            var idx = exbBankIndex || await exbFetchBankIndex();
+            var grades = [];
+            if (idx && subj){
+                var seen = {};
+                idx.forEach(function(b){ if (b.subject === subj && !seen[b.grade]){ seen[b.grade] = 1; grades.push(b.grade); } });
+                grades.sort(function(a,b){ return a - b; });
+            }
+            if (!grades.length) grades = [6,7,8,9,10,11,12];
+            exbFillSelect('exbb-grade', grades.map(function(g){ return { value: g, label: 'Khoi ' + g }; }), '-- Chon khoi --');
+            var gEl = document.getElementById('exbb-grade');
+            if (gEl) gEl.value = grades.indexOf(10) >= 0 ? 10 : grades[0];
+            await exbOnMatrixGradeChange();
+        }
+
+        async function exbOnMatrixGradeChange(){
+            var subj = exbBankVal('exbb-subject');
+            var grade = parseInt(exbBankVal('exbb-grade'), 10);
+            exbFillSelect('exbb-lesson-from', [], 'Dang tai...');
+            exbFillSelect('exbb-lesson-to', [], 'Dang tai...');
+            exbLessonCache = [];
+            if (!subj || !grade) return;
+            try {
+                var r = await bankApiRead(bankKey(subj, grade));
+                if (r.notFound || r.error || !r.data){
+                    exbFillSelect('exbb-lesson-from', [], '-- Chua co bank --');
+                    exbFillSelect('exbb-lesson-to', [], '-- Chua co bank --');
+                    return;
+                }
+                var pool = exbApplyApprovedFilter(r.data.questions || []);
+                exbBankPool = pool;
+                var map = {};
+                pool.forEach(function(q){
+                    var l = parseInt(q.lesson, 10) || 0;
+                    if (l <= 0) return;
+                    var ch = parseInt(q.chapter, 10) || 0;
+                    if (!map[l]) map[l] = { num: l, ch: ch, count: 0 };
+                    map[l].count++;
+                });
+                var lessons = Object.keys(map).map(function(k){ return map[k]; }).sort(function(a,b){ return a.num - b.num; });
+                exbLessonCache = lessons;
+                if (!lessons.length){
+                    exbFillSelect('exbb-lesson-from', [], '-- Chua chia bai --');
+                    exbFillSelect('exbb-lesson-to', [], '-- Chua chia bai --');
+                    return;
+                }
+                var opts = lessons.map(function(l){
+                    return { value: l.num, label: 'Bai ' + l.num + (l.ch ? ' (Chuong ' + l.ch + ')' : '') + ' - ' + l.count + ' cau' };
+                });
+                exbFillSelect('exbb-lesson-from', opts, '-- Tu bai --');
+                exbFillSelect('exbb-lesson-to', opts, '-- Den bai --');
+                var fEl = document.getElementById('exbb-lesson-from'), tEl = document.getElementById('exbb-lesson-to');
+                if (fEl) fEl.value = lessons[0].num;
+                if (tEl) tEl.value = lessons[lessons.length - 1].num;
+            } catch(e){
+                exbFillSelect('exbb-lesson-from', [], '-- Loi tai --');
+                exbFillSelect('exbb-lesson-to', [], '-- Loi tai --');
+            }
+        }
+
+        function exbOnMatrixLessonChange(){
+            var fEl = document.getElementById('exbb-lesson-from'), tEl = document.getElementById('exbb-lesson-to');
+            if (!fEl || !tEl || !fEl.value || !tEl.value) return;
+            if (parseInt(fEl.value, 10) > parseInt(tEl.value, 10)) fEl.value = tEl.value;
+        }
+
+        function exbLessonRange(){
+            var f = parseInt(exbBankVal('exbb-lesson-from'), 10);
+            var t = parseInt(exbBankVal('exbb-lesson-to'), 10);
+            if (!f) f = 1;
+            if (!t) t = f;
+            if (f > t){ var tmp = f; f = t; t = tmp; }
+            return { from: f, to: t };
+        }
+
+        // Tap chuong chua cac bai trong [fromL, toL]
+        function exbChaptersForLessons(pool, fromL, toL){
+            var chs = {};
+            (pool || []).forEach(function(q){
+                var l = parseInt(q.lesson, 10) || 0;
+                if (l >= fromL && l <= toL) chs[parseInt(q.chapter, 10) || 0] = 1;
+            });
+            return Object.keys(chs).map(Number).sort(function(a,b){ return a - b; });
+        }
+
+        // Cau hoi co thuoc khoang bai khong (legacy lesson=0 -> giu lai, loc theo chuong)
+        function exbLessonInRange(q, fromL, toL){
+            var l = parseInt(q.lesson, 10) || 0;
+            if (l >= fromL && l <= toL) return true;
+            return l === 0;
+        }
+
         // Tai ma tran chuong tu bank
         async function exbLoadMatrix(){
             let mx = document.getElementById('exb-matrix');
+            // 2026-10-11: dam bao dropdowns da nap
+            try { let se = document.getElementById('exbb-subject'); if (se && !se.dataset.exbInit) await exbInitMatrixDropdowns(); } catch(e){}
             mx.innerHTML = '<p class="text-xs text-slate-400 italic"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Đang tải bank...</p>';
             try {
                 let subject = (exbBankVal('exbb-subject') || 'TOAN').toUpperCase();
                 let grade = parseInt(exbBankVal('exbb-grade'), 10) || 10;
-                let chFrom = parseInt(exbBankVal('exbb-ch-from'), 10) || 1;
-                let chTo = parseInt(exbBankVal('exbb-ch-to'), 10) || chFrom;
-                if (chTo < chFrom){ let t = chFrom; chFrom = chTo; chTo = t; }
+                let lr = exbLessonRange();
                 let r = await bankApiRead(bankKey(subject, grade));
                 if (r.notFound) throw new Error('Chưa có bank ' + subject + ' khối ' + grade + '. Hãy đẩy đề để tạo bank trước.');
                 if (r.error) throw new Error(r.error);
                 exbBankPool = exbApplyApprovedFilter(r.data.questions || []);
+                let chList = exbChaptersForLessons(exbBankPool, lr.from, lr.to);
+                if (!chList.length) throw new Error('Không có câu nào từ Bài ' + lr.from + ' đến Bài ' + lr.to + ' trong bank ' + subject + ' khối ' + grade + '.');
                 let rows = '';
-                for (let c = chFrom; c <= chTo; c++){
-                    let n = exbBankPool.filter(function(q){ return q.chapter === c; }).length;
+                chList.forEach(function(c){
+                    let n = exbBankPool.filter(function(q){ return (parseInt(q.chapter,10)||0) === c && exbLessonInRange(q, lr.from, lr.to); }).length;
                     rows += '<tr class="border-t"><td class="px-2 py-1.5 font-bold text-slate-700">Chương ' + c + '</td>'
                         + '<td class="px-2 py-1.5 text-slate-500">' + n + ' câu</td>'
                         + '<td class="px-2 py-1.5"><input data-ch="' + c + '" type="number" value="' + n + '" min="0" class="exb-ch-count w-16 text-xs border rounded px-1.5 py-1 text-center font-bold"></td></tr>';
-                }
+                });
                 mx.innerHTML = '<table class="w-full text-xs border border-slate-200 rounded-lg overflow-hidden">'
                     + '<thead><tr class="bg-slate-100 text-slate-600"><th class="px-2 py-1.5 text-left">Vùng kiến thức</th><th class="px-2 py-1.5 text-left">Trong bank</th><th class="px-2 py-1.5 text-left">Số câu lấy</th></tr></thead>'
                     + '<tbody>' + rows + '</tbody></table>'
-                    + '<p class="text-[10px] text-slate-400 mt-1">Chỉnh "Số câu lấy" mỗi chương cho đúng ý đồ ma trận.</p>';
+                    + '<p class="text-[10px] text-slate-400 mt-1">Phạm vi: Bài ' + lr.from + ' – Bài ' + lr.to + '. Chỉnh "Số câu lấy" mỗi chương cho đúng ý đồ ma trận.</p>';
             } catch(e){
                 let msg = String(e.message || e);
                 if (msg === 'no-token') msg = 'Chưa có token GitHub — hãy đăng nhập GitHub rồi đẩy 1 bài bất kỳ bằng form chính trước (để lưu token), sau đó bấm lại "Tải ma trận".';
@@ -190,16 +349,18 @@
                 let c = el.getAttribute('data-ch');
                 chapters[c] = Math.max(0, parseInt(el.value, 10) || 0);
             });
-            // neu chua tai ma tran: lay theo khoang chuong, chia deu
+            let lr = exbLessonRange();
+            // neu chua tai ma tran: lay theo khoang bai -> doi ra chuong, chia deu
             if (!Object.keys(chapters).length){
-                let chFrom = parseInt(exbBankVal('exbb-ch-from'), 10) || 1;
-                let chTo = parseInt(exbBankVal('exbb-ch-to'), 10) || chFrom;
-                for (let c = Math.min(chFrom, chTo); c <= Math.max(chFrom, chTo); c++) chapters[c] = 9999;
+                let chList = exbChaptersForLessons(exbBankPool, lr.from, lr.to);
+                if (chList.length) chList.forEach(function(c){ chapters[c] = 9999; });
+                else for (let c = lr.from; c <= lr.to; c++) chapters[c] = 9999;
             }
             return {
                 subject: (exbBankVal('exbb-subject') || 'TOAN').toUpperCase(),
                 grade: parseInt(exbBankVal('exbb-grade'), 10) || 10,
                 chapters: chapters,
+                lessonFrom: lr.from, lessonTo: lr.to,
                 types: { mcq: Math.max(0, parseInt(exbBankVal('exbb-n-mcq'), 10) || 0),
                          truefalse: Math.max(0, parseInt(exbBankVal('exbb-n-tf'), 10) || 0),
                          short: Math.max(0, parseInt(exbBankVal('exbb-n-short'), 10) || 0),
@@ -224,6 +385,8 @@
         // - matrix.levels = ti le NB/TH/VD/VDC trong tung dang
         function exbMatrixPick(pool, matrix){
             let picked = [], used = {};
+            let _lFrom = (matrix && matrix.lessonFrom) || 0, _lTo = (matrix && matrix.lessonTo) || 9999;
+            let _lessonOk = function(q){ return exbLessonInRange(q, _lFrom, _lTo); };
             let lvTotal = (matrix.levels.NB || 0) + (matrix.levels.TH || 0) + (matrix.levels.VD || 0) + (matrix.levels.VDC || 0);
             if (!lvTotal) lvTotal = 1;
             let chKeys = Object.keys(matrix.chapters || {}).filter(function(ch){ return (matrix.chapters[ch] || 0) > 0; });
@@ -247,12 +410,12 @@
                     want = Math.min(want, wantTotal - gotType);
                     // Gioi han theo so cau thuc te con lai trong pool cua chuong+dang nay
                     let avail = 0;
-                    pool.forEach(function(q){ if (String(q.chapter) === String(ch) && q.type === tp && !used[q.id]) avail++; });
+                    pool.forEach(function(q){ if (String(q.chapter) === String(ch) && _lessonOk(q) && q.type === tp && !used[q.id]) avail++; });
                     want = Math.min(want, avail);
                     if (want <= 0) return;
                     let groups = { NB: [], TH: [], VD: [], VDC: [] };
                     pool.forEach(function(q){
-                        if (String(q.chapter) === String(ch) && q.type === tp && !used[q.id]) (groups[q.level] || groups.NB).push(q);
+                        if (String(q.chapter) === String(ch) && _lessonOk(q) && q.type === tp && !used[q.id]) (groups[q.level] || groups.NB).push(q);
                     });
                     Object.keys(groups).forEach(function(k){ exbShuffle(groups[k]); });
                     let got = 0;
@@ -393,7 +556,7 @@
                 let safeTitle = title.replace(/[<>&"]/g, '');
                 let cfg = { subject: m.subject, grade: m.grade, matrix: m.chapters,
                             types: m.types, levels: m.levels, time_limit: m.time_limit,
-                            scoring: m.scores };
+                            scoring: m.scores, lessonFrom: m.lessonFrom, lessonTo: m.lessonTo };
                 let inner = '<div class="saobay-bank-view"></div>\n'
                     + '<script type="application/json" class="saobay-bank-config">\n' + JSON.stringify(cfg) + '\n<\/script>';
                 let page = bankWrapPage(safeTitle, 'Bài tập', inner);
@@ -532,6 +695,14 @@
         }
         // FIX 2026-10-10: dam bao onclick goi duoc
         window.exbClassSave = exbClassSave;
+        // 2026-10-11: tu dong nap dropdowns Mon/Khoi/Bai khi mo Teacher Hub
+        try {
+            if (document.readyState === 'loading'){
+                document.addEventListener('DOMContentLoaded', function(){ try { exbInitMatrixDropdowns(); } catch(e){} });
+            } else {
+                exbInitMatrixDropdowns();
+            }
+        } catch(e){}
 
         async function examBuilderPreview(){
             let pv = document.getElementById('exb-preview');
