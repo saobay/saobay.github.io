@@ -39,6 +39,8 @@
                 previewBox.contentEditable = "false";
                 previewBox.classList.remove('border-emerald-400', 'focus:ring-2', 'focus:ring-emerald-400');
                 previewBox.classList.add('border-slate-300');
+                // 2026-10-11: render dang HS lam bai
+                try { if (typeof renderStudentPreview === 'function') renderStudentPreview(); } catch(e){}
                 if (formatToolbar) formatToolbar.classList.add('hidden');
                 if (statusEl) {
                     statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-blue-500 mr-1.5"></span><span>Xem trước (Học sinh làm thử)</span>`;
