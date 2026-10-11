@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2342
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2345
 // Tab2: panel noi co dinh hien de thi (khong phu thuoc view cu)
 (function(){
 'use strict';
@@ -6,7 +6,7 @@
 function addClearBtn(){
   if(document.getElementById('btn-clear-cache'))return;
   var b=document.createElement('button');
-  b.id='btn-clear-cache';b.textContent='🧹 Xóa cache 2342';
+  b.id='btn-clear-cache';b.textContent='🧹 Xóa cache';
   b.style.cssText='position:fixed;bottom:20px;right:20px;z-index:9998;padding:8px 12px;background:#dc2626;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:13px;';
   b.onclick=function(){
     if(!confirm('Xoa cache? (giu dang nhap)'))return;
@@ -76,5 +76,5 @@ document.addEventListener('click',function(e){
     setTimeout(function(){p.style.display='block';loadExams();},150);
   }
 },true);
-console.log('SAOBAY overlay 2342 loaded');
+console.log('SAOBAY overlay 2345 loaded');
 })();
