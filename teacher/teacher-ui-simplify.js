@@ -1,9 +1,8 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2328
-// Fix tab2: logic hidden bi nguoc - ep hien khi tab manage active
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2332
+// Fix tab2: bat click truc tiep + ep hien
 (function(){
 'use strict';
 
-// Nut xoa cache
 function addClearBtn(){
   if(document.getElementById('btn-clear-cache'))return;
   var b=document.createElement('button');
@@ -22,7 +21,6 @@ function addClearBtn(){
 }
 setInterval(addClearBtn,2000);
 
-// Tao UI de thi trong module-manage-view (chi tao 1 lan)
 function buildUI(){
   var v=document.getElementById('module-manage-view');
   if(!v||document.getElementById('exams-ui'))return;
@@ -66,43 +64,37 @@ async function loadExams(){
   }catch(e){l.innerHTML='<p style="color:red">Lỗi: '+e.message+'</p>';}
 }
 
-// Ep hien/an dung: khi tab manage active thi hien view, khong thi an
-function syncVisibility(){
-  buildUI();
+function forceShow(){
   var v=document.getElementById('module-manage-view');
   if(!v)return;
-  var tab=document.getElementById('mod-tab-manage');
-  var active=false;
+  buildUI();
+  v.classList.remove('hidden');
+  v.style.setProperty('display','block','important');
+}
+// Bat click vao tab manage (ca nut va phan tu con)
+document.addEventListener('click',function(e){
+  var t=e.target;
+  var tab=null;
+  while(t&&t!==document){if(t.id==='mod-tab-manage'){tab=t;break;}t=t.parentElement;}
   if(tab){
-    // Tab active co style vien xanh / class dac biet - kiem tra qua viec tab khac
-    // Cach tin cay: kiem tra module-compose-view co hidden khong
-    var compose=document.getElementById('module-compose-view');
-    // Neu compose bi an thi dang o tab khac; ket hop voi viec manage tung duoc chon
-    // Don gian nhat: theo doi lan bam gan nhat
-    active=window._lastModule==='manage';
+    window._manageActive=true;
+    setTimeout(forceShow,80);
+    setTimeout(forceShow,300);
+    setTimeout(forceShow,800);
+  } else {
+    // Bam tab khac thi danh dau khong active nua (neu bam vao cac mod-tab khac)
+    var u=e.target;
+    while(u&&u!==document){if(u.id&&u.id.indexOf('mod-tab-')===0){window._manageActive=false;break;}u=u.parentElement;}
   }
-  if(active){
-    v.classList.remove('hidden');
-    v.style.display='';
+},true);
+// Giu ep hien khi dang active (chong code goc an lai)
+setInterval(function(){
+  if(window._manageActive){
+    var v=document.getElementById('module-manage-view');
+    if(v&&(v.classList.contains('hidden')||!document.getElementById('exams-ui'))){
+      forceShow();
+    }
   }
-}
-// Ghi de switchTeacherModule de theo doi tab dang chon + ep hien
-function hookSwitch(){
-  if(typeof window.switchTeacherModule!=='function'||window._hookedSM)return;
-  window._hookedSM=true;
-  var orig=window.switchTeacherModule;
-  window.switchTeacherModule=function(m){
-    window._lastModule=m;
-    var r=orig.apply(this,arguments);
-    setTimeout(function(){
-      var v=document.getElementById('module-manage-view');
-      if(!v)return;
-      if(m==='manage'){buildUI();v.classList.remove('hidden');v.style.display='';}
-      else{v.classList.add('hidden');}
-    },50);
-    return r;
-  };
-}
-setInterval(function(){hookSwitch();syncVisibility();},800);
-console.log('SAOBAY fix 2328 loaded');
+},600);
+console.log('SAOBAY fix 2332 loaded');
 })();
