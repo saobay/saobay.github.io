@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2147
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261011_2151
 // Rebuilt - fixed structure
 (function(){
     'use strict';
@@ -472,21 +472,12 @@ Hãy điền chi tiết từng ô trong bảng (chủ đề kiến thức cụ t
                 window.switchTeacherModule = function(modId){
                     orig(modId);
                     if (modId === 'manage') {
-                        // Hiện thêm nội dung stats bên dưới manage
+                        // TẠM TẮT gộp stats để tránh trắng trang
+                        // Hiện nút làm mới để user tự tải danh sách
                         setTimeout(function(){
-                            var statsView = document.getElementById('module-stats-view');
                             var manageView = document.getElementById('module-manage-view');
-                            if (statsView && manageView && !manageView.classList.contains('hidden')) {
-                                // Di chuyển stats view vào trong manage view
-                                if (!document.getElementById('merged-stats-section')) {
-                                    var wrapper = document.createElement('div');
-                                    wrapper.id = 'merged-stats-section';
-                                    wrapper.className = 'mt-6 pt-4 border-t-2 border-slate-200';
-                                    wrapper.innerHTML = '<h3 class="font-extrabold text-slate-800 text-base mb-3"><i class="fa-solid fa-chart-pie text-slate-600 mr-2"></i>Thống kê học liệu</h3>';
-                                    wrapper.appendChild(statsView);
-                                    manageView.appendChild(wrapper);
-                                    statsView.classList.remove('hidden');
-                                }
+                            if (manageView && typeof renderLessonManagementList === 'function') {
+                                try { renderLessonManagementList(); } catch(e){}
                             }
                         }, 300);
                     }
