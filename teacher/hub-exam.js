@@ -1,4 +1,4 @@
-// SAOBAY_HUB_EXAM_VERSION:20261011_1856
+// SAOBAY_HUB_EXAM_VERSION:20261011_1858
         // ========================================================
         // TRÌNH SOẠN ĐỀ KIỂM TRA (Phase 4, 2026-10-08)
 
@@ -742,7 +742,7 @@
                 var examData = {
                     id: examId,
                     title: title,
-                    status: 'pending',
+                    status: 'active',
                     subject: m.subject || '',
                     grade: m.grade || '',
                     teacher_id: user.id,
