@@ -35,7 +35,7 @@
             setVis('bo-tao-prompt-box', isBank); // 2026-10-11: direct chi day Word -> an khung NotebookLM
             // SB_AI_PANEL_FIX_20261012: phai go ca class 'hidden' — setVis chi xoa style inline, class hidden cua Tailwind van an panel mai
             var aiP = document.getElementById('ai-compose-panel');
-            if (aiP){ aiP.classList.toggle('hidden', !isAi); aiP.style.display = isAi ? '' : 'none'; if (isAi){ try { aiRecalc(); } catch(e){} try { aiSetupV2(); } catch(e){} } }
+            if (aiP){ aiP.classList.toggle('hidden', !isAi); aiP.style.display = isAi ? '' : 'none'; if (isAi){ try { aiRecalc(); } catch(e){} try { aiSetupV2(); } catch(e){} try { aiSetupV3(); } catch(e){} } }
             // 2026-10-11: giữ cây thư mục luôn hiện ở mọi chế độ (user yêu cầu)
             // Box Copy Prompt: đúng chế độ
             setVis('theory-copy-prompt-box', isTheory);
@@ -256,21 +256,28 @@
                 SB_AI_COLS.forEach(function(c, i){ if (r.cells[i]) parts.push(SB_AI_COLNAMES[c].split(' ')[0] + ': ' + r.cells[i] + ' câu'); });
                 lines.push('- ' + r.label + ' (' + r.pts + ' điểm/câu): ' + parts.join(', ') + ' — tổng ' + r.q + ' câu, ' + (Math.round(r.p * 100) / 100) + ' điểm');
             });
-            // SB_AI_V21_20261012: prompt GON (NotebookLM khoi dung im) + o tong cau la MUC TIEU + bao % thuc te theo so cau
+            // SB_AI_V3_20261012: prompt dinh dang VAN BAN THUAN (giong quy uoc doc file Word) - bo JSON hay loi;
+            // so bo de chon o ai-nsets (toi da 4), cac bo phai KHAC nhau ve so lieu/boi canh.
+            var nsetsEl = document.getElementById('ai-nsets');
+            var nsets = nsetsEl ? (parseInt(nsetsEl.value, 10) || 1) : 1;
+            if (nsets < 1) nsets = 1; if (nsets > 4) nsets = 4;
             var P = [];
-            P.push('Soạn 1 đề kiểm tra GDPT 2018 (sách Kết nối tri thức) theo đúng các yêu cầu sau. Trả lời NGAY bằng 3 phần kết quả, không viết lời dẫn/giải thích ngoài 3 phần.');
+            P.push('Soạn đề kiểm tra GDPT 2018 (sách Kết nối tri thức) theo yêu cầu sau. Trả lời NGAY bằng 3 phần kết quả, không viết lời dẫn/giải thích ngoài 3 phần.');
             P.push('ĐỀ: Môn ' + subject + ' — Lớp ' + grade + ' — Phạm vi: ' + lessons + ' — Thời gian: ' + time + ' phút' + (title ? ' — Tên đề: ' + title : ''));
             P.push('MA TRẬN (dạng câu: số câu theo mức độ):');
             P.push(lines.join('\n'));
-            P.push('Tổng: ' + M.totQ + ' câu, ' + (Math.round(M.totP * 100) / 100) + ' điểm.');
+            P.push('Mỗi bộ đề: ' + M.totQ + ' câu, ' + (Math.round(M.totP * 100) / 100) + ' điểm.');
             P.push('NỘI DUNG CẦN BAO PHỦ: ' + (scope || 'phủ đều các đơn vị kiến thức trong phạm vi trên.'));
             var mathEl = document.getElementById('ai-math');
             if (mathEl && mathEl.checked){
-                P.push('CÔNG THỨC: mọi công thức viết bằng TeX trong $...$ (không dùng ký tự Unicode như x², √, π). Riêng trong mã JSON, gạch chéo của lệnh TeX phải viết GẤP ĐÔI (ví dụ \\\\frac{1}{2}, \\\\sqrt{x}) để JSON hợp lệ.');
+                P.push('CÔNG THỨC: mọi công thức viết bằng TeX trong $...$ (không dùng ký tự Unicode như x², √, π).');
             }
-            P.push('PHẦN 1 — MÃ ĐỀ CHO WEB: đặt trong MỘT khối ```json, bên trong chỉ có object {"name":"Đề 1","questions":[...]} (trường "name" ghi đúng y hệt "Đề 1"). Mỗi câu là 1 object: {"id":"c1","type":"mcq","q":"nội dung","options":["...","...","...","..."],"answer":"A","explain":"lời giải NGẮN 1-2 câu","points":0.25,"level":"NB","chapter":"tên bài"}.');
-            P.push('Theo dạng: mcq có đúng 4 options (không ghi A. B. C. D. vào options), answer là "A"/"B"/"C"/"D". truefalse: q gồm 4 ý a) b) c) d), answer là {"a":true,"b":false,"c":true,"d":false}. short: answer là đáp án ngắn dạng chuỗi. essay: bỏ options và answer, "explain" chứa barem chấm từng ý kèm điểm, tổng bằng points.');
-            P.push('Mọi câu phải có đủ: explain, points (khớp điểm/câu trong ma trận), level, chapter. Số câu từng dạng × mức độ khớp TUYỆT ĐỐI ma trận; thứ tự câu: từ NB đến VDC, trong mỗi mức độ xếp theo dạng. JSON chỉ dùng dấu " thẳng, không dấu phẩy sau phần tử cuối, points là số không để trong ngoặc kép.');
+            P.push('PHẦN 1 — NỘI DUNG ĐỀ: soạn ĐÚNG ' + nsets + ' bộ đề, mỗi bộ bắt đầu bằng một dòng riêng ghi "ĐỀ 1", "ĐỀ 2"... Các bộ đề phải KHÁC NHAU về nội dung, số liệu và bối cảnh (KHÔNG lặp lại cùng một đề, KHÔNG chỉ đảo thứ tự câu hay phương án). Viết mỗi bộ theo ĐÚNG quy ước văn bản thuần sau đây (không dùng bảng, không dùng JSON, không dùng ký hiệu markdown như #, **):');
+            P.push('Câu trắc nghiệm 4 phương án viết thế này:\nCâu 1 [TN] [NB]\n<nội dung câu hỏi>\nA. <phương án 1>\nB. <phương án 2>\nC. <phương án 3>\nD. <phương án 4>\nĐáp án: B\nGiải thích: <lời giải NGẮN 1-2 câu>');
+            P.push('Câu đúng/sai viết thế này:\nCâu 2 [ĐS] [TH]\n<nội dung câu hỏi>\na) <ý 1>\nb) <ý 2>\nc) <ý 3>\nd) <ý 4>\nĐáp án: Đ, S, Đ, S\nGiải thích: <lời giải NGẮN>');
+            P.push('Câu trả lời ngắn viết thế này:\nCâu 3 [TLN] [VD]\n<nội dung câu hỏi>\nĐáp án: <đáp án ngắn>\nGiải thích: <lời giải NGẮN>');
+            P.push('Câu tự luận viết thế này:\nCâu 4 [TL] [VD]\n<nội dung câu hỏi>\nBarem: <từng ý chấm kèm điểm của ý đó, tổng các ý bằng điểm/câu của dạng tự luận trong ma trận>');
+            P.push('QUY TẮC BẮT BUỘC: mỗi câu mở đầu bằng đúng 1 dòng "Câu <số> [<dạng>] [<mức độ>]" — dạng chỉ dùng TN, ĐS, TLN, TL; mức độ chỉ dùng NB, TH, VD, VDC. Số câu từng dạng × mức độ khớp TUYỆT ĐỐI ma trận. Thứ tự câu trong mỗi bộ: hết TN rồi đến ĐS, TLN, TL; trong mỗi dạng xếp từ NB đến VDC. Không ghi điểm vào từng câu.');
             P.push('PHẦN 2 — MA TRẬN ĐỀ (bảng markdown để in): hàng = dạng câu, cột = NB/TH/VD/VDC, mỗi ô ghi "số câu (số điểm)", thêm cột Tổng câu/Tổng điểm và hàng tỉ lệ % điểm từng mức độ.');
             P.push('PHẦN 3 — BẢN ĐẶC TẢ (bảng markdown để in): cột STT | Đơn vị kiến thức | Mức độ | Dạng câu hỏi | Số điểm, liệt kê đủ mọi câu theo thứ tự trong đề.');
             var out = document.getElementById('ai-prompt-out');
@@ -416,24 +423,171 @@
             }
             return { sets: found, spans: spans };
         }
+        // ========================================================
+        // SB_AI_V3_20261012: bo doc dinh dang VAN BAN THUAN — cung quy uoc voi cho day file Word len
+        // (Cau N [TN] [NB] / A. B. C. D. / a) b) c) d) / Dap an: / Giai thich: / Barem:)
+        // ========================================================
+        function aiSplitInlineOpts(text){
+            var parts = [], re = /([A-D])[\.\)]\s*/g, m, lastL = null, lastI = 0;
+            while ((m = re.exec(text)) !== null){
+                if (lastL !== null){ var c = text.substring(lastI, m.index).trim(); if (c) parts.push({ letter: lastL, text: c }); }
+                lastL = m[1]; lastI = m.index + m[0].length;
+            }
+            if (lastL !== null){ var c2 = text.substring(lastI).trim(); if (c2) parts.push({ letter: lastL, text: c2 }); }
+            return parts;
+        }
+        function aiTagToTypeLevel(rest, cur){
+            var tags = rest.match(/\[[^\]]+\]/g) || [];
+            tags.forEach(function(t){
+                var v = t.slice(1, -1).trim().toUpperCase();
+                if (v === 'TN' || v.indexOf('TRẮC NGHIỆM') >= 0 || v.indexOf('TRAC NGHIEM') >= 0) cur.type = 'mcq';
+                else if (v === 'ĐS' || v === 'DS' || v.indexOf('ĐÚNG SAI') >= 0 || v.indexOf('DUNG SAI') >= 0) cur.type = 'truefalse';
+                else if (v === 'TLN' || v.indexOf('TRẢ LỜI NGẮN') >= 0 || v.indexOf('TRA LOI NGAN') >= 0) cur.type = 'short';
+                else if (v === 'TL' || v.indexOf('TỰ LUẬN') >= 0 || v.indexOf('TU LUAN') >= 0) cur.type = 'essay';
+                else if (['NB', 'TH', 'VD', 'VDC'].indexOf(v) >= 0) cur.level = v;
+            });
+        }
+        function aiParseTextQuestions(lines, ptsByType){
+            var qs = [], cur = null;
+            function finalize(){
+                if (!cur.type) cur.type = cur.options.length >= 2 ? 'mcq' : (cur.statements.length >= 2 ? 'truefalse' : 'short');
+                var rawA = (cur._ans || '').trim();
+                if (cur.type === 'mcq'){
+                    var mm = rawA.match(/[A-D]/i);
+                    cur.answer = mm ? mm[0].toUpperCase() : '';
+                    cur.options = cur.options.map(function(o){ return String(o).replace(/^[A-D][\.\)]\s*/, ''); });
+                    delete cur.statements;
+                } else if (cur.type === 'truefalse'){
+                    var arr = rawA.split(/[,;\/]+/).map(function(p){
+                        var v = p.trim().toUpperCase();
+                        if (['Đ', 'D', 'ĐÚNG', 'DUNG', 'T', 'TRUE'].indexOf(v) >= 0) return 'T';
+                        if (['S', 'SAI', 'F', 'FALSE'].indexOf(v) >= 0) return 'F';
+                        return '';
+                    }).filter(Boolean);
+                    if (arr.length < cur.statements.length){
+                        var byLetter = {}, mm2, reL = /([a-d])\s*[\.\)\:\-]\s*(Đúng|Sai|Đ|S)/gi;
+                        while ((mm2 = reL.exec(rawA)) !== null) byLetter[mm2[1].toLowerCase()] = (mm2[2] === 'Đúng' || mm2[2] === 'Đ') ? 'T' : 'F';
+                        var arr2 = ['a', 'b', 'c', 'd'].map(function(k){ return byLetter[k] || ''; }).filter(Boolean);
+                        if (arr2.length > arr.length) arr = arr2;
+                    }
+                    cur.answer = arr;
+                    cur.options = [];
+                } else if (cur.type === 'essay'){
+                    if (rawA && !cur.explain) cur.explain = rawA;
+                    cur.answer = '';
+                    cur.options = []; delete cur.statements;
+                } else {
+                    cur.answer = rawA;
+                    cur.options = []; delete cur.statements;
+                }
+                cur.points = (cur._pts != null) ? cur._pts : (ptsByType[cur.type] != null ? ptsByType[cur.type] : 0);
+                cur.q = (cur.q || '').trim();
+                delete cur._ans; delete cur._pts; delete cur._mode;
+            }
+            function pushCur(){ if (cur && (cur.q || cur.statements.length)){ finalize(); qs.push(cur); } cur = null; }
+            lines.forEach(function(rawLine){
+                var line = String(rawLine || '').trim();
+                if (!line) return;
+                line = line.replace(/^#{1,6}\s*/, '').replace(/\*\*/g, '');
+                var mCau = line.match(/^(câu|cau)\s*(\d+)\s*(.*)$/i);
+                if (mCau){
+                    pushCur();
+                    cur = { type: null, level: 'NB', q: '', options: [], statements: [], answer: null, explain: '', _ans: '', _mode: 'q', _pts: null };
+                    var rest = mCau[3] || '';
+                    aiTagToTypeLevel(rest, cur);
+                    var mp = rest.match(/\((\d+(?:[.,]\d+)?)\s*(?:điểm|đ)\)/i);
+                    if (mp) cur._pts = parseFloat(mp[1].replace(',', '.'));
+                    var qt = rest.replace(/\[[^\]]+\]/g, '').replace(/\(\d+(?:[.,]\d+)?\s*(?:điểm|đ)\)/gi, '').replace(/^[\.\)\:\s]+/, '').trim();
+                    if (qt) cur.q = qt;
+                    return;
+                }
+                if (!cur) return;
+                var mAns = line.match(/^(đáp án|dap an)\s*[:：]\s*(.*)$/i);
+                if (mAns){ cur._ans = mAns[2].trim(); cur._mode = 'ans'; return; }
+                var mBar = line.match(/^(barem|hướng dẫn chấm|huong dan cham)\s*[:：]\s*(.*)$/i);
+                if (mBar){ cur._mode = 'exp'; cur.explain = (cur.explain ? cur.explain + ' ' : '') + (mBar[2] || '').trim(); return; }
+                var mExp = line.match(/^(giải thích|giai thich|lời giải|loi giai)\s*[:：]\s*(.*)$/i);
+                if (mExp){ cur._mode = 'exp'; cur.explain = (cur.explain ? cur.explain + ' ' : '') + (mExp[2] || '').trim(); return; }
+                if (cur._mode === 'exp'){ cur.explain += (cur.explain ? ' ' : '') + line; return; }
+                if (cur._mode === 'ans'){ cur._ans += (cur._ans ? ' ' : '') + line; return; }
+                var mOpt = line.match(/^([A-D])[\.\)]\s*(.*)$/);
+                if (mOpt && cur.type !== 'truefalse' && cur.type !== 'essay'){
+                    var inl = aiSplitInlineOpts(line);
+                    if (inl.length >= 2) inl.forEach(function(io){ cur.options.push(io.text); });
+                    else cur.options.push(mOpt[2].trim());
+                    if (!cur.type) cur.type = 'mcq';
+                    return;
+                }
+                var mSt = line.match(/^([a-d])[\.\)]\s*(.+)$/);
+                if (mSt && cur.type !== 'mcq' && cur.type !== 'essay'){
+                    cur.statements.push(mSt[2].trim());
+                    if (!cur.type) cur.type = 'truefalse';
+                    return;
+                }
+                cur.q += (cur.q ? ' ' : '') + line;
+            });
+            pushCur();
+            qs.forEach(function(q, i){ q.id = 'c' + (i + 1); if (q.chapter == null) q.chapter = ''; });
+            return qs;
+        }
+        function aiParseTextSets(raw){
+            var text = String(raw || '');
+            // Vung cau hoi = truoc PHAN 2 (ma tran) — tranh bang markdown lam nhieu parser
+            var cut = text.length;
+            var mCut = text.search(/phần\s*2\b/i);
+            if (mCut > 0) cut = Math.min(cut, mCut);
+            var region = text.slice(0, cut);
+            var lines = region.split(/\r?\n/);
+            var reSet = /^\s*(?:#{1,6}\s*)?(?:\*\*)?(ĐỀ|DE)\s*(?:SỐ\s*)?(\d+)\b/i;
+            var hasCau = function(c){ return c.some(function(x){ return /^\s*(câu|cau)\s*\d+/i.test(x); }); };
+            var chunks = [], curChunk = [];
+            lines.forEach(function(ln){
+                if (reSet.test(ln) && hasCau(curChunk)){ chunks.push(curChunk); curChunk = [ln]; }
+                else curChunk.push(ln);
+            });
+            chunks.push(curChunk);
+            chunks = chunks.filter(hasCau);
+            if (!chunks.length) return [];
+            var ptsByType = {};
+            try { aiMatrix().rows.forEach(function(r){ ptsByType[r.key] = r.pts; }); } catch(e){}
+            var sets = chunks.map(function(chunk, si){
+                return { name: 'Đề ' + (si + 1), questions: aiParseTextQuestions(chunk, ptsByType) };
+            }).filter(function(st){ return st.questions.length; });
+            return sets;
+        }
         function aiProcessNotebookText(raw){
             var stEl = document.getElementById('merge-sets-status');
-            var ex = aiExtractSets(raw);
-            var sets = ex.sets;
+            // SB_AI_V3: uu tien dinh dang VAN BAN; JSON cu chi la du phong tuong thich nguoc
+            var sets = aiParseTextSets(raw);
+            var usedText = sets.length > 0;
+            var exSpans = [];
+            if (!usedText){
+                var ex = aiExtractSets(raw);
+                sets = ex.sets; exSpans = ex.spans || [];
+            }
             if (!sets.length){
-                if (stEl){ stEl.textContent = 'Vẫn chưa tách được bộ đề nào — hãy copy TOÀN BỘ kết quả NotebookLM (cả phần mã JSON) rồi bấm Dán lại.'; stEl.className = 'text-[11px] font-bold text-rose-600'; }
+                if (stEl){ stEl.textContent = 'Vẫn chưa tách được bộ đề nào — hãy copy TOÀN BỘ kết quả NotebookLM rồi bấm Dán lại.'; stEl.className = 'text-[11px] font-bold text-rose-600'; }
                 aiFloatToast('❌ Chưa tìm thấy phần đề trong nội dung đã dán', true);
                 return false;
             }
-            var canonical = sets.map(function(s, i){ return JSON.stringify({ name: 'Đề ' + (i + 1), questions: s.questions }); }).join('\n');
+            // Chong trung: 1 bo JSON co the bi aiExtractSets nhan 2 lan (ung vien whole + ung vien quet)
+            var seenQ = {};
+            sets = sets.filter(function(st){
+                var k = JSON.stringify(st.questions || []);
+                if (seenQ[k]) return false;
+                seenQ[k] = 1; return true;
+            });
+            var dropped = 0;
+            if (sets.length > 4){ dropped = sets.length - 4; sets = sets.slice(0, 4); } // SB_AI_V3: toi da 4 bo de
+            var canonical = sets.map(function(s2, i){ return JSON.stringify({ name: 'Đề ' + (i + 1), questions: s2.questions }); }).join('\n');
             var ta = document.getElementById('merge-sets-input');
             var splitRaw = String(raw);
-            ex.spans.slice().sort(function(a, b){ return b[0] - a[0]; }).forEach(function(sp){ splitRaw = splitRaw.slice(0, sp[0]) + ' ' + splitRaw.slice(sp[1] + 1); });
+            if (!usedText) exSpans.slice().sort(function(a, b){ return b[0] - a[0]; }).forEach(function(sp){ splitRaw = splitRaw.slice(0, sp[0]) + ' ' + splitRaw.slice(sp[1] + 1); });
             if (ta) ta.value = canonical + '\n\n' + splitRaw; // phan con lai (ma tran/dac ta) de tach lam Word, khoi JSON da cat tranh gop trung
             if (typeof window.mergeExamSets === 'function') window.mergeExamSets();
             setTimeout(function(){ try { aiSplitAfterMerge(); } catch(e){} }, 150); // goi thang cho chac (bo boc ngoai co the chua kip cai trong 250ms dau)
-            var nq = sets.reduce(function(a, s){ return a + s.questions.length; }, 0);
-            aiFloatToast('✅ Đã tách ' + sets.length + ' bộ đề (' + nq + ' câu) vào khung soạn — bấm Tải Word để lấy bản in!');
+            var nq = sets.reduce(function(a, s2){ return a + s2.questions.length; }, 0);
+            aiFloatToast('✅ Đã tách ' + sets.length + ' bộ đề (' + nq + ' câu) vào khung soạn' + (dropped ? ' — đã bỏ ' + dropped + ' bộ vượt quá tối đa 4 bộ' : '') + ' — bấm Tải Word để lấy bản in!');
             return true;
         }
         function aiPasteFromNotebook(){
@@ -521,6 +675,26 @@
         }
 
         // ========================================================
+        // SB_AI_V3_20261012: o chon SO BO DE (1-4) trong thanh tren ma tran + huong dan dinh dang moi
+        // ========================================================
+        function aiSetupV3(){
+            var panel = document.getElementById('ai-compose-panel');
+            if (!panel || panel._sbAiV3) return;
+            panel._sbAiV3 = 1;
+            var bar = document.getElementById('ai-topbar');
+            if (bar && !document.getElementById('ai-nsets')){
+                var div = document.createElement('div');
+                div.innerHTML = '<label class="block text-[10px] font-bold text-slate-600 mb-1">SỐ BỘ ĐỀ (tối đa 4)</label>'
+                    + '<select id="ai-nsets" class="px-2 py-1.5 border border-slate-300 rounded-lg text-center font-bold">'
+                    + '<option value="1" selected>1 bộ</option><option value="2">2 bộ</option><option value="3">3 bộ</option><option value="4">4 bộ</option></select>';
+                var autoBtn = document.getElementById('ai-auto-btn');
+                if (autoBtn) bar.insertBefore(div, autoBtn); else bar.appendChild(div);
+            }
+            var intro = panel.querySelector('p');
+            if (intro) intro.textContent = 'Chọn Khối + Môn ở ô chọn nơi lưu phía trên, nhập Bài/Chương → khóa TỔNG từng dạng + tỉ lệ % rồi bấm 🎲 Bốc tự động (hoặc nhập tay) → chọn SỐ BỘ ĐỀ (1-4) → bấm 📋 Copy Prompt dán vào NotebookLM → khi có kết quả, bấm 📥 Dán từ NotebookLM: hệ thống tự tách đề vào khung soạn, bản Word in ra có cấu trúc Phần I/II/III/IV như đề thật.';
+        }
+
+        // ========================================================
         // SB_AI_WORD_20261012: web tu tach ket qua NotebookLM lam 2 phan:
         // (1) phan de JSON -> gop vao khung soan de day len web (mergeExamSets goc)
         // (2) phan in an -> tai xuong file Word tu web (de bai khong dap an + ma tran + dac ta + dap an/barem rieng o cuoi)
@@ -576,31 +750,93 @@
             var W = window.SB_AI_WORD;
             if (!W){ alert('Hãy dán kết quả NotebookLM và bấm "Gộp đề vào khung soạn" trước — hệ thống tách xong mới tải Word được.'); return; }
             var esc = aiWordEsc;
-            var totP = 0;
-            W.sets.forEach(function(st){ (st.questions || []).forEach(function(q){ totP += parseFloat(q.points) || 0; }); });
+            // SB_AI_V3_20261012: ban in NHƯ ĐỀ THẬT — chia PHẦN I/II/III/IV + ghi chú từng phần do WEB tự thêm,
+            // phương án TN ngắn xếp 1 dòng (trung bình 2x2, dài mới mỗi dòng 1 phương án), điểm tính THEO TỪNG BỘ.
+            var PARTS = [
+                { key: 'mcq', title: 'PHẦN I. TRẮC NGHIỆM 4 PHƯƠNG ÁN', note: function(a, b){ return 'Thí sinh trả lời từ câu ' + a + ' đến câu ' + b + '. Mỗi câu hỏi thí sinh chỉ chọn một phương án.'; } },
+                { key: 'truefalse', title: 'PHẦN II. TRẮC NGHIỆM ĐÚNG SAI', note: function(a, b){ return 'Thí sinh trả lời từ câu ' + a + ' đến câu ' + b + '. Trong mỗi ý a), b), c), d) ở mỗi câu, thí sinh chọn đúng hoặc sai.'; } },
+                { key: 'short', title: 'PHẦN III. TRẢ LỜI NGẮN', note: function(a, b){ return 'Thí sinh trả lời từ câu ' + a + ' đến câu ' + b + '.'; } },
+                { key: 'essay', title: 'PHẦN IV. TỰ LUẬN', note: function(){ return 'Thí sinh trình bày bài làm vào giấy thi.'; } }
+            ];
+            function groupByPart(qs){
+                var g = { mcq: [], truefalse: [], short: [], essay: [] };
+                (qs || []).forEach(function(q){ if (g[q.type]) g[q.type].push(q); else g.mcq.push(q); });
+                return g;
+            }
+            function optsHtml(opts){
+                var t = (opts || []).map(function(o){ return String(o == null ? '' : o).replace(/^[A-D][\.\)]\s*/, ''); });
+                if (!t.length) return '';
+                var letters = 'ABCD';
+                var total = t.reduce(function(a, x){ return a + x.length; }, 0);
+                var mx = Math.max.apply(null, t.map(function(x){ return x.length; }));
+                if (t.length === 4 && total <= 84 && mx <= 30){
+                    return '<table width="100%" cellspacing="0" cellpadding="0" style="margin:2px 0 6px 24px;"><tr>' + t.map(function(x, i){ return '<td width="25%" style="vertical-align:top;">' + letters[i] + '. ' + esc(x) + '</td>'; }).join('') + '</tr></table>';
+                }
+                if (t.length === 4 && mx <= 46){
+                    return '<table width="100%" cellspacing="0" cellpadding="0" style="margin:2px 0 6px 24px;"><tr><td width="50%" style="vertical-align:top;padding-bottom:3px;">A. ' + esc(t[0]) + '</td><td width="50%" style="vertical-align:top;padding-bottom:3px;">B. ' + esc(t[1]) + '</td></tr><tr><td style="vertical-align:top;">C. ' + esc(t[2]) + '</td><td style="vertical-align:top;">D. ' + esc(t[3]) + '</td></tr></table>';
+                }
+                return t.map(function(x, i){ return '<p style="margin:0 0 2px 24px;">' + letters[i] + '. ' + esc(x) + '</p>'; }).join('');
+            }
+            function ptsTxt(q){ var p = parseFloat(q.points); return (!isNaN(p) && p > 0) ? ' (' + (Math.round(p * 100) / 100) + ' điểm)' : ''; }
+            var setsParts = W.sets.map(function(st){ return groupByPart(st.questions); });
             var h = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><title>' + esc(W.title || 'Đề kiểm tra') + '</title></head>'
-                + '<body style="font-family:Times New Roman,serif;font-size:13pt;">'
-                + '<h2 style="text-align:center;">' + esc((W.subject + ' ' + W.grade + ' — ' + (W.title || 'ĐỀ KIỂM TRA')).toUpperCase()) + '</h2>'
-                + '<p style="text-align:center;">Thời gian làm bài: ' + esc(W.time) + ' phút • Tổng điểm: ' + (Math.round(totP * 100) / 100) + '</p>'
-                + '<p>Họ và tên: ............................ Lớp: ..........</p><hr>';
+                + '<body style="font-family:Times New Roman,serif;font-size:13pt;">';
             W.sets.forEach(function(st, si){
-                if (W.sets.length > 1) h += '<h3>' + esc(st.name || ('Đề ' + (si + 1))) + '</h3>';
-                (st.questions || []).forEach(function(q, i){
-                    h += '<p><b>Câu ' + (i + 1) + ' (' + (q.points != null ? q.points : '') + 'đ):</b> ' + esc(q.q) + '</p>';
-                    if (q.type === 'mcq' && q.options) q.options.forEach(function(op, oi){ h += '<p style="margin-left:24px;">' + 'ABCD'[oi] + '. ' + esc(op) + '</p>'; });
-                    if (q.type === 'short') h += '<p style="margin-left:24px;">Trả lời: ....................</p>';
-                    if (q.type === 'essay') h += '<p style="margin-left:24px;">............................................................................................</p><p style="margin-left:24px;">............................................................................................</p>';
+                if (si > 0) h += '<br clear="all" style="page-break-before:always;">';
+                var setPts = (st.questions || []).reduce(function(a, q){ return a + (parseFloat(q.points) || 0); }, 0);
+                h += '<table width="100%" cellspacing="0" cellpadding="0"><tr>'
+                    + '<td style="text-align:center;width:42%;vertical-align:top;">SỞ GD&ĐT ....................<br><b>TRƯỜNG THPT ....................</b><br>--------------------</td>'
+                    + '<td style="text-align:center;width:58%;vertical-align:top;"><b>' + esc((W.title || 'ĐỀ KIỂM TRA').toUpperCase()) + '</b><br>Môn: ' + esc(W.subject || '') + (W.grade ? ' — Lớp ' + esc(W.grade) : '') + '<br><i>Thời gian làm bài: ' + esc(W.time) + ' phút, không kể thời gian phát đề</i><br>Tổng điểm: ' + (Math.round(setPts * 100) / 100) + (W.sets.length > 1 ? ' &nbsp;•&nbsp; <b>' + esc(st.name || ('Đề ' + (si + 1))) + '</b>' : '') + '</td></tr></table>';
+                h += '<p style="margin-top:10px;">Họ và tên thí sinh: ...................................................... Số báo danh: ................... Lớp: ...........</p>';
+                var g = setsParts[si];
+                PARTS.forEach(function(P){
+                    var list = g[P.key];
+                    if (!list.length) return;
+                    h += '<h3 style="margin:14px 0 2px;">' + P.title + '</h3><p style="margin:0 0 8px;"><i>' + P.note(1, list.length) + '</i></p>';
+                    list.forEach(function(q, i){
+                        h += '<p style="margin:8px 0 2px;"><b>Câu ' + (i + 1) + '.</b>' + (P.key === 'mcq' ? '' : ptsTxt(q)) + ' ' + esc(q.q) + '</p>';
+                        if (P.key === 'mcq') h += optsHtml(q.options);
+                        else if (P.key === 'truefalse') (q.statements || []).forEach(function(sm, smi){ h += '<p style="margin:0 0 2px 24px;">' + 'abcd'[smi] + ') ' + esc(sm) + '</p>'; });
+                        else if (P.key === 'short') h += '<p style="margin:0 0 2px 24px;">Trả lời: ......................................................</p>';
+                        else if (P.key === 'essay'){ for (var li = 0; li < 4; li++) h += '<p style="margin:0 0 2px 24px;">...........................................................................................................</p>'; }
+                    });
                 });
+                h += '<p style="text-align:center;margin-top:14px;"><b>— HẾT —</b></p><p style="margin-top:4px;"><i>Thí sinh không được sử dụng tài liệu. Cán bộ coi thi không giải thích gì thêm.</i></p>';
             });
             var mt = aiMdTableToHtml(W.matrixMd), sp = aiMdTableToHtml(W.specMd);
             if (mt) h += '<br clear="all" style="page-break-before:always;"><h3>MA TRẬN ĐỀ</h3>' + mt;
             if (sp) h += '<h3 style="margin-top:18px;">BẢN ĐẶC TẢ ĐỀ</h3>' + sp;
             h += '<br clear="all" style="page-break-before:always;"><h3>ĐÁP ÁN & BAREM (dành cho giáo viên)</h3>';
-            W.sets.forEach(function(st){
-                (st.questions || []).forEach(function(q, i){
-                    var a = q.answer;
-                    var aTxt = (a == null) ? '(tự luận — barem ở dưới)' : (typeof a === 'object' ? Object.keys(a).map(function(k){ return k + ': ' + (a[k] ? 'Đúng' : 'Sai'); }).join('; ') : String(a));
-                    h += '<p><b>Câu ' + (i + 1) + ':</b> ' + esc(aTxt) + (q.explain ? '<br><i>' + esc(q.explain) + '</i>' : '') + '</p>';
+            W.sets.forEach(function(st, si){
+                if (W.sets.length > 1) h += '<h4>' + esc(st.name || ('Đề ' + (si + 1))) + '</h4>';
+                var g = setsParts[si];
+                PARTS.forEach(function(P){
+                    var list = g[P.key];
+                    if (!list.length) return;
+                    h += '<p style="margin:10px 0 4px;"><b>' + P.title + '</b></p>';
+                    if (P.key === 'mcq'){
+                        h += '<table border="1" cellspacing="0" cellpadding="4" style="border-collapse:collapse;"><tr><th>Câu</th>' + list.map(function(q, i){ return '<th>' + (i + 1) + '</th>'; }).join('') + '</tr><tr><td><b>Đáp án</b></td>' + list.map(function(q){ return '<td style="text-align:center;"><b>' + esc(String(q.answer || '')) + '</b></td>'; }).join('') + '</tr></table>';
+                    } else if (P.key === 'truefalse'){
+                        list.forEach(function(q, i){
+                            var a = q.answer;
+                            var aTxt = Array.isArray(a) ? a.map(function(v, vi){ return 'abcd'[vi] + ') ' + ((v === 'T' || v === true) ? 'Đúng' : 'Sai'); }).join('; ') : String(a == null ? '' : a);
+                            h += '<p style="margin:0 0 2px 24px;">Câu ' + (i + 1) + ': ' + esc(aTxt) + '</p>';
+                        });
+                    } else if (P.key === 'short'){
+                        list.forEach(function(q, i){ h += '<p style="margin:0 0 2px 24px;">Câu ' + (i + 1) + ': <b>' + esc(String(q.answer == null ? '' : q.answer)) + '</b></p>'; });
+                    } else {
+                        list.forEach(function(q, i){ h += '<p style="margin:0 0 2px 24px;">Câu ' + (i + 1) + ptsTxt(q) + ': ' + esc(q.explain || '(barem — xem lời giải)') + '</p>'; });
+                    }
+                });
+                h += '<p style="margin:10px 0 4px;"><b>Lời giải chi tiết</b></p>';
+                PARTS.forEach(function(P){
+                    g[P.key].forEach(function(q, i){
+                        if (!q.explain) return;
+                        if (P.key === 'essay') return; // tu luan: barem da o tren
+                        var a = q.answer;
+                        var aTxt = Array.isArray(a) ? a.map(function(v, vi){ return 'abcd'[vi] + ') ' + ((v === 'T' || v === true) ? 'Đúng' : 'Sai'); }).join('; ') : String(a == null ? '' : a);
+                        h += '<p style="margin:0 0 2px 24px;">' + P.title.split('.')[0] + ' — Câu ' + (i + 1) + ' (' + esc(aTxt) + '): <i>' + esc(q.explain) + '</i></p>';
+                    });
                 });
             });
             h += '</body></html>';
