@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261012_0715
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261012_0725
 // Tab 2: thay the renderLessonManagementList goc bang DS DE THI GV tai len, gom:
 //  (a) file de .html trong data/ (Word/AI day cong khai)
 //  (b) de luu rieng/len lich trong data/exam-schedule.json (exams-pending) - de Word/matran deu vao day
@@ -281,7 +281,7 @@ function sbExamAction(act, id, btn){
       }, 'Xoa de '+id).then(function(){
         var dels=[];
         if(e && e.file) dels.push(sbGasDelete(e.file, 'Xoa file de '+id));
-        if(e && e.grade && e.subject && e.teacherId) dels.push(sbGasDelete('data/bank-de/Khối lớp '+e.grade+'/'+e.subject+' '+e.grade+'/'+e.teacherId+'/'+id+'.json', 'Xoa bank-de '+id));
+        if(e && e.grade && e.subject && e.teacherId) dels.push(sbGasDelete('data/bank-de/Khối lớp '+e.grade+'/'+_sbNameOf(e.subject)+' '+e.grade+'/'+e.teacherId+'/'+id+'.json', 'Xoa bank-de '+id));
         return Promise.all(dels);
       });
     }).then(function(){ alert('🗑 Đã xóa đề.'); }).catch(fail);
@@ -342,12 +342,15 @@ function _sbCodeOf(folderName){
   return bare || 'TOAN';
 }
 function _sbNum(str){ var m = String(str || '').match(/(\d+)/); return m ? parseInt(m[1], 10) : 0; }
+var _sbNameMap = {'TOAN':'Toán','VAN':'Văn','ANH':'Tiếng Anh','LY':'Vật lý','HOA':'Hóa học','SINH':'Sinh','SU':'Lịch sử','DIA':'Địa lý','TIN':'Tin học','GDCD':'GDCD','CONGNGHE':'Công nghệ','KHTN':'KHTN','GDKTPL':'GDKTPL'};
+function _sbNameOf(code){ return _sbNameMap[String(code || '').toUpperCase()] || String(code || ''); }
 
 function _sbBuildTree(paths){
   var root = {};
   paths.forEach(function(p){
     var seg = p.split('/');
     if (seg[0] !== 'data') return;
+    if (seg[1] !== 'THCS' && seg[1] !== 'THPT') return; // 0725: chi cay bai hoc — tranh mon ma kieu 'TOAN 6' ro ri tu data/bank-de
     var gi = -1;
     for (var i = 1; i < seg.length; i++){ if (/^Khối lớp\s*\d+$/.test(seg[i])) { gi = i; break; } }
     if (gi < 0 || gi + 1 >= seg.length) return;
@@ -428,9 +431,9 @@ function _sbApplyBank2(){
   var prev = document.getElementById('sb-b2-path');
   if (!g || !sf) { window.SB_BANK2 = null; if (prev) prev.textContent = 'Chưa chọn — đề sẽ lưu theo thông tin mặc định.'; return; }
   var code = _sbCodeOf(sf);
-  window.SB_BANK2 = { grade: g, subject: code };
+  window.SB_BANK2 = { grade: g, subject: code, subjectName: sf };
   _sbSyncMeta(code, g, '');
-  if (prev) prev.textContent = 'Đề sẽ lưu vào Bank 2: data/bank-de/Khối lớp ' + g + '/' + code + ' ' + g + '/<ID đăng nhập của bạn>/';
+  if (prev) prev.textContent = 'Đề sẽ lưu vào Bank 2: data/bank-de/Khối lớp ' + g + '/' + sf + '/<ID đăng nhập của bạn>/';
 }
 
 function _sbApplyModeVisibility(mode){
