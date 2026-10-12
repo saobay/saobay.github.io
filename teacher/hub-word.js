@@ -1066,12 +1066,14 @@ async function handlePdfExamFile(input){
 window.handlePdfExamFile = handlePdfExamFile;
 /* ===== HẾT SB_PDF_V1_20261012 ===== */
 
-/* ===== SB_WED_20261012_V1: KHUNG SUA CAU HOI sau khi doc Word/PDF =====
+/* ===== SB_WED_20261012_V2: KHUNG SUA CAU HOI sau khi doc Word/PDF =====
    Danh sach cau trong #word-preview tro thanh dung de SUA truc tiep (wordState.questions la nguon su that):
    - Bam chu cai phuong an de DAT DAP AN (TN); cau TLN co o nhap dap an; cau D/S bam tung y de doi Dung/Sai.
    - Muc do NB/TH/VD/VDC la cac nut MAU rieng, bam de doi.
    - Doi DANG cau (TN / D-S / TLN / TL) bang nut dang.
-   - Moi cau co o gan anh: bam de chon file hoac DAN anh (Ctrl+V) vao o; anh luu vao cau,
+   - Moi cau co KHUNG ANH co dinh o ben phai: bam vao khung de KICH HOAT (khung nhap nhay cho dan),
+     roi Ctrl+V la anh vao khung do. Bam vao khung KHONG bat hop chon file; muon chon file thi bam
+     nut nho "Chon file" trong khung (hoac bam dup vao khung). Anh luu vao cau (q._imgData),
      khi Day bai se tu upload theo (sendWordToEditor doc q._imgData). */
 var WED_LV = [
     { k: 'NB', name: 'NB', cls: 'background:#059669;color:#fff;' },
@@ -1085,15 +1087,51 @@ var WED_TYPES = [
     { k: 'short', name: 'Trả lời ngắn' },
     { k: 'essay', name: 'Tự luận' }
 ];
+var __wedActiveQi = -1;
 function wedEsc(s){ return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
 function wedStripOpt(o){ return String(o || '').replace(/^[A-Da-d]\s*[\.\)]\s*/, ''); }
+function wedEnsureStyle(){
+    if (document.getElementById('wed-style')) return;
+    var st = document.createElement('style');
+    st.id = 'wed-style';
+    st.textContent =
+      '.wed-imgframe{border:2px dashed #c4b5fd;background:#f5f3ff;border-radius:10px;min-height:128px;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:6px;cursor:pointer;outline:none;text-align:center;}'
+      + '.wed-imgframe.wed-active{border:2px solid #7c3aed;background:#ede9fe;animation:wedPulse 1.1s ease-in-out infinite;}'
+      + '@keyframes wedPulse{0%,100%{box-shadow:0 0 0 2px rgba(124,58,237,.45)}50%{box-shadow:0 0 0 7px rgba(124,58,237,.10)}}'
+      + '.wed-caret{display:inline-block;width:2px;height:13px;background:#7c3aed;vertical-align:-2px;margin-left:2px;animation:wedBlink 1s steps(1) infinite;}'
+      + '@keyframes wedBlink{50%{opacity:0}}'
+      + '.wed-imgframe .wed-hint-active{display:none;}'
+      + '.wed-imgframe.wed-active .wed-hint-active{display:block;}'
+      + '.wed-imgframe.wed-active .wed-hint-idle{display:none;}';
+    document.head.appendChild(st);
+}
+function wedImgFrame(qi, q){
+    var active = (__wedActiveQi === qi) ? ' wed-active' : '';
+    var inner;
+    if (q._imgData){
+        inner = '<img src="' + q._imgData + '" class="max-w-full max-h-36 object-contain rounded border border-violet-200 bg-white">'
+            + '<span class="text-[9px] font-bold text-violet-700">Đã có ảnh — dán ảnh mới để thay</span>'
+            + '<span class="flex gap-1">'
+            + '<button type="button" onclick="event.stopPropagation();wedImgPick(' + qi + ')" class="text-[9px] font-bold px-2 py-1 rounded-full bg-white border border-violet-300 text-violet-700">📁 Đổi file</button>'
+            + '<button type="button" onclick="event.stopPropagation();wedImgRemove(' + qi + ')" class="text-[9px] font-bold px-2 py-1 rounded-full bg-rose-100 text-rose-600">✕ Bỏ ảnh</button>'
+            + '</span>';
+    } else {
+        inner = '<i class="fa-regular fa-image text-violet-400" style="font-size:20px"></i>'
+            + '<span class="wed-hint-idle text-[10px] font-bold text-violet-600 leading-tight">KHUNG ẢNH<br>Bấm vào đây rồi dán ảnh (Ctrl+V)</span>'
+            + '<span class="wed-hint-active text-[10px] font-black text-violet-800 leading-tight">Đang chờ dán ảnh…<span class="wed-caret"></span><br><span class="font-bold">Nhấn Ctrl+V ngay</span></span>'
+            + '<button type="button" onclick="event.stopPropagation();wedImgPick(' + qi + ')" class="text-[9px] font-bold px-2 py-1 rounded-full bg-white border border-violet-300 text-violet-700">📁 hoặc chọn file</button>';
+    }
+    return '<div class="wed-imgframe' + active + '" data-wed-imgbox="' + qi + '" tabindex="0" role="button" aria-label="Khung ảnh câu ' + (qi + 1) + '" '
+        + 'onclick="wedImgFocus(' + qi + ',this)" ondblclick="wedImgPick(' + qi + ')" '
+        + 'title="Bấm để chọn khung này rồi dán ảnh bằng Ctrl+V. Bấm đúp (hoặc nút Chọn file) để tải ảnh từ máy.">' + inner + '</div>';
+}
 function wedCard(qi){
     var q = wordState.questions[qi];
     if (!q) return '';
     var type = q.type || 'short';
-    var h = '<div class="border border-slate-300 rounded-xl p-2.5 bg-white" data-wed-qi="' + qi + '">';
+    var m = '';
     // Hang 1: so cau + dang cau + xoa
-    h += '<div class="flex flex-wrap items-center gap-1.5 mb-1.5">'
+    m += '<div class="flex flex-wrap items-center gap-1.5 mb-1.5">'
         + '<span class="text-xs font-black text-slate-700 mr-1">Câu ' + (qi + 1) + '</span>'
         + WED_TYPES.map(function(t){
             var on = type === t.k;
@@ -1102,18 +1140,18 @@ function wedCard(qi){
         + '<button type="button" onclick="wedDel(' + qi + ')" title="Xoá câu này" class="ml-auto text-[10px] font-bold px-2 py-1 rounded-full bg-rose-50 text-rose-600 border border-rose-200">🗑 Xoá</button>'
         + '</div>';
     // Hang 2: muc do dang nut mau
-    h += '<div class="flex flex-wrap items-center gap-1.5 mb-2"><span class="text-[10px] font-bold text-slate-400">Mức độ:</span>'
+    m += '<div class="flex flex-wrap items-center gap-1.5 mb-2"><span class="text-[10px] font-bold text-slate-400">Mức độ:</span>'
         + WED_LV.map(function(lv){
             var on = (q.level || 'NB') === lv.k;
             return '<button type="button" data-wed-lv="' + lv.k + '" onclick="wedSetLevel(' + qi + ',\'' + lv.k + '\')" class="text-[10px] font-black px-2.5 py-1 rounded-full border" style="' + (on ? lv.cls + 'border-color:transparent;box-shadow:0 0 0 2px #1e293b inset;' : 'background:#f1f5f9;color:#64748b;border-color:#e2e8f0;') + '">' + lv.name + '</button>';
         }).join('') + '</div>';
     // Noi dung cau hoi
-    h += '<textarea rows="2" oninput="wedText(' + qi + ',\'q\',this.value)" class="w-full text-xs border border-slate-200 rounded-lg px-2 py-1.5 font-semibold text-slate-800" placeholder="Nội dung câu hỏi...">' + wedEsc(q.q || '') + '</textarea>';
+    m += '<textarea rows="2" oninput="wedText(' + qi + ',\'q\',this.value)" class="w-full text-xs border border-slate-200 rounded-lg px-2 py-1.5 font-semibold text-slate-800" placeholder="Nội dung câu hỏi...">' + wedEsc(q.q || '') + '</textarea>';
     // Phan dap an theo dang
     if (type === 'mcq'){
         var opts = (q.options || []).slice(0, 4);
         while (opts.length < 4) opts.push('');
-        h += '<div class="mt-1.5 space-y-1">' + opts.map(function(o, oi){
+        m += '<div class="mt-1.5 space-y-1">' + opts.map(function(o, oi){
             var letter = 'ABCD'[oi];
             var isAns = String(q.answer || '').toUpperCase() === letter;
             return '<div class="flex items-center gap-1.5">'
@@ -1127,7 +1165,7 @@ function wedCard(qi){
         var stmts = (q.statements || []).slice();
         while (stmts.length < 4) stmts.push('');
         var ans = Array.isArray(q.answer) ? q.answer : [];
-        h += '<div class="mt-1.5 space-y-1">' + stmts.map(function(s, si){
+        m += '<div class="mt-1.5 space-y-1">' + stmts.map(function(s, si){
             var v = String(ans[si] || '').toUpperCase();
             var lbl = v === 'T' ? 'ĐÚNG' : (v === 'F' ? 'SAI' : 'CHƯA ĐẶT');
             var st = v === 'T' ? 'background:#16a34a;color:#fff;border-color:#16a34a;' : (v === 'F' ? 'background:#e11d48;color:#fff;border-color:#e11d48;' : 'background:#f1f5f9;color:#94a3b8;border-color:#cbd5e1;');
@@ -1139,33 +1177,32 @@ function wedCard(qi){
         }).join('') + '</div>'
         + '<p class="text-[9px] text-slate-400 mt-1">Bấm nút bên phải từng mệnh đề để đổi Đúng/Sai.</p>';
     } else if (type === 'short'){
-        h += '<div class="flex items-center gap-1.5 mt-1.5"><span class="text-[10px] font-bold text-slate-500 shrink-0">Đáp án:</span>'
+        m += '<div class="flex items-center gap-1.5 mt-1.5"><span class="text-[10px] font-bold text-slate-500 shrink-0">Đáp án:</span>'
             + '<input type="text" value="' + wedEsc(typeof q.answer === 'string' ? q.answer : '') + '" oninput="wedAnsText(' + qi + ',this.value)" class="flex-1 text-xs border border-emerald-300 rounded-lg px-2 py-1.5 font-semibold" placeholder="Nhập đáp án đúng (vd: 42 hoặc x = 7)..."></div>';
     } else {
-        h += '<div class="mt-1.5"><span class="text-[10px] font-bold text-slate-500">Barem / gợi ý chấm:</span>'
+        m += '<div class="mt-1.5"><span class="text-[10px] font-bold text-slate-500">Barem / gợi ý chấm:</span>'
             + '<textarea rows="2" oninput="wedText(' + qi + ',\'explain\',this.value)" class="w-full text-xs border border-slate-200 rounded-lg px-2 py-1.5 mt-0.5" placeholder="Barem điểm từng ý...">' + wedEsc(q.explain || '') + '</textarea></div>';
     }
     if (type !== 'essay'){
-        h += '<input type="text" value="' + wedEsc(q.explain || '') + '" oninput="wedText(' + qi + ',\'explain\',this.value)" class="w-full text-[11px] border border-dashed border-slate-200 rounded-lg px-2 py-1 mt-1.5 text-slate-500" placeholder="Giải thích (không bắt buộc)...">';
+        m += '<input type="text" value="' + wedEsc(q.explain || '') + '" oninput="wedText(' + qi + ',\'explain\',this.value)" class="w-full text-[11px] border border-dashed border-slate-200 rounded-lg px-2 py-1 mt-1.5 text-slate-500" placeholder="Giải thích (không bắt buộc)...">';
     }
-    // O gan anh
-    h += '<div class="wed-imgbox mt-2 border border-dashed border-violet-300 bg-violet-50/60 rounded-lg px-2 py-1.5 flex items-center gap-2 cursor-pointer" tabindex="0" data-wed-imgbox="' + qi + '" onclick="wedImgPick(' + qi + ')" title="Bấm để chọn ảnh, hoặc bấm vào đây rồi Ctrl+V để dán ảnh">'
-        + (q._imgData
-            ? '<img src="' + q._imgData + '" class="w-12 h-12 object-contain rounded border border-violet-200 bg-white"><span class="text-[10px] font-bold text-violet-700">Đã có ảnh — bấm để đổi</span><button type="button" onclick="event.stopPropagation();wedImgRemove(' + qi + ')" class="ml-auto text-[10px] font-bold px-2 py-1 rounded-full bg-rose-100 text-rose-600">✕ Bỏ ảnh</button>'
-            : '<i class="fa-solid fa-image text-violet-400"></i><span class="text-[10px] font-bold text-violet-600">Thêm ảnh cho câu này: bấm để chọn file, hoặc bấm vào đây rồi dán (Ctrl+V)</span>')
-        + '</div>';
-    return h + '</div>';
+    return '<div class="border border-slate-300 rounded-xl p-2.5 bg-white" data-wed-qi="' + qi + '">'
+        + '<div class="flex flex-wrap gap-2 items-stretch">'
+        + '<div class="flex-1 min-w-[250px]">' + m + '</div>'
+        + '<div class="shrink-0 w-[168px] max-w-full">' + wedImgFrame(qi, q) + '</div>'
+        + '</div></div>';
 }
 function mountWordEditor(){
     var pv = document.getElementById('word-preview');
     if (!pv) return;
     var list = pv.querySelector('.max-h-56');
     if (!list) return;
+    wedEnsureStyle();
     var keepScroll = list.scrollTop || 0;
     list.classList.remove('max-h-56');
     list.classList.add('max-h-[75vh]');
     var qs = wordState.questions || [];
-    list.innerHTML = '<p class="text-[11px] font-black text-indigo-900 bg-indigo-50 border border-indigo-100 rounded-lg px-2.5 py-2">✏️ Sửa câu hỏi (' + qs.length + ' câu) — đặt <b>đáp án</b>, đổi <b>mức độ</b> bằng nút màu, đổi <b>dạng câu</b>, gắn <b>ảnh</b> từng câu. Sửa xong bấm nút "Đưa vào khung soạn" ở dưới.</p>'
+    list.innerHTML = '<p class="text-[11px] font-black text-indigo-900 bg-indigo-50 border border-indigo-100 rounded-lg px-2.5 py-2">✏️ Sửa câu hỏi (' + qs.length + ' câu) — đặt <b>đáp án</b>, đổi <b>mức độ</b> bằng nút màu, đổi <b>dạng câu</b>; cần ảnh thì bấm vào <b>khung ảnh bên phải</b> từng câu rồi dán (Ctrl+V). Sửa xong bấm nút "Đưa vào khung soạn" ở dưới.</p>'
         + '<div class="space-y-2 mt-2">' + qs.map(function(q, i){ return wedCard(i); }).join('') + '</div>';
     list.scrollTop = keepScroll;
     wedBindPasteOnce();
@@ -1216,9 +1253,7 @@ function wedSetLevel(qi, lv){
 function wedSetAnswer(qi, letter){
     var q = wordState.questions[qi]; if (!q) return;
     q.answer = letter;
-    var pv = document.getElementById('word-preview');
-    var card = pv && pv.querySelector('[data-wed-qi="' + qi + '"]');
-    if (card) wedRefreshCard(qi);
+    wedRefreshCard(qi);
 }
 function wedToggleTF(qi, si){
     var q = wordState.questions[qi]; if (!q) return;
@@ -1238,12 +1273,20 @@ function wedAnsText(qi, val){ var q = wordState.questions[qi]; if (q) q.answer =
 function wedDel(qi){
     if (!confirm('Xoá câu ' + (qi + 1) + ' khỏi danh sách?')) return;
     wordState.questions.splice(qi, 1);
+    if (__wedActiveQi === qi) __wedActiveQi = -1;
+    else if (__wedActiveQi > qi) __wedActiveQi -= 1;
     var pv = document.getElementById('word-preview');
     if (pv){
         var btn = pv.querySelector('button[onclick="sendWordToEditor()"]');
         if (btn) btn.innerHTML = '<i class="fa-solid fa-arrow-down mr-1"></i>Đưa ' + wordState.questions.length + ' câu vào khung soạn để đẩy';
     }
     mountWordEditor();
+}
+function wedImgFocus(qi, el){
+    __wedActiveQi = qi;
+    var pv = document.getElementById('word-preview');
+    if (pv) pv.querySelectorAll('.wed-imgframe').forEach(function(f){ f.classList.remove('wed-active'); });
+    if (el) { el.classList.add('wed-active'); try { el.focus({ preventScroll: true }); } catch(e){ try { el.focus(); } catch(e2){} } }
 }
 var _wedImgTarget = -1;
 function wedImgPick(qi){
@@ -1284,7 +1327,7 @@ function wedProcessImage(qi, file){
                 }
             } catch(e){}
             var q = wordState.questions[qi];
-            if (q){ q._imgData = dataUrl; wedRefreshCard(qi); if (typeof showToast === 'function') showToast('Đã gắn ảnh vào câu ' + (qi + 1) + '.', 'success'); }
+            if (q){ q._imgData = dataUrl; __wedActiveQi = qi; wedRefreshCard(qi); if (typeof showToast === 'function') showToast('Đã gắn ảnh vào câu ' + (qi + 1) + '.', 'success'); }
         };
         img.onerror = function(){ var q = wordState.questions[qi]; if (q){ q._imgData = dataUrl; wedRefreshCard(qi); } };
         img.src = dataUrl;
@@ -1297,20 +1340,24 @@ function wedBindPasteOnce(){
         var pv = document.getElementById('word-preview');
         if (!pv) return;
         var t = e.target;
+        // Dang go chu trong o nhap -> giu nguyen hanh vi dan van ban
+        if (t && (t.tagName === 'TEXTAREA' || (t.tagName === 'INPUT' && (t.type === 'text' || t.type === '')))) return;
+        var qi = -1;
         var box = t && t.closest ? t.closest('[data-wed-imgbox]') : null;
-        if (!box){
-            var card = t && t.closest ? t.closest('[data-wed-qi]') : null;
-            if (!card) return;
-            // Chi xu ly dan anh khi dang dung trong o anh hoac the cau (nhung khong phai dang go text)
-            if (t && (t.tagName === 'TEXTAREA' || (t.tagName === 'INPUT' && t.type === 'text'))) return;
-            box = card.querySelector('[data-wed-imgbox]');
-            if (!box) return;
+        if (box) qi = parseInt(box.getAttribute('data-wed-imgbox'), 10);
+        if (qi < 0 || isNaN(qi)){
+            // Khong co khung nao duoc nham truc tiep -> dung khung dang KICH HOAT (chi khi su kien
+            // xay ra trong khu vuc xem truoc hoac tren body, tranh cuop dan anh o khu vuc khac)
+            var inPv = t && pv.contains && pv.contains(t);
+            var onBody = !t || t === document.body || t === document.documentElement;
+            if ((inPv || onBody) && __wedActiveQi >= 0 && wordState.questions[__wedActiveQi]) qi = __wedActiveQi;
         }
+        if (qi < 0 || isNaN(qi)) return;
         var items = (e.clipboardData || {}).items || [];
         for (var i = 0; i < items.length; i++){
             if (items[i].type && items[i].type.indexOf('image/') === 0){
                 var f = items[i].getAsFile();
-                if (f){ e.preventDefault(); wedProcessImage(parseInt(box.getAttribute('data-wed-imgbox'), 10), f); }
+                if (f){ e.preventDefault(); wedProcessImage(qi, f); }
                 break;
             }
         }
@@ -1320,5 +1367,5 @@ window.mountWordEditor = mountWordEditor;
 window.wedSetType = wedSetType; window.wedSetLevel = wedSetLevel; window.wedSetAnswer = wedSetAnswer;
 window.wedToggleTF = wedToggleTF; window.wedText = wedText; window.wedOptText = wedOptText;
 window.wedStmtText = wedStmtText; window.wedAnsText = wedAnsText; window.wedDel = wedDel;
-window.wedImgPick = wedImgPick; window.wedImgRemove = wedImgRemove;
-/* ===== HẾT SB_WED_20261012_V1 ===== */
+window.wedImgPick = wedImgPick; window.wedImgRemove = wedImgRemove; window.wedImgFocus = wedImgFocus;
+/* ===== HẾT SB_WED_20261012_V2 ===== */
