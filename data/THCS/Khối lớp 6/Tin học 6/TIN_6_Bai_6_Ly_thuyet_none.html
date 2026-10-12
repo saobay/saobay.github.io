@@ -6,48 +6,70 @@
     <title>Bài 6: Thuật toán</title>
     <meta name="lesson-title" content="Bài 6: Thuật toán">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
-        body { font-family: system-ui, -apple-system, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; }
-        .content-body { max-width: 800px; margin: 0 auto; }
-        h2 { color: #0369a1; margin-top: 24px; }
-        .highlight { background: #e0f2fe; padding: 12px; border-radius: 8px; border-left: 4px solid #0284c7; margin: 12px 0; }
-        table { width: 100%; border-collapse: collapse; margin: 12px 0; }
-        th, td { border: 1px solid #cbd5e1; padding: 8px; text-align: left; }
-        th { background: #f1f5f9; }
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
     </style>
 </head>
-<body class="bg-slate-50">
-<div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-<div class="border-b pb-4 mb-6">
-<span class="text-xs font-bold text-blue-600 uppercase">Lý thuyết</span>
-<h1 class="text-2xl font-black mt-1">Bài 6: Thuật toán</h1>
-<p class="text-xs text-slate-500 mt-1">Tin học 6 • Chủ đề 5: Giải quyết vấn đề với sự trợ giúp của máy tính</p>
-</div>
-<div class="content-body">
-
-<h2>1. Thuật toán là gì?</h2>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 6: Thuật toán</h1>
+            <p class="text-xs text-slate-500 mt-1">Tin học 6 • Bài 6: Thuật toán</p>
+        </div>
+        <div class="content-body space-y-4">
+<div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 6: Thuật toán</h1>
+<p class="text-center text-slate-500 italic mb-8">Tin học 6 • Bài 6: Thuật toán</p>
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Thuật toán là gì?</h2>
 <p>Thuật toán là dãy các bước (các thao tác) được sắp xếp theo một trình tự xác định để giải quyết một vấn đề hoặc thực hiện một nhiệm vụ.</p>
 <p>Ví dụ: công thức nấu một món ăn, các bước gấp máy bay giấy, hướng dẫn lắp ráp đồ chơi đều là những thuật toán trong đời sống hằng ngày.</p>
-<div class="highlight">
-<strong>Ghi nhớ:</strong> Thuật toán phải có các bước rõ ràng, sắp xếp đúng thứ tự và khi thực hiện sẽ cho ra kết quả mong muốn.
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<span class="font-bold text-amber-800">📌 Ghi nhớ:</span> Thuật toán phải có các bước rõ ràng, sắp xếp đúng thứ tự và khi thực hiện sẽ cho ra kết quả mong muốn.
 </div>
 
-<h2>2. Mô tả thuật toán</h2>
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Mô tả thuật toán</h2>
 <p>Có hai cách mô tả thuật toán thường dùng:</p>
-<table>
-<tr><th>Cách mô tả</th><th>Đặc điểm</th><th>Ví dụ</th></tr>
-<tr><td>Bằng ngôn ngữ tự nhiên</td><td>Liệt kê các bước bằng lời văn hằng ngày, dễ hiểu</td><td>Bước 1: Lấy gạo. Bước 2: Vo gạo. Bước 3: Nấu cơm.</td></tr>
-<tr><td>Bằng sơ đồ khối</td><td>Dùng các hình vẽ (hình chữ nhật, hình thoi...) nối bằng mũi tên, trực quan</td><td>Sơ đồ các bước tính trung bình cộng hai số</td></tr>
-</table>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 my-2">
+<tr><th class="border border-slate-300 px-4 py-1 bg-sky-100 font-semibold">Cách mô tả</th><th class="border border-slate-300 px-4 py-1 bg-sky-100 font-semibold">Đặc điểm</th><th class="border border-slate-300 px-4 py-1 bg-sky-100 font-semibold">Ví dụ</th></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Bằng ngôn ngữ tự nhiên</td><td class="border border-slate-300 px-4 py-1">Liệt kê các bước bằng lời văn hằng ngày, dễ hiểu</td><td class="border border-slate-300 px-4 py-1">Bước 1: Lấy gạo. Bước 2: Vo gạo. Bước 3: Nấu cơm.</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Bằng sơ đồ khối</td><td class="border border-slate-300 px-4 py-1">Dùng các hình vẽ (hình chữ nhật, hình thoi...) nối bằng mũi tên, trực quan</td><td class="border border-slate-300 px-4 py-1">Sơ đồ các bước tính trung bình cộng hai số</td></tr>
+</table></div>
 
-<h2>3. Ví dụ thuật toán: tính trung bình cộng của hai số a và b</h2>
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Ví dụ thuật toán: tính trung bình cộng của hai số a và b</h2>
 <p>Mô tả bằng ngôn ngữ tự nhiên:</p>
 <p>Bước 1: Nhập hai số a và b.<br>Bước 2: Tính tổng S = a + b.<br>Bước 3: Tính trung bình cộng T = S / 2.<br>Bước 4: Đưa ra kết quả T.</p>
-<div class="highlight">
-<strong>Ghi nhớ:</strong> Máy tính thực hiện công việc theo thuật toán do con người mô tả. Thuật toán càng rõ ràng, chính xác thì máy tính làm việc càng hiệu quả.
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<span class="font-bold text-amber-800">📌 Ghi nhớ:</span> Máy tính thực hiện công việc theo thuật toán do con người mô tả. Thuật toán càng rõ ràng, chính xác thì máy tính làm việc càng hiệu quả.
 </div>
-
-</div>
-</div>
+</div>        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
 </body>
 </html>
