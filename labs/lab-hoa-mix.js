@@ -248,8 +248,11 @@
       this.set('pour', pouring ? 0.07 : 0);
       if (pouring && now - (this._lg||0) > 130 && Math.random() < 0.55){ this._lg = now; this.glug(); }
       this.set('fire', heating ? 0.08 : 0);
-      this.set('boil', boiling ? 0.19*wob : 0);
-      this.set('gas', gassing ? 0.12*wob2 : 0);
+      // SND_CAP_V5: xi xi / soi chi keo manh vai giay dau, sau do mo nho dan (khong keo dai mai)
+      if (gassing){ if (!this._gOn) this._gOn = now; } else this._gOn = 0;
+      if (boiling){ if (!this._bOn) this._bOn = now; } else this._bOn = 0;
+      this.set('boil', boiling ? ((now - this._bOn > 5000) ? 0.05 : 0.19*wob) : 0);
+      this.set('gas', gassing ? ((now - this._gOn > 2600) ? 0.03 : 0.12*wob2) : 0);
       if (this.enabled){
         if (heating && Math.random() < 0.028) this.crackle();
         if (boiling && Math.random() < 0.045) this.blub();
@@ -1357,8 +1360,28 @@ function drawMiniFlask(ctx, x, y, col){
     heatDemo = {tube: tube, t:0};
     flashMsg(tube,'Đèn cồn tự bay sang đun!');
   }
+  function solidKeyOf(v){ // SOLID_TONG_V1: binh chi chua chat ran (kim loai) -> tra ve ma chat
+    if (!v || !v.contents || !v.contents.length) return null;
+    var k = null, i;
+    for (i = 0; i < v.contents.length; i++){
+      var cc = CHEMS[v.contents[i].k];
+      if (!cc || cc.type !== 'metal') return null;
+      if (!k) k = v.contents[i].k;
+    }
+    return (v.vol || 0) > 0.03 ? k : null;
+  }
+  function startDropTransfer(src, dst, key){
+    if (dropAnim) return;
+    dropAnim = {src: src, dst: dst, key: key, amt: 0.22, t: 0, cx: src.x, cy: src.y - src.h - 4};
+    flashMsg(dst, 'G\u1eafp ' + ((CHEMS[key]||{}).f || key) + ' th\u1ea3 v\u00e0o...');
+    try { SND.clink(true); } catch(e){}
+  }
   function startPour(a, b){
     if (!a || !b || a === b || pour) return;
+    if (dropAnim) return; // dang gap bang kep thi khong rot chen
+    // SOLID_TONG_V1: nguon la kim loai ran -> nhan vat dung kep gap cuc tha sang, KHONG rot nuoc
+    var _solK = solidKeyOf(a);
+    if (_solK){ startDropTransfer(a, b, _solK); return; }
     try { SND.clink(true); } catch(e){}
     var capA = a.cap || 1, capB = b.cap || 1;
     // Tính theo đơn vị tuyệt đối: 1 ống nghiệm = 1 đơn vị
@@ -1876,17 +1899,28 @@ function layout(){
     if (!G || !(G.w > 0) || !(G.h > 0)) return;
     var W = G.w, n = vessels.length;
     var h = Math.min(140, G.h*0.44);
-    var charW = 8; /* CENTERBIG_V1 */// nhân vật đứng giữa layer nền -> bình xếp full chiều rộng
-    var availW = Math.max(170, W - charW - 66); // chừa chỗ đèn cồn bên phải
+    var availW = Math.max(170, W - 74); // chừa chỗ đèn cồn bên phải /* LAYOUT_V5 */
+    var step = availW / Math.max(1, n);
     vessels.forEach(function(v, i){
-      v.w = Math.min(92, (availW/Math.max(1,n))*0.70);
+      v.w = Math.min(92, step * 0.82);
       if (v.type==='bottle') v.w = Math.min(76, v.w);
       v.h = h * (v.type==='tube' ? 1.12 : v.type==='round' ? 0.95 : v.type==='bottle' ? 1.05 : 1);
-      v.hx = charW + availW*(i+1)/(n+1);
-      if (v.type==='tube') v.hx = Math.max(charW+24, v.hx-48); // TUBE_LEFT: ống lùi sang trái, tránh đèn cồn tự đun khi chưa dùng
-      v.hy = G.h - 30 - (v.type==='tube' ? 80 : 0); // TUBE_STAND_V1: ống nghiệm treo cao trên giá đỡ, đáy cách bàn 80px
+      v.hx = 8 + step * (i + 0.5);
+      if (v.type==='tube') v.hx = Math.max(30, v.hx - Math.min(26, step * 0.22)); // ống lùi trái nhẹ, tránh đèn cồn
+      v.hy = G.h - 30 - (v.type==='tube' ? 80 : 0); // ống nghiệm treo cao trên giá đỡ
       if (v.x === 0 && v.y === 0){ v.x = v.hx; v.y = v.hy; }
     });
+    // LAYOUT_V5: day chong dinh — dam bao cac binh khong bao gio de len nhau
+    var srt = vessels.slice().sort(function(a, b){ return a.hx - b.hx; }), j5;
+    for (j5 = 1; j5 < srt.length; j5++){
+      var pv = srt[j5-1], cv = srt[j5], mg = (pv.w + cv.w) / 2 + 6;
+      if (cv.hx - pv.hx < mg) cv.hx = pv.hx + mg;
+    }
+    if (srt.length){
+      var over = srt[srt.length-1].hx - (W - 96);
+      if (over > 0) vessels.forEach(function(v){ v.hx -= over; });
+      vessels.forEach(function(v){ if (v.hx < 36) v.hx = 36; if (v.hx > W - 96) v.hx = W - 96; });
+    }
     lamp.hx = W - 58; lamp.hy = G.h - 30;
     if (!lampDrag){ lamp.x += (((lamp.tx!=null)?lamp.tx:lamp.hx)-lamp.x)*0.12; lamp.y = lamp.hy; }
   }
@@ -1985,12 +2019,29 @@ function layout(){
         _da.cx = _dtx;
         _da.cy = _dty + ((_da.t-0.95)/0.35) * ((_da.dst.y - _da.dst.h*0.35) - _dty);
       } else {
-        var _dd = _da.dst; dropAnim = null;
+        var _dd = _da.dst, _dsrc = _da.src; dropAnim = null;
         try { SND.clink(true); } catch(e){}
-        _dd.contents.push({k:'Na', v:0.25});
-        _dd.vol = Math.min(1, +(_dd.vol + 0.08).toFixed(3));
-        _dd.fizz = Math.max(_dd.fizz, 1.2);
-        checkReaction(_dd, 'Na');
+        // DROPGEN_V1: gap cuc kim loai (moi loai) — tru o binh nguon, cong vao binh dich
+        var _key = _da.key || 'Na';
+        var _amtS = _da.amt || 0.25, _si = -1, _sj;
+        if (_dsrc && _dsrc.contents){
+          for (_sj = 0; _sj < _dsrc.contents.length; _sj++) if (_dsrc.contents[_sj].k === _key){ _si = _sj; break; }
+          if (_si >= 0){
+            _amtS = Math.min(_amtS, _dsrc.contents[_si].v);
+            _dsrc.contents[_si].v = +(_dsrc.contents[_si].v - _amtS).toFixed(3);
+            if (_dsrc.contents[_si].v <= 0.001) _dsrc.contents.splice(_si, 1);
+            _dsrc.vol = Math.max(0, +((_dsrc.vol || 0) - _amtS).toFixed(3));
+            if (!_dsrc.contents.length) _dsrc.chemKey = null;
+            if (_dsrc.carried){ _dsrc.carried = false; _dsrc.returning = true; } // DROPGEN_V1: tha binh nguon cho truot ve cho
+          }
+        }
+        var _amtD = Math.min(0.35, _amtS * ((_dsrc && _dsrc.cap) || 1) / (_dd.cap || 1));
+        var _foundD = false;
+        for (_sj = 0; _sj < _dd.contents.length; _sj++) if (_dd.contents[_sj].k === _key){ _dd.contents[_sj].v = +(_dd.contents[_sj].v + _amtD).toFixed(3); _foundD = true; break; }
+        if (!_foundD) _dd.contents.push({k: _key, v: _amtD});
+        _dd.vol = Math.min(1, +(_dd.vol + _amtD * 0.3).toFixed(3));
+        _dd.fizz = Math.max(_dd.fizz, 0.5);
+        checkReaction(_dd, _key);
       }
     }
     if (typeof heatDemo !== 'undefined' && heatDemo){
@@ -2011,7 +2062,7 @@ function layout(){
     } else {
       vessels.forEach(function(v){
         v.volShown += (v.vol - v.volShown)*0.2;
-        v.fizz = Math.max(0, v.fizz - 0.008);
+        v.fizz = Math.max(0, v.fizz - 0.02); // FIZZ_DECAY_V5: sup tan nhanh, het xi xi dai
         v.shake = Math.max(0, (v.shake||0) - 0.03);
         v.swirl += 0.02 + v.fizz*0.05;
         // Giọt pipet rơi xuống mặt dung dịch
@@ -2160,8 +2211,9 @@ function layout(){
       ctx.beginPath(); ctx.moveTo(_dx+14, _dy-30); ctx.lineTo(_dx+3, _dy-3); ctx.stroke();
       ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 1.4;
       ctx.beginPath(); ctx.moveTo(_dx-14, _dy-30); ctx.lineTo(_dx+14, _dy-30); ctx.stroke();
+      var _mc = (CHEMS[dropAnim.key || 'Na'] || {}).c || '#c3ccd8'; // DROPGEN_V1: mau cuc theo kim loai
       var _ng = ctx.createRadialGradient(_dx-3, _dy-5, 2, _dx, _dy+2, 11);
-      _ng.addColorStop(0, '#f8fafc'); _ng.addColorStop(0.55, '#c3ccd8'); _ng.addColorStop(1, '#8496ad');
+      _ng.addColorStop(0, '#f8fafc'); _ng.addColorStop(0.55, _mc); _ng.addColorStop(1, '#8496ad');
       ctx.fillStyle = _ng;
       ctx.beginPath(); ctx.arc(_dx, _dy+2, 10, 0, 7); ctx.fill();
       ctx.strokeStyle = 'rgba(255,255,255,0.65)'; ctx.lineWidth = 1.1; ctx.stroke();
