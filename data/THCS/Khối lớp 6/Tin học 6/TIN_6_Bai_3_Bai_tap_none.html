@@ -3,141 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bài 3: Mạng máy tính và Internet - Bài tập</title>
+    <title>Bài tập Bài 3: Mạng máy tính và Internet</title>
+    <meta name="lesson-title" content="Bài tập Bài 3: Mạng máy tính và Internet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
-        body { font-family: system-ui, sans-serif; padding: 16px; line-height: 1.6; }
-        .question { background: white; padding: 16px; margin: 12px 0; border-radius: 8px; border: 1px solid #e2e8f0; }
-        .options label { display: block; padding: 8px; margin: 4px 0; background: #f8fafc; border-radius: 4px; cursor: pointer; }
-        .options label:hover { background: #e0f2fe; }
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
     </style>
 </head>
-<body class="bg-slate-50">
-<div class="max-w-3xl mx-auto">
-<h1 class="text-2xl font-bold mb-4">Bài 3: Mạng máy tính và Internet - Bài tập</h1>
-
-<div class="question">
-<p class="font-semibold mb-2">Câu 1: Mạng máy tính là gì?</p>
-<div class="options">
-<label><input type="radio" name="q1" value="A"> A. Một chiếc máy tính cá nhân</label>
-<label><input type="radio" name="q1" value="B"> B. Tập hợp các máy tính kết nối với nhau để chia sẻ dữ liệu và tài nguyên</label>
-<label><input type="radio" name="q1" value="C"> C. Một phần mềm soạn thảo văn bản</label>
-<label><input type="radio" name="q1" value="D"> D. Một loại virus máy tính</label>
-</div>
-<button onclick="checkAnswer('q1', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
-<div id="fb-q1" class="mt-2"></div>
-</div>
-<div class="question">
-<p class="font-semibold mb-2">Câu 2: Mạng LAN có phạm vi như thế nào?</p>
-<div class="options">
-<label><input type="radio" name="q2" value="A"> A. Toàn cầu</label>
-<label><input type="radio" name="q2" value="B"> B. Một quốc gia</label>
-<label><input type="radio" name="q2" value="C"> C. Phạm vi hẹp: một phòng, một tòa nhà, một trường học</label>
-<label><input type="radio" name="q2" value="D"> D. Một châu lục</label>
-</div>
-<button onclick="checkAnswer('q2', 'C')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
-<div id="fb-q2" class="mt-2"></div>
-</div>
-<div class="question">
-<p class="font-semibold mb-2">Câu 3: Internet là gì?</p>
-<div class="options">
-<label><input type="radio" name="q3" value="A"> A. Mạng máy tính trong một phòng học</label>
-<label><input type="radio" name="q3" value="B"> B. Mạng máy tính toàn cầu kết nối hàng tỉ máy tính trên thế giới</label>
-<label><input type="radio" name="q3" value="C"> C. Một trình duyệt web</label>
-<label><input type="radio" name="q3" value="D"> D. Một máy tìm kiếm</label>
-</div>
-<button onclick="checkAnswer('q3', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
-<div id="fb-q3" class="mt-2"></div>
-</div>
-<div class="question">
-<p class="font-semibold mb-2">Câu 4: Đâu KHÔNG phải là trình duyệt web?</p>
-<div class="options">
-<label><input type="radio" name="q4" value="A"> A. Google Chrome</label>
-<label><input type="radio" name="q4" value="B"> B. Microsoft Edge</label>
-<label><input type="radio" name="q4" value="C"> C. Microsoft Word</label>
-<label><input type="radio" name="q4" value="D"> D. Firefox</label>
-</div>
-<button onclick="checkAnswer('q4', 'C')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
-<div id="fb-q4" class="mt-2"></div>
-</div>
-<div class="question">
-<p class="font-semibold mb-2">Câu 5: Để tìm kiếm thông tin trên Internet, em dùng công cụ nào?</p>
-<div class="options">
-<label><input type="radio" name="q5" value="A"> A. Máy tìm kiếm như Google, Bing, Cốc Cốc</label>
-<label><input type="radio" name="q5" value="B"> B. Phần mềm Paint</label>
-<label><input type="radio" name="q5" value="C"> C. Máy tính bỏ túi</label>
-<label><input type="radio" name="q5" value="D"> D. Đồng hồ điện tử</label>
-</div>
-<button onclick="checkAnswer('q5', 'A')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
-<div id="fb-q5" class="mt-2"></div>
-</div>
-<div class="question">
-<p class="font-semibold mb-2">Câu 6: Khi tìm kiếm thông tin, em NÊN làm gì?</p>
-<div class="options">
-<label><input type="radio" name="q6" value="A"> A. Gõ cả đoạn văn dài vào ô tìm kiếm</label>
-<label><input type="radio" name="q6" value="B"> B. Dùng từ khóa ngắn gọn, kiểm tra thông tin từ nhiều nguồn đáng tin cậy</label>
-<label><input type="radio" name="q6" value="C"> C. Tin ngay kết quả đầu tiên hiện ra</label>
-<label><input type="radio" name="q6" value="D"> D. Chỉ xem hình ảnh, không đọc chữ</label>
-</div>
-<button onclick="checkAnswer('q6', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
-<div id="fb-q6" class="mt-2"></div>
-</div>
-<div class="question">
-<p class="font-semibold mb-2">Câu 7: Các máy tính trong mạng có thể kết nối với nhau bằng cách nào?</p>
-<div class="options">
-<label><input type="radio" name="q7" value="A"> A. Chỉ bằng dây cáp</label>
-<label><input type="radio" name="q7" value="B"> B. Chỉ bằng sóng Wi-Fi</label>
-<label><input type="radio" name="q7" value="C"> C. Bằng dây cáp hoặc không dây (Wi-Fi)</label>
-<label><input type="radio" name="q7" value="D"> D. Không thể kết nối với nhau</label>
-</div>
-<button onclick="checkAnswer('q7', 'C')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
-<div id="fb-q7" class="mt-2"></div>
-</div>
-<div class="question">
-<p class="font-semibold mb-2">Câu 8: Lợi ích của mạng máy tính là:</p>
-<div class="options">
-<label><input type="radio" name="q8" value="A"> A. Chia sẻ dữ liệu và tài nguyên như máy in, tệp tin</label>
-<label><input type="radio" name="q8" value="B"> B. Làm máy tính chạy chậm hơn</label>
-<label><input type="radio" name="q8" value="C"> C. Tốn nhiều điện hơn</label>
-<label><input type="radio" name="q8" value="D"> D. Không có lợi ích gì</label>
-</div>
-<button onclick="checkAnswer('q8', 'A')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
-<div id="fb-q8" class="mt-2"></div>
-</div>
-<div class="question">
-<p class="font-semibold mb-2">Câu 9: URL là gì?</p>
-<div class="options">
-<label><input type="radio" name="q9" value="A"> A. Tên người dùng máy tính</label>
-<label><input type="radio" name="q9" value="B"> B. Địa chỉ riêng của mỗi trang web trên Internet</label>
-<label><input type="radio" name="q9" value="C"> C. Mật khẩu Wi-Fi</label>
-<label><input type="radio" name="q9" value="D"> D. Tên một loại virus</label>
-</div>
-<button onclick="checkAnswer('q9', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
-<div id="fb-q9" class="mt-2"></div>
-</div>
-<div class="question">
-<p class="font-semibold mb-2">Câu 10: Mạng máy tính trong phòng tin học của trường em thuộc loại nào?</p>
-<div class="options">
-<label><input type="radio" name="q10" value="A"> A. Mạng WAN</label>
-<label><input type="radio" name="q10" value="B"> B. Mạng toàn cầu</label>
-<label><input type="radio" name="q10" value="C"> C. Mạng LAN</label>
-<label><input type="radio" name="q10" value="D"> D. Không thuộc loại nào</label>
-</div>
-<button onclick="checkAnswer('q10', 'C')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
-<div id="fb-q10" class="mt-2"></div>
-</div>
-</div>
-<script>
-function checkAnswer(qid, correct) {
-    const selected = document.querySelector(`input[name="${qid}"]:checked`);
-    const feedback = document.getElementById(`fb-${qid}`);
-    if (!selected) { feedback.innerHTML = '<span class="text-orange-600">Hãy chọn đáp án!</span>'; return; }
-    if (selected.value === correct) {
-        feedback.innerHTML = '<span class="text-green-600 font-bold">✓ Đúng!</span>';
-    } else {
-        feedback.innerHTML = '<span class="text-red-600">✗ Chưa đúng. Đáp án đúng: ' + correct + '</span>';
-    }
-}
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Bài tập</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài tập Bài 3: Mạng máy tính và Internet</h1>
+            <p class="text-xs text-slate-500 mt-1">Tin học 6 • Bài 3: Mạng máy tính và Internet</p>
+        </div>
+        <div class="content-body space-y-4">
+<div class="saobay-exam10">
+<script type="application/json" class="saobay-exam10-data">
+{"sets": [{"name": "Đề 1", "questions": [{"type": "mcq", "level": "NB", "q": "Mạng máy tính là gì?", "options": ["A. Một chiếc máy tính cá nhân", "B. Tập hợp các máy tính kết nối với nhau để chia sẻ dữ liệu và tài nguyên", "C. Một phần mềm soạn thảo văn bản", "D. Một loại virus máy tính"], "answer": "B", "explain": "Mạng máy tính là tập hợp các máy tính kết nối với nhau để chia sẻ dữ liệu và tài nguyên.", "points": 0.25}, {"type": "mcq", "level": "NB", "q": "Mạng LAN có phạm vi như thế nào?", "options": ["A. Toàn cầu", "B. Một quốc gia", "C. Phạm vi hẹp: một phòng, một tòa nhà, một trường học", "D. Một châu lục"], "answer": "C", "explain": "Mạng LAN là mạng cục bộ có phạm vi hẹp như một phòng, một tòa nhà hay một trường học.", "points": 0.25}, {"type": "mcq", "level": "NB", "q": "Internet là gì?", "options": ["A. Mạng máy tính trong một phòng học", "B. Mạng máy tính toàn cầu kết nối hàng tỉ máy tính trên thế giới", "C. Một trình duyệt web", "D. Một máy tìm kiếm"], "answer": "B", "explain": "Internet là mạng máy tính toàn cầu, kết nối hàng tỉ máy tính và thiết bị trên khắp thế giới.", "points": 0.25}, {"type": "mcq", "level": "TH", "q": "Đâu KHÔNG phải là trình duyệt web?", "options": ["A. Google Chrome", "B. Microsoft Edge", "C. Microsoft Word", "D. Firefox"], "answer": "C", "explain": "Microsoft Word là phần mềm soạn thảo văn bản, không phải trình duyệt web như Chrome, Edge hay Firefox.", "points": 0.25}, {"type": "mcq", "level": "NB", "q": "Để tìm kiếm thông tin trên Internet, em dùng công cụ nào?", "options": ["A. Máy tìm kiếm như Google, Bing, Cốc Cốc", "B. Phần mềm Paint", "C. Máy tính bỏ túi", "D. Đồng hồ điện tử"], "answer": "A", "explain": "Muốn tìm kiếm thông tin trên Internet, em dùng máy tìm kiếm như Google, Bing hay Cốc Cốc.", "points": 0.25}, {"type": "mcq", "level": "TH", "q": "Khi tìm kiếm thông tin, em NÊN làm gì?", "options": ["A. Gõ cả đoạn văn dài vào ô tìm kiếm", "B. Dùng từ khóa ngắn gọn, kiểm tra thông tin từ nhiều nguồn đáng tin cậy", "C. Tin ngay kết quả đầu tiên hiện ra", "D. Chỉ xem hình ảnh, không đọc chữ"], "answer": "B", "explain": "Tìm kiếm hiệu quả cần dùng từ khóa ngắn gọn và kiểm chứng thông tin từ nhiều nguồn đáng tin cậy.", "points": 0.25}, {"type": "mcq", "level": "NB", "q": "Các máy tính trong mạng có thể kết nối với nhau bằng cách nào?", "options": ["A. Chỉ bằng dây cáp", "B. Chỉ bằng sóng Wi-Fi", "C. Bằng dây cáp hoặc không dây (Wi-Fi)", "D. Không thể kết nối với nhau"], "answer": "C", "explain": "Các máy tính trong mạng kết nối với nhau bằng dây cáp hoặc kết nối không dây qua Wi-Fi.", "points": 0.25}, {"type": "mcq", "level": "NB", "q": "Lợi ích của mạng máy tính là:", "options": ["A. Chia sẻ dữ liệu và tài nguyên như máy in, tệp tin", "B. Làm máy tính chạy chậm hơn", "C. Tốn nhiều điện hơn", "D. Không có lợi ích gì"], "answer": "A", "explain": "Lợi ích chính của mạng máy tính là chia sẻ dữ liệu và tài nguyên như tệp tin, máy in.", "points": 0.25}, {"type": "mcq", "level": "NB", "q": "URL là gì?", "options": ["A. Tên người dùng máy tính", "B. Địa chỉ riêng của mỗi trang web trên Internet", "C. Mật khẩu Wi-Fi", "D. Tên một loại virus"], "answer": "B", "explain": "URL là địa chỉ riêng của mỗi trang web trên Internet, dùng để truy cập đúng trang cần tìm.", "points": 0.25}, {"type": "mcq", "level": "TH", "q": "Mạng máy tính trong phòng tin học của trường em thuộc loại nào?", "options": ["A. Mạng WAN", "B. Mạng toàn cầu", "C. Mạng LAN", "D. Không thuộc loại nào"], "answer": "C", "explain": "Phòng tin học của trường có phạm vi hẹp nên mạng của nó thuộc loại mạng LAN.", "points": 0.25}]}]}
 </script>
+</div>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
 </body>
 </html>
