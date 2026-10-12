@@ -55,6 +55,7 @@ body{font-family:system-ui,-apple-system,sans-serif}
     </div>
 </div>
 
+<!-- SB_ESSAY_20261012_V1: GV cham lai tu luan trong bang diem -->
 <script>
 (function(){
     'use strict';
@@ -80,6 +81,23 @@ body{font-family:system-ui,-apple-system,sans-serif}
             await new Promise(function(r){ setTimeout(r, 1200); });
         }
         throw new Error('Không xóa được, vui lòng thử lại.');
+    }
+    // Ghi de file diem qua GAS proxy (dung cho GV cham lai tu luan) — cung co che retry 409 nhu xoa
+    async function gasPushScore(filePath, content, commitMessage){
+        let author = (sessionUser && (sessionUser.name || sessionUser.id)) || 'Admin';
+        for (let attempt = 0; attempt < 3; attempt++){
+            let res = await fetch(GAS_URL, {
+                method: 'POST',
+                headers: {'Content-Type': 'text/plain;charset=utf-8'},
+                body: JSON.stringify({ type: 'PUSH_TO_GITHUB', filePath: filePath, content: content, commitMessage: commitMessage, title: commitMessage, author: author })
+            });
+            let j = await res.json();
+            if (j && j.status === 'success') return true;
+            let msg = String((j && j.message) || '');
+            if (msg.indexOf('409') < 0) throw new Error(msg || 'Lưu điểm thất bại.');
+            await new Promise(function(r){ setTimeout(r, 1200); });
+        }
+        throw new Error('Không lưu được điểm, vui lòng thử lại.');
     }
     let sessionUser = null, mySubjects = [], exams = [], curResults = [], curExamId = '';
     let pvClasses = [];
@@ -333,7 +351,8 @@ body{font-family:system-ui,-apple-system,sans-serif}
                 + '<td class="px-2 py-2 text-slate-400">' + (i+1) + '</td>'
                 + '<td class="px-2 py-2 font-semibold">' + esc(r.student_name) + '</td>'
                 + '<td class="px-2 py-2">' + esc(r.student_class) + '</td>'
-                + '<td class="px-2 py-2 text-right font-black ' + color + '">' + esc(r.score) + '/' + esc(r.max_score) + '</td>'
+                + '<td class="px-2 py-2 text-right font-black ' + color + '">' + esc(r.score) + '/' + esc(r.max_score)
+                + (r.essay_pending ? '<div class="text-[10px] font-bold text-violet-700">✍️ Tự luận chờ GV chấm</div>' : (Array.isArray(r.essays) && r.essays.length ? '<div class="text-[10px] font-bold text-emerald-600">✍️ Đã chấm tự luận</div>' : '')) + '</td>'
                 + '<td class="px-2 py-2 text-right text-slate-500">' + esc(r.correct) + '/' + esc(r.total) + '</td>'
                 + '<td class="px-2 py-2 text-slate-500 whitespace-nowrap">' + esc(fmtTime(r.submitted_at)) + '</td>'
                 + '<td class="px-2 py-2 text-center"><button onclick="viewScoreDetail(' + i + ')" title="Xem bài làm chi tiết" class="text-blue-600 hover:text-blue-800 hover:bg-blue-50 px-2 py-1 rounded"><i class="fa-solid fa-eye"></i></button></td>'
@@ -350,6 +369,7 @@ body{font-family:system-ui,-apple-system,sans-serif}
         var h = '<div class="p-4 max-h-[70vh] overflow-y-auto">';
         h += '<h3 class="font-bold text-lg mb-1">' + esc(r.student_name || '') + ' <span class="text-sm font-normal text-slate-500">' + esc(r.student_class || '') + '</span></h3>';
         h += '<p class="text-sm text-slate-600 mb-3">Điểm: <b class="text-emerald-700">' + esc(r.score) + '/' + esc(r.max_score) + '</b> • Đúng ' + esc(r.correct) + '/' + esc(r.total) + ' câu • Nộp lúc ' + esc(fmtTime(r.submitted_at)) + '</p>';
+        h += essayGradeHtml(r, idx);
         var ans = r.answers || r.details || [];
         if (Array.isArray(ans) && ans.length){
             h += '<table class="w-full text-xs border"><thead><tr class="bg-slate-100"><th class="px-2 py-1 text-left">Câu</th><th class="px-2 py-1 text-left">HS chọn</th><th class="px-2 py-1 text-left">Đáp án đúng</th><th class="px-2 py-1 text-center">KQ</th></tr></thead><tbody>';
@@ -383,6 +403,70 @@ body{font-family:system-ui,-apple-system,sans-serif}
         document.getElementById('score-detail-body').innerHTML = h;
     };
 
+
+    // === SB_ESSAY_20261012_V1: khoi cham tu luan trong modal chi tiet ===
+    function essayGradeHtml(r, idx){
+        if (!Array.isArray(r.essays) || !r.essays.length) return '';
+        var h = '<div class="mb-4 border-2 border-violet-200 bg-violet-50 rounded-xl p-3">';
+        h += '<p class="text-sm font-black text-violet-900 mb-1">✍️ Chấm tự luận (' + r.essays.length + ' câu)'
+            + (r.essay_pending ? ' <span class="text-[11px] bg-violet-600 text-white px-2 py-0.5 rounded-full">Máy đã chấm sẵn — chờ GV chấm lại</span>'
+                : ' <span class="text-[11px] bg-emerald-600 text-white px-2 py-0.5 rounded-full">Đã chấm lại' + (r.graded_by ? ' bởi ' + esc(r.graded_by) : '') + '</span>') + '</p>';
+        r.essays.forEach(function(en, j){
+            var cur = (en.teacher != null && en.teacher !== '') ? en.teacher : (en.auto || 0);
+            h += '<div class="bg-white border border-violet-100 rounded-lg p-3 mb-2">';
+            h += '<p class="text-xs font-bold text-slate-800">Câu ' + (j + 1) + ': ' + esc(en.q || '') + '</p>';
+            h += '<p class="text-[11px] text-slate-500 mt-1 mb-0.5">Bài làm của học sinh:</p>';
+            h += '<div class="text-xs bg-slate-50 border border-slate-200 rounded-lg p-2 whitespace-pre-wrap max-h-40 overflow-y-auto">' + (en.student ? esc(en.student) : '<i class="text-slate-400">(Để trống)</i>') + '</div>';
+            if (en.model) h += '<p class="text-[11px] text-slate-500 mt-2 mb-0.5">Đáp án mẫu:</p><div class="text-xs bg-emerald-50 border border-emerald-100 rounded-lg p-2 whitespace-pre-wrap max-h-32 overflow-y-auto">' + esc(en.model) + '</div>';
+            if (en.barem) h += '<p class="text-[11px] text-slate-500 mt-2 mb-0.5">Barem:</p><div class="text-xs bg-amber-50 border border-amber-100 rounded-lg p-2 whitespace-pre-wrap max-h-32 overflow-y-auto">' + esc(en.barem) + '</div>';
+            if (Array.isArray(en.items) && en.items.length){
+                h += '<p class="text-[11px] text-slate-500 mt-2 mb-0.5">Máy chấm sẵn theo barem: <b>' + esc(en.auto != null ? en.auto : 0) + '/' + esc(en.max || 0) + ' điểm</b></p>';
+                h += '<ul class="text-[11px] text-slate-600">' + en.items.map(function(it){ return '<li>' + (it.got ? '✓' : '✗') + ' ' + esc(it.label || '') + ' (' + esc(it.pts) + 'đ)</li>'; }).join('') + '</ul>';
+            }
+            h += '<div class="mt-2 flex items-center gap-2"><label class="text-xs font-bold">Điểm GV chấm:</label>'
+                + '<input type="number" id="essay-final-' + idx + '-' + j + '" step="0.05" min="0" max="' + esc(en.max || 0) + '" value="' + esc(cur) + '" class="w-24 px-2 py-1.5 border border-violet-300 rounded-lg text-sm font-bold">'
+                + '<span class="text-xs text-slate-500">/ ' + esc(en.max || 0) + ' điểm</span></div>';
+            h += '</div>';
+        });
+        h += '<button id="essay-save-' + idx + '" onclick="saveEssayGrades(' + idx + ')" class="bg-violet-700 hover:bg-violet-800 text-white text-xs font-bold px-4 py-2 rounded-lg">💾 Lưu điểm chấm lại</button>';
+        h += '<span class="text-[11px] text-slate-500 ml-2">Lưu xong điểm tổng tự cập nhật (trừ điểm máy gợi ý, cộng điểm GV).</span>';
+        h += '</div>';
+        return h;
+    }
+
+    window.saveEssayGrades = async function(idx){
+        var r = curResults[idx];
+        if (!r || !Array.isArray(r.essays) || !r.essays.length) return;
+        var finals = [], sumAuto = 0, sumFinal = 0;
+        for (var j = 0; j < r.essays.length; j++){
+            var en = r.essays[j];
+            var inp = document.getElementById('essay-final-' + idx + '-' + j);
+            var v = inp ? parseFloat(inp.value) : NaN;
+            if (isNaN(v) || v < 0 || v > (parseFloat(en.max) || 0)){ alert('Điểm câu tự luận ' + (j + 1) + ' chưa hợp lệ (phải từ 0 đến ' + en.max + ').'); return; }
+            v = Math.round(v * 100) / 100;
+            finals.push(v); sumAuto += (parseFloat(en.auto) || 0); sumFinal += v;
+        }
+        var btn = document.getElementById('essay-save-' + idx);
+        if (btn){ btn.disabled = true; btn.textContent = '⏳ Đang lưu...'; }
+        try {
+            var updated = Object.assign({}, r);
+            delete updated._fileName;
+            updated.essays = r.essays.map(function(en, j){ var c = Object.assign({}, en); c.teacher = finals[j]; return c; });
+            updated.score = Math.round(((parseFloat(r.score) || 0) - sumAuto + sumFinal) * 100) / 100;
+            updated.essay_pending = false;
+            updated.graded_at = new Date().toISOString();
+            updated.graded_by = (sessionUser && (sessionUser.name || sessionUser.id)) || '';
+            var path = SCORES_DIR + '/' + curExamId + '/' + r._fileName;
+            await gasPushScore(path, JSON.stringify(updated), 'GV cham lai tu luan: ' + (r.student_name || '') + ' (' + r._fileName + ')');
+            r.essays = updated.essays; r.score = updated.score; r.essay_pending = false; r.graded_at = updated.graded_at; r.graded_by = updated.graded_by;
+            renderTable();
+            viewScoreDetail(idx);
+            alert('✅ Đã lưu điểm chấm lại. Điểm tổng mới: ' + updated.score + '/' + updated.max_score);
+        } catch(e){
+            alert('Lỗi lưu điểm: ' + (e.message || e));
+            if (btn){ btn.disabled = false; btn.textContent = '💾 Lưu điểm chấm lại'; }
+        }
+    };
 
     window.deleteScore = async function(fileName, studentName){
         if (!fileName) { alert('Không xác định được file điểm.'); return; }
