@@ -1091,31 +1091,87 @@ function submitLegacyExam(){
 
 <script>
 // 2026-10-11: Ham bao loi cau hoi
+// SB_REPORTQ_20261012_V2: HS bam "Bao loi" o tung cau -> gui THANG vao data/reports/index.json
+// (bo han copy noi dung + gui Zalo). Ban ghi kem LINK mo dung cho loi (?sbopen=<file>#qN),
+// noi dung cau va thong tin bo de de admin/GV bam vao la toi noi kiem tra ngay.
 function saobayReportQ(btn){
     try{
-        let qEl = btn.closest('[data-qidx]') || btn.closest('.exam10-q');
-        let qIdx = qEl ? (qEl.getAttribute('data-qidx') || '') : '';
-        let qText = '';
-        let qTitle = qEl ? qEl.querySelector('.exam10-qtitle, .q-title, b') : null;
-        if(qTitle) qText = qTitle.innerText.substring(0,200);
-        let pageUrl = location.href.split('#')[0] + (qIdx !== '' ? '#q'+qIdx : '');
-        let msg = prompt('Mô tả lỗi của câu hỏi này:\n(Ví dụ: đáp án sai, công thức không hiện, ...)');
+        var cu = null;
+        try { cu = (typeof currentUser !== 'undefined' && currentUser) ? currentUser : JSON.parse(localStorage.getItem('saobay_user') || 'null'); } catch(e){}
+        if(!cu || !cu.id){
+            alert('Bạn cần đăng nhập để báo lỗi!');
+            if(window.showLoginModal) showLoginModal();
+            return;
+        }
+        var qEl = btn.closest('.exam10-q') || btn.closest('[data-qidx]') || btn.closest('.question-card');
+        var qNum = 0;
+        if(qEl){
+            if(qEl.getAttribute('data-qi') != null) qNum = (parseInt(qEl.getAttribute('data-qi'), 10) || 0) + 1;
+            else if(qEl.getAttribute('data-qidx')) qNum = parseInt(qEl.getAttribute('data-qidx'), 10) || 0;
+            if(!qNum && qEl.classList.contains('question-card')){
+                var cards = document.querySelectorAll('.question-card');
+                for(var i = 0; i < cards.length; i++){ if(cards[i] === qEl){ qNum = i + 1; break; } }
+            }
+        }
+        var qText = '';
+        if(qEl){
+            var tEl = qEl.querySelector('.exam10-qtitle, .q-title, div.font-bold, b');
+            if(tEl) qText = String(tEl.innerText || tEl.textContent || '').replace(/\s+/g, ' ').trim().replace(/^Câu\s*\d+\s*[:.]\s*/, '').substring(0, 300);
+        }
+        var msg = prompt('Mô tả lỗi của câu ' + (qNum || '') + ':\n(Ví dụ: đáp án sai, công thức không hiện, ...)');
         if(msg === null) return;
         if(!msg.trim()){ alert('Bạn chưa nhập mô tả lỗi.'); return; }
-        // Tạo nội dung báo cáo để HS gửi cho GV qua Zalo
-        let report = '🚨 BÁO LỖI CÂU HỎI\n\nBài: ' + document.title + '\nLink: ' + pageUrl + '\nCâu: ' + (qText || '(không lấy được nội dung)') + '\nLỗi: ' + msg.trim();
-        // Copy vào clipboard
-        if(navigator.clipboard){
-            navigator.clipboard.writeText(report).then(function(){
-                alert('Đã copy nội dung báo lỗi!\nBạn hãy gửi cho thầy cô qua Zalo để được sửa.\n\n' + report.substring(0,200) + '...');
-            }).catch(function(){
-                prompt('Copy nội dung dưới đây để gửi cho thầy cô:', report);
+        var pagePath = '';
+        try { pagePath = window._currentFilePath || ''; } catch(e){}
+        var pageTitle = (document.getElementById('exam-title-display') || {}).textContent || (document.getElementById('lesson-title-display') || {}).textContent || document.title || '';
+        var setInfo = '';
+        var setEl = document.querySelector('.exam10-set-count') || document.querySelector('.exam10-set-label');
+        if(setEl) setInfo = String(setEl.innerText || setEl.textContent || '').replace(/\s+/g, ' ').trim().substring(0, 80);
+        var link = 'https://saobay.github.io/index.html' + (pagePath ? ('?sbopen=' + encodeURIComponent(pagePath)) : '') + (qNum ? ('#q' + qNum) : '');
+        var rep = {
+            id: 'RP' + Date.now(),
+            student_name: cu.name || cu.username || '',
+            student_id: cu.id || '',
+            student_class: cu.class || cu.className || '',
+            reporter_role: cu.role || '',
+            type: 'exercise', subtype: 'question',
+            page_title: String(pageTitle).trim(),
+            page_path: pagePath,
+            question_num: qNum ? String(qNum) : '',
+            question_text: qText,
+            exam_set: setInfo,
+            link: link,
+            description: msg.trim(),
+            status: 'pending',
+            created_at: new Date().toISOString()
+        };
+        var GAS_URL = (typeof API_URL !== 'undefined' && API_URL) || 'https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec';
+        function loadIdx(){ return fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/data/reports/index.json?t=' + Date.now()).then(function(r){ return r.json(); }).catch(function(){ return { reports: [] }; }); }
+        function pushIdx(jj){ return fetch(GAS_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ type: 'PUSH_TO_GITHUB', filePath: 'data/reports/index.json', content: JSON.stringify(jj, null, 1), commitMessage: 'HS bao loi cau ' + (qNum || '') + ': ' + (rep.page_title || '') }) }).then(function(r){ return r.json(); }); }
+        btn.disabled = true;
+        loadIdx().then(function(j){
+            if(!j || !Array.isArray(j.reports)) j = { reports: [] };
+            j.reports.push(rep); j.updated = new Date().toISOString();
+            return pushIdx(j);
+        }).then(function(res){
+            if(res && (res.status === 'success' || res.status === 'ok')){
+                alert('Đã gửi báo lỗi! Cảm ơn bạn. Nếu báo đúng bạn sẽ được +5 điểm năng động. ⭐');
+                return null;
+            }
+            return loadIdx().then(function(j2){
+                if(!j2 || !Array.isArray(j2.reports)) j2 = { reports: [] };
+                if(!j2.reports.some(function(x){ return x.id === rep.id; })) j2.reports.push(rep);
+                j2.updated = new Date().toISOString();
+                return pushIdx(j2);
+            }).then(function(res2){
+                if(res2 && (res2.status === 'success' || res2.status === 'ok')) alert('Đã gửi báo lỗi! Cảm ơn bạn. Nếu báo đúng bạn sẽ được +5 điểm năng động. ⭐');
+                else alert('Gửi thất bại, thử lại sau.');
             });
-        } else {
-            prompt('Copy nội dung dưới đây để gửi cho thầy cô:', report);
-        }
+        }).catch(function(){ alert('Lỗi kết nối, thử lại sau.'); })
+        .then(function(){ btn.disabled = false; });
     }catch(e){ alert('Có lỗi xảy ra: ' + e.message); }
 }
+
 // Tự động cuộn đến câu hỏi khi có hash #qN
 (function(){
     function scrollToQ(){
@@ -2139,5 +2195,66 @@ window.sbEssayAuto = function(text, q){
   };
 })();
 </script>
+<script>
+/* SB_REPORTLINK_20261012_V1: mo LINK bao loi tu module Bao Loi cua GV/Admin.
+   Link dang: index.html?sbopen=<duong dan file bai>#q<N> -> tu mo dung bai do,
+   cuon toi cau N va to sang 6 giay. Chi chay khi co tham so sbopen hoac hash #qN. */
+(function(){
+  if (window.__sbReportLink) return; window.__sbReportLink = 1;
+  function qTarget(){
+    var m = /^#q(\d+)$/.exec(location.hash || '');
+    return m ? parseInt(m[1], 10) : 0;
+  }
+  function highlight(el){
+    if (!el) return;
+    try { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch(e){}
+    var old = el.style.outline || '';
+    el.style.outline = '3px solid #f59e0b'; el.style.outlineOffset = '2px';
+    setTimeout(function(){ el.style.outline = old; }, 6000);
+  }
+  function findQ(n){
+    return document.querySelector('.exam10-q[data-qi="' + (n - 1) + '"]')
+        || document.querySelector('[data-qidx="' + n + '"]')
+        || document.querySelectorAll('.question-card')[n - 1] || null;
+  }
+  function scrollWhenReady(n, tries){
+    var el = findQ(n);
+    if (el){ highlight(el); return; }
+    if (tries > 0) setTimeout(function(){ scrollWhenReady(n, tries - 1); }, 700);
+  }
+  function run(){
+    var n = qTarget();
+    var open = null;
+    try { open = new URLSearchParams(location.search).get('sbopen'); } catch(e){}
+    if (open){
+      var tries = 0;
+      (function waitFile(){
+        tries++;
+        try {
+          if (typeof driveFiles !== 'undefined' && driveFiles && driveFiles.length){
+            var f = null;
+            for (var i = 0; i < driveFiles.length; i++){
+              var x = driveFiles[i];
+              if ((x.filePath || x.FolderID || '') === open || String(x.ItemID || x.id || '') === open){ f = x; break; }
+            }
+            if (f && typeof selectItemDetail === 'function'){
+              selectItemDetail(f.ItemID || f.id);
+              if (n) scrollWhenReady(n, 25);
+              return;
+            }
+          }
+        } catch(e){}
+        if (tries < 30) setTimeout(waitFile, 700);
+        else if (n) scrollWhenReady(n, 5);
+      })();
+    } else if (n){
+      scrollWhenReady(n, 25);
+    }
+  }
+  if (document.readyState === 'complete') setTimeout(run, 800);
+  else window.addEventListener('load', function(){ setTimeout(run, 800); });
+})();
+</script>
+
 </body>
 </html>
