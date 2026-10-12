@@ -64,22 +64,30 @@
     function escHtml(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
     window.rpResolve = async function(id, valid){
-        var rp = (typeof reports !== 'undefined' ? reports : []).find(function(x){ return x.id === id; });
+        var rp = reports.find(function(x){ return x.id === id; });
         var isFormula = rp && rp.type === 'formula_error';
         var msg = valid
             ? (isFormula ? 'Xác nhận đã SỬA XONG lỗi công thức này?' : 'Xác nhận báo cáo ĐÚNG? HS sẽ được +5 điểm năng động.')
             : 'Xác nhận báo cáo SAI và bỏ qua?';
         if (!confirm(msg)) return;
         try {
+            // SB_REPORTFIX_20261012_V1: ghi thang vao data/reports/index.json qua PUSH_TO_GITHUB (GAS khong co action resolveReport)
+            let r0 = await fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/data/reports/index.json?t=' + Date.now());
+            let j0 = r0.ok ? await r0.json() : { reports: [] };
+            if (!j0 || !Array.isArray(j0.reports)) j0 = { reports: [] };
+            let target = j0.reports.find(function(x){ return x.id === id; });
+            if (!target){ alert('Không tìm thấy báo cáo trong dữ liệu mới nhất.'); return; }
+            target.status = valid ? 'resolved' : 'rejected';
+            target.resolved_at = new Date().toISOString();
+            target.valid = !!valid;
+            j0.updated = new Date().toISOString();
             let r = await fetch('https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec', {
-                method: 'POST',
-                body: JSON.stringify({ action: 'resolveReport', id: id, valid: valid })
+                method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify({ type: 'PUSH_TO_GITHUB', filePath: 'data/reports/index.json', content: JSON.stringify(j0, null, 1), commitMessage: 'Xu ly bao loi ' + id })
             });
             let j = await r.json();
-            if (j.ok){
-                var rp2 = (typeof reports !== 'undefined' ? reports : []).find(function(x){ return x.id === id; });
-                var isF = rp2 && rp2.type === 'formula_error';
-                alert(valid ? (isF ? 'Đã đánh dấu sửa xong!' : 'Đã duyệt! HS được +5 điểm năng động. ⭐') : 'Đã bỏ qua báo cáo.');
+            if (j && (j.status === 'success' || j.status === 'ok')){
+                alert(valid ? (isFormula ? 'Đã đánh dấu sửa xong!' : 'Đã duyệt! HS được +5 điểm năng động. ⭐') : 'Đã bỏ qua báo cáo.');
                 loadReports();
             } else alert('Lỗi, thử lại sau.');
         } catch(e){ alert('Lỗi kết nối.'); }
