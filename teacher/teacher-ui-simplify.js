@@ -1485,6 +1485,148 @@ console.log('SAOBAY wrap 0630 loaded');
     students.sort(function(a, b){ return b.avg - a.avg; });
     return { count: count, nStu: students.length, avg: count ? sumPct / count : 0, passRate: count ? pass / count * 100 : 0, bands: bands, nExam: Object.keys(exams).length, students: students };
   }
+  /* ===== SB_SEMDRILL_20261012_V1: Thong ke phan cap Lop -> Bai kiem tra -> DS hoc sinh -> Xem lai bai lam tung cau =====
+     Xem lai bai lam doc rec.details do SB_DETAILCAP_20261012_V1 (index.html) luu khi HS nop bai;
+     bai nop cu chua co details thi chi hien diem tong + thong bao. */
+  semState.view = 'exams'; semState.examIdx = -1; semState.examCtx = ''; semState._examGroups = null;
+  function semPct(r){ return parseFloat(r.max_score) > 0 ? parseFloat(r.score) / parseFloat(r.max_score) * 100 : 0; }
+  function semSubsFiltered(cls, range){
+    return (semState.subs || []).filter(function(r){
+      var t = new Date(r.submitted_at).getTime();
+      return t >= range.from.getTime() && t <= range.to.getTime() && semMatch(r, cls);
+    });
+  }
+  function semExamGroups(cls, range){
+    var map = {}, order = [];
+    semSubsFiltered(cls, range).forEach(function(r){
+      var key = String(r.exam_id || '') + '|' + String(r.exam_title || '');
+      if (!map[key]){ map[key] = { key: key, title: r.exam_title || '(không tên)', subs: [] }; order.push(map[key]); }
+      map[key].subs.push(r);
+    });
+    order.forEach(function(g){
+      var names = {}, sum = 0, pass = 0, last = 0;
+      g.subs.forEach(function(r){
+        names[semNorm(r.student_name)] = 1;
+        var pct = semPct(r);
+        sum += pct; if (pct >= 50) pass++;
+        var t = new Date(r.submitted_at).getTime(); if (t > last) last = t;
+      });
+      g.nStu = Object.keys(names).length;
+      g.avg = g.subs.length ? sum / g.subs.length : 0;
+      g.passRate = g.subs.length ? pass / g.subs.length * 100 : 0;
+      g.last = last;
+    });
+    order.sort(function(a, b){ return b.last - a.last; });
+    return order;
+  }
+  window.semGoExam = function(i){ semState.view = 'exam'; semState.examIdx = i; semRender(); };
+  window.semBackExams = function(){ semState.view = 'exams'; semRender(); };
+  window.semOpenReview = function(sid){ semShowReview(sid); };
+  window.semCloseReview = function(){ var ov = document.getElementById('sb-sem-review'); if (ov) ov.remove(); };
+  function semExamListHtml(cls, range){
+    var groups = semExamGroups(cls, range);
+    semState._examGroups = groups;
+    if (!groups.length) return '';
+    var h = '<p class="text-xs font-black text-slate-700 mt-4">📝 Bài kiểm tra / bài tập trong kì (' + groups.length + ') — bấm vào một bài để xem danh sách học sinh đã làm</p>';
+    h += '<div class="space-y-1.5 mt-1.5">';
+    groups.forEach(function(g, i){
+      h += '<button type="button" onclick="semGoExam(' + i + ')" class="w-full text-left bg-white border border-slate-200 hover:border-purple-400 hover:bg-purple-50 rounded-xl px-3 py-2 transition">'
+        + '<span class="block text-xs font-bold text-slate-800">' + semEsc(g.title) + '</span>'
+        + '<span class="block text-[11px] text-slate-500 mt-0.5">' + g.nStu + ' HS · ' + g.subs.length + ' lượt nộp · Điểm TB ' + (g.avg / 10).toFixed(2) + ' · Đạt ' + g.passRate.toFixed(0) + '% · Gần nhất ' + semEsc(semFmtDT(new Date(g.last).toISOString())) + '</span></button>';
+    });
+    return h + '</div>';
+  }
+  function semExamDetailHtml(cls, range){
+    var groups = (semState._examGroups && semState._examGroups.length) ? semState._examGroups : semExamGroups(cls, range);
+    var g = groups[semState.examIdx];
+    if (!g){ semState.view = 'exams'; return semExamListHtml(cls, range); }
+    var byStu = {}, counts = {};
+    g.subs.forEach(function(r){
+      var k = semNorm(r.student_name);
+      counts[k] = (counts[k] || 0) + 1;
+      if (!byStu[k] || new Date(r.submitted_at).getTime() > new Date(byStu[k].submitted_at).getTime()) byStu[k] = r;
+    });
+    var rows = Object.keys(byStu).map(function(k){ return { rec: byStu[k], count: counts[k] || 1 }; });
+    rows.sort(function(a, b){ return semPct(b.rec) - semPct(a.rec); });
+    var h = '<div class="mt-4"><button type="button" onclick="semBackExams()" class="text-xs font-bold bg-slate-200 hover:bg-slate-300 text-slate-700 px-3 py-1.5 rounded-lg">← Quay lại danh sách bài</button></div>';
+    h += '<p class="text-sm font-black text-slate-800 mt-2">' + semEsc(g.title) + '</p>';
+    h += '<p class="text-[11px] text-slate-500">' + g.nStu + ' học sinh · ' + g.subs.length + ' lượt nộp (bảng dưới lấy lần nộp mới nhất của mỗi em) · bấm <b>Xem bài làm</b> để mở lại bài như lúc em đó thi.</p>';
+    h += '<div class="overflow-x-auto mt-2"><table class="w-full text-xs"><thead><tr class="bg-slate-100 text-slate-600"><th class="px-2 py-1.5 text-left">STT</th><th class="px-2 py-1.5 text-left">Học sinh</th><th class="px-2 py-1.5 text-right">Điểm</th><th class="px-2 py-1.5 text-right">Đúng</th><th class="px-2 py-1.5 text-left">Nộp lúc</th><th class="px-2 py-1.5 text-left"></th></tr></thead><tbody>';
+    rows.forEach(function(row, i){
+      var r = row.rec;
+      var diem = parseFloat(r.max_score) > 0 ? (parseFloat(r.score) / parseFloat(r.max_score) * 10) : (parseFloat(r.score) || 0);
+      h += '<tr class="border-t"><td class="px-2 py-1.5 text-slate-400">' + (i + 1) + '</td>'
+        + '<td class="px-2 py-1.5 font-semibold">' + semEsc(r.student_name) + (row.count > 1 ? ' <span class="text-[10px] text-slate-400">(nộp ' + row.count + ' lần)</span>' : '') + '</td>'
+        + '<td class="px-2 py-1.5 text-right font-black">' + diem.toFixed(2) + '</td>'
+        + '<td class="px-2 py-1.5 text-right">' + (r.correct != null && r.total != null ? r.correct + '/' + r.total : '—') + '</td>'
+        + '<td class="px-2 py-1.5 text-slate-500">' + semEsc(semFmtDT(r.submitted_at)) + '</td>'
+        + '<td class="px-2 py-1.5"><button type="button" onclick="semOpenReview(' + (semState.subs || []).indexOf(r) + ')" class="text-[11px] font-bold bg-purple-700 hover:bg-purple-800 text-white px-2.5 py-1.5 rounded-lg whitespace-nowrap">👁 Xem bài làm</button></td></tr>';
+    });
+    return h + '</tbody></table></div>';
+  }
+  function semDetailCard(d){
+    var st = d.st || '';
+    var bd = st === 'ok' ? '#16a34a' : st === 'bad' ? '#dc2626' : st === 'partial' ? '#d97706' : '#cbd5e1';
+    var bg = st === 'ok' ? '#f0fdf4' : st === 'bad' ? '#fef2f2' : st === 'partial' ? '#fffbeb' : '#ffffff';
+    var badge = st === 'ok' ? '<span style="color:#16a34a;font-weight:900;">✓ Đúng</span>' : st === 'bad' ? '<span style="color:#dc2626;font-weight:900;">✗ Sai</span>' : st === 'partial' ? '<span style="color:#d97706;font-weight:900;">◐ Đúng một phần</span>' : '<span style="color:#94a3b8;font-weight:900;">— Chưa rõ</span>';
+    var h = '<div style="border:1.5px solid ' + bd + ';background:' + bg + ';border-radius:12px;padding:10px 12px;margin-bottom:10px;">'
+      + '<p style="font-size:13px;font-weight:700;color:#1e293b;"><span style="color:#7c3aed;">Câu ' + semEsc(String(d.n == null ? '' : d.n)) + ':</span> ' + semEsc(d.q || '') + ' <span style="float:right;">' + badge + '</span></p>';
+    if (d.opts && d.opts.length){
+      var m = /Đáp án đúng:\s*([A-Za-z])/.exec(d.fb || '');
+      var correctV = m ? m[1].toUpperCase() : '';
+      h += '<div style="margin-top:8px;display:flex;flex-direction:column;gap:4px;">' + d.opts.map(function(o){
+        var isCorrect = !!o.pc || (correctV && String(o.v || '').toUpperCase() === correctV);
+        var style = 'border:1px solid #e2e8f0;background:#fff;border-radius:8px;padding:6px 9px;font-size:12px;';
+        if (o.pc) style = 'border:1px solid #16a34a;background:#dcfce7;border-radius:8px;padding:6px 9px;font-size:12px;';
+        else if (o.pw) style = 'border:1px solid #dc2626;background:#fee2e2;border-radius:8px;padding:6px 9px;font-size:12px;';
+        else if (isCorrect) style = 'border:1px solid #16a34a;background:#f0fdf4;border-radius:8px;padding:6px 9px;font-size:12px;';
+        var tags = '';
+        if (o.pick) tags += ' <span style="background:#2563eb;color:#fff;border-radius:6px;padding:1px 6px;font-size:10px;font-weight:800;">HS chọn</span>';
+        if (isCorrect) tags += ' <span style="background:#16a34a;color:#fff;border-radius:6px;padding:1px 6px;font-size:10px;font-weight:800;">Đáp án đúng</span>';
+        return '<div style="' + style + '"><b>' + semEsc(o.v || '') + '.</b> ' + semEsc(o.t || '') + tags + '</div>';
+      }).join('') + '</div>';
+    } else if (d.ans){
+      h += '<p style="margin-top:8px;font-size:12px;">HS trả lời: <b>' + semEsc(d.ans) + '</b></p>';
+    }
+    if (d.fb) h += '<div style="margin-top:8px;background:rgba(255,255,255,.75);border:1px dashed #cbd5e1;border-radius:8px;padding:7px 9px;font-size:12px;color:#334155;white-space:pre-wrap;">' + semEsc(d.fb) + '</div>';
+    return h + '</div>';
+  }
+  function semShowReview(sid){
+    var r = (semState.subs || [])[sid]; if (!r) return;
+    semCloseReview();
+    var ov = document.createElement('div');
+    ov.id = 'sb-sem-review';
+    ov.style.cssText = 'position:fixed;inset:0;z-index:9990;background:rgba(15,23,42,.55);overflow-y:auto;padding:10px;';
+    var diem = parseFloat(r.max_score) > 0 ? (parseFloat(r.score) / parseFloat(r.max_score) * 10) : (parseFloat(r.score) || 0);
+    var h = '<div style="max-width:820px;margin:0 auto;background:#fff;border-radius:16px;overflow:hidden;">'
+      + '<div style="position:sticky;top:0;background:#fff;border-bottom:1px solid #e2e8f0;padding:12px 16px;display:flex;gap:8px;align-items:flex-start;z-index:2;">'
+      + '<div style="flex:1;min-width:0;"><p style="font-weight:900;font-size:15px;color:#1e293b;">👁 Bài làm của ' + semEsc(r.student_name) + '</p>'
+      + '<p style="font-size:12px;color:#64748b;">' + semEsc(r.exam_title || '') + ' · Nộp ' + semEsc(semFmtDT(r.submitted_at)) + (r.student_class ? ' · Lớp ' + semEsc(r.student_class) : '') + '</p></div>'
+      + '<div style="text-align:center;"><p style="font-size:20px;font-weight:900;color:#7c3aed;">' + diem.toFixed(2) + '</p><p style="font-size:10px;color:#94a3b8;">' + semEsc(String(r.score)) + '/' + semEsc(String(r.max_score)) + ' điểm' + (r.correct != null && r.total != null ? ' · đúng ' + r.correct + '/' + r.total + ' câu' : '') + '</p></div>'
+      + '<button type="button" onclick="semCloseReview()" style="font-weight:900;background:#e2e8f0;border:0;border-radius:10px;padding:6px 12px;font-size:13px;cursor:pointer;">✕ Đóng</button></div>'
+      + '<div style="padding:14px 16px;">';
+    if (Array.isArray(r.details) && r.details.length){
+      h += r.details.map(semDetailCard).join('');
+    } else {
+      h += '<div style="background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:12px;font-size:12px;color:#92400e;">Bài nộp này được nộp <b>trước khi hệ thống lưu chi tiết từng câu</b> nên chỉ xem được điểm tổng ở trên. Các bài nộp từ nay trở đi sẽ xem lại được từng câu, đúng như lúc học sinh thi.</div>';
+    }
+    if (Array.isArray(r.essays) && r.essays.length){
+      h += '<p style="font-weight:900;font-size:13px;margin:14px 0 6px;">✍️ Câu tự luận</p>' + r.essays.map(function(en){
+        return '<div style="border:1px solid #ddd6fe;background:#f5f3ff;border-radius:12px;padding:10px 12px;margin-bottom:8px;font-size:12px;">'
+          + '<p style="font-weight:700;">' + semEsc(en.q || '') + '</p>'
+          + '<p style="margin-top:6px;"><b>Bài làm của HS:</b></p><div style="white-space:pre-wrap;background:#fff;border:1px solid #e9d5ff;border-radius:8px;padding:8px;">' + semEsc(en.student || '(trống)') + '</div>'
+          + (en.model ? '<p style="margin-top:6px;"><b>Đáp án mẫu:</b></p><div style="white-space:pre-wrap;">' + semEsc(en.model) + '</div>' : '')
+          + '<p style="margin-top:6px;color:#6d28d9;">Điểm máy gợi ý: <b>' + semEsc(String(en.auto == null ? '' : en.auto)) + '/' + semEsc(String(en.max == null ? '' : en.max)) + '</b> (GV chấm lại mới là điểm chính thức)</p></div>';
+      }).join('');
+    }
+    h += '</div></div>';
+    ov.innerHTML = h;
+    ov.addEventListener('click', function(e){ if (e.target === ov) semCloseReview(); });
+    document.body.appendChild(ov);
+    try { if (window.MathJax && window.MathJax.typesetPromise) window.MathJax.typesetPromise([ov]).catch(function(){}); } catch(e){}
+  }
+  /* ===== HẾT SB_SEMDRILL_20261012_V1 ===== */
+
   function semRender(){
     var sel = document.getElementById('sb-sem-class');
     var body = document.getElementById('sb-sem-body');
@@ -1519,11 +1661,20 @@ console.log('SAOBAY wrap 0630 loaded');
       + card('Tỉ lệ đạt', a.passRate.toFixed(0) + '%', 'đạt = từ 50% điểm tối đa')
       + '</div>';
     h += '<p class="text-xs mt-2">Phân bố: <span class="font-bold text-emerald-700">Giỏi ' + a.bands.gioi + '</span> · <span class="font-bold text-blue-700">Khá ' + a.bands.kha + '</span> · <span class="font-bold text-amber-700">Trung bình ' + a.bands.tb + '</span> · <span class="font-bold text-rose-700">Yếu ' + a.bands.yeu + '</span></p>';
-    h += '<div class="overflow-x-auto mt-2"><table class="w-full text-xs"><thead><tr class="bg-slate-100 text-slate-600"><th class="px-2 py-1.5 text-left">STT</th><th class="px-2 py-1.5 text-left">Học sinh</th><th class="px-2 py-1.5 text-right">Số bài</th><th class="px-2 py-1.5 text-right">Điểm TB (thang 10)</th><th class="px-2 py-1.5 text-left">Bài gần nhất</th></tr></thead><tbody>';
-    a.students.forEach(function(s, i){
-      h += '<tr class="border-t"><td class="px-2 py-1.5 text-slate-400">' + (i + 1) + '</td><td class="px-2 py-1.5 font-semibold">' + semEsc(s.name) + '</td><td class="px-2 py-1.5 text-right">' + s.count + '</td><td class="px-2 py-1.5 text-right font-black">' + (s.avg / 10).toFixed(2) + '</td><td class="px-2 py-1.5 text-slate-500">' + semEsc(semFmtDT(new Date(s.last).toISOString())) + '</td></tr>';
-    });
-    h += '</tbody></table></div>';
+    /* SB_SEMDRILL_20261012_V1: doi lop/ki thi quay ve danh sach bai */
+    var semCtx = cls.key + '|' + semState.period + '|' + (semState.hk2At || '') + '|' + range.from.getTime();
+    if (semState.examCtx !== semCtx){ semState.examCtx = semCtx; semState.view = 'exams'; semState.examIdx = -1; }
+    if (semState.view === 'exam'){
+      h += semExamDetailHtml(cls, range);
+    } else {
+      h += semExamListHtml(cls, range);
+      h += '<p class="text-xs font-black text-slate-700 mt-4">👥 Tổng hợp theo học sinh</p>';
+      h += '<div class="overflow-x-auto mt-1.5"><table class="w-full text-xs"><thead><tr class="bg-slate-100 text-slate-600"><th class="px-2 py-1.5 text-left">STT</th><th class="px-2 py-1.5 text-left">Học sinh</th><th class="px-2 py-1.5 text-right">Số bài</th><th class="px-2 py-1.5 text-right">Điểm TB (thang 10)</th><th class="px-2 py-1.5 text-left">Bài gần nhất</th></tr></thead><tbody>';
+      a.students.forEach(function(s, i){
+        h += '<tr class="border-t"><td class="px-2 py-1.5 text-slate-400">' + (i + 1) + '</td><td class="px-2 py-1.5 font-semibold">' + semEsc(s.name) + '</td><td class="px-2 py-1.5 text-right">' + s.count + '</td><td class="px-2 py-1.5 text-right font-black">' + (s.avg / 10).toFixed(2) + '</td><td class="px-2 py-1.5 text-slate-500">' + semEsc(semFmtDT(new Date(s.last).toISOString())) + '</td></tr>';
+      });
+      h += '</tbody></table></div>';
+    }
     body.innerHTML = h;
   }
   function semInit(){
