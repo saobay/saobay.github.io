@@ -1119,6 +1119,7 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
                     <div class="flex items-center justify-between mb-2">
                         <h4 class="text-xs font-extrabold uppercase text-slate-700">7 ngày gần nhất</h4>
                         <button type="button" onclick="renderMonitor()" class="text-[11px] px-3 py-1.5 bg-slate-100 hover:bg-slate-200 rounded-lg font-bold text-slate-600"><i class="fa-solid fa-rotate mr-1"></i>Tải lại</button>
+                            <button id="mon-sync-btn" type="button" onclick="monSyncUsage()" class="text-[11px] px-3 py-1.5 bg-cyan-100 hover:bg-cyan-200 rounded-lg font-bold text-cyan-800"><i class="fa-solid fa-cloud-arrow-up mr-1"></i>Đồng bộ</button>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-xs">
@@ -2486,6 +2487,18 @@ function openMyAccount(){
                 var r = await fetch(USAGE_URL + '?t=' + Date.now(), {cache:'no-store'});
                 var data = (r && r.ok) ? await r.json() : {days:{}};
                 var days = (data && data.days && typeof data.days === 'object') ? data.days : {};
+                // SB_MONITORFIX_20261013_V1: gop so lieu local (trinh duyet nay) de "hom nay" hien live ngay, khong can commit
+                try {
+                    var _lp = JSON.parse(localStorage.getItem('sb_usage_pending_v1') || '{}');
+                    Object.keys(_lp).forEach(function(d){
+                        var p = _lp[d] || {};
+                        if (((+p.gas_calls||0)+(+p.page_views||0)+(+p.bytes_est||0)) <= 0) return;
+                        var c = days[d] || {gas_calls:0, page_views:0, bytes_est:0};
+                        days[d] = { gas_calls:(+c.gas_calls||0)+(+p.gas_calls||0),
+                                    page_views:(+c.page_views||0)+(+p.page_views||0),
+                                    bytes_est:(+c.bytes_est||0)+(+p.bytes_est||0) };
+                    });
+                } catch(eLP){}
                 var today = new Date().toISOString().slice(0,10);
                 var t = days[today] || {gas_calls:0, page_views:0, bytes_est:0};
                 var gas = +t.gas_calls || 0, gasPct = Math.min(100, gas/20000*100);
@@ -2644,6 +2657,109 @@ function copyWordSample(){
     }).observe(document.documentElement, { childList: true, subtree: true });
   } catch(e){}
 })();
+<script>
+/* SB_MONITORFIX_20261013_V1:
+   (1) switchTeacherModule goc thieu 'audit'/'monitor' trong danh sach -> bam muc 3/7 khong hien gi. Ghi de ban sua dung.
+   (2) Muc 7 Giam Sat (GAS proxy/bang thong) CHI admin duoc xem: an tab + chan mo view voi non-admin.
+   (3) Tu dong goi renderMonitor() khi mo muc 7 (hien ngay, khong can bam Tai lai).
+   (4) Dem GAS calls tu hub vao sb_usage_pending_v1 (giong index.html) de so lieu "hom nay" live.
+   (5) monSyncUsage(): nut Dong bo thu cong day so lieu len data/stats/usage.json (theo yeu cau admin: khong tu dong sync de tranh spam commit). */
+(function(){
+  var MODULES = ['compose','manage','stats','audit','private','reports','monitor','groups','uilabels'];
+  function sbIsAdmin(){ try { return !!(window.ExamSched && ExamSched.isAdminUser && ExamSched.isAdminUser()); } catch(e){ return false; } }
+  window.switchTeacherModule = function(modId){
+    try { if (modId === 'monitor' && !sbIsAdmin()) return; } catch(eG){}
+    try {
+      MODULES.forEach(function(id){
+        var tab = document.getElementById('mod-tab-' + id);
+        var view = document.getElementById('module-' + id + '-view');
+        var iconBox = tab ? tab.querySelector('div') : null;
+        var active = (id === modId);
+        if (tab) tab.className = "module-tab-btn flex items-center p-2.5 rounded-xl transition border text-left " + (active ? "bg-blue-50 border-blue-600 text-blue-900 shadow-sm" : "bg-white border-slate-200 text-slate-700 hover:bg-slate-100");
+        if (iconBox) iconBox.className = "w-9 h-9 rounded-lg flex items-center justify-center text-base font-bold shrink-0 mr-2.5 " + (active ? "bg-blue-600 text-white shadow" : "bg-slate-200 text-slate-700");
+        if (view) { if (active) view.classList.remove('hidden'); else view.classList.add('hidden'); }
+        else if (active) { console.error('[hub] Khong tim thay view: module-' + id + '-view'); }
+      });
+    } catch(eSw){ console.error('[hub] switchTeacherModule loi:', eSw); }
+    try {
+      var sb2 = document.getElementById('sidebar-container');
+      if (sb2) {
+        if (modId !== 'compose') sb2.classList.add('hidden');
+        else {
+          var cpt = (typeof currentPushTab !== 'undefined') ? currentPushTab : 'theory';
+          sb2.classList.toggle('hidden', !(cpt === 'theory' || cpt === 'exercise'));
+        }
+      }
+    } catch(eSb){}
+    try {
+      if (modId === 'manage' && typeof renderLessonManagementList === 'function') renderLessonManagementList();
+      if (modId === 'reports' && typeof rpInit === 'function') rpInit();
+      else if (modId === 'groups' && typeof renderGroupStats === 'function') renderGroupStats();
+      else if (modId === 'uilabels' && typeof window.uiLabelsRenderList === 'function') window.uiLabelsRenderList();
+      else if (modId === 'audit' && typeof renderAuditList === 'function') renderAuditList();
+      else if (modId === 'stats' && typeof renderStatsOverview === 'function') renderStatsOverview();
+      else if (modId === 'monitor' && typeof renderMonitor === 'function') renderMonitor();
+    } catch(eR){ console.error('[hub] render module loi:', eR); }
+  };
+  try {
+    if (window.fetch && !window.fetch.__sbWrappedHub) {
+      var _of = window.fetch;
+      var _wf = function(){
+        try {
+          var u = arguments[0]; var su = String((u && u.url) || u || '');
+          if (su.indexOf('script.google.com') >= 0) {
+            try {
+              var K = 'sb_usage_pending_v1';
+              var o = JSON.parse(localStorage.getItem(K) || '{}');
+              var d = new Date().toISOString().slice(0,10);
+              o[d] = o[d] || {gas_calls:0, page_views:0, bytes_est:0};
+              o[d].gas_calls = (+o[d].gas_calls || 0) + 1;
+              localStorage.setItem(K, JSON.stringify(o));
+            } catch(e2){}
+          }
+        } catch(e){}
+        return _of.apply(this, arguments);
+      };
+      _wf.__sbWrappedHub = true; window.fetch = _wf;
+    }
+  } catch(eF){}
+  window.monSyncUsage = async function(){
+    var btn = document.getElementById('mon-sync-btn');
+    try {
+      if (btn){ btn.disabled = true; btn.innerHTML = '\u23F3 \u0110ang \u0111\u1ED3ng b\u1ED9...'; }
+      var K = 'sb_usage_pending_v1', pending = {};
+      try { pending = JSON.parse(localStorage.getItem(K) || '{}'); } catch(e){}
+      var dates = Object.keys(pending).filter(function(d){ var e = pending[d] || {}; return ((+e.gas_calls||0)+(+e.page_views||0)+(+e.bytes_est||0)) > 0; });
+      if (!dates.length){ alert('Kh\u00F4ng c\u00F3 s\u1ED1 li\u1EC7u m\u1EDBi c\u1EA7n \u0111\u1ED3ng b\u1ED9.'); return; }
+      var remote = {days:{}};
+      try {
+        var r = await fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/data/stats/usage.json?t=' + Date.now(), {cache:'no-store'});
+        if (r && r.ok){ var j = await r.json(); if (j && j.days && typeof j.days === 'object') remote = j; }
+      } catch(e){}
+      dates.forEach(function(d){
+        var p = pending[d] || {}, c = remote.days[d] || {gas_calls:0, page_views:0, bytes_est:0};
+        remote.days[d] = { gas_calls:(+c.gas_calls||0)+(+p.gas_calls||0), page_views:(+c.page_views||0)+(+p.page_views||0), bytes_est:(+c.bytes_est||0)+(+p.bytes_est||0) };
+      });
+      var all = Object.keys(remote.days).sort(); while (all.length > 90){ delete remote.days[all.shift()]; }
+      var res = await fetch('https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec', {method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify({type:'PUSH_TO_GITHUB', filePath:'data/stats/usage.json', content: JSON.stringify(remote), commitMessage:'Usage stats sync (hub manual)', title:'Usage stats sync', author:'saobay-hub'})});
+      var rj = null; try { rj = await res.json(); } catch(e){}
+      if (rj && rj.status === 'success'){
+        var cur = {}; try { cur = JSON.parse(localStorage.getItem(K) || '{}'); } catch(e){}
+        dates.forEach(function(d){ var p0 = pending[d] || {}, c = cur[d] || {gas_calls:0,page_views:0,bytes_est:0}; ['gas_calls','page_views','bytes_est'].forEach(function(f){ c[f] = Math.max(0, (+c[f]||0) - (+p0[f]||0)); }); cur[d] = c; });
+        try { localStorage.setItem(K, JSON.stringify(cur)); } catch(e){}
+        alert('\u0110\u00E3 \u0111\u1ED3ng b\u1ED9 ' + dates.length + ' ng\u00E0y l\u00EAn kho.');
+        if (typeof renderMonitor === 'function') renderMonitor();
+      } else { alert('\u0110\u1ED3ng b\u1ED9 th\u1EA5t b\u1EA1i. Th\u1EED l\u1EA1i sau.'); }
+    } catch(eS){ alert('\u0110\u1ED3ng b\u1ED9 l\u1ED7i: ' + (eS && eS.message)); }
+    finally { if (btn){ btn.disabled = false; btn.innerHTML = '\u21C5 \u0110\u1ED3ng b\u1ED9'; } }
+  };
+  function gateMonitorTab(){
+    var tab = document.getElementById('mod-tab-monitor');
+    if (tab) tab.style.display = sbIsAdmin() ? '' : 'none';
+  }
+  setTimeout(gateMonitorTab, 4000);
+  setInterval(gateMonitorTab, 10000);
+})();
 </script>
-
+</script>
 </body>
