@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261012_0840
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261012_0930
 // Tab 2: thay the renderLessonManagementList goc bang DS DE THI GV tai len, gom:
 //  (a) file de .html trong data/ (Word/AI day cong khai)
 //  (b) de luu rieng/len lich trong data/exam-schedule.json (exams-pending) - de Word/matran deu vao day
@@ -1357,4 +1357,190 @@ console.log('SAOBAY wrap 0630 loaded');
     m.querySelector('#sb-push-close').style.display = 'block';
     m.style.display = 'flex';
   };
+  /* ===== SB_SEMSTATS_20261012_V1: Thong ke cuoi ki / cuoi nam trong module stats =====
+     GV chon lop (phan cong truong + lop rieng) -> xem thong ke HK1 (tu dau nam hoc den moc
+     HK2 hoac den hien tai), HK2 (tu moc den hien tai), ca nam. Moc HK2 do GV chot bang
+     nut "Bat dau HK2" (luu data/stats/hk2-start.json theo id GV + localStorage). */
+  var semState = { init: false, loading: false, subs: null, classes: [], pvStudents: {}, period: 'hk1', hk2At: null, clsKey: '' };
+  function semYearStart(){ var n = new Date(); var start = new Date(n.getFullYear(), 7, 1); if (n < start) start = new Date(n.getFullYear() - 1, 7, 1); return start; }
+  function semFmtDT(iso){ try { return new Date(iso).toLocaleString('vi-VN', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit', year: 'numeric' }); } catch(e){ return iso || ''; } }
+  function semIsPriv(){ try { var u = JSON.parse(localStorage.getItem('saobay_user') || 'null'); return !!(u && (u.role === 'admin' || u.role === 'bgh')); } catch(e){ return false; } }
+  function semLoadMarks(){
+    try { var ls = localStorage.getItem('sb_hk2_start_' + myId()); if (ls) semState.hk2At = ls; } catch(e){}
+    return fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/data/stats/hk2-start.json?t=' + Date.now(), { cache: 'no-store' })
+      .then(function(r){ return r.ok ? r.json() : {}; }).catch(function(){ return {}; })
+      .then(function(j){ var rec = (j || {})[myId()]; if (rec && rec.at) semState.hk2At = rec.at; });
+  }
+  function semSaveMark(iso){
+    return fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/data/stats/hk2-start.json?t=' + Date.now(), { cache: 'no-store' })
+      .then(function(r){ return r.ok ? r.json() : {}; }).catch(function(){ return {}; })
+      .then(function(j){
+        j = j || {}; j[myId()] = { at: iso, by: myName() };
+        return gasPush('data/stats/hk2-start.json', JSON.stringify(j, null, 1), 'GV chot moc bat dau HK2: ' + myName());
+      })
+      .then(function(){
+        semState.hk2At = iso;
+        try { localStorage.setItem('sb_hk2_start_' + myId(), iso); } catch(e){}
+      });
+  }
+  function semLoadClasses(){
+    var jobs = [ fetchAll(), apiRaw('data/private/classes.json').then(function(t){ return JSON.parse(t); }).catch(function(){ return {}; }) ];
+    if (semIsPriv()) jobs.push(fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/used/used.is?t=' + Date.now(), { cache: 'no-store' }).then(function(r){ return r.json(); }).catch(function(){ return {}; }));
+    return Promise.all(jobs).then(function(rs){
+      var data = rs[0] || {}, pvj = rs[1] || {};
+      var pvClasses = Array.isArray(pvj) ? pvj : (pvj.classes || []);
+      semState.pvStudents = {};
+      pvClasses.forEach(function(c){ semState.pvStudents[String(c.id)] = (c.students || []).map(function(st){ return norm(st && st.name); }); });
+      var list = (data.myClasses || []).slice();
+      if (semIsPriv()){
+        var used = rs[2] || {}, seen = {};
+        list.forEach(function(c){ seen[c.key] = 1; });
+        (used.assignments || []).forEach(function(a){
+          if (!a.class) return;
+          var k = 'school:' + a.class;
+          if (!seen[k]){ seen[k] = 1; list.push({ kind: 'school', key: k, id: '', name: String(a.class), grade: parseGrade(a.class), subjects: [] }); }
+        });
+        pvClasses.forEach(function(c){
+          var k = 'pv:' + c.id;
+          if (!seen[k]){ seen[k] = 1; list.push({ kind: 'pv', key: k, id: c.id, name: c.name, grade: (c.grade ? parseInt(c.grade, 10) : parseGrade(c.name)), subjects: [], nStudents: (c.students || []).length }); }
+        });
+      }
+      semState.classes = list;
+      if (!semState.clsKey && list.length) semState.clsKey = list[0].key;
+    });
+  }
+  function semLoadScores(statusEl){
+    return fetch('https://api.github.com/repos/saobay/saobay.github.io/git/trees/main?recursive=1', { headers: ghHeaders(), cache: 'no-store' })
+      .then(function(r){ return r.json(); })
+      .then(function(j){
+        var paths = (j.tree || []).map(function(t){ return t.path; }).filter(function(p){ return p.indexOf('data/scores/') === 0 && /\.json$/i.test(p) && p.split('/').length === 4; });
+        if (paths.length > 800) paths = paths.slice(0, 800);
+        var subs = [], idx = 0;
+        function next(){
+          if (idx >= paths.length) return Promise.resolve();
+          var batch = paths.slice(idx, idx + 12); idx += batch.length;
+          if (statusEl) statusEl.textContent = '⏳ Đang tải bài nộp: ' + Math.min(idx, paths.length) + '/' + paths.length + ' file...';
+          return Promise.all(batch.map(function(p){
+            return fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/' + p.split('/').map(encodeURIComponent).join('/') + '?t=' + Date.now(), { cache: 'no-store' })
+              .then(function(r){ return r.ok ? r.json() : null; }).catch(function(){ return null; })
+              .then(function(rec){ if (rec && rec.student_name && rec.submitted_at) subs.push(rec); });
+          })).then(next);
+        }
+        return next().then(function(){ semState.subs = subs; });
+      });
+  }
+  function semMatch(sub, cls){
+    if (!cls) return false;
+    if (cls.kind === 'school'){
+      var n1 = norm(sub.student_class), n2 = norm(cls.name);
+      return !!(n1 && n2 && (n1 === n2 || n1.indexOf(n2) >= 0 || n2.indexOf(n1) >= 0));
+    }
+    var names = semState.pvStudents[String(cls.id)] || [];
+    if (names.indexOf(norm(sub.student_name)) >= 0) return true;
+    return norm(sub.student_class) === norm(cls.name);
+  }
+  function semRange(){
+    var start = semYearStart(), now = new Date();
+    var hk2 = semState.hk2At ? new Date(semState.hk2At) : null;
+    if (semState.period === 'hk1') return { from: start, to: hk2 || now, label: 'Học kì 1' };
+    if (semState.period === 'hk2') return hk2 ? { from: hk2, to: now, label: 'Học kì 2' } : null;
+    return { from: start, to: now, label: 'Cả năm' };
+  }
+  function semAggregate(cls, range){
+    var byStu = {}, count = 0, sumPct = 0, pass = 0, bands = { gioi: 0, kha: 0, tb: 0, yeu: 0 }, exams = {};
+    (semState.subs || []).forEach(function(r){
+      var t = new Date(r.submitted_at).getTime();
+      if (!(t >= range.from.getTime() && t <= range.to.getTime())) return;
+      if (!semMatch(r, cls)) return;
+      var pct = (parseFloat(r.max_score) > 0) ? (parseFloat(r.score) / parseFloat(r.max_score) * 100) : 0;
+      count++; sumPct += pct; if (pct >= 50) pass++;
+      if (pct >= 80) bands.gioi++; else if (pct >= 65) bands.kha++; else if (pct >= 50) bands.tb++; else bands.yeu++;
+      if (r.exam_title) exams[r.exam_title] = 1;
+      var k = norm(r.student_name);
+      if (!byStu[k]) byStu[k] = { name: r.student_name, count: 0, sum: 0, last: 0 };
+      byStu[k].count++; byStu[k].sum += pct; if (t > byStu[k].last) byStu[k].last = t;
+    });
+    var students = Object.keys(byStu).map(function(k){ var s = byStu[k]; return { name: s.name, count: s.count, avg: s.count ? s.sum / s.count : 0, last: s.last }; });
+    students.sort(function(a, b){ return b.avg - a.avg; });
+    return { count: count, nStu: students.length, avg: count ? sumPct / count : 0, passRate: count ? pass / count * 100 : 0, bands: bands, nExam: Object.keys(exams).length, students: students };
+  }
+  function semRender(){
+    var sel = document.getElementById('sb-sem-class');
+    var body = document.getElementById('sb-sem-body');
+    var info = document.getElementById('sb-sem-hk2info');
+    if (!body) return;
+    if (sel && !sel.options.length){
+      sel.innerHTML = semState.classes.map(function(c){ return '<option value="' + esc(c.key) + '">' + esc(c.name) + (c.kind === 'pv' ? ' (lớp riêng)' : '') + '</option>'; }).join('');
+      sel.value = semState.clsKey;
+    }
+    document.querySelectorAll('[data-sem-period]').forEach(function(b){ b.classList.toggle('sb-sem-on', b.getAttribute('data-sem-period') === semState.period); });
+    if (info) info.innerHTML = semState.hk2At
+      ? 'Mốc bắt đầu HK2: <b>' + esc(semFmtDT(semState.hk2At)) + '</b> — số liệu HK1 tính đến mốc này, HK2 từ mốc này đến nay.'
+      : 'Chưa chốt mốc HK2 — HK1 đang tính từ đầu năm học đến <b>hiện tại</b>. Khi học kì 2 bắt đầu, bấm nút <b>Bắt đầu HK2</b> để chốt mốc.';
+    var cls = null;
+    semState.classes.forEach(function(c){ if (c.key === semState.clsKey) cls = c; });
+    if (!semState.subs){ body.innerHTML = '<p class="text-xs text-slate-400 italic">Đang tải dữ liệu...</p>'; return; }
+    if (!cls){ body.innerHTML = '<p class="text-xs text-slate-400 italic">Bạn chưa có lớp nào (chưa được phân công và chưa tạo lớp riêng).</p>'; return; }
+    var range = semRange();
+    if (!range){ body.innerHTML = '<p class="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">Chưa chốt mốc bắt đầu HK2 nên chưa xem được HK2. Bấm nút <b>Bắt đầu HK2</b> ở trên để chốt mốc.</p>'; return; }
+    var a = semAggregate(cls, range);
+    var h = '<p class="text-xs text-slate-500">Lớp <b>' + esc(cls.name) + '</b> · ' + range.label + ' · từ ' + esc(semFmtDT(range.from.toISOString())) + ' đến ' + esc(semFmtDT(range.to.toISOString())) + ' (số liệu tính đến thời điểm hiện tại)</p>';
+    if (!a.count){ body.innerHTML = h + '<p class="text-xs text-slate-400 italic mt-2">Chưa có bài nộp nào của lớp này trong khoảng thời gian trên.</p>'; return; }
+    function card(label, val, sub){ return '<div class="bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-center"><p class="text-[11px] text-slate-500 font-bold">' + label + '</p><p class="text-xl font-black text-slate-800">' + val + '</p><p class="text-[10px] text-slate-400">' + sub + '</p></div>'; }
+    h += '<div class="grid grid-cols-2 lg:grid-cols-4 gap-2 mt-2">'
+      + card('Bài đã nộp', a.count, a.nExam + ' đề/bài khác nhau')
+      + card('Học sinh đã làm', a.nStu, 'học sinh')
+      + card('Điểm trung bình', (a.avg / 10).toFixed(2), 'thang 10')
+      + card('Tỉ lệ đạt', a.passRate.toFixed(0) + '%', 'đạt = từ 50% điểm tối đa')
+      + '</div>';
+    h += '<p class="text-xs mt-2">Phân bố: <span class="font-bold text-emerald-700">Giỏi ' + a.bands.gioi + '</span> · <span class="font-bold text-blue-700">Khá ' + a.bands.kha + '</span> · <span class="font-bold text-amber-700">Trung bình ' + a.bands.tb + '</span> · <span class="font-bold text-rose-700">Yếu ' + a.bands.yeu + '</span></p>';
+    h += '<div class="overflow-x-auto mt-2"><table class="w-full text-xs"><thead><tr class="bg-slate-100 text-slate-600"><th class="px-2 py-1.5 text-left">STT</th><th class="px-2 py-1.5 text-left">Học sinh</th><th class="px-2 py-1.5 text-right">Số bài</th><th class="px-2 py-1.5 text-right">Điểm TB (thang 10)</th><th class="px-2 py-1.5 text-left">Bài gần nhất</th></tr></thead><tbody>';
+    a.students.forEach(function(s, i){
+      h += '<tr class="border-t"><td class="px-2 py-1.5 text-slate-400">' + (i + 1) + '</td><td class="px-2 py-1.5 font-semibold">' + esc(s.name) + '</td><td class="px-2 py-1.5 text-right">' + s.count + '</td><td class="px-2 py-1.5 text-right font-black">' + (s.avg / 10).toFixed(2) + '</td><td class="px-2 py-1.5 text-slate-500">' + esc(semFmtDT(new Date(s.last).toISOString())) + '</td></tr>';
+    });
+    h += '</tbody></table></div>';
+    body.innerHTML = h;
+  }
+  function semInit(){
+    var view = document.getElementById('module-stats-view');
+    if (!view || semState.init) return;
+    semState.init = true;
+    var sel = document.getElementById('sb-sem-class');
+    if (sel) sel.addEventListener('change', function(){ semState.clsKey = sel.value; semRender(); });
+    view.querySelectorAll('[data-sem-period]').forEach(function(b){ b.addEventListener('click', function(){ semState.period = b.getAttribute('data-sem-period'); semRender(); }); });
+    var refresh = document.getElementById('sb-sem-refresh');
+    if (refresh) refresh.addEventListener('click', function(){ semState.subs = null; semRender(); semLoadScores(document.getElementById('sb-sem-status')).then(function(){ var st = document.getElementById('sb-sem-status'); if (st) st.textContent = ''; semRender(); }); });
+    var hk2btn = document.getElementById('sb-sem-hk2btn');
+    if (hk2btn) hk2btn.addEventListener('click', function(){
+      var inp = document.getElementById('sb-sem-hk2input');
+      var iso = (inp && inp.value) ? new Date(inp.value).toISOString() : new Date().toISOString();
+      if (!confirm('Chốt mốc bắt đầu học kì 2 = ' + semFmtDT(iso) + '?\nSố liệu HK1 sẽ tính đến mốc này, HK2 tính từ mốc này.')) return;
+      hk2btn.disabled = true; hk2btn.textContent = '⏳ Đang chốt...';
+      semSaveMark(iso).then(function(){
+        hk2btn.disabled = false; hk2btn.textContent = '🚀 Bắt đầu HK2';
+        alert('✅ Đã chốt mốc bắt đầu HK2: ' + semFmtDT(iso));
+        semRender();
+      }).catch(function(e){
+        hk2btn.disabled = false; hk2btn.textContent = '🚀 Bắt đầu HK2';
+        alert('Lỗi chốt mốc: ' + (e && e.message || e));
+      });
+    });
+    var statusEl = document.getElementById('sb-sem-status');
+    semRender();
+    semLoadMarks().then(function(){ return semLoadClasses(); }).then(function(){
+      semRender();
+      return semLoadScores(statusEl);
+    }).then(function(){
+      if (statusEl) statusEl.textContent = '';
+      semRender();
+    }).catch(function(e){
+      if (statusEl) statusEl.textContent = 'Lỗi tải thống kê: ' + (e && e.message || e);
+    });
+  }
+  document.addEventListener('click', function(e){
+    var t = e.target && e.target.closest ? e.target.closest('#mod-tab-stats') : null;
+    if (t) setTimeout(semInit, 60);
+  });
+  /* ===== HẾT SB_SEMSTATS_20261012_V1 ===== */
+
 })();
