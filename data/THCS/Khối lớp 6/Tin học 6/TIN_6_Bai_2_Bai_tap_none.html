@@ -3,141 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bài 2: Máy tính và hệ điều hành - Bài tập</title>
+    <title>Bài tập Bài 2: Máy tính và hệ điều hành</title>
+    <meta name="lesson-title" content="Bài tập Bài 2: Máy tính và hệ điều hành">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
-        body { font-family: system-ui, sans-serif; padding: 16px; line-height: 1.6; }
-        .question { background: white; padding: 16px; margin: 12px 0; border-radius: 8px; border: 1px solid #e2e8f0; }
-        .options label { display: block; padding: 8px; margin: 4px 0; background: #f8fafc; border-radius: 4px; cursor: pointer; }
-        .options label:hover { background: #e0f2fe; }
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
     </style>
 </head>
-<body class="bg-slate-50">
-<div class="max-w-3xl mx-auto">
-<h1 class="text-2xl font-bold mb-4">Bài 2: Máy tính và hệ điều hành - Bài tập</h1>
-
-<div class="question">
-<p class="font-semibold mb-2">Câu 1: Bộ phận nào được gọi là "bộ não" của máy tính?</p>
-<div class="options">
-<label><input type="radio" name="q1" value="A"> A. Màn hình</label>
-<label><input type="radio" name="q1" value="B"> B. CPU (bộ xử lí trung tâm)</label>
-<label><input type="radio" name="q1" value="C"> C. Bàn phím</label>
-<label><input type="radio" name="q1" value="D"> D. Loa</label>
-</div>
-<button onclick="checkAnswer('q1', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
-<div id="fb-q1" class="mt-2"></div>
-</div>
-<div class="question">
-<p class="font-semibold mb-2">Câu 2: Thiết bị nào sau đây là thiết bị VÀO?</p>
-<div class="options">
-<label><input type="radio" name="q2" value="A"> A. Màn hình</label>
-<label><input type="radio" name="q2" value="B"> B. Loa</label>
-<label><input type="radio" name="q2" value="C"> C. Máy in</label>
-<label><input type="radio" name="q2" value="D"> D. Chuột</label>
-</div>
-<button onclick="checkAnswer('q2', 'D')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
-<div id="fb-q2" class="mt-2"></div>
-</div>
-<div class="question">
-<p class="font-semibold mb-2">Câu 3: Hệ điều hành có vai trò gì?</p>
-<div class="options">
-<label><input type="radio" name="q3" value="A"> A. Soạn thảo văn bản</label>
-<label><input type="radio" name="q3" value="B"> B. Điều khiển mọi hoạt động của máy tính, là cầu nối giữa người dùng và phần cứng</label>
-<label><input type="radio" name="q3" value="C"> C. Chơi trò chơi điện tử</label>
-<label><input type="radio" name="q3" value="D"> D. Vẽ hình ảnh</label>
-</div>
-<button onclick="checkAnswer('q3', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
-<div id="fb-q3" class="mt-2"></div>
-</div>
-<div class="question">
-<p class="font-semibold mb-2">Câu 4: Đâu KHÔNG phải là hệ điều hành?</p>
-<div class="options">
-<label><input type="radio" name="q4" value="A"> A. Windows</label>
-<label><input type="radio" name="q4" value="B"> B. Android</label>
-<label><input type="radio" name="q4" value="C"> C. Microsoft Word</label>
-<label><input type="radio" name="q4" value="D"> D. iOS</label>
-</div>
-<button onclick="checkAnswer('q4', 'C')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
-<div id="fb-q4" class="mt-2"></div>
-</div>
-<div class="question">
-<p class="font-semibold mb-2">Câu 5: Phần mở rộng của tệp cho biết điều gì?</p>
-<div class="options">
-<label><input type="radio" name="q5" value="A"> A. Kích thước của tệp</label>
-<label><input type="radio" name="q5" value="B"> B. Loại tệp (văn bản, hình ảnh, âm thanh...)</label>
-<label><input type="radio" name="q5" value="C"> C. Ngày tạo tệp</label>
-<label><input type="radio" name="q5" value="D"> D. Người tạo tệp</label>
-</div>
-<button onclick="checkAnswer('q5', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
-<div id="fb-q5" class="mt-2"></div>
-</div>
-<div class="question">
-<p class="font-semibold mb-2">Câu 6: Tệp "baihat.mp3" thuộc loại tệp nào?</p>
-<div class="options">
-<label><input type="radio" name="q6" value="A"> A. Tệp văn bản</label>
-<label><input type="radio" name="q6" value="B"> B. Tệp hình ảnh</label>
-<label><input type="radio" name="q6" value="C"> C. Tệp âm thanh</label>
-<label><input type="radio" name="q6" value="D"> D. Tệp video</label>
-</div>
-<button onclick="checkAnswer('q6', 'C')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
-<div id="fb-q6" class="mt-2"></div>
-</div>
-<div class="question">
-<p class="font-semibold mb-2">Câu 7: Thư mục (folder) dùng để làm gì?</p>
-<div class="options">
-<label><input type="radio" name="q7" value="A"> A. Chứa và sắp xếp các tệp một cách có tổ chức</label>
-<label><input type="radio" name="q7" value="B"> B. Tăng tốc độ máy tính</label>
-<label><input type="radio" name="q7" value="C"> C. Kết nối Internet</label>
-<label><input type="radio" name="q7" value="D"> D. Chụp ảnh màn hình</label>
-</div>
-<button onclick="checkAnswer('q7', 'A')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
-<div id="fb-q7" class="mt-2"></div>
-</div>
-<div class="question">
-<p class="font-semibold mb-2">Câu 8: Bộ nhớ RAM có đặc điểm gì?</p>
-<div class="options">
-<label><input type="radio" name="q8" value="A"> A. Lưu dữ liệu lâu dài khi tắt máy</label>
-<label><input type="radio" name="q8" value="B"> B. Lưu dữ liệu tạm thời khi máy tính đang làm việc, mất đi khi tắt máy</label>
-<label><input type="radio" name="q8" value="C"> C. Là thiết bị đưa thông tin ra</label>
-<label><input type="radio" name="q8" value="D"> D. Dùng để gõ văn bản</label>
-</div>
-<button onclick="checkAnswer('q8', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
-<div id="fb-q8" class="mt-2"></div>
-</div>
-<div class="question">
-<p class="font-semibold mb-2">Câu 9: Phần cứng (hardware) là gì?</p>
-<div class="options">
-<label><input type="radio" name="q9" value="A"> A. Các chương trình chạy trên máy tính</label>
-<label><input type="radio" name="q9" value="B"> B. Hệ điều hành Windows</label>
-<label><input type="radio" name="q9" value="C"> C. Các thiết bị vật lí của máy tính có thể cầm nắm được</label>
-<label><input type="radio" name="q9" value="D"> D. Các tệp văn bản</label>
-</div>
-<button onclick="checkAnswer('q9', 'C')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
-<div id="fb-q9" class="mt-2"></div>
-</div>
-<div class="question">
-<p class="font-semibold mb-2">Câu 10: Điều nào NÊN làm khi quản lí tệp?</p>
-<div class="options">
-<label><input type="radio" name="q10" value="A"> A. Đặt tên tệp tùy ý, khó hiểu</label>
-<label><input type="radio" name="q10" value="B"> B. Dồn tất cả tệp vào một thư mục</label>
-<label><input type="radio" name="q10" value="C"> C. Đặt tên rõ ràng và sắp xếp tệp vào thư mục theo chủ đề</label>
-<label><input type="radio" name="q10" value="D"> D. Xóa hết các thư mục cho gọn</label>
-</div>
-<button onclick="checkAnswer('q10', 'C')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
-<div id="fb-q10" class="mt-2"></div>
-</div>
-</div>
-<script>
-function checkAnswer(qid, correct) {
-    const selected = document.querySelector(`input[name="${qid}"]:checked`);
-    const feedback = document.getElementById(`fb-${qid}`);
-    if (!selected) { feedback.innerHTML = '<span class="text-orange-600">Hãy chọn đáp án!</span>'; return; }
-    if (selected.value === correct) {
-        feedback.innerHTML = '<span class="text-green-600 font-bold">✓ Đúng!</span>';
-    } else {
-        feedback.innerHTML = '<span class="text-red-600">✗ Chưa đúng. Đáp án đúng: ' + correct + '</span>';
-    }
-}
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Bài tập</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài tập Bài 2: Máy tính và hệ điều hành</h1>
+            <p class="text-xs text-slate-500 mt-1">Tin học 6 • Bài 2: Máy tính và hệ điều hành</p>
+        </div>
+        <div class="content-body space-y-4">
+<div class="saobay-exam10">
+<script type="application/json" class="saobay-exam10-data">
+{"sets": [{"name": "Đề 1", "questions": [{"type": "mcq", "level": "NB", "q": "Bộ phận nào được gọi là \"bộ não\" của máy tính?", "options": ["A. Màn hình", "B. CPU (bộ xử lí trung tâm)", "C. Bàn phím", "D. Loa"], "answer": "B", "explain": "CPU là bộ xử lí trung tâm, điều khiển và xử lí mọi hoạt động nên được gọi là bộ não của máy tính.", "points": 0.25}, {"type": "mcq", "level": "NB", "q": "Thiết bị nào sau đây là thiết bị VÀO?", "options": ["A. Màn hình", "B. Loa", "C. Máy in", "D. Chuột"], "answer": "D", "explain": "Chuột là thiết bị vào vì nó đưa thông tin vào máy tính; màn hình, loa, máy in là thiết bị ra.", "points": 0.25}, {"type": "mcq", "level": "NB", "q": "Hệ điều hành có vai trò gì?", "options": ["A. Soạn thảo văn bản", "B. Điều khiển mọi hoạt động của máy tính, là cầu nối giữa người dùng và phần cứng", "C. Chơi trò chơi điện tử", "D. Vẽ hình ảnh"], "answer": "B", "explain": "Hệ điều hành điều khiển mọi hoạt động của máy tính và là cầu nối giữa người dùng với phần cứng.", "points": 0.25}, {"type": "mcq", "level": "TH", "q": "Đâu KHÔNG phải là hệ điều hành?", "options": ["A. Windows", "B. Android", "C. Microsoft Word", "D. iOS"], "answer": "C", "explain": "Microsoft Word là phần mềm soạn thảo văn bản, không phải hệ điều hành như Windows, Android hay iOS.", "points": 0.25}, {"type": "mcq", "level": "NB", "q": "Phần mở rộng của tệp cho biết điều gì?", "options": ["A. Kích thước của tệp", "B. Loại tệp (văn bản, hình ảnh, âm thanh...)", "C. Ngày tạo tệp", "D. Người tạo tệp"], "answer": "B", "explain": "Phần mở rộng (đuôi tệp) cho biết loại tệp, ví dụ .mp3 là tệp âm thanh, .jpg là tệp hình ảnh.", "points": 0.25}, {"type": "mcq", "level": "TH", "q": "Tệp \"baihat.mp3\" thuộc loại tệp nào?", "options": ["A. Tệp văn bản", "B. Tệp hình ảnh", "C. Tệp âm thanh", "D. Tệp video"], "answer": "C", "explain": "Đuôi .mp3 là định dạng tệp âm thanh nên tệp baihat.mp3 thuộc loại tệp âm thanh.", "points": 0.25}, {"type": "mcq", "level": "NB", "q": "Thư mục (folder) dùng để làm gì?", "options": ["A. Chứa và sắp xếp các tệp một cách có tổ chức", "B. Tăng tốc độ máy tính", "C. Kết nối Internet", "D. Chụp ảnh màn hình"], "answer": "A", "explain": "Thư mục dùng để chứa và sắp xếp các tệp một cách có tổ chức, giúp quản lí dữ liệu dễ dàng.", "points": 0.25}, {"type": "mcq", "level": "NB", "q": "Bộ nhớ RAM có đặc điểm gì?", "options": ["A. Lưu dữ liệu lâu dài khi tắt máy", "B. Lưu dữ liệu tạm thời khi máy tính đang làm việc, mất đi khi tắt máy", "C. Là thiết bị đưa thông tin ra", "D. Dùng để gõ văn bản"], "answer": "B", "explain": "RAM là bộ nhớ tạm thời khi máy tính đang làm việc; dữ liệu trong RAM mất đi khi tắt máy.", "points": 0.25}, {"type": "mcq", "level": "NB", "q": "Phần cứng (hardware) là gì?", "options": ["A. Các chương trình chạy trên máy tính", "B. Hệ điều hành Windows", "C. Các thiết bị vật lí của máy tính có thể cầm nắm được", "D. Các tệp văn bản"], "answer": "C", "explain": "Phần cứng là các thiết bị vật lí của máy tính mà ta có thể nhìn thấy và cầm nắm được.", "points": 0.25}, {"type": "mcq", "level": "TH", "q": "Điều nào NÊN làm khi quản lí tệp?", "options": ["A. Đặt tên tệp tùy ý, khó hiểu", "B. Dồn tất cả tệp vào một thư mục", "C. Đặt tên rõ ràng và sắp xếp tệp vào thư mục theo chủ đề", "D. Xóa hết các thư mục cho gọn"], "answer": "C", "explain": "Quản lí tệp tốt cần đặt tên rõ ràng, dễ hiểu và sắp xếp tệp vào thư mục theo chủ đề.", "points": 0.25}]}]}
 </script>
+</div>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
 </body>
 </html>
