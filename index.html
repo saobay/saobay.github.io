@@ -551,7 +551,8 @@ window.openFormulaReportModal=function(e){
     document.getElementById("report-desc").placeholder="VD: Câu 4 hiện frac23 thay vì phân số 2/3...";
     document.getElementById("report-modal").classList.remove("hidden");
 },
-window.openReportModal=function(e){if(!currentUser)return alert("Bạn cần đăng nhập để báo lỗi!"),void(window.showLoginModal&&showLoginModal());_reportCtx.type=e,_reportCtx.title="theory"===e?(document.getElementById("lesson-title-display")||{}).textContent||"":(document.getElementById("exam-title-display")||{}).textContent||"",_reportCtx.path=window._currentFilePath||"",document.getElementById("report-page-info").textContent="Trang: "+_reportCtx.title,document.getElementById("report-qnum").value="",document.getElementById("report-desc").value="",document.getElementById("report-modal").classList.remove("hidden")},window.closeReportModal=function(){document.getElementById("report-modal").classList.add("hidden")},window.submitReport=async function(){let e=document.getElementById("report-desc").value.trim();if(!e)return void alert("Vui lòng mô tả lỗi!");let t=document.getElementById("report-qnum").value.trim(),isFormula=_reportCtx.type==="formula_error",n={id:"RP"+Date.now(),student_name:currentUser.name||currentUser.username||"",student_id:currentUser.id||"",student_class:currentUser.class||"",reporter_role:currentUser.role||"",type:isFormula?"formula_error":_reportCtx.type,subtype:isFormula?_reportCtx.subtype:_reportCtx.type,page_title:_reportCtx.title,page_path:_reportCtx.path,question_num:t,description:e,status:"pending",created_at:(new Date).toISOString()};var _sbBtn=document.getElementById("report-submit-btn"),_sbOrig=_sbBtn?_sbBtn.innerHTML:"",_sbTo=null;try{if(_sbBtn){_sbBtn.disabled=true;_sbBtn.innerHTML="Đang gửi...";}var _sbCtl=("AbortController" in window)?new AbortController():null;if(_sbCtl){_sbTo=setTimeout(function(){try{_sbCtl.abort();}catch(x){}},30000);}var _sbOpt={method:"POST",body:JSON.stringify({action:"saveReport",report:n})};if(_sbCtl)_sbOpt.signal=_sbCtl.signal;let r=await fetch(API_URL,_sbOpt);if(_sbTo)clearTimeout(_sbTo);(await r.json()).ok?(closeReportModal(),alert(isFormula?"Đã gửi báo cáo lỗi công thức! Admin sẽ xem và sửa. Cảm ơn thầy/cô.":"Đã gửi báo cáo! Cảm ơn bạn. Nếu báo đúng bạn sẽ được +5 điểm năng động. ⭐")):alert("Gửi thất bại, thử lại sau.");if(_sbBtn){_sbBtn.disabled=false;_sbBtn.innerHTML=_sbOrig;}}catch(err){if(_sbTo)clearTimeout(_sbTo);if(_sbBtn){_sbBtn.disabled=false;_sbBtn.innerHTML=_sbOrig;}alert(err&&err.name==="AbortError"?"Hết thời gian chờ (30 giây). Kiểm tra kết nối mạng rồi bấm Gửi lại nhé.":"Lỗi kết nối, thử lại sau.");}};let isSidebarCollapsed=!0;function toggleTreeSidebar(e=null){let t=document.getElementById("sidebar-tree-wrapper"),n=document.getElementById("sidebar-expanded-content"),a=document.getElementById("sidebar-collapsed-content"),r=document.getElementById("floating-sidebar-toggle-bar");t&&(isSidebarCollapsed=null!==e?!e:!isSidebarCollapsed,isSidebarCollapsed?(t.classList.add("hidden"),n&&n.classList.add("hidden")):(t.classList.remove("hidden"),t.classList.add("lg:w-[320px]","h-[520px]","lg:h-[720px]","p-3","md:p-4"),n&&n.classList.remove("hidden"),a&&(a.classList.add("hidden"),a.classList.remove("flex")),r&&(r.classList.add("hidden"),r.classList.remove("flex"))))}let pvClassesCache=[];async function loadPrivateClassesCache(){try{let e=await fetch("https://raw.githubusercontent.com/saobay/saobay.github.io/main/data/private/classes.json?t="+Date.now());if(e.ok){let t=await e.json();pvClassesCache=t.classes||[]}}catch(e){}}function pvVisibleClasses(){let e=null;try{e=JSON.parse(localStorage.getItem("saobay_user")||"null")}catch(e){}return e?"admin"===e.role?pvClassesCache:pvClassesCache.filter(function(t){return t.teacher_id===e.id||(t.students||[]).some(function(t){return t.id===e.id||t.name===e.name})}):[]}async function joinPrivateClass(e){var code=String(e||"").trim().toUpperCase();if(!code)return void alert("Vui l\u00f2ng nh\u1eadp m\u00e3 l\u1edbp.");if(typeof currentUser==="undefined"||!currentUser||!currentUser.id)return void alert("H\u00e3y \u0111\u0103ng nh\u1eadp tr\u01b0\u1edbc khi v\u00e0o l\u1edbp.");openJoinClassModal();var inp=document.getElementById("join-class-code");if(inp)inp.value=code;submitJoinClass();} /* SB_JOINFIX_20261012_V1: o Vao lop o muc Lop cua toi dung chung luong vao lop that (modal JOIN_CLASS_V1) - 1 tai khoan vao nhieu lop rieng, khong can TK moi */ /* JOIN_CLASS_V1: HS nhập mã lớp -> thêm thẳng vào roster qua GAS proxy */
+window.openReportModal=function(e){if(!currentUser)return alert("Bạn cần đăng nhập để báo lỗi!"),void(window.showLoginModal&&showLoginModal());_reportCtx.type=e,_reportCtx.title="theory"===e?(document.getElementById("lesson-title-display")||{}).textContent||"":(document.getElementById("exam-title-display")||{}).textContent||"",_reportCtx.path=window._currentFilePath||"",document.getElementById("report-page-info").textContent="Trang: "+_reportCtx.title,document.getElementById("report-qnum").value="",document.getElementById("report-desc").value="",document.getElementById("report-modal").classList.remove("hidden")},window.closeReportModal=function(){document.getElementById("report-modal").classList.add("hidden")},window.submitReport=async function(){let e=document.getElementById("report-desc").value.trim();if(!e)return void alert("Vui lòng mô tả lỗi!");let t=document.getElementById("report-qnum").value.trim(),isFormula=_reportCtx.type==="formula_error",n={id:"RP"+Date.now(),student_name:currentUser.name||currentUser.username||"",student_id:currentUser.id||"",student_class:currentUser.class||"",reporter_role:currentUser.role||"",type:isFormula?"formula_error":_reportCtx.type,subtype:isFormula?_reportCtx.subtype:_reportCtx.type,page_title:_reportCtx.title,page_path:_reportCtx.path,question_num:t,description:e,status:"pending",created_at:(new Date).toISOString()};var _sbBtn=document.getElementById("report-submit-btn"),_sbOrig=_sbBtn?_sbBtn.innerHTML:"",_sbTo=null;try{if(_sbBtn){_sbBtn.disabled=true;_sbBtn.innerHTML="Đang gửi...";}var _sbCtl=("AbortController" in window)?new AbortController():null;if(_sbCtl){_sbTo=setTimeout(function(){try{_sbCtl.abort();}catch(x){}},30000);}var _sbOpt={method:"POST",body:JSON.stringify({action:"saveReport",report:n})};if(_sbCtl)_sbOpt.signal=_sbCtl.signal;let r=await fetch(API_URL,_sbOpt);if(_sbTo)clearTimeout(_sbTo);(await r.json()).ok?(closeReportModal(),alert(isFormula?"Đã gửi báo cáo lỗi công thức! Admin sẽ xem và sửa. Cảm ơn thầy/cô.":"Đã gửi báo cáo! Cảm ơn bạn. Nếu báo đúng bạn sẽ được +5 điểm năng động. ⭐")):alert("Gửi thất bại, thử lại sau.");if(_sbBtn){_sbBtn.disabled=false;_sbBtn.innerHTML=_sbOrig;}}catch(err){if(_sbTo)clearTimeout(_sbTo);if(_sbBtn){_sbBtn.disabled=false;_sbBtn.innerHTML=_sbOrig;}alert(err&&err.name==="AbortError"?"Hết thời gian chờ (30 giây). Kiểm tra kết nối mạng rồi bấm Gửi lại nhé.":"Lỗi kết nối, thử lại sau.");}};let isSidebarCollapsed=!0;function toggleTreeSidebar(e=null){let t=document.getElementById("sidebar-tree-wrapper"),n=document.getElementById("sidebar-expanded-content"),a=document.getElementById("sidebar-collapsed-content"),r=document.getElementById("floating-sidebar-toggle-bar");t&&(isSidebarCollapsed=null!==e?!e:!isSidebarCollapsed,isSidebarCollapsed?(t.classList.add("hidden"),n&&n.classList.add("hidden")):(t.classList.remove("hidden"),t.classList.add("lg:w-[320px]","h-[520px]","lg:h-[720px]","p-3","md:p-4"),n&&n.classList.remove("hidden"),a&&(a.classList.add("hidden"),a.classList.remove("flex")),r&&(r.classList.add("hidden"),r.classList.remove("flex"))))}let pvClassesCache=[];async function loadPrivateClassesCache(){try{let e=await fetch("https://raw.githubusercontent.com/saobay/saobay.github.io/main/data/private/classes.json?t="+Date.now());if(e.ok){let t=await e.json();pvClassesCache=t.classes||[]}}catch(e){}}function pvVisibleClasses(){let e=null;try{e=JSON.parse(localStorage.getItem("saobay_user")||"null")}catch(e){}return e?"admin"===e.role?pvClassesCache:pvClassesCache.filter(function(t){return t.teacher_id===e.id||(t.students||[]).some(function(t){return t.id===e.id||t.name===e.name})}):[]}async function joinPrivateClass(e){if(!(e=String(e||"").trim().toUpperCase()))return;await loadPrivateClassesCache();let t=pvClassesCache.find(function(t){return String(t.join_code||"").toUpperCase()===e});if(!t)return void alert("Mã lớp không đúng.");let n=null;try{n=JSON.parse(localStorage.getItem("saobay_user")||"null")}catch(e){}n?alert('Đã gửi yêu cầu vào lớp "'+t.name+'". Giáo viên sẽ duyệt.'):alert("Hãy đăng nhập trước khi vào lớp.")}
+/* JOIN_CLASS_V1: HS nhập mã lớp -> thêm thẳng vào roster qua GAS proxy */
 function openJoinClassModal(){if(!currentUser||!currentUser.id){alert("Bạn cần đăng nhập trước khi vào lớp!");return;}document.getElementById("join-class-code").value="";var m=document.getElementById("join-class-msg");m.innerText="";m.className="text-xs min-h-[1rem]";document.getElementById("join-class-modal").classList.remove("hidden");setTimeout(function(){try{document.getElementById("join-class-code").focus();}catch(e){}},100);}
 function closeJoinClassModal(){document.getElementById("join-class-modal").classList.add("hidden");}
 async function sbJoinClassPush(content,commitMessage){
@@ -1205,7 +1206,7 @@ function saobayReportQ(btn){
 <script>
 (function(){
   'use strict';
-  var SB_MC_VERSION = '20261012_0715';
+  var SB_MC_VERSION = '20261012_1215';
   var GAS = 'https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec';
   var S = { loaded: false, loading: false, tasks: [], exams: [], myClassNames: [], doneSet: {}, myScoreKeys: {}, myTitleKeys: {}, myFileTsMax: 0 };
   var theory = null; // {task, secs, endSeen}
@@ -1334,7 +1335,7 @@ function saobayReportQ(btn){
         return fetchJson(p).then(function(j){ if (j && j.exam_title) S.myTitleKeys[keyOf(j.exam_title)] = 1; }).catch(function(){});
       });
       Promise.all(titleFetches).then(function(){
-        creditPendingExercise();
+        creditPendingExercise(); creditPendingExam();
         ensureUi(); renderBadge(); renderPanel(); renderExamPanel();
       });
     }).catch(function(){ S.loading = false; });
@@ -1371,6 +1372,33 @@ function saobayReportQ(btn){
     return false;
   }
 
+  function examDone(e){ // SB_EXAMDONE_20261012_V1
+    if (S.doneSet[e.id]) return true;
+    var k = keyOf(e.title);
+    if (k.length >= 6){
+      if (S.myTitleKeys && S.myTitleKeys[k]) return true;
+      for (var key in (S.myTitleKeys || {})){ if (key.length >= 6 && (key.indexOf(k) >= 0 || k.indexOf(key) >= 0)) return true; }
+      for (var k2 in (S.myScoreKeys || {})){ if (k2.length >= 6 && (k2.indexOf(k) >= 0 || k.indexOf(k2) >= 0)) return true; }
+    }
+    return false;
+  }
+  function examChip(e){
+    return examDone(e)
+      ? '<span class="text-[11px] font-black text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-full px-2 py-0.5">✅ ĐÃ HOÀN THÀNH</span>'
+      : '<span class="text-[11px] font-black text-amber-700 bg-amber-50 border border-amber-200 rounded-full px-2 py-0.5">⏳ CHƯA LÀM</span>';
+  }
+  function creditPendingExam(){
+    var raw = null; try { raw = JSON.parse(localStorage.getItem('sb_pending_exam_v1') || 'null'); } catch(e){}
+    if (!raw || !raw.examId) return;
+    if (Date.now() - (raw.ts || 0) > 2 * 3600 * 1000){ try { localStorage.removeItem('sb_pending_exam_v1'); } catch(e){} return; }
+    if (S.myFileTsMax > (raw.baseline || 0)){
+      var ex = null; S.exams.forEach(function(x){ if (x.id === raw.examId) ex = x; });
+      try { localStorage.removeItem('sb_pending_exam_v1'); } catch(e){}
+      if (ex && !S.doneSet[ex.id]){
+        writeDoneRecord({ id: ex.id, className: ex.className || '', title: ex.title }, 'exam').then(function(){ renderPanel(); renderExamPanel(); });
+      }
+    }
+  }
   function renderBadge(){
     var b = el('sb-newtask-badge'); if (!b) return;
     var seen = getSeen();
@@ -1423,7 +1451,7 @@ function saobayReportQ(btn){
       if (g.exams.length){
         html += '<div class="text-[11px] font-bold text-red-700 mb-1 mt-2">📝 Bài kiểm tra</div>';
         g.exams.forEach(function(e){
-          html += '<div class="flex items-center gap-2 bg-red-50 border border-red-300 rounded-lg px-3 py-2 mb-1.5"><span class="flex-1 text-sm font-bold text-slate-800">' + esc(e.title) + '</span><button data-sbexam="' + esc(e.id) + '" class="bg-red-600 hover:bg-red-700 text-white text-xs font-black px-3 py-1.5 rounded-lg shrink-0">LÀM BÀI</button></div>';
+          html += '<div class="flex items-center gap-2 bg-red-50 border border-red-300 rounded-lg px-3 py-2 mb-1.5"><span class="flex-1 text-sm font-bold text-slate-800">' + esc(e.title) + '</span>' + examChip(e) + '<button data-sbexam="' + esc(e.id) + '" class="bg-red-600 hover:bg-red-700 text-white text-xs font-black px-3 py-1.5 rounded-lg shrink-0">LÀM BÀI</button></div>';
         });
       }
       html += '</div>';
@@ -1507,8 +1535,9 @@ function saobayReportQ(btn){
     if (!theory) return;
     var st = el('sb-theory-status'), btn = el('sb-theory-done'); if (!st || !btn) return;
     var mm = Math.floor(theory.secs / 60), ss = ('0' + (theory.secs % 60)).slice(-2);
-    var timeOk = theory.secs >= 300;
-    st.innerHTML = '⏱ Đã học: <b>' + mm + ':' + ss + '</b> / 5:00 ' + (timeOk ? '✅' : '(cần đủ 5 phút)') +
+    var needMin = (theory.task && parseInt(theory.task.studyMinutes, 10) > 0) ? parseInt(theory.task.studyMinutes, 10) : 5; // SB_STUDYMIN_20261012_V1
+    var timeOk = theory.secs >= needMin * 60;
+    st.innerHTML = '⏱ Đã học: <b>' + mm + ':' + ss + '</b> / ' + needMin + ':00 ' + (timeOk ? '✅' : '(cần đủ ' + needMin + ' phút)') +
       ' · ' + (theory.endSeen ? '✅ Đã kéo xuống cuối bài' : '⬇️ Hãy kéo xuống cuối bài học');
     if (timeOk && theory.endSeen){
       btn.disabled = false;
@@ -1565,7 +1594,7 @@ function saobayReportQ(btn){
     list.innerHTML = S.exams.map(function(e){
       return '<div class="flex items-center gap-2 bg-red-50 border-2 border-red-300 rounded-xl px-3 py-2.5 mb-2">' +
         '<span class="text-xl">📝</span><div class="flex-1 min-w-0"><div class="text-sm font-black text-slate-800 truncate">' + esc(e.title) + '</div>' +
-        '<div class="text-[11px] text-red-600 font-bold">Lớp: ' + esc(e.className || '') + (e.examTime ? ' · Giờ thi: ' + esc(String(e.examTime).replace('T', ' ').slice(0, 16)) : ' · Làm ngay') + '</div></div>' +
+        '<div class="text-[11px] text-red-600 font-bold">Lớp: ' + esc(e.className || '') + (e.examTime ? ' · Giờ thi: ' + esc(String(e.examTime).replace('T', ' ').slice(0, 16)) : ' · Làm ngay') + '</div></div>' + examChip(e) +
         '<button data-sbstart="' + esc(e.id) + '" class="bg-red-600 hover:bg-red-700 text-white text-sm font-black px-4 py-2 rounded-xl shrink-0">LÀM BÀI</button></div>';
     }).join('');
     list.querySelectorAll('[data-sbstart]').forEach(function(b){
@@ -1574,6 +1603,7 @@ function saobayReportQ(btn){
         var ex = null; S.exams.forEach(function(x){ if (x.id === id) ex = x; });
         if (ex){
           var seen = getSeen(); if (seen.indexOf(ex.id) < 0){ seen.push(ex.id); setSeen(seen); renderBadge(); }
+          try { localStorage.setItem('sb_pending_exam_v1', JSON.stringify({ examId: ex.id, baseline: S.myFileTsMax || 0, ts: Date.now() })); } catch(e){}
           if (typeof startScheduledExam === 'function') startScheduledExam(ex.file);
           else if (ex.file) location.href = encodeURI(ex.file);
         }
