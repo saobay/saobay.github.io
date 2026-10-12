@@ -210,6 +210,7 @@
         }
         function aiRecalc(){
             var M = aiMatrix();
+            var gt = document.getElementById('ai-grand-total'); if (gt) gt.textContent = M.totQ + ' câu'; // SB_AI_V22: tong cong tu dong
             var el = document.getElementById('ai-totals'); if (!el) return;
             var pct = function(v){ return M.totP > 0 ? Math.round(v / M.totP * 1000) / 10 : 0; };
             var totPr = Math.round(M.totP * 100) / 100;
@@ -328,45 +329,27 @@
             return base;
         }
         function aiAutoDistribute(){
-            var total = Math.round(aiNum('ai-total-q'));
-            if (!total){ aiFloatToast('Hãy nhập Tổng số câu trước.', true); return; }
+            // SB_AI_V22_20261012: tong tung dang KHOA CUNG (o ai-rt-<dang>) - chi chia noi bo tung dang theo %
             var pcts = SB_AI_COLS.map(function(c){ return aiNum('ai-pct-' + c); });
             if (pcts.reduce(function(a, b){ return a + b; }, 0) <= 0){ aiFloatToast('Hãy nhập tỉ lệ % cho các mức độ.', true); return; }
-            var colTargets = aiLargestRemainder(total, pcts);
-            var M = aiMatrix();
-            var curRowTotals = M.rows.map(function(r){ return r.q; });
-            if (curRowTotals.reduce(function(a, b){ return a + b; }, 0) <= 0) curRowTotals = SB_AI_ROWS.map(function(R){ return R[3].reduce(function(a, b){ return a + b; }, 0); });
-            var rowTotals = aiLargestRemainder(total, curRowTotals);
-            // Dien tung hang theo muc tieu cot con lai (largest remainder), roi sua lech cot bang cach dich 1 cau trong hang
-            var remain = colTargets.slice(), grid = [];
+            var M0 = aiMatrix();
+            var grand = 0;
             SB_AI_ROWS.forEach(function(R, ri){
-                var cells = aiLargestRemainder(rowTotals[ri], remain.map(function(v){ return Math.max(v, 0); }));
-                cells.forEach(function(v, ci){ remain[ci] -= v; });
-                grid.push(cells);
-            });
-            for (var iter = 0; iter < 300; iter++){
-                var colSum = [0, 0, 0, 0];
-                grid.forEach(function(row){ row.forEach(function(v, ci){ colSum[ci] += v; }); });
-                var over = -1, under = -1;
-                for (var c1 = 0; c1 < 4; c1++){ if (colSum[c1] > colTargets[c1]) over = c1; if (colSum[c1] < colTargets[c1]) under = c1; }
-                if (over < 0 || under < 0) break;
-                var moved = false;
-                for (var r1 = 0; r1 < grid.length && !moved; r1++){
-                    if (grid[r1][over] > 0){ grid[r1][over]--; grid[r1][under]++; moved = true; }
-                }
-                if (!moved) break;
-            }
-            SB_AI_ROWS.forEach(function(R, ri){
+                var rtEl = document.getElementById('ai-rt-' + R[0]);
+                var rt = rtEl ? Math.round(aiNum('ai-rt-' + R[0])) : M0.rows[ri].q; // khong co o khoa thi lay tong hien tai cua dang
+                grand += rt;
+                var cells = aiLargestRemainder(rt, pcts);
                 SB_AI_COLS.forEach(function(c, ci){
                     var inp = document.getElementById('ai-m-' + R[0] + '-' + c);
-                    if (inp) inp.value = grid[ri][ci];
+                    if (inp) inp.value = cells[ci];
                 });
             });
             aiRecalc();
-            var colSum2 = [0, 0, 0, 0];
-            grid.forEach(function(row){ row.forEach(function(v, ci){ colSum2[ci] += v; }); });
-            var actPct = colSum2.map(function(v){ return Math.round(v / total * 1000) / 10; });
-            aiFloatToast('🎲 Đã bốc đúng ' + total + ' câu — thực tế: NB ' + actPct[0] + '% · TH ' + actPct[1] + '% · VD ' + actPct[2] + '% · VDC ' + actPct[3] + '% (theo số câu)');
+            var M = aiMatrix();
+            var colQ = [0, 0, 0, 0];
+            M.rows.forEach(function(r){ r.cells.forEach(function(v, ci){ colQ[ci] += v; }); });
+            var actPct = colQ.map(function(v){ return M.totQ > 0 ? Math.round(v / M.totQ * 1000) / 10 : 0; });
+            aiFloatToast('🎲 Đã bốc ' + grand + ' câu — tổng từng dạng giữ nguyên; thực tế: NB ' + actPct[0] + '% · TH ' + actPct[1] + '% · VD ' + actPct[2] + '% · VDC ' + actPct[3] + '% (theo số câu)');
         }
         function aiParseJsonLoose(s){
             // Thu tu thu: nguyen ban -> bao ve lenh TeX (\\frac...) -> sua gach cheo don -> + bo phay thua/dau ngoac kep thong minh
@@ -493,16 +476,21 @@
                 var inpCls = 'px-2 py-1.5 border border-slate-300 rounded-lg text-center font-bold';
                 var labCls = 'block text-[10px] font-bold text-slate-600 mb-1';
                 bar.innerHTML =
-                    '<div><label class="' + labCls + '">TỔNG SỐ CÂU</label><input type="number" id="ai-total-q" value="26" min="1" max="200" class="' + inpCls + ' w-20"></div>'
+                    '<div><label class="' + labCls + '">🔒 TN 4 LỰA CHỌN — TỔNG</label><input type="number" id="ai-rt-mcq" value="18" min="0" max="100" class="' + inpCls + ' w-16"></div>'
+                    + '<div><label class="' + labCls + '">🔒 ĐÚNG/SAI — TỔNG</label><input type="number" id="ai-rt-truefalse" value="2" min="0" max="100" class="' + inpCls + ' w-16"></div>'
+                    + '<div><label class="' + labCls + '">🔒 TRẢ LỜI NGẮN — TỔNG</label><input type="number" id="ai-rt-short" value="5" min="0" max="100" class="' + inpCls + ' w-16"></div>'
+                    + '<div><label class="' + labCls + '">🔒 TỰ LUẬN — TỔNG</label><input type="number" id="ai-rt-essay" value="1" min="0" max="100" class="' + inpCls + ' w-16"></div>'
+                    + '<div><label class="' + labCls + '">TỔNG CỘNG</label><div id="ai-grand-total" class="px-2 py-1.5 font-black text-violet-800 text-sm">26 câu</div></div>'
                     + '<div><label class="' + labCls + '">NB %</label><input type="number" id="ai-pct-nb" value="40" min="0" max="100" class="' + inpCls + ' w-16"></div>'
                     + '<div><label class="' + labCls + '">TH %</label><input type="number" id="ai-pct-th" value="30" min="0" max="100" class="' + inpCls + ' w-16"></div>'
                     + '<div><label class="' + labCls + '">VD %</label><input type="number" id="ai-pct-vd" value="20" min="0" max="100" class="' + inpCls + ' w-16"></div>'
                     + '<div><label class="' + labCls + '">VDC %</label><input type="number" id="ai-pct-vdc" value="10" min="0" max="100" class="' + inpCls + ' w-16"></div>'
                     + '<button type="button" id="ai-auto-btn" class="px-4 py-2 bg-violet-700 hover:bg-violet-800 text-white text-xs font-bold rounded-lg shadow-sm">🎲 Bốc tự động theo %</button>'
-                    + '<span class="text-[10px] text-slate-500 pb-1">Nhập tổng câu + % (sửa được) rồi bấm Bốc — hoặc nhập tay từng ô trong bảng như cũ.</span>';
+                    + '<span class="text-[10px] text-slate-500 pb-1">Đặt TỔNG từng dạng (khóa cứng 🔒) + tỉ lệ % rồi bấm Bốc: mỗi dạng được chia theo % mức độ, tổng từng dạng không đổi. Hoặc nhập tay từng ô trong bảng như cũ.</span>';
                 tableWrap.parentNode.insertBefore(bar, tableWrap);
                 document.getElementById('ai-auto-btn').addEventListener('click', aiAutoDistribute);
-                var tq0 = document.getElementById('ai-total-q'); if (tq0) tq0.value = aiMatrix().totQ; // o MUC TIEU: chi Boc moi dung, khong bi ghi de khi sua luoi
+                var Mrt = aiMatrix(); // khoa tung dang khoi tao = tong hien tai cua tung dang trong luoi
+                Mrt.rows.forEach(function(r){ var e2 = document.getElementById('ai-rt-' + r.key); if (e2) e2.value = r.q; });
             }
             // An o prompt + nut Tao prompt (chi con 1 nut Copy)
             var out = document.getElementById('ai-prompt-out'); if (out) out.style.display = 'none';
