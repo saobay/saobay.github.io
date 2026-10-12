@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261012_0805
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261012_0815
 // Tab 2: thay the renderLessonManagementList goc bang DS DE THI GV tai len, gom:
 //  (a) file de .html trong data/ (Word/AI day cong khai)
 //  (b) de luu rieng/len lich trong data/exam-schedule.json (exams-pending) - de Word/matran deu vao day
@@ -116,7 +116,7 @@ function fetchAll(){
 function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 function sbExamStatusText(x){
-  if (x.status === 'draft') return '📝 Chuẩn bị (bản nháp)';
+  if (x.status === 'draft') return '⏳ Chờ giao cho HS';
   if (x.status === 'published') return '✅ ĐÃ GIAO — HS làm được ngay';
   if (x.status === 'active') return '🔴 Đang mở cho HS làm';
   if (x.status === 'scheduled') return '⏰ Đã đặt lịch — tự giao lúc ' + (x.examTime ? new Date(x.examTime).toLocaleString('vi-VN') : '?');
@@ -169,12 +169,21 @@ function renderExams(){
             +(viewer.isAdmin?'<br><small style="color:#92400e">GV: '+esc(x.teacherName||'')+' ('+esc(x.teacherId||'')+')</small>':'')
             +'<br><small style="color:#555">'+esc(x.className||'')+' • '+when+' • '+sbExamStatusText(x)+(created?' • Tạo: '+created:'')+'</small>'
             +'<div style="margin-top:4px">'
-            +(x.status==='draft'?'<button data-exam-act="publish" data-exam-id="'+esc(x.id)+'" style="'+btn+'background:#16a34a;color:#fff">🚀 Giao ngay</button>':'')
-            +(x.status!=='published'&&x.status!=='active'?'<button data-exam-act="schedule" data-exam-id="'+esc(x.id)+'" style="'+btn+'background:#f59e0b;color:#fff">🕐 Đặt giờ tự giao</button>':'')
+            +(x.status==='draft'?'<button data-exam-act="assign" data-exam-id="'+esc(x.id)+'" style="'+btn+'background:#16a34a;color:#fff">🚀 Giao bài cho lớp</button>'
+            +'<button data-exam-act="publish" data-exam-id="'+esc(x.id)+'" style="'+btn+'background:#7c3aed;color:#fff">🌐 Public đề</button>':'')
+            +(x.status==='scheduled'?'<button data-exam-act="schedule" data-exam-id="'+esc(x.id)+'" style="'+btn+'background:#f59e0b;color:#fff">🕐 Đổi giờ tự giao</button>':'')
             +(x.status==='published'||x.status==='active'||x.status==='scheduled'?'<button data-exam-act="unpublish" data-exam-id="'+esc(x.id)+'" style="'+btn+'background:#64748b;color:#fff">↩️ Thu hồi về nháp</button>':'')
             +'<button data-exam-act="edit" data-exam-id="'+esc(x.id)+'" style="'+btn+'background:#2563eb;color:#fff">✏️ Sửa</button>'
             +'<button data-exam-act="delete" data-exam-id="'+esc(x.id)+'" style="'+btn+'background:#dc2626;color:#fff">🗑 Xóa</button>'
             +'</div>'
+            +'<div id="sb-assign-form-'+esc(x.id)+'" style="display:none;margin-top:6px;padding:8px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px">'
+            +'<div style="font-size:12px;font-weight:bold;margin-bottom:4px">Chọn lớp để giao đề này (đánh dấu nhiều lớp):</div>'
+            +'<div id="sb-assign-classes-'+esc(x.id)+'"><span style="font-size:12px;color:#666">⏳ Đang tải danh sách lớp...</span></div>'
+            +'<div style="margin-top:6px;font-size:12px"><label style="font-weight:bold"><input type="radio" name="sb-amode-'+esc(x.id)+'" value="now" checked> ⚡ Giao ngay (HS làm được luôn)</label> '
+            +'<label style="font-weight:bold;margin-left:10px"><input type="radio" name="sb-amode-'+esc(x.id)+'" value="time"> 🕐 Đặt giờ tự giao: </label><input type="datetime-local" id="sb-assign-time-'+esc(x.id)+'" value="'+(x.examTime?String(x.examTime).slice(0,16):'')+'" style="padding:4px;border:1px solid #ccc;border-radius:6px;font-size:13px"></div>'
+            +'<div style="margin-top:6px"><button data-exam-act="assign-save" data-exam-id="'+esc(x.id)+'" style="'+btn+'background:#16a34a;color:#fff">🚀 Giao cho các lớp đã chọn</button>'
+            +'<button data-exam-act="form-close" data-exam-id="'+esc(x.id)+'" data-form="assign" style="'+btn+'background:#e2e8f0;color:#334155">Hủy</button></div>'
+            +'<div style="font-size:11px;color:#666;margin-top:2px">Lớp gốc của đề được cập nhật tại chỗ; các lớp thêm sẽ nhận một bản giao riêng dùng chung file đề.</div></div>'
             +'<div id="sb-sched-form-'+esc(x.id)+'" style="display:none;margin-top:6px;padding:8px;background:#fffbeb;border:1px solid #fde68a;border-radius:8px">'
             +'<label style="font-size:12px;font-weight:bold">Giờ tự giao đề: </label><input type="datetime-local" id="sb-sched-input-'+esc(x.id)+'" value="'+(x.examTime?String(x.examTime).slice(0,16):'')+'" style="padding:4px;border:1px solid #ccc;border-radius:6px;font-size:13px"> '
             +'<button data-exam-act="schedule-save" data-exam-id="'+esc(x.id)+'" style="'+btn+'background:#f59e0b;color:#fff">Lưu giờ</button>'
@@ -232,6 +241,62 @@ function sbExamAction(act, id, btn){
     var sf=document.getElementById('sb-sched-form-'+id); if(sf) sf.style.display='block';
     return;
   }
+  if(act==='assign'){
+    var af=document.getElementById('sb-assign-form-'+id); if(af) af.style.display='block';
+    var box=document.getElementById('sb-assign-classes-'+id);
+    if(box && !box.getAttribute('data-loaded')){
+      box.setAttribute('data-loaded','1');
+      bk2Load().then(function(d){
+        fetchAll().then(function(dd){
+          var cur=(dd.scheduled||[]).filter(function(x){ return x.id===id; })[0]||{};
+          if(!d.classes.length){ box.innerHTML='<span style="font-size:12px;color:#b91c1c">Bạn chưa có lớp nào.</span>'; return; }
+          box.innerHTML=d.classes.map(function(c){
+            var isCur=(c.id && cur.classId && c.id===cur.classId) || (!c.id && cur.className && c.name===cur.className);
+            return '<label style="display:inline-block;margin:2px 8px 2px 0;font-size:13px"><input type="checkbox" data-sb-assign-class="'+esc(id)+'" value="'+esc(c.id)+'" data-name="'+esc(c.name)+'"'+(isCur?' checked':'')+'> '+(c.kind==='school'?'🏫 ':'👥 ')+esc(c.name)+'</label>';
+          }).join('');
+        });
+      }).catch(function(e){ box.innerHTML='<span style="font-size:12px;color:#b91c1c">Lỗi tải lớp: '+esc(e.message)+'</span>'; });
+    }
+    return;
+  }
+  if(act==='assign-save'){
+    var boxes=document.querySelectorAll('[data-sb-assign-class="'+id+'"]:checked');
+    if(!boxes.length){ alert('Hãy chọn ít nhất 1 lớp.'); return; }
+    var mode='now';
+    document.querySelectorAll('input[name="sb-amode-'+id+'"]').forEach(function(r){ if(r.checked) mode=r.value; });
+    var iso='';
+    if(mode==='time'){
+      var tin=document.getElementById('sb-assign-time-'+id);
+      if(!tin || !tin.value){ alert('Hãy chọn ngày giờ tự giao.'); return; }
+      iso=new Date(tin.value).toISOString();
+    }
+    busy();
+    sbExamMutate(function(exams){
+      var e=exams.filter(function(x){ return x.id===id; })[0];
+      if(!e) return false;
+      var targets=[];
+      boxes.forEach(function(b){ targets.push({ classId: b.value, className: b.getAttribute('data-name')||'' }); });
+      var ownUsed=false;
+      targets.forEach(function(t, ti){
+        var isOwn=(t.classId && e.classId && t.classId===e.classId) || (!t.classId && t.className===e.className) || (!e.classId && t.className===e.className);
+        if(isOwn && !ownUsed){
+          ownUsed=true;
+          e.className=t.className;
+          if(mode==='time'){ e.status='scheduled'; e.examTime=iso; } else { e.status='published'; e.examTime=new Date().toISOString(); }
+        } else {
+          var ne={};
+          Object.keys(e).forEach(function(k){ ne[k]=e[k]; });
+          ne.id='ex'+Date.now().toString(36)+'g'+ti;
+          ne.classId=t.classId; ne.className=t.className;
+          ne.createdAt=new Date().toISOString();
+          if(mode==='time'){ ne.status='scheduled'; ne.examTime=iso; } else { ne.status='published'; ne.examTime=new Date().toISOString(); }
+          exams.push(ne);
+        }
+      });
+      return true;
+    }, 'Giao de '+id+' cho lop').then(function(){ alert(mode==='time' ? '⏰ Đã đặt lịch giao đề cho các lớp đã chọn!' : '🚀 Đã giao đề! HS các lớp đã chọn mở tab Bài Tập & Đề Thi sẽ thấy đề trong khung đỏ.'); }).catch(fail);
+    return;
+  }
   if(act==='edit'){
     var ef=document.getElementById('sb-edit-form-'+id); if(ef) ef.style.display='block';
     return;
@@ -239,7 +304,7 @@ function sbExamAction(act, id, btn){
   if(act==='publish'){
     if(!confirm('Giao đề này cho HS ngay bây giờ? HS sẽ thấy và làm được ngay.')) return;
     busy();
-    sbExamPatch(id, { status: 'published' }, 'Giao ngay de '+id).then(function(){ alert('✅ Đã giao đề! HS mở tab Bài Tập & Đề Thi sẽ thấy đề trong khung đỏ.'); }).catch(fail);
+    sbExamPatch(id, { status: 'published' }, 'Public de '+id).then(function(){ alert('🌐 Đã Public đề! HS của lớp này mở tab Bài Tập & Đề Thi sẽ thấy đề trong khung đỏ và làm được ngay.'); }).catch(fail);
     return;
   }
   if(act==='unpublish'){
@@ -893,7 +958,7 @@ function _sbInitPickers(){
       if (eb2){
         var exa = (S.data.exams || []).filter(function(e){ return isAdmin || !me || String(e.teacherId || '') === String(me); });
         eb2.innerHTML = exa.length ? exa.map(function(e){
-          return '<div class="bg-rose-50 border border-rose-200 rounded-lg px-3 py-2 mb-1.5"><div class="text-sm font-bold text-slate-800">📝 ' + esc(e.title) + '</div><div class="text-[11px] text-rose-500 font-bold">Lớp: ' + esc(e.className || '') + ' · ' + (e.status === 'draft' ? 'Nháp — chưa giao' : e.status === 'scheduled' ? 'Đã đặt lịch giao' : 'Đã giao — HS làm được') + '</div></div>';
+          return '<div class="bg-rose-50 border border-rose-200 rounded-lg px-3 py-2 mb-1.5"><div class="text-sm font-bold text-slate-800">📝 ' + esc(e.title) + '</div><div class="text-[11px] text-rose-500 font-bold">Lớp: ' + esc(e.className || '') + ' · ' + (e.status === 'draft' ? 'Chờ giao — mở tab 2 để giao cho lớp' : e.status === 'scheduled' ? 'Đã đặt lịch giao' : 'Đã giao — HS làm được') + '</div></div>';
         }).join('') : '<p class="text-xs text-slate-400 italic">Chưa có đề kiểm tra nào.</p>';
       }
       return;
@@ -909,7 +974,7 @@ function _sbInitPickers(){
     if (eb){
       var ex = (S.data.exams || []).filter(function(e){ return norm(e.className) === norm(cls.name) || (cls.id && e.classId === cls.id); });
       eb.innerHTML = ex.length ? ex.map(function(e){
-        return '<div class="bg-rose-50 border border-rose-200 rounded-lg px-3 py-2 mb-1.5"><div class="text-sm font-bold text-slate-800">📝 ' + esc(e.title) + '</div><div class="text-[11px] text-rose-500 font-bold">' + (e.status === 'draft' ? 'Nháp — chưa giao' : e.status === 'scheduled' ? 'Đã đặt lịch giao' : 'Đã giao — HS làm được') + '</div></div>';
+        return '<div class="bg-rose-50 border border-rose-200 rounded-lg px-3 py-2 mb-1.5"><div class="text-sm font-bold text-slate-800">📝 ' + esc(e.title) + '</div><div class="text-[11px] text-rose-500 font-bold">' + (e.status === 'draft' ? 'Chờ giao — mở tab 2 để giao cho lớp' : e.status === 'scheduled' ? 'Đã đặt lịch giao' : 'Đã giao — HS làm được') + '</div></div>';
       }).join('') : '<p class="text-xs text-slate-400 italic">Lớp này chưa có đề kiểm tra nào.</p>';
     }
   }
@@ -940,11 +1005,6 @@ function _sbInitPickers(){
     if (tries > 60) clearInterval(iv);
   }, 250);
 })();
-
-console.log('SAOBAY wrap 0630 loaded');
-
-})();
-
 
 // ===== SAOBAY BANK2 PANEL v1 (2026-10-12): quan ly de trong Bank 2 + CHIA SE giua GV =====
 // Moi de trong data/bank-de co che do chia se (truong share.mode trong file de):
@@ -1216,6 +1276,10 @@ function bk2Action(act, path, d, btn){
     return;
   }
 }
+
+console.log('SAOBAY wrap 0630 loaded');
+
+})();
 
 
 // ===== SB PUSH POPUP v1 (2026-10-12): popup trang thai DAY DE — cho + ket qua, KHONG tu bien mat =====
