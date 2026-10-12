@@ -462,7 +462,7 @@
                 // Nút đưa vào khung soạn đặt DƯỚI phần gán ảnh
                 h += '<button onclick="sendWordToEditor()" class="mt-2 w-full bg-indigo-700 hover:bg-indigo-800 text-white text-xs font-bold px-4 py-2.5 rounded-xl"><i class="fa-solid fa-arrow-down mr-1"></i>Đưa ' + qs.length + ' câu vào khung soạn để đẩy</button>';
                 pv.innerHTML = h;
-                try { mountWordEditor(); } catch(eEd){ console.warn('word editor:', eEd); }
+                try { wedImportToComposer(); } catch(eEd){ console.warn('word editor:', eEd); }
             } catch(e){
                 pv.innerHTML = '<p class="text-xs text-rose-600">Lỗi đọc file: ' + String(e.message || e).replace(/</g,'&lt;') + '</p>';
             }
@@ -615,71 +615,20 @@
                     if (!isNaN(qi) && qs[qi]) imgMap[qi] = 'data:' + im.contentType + ';base64,' + im.b64;
                 }
             });
-            let examJson = { time_limit: 0, sets: [{ name: 'Đề', questions: qs.map(function(q, qi){
-                let o = { type: q.type, level: q.level, q: q.q, options: q.options || [],
-                         statements: q.statements || [], answer: q.answer, explain: q.explain || '' };
-                if (q._imgData) o.img = q._imgData; else if (imgMap[qi]) o.img = imgMap[qi]; // SB_WED_20261012: anh gan/dan tung cau
-                return o;
-            }) }] };
-            let frag = '<div class="saobay-exam10">\n'
-                + '<script type="application/json" class="saobay-exam10-data">\n' + JSON.stringify(examJson) + '\n<\/script>\n</div>';
             let ta = document.getElementById('item-content');
             if (!ta){ alert('Không tìm thấy khung soạn thảo.'); return; }
-            ta.value = frag;
-            // Hiển thị câu hỏi trong khung WYSIWYG (bản siêu đơn giản - không ảnh)
-            try {
-                var pvBox = document.getElementById('preview-container');
-                if (pvBox){
-                    var qList = (examJson.sets && examJson.sets[0] && examJson.sets[0].questions) || [];
-                    var html = '<div style="padding:10px">';
-                    html += '<p style="font-weight:bold;color:#1e40af;margin-bottom:10px">Đã chuyển ' + qList.length + ' câu vào khung soạn:</p>';
-                    for (var qi = 0; qi < qList.length; qi++){
-                        var q = qList[qi] || {};
-                        var qText = String(q.q || '').substring(0, 100);
-                        // Escape HTML đơn giản inline
-                        qText = qText.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-                        html += '<div style="border:1px solid #ddd;border-radius:8px;padding:8px;margin-bottom:8px;background:#fff">';
-                        html += '<p style="font-weight:bold;margin:0;font-size:14px">Câu ' + (qi+1) + ': ' + qText + (String(q.q||'').length > 100 ? '...' : '') + '</p>';
-                        var opts = q.options || [];
-                        for (var oi = 0; oi < opts.length && oi < 4; oi++){
-                            var letter = String.fromCharCode(65 + oi);
-                            var optText = String(opts[oi] || '').substring(0, 60).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-                            var isAns = String(q.answer || '').toUpperCase() === letter;
-                            html += '<p style="margin:2px 0 2px 16px;font-size:13px;' + (isAns ? 'color:#15803d;font-weight:bold' : 'color:#475569') + '">' + letter + '. ' + optText + (isAns ? ' ✓' : '') + '</p>';
-                        }
-                        if (q.img){
-                            // 2026-10-11: chi hien placeholder, KHONG nhet base64 vao preview (tranh trang man hinh)
-                            // Anh that se upload khi GV bam "Day bai"
-                            if (String(q.img).indexOf('data:image') === 0){
-                                html += '<p style="font-size:12px;color:#7c3aed;margin:4px 0 0 16px">📷 Có ảnh minh họa (sẽ tải lên khi Đẩy bài)</p>';
-                            } else {
-                                html += '<img src="' + q.img + '" style="max-width:100%;max-height:200px;margin-top:8px;border-radius:8px;border:1px solid #e2e8f0" loading="lazy"/>';
-                            }
-                        }
-                        html += '</div>';
-                    }
-                    html += '</div>';
-                    // JSON ẩn để đẩy bài (đặt riêng, không lẫn với visible)
-                    html += '<div class="saobay-exam10" style="display:none"><script type="application/json" class="saobay-exam10-data">' + JSON.stringify(examJson).split('<').join('\\u003c') + '<\/script></div>';
-                    pvBox.innerHTML = html;
-                } else {
-                    console.error('preview-container not found');
-                }
-            } catch(eRender){ 
-                console.error('render failed:', eRender);
-                try {
-                    var pvBox2 = document.getElementById('preview-container');
-                    if (pvBox2) pvBox2.innerHTML = '<p style="color:red;padding:20px">Lỗi hiển thị: ' + String(eRender.message || eRender) + '</p>';
-                } catch(e2){}
-            }
-            // 2026-10-11: KHONG goi renderMathPreview o day vi no ghi de lam trang khung
-            if (typeof showToast === 'function') showToast('Đã chuyển ' + qs.length + ' câu vào khung soạn. Nhập tiêu đề rồi bấm Đẩy bài.', 'success');
-            else alert('Đã chuyển ' + qs.length + ' câu vào khung soạn.');
+            // SB_WED_20261012_V3: gan anh theo bang gan (img-map) vao tung cau, roi nap vao KHUNG SOAN THE chung
+            qs.forEach(function(q, qi){ if (!q._imgData && imgMap[qi]) q.img = imgMap[qi]; });
+            wedLoadExam({ time_limit: 0, sets: [{ name: 'Đề', questions: qs }] });
+            wedSerializeToComposer();
+            if (typeof showToast === 'function') showToast('Đã chuyển ' + qs.length + ' câu vào khung soạn thẻ. Nhập tiêu đề rồi bấm Đẩy bài.', 'success');
+            else alert('Đã chuyển ' + qs.length + ' câu vào khung soạn thẻ.');
             let titleInput = document.getElementById('item-title');
             if (titleInput && !titleInput.value.trim()){
-                let base = (wordState.fileName || '').replace(/\.docx$/i, '');
+                let base = (wordState.fileName || '').replace(/\.docx$/i, '').replace(/\.pdf$/i, '');
                 if (base) titleInput.value = base.replace(/[_-]+/g, ' ');
             }
+            wedOpenCards();
         }
 
 // ========================================================
@@ -1057,7 +1006,7 @@ async function handlePdfExamFile(input){
             }).join('') + '</div></div>'
             + '<button onclick="sendWordToEditor()" class="mt-2 w-full bg-indigo-700 hover:bg-indigo-800 text-white text-xs font-bold px-4 py-2.5 rounded-xl"><i class="fa-solid fa-arrow-down mr-1"></i>Đưa ' + qs.length + ' câu vào khung soạn để đẩy</button>';
         pv.innerHTML = h;
-        try { mountWordEditor(); } catch(eEd){ console.warn('word editor:', eEd); }
+        try { wedImportToComposer(); } catch(eEd){ console.warn('word editor:', eEd); }
     } catch(e){
         pv.innerHTML = '<p class="text-xs text-rose-600">Lỗi đọc file PDF: ' + String((e && e.message) || e).replace(/</g, '&lt;') + '</p>';
     }
@@ -1066,15 +1015,18 @@ async function handlePdfExamFile(input){
 window.handlePdfExamFile = handlePdfExamFile;
 /* ===== HẾT SB_PDF_V1_20261012 ===== */
 
-/* ===== SB_WED_20261012_V2: KHUNG SUA CAU HOI sau khi doc Word/PDF =====
-   Danh sach cau trong #word-preview tro thanh dung de SUA truc tiep (wordState.questions la nguon su that):
-   - Bam chu cai phuong an de DAT DAP AN (TN); cau TLN co o nhap dap an; cau D/S bam tung y de doi Dung/Sai.
-   - Muc do NB/TH/VD/VDC la cac nut MAU rieng, bam de doi.
-   - Doi DANG cau (TN / D-S / TLN / TL) bang nut dang.
-   - Moi cau co KHUNG ANH co dinh o ben phai: bam vao khung de KICH HOAT (khung nhap nhay cho dan),
-     roi Ctrl+V la anh vao khung do. Bam vao khung KHONG bat hop chon file; muon chon file thi bam
-     nut nho "Chon file" trong khung (hoac bam dup vao khung). Anh luu vao cau (q._imgData),
-     khi Day bai se tu upload theo (sendWordToEditor doc q._imgData). */
+/* ===== SB_WED_20261012_V3: KHUNG SOAN THE CAU HOI — che do soan thu 4 cua khung soan chung =====
+   Gop khung sua cau hoi (doc tu Word/PDF) va khung soan lam MOT:
+   - The cau hoi song ngay trong khu soan (div #wed-composer), canh cac che do Truc quan / Hoc sinh / Ma HTML.
+   - Sua the -> tu dong ghi lai vao #item-content (dinh dang saobay-exam10 nhu sendWordToEditor) -> nut
+     Day bai dung nguyen luong cu. Mo the: doc nguoc fragment exam10 tu #item-content (de tu Word/PDF/AI/bank
+     deu sua duoc), ho tro NHIEU BO (tab ma de).
+   - Giu ho tro CONG THUC TOAN: o noi dung go $...$ nhu thuong, co dai xem truoc MathJax duoi o;
+     bam badge cong thuc trong dai xem truoc hoac nut ∑ de mo dung modal cong thuc cua khung soan
+     (hub-editor.js applyMathFormula co nhanh __wedMathTarget ghi thang vao o chu cua the).
+   - Giu DINH DANG VAN BAN: toolbar B / I / U / chi so duoi / chi so tren tren tung o noi dung (chen the HTML,
+     phia HS render bang innerHTML + MathJax nen hien dung).
+   - Moi cau co KHUNG ANH co dinh ben phai: bam kich hoat (nhap nhay) roi Ctrl+V dan anh; nut rieng chon file. */
 var WED_LV = [
     { k: 'NB', name: 'NB', cls: 'background:#059669;color:#fff;' },
     { k: 'TH', name: 'TH', cls: 'background:#0284c7;color:#fff;' },
@@ -1088,6 +1040,7 @@ var WED_TYPES = [
     { k: 'essay', name: 'Tự luận' }
 ];
 var __wedActiveQi = -1;
+var wedState = { sets: [], activeSet: 0, extra: {} };
 function wedEsc(s){ return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
 function wedStripOpt(o){ return String(o || '').replace(/^[A-Da-d]\s*[\.\)]\s*/, ''); }
 function wedEnsureStyle(){
@@ -1102,14 +1055,199 @@ function wedEnsureStyle(){
       + '@keyframes wedBlink{50%{opacity:0}}'
       + '.wed-imgframe .wed-hint-active{display:none;}'
       + '.wed-imgframe.wed-active .wed-hint-active{display:block;}'
-      + '.wed-imgframe.wed-active .wed-hint-idle{display:none;}';
+      + '.wed-imgframe.wed-active .wed-hint-idle{display:none;}'
+      + '.wed-mathstrip{font-size:12px;color:#334155;background:#f8fafc;border:1px dashed #cbd5e1;border-radius:8px;padding:5px 8px;margin-top:4px;min-height:26px;}'
+      + '.wed-mathstrip:empty{display:none;}'
+      + '.wed-fmtbtn{font-size:10px;font-weight:800;padding:2px 7px;border:1px solid #cbd5e1;border-radius:6px;background:#fff;color:#475569;cursor:pointer;}'
+      + '.wed-fmtbtn:hover{background:#eef2ff;color:#4338ca;}';
     document.head.appendChild(st);
+}
+function wedActiveQuestions(){
+    var s = wedState.sets[wedState.activeSet];
+    return s ? s.questions : [];
+}
+function wedSyncAlias(){ wordState.questions = wedActiveQuestions(); }
+function wedSetActiveSet(i){
+    if (!wedState.sets[i]) return;
+    wedState.activeSet = i;
+    __wedActiveQi = -1;
+    wedSyncAlias();
+    mountWordEditor();
+}
+/* ---------- Doc / ghi fragment exam10 ---------- */
+function wedParseFragment(text){
+    if (!text) return null;
+    var m = String(text).match(/<script type="application\/json" class="saobay-exam10-data">([\s\S]*?)<\/script>/);
+    if (!m) return null;
+    try {
+        var exam = JSON.parse(m[1]);
+        if (!exam || !Array.isArray(exam.sets) || !exam.sets.length) return null;
+        return exam;
+    } catch(e){ return null; }
+}
+function wedLoadExam(exam){
+    var extra = {};
+    Object.keys(exam || {}).forEach(function(k){ if (k !== 'sets') extra[k] = exam[k]; });
+    if (extra.time_limit == null) extra.time_limit = 0;
+    wedState.extra = extra;
+    wedState.sets = (exam.sets || []).map(function(s){
+        return { name: s.name || 'Đề', questions: (s.questions || []).map(function(q){
+            var c = {}; Object.keys(q || {}).forEach(function(k){ c[k] = q[k]; });
+            return c;
+        }) };
+    });
+    if (!wedState.sets.length) wedState.sets = [{ name: 'Đề', questions: [] }];
+    wedState.activeSet = 0;
+    __wedActiveQi = -1;
+    wedSyncAlias();
+}
+function wedSerializeQ(q){
+    var o = {};
+    Object.keys(q || {}).forEach(function(k){ if (k !== '_imgData') o[k] = q[k]; });
+    o.type = q.type || 'short';
+    o.level = q.level || 'NB';
+    o.q = q.q || '';
+    o.options = q.options || [];
+    o.statements = q.statements || [];
+    o.explain = q.explain || '';
+    if (typeof o.answer !== 'string' && !Array.isArray(o.answer)) o.answer = '';
+    if (q._imgData) o.img = q._imgData;
+    else if (q.img) o.img = q.img;
+    else delete o.img;
+    return o;
+}
+function wedBuildExamJson(){
+    var exam = {};
+    Object.keys(wedState.extra || {}).forEach(function(k){ exam[k] = wedState.extra[k]; });
+    if (exam.time_limit == null) exam.time_limit = 0;
+    exam.sets = wedState.sets.map(function(s){
+        return { name: s.name || 'Đề', questions: (s.questions || []).map(wedSerializeQ) };
+    });
+    return exam;
+}
+function wedSerializeToComposer(){
+    var ta = document.getElementById('item-content');
+    if (!ta) return;
+    var examJson = wedBuildExamJson();
+    ta.value = '<div class="saobay-exam10">\n'
+        + '<script type="application/json" class="saobay-exam10-data">\n' + JSON.stringify(examJson) + '\n<\/script>\n</div>';
+    // Cap nhat ca preview don gian (giong sendWordToEditor cu) de cac che do khac thay dung noi dung
+    try {
+        var pvBox = document.getElementById('preview-container');
+        if (pvBox){
+            var qList = wedActiveQuestions().map(wedSerializeQ);
+            var html = '<div style="padding:10px">';
+            html += '<p style="font-weight:bold;color:#1e40af;margin-bottom:10px">Đang soạn theo thẻ: ' + qList.length + ' câu (Bộ ' + (wedState.activeSet + 1) + '/' + wedState.sets.length + '):</p>';
+            for (var qi = 0; qi < qList.length; qi++){
+                var q = qList[qi] || {};
+                var qText = String(q.q || '').substring(0, 100).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                html += '<div style="border:1px solid #ddd;border-radius:8px;padding:8px;margin-bottom:8px;background:#fff">';
+                html += '<p style="font-weight:bold;margin:0;font-size:14px">Câu ' + (qi + 1) + ': ' + qText + (String(q.q || '').length > 100 ? '...' : '') + '</p>';
+                var opts = q.options || [];
+                for (var oi = 0; oi < opts.length && oi < 4; oi++){
+                    var letter = String.fromCharCode(65 + oi);
+                    var optText = String(opts[oi] || '').substring(0, 60).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                    var isAns = String(q.answer || '').toUpperCase() === letter;
+                    html += '<p style="margin:2px 0 2px 16px;font-size:13px;' + (isAns ? 'color:#15803d;font-weight:bold' : 'color:#475569') + '">' + letter + '. ' + optText + (isAns ? ' ✓' : '') + '</p>';
+                }
+                if (q.img){
+                    if (String(q.img).indexOf('data:image') === 0) html += '<p style="font-size:12px;color:#7c3aed;margin:4px 0 0 16px">📷 Có ảnh minh họa (sẽ tải lên khi Đẩy bài)</p>';
+                    else html += '<img src="' + q.img + '" style="max-width:100%;max-height:200px;margin-top:8px;border-radius:8px;border:1px solid #e2e8f0" loading="lazy"/>';
+                }
+                html += '</div>';
+            }
+            html += '</div>';
+            html += '<div class="saobay-exam10" style="display:none"><script type="application/json" class="saobay-exam10-data">' + JSON.stringify(examJson).split('<').join('\\u003c') + '<\/script></div>';
+            pvBox.innerHTML = html;
+        }
+    } catch(eRender){ console.warn('wed preview:', eRender); }
+}
+var _wedSyncTimer = null;
+function wedTouch(){
+    clearTimeout(_wedSyncTimer);
+    _wedSyncTimer = setTimeout(function(){ try { wedSerializeToComposer(); } catch(e){ console.warn('wed sync:', e); } }, 400);
+}
+/* ---------- Mo / dong che do the ---------- */
+function wedSetModeButtons(){
+    var defs = { 'mode-btn-visual': 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 font-bold text-xs px-3 py-1.5 rounded-lg transition flex items-center',
+                 'mode-btn-student': 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 font-bold text-xs px-3 py-1.5 rounded-lg transition flex items-center',
+                 'mode-btn-code': 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 font-bold text-xs px-3 py-1.5 rounded-lg transition flex items-center',
+                 'mode-btn-cards': 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 font-bold text-xs px-3 py-1.5 rounded-lg transition flex items-center' };
+    Object.keys(defs).forEach(function(id){ var b = document.getElementById(id); if (b) b.className = defs[id]; });
+    var bc = document.getElementById('mode-btn-cards');
+    if (bc && window.__wedCardMode) bc.className = 'bg-violet-600 text-white font-bold text-xs px-3 py-1.5 rounded-lg shadow-sm transition flex items-center';
+}
+function wedOpenCards(){
+    var box = document.getElementById('wed-composer');
+    if (!box) return;
+    window.__wedCardMode = true;
+    var pv = document.getElementById('preview-container');
+    var ta = document.getElementById('item-content');
+    if (pv) pv.classList.add('hidden');
+    if (ta) ta.classList.add('hidden');
+    var tb = document.getElementById('visual-format-toolbar');
+    if (tb) tb.classList.add('hidden');
+    box.classList.remove('hidden');
+    wedSetModeButtons();
+    var statusEl = document.getElementById('editor-status-indicator');
+    if (statusEl){
+        statusEl.innerHTML = '<span class="w-2 h-2 rounded-full bg-violet-500 animate-pulse mr-1.5"></span><span>Soạn theo thẻ câu hỏi — tự lưu vào nội dung đề</span>';
+        statusEl.className = 'inline-flex items-center text-violet-700 bg-violet-50 border border-violet-200 px-2.5 py-1 rounded-md';
+    }
+    mountWordEditor();
+}
+function wedToggleCards(){
+    if (window.__wedCardMode){ if (typeof setEditorMode === 'function') setEditorMode('visual'); return; }
+    var ta = document.getElementById('item-content');
+    var exam = ta ? wedParseFragment(ta.value) : null;
+    if (exam) wedLoadExam(exam);
+    else if (wordState.questions && wordState.questions.length){
+        wedLoadExam({ time_limit: 0, sets: [{ name: 'Đề', questions: wordState.questions }] });
+        wedSerializeToComposer();
+    } else {
+        if (typeof showToast === 'function') showToast('Chưa có đề nào trong khung soạn. Hãy đọc file Word/PDF, bốc bank hoặc soạn bằng AI trước, rồi mở Thẻ Câu Hỏi để sửa.', 'error');
+        return;
+    }
+    wedOpenCards();
+    var box = document.getElementById('wed-composer');
+    if (box && box.scrollIntoView) { try { box.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch(e){} }
+}
+function wedImportToComposer(){
+    // Luong doc Word/PDF xong: nap thang vao khung soan the (khong con ban sao o khung xem truoc)
+    wedLoadExam({ time_limit: 0, sets: [{ name: 'Đề', questions: wordState.questions || [] }] });
+    wedSerializeToComposer();
+    wedOpenCards();
+    var box = document.getElementById('wed-composer');
+    if (box && box.scrollIntoView) { try { box.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch(e){} }
+}
+function mountWordEditor(){ wedRenderCards(); }
+/* ---------- Render the ---------- */
+function wedRenderCards(){
+    var box = document.getElementById('wed-composer');
+    if (!box) return;
+    wedEnsureStyle();
+    var qs = wedActiveQuestions();
+    var h = '<div class="flex flex-wrap items-center gap-2 mb-2">'
+        + '<span class="text-sm font-black text-violet-900">🧩 Soạn theo thẻ — ' + qs.length + ' câu</span>';
+    if (wedState.sets.length > 1){
+        h += '<span class="flex gap-1 ml-2">' + wedState.sets.map(function(s, i){
+            var on = i === wedState.activeSet;
+            return '<button type="button" onclick="wedSetActiveSet(' + i + ')" class="text-[11px] font-black px-3 py-1.5 rounded-full border" style="' + (on ? 'background:#7c3aed;color:#fff;border-color:#7c3aed;' : 'background:#f5f3ff;color:#6d28d9;border-color:#ddd6fe;') + '">' + wedEsc(s.name || ('Bộ ' + (i + 1))) + '</button>';
+        }).join('') + '</span>';
+    }
+    h += '<button type="button" onclick="wedAddQuestion()" class="ml-auto text-[11px] font-black px-3 py-1.5 rounded-full bg-emerald-600 text-white">＋ Thêm câu</button></div>'
+        + '<p class="text-[11px] text-slate-500 mb-2">Đặt <b>đáp án</b> (bấm vòng tròn chữ cái), đổi <b>mức độ</b> bằng nút màu, đổi <b>dạng câu</b>; gõ công thức dạng $...$ hoặc bấm <b>∑</b> để mở trình soạn công thức; cần ảnh thì bấm <b>khung ảnh bên phải</b> rồi dán (Ctrl+V). Mọi thay đổi tự ghi vào nội dung đề — xong chỉ việc bấm <b>Đẩy bài</b>.</p>'
+        + '<div class="space-y-2">' + qs.map(function(q, i){ return wedCard(i); }).join('') + '</div>';
+    box.innerHTML = h;
+    wedBindPasteOnce();
+    wedMathRefreshAll();
 }
 function wedImgFrame(qi, q){
     var active = (__wedActiveQi === qi) ? ' wed-active' : '';
+    var src = q._imgData || q.img || '';
     var inner;
-    if (q._imgData){
-        inner = '<img src="' + q._imgData + '" class="max-w-full max-h-36 object-contain rounded border border-violet-200 bg-white">'
+    if (src){
+        inner = '<img src="' + src + '" class="max-w-full max-h-36 object-contain rounded border border-violet-200 bg-white">'
             + '<span class="text-[9px] font-bold text-violet-700">Đã có ảnh — dán ảnh mới để thay</span>'
             + '<span class="flex gap-1">'
             + '<button type="button" onclick="event.stopPropagation();wedImgPick(' + qi + ')" class="text-[9px] font-bold px-2 py-1 rounded-full bg-white border border-violet-300 text-violet-700">📁 Đổi file</button>'
@@ -1125,12 +1263,21 @@ function wedImgFrame(qi, q){
         + 'onclick="wedImgFocus(' + qi + ',this)" ondblclick="wedImgPick(' + qi + ')" '
         + 'title="Bấm để chọn khung này rồi dán ảnh bằng Ctrl+V. Bấm đúp (hoặc nút Chọn file) để tải ảnh từ máy.">' + inner + '</div>';
 }
+function wedFmtBar(qi){
+    return '<span class="inline-flex items-center gap-1 ml-1">'
+        + '<button type="button" class="wed-fmtbtn" title="In đậm" onclick="wedFmt(' + qi + ',\'b\')"><b>B</b></button>'
+        + '<button type="button" class="wed-fmtbtn" title="In nghiêng" onclick="wedFmt(' + qi + ',\'i\')"><i>I</i></button>'
+        + '<button type="button" class="wed-fmtbtn" title="Gạch chân" onclick="wedFmt(' + qi + ',\'u\')"><u>U</u></button>'
+        + '<button type="button" class="wed-fmtbtn" title="Chỉ số dưới (vd H₂O)" onclick="wedFmt(' + qi + ',\'sub\')">x<sub>2</sub></button>'
+        + '<button type="button" class="wed-fmtbtn" title="Chỉ số trên (vd x²)" onclick="wedFmt(' + qi + ',\'sup\')">x<sup>2</sup></button>'
+        + '<button type="button" class="wed-fmtbtn" title="Chèn/sửa công thức toán (MathJax)" onclick="wedMathInsert(' + qi + ')">∑ Công thức</button>'
+        + '</span>';
+}
 function wedCard(qi){
-    var q = wordState.questions[qi];
+    var q = wedActiveQuestions()[qi];
     if (!q) return '';
     var type = q.type || 'short';
     var m = '';
-    // Hang 1: so cau + dang cau + xoa
     m += '<div class="flex flex-wrap items-center gap-1.5 mb-1.5">'
         + '<span class="text-xs font-black text-slate-700 mr-1">Câu ' + (qi + 1) + '</span>'
         + WED_TYPES.map(function(t){
@@ -1139,15 +1286,14 @@ function wedCard(qi){
         }).join('')
         + '<button type="button" onclick="wedDel(' + qi + ')" title="Xoá câu này" class="ml-auto text-[10px] font-bold px-2 py-1 rounded-full bg-rose-50 text-rose-600 border border-rose-200">🗑 Xoá</button>'
         + '</div>';
-    // Hang 2: muc do dang nut mau
     m += '<div class="flex flex-wrap items-center gap-1.5 mb-2"><span class="text-[10px] font-bold text-slate-400">Mức độ:</span>'
         + WED_LV.map(function(lv){
             var on = (q.level || 'NB') === lv.k;
             return '<button type="button" data-wed-lv="' + lv.k + '" onclick="wedSetLevel(' + qi + ',\'' + lv.k + '\')" class="text-[10px] font-black px-2.5 py-1 rounded-full border" style="' + (on ? lv.cls + 'border-color:transparent;box-shadow:0 0 0 2px #1e293b inset;' : 'background:#f1f5f9;color:#64748b;border-color:#e2e8f0;') + '">' + lv.name + '</button>';
         }).join('') + '</div>';
-    // Noi dung cau hoi
-    m += '<textarea rows="2" oninput="wedText(' + qi + ',\'q\',this.value)" class="w-full text-xs border border-slate-200 rounded-lg px-2 py-1.5 font-semibold text-slate-800" placeholder="Nội dung câu hỏi...">' + wedEsc(q.q || '') + '</textarea>';
-    // Phan dap an theo dang
+    m += '<div class="flex flex-wrap items-center gap-1 mb-1"><span class="text-[10px] font-bold text-slate-400">Nội dung:</span>' + wedFmtBar(qi) + '</div>'
+        + '<textarea rows="2" data-wed-stem="' + qi + '" oninput="wedText(' + qi + ',\'q\',this.value);wedMathRefresh(' + qi + ')" class="w-full text-xs border border-slate-200 rounded-lg px-2 py-1.5 font-semibold text-slate-800" placeholder="Nội dung câu hỏi... (gõ công thức dạng $x^2+1$)">' + wedEsc(q.q || '') + '</textarea>'
+        + '<div class="wed-mathstrip" data-wed-math="' + qi + '"></div>';
     if (type === 'mcq'){
         var opts = (q.options || []).slice(0, 4);
         while (opts.length < 4) opts.push('');
@@ -1156,7 +1302,8 @@ function wedCard(qi){
             var isAns = String(q.answer || '').toUpperCase() === letter;
             return '<div class="flex items-center gap-1.5">'
                 + '<button type="button" data-wed-ans="' + letter + '" onclick="wedSetAnswer(' + qi + ',\'' + letter + '\')" title="Bấm để đặt làm đáp án đúng" class="shrink-0 w-7 h-7 rounded-full text-[11px] font-black border" style="' + (isAns ? 'background:#16a34a;color:#fff;border-color:#16a34a;' : 'background:#f1f5f9;color:#64748b;border-color:#cbd5e1;') + '">' + letter + '</button>'
-                + '<input type="text" value="' + wedEsc(wedStripOpt(o)) + '" oninput="wedOptText(' + qi + ',' + oi + ',this.value)" class="flex-1 text-xs border border-slate-200 rounded-lg px-2 py-1.5" placeholder="Phương án ' + letter + '...">'
+                + '<input type="text" data-wed-opt="' + oi + '" value="' + wedEsc(wedStripOpt(o)) + '" oninput="wedOptText(' + qi + ',' + oi + ',this.value)" class="flex-1 text-xs border border-slate-200 rounded-lg px-2 py-1.5" placeholder="Phương án ' + letter + '...">'
+                + '<button type="button" class="wed-fmtbtn shrink-0" title="Chèn công thức vào phương án này" onclick="wedMathInsert(' + qi + ',' + oi + ')">∑</button>'
                 + (isAns ? '<span class="text-[9px] font-black text-emerald-600 shrink-0">ĐÁP ÁN</span>' : '')
                 + '</div>';
         }).join('') + '</div>'
@@ -1192,29 +1339,106 @@ function wedCard(qi){
         + '<div class="shrink-0 w-[168px] max-w-full">' + wedImgFrame(qi, q) + '</div>'
         + '</div></div>';
 }
-function mountWordEditor(){
-    var pv = document.getElementById('word-preview');
-    if (!pv) return;
-    var list = pv.querySelector('.max-h-56');
-    if (!list) return;
-    wedEnsureStyle();
-    var keepScroll = list.scrollTop || 0;
-    list.classList.remove('max-h-56');
-    list.classList.add('max-h-[75vh]');
-    var qs = wordState.questions || [];
-    list.innerHTML = '<p class="text-[11px] font-black text-indigo-900 bg-indigo-50 border border-indigo-100 rounded-lg px-2.5 py-2">✏️ Sửa câu hỏi (' + qs.length + ' câu) — đặt <b>đáp án</b>, đổi <b>mức độ</b> bằng nút màu, đổi <b>dạng câu</b>; cần ảnh thì bấm vào <b>khung ảnh bên phải</b> từng câu rồi dán (Ctrl+V). Sửa xong bấm nút "Đưa vào khung soạn" ở dưới.</p>'
-        + '<div class="space-y-2 mt-2">' + qs.map(function(q, i){ return wedCard(i); }).join('') + '</div>';
-    list.scrollTop = keepScroll;
-    wedBindPasteOnce();
-}
 function wedRefreshCard(qi){
-    var pv = document.getElementById('word-preview');
-    if (!pv) return;
-    var card = pv.querySelector('[data-wed-qi="' + qi + '"]');
-    if (card) card.outerHTML = wedCard(qi);
+    var box = document.getElementById('wed-composer');
+    if (!box) return;
+    var card = box.querySelector('[data-wed-qi="' + qi + '"]');
+    if (card){ card.outerHTML = wedCard(qi); wedMathRefresh(qi); }
+}
+/* ---------- Cong thuc toan trong the ---------- */
+function wedMathHtml(text){
+    var t = wedEsc(text || '');
+    t = t.replace(/&lt;(\/?)(b|i|u|sub|sup)&gt;/gi, '<$1$2>');
+    return t.replace(/\n/g, '<br>');
+}
+var _wedMathTimer = null;
+function wedMathRefresh(qi){
+    clearTimeout(_wedMathTimer);
+    _wedMathTimer = setTimeout(function(){ wedMathRenderOne(qi); }, 350);
+}
+function wedMathRefreshAll(){
+    wedActiveQuestions().forEach(function(_, qi){ wedMathRenderOne(qi); });
+}
+function wedMathRenderOne(qi){
+    var box = document.getElementById('wed-composer');
+    if (!box) return;
+    var strip = box.querySelector('[data-wed-math="' + qi + '"]');
+    var q = wedActiveQuestions()[qi];
+    if (!strip || !q) return;
+    var text = String(q.q || '');
+    if (text.indexOf('$') < 0){ strip.innerHTML = ''; return; }
+    strip.innerHTML = wedMathHtml(text);
+    try {
+        if (typeof wrapMathInBadges === 'function') wrapMathInBadges(strip);
+        strip.querySelectorAll('.math-badge').forEach(function(badge){
+            badge.onclick = function(e){
+                if (e) { e.stopPropagation(); e.preventDefault(); }
+                var latex = badge.getAttribute('data-latex') || '';
+                var disp = badge.getAttribute('data-display') === 'true';
+                window.__wedMathTarget = { qi: qi, field: 'q', replace: (disp ? '$$' : '$') + latex + (disp ? '$$' : '$') };
+                if (typeof openMathFormulaModalForElement === 'function') openMathFormulaModalForElement(badge, e);
+            };
+        });
+        if (window.MathJax && window.MathJax.typesetPromise) window.MathJax.typesetPromise([strip]).catch(function(){});
+    } catch(e){ /* xem truoc loi thi bo qua, noi dung goc khong doi */ }
+}
+function wedMathInsert(qi, oi){
+    window.__wedMathTarget = { qi: qi, field: (oi == null ? 'q' : 'opt'), oi: oi, replace: null };
+    if (typeof openMathFormulaModal === 'function') openMathFormulaModal('');
+    else if (typeof showToast === 'function') showToast('Không mở được trình soạn công thức.', 'error');
+}
+function wedFieldEl(tgt){
+    var box = document.getElementById('wed-composer');
+    if (!box) return null;
+    var card = box.querySelector('[data-wed-qi="' + tgt.qi + '"]');
+    if (!card) return null;
+    if (tgt.field === 'q') return card.querySelector('[data-wed-stem]');
+    return card.querySelector('[data-wed-opt="' + tgt.oi + '"]');
+}
+function wedApplyMath(tgt, ins){
+    var el = wedFieldEl(tgt);
+    var q = wedActiveQuestions()[tgt.qi];
+    if (!q) return;
+    var cur = tgt.field === 'q' ? String(q.q || '') : wedStripOpt((q.options || [])[tgt.oi] || '');
+    var next;
+    if (tgt.replace && cur.indexOf(tgt.replace) >= 0) next = cur.replace(tgt.replace, ins);
+    else if (el && typeof el.selectionStart === 'number'){
+        var s = el.selectionStart || 0, e2 = el.selectionEnd || 0;
+        var v = el.value || '';
+        next = v.substring(0, s) + ins + v.substring(e2);
+    } else next = cur + ' ' + ins;
+    if (tgt.field === 'q'){ q.q = next; } else { wedOptText(tgt.qi, tgt.oi, next); }
+    wedRefreshCard(tgt.qi);
+    wedTouch();
+    if (typeof showToast === 'function') showToast('Đã cập nhật công thức trong câu ' + (tgt.qi + 1) + '.', 'success');
+}
+function wedFmt(qi, tag){
+    var box = document.getElementById('wed-composer');
+    if (!box) return;
+    var card = box.querySelector('[data-wed-qi="' + qi + '"]');
+    var el = card && card.querySelector('[data-wed-stem]');
+    var q = wedActiveQuestions()[qi];
+    if (!el || !q) return;
+    var s = (typeof el.selectionStart === 'number') ? el.selectionStart : (el.value || '').length;
+    var e2 = (typeof el.selectionEnd === 'number') ? el.selectionEnd : s;
+    var v = el.value || '';
+    var sel = v.substring(s, e2);
+    var wrapped = '<' + tag + '>' + sel + '</' + tag + '>';
+    el.value = v.substring(0, s) + wrapped + v.substring(e2);
+    q.q = el.value;
+    var pos = s + tag.length + 2 + sel.length;
+    try { el.focus(); el.setSelectionRange(sel ? pos : s + tag.length + 2, sel ? pos : s + tag.length + 2); } catch(e){}
+    wedMathRefresh(qi);
+    wedTouch();
+}
+/* ---------- Cac thao tac sua ---------- */
+function wedAddQuestion(){
+    wedActiveQuestions().push({ type: 'mcq', level: 'NB', q: '', options: ['A. ', 'B. ', 'C. ', 'D. '], statements: [], answer: '', explain: '' });
+    wedRenderCards();
+    wedTouch();
 }
 function wedSetType(qi, t){
-    var q = wordState.questions[qi]; if (!q) return;
+    var q = wedActiveQuestions()[qi]; if (!q) return;
     var old = q.type || 'short';
     if (old === t) return;
     if (t === 'mcq'){
@@ -1237,55 +1461,57 @@ function wedSetType(qi, t){
         q.answer = '';
     }
     q.type = t;
-    mountWordEditor();
+    wedRefreshCard(qi);
+    wedTouch();
 }
 function wedSetLevel(qi, lv){
-    var q = wordState.questions[qi]; if (!q) return;
+    var q = wedActiveQuestions()[qi]; if (!q) return;
     q.level = lv;
-    var pv = document.getElementById('word-preview');
-    var card = pv && pv.querySelector('[data-wed-qi="' + qi + '"]');
+    var box = document.getElementById('wed-composer');
+    var card = box && box.querySelector('[data-wed-qi="' + qi + '"]');
     if (card) card.querySelectorAll('[data-wed-lv]').forEach(function(b){
         var on = b.getAttribute('data-wed-lv') === lv;
         var meta = WED_LV.filter(function(x){ return x.k === b.getAttribute('data-wed-lv'); })[0];
         b.setAttribute('style', on ? meta.cls + 'border-color:transparent;box-shadow:0 0 0 2px #1e293b inset;' : 'background:#f1f5f9;color:#64748b;border-color:#e2e8f0;');
     });
+    wedTouch();
 }
 function wedSetAnswer(qi, letter){
-    var q = wordState.questions[qi]; if (!q) return;
+    var q = wedActiveQuestions()[qi]; if (!q) return;
     q.answer = letter;
     wedRefreshCard(qi);
+    wedTouch();
 }
 function wedToggleTF(qi, si){
-    var q = wordState.questions[qi]; if (!q) return;
+    var q = wedActiveQuestions()[qi]; if (!q) return;
     if (!Array.isArray(q.answer)) q.answer = [];
     var cur = String(q.answer[si] || '').toUpperCase();
     q.answer[si] = cur === 'T' ? 'F' : 'T';
     wedRefreshCard(qi);
+    wedTouch();
 }
-function wedText(qi, field, val){ var q = wordState.questions[qi]; if (q) q[field] = val; }
+function wedText(qi, field, val){ var q = wedActiveQuestions()[qi]; if (q){ q[field] = val; wedTouch(); } }
 function wedOptText(qi, oi, val){
-    var q = wordState.questions[qi]; if (!q) return;
+    var q = wedActiveQuestions()[qi]; if (!q) return;
     q.options = q.options || [];
     q.options[oi] = 'ABCD'[oi] + '. ' + val;
+    wedTouch();
 }
-function wedStmtText(qi, si, val){ var q = wordState.questions[qi]; if (q){ q.statements = q.statements || []; q.statements[si] = val; } }
-function wedAnsText(qi, val){ var q = wordState.questions[qi]; if (q) q.answer = val; }
+function wedStmtText(qi, si, val){ var q = wedActiveQuestions()[qi]; if (q){ q.statements = q.statements || []; q.statements[si] = val; wedTouch(); } }
+function wedAnsText(qi, val){ var q = wedActiveQuestions()[qi]; if (q){ q.answer = val; wedTouch(); } }
 function wedDel(qi){
-    if (!confirm('Xoá câu ' + (qi + 1) + ' khỏi danh sách?')) return;
-    wordState.questions.splice(qi, 1);
+    if (!confirm('Xoá câu ' + (qi + 1) + ' khỏi đề?')) return;
+    wedActiveQuestions().splice(qi, 1);
     if (__wedActiveQi === qi) __wedActiveQi = -1;
     else if (__wedActiveQi > qi) __wedActiveQi -= 1;
-    var pv = document.getElementById('word-preview');
-    if (pv){
-        var btn = pv.querySelector('button[onclick="sendWordToEditor()"]');
-        if (btn) btn.innerHTML = '<i class="fa-solid fa-arrow-down mr-1"></i>Đưa ' + wordState.questions.length + ' câu vào khung soạn để đẩy';
-    }
-    mountWordEditor();
+    wedRenderCards();
+    wedTouch();
 }
+/* ---------- Anh tung cau ---------- */
 function wedImgFocus(qi, el){
     __wedActiveQi = qi;
-    var pv = document.getElementById('word-preview');
-    if (pv) pv.querySelectorAll('.wed-imgframe').forEach(function(f){ f.classList.remove('wed-active'); });
+    var box = document.getElementById('wed-composer');
+    if (box) box.querySelectorAll('.wed-imgframe').forEach(function(f){ f.classList.remove('wed-active'); });
     if (el) { el.classList.add('wed-active'); try { el.focus({ preventScroll: true }); } catch(e){ try { el.focus(); } catch(e2){} } }
 }
 var _wedImgTarget = -1;
@@ -1305,9 +1531,11 @@ function wedImgPick(qi){
     inp.click();
 }
 function wedImgRemove(qi){
-    var q = wordState.questions[qi]; if (!q) return;
+    var q = wedActiveQuestions()[qi]; if (!q) return;
     delete q._imgData;
+    delete q.img;
     wedRefreshCard(qi);
+    wedTouch();
 }
 function wedProcessImage(qi, file){
     if (!file) return;
@@ -1326,10 +1554,10 @@ function wedProcessImage(qi, file){
                     dataUrl = cv.toDataURL('image/jpeg', 0.85);
                 }
             } catch(e){}
-            var q = wordState.questions[qi];
-            if (q){ q._imgData = dataUrl; __wedActiveQi = qi; wedRefreshCard(qi); if (typeof showToast === 'function') showToast('Đã gắn ảnh vào câu ' + (qi + 1) + '.', 'success'); }
+            var q = wedActiveQuestions()[qi];
+            if (q){ q._imgData = dataUrl; __wedActiveQi = qi; wedRefreshCard(qi); wedTouch(); if (typeof showToast === 'function') showToast('Đã gắn ảnh vào câu ' + (qi + 1) + '.', 'success'); }
         };
-        img.onerror = function(){ var q = wordState.questions[qi]; if (q){ q._imgData = dataUrl; wedRefreshCard(qi); } };
+        img.onerror = function(){ var q = wedActiveQuestions()[qi]; if (q){ q._imgData = dataUrl; wedRefreshCard(qi); wedTouch(); } };
         img.src = dataUrl;
     };
     rd.readAsDataURL(file);
@@ -1337,20 +1565,18 @@ function wedProcessImage(qi, file){
 function wedBindPasteOnce(){
     if (window.__wedPasteBound) return; window.__wedPasteBound = 1;
     document.addEventListener('paste', function(e){
-        var pv = document.getElementById('word-preview');
-        if (!pv) return;
+        if (!window.__wedCardMode) return;
+        var box = document.getElementById('wed-composer');
+        if (!box) return;
         var t = e.target;
-        // Dang go chu trong o nhap -> giu nguyen hanh vi dan van ban
         if (t && (t.tagName === 'TEXTAREA' || (t.tagName === 'INPUT' && (t.type === 'text' || t.type === '')))) return;
         var qi = -1;
-        var box = t && t.closest ? t.closest('[data-wed-imgbox]') : null;
-        if (box) qi = parseInt(box.getAttribute('data-wed-imgbox'), 10);
+        var fr = t && t.closest ? t.closest('[data-wed-imgbox]') : null;
+        if (fr) qi = parseInt(fr.getAttribute('data-wed-imgbox'), 10);
         if (qi < 0 || isNaN(qi)){
-            // Khong co khung nao duoc nham truc tiep -> dung khung dang KICH HOAT (chi khi su kien
-            // xay ra trong khu vuc xem truoc hoac tren body, tranh cuop dan anh o khu vuc khac)
-            var inPv = t && pv.contains && pv.contains(t);
+            var inBox = t && box.contains && box.contains(t);
             var onBody = !t || t === document.body || t === document.documentElement;
-            if ((inPv || onBody) && __wedActiveQi >= 0 && wordState.questions[__wedActiveQi]) qi = __wedActiveQi;
+            if ((inBox || onBody) && __wedActiveQi >= 0 && wedActiveQuestions()[__wedActiveQi]) qi = __wedActiveQi;
         }
         if (qi < 0 || isNaN(qi)) return;
         var items = (e.clipboardData || {}).items || [];
@@ -1364,8 +1590,11 @@ function wedBindPasteOnce(){
     });
 }
 window.mountWordEditor = mountWordEditor;
+window.wedToggleCards = wedToggleCards; window.wedSetActiveSet = wedSetActiveSet;
 window.wedSetType = wedSetType; window.wedSetLevel = wedSetLevel; window.wedSetAnswer = wedSetAnswer;
 window.wedToggleTF = wedToggleTF; window.wedText = wedText; window.wedOptText = wedOptText;
 window.wedStmtText = wedStmtText; window.wedAnsText = wedAnsText; window.wedDel = wedDel;
 window.wedImgPick = wedImgPick; window.wedImgRemove = wedImgRemove; window.wedImgFocus = wedImgFocus;
-/* ===== HẾT SB_WED_20261012_V2 ===== */
+window.wedAddQuestion = wedAddQuestion; window.wedFmt = wedFmt; window.wedMathInsert = wedMathInsert;
+window.wedApplyMath = wedApplyMath; window.wedMathRefresh = wedMathRefresh;
+/* ===== HẾT SB_WED_20261012_V3 ===== */
