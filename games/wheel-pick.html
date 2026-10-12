@@ -335,6 +335,7 @@ document.getElementById('btn-load-class').addEventListener('click', function(){
   names = [...new Set(names)];
   allStudents = names;
   picked = [];
+  displayList = null; lastWinner = null;
   document.getElementById('loaded-info').classList.remove('hidden');
   document.getElementById('loaded-count').textContent = names.length + ' (lớp ' + label + ')';
   document.getElementById('loaded-preview').innerHTML = names.map(function(n){
@@ -360,6 +361,7 @@ document.getElementById('btn-load').addEventListener('click', function(){
   if (!names.length){ alert('Chưa có tên nào! Dán danh sách hoặc bấm "Lớp mẫu".'); return; }
   allStudents = names;
   picked = [];
+  displayList = null; lastWinner = null;
   document.getElementById('loaded-info').classList.remove('hidden');
   document.getElementById('loaded-count').textContent = names.length;
   document.getElementById('loaded-preview').innerHTML = names.map(function(n){
@@ -377,11 +379,13 @@ const canvas = document.getElementById('wheel');
 const ctx = canvas.getContext('2d');
 const COLORS = ['#FF6B6B','#4ECDC4','#FFD93D','#6BCB77','#FF9F1C','#A78BFA','#F472B6','#60A5FA','#34D399','#FB7185','#FBBF24','#818CF8'];
 let currentRotation = 0;
+let displayList = null; // danh sach DANG HIEN THI tren vong (giu nguyen sau khi quay xong)
+let lastWinner = null;  // nguoi thang luot vua roi (to sang dung o kim dang chi)
 
 function remaining(){ return allStudents.filter(function(n){ return picked.indexOf(n) < 0; }); }
 
 function drawWheel(){
-  let list = remaining();
+  let list = displayList || remaining();
   let n = list.length;
   ctx.clearRect(0,0,800,800);
   if (!n){
@@ -406,6 +410,13 @@ function drawWheel(){
     let label = list[i].length > 14 ? list[i].slice(0,13)+'…' : list[i];
     ctx.fillText(label, 375, 0);
     ctx.restore();
+    // to sang o nguoi thang: dung o kim dang chi sau khi dung
+    if (lastWinner && list[i] === lastWinner){
+      ctx.beginPath(); ctx.moveTo(400,400); ctx.arc(400,400,386,a0,a1); ctx.closePath();
+      ctx.strokeStyle = '#f59e0b'; ctx.lineWidth = 12; ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(400,400); ctx.arc(400,400,386,a0,a1); ctx.closePath();
+      ctx.strokeStyle = 'rgba(255,255,255,.85)'; ctx.lineWidth = 3; ctx.stroke();
+    }
   }
   // viền ngoài
   ctx.beginPath(); ctx.arc(400,400,395,0,Math.PI*2); ctx.lineWidth=10; ctx.strokeStyle='#fff'; ctx.stroke();
@@ -421,6 +432,7 @@ document.getElementById('btn-spin').addEventListener('click', function(){
   if (spinning) return;
   if (!allStudents.length){ alert('Chưa có danh sách lớp! Vào tab "Danh sách lớp" trước nhé.'); goTab('tab-setup'); return; }
   if (!list.length){ alert('Đã quay hết cả lớp! Bấm "Reset quay lại" để chơi vòng mới. 🎉'); return; }
+  displayList = list; lastWinner = null;
   spinning = true;
   document.getElementById('winner-box').classList.add('hidden');
   document.body.classList.add('spinning');
@@ -464,6 +476,7 @@ function finishSpin(name){
   document.body.classList.remove('spinning');
   document.getElementById('btn-spin').innerHTML = 'QUAY<br><i class="fa-solid fa-rotate text-2xl"></i>';
   picked.push(name);
+  lastWinner = name; // GIU NGUYEN vong nhu luc dung (displayList khong doi) - kim chi dung nguoi thang
   updateRemain();
   renderHistory();
   drawWheel();
@@ -500,6 +513,7 @@ document.getElementById('btn-reset').addEventListener('click', function(){
   if (!picked.length){ alert('Chưa quay ai cả!'); return; }
   if (!confirm('Reset? Tất cả HS sẽ được quay lại từ đầu.')) return;
   picked = [];
+  displayList = null; lastWinner = null;
   document.getElementById('winner-box').classList.add('hidden');
   drawWheel(); updateRemain(); renderHistory();
 });
