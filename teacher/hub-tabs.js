@@ -210,14 +210,16 @@
         }
         function aiRecalc(){
             var M = aiMatrix();
-            var tq = document.getElementById('ai-total-q'); if (tq) tq.value = M.totQ; // dong bo o Tong so cau o thanh tren
             var el = document.getElementById('ai-totals'); if (!el) return;
             var pct = function(v){ return M.totP > 0 ? Math.round(v / M.totP * 1000) / 10 : 0; };
             var totPr = Math.round(M.totP * 100) / 100;
             var warn = (Math.abs(totPr - 10) > 0.001)
                 ? ' <span style="color:#dc2626;font-size:12px;">⚠ TỔNG ĐIỂM ĐANG LÀ ' + totPr + ' — khác 10 điểm chuẩn! Kiểm tra lại số câu × điểm/câu kẻo ra bài thừa/thiếu điểm.</span>' : ' <span style="color:#059669;">✓ Đúng 10 điểm</span>';
+            var colQ = [0, 0, 0, 0];
+            M.rows.forEach(function(r){ r.cells.forEach(function(v, i){ colQ[i] += v; }); });
+            var pctQ = function(v){ return M.totQ > 0 ? Math.round(v / M.totQ * 1000) / 10 : 0; };
             el.innerHTML = '<span style="font-size:15px;">TỔNG: ' + M.totQ + ' câu — ' + totPr + ' điểm</span>' + warn
-                + '<br><span style="font-weight:600;">Tỉ lệ điểm theo mức độ: NB ' + pct(M.lvlP.nb) + '% · TH ' + pct(M.lvlP.th) + '% · VD ' + pct(M.lvlP.vd) + '% · VDC ' + pct(M.lvlP.vdc) + '% (chuẩn tham khảo 40/30/20/10).</span>';
+                + '<br><span style="font-weight:600;">Tỉ lệ thực tế theo SỐ CÂU: NB ' + pctQ(colQ[0]) + '% · TH ' + pctQ(colQ[1]) + '% · VD ' + pctQ(colQ[2]) + '% · VDC ' + pctQ(colQ[3]) + '% — theo ĐIỂM: NB ' + pct(M.lvlP.nb) + '% · TH ' + pct(M.lvlP.th) + '% · VD ' + pct(M.lvlP.vd) + '% · VDC ' + pct(M.lvlP.vdc) + '% (chuẩn tham khảo 40/30/20/10).</span>';
             M.rows.forEach(function(r){
                 var rq = document.getElementById('ai-tq-' + r.key); if (rq) rq.textContent = r.q;
                 var rp = document.getElementById('ai-tp-' + r.key); if (rp) rp.textContent = Math.round(r.p * 100) / 100;
@@ -253,52 +255,23 @@
                 SB_AI_COLS.forEach(function(c, i){ if (r.cells[i]) parts.push(SB_AI_COLNAMES[c].split(' ')[0] + ': ' + r.cells[i] + ' câu'); });
                 lines.push('- ' + r.label + ' (' + r.pts + ' điểm/câu): ' + parts.join(', ') + ' — tổng ' + r.q + ' câu, ' + (Math.round(r.p * 100) / 100) + ' điểm');
             });
+            // SB_AI_V21_20261012: prompt GON (NotebookLM khoi dung im) + o tong cau la MUC TIEU + bao % thuc te theo so cau
             var P = [];
-            P.push('Bạn là chuyên gia ra đề kiểm tra theo chương trình GDPT 2018 (sách giáo khoa Kết nối tri thức với cuộc sống). Hãy soạn MỘT đề kiểm tra hoàn chỉnh theo đúng yêu cầu dưới đây.');
-            P.push('');
-            P.push('THÔNG TIN ĐỀ:');
-            P.push('- Môn: ' + subject + ' — Lớp: ' + grade);
-            P.push('- Phạm vi kiến thức: ' + lessons);
-            P.push('- Thời gian làm bài: ' + time + ' phút');
-            if (title) P.push('- Tên đề: ' + title);
-            P.push('');
-            P.push('MA TRẬN ĐỀ (số câu theo dạng × mức độ; NB = Nhận biết, TH = Thông hiểu, VD = Vận dụng, VDC = Vận dụng cao):');
+            P.push('Soạn 1 đề kiểm tra GDPT 2018 (sách Kết nối tri thức) theo đúng các yêu cầu sau. Trả lời NGAY bằng 3 phần kết quả, không viết lời dẫn/giải thích ngoài 3 phần.');
+            P.push('ĐỀ: Môn ' + subject + ' — Lớp ' + grade + ' — Phạm vi: ' + lessons + ' — Thời gian: ' + time + ' phút' + (title ? ' — Tên đề: ' + title : ''));
+            P.push('MA TRẬN (dạng câu: số câu theo mức độ):');
             P.push(lines.join('\n'));
-            P.push('Tổng cộng: ' + M.totQ + ' câu — ' + (Math.round(M.totP * 100) / 100) + ' điểm. Tỉ lệ điểm theo mức độ: NB ' + pct(M.lvlP.nb) + '%, TH ' + pct(M.lvlP.th) + '%, VD ' + pct(M.lvlP.vd) + '%, VDC ' + pct(M.lvlP.vdc) + '%.');
-            P.push('');
-            P.push('NỘI DUNG KIẾN THỨC CẦN BAO PHỦ:');
-            P.push(scope || '(Theo phạm vi kiến thức ở trên; phủ đều các đơn vị kiến thức trong phạm vi.)');
+            P.push('Tổng: ' + M.totQ + ' câu, ' + (Math.round(M.totP * 100) / 100) + ' điểm.');
+            P.push('NỘI DUNG CẦN BAO PHỦ: ' + (scope || 'phủ đều các đơn vị kiến thức trong phạm vi trên.'));
             var mathEl = document.getElementById('ai-math');
             if (mathEl && mathEl.checked){
-                P.push('');
-                P.push('YÊU CẦU ĐẶC BIỆT — ĐỀ CÓ CÔNG THỨC TOÁN HỌC:');
-                P.push('- MỌI công thức, biểu thức, ký hiệu toán/lý/hóa trong CẢ 3 phần kết quả đều PHẢI viết bằng cú pháp TeX đặt trong $...$ (công thức trong dòng) hoặc $$...$$ (công thức riêng dòng) — định dạng markdown math.');
-                P.push('- TUYỆT ĐỐI không dùng ký tự Unicode thay cho công thức (không viết x², √, π, α trực tiếp), không mô tả công thức bằng lời, không chèn ảnh công thức.');
-                P.push('- QUAN TRỌNG để máy đọc được: trong phần JSON, mọi dấu gạch chéo ngược của lệnh TeX phải viết GẤP ĐÔI, ví dụ \\\\frac{1}{2}, \\\\sqrt{x}, \\\\pi — để chuỗi JSON hợp lệ.');
+                P.push('CÔNG THỨC: mọi công thức viết bằng TeX trong $...$ (không dùng ký tự Unicode như x², √, π). Riêng trong mã JSON, gạch chéo của lệnh TeX phải viết GẤP ĐÔI (ví dụ \\\\frac{1}{2}, \\\\sqrt{x}) để JSON hợp lệ.');
             }
-            P.push('');
-            P.push('CÁCH TRẢ KẾT QUẢ — trả về ĐÚNG 3 phần theo thứ tự sau, không thêm lời dẫn hay kết luận:');
-            P.push('');
-            P.push('===== PHẦN 1: MÃ ĐỀ CHO WEB =====');
-            P.push('Toàn bộ phần 1 PHẢI đặt trong MỘT khối mã ```json ... ``` duy nhất, bên trong chỉ có mã JSON (một object bộ đề, hoặc nhiều object liên tiếp nếu nhiều bộ), KHÔNG viết thêm bất kỳ chữ nào trong khối mã. Tên bộ đề ở trường "name" PHẢI ghi đúng y hệt "Đề 1" (bộ thứ hai là "Đề 2") — không đặt tên khác, vì hệ thống web chỉ nhận diện được tên đúng như vậy.');
-            P.push('{"name":"Đề 1","questions":[ ... ]}');
-            P.push('Quy tắc định dạng JSON bắt buộc (sai là web không đọc được đề): chỉ dùng dấu ngoặc kép thẳng ", không để dấu phẩy sau phần tử cuối cùng, số điểm ghi dạng số (0.25) không để trong ngoặc kép, không chèn chú thích vào trong mã JSON.');
-            P.push('Mỗi câu trong "questions" là 1 object như mẫu:');
-            P.push('{"id":"c1","type":"mcq","q":"nội dung câu hỏi","options":["lựa chọn 1","lựa chọn 2","lựa chọn 3","lựa chọn 4"],"answer":"A","explain":"lời giải chi tiết","points":0.25,"level":"NB","chapter":"tên bài/chương của câu"}');
-            P.push('Quy tắc theo dạng câu:');
-            P.push('- "mcq": options có đúng 4 lựa chọn (không ghi tiền tố A. B. C. D. vào nội dung lựa chọn); answer là 1 chữ cái "A", "B", "C" hoặc "D".');
-            P.push('- "truefalse": q là một câu lệnh gồm 4 ý a) b) c) d); answer là object {"a":true,"b":false,"c":true,"d":false} (đúng = true, sai = false); points là điểm của cả câu.');
-            P.push('- "short": answer là đáp án ngắn dạng chuỗi (số hoặc cụm từ ngắn).');
-            P.push('- "essay": không có options và answer; trường "explain" PHẢI chứa barem chấm: từng ý cần đạt kèm số điểm của ý đó, tổng các ý bằng points.');
-            P.push('- Mọi câu đều phải có explain (lời giải chi tiết hoặc barem), points đúng thang điểm trong ma trận, level đúng mức độ của câu, chapter là bài/chương câu hỏi thuộc về.');
-            P.push('- Số câu của từng dạng × mức độ phải khớp TUYỆT ĐỐI với ma trận ở trên; các câu sắp xếp theo thứ tự: hết Nhận biết đến Vận dụng cao, trong mỗi mức độ xếp theo dạng câu.');
-            P.push('- Công thức Toán/Lý/Hóa giữ nguyên cú pháp TeX trong $...$ hoặc $$...$$.');
-            P.push('');
-            P.push('===== PHẦN 2: MA TRẬN ĐỀ (để in) =====');
-            P.push('Xuất bảng markdown: hàng là dạng câu hỏi, cột là các mức độ NB/TH/VD/VDC; mỗi ô ghi "số câu (số điểm)"; thêm cột Tổng câu và Tổng điểm, cùng một hàng Tỉ lệ % điểm của từng mức độ.');
-            P.push('');
-            P.push('===== PHẦN 3: BẢN ĐẶC TẢ ĐỀ (để in) =====');
-            P.push('Xuất bảng markdown với các cột: STT | Đơn vị kiến thức | Mức độ | Dạng câu hỏi | Số điểm — liệt kê đủ mọi câu theo đúng thứ tự câu trong đề.');
+            P.push('PHẦN 1 — MÃ ĐỀ CHO WEB: đặt trong MỘT khối ```json, bên trong chỉ có object {"name":"Đề 1","questions":[...]} (trường "name" ghi đúng y hệt "Đề 1"). Mỗi câu là 1 object: {"id":"c1","type":"mcq","q":"nội dung","options":["...","...","...","..."],"answer":"A","explain":"lời giải NGẮN 1-2 câu","points":0.25,"level":"NB","chapter":"tên bài"}.');
+            P.push('Theo dạng: mcq có đúng 4 options (không ghi A. B. C. D. vào options), answer là "A"/"B"/"C"/"D". truefalse: q gồm 4 ý a) b) c) d), answer là {"a":true,"b":false,"c":true,"d":false}. short: answer là đáp án ngắn dạng chuỗi. essay: bỏ options và answer, "explain" chứa barem chấm từng ý kèm điểm, tổng bằng points.');
+            P.push('Mọi câu phải có đủ: explain, points (khớp điểm/câu trong ma trận), level, chapter. Số câu từng dạng × mức độ khớp TUYỆT ĐỐI ma trận; thứ tự câu: từ NB đến VDC, trong mỗi mức độ xếp theo dạng. JSON chỉ dùng dấu " thẳng, không dấu phẩy sau phần tử cuối, points là số không để trong ngoặc kép.');
+            P.push('PHẦN 2 — MA TRẬN ĐỀ (bảng markdown để in): hàng = dạng câu, cột = NB/TH/VD/VDC, mỗi ô ghi "số câu (số điểm)", thêm cột Tổng câu/Tổng điểm và hàng tỉ lệ % điểm từng mức độ.');
+            P.push('PHẦN 3 — BẢN ĐẶC TẢ (bảng markdown để in): cột STT | Đơn vị kiến thức | Mức độ | Dạng câu hỏi | Số điểm, liệt kê đủ mọi câu theo thứ tự trong đề.');
             var out = document.getElementById('ai-prompt-out');
             var text = P.join('\n');
             if (out){ out.value = text; }
@@ -390,7 +363,10 @@
                 });
             });
             aiRecalc();
-            aiFloatToast('🎲 Đã bốc ' + total + ' câu theo tỉ lệ ' + pcts.join('/') + ' — xem lại TỔNG ĐIỂM bên dưới.');
+            var colSum2 = [0, 0, 0, 0];
+            grid.forEach(function(row){ row.forEach(function(v, ci){ colSum2[ci] += v; }); });
+            var actPct = colSum2.map(function(v){ return Math.round(v / total * 1000) / 10; });
+            aiFloatToast('🎲 Đã bốc đúng ' + total + ' câu — thực tế: NB ' + actPct[0] + '% · TH ' + actPct[1] + '% · VD ' + actPct[2] + '% · VDC ' + actPct[3] + '% (theo số câu)');
         }
         function aiParseJsonLoose(s){
             // Thu tu thu: nguyen ban -> bao ve lenh TeX (\\frac...) -> sua gach cheo don -> + bo phay thua/dau ngoac kep thong minh
@@ -526,6 +502,7 @@
                     + '<span class="text-[10px] text-slate-500 pb-1">Nhập tổng câu + % (sửa được) rồi bấm Bốc — hoặc nhập tay từng ô trong bảng như cũ.</span>';
                 tableWrap.parentNode.insertBefore(bar, tableWrap);
                 document.getElementById('ai-auto-btn').addEventListener('click', aiAutoDistribute);
+                var tq0 = document.getElementById('ai-total-q'); if (tq0) tq0.value = aiMatrix().totQ; // o MUC TIEU: chi Boc moi dung, khong bi ghi de khi sua luoi
             }
             // An o prompt + nut Tao prompt (chi con 1 nut Copy)
             var out = document.getElementById('ai-prompt-out'); if (out) out.style.display = 'none';
