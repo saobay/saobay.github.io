@@ -1,4 +1,11 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261012_1400
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261012_2240
+// SB_ESSAYGRADE_20261012_V1: GV cham diem TU LUAN ngay trong overlay xem bai lam (SB_SEMDRILL):
+// moi cau tu luan co o nhap diem (khoi tao = diem may goi y en.auto), nut "Luu diem cham" ghi lai
+// file diem qua semGasPush (PUSH_TO_GITHUB): en.graded = diem chinh thuc tung cau, score tong tinh
+// lai = score cu - tong diem tu luan dang tinh trong tong (graded/auto) + tong diem moi (luc nop, diem tu luan dong gop dung bang en.auto:
+// viewer exam10 cong _pts = ratio*max vao tong), essay_pending=false, graded_by/graded_by_id/graded_at.
+// Kem: semLoadScores gan rec._scorePath (duong dan file diem tu cay GitHub) de biet ghi vao file nao;
+// _scorePath chi o ban ghi trong bo nho, bi loai bo khoi JSON khi ghi ra.
 // SB_STUDYMIN_20261012_V1: giao nhiệm vụ lý thuyết kèm số phút học tối thiểu GV đặt (mặc định 5) -> task.studyMinutes
 // Tab 2: thay the renderLessonManagementList goc bang DS DE THI GV tai len, gom:
 //  (a) file de .html trong data/ (Word/AI day cong khai)
@@ -1444,7 +1451,7 @@ console.log('SAOBAY wrap 0630 loaded');
           return Promise.all(batch.map(function(p){
             return fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/' + p.split('/').map(encodeURIComponent).join('/') + '?t=' + Date.now(), { cache: 'no-store' })
               .then(function(r){ return r.ok ? r.json() : null; }).catch(function(){ return null; })
-              .then(function(rec){ if (rec && rec.student_name && rec.submitted_at) subs.push(rec); });
+              .then(function(rec){ if (rec && rec.student_name && rec.submitted_at){ try { rec._scorePath = p; } catch(e){} subs.push(rec); } }); /* SB_ESSAYGRADE_20261012_V1: giu duong dan file diem de GV cham tu luan ghi lai dung file */
           })).then(next);
         }
         return next().then(function(){ semState.subs = subs; });
@@ -1602,7 +1609,7 @@ console.log('SAOBAY wrap 0630 loaded');
       + '<div style="position:sticky;top:0;background:#fff;border-bottom:1px solid #e2e8f0;padding:12px 16px;display:flex;gap:8px;align-items:flex-start;z-index:2;">'
       + '<div style="flex:1;min-width:0;"><p style="font-weight:900;font-size:15px;color:#1e293b;">👁 Bài làm của ' + semEsc(r.student_name) + '</p>'
       + '<p style="font-size:12px;color:#64748b;">' + semEsc(r.exam_title || '') + ' · Nộp ' + semEsc(semFmtDT(r.submitted_at)) + (r.student_class ? ' · Lớp ' + semEsc(r.student_class) : '') + '</p></div>'
-      + '<div style="text-align:center;"><p style="font-size:20px;font-weight:900;color:#7c3aed;">' + diem.toFixed(2) + '</p><p style="font-size:10px;color:#94a3b8;">' + semEsc(String(r.score)) + '/' + semEsc(String(r.max_score)) + ' điểm' + (r.correct != null && r.total != null ? ' · đúng ' + r.correct + '/' + r.total + ' câu' : '') + '</p></div>'
+      + '<div style="text-align:center;"><p id="sb-eg-total" style="font-size:20px;font-weight:900;color:#7c3aed;">' + diem.toFixed(2) + '</p><p style="font-size:10px;color:#94a3b8;"><span id="sb-eg-total-raw">' + semEsc(String(r.score)) + '/' + semEsc(String(r.max_score)) + ' điểm</span>' + (r.correct != null && r.total != null ? ' · đúng ' + r.correct + '/' + r.total + ' câu' : '') + (r.essay_pending ? ' <span id="sb-eg-pending" style="color:#b45309;font-weight:800;">· ⏳ chờ GV chấm tự luận</span>' : '') + '</p></div>'
       + '<button type="button" onclick="semCloseReview()" style="font-weight:900;background:#e2e8f0;border:0;border-radius:10px;padding:6px 12px;font-size:13px;cursor:pointer;">✕ Đóng</button></div>'
       + '<div style="padding:14px 16px;">';
     if (Array.isArray(r.details) && r.details.length){
@@ -1611,13 +1618,29 @@ console.log('SAOBAY wrap 0630 loaded');
       h += '<div style="background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:12px;font-size:12px;color:#92400e;">Bài nộp này được nộp <b>trước khi hệ thống lưu chi tiết từng câu</b> nên chỉ xem được điểm tổng ở trên. Các bài nộp từ nay trở đi sẽ xem lại được từng câu, đúng như lúc học sinh thi.</div>';
     }
     if (Array.isArray(r.essays) && r.essays.length){
-      h += '<p style="font-weight:900;font-size:13px;margin:14px 0 6px;">✍️ Câu tự luận</p>' + r.essays.map(function(en){
+      /* SB_ESSAYGRADE_20261012_V1: them o nhap diem GV cho tung cau tu luan + nut luu.
+         Chi hien o cham khi xac dinh duoc file diem (r._scorePath do semLoadScores gan) va
+         GV dang dang nhap hub (semMyId) — dung pham vi phan quyen cua module Thong ke. */
+      var canGrade = !!r._scorePath && !!semMyId();
+      h += '<p style="font-weight:900;font-size:13px;margin:14px 0 6px;">✍️ Câu tự luận</p>' + r.essays.map(function(en, ei){
+        var cur = en.graded != null ? en.graded : en.auto;
+        var graded = en.graded != null;
         return '<div style="border:1px solid #ddd6fe;background:#f5f3ff;border-radius:12px;padding:10px 12px;margin-bottom:8px;font-size:12px;">'
           + '<p style="font-weight:700;">' + semEsc(en.q || '') + '</p>'
           + '<p style="margin-top:6px;"><b>Bài làm của HS:</b></p><div style="white-space:pre-wrap;background:#fff;border:1px solid #e9d5ff;border-radius:8px;padding:8px;">' + semEsc(en.student || '(trống)') + '</div>'
           + (en.model ? '<p style="margin-top:6px;"><b>Đáp án mẫu:</b></p><div style="white-space:pre-wrap;">' + semEsc(en.model) + '</div>' : '')
-          + '<p style="margin-top:6px;color:#6d28d9;">Điểm máy gợi ý: <b>' + semEsc(String(en.auto == null ? '' : en.auto)) + '/' + semEsc(String(en.max == null ? '' : en.max)) + '</b> (GV chấm lại mới là điểm chính thức)</p></div>';
+          + (en.barem ? '<p style="margin-top:6px;"><b>Barem:</b></p><div style="white-space:pre-wrap;">' + semEsc(en.barem) + '</div>' : '')
+          + '<p style="margin-top:6px;color:#6d28d9;">Điểm máy gợi ý: <b>' + semEsc(String(en.auto == null ? '' : en.auto)) + '/' + semEsc(String(en.max == null ? '' : en.max)) + '</b> (GV chấm lại mới là điểm chính thức)</p>'
+          + '<p id="sb-eg-cur-' + ei + '" style="margin-top:4px;color:' + (graded ? '#15803d' : '#64748b') + ';">' + (graded ? 'Điểm GV chấm: <b>' + semEsc(String(en.graded)) + '/' + semEsc(String(en.max == null ? '' : en.max)) + '</b> (điểm chính thức)' : 'Chưa có điểm GV chấm — tổng điểm đang tính theo điểm máy gợi ý.') + '</p>'
+          + (canGrade ? '<p style="margin-top:8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;"><label style="font-weight:800;color:#334155;">Điểm GV chấm:</label><input id="sb-eg-inp-' + ei + '" type="number" min="0" max="' + semEsc(String(en.max == null ? '' : en.max)) + '" step="0.05" value="' + semEsc(String(cur == null ? '' : cur)) + '" style="width:90px;padding:6px 8px;border:1.5px solid #a78bfa;border-radius:8px;font-size:13px;font-weight:700;"> <span style="color:#64748b;">/ ' + semEsc(String(en.max == null ? '' : en.max)) + ' điểm (để trống = giữ nguyên điểm hiện tại)</span></p>' : '')
+          + '</div>';
       }).join('');
+      if (canGrade){
+        h += '<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:4px 0 6px;"><button type="button" id="sb-eg-save" onclick="semSaveEssayGrade(' + sid + ')" style="font-weight:900;background:#7c3aed;color:#fff;border:0;border-radius:10px;padding:9px 16px;font-size:13px;cursor:pointer;">💾 Lưu điểm chấm</button><span id="sb-eg-msg" style="font-size:12px;font-weight:700;"></span></div>'
+          + '<p style="font-size:11px;color:#94a3b8;">Lưu xong: điểm từng câu tự luận ghi vào file điểm, tổng điểm tính lại, học sinh và thống kê sẽ thấy điểm mới ở lần tải sau.</p>';
+      } else if (r.essay_pending){
+        h += '<p style="font-size:11px;color:#b45309;">Muốn chấm bài này: hãy tải lại mục Thống kê để hệ thống xác định đúng file điểm rồi mở lại bài làm.</p>';
+      }
     }
     h += '</div></div>';
     ov.innerHTML = h;
@@ -1625,6 +1648,81 @@ console.log('SAOBAY wrap 0630 loaded');
     document.body.appendChild(ov);
     try { if (window.MathJax && window.MathJax.typesetPromise) window.MathJax.typesetPromise([ov]).catch(function(){}); } catch(e){}
   }
+  /* SB_ESSAYGRADE_20261012_V1: luu diem GV cham tu luan vao dung file diem (r._scorePath).
+     Diem tong moi = score cu - tong diem tu luan DANG tinh trong tong (en.graded neu da cham,
+     en.auto neu chua) + tong diem GV moi (luc HS nop, viewer exam10 cong vao tong dung bang
+     en.auto = ratio*max cua tung cau tu luan — da doi chieu code index.html; cong thuc nay dung
+     ca khi GV cham lai lan 2 vi oldSum lay graded hien huu).
+     Ghi: essays[i].graded, score, essay_pending=false, graded_by/graded_by_id/graded_at;
+     kem dong ghi chu vao details cua cau tu luan de HS xem lai thay diem chinh thuc. */
+  window.semSaveEssayGrade = function(sid){
+    var r = (semState.subs || [])[sid]; if (!r || !Array.isArray(r.essays) || !r.essays.length) return;
+    var btn = document.getElementById('sb-eg-save');
+    var msg = document.getElementById('sb-eg-msg');
+    function note(t, ok){ if (msg){ msg.textContent = t; msg.style.color = ok ? '#15803d' : '#b91c1c'; } }
+    if (!r._scorePath){ note('⚠️ Không xác định được file điểm của bài này. Hãy tải lại mục Thống kê rồi mở lại bài làm để chấm.', false); return; }
+    var oldSum = 0, newSum = 0, vals = [];
+    for (var i = 0; i < r.essays.length; i++){
+      var en = r.essays[i];
+      var auto = parseFloat(en.auto); if (isNaN(auto)) auto = 0;
+      var mx = parseFloat(en.max); if (isNaN(mx) || mx < 0) mx = 0;
+      /* Diem tu luan DANG nam trong tong: da cham thi la graded, chua cham thi la auto (may goi y) */
+      var cur0 = en.graded != null ? parseFloat(en.graded) : auto; if (isNaN(cur0)) cur0 = auto;
+      oldSum += cur0;
+      var inp = document.getElementById('sb-eg-inp-' + i);
+      var raw = inp ? String(inp.value).trim().replace(',', '.') : '';
+      var v = raw === '' ? cur0 : parseFloat(raw);
+      if (isNaN(v)){ note('⚠️ Điểm câu tự luận ' + (i + 1) + ' không hợp lệ — hãy nhập số (ví dụ 0.5).', false); if (inp) inp.focus(); return; }
+      if (v < 0 || v > mx){ note('⚠️ Điểm câu tự luận ' + (i + 1) + ' phải từ 0 đến ' + mx + '.', false); if (inp) inp.focus(); return; }
+      v = Math.round(v * 1000) / 1000;
+      vals.push(v); newSum += v;
+    }
+    var oldScore = parseFloat(r.score); if (isNaN(oldScore)) oldScore = 0;
+    var newScore = Math.round((oldScore - oldSum + newSum) * 1000) / 1000;
+    if (newScore < 0) newScore = 0;
+    var mxScore = parseFloat(r.max_score); if (!isNaN(mxScore) && mxScore > 0 && newScore > mxScore) newScore = mxScore;
+    /* Ban ghi ghi ra: copy sach (bo _scorePath), giu nguyen moi truong khac cua file diem */
+    var out = {}; Object.keys(r).forEach(function(k){ if (k !== '_scorePath') out[k] = r[k]; });
+    out.essays = r.essays.map(function(en, i){ var c = {}; Object.keys(en).forEach(function(k){ c[k] = en[k]; }); c.graded = vals[i]; return c; });
+    if (Array.isArray(r.details)){
+      out.details = r.details.map(function(d){ var c = {}; Object.keys(d).forEach(function(k){ c[k] = d[k]; }); return c; });
+      r.essays.forEach(function(en, i){
+        var dn = (parseInt(en.qi, 10) || 0) + 1;
+        out.details.forEach(function(d){
+          if (d.n === dn){ var base = String(d.fb || ''); if (base.indexOf('GV đã chấm') < 0) d.fb = base + (base ? '\n' : '') + '✍️ GV đã chấm: ' + vals[i] + '/' + (en.max == null ? '' : en.max) + ' điểm (điểm chính thức).'; }
+        });
+      });
+    }
+    out.score = newScore;
+    out.essay_pending = false;
+    out.graded_by = semMyName() || semMyId();
+    out.graded_by_id = semMyId();
+    out.graded_at = new Date().toISOString();
+    if (btn){ btn.disabled = true; btn.textContent = '⏳ Đang lưu...'; }
+    note('Đang ghi điểm lên hệ thống...', true);
+    semGasPush(r._scorePath, JSON.stringify(out), 'GV cham tu luan: ' + (r.student_name || '') + ' — ' + (r.exam_title || '') + ' -> ' + newScore + '/' + (r.max_score == null ? '' : r.max_score))
+      .then(function(){
+        r.essays.forEach(function(en, i){ en.graded = vals[i]; });
+        r.score = newScore; r.essay_pending = false; r.graded_by = out.graded_by; r.graded_by_id = out.graded_by_id; r.graded_at = out.graded_at;
+        if (Array.isArray(out.details)) r.details = out.details;
+        note('✅ Đã lưu điểm chấm. Tổng điểm mới: ' + newScore + '/' + (r.max_score == null ? '' : r.max_score) + ' điểm.', true);
+        if (btn){ btn.disabled = false; btn.textContent = '💾 Lưu điểm chấm'; }
+        var tot = document.getElementById('sb-eg-total');
+        if (tot) tot.textContent = (parseFloat(r.max_score) > 0 ? (newScore / parseFloat(r.max_score) * 10) : newScore).toFixed(2);
+        var rawEl = document.getElementById('sb-eg-total-raw');
+        if (rawEl) rawEl.textContent = newScore + '/' + (r.max_score == null ? '' : r.max_score) + ' điểm';
+        var pend = document.getElementById('sb-eg-pending'); if (pend) pend.style.display = 'none';
+        vals.forEach(function(v, i){
+          var lab = document.getElementById('sb-eg-cur-' + i);
+          if (lab){ lab.style.color = '#15803d'; lab.innerHTML = 'Điểm GV chấm: <b>' + v + '/' + (r.essays[i].max == null ? '' : r.essays[i].max) + '</b> (điểm chính thức)'; }
+        });
+        try { semRender(); } catch(e){}
+      })
+      .catch(function(err){
+        if (btn){ btn.disabled = false; btn.textContent = '💾 Lưu điểm chấm'; }
+        note('❌ Lưu thất bại: ' + (err && err.message ? err.message : err) + ' — điểm chưa được ghi, hãy thử lại.', false);
+      });
+  };
   /* ===== HẾT SB_SEMDRILL_20261012_V1 ===== */
 
   function semRender(){
