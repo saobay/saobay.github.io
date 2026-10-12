@@ -35,7 +35,7 @@
             setVis('bo-tao-prompt-box', isBank); // 2026-10-11: direct chi day Word -> an khung NotebookLM
             // SB_AI_PANEL_FIX_20261012: phai go ca class 'hidden' — setVis chi xoa style inline, class hidden cua Tailwind van an panel mai
             var aiP = document.getElementById('ai-compose-panel');
-            if (aiP){ aiP.classList.toggle('hidden', !isAi); aiP.style.display = isAi ? '' : 'none'; if (isAi){ try { aiRecalc(); } catch(e){} } }
+            if (aiP){ aiP.classList.toggle('hidden', !isAi); aiP.style.display = isAi ? '' : 'none'; if (isAi){ try { aiRecalc(); } catch(e){} try { aiSetupV2(); } catch(e){} } }
             // 2026-10-11: giữ cây thư mục luôn hiện ở mọi chế độ (user yêu cầu)
             // Box Copy Prompt: đúng chế độ
             setVis('theory-copy-prompt-box', isTheory);
@@ -210,9 +210,14 @@
         }
         function aiRecalc(){
             var M = aiMatrix();
+            var tq = document.getElementById('ai-total-q'); if (tq) tq.value = M.totQ; // dong bo o Tong so cau o thanh tren
             var el = document.getElementById('ai-totals'); if (!el) return;
             var pct = function(v){ return M.totP > 0 ? Math.round(v / M.totP * 1000) / 10 : 0; };
-            el.textContent = 'Tổng: ' + M.totQ + ' câu — ' + (Math.round(M.totP * 100) / 100) + ' điểm. Tỉ lệ điểm theo mức độ: NB ' + pct(M.lvlP.nb) + '% · TH ' + pct(M.lvlP.th) + '% · VD ' + pct(M.lvlP.vd) + '% · VDC ' + pct(M.lvlP.vdc) + '% (chuẩn tham khảo 40/30/20/10).';
+            var totPr = Math.round(M.totP * 100) / 100;
+            var warn = (Math.abs(totPr - 10) > 0.001)
+                ? ' <span style="color:#dc2626;font-size:12px;">⚠ TỔNG ĐIỂM ĐANG LÀ ' + totPr + ' — khác 10 điểm chuẩn! Kiểm tra lại số câu × điểm/câu kẻo ra bài thừa/thiếu điểm.</span>' : ' <span style="color:#059669;">✓ Đúng 10 điểm</span>';
+            el.innerHTML = '<span style="font-size:15px;">TỔNG: ' + M.totQ + ' câu — ' + totPr + ' điểm</span>' + warn
+                + '<br><span style="font-weight:600;">Tỉ lệ điểm theo mức độ: NB ' + pct(M.lvlP.nb) + '% · TH ' + pct(M.lvlP.th) + '% · VD ' + pct(M.lvlP.vd) + '% · VDC ' + pct(M.lvlP.vdc) + '% (chuẩn tham khảo 40/30/20/10).</span>';
             M.rows.forEach(function(r){
                 var rq = document.getElementById('ai-tq-' + r.key); if (rq) rq.textContent = r.q;
                 var rp = document.getElementById('ai-tp-' + r.key); if (rp) rp.textContent = Math.round(r.p * 100) / 100;
@@ -275,8 +280,9 @@
             P.push('CÁCH TRẢ KẾT QUẢ — trả về ĐÚNG 3 phần theo thứ tự sau, không thêm lời dẫn hay kết luận:');
             P.push('');
             P.push('===== PHẦN 1: MÃ ĐỀ CHO WEB =====');
-            P.push('Xuất mã JSON thuần (không bọc trong khối markdown), gồm các object bộ đề liên tiếp, mỗi bộ đúng cấu trúc:');
+            P.push('Toàn bộ phần 1 PHẢI đặt trong MỘT khối mã ```json ... ``` duy nhất, bên trong chỉ có mã JSON (một object bộ đề, hoặc nhiều object liên tiếp nếu nhiều bộ), KHÔNG viết thêm bất kỳ chữ nào trong khối mã. Tên bộ đề ở trường "name" PHẢI ghi đúng y hệt "Đề 1" (bộ thứ hai là "Đề 2") — không đặt tên khác, vì hệ thống web chỉ nhận diện được tên đúng như vậy.');
             P.push('{"name":"Đề 1","questions":[ ... ]}');
+            P.push('Quy tắc định dạng JSON bắt buộc (sai là web không đọc được đề): chỉ dùng dấu ngoặc kép thẳng ", không để dấu phẩy sau phần tử cuối cùng, số điểm ghi dạng số (0.25) không để trong ngoặc kép, không chèn chú thích vào trong mã JSON.');
             P.push('Mỗi câu trong "questions" là 1 object như mẫu:');
             P.push('{"id":"c1","type":"mcq","q":"nội dung câu hỏi","options":["lựa chọn 1","lựa chọn 2","lựa chọn 3","lựa chọn 4"],"answer":"A","explain":"lời giải chi tiết","points":0.25,"level":"NB","chapter":"tên bài/chương của câu"}');
             P.push('Quy tắc theo dạng câu:');
@@ -294,19 +300,259 @@
             P.push('===== PHẦN 3: BẢN ĐẶC TẢ ĐỀ (để in) =====');
             P.push('Xuất bảng markdown với các cột: STT | Đơn vị kiến thức | Mức độ | Dạng câu hỏi | Số điểm — liệt kê đủ mọi câu theo đúng thứ tự câu trong đề.');
             var out = document.getElementById('ai-prompt-out');
-            if (out){ out.value = P.join('\n'); out.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
-            if (typeof showToast === 'function') showToast('Đã tạo prompt — bấm Sao chép rồi dán vào NotebookLM', 'success');
+            var text = P.join('\n');
+            if (out){ out.value = text; }
+            return text;
         }
         function aiCopyPrompt(){
-            var out = document.getElementById('ai-prompt-out');
-            if (!out) return;
-            if (!out.value){ try { aiBuildPrompt(); } catch(e){} } // chua tao thi tu tao truoc khi copy
-            if (!out.value){ alert('Hãy chọn Khối + Môn ở ô phía trên, nhập Bài/Chương và số câu trong ma trận trước khi copy prompt.'); return; }
-            out.select();
-            function doneCp(){ if (typeof showToast === 'function') showToast('Đã sao chép prompt — dán vào NotebookLM!', 'success'); }
+            // SB_AI_V2: 1 nut duy nhat — bam la tu tao prompt + copy luon, toast bay 2s
+            var text = '';
+            try { text = aiBuildPrompt() || ''; } catch(e){}
+            if (!text){ var out0 = document.getElementById('ai-prompt-out'); if (out0) text = out0.value || ''; }
+            if (!text) return; // aiBuildPrompt da alert ly do (thieu Mon/Bai hoac ma tran trong)
+            aiCopyText(text).then(function(){ aiFloatToast('✅ Đã copy prompt — mở NotebookLM và dán vào!'); });
+        }
+        function aiCopyText(text){
             if (navigator.clipboard && navigator.clipboard.writeText){
-                navigator.clipboard.writeText(out.value).then(doneCp).catch(function(){ try { document.execCommand('copy'); } catch(e){} doneCp(); });
-            } else { try { document.execCommand('copy'); } catch(e){} doneCp(); }
+                return navigator.clipboard.writeText(text).catch(function(){ aiCopyFallback(text); });
+            }
+            aiCopyFallback(text);
+            return Promise.resolve();
+        }
+        function aiCopyFallback(text){
+            var ta = document.createElement('textarea');
+            ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+            document.body.appendChild(ta); ta.select();
+            try { document.execCommand('copy'); } catch(e){}
+            ta.remove();
+        }
+        function aiFloatToast(msg, isErr){
+            var t = document.getElementById('sb-ai-toast');
+            if (!t){
+                t = document.createElement('div'); t.id = 'sb-ai-toast';
+                t.style.cssText = 'position:fixed;left:50%;bottom:34px;transform:translateX(-50%) translateY(16px);z-index:9999;padding:11px 20px;border-radius:999px;color:#fff;font-size:14px;font-weight:700;box-shadow:0 10px 30px rgba(0,0,0,.30);opacity:0;transition:all .35s ease;pointer-events:none;white-space:nowrap;';
+                document.body.appendChild(t);
+            }
+            t.textContent = msg;
+            t.style.background = isErr ? '#dc2626' : '#059669';
+            clearTimeout(t._sbH);
+            requestAnimationFrame(function(){ t.style.opacity = '1'; t.style.transform = 'translateX(-50%) translateY(0)'; });
+            t._sbH = setTimeout(function(){ t.style.opacity = '0'; t.style.transform = 'translateX(-50%) translateY(10px)'; }, 2000); // bay an dan, 2s tu mat
+        }
+
+        // ========================================================
+        // SB_AI_V2_20261012: thanh tren ma tran (tong cau + % sua duoc + boc tu dong),
+        // giao dien gon 1 nut copy / 1 nut dan, bo doc ket qua NotebookLM CHIU LOI
+        // ========================================================
+        function aiLargestRemainder(total, weights){
+            var sum = weights.reduce(function(a, b){ return a + b; }, 0);
+            if (sum <= 0){ weights = weights.map(function(){ return 1; }); sum = weights.length; }
+            var exact = weights.map(function(w){ return total * w / sum; });
+            var base = exact.map(function(v){ return Math.floor(v); });
+            var left = total - base.reduce(function(a, b){ return a + b; }, 0);
+            var order = exact.map(function(v, i){ return [v - Math.floor(v), i]; }).sort(function(a, b){ return b[0] - a[0]; });
+            for (var k = 0; k < order.length && left > 0; k++){ base[order[k][1]]++; left--; }
+            return base;
+        }
+        function aiAutoDistribute(){
+            var total = Math.round(aiNum('ai-total-q'));
+            if (!total){ aiFloatToast('Hãy nhập Tổng số câu trước.', true); return; }
+            var pcts = SB_AI_COLS.map(function(c){ return aiNum('ai-pct-' + c); });
+            if (pcts.reduce(function(a, b){ return a + b; }, 0) <= 0){ aiFloatToast('Hãy nhập tỉ lệ % cho các mức độ.', true); return; }
+            var colTargets = aiLargestRemainder(total, pcts);
+            var M = aiMatrix();
+            var curRowTotals = M.rows.map(function(r){ return r.q; });
+            if (curRowTotals.reduce(function(a, b){ return a + b; }, 0) <= 0) curRowTotals = SB_AI_ROWS.map(function(R){ return R[3].reduce(function(a, b){ return a + b; }, 0); });
+            var rowTotals = aiLargestRemainder(total, curRowTotals);
+            // Dien tung hang theo muc tieu cot con lai (largest remainder), roi sua lech cot bang cach dich 1 cau trong hang
+            var remain = colTargets.slice(), grid = [];
+            SB_AI_ROWS.forEach(function(R, ri){
+                var cells = aiLargestRemainder(rowTotals[ri], remain.map(function(v){ return Math.max(v, 0); }));
+                cells.forEach(function(v, ci){ remain[ci] -= v; });
+                grid.push(cells);
+            });
+            for (var iter = 0; iter < 300; iter++){
+                var colSum = [0, 0, 0, 0];
+                grid.forEach(function(row){ row.forEach(function(v, ci){ colSum[ci] += v; }); });
+                var over = -1, under = -1;
+                for (var c1 = 0; c1 < 4; c1++){ if (colSum[c1] > colTargets[c1]) over = c1; if (colSum[c1] < colTargets[c1]) under = c1; }
+                if (over < 0 || under < 0) break;
+                var moved = false;
+                for (var r1 = 0; r1 < grid.length && !moved; r1++){
+                    if (grid[r1][over] > 0){ grid[r1][over]--; grid[r1][under]++; moved = true; }
+                }
+                if (!moved) break;
+            }
+            SB_AI_ROWS.forEach(function(R, ri){
+                SB_AI_COLS.forEach(function(c, ci){
+                    var inp = document.getElementById('ai-m-' + R[0] + '-' + c);
+                    if (inp) inp.value = grid[ri][ci];
+                });
+            });
+            aiRecalc();
+            aiFloatToast('🎲 Đã bốc ' + total + ' câu theo tỉ lệ ' + pcts.join('/') + ' — xem lại TỔNG ĐIỂM bên dưới.');
+        }
+        function aiParseJsonLoose(s){
+            // Thu tu thu: nguyen ban -> bao ve lenh TeX (\\frac...) -> sua gach cheo don -> + bo phay thua/dau ngoac kep thong minh
+            var texFix = function(x){
+                return x.replace(/(?<!\\)\\(frac|dfrac|tfrac|sqrt|text|textbf|textit|mathrm|mathbf|begin|end|left|right|sum|int|lim|infty|alpha|beta|gamma|delta|theta|lambda|pi|rho|sigma|phi|omega|times|cdot|cdots|ldots|geq|leq|neq|approx|equiv|notin|subset|cup|cap|pm|div|tan|cot|sin|cos|log|ln|bar|hat|vec|overline|underline|binom|matrix|cases|quad|qquad|boxed)\b/g, '\\\\$1');
+            };
+            var smart = s.replace(/[‘’]/g, "'").replace(/[“”]/g, '"');
+            var fixEsc = function(x){
+                // Quet ky tu co trang thai: gach cheo da dung cap thi giu nguyen, gach don truoc ky tu la moi nhan doi
+                var out = '', esc = false;
+                for (var i = 0; i < x.length; i++){
+                    var ch = x[i];
+                    if (esc){ out += ch; esc = false; continue; }
+                    if (ch === '\\'){
+                        var nx = x[i + 1] || '';
+                        if ('"\\/bfnrtu'.indexOf(nx) >= 0){ out += ch; esc = true; }
+                        else out += '\\\\';
+                        continue;
+                    }
+                    out += ch;
+                }
+                return out;
+            };
+            var t1 = texFix(smart);
+            var noTrail = function(x){ return x.replace(/,(\s*[}\]])/g, '$1'); };
+            var tries = [s, smart, t1, noTrail(t1), fixEsc(t1), noTrail(fixEsc(t1))];
+            for (var i = 0; i < tries.length; i++){
+                try { return JSON.parse(tries[i]); } catch(e){}
+            }
+            return null;
+        }
+        function aiExtractSets(raw){
+            // Bo doc CHIU LOI: ten de bat ky, JSON boc ```json, phay thua, TeX 1 gach cheo, kem loi dan cua AI...
+            var text = String(raw || '').replace(/```[a-zA-Z]*/g, function(m){ return ' '.repeat(m.length); });
+            var found = [], seenStart = {}, spans = [];
+            function acceptObj(obj, startKey){
+                if (!obj || typeof obj !== 'object') return false;
+                var added = false;
+                if (Array.isArray(obj)){ obj.forEach(function(o){ if (acceptObj(o, startKey)) added = true; }); return added; }
+                if (Array.isArray(obj.sets)){ obj.sets.forEach(function(o){ if (acceptObj(o, startKey)) added = true; }); return added; }
+                if (Array.isArray(obj.questions) && obj.questions.length){
+                    if (startKey != null){ if (seenStart[startKey]) return false; seenStart[startKey] = 1; }
+                    found.push({ name: obj.name || '', questions: obj.questions });
+                    return true;
+                }
+                return false;
+            }
+            // Ung vien 1: toan van la JSON
+            if (acceptObj(aiParseJsonLoose(text.trim()), 'whole')) spans.push([0, text.length]);
+            // Ung vien 2: quet tung object {...} chua "questions" (dem ngoac, biet chuoi)
+            for (var s0 = 0; s0 < text.length; s0++){
+                if (text[s0] !== '{') continue;
+                var depth = 0, inStr = false, esc = false, end = -1;
+                for (var i = s0; i < text.length; i++){
+                    var ch = text[i];
+                    if (inStr){ if (esc) esc = false; else if (ch === '\\') esc = true; else if (ch === '"') inStr = false; }
+                    else { if (ch === '"') inStr = true; else if (ch === '{') depth++; else if (ch === '}'){ depth--; if (depth === 0){ end = i; break; } } }
+                }
+                if (end < 0) continue;
+                var cand = text.slice(s0, end + 1);
+                if (cand.indexOf('"questions"') < 0) continue;
+                if (acceptObj(aiParseJsonLoose(cand), s0)) spans.push([s0, end]);
+                s0 = end; // nhay qua object vua doc, tranh doc trung object con
+            }
+            return { sets: found, spans: spans };
+        }
+        function aiProcessNotebookText(raw){
+            var stEl = document.getElementById('merge-sets-status');
+            var ex = aiExtractSets(raw);
+            var sets = ex.sets;
+            if (!sets.length){
+                if (stEl){ stEl.textContent = 'Vẫn chưa tách được bộ đề nào — hãy copy TOÀN BỘ kết quả NotebookLM (cả phần mã JSON) rồi bấm Dán lại.'; stEl.className = 'text-[11px] font-bold text-rose-600'; }
+                aiFloatToast('❌ Chưa tìm thấy phần đề trong nội dung đã dán', true);
+                return false;
+            }
+            var canonical = sets.map(function(s, i){ return JSON.stringify({ name: 'Đề ' + (i + 1), questions: s.questions }); }).join('\n');
+            var ta = document.getElementById('merge-sets-input');
+            var splitRaw = String(raw);
+            ex.spans.slice().sort(function(a, b){ return b[0] - a[0]; }).forEach(function(sp){ splitRaw = splitRaw.slice(0, sp[0]) + ' ' + splitRaw.slice(sp[1] + 1); });
+            if (ta) ta.value = canonical + '\n\n' + splitRaw; // phan con lai (ma tran/dac ta) de tach lam Word, khoi JSON da cat tranh gop trung
+            if (typeof window.mergeExamSets === 'function') window.mergeExamSets();
+            setTimeout(function(){ try { aiSplitAfterMerge(); } catch(e){} }, 150); // goi thang cho chac (bo boc ngoai co the chua kip cai trong 250ms dau)
+            var nq = sets.reduce(function(a, s){ return a + s.questions.length; }, 0);
+            aiFloatToast('✅ Đã tách ' + sets.length + ' bộ đề (' + nq + ' câu) vào khung soạn — bấm Tải Word để lấy bản in!');
+            return true;
+        }
+        function aiPasteFromNotebook(){
+            var done = function(txt){
+                if (txt && String(txt).trim()){ aiProcessNotebookText(String(txt)); return; }
+                aiShowManualPaste();
+            };
+            if (navigator.clipboard && navigator.clipboard.readText){
+                navigator.clipboard.readText().then(done).catch(function(){ aiShowManualPaste(); });
+            } else aiShowManualPaste();
+        }
+        function aiShowManualPaste(){
+            var ta = document.getElementById('merge-sets-input');
+            var stEl = document.getElementById('merge-sets-status');
+            if (ta){
+                ta.style.display = '';
+                ta.value = '';
+                ta.placeholder = 'Nhấn Ctrl+V để dán kết quả NotebookLM vào đây — hệ thống tự tách đề ngay khi dán...';
+                ta.focus();
+                if (!ta._sbAiPasteHook){
+                    ta._sbAiPasteHook = 1;
+                    ta.addEventListener('paste', function(){ setTimeout(function(){ aiProcessNotebookText(ta.value); }, 60); });
+                }
+            }
+            if (stEl){ stEl.textContent = 'Trình duyệt chưa cho đọc clipboard trực tiếp — hãy dán (Ctrl+V) vào ô vừa hiện.'; stEl.className = 'text-[11px] font-bold text-amber-600'; }
+        }
+        function aiSetupV2(){
+            var panel = document.getElementById('ai-compose-panel');
+            if (!panel || panel._sbAiV2) return;
+            panel._sbAiV2 = 1;
+            // Doi huong dan dau panel
+            var intro = panel.querySelector('p');
+            if (intro) intro.textContent = 'Chọn Khối + Môn ở ô chọn nơi lưu phía trên, nhập Bài/Chương → nhập TỔNG SỐ CÂU + tỉ lệ % rồi bấm 🎲 Bốc tự động (hoặc nhập tay từng ô) → bấm 📋 Copy Prompt dán vào NotebookLM → khi có kết quả, bấm 📥 Dán từ NotebookLM: hệ thống tự tách phần đề vào khung soạn và chuẩn bị bản Word in ấn.';
+            // Thanh tren ma tran: tong cau + % + boc tu dong
+            var tableWrap = panel.querySelector('.overflow-x-auto');
+            if (tableWrap && !document.getElementById('ai-topbar')){
+                var bar = document.createElement('div');
+                bar.id = 'ai-topbar';
+                bar.className = 'flex flex-wrap items-end gap-2 bg-white border border-violet-300 rounded-lg p-2 mb-2';
+                var inpCls = 'px-2 py-1.5 border border-slate-300 rounded-lg text-center font-bold';
+                var labCls = 'block text-[10px] font-bold text-slate-600 mb-1';
+                bar.innerHTML =
+                    '<div><label class="' + labCls + '">TỔNG SỐ CÂU</label><input type="number" id="ai-total-q" value="26" min="1" max="200" class="' + inpCls + ' w-20"></div>'
+                    + '<div><label class="' + labCls + '">NB %</label><input type="number" id="ai-pct-nb" value="40" min="0" max="100" class="' + inpCls + ' w-16"></div>'
+                    + '<div><label class="' + labCls + '">TH %</label><input type="number" id="ai-pct-th" value="30" min="0" max="100" class="' + inpCls + ' w-16"></div>'
+                    + '<div><label class="' + labCls + '">VD %</label><input type="number" id="ai-pct-vd" value="20" min="0" max="100" class="' + inpCls + ' w-16"></div>'
+                    + '<div><label class="' + labCls + '">VDC %</label><input type="number" id="ai-pct-vdc" value="10" min="0" max="100" class="' + inpCls + ' w-16"></div>'
+                    + '<button type="button" id="ai-auto-btn" class="px-4 py-2 bg-violet-700 hover:bg-violet-800 text-white text-xs font-bold rounded-lg shadow-sm">🎲 Bốc tự động theo %</button>'
+                    + '<span class="text-[10px] text-slate-500 pb-1">Nhập tổng câu + % (sửa được) rồi bấm Bốc — hoặc nhập tay từng ô trong bảng như cũ.</span>';
+                tableWrap.parentNode.insertBefore(bar, tableWrap);
+                document.getElementById('ai-auto-btn').addEventListener('click', aiAutoDistribute);
+            }
+            // An o prompt + nut Tao prompt (chi con 1 nut Copy)
+            var out = document.getElementById('ai-prompt-out'); if (out) out.style.display = 'none';
+            panel.querySelectorAll('button').forEach(function(b){
+                var oc = b.getAttribute('onclick') || '';
+                if (oc.indexOf('aiBuildPrompt') >= 0) b.style.display = 'none';
+            });
+            // Khu vuc dan: an o dan + nut Gop cu, them 1 nut Dan tu NotebookLM
+            var ta = document.getElementById('merge-sets-input');
+            var gopBtn = null;
+            panel.querySelectorAll('button').forEach(function(b){
+                var oc = b.getAttribute('onclick') || '';
+                if (oc.indexOf('mergeExamSets') >= 0) gopBtn = b;
+            });
+            if (ta) ta.style.display = 'none';
+            if (gopBtn && !document.getElementById('ai-paste-btn')){
+                var pb = document.createElement('button');
+                pb.type = 'button'; pb.id = 'ai-paste-btn';
+                pb.className = 'px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-lg shadow-sm';
+                pb.innerHTML = '<i class="fa-solid fa-paste mr-1"></i> 📥 Dán từ NotebookLM & tách đề';
+                pb.addEventListener('click', aiPasteFromNotebook);
+                gopBtn.parentNode.insertBefore(pb, gopBtn);
+                gopBtn.style.display = 'none';
+                var lbl = ta ? ta.previousElementSibling : null;
+                if (lbl && lbl.tagName === 'LABEL') lbl.textContent = 'Khi NotebookLM trả kết quả: copy toàn bộ rồi bấm nút Dán — hệ thống tự tách phần đề vào khung soạn bên dưới, ma trận + đặc tả dùng cho bản Word.';
+            }
+            try { aiRecalc(); } catch(e){}
         }
 
         // ========================================================
