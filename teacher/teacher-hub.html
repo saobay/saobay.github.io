@@ -1590,7 +1590,7 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
     <script src="hub-reports.js?v=20261009_1"></script>
 <script src="hub-groups.js?v=20261010_1"></script>
     <script src="hub-uilabels.js?v=20261010"></script>
-    <script src="teacher-ui-simplify.js?v=20261012_0805"></script>
+    <script src="teacher-ui-simplify.js?v=20261012_0815"></script>
     <script src="hub-inline-edit.js?v=20261010_1"></script>
     <script src="hub-examsched.js?v=20261012_0805"></script>
     <script>
@@ -1823,7 +1823,7 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
                         status: laterChecked ? 'draft' : 'scheduled' /* SCHED_LATER_V1 */
                     });
                     if (_schedRes && _schedRes.ok === false) throw new Error(_schedRes.error || 'Không lưu được lịch kiểm tra.');
-                    if (typeof window.sbPushResult === 'function') window.sbPushResult(true, laterChecked ? '📝 Đã lưu đề ở trạng thái CHUẨN BỊ' : '📌 Đã lên lịch kiểm tra!', '"' + title + '"' + (className ? ' → lớp ' + className : '') + (laterChecked ? '\nĐề đang là bản nháp. Khi muốn giao, mở tab 2 (Quản lý) → bấm Giao ngay / Đặt giờ.' : '\nHS chỉ mở được khi đến giờ kiểm tra. Đề đã xuất hiện ở tab 2 (Quản lý) và trong Bank 2.'));
+                    if (typeof window.sbPushResult === 'function') window.sbPushResult(true, laterChecked ? '⏳ Đã đẩy đề — đang CHỜ GIAO cho HS' : '📌 Đã lên lịch kiểm tra!', '"' + title + '"' + (className ? ' → lớp ' + className : '') + (laterChecked ? '\nĐề chưa giao cho HS. Mở tab 2 (Quản lý) → chọn: 🚀 Giao bài cho lớp / 🌐 Public đề / ✏️ Sửa / 🗑 Xóa.' : '\nHS chỉ mở được khi đến giờ kiểm tra. Đề đã xuất hiện ở tab 2 (Quản lý) và trong Bank 2.'));
                     else if (typeof showToast === 'function') showToast('📌 Đã lên lịch kiểm tra! Đề lưu riêng, HS chỉ mở được khi đến giờ.', 'success');
                     else alert('Đã lên lịch kiểm tra thành công!');
                     var chk = document.getElementById('sched-is-exam');
