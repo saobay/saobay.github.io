@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261012_0755
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261012_0805
 // Tab 2: thay the renderLessonManagementList goc bang DS DE THI GV tai len, gom:
 //  (a) file de .html trong data/ (Word/AI day cong khai)
 //  (b) de luu rieng/len lich trong data/exam-schedule.json (exams-pending) - de Word/matran deu vao day
@@ -1216,3 +1216,49 @@ function bk2Action(act, path, d, btn){
     return;
   }
 }
+
+
+// ===== SB PUSH POPUP v1 (2026-10-12): popup trang thai DAY DE — cho + ket qua, KHONG tu bien mat =====
+// GV bam day de -> hien popup "Dang day..." (co the thu nho di lam viec khac); xong -> popup tu mo lai bao
+// THANH CONG / THAT BAI ro rang, giu nguyen den khi GV bam Dong. Dung cho luong len lich kiem tra (Word/AI).
+(function(){
+  function ensure(){
+    var m = document.getElementById('sb-push-modal');
+    if (m) return m;
+    var d = document.createElement('div');
+    d.id = 'sb-push-modal';
+    d.setAttribute('style', 'position:fixed;inset:0;z-index:10000;background:rgba(15,23,42,.55);display:none;align-items:center;justify-content:center;padding:16px');
+    d.innerHTML = '<div style="background:#fff;border-radius:14px;max-width:440px;width:100%;padding:22px;box-shadow:0 20px 50px rgba(0,0,0,.3)">'
+      + '<div id="sb-push-icon" style="font-size:40px;text-align:center;line-height:1"></div>'
+      + '<h3 id="sb-push-title" style="margin:10px 0 4px;text-align:center;font-size:17px;color:#0f172a"></h3>'
+      + '<div id="sb-push-body" style="font-size:13px;color:#475569;text-align:center;white-space:pre-line"></div>'
+      + '<div id="sb-push-time" style="font-size:11px;color:#94a3b8;text-align:center;margin-top:6px"></div>'
+      + '<button id="sb-push-min" style="display:none;margin:14px auto 0;padding:8px 18px;background:#e2e8f0;color:#334155;border:none;border-radius:8px;cursor:pointer;font-weight:bold;font-size:13px">Thu nhỏ — tôi làm việc khác, xong báo tôi</button>'
+      + '<button id="sb-push-close" style="display:none;margin:14px auto 0;padding:9px 22px;background:#2563eb;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:bold;font-size:14px">Đã rõ — Đóng</button>'
+      + '</div>';
+    document.body.appendChild(d);
+    d.querySelector('#sb-push-close').addEventListener('click', function(){ d.style.display = 'none'; });
+    d.querySelector('#sb-push-min').addEventListener('click', function(){ d.style.display = 'none'; });
+    return d;
+  }
+  window.sbPushPending = function(title){
+    var m = ensure();
+    m.querySelector('#sb-push-icon').innerHTML = '<i class="fa-solid fa-spinner fa-spin" style="color:#2563eb"></i>';
+    m.querySelector('#sb-push-title').textContent = '⏳ Đang đẩy đề lên hệ thống...';
+    m.querySelector('#sb-push-body').textContent = '\"' + (title || 'Đề kiểm tra') + '\" đang được đẩy (thường mất 10–60 giây).\nBạn cứ chuyển sang làm việc khác — đẩy xong, kết quả sẽ tự hiện lại ngay tại đây.';
+    m.querySelector('#sb-push-time').textContent = 'Bắt đầu: ' + new Date().toLocaleTimeString('vi-VN');
+    m.querySelector('#sb-push-close').style.display = 'none';
+    m.querySelector('#sb-push-min').style.display = 'block';
+    m.style.display = 'flex';
+  };
+  window.sbPushResult = function(ok, title, lines){
+    var m = ensure();
+    m.querySelector('#sb-push-icon').textContent = ok ? '✅' : '❌';
+    m.querySelector('#sb-push-title').textContent = title || (ok ? 'Đẩy đề thành công!' : 'Đẩy đề thất bại');
+    m.querySelector('#sb-push-body').textContent = lines || '';
+    m.querySelector('#sb-push-time').textContent = 'Hoàn tất lúc: ' + new Date().toLocaleTimeString('vi-VN');
+    m.querySelector('#sb-push-min').style.display = 'none';
+    m.querySelector('#sb-push-close').style.display = 'block';
+    m.style.display = 'flex';
+  };
+})();
