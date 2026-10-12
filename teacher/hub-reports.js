@@ -1,4 +1,4 @@
-// Quan ly bao cao loi sai tu HS (2026-10-09)
+// Quan ly bao cao loi sai tu HS (2026-10-09) + SB_REPORTLINK_20261012_V1: the bao cao co nut "Mo cho loi" (link ?sbopen + #qN) va noi dung cau
 (function(){
     let reports = [];
 
@@ -53,8 +53,11 @@
                 + '<p class="text-[11px] text-slate-500">' + reporter
                 + (rp.question_num ? ' • Câu ' + escHtml(rp.question_num) : '') + '</p>'
                 + '<p class="text-xs text-slate-700 mt-1.5 ' + descBg + ' border rounded-lg px-2.5 py-2">' + escHtml(rp.description || '') + '</p>'
+                + (rp.question_text ? '<p class="text-[11px] text-slate-500 mt-1.5">Câu hỏi: <span class="text-slate-700 font-semibold">' + escHtml(String(rp.question_text).substring(0, 180)) + '</span></p>' : '')
+                + (rp.exam_set ? '<p class="text-[11px] text-slate-400 mt-0.5">' + escHtml(rp.exam_set) + '</p>' : '')
                 + '</div></div>'
-                + '<div class="flex gap-2 mt-2">'
+                + '<div class="flex flex-wrap gap-2 mt-2">'
+                + (rp.link ? '<a href="' + escHtml(rp.link) + '" target="_blank" rel="noopener" class="text-[11px] font-bold bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg"><i class="fa-solid fa-link mr-1"></i>Mở chỗ lỗi</a>' : '')
                 + '<button onclick="rpResolve(\'' + rp.id + '\', true)" class="text-[11px] font-bold bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg"><i class="fa-solid fa-check mr-1"></i>' + okBtn + '</button>'
                 + '<button onclick="rpResolve(\'' + rp.id + '\', false)" class="text-[11px] font-bold bg-slate-200 hover:bg-slate-300 text-slate-700 px-3 py-1.5 rounded-lg">Sai — bỏ qua</button>'
                 + '</div></div>';
