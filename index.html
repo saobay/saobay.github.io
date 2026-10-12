@@ -825,11 +825,11 @@ function submitLegacyExam(){
                 <h3 class="font-black text-slate-800 text-sm"><i class="fa-solid fa-user-gear text-blue-600 mr-2"></i>T&#224;i Kho&#7843;n C&#7911;a T&#244;i</h3>
                 <button onclick="closeHsAccount()" class="text-slate-400 hover:text-slate-600 text-xl leading-none">&times;</button>
             </div>
-            <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-2 text-sm">
-                <div class="flex justify-between"><span class="text-slate-500 font-bold text-xs">H&#7885; t&#234;n:</span><span id="hsa-name" class="font-bold text-slate-800 text-xs"></span></div>
-                <div class="flex justify-between"><span class="text-slate-500 font-bold text-xs">M&#227; HS / ID:</span><span id="hsa-id" class="font-bold text-slate-800 text-xs"></span></div>
-                <div class="flex justify-between"><span class="text-slate-500 font-bold text-xs">L&#7899;p:</span><span id="hsa-class" class="font-bold text-slate-800 text-xs"></span></div>
-                <div class="flex justify-between"><span class="text-slate-500 font-bold text-xs">Vai tr&#242;:</span><span id="hsa-role" class="font-bold text-slate-800 text-xs"></span></div>
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 space-y-1 text-sm">
+                <div class="flex items-baseline gap-2"><span class="text-slate-500 font-bold text-xs w-[86px] shrink-0"><span class="text-slate-500 font-bold text-xs">H&#7885; t&#234;n:</span><span id="hsa-name" class="font-bold text-slate-800 text-xs"></span></div>
+                <div class="flex items-baseline gap-2"><span class="text-slate-500 font-bold text-xs w-[86px] shrink-0"><span class="text-slate-500 font-bold text-xs">M&#227; HS / ID:</span><span id="hsa-id" class="font-bold text-slate-800 text-xs"></span></div>
+                <div class="flex items-baseline gap-2"><span class="text-slate-500 font-bold text-xs w-[86px] shrink-0"><span class="text-slate-500 font-bold text-xs">L&#7899;p:</span><span id="hsa-class" class="font-bold text-slate-800 text-xs"></span></div>
+                <div class="flex items-baseline gap-2"><span class="text-slate-500 font-bold text-xs w-[86px] shrink-0"><span class="text-slate-500 font-bold text-xs">Vai tr&#242;:</span><span id="hsa-role" class="font-bold text-slate-800 text-xs"></span></div>
             </div>
             <div class="border-t pt-4">
                 <h4 class="font-bold text-slate-700 text-xs mb-2"><i class="fa-solid fa-phone text-emerald-600 mr-1"></i>S&#272;T &#272;&#259;ng Nh&#7853;p</h4>
@@ -1112,33 +1112,53 @@ function saobayReportQ(btn){
     join.id='hsa-join-section'; join.className='border-t pt-4';
     join.innerHTML='<h4 class="font-bold text-slate-700 text-xs mb-2"><i class="fa-solid fa-ticket text-violet-600 mr-1"></i>1. Nhập Mã Lớp Để Vào Lớp</h4>'
       +'<p class="text-[11px] text-slate-500 mb-3">Nhập mã lớp giáo viên đưa để vào lớp riêng và nhận các bài kiểm tra được giao.</p>'
-      +'<button onclick="closeHsAccount();openJoinClassModal();" class="w-full bg-violet-700 hover:bg-violet-600 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow transition">Nhập mã lớp</button>';
+      +'<div class="flex gap-2"><input id="hsa-join-code" type="text" maxlength="10" placeholder="NHẬP MÃ LỚP..." class="flex-1 min-w-0 border border-slate-300 rounded-xl px-3 py-2.5 text-sm font-mono uppercase tracking-widest text-center focus:outline-none focus:ring-2 focus:ring-violet-500" onkeydown="if(event.key===\'Enter\')sbInlineJoin()">'
+      +'<button onclick="sbInlineJoin()" class="bg-violet-700 hover:bg-violet-600 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow transition shrink-0">Vào lớp</button></div>'
+      +'<p id="hsa-join-msg" class="text-xs min-h-[1rem] mt-2"></p>';
     infoBox.parentNode.insertBefore(join, infoBox.nextSibling);
     var st=document.createElement('div');
     st.id='hsa-stats-section'; st.className='border-t pt-4';
-    st.innerHTML='<h4 class="font-bold text-slate-700 text-xs mb-2"><i class="fa-solid fa-chart-line text-emerald-600 mr-1"></i>2. Thống Kê Học Tập &amp; Điểm Kiểm Tra</h4>'
+    st.innerHTML='<h4 class="font-bold text-slate-700 text-xs mb-2"><i class="fa-solid fa-chart-line text-emerald-600 mr-1"></i>5. Thống Kê Học Tập &amp; Điểm Kiểm Tra</h4>'
       +'<div class="grid grid-cols-2 gap-2 mb-3">'
       +'<div class="bg-emerald-50 border border-emerald-200 rounded-xl p-3 text-center"><p class="text-[10px] font-bold text-emerald-700 uppercase">Điểm năng động</p><p id="hsa-stat-score" class="text-lg font-black text-emerald-800">—</p></div>'
       +'<div class="bg-blue-50 border border-blue-200 rounded-xl p-3 text-center"><p class="text-[10px] font-bold text-blue-700 uppercase">Bài đã nộp</p><p id="hsa-stat-count" class="text-lg font-black text-blue-800">—</p></div>'
       +'</div>'
-      +'<div id="hsa-stat-list" class="space-y-2 text-xs text-slate-500 italic">Đang tải lịch sử nộp bài...</div>'
+      +'<div id="hsa-stat-list" class="space-y-1 text-xs text-slate-500 italic">Đang tải lịch sử nộp bài...</div>'
       +'<button onclick="sbLoadStats(true)" class="mt-3 w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs px-4 py-2 rounded-xl transition">Làm mới thống kê</button>'
       +'<button onclick="sbOpenStatsBig()" class="mt-2 w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow transition">📊 Xem toàn bộ thống kê (khung lớn)</button>';
     join.parentNode.insertBefore(st, join.nextSibling);
     try{
       var passOld=document.getElementById('hsa-pass-old');
       var phoneSave=document.getElementById('hsa-phone-save');
-      if(passOld&&phoneSave){
-        var passSec=passOld.closest('div.border-t'), phoneSec=phoneSave.closest('div.border-t');
-        if(passSec&&phoneSec&&passSec!==phoneSec){
-          phoneSec.parentNode.insertBefore(passSec, phoneSec);
-          var ph=passSec.querySelector('h4'); if(ph) ph.innerHTML='<i class="fa-solid fa-key text-amber-600 mr-1"></i>3. Đổi Mật Khẩu';
-          var sh=phoneSec.querySelector('h4'); if(sh) sh.innerHTML='<i class="fa-solid fa-phone text-emerald-600 mr-1"></i>4. SĐT Đăng Nhập';
-        }
+      var passSec=passOld?passOld.closest('div.border-t'):null;
+      var phoneSec=phoneSave?phoneSave.closest('div.border-t'):null;
+      var parent=infoBox.parentNode;
+      if(parent){
+        if(passSec) parent.appendChild(passSec);
+        if(phoneSec) parent.appendChild(phoneSec);
+        parent.appendChild(st);
+        if(passSec){ var ph2=passSec.querySelector('h4'); if(ph2) ph2.innerHTML='<i class="fa-solid fa-key text-amber-600 mr-1"></i>3. Đổi Mật Khẩu'; }
+        if(phoneSec){ var sh2=phoneSec.querySelector('h4'); if(sh2) sh2.innerHTML='<i class="fa-solid fa-phone text-emerald-600 mr-1"></i>4. SĐT Đăng Nhập'; }
       }
     }catch(e){}
     return true;
   }
+  window.sbInlineJoin=function(){
+    var inp=document.getElementById('hsa-join-code'), msg=document.getElementById('hsa-join-msg');
+    var code=inp?String(inp.value||'').trim():'';
+    if(!code){ if(msg){msg.innerText='Vui lòng nhập mã lớp.';msg.className='text-xs min-h-[1rem] mt-2 text-rose-600';} return; }
+    var src=document.getElementById('join-class-code');
+    if(!src||typeof submitJoinClass!=='function'){ if(typeof openJoinClassModal==='function') openJoinClassModal(); return; }
+    src.value=code;
+    submitJoinClass();
+    if(msg){ msg.innerText='Đang kiểm tra mã lớp...'; msg.className='text-xs min-h-[1rem] mt-2 text-slate-500'; }
+    var n=0; var iv=setInterval(function(){
+      n++;
+      var sm=document.getElementById('join-class-msg');
+      if(sm&&msg&&sm.innerText){ msg.innerText=sm.innerText; msg.className='text-xs min-h-[1rem] mt-2 '+(sm.className.indexOf('emerald')>=0?'text-emerald-600 font-bold':'text-rose-600'); }
+      if((sm&&/✅|🎉|❌/.test(sm.innerText))||n>80){ clearInterval(iv); if(sm&&/🎉/.test(sm.innerText)&&inp) inp.value=''; }
+    },300);
+  };
   window.sbLoadStats=function(force){
     var u=(typeof syncCurrentUser==='function')?syncCurrentUser():(typeof currentUser!=='undefined'?currentUser:null);
     var listEl=document.getElementById('hsa-stat-list'); if(!listEl) return;
@@ -1157,7 +1177,7 @@ function saobayReportQ(btn){
         .sort().reverse();
       if(ctEl) ctEl.textContent=files.length;
       if(!files.length){ listEl.innerHTML='Chưa có bài kiểm tra nào đã nộp. Khi bạn nộp bài, điểm sẽ hiện ở đây.'; sbStatsLoaded=true; return; }
-      var top=files.slice(0,5); // SB_BIGSTATS_20261012: xem truoc 5 bai, toan bo lich su o khung lon
+      var top=files.slice(0,10); // SB_BIGSTATS_20261012 + bo cuc lai: 10 bai gan nhat ngay trong hop thoai
       Promise.all(top.map(function(p){
         return fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/'+p.split('/').map(encodeURIComponent).join('/'))
           .then(function(r){return r.json();}).catch(function(){return null;})
@@ -1167,7 +1187,7 @@ function saobayReportQ(btn){
         rows.forEach(function(row){
           var d=row.d||{}; var fn=row.p.split('/').pop();
           var score=(d.score!=null?d.score:(d.total_score!=null?d.total_score:(d.point!=null?d.point:'—')));
-          html+='<div class="flex items-center justify-between bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 not-italic">'
+          html+='<div class="flex items-center justify-between bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 not-italic">'
             +'<div class="min-w-0"><p class="font-bold text-slate-700 truncate">'+sbEsc(d.exam_title||'Bài kiểm tra')+'</p>'
             +'<p class="text-[10px] text-slate-400">'+sbFmtTs(fn)+'</p></div>'
             +'<span class="font-black text-blue-700 ml-2">'+sbEsc(score)+'</span></div>';
@@ -1206,6 +1226,7 @@ function saobayReportQ(btn){
     document.body.appendChild(ov);
   }
   window.sbOpenStatsBig=function(){
+    if(typeof closeHsAccount==='function') closeHsAccount();
     sbEnsureBig();
     var ov=document.getElementById('sb-big-stats');
     ov.classList.remove('hidden'); ov.classList.add('flex');
@@ -1773,8 +1794,8 @@ function saobayReportQ(btn){
 })();
 </script>
 
-<!-- SAOBAY CLASS SCORES 20261012: trong "Tài khoản của tôi" > Thống kê — nút "Xem điểm cả lớp":
-     chọn bài kiểm tra (theo thư mục data/scores) rồi hiện bảng điểm tất cả HS đã nộp bài đó. -->
+<!-- SAOBAY CLASS SCORES 20261012: trong "Tài khoản của tôi" > Thống kê — mục "Xem điểm bài làm": chọn bài kiểm tra rồi hiện điểm của CHÍNH học sinh đó
+     (đã bỏ bảng điểm cả lớp theo yêu cầu user 2026-10-12). -->
 <script>
 (function(){
   var RAW = 'https://raw.githubusercontent.com/saobay/saobay.github.io/main/';
@@ -1809,7 +1830,7 @@ function saobayReportQ(btn){
       var folders = Object.keys(byFolder).map(function(f){
         var files = byFolder[f].slice().sort().reverse();
         return { folder: f, files: files, title: null, latest: files[0] || '' };
-      }).sort(function(a, b){ return a.latest < b.latest ? 1 : -1; });
+      }).sort(function(a, b){ var fa = String(a.latest).split('/').pop(), fb = String(b.latest).split('/').pop(); return fa < fb ? 1 : -1; }); // fix: so sanh theo ten file (moc thoi gian) thay vi ca duong dan (ten thu muc lam lech thu tu)
       // Lấy tiêu đề thật từ file mới nhất của mỗi thư mục (tối đa 30 thư mục)
       return Promise.all(folders.slice(0, 30).map(function(ex){
         return fetchJson(RAW + ex.files[0].split('/').map(encodeURIComponent).join('/') + '?t=' + Date.now())
@@ -1829,7 +1850,7 @@ function saobayReportQ(btn){
       return '<option value="' + i + '">' + esc(label) + ' (' + ex.files.length + ' bài nộp)</option>';
     }).join('');
     if (note) note.textContent = '';
-    loadClassScores(0);
+    if (window.sbLoadClassScores) window.sbLoadClassScores(0); // fix: truoc day goi loadClassScores(0) khong ton tai -> tu dong tai diem bi loi
   }
 
   window.sbLoadClassScores = function(idx){
@@ -1851,54 +1872,49 @@ function saobayReportQ(btn){
     }).catch(function(){ box.innerHTML = '<p class="text-xs text-rose-500 py-2">Không tải được bảng điểm.</p>'; });
   };
 
+  function slugOf(str){ return String(str||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/g,'d').replace(/Đ/g,'D').replace(/[^a-zA-Z0-9]+/g,'_').replace(/^_+|_+$/g,''); }
   function renderClassTable(ex, rows){
     var box = document.getElementById('hsa-cs-table');
     if (!box) return;
     var u = (typeof syncCurrentUser === 'function') ? syncCurrentUser() : null;
     var myId = u ? String(u.id) : '';
-    var sorted = rows.slice().sort(function(a, b){
-      var sa = parseFloat(scoreOf(a.d)), sb = parseFloat(scoreOf(b.d));
-      if (isNaN(sa)) sa = -1; if (isNaN(sb)) sb = -1;
-      if (sb !== sa) return sb - sa;
-      return String(a.d.student_name || '').localeCompare(String(b.d.student_name || ''));
+    var mySlug = u ? slugOf(u.name || '') : '';
+    var mine = rows.filter(function(r){
+      var d = r.d || {};
+      if (myId && String(d.student_id || '') === myId) return true;
+      var fn = String(r.p || '').split('/').pop().replace(/\.json$/, '');
+      return mySlug && fn.slice(-(mySlug.length + 1)) === '_' + mySlug;
     });
-    if (!sorted.length) { box.innerHTML = '<p class="text-xs text-slate-400 italic py-2">Chưa có dữ liệu điểm hợp lệ cho bài này.</p>'; return; }
-    var html = '<p class="text-xs font-bold text-slate-700 mb-1">' + esc(ex.title || ex.folder.replace(/_/g, ' ')) + ' — ' + sorted.length + ' bài nộp</p>';
-    html += '<div class="border border-slate-200 rounded-xl overflow-hidden"><table class="w-full text-xs">'
-      + '<thead><tr class="bg-indigo-50 text-indigo-900"><th class="px-2 py-1.5 text-left">STT</th><th class="px-2 py-1.5 text-left">Học sinh</th><th class="px-2 py-1.5 text-left">Lớp</th><th class="px-2 py-1.5 text-right">Điểm</th></tr></thead><tbody>';
-    sorted.forEach(function(r, i){
-      var d = r.d;
-      var mine = myId && String(d.student_id || '') === myId;
-      var sc = scoreOf(d);
-      html += '<tr class="' + (mine ? 'bg-amber-100 font-bold' : (i % 2 ? 'bg-slate-50' : 'bg-white')) + '">'
-        + '<td class="px-2 py-1.5">' + (i + 1) + '</td>'
-        + '<td class="px-2 py-1.5">' + esc(d.student_name || '') + (mine ? ' (bạn)' : '') + '</td>'
-        + '<td class="px-2 py-1.5">' + esc(d.student_class || '') + '</td>'
-        + '<td class="px-2 py-1.5 text-right font-black text-blue-700">' + esc(sc == null ? '—' : sc) + '</td></tr>';
-    });
-    html += '</tbody></table></div><p class="text-[10px] text-slate-400 mt-1">Điểm sắp xếp từ cao xuống thấp. Dòng vàng là điểm của bạn.</p>';
-    box.innerHTML = html;
+    var title = esc(ex.title || ex.folder.replace(/_/g, ' '));
+    if (!mine.length) {
+      box.innerHTML = '<p class="text-xs text-slate-500 py-2">Bài <b>' + title + '</b>: em chưa nộp bài này.</p>';
+      return;
+    }
+    var latest = mine[0];
+    var sc = scoreOf(latest.d);
+    box.innerHTML = '<div class="bg-emerald-50 border border-emerald-200 rounded-xl px-3 py-2.5">'
+      + '<p class="text-xs text-slate-600">Bài: <b>' + title + '</b></p>'
+      + '<p class="text-sm mt-0.5">Điểm của em: <b class="text-base text-blue-700">' + esc(sc == null ? '—' : sc) + '</b>'
+      + ' <span class="text-[11px] text-slate-400">· nộp ' + fmtTs(String(latest.p || '').split('/').pop()) + '</span></p>'
+      + (mine.length > 1 ? '<p class="text-[11px] text-slate-400 mt-0.5">Đã nộp ' + mine.length + ' lần — đây là điểm lần gần nhất.</p>' : '')
+      + '</div>';
   }
 
   function injectUI(){
+    var joinSec = document.getElementById('hsa-join-section');
     var sec = document.getElementById('hsa-stats-section');
-    if (!sec || document.getElementById('hsa-cs-btn')) return;
+    if ((!joinSec && !sec) || document.getElementById('hsa-myscore-section')) return;
     var wrap = document.createElement('div');
-    wrap.className = 'mt-3';
-    wrap.innerHTML = '<button id="hsa-cs-btn" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow transition"><i class="fa-solid fa-users mr-1"></i>Xem điểm cả lớp</button>'
-      + '<div id="hsa-cs-view" class="hidden mt-3">'
+    wrap.id = 'hsa-myscore-section';
+    wrap.className = 'border-t pt-4';
+    wrap.innerHTML = '<h4 class="font-bold text-slate-700 text-xs mb-2"><i class="fa-solid fa-file-circle-check text-blue-600 mr-1"></i>2. Xem Điểm Bài Làm</h4>'
       + '<label class="block text-xs font-bold text-slate-600 mb-1">Chọn bài kiểm tra</label>'
       + '<select id="hsa-cs-select" class="w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm font-semibold bg-white" onchange="sbLoadClassScores(parseInt(this.value,10))"></select>'
       + '<p id="hsa-cs-note" class="text-[11px] text-slate-400 mt-1"></p>'
-      + '<div id="hsa-cs-table" class="mt-2"></div>'
-      + '</div>';
-    sec.appendChild(wrap);
-    document.getElementById('hsa-cs-btn').addEventListener('click', function(){
-      var v = document.getElementById('hsa-cs-view');
-      var opening = v.classList.contains('hidden');
-      v.classList.toggle('hidden');
-      if (opening) loadExamList();
-    });
+      + '<div id="hsa-cs-table" class="mt-2"></div>';
+    if (joinSec && joinSec.parentNode) joinSec.parentNode.insertBefore(wrap, joinSec.nextSibling);
+    else sec.appendChild(wrap);
+    loadExamList();
   }
 
   // Gắn vào sau khi modal tài khoản được dựng (bọc tiếp openHsAccount đã được bọc bởi khối HS ACCOUNT MENU)
