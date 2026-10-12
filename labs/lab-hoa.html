@@ -127,37 +127,11 @@
       <p class="text-xs text-slate-500 mb-2">Mở <b>Tủ hóa chất</b> lấy bình mới, <b>chạm 1 bình rồi chạm bình khác</b> để rót sang.</p>
       <!-- THANH ĐIỀU KHIỂN Ở PHÍA TRÊN CANVAS (không đè lên vùng thí nghiệm) -->
       <div class="flex flex-wrap gap-2 mb-2">
-        <button id="mix-go" class="big-btn flex-1 bg-teal-600 text-white font-black rounded-xl px-3" style="min-width:150px">🌀 Trộn dung dịch</button>
         <button id="mix-reset" class="big-btn px-4 bg-slate-300 font-black rounded-xl">↺ Làm lại</button>
         <button id="pipet-btn" class="big-btn bg-violet-600 text-white font-black rounded-xl px-3">💧 Pipet: TẮT</button>
         <button id="pour-stop" class="big-btn bg-red-500 text-white font-black rounded-xl px-3 hidden">⏹ Ngừng đổ</button>
         <label class="big-btn bg-white border border-slate-300 rounded-xl px-2 flex items-center gap-1 font-bold text-xs text-slate-700">🧪 Lượng đổ:<input id="pour-ml" type="number" min="1" max="100" placeholder="ml" class="w-16 border rounded-lg px-1 py-1 text-sm font-bold text-center"><span>ml</span></label>
         <button id="snd-btn" class="big-btn bg-amber-500 text-white font-black rounded-xl px-3">🔊 Âm thanh: BẬT</button>
-      </div>
-      <div class="grid grid-cols-3 gap-2 mb-2 text-sm">
-        <div>
-          <label class="text-xs font-bold text-slate-600">🧪 Axit</label>
-          <select id="mix-acid" class="w-full border rounded-xl px-2 py-2 font-bold">
-            <option value="HCl">HCl</option>
-            <option value="H2SO4">H₂SO₄</option>
-            <option value="CH3COOH">CH₃COOH</option>
-          </select>
-        </div>
-        <div>
-          <label class="text-xs font-bold text-slate-600">⚗️ Bazơ</label>
-          <select id="mix-base" class="w-full border rounded-xl px-2 py-2 font-bold">
-            <option value="NaOH">NaOH</option>
-            <option value="KOH">KOH</option>
-            <option value="Ca(OH)2">Ca(OH)₂</option>
-          </select>
-        </div>
-        <div>
-          <label class="text-xs font-bold text-slate-600">🎨 Chỉ thị</label>
-          <select id="mix-ind" class="w-full border rounded-xl px-2 py-2 font-bold">
-            <option value="phenol">Phenolphtalein</option>
-            <option value="litmus">Quỳ tím</option>
-          </select>
-        </div>
       </div>
       <!-- TỦ HÓA CHẤT - SHELF3D: kệ 3D kiểu đan dược tu tiên -->
       <div class="rounded-xl p-2 mb-2 shelf3d" style="background:linear-gradient(180deg,#1a1033 0%,#0f0a24 45%,#080514 100%);box-shadow:inset 0 2px 12px rgba(0,0,0,.7),0 0 24px rgba(139,92,246,.25),inset 0 1px 0 rgba(196,181,253,.25);border:1px solid rgba(139,92,246,.35);position:relative;overflow:hidden;">
@@ -288,6 +262,26 @@
       background:linear-gradient(180deg,rgba(255,244,214,.75),rgba(255,244,214,.10))}
     .chem-bottle .blabel{font-size:10px;font-weight:800;color:#ffe9c4;text-align:center;line-height:1.15;max-width:60px;text-shadow:0 0 8px rgba(255,200,120,.8)}
     .chem-bottle .bcat{font-size:8px;color:#d9b878;text-align:center;font-weight:700}
+    /* SHAPES_V1: moi loai chat mot dang dung — ran trong hu, chi thi lo nho giot, con den, nuoc binh coc */
+    .chem-bottle .bchunk{position:absolute;width:13px;height:10px;border-radius:3px;z-index:2;pointer-events:none;
+      box-shadow:inset 0 2px 2px rgba(255,255,255,.55), inset 0 -2px 3px rgba(0,0,0,.35), 0 1px 2px rgba(0,0,0,.4);}
+    .chem-bottle.sh-jar .bbody{clip-path:inset(4% 3% 0 3% round 9px);width:56px;height:54px;}
+    .chem-bottle.sh-jar .bneck{display:none;}
+    .chem-bottle.sh-jar .bcork{width:46px;height:9px;border-radius:4px;
+      background:linear-gradient(180deg,#e3ba6e,#a87c3f);box-shadow:0 2px 4px rgba(0,0,0,.55), inset 0 1px 2px rgba(255,240,200,.85);}
+    .chem-bottle.sh-jar .bliq{height:80%;}
+    .chem-bottle.sh-dropper .bbody{width:36px;height:52px;
+      clip-path:path('M13 2 L23 2 Q25 2 25.4 4 L31 43 Q32.6 51 25 51 L11 51 Q3.4 51 5 43 L10.6 4 Q11 2 13 2 Z');}
+    .chem-bottle.sh-dropper .bneck{width:9px;height:8px;}
+    .chem-bottle.sh-dropper .bcork{width:12px;height:13px;border-radius:6px 6px 3px 3px;
+      background:linear-gradient(180deg,#424b5c,#161b26);box-shadow:0 2px 4px rgba(0,0,0,.6), inset 0 2px 2px rgba(255,255,255,.35);}
+    .chem-bottle.sh-lamp .bbody{clip-path:path('M24 2 L34 2 Q36 2 36.6 4.4 L40 15 Q56 25 56 39 Q56 56 39 56 L19 56 Q2 56 2 39 Q2 25 18 15 L21.4 4.4 Q22 2 24 2 Z');}
+    .chem-bottle.sh-jug .bbody{width:58px;height:56px;
+      clip-path:path('M5 5 L53 5 L56.5 49 Q57.2 57 49 57 L9 57 Q0.8 57 1.5 49 Z');}
+    .chem-bottle.sh-jug .bneck,.chem-bottle.sh-jug .bcork{display:none;}
+    .chem-bottle.sh-jug .bliq{height:52%;}
+    .chem-bottle.sh-acid .bneck{height:23px;}
+    .chem-bottle.sh-acid .bbody{height:50px;}
     .chem-bottle.sel .bbody{border-color:#fde047;box-shadow:0 0 22px 5px rgba(253,224,71,.85), inset -7px -9px 16px rgba(80,140,200,.38), inset 7px 9px 14px rgba(255,255,255,.30)}
     .chem-bottle:hover .bbody{box-shadow:0 0 28px 6px rgba(140,220,255,.70), inset -7px -9px 16px rgba(80,140,200,.38), inset 7px 9px 14px rgba(255,255,255,.30)}
     /* ===== TIENHIEP_V1: visual bình hóa chất chuẩn tiên hiệp ===== */
