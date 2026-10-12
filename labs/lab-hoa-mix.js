@@ -23,9 +23,11 @@
     Fe:       {f:'Fe',        name:'sắt',         color:'#e8c98a', glow:'#b45309', type:'metal', cat:'Kim loại'},
     Mg:       {f:'Mg',        name:'magie',       color:'#f8fafc', glow:'#e2e8f0', type:'metal', cat:'Kim loại'},
     Cu:       {f:'Cu',        name:'đồng',        color:'#fdba74', glow:'#c2410c', type:'metal', cat:'Kim loại'},
-    C2H5OH:   {f:'C₂H₅OH',    name:'cồn 96 độ',   color:'#edf3f5', glow:'#9fc3d4', type:'fuel',  cat:'Cồn'}
+    Na:       {f:'Na',        name:'natri',       color:'#d7dde6', glow:'#94a3b8', type:'metal', cat:'Kim loại'},
+    C2H5OH:   {f:'C₂H₅OH',    name:'cồn 96 độ',   color:'#edf3f5', glow:'#9fc3d4', type:'fuel',  cat:'Cồn'},
+    H2O:      {f:'H₂O',       name:'nước cất',    color:'#bae6fd', glow:'#38bdf8', type:'water', cat:'Dung môi'}
   };
-  var SHELF_ORDER = ['HCl','H2SO4','CH3COOH','NaOH','KOH','Ca(OH)2','CuSO4','NaCl','AgNO3','FeCl3','litmus','phenol','Zn','Fe','Mg','Cu','C2H5OH'];
+  var SHELF_ORDER = ['HCl','H2SO4','CH3COOH','NaOH','KOH','Ca(OH)2','CuSO4','NaCl','AgNO3','FeCl3','litmus','phenol','Zn','Fe','Mg','Cu','Na','C2H5OH','H2O'];
 
   var eqs = {
     'HCl|NaOH':  'HCl + NaOH → NaCl + H₂O',
@@ -582,11 +584,11 @@ function drawVessel(ctx, v, t){
       for (var ppi=0; ppi<v.precip.length; ppi++){
         var pp = v.precip[ppi];
         var ppx = (pp.x-0.5)*iw*0.85, ppy = -4 - pp.y*liqH;
-        ctx.fillStyle = 'rgba(255,255,255,0.92)';
+        ctx.fillStyle = v.precipCol ? hexA(v.precipCol, 0.95) : 'rgba(255,255,255,0.92)';
         ctx.beginPath(); ctx.arc(ppx,ppy,pp.r,0,7); ctx.fill();
       }
       if ((v.milky||0) > 0){
-        ctx.fillStyle = 'rgba(255,255,255,' + (v.milky*0.30).toFixed(2) + ')';
+        ctx.fillStyle = v.precipCol ? hexA(v.precipCol, (v.milky*0.30)) : 'rgba(255,255,255,' + (v.milky*0.30).toFixed(2) + ')';
         ctx.fillRect(-v.w/2, surfY, v.w, liqH+8);
       }
     }
@@ -1313,6 +1315,21 @@ function drawMiniFlask(ctx, x, y, col){
   }
   function checkReaction(v, addedKey){
     var i, c;
+    // 0. Natri + nước → phản ứng mãnh liệt, H₂ bốc cháy → NỔ (ngoài đời rất nguy hiểm!)
+    if (!v.naDone){
+      var hasNa = false, hasWa = false;
+      for (i=0;i<v.contents.length;i++){
+        if (v.contents[i].k==='Na' && v.contents[i].v>0.01) hasNa = true;
+        if (v.contents[i].k==='H2O' && v.contents[i].v>0.01) hasWa = true;
+      }
+      if (hasNa && hasWa){
+        v.naDone = true; v.fizz = 3.2; v.boom = 1;
+        flashMsg(v, '💥 Natri + nước: NỔ!');
+        showResultHTML('2Na + 2H₂O → 2NaOH + H₂↑',
+          'Natri phản ứng <b>mãnh liệt</b> với nước: nóng chảy, chạy trên mặt nước rồi <b>bốc cháy và nổ</b> vì khí H₂ sinh ra bắt lửa. Thí nghiệm thật <b>rất nguy hiểm</b> — chỉ xem mô phỏng thôi nhé!');
+        triggerBoom(v.x, v.y - v.h*0.55);
+      }
+    }
     // 1. Kết tủa trắng AgCl
     if (!v.precipDone){
       var hasAg = false, hasCl = false;
@@ -1327,6 +1344,30 @@ function drawMiniFlask(ctx, x, y, col){
           v.precip.push({x:Math.random(), y:Math.random()*0.35, r:1+Math.random()*2.2, sp:0.25+Math.random()*0.55});
         flashMsg(v, 'K\u1ebft t\u1ee7a tr\u1eafng AgCl!');
         showPrecipEq();
+      }
+    }
+    // 1b. Kết tủa màu: muối đồng/sắt + bazơ → Cu(OH)2 xanh lam / Fe(OH)3 nâu đỏ
+    if (!v.precipDone){
+      var hasCu = false, hasFe = false, hasOH = false;
+      for (i=0;i<v.contents.length;i++){
+        if (v.contents[i].k==='CuSO4' && v.contents[i].v>0.01) hasCu = true;
+        if (v.contents[i].k==='FeCl3' && v.contents[i].v>0.01) hasFe = true;
+        var _cc1 = CHEMS[v.contents[i].k];
+        if (_cc1 && _cc1.type==='base' && v.contents[i].v>0.01) hasOH = true;
+      }
+      if ((hasCu || hasFe) && hasOH){
+        v.precipDone = true; v.fizz = Math.max(v.fizz, 0.7); v.milky = 1;
+        v.precipCol = hasCu ? '#3b82f6' : '#b4532d';
+        v.precip = [];
+        for (var pj=0; pj<46; pj++)
+          v.precip.push({x:Math.random(), y:Math.random()*0.35, r:1+Math.random()*2.2, sp:0.25+Math.random()*0.55});
+        if (hasCu){
+          flashMsg(v, 'Kết tủa xanh lam Cu(OH)₂!');
+          showResultHTML('CuSO₄ + 2NaOH → Cu(OH)₂↓ + Na₂SO₄', 'Xuất hiện <b>kết tủa xanh lam</b> Cu(OH)₂ lắng dần xuống đáy ống nghiệm.');
+        } else {
+          flashMsg(v, 'Kết tủa nâu đỏ Fe(OH)₃!');
+          showResultHTML('FeCl₃ + 3NaOH → Fe(OH)₃↓ + 3NaCl', 'Xuất hiện <b>kết tủa nâu đỏ</b> Fe(OH)₃ lắng dần xuống đáy ống nghiệm.');
+        }
       }
     }
     // 2. Trung hòa axit-bazơ (BUGFIX3: phản ứng thật - chất hết trước bị trung hòa hết)
@@ -1750,7 +1791,14 @@ function layout(){
     if (!G || !G.ctx || !(G.w > 0) || !(G.h > 0)) throw new Error('canvas chua san sang');
     var ctx = G.ctx, W = G.w, H = G.h;
     var t = performance.now()/1000 - T0;
-    ctx.clearRect(0,0,W,H);
+    var _dpr = window.devicePixelRatio || 1;
+    ctx.setTransform(_dpr,0,0,_dpr,0,0);
+    if (shakeT > 0){
+      shakeT = Math.max(0, shakeT - 0.016);
+      var _sa = shakeT*18;
+      ctx.translate((Math.random()-0.5)*_sa, (Math.random()-0.5)*_sa);
+    }
+    ctx.clearRect(-26,-26,W+52,H+52);
     drawBG(ctx, W, H, t);
     layout();
     // Nhân vật "cầm" bình bay tới ống nghiệm rồi mới rót
@@ -1838,6 +1886,23 @@ function layout(){
         showResultHTML('C₂H₅OH + 3O₂ → 2CO₂ + 3H₂O', 'Cồn <b>cháy</b> với ngọn lửa xanh, tỏa nhiều nhiệt.');
       }
       if (!(v.type==='tube' && hasType(v,'fuel') && (v.heat||0) > 0.3)) v.burnMsg = false;
+      // BURN_MG: magie trong ống bị đun nóng → cháy sáng chói
+      if (v.type==='tube' && !v.mgBurned && (v.heat||0) > 0.75){
+        var _hasMg = false, _mi2;
+        for (_mi2=0; _mi2<v.contents.length; _mi2++) if (v.contents[_mi2].k==='Mg' && v.contents[_mi2].v>0.01) _hasMg = true;
+        if (_hasMg){
+          v.mgBurned = true; v.boom = 1;
+          flashMsg(v, '🔥 Magie cháy sáng chói!');
+          showResultHTML('2Mg + O₂ → 2MgO', 'Magie <b>cháy sáng chói</b> trong không khí, tạo thành bột trắng MgO. Ngoài đời thật đừng nhìn thẳng vào ngọn lửa magie nhé!');
+          flashFx = {x: v.x, y: v.y - v.h*0.5, t: 0};
+          for (var _si2=0; _si2<26; _si2++){
+            var _sa4 = Math.random()*6.283, _sp4 = 40+Math.random()*130;
+            fxParts.push({x:v.x, y:v.y-v.h*0.5, vx:Math.cos(_sa4)*_sp4, vy:Math.sin(_sa4)*_sp4-40,
+              r:1.6+Math.random()*2.4, life:1, decay:1.3, col:['#ffffff','#fef9c3','#fde68a'][_si2%3], grav:300});
+          }
+          try { SND.boom(); } catch(_sb3){}
+        }
+      }
       v.boom = Math.max(0, (v.boom||0) - 0.025);
     });
     updateChemist(t, W, H);
@@ -1855,6 +1920,7 @@ function layout(){
     vessels.forEach(function(v){ updateColorTransition(v); });
     vessels.forEach(function(v){ drawVessel(ctx, v, t); });
     drawChemistArm(ctx, t);
+    updateDrawFx(ctx, t, W, H);
     // chữ flash (vd: "Đã đầy!")
     vessels.forEach(function(v){
       if (v.flash && v.flash.t > 0){
@@ -1869,8 +1935,10 @@ function layout(){
       ctx.fillStyle = 'rgba(165,243,252,0.6)'; ctx.font = '13px sans-serif'; ctx.textAlign = 'center';
       ctx.fillText('Mở Tủ hóa chất ở trên để lấy bình mới ↓', W/2, H/2);
     }
+    try { ctx.setTransform(_dpr||1,0,0,_dpr||1,0,0); } catch(_rs){}
     _frameErr = 0;
     } catch(_de){
+      try { ctx.setTransform(1,0,0,1,0,0); } catch(_rs2){}
       _frameErr++;
       if (_frameErr <= 3) console.warn('[lab-mix] frame loi (tu phuc hoi):', _de && _de.message);
       // Khong throw tiep — giu vong lap RAF song
@@ -1878,6 +1946,185 @@ function layout(){
     try { SND.tick(); } catch(_se){}
     requestAnimationFrame(draw);
   }
+
+
+  // ================= FX no + thi nghiem mau trong giao dien tron =================
+  var boomFx = null, flashFx = null, fxParts = [], shakeT = 0;
+  chemist.shockT = -1; chemist._coughAcc = 0; chemist._coughN = 0;
+  function triggerBoom(x, y){
+    boomFx = {x: x, y: y, t: 0};
+    shakeT = 0.55;
+    chemist.shockT = 0; chemist._coughAcc = 0; chemist._coughN = 0;
+    for (var i=0;i<80;i++){
+      var a=Math.random()*6.283, sp=60+Math.random()*330;
+      fxParts.push({x:x, y:y, vx:Math.cos(a)*sp, vy:Math.sin(a)*sp-130,
+        r:2+Math.random()*4.5, life:1, decay:0.9+Math.random()*0.6,
+        col:['#fde047','#fbbf24','#f97316','#ef4444','#fff7ed'][i%5], grav:520});
+    }
+    for (var j=0;j<16;j++){
+      fxParts.push({x:x+(Math.random()-0.5)*60, y:y-10, vx:(Math.random()-0.5)*60, vy:-46-Math.random()*60,
+        r:10+Math.random()*14, life:1, decay:0.35, col:'rgba(100,116,139,0.5)', grav:-36, grow:24});
+    }
+    try { SND.boom(); } catch(e){}
+  }
+  function updateDrawFx(ctx, t, W, H){
+    if (boomFx){
+      boomFx.t += 0.016;
+      if (boomFx.t > 1.4) boomFx = null;
+      else {
+        var bf = boomFx, fr = bf.t*340 + 24, fa = Math.max(0, 1 - bf.t/0.9);
+        var fg = ctx.createRadialGradient(bf.x, bf.y, 4, bf.x, bf.y, fr);
+        fg.addColorStop(0, 'rgba(255,255,255,'+(0.95*fa).toFixed(2)+')');
+        fg.addColorStop(0.35, 'rgba(253,224,71,'+(0.85*fa).toFixed(2)+')');
+        fg.addColorStop(1, 'rgba(249,115,22,0)');
+        ctx.fillStyle = fg; ctx.beginPath(); ctx.arc(bf.x, bf.y, fr, 0, 7); ctx.fill();
+        if (bf.t < 0.55){
+          ctx.save(); ctx.translate(bf.x, bf.y-118);
+          var bs = 0.7 + bf.t*1.7; ctx.scale(bs, bs);
+          ctx.fillStyle = '#7c2d12'; ctx.font = 'black 38px sans-serif'; ctx.textAlign = 'center';
+          ctx.fillText('💥 BÙM!!', 0, 0); ctx.restore();
+        }
+      }
+    }
+    if (flashFx){
+      flashFx.t += 0.016;
+      if (flashFx.t > 0.8) flashFx = null;
+      else {
+        var fx2 = flashFx, fa2 = Math.max(0, 1 - fx2.t/0.8), fr2 = fx2.t*200 + 16;
+        var fg3 = ctx.createRadialGradient(fx2.x, fx2.y, 2, fx2.x, fx2.y, fr2);
+        fg3.addColorStop(0, 'rgba(255,255,255,'+(0.98*fa2).toFixed(2)+')');
+        fg3.addColorStop(0.5, 'rgba(254,249,195,'+(0.7*fa2).toFixed(2)+')');
+        fg3.addColorStop(1, 'rgba(255,255,255,0)');
+        ctx.fillStyle = fg3; ctx.beginPath(); ctx.arc(fx2.x, fx2.y, fr2, 0, 7); ctx.fill();
+      }
+    }
+    for (var fi=fxParts.length-1; fi>=0; fi--){
+      var fp = fxParts[fi];
+      fp.x += fp.vx*0.016; fp.y += fp.vy*0.016; fp.vy += (fp.grav||0)*0.016;
+      fp.life -= 0.016*(fp.decay||1);
+      if (fp.grow) fp.r += fp.grow*0.016;
+      if (fp.life <= 0 || fp.y > H+40){ fxParts.splice(fi,1); continue; }
+      ctx.save(); ctx.globalAlpha = Math.max(0, Math.min(1, fp.life));
+      ctx.fillStyle = fp.col;
+      ctx.beginPath(); ctx.arc(fp.x, fp.y, Math.max(0.5, fp.r), 0, 7); ctx.fill();
+      ctx.restore();
+    }
+    // Nhân vật sau vụ nổ: mặt xanh lè + tóc dựng đứng + ho sặc sụa, 15 giây sau hồi phục
+    if (chemist.shockT >= 0){
+      chemist.shockT += 0.016;
+      var st = chemist.shockT;
+      if (st >= 16.2){ chemist.shockT = -1; }
+      else {
+        var home = chemistHome(W,H);
+        var bob = Math.sin(t*2.2+chemist.bobP)*1.5;
+        var cx = home.x, cy = home.y + bob*0.4 - 228;
+        var recover = st >= 15;
+        ctx.fillStyle = recover ? '#bbf7d0' : '#4ade80';
+        ctx.beginPath(); ctx.arc(cx, cy, 33, 0, 7); ctx.fill();
+        ctx.beginPath(); ctx.arc(cx-33, cy+2, 7, 0, 7); ctx.fill();
+        ctx.beginPath(); ctx.arc(cx+33, cy+2, 7, 0, 7); ctx.fill();
+        if (!recover){
+          ctx.fillStyle = '#1d1414';
+          for (var si=0; si<11; si++){
+            var aa = Math.PI*(0.05 + 0.9*si/10);
+            var bx = cx + Math.cos(aa)*30, by = cy - Math.sin(aa)*30;
+            var tx3 = cx + Math.cos(aa)*54, ty3 = cy - Math.sin(aa)*54;
+            var ex3 = cx + Math.cos(aa+0.16)*30, ey3 = cy - Math.sin(aa+0.16)*30;
+            ctx.beginPath(); ctx.moveTo(bx,by); ctx.lineTo(tx3,ty3); ctx.lineTo(ex3,ey3); ctx.closePath(); ctx.fill();
+          }
+          ctx.strokeStyle = '#14532d'; ctx.lineWidth = 3.5; ctx.lineCap = 'round';
+          [[-13],[13]].forEach(function(o){
+            var exx = cx+o[0], eyy = cy+2;
+            ctx.beginPath(); ctx.moveTo(exx-6,eyy-6); ctx.lineTo(exx+6,eyy+6); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(exx+6,eyy-6); ctx.lineTo(exx-6,eyy+6); ctx.stroke();
+          });
+          ctx.fillStyle = '#14532d';
+          ctx.beginPath(); ctx.ellipse(cx, cy+17, 6, 8+Math.sin(t*30)*1.5, 0, 0, 7); ctx.fill();
+          if (st > 0.5 && st < 5.5){
+            chemist._coughAcc += 0.016;
+            if (chemist._coughAcc > 0.13){
+              chemist._coughAcc = 0; chemist._coughN++;
+              for (var ci=0; ci<4; ci++)
+                fxParts.push({x:cx+(Math.random()-0.5)*8, y:cy+17, vx:26+Math.random()*36, vy:-12-Math.random()*20,
+                  r:4+Math.random()*5, life:1, decay:1.15, col:'rgba(148,163,184,0.8)', grav:-26, grow:9});
+            }
+            if (chemist._coughN % 8 !== 0){
+              ctx.fillStyle = '#166534'; ctx.font = 'bold 17px sans-serif'; ctx.textAlign = 'center';
+              ctx.fillText('khụ khụ!', cx+64, cy-6-Math.sin(t*7)*3);
+            }
+          }
+        } else {
+          ctx.fillStyle = '#1e293b';
+          ctx.beginPath(); ctx.arc(cx-13, cy+2, 3.4, 0, 7); ctx.fill();
+          ctx.beginPath(); ctx.arc(cx+13, cy+2, 3.4, 0, 7); ctx.fill();
+          ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 3; ctx.lineCap = 'round';
+          ctx.beginPath(); ctx.moveTo(cx-7, cy+17); ctx.lineTo(cx+7, cy+17); ctx.stroke();
+          ctx.font = '30px sans-serif'; ctx.textAlign = 'center';
+          ctx.fillText('😮‍💨', cx, cy-54);
+        }
+      }
+    }
+  }
+  // ---------- Kịch bản thí nghiệm mẫu: nhân vật tự thao tác trên bàn ----------
+  var exBusy = false;
+  function exSetup(items){
+    resetBench();
+    pour = null; pourQ = []; carryAnim = null; heatDemo = null;
+    try { lamp.tx = null; } catch(e){}
+    var made = [];
+    items.forEach(function(it){
+      var v = makeVessel(it[0], it[1], it[2]);
+      v.pop = 1;
+      vessels.push(v); made.push(v);
+    });
+    try { layout(); } catch(e2){}
+    return made;
+  }
+  function exCarryTo(src, dst){
+    var side = (src.x <= dst.x) ? -1 : 1;
+    var tx = dst.x + side*(dst.w*0.5 + src.w*0.30 + 10);
+    tx = Math.max(60, Math.min(G.w-60, tx));
+    var ty = dst.y - dst.h - 16 + src.h;
+    carryAnim = {a:src, b:dst, t:0, dur:0.85, fx:src.x, fy:src.y, tx:tx, ty:ty};
+    src.carried = true; src.returning = false;
+  }
+  function exMsg(t){ var el = document.getElementById('ex-msg'); if (el) el.textContent = t; }
+  window.__chemDemo = {
+    na: function(){
+      if (exBusy) return; exBusy = true;
+      var vs = exSetup([['beaker','H2O',0.5],['bottle','Na',0.55]]);
+      exMsg('🧑‍🔬 Nhân vật lấy natri và cốc nước...');
+      setTimeout(function(){ exCarryTo(vs[1], vs[0]); flashMsg(vs[0], 'Thả natri vào nước...'); }, 700);
+      setTimeout(function(){ exBusy = false; }, 9000);
+    },
+    mg: function(){
+      if (exBusy) return; exBusy = true;
+      var vs = exSetup([['tube','Mg',0.35],['bottle','HCl',0.55]]);
+      exMsg('🧑‍🔬 Nhân vật rót axit clohiđric vào ống nghiệm chứa magie...');
+      setTimeout(function(){ demoPourToTube(vs[1]); }, 700);
+      setTimeout(function(){ demoHeatTube(vs[1]); exMsg('🔥 Đã sinh khí H₂ — đem đun để nghe tiếng nổ nhỏ!'); }, 7500);
+      setTimeout(function(){ exBusy = false; }, 15000);
+    },
+    rainbow: function(){
+      if (exBusy) return; exBusy = true;
+      var vs = exSetup([['tube','CuSO4',0.5],['tube','FeCl3',0.5],['bottle','NaOH',0.6]]);
+      exMsg('🧑‍🔬 Nhân vật rót NaOH vào 2 ống nghiệm CuSO₄ và FeCl₃...');
+      setTimeout(function(){ exCarryTo(vs[2], vs[0]); }, 700);
+      setTimeout(function(){ exCarryTo(vs[2], vs[1]); }, 7000);
+      setTimeout(function(){ exBusy = false; exMsg('🌈 Hai kết tủa: xanh lam Cu(OH)₂ và nâu đỏ Fe(OH)₃!'); }, 14000);
+    },
+    burn: function(){
+      if (exBusy) return; exBusy = true;
+      var vs = exSetup([['tube','Mg',0.4]]);
+      exMsg('🧑‍🔬 Nhân vật đem đèn cồn đun dải magie...');
+      setTimeout(function(){ demoHeatTube(vs[0]); }, 700);
+      setTimeout(function(){ exBusy = false; }, 9000);
+    }
+  };
+  [['ex-na','na'],['ex-mg','mg'],['ex-rainbow','rainbow'],['ex-burn','burn']].forEach(function(pr){
+    var b = document.getElementById(pr[0]);
+    if (b) b.addEventListener('click', function(){ window.__chemDemo[pr[1]](); });
+  });
 
   buildShelfCats();
   buildShelf();
