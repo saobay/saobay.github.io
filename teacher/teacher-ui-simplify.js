@@ -1,11 +1,21 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261012_2240
-// SB_ESSAYGRADE_20261012_V1: GV cham diem TU LUAN ngay trong overlay xem bai lam (SB_SEMDRILL):
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261012_2250
+// SB_ESSAYGRADE_20261012_V2: GV cham diem TU LUAN ngay trong overlay xem bai lam (SB_SEMDRILL):
 // moi cau tu luan co o nhap diem (khoi tao = diem may goi y en.auto), nut "Luu diem cham" ghi lai
 // file diem qua semGasPush (PUSH_TO_GITHUB): en.graded = diem chinh thuc tung cau, score tong tinh
-// lai = score cu - tong diem tu luan dang tinh trong tong (graded/auto) + tong diem moi (luc nop, diem tu luan dong gop dung bang en.auto:
-// viewer exam10 cong _pts = ratio*max vao tong), essay_pending=false, graded_by/graded_by_id/graded_at.
-// Kem: semLoadScores gan rec._scorePath (duong dan file diem tu cay GitHub) de biet ghi vao file nao;
-// _scorePath chi o ban ghi trong bo nho, bi loai bo khoi JSON khi ghi ra.
+// lai = score cu - tong diem tu luan dang tinh trong tong (graded/auto) + tong diem moi (luc nop,
+// diem tu luan dong gop dung bang en.auto: viewer exam10 cong _pts = ratio*max vao tong),
+// essay_pending=false, graded_by/graded_by_id/graded_at. Kem: semLoadScores gan rec._scorePath
+// (duong dan file diem tu cay GitHub); _scorePath chi o ban ghi trong bo nho, khong ghi ra JSON.
+// V2 — chi sua KENH GHI semGasPush (logic cham giu nguyen ban V1, SB_ESSAYGRADE_20261012_V1):
+// ban V1 tim gasPush/GAS TOAN CUC nhung ca 2 deu nam trong IIFE khac cua file nay (gasPush + var
+// GAS o khoi sb7, dong 679-694) nen tren live luon roi xuong "gasPush khong kha dung" — nut "Bat
+// dau HK2" dung chung semGasPush cung gay theo. V2 giu nguyen 2 duong cu, them fallback POST
+// thang toi endpoint cua SB_GAS_URL theo DUNG giao thuc gasPush khoi sb7 (POST, Content-Type
+// text/plain;charset=utf-8, body {type:'PUSH_TO_GITHUB', filePath, content, commitMessage},
+// thanh cong khi status = 'success'/'ok'). Chu y: SB_GAS_URL (dong 48) khai bao trong IIFE dau
+// file nen module SEM khong nhin thay truc tiep — fallback dung typeof-check (nhin thay thi lay,
+// khong thi dung literal CUNG MOT chuoi URL duy nhat cua ca file: trung SB_GAS_URL dong 48 va
+// GAS cua sb7 dong 679; doi chieu them hub-publish.js: cung POST text/plain + status 'success').
 // SB_STUDYMIN_20261012_V1: giao nhiệm vụ lý thuyết kèm số phút học tối thiểu GV đặt (mặc định 5) -> task.studyMinutes
 // Tab 2: thay the renderLessonManagementList goc bang DS DE THI GV tai len, gom:
 //  (a) file de .html trong data/ (Word/AI day cong khai)
@@ -1383,7 +1393,16 @@ console.log('SAOBAY wrap 0630 loaded');
   function semGhHeaders(){ if (typeof ghHeaders === 'function') { try { return ghHeaders(); } catch(e){} } var h = { 'Accept': 'application/vnd.github.raw' }; try { var t = (typeof getGithubToken === 'function') ? getGithubToken() : ''; if (t) h['Authorization'] = 'Bearer ' + t; } catch(e){} return h; }
   function semApiRaw(path){ if (typeof apiRaw === 'function') return apiRaw(path); return fetch('https://api.github.com/repos/saobay/saobay.github.io/contents/' + path.split('/').map(encodeURIComponent).join('/'), { headers: semGhHeaders(), cache: 'no-store' }).then(function(r){ if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); }); }
   function semFetchAll(){ if (typeof fetchAll === 'function') return fetchAll(); return Promise.resolve({}); }
-  function semGasPush(filePath, content, msg){ if (typeof gasPush === 'function') return gasPush(filePath, content, msg); if (typeof GAS !== 'undefined') return fetch(GAS, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ type: 'PUSH_TO_GITHUB', filePath: filePath, content: content, commitMessage: msg }) }).then(function(r){ return r.json(); }).then(function(j){ if (!j || (j.status !== 'success' && j.status !== 'ok')) throw new Error((j && j.message) || 'GAS loi'); return j; }); return Promise.reject(new Error('gasPush khong kha dung')); }
+  function semGasPush(filePath, content, msg){
+    if (typeof gasPush === 'function') return gasPush(filePath, content, msg);
+    if (typeof GAS !== 'undefined') return fetch(GAS, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ type: 'PUSH_TO_GITHUB', filePath: filePath, content: content, commitMessage: msg }) }).then(function(r){ return r.json(); }).then(function(j){ if (!j || (j.status !== 'success' && j.status !== 'ok')) throw new Error((j && j.message) || 'GAS loi'); return j; });
+    /* SB_ESSAYGRADE_20261012_V2: fallback — trang hub khong co gasPush/GAS toan cuc (nam trong IIFE
+       sb7) nen 2 duong tren khong bao gio chay tren live. Tu POST thang toi endpoint SB_GAS_URL theo
+       dung giao thuc gasPush cua sb7 (xem ghi chu dau file); SB_GAS_URL khong nhin thay tu module
+       SEM (khai bao trong IIFE dau file) nen typeof-check + literal du phong cung mot chuoi URL. */
+    var semGasUrl = (typeof SB_GAS_URL !== 'undefined' && SB_GAS_URL) ? SB_GAS_URL : 'https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec';
+    return fetch(semGasUrl, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ type: 'PUSH_TO_GITHUB', filePath: filePath, content: content, commitMessage: msg }) }).then(function(r){ return r.json(); }).then(function(j){ if (!j || (j.status !== 'success' && j.status !== 'ok')) throw new Error((j && j.message) || 'GAS loi'); return j; });
+  }
   function semIsPriv(){ try { var u = JSON.parse(localStorage.getItem('saobay_user') || 'null'); return !!(u && (u.role === 'admin' || u.role === 'bgh')); } catch(e){ return false; } }
   function semLoadMarks(){
     try { var ls = localStorage.getItem('sb_hk2_start_' + semMyId()); if (ls) semState.hk2At = ls; } catch(e){}
