@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261012_1345
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261012_1400
 // SB_STUDYMIN_20261012_V1: giao nhiệm vụ lý thuyết kèm số phút học tối thiểu GV đặt (mặc định 5) -> task.studyMinutes
 // Tab 2: thay the renderLessonManagementList goc bang DS DE THI GV tai len, gom:
 //  (a) file de .html trong data/ (Word/AI day cong khai)
@@ -511,7 +511,7 @@ function _sbApplyModeVisibility(mode){
   var b2 = document.getElementById('sb-bank2-box');
   if (!b1 || !b2) return;
   if (_sbCurMode === 'bank') { b1.style.display = 'none'; b2.style.display = 'none'; window.SB_BANK2 = null; }
-  else if (_sbCurMode === 'direct') {
+  else if (_sbCurMode === 'direct' || _sbCurMode === 'ai') { // SB_AI_MODE_20261012: ai giong direct (de thi -> Bank 2 khi tick DE KIEM TRA)
     // SB_BANK_EXCLUSIVE 20261012_0820: mode Word/AI chi hien DUNG 1 bank theo loai noi dung:
     // tick "Day la DE KIEM TRA" -> chi Bank 2; bo tick (ly thuyet/bai tap) -> chi Bank 1.
     var _cb = document.getElementById('sched-is-exam');
@@ -526,7 +526,7 @@ function _sbInitPickers(){
   if (!window._sbExamCbHook){
     window._sbExamCbHook = true;
     document.addEventListener('change', function(e){
-      if (e.target && e.target.id === 'sched-is-exam' && _sbCurMode === 'direct') _sbApplyModeVisibility('direct');
+      if (e.target && e.target.id === 'sched-is-exam' && (_sbCurMode === 'direct' || _sbCurMode === 'ai')) _sbApplyModeVisibility(_sbCurMode);
     });
   }
   var grid = document.getElementById('subject-meta-grid');
