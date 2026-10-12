@@ -2273,6 +2273,38 @@ function layout(){
     if (b) b.addEventListener('click', function(){ window.__chemDemo[pr[1]](); });
   });
 
+  // SHELF_DRAG: bấm giữ kéo ngang để trượt tủ chọn hóa chất/dụng cụ; chạm nhẹ vẫn chọn bình như cũ
+  (function(){
+    var sh = document.getElementById('chem-shelf');
+    if (!sh) return;
+    sh.style.cursor = 'grab';
+    sh.style.userSelect = 'none'; sh.style.webkitUserSelect = 'none';
+    var down = false, moved = false, sx = 0, sl = 0;
+    sh.addEventListener('pointerdown', function(e){
+      if (e.pointerType !== 'mouse') return;
+      down = true; moved = false; sx = e.clientX; sl = sh.scrollLeft;
+    });
+    sh.addEventListener('pointermove', function(e){
+      if (!down) return;
+      var dx = e.clientX - sx;
+      if (Math.abs(dx) > 6){ moved = true; sh.style.cursor = 'grabbing'; }
+      if (moved){ sh.scrollLeft = sl - dx; e.preventDefault(); }
+    });
+    function up(){
+      if (!down) return;
+      down = false; sh.style.cursor = 'grab';
+      setTimeout(function(){ moved = false; }, 0);
+    }
+    sh.addEventListener('pointerup', up);
+    sh.addEventListener('pointerleave', up);
+    sh.addEventListener('click', function(e){
+      if (moved){ e.stopPropagation(); e.preventDefault(); }
+    }, true);
+    sh.addEventListener('dragstart', function(e){ e.preventDefault(); });
+    sh.addEventListener('wheel', function(e){
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)){ sh.scrollLeft += e.deltaY; e.preventDefault(); }
+    }, {passive: false});
+  })();
   buildShelfCats();
   buildShelf();
   resetBench();
