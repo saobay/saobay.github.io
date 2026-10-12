@@ -56,6 +56,8 @@
   .lab-bub { animation: labBubble 2.2s ease-in infinite; }
   .lab-bub.b2 { animation-delay: .7s; } .lab-bub.b3 { animation-delay: 1.3s; }
 </style>
+<style>/* SB_BIGTEXT_20261012: chu to de nhin (user yeu cau 2026-10-12) */
+@media (min-width:768px){ html{font-size:17px} }</style>
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col" onload="initMainPage()">
 
@@ -820,19 +822,21 @@ function submitLegacyExam(){
 
     <!-- Modal Tai khoan cua toi cho Hoc sinh (2026-10-09) -->
     <div id="hs-account-modal" class="hidden fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/50">
-        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 space-y-4 max-h-[90vh] overflow-y-auto">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg p-5 space-y-3 max-h-[90vh] overflow-y-auto">
             <div class="flex items-center justify-between border-b pb-3">
-                <h3 class="font-black text-slate-800 text-sm"><i class="fa-solid fa-user-gear text-blue-600 mr-2"></i>T&#224;i Kho&#7843;n C&#7911;a T&#244;i</h3>
+                <h3 class="font-black text-slate-800 text-base"><i class="fa-solid fa-user-gear text-blue-600 mr-2"></i>T&#224;i Kho&#7843;n C&#7911;a T&#244;i</h3>
                 <button onclick="closeHsAccount()" class="text-slate-400 hover:text-slate-600 text-xl leading-none">&times;</button>
             </div>
-            <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 space-y-1 text-sm">
-                <div class="flex items-baseline gap-2"><span class="text-slate-500 font-bold text-xs w-[86px] shrink-0"><span class="text-slate-500 font-bold text-xs">H&#7885; t&#234;n:</span><span id="hsa-name" class="font-bold text-slate-800 text-xs"></span></div>
-                <div class="flex items-baseline gap-2"><span class="text-slate-500 font-bold text-xs w-[86px] shrink-0"><span class="text-slate-500 font-bold text-xs">M&#227; HS / ID:</span><span id="hsa-id" class="font-bold text-slate-800 text-xs"></span></div>
-                <div class="flex items-baseline gap-2"><span class="text-slate-500 font-bold text-xs w-[86px] shrink-0"><span class="text-slate-500 font-bold text-xs">L&#7899;p:</span><span id="hsa-class" class="font-bold text-slate-800 text-xs"></span></div>
-                <div class="flex items-baseline gap-2"><span class="text-slate-500 font-bold text-xs w-[86px] shrink-0"><span class="text-slate-500 font-bold text-xs">Vai tr&#242;:</span><span id="hsa-role" class="font-bold text-slate-800 text-xs"></span></div>
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-sm">
+                <div class="grid grid-cols-2 gap-x-4 gap-y-2">
+                    <div class="flex items-baseline gap-1.5 min-w-0"><span class="text-slate-500 font-bold text-[13px] shrink-0">H&#7885; t&#234;n:</span><span id="hsa-name" class="font-bold text-slate-800 text-sm"></span></div>
+                    <div class="flex items-baseline gap-1.5 min-w-0"><span class="text-slate-500 font-bold text-[13px] shrink-0">M&#227; HS / ID:</span><span id="hsa-id" class="font-bold text-slate-800 text-sm whitespace-nowrap"></span></div>
+                    <div class="flex items-baseline gap-1.5 min-w-0"><span class="text-slate-500 font-bold text-[13px] shrink-0">L&#7899;p:</span><span id="hsa-class" class="font-bold text-slate-800 text-sm"></span></div>
+                    <div class="flex items-baseline gap-1.5 min-w-0"><span class="text-slate-500 font-bold text-[13px] shrink-0">Vai tr&#242;:</span><span id="hsa-role" class="font-bold text-slate-800 text-sm"></span></div>
+                </div>
             </div>
-            <div class="border-t pt-4">
-                <h4 class="font-bold text-slate-700 text-xs mb-2"><i class="fa-solid fa-phone text-emerald-600 mr-1"></i>S&#272;T &#272;&#259;ng Nh&#7853;p</h4>
+            <div class="border-t pt-3">
+                <h4 class="font-bold text-slate-700 text-sm mb-2"><i class="fa-solid fa-phone text-emerald-600 mr-1"></i>S&#272;T &#272;&#259;ng Nh&#7853;p</h4>
                 <p class="text-[11px] text-slate-500 mb-3">D&#249;ng S&#272;T &#273;&#7875; <b>&#273;&#259;ng nh&#7853;p thay cho m&#227; HS</b> (d&#7877; nh&#7899; h&#417;n). Qu&#7843;n l&#253; &#273;i&#7875;m/l&#7899;p v&#7851;n theo m&#227; HS c&#7911;a b&#7841;n.</p>
                 <div class="mb-3">
                     <label class="block text-xs font-bold text-slate-600 mb-1">S&#272;T hi&#7879;n t&#7841;i</label>
@@ -845,8 +849,8 @@ function submitLegacyExam(){
                 <p id="hsa-phone-msg" class="text-xs text-center min-h-[1rem] mb-2"></p>
                 <button id="hsa-phone-save" onclick="saveHsPhone()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow transition">L&#432;u S&#272;T</button>
             </div>
-            <div class="border-t pt-4">
-                <h4 class="font-bold text-slate-700 text-xs mb-2"><i class="fa-solid fa-key text-amber-600 mr-1"></i>&#272;&#7893;i M&#7853;t Kh&#7849;u</h4>
+            <div class="border-t pt-3">
+                <h4 class="font-bold text-slate-700 text-sm mb-2"><i class="fa-solid fa-key text-amber-600 mr-1"></i>&#272;&#7893;i M&#7853;t Kh&#7849;u</h4>
                 <div class="mb-3">
                     <label class="block text-xs font-bold text-slate-600 mb-1">M&#7853;t kh&#7849;u c&#361;</label>
                     <input type="password" id="hsa-pass-old" placeholder="Nh&#7853;p m&#7853;t kh&#7849;u hi&#7879;n t&#7841;i" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm font-semibold focus:ring-2 focus:ring-blue-500 outline-none"/>
@@ -1109,16 +1113,16 @@ function saobayReportQ(btn){
     var infoBox=nameEl.closest('div.bg-slate-50'); if(!infoBox) return false;
     if(document.getElementById('hsa-join-section')) return true;
     var join=document.createElement('div');
-    join.id='hsa-join-section'; join.className='border-t pt-4';
-    join.innerHTML='<h4 class="font-bold text-slate-700 text-xs mb-2"><i class="fa-solid fa-ticket text-violet-600 mr-1"></i>1. Nhập Mã Lớp Để Vào Lớp</h4>'
+    join.id='hsa-join-section'; join.className='border-t pt-3';
+    join.innerHTML='<h4 class="font-bold text-slate-700 text-sm mb-2"><i class="fa-solid fa-ticket text-violet-600 mr-1"></i>1. Nhập Mã Lớp Để Vào Lớp</h4>'
       +'<p class="text-[11px] text-slate-500 mb-3">Nhập mã lớp giáo viên đưa để vào lớp riêng và nhận các bài kiểm tra được giao.</p>'
-      +'<div class="flex gap-2"><input id="hsa-join-code" type="text" maxlength="10" placeholder="NHẬP MÃ LỚP..." class="flex-1 min-w-0 border border-slate-300 rounded-xl px-3 py-2.5 text-sm font-mono uppercase tracking-widest text-center focus:outline-none focus:ring-2 focus:ring-violet-500" onkeydown="if(event.key===\'Enter\')sbInlineJoin()">'
-      +'<button onclick="sbInlineJoin()" class="bg-violet-700 hover:bg-violet-600 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow transition shrink-0">Vào lớp</button></div>'
+      +'<div class="flex gap-2"><input id="hsa-join-code" type="text" maxlength="10" placeholder="NHẬP MÃ LỚP..." class="flex-1 min-w-0 border-2 border-slate-300 rounded-xl px-3 py-3 text-lg font-mono font-bold uppercase tracking-widest text-center focus:outline-none focus:ring-2 focus:ring-violet-500" onkeydown="if(event.key===\'Enter\')sbInlineJoin()">'
+      +'<button onclick="sbInlineJoin()" class="bg-violet-700 hover:bg-violet-600 text-white font-bold text-sm px-5 py-3 rounded-xl shadow transition shrink-0">Vào lớp</button></div>'
       +'<p id="hsa-join-msg" class="text-xs min-h-[1rem] mt-2"></p>';
     infoBox.parentNode.insertBefore(join, infoBox.nextSibling);
     var st=document.createElement('div');
-    st.id='hsa-stats-section'; st.className='border-t pt-4';
-    st.innerHTML='<h4 class="font-bold text-slate-700 text-xs mb-2"><i class="fa-solid fa-chart-line text-emerald-600 mr-1"></i>5. Thống Kê Học Tập &amp; Điểm Kiểm Tra</h4>'
+    st.id='hsa-stats-section'; st.className='border-t pt-3';
+    st.innerHTML='<h4 class="font-bold text-slate-700 text-sm mb-2"><i class="fa-solid fa-chart-line text-emerald-600 mr-1"></i>5. Thống Kê Học Tập &amp; Điểm Kiểm Tra</h4>'
       +'<div class="grid grid-cols-2 gap-2 mb-3">'
       +'<div class="bg-emerald-50 border border-emerald-200 rounded-xl p-3 text-center"><p class="text-[10px] font-bold text-emerald-700 uppercase">Điểm năng động</p><p id="hsa-stat-score" class="text-lg font-black text-emerald-800">—</p></div>'
       +'<div class="bg-blue-50 border border-blue-200 rounded-xl p-3 text-center"><p class="text-[10px] font-bold text-blue-700 uppercase">Bài đã nộp</p><p id="hsa-stat-count" class="text-lg font-black text-blue-800">—</p></div>'
@@ -1906,8 +1910,8 @@ function saobayReportQ(btn){
     if ((!joinSec && !sec) || document.getElementById('hsa-myscore-section')) return;
     var wrap = document.createElement('div');
     wrap.id = 'hsa-myscore-section';
-    wrap.className = 'border-t pt-4';
-    wrap.innerHTML = '<h4 class="font-bold text-slate-700 text-xs mb-2"><i class="fa-solid fa-file-circle-check text-blue-600 mr-1"></i>2. Xem Điểm Bài Làm</h4>'
+    wrap.className = 'border-t pt-3';
+    wrap.innerHTML = '<h4 class="font-bold text-slate-700 text-sm mb-2"><i class="fa-solid fa-file-circle-check text-blue-600 mr-1"></i>2. Xem Điểm Bài Làm</h4>'
       + '<label class="block text-xs font-bold text-slate-600 mb-1">Chọn bài kiểm tra</label>'
       + '<select id="hsa-cs-select" class="w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm font-semibold bg-white" onchange="sbLoadClassScores(parseInt(this.value,10))"></select>'
       + '<p id="hsa-cs-note" class="text-[11px] text-slate-400 mt-1"></p>'
