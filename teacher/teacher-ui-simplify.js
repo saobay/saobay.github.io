@@ -1366,61 +1366,72 @@ console.log('SAOBAY wrap 0630 loaded');
   var semState = { init: false, loading: false, subs: null, classes: [], pvStudents: {}, period: 'hk1', hk2At: null, clsKey: '' };
   function semYearStart(){ var n = new Date(); var start = new Date(n.getFullYear(), 7, 1); if (n < start) start = new Date(n.getFullYear() - 1, 7, 1); return start; }
   function semFmtDT(iso){ try { return new Date(iso).toLocaleString('vi-VN', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit', year: 'numeric' }); } catch(e){ return iso || ''; } }
+  /* SB_SEMFIX_20261012_V3: khoi semstats dung ban sao tu tri cua cac ham dung chung —
+     ban goc nam o scope khac, chay that bao "apiRaw is not defined" -> dropdown lop rong. */
+  function semEsc(s){ return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function semNorm(s){ return String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/\s+/g, ' ').trim(); }
+  function semParseGrade(name){ if (typeof parseGrade === 'function') { try { return parseGrade(name); } catch(e){} } var m = String(name || '').match(/(\d{1,2})/); return m ? parseInt(m[1], 10) : null; }
+  function semMyId(){ if (typeof myId === 'function') { try { return myId(); } catch(e){} } try { var g = (typeof teacherId !== 'undefined' && teacherId) ? String(teacherId) : ''; if (g) return g; var u = JSON.parse(localStorage.getItem('saobay_user') || 'null'); return u ? String(u.id || '') : ''; } catch(e){ return ''; } }
+  function semMyName(){ if (typeof myName === 'function') { try { return myName(); } catch(e){} } try { var u = JSON.parse(localStorage.getItem('saobay_user') || 'null'); return u ? String(u.name || '') : ''; } catch(e){ return ''; } }
+  function semGhHeaders(){ if (typeof ghHeaders === 'function') { try { return ghHeaders(); } catch(e){} } var h = { 'Accept': 'application/vnd.github.raw' }; try { var t = (typeof getGithubToken === 'function') ? getGithubToken() : ''; if (t) h['Authorization'] = 'Bearer ' + t; } catch(e){} return h; }
+  function semApiRaw(path){ if (typeof apiRaw === 'function') return apiRaw(path); return fetch('https://api.github.com/repos/saobay/saobay.github.io/contents/' + path.split('/').map(encodeURIComponent).join('/'), { headers: semGhHeaders(), cache: 'no-store' }).then(function(r){ if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); }); }
+  function semFetchAll(){ if (typeof fetchAll === 'function') return fetchAll(); return Promise.resolve({}); }
+  function semGasPush(filePath, content, msg){ if (typeof gasPush === 'function') return gasPush(filePath, content, msg); if (typeof GAS !== 'undefined') return fetch(GAS, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ type: 'PUSH_TO_GITHUB', filePath: filePath, content: content, commitMessage: msg }) }).then(function(r){ return r.json(); }).then(function(j){ if (!j || (j.status !== 'success' && j.status !== 'ok')) throw new Error((j && j.message) || 'GAS loi'); return j; }); return Promise.reject(new Error('gasPush khong kha dung')); }
   function semIsPriv(){ try { var u = JSON.parse(localStorage.getItem('saobay_user') || 'null'); return !!(u && (u.role === 'admin' || u.role === 'bgh')); } catch(e){ return false; } }
   function semLoadMarks(){
-    try { var ls = localStorage.getItem('sb_hk2_start_' + myId()); if (ls) semState.hk2At = ls; } catch(e){}
+    try { var ls = localStorage.getItem('sb_hk2_start_' + semMyId()); if (ls) semState.hk2At = ls; } catch(e){}
     return fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/data/stats/hk2-start.json?t=' + Date.now(), { cache: 'no-store' })
       .then(function(r){ return r.ok ? r.json() : {}; }).catch(function(){ return {}; })
-      .then(function(j){ var rec = (j || {})[myId()]; if (rec && rec.at) semState.hk2At = rec.at; });
+      .then(function(j){ var rec = (j || {})[semMyId()]; if (rec && rec.at) semState.hk2At = rec.at; });
   }
   function semSaveMark(iso){
     return fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/data/stats/hk2-start.json?t=' + Date.now(), { cache: 'no-store' })
       .then(function(r){ return r.ok ? r.json() : {}; }).catch(function(){ return {}; })
       .then(function(j){
-        j = j || {}; j[myId()] = { at: iso, by: myName() };
-        return gasPush('data/stats/hk2-start.json', JSON.stringify(j, null, 1), 'GV chot moc bat dau HK2: ' + myName());
+        j = j || {}; j[semMyId()] = { at: iso, by: semMyName() };
+        return semGasPush('data/stats/hk2-start.json', JSON.stringify(j, null, 1), 'GV chot moc bat dau HK2: ' + semMyName());
       })
       .then(function(){
         semState.hk2At = iso;
-        try { localStorage.setItem('sb_hk2_start_' + myId(), iso); } catch(e){}
+        try { localStorage.setItem('sb_hk2_start_' + semMyId(), iso); } catch(e){}
       });
   }
   function semLoadClasses(){ // SB_SEMSTATS_FIX_20261012_V2: chiu loi tung nguon + moi GV thay lop phan cong va lop rieng cua minh
-    var pAll = Promise.resolve().then(function(){ return fetchAll(); }).catch(function(){ return {}; });
-    var pPv = apiRaw('data/private/classes.json').then(function(t){ return JSON.parse(t); }).catch(function(){ return {}; });
+    var pAll = Promise.resolve().then(function(){ return semFetchAll(); }).catch(function(){ return {}; });
+    var pPv = semApiRaw('data/private/classes.json').then(function(t){ return JSON.parse(t); }).catch(function(){ return {}; });
     var pUsed = fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/used/used.is?t=' + Date.now(), { cache: 'no-store' }).then(function(r){ return r.ok ? r.json() : {}; }).catch(function(){ return {}; });
     return Promise.all([pAll, pPv, pUsed]).then(function(rs){
       var data = rs[0] || {}, pvj = rs[1] || {}, used = rs[2] || {};
       var pvClasses = Array.isArray(pvj) ? pvj : (pvj.classes || []);
       semState.pvStudents = {};
-      pvClasses.forEach(function(c){ semState.pvStudents[String(c.id)] = (c.students || []).map(function(st){ return norm(st && st.name); }); });
+      pvClasses.forEach(function(c){ semState.pvStudents[String(c.id)] = (c.students || []).map(function(st){ return semNorm(st && st.name); }); });
       var seen = {}, list = [];
       function add(c){ if (c && c.key && !seen[c.key]){ seen[c.key] = 1; list.push(c); } }
       (data.myClasses || []).forEach(add);
       var me = '', uname = '';
-      try { me = myId(); } catch(e){}
-      try { uname = norm(myName()); } catch(e){}
+      try { me = semMyId(); } catch(e){}
+      try { uname = semNorm(semMyName()); } catch(e){}
       if (me) pvClasses.forEach(function(c){
         if (String(c.teacher_id || c.teacherId || '') !== String(me)) return;
-        add({ kind: 'pv', key: 'pv:' + c.id, id: c.id, name: c.name, grade: (c.grade ? parseInt(c.grade, 10) : parseGrade(c.name)), subjects: [], nStudents: (c.students || []).length });
+        add({ kind: 'pv', key: 'pv:' + c.id, id: c.id, name: c.name, grade: (c.grade ? parseInt(c.grade, 10) : semParseGrade(c.name)), subjects: [], nStudents: (c.students || []).length });
       });
       var priv = false; try { priv = semIsPriv(); } catch(e){}
       (used.assignments || []).forEach(function(a){
         if (!a.class) return;
         var t = String(a.teachers || '');
-        var hit = (uname && norm(t.replace(/\(.*?\)/g, '')).indexOf(uname) >= 0) || (me && t.indexOf(me) >= 0);
+        var hit = (uname && semNorm(t.replace(/\(.*?\)/g, '')).indexOf(uname) >= 0) || (me && t.indexOf(me) >= 0);
         if (!hit && !priv) return;
-        add({ kind: 'school', key: 'school:' + a.class, id: '', name: String(a.class), grade: parseGrade(a.class), subjects: [] });
+        add({ kind: 'school', key: 'school:' + a.class, id: '', name: String(a.class), grade: semParseGrade(a.class), subjects: [] });
       });
       if (priv) pvClasses.forEach(function(c){
-        add({ kind: 'pv', key: 'pv:' + c.id, id: c.id, name: c.name, grade: (c.grade ? parseInt(c.grade, 10) : parseGrade(c.name)), subjects: [], nStudents: (c.students || []).length });
+        add({ kind: 'pv', key: 'pv:' + c.id, id: c.id, name: c.name, grade: (c.grade ? parseInt(c.grade, 10) : semParseGrade(c.name)), subjects: [], nStudents: (c.students || []).length });
       });
       semState.classes = list;
       if (!semState.clsKey || !seen[semState.clsKey]) semState.clsKey = list.length ? list[0].key : '';
     });
   }
   function semLoadScores(statusEl){
-    return fetch('https://api.github.com/repos/saobay/saobay.github.io/git/trees/main?recursive=1', { headers: ghHeaders(), cache: 'no-store' })
+    return fetch('https://api.github.com/repos/saobay/saobay.github.io/git/trees/main?recursive=1', { headers: semGhHeaders(), cache: 'no-store' })
       .then(function(r){ return r.json(); })
       .then(function(j){
         var paths = (j.tree || []).map(function(t){ return t.path; }).filter(function(p){ return p.indexOf('data/scores/') === 0 && /\.json$/i.test(p) && p.split('/').length === 4; });
@@ -1442,12 +1453,12 @@ console.log('SAOBAY wrap 0630 loaded');
   function semMatch(sub, cls){
     if (!cls) return false;
     if (cls.kind === 'school'){
-      var n1 = norm(sub.student_class), n2 = norm(cls.name);
+      var n1 = semNorm(sub.student_class), n2 = semNorm(cls.name);
       return !!(n1 && n2 && (n1 === n2 || n1.indexOf(n2) >= 0 || n2.indexOf(n1) >= 0));
     }
     var names = semState.pvStudents[String(cls.id)] || [];
-    if (names.indexOf(norm(sub.student_name)) >= 0) return true;
-    return norm(sub.student_class) === norm(cls.name);
+    if (names.indexOf(semNorm(sub.student_name)) >= 0) return true;
+    return semNorm(sub.student_class) === semNorm(cls.name);
   }
   function semRange(){
     var start = semYearStart(), now = new Date();
@@ -1466,7 +1477,7 @@ console.log('SAOBAY wrap 0630 loaded');
       count++; sumPct += pct; if (pct >= 50) pass++;
       if (pct >= 80) bands.gioi++; else if (pct >= 65) bands.kha++; else if (pct >= 50) bands.tb++; else bands.yeu++;
       if (r.exam_title) exams[r.exam_title] = 1;
-      var k = norm(r.student_name);
+      var k = semNorm(r.student_name);
       if (!byStu[k]) byStu[k] = { name: r.student_name, count: 0, sum: 0, last: 0 };
       byStu[k].count++; byStu[k].sum += pct; if (t > byStu[k].last) byStu[k].last = t;
     });
@@ -1482,14 +1493,14 @@ console.log('SAOBAY wrap 0630 loaded');
     if (sel){
       var sig = semState.classes.map(function(c){ return c.key; }).join('|');
       if (sel.getAttribute('data-sig') !== sig){
-        sel.innerHTML = semState.classes.map(function(c){ return '<option value="' + esc(c.key) + '">' + esc(c.name) + (c.kind === 'pv' ? ' (lớp riêng)' : '') + '</option>'; }).join('');
+        sel.innerHTML = semState.classes.map(function(c){ return '<option value="' + semEsc(c.key) + '">' + semEsc(c.name) + (c.kind === 'pv' ? ' (lớp riêng)' : '') + '</option>'; }).join('');
         sel.setAttribute('data-sig', sig);
         sel.value = semState.clsKey;
       }
     }
     document.querySelectorAll('[data-sem-period]').forEach(function(b){ b.classList.toggle('sb-sem-on', b.getAttribute('data-sem-period') === semState.period); });
     if (info) info.innerHTML = semState.hk2At
-      ? 'Mốc bắt đầu HK2: <b>' + esc(semFmtDT(semState.hk2At)) + '</b> — số liệu HK1 tính đến mốc này, HK2 từ mốc này đến nay.'
+      ? 'Mốc bắt đầu HK2: <b>' + semEsc(semFmtDT(semState.hk2At)) + '</b> — số liệu HK1 tính đến mốc này, HK2 từ mốc này đến nay.'
       : 'Chưa chốt mốc HK2 — HK1 đang tính từ đầu năm học đến <b>hiện tại</b>. Khi học kì 2 bắt đầu, bấm nút <b>Bắt đầu HK2</b> để chốt mốc.';
     var cls = null;
     semState.classes.forEach(function(c){ if (c.key === semState.clsKey) cls = c; });
@@ -1498,7 +1509,7 @@ console.log('SAOBAY wrap 0630 loaded');
     var range = semRange();
     if (!range){ body.innerHTML = '<p class="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">Chưa chốt mốc bắt đầu HK2 nên chưa xem được HK2. Bấm nút <b>Bắt đầu HK2</b> ở trên để chốt mốc.</p>'; return; }
     var a = semAggregate(cls, range);
-    var h = '<p class="text-xs text-slate-500">Lớp <b>' + esc(cls.name) + '</b> · ' + range.label + ' · từ ' + esc(semFmtDT(range.from.toISOString())) + ' đến ' + esc(semFmtDT(range.to.toISOString())) + ' (số liệu tính đến thời điểm hiện tại)</p>';
+    var h = '<p class="text-xs text-slate-500">Lớp <b>' + semEsc(cls.name) + '</b> · ' + range.label + ' · từ ' + semEsc(semFmtDT(range.from.toISOString())) + ' đến ' + semEsc(semFmtDT(range.to.toISOString())) + ' (số liệu tính đến thời điểm hiện tại)</p>';
     if (!a.count){ body.innerHTML = h + '<p class="text-xs text-slate-400 italic mt-2">Chưa có bài nộp nào của lớp này trong khoảng thời gian trên.</p>'; return; }
     function card(label, val, sub){ return '<div class="bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-center"><p class="text-[11px] text-slate-500 font-bold">' + label + '</p><p class="text-xl font-black text-slate-800">' + val + '</p><p class="text-[10px] text-slate-400">' + sub + '</p></div>'; }
     h += '<div class="grid grid-cols-2 lg:grid-cols-4 gap-2 mt-2">'
@@ -1510,7 +1521,7 @@ console.log('SAOBAY wrap 0630 loaded');
     h += '<p class="text-xs mt-2">Phân bố: <span class="font-bold text-emerald-700">Giỏi ' + a.bands.gioi + '</span> · <span class="font-bold text-blue-700">Khá ' + a.bands.kha + '</span> · <span class="font-bold text-amber-700">Trung bình ' + a.bands.tb + '</span> · <span class="font-bold text-rose-700">Yếu ' + a.bands.yeu + '</span></p>';
     h += '<div class="overflow-x-auto mt-2"><table class="w-full text-xs"><thead><tr class="bg-slate-100 text-slate-600"><th class="px-2 py-1.5 text-left">STT</th><th class="px-2 py-1.5 text-left">Học sinh</th><th class="px-2 py-1.5 text-right">Số bài</th><th class="px-2 py-1.5 text-right">Điểm TB (thang 10)</th><th class="px-2 py-1.5 text-left">Bài gần nhất</th></tr></thead><tbody>';
     a.students.forEach(function(s, i){
-      h += '<tr class="border-t"><td class="px-2 py-1.5 text-slate-400">' + (i + 1) + '</td><td class="px-2 py-1.5 font-semibold">' + esc(s.name) + '</td><td class="px-2 py-1.5 text-right">' + s.count + '</td><td class="px-2 py-1.5 text-right font-black">' + (s.avg / 10).toFixed(2) + '</td><td class="px-2 py-1.5 text-slate-500">' + esc(semFmtDT(new Date(s.last).toISOString())) + '</td></tr>';
+      h += '<tr class="border-t"><td class="px-2 py-1.5 text-slate-400">' + (i + 1) + '</td><td class="px-2 py-1.5 font-semibold">' + semEsc(s.name) + '</td><td class="px-2 py-1.5 text-right">' + s.count + '</td><td class="px-2 py-1.5 text-right font-black">' + (s.avg / 10).toFixed(2) + '</td><td class="px-2 py-1.5 text-slate-500">' + semEsc(semFmtDT(new Date(s.last).toISOString())) + '</td></tr>';
     });
     h += '</tbody></table></div>';
     body.innerHTML = h;
