@@ -1608,13 +1608,36 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
             return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
         }
 
+        /* SCHED_CLASSES_V2 (2026-10-12): dropdown lop kiem tra gom CA lop truong duoc PHAN CONG + lop hoc them GV tu tao */
+        function _schedNorm(s){ return String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/\s+/g, ' ').trim(); }
+        async function _schedSchoolClasses(){
+            try {
+                var uid = '', uname = '';
+                try {
+                    if (typeof currentUser !== 'undefined' && currentUser){ uid = String(currentUser.id || ''); uname = _schedNorm(currentUser.name || ''); }
+                } catch(e){}
+                if (!uid && !uname) return [];
+                var r = await fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/used/used.is?t=' + Date.now(), { cache: 'no-store' });
+                if (!r.ok) return [];
+                var j = await r.json();
+                var list = Array.isArray(j.assignments) ? j.assignments : [];
+                var mine = {};
+                list.forEach(function(a){
+                    var t = String(a.teachers || '');
+                    var hit = (uname && _schedNorm(t.replace(/\(.*?\)/g, '')).indexOf(uname) >= 0) || (uid && t.indexOf(uid) >= 0);
+                    if (!hit || !a.class) return;
+                    if (!mine[a.class]) mine[a.class] = { id: 'school:' + a.class, name: String(a.class), subjects: [] };
+                    if (a.subject && mine[a.class].subjects.indexOf(a.subject) < 0) mine[a.class].subjects.push(a.subject);
+                });
+                return Object.keys(mine).sort().map(function(k){ return mine[k]; });
+            } catch(e){ return []; }
+        }
         async function populateSchedClasses(){
             var sel = document.getElementById('sched-class');
             if (!sel) return;
             var classes = [];
             try {
                 if (typeof pvMyClasses === 'function') classes = pvMyClasses() || [];
-                // Nếu module Quản lý lớp của tôi chưa mở (pvClasses rỗng) -> fetch trực tiếp data/private/classes.json
                 if (!classes.length && typeof pvFetchClasses === 'function'){
                     var all = await pvFetchClasses();
                     var uid = '', isAdmin = false;
@@ -1627,17 +1650,29 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
                     classes = (all || []).filter(function(c){ return isAdmin || String(c.teacher_id) === uid; });
                 }
             } catch(e){ classes = []; }
-            _schedClassCache = classes;
+            var schoolClasses = await _schedSchoolClasses();
+            _schedClassCache = classes.concat(schoolClasses);
             var keep = sel.value;
-            if (!classes.length){
-                sel.innerHTML = '<option value="">— Chưa có lớp (tạo ở mục 5. Quản lý lớp của tôi) —</option>';
+            if (!classes.length && !schoolClasses.length){
+                sel.innerHTML = '<option value="">— Chưa có lớp (tạo lớp học thêm ở mục 5, hoặc chờ được phân công lớp trường) —</option>';
                 return;
             }
             var html = '<option value="">— Chọn lớp kiểm tra —</option>';
-            classes.forEach(function(c){
-                var n = (c.students || []).length;
-                html += '<option value="' + _schedEsc(c.id) + '">' + _schedEsc(c.name) + ' (' + n + ' HS)</option>';
-            });
+            if (schoolClasses.length){
+                html += '<optgroup label="🏫 Lớp trường — được phân công">';
+                schoolClasses.forEach(function(c){
+                    html += '<option value="' + _schedEsc(c.id) + '">' + _schedEsc(c.name) + (c.subjects.length ? ' · ' + _schedEsc(c.subjects.join(', ')) : '') + '</option>';
+                });
+                html += '</optgroup>';
+            }
+            if (classes.length){
+                html += '<optgroup label="👥 Lớp học thêm của tôi">';
+                classes.forEach(function(c){
+                    var n = (c.students || []).length;
+                    html += '<option value="' + _schedEsc(c.id) + '">' + _schedEsc(c.name) + ' (' + n + ' HS)</option>';
+                });
+                html += '</optgroup>';
+            }
             sel.innerHTML = html;
             if (keep) sel.value = keep;
         }
