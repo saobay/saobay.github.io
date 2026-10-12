@@ -746,11 +746,57 @@
                 if (st) st.textContent = 'Đã tách xong: phần đề đã vào khung soạn — bấm Tải Word để lấy bản in (đề + ma trận + đặc tả).';
             } catch(e){ /* tach loi thi chi khong co Word, phan web van chay */ }
         }
+        // ========================================================
+        // SB_AI_V31_20261012: xuat file .docx THAT (gói OOXML zip tự đóng — không cần thư viện ngoài)
+        // ========================================================
+        function aiZipStore(files){
+            var enc = new TextEncoder();
+            var crcTable = aiZipStore._t;
+            if (!crcTable){
+                crcTable = [];
+                for (var n = 0; n < 256; n++){ var c = n; for (var k = 0; k < 8; k++) c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1); crcTable[n] = c >>> 0; }
+                aiZipStore._t = crcTable;
+            }
+            function crc32(bytes){ var c = 0xFFFFFFFF; for (var i = 0; i < bytes.length; i++) c = crcTable[(c ^ bytes[i]) & 0xFF] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; }
+            function u16(v){ return [v & 255, (v >>> 8) & 255]; }
+            function u32(v){ return [v & 255, (v >>> 8) & 255, (v >>> 16) & 255, (v >>> 24) & 255]; }
+            var chunks = [], central = [], offset = 0;
+            files.forEach(function(f){
+                var nameB = enc.encode(f.name);
+                var data = typeof f.data === 'string' ? enc.encode(f.data) : f.data;
+                var crc = crc32(data);
+                var local = [].concat(u32(0x04034b50), u16(20), u16(0x0800), u16(0), u16(0), u16(0x21), u32(crc), u32(data.length), u32(data.length), u16(nameB.length), u16(0));
+                chunks.push(new Uint8Array(local), nameB, data);
+                central.push({ nameB: nameB, crc: crc, size: data.length, offset: offset });
+                offset += local.length + nameB.length + data.length;
+            });
+            var cenSize = 0;
+            central.forEach(function(cf){
+                var cen = [].concat(u32(0x02014b50), u16(20), u16(20), u16(0x0800), u16(0), u16(0), u16(0x21), u32(cf.crc), u32(cf.size), u32(cf.size), u16(cf.nameB.length), u16(0), u16(0), u16(0), u16(0), u32(0), u32(cf.offset));
+                chunks.push(new Uint8Array(cen), cf.nameB);
+                cenSize += cen.length + cf.nameB.length;
+            });
+            chunks.push(new Uint8Array([].concat(u32(0x06054b50), u16(0), u16(0), u16(central.length), u16(central.length), u32(cenSize), u32(offset), u16(0))));
+            return new Blob(chunks, { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+        }
+        function aiMdRows(md){
+            var rows = [];
+            String(md || '').split('\n').forEach(function(ln){
+                ln = ln.trim();
+                if (ln.indexOf('|') !== 0) return;
+                var cells = ln.split('|').slice(1);
+                if (cells.length && cells[cells.length - 1].trim() === '') cells.pop();
+                cells = cells.map(function(c){ return c.trim(); });
+                if (!cells.length) return;
+                if (cells.every(function(c){ return /^:?-{2,}:?$/.test(c); })) return;
+                rows.push(cells);
+            });
+            return rows;
+        }
         function aiExportWord(){
             var W = window.SB_AI_WORD;
             if (!W){ alert('Hãy dán kết quả NotebookLM và bấm "Gộp đề vào khung soạn" trước — hệ thống tách xong mới tải Word được.'); return; }
-            var esc = aiWordEsc;
-            // SB_AI_V3_20261012: ban in NHƯ ĐỀ THẬT — chia PHẦN I/II/III/IV + ghi chú từng phần do WEB tự thêm,
+            // SB_AI_V31_20261012: ban in NHƯ ĐỀ THẬT, sinh .docx that — chia PHẦN I/II/III/IV + ghi chú từng phần do WEB tự thêm,
             // phương án TN ngắn xếp 1 dòng (trung bình 2x2, dài mới mỗi dòng 1 phương án), điểm tính THEO TỪNG BỘ.
             var PARTS = [
                 { key: 'mcq', title: 'PHẦN I. TRẮC NGHIỆM 4 PHƯƠNG ÁN', note: function(a, b){ return 'Thí sinh trả lời từ câu ' + a + ' đến câu ' + b + '. Mỗi câu hỏi thí sinh chỉ chọn một phương án.'; } },
@@ -758,95 +804,170 @@
                 { key: 'short', title: 'PHẦN III. TRẢ LỜI NGẮN', note: function(a, b){ return 'Thí sinh trả lời từ câu ' + a + ' đến câu ' + b + '.'; } },
                 { key: 'essay', title: 'PHẦN IV. TỰ LUẬN', note: function(){ return 'Thí sinh trình bày bài làm vào giấy thi.'; } }
             ];
+            function xesc(t){ return String(t == null ? '' : t).replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+            function R(t, b, i, sz){
+                var rPr = '<w:rPr>';
+                if (b) rPr += '<w:b/>';
+                if (i) rPr += '<w:i/>';
+                if (sz) rPr += '<w:sz w:val="' + sz + '"/><w:szCs w:val="' + sz + '"/>';
+                rPr += '</w:rPr>';
+                return '<w:r>' + rPr + '<w:t xml:space="preserve">' + xesc(t) + '</w:t></w:r>';
+            }
+            function P(runsXml, o){
+                o = o || {};
+                var pPr = '<w:pPr>';
+                if (o.pb) pPr += '<w:pageBreakBefore/>';
+                if (o.align) pPr += '<w:jc w:val="' + o.align + '"/>';
+                if (o.indent) pPr += '<w:ind w:left="' + o.indent + '"/>';
+                pPr += '<w:spacing w:before="' + (o.before || 0) + '" w:after="' + (o.after == null ? 100 : o.after) + '" w:line="288" w:lineRule="auto"/>';
+                pPr += '</w:pPr>';
+                return '<w:p>' + pPr + (runsXml || '') + '</w:p>';
+            }
+            function TBL(rows, widths, border){
+                var grid = widths.map(function(wd){ return '<w:gridCol w:w="' + wd + '"/>'; }).join('');
+                var bs = border ? 'single' : 'nil';
+                var bdr = ['top', 'left', 'bottom', 'right', 'insideH', 'insideV'].map(function(k){ return '<w:' + k + ' w:val="' + bs + '" w:sz="6" w:space="0" w:color="000000"/>'; }).join('');
+                var trs = rows.map(function(r){
+                    return '<w:tr>' + r.map(function(c, ci){
+                        return '<w:tc><w:tcPr><w:tcW w:w="' + widths[ci] + '" w:type="dxa"/><w:vAlign w:val="top"/></w:tcPr>' + (Array.isArray(c) ? c.join('') : c) + '</w:tc>';
+                    }).join('') + '</w:tr>';
+                }).join('');
+                return '<w:tbl><w:tblPr><w:tblW w:w="0" w:type="auto"/><w:tblBorders>' + bdr + '</w:tblBorders><w:tblLayout w:type="fixed"/></w:tblPr><w:tblGrid>' + grid + '</w:tblGrid>' + trs + '</w:tbl>';
+            }
             function groupByPart(qs){
                 var g = { mcq: [], truefalse: [], short: [], essay: [] };
                 (qs || []).forEach(function(q){ if (g[q.type]) g[q.type].push(q); else g.mcq.push(q); });
                 return g;
             }
-            function optsHtml(opts){
+            function optsXml(opts){
                 var t = (opts || []).map(function(o){ return String(o == null ? '' : o).replace(/^[A-D][\.\)]\s*/, ''); });
                 if (!t.length) return '';
                 var letters = 'ABCD';
                 var total = t.reduce(function(a, x){ return a + x.length; }, 0);
                 var mx = Math.max.apply(null, t.map(function(x){ return x.length; }));
+                var cell = function(i){ return [P(R(letters[i] + '. ' + t[i]), { after: 40 })]; };
                 if (t.length === 4 && total <= 84 && mx <= 30){
-                    return '<table width="100%" cellspacing="0" cellpadding="0" style="margin:2px 0 6px 24px;"><tr>' + t.map(function(x, i){ return '<td width="25%" style="vertical-align:top;">' + letters[i] + '. ' + esc(x) + '</td>'; }).join('') + '</tr></table>';
+                    return TBL([[cell(0), cell(1), cell(2), cell(3)]], [2400, 2400, 2400, 2400], false) + P('', { after: 60 });
                 }
                 if (t.length === 4 && mx <= 46){
-                    return '<table width="100%" cellspacing="0" cellpadding="0" style="margin:2px 0 6px 24px;"><tr><td width="50%" style="vertical-align:top;padding-bottom:3px;">A. ' + esc(t[0]) + '</td><td width="50%" style="vertical-align:top;padding-bottom:3px;">B. ' + esc(t[1]) + '</td></tr><tr><td style="vertical-align:top;">C. ' + esc(t[2]) + '</td><td style="vertical-align:top;">D. ' + esc(t[3]) + '</td></tr></table>';
+                    return TBL([[cell(0), cell(1)], [cell(2), cell(3)]], [4800, 4800], false) + P('', { after: 60 });
                 }
-                return t.map(function(x, i){ return '<p style="margin:0 0 2px 24px;">' + letters[i] + '. ' + esc(x) + '</p>'; }).join('');
+                return t.map(function(x, i){ return P(R(letters[i] + '. ' + x), { indent: 480, after: 40 }); }).join('');
             }
             function ptsTxt(q){ var p = parseFloat(q.points); return (!isNaN(p) && p > 0) ? ' (' + (Math.round(p * 100) / 100) + ' điểm)' : ''; }
+            function mdTableXml(md){
+                var rows = aiMdRows(md);
+                if (!rows.length) return '';
+                var ncol = Math.max.apply(null, rows.map(function(r){ return r.length; }));
+                var wEach = Math.floor(9600 / ncol);
+                var widths = [];
+                for (var i = 0; i < ncol; i++) widths.push(wEach);
+                return TBL(rows.map(function(r, ri){
+                    var cells = [];
+                    for (var ci = 0; ci < ncol; ci++) cells.push([P(R(r[ci] || '', ri === 0), { after: 40 })]);
+                    return cells;
+                }), widths, true);
+            }
+            function tfTxt(a){
+                if (Array.isArray(a)) return a.map(function(v, vi){ return 'abcd'[vi] + ') ' + ((v === 'T' || v === true) ? 'Đúng' : 'Sai'); }).join('; ');
+                return String(a == null ? '' : a);
+            }
             var setsParts = W.sets.map(function(st){ return groupByPart(st.questions); });
-            var h = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><title>' + esc(W.title || 'Đề kiểm tra') + '</title></head>'
-                + '<body style="font-family:Times New Roman,serif;font-size:13pt;">';
+            var body = '';
             W.sets.forEach(function(st, si){
-                if (si > 0) h += '<br clear="all" style="page-break-before:always;">';
+                if (si > 0) body += P('<w:r><w:br w:type="page"/></w:r>', { after: 0 });
                 var setPts = (st.questions || []).reduce(function(a, q){ return a + (parseFloat(q.points) || 0); }, 0);
-                h += '<table width="100%" cellspacing="0" cellpadding="0"><tr>'
-                    + '<td style="text-align:center;width:42%;vertical-align:top;">SỞ GD&ĐT ....................<br><b>TRƯỜNG THPT ....................</b><br>--------------------</td>'
-                    + '<td style="text-align:center;width:58%;vertical-align:top;"><b>' + esc((W.title || 'ĐỀ KIỂM TRA').toUpperCase()) + '</b><br>Môn: ' + esc(W.subject || '') + (W.grade ? ' — Lớp ' + esc(W.grade) : '') + '<br><i>Thời gian làm bài: ' + esc(W.time) + ' phút, không kể thời gian phát đề</i><br>Tổng điểm: ' + (Math.round(setPts * 100) / 100) + (W.sets.length > 1 ? ' &nbsp;•&nbsp; <b>' + esc(st.name || ('Đề ' + (si + 1))) + '</b>' : '') + '</td></tr></table>';
-                h += '<p style="margin-top:10px;">Họ và tên thí sinh: ...................................................... Số báo danh: ................... Lớp: ...........</p>';
+                body += TBL([[
+                    [P(R('SỞ GD&ĐT ....................'), { align: 'center', after: 40 }), P(R('TRƯỜNG THPT ....................', true), { align: 'center', after: 40 }), P(R('--------------------'), { align: 'center', after: 40 })],
+                    [P(R((W.title || 'ĐỀ KIỂM TRA').toUpperCase(), true), { align: 'center', after: 40 }),
+                     P(R('Môn: ' + (W.subject || '') + (W.grade ? ' — Lớp ' + W.grade : '')), { align: 'center', after: 40 }),
+                     P(R('Thời gian làm bài: ' + W.time + ' phút, không kể thời gian phát đề', false, true), { align: 'center', after: 40 }),
+                     P(R('Tổng điểm: ' + (Math.round(setPts * 100) / 100), false) + (W.sets.length > 1 ? R('  •  ' + (st.name || ('Đề ' + (si + 1))), true) : ''), { align: 'center', after: 40 })]
+                ]], [4032, 5568], false);
+                body += P(R('Họ và tên thí sinh: ...................................................... Số báo danh: ................... Lớp: ...........'), { before: 160 });
                 var g = setsParts[si];
-                PARTS.forEach(function(P){
-                    var list = g[P.key];
+                PARTS.forEach(function(Pt){
+                    var list = g[Pt.key];
                     if (!list.length) return;
-                    h += '<h3 style="margin:14px 0 2px;">' + P.title + '</h3><p style="margin:0 0 8px;"><i>' + P.note(1, list.length) + '</i></p>';
+                    body += P(R(Pt.title, true, false, 28), { before: 260, after: 40 });
+                    body += P(R(Pt.note(1, list.length), false, true), { after: 120 });
                     list.forEach(function(q, i){
-                        h += '<p style="margin:8px 0 2px;"><b>Câu ' + (i + 1) + '.</b>' + (P.key === 'mcq' ? '' : ptsTxt(q)) + ' ' + esc(q.q) + '</p>';
-                        if (P.key === 'mcq') h += optsHtml(q.options);
-                        else if (P.key === 'truefalse') (q.statements || []).forEach(function(sm, smi){ h += '<p style="margin:0 0 2px 24px;">' + 'abcd'[smi] + ') ' + esc(sm) + '</p>'; });
-                        else if (P.key === 'short') h += '<p style="margin:0 0 2px 24px;">Trả lời: ......................................................</p>';
-                        else if (P.key === 'essay'){ for (var li = 0; li < 4; li++) h += '<p style="margin:0 0 2px 24px;">...........................................................................................................</p>'; }
+                        body += P(R('Câu ' + (i + 1) + '.', true) + R((Pt.key === 'mcq' ? '' : ptsTxt(q)) + ' ' + (q.q || '')), { before: 140, after: 40 });
+                        if (Pt.key === 'mcq') body += optsXml(q.options);
+                        else if (Pt.key === 'truefalse') (q.statements || []).forEach(function(sm, smi){ body += P(R('abcd'[smi] + ') ' + sm), { indent: 480, after: 40 }); });
+                        else if (Pt.key === 'short') body += P(R('Trả lời: ......................................................'), { indent: 480, after: 40 });
+                        else if (Pt.key === 'essay'){ for (var li = 0; li < 4; li++) body += P(R('...........................................................................................................'), { indent: 480, after: 40 }); }
                     });
                 });
-                h += '<p style="text-align:center;margin-top:14px;"><b>— HẾT —</b></p><p style="margin-top:4px;"><i>Thí sinh không được sử dụng tài liệu. Cán bộ coi thi không giải thích gì thêm.</i></p>';
+                body += P(R('— HẾT —', true), { align: 'center', before: 240, after: 60 });
+                body += P(R('Thí sinh không được sử dụng tài liệu. Cán bộ coi thi không giải thích gì thêm.', false, true), { after: 60 });
             });
-            var mt = aiMdTableToHtml(W.matrixMd), sp = aiMdTableToHtml(W.specMd);
-            if (mt) h += '<br clear="all" style="page-break-before:always;"><h3>MA TRẬN ĐỀ</h3>' + mt;
-            if (sp) h += '<h3 style="margin-top:18px;">BẢN ĐẶC TẢ ĐỀ</h3>' + sp;
-            h += '<br clear="all" style="page-break-before:always;"><h3>ĐÁP ÁN & BAREM (dành cho giáo viên)</h3>';
+            var mt = mdTableXml(W.matrixMd), spx = mdTableXml(W.specMd);
+            if (mt) body += P(R('MA TRẬN ĐỀ', true, false, 28), { pb: true, before: 120, after: 120 }) + mt;
+            if (spx) body += P(R('BẢN ĐẶC TẢ ĐỀ', true, false, 28), { before: 300, after: 120 }) + spx;
+            body += P(R('ĐÁP ÁN & BAREM (dành cho giáo viên)', true, false, 28), { pb: true, before: 120, after: 120 });
             W.sets.forEach(function(st, si){
-                if (W.sets.length > 1) h += '<h4>' + esc(st.name || ('Đề ' + (si + 1))) + '</h4>';
+                if (W.sets.length > 1) body += P(R(st.name || ('Đề ' + (si + 1)), true), { before: 200, after: 80 });
                 var g = setsParts[si];
-                PARTS.forEach(function(P){
-                    var list = g[P.key];
+                PARTS.forEach(function(Pt){
+                    var list = g[Pt.key];
                     if (!list.length) return;
-                    h += '<p style="margin:10px 0 4px;"><b>' + P.title + '</b></p>';
-                    if (P.key === 'mcq'){
-                        h += '<table border="1" cellspacing="0" cellpadding="4" style="border-collapse:collapse;"><tr><th>Câu</th>' + list.map(function(q, i){ return '<th>' + (i + 1) + '</th>'; }).join('') + '</tr><tr><td><b>Đáp án</b></td>' + list.map(function(q){ return '<td style="text-align:center;"><b>' + esc(String(q.answer || '')) + '</b></td>'; }).join('') + '</tr></table>';
-                    } else if (P.key === 'truefalse'){
+                    body += P(R(Pt.title, true), { before: 180, after: 60 });
+                    if (Pt.key === 'mcq'){
+                        var wAns = Math.floor(8600 / list.length);
+                        var widths = [1000]; list.forEach(function(){ widths.push(wAns); });
+                        var rowHead = [[P(R('Câu', true), { align: 'center', after: 40 })]];
+                        var rowAns = [[P(R('Đáp án', true), { align: 'center', after: 40 })]];
                         list.forEach(function(q, i){
-                            var a = q.answer;
-                            var aTxt = Array.isArray(a) ? a.map(function(v, vi){ return 'abcd'[vi] + ') ' + ((v === 'T' || v === true) ? 'Đúng' : 'Sai'); }).join('; ') : String(a == null ? '' : a);
-                            h += '<p style="margin:0 0 2px 24px;">Câu ' + (i + 1) + ': ' + esc(aTxt) + '</p>';
+                            rowHead.push([P(R(String(i + 1), true), { align: 'center', after: 40 })]);
+                            rowAns.push([P(R(String(q.answer || ''), true), { align: 'center', after: 40 })]);
                         });
-                    } else if (P.key === 'short'){
-                        list.forEach(function(q, i){ h += '<p style="margin:0 0 2px 24px;">Câu ' + (i + 1) + ': <b>' + esc(String(q.answer == null ? '' : q.answer)) + '</b></p>'; });
+                        body += TBL([rowHead, rowAns], widths, true) + P('', { after: 60 });
+                    } else if (Pt.key === 'truefalse'){
+                        list.forEach(function(q, i){ body += P(R('Câu ' + (i + 1) + ': ') + R(tfTxt(q.answer)), { indent: 480, after: 40 }); });
+                    } else if (Pt.key === 'short'){
+                        list.forEach(function(q, i){ body += P(R('Câu ' + (i + 1) + ': ') + R(String(q.answer == null ? '' : q.answer), true), { indent: 480, after: 40 }); });
                     } else {
-                        list.forEach(function(q, i){ h += '<p style="margin:0 0 2px 24px;">Câu ' + (i + 1) + ptsTxt(q) + ': ' + esc(q.explain || '(barem — xem lời giải)') + '</p>'; });
+                        list.forEach(function(q, i){ body += P(R('Câu ' + (i + 1) + ptsTxt(q) + ': ') + R(q.explain || '(barem — xem lời giải)'), { indent: 480, after: 40 }); });
                     }
                 });
-                h += '<p style="margin:10px 0 4px;"><b>Lời giải chi tiết</b></p>';
-                PARTS.forEach(function(P){
-                    g[P.key].forEach(function(q, i){
-                        if (!q.explain) return;
-                        if (P.key === 'essay') return; // tu luan: barem da o tren
-                        var a = q.answer;
-                        var aTxt = Array.isArray(a) ? a.map(function(v, vi){ return 'abcd'[vi] + ') ' + ((v === 'T' || v === true) ? 'Đúng' : 'Sai'); }).join('; ') : String(a == null ? '' : a);
-                        h += '<p style="margin:0 0 2px 24px;">' + P.title.split('.')[0] + ' — Câu ' + (i + 1) + ' (' + esc(aTxt) + '): <i>' + esc(q.explain) + '</i></p>';
+                body += P(R('Lời giải chi tiết', true), { before: 180, after: 60 });
+                PARTS.forEach(function(Pt){
+                    g[Pt.key].forEach(function(q, i){
+                        if (!q.explain || Pt.key === 'essay') return;
+                        body += P(R(Pt.title.split('.')[0] + ' — Câu ' + (i + 1) + ' (' + tfTxt(q.answer) + '): ') + R(q.explain, false, true), { indent: 480, after: 40 });
                     });
                 });
             });
-            h += '</body></html>';
-            var blob = new Blob(['\ufeff', h], { type: 'application/msword' });
+            var sectPr = '<w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="1134" w:right="1134" w:bottom="1134" w:left="1134" w:header="708" w:footer="708" w:gutter="0"/></w:sectPr>';
+            var docXml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n'
+                + '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><w:body>'
+                + body + sectPr + '</w:body></w:document>';
+            var stylesXml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n'
+                + '<w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:docDefaults><w:rPrDefault><w:rPr>'
+                + '<w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:eastAsia="Times New Roman" w:cs="Times New Roman"/><w:sz w:val="26"/><w:szCs w:val="26"/><w:lang w:val="vi-VN"/>'
+                + '</w:rPr></w:rPrDefault><w:pPrDefault><w:pPr><w:spacing w:after="100" w:line="288" w:lineRule="auto"/></w:pPr></w:pPrDefault></w:docDefaults></w:styles>';
+            var contentTypes = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n'
+                + '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/>'
+                + '<Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>'
+                + '<Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/></Types>';
+            var relsXml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n'
+                + '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>';
+            var docRels = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n'
+                + '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>';
+            var blob = aiZipStore([
+                { name: '[Content_Types].xml', data: contentTypes },
+                { name: '_rels/.rels', data: relsXml },
+                { name: 'word/document.xml', data: docXml },
+                { name: 'word/styles.xml', data: stylesXml },
+                { name: 'word/_rels/document.xml.rels', data: docRels }
+            ]);
             var a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
-            a.download = ('de-' + (W.subject || 'kiem-tra') + '-' + (W.title || 'saobay')).replace(/[\\/:*?"<>|]/g, '_').replace(/\s+/g, '-').toLowerCase() + '.doc';
+            a.download = ('de-' + (W.subject || 'kiem-tra') + '-' + (W.title || 'saobay')).replace(/[\\/:*?"<>|]/g, '_').replace(/\s+/g, '-').toLowerCase() + '.docx';
             document.body.appendChild(a); a.click();
             setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 500);
-            if (typeof showToast === 'function') showToast('Đã tải file Word (đề + ma trận + đặc tả)', 'success');
+            if (typeof showToast === 'function') showToast('Đã tải file Word .docx (đề + ma trận + đặc tả)', 'success');
         }
         (function aiWrapMerge(){
             var tries = 0;
