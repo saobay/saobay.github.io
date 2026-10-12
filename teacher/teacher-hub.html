@@ -189,8 +189,8 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
                             <i class="fa-solid fa-pen-to-square"></i>
                         </div>
                         <div class="truncate">
-                            <div class="text-xs font-extrabold uppercase" data-ui-label="mod_manage">2. Quản Lý & Sửa Bài</div>
-                            <div class="text-[10px] text-slate-500" data-ui-label="mod_manage_sub">Đề thi đã tải lên</div>
+                            <div class="text-xs font-extrabold uppercase" data-ui-label="mod_manage">2. Quản lý Giao bài</div>
+                            <div class="text-[10px] text-slate-500" data-ui-label="mod_manage_sub">Danh sách đề & giao bài</div>
                         </div>
                     </button>
 
@@ -204,15 +204,7 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
                         </div>
                     </button>
 
-                    <button type="button" onclick="switchTeacherModule('stats')" id="mod-tab-stats" class="module-tab-btn flex items-center p-2.5 rounded-xl transition border text-left bg-white border-slate-200 text-slate-700 hover:bg-slate-100">
-                        <div class="w-9 h-9 rounded-lg bg-slate-200 text-slate-700 flex items-center justify-center text-base font-bold shrink-0 mr-2.5">
-                            <i class="fa-solid fa-chart-pie"></i>
-                        </div>
-                        <div class="truncate">
-                            <div class="text-xs font-extrabold uppercase" data-ui-label="mod_stats">4. Thống Kê & Học Liệu</div>
-                            <div class="text-[10px] text-slate-500" data-ui-label="mod_stats_sub">Điểm thưởng & Báo cáo</div>
-                        </div>
-                    </button>
+                    <!-- SB_0840: bo module 4 Thong Ke & Hoc Lieu theo yeu cau user 2026-10-12 -->
                     <button type="button" onclick="switchTeacherModule('private')" id="mod-tab-private" class="module-tab-btn flex items-center p-2.5 rounded-xl transition border text-left bg-white border-slate-200 text-slate-700 hover:bg-slate-100">
                         <div class="w-9 h-9 rounded-lg bg-violet-200 text-violet-700 flex items-center justify-center text-base font-bold shrink-0 mr-2.5">
                             <i class="fa-solid fa-user-lock"></i>
@@ -386,6 +378,19 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
                             📌 Đây là ĐỀ KIỂM TRA (chống lộ đề)
                         </label>
                         <div id="sched-fields" class="mt-2 grid grid-cols-1 md:grid-cols-3 gap-2">
+                            <div class="md:col-span-3">
+                                <label class="block text-[10px] font-bold text-rose-800 mb-1">Tên bài kiểm tra (hiển thị cho học sinh)</label>
+                                <input type="text" id="sched-exam-name" list="sched-exam-name-list" placeholder="VD: Kiểm tra giữa kì, Kiểm tra định kì, Kiểm tra thường xuyên..." class="w-full px-2 py-1.5 border border-rose-300 rounded-lg text-xs font-semibold bg-white">
+                                <datalist id="sched-exam-name-list">
+                                    <option value="Kiểm tra thường xuyên"></option>
+                                    <option value="Kiểm tra định kì"></option>
+                                    <option value="Kiểm tra giữa kì"></option>
+                                    <option value="Kiểm tra cuối kì"></option>
+                                    <option value="Kiểm tra 15 phút"></option>
+                                    <option value="Kiểm tra 1 tiết"></option>
+                                </datalist>
+                                <p class="text-[10px] text-rose-700 mt-1">Gõ tên hoặc chọn gợi ý — tên này hiện ở danh sách đề (tab 2) và khung đề của học sinh. Để trống thì hệ thống tự đặt tên theo môn/chương như hiện tại.</p>
+                            </div>
                             <div>
                                 <label class="block text-[10px] font-bold text-rose-800 mb-1">Lớp kiểm tra</label>
                                 <select id="sched-class" class="w-full px-2 py-1.5 border border-rose-300 rounded-lg text-xs font-semibold bg-white"></select>
@@ -1582,7 +1587,7 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
     <script src="hub-manage.js?v=20261011_1"></script>
     <script src="hub-guideline.js?v=20261008_2"></script>
     <script src="hub-bank.js?v=20261011_4"></script>
-    <script src="hub-exam.js?v=20261011_2026"></script>
+    <script src="hub-exam.js?v=20261012_0840"></script>
     <script src="hub-assign.js?v=20261008_2"></script>
     <script src="hub-users.js?v=20261008_2"></script>
     <script src="hub-word.js?v=20261011_3"></script>
@@ -1590,7 +1595,7 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
     <script src="hub-reports.js?v=20261009_1"></script>
 <script src="hub-groups.js?v=20261010_1"></script>
     <script src="hub-uilabels.js?v=20261010"></script>
-    <script src="teacher-ui-simplify.js?v=20261012_0815"></script>
+    <script src="teacher-ui-simplify.js?v=20261012_0840"></script>
     <script src="hub-inline-edit.js?v=20261010_1"></script>
     <script src="hub-examsched.js?v=20261012_0805"></script>
     <script>
@@ -1798,6 +1803,12 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
                         if (title && subject && grade) title = title.replace(/^\[[^\]]*\]/, '[' + subject + ' ' + grade + ']');
                     }
                 } catch(e) {}
+                // SB_EXAM_DISPLAY_NAME 20261012_0820: GV tu dat ten hien thi (VD "Kiem tra giua ki") -> dung lam tieu de de o moi noi
+                try {
+                    var _nameEl = document.getElementById('sched-exam-name');
+                    var _dispName = _nameEl ? String(_nameEl.value || '').trim() : '';
+                    if (_dispName){ title = _dispName; try { examJson.title = _dispName; } catch(e){} }
+                } catch(e){}
                 var teacherId = '', teacherName = '';
                 try {
                     if (typeof currentUser !== 'undefined' && currentUser){
@@ -1828,6 +1839,7 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
                     else alert('Đã lên lịch kiểm tra thành công!');
                     var chk = document.getElementById('sched-is-exam');
                     if (chk) chk.checked = false;
+                    var _nmReset = document.getElementById('sched-exam-name'); if (_nmReset) _nmReset.value = '';
                     var lat = document.getElementById('sched-later'); /* SCHED_LATER_V1: reset về mặc định */
                     if (lat){ lat.checked = true; schedLaterToggle(lat); }
                     var sf = document.getElementById('sched-fields');
@@ -1850,10 +1862,34 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
                         var _orig = window.handleFormSubmit;
                         var _wrapped = async function(event){
                             if (_schedExamMode()){
+                                // SB_BANK_GUARD 20261012_0820: de kiem tra BAT BUOC chon Khoi+Mon o Bank 2 (khi panel Bank 2 dang hien) moi cho day
+                                try {
+                                    var _b2box = document.getElementById('sb-bank2-box');
+                                    if (_b2box && _b2box.style.display !== 'none' && !(window.SB_BANK2 && window.SB_BANK2.grade && window.SB_BANK2.subject)){
+                                        if (event && event.preventDefault) event.preventDefault();
+                                        alert('⚠️ Chưa chọn nơi lưu đề kiểm tra (Bank 2)!\nHãy chọn KHỐI và MÔN ở khung "🗂️ Nơi lưu Đề kiểm tra (Bank 2)" phía trên rồi bấm đẩy lại.');
+                                        var _b2g = document.getElementById('sb-b2-grade'); if (_b2g) _b2g.focus();
+                                        return;
+                                    }
+                                } catch(e){}
                                 if (event && event.preventDefault) event.preventDefault();
                                 await _schedExamSubmit(); // true/false đều DỪNG — không chạy luồng đẩy GitHub thường (chống lộ đề)
                                 return;
                             }
+                            // SB_BANK_GUARD 20261012_0820: ly thuyet/bai tap BAT BUOC chon Khoi+Mon o Bank 1 (khi panel Bank 1 dang hien) moi cho day
+                            try {
+                                var _b1box = document.getElementById('sb-bank1-box');
+                                if (_b1box && _b1box.style.display !== 'none'){
+                                    var _b1g = document.getElementById('sb-b1-grade');
+                                    var _b1s = document.getElementById('sb-b1-subject');
+                                    if (_b1g && _b1s && (!_b1g.value || !_b1s.value)){
+                                        if (event && event.preventDefault) event.preventDefault();
+                                        alert('⚠️ Chưa chọn nơi lưu (Bank 1)!\nHãy chọn KHỐI → MÔN ở khung "📁 Nơi lưu Lý thuyết / Bài tập (Bank 1)" phía trên rồi bấm đẩy lại.');
+                                        _b1g.focus();
+                                        return;
+                                    }
+                                }
+                            } catch(e){}
                             return _orig.call(this, event);
                         };
                         _wrapped._schedWrapped = true;
