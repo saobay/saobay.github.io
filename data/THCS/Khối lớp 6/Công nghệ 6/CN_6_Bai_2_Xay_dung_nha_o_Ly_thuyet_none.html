@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 2: Xây dựng nhà ở</title>
+    <meta name="lesson-title" content="Bài 2: Xây dựng nhà ở">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+    
+        /* FIX mobile 2026-10-08: chong tran ngang tren dien thoai */
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 2: Xây dựng nhà ở</h1>
+            <p class="text-xs text-slate-500 mt-1">Công nghệ 6 • Bài 2: Xây dựng nhà ở</p>
+        </div>
+        <div class="content-body space-y-4">
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 2: Xây dựng nhà ở</h1>
+<p class="text-center text-slate-500 italic mb-8">Công nghệ 6 — Kết nối tri thức với cuộc sống</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Vật liệu xây dựng nhà ở</h2>
+<p>Để xây dựng một ngôi nhà, con người cần nhiều loại vật liệu khác nhau. Mỗi loại vật liệu có vai trò riêng trong việc tạo nên sự vững chắc, bền đẹp của ngôi nhà.</p>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 my-2 text-sm">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-2">Vật liệu</td><td class="border border-slate-300 px-4 py-2">Công dụng chính</td></tr>
+<tr><td class="border border-slate-300 px-4 py-2 font-semibold">Gạch, ngói</td><td class="border border-slate-300 px-4 py-2">Xây tường, lợp mái; có gạch đất nung, gạch bê tông</td></tr>
+<tr><td class="border border-slate-300 px-4 py-2 font-semibold">Cát, đá, sỏi</td><td class="border border-slate-300 px-4 py-2">Trộn vữa và bê tông để xây, đổ móng, cột, sàn</td></tr>
+<tr><td class="border border-slate-300 px-4 py-2 font-semibold">Xi măng</td><td class="border border-slate-300 px-4 py-2">Chất kết dính cát, đá thành vữa và bê tông cứng chắc</td></tr>
+<tr><td class="border border-slate-300 px-4 py-2 font-semibold">Thép (sắt thép)</td><td class="border border-slate-300 px-4 py-2">Làm cốt cho bê tông (cột, dầm, sàn), làm khung cửa, lan can</td></tr>
+<tr><td class="border border-slate-300 px-4 py-2 font-semibold">Gỗ</td><td class="border border-slate-300 px-4 py-2">Làm cột, kèo, cửa, cầu thang, đồ nội thất (thường dùng ở nhà truyền thống)</td></tr>
+<tr><td class="border border-slate-300 px-4 py-2 font-semibold">Kính</td><td class="border border-slate-300 px-4 py-2">Làm cửa sổ, cửa đi, vách ngăn giúp lấy sáng, tạo thẩm mĩ</td></tr>
+<tr><td class="border border-slate-300 px-4 py-2 font-semibold">Tôn, lá</td><td class="border border-slate-300 px-4 py-2">Lợp mái (tôn nhẹ, rẻ; lá dùng ở vùng quê, nhà tạm)</td></tr>
+</table></div>
+<p>Ngoài ra còn có <strong>sơn, vôi</strong> để hoàn thiện, bảo vệ tường; <strong>ống nước, dây điện</strong> cho hệ thống cấp thoát nước và điện. Người dân thường ưu tiên dùng <strong>vật liệu sẵn có ở địa phương</strong> (tre, nứa, gỗ, đá...) để tiết kiệm chi phí và phù hợp khí hậu.</p>
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><strong>Bê tông cốt thép</strong> = bê tông (xi măng + cát + đá + nước) kết hợp với cốt thép bên trong. Đây là vật liệu chủ lực giúp nhà cao tầng và nhà kiên cố chịu lực tốt.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Các bước chính xây dựng một ngôi nhà</h2>
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 my-2 text-sm">
+<tr class="bg-sky-100 font-semibold"><td class="border border-slate-300 px-4 py-2">Bước</td><td class="border border-slate-300 px-4 py-2">Nội dung công việc</td></tr>
+<tr><td class="border border-slate-300 px-4 py-2 font-semibold">1. Thiết kế</td><td class="border border-slate-300 px-4 py-2">Vẽ bản vẽ thiết kế: hình dáng nhà, số phòng, kích thước; dự toán chi phí, xin phép xây dựng (ở đô thị)</td></tr>
+<tr><td class="border border-slate-300 px-4 py-2 font-semibold">2. Chuẩn bị</td><td class="border border-slate-300 px-4 py-2">Chuẩn bị mặt bằng (san lấp, dọn dẹp), tập kết vật liệu, chuẩn bị nhân công và máy móc</td></tr>
+<tr><td class="border border-slate-300 px-4 py-2 font-semibold">3. Thi công phần thô</td><td class="border border-slate-300 px-4 py-2">Đào móng, đổ bê tông móng; dựng cột, xây tường, đổ sàn, làm mái</td></tr>
+<tr><td class="border border-slate-300 px-4 py-2 font-semibold">4. Hoàn thiện</td><td class="border border-slate-300 px-4 py-2">Trát tường, sơn, lát nền, lắp cửa, lắp đặt hệ thống điện, nước, thiết bị vệ sinh</td></tr>
+<tr><td class="border border-slate-300 px-4 py-2 font-semibold">5. Kiểm tra, bàn giao</td><td class="border border-slate-300 px-4 py-2">Kiểm tra toàn bộ công trình, sửa chữa lỗi (nếu có), vệ sinh và đưa vào sử dụng</td></tr>
+</table></div>
+<p>Thứ tự các bước rất quan trọng: phải làm <strong>móng trước, tường sau</strong>, phần thô xong mới hoàn thiện — giống như mặc áo phải có thứ tự, không thể làm ngược.</p>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. An toàn lao động trong xây dựng</h2>
+<p>Công trường xây dựng có nhiều nguy cơ: làm việc trên cao, vật nặng rơi, điện, máy móc... Vì vậy người lao động phải tuân thủ các quy định an toàn:</p>
+<ul class="list-disc ml-6 space-y-1">
+<li>Đội <strong>mũ bảo hộ</strong>, đi giày/găng tay bảo hộ khi làm việc.</li>
+<li>Giàn giáo, thang phải <strong>chắc chắn</strong>; làm việc trên cao phải có dây an toàn.</li>
+<li>Không đứng dưới nơi đang cẩu, chuyển vật liệu nặng.</li>
+<li>Sử dụng điện, máy móc đúng hướng dẫn; ngắt điện khi sửa chữa.</li>
+<li>Trẻ em <strong>không được chơi đùa ở khu vực đang thi công</strong>.</li>
+</ul>
+<div class="bg-sky-50 border border-sky-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-sky-800 mb-2">Liên hệ thực tế</p>
+<p>Khi đi ngang qua các công trình đang xây dựng, em nên đi tránh xa, không tò mò đứng xem ở cự li gần, không nhặt nhạnh vật liệu (đinh, sắt thép vụn) vì rất dễ bị thương.</p>
+</div>
+
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li>Vật liệu xây dựng chính: <strong>gạch, cát, đá, xi măng, thép, gỗ, kính, tôn, sơn</strong>... mỗi loại có công dụng riêng.</li>
+<li>Các bước xây nhà: <strong>thiết kế → chuẩn bị → thi công phần thô (móng, cột, tường, sàn, mái) → hoàn thiện → kiểm tra, bàn giao</strong>.</li>
+<li>An toàn lao động trong xây dựng là yêu cầu bắt buộc: trang bị bảo hộ, giàn giáo chắc chắn, cẩn thận với điện và vật nặng.</li>
+</ul>
+</div>
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm 10 bộ đề bên dưới để kiểm tra nhé! 💪</p>
+</div>
+
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
+</body>
+</html>
