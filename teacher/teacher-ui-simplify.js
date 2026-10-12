@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261012_0725
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261012_0755
 // Tab 2: thay the renderLessonManagementList goc bang DS DE THI GV tai len, gom:
 //  (a) file de .html trong data/ (Word/AI day cong khai)
 //  (b) de luu rieng/len lich trong data/exam-schedule.json (exams-pending) - de Word/matran deu vao day
@@ -205,6 +205,7 @@ function renderExams(){
       }
       cc.innerHTML=h+'</div>';
     }
+    var bp=document.createElement('div'); bp.id='sb-bank2-panel'; cc.appendChild(bp); bk2Render(bp);
     var rb=document.getElementById('saobay-exams-reload');
     if(rb) rb.onclick=function(){ dataCache=null; renderExams(); };
     cc.querySelectorAll('[data-sb-teacher-filter]').forEach(function(b){
@@ -706,9 +707,9 @@ function _sbInitPickers(){
       '<p class="text-[11px] text-slate-500 mb-3">Chỉ hiện các lớp BẠN được phân công dạy (lớp trường) và lớp học thêm BẠN tạo — chọn đúng lớp, đúng khối, rồi chọn Môn → Chương → Bài để giao. Học sinh chỉ thấy nhiệm vụ của lớp mình. Đề kiểm tra vẫn giao bằng luồng soạn đề + lên lịch (danh sách đề của lớp ở cuối panel).</p>' +
       '<div class="grid grid-cols-1 md:grid-cols-2 gap-2 mb-2">' +
         '<div><label class="text-[11px] font-bold text-slate-600">Lớp nhận nhiệm vụ</label><select id="sb7-class" class="w-full text-sm border border-slate-300 rounded-lg px-2 py-2"></select></div>' +
-        '<div><label class="text-[11px] font-bold text-slate-600">Loại nhiệm vụ</label><select id="sb7-type" class="w-full text-sm border border-slate-300 rounded-lg px-2 py-2"><option value="exercise">✏️ Bài tập cần làm (nộp bài = hoàn thành)</option><option value="theory">📚 Lý thuyết cần học (học đủ 5 phút + kéo xuống cuối + báo cáo)</option></select></div>' +
+        '<div id="sb7-typewrap"><label class="text-[11px] font-bold text-slate-600">Loại nhiệm vụ</label><select id="sb7-type" class="w-full text-sm border border-slate-300 rounded-lg px-2 py-2"><option value="exercise">✏️ Bài tập cần làm (nộp bài = hoàn thành)</option><option value="theory">📚 Lý thuyết cần học (học đủ 5 phút + kéo xuống cuối + báo cáo)</option></select></div>' +
       '</div>' +
-      '<div class="grid grid-cols-1 md:grid-cols-3 gap-2 mb-2">' +
+      '<div id="sb7-pickrow" class="grid grid-cols-1 md:grid-cols-3 gap-2 mb-2">' +
         '<div><label class="text-[11px] font-bold text-slate-600">Môn</label><select id="sb7-subject" class="w-full text-sm border border-slate-300 rounded-lg px-2 py-2"></select></div>' +
         '<div><label class="text-[11px] font-bold text-slate-600">Chương / Mục</label><select id="sb7-chapter" class="w-full text-sm border border-slate-300 rounded-lg px-2 py-2"></select></div>' +
         '<div><label class="text-[11px] font-bold text-slate-600">Chọn bài</label><select id="sb7-item" class="w-full text-sm border border-slate-300 rounded-lg px-2 py-2"></select></div>' +
@@ -718,8 +719,8 @@ function _sbInitPickers(){
         '<button id="sb7-reload" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold px-4 py-2 rounded-lg">↻ Tải lại dữ liệu</button>' +
         '<span id="sb7-msg" class="text-xs text-slate-500"></span>' +
       '</div>' +
-      '<div class="mt-4 border-t border-slate-100 pt-3"><h4 class="text-xs font-black text-slate-700 mb-2">Nhiệm vụ đã giao cho lớp này</h4><div id="sb7-tasklist"></div></div>' +
-      '<div class="mt-4 border-t border-slate-100 pt-3"><h4 class="text-xs font-black text-slate-700 mb-2">📝 Đề kiểm tra của lớp này (giao qua luồng lên lịch)</h4><div id="sb7-examlist"></div></div>';
+      '<div class="mt-4 border-t border-slate-100 pt-3"><h4 id="sb7-tasklist-title" class="text-xs font-black text-slate-700 mb-2">Nhiệm vụ đã giao cho lớp này</h4><div id="sb7-tasklist"></div></div>' +
+      '<div class="mt-4 border-t border-slate-100 pt-3"><h4 id="sb7-examlist-title" class="text-xs font-black text-slate-700 mb-2">📝 Đề kiểm tra của lớp này (giao qua luồng lên lịch)</h4><div id="sb7-examlist"></div></div>';
     view.insertBefore(panel, view.firstChild);
     S.built = true;
     el('sb7-class').addEventListener('change', function(){ S.selClassKey = this.value; S.selSubject = ''; S.selChapter = ''; fillSubjects(); fillTasks(); });
@@ -738,13 +739,14 @@ function _sbInitPickers(){
       S.data = data; S.loading = false;
       var cs = el('sb7-class');
       if (cs){
-        if (!data.myClasses.length){ cs.innerHTML = '<option value="">— Bạn chưa có lớp được phân công / chưa tạo lớp học thêm —</option>'; }
+        if (!data.myClasses.length){ cs.innerHTML = '<option value="__all__">📋 Tất cả nhiệm vụ</option>'; }
         else {
-          cs.innerHTML = data.myClasses.map(function(c){
+          cs.innerHTML = '<option value="__all__">📋 Tất cả nhiệm vụ (xem tổng hợp)</option>' + data.myClasses.map(function(c){
             var lbl = (c.kind === 'school' ? '🏫 ' : '👥 ') + c.name + (c.grade ? ' — Khối ' + c.grade : '') + (c.kind === 'school' ? ' (lớp trường' + (c.subjects.length ? ' · ' + esc(c.subjects.join(', ')) : '') + ')' : ' (lớp học thêm' + (typeof c.nStudents === 'number' ? ' · ' + c.nStudents + ' HS' : '') + ')');
             return '<option value="' + esc(c.key) + '">' + esc(lbl) + '</option>';
           }).join('');
-          if (!S.selClassKey || !selClass()) S.selClassKey = data.myClasses[0].key;
+          if (!S.selClassKey) S.selClassKey = '__all__';
+          if (S.selClassKey !== '__all__' && !selClass()) S.selClassKey = '__all__';
           cs.value = S.selClassKey;
         }
       }
@@ -809,24 +811,34 @@ function _sbInitPickers(){
     return n ? { n: n, count: n } : null;
   }
 
-  function fillTasks(){
-    var cls = selClass(), box = el('sb7-tasklist'); if (!box) return;
-    if (!cls){ box.innerHTML = '<p class="text-xs text-slate-400 italic">Chưa có lớp.</p>'; return; }
-    var list = (S.data.tasks || []).filter(function(t){
-      return (cls.id && t.classId === cls.id) || (!cls.id && norm(t.className) === norm(cls.name)) || (cls.id && !t.classId && norm(t.className) === norm(cls.name));
-    });
-    if (!list.length) box.innerHTML = '<p class="text-xs text-slate-400 italic">Chưa giao nhiệm vụ nào cho lớp này.</p>';
-    else box.innerHTML = list.map(function(t){
-      var stat = '';
-      if (t.type === 'theory'){ var d = doneCount(t); stat = '<span class="text-[11px] font-bold ' + (d ? 'text-emerald-600' : 'text-slate-400') + '">✅ ' + d + ' HS đã báo học xong</span>'; }
-      else { var si = submitInfo(t); stat = si ? '<span class="text-[11px] font-bold text-emerald-600">🧾 ' + si.n + ' HS đã nộp bài</span>' : '<span class="text-[11px] font-bold text-slate-400">🧾 Chưa có bài nộp</span>'; }
-      return '<div class="flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 mb-1.5">' +
-        '<span class="text-base">' + (t.type === 'theory' ? '📚' : '✏️') + '</span>' +
-        '<div class="flex-1 min-w-0"><div class="text-sm font-bold text-slate-800 truncate">' + esc(t.title) + '</div>' +
-        '<div class="text-[11px] text-slate-400">' + (t.type === 'theory' ? 'Lý thuyết cần học' : 'Bài tập cần làm') + ' · giao ' + esc(String(t.createdAt || '').slice(0, 10)) + '</div></div>' +
-        stat +
-        '<button data-sb7del="' + esc(t.id) + '" class="text-rose-500 hover:text-rose-700 font-black px-2" title="Xóa nhiệm vụ">✕</button></div>';
-    }).join('');
+  function sb7ApplyMode(){
+    var all = S.selClassKey === '__all__';
+    var pr = el('sb7-pickrow'); if (pr) pr.style.display = all ? 'none' : '';
+    var tw = el('sb7-typewrap'); if (tw) tw.style.display = all ? 'none' : '';
+    var ab = el('sb7-assign'); if (ab) ab.style.display = all ? 'none' : '';
+    var tt = el('sb7-tasklist-title'); if (tt) tt.textContent = all ? 'Tất cả nhiệm vụ đã giao' : 'Nhiệm vụ đã giao cho lớp này';
+    var et = el('sb7-examlist-title'); if (et) et.textContent = all ? '📝 Đề kiểm tra đã giao (mọi lớp)' : '📝 Đề kiểm tra của lớp này (giao qua luồng lên lịch)';
+  }
+  function sb7RowHtml(t, showClass){
+    var stat = '';
+    if (t.type === 'theory'){ var d = doneCount(t); stat = '<span class="text-[11px] font-bold ' + (d ? 'text-emerald-600' : 'text-slate-400') + '">✅ ' + d + ' HS đã báo học xong</span>'; }
+    else { var si = submitInfo(t); stat = si ? '<span class="text-[11px] font-bold text-emerald-600">🧾 ' + si.n + ' HS đã nộp bài</span>' : '<span class="text-[11px] font-bold text-slate-400">🧾 Chưa có bài nộp</span>'; }
+    var others = (S.data.myClasses || []).filter(function(c){ return !(c.id && t.classId && c.id === t.classId) && norm(c.name) !== norm(t.className || ''); });
+    var more = '<div id="sb7-more-' + esc(t.id) + '" class="hidden mt-2 ml-9 flex flex-wrap gap-2 items-center">'
+      + (others.length ? '<select id="sb7-moresel-' + esc(t.id) + '" class="text-xs border border-slate-300 rounded-lg px-2 py-1.5">' + others.map(function(c){ return '<option value="' + esc(c.key) + '">' + (c.kind === 'school' ? '🏫 ' : '👥 ') + esc(c.name) + '</option>'; }).join('') + '</select>'
+        + '<button data-sb7morego="' + esc(t.id) + '" class="text-[11px] font-bold text-white bg-violet-600 hover:bg-violet-700 px-2.5 py-1.5 rounded-lg">Giao cho lớp này</button>'
+        : '<span class="text-[11px] text-slate-400 italic">Không còn lớp khác để giao thêm.</span>')
+      + '</div>';
+    return '<div class="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 mb-1.5"><div class="flex items-center gap-2">' +
+      '<span class="text-base">' + (t.type === 'theory' ? '📚' : '✏️') + '</span>' +
+      '<div class="flex-1 min-w-0"><div class="text-sm font-bold text-slate-800 truncate">' + esc(t.title) + '</div>' +
+      '<div class="text-[11px] text-slate-400">' + (showClass ? 'Lớp: <b class="text-slate-600">' + esc(t.className || '') + '</b> · ' : '') + (t.type === 'theory' ? 'Lý thuyết cần học' : 'Bài tập cần làm') + ' · giao ' + esc(String(t.createdAt || '').slice(0, 10)) + '</div></div>' +
+      stat +
+      '<button data-sb7more="' + esc(t.id) + '" class="text-[11px] font-bold text-violet-700 border border-violet-300 hover:bg-violet-50 px-2 py-1.5 rounded-lg" title="Giao nhiệm vụ này thêm cho lớp khác">➕ Giao thêm</button>' +
+      '<button data-sb7del="' + esc(t.id) + '" class="text-rose-500 hover:text-rose-700 font-black px-2" title="Xóa nhiệm vụ">✕</button></div>' + more + '</div>';
+  }
+  function sb7WireRows(box){
+    if (!box) return;
     box.querySelectorAll('[data-sb7del]').forEach(function(b){
       b.addEventListener('click', function(){
         var id = b.getAttribute('data-sb7del');
@@ -837,6 +849,62 @@ function _sbInitPickers(){
         }).then(function(){ loadAll(true); }).catch(function(e){ alert('Lỗi xóa: ' + e.message); });
       });
     });
+    box.querySelectorAll('[data-sb7more]').forEach(function(b){
+      b.addEventListener('click', function(){
+        var d = el('sb7-more-' + b.getAttribute('data-sb7more'));
+        if (d) d.classList.toggle('hidden');
+      });
+    });
+    box.querySelectorAll('[data-sb7morego]').forEach(function(b){
+      b.addEventListener('click', function(){
+        var id = b.getAttribute('data-sb7morego');
+        var sel = el('sb7-moresel-' + id);
+        if (!sel || !sel.value) return;
+        var target = null;
+        (S.data.myClasses || []).forEach(function(c){ if (c.key === sel.value) target = c; });
+        var src = null;
+        (S.data.tasks || []).forEach(function(x){ if (x.id === id) src = x; });
+        if (!target || !src) return;
+        apiRaw('data/class-tasks.json').then(function(t){ return JSON.parse(t); }).catch(function(){ return { tasks: [] }; }).then(function(j){
+          if (!Array.isArray(j.tasks)) j.tasks = [];
+          var dup = j.tasks.some(function(x){ return x.path === src.path && x.type === src.type && norm(x.className || '') === norm(target.name) && ((target.id && x.classId === target.id) || !target.id); });
+          if (dup){ alert('Lớp ' + target.name + ' đã có nhiệm vụ này rồi.'); return null; }
+          j.tasks.push({ id: 'task_' + Date.now().toString(36), classId: target.id || '', className: target.name,
+            grade: target.grade || src.grade || null, type: src.type, title: src.title, path: src.path,
+            teacherId: myId(), teacherName: myName(), createdAt: new Date().toISOString() });
+          return gasPush('data/class-tasks.json', JSON.stringify(j, null, 1), 'Giao them nhiem vu ' + src.title + ' cho lop ' + target.name);
+        }).then(function(r){
+          if (r) { alert('✅ Đã giao thêm "' + src.title + '" cho lớp ' + target.name); loadAll(true); }
+        }).catch(function(e){ alert('Lỗi giao thêm: ' + e.message); });
+      });
+    });
+  }
+  function fillTasks(){
+    var box = el('sb7-tasklist'); if (!box) return;
+    sb7ApplyMode();
+    var me = myId();
+    var isAdmin = false;
+    try { var u = JSON.parse(localStorage.getItem('saobay_user') || 'null'); isAdmin = !!(u && u.role === 'admin'); } catch(e){}
+    if (S.selClassKey === '__all__'){
+      var all = (S.data.tasks || []).filter(function(t){ return isAdmin || !me || String(t.teacherId || '') === String(me); });
+      box.innerHTML = all.length ? all.map(function(t){ return sb7RowHtml(t, true); }).join('') : '<p class="text-xs text-slate-400 italic">Bạn chưa giao nhiệm vụ nào.</p>';
+      sb7WireRows(box);
+      var eb2 = el('sb7-examlist');
+      if (eb2){
+        var exa = (S.data.exams || []).filter(function(e){ return isAdmin || !me || String(e.teacherId || '') === String(me); });
+        eb2.innerHTML = exa.length ? exa.map(function(e){
+          return '<div class="bg-rose-50 border border-rose-200 rounded-lg px-3 py-2 mb-1.5"><div class="text-sm font-bold text-slate-800">📝 ' + esc(e.title) + '</div><div class="text-[11px] text-rose-500 font-bold">Lớp: ' + esc(e.className || '') + ' · ' + (e.status === 'draft' ? 'Nháp — chưa giao' : e.status === 'scheduled' ? 'Đã đặt lịch giao' : 'Đã giao — HS làm được') + '</div></div>';
+        }).join('') : '<p class="text-xs text-slate-400 italic">Chưa có đề kiểm tra nào.</p>';
+      }
+      return;
+    }
+    var cls = selClass();
+    if (!cls){ box.innerHTML = '<p class="text-xs text-slate-400 italic">Chưa có lớp.</p>'; return; }
+    var list = (S.data.tasks || []).filter(function(t){
+      return (cls.id && t.classId === cls.id) || (!cls.id && norm(t.className) === norm(cls.name)) || (cls.id && !t.classId && norm(t.className) === norm(cls.name));
+    });
+    box.innerHTML = list.length ? list.map(function(t){ return sb7RowHtml(t, false); }).join('') : '<p class="text-xs text-slate-400 italic">Chưa giao nhiệm vụ nào cho lớp này.</p>';
+    sb7WireRows(box);
     var eb = el('sb7-examlist');
     if (eb){
       var ex = (S.data.exams || []).filter(function(e){ return norm(e.className) === norm(cls.name) || (cls.id && e.classId === cls.id); });
@@ -876,3 +944,275 @@ function _sbInitPickers(){
 console.log('SAOBAY wrap 0630 loaded');
 
 })();
+
+
+// ===== SAOBAY BANK2 PANEL v1 (2026-10-12): quan ly de trong Bank 2 + CHIA SE giua GV =====
+// Moi de trong data/bank-de co che do chia se (truong share.mode trong file de):
+//  - 'auto' (MAC DINH): rieng tu; tu dong chia se sau khi lop duoc giao kiem tra xong + 10 ngay.
+//  - 'now': chia se ngay cho GV khac.
+//  - 'locked': khoa — khong bao gio chia se.
+// GV khac thay de da chia se: Xem + Day cho lop (chon nhieu lop). Chu de: Xem/Sua/Xoa/Day + doi che do.
+var bk2Cache = null;
+function bk2ApiRaw(path){
+  var hh = ghHeaders(); hh['Accept'] = 'application/vnd.github.raw';
+  return fetch('https://api.github.com/repos/saobay/saobay.github.io/contents/' + path.split('/').map(encodeURIComponent).join('/'), { headers: hh, cache: 'no-store' })
+    .then(function(r){ if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); });
+}
+function bk2Key(it){ return it.examId + '_' + String(it.ownerId).replace(/[^a-zA-Z0-9]/g, ''); }
+function bk2ShareInfo(it){
+  var mode = (it.share && it.share.mode) || 'auto';
+  var base = it.examTime || '';
+  if (!base && it.schedEntry && it.schedEntry.examTime) base = it.schedEntry.examTime;
+  var shareAt = null;
+  if (base){
+    var done = new Date(base).getTime() + (parseInt(it.durationMin, 10) || 45) * 60000;
+    if (!isNaN(done)) shareAt = done + 10 * 24 * 3600 * 1000;
+  }
+  if (mode === 'locked') return { mode: mode, shared: false, shareAt: shareAt, label: '🚫 Đã khóa — không chia sẻ' };
+  if (mode === 'now') return { mode: mode, shared: true, shareAt: shareAt, label: '🌐 Đang chia sẻ' };
+  if (shareAt && Date.now() > shareAt) return { mode: mode, shared: true, shareAt: shareAt, label: '🌐 Đang chia sẻ (tự động sau kiểm tra 10 ngày)' };
+  if (shareAt) return { mode: mode, shared: false, shareAt: shareAt, label: '⏳ Riêng tư — tự chia sẻ từ ' + new Date(shareAt).toLocaleDateString('vi-VN') };
+  return { mode: mode, shared: false, shareAt: null, label: '🔒 Riêng tư — sẽ chia sẻ sau khi giao kiểm tra + 10 ngày' };
+}
+function bk2Load(){
+  if (bk2Cache) return Promise.resolve(bk2Cache);
+  var pTree = fetch('https://api.github.com/repos/saobay/saobay.github.io/git/trees/main?recursive=1', { cache: 'no-store' })
+    .then(function(r){ return r.json(); })
+    .then(function(j){ return (j.tree || []).filter(function(t){ return t.type === 'blob'; }).map(function(t){ return t.path; }); })
+    .catch(function(){ return []; });
+  var pSched = bk2ApiRaw('data/exam-schedule.json').then(function(t){ return JSON.parse(t); }).catch(function(){ return { exams: [] }; });
+  var pClasses = bk2ApiRaw('data/private/classes.json').then(function(t){ return JSON.parse(t); }).catch(function(){ return { classes: [] }; });
+  var pAssign = fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/used/used.is?t=' + Date.now(), { cache: 'no-store' })
+    .then(function(r){ return r.json(); })
+    .then(function(j){ return Array.isArray(j.assignments) ? j.assignments : []; })
+    .catch(function(){ return []; });
+  return Promise.all([pTree, pSched, pClasses, pAssign]).then(function(rs){
+    var paths = rs[0], sched = (rs[1] && rs[1].exams) || [], classesJson = (rs[2] && rs[2].classes) || [], assignments = rs[3] || [];
+    var me = sbExamViewer();
+    var byId = {}; sched.forEach(function(e){ byId[e.id] = e; });
+    var files = paths.filter(function(p){ return /^data\/bank-de\/Khối lớp \d+\/[^\/]+\/[^\/]+\/[^\/]+\.json$/.test(p); }).slice(0, 200);
+    var fetches = files.map(function(p){
+      var seg = p.split('/');
+      return bk2ApiRaw(p).then(function(t){
+        var j = JSON.parse(t);
+        var nQ = 0; (j.sets || []).forEach(function(s){ nQ += (s.questions || []).length; });
+        return { path: p, gradeFolder: seg[2], subjFolder: seg[3], ownerId: seg[4],
+          examId: j.exam_id || seg[5].replace(/\.json$/, ''), title: j.title || seg[5],
+          subject: j.subject || '', grade: j.grade || '', examTime: j.exam_time || '',
+          durationMin: j.duration_min || 45, share: j.share || null,
+          ownerName: (j.share && j.share.ownerName) || '', nQ: nQ, raw: j,
+          schedEntry: byId[j.exam_id] || null };
+      }).catch(function(){ return null; });
+    });
+    function norm(s){ return String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/\s+/g, ' ').trim(); }
+    var uname = norm(me.name), myClasses = [], seenSch = {};
+    assignments.forEach(function(a){
+      var t = String(a.teachers || '');
+      var hit = (uname && norm(t.replace(/\(.*?\)/g, '')).indexOf(uname) >= 0) || (me.id && t.indexOf(me.id) >= 0);
+      if (!hit || !a.class || seenSch[a.class]) return;
+      seenSch[a.class] = 1;
+      myClasses.push({ id: 'school:' + a.class, name: String(a.class), kind: 'school' });
+    });
+    classesJson.forEach(function(c){
+      if (!me.id || String(c.teacher_id || '') !== String(me.id)) return;
+      myClasses.push({ id: c.id, name: c.name, kind: 'pv' });
+    });
+    return Promise.all(fetches).then(function(items){
+      bk2Cache = { items: items.filter(Boolean), sched: sched, classes: myClasses };
+      return bk2Cache;
+    });
+  });
+}
+function bk2AssignForm(it, d){
+  var key = bk2Key(it);
+  var defTime = new Date(Date.now() + 3600000 - (new Date().getTimezoneOffset() * 60000)).toISOString().slice(0, 16);
+  var h = '<div id="bk2-assign-' + key + '" style="display:none;margin-top:6px;padding:8px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px">'
+    + '<p style="margin:0 0 4px;font-size:12px;font-weight:bold">Chọn lớp để đẩy đề này (đánh dấu nhiều lớp):</p>';
+  if (!d.classes.length) h += '<p style="font-size:12px;color:#b91c1c;margin:0 0 4px">Bạn chưa có lớp nào (chưa được phân công / chưa tạo lớp học thêm).</p>';
+  d.classes.forEach(function(c){
+    h += '<label style="display:inline-block;margin:2px 8px 2px 0;font-size:13px"><input type="checkbox" data-bk2-class="' + key + '" value="' + esc(c.id) + '" data-name="' + esc(c.name) + '"> ' + (c.kind === 'school' ? '🏫 ' : '👥 ') + esc(c.name) + '</label>';
+  });
+  h += '<div style="margin-top:6px;font-size:12px"><label style="font-weight:bold">Giờ kiểm tra: </label><input type="datetime-local" id="bk2-time-' + key + '" value="' + defTime + '" style="padding:4px;border:1px solid #ccc;border-radius:6px"> '
+    + '<label style="font-weight:bold">Thời lượng (phút): </label><input type="number" id="bk2-dur-' + key + '" value="' + (parseInt(it.durationMin, 10) || 45) + '" style="width:70px;padding:4px;border:1px solid #ccc;border-radius:6px"></div>'
+    + '<div style="margin-top:6px"><button data-bk2-act="assign-save" data-bk2-path="' + esc(it.path) + '" style="padding:5px 12px;background:#16a34a;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:bold">🚀 Đẩy cho các lớp đã chọn</button> '
+    + '<button data-bk2-act="assign-close" data-bk2-path="' + esc(it.path) + '" style="padding:5px 12px;background:#e2e8f0;color:#334155;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:bold">Hủy</button></div>'
+    + '<div style="font-size:11px;color:#666;margin-top:2px">HS của lớp được chọn sẽ thấy đề trong khung đỏ ở trang chủ, mở làm đúng giờ đã đặt.</div></div>';
+  return h;
+}
+function bk2Row(it, isMine, d){
+  var si = bk2ShareInfo(it);
+  var key = bk2Key(it);
+  var btn = 'padding:4px 10px;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:bold;margin:2px 2px 2px 0;';
+  var h = '<li style="padding:8px;border-bottom:1px solid #e0e7ff">🗂️ <b>' + esc(it.title) + '</b>'
+    + '<br><small style="color:#555">' + esc(it.subjFolder) + ' • ' + it.nQ + ' câu • ' + (it.durationMin || 45) + ' phút'
+    + (isMine ? '' : ' • GV: ' + esc(it.ownerName || it.ownerId))
+    + ' • ' + si.label + '</small>'
+    + '<div style="margin-top:4px">'
+    + '<button data-bk2-act="view" data-bk2-path="' + esc(it.path) + '" style="' + btn + 'background:#0ea5e9;color:#fff">👁 Xem</button>'
+    + '<button data-bk2-act="assign" data-bk2-path="' + esc(it.path) + '" style="' + btn + 'background:#16a34a;color:#fff">🚀 Đẩy cho lớp</button>'
+    + (isMine ? '<button data-bk2-act="edit" data-bk2-path="' + esc(it.path) + '" style="' + btn + 'background:#2563eb;color:#fff">✏️ Sửa</button>'
+      + '<button data-bk2-act="delete" data-bk2-path="' + esc(it.path) + '" style="' + btn + 'background:#dc2626;color:#fff">🗑 Xóa</button>' : '')
+    + '</div>';
+  if (isMine){
+    h += '<div style="margin-top:2px;font-size:12px">Chế độ chia sẻ: <select data-bk2-share="' + esc(it.path) + '" style="padding:4px;border:1px solid #c7d2fe;border-radius:6px;font-size:12px">'
+      + '<option value="auto"' + (si.mode === 'auto' ? ' selected' : '') + '>Tự động — chia sẻ sau khi lớp kiểm tra xong + 10 ngày (mặc định)</option>'
+      + '<option value="now"' + (si.mode === 'now' ? ' selected' : '') + '>Chia sẻ ngay cho GV khác</option>'
+      + '<option value="locked"' + (si.mode === 'locked' ? ' selected' : '') + '>🔒 Khóa — không chia sẻ</option></select></div>'
+      + '<div id="bk2-edit-' + key + '" style="display:none;margin-top:6px;padding:8px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px">'
+      + '<div style="margin-bottom:4px"><label style="font-size:12px;font-weight:bold">Tên đề: </label><input type="text" id="bk2-title-' + key + '" value="' + esc(it.title) + '" style="width:70%;padding:4px;border:1px solid #ccc;border-radius:6px;font-size:13px"></div>'
+      + '<div style="margin-bottom:4px"><label style="font-size:12px;font-weight:bold">Thời lượng (phút): </label><input type="number" id="bk2-dur2-' + key + '" value="' + (parseInt(it.durationMin, 10) || 45) + '" style="width:70px;padding:4px;border:1px solid #ccc;border-radius:6px;font-size:13px"></div>'
+      + '<button data-bk2-act="edit-save" data-bk2-path="' + esc(it.path) + '" style="' + btn + 'background:#2563eb;color:#fff">Lưu thay đổi</button>'
+      + '<button data-bk2-act="edit-close" data-bk2-path="' + esc(it.path) + '" style="' + btn + 'background:#e2e8f0;color:#334155">Hủy</button></div>';
+  }
+  h += bk2AssignForm(it, d);
+  return h + '</li>';
+}
+function bk2Render(host){
+  if (!host) host = document.getElementById('sb-bank2-panel');
+  if (!host) return;
+  host.innerHTML = '<div style="margin-top:18px;padding:14px;background:#eef2ff;border:1px solid #c7d2fe;border-radius:10px">'
+    + '<p style="font-weight:bold;margin:0">🗂️ Bank Đề (Bank 2) — kho đề kiểm tra của GV <button id="bk2-reload" style="margin-left:8px;padding:4px 10px;background:#4f46e5;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px">🔄 Tải lại</button></p>'
+    + '<p style="color:#64748b;margin:6px 0 0;font-size:13px">⏳ Đang tải kho đề...</p></div>';
+  var rb = host.querySelector('#bk2-reload');
+  bk2Load().then(function(d){
+    var me = sbExamViewer();
+    var mine = d.items.filter(function(it){ return String(it.ownerId) === String(me.id); });
+    var others = d.items.filter(function(it){ return String(it.ownerId) !== String(me.id) && bk2ShareInfo(it).shared; });
+    var h = '<div style="margin-top:18px;padding:14px;background:#eef2ff;border:1px solid #c7d2fe;border-radius:10px">'
+      + '<p style="font-weight:bold;margin:0">🗂️ Bank Đề (Bank 2) — kho đề kiểm tra của GV <button id="bk2-reload" style="margin-left:8px;padding:4px 10px;background:#4f46e5;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px">🔄 Tải lại</button></p>'
+      + '<p style="color:#475569;font-size:12px;margin:6px 0 0">Mặc định đề ở chế độ riêng tư và <b>tự chia sẻ cho GV khác sau khi lớp được giao kiểm tra xong + 10 ngày</b> (trừ khi bạn khóa). GV khác chỉ Xem + Đẩy cho lớp của họ, không sửa/xóa được đề của bạn.</p>';
+    h += '<p style="font-weight:bold;color:#334155;margin:12px 0 4px">📁 Đề của tôi trong Bank 2 (' + mine.length + ')</p>';
+    h += mine.length ? '<ul style="list-style:none;padding:0;margin:0;background:#fff;border-radius:8px">' + mine.map(function(it){ return bk2Row(it, true, d); }).join('') + '</ul>'
+      : '<p style="color:#888;font-size:13px">Chưa có đề nào. Đề bạn đẩy lên bằng Word/AI (mode đề kiểm tra) sẽ tự lưu vào đây.</p>';
+    h += '<p style="font-weight:bold;color:#334155;margin:14px 0 4px">🌐 Đề GV khác đã chia sẻ (' + others.length + ')</p>';
+    h += others.length ? '<ul style="list-style:none;padding:0;margin:0;background:#fff;border-radius:8px">' + others.map(function(it){ return bk2Row(it, false, d); }).join('') + '</ul>'
+      : '<p style="color:#888;font-size:13px">Chưa có đề chia sẻ nào.</p>';
+    h += '</div>';
+    host.innerHTML = h;
+    bk2Wire(host, d);
+  }).catch(function(e){
+    host.innerHTML = '<div style="margin-top:18px;padding:14px;background:#fef2f2;border:1px solid #fecaca;border-radius:10px"><p style="color:#b91c1c;margin:0">Không tải được Bank Đề (' + esc(e.message) + ').</p></div>';
+  });
+}
+function bk2Find(d, path){ return (d.items || []).filter(function(it){ return it.path === path; })[0]; }
+function bk2Wire(host, d){
+  var rb = host.querySelector('#bk2-reload');
+  if (rb) rb.onclick = function(){ bk2Cache = null; bk2Render(host); };
+  host.querySelectorAll('[data-bk2-act]').forEach(function(b){
+    b.addEventListener('click', function(){ bk2Action(b.getAttribute('data-bk2-act'), b.getAttribute('data-bk2-path'), d, b); });
+  });
+  host.querySelectorAll('[data-bk2-share]').forEach(function(sel){
+    sel.addEventListener('change', function(){
+      var it = bk2Find(d, sel.getAttribute('data-bk2-share'));
+      if (!it) return;
+      var me = sbExamViewer();
+      var raw = Object.assign({}, it.raw);
+      raw.share = { mode: sel.value, ownerId: String(it.ownerId), ownerName: it.ownerName || me.name || '', createdAt: (it.share && it.share.createdAt) || new Date().toISOString() };
+      sel.disabled = true;
+      sbGasPush(it.path, JSON.stringify(raw, null, 1), 'Doi che do chia se de ' + it.examId)
+        .then(function(){ bk2Cache = null; alert('✅ Đã đổi chế độ chia sẻ.'); bk2Render(host); })
+        .catch(function(e){ sel.disabled = false; alert('Lỗi: ' + e.message); });
+    });
+  });
+}
+function bk2View(it){
+  var old = document.getElementById('bk2-modal'); if (old) old.remove();
+  var h = '<div id="bk2-modal" style="position:fixed;inset:0;z-index:9999;background:rgba(15,23,42,.6);display:flex;align-items:flex-start;justify-content:center;overflow:auto;padding:20px">'
+    + '<div style="background:#fff;border-radius:12px;max-width:820px;width:100%;padding:20px;margin:auto">'
+    + '<div style="display:flex;justify-content:space-between;align-items:center"><h3 style="margin:0;font-size:16px">👁 ' + esc(it.title) + '</h3>'
+    + '<button id="bk2-modal-close" style="border:none;background:#e2e8f0;border-radius:6px;padding:4px 12px;cursor:pointer;font-weight:bold">Đóng</button></div>'
+    + '<p style="color:#64748b;font-size:12px">' + esc(it.subjFolder) + ' • ' + it.nQ + ' câu • ' + (it.durationMin || 45) + ' phút • GV: ' + esc(it.ownerName || it.ownerId) + '</p>';
+  (it.raw.sets || []).forEach(function(set, si){
+    h += '<h4 style="margin:14px 0 6px;color:#1e40af">' + esc(set.name || ('Bộ ' + (si + 1))) + '</h4>';
+    (set.questions || []).forEach(function(q, qi){
+      h += '<div style="padding:8px;border:1px solid #e2e8f0;border-radius:8px;margin-bottom:6px">'
+        + '<div style="font-size:13px"><b>Câu ' + (qi + 1) + ':</b> ' + (q.q || '') + '</div>';
+      if (q.type === 'mcq' && q.options && q.options.length){
+        h += '<ul style="margin:4px 0 0;padding-left:18px;font-size:13px">' + q.options.map(function(o, oi){
+          var letter = String.fromCharCode(65 + oi);
+          var good = String(q.answer || '').toUpperCase() === letter;
+          return '<li' + (good ? ' style="color:#16a34a;font-weight:bold"' : '') + '>' + o + (good ? ' ✓' : '') + '</li>';
+        }).join('') + '</ul>';
+      } else if (q.type === 'truefalse' && q.statements && q.statements.length){
+        h += '<ul style="margin:4px 0 0;padding-left:18px;font-size:13px">' + q.statements.map(function(s){ return '<li>' + s + '</li>'; }).join('') + '</ul>'
+          + '<div style="font-size:12px;color:#16a34a;font-weight:bold;margin-top:2px">Đáp án: ' + esc(q.answer || '') + '</div>';
+      } else {
+        h += '<div style="font-size:12px;color:#16a34a;font-weight:bold;margin-top:2px">Đáp án: ' + esc(q.answer || '') + '</div>';
+      }
+      if (q.explain) h += '<div style="font-size:12px;color:#64748b;margin-top:2px"><i>Giải thích: ' + esc(q.explain) + '</i></div>';
+      h += '</div>';
+    });
+  });
+  h += '</div></div>';
+  var div = document.createElement('div'); div.innerHTML = h;
+  document.body.appendChild(div.firstChild);
+  document.getElementById('bk2-modal-close').onclick = function(){ var m = document.getElementById('bk2-modal'); if (m) m.remove(); };
+  document.getElementById('bk2-modal').addEventListener('click', function(e){ if (e.target.id === 'bk2-modal') e.target.remove(); });
+}
+function bk2Action(act, path, d, btn){
+  var it = bk2Find(d, path);
+  if (!it) return;
+  var key = bk2Key(it);
+  function fail(e){ alert('Lỗi: ' + e.message); if (btn) btn.disabled = false; }
+  if (act === 'view'){ bk2View(it); return; }
+  if (act === 'assign'){ var f = document.getElementById('bk2-assign-' + key); if (f) f.style.display = 'block'; return; }
+  if (act === 'assign-close'){ var f2 = document.getElementById('bk2-assign-' + key); if (f2) f2.style.display = 'none'; return; }
+  if (act === 'edit'){ var e3 = document.getElementById('bk2-edit-' + key); if (e3) e3.style.display = 'block'; return; }
+  if (act === 'edit-close'){ var e4 = document.getElementById('bk2-edit-' + key); if (e4) e4.style.display = 'none'; return; }
+  if (act === 'assign-save'){
+    var boxes = document.querySelectorAll('[data-bk2-class="' + key + '"]:checked');
+    var timeInp = document.getElementById('bk2-time-' + key);
+    var durInp = document.getElementById('bk2-dur-' + key);
+    if (!boxes.length){ alert('Hãy chọn ít nhất 1 lớp.'); return; }
+    if (!timeInp || !timeInp.value){ alert('Hãy chọn ngày giờ kiểm tra.'); return; }
+    var iso = new Date(timeInp.value).toISOString();
+    var dur = parseInt(durInp && durInp.value, 10) || parseInt(it.durationMin, 10) || 45;
+    var me = sbExamViewer();
+    var entries = [];
+    boxes.forEach(function(b, i){
+      entries.push({ id: 'ex' + Date.now().toString(36) + 'b' + i, title: it.title, subject: it.subject, grade: it.grade,
+        classId: b.value, className: b.getAttribute('data-name') || '', examTime: iso, durationMin: dur,
+        file: it.path, status: 'scheduled', teacherId: me.id, teacherName: me.name,
+        createdAt: new Date().toISOString(), fromBank: it.examId, fromOwner: it.ownerId });
+    });
+    if (btn) btn.disabled = true;
+    sbExamMutate(function(exams){ entries.forEach(function(e){ exams.push(e); }); return true; }, 'Day de bank ' + it.examId + ' cho ' + entries.length + ' lop')
+      .then(function(){ bk2Cache = null; alert('🚀 Đã đẩy đề "' + it.title + '" cho ' + entries.length + ' lớp! HS sẽ thấy đề trong khung đỏ ở trang chủ.'); var p = document.getElementById('sb-bank2-panel'); if (p) bk2Render(p); })
+      .catch(fail);
+    return;
+  }
+  if (act === 'edit-save'){
+    var tInp = document.getElementById('bk2-title-' + key);
+    var dInp = document.getElementById('bk2-dur2-' + key);
+    var newTitle = tInp && tInp.value.trim() ? tInp.value.trim() : it.title;
+    var newDur = parseInt(dInp && dInp.value, 10) || parseInt(it.durationMin, 10) || 45;
+    if (btn) btn.disabled = true;
+    var raw = Object.assign({}, it.raw); raw.title = newTitle; raw.duration_min = newDur;
+    sbGasPush(it.path, JSON.stringify(raw, null, 1), 'Sua de bank ' + it.examId)
+      .then(function(){
+        return sbExamMutate(function(exams){
+          exams.forEach(function(e){ if (e.file === it.path || e.id === it.examId){ e.title = newTitle; e.durationMin = newDur; } });
+          return true;
+        }, 'Dong bo sua de bank ' + it.examId);
+      })
+      .then(function(){ bk2Cache = null; alert('✅ Đã lưu thay đổi.'); var p = document.getElementById('sb-bank2-panel'); if (p) bk2Render(p); })
+      .catch(fail);
+    return;
+  }
+  if (act === 'delete'){
+    var used = (d.sched || []).filter(function(e){ return e.file === it.path; });
+    var msg = 'XÓA hẳn đề "' + it.title + '" khỏi Bank 2?';
+    if (used.length) msg += '\n⚠ Đề này đang được giao cho ' + used.length + ' lớp — các lịch giao đó cũng sẽ bị xóa, HS không làm được nữa.';
+    if (!confirm(msg)) return;
+    if (btn) btn.disabled = true;
+    bk2Cache = null;
+    sbExamMutate(function(exams){
+      for (var i = exams.length - 1; i >= 0; i--){ if (exams[i].file === it.path) exams.splice(i, 1); }
+      return true;
+    }, 'Xoa lich giao de bank ' + it.examId)
+      .then(function(){ return sbGasDelete(it.path, 'Xoa de khoi Bank 2: ' + it.examId); })
+      .then(function(){ alert('🗑 Đã xóa đề khỏi Bank 2.'); var p = document.getElementById('sb-bank2-panel'); if (p) bk2Render(p); })
+      .catch(fail);
+    return;
+  }
+}
