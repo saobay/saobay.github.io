@@ -35,7 +35,7 @@
             setVis('bo-tao-prompt-box', isBank); // 2026-10-11: direct chi day Word -> an khung NotebookLM
             // SB_AI_PANEL_FIX_20261012: phai go ca class 'hidden' — setVis chi xoa style inline, class hidden cua Tailwind van an panel mai
             var aiP = document.getElementById('ai-compose-panel');
-            if (aiP){ aiP.classList.toggle('hidden', !isAi); aiP.style.display = isAi ? '' : 'none'; if (isAi){ try { aiRecalc(); } catch(e){} try { aiSetupV2(); } catch(e){} try { aiSetupV3(); } catch(e){} } }
+            if (aiP){ aiP.classList.toggle('hidden', !isAi); aiP.style.display = isAi ? '' : 'none'; if (isAi){ try { aiRecalc(); } catch(e){} try { aiSetupV2(); } catch(e){} try { aiSetupV3(); } catch(e){} try { aiSetupV33(); } catch(e){} } }
             // 2026-10-11: giữ cây thư mục luôn hiện ở mọi chế độ (user yêu cầu)
             // Box Copy Prompt: đúng chế độ
             setVis('theory-copy-prompt-box', isTheory);
@@ -693,6 +693,130 @@
         }
 
         // ========================================================
+        // SB_AI_V33_20261012: XEM TRƯỚC MÃ ĐỀ trong khung soạn + chống sync ngược + thu gọn ô ai-scope
+        // ========================================================
+        function aiExamDataFromEditor(){
+            var ic = (document.getElementById('item-content') || {}).value || '';
+            var m = ic.match(/<script type="application\/json" class="saobay-exam10-data">([\s\S]*?)<\/script>/);
+            if (!m) return null;
+            try { var d = JSON.parse(m[1]); return (d && d.sets && d.sets.length) ? d : null; } catch(e){ return null; }
+        }
+        function aiRenderExamPreview(idx){
+            var data = aiExamDataFromEditor();
+            var box = document.getElementById('preview-container');
+            if (!data || !box) return false;
+            var sets = data.sets || [];
+            if (!sets.length) return false;
+            if (idx == null || idx < 0 || idx >= sets.length) idx = 0;
+            box.setAttribute('data-sb-exam-preview', '1');
+            box._sbExamIdx = idx;
+            var esc = aiWordEsc;
+            var typeName = { mcq: 'TN', truefalse: 'Đ/S', short: 'TLN', essay: 'Tự luận' };
+            var qs = sets[idx].questions || [];
+            var pts = qs.reduce(function(a, q){ return a + (parseFloat(q.points) || 0); }, 0);
+            var h = '<div class="p-3" contenteditable="false">';
+            h += '<div style="background:#f5f3ff;border:1px solid #c4b5fd;border-radius:12px;padding:12px 16px;margin-bottom:12px;">'
+                + '<p style="font-weight:900;color:#4c1d95;">📋 ĐỀ ĐÃ VÀO KHUNG SOẠN — ' + sets.length + ' MÃ ĐỀ • ' + qs.length + ' câu/mã • ' + (Math.round(pts * 100) / 100) + ' điểm/mã</p>'
+                + '<p style="font-size:12px;color:#5b21b6;">Học sinh mở bài sẽ bốc ngẫu nhiên 1 mã đề (có nút Đổi đề). Đây là bản xem trước cho giáo viên, có kèm đáp án — muốn sửa câu hỏi hãy chuyển sang tab "Mã HTML" hoặc dán lại từ NotebookLM.</p>'
+                + '<div style="margin-top:8px;">' + sets.map(function(st, si){
+                    return '<button type="button" onclick="aiRenderExamPreview(' + si + ')" style="margin-right:6px;padding:5px 12px;border-radius:8px;font-size:12px;font-weight:700;' + (si === idx ? 'background:#6d28d9;color:#fff;border:1px solid #6d28d9;' : 'background:#fff;color:#4c1d95;border:1px solid #c4b5fd;') + '">Mã đề ' + (si + 1) + '</button>';
+                }).join('') + '</div></div>';
+            qs.forEach(function(q, i){
+                h += '<div style="border:1px solid #e2e8f0;border-radius:12px;padding:12px 14px;margin-bottom:10px;background:#fff;">'
+                    + '<p style="font-weight:700;color:#1e293b;margin:0 0 4px;"><span style="color:#6d28d9;">Câu ' + (i + 1) + '</span> <span style="font-size:11px;background:#ede9fe;color:#5b21b6;border-radius:6px;padding:1px 6px;">' + (typeName[q.type] || q.type || '') + (q.level ? ' • ' + q.level : '') + (q.points != null ? ' • ' + q.points + 'đ' : '') + '</span></p>'
+                    + '<p style="color:#334155;margin:0;">' + esc(q.q) + '</p>';
+                if (q.type === 'mcq' && q.options && q.options.length){
+                    h += q.options.map(function(op, oi){
+                        var L = 'ABCD'[oi];
+                        var right = String(q.answer || '').toUpperCase() === L;
+                        return '<p style="margin:2px 0 2px 18px;' + (right ? 'color:#15803d;font-weight:700;' : 'color:#475569;') + '">' + L + '. ' + esc(String(op).replace(/^[A-D][\.\)]\s*/, '')) + (right ? ' ✓' : '') + '</p>';
+                    }).join('');
+                }
+                if (q.type === 'truefalse' && q.statements && q.statements.length){
+                    h += q.statements.map(function(sm, smi){
+                        var txt = (sm && typeof sm === 'object') ? (sm.s || '') : sm;
+                        var v = Array.isArray(q.answer) ? q.answer[smi] : null;
+                        var isT = (v === 'T' || v === true);
+                        return '<p style="margin:2px 0 2px 18px;color:#475569;">' + 'abcd'[smi] + ') ' + esc(txt) + ' <b style="color:' + (isT ? '#15803d' : '#dc2626') + ';">(' + (isT ? 'Đúng' : 'Sai') + ')</b></p>';
+                    }).join('');
+                }
+                if (q.type === 'short') h += '<p style="margin:2px 0 2px 18px;color:#15803d;font-weight:700;">Đáp án: ' + esc(q.answer == null ? '' : q.answer) + '</p>';
+                if (q.type === 'essay' && q.explain) h += '<p style="margin:2px 0 2px 18px;color:#475569;"><i>Barem: ' + esc(q.explain) + '</i></p>';
+                else if (q.explain && q.type !== 'essay') h += '<p style="margin:2px 0 2px 18px;color:#64748b;font-size:12px;"><i>Giải thích: ' + esc(q.explain) + '</i></p>';
+                h += '</div>';
+            });
+            h += '</div>';
+            box.innerHTML = h;
+            if (window.MathJax && window.MathJax.typesetPromise){ try { window.MathJax.typesetPromise([box]).catch(function(){}); } catch(e){} }
+            return true;
+        }
+        // Boc cac ham editor (nap SAU hub-tabs nen phai cho roi boc): chan sync nguoc lam hong JSON de,
+        // ve lai xem truoc ma de moi khi renderMathPreview/setEditorMode('visual') chay tren noi dung de.
+        (function aiWrapEditor33(){
+            var tries = 0;
+            var iv = setInterval(function(){
+                tries++;
+                if (typeof window.syncVisualToItemContent === 'function' && !window.syncVisualToItemContent._sbAi33){
+                    var origSync = window.syncVisualToItemContent;
+                    var wSync = function(){
+                        var box = document.getElementById('preview-container');
+                        if (box && box.getAttribute('data-sb-exam-preview') === '1') return;
+                        return origSync.apply(this, arguments);
+                    };
+                    wSync._sbAi33 = true;
+                    window.syncVisualToItemContent = wSync;
+                }
+                if (typeof window.renderMathPreview === 'function' && !window.renderMathPreview._sbAi33){
+                    var origRm = window.renderMathPreview;
+                    var wRm = function(){
+                        var r = origRm.apply(this, arguments);
+                        if (aiExamDataFromEditor()){ try { aiRenderExamPreview((document.getElementById('preview-container') || {})._sbExamIdx || 0); } catch(e){} }
+                        else { var b2 = document.getElementById('preview-container'); if (b2) b2.removeAttribute('data-sb-exam-preview'); }
+                        return r;
+                    };
+                    wRm._sbAi33 = true;
+                    window.renderMathPreview = wRm;
+                }
+                if (typeof window.setEditorMode === 'function' && !window.setEditorMode._sbAi33){
+                    var origSe = window.setEditorMode;
+                    var wSe = function(mode){
+                        var r = origSe.apply(this, arguments);
+                        if (mode === 'visual' && aiExamDataFromEditor()){ try { aiRenderExamPreview((document.getElementById('preview-container') || {})._sbExamIdx || 0); } catch(e){} }
+                        return r;
+                    };
+                    wSe._sbAi33 = true;
+                    window.setEditorMode = wSe;
+                }
+                if ((window.syncVisualToItemContent || {})._sbAi33 && (window.renderMathPreview || {})._sbAi33 && (window.setEditorMode || {})._sbAi33) clearInterval(iv);
+                if (tries > 60) clearInterval(iv);
+            }, 250);
+        })();
+        function aiSetupV33(){
+            var panel = document.getElementById('ai-compose-panel');
+            if (!panel || panel._sbAiV33) return;
+            panel._sbAiV33 = 1;
+            // Thu gon o "Noi dung kien thuc can bao phu": an san, bam moi mo (user: khong can thiet de thuong truc)
+            var scopeEl = document.getElementById('ai-scope');
+            if (scopeEl && !document.getElementById('ai-scope-toggle')){
+                var wrap = scopeEl.parentElement;
+                if (wrap && wrap.parentNode){
+                    var tgl = document.createElement('button');
+                    tgl.type = 'button'; tgl.id = 'ai-scope-toggle';
+                    tgl.className = 'text-[11px] font-bold text-violet-700 underline mb-1';
+                    tgl.textContent = '➕ Nội dung kiến thức cần bao phủ (không bắt buộc — bấm để nhập)';
+                    tgl.addEventListener('click', function(){
+                        var show = wrap.style.display === 'none';
+                        wrap.style.display = show ? '' : 'none';
+                        tgl.textContent = (show ? '➖' : '➕') + ' Nội dung kiến thức cần bao phủ (không bắt buộc — bấm để ' + (show ? 'ẩn đi' : 'nhập') + ')';
+                        if (show){ try { scopeEl.focus(); } catch(e){} }
+                    });
+                    wrap.style.display = 'none';
+                    wrap.parentNode.insertBefore(tgl, wrap);
+                }
+            }
+        }
+
+        // ========================================================
         // SB_AI_WORD_20261012: web tu tach ket qua NotebookLM lam 2 phan:
         // (1) phan de JSON -> gop vao khung soan de day len web (mergeExamSets goc)
         // (2) phan in an -> tai xuong file Word tu web (de bai khong dap an + ma tran + dac ta + dap an/barem rieng o cuoi)
@@ -742,6 +866,7 @@
                 if (btn){ btn.disabled = false; btn.classList.remove('opacity-50'); }
                 var st = document.getElementById('ai-word-status');
                 if (st) st.textContent = 'Đã tách xong: phần đề đã vào khung soạn — bấm Tải Word để lấy bản in (đề + ma trận + đặc tả).';
+                try { aiRenderExamPreview(0); } catch(e){} // SB_AI_V33: ve xem truoc ma de vao khung soan (truoc day khung trong vi JSON khong tu hien)
             } catch(e){ /* tach loi thi chi khong co Word, phan web van chay */ }
         }
         // ========================================================
