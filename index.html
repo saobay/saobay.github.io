@@ -1205,7 +1205,7 @@ function saobayReportQ(btn){
 <script>
 (function(){
   'use strict';
-  var SB_MC_VERSION = '20261012_1215';
+  var SB_MC_VERSION = '20261012_1330'; /* SB_EXAMFIX_20261012_V1 */
   var GAS = 'https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec';
   var S = { loaded: false, loading: false, tasks: [], exams: [], myClassNames: [], doneSet: {}, myScoreKeys: {}, myTitleKeys: {}, myFileTsMax: 0 };
   var theory = null; // {task, secs, endSeen}
@@ -1334,7 +1334,7 @@ function saobayReportQ(btn){
         return fetchJson(p).then(function(j){ if (j && j.exam_title) S.myTitleKeys[keyOf(j.exam_title)] = 1; }).catch(function(){});
       });
       Promise.all(titleFetches).then(function(){
-        creditPendingExercise(); creditPendingExam();
+        sbWrapExamStart(); creditPendingExercise(); creditPendingExam();
         ensureUi(); renderBadge(); renderPanel(); renderExamPanel();
       });
     }).catch(function(){ S.loading = false; });
@@ -1354,11 +1354,11 @@ function saobayReportQ(btn){
   }
   function creditPendingExercise(){
     var intent = readIntent(); if (!intent || !intent.taskId) return;
-    if (Date.now() - (intent.ts || 0) > 2 * 3600 * 1000){ clearIntent(); return; }
+    if (Date.now() - (intent.ts || 0) > 7 * 86400 * 1000){ clearIntent(); return; }
     if (S.myFileTsMax > (intent.baseline || 0)){
       var t = null; S.tasks.forEach(function(x){ if (x.id === intent.taskId) t = x; });
-      clearIntent();
-      if (t && !S.doneSet[t.id]) writeDoneRecord(t, 'exercise').then(function(){ renderPanel(); renderBadge(); });
+      if (t && !S.doneSet[t.id]) writeDoneRecord(t, 'exercise').then(function(){ clearIntent(); renderPanel(); renderBadge(); });
+      else if (t) clearIntent();
     }
   }
   function taskDone(t){
@@ -1386,16 +1386,32 @@ function saobayReportQ(btn){
       ? '<span class="text-[11px] font-black text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-full px-2 py-0.5">✅ ĐÃ HOÀN THÀNH</span>'
       : '<span class="text-[11px] font-black text-amber-700 bg-amber-50 border border-amber-200 rounded-full px-2 py-0.5">⏳ CHƯA LÀM</span>';
   }
-  function creditPendingExam(){
+  function sbWrapExamStart(){ // SB_EXAMFIX_20261012_V1
+    try {
+      var orig = window.startScheduledExam;
+      if (typeof orig !== 'function' || orig.__sbWrapped) return;
+      var wrapped = function(file){
+        try {
+          var ex = null; (S.exams || []).forEach(function(x){ if (x.file === file) ex = x; });
+          var has = null; try { has = JSON.parse(localStorage.getItem('sb_pending_exam_v1') || 'null'); } catch(e){}
+          if (!has || has.file !== file) localStorage.setItem('sb_pending_exam_v1', JSON.stringify({ examId: ex ? ex.id : '', file: file, baseline: S.myFileTsMax || 0, ts: Date.now() }));
+        } catch(e){}
+        return orig.apply(this, arguments);
+      };
+      wrapped.__sbWrapped = true;
+      window.startScheduledExam = wrapped;
+    } catch(e){}
+  }
+  sbWrapExamStart();
+  function creditPendingExam(){ // SB_EXAMFIX_20261012_V1: intent song 7 ngay, khop bang examId HOAC file, chi xoa intent SAU KHI ghi thanh cong
     var raw = null; try { raw = JSON.parse(localStorage.getItem('sb_pending_exam_v1') || 'null'); } catch(e){}
-    if (!raw || !raw.examId) return;
-    if (Date.now() - (raw.ts || 0) > 2 * 3600 * 1000){ try { localStorage.removeItem('sb_pending_exam_v1'); } catch(e){} return; }
+    if (!raw || (!raw.examId && !raw.file)) return;
+    if (Date.now() - (raw.ts || 0) > 7 * 86400 * 1000){ try { localStorage.removeItem('sb_pending_exam_v1'); } catch(e){} return; }
     if (S.myFileTsMax > (raw.baseline || 0)){
-      var ex = null; S.exams.forEach(function(x){ if (x.id === raw.examId) ex = x; });
-      try { localStorage.removeItem('sb_pending_exam_v1'); } catch(e){}
-      if (ex && !S.doneSet[ex.id]){
-        writeDoneRecord({ id: ex.id, className: ex.className || '', title: ex.title }, 'exam').then(function(){ renderPanel(); renderExamPanel(); });
-      }
+      var ex = null; S.exams.forEach(function(x){ if ((raw.examId && x.id === raw.examId) || (raw.file && x.file === raw.file)) ex = x; });
+      if (!ex) return;
+      if (S.doneSet[ex.id]){ try { localStorage.removeItem('sb_pending_exam_v1'); } catch(e){} return; }
+      writeDoneRecord({ id: ex.id, className: ex.className || '', title: ex.title }, 'exam').then(function(){ try { localStorage.removeItem('sb_pending_exam_v1'); } catch(e){} renderPanel(); renderExamPanel(); });
     }
   }
   function renderBadge(){
