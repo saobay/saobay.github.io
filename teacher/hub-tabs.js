@@ -246,6 +246,14 @@
             P.push('');
             P.push('NỘI DUNG KIẾN THỨC CẦN BAO PHỦ:');
             P.push(scope || '(Theo phạm vi kiến thức ở trên; phủ đều các đơn vị kiến thức trong phạm vi.)');
+            var mathEl = document.getElementById('ai-math');
+            if (mathEl && mathEl.checked){
+                P.push('');
+                P.push('YÊU CẦU ĐẶC BIỆT — ĐỀ CÓ CÔNG THỨC TOÁN HỌC:');
+                P.push('- MỌI công thức, biểu thức, ký hiệu toán/lý/hóa trong CẢ 3 phần kết quả đều PHẢI viết bằng cú pháp TeX đặt trong $...$ (công thức trong dòng) hoặc $$...$$ (công thức riêng dòng) — định dạng markdown math.');
+                P.push('- TUYỆT ĐỐI không dùng ký tự Unicode thay cho công thức (không viết x², √, π, α trực tiếp), không mô tả công thức bằng lời, không chèn ảnh công thức.');
+                P.push('- QUAN TRỌNG để máy đọc được: trong phần JSON, mọi dấu gạch chéo ngược của lệnh TeX phải viết GẤP ĐÔI, ví dụ \\\\frac{1}{2}, \\\\sqrt{x}, \\\\pi — để chuỗi JSON hợp lệ.');
+            }
             P.push('');
             P.push('CÁCH TRẢ KẾT QUẢ — trả về ĐÚNG 3 phần theo thứ tự sau, không thêm lời dẫn hay kết luận:');
             P.push('');
@@ -280,3 +288,109 @@
                 if (typeof showToast === 'function') showToast('Đã sao chép prompt!', 'success');
             });
         }
+
+        // ========================================================
+        // SB_AI_WORD_20261012: web tu tach ket qua NotebookLM lam 2 phan:
+        // (1) phan de JSON -> gop vao khung soan de day len web (mergeExamSets goc)
+        // (2) phan in an -> tai xuong file Word tu web (de bai khong dap an + ma tran + dac ta + dap an/barem rieng o cuoi)
+        // ========================================================
+        function aiMdTableToHtml(md){
+            var lines = String(md || '').split('\n'), rows = [];
+            lines.forEach(function(ln){
+                ln = ln.trim();
+                if (ln.indexOf('|') !== 0) return;
+                var cells = ln.split('|').slice(1);
+                if (cells.length && cells[cells.length - 1].trim() === '') cells.pop();
+                cells = cells.map(function(c){ return c.trim(); });
+                if (!cells.length) return;
+                if (cells.every(function(c){ return /^:?-{2,}:?$/.test(c); })) return; // dong phan cach ---
+                rows.push(cells);
+            });
+            if (!rows.length) return '';
+            var h = '<table border="1" cellspacing="0" cellpadding="5" style="border-collapse:collapse;width:100%;font-size:12pt;">';
+            rows.forEach(function(r, ri){
+                h += '<tr>' + r.map(function(c){
+                    var tag = ri === 0 ? 'th' : 'td';
+                    return '<' + tag + ' style="border:1px solid #000;padding:4px;">' + aiWordEsc(c) + '</' + tag + '>';
+                }).join('') + '</tr>';
+            });
+            return h + '</table>';
+        }
+        function aiWordEsc(s){ return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+        function aiSplitAfterMerge(){
+            try {
+                var raw = (document.getElementById('merge-sets-input') || {}).value || '';
+                var ic = (document.getElementById('item-content') || {}).value || '';
+                var m = ic.match(/<script type="application\/json" class="saobay-exam10-data">([\s\S]*?)<\/script>/);
+                if (!m) return;
+                var data = JSON.parse(m[1]);
+                var sets = data.sets || [];
+                if (!sets.length) return;
+                var i2 = raw.search(/phần\s*2/i), i3 = raw.search(/phần\s*3/i);
+                var matrixMd = (i2 >= 0) ? raw.slice(i2, (i3 > i2) ? i3 : undefined) : '';
+                var specMd = (i3 >= 0) ? raw.slice(i3) : '';
+                var gv = function(id){ var e = document.getElementById(id); return e ? String(e.value || '').trim() : ''; };
+                window.SB_AI_WORD = {
+                    subject: gv('ai-subject'), grade: gv('ai-grade'), time: gv('ai-time') || '45', title: gv('ai-title'),
+                    sets: sets, matrixMd: matrixMd, specMd: specMd
+                };
+                var btn = document.getElementById('ai-word-btn');
+                if (btn){ btn.disabled = false; btn.classList.remove('opacity-50'); }
+                var st = document.getElementById('ai-word-status');
+                if (st) st.textContent = 'Đã tách xong: phần đề đã vào khung soạn — bấm Tải Word để lấy bản in (đề + ma trận + đặc tả).';
+            } catch(e){ /* tach loi thi chi khong co Word, phan web van chay */ }
+        }
+        function aiExportWord(){
+            var W = window.SB_AI_WORD;
+            if (!W){ alert('Hãy dán kết quả NotebookLM và bấm "Gộp đề vào khung soạn" trước — hệ thống tách xong mới tải Word được.'); return; }
+            var esc = aiWordEsc;
+            var totP = 0;
+            W.sets.forEach(function(st){ (st.questions || []).forEach(function(q){ totP += parseFloat(q.points) || 0; }); });
+            var h = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><title>' + esc(W.title || 'Đề kiểm tra') + '</title></head>'
+                + '<body style="font-family:Times New Roman,serif;font-size:13pt;">'
+                + '<h2 style="text-align:center;">' + esc((W.subject + ' ' + W.grade + ' — ' + (W.title || 'ĐỀ KIỂM TRA')).toUpperCase()) + '</h2>'
+                + '<p style="text-align:center;">Thời gian làm bài: ' + esc(W.time) + ' phút • Tổng điểm: ' + (Math.round(totP * 100) / 100) + '</p>'
+                + '<p>Họ và tên: ............................ Lớp: ..........</p><hr>';
+            W.sets.forEach(function(st, si){
+                if (W.sets.length > 1) h += '<h3>' + esc(st.name || ('Đề ' + (si + 1))) + '</h3>';
+                (st.questions || []).forEach(function(q, i){
+                    h += '<p><b>Câu ' + (i + 1) + ' (' + (q.points != null ? q.points : '') + 'đ):</b> ' + esc(q.q) + '</p>';
+                    if (q.type === 'mcq' && q.options) q.options.forEach(function(op, oi){ h += '<p style="margin-left:24px;">' + 'ABCD'[oi] + '. ' + esc(op) + '</p>'; });
+                    if (q.type === 'short') h += '<p style="margin-left:24px;">Trả lời: ....................</p>';
+                    if (q.type === 'essay') h += '<p style="margin-left:24px;">............................................................................................</p><p style="margin-left:24px;">............................................................................................</p>';
+                });
+            });
+            var mt = aiMdTableToHtml(W.matrixMd), sp = aiMdTableToHtml(W.specMd);
+            if (mt) h += '<br clear="all" style="page-break-before:always;"><h3>MA TRẬN ĐỀ</h3>' + mt;
+            if (sp) h += '<h3 style="margin-top:18px;">BẢN ĐẶC TẢ ĐỀ</h3>' + sp;
+            h += '<br clear="all" style="page-break-before:always;"><h3>ĐÁP ÁN & BAREM (dành cho giáo viên)</h3>';
+            W.sets.forEach(function(st){
+                (st.questions || []).forEach(function(q, i){
+                    var a = q.answer;
+                    var aTxt = (a == null) ? '(tự luận — barem ở dưới)' : (typeof a === 'object' ? Object.keys(a).map(function(k){ return k + ': ' + (a[k] ? 'Đúng' : 'Sai'); }).join('; ') : String(a));
+                    h += '<p><b>Câu ' + (i + 1) + ':</b> ' + esc(aTxt) + (q.explain ? '<br><i>' + esc(q.explain) + '</i>' : '') + '</p>';
+                });
+            });
+            h += '</body></html>';
+            var blob = new Blob(['\ufeff', h], { type: 'application/msword' });
+            var a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = ('de-' + (W.subject || 'kiem-tra') + '-' + (W.title || 'saobay')).replace(/[\\/:*?"<>|]/g, '_').replace(/\s+/g, '-').toLowerCase() + '.doc';
+            document.body.appendChild(a); a.click();
+            setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 500);
+            if (typeof showToast === 'function') showToast('Đã tải file Word (đề + ma trận + đặc tả)', 'success');
+        }
+        (function aiWrapMerge(){
+            var tries = 0;
+            var iv = setInterval(function(){
+                tries++;
+                if (typeof window.mergeExamSets === 'function' && !window.mergeExamSets._sbAiWrapped){
+                    var orig = window.mergeExamSets;
+                    var wrapped = function(){ orig(); setTimeout(aiSplitAfterMerge, 60); };
+                    wrapped._sbAiWrapped = true;
+                    window.mergeExamSets = wrapped;
+                    clearInterval(iv);
+                }
+                if (tries > 40) clearInterval(iv);
+            }, 250);
+        })();
