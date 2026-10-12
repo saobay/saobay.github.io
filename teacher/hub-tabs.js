@@ -257,10 +257,8 @@
                 lines.push('- ' + r.label + ' (' + r.pts + ' điểm/câu): ' + parts.join(', ') + ' — tổng ' + r.q + ' câu, ' + (Math.round(r.p * 100) / 100) + ' điểm');
             });
             // SB_AI_V3_20261012: prompt dinh dang VAN BAN THUAN (giong quy uoc doc file Word) - bo JSON hay loi;
-            // so bo de chon o ai-nsets (toi da 4), cac bo phai KHAC nhau ve so lieu/boi canh.
-            var nsetsEl = document.getElementById('ai-nsets');
-            var nsets = nsetsEl ? (parseInt(nsetsEl.value, 10) || 1) : 1;
-            if (nsets < 1) nsets = 1; if (nsets > 4) nsets = 4;
+            // SB_AI_V32_20261012: EP CO DINH 4 bo de CHUNG 1 ma tran (user chot) — khong con o chon so bo.
+            var nsets = 4;
             var P = [];
             P.push('Soạn đề kiểm tra GDPT 2018 (sách Kết nối tri thức) theo yêu cầu sau. Trả lời NGAY bằng 3 phần kết quả, không viết lời dẫn/giải thích ngoài 3 phần.');
             P.push('ĐỀ: Môn ' + subject + ' — Lớp ' + grade + ' — Phạm vi: ' + lessons + ' — Thời gian: ' + time + ' phút' + (title ? ' — Tên đề: ' + title : ''));
@@ -272,14 +270,14 @@
             if (mathEl && mathEl.checked){
                 P.push('CÔNG THỨC: mọi công thức viết bằng TeX trong $...$ (không dùng ký tự Unicode như x², √, π).');
             }
-            P.push('PHẦN 1 — NỘI DUNG ĐỀ: soạn ĐÚNG ' + nsets + ' bộ đề, mỗi bộ bắt đầu bằng một dòng riêng ghi "ĐỀ 1", "ĐỀ 2"... Các bộ đề phải KHÁC NHAU về nội dung, số liệu và bối cảnh (KHÔNG lặp lại cùng một đề, KHÔNG chỉ đảo thứ tự câu hay phương án). Viết mỗi bộ theo ĐÚNG quy ước văn bản thuần sau đây (không dùng bảng, không dùng JSON, không dùng ký hiệu markdown như #, **):');
+            P.push('PHẦN 1 — NỘI DUNG ĐỀ: soạn ĐÚNG 4 bộ đề dùng CHUNG ma trận trên (cả 4 bộ giống hệt nhau về số câu, dạng câu, mức độ và điểm — chỉ khác nội dung câu hỏi). Mỗi bộ bắt đầu bằng một dòng riêng ghi "ĐỀ 1", "ĐỀ 2", "ĐỀ 3", "ĐỀ 4". Các bộ đề phải KHÁC NHAU về nội dung, số liệu và bối cảnh (KHÔNG lặp lại cùng một đề, KHÔNG chỉ đảo thứ tự câu hay phương án). Viết mỗi bộ theo ĐÚNG quy ước văn bản thuần sau đây (không dùng bảng, không dùng JSON, không dùng ký hiệu markdown như #, **):');
             P.push('Câu trắc nghiệm 4 phương án viết thế này:\nCâu 1 [TN] [NB]\n<nội dung câu hỏi>\nA. <phương án 1>\nB. <phương án 2>\nC. <phương án 3>\nD. <phương án 4>\nĐáp án: B\nGiải thích: <lời giải NGẮN 1-2 câu>');
             P.push('Câu đúng/sai viết thế này:\nCâu 2 [ĐS] [TH]\n<nội dung câu hỏi>\na) <ý 1>\nb) <ý 2>\nc) <ý 3>\nd) <ý 4>\nĐáp án: Đ, S, Đ, S\nGiải thích: <lời giải NGẮN>');
             P.push('Câu trả lời ngắn viết thế này:\nCâu 3 [TLN] [VD]\n<nội dung câu hỏi>\nĐáp án: <đáp án ngắn>\nGiải thích: <lời giải NGẮN>');
             P.push('Câu tự luận viết thế này:\nCâu 4 [TL] [VD]\n<nội dung câu hỏi>\nBarem: <từng ý chấm kèm điểm của ý đó, tổng các ý bằng điểm/câu của dạng tự luận trong ma trận>');
             P.push('QUY TẮC BẮT BUỘC: mỗi câu mở đầu bằng đúng 1 dòng "Câu <số> [<dạng>] [<mức độ>]" — dạng chỉ dùng TN, ĐS, TLN, TL; mức độ chỉ dùng NB, TH, VD, VDC. Số câu từng dạng × mức độ khớp TUYỆT ĐỐI ma trận. Thứ tự câu trong mỗi bộ: hết TN rồi đến ĐS, TLN, TL; trong mỗi dạng xếp từ NB đến VDC. Không ghi điểm vào từng câu.');
-            P.push('PHẦN 2 — MA TRẬN ĐỀ (bảng markdown để in): hàng = dạng câu, cột = NB/TH/VD/VDC, mỗi ô ghi "số câu (số điểm)", thêm cột Tổng câu/Tổng điểm và hàng tỉ lệ % điểm từng mức độ.');
-            P.push('PHẦN 3 — BẢN ĐẶC TẢ (bảng markdown để in): cột STT | Đơn vị kiến thức | Mức độ | Dạng câu hỏi | Số điểm, liệt kê đủ mọi câu theo thứ tự trong đề.');
+            P.push('PHẦN 2 — MA TRẬN ĐỀ (CHỈ 1 ma trận duy nhất, dùng chung cho cả 4 bộ đề; bảng markdown để in): hàng = dạng câu, cột = NB/TH/VD/VDC, mỗi ô ghi "số câu (số điểm)", thêm cột Tổng câu/Tổng điểm và hàng tỉ lệ % điểm từng mức độ.');
+            P.push('PHẦN 3 — BẢN ĐẶC TẢ (CHỈ 1 bản duy nhất, dùng chung cho cả 4 bộ đề; bảng markdown để in): cột STT | Đơn vị kiến thức | Mức độ | Dạng câu hỏi | Số điểm, liệt kê đủ mọi câu theo thứ tự trong đề.');
             var out = document.getElementById('ai-prompt-out');
             var text = P.join('\n');
             if (out){ out.value = text; }
@@ -684,14 +682,14 @@
             var bar = document.getElementById('ai-topbar');
             if (bar && !document.getElementById('ai-nsets')){
                 var div = document.createElement('div');
-                div.innerHTML = '<label class="block text-[10px] font-bold text-slate-600 mb-1">SỐ BỘ ĐỀ (tối đa 4)</label>'
-                    + '<select id="ai-nsets" class="px-2 py-1.5 border border-slate-300 rounded-lg text-center font-bold">'
-                    + '<option value="1" selected>1 bộ</option><option value="2">2 bộ</option><option value="3">3 bộ</option><option value="4">4 bộ</option></select>';
+                div.id = 'ai-nsets';
+                div.innerHTML = '<label class="block text-[10px] font-bold text-slate-600 mb-1">SỐ BỘ ĐỀ</label>'
+                    + '<div class="px-2 py-1.5 font-black text-violet-800 text-sm whitespace-nowrap">4 bộ — chung 1 ma trận</div>';
                 var autoBtn = document.getElementById('ai-auto-btn');
                 if (autoBtn) bar.insertBefore(div, autoBtn); else bar.appendChild(div);
             }
             var intro = panel.querySelector('p');
-            if (intro) intro.textContent = 'Chọn Khối + Môn ở ô chọn nơi lưu phía trên, nhập Bài/Chương → khóa TỔNG từng dạng + tỉ lệ % rồi bấm 🎲 Bốc tự động (hoặc nhập tay) → chọn SỐ BỘ ĐỀ (1-4) → bấm 📋 Copy Prompt dán vào NotebookLM → khi có kết quả, bấm 📥 Dán từ NotebookLM: hệ thống tự tách đề vào khung soạn, bản Word in ra có cấu trúc Phần I/II/III/IV như đề thật.';
+            if (intro) intro.textContent = 'Chọn Khối + Môn ở ô chọn nơi lưu phía trên, nhập Bài/Chương → khóa TỔNG từng dạng + tỉ lệ % rồi bấm 🎲 Bốc tự động (hoặc nhập tay) → bấm 📋 Copy Prompt dán vào NotebookLM (prompt ép ra 1 ma trận + đúng 4 bộ đề chung ma trận) → khi có kết quả, bấm 📥 Dán từ NotebookLM: hệ thống tự tách đề vào khung soạn, bản Word in ra gồm ma trận + đặc tả + 4 bộ đề + hướng dẫn chấm theo mẫu BGD&ĐT.';
         }
 
         // ========================================================
@@ -873,9 +871,21 @@
                 return String(a == null ? '' : a);
             }
             var setsParts = W.sets.map(function(st){ return groupByPart(st.questions); });
+            function firstPts(key){
+                for (var si2 = 0; si2 < setsParts.length; si2++){
+                    var l2 = setsParts[si2][key];
+                    if (l2 && l2.length) return parseFloat(l2[0].points) || 0;
+                }
+                return 0;
+            }
+            function hasType(key){ return setsParts.some(function(g){ return g[key] && g[key].length; }); }
             var body = '';
+            // SB_AI_V32_20261012: GOI HO SO dung thu tu BGD — (1) Ma tran + Dac ta (2) cac bo de (3) Huong dan cham + dap an
+            var mtX = mdTableXml(W.matrixMd), spX = mdTableXml(W.specMd);
+            if (mtX) body += P(R('MA TRẬN ĐỀ', true, false, 28), { before: 120, after: 120 }) + mtX;
+            if (spX) body += P(R('BẢN ĐẶC TẢ ĐỀ', true, false, 28), { before: 300, after: 120 }) + spX;
             W.sets.forEach(function(st, si){
-                if (si > 0) body += P('<w:r><w:br w:type="page"/></w:r>', { after: 0 });
+                if (si > 0 || mtX || spX) body += P('<w:r><w:br w:type="page"/></w:r>', { after: 0 });
                 var setPts = (st.questions || []).reduce(function(a, q){ return a + (parseFloat(q.points) || 0); }, 0);
                 body += TBL([[
                     [P(R('SỞ GD&ĐT ....................'), { align: 'center', after: 40 }), P(R('TRƯỜNG THPT ....................', true), { align: 'center', after: 40 }), P(R('--------------------'), { align: 'center', after: 40 })],
@@ -902,10 +912,15 @@
                 body += P(R('— HẾT —', true), { align: 'center', before: 240, after: 60 });
                 body += P(R('Thí sinh không được sử dụng tài liệu. Cán bộ coi thi không giải thích gì thêm.', false, true), { after: 60 });
             });
-            var mt = mdTableXml(W.matrixMd), spx = mdTableXml(W.specMd);
-            if (mt) body += P(R('MA TRẬN ĐỀ', true, false, 28), { pb: true, before: 120, after: 120 }) + mt;
-            if (spx) body += P(R('BẢN ĐẶC TẢ ĐỀ', true, false, 28), { before: 300, after: 120 }) + spx;
-            body += P(R('ĐÁP ÁN & BAREM (dành cho giáo viên)', true, false, 28), { pb: true, before: 120, after: 120 });
+            // SB_AI_V32_20261012: HUONG DAN CHAM + THANG DIEM theo mau BGD&DT (web tu sinh, khong phu thuoc NotebookLM)
+            var fp = function(x){ return String(Math.round(x * 100) / 100).replace('.', ','); };
+            body += P(R('HƯỚNG DẪN CHẤM — THANG ĐIỂM (theo mẫu BGD&ĐT)', true, false, 28), { pb: true, before: 120, after: 80 });
+            if (hasType('mcq')) body += P(R('Phần I — Trắc nghiệm 4 phương án: mỗi câu trả lời đúng được ' + fp(firstPts('mcq')) + ' điểm.'), { after: 60 });
+            if (hasType('truefalse')) body += P(R('Phần II — Trắc nghiệm đúng sai: mỗi câu ' + fp(firstPts('truefalse')) + ' điểm, chia theo số ý trả lời đúng trong câu: đúng 1 ý được 0,1 điểm; đúng 2 ý được 0,25 điểm; đúng 3 ý được 0,5 điểm; đúng cả 4 ý được 1 điểm (với câu 1 điểm; câu có thang điểm khác thì nhân theo tỉ lệ tương ứng).'), { after: 60 });
+            if (hasType('short')) body += P(R('Phần III — Trả lời ngắn: mỗi câu trả lời đúng được ' + fp(firstPts('short')) + ' điểm.'), { after: 60 });
+            if (hasType('essay')) body += P(R('Phần IV — Tự luận: chấm theo barem chi tiết của từng câu trong mục Đáp án từng bộ đề dưới đây; chỉ cho điểm ý đúng khi thí sinh trình bày đúng và đầy đủ ý đó.'), { after: 60 });
+            body += P(R('Lưu ý: Tổng điểm toàn bài là 10 điểm; điểm của bài thi được làm tròn đến hai chữ số thập phân. Đáp án và barem dưới đây dùng cho cả 4 bộ đề (mỗi bộ một bảng riêng).', false, true), { after: 120 });
+            body += P(R('ĐÁP ÁN TỪNG BỘ ĐỀ', true, false, 28), { before: 160, after: 80 });
             W.sets.forEach(function(st, si){
                 if (W.sets.length > 1) body += P(R(st.name || ('Đề ' + (si + 1)), true), { before: 200, after: 80 });
                 var g = setsParts[si];
@@ -924,7 +939,17 @@
                         });
                         body += TBL([rowHead, rowAns], widths, true) + P('', { after: 60 });
                     } else if (Pt.key === 'truefalse'){
-                        list.forEach(function(q, i){ body += P(R('Câu ' + (i + 1) + ': ') + R(tfTxt(q.answer)), { indent: 480, after: 40 }); });
+                        var wTf = Math.floor(7600 / 4);
+                        var tfHead = [[P(R('Câu', true), { align: 'center', after: 40 })]];
+                        var tfRows = [tfHead];
+                        ['a', 'b', 'c', 'd'].forEach(function(L){ tfHead.push([P(R(L, true), { align: 'center', after: 40 })]); });
+                        list.forEach(function(q, i){
+                            var a = Array.isArray(q.answer) ? q.answer : [];
+                            var row = [[P(R(String(i + 1), true), { align: 'center', after: 40 })]];
+                            for (var vi = 0; vi < 4; vi++) row.push([P(R((a[vi] === 'T' || a[vi] === true) ? 'Đ' : 'S', true), { align: 'center', after: 40 })]);
+                            tfRows.push(row);
+                        });
+                        body += TBL(tfRows, [1000, wTf, wTf, wTf, wTf], true) + P('', { after: 60 });
                     } else if (Pt.key === 'short'){
                         list.forEach(function(q, i){ body += P(R('Câu ' + (i + 1) + ': ') + R(String(q.answer == null ? '' : q.answer), true), { indent: 480, after: 40 }); });
                     } else {
