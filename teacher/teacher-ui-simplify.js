@@ -44,9 +44,7 @@ function addClearBtn(){
   document.body.appendChild(b);
   return true;
 }
-(function(){
-  var n=0, t=setInterval(function(){ n++; if(addClearBtn() || n>=15) clearInterval(t); },1000);
-})();
+/*SB_MODNUM_20261013_V1: go nut Xoa cache troi goc man hinh*/(function(){})();
 
 function ghHeaders(){
   var h={'Accept':'application/vnd.github+json'};
