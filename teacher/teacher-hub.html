@@ -1590,9 +1590,9 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
     <script src="hub-reports.js?v=20261009_1"></script>
 <script src="hub-groups.js?v=20261010_1"></script>
     <script src="hub-uilabels.js?v=20261010"></script>
-    <script src="teacher-ui-simplify.js?v=20261012_0755"></script>
+    <script src="teacher-ui-simplify.js?v=20261012_0805"></script>
     <script src="hub-inline-edit.js?v=20261010_1"></script>
-    <script src="hub-examsched.js?v=20261012_0745"></script>
+    <script src="hub-examsched.js?v=20261012_0805"></script>
     <script>
         // ============================================================
         // LÊN LỊCH KIỂM TRA CHỐNG LỘ ĐỀ — UI hook (2026-10-10)
@@ -1812,8 +1812,9 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
                     className = sel.options[sel.selectedIndex].text.replace(/\s*\(\d+\s*HS\)\s*$/, '');
                 }
                 _schedSetBtn(true);
+                try { window.__sbSchedPopupFlow = true; if (typeof window.sbPushPending === 'function') window.sbPushPending(title); } catch(e){}
                 try {
-                    await window.ExamSched.saveScheduledExam({
+                    var _schedRes = await window.ExamSched.saveScheduledExam({
                         title: title, subject: subject, grade: grade,
                         classId: classId, className: className,
                         examTime: laterChecked ? '' : new Date(examTime).toISOString(),
@@ -1821,7 +1822,9 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
                         teacherId: teacherId, teacherName: teacherName,
                         status: laterChecked ? 'draft' : 'scheduled' /* SCHED_LATER_V1 */
                     });
-                    if (typeof showToast === 'function') showToast('📌 Đã lên lịch kiểm tra! Đề lưu riêng, HS chỉ mở được khi đến giờ.', 'success');
+                    if (_schedRes && _schedRes.ok === false) throw new Error(_schedRes.error || 'Không lưu được lịch kiểm tra.');
+                    if (typeof window.sbPushResult === 'function') window.sbPushResult(true, laterChecked ? '📝 Đã lưu đề ở trạng thái CHUẨN BỊ' : '📌 Đã lên lịch kiểm tra!', '"' + title + '"' + (className ? ' → lớp ' + className : '') + (laterChecked ? '\nĐề đang là bản nháp. Khi muốn giao, mở tab 2 (Quản lý) → bấm Giao ngay / Đặt giờ.' : '\nHS chỉ mở được khi đến giờ kiểm tra. Đề đã xuất hiện ở tab 2 (Quản lý) và trong Bank 2.'));
+                    else if (typeof showToast === 'function') showToast('📌 Đã lên lịch kiểm tra! Đề lưu riêng, HS chỉ mở được khi đến giờ.', 'success');
                     else alert('Đã lên lịch kiểm tra thành công!');
                     var chk = document.getElementById('sched-is-exam');
                     if (chk) chk.checked = false;
@@ -1831,9 +1834,11 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
                     if (sf) sf.classList.add('hidden');
                     return true;
                 } catch(err){
-                    alert('Lỗi lưu lịch kiểm tra: ' + (err && err.message ? err.message : err));
+                    if (typeof window.sbPushResult === 'function') window.sbPushResult(false, 'Đẩy đề thất bại — đề CHƯA được lưu', 'Lỗi: ' + (err && err.message ? err.message : err) + '\nKiểm tra kết nối mạng rồi bấm đẩy lại.');
+                    else alert('Lỗi lưu lịch kiểm tra: ' + (err && err.message ? err.message : err));
                     return false;
                 } finally {
+                    try { window.__sbSchedPopupFlow = false; } catch(e){}
                     _schedSetBtn(false);
                 }
             }
