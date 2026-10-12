@@ -267,7 +267,8 @@
       var c = CHEMS[k];
       if (shelfCat !== 'all' && c.cat !== shelfCat) return;
       var b = document.createElement('button');
-      b.className = 'chem-bottle'; b.type = 'button';
+      var _shape = (c.type==='metal') ? 'jar' : (c.type==='ind') ? 'dropper' : (c.type==='fuel') ? 'lamp' : (k==='H2O') ? 'jug' : (c.type==='acid') ? 'acid' : 'flask';
+      b.className = 'chem-bottle sh-' + _shape; b.type = 'button';
       b.style.setProperty('--bglow', (c.glow||'#8b5cf6') + '59'); /* SHELF3D: quầng sáng riêng theo màu hóa chất */
       b.innerHTML = '<span class="bcork"></span><span class="bneck"></span>' +
         '<span class="bbody"><span class="bliq" style="background:radial-gradient(circle at 50% 72%,#ffffff 0%,'+shade(c.color,55)+' 26%,'+c.color+' 62%,'+shade(c.color,-25)+' 100%);color:'+c.glow+'"><i class="lflow"></i></span></span>' +
@@ -275,6 +276,14 @@
         '<i class="thspark" style="left:46%;--thd:3.5s;--thdl:-1.9s;--thx:-13px"></i>' +
         '<i class="thspark" style="left:74%;--thd:3s;--thdl:-2.7s;--thx:7px"></i>' +
         '<span class="blabel">'+c.f+'</span><span class="bcat">'+c.cat+'</span>'; /* TIENHIEP_V1: tia sáng + dòng linh lực */
+      if (_shape === 'jar'){
+        var _bd = b.querySelector('.bbody');
+        if (_bd) _bd.insertAdjacentHTML('beforeend',
+          '<i class="bchunk" style="left:13%;bottom:9%;background:'+shade(c.color,35)+'"></i>' +
+          '<i class="bchunk" style="left:37%;bottom:23%;background:'+c.color+'"></i>' +
+          '<i class="bchunk" style="left:59%;bottom:7%;background:'+shade(c.color,-25)+'"></i>' +
+          '<i class="bchunk" style="left:75%;bottom:19%;background:'+shade(c.color,15)+'"></i>');
+      }
       b.addEventListener('click', function(){
         try {
           var sibs = shelf.querySelectorAll('.chem-bottle');
@@ -493,8 +502,14 @@ function drawVessel(ctx, v, t){
 
     var iw = innerW(v), ih = v.h - 14;
     var wamp = 1 + (v.heat||0)*1.8;
-    var liqH = Math.max(0, v.volShown) * ih;
-    var surfY = -6 - liqH;
+    // SOLID_PHYS: chat ran (kim loai) nam day dang cuc, khong tinh la dung dich
+    var _totV = 0, _solV = 0, _iS;
+    for (_iS=0; _iS<v.contents.length; _iS++){ var _cS = CHEMS[v.contents[_iS].k]; if (!_cS) continue; _totV += v.contents[_iS].v; if (_cS.type==='metal') _solV += v.contents[_iS].v; }
+    var solFrac = _totV > 0 ? _solV/_totV : 0;
+    var totH = Math.max(0, v.volShown) * ih;
+    var solidH = totH * solFrac;
+    var liqH = totH - solidH;
+    var surfY = -6 - totH;
 
     // --- 0. Bóng đổ dưới đáy bình ---
     ctx.save();
@@ -524,7 +539,7 @@ function drawVessel(ctx, v, t){
       ctx.fillStyle = g;
       ctx.fillRect(-v.w/2, surfY, v.w, liqH+8);
       // Lõi phát sáng mạnh
-      var rg = ctx.createRadialGradient(0, -liqH*0.40, 2, 0, -liqH*0.40, iw*0.95);
+      var rg = ctx.createRadialGradient(0, -(solidH + liqH*0.5), 2, 0, -(solidH + liqH*0.5), iw*0.95);
       rg.addColorStop(0, 'rgba(255,255,255,0.85)');
       rg.addColorStop(0.30, hexA(col.glow, 0.75));
       rg.addColorStop(0.65, hexA(col.glow, 0.32));
@@ -541,7 +556,7 @@ function drawVessel(ctx, v, t){
           ctx.strokeStyle = hexA(sIdx%2 ? '#ffffff' : col.color, 0.5);
           ctx.lineWidth = 3.5 - sIdx;
           ctx.beginPath();
-          ctx.arc(0, -liqH*0.45, Math.max(4,rr), a0, a0+4.2);
+          ctx.arc(0, -(solidH + liqH*0.5), Math.max(4,rr), a0, a0+4.2);
           ctx.stroke();
         }
         ctx.restore();
@@ -564,13 +579,13 @@ function drawVessel(ctx, v, t){
       ctx.fillStyle = 'rgba(255,255,255,0.60)';
       ctx.fill();
       // Bọt khí: 9-27 bọt nổi lên
-      var nb = Math.round((9 + Math.round(v.fizz*22)) * (1 + (v.heat||0)*1.6));
+      var nb = (v.fizz > 0.02 || (v.heat||0) > 0.05) ? Math.round((4 + Math.round(v.fizz*22)) * (1 + (v.heat||0)*1.6)) : 0;
       for (var bi=0; bi<nb; bi++){
         var bb = v.bubbles[bi];
         if (!bb){ bb = v.bubbles[bi] = {bx: Math.random(), by: Math.random(), r: 1.5+Math.random()*2.5, sp: 0.25+Math.random()*0.6}; }
         bb.by += bb.sp*0.016*(1+v.fizz*2+(v.heat||0)*3.2);
         if (bb.by > 1){ bb.by = 0; bb.bx = Math.random(); }
-        var px = (bb.bx-0.5)*iw*0.85, py = -4 - bb.by*liqH;
+        var px = (bb.bx-0.5)*iw*0.85, py = -solidH - 2 - bb.by*Math.max(4, liqH-4);
         var bgr = ctx.createRadialGradient(px-0.6,py-0.6,0.4,px,py,bb.r);
         bgr.addColorStop(0,'rgba(255,255,255,0.95)');
         bgr.addColorStop(0.55,'rgba(255,255,255,0.30)');
@@ -583,13 +598,35 @@ function drawVessel(ctx, v, t){
     if (v.precip && v.precip.length){
       for (var ppi=0; ppi<v.precip.length; ppi++){
         var pp = v.precip[ppi];
-        var ppx = (pp.x-0.5)*iw*0.85, ppy = -4 - pp.y*liqH;
+        var ppx = (pp.x-0.5)*iw*0.85, ppy = -4 - pp.y*Math.max(liqH, totH*0.85);
         ctx.fillStyle = v.precipCol ? hexA(v.precipCol, 0.95) : 'rgba(255,255,255,0.92)';
         ctx.beginPath(); ctx.arc(ppx,ppy,pp.r,0,7); ctx.fill();
       }
       if ((v.milky||0) > 0){
         ctx.fillStyle = v.precipCol ? hexA(v.precipCol, (v.milky*0.30)) : 'rgba(255,255,255,' + (v.milky*0.30).toFixed(2) + ')';
         ctx.fillRect(-v.w/2, surfY, v.w, liqH+8);
+      }
+    }
+    // Cuc chat ran o day binh (dung vat ly: ran khong phai dung dich, khong song/bot)
+    if (solidH > 2){
+      var solCol = '#cbd5e1';
+      for (_iS=0; _iS<v.contents.length; _iS++){ var _cS2 = CHEMS[v.contents[_iS].k]; if (_cS2 && _cS2.type==='metal'){ solCol = _cS2.color; break; } }
+      var nCh = Math.max(3, Math.min(9, Math.round(solidH/6)));
+      for (var chi=0; chi<nCh; chi++){
+        var _sd1 = Math.sin(v.id*37.7 + chi*53.3)*0.5+0.5;
+        var _sd2 = Math.sin(v.id*91.3 + chi*29.7)*0.5+0.5;
+        var chx = (_sd1-0.5)*iw*0.76;
+        var chw = iw*(0.20+_sd2*0.15), chh = Math.max(4, solidH*(0.42+_sd1*0.38));
+        var chy = -1 - (chi%2)*solidH*0.20;
+        var cgS = ctx.createLinearGradient(chx, chy-chh, chx, chy);
+        cgS.addColorStop(0, shade(solCol, 42)); cgS.addColorStop(0.5, solCol); cgS.addColorStop(1, shade(solCol, -38));
+        ctx.fillStyle = cgS;
+        ctx.beginPath();
+        if (ctx.roundRect) ctx.roundRect(chx-chw/2, chy-chh, chw, chh, 3); else ctx.rect(chx-chw/2, chy-chh, chw, chh);
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(255,255,255,0.30)'; ctx.lineWidth = 1; ctx.stroke();
+        ctx.fillStyle = 'rgba(255,255,255,0.45)';
+        ctx.fillRect(chx-chw/2+2, chy-chh+2, chw*0.38, 2);
       }
     }
     // Lan màu từ giọt chỉ thị (pipet)
@@ -932,6 +969,7 @@ function drawVessel(ctx, v, t){
     var mode = 'idle', tgt = null, hold = null;
     if (pour){ mode='pour'; var a=pour.a; tgt={x:a.x-a.tiltDir*(a.w*0.5+16), y:a.y-a.h*0.52}; hold='pour'; }
     else if (typeof carryAnim!=='undefined' && carryAnim){ mode='carry'; tgt={x:carryAnim.a.x, y:carryAnim.a.y-carryAnim.a.h*0.5}; hold='grip'; }
+    else if (typeof dropAnim!=='undefined' && dropAnim){ mode='carry'; tgt={x:(dropAnim.cx||chemist.hx||W*0.5), y:(dropAnim.cy||chemist.hy||H*0.5)-14}; hold='grip'; }
     else if (typeof heatDemo!=='undefined' && heatDemo && heatDemo.tube){ mode='heat'; tgt={x:lamp.x-30, y:lamp.y-34}; hold='lamp'; }
     else if (lampDrag){ mode='heat'; tgt={x:lamp.x-30, y:lamp.y-34}; hold='lamp'; }
     else {
@@ -953,115 +991,167 @@ function drawVessel(ctx, v, t){
     chemist.armT += ((mode==='idle'?0:1)-chemist.armT)*0.1;
   }
 function drawChemistBack(ctx, t, W, H){
-    // LABV3: cậu bé anime vẽ lại — tóc búi dây vàng, mắt to long lanh, áo cổ trang navy viền vàng
+    // TIENHIEP_V2: thieu hiep ao trang theu vang, phat quan ngoc, toc dai — to hon, dep nhu phim
     var home = chemistHome(W,H);
     var bob = Math.sin(t*2.2+chemist.bobP)*1.5;
     var x = home.x, fy = home.y;
-    ctx.save(); ctx.translate(x, fy+bob*0.4); ctx.scale(2.0,2.0); /* CENTERBIG_V1 *//* nhân vật to gấp đôi, đứng giữa canvas ở layer nền */
-    // Bóng đổ
+    var aura = ctx.createRadialGradient(x, fy-195, 10, x, fy-195, 155);
+    aura.addColorStop(0, 'rgba(125,211,252,0.20)');
+    aura.addColorStop(0.6, 'rgba(167,139,250,0.10)');
+    aura.addColorStop(1, 'rgba(125,211,252,0)');
+    ctx.fillStyle = aura;
+    ctx.beginPath(); ctx.arc(x, fy-195, 155, 0, 7); ctx.fill();
+    ctx.save(); ctx.translate(x, fy+bob*0.4); ctx.scale(2.35,2.35);
     ctx.fillStyle='rgba(0,0,0,0.35)';
-    ctx.beginPath(); ctx.ellipse(0,2,22,6,0,0,7); ctx.fill();
-    // Giày
-    ctx.fillStyle='#10182c';
-    ctx.beginPath(); ctx.ellipse(-8,-5,8,5,0,0,7); ctx.fill();
-    ctx.beginPath(); ctx.ellipse(8,-5,8,5,0,0,7); ctx.fill();
-    // Chân
-    ctx.fillStyle='#232f52';
+    ctx.beginPath(); ctx.ellipse(0,2,24,6,0,0,7); ctx.fill();
+    // Toc dai sau lung xoa qua vai
+    var hg = ctx.createLinearGradient(0,-128,0,-30);
+    hg.addColorStop(0,'#18263f'); hg.addColorStop(0.5,'#0b1220'); hg.addColorStop(1,'#060a14');
+    ctx.fillStyle = hg;
+    ctx.beginPath();
+    ctx.moveTo(-19,-104);
+    ctx.quadraticCurveTo(-26,-60,-21,-26);
+    ctx.quadraticCurveTo(-14,-34,-12,-58);
+    ctx.lineTo(12,-58);
+    ctx.quadraticCurveTo(14,-34,21,-26);
+    ctx.quadraticCurveTo(26,-60,19,-104);
+    ctx.closePath(); ctx.fill();
+    ctx.fillStyle='rgba(140,200,255,0.20)';
+    ctx.beginPath();
+    ctx.moveTo(-19,-100); ctx.quadraticCurveTo(-23,-64,-20,-34);
+    ctx.quadraticCurveTo(-18,-60,-17,-96); ctx.closePath(); ctx.fill();
+    // Giay + quan
+    ctx.fillStyle='#0d1526';
+    ctx.beginPath(); ctx.ellipse(-8,-4,8.5,5,0,0,7); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(8,-4,8.5,5,0,0,7); ctx.fill();
+    ctx.fillStyle='#e8eef4';
     ctx.fillRect(-12,-24,9,20); ctx.fillRect(3,-24,9,20);
-    // Áo choàng navy
-    var cg = ctx.createLinearGradient(-20,0,20,0);
-    cg.addColorStop(0,'#18224a'); cg.addColorStop(0.5,'#2c3f7e'); cg.addColorStop(1,'#18224a');
+    // Ao choang trang nga - xanh bang
+    var cg = ctx.createLinearGradient(-22,0,22,0);
+    cg.addColorStop(0,'#c9e6f5'); cg.addColorStop(0.5,'#f6fcff'); cg.addColorStop(1,'#c9e6f5');
     ctx.fillStyle=cg;
     ctx.beginPath();
     ctx.moveTo(-17,-92); ctx.lineTo(17,-92);
-    ctx.lineTo(22,-24); ctx.lineTo(-22,-24); ctx.closePath(); ctx.fill();
-    // Nếp gấp áo
-    ctx.strokeStyle='rgba(10,16,38,0.45)'; ctx.lineWidth=1.4;
-    ctx.beginPath(); ctx.moveTo(-6,-88); ctx.quadraticCurveTo(-8,-56,-5,-28); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(7,-88); ctx.quadraticCurveTo(9,-56,6,-28); ctx.stroke();
-    // Viền vàng 2 bên áo
-    ctx.strokeStyle='#e8b84b'; ctx.lineWidth=2.4;
-    ctx.beginPath(); ctx.moveTo(-17,-92); ctx.lineTo(-22,-24); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(17,-92); ctx.lineTo(22,-24); ctx.stroke();
-    // Tay áo rộng bên trái (tay buông)
-    ctx.strokeStyle='#2c3f7e'; ctx.lineCap='round'; ctx.lineWidth=11;
-    ctx.beginPath(); ctx.moveTo(-15,-86); ctx.quadraticCurveTo(-22,-68,-19,-50); ctx.stroke();
-    ctx.strokeStyle='#e8b84b'; ctx.lineWidth=2.2;
-    ctx.beginPath(); ctx.moveTo(-22,-56); ctx.quadraticCurveTo(-21,-52,-19,-50); ctx.stroke();
-    ctx.fillStyle='#ffd9b3'; ctx.beginPath(); ctx.arc(-19,-44,5,0,7); ctx.fill();
-    // Cổ áo chữ V vàng
-    ctx.strokeStyle='#e8b84b'; ctx.lineWidth=2.6;
-    ctx.beginPath(); ctx.moveTo(-8,-92); ctx.lineTo(0,-78); ctx.lineTo(8,-92); ctx.stroke();
-    // Đai lưng vàng
-    ctx.fillStyle='#e8b84b'; ctx.fillRect(-19,-52,38,7);
-    ctx.fillStyle='#8a6420'; ctx.fillRect(-4,-52,8,7);
-    ctx.fillStyle='#ffe9b0'; ctx.fillRect(-19,-52,38,1.6);
-    // Cổ
-    ctx.fillStyle='#ffdcbb'; ctx.fillRect(-5,-100,10,9);
-    // Đầu
+    ctx.lineTo(23,-24); ctx.lineTo(-23,-24); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle='rgba(232,184,75,0.45)'; ctx.lineWidth=1.1;
+    function cloudS(cx2,cy2,sc){ ctx.beginPath(); ctx.arc(cx2,cy2,2.6*sc,Math.PI*0.9,Math.PI*1.9); ctx.stroke();
+      ctx.beginPath(); ctx.arc(cx2+2.6*sc,cy2+0.6*sc,1.8*sc,Math.PI*1.1,Math.PI*2.2); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(cx2-2.6*sc,cy2+1.4*sc); ctx.lineTo(cx2+5.4*sc,cy2+1.4*sc); ctx.stroke(); }
+    cloudS(-9,-42,1); cloudS(8,-33,0.8); cloudS(-3,-64,0.7);
+    ctx.strokeStyle='#0e7490'; ctx.lineWidth=1.6;
+    ctx.beginPath(); ctx.moveTo(-17,-92); ctx.lineTo(-23,-24); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(17,-92); ctx.lineTo(23,-24); ctx.stroke();
+    ctx.strokeStyle='#e8b84b'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(-15.8,-92); ctx.lineTo(-21.4,-24); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(15.8,-92); ctx.lineTo(21.4,-24); ctx.stroke();
+    // Tay ao rong ben trai buong xuong
+    ctx.strokeStyle='#dceefb'; ctx.lineCap='round'; ctx.lineWidth=12;
+    ctx.beginPath(); ctx.moveTo(-15,-86); ctx.quadraticCurveTo(-23,-66,-20,-48); ctx.stroke();
+    ctx.strokeStyle='#0e7490'; ctx.lineWidth=2.2;
+    ctx.beginPath(); ctx.moveTo(-23.5,-54); ctx.quadraticCurveTo(-22,-49.5,-20,-48); ctx.stroke();
+    ctx.fillStyle='#ffe3c2'; ctx.beginPath(); ctx.arc(-20,-43,5,0,7); ctx.fill();
+    // Co ao cheo 3 lop
+    ctx.strokeStyle='#ffffff'; ctx.lineWidth=4;
+    ctx.beginPath(); ctx.moveTo(-9,-92); ctx.lineTo(0,-76); ctx.lineTo(9,-92); ctx.stroke();
+    ctx.strokeStyle='#0e7490'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(-10,-93); ctx.lineTo(0,-75); ctx.lineTo(10,-93); ctx.stroke();
+    ctx.strokeStyle='#e8b84b'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(-11,-94); ctx.lineTo(0,-74); ctx.lineTo(11,-94); ctx.stroke();
+    // Dai lung ngoc + khoa vang
+    ctx.fillStyle='#0e7490'; ctx.fillRect(-20,-52,40,7);
+    ctx.fillStyle='#e8b84b'; ctx.fillRect(-4.5,-52,9,7);
+    ctx.fillStyle='#a7f3d0'; ctx.fillRect(-1.8,-49.4,3.6,3.6);
+    ctx.fillStyle='rgba(255,255,255,0.5)'; ctx.fillRect(-20,-52,40,1.4);
+    // Co
+    ctx.fillStyle='#ffe3c2'; ctx.fillRect(-5,-100,10,9);
+    ctx.fillStyle='rgba(230,180,130,0.55)'; ctx.fillRect(-5,-100,10,3);
+    // Dau
     var hy=-114;
-    ctx.fillStyle='#ffdcbb'; ctx.beginPath(); ctx.arc(0,hy,16,0,7); ctx.fill();
-    ctx.beginPath(); ctx.arc(-16,hy+1,3.4,0,7); ctx.fill();
-    ctx.beginPath(); ctx.arc(16,hy+1,3.4,0,7); ctx.fill();
-    // Tóc đen
-    ctx.fillStyle='#1d1414';
-    ctx.beginPath(); ctx.arc(0,hy-2,16.5,Math.PI*0.92,Math.PI*2.08); ctx.fill();
-    ctx.fillRect(-16.5,hy-18,33,8);
-    // Mái 3 chỏm
+    var sg = ctx.createRadialGradient(-5,hy-4,3,0,hy,19);
+    sg.addColorStop(0,'#fff1de'); sg.addColorStop(0.7,'#ffe3c2'); sg.addColorStop(1,'#f7cf9f');
+    ctx.fillStyle=sg;
+    ctx.beginPath(); ctx.ellipse(0,hy,15.5,17,0,0,7); ctx.fill();
+    ctx.beginPath(); ctx.arc(-15.5,hy+1,3.2,0,7); ctx.fill();
+    ctx.beginPath(); ctx.arc(15.5,hy+1,3.2,0,7); ctx.fill();
+    // Toc mai + toc mai dai om mat
+    ctx.fillStyle='#101a2e';
+    ctx.beginPath(); ctx.ellipse(0,hy-3,16.8,16.8,0,Math.PI*0.98,Math.PI*2.02); ctx.fill();
     ctx.beginPath();
-    ctx.moveTo(-16,hy-10); ctx.lineTo(-9,hy-2); ctx.lineTo(-5,hy-11); ctx.closePath(); ctx.fill();
+    ctx.moveTo(-16.8,hy-6); ctx.quadraticCurveTo(-8,hy-16,0,hy-15);
+    ctx.quadraticCurveTo(8,hy-16,16.8,hy-6);
+    ctx.quadraticCurveTo(10,hy-11,6,hy-6);
+    ctx.quadraticCurveTo(2,hy-10,0,hy-7);
+    ctx.quadraticCurveTo(-2,hy-10,-6,hy-6);
+    ctx.quadraticCurveTo(-10,hy-11,-16.8,hy-6);
+    ctx.closePath(); ctx.fill();
     ctx.beginPath();
-    ctx.moveTo(-6,hy-11); ctx.lineTo(0,hy-1); ctx.lineTo(6,hy-11); ctx.closePath(); ctx.fill();
+    ctx.moveTo(-16.5,hy-8); ctx.quadraticCurveTo(-19,hy+16,-15.5,hy+34);
+    ctx.quadraticCurveTo(-12.5,hy+16,-13.5,hy-4); ctx.closePath(); ctx.fill();
     ctx.beginPath();
-    ctx.moveTo(5,hy-11); ctx.lineTo(11,hy-3); ctx.lineTo(16,hy-10); ctx.closePath(); ctx.fill();
-    // Tóc mai
-    ctx.fillRect(-18,hy-8,4,12); ctx.fillRect(14,hy-8,4,12);
-    // Búi tóc cao + dây vàng + tua rua
-    ctx.beginPath(); ctx.arc(0,hy-24,7,0,7); ctx.fill();
-    ctx.strokeStyle='#e8b84b'; ctx.lineWidth=2;
-    ctx.beginPath(); ctx.arc(0,hy-24,7,0.4,Math.PI-0.4); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(5,hy-27); ctx.quadraticCurveTo(10,hy-22,8,hy-16); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(8,hy-26); ctx.quadraticCurveTo(13,hy-21,11,hy-15); ctx.stroke();
-    // Bóng tóc
-    ctx.strokeStyle='rgba(255,255,255,0.25)'; ctx.lineWidth=2;
-    ctx.beginPath(); ctx.arc(-4,hy-6,10,Math.PI*1.15,Math.PI*1.55); ctx.stroke();
-    // Mắt to long lanh
+    ctx.moveTo(16.5,hy-8); ctx.quadraticCurveTo(19,hy+16,15.5,hy+34);
+    ctx.quadraticCurveTo(12.5,hy+16,13.5,hy-4); ctx.closePath(); ctx.fill();
+    // Phat quan ngoc + tram vang + dai lua
+    ctx.fillStyle='#0f766e';
+    ctx.beginPath(); ctx.ellipse(0,hy-19.5,7.5,4.6,0,0,7); ctx.fill();
+    ctx.fillStyle='#10b981';
+    ctx.beginPath(); ctx.ellipse(0,hy-21,5,3,0,0,7); ctx.fill();
+    ctx.strokeStyle='#e8b84b'; ctx.lineWidth=1.8; ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(-11,hy-20); ctx.lineTo(11,hy-20); ctx.stroke();
+    ctx.fillStyle='#fbbf24';
+    ctx.beginPath(); ctx.arc(-11,hy-20,1.8,0,7); ctx.fill();
+    ctx.beginPath(); ctx.arc(11,hy-20,1.8,0,7); ctx.fill();
+    ctx.strokeStyle='rgba(232,184,75,0.75)'; ctx.lineWidth=1.6;
+    ctx.beginPath(); ctx.moveTo(5,hy-22); ctx.quadraticCurveTo(10,hy-14,8.5,hy-4); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(8,hy-21); ctx.quadraticCurveTo(13,hy-13,11.5,hy-3); ctx.stroke();
+    ctx.strokeStyle='rgba(160,210,255,0.35)'; ctx.lineWidth=1.8;
+    ctx.beginPath(); ctx.arc(-5,hy-7,10,Math.PI*1.12,Math.PI*1.5); ctx.stroke();
+    // Mat phuong long lanh
     var blink=(t%3.7)<0.13;
     if (blink){
-      ctx.fillStyle='#1d1414';
-      ctx.fillRect(-10,hy-2,7,2); ctx.fillRect(3,hy-2,7,2);
+      ctx.strokeStyle='#141821'; ctx.lineWidth=1.8;
+      ctx.beginPath(); ctx.moveTo(-10.5,hy-1); ctx.quadraticCurveTo(-6.5,hy+0.6,-2.5,hy-1); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(2.5,hy-1); ctx.quadraticCurveTo(6.5,hy+0.6,10.5,hy-1); ctx.stroke();
     } else {
-      ctx.fillStyle='#fff';
-      ctx.beginPath(); ctx.ellipse(-6.5,hy-1,4.6,5.4,0,0,7); ctx.fill();
-      ctx.beginPath(); ctx.ellipse(6.5,hy-1,4.6,5.4,0,0,7); ctx.fill();
-      ctx.fillStyle='#2b6cb0';
-      ctx.beginPath(); ctx.arc(-6.5,hy,3,0,7); ctx.fill();
-      ctx.beginPath(); ctx.arc(6.5,hy,3,0,7); ctx.fill();
-      ctx.fillStyle='#141821';
-      ctx.beginPath(); ctx.arc(-6.5,hy+0.5,1.8,0,7); ctx.fill();
-      ctx.beginPath(); ctx.arc(6.5,hy+0.5,1.8,0,7); ctx.fill();
-      ctx.fillStyle='#fff';
-      ctx.beginPath(); ctx.arc(-7.3,hy-1.6,1.2,0,7); ctx.fill();
-      ctx.beginPath(); ctx.arc(5.7,hy-1.6,1.2,0,7); ctx.fill();
-      ctx.beginPath(); ctx.arc(-5.7,hy+1.4,0.6,0,7); ctx.fill();
-      ctx.beginPath(); ctx.arc(7.3,hy+1.4,0.6,0,7); ctx.fill();
+      ctx.strokeStyle='#141821'; ctx.lineWidth=1.7;
+      ctx.beginPath(); ctx.moveTo(-11,hy-2.6); ctx.quadraticCurveTo(-6.5,hy-5.4,-1.8,hy-2.2); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(1.8,hy-2.2); ctx.quadraticCurveTo(6.5,hy-5.4,11,hy-2.6); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(-11,hy-2.6); ctx.lineTo(-12.4,hy-3.8); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(11,hy-2.6); ctx.lineTo(12.4,hy-3.8); ctx.stroke();
+      [[-6.5],[6.5]].forEach(function(o){
+        var ig = ctx.createRadialGradient(o[0],hy-2.4,0.5,o[0],hy-0.6,3.4);
+        ig.addColorStop(0,'#7dd3fc'); ig.addColorStop(0.55,'#0369a1'); ig.addColorStop(1,'#0b2447');
+        ctx.fillStyle=ig;
+        ctx.beginPath(); ctx.ellipse(o[0],hy-0.8,3.1,3.9,0,0,7); ctx.fill();
+        ctx.fillStyle='#0a0f1c';
+        ctx.beginPath(); ctx.ellipse(o[0],hy-0.6,1.6,2.1,0,0,7); ctx.fill();
+        ctx.fillStyle='#fff';
+        ctx.beginPath(); ctx.arc(o[0]-1,hy-2.4,1.15,0,7); ctx.fill();
+        ctx.beginPath(); ctx.arc(o[0]+1.1,hy+0.8,0.55,0,7); ctx.fill();
+      });
+      ctx.strokeStyle='rgba(190,120,90,0.5)'; ctx.lineWidth=0.9;
+      ctx.beginPath(); ctx.moveTo(-9.6,hy+1.4); ctx.quadraticCurveTo(-6.5,hy+2.6,-3.4,hy+1.4); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(3.4,hy+1.4); ctx.quadraticCurveTo(6.5,hy+2.6,9.6,hy+1.4); ctx.stroke();
     }
-    // Lông mày
-    ctx.strokeStyle='#1d1414'; ctx.lineWidth=2; ctx.lineCap='round';
-    ctx.beginPath(); ctx.moveTo(-11,hy-9); ctx.quadraticCurveTo(-6.5,hy-11.5,-2,hy-9); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(2,hy-9); ctx.quadraticCurveTo(6.5,hy-11.5,11,hy-9); ctx.stroke();
-    // Má hồng
-    ctx.fillStyle='rgba(244,114,182,0.5)';
-    ctx.beginPath(); ctx.arc(-11,hy+6,3.4,0,7); ctx.fill();
-    ctx.beginPath(); ctx.arc(11,hy+6,3.4,0,7); ctx.fill();
-    // Miệng cười
-    ctx.fillStyle='#8a2f1d';
-    ctx.beginPath(); ctx.ellipse(0,hy+7.5,4.8,3.6,0,0.12*Math.PI,0.88*Math.PI); ctx.fill();
-    ctx.fillStyle='#ff9d9d';
-    ctx.beginPath(); ctx.ellipse(0,hy+9,2.6,1.6,0,0,7); ctx.fill();
+    // Long may kiem
+    ctx.strokeStyle='#101a2e'; ctx.lineWidth=2; ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(-11.5,hy-8.6); ctx.quadraticCurveTo(-6.5,hy-10.8,-1.5,hy-9.2); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(1.5,hy-9.2); ctx.quadraticCurveTo(6.5,hy-10.8,11.5,hy-8.6); ctx.stroke();
+    // Mui
+    ctx.strokeStyle='rgba(200,140,90,0.7)'; ctx.lineWidth=1.1;
+    ctx.beginPath(); ctx.moveTo(0.6,hy+1.5); ctx.quadraticCurveTo(1.6,hy+4.4,0.2,hy+5.4); ctx.stroke();
+    // Ma hong
+    ctx.fillStyle='rgba(244,114,182,0.38)';
+    ctx.beginPath(); ctx.ellipse(-10.5,hy+5.5,3.4,2.2,0,0,7); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(10.5,hy+5.5,3.4,2.2,0,0,7); ctx.fill();
+    // Moi
+    ctx.fillStyle='#e0655f';
+    ctx.beginPath(); ctx.ellipse(0,hy+8.6,3.9,2.2,0,0,Math.PI); ctx.fill();
+    ctx.fillStyle='#ef857f';
+    ctx.beginPath(); ctx.ellipse(0,hy+8.2,3.4,1.7,0,0,7); ctx.fill();
+    ctx.fillStyle='rgba(255,255,255,0.65)';
+    ctx.beginPath(); ctx.ellipse(-0.8,hy+7.6,1.1,0.5,0,0,7); ctx.fill();
     ctx.restore();
-    // Neo tay phải ở vai phải
-    chemist._sx = x+14*2.0; chemist._sy = fy+bob*0.4-86*2.0; /* CENTERBIG_V1 *//* neo tay theo scale 2.0 */
+    chemist._sx = x+14*2.35; chemist._sy = fy+bob*0.4-86*2.35; /* CENTERBIG_V2 */
   }
 function drawMiniFlask(ctx, x, y, col){
     // LABV3: bình erlenmeyer mini phát sáng trong tay khi rót
@@ -1098,16 +1188,16 @@ function drawMiniFlask(ctx, x, y, col){
     var sol = ikSolve(sx, sy, tx, ty, 36, 34);
     ctx.save(); ctx.lineCap='round';
     // Tay áo trên (navy)
-    ctx.strokeStyle='#2c3f7e'; ctx.lineWidth=13;
+    ctx.strokeStyle='#9fd4f2'; ctx.lineWidth=14;
     ctx.beginPath(); ctx.moveTo(sx,sy); ctx.lineTo(sol.ex,sol.ey); ctx.stroke();
     // Viền vàng cổ tay áo
     ctx.strokeStyle='#e8b84b'; ctx.lineWidth=2.6;
     ctx.beginPath(); ctx.moveTo(sol.ex-7,sol.ey-7); ctx.lineTo(sol.ex+7,sol.ey+2); ctx.stroke();
     // Cẳng tay
-    ctx.strokeStyle='#ffd9b3'; ctx.lineWidth=10;
+    ctx.strokeStyle='#ffe3c2'; ctx.lineWidth=10;
     ctx.beginPath(); ctx.moveTo(sol.ex,sol.ey); ctx.lineTo(sol.hx,sol.hy); ctx.stroke();
     // Bàn tay
-    ctx.fillStyle='#ffd9b3';
+    ctx.fillStyle='#ffe3c2';
     ctx.beginPath(); ctx.arc(sol.hx,sol.hy,8,0,7); ctx.fill();
     var hold = chemist.hold;
     if (k > 0.5 && hold==='clamp'){
@@ -1137,6 +1227,7 @@ function drawMiniFlask(ctx, x, y, col){
   // ---------- Nhân vật tự thao tác khi chạm bình (theo yêu cầu user) ----------
   var carryAnim = null;   // bình đang được nhân vật "cầm" bay tới ống nghiệm
   var heatDemo = null;    // nhân vật đang đem đèn cồn đun ống nghiệm
+  var dropAnim = null;    // kẹp gắp cục natri thả vào nước (natri là chất rắn — không rót)
   function demoPourToTube(src){
     if (pour || carryAnim){ if (src) flashMsg(src,'Đợi chút nhé...'); return; }
     if (!src || (src.vol||0) < 0.05){ flashMsg(src,'Bình hết rồi! Lấy bình mới từ tủ nhé.'); return; }
@@ -1483,7 +1574,7 @@ function drawMiniFlask(ctx, x, y, col){
   // ---------- Phương trình (giữ nguyên tính năng cũ) ----------
   function showEquation(aKey, bKey){
     var key = aKey + '|' + bKey;
-    var ind = document.getElementById('mix-ind').value;
+    var _indEl = document.getElementById('mix-ind'); var ind = _indEl ? _indEl.value : 'phenol';
     var colName = ind === 'phenol' ? 'không màu (phenolphtalein mất màu)' : 'màu tím (quỳ tím)';
     document.getElementById('mix-result').classList.remove('hidden');
     document.getElementById('mix-eq').textContent = eqs[key] || (CHEMS[aKey].f + ' + ' + CHEMS[bKey].f + ' → muối + nước');
@@ -1497,13 +1588,16 @@ function drawMiniFlask(ctx, x, y, col){
     for (var i=0;i<vessels.length;i++) if (vessels[i].chemKey === key) return vessels[i];
     return null;
   }
-  document.getElementById('mix-acid').addEventListener('change', function(){
+  var _maEl = document.getElementById('mix-acid');
+  if (_maEl) _maEl.addEventListener('change', function(){
     var v = vessels[0]; if (v){ v.chemKey = this.value; v.contents = [{k:this.value, v:v.vol}]; v.reacted = false; }
   });
-  document.getElementById('mix-base').addEventListener('change', function(){
+  var _mbEl = document.getElementById('mix-base');
+  if (_mbEl) _mbEl.addEventListener('change', function(){
     var v = vessels[1]; if (v){ v.chemKey = this.value; v.contents = [{k:this.value, v:v.vol}]; v.reacted = false; }
   });
-  document.getElementById('mix-go').addEventListener('click', function(){
+  var _mgEl = document.getElementById('mix-go');
+  if (_mgEl) _mgEl.addEventListener('click', function(){
     var aKey = document.getElementById('mix-acid').value;
     var bKey = document.getElementById('mix-base').value;
     var va = findVesselByChem(aKey) || vessels[0];
@@ -1539,7 +1633,7 @@ function drawMiniFlask(ctx, x, y, col){
   // ---------- Pipet nhỏ giọt chỉ thị ----------
   var pipetOn = false;
   function addDrop(v){
-    var indKey = document.getElementById('mix-ind').value;
+    var _indEl2 = document.getElementById('mix-ind'); var indKey = _indEl2 ? _indEl2.value : 'phenol';
     var c = CHEMS[indKey] || CHEMS.phenol;
     v.fallDrops = v.fallDrops || [];
     if (v.fallDrops.length >= 3) return; // chờ giọt trước rơi xong
@@ -1552,7 +1646,8 @@ function drawMiniFlask(ctx, x, y, col){
     this.classList.toggle('bg-violet-800', pipetOn);
     if (selV){ selV.sel = false; selV = null; }
   });
-  document.getElementById('mix-ind').addEventListener('change', function(){
+  var _miEl = document.getElementById('mix-ind');
+  if (_miEl) _miEl.addEventListener('change', function(){
     var el = document.getElementById('pipet-ind-name');
     if (el) el.textContent = this.options[this.selectedIndex].text;
   });
@@ -1809,6 +1904,25 @@ function layout(){
       _ca.a.y = _ca.fy + (_ca.ty-_ca.fy)*_ce;
       if (_ck >= 1){ var _pa=_ca.a, _pb=_ca.b; carryAnim = null; startPour(_pa,_pb); }
     }
+    if (typeof dropAnim !== 'undefined' && dropAnim){
+      var _da = dropAnim; _da.t += 0.016;
+      var _dsx = _da.src.x, _dsy = _da.src.y - _da.src.h - 4;
+      var _dtx = _da.dst.x, _dty = _da.dst.y - _da.dst.h - 30;
+      if (_da.t < 0.95){
+        var _dk = Math.min(1, _da.t/0.95), _de = 1-Math.pow(1-_dk,3);
+        _da.cx = _dsx + (_dtx-_dsx)*_de;
+        _da.cy = _dsy + (_dty-_dsy)*_de - Math.sin(_dk*Math.PI)*20;
+      } else if (_da.t < 1.3){
+        _da.cx = _dtx;
+        _da.cy = _dty + ((_da.t-0.95)/0.35) * ((_da.dst.y - _da.dst.h*0.35) - _dty);
+      } else {
+        var _dd = _da.dst; dropAnim = null;
+        _dd.contents.push({k:'Na', v:0.25});
+        _dd.vol = Math.min(1, +(_dd.vol + 0.08).toFixed(3));
+        _dd.fizz = Math.max(_dd.fizz, 1.2);
+        checkReaction(_dd, 'Na');
+      }
+    }
     if (typeof heatDemo !== 'undefined' && heatDemo){
       heatDemo.t += 0.016;
       if (heatDemo.t > 30 || vessels.indexOf(heatDemo.tube) < 0) heatDemo = null;
@@ -1968,6 +2082,23 @@ function layout(){
     try { SND.boom(); } catch(e){}
   }
   function updateDrawFx(ctx, t, W, H){
+    if (typeof dropAnim !== 'undefined' && dropAnim && dropAnim.cx != null){
+      var _dx = dropAnim.cx, _dy = dropAnim.cy;
+      ctx.save(); ctx.lineCap = 'round';
+      ctx.strokeStyle = '#e2e8f0'; ctx.lineWidth = 3.4;
+      ctx.beginPath(); ctx.moveTo(_dx-14, _dy-30); ctx.lineTo(_dx-3, _dy-3); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(_dx+14, _dy-30); ctx.lineTo(_dx+3, _dy-3); ctx.stroke();
+      ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 1.4;
+      ctx.beginPath(); ctx.moveTo(_dx-14, _dy-30); ctx.lineTo(_dx+14, _dy-30); ctx.stroke();
+      var _ng = ctx.createRadialGradient(_dx-3, _dy-5, 2, _dx, _dy+2, 11);
+      _ng.addColorStop(0, '#f8fafc'); _ng.addColorStop(0.55, '#c3ccd8'); _ng.addColorStop(1, '#8496ad');
+      ctx.fillStyle = _ng;
+      ctx.beginPath(); ctx.arc(_dx, _dy+2, 10, 0, 7); ctx.fill();
+      ctx.strokeStyle = 'rgba(255,255,255,0.65)'; ctx.lineWidth = 1.1; ctx.stroke();
+      ctx.fillStyle = 'rgba(255,255,255,0.85)';
+      ctx.beginPath(); ctx.arc(_dx-3.5, _dy-1.5, 2.1, 0, 7); ctx.fill();
+      ctx.restore();
+    }
     if (boomFx){
       boomFx.t += 0.016;
       if (boomFx.t > 1.4) boomFx = null;
@@ -2017,50 +2148,77 @@ function layout(){
       else {
         var home = chemistHome(W,H);
         var bob = Math.sin(t*2.2+chemist.bobP)*1.5;
-        var cx = home.x, cy = home.y + bob*0.4 - 228;
+        var cx = home.x, cy = home.y + bob*0.4 - 268;
         var recover = st >= 15;
-        ctx.fillStyle = recover ? '#bbf7d0' : '#4ade80';
-        ctx.beginPath(); ctx.arc(cx, cy, 33, 0, 7); ctx.fill();
-        ctx.beginPath(); ctx.arc(cx-33, cy+2, 7, 0, 7); ctx.fill();
-        ctx.beginPath(); ctx.arc(cx+33, cy+2, 7, 0, 7); ctx.fill();
+        var fg = ctx.createRadialGradient(cx-9, cy-12, 4, cx, cy, 40);
+        if (recover){ fg.addColorStop(0,'#f0fdf4'); fg.addColorStop(0.7,'#bbf7d0'); fg.addColorStop(1,'#86efac'); }
+        else { fg.addColorStop(0,'#d9f99d'); fg.addColorStop(0.55,'#4ade80'); fg.addColorStop(1,'#16a34a'); }
+        ctx.fillStyle = fg;
+        ctx.beginPath(); ctx.arc(cx, cy, 38, 0, 7); ctx.fill();
+        ctx.beginPath(); ctx.arc(cx-38, cy+2, 8, 0, 7); ctx.fill();
+        ctx.beginPath(); ctx.arc(cx+38, cy+2, 8, 0, 7); ctx.fill();
         if (!recover){
-          ctx.fillStyle = '#1d1414';
-          for (var si=0; si<11; si++){
-            var aa = Math.PI*(0.05 + 0.9*si/10);
-            var bx = cx + Math.cos(aa)*30, by = cy - Math.sin(aa)*30;
-            var tx3 = cx + Math.cos(aa)*54, ty3 = cy - Math.sin(aa)*54;
-            var ex3 = cx + Math.cos(aa+0.16)*30, ey3 = cy - Math.sin(aa+0.16)*30;
-            ctx.beginPath(); ctx.moveTo(bx,by); ctx.lineTo(tx3,ty3); ctx.lineTo(ex3,ey3); ctx.closePath(); ctx.fill();
+          ctx.fillStyle = 'rgba(52,44,36,0.28)';
+          ctx.beginPath(); ctx.ellipse(cx-16, cy-22, 10, 6, 0.4, 0, 7); ctx.fill();
+          ctx.beginPath(); ctx.ellipse(cx+20, cy+8, 9, 6, -0.3, 0, 7); ctx.fill();
+          ctx.beginPath(); ctx.ellipse(cx-24, cy+14, 7, 5, 0.2, 0, 7); ctx.fill();
+        }
+        if (!recover){
+          ctx.lineCap = 'round';
+          for (var si=0; si<13; si++){
+            var aa = Math.PI*(0.02 + 0.96*si/12);
+            var bx = cx + Math.cos(aa)*34, by = cy - Math.sin(aa)*34;
+            var bend = (si%2 ? 7 : -7);
+            var mx = cx + Math.cos(aa)*50 + bend, my = cy - Math.sin(aa)*50;
+            var tx3 = cx + Math.cos(aa)*66 + bend*1.6, ty3 = cy - Math.sin(aa)*66;
+            ctx.strokeStyle = si%3===0 ? '#4b4237' : '#191008';
+            ctx.lineWidth = 5.5 - (si%3);
+            ctx.beginPath(); ctx.moveTo(bx,by); ctx.quadraticCurveTo(mx,my,tx3,ty3); ctx.stroke();
           }
-          ctx.strokeStyle = '#14532d'; ctx.lineWidth = 3.5; ctx.lineCap = 'round';
-          [[-13],[13]].forEach(function(o){
+          ctx.fillStyle = 'rgba(253,224,71,0.95)';
+          for (var sti=0; sti<4; sti++){
+            var sang = t*2.4 + sti*1.7, srad = 48 + Math.sin(t*3+sti)*5;
+            ctx.beginPath(); ctx.arc(cx+Math.cos(sang)*srad, cy-16+Math.sin(sang)*20, 2, 0, 7); ctx.fill();
+          }
+          ctx.strokeStyle = '#14532d'; ctx.lineWidth = 2.6;
+          [[-15],[15]].forEach(function(o){
             var exx = cx+o[0], eyy = cy+2;
-            ctx.beginPath(); ctx.moveTo(exx-6,eyy-6); ctx.lineTo(exx+6,eyy+6); ctx.stroke();
-            ctx.beginPath(); ctx.moveTo(exx+6,eyy-6); ctx.lineTo(exx-6,eyy+6); ctx.stroke();
+            ctx.beginPath();
+            for (var a2=0.4; a2<11; a2+=0.55){
+              var r2 = a2*0.62;
+              var px2 = exx + Math.cos(a2)*r2, py2 = eyy + Math.sin(a2)*r2;
+              if (a2<0.5) ctx.moveTo(px2,py2); else ctx.lineTo(px2,py2);
+            }
+            ctx.stroke();
           });
-          ctx.fillStyle = '#14532d';
-          ctx.beginPath(); ctx.ellipse(cx, cy+17, 6, 8+Math.sin(t*30)*1.5, 0, 0, 7); ctx.fill();
+          ctx.fillStyle = 'rgba(186,230,253,0.9)';
+          ctx.beginPath(); ctx.ellipse(cx-46, cy-8, 3.4, 5.5, 0.25, 0, 7); ctx.fill();
+          ctx.beginPath(); ctx.ellipse(cx+47, cy+2, 3, 5, -0.25, 0, 7); ctx.fill();
+          ctx.fillStyle = '#7f1d1d';
+          ctx.beginPath(); ctx.ellipse(cx, cy+21, 7.5, 9.5+Math.sin(t*30)*1.6, 0, 0, 7); ctx.fill();
+          ctx.fillStyle = '#f87171';
+          ctx.beginPath(); ctx.ellipse(cx, cy+26, 4.4, 3.2, 0, 0, Math.PI); ctx.fill();
           if (st > 0.5 && st < 5.5){
             chemist._coughAcc += 0.016;
             if (chemist._coughAcc > 0.13){
               chemist._coughAcc = 0; chemist._coughN++;
               for (var ci=0; ci<4; ci++)
-                fxParts.push({x:cx+(Math.random()-0.5)*8, y:cy+17, vx:26+Math.random()*36, vy:-12-Math.random()*20,
+                fxParts.push({x:cx+(Math.random()-0.5)*8, y:cy+21, vx:26+Math.random()*36, vy:-12-Math.random()*20,
                   r:4+Math.random()*5, life:1, decay:1.15, col:'rgba(148,163,184,0.8)', grav:-26, grow:9});
             }
             if (chemist._coughN % 8 !== 0){
               ctx.fillStyle = '#166534'; ctx.font = 'bold 17px sans-serif'; ctx.textAlign = 'center';
-              ctx.fillText('khụ khụ!', cx+64, cy-6-Math.sin(t*7)*3);
+              ctx.fillText('khụ khụ!', cx+76, cy-6-Math.sin(t*7)*3);
             }
           }
         } else {
           ctx.fillStyle = '#1e293b';
-          ctx.beginPath(); ctx.arc(cx-13, cy+2, 3.4, 0, 7); ctx.fill();
-          ctx.beginPath(); ctx.arc(cx+13, cy+2, 3.4, 0, 7); ctx.fill();
+          ctx.beginPath(); ctx.arc(cx-15, cy+2, 3.8, 0, 7); ctx.fill();
+          ctx.beginPath(); ctx.arc(cx+15, cy+2, 3.8, 0, 7); ctx.fill();
           ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 3; ctx.lineCap = 'round';
-          ctx.beginPath(); ctx.moveTo(cx-7, cy+17); ctx.lineTo(cx+7, cy+17); ctx.stroke();
-          ctx.font = '30px sans-serif'; ctx.textAlign = 'center';
-          ctx.fillText('😮‍💨', cx, cy-54);
+          ctx.beginPath(); ctx.moveTo(cx-7, cy+21); ctx.lineTo(cx+7, cy+21); ctx.stroke();
+          ctx.font = '32px sans-serif'; ctx.textAlign = 'center';
+          ctx.fillText('😮‍💨', cx, cy-62);
         }
       }
     }
@@ -2070,7 +2228,7 @@ function layout(){
   function exSetup(items){
     resetBench();
     pour = null; pourQ = []; carryAnim = null; heatDemo = null;
-    chemist.shockT = -1; boomFx = null; flashFx = null; fxParts = []; shakeT = 0;
+    chemist.shockT = -1; boomFx = null; flashFx = null; fxParts = []; shakeT = 0; dropAnim = null;
     try { lamp.tx = null; } catch(e){}
     var made = [];
     items.forEach(function(it){
@@ -2093,10 +2251,10 @@ function layout(){
   window.__chemDemo = {
     na: function(){
       if (exBusy) return; exBusy = true;
-      var vs = exSetup([['beaker','H2O',0.5],['bottle','Na',0.55]]);
-      exMsg('🧑‍🔬 Nhân vật lấy natri và cốc nước...');
-      setTimeout(function(){ exCarryTo(vs[1], vs[0]); flashMsg(vs[0], 'Thả natri vào nước...'); }, 700);
-      setTimeout(function(){ exBusy = false; }, 9000);
+      var vs = exSetup([['beaker','H2O',0.5],['beaker','Na',0.4]]);
+      exMsg('🧑‍🔬 Natri là kim loại rắn — nhân vật dùng kẹp gắp từng cục thả vào cốc nước...');
+      setTimeout(function(){ dropAnim = {src: vs[1], dst: vs[0], t: 0, cx: vs[1].x, cy: vs[1].y - vs[1].h}; flashMsg(vs[0], 'Gắp natri thả vào nước...'); }, 800);
+      setTimeout(function(){ exBusy = false; }, 8000);
     },
     mg: function(){
       if (exBusy) return; exBusy = true;
