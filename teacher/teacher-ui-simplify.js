@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261012_0700
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261012_0715
 // Tab 2: thay the renderLessonManagementList goc bang DS DE THI GV tai len, gom:
 //  (a) file de .html trong data/ (Word/AI day cong khai)
 //  (b) de luu rieng/len lich trong data/exam-schedule.json (exams-pending) - de Word/matran deu vao day
@@ -638,15 +638,7 @@ function _sbInitPickers(){
         var chapter = seg.length >= 6 ? seg[4] : '';
         lessons.push({ path: p, type: isT ? 'theory' : 'exercise', title: cleanTitle(seg[seg.length - 1]), subj: subj, grade: grade, chapter: chapter });
       });
-      // Đếm bài nộp theo thư mục điểm: data/scores/<folder>/<ts>_<slugHS>.json
-      var scoreMap = {}; // keyOf(folder) -> {students: {slug:true}, count}
-      paths.forEach(function(p){
-        var m = p.match(/^data\/scores\/([^\/]+)\/(\d{8,})_(.+)\.json$/);
-        if (!m) return;
-        var k = keyOf(m[1]);
-        if (!scoreMap[k]) scoreMap[k] = { students: {}, count: 0 };
-        scoreMap[k].students[m[3]] = true; scoreMap[k].count++;
-      });
+      var scoreMap = {}; // (0715: không còn đếm theo thư mục điểm — hoàn thành tính qua data/class-task-done.json)
       // Danh sách lớp của GV này
       var me = myId(), uname = norm(myName());
       var school = {};
@@ -810,9 +802,8 @@ function _sbInitPickers(){
     return Object.keys(set).length;
   }
   function submitInfo(task){
-    var info = S.data.scoreMap[keyOf(task.title)];
-    if (!info) return null;
-    return { n: Object.keys(info.students).length, count: info.count };
+    var n = doneCount(task); // bản ghi hoàn thành (HS nộp bài -> hệ thống ghi nhận vào class-task-done)
+    return n ? { n: n, count: n } : null;
   }
 
   function fillTasks(){
