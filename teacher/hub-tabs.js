@@ -33,7 +33,9 @@
 
             // Box prompt/AI: hiện ở exam (chứa prompt-panel-exam); form soạn (exam-form-box) đã tách ra ngoài nên luôn hiện mọi chế độ (2026-10-10)
             setVis('bo-tao-prompt-box', isBank); // 2026-10-11: direct chi day Word -> an khung NotebookLM
-            setVis('ai-compose-panel', isAi); // SB_AI_MODE_20261012: panel soan de tu AI chi hien o mode ai
+            // SB_AI_PANEL_FIX_20261012: phai go ca class 'hidden' — setVis chi xoa style inline, class hidden cua Tailwind van an panel mai
+            var aiP = document.getElementById('ai-compose-panel');
+            if (aiP){ aiP.classList.toggle('hidden', !isAi); aiP.style.display = isAi ? '' : 'none'; if (isAi){ try { aiRecalc(); } catch(e){} } }
             // 2026-10-11: giữ cây thư mục luôn hiện ở mọi chế độ (user yêu cầu)
             // Box Copy Prompt: đúng chế độ
             setVis('theory-copy-prompt-box', isTheory);
@@ -282,11 +284,14 @@
         }
         function aiCopyPrompt(){
             var out = document.getElementById('ai-prompt-out');
-            if (!out || !out.value){ alert('Hãy bấm "Tạo prompt" trước.'); return; }
+            if (!out) return;
+            if (!out.value){ try { aiBuildPrompt(); } catch(e){} } // chua tao thi tu tao truoc khi copy
+            if (!out.value){ alert('Hãy nhập Môn + Bài/Chương và số câu trong ma trận trước khi copy prompt.'); return; }
             out.select();
-            navigator.clipboard.writeText(out.value).then(function(){
-                if (typeof showToast === 'function') showToast('Đã sao chép prompt!', 'success');
-            });
+            function doneCp(){ if (typeof showToast === 'function') showToast('Đã sao chép prompt — dán vào NotebookLM!', 'success'); }
+            if (navigator.clipboard && navigator.clipboard.writeText){
+                navigator.clipboard.writeText(out.value).then(doneCp).catch(function(){ try { document.execCommand('copy'); } catch(e){} doneCp(); });
+            } else { try { document.execCommand('copy'); } catch(e){} doneCp(); }
         }
 
         // ========================================================
