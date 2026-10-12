@@ -11,6 +11,14 @@
             let itemContent = document.getElementById('item-content');
             let formatToolbar = document.getElementById('visual-format-toolbar');
             let statusEl = document.getElementById('editor-status-indicator');
+            // SB_WED_20261012_V3: chuyen che do khac -> dong khung the
+            try {
+                var wedBox = document.getElementById('wed-composer');
+                if (wedBox) wedBox.classList.add('hidden');
+                window.__wedCardMode = false;
+                var bc = document.getElementById('mode-btn-cards');
+                if (bc) bc.className = "bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 font-bold text-xs px-3 py-1.5 rounded-lg transition flex items-center";
+            } catch(e){}
 
             let btnVisual = document.getElementById('mode-btn-visual');
             let btnStudent = document.getElementById('mode-btn-student');
@@ -96,6 +104,8 @@
                 var btnS = document.getElementById('mode-btn-student');
                 if (btnS && btnS.className && btnS.className.indexOf('bg-blue-600') >= 0) return;
             } catch(e){}
+            // SB_WED_20261012_V3: dang soan theo THE thi khong sync de (the ghi thang vao #item-content)
+            try { if (window.__wedCardMode) return; } catch(e){}
             let previewBox = document.getElementById('preview-container');
             let itemContent = document.getElementById('item-content');
             if (!previewBox || !itemContent) return;
@@ -318,6 +328,15 @@
                 return;
             }
             let isDisplay = document.getElementById('math-type-display').checked;
+
+            // SB_WED_20261012_V3: chen/sua cong thuc cho THE CAU HOI -> ghi vao o chu cua the
+            if (window.__wedMathTarget) {
+                var wedTgt = window.__wedMathTarget; window.__wedMathTarget = null;
+                var wedIns = (isDisplay ? '$$' : '$') + latex + (isDisplay ? '$$' : '$');
+                try { if (typeof wedApplyMath === 'function') wedApplyMath(wedTgt, wedIns); } catch(e) { console.warn('wed math:', e); }
+                closeMathFormulaModal();
+                return;
+            }
 
             if (currentEditingMathBadge) {
                 currentEditingMathBadge.setAttribute('data-latex', latex);
