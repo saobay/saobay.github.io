@@ -2060,5 +2060,84 @@ window.sbEssayAuto = function(text, q){
     };
 })();
 </script>
+<script>
+/* SB_DETAILCAP_20261012_V1: khi HS nop bai (day diem len data/scores), tu quet DOM de da cham
+   de luu CHI TIET TUNG CAU vao ban ghi diem (rec.details): noi dung cau, cac phuong an,
+   cau HS chon, trang thai dung/sai, dap an/loi giai trong o feedback. GV xem lai bai lam
+   cua tung HS trong module Thong ke cuoi ki (SB_SEMDRILL). Bai nop cu khong co details. */
+(function(){
+  if (window.__sbDetailCap) return; window.__sbDetailCap = 1;
+  var origFetch = window.fetch; if (!origFetch) return;
+  function txt(el){ return el ? String(el.innerText || el.textContent || '').replace(/[ \t]+/g, ' ').replace(/\s*\n\s*/g, '\n').trim() : ''; }
+  function cap(s, n){ s = String(s == null ? '' : s); return s.length > n ? s.slice(0, n) : s; }
+  function scrapeEx10(){
+    var out = [];
+    document.querySelectorAll('.exam10-q').forEach(function(q){
+      try {
+        var qi = parseInt(q.getAttribute('data-qi'), 10); if (isNaN(qi)) qi = out.length;
+        var st = q.classList.contains('ok') ? 'ok' : (q.classList.contains('partial') ? 'partial' : (q.classList.contains('bad') ? 'bad' : ''));
+        var titleEl = q.querySelector('div.font-bold') || q.firstElementChild;
+        var qt = txt(titleEl).replace(/^Câu\s*\d+\s*[:.]\s*/, '');
+        var opts = [];
+        q.querySelectorAll('label.exam10-opt').forEach(function(lab){
+          var inp = lab.querySelector('input');
+          opts.push({ t: cap(txt(lab), 220), v: inp ? String(inp.value || '') : '', pick: inp ? !!inp.checked : false, pc: lab.classList.contains('picked-correct'), pw: lab.classList.contains('picked-wrong') });
+        });
+        var ans = '';
+        var ti = q.querySelector('.short-answer-input') || q.querySelector('input[type="text"]');
+        if (ti) ans = ti.value || '';
+        if (!ans){ var hid = q.querySelector('[data-matching],[data-ordering],[data-speaking]'); if (hid) ans = hid.value || ''; }
+        if (!ans && !opts.length){
+          var vals = []; q.querySelectorAll('input:checked').forEach(function(i){ vals.push(String(i.value || '')); });
+          ans = vals.join(', ');
+        }
+        var fb = txt(q.querySelector('.exam10-feedback'));
+        out.push({ n: qi + 1, st: st, q: cap(qt, 600), opts: opts, ans: cap(ans, 300), fb: cap(fb, 500) });
+      } catch(e){}
+    });
+    return out;
+  }
+  function scrapeLegacy(){
+    var out = [];
+    document.querySelectorAll('.question-card').forEach(function(card, idx){
+      try {
+        var type = card.getAttribute('data-type') || '';
+        var correct = card.getAttribute('data-answer') || '';
+        var pts = parseFloat(card.getAttribute('data-points')) || 0;
+        var picks = [];
+        card.querySelectorAll('input:checked').forEach(function(i){ picks.push(String(i.value || '')); });
+        var ti = card.querySelector('.short-answer-input') || card.querySelector('input[type="text"]');
+        var ansText = ti ? (ti.value || '') : '';
+        var ok = null;
+        if (type === 'mcq_4' || type === 'mc'){ ok = picks.length ? (picks[0].toUpperCase() === correct.toUpperCase()) : false; }
+        else if (type === 'true_false'){
+          var parts = correct.split('|').map(function(x){ return x.trim(); }).filter(Boolean); var good = 0;
+          parts.forEach(function(p){ var kv = p.split(':'); if (kv.length === 2){ var inp = card.querySelector('input[name$="_' + kv[0].trim() + '"]:checked'); if (inp && inp.value.toUpperCase() === kv[1].trim().toUpperCase()) good++; } });
+          ok = parts.length ? (good === parts.length) : null;
+        }
+        else if (type === 'short_answer'){ ok = ansText ? (ansText.trim().toLowerCase() === correct.trim().toLowerCase()) : false; }
+        var qt = txt(card.querySelector('.q-content') || card.querySelector('.question-text') || card);
+        out.push({ n: idx + 1, st: ok === null ? '' : (ok ? 'ok' : 'bad'), q: cap(qt, 600), opts: [], ans: cap(ansText || picks.join(', '), 300), fb: correct ? ('Đáp án đúng: ' + correct) : '', pts: pts });
+      } catch(e){}
+    });
+    return out;
+  }
+  window.fetch = function(input, init){
+    try {
+      var body = init && init.body;
+      if (typeof body === 'string' && body.indexOf('PUSH_TO_GITHUB') >= 0 && body.indexOf('data/scores/') >= 0 && body.indexOf('submitted_at') >= 0){
+        var payload = JSON.parse(body);
+        var rec = JSON.parse(payload.content);
+        if (rec && !rec.details){
+          var det = scrapeEx10();
+          if (!det.length) det = scrapeLegacy();
+          if (det.length){ rec.details = det; rec.detail_v = 1; payload.content = JSON.stringify(rec); init = Object.assign({}, init, { body: JSON.stringify(payload) }); }
+        }
+      }
+    } catch(e){}
+    return origFetch.call(this, input, init);
+  };
+})();
+</script>
 </body>
 </html>
