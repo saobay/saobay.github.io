@@ -1,5 +1,5 @@
 // hub-examsched.js — Lên lịch kiểm tra chống lộ đề (SAOBAY)
-// SAOBAY_EXAMSCHED_VERSION:20261012_0745
+// SAOBAY_EXAMSCHED_VERSION:20261012_0805
 // GV lên lịch kiểm tra trong teacher-hub: đề được TRỘN + GIẤU trong data/exams-pending/
 // cho tới giờ thi; index.html đọc data/exam-schedule.json để hiện banner cho HS.
 // Định nghĩa: window.ExamSched = { saveScheduledExam, loadSchedule, getExamsForClass, mergeExamToBank, markExamDone,
@@ -250,11 +250,13 @@
                 }
             } catch(e) {}
 
-            if (examStatus === 'draft') notify('Đã lưu đề "' + title + '" ở trạng thái CHUẨN BỊ. Bấm "Đưa đề cho HS" khi muốn giao.');
-            else notify('Đã lên lịch kiểm tra "' + title + '" cho lớp ' + className + '.');
+            if (!(typeof window !== 'undefined' && window.__sbSchedPopupFlow)) {
+                if (examStatus === 'draft') notify('Đã lưu đề "' + title + '" ở trạng thái CHUẨN BỊ. Bấm "Đưa đề cho HS" khi muốn giao.');
+                else notify('Đã lên lịch kiểm tra "' + title + '" cho lớp ' + className + '.');
+            }
             return { ok: true, id: id };
         } catch(e){
-            notify('Không lưu được lịch kiểm tra: ' + (e.message || e), true);
+            if (!(typeof window !== 'undefined' && window.__sbSchedPopupFlow)) notify('Không lưu được lịch kiểm tra: ' + (e.message || e), true);
             return { ok: false, error: String((e && e.message) || e) };
         }
     }
