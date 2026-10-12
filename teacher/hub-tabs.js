@@ -218,11 +218,26 @@
                 var rp = document.getElementById('ai-tp-' + r.key); if (rp) rp.textContent = Math.round(r.p * 100) / 100;
             });
         }
+        // SB_AI_BANK2SRC_20261012 (Cach A, user chot): bo o Mon/Khoi go tay trong panel AI —
+        // Mon/Khoi lay tu o chon noi luu phia tren: Bank 2 (SB_BANK2) khi tick De kiem tra, khong thi Bank 1.
+        function aiSubjectGrade(){
+            var b2 = window.SB_BANK2;
+            if (b2 && b2.grade){
+                var nm = String(b2.subjectName || b2.subject || '');
+                return { subject: nm.replace(/\s*\d+\s*$/, '').trim() || nm, grade: String(b2.grade) };
+            }
+            var gEl = document.getElementById('sb-b1-grade'), sEl = document.getElementById('sb-b1-subject');
+            var g1 = gEl ? String(gEl.value || '') : '', sf = sEl ? String(sEl.value || '') : '';
+            if (g1 && sf) return { subject: sf.replace(/\s*\d+\s*$/, '').trim() || sf, grade: g1 };
+            return { subject: '', grade: '' };
+        }
         function aiBuildPrompt(){
             var g = function(id){ var e = document.getElementById(id); return e ? String(e.value || '').trim() : ''; };
-            var subject = g('ai-subject'), grade = g('ai-grade'), lessons = g('ai-lessons'),
+            var SG = aiSubjectGrade();
+            var subject = SG.subject, grade = SG.grade, lessons = g('ai-lessons'),
                 time = g('ai-time') || '45', title = g('ai-title'), scope = g('ai-scope');
-            if (!subject || !lessons){ alert('Hãy nhập Môn và Bài/Chương (gõ nhanh) trước khi tạo prompt.'); return; }
+            if (!subject){ alert('Hãy chọn Khối + Môn ở ô chọn nơi lưu phía trên trước (Bank 2 nếu là đề kiểm tra, Bank 1 nếu là lý thuyết/bài tập).'); return; }
+            if (!lessons){ alert('Hãy nhập Bài/Chương trong phạm vi đề trước khi tạo prompt.'); return; }
             var M = aiMatrix();
             if (!M.totQ){ alert('Ma trận đang trống — hãy nhập số câu cho ít nhất một dạng.'); return; }
             var pct = function(v){ return M.totP > 0 ? Math.round(v / M.totP * 1000) / 10 : 0; };
@@ -286,7 +301,7 @@
             var out = document.getElementById('ai-prompt-out');
             if (!out) return;
             if (!out.value){ try { aiBuildPrompt(); } catch(e){} } // chua tao thi tu tao truoc khi copy
-            if (!out.value){ alert('Hãy nhập Môn + Bài/Chương và số câu trong ma trận trước khi copy prompt.'); return; }
+            if (!out.value){ alert('Hãy chọn Khối + Môn ở ô phía trên, nhập Bài/Chương và số câu trong ma trận trước khi copy prompt.'); return; }
             out.select();
             function doneCp(){ if (typeof showToast === 'function') showToast('Đã sao chép prompt — dán vào NotebookLM!', 'success'); }
             if (navigator.clipboard && navigator.clipboard.writeText){
@@ -335,8 +350,9 @@
                 var matrixMd = (i2 >= 0) ? raw.slice(i2, (i3 > i2) ? i3 : undefined) : '';
                 var specMd = (i3 >= 0) ? raw.slice(i3) : '';
                 var gv = function(id){ var e = document.getElementById(id); return e ? String(e.value || '').trim() : ''; };
+                var SGW = aiSubjectGrade();
                 window.SB_AI_WORD = {
-                    subject: gv('ai-subject'), grade: gv('ai-grade'), time: gv('ai-time') || '45', title: gv('ai-title'),
+                    subject: SGW.subject, grade: SGW.grade, time: gv('ai-time') || '45', title: gv('ai-title'),
                     sets: sets, matrixMd: matrixMd, specMd: specMd
                 };
                 var btn = document.getElementById('ai-word-btn');
