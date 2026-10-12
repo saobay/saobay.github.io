@@ -1,4 +1,16 @@
-// SAOBAY_HUB_EXAM_VERSION:20261012_0840
+// SAOBAY_HUB_EXAM_VERSION:20261012_2200
+// SB_BANKPICK_FIX_20261012_V1: sua luong BOC DE TU NGAN HANG (chay thu GV 12/10/2026):
+//  (a) dinh nghia exbLoadTeacherExams() — truoc day chi duoc goi (typeof-guard) ma khong file nao dinh nghia
+//      -> de boc luu o kho rieng data/private/<lop|GV>/ khong hien o bat ky danh sach nao.
+//      Kem: sua duong doc/ghi index cua exbSaveExamToTeacherFolder ve cung 1 path data/private/<teacherId>/index.json
+//      (ban cu doc data/teacher-exams/<id>/index.json — path khong ton tai — nhung ghi data/private/<classId>/index.json
+//      -> moi lan luu de moi, index bi ghi de chi con de moi nhat) + entry them path/class_id.
+//  (b) exbPickClassExam + exbPreviewSample truyen CHUOI NHAN vao exbRenderExamPreview thay vi examJson
+//      -> script saobay-exam10-data chua 1 string, dong bo ve #item-content lam hook len lich chan day
+//      ("Chua co de thi trong khung soan...") vi JSON parse ra string, khong co .sets.
+//      Nay: exbPickClassExam goi thang exbPushClassExamToComposer (JSON that); exbPreviewSample dung builder chung.
+//  (c) Gan nut UI that cho exbPushClassExamToComposer (qua danh sach kho rieng + luong boc lop) va exbPushToComposer
+//      (nut boc nhanh o nhanh 'lop') — truoc day ca 2 ham khong co nut nao goi toi.
         // ========================================================
         // TRÌNH SOẠN ĐỀ KIỂM TRA (Phase 4, 2026-10-08)
 
@@ -835,7 +847,8 @@
                 }
                 let picked = exbMatrixPick(exbBankPool, m);
                 if (!picked.length) throw new Error('Không bốc được câu nào — kiểm tra ma trận.');
-                exbRenderExamPreview(picked, 'Đề mẫu (mỗi HS sẽ bốc 1 đề khác cùng ma trận)');
+                // SB_BANKPICK_FIX_20261012_V1 (b): truyen examJson THAT (ban cu truyen chuoi nhan -> script du lieu la 1 string)
+                exbRenderExamPreview(picked, exbBuildExamJsonFromPicked(picked, m, 'Đề mẫu — mỗi HS tự bốc theo ma trận'));
             } catch(e){ pv.innerHTML = '<p class="text-xs text-rose-600">Lỗi: ' + String(e.message || e).replace(/</g,'&lt;') + '</p>'; }
         }
 
@@ -903,7 +916,11 @@
                 exbClassExam = exbMatrixPick(exbBankPool, m);
                 if (!exbClassExam.length) throw new Error('Không bốc được câu nào — kiểm tra ma trận.');
                 exbClassExam._matrix = m;
-                exbRenderExamPreview(exbClassExam, 'Đề chung cả lớp (xem trước đầy đủ — không ưng thì bấm "🔄 Bốc lại đề" để bốc bộ khác)');
+                // SB_BANKPICK_FIX_20261012_V1 (b)+(c): ban cu goi exbRenderExamPreview(exbClassExam, '<chuoi nhan>')
+                // -> #item-content chua JSON string, hook len lich chan day. Nay dua thang vao khung soan
+                // bang exbPushClassExamToComposer (dung y dinh MXENG_V1 cua ham nay).
+                exbPushClassExamToComposer(exbClassExam, m);
+                pv.innerHTML = '<p class="text-xs text-emerald-700 font-bold">✅ Đã bốc ' + exbClassExam.length + ' câu và đưa vào khung soạn. Không ưng thì bấm "🔄 Bốc lại đề" để bốc bộ khác.</p>';
                 // 2026-10-11: Lưu vào thư mục riêng của GV (không đẩy lên data công khai)
                 try { await exbSaveExamToTeacherFolder(exbClassExam, m); } catch(e){ console.warn('save to teacher folder:', e); }
             } catch(e){ pv.innerHTML = '<p class="text-xs text-rose-600">Lỗi: ' + String(e.message || e).replace(/</g,'&lt;') + '</p>'; }
@@ -978,8 +995,14 @@
                 if (result.error) throw new Error(result.error);
                 
                 // Cập nhật index.json
+                // SB_BANKPICK_FIX_20261012_V1 (a): index chuan hoa theo GIAO VIEN: data/private/<teacherId>/index.json
+                // cho CA doc lan ghi. Ban cu doc data/teacher-exams/<teacherId>/index.json (path khong ton tai -> luon
+                // {exams: []}) nhung ghi data/private/<classId>/index.json -> index bi ghi de sau moi lan luu.
+                // Entry them path + class_id de exbLoadTeacherExams tim lai dung file de.
                 try {
-                    var idxUrl = 'https://raw.githubusercontent.com/saobay/saobay.github.io/main/data/teacher-exams/' + teacherId + '/index.json?t=' + Date.now();
+                    var idxPath = 'data/private/' + teacherId + '/index.json';
+                    var idxEntry = { id: examId, title: title, subject: m.subject || '', grade: m.grade || '', created_at: examData.created_at, question_count: picked.length, path: path, class_id: classId };
+                    var idxUrl = 'https://raw.githubusercontent.com/saobay/saobay.github.io/main/' + idxPath + '?t=' + Date.now();
                     var idxResp = await fetch(idxUrl);
                     var idxData = idxResp.ok ? await idxResp.json() : { exams: [] };
                     idxData.exams = idxData.exams || [];
@@ -987,11 +1010,11 @@
                     var found = false;
                     for (var i = 0; i < idxData.exams.length; i++) {
                         if (idxData.exams[i].id === examId) {
-                            idxData.exams[i] = { id: examId, title: title, subject: m.subject || '', grade: m.grade || '', created_at: examData.created_at, question_count: picked.length };
+                            idxData.exams[i] = idxEntry;
                             found = true; break;
                         }
                     }
-                    if (!found) idxData.exams.push({ id: examId, title: title, subject: m.subject || '', grade: m.grade || '', created_at: examData.created_at, question_count: picked.length });
+                    if (!found) idxData.exams.push(idxEntry);
                     
                     // Cập nhật index chạy ngầm, không chờ (tránh treo)
                     fetch('https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec', {
@@ -999,7 +1022,7 @@
                         headers: {'Content-Type': 'text/plain;charset=utf-8'},
                         body: JSON.stringify({
                             type: 'PUSH_TO_GITHUB',
-                            filePath: 'data/private/' + classId + '/index.json',
+                            filePath: idxPath,
                             content: JSON.stringify(idxData, null, 2),
                             commitMessage: 'Cập nhật index đề: ' + title,
                             title: 'Cập nhật index',
@@ -1019,21 +1042,29 @@
             }
         }
         
-        // MXENG_V1: đẩy đề cả lớp đã bốc ra khung soạn (khung sửa) để GV xem/sửa ngay
-        function exbPushClassExamToComposer(picked, m){
-            let examJson = {
+        // SB_BANKPICK_FIX_20261012_V1: builder examJson DUNG CHUNG cho moi duong dua de boc vao khung soan
+        // (truoc day moi ham tu dung 1 ban; 2 cho goi exbRenderExamPreview lai truyen chuoi nhan thay vi object nay).
+        function exbBuildExamJsonFromPicked(picked, m, title){
+            return {
                 frozen_bank_exam: true,
                 shuffle_within_type: true,
                 time_limit: (m && m.time_limit) || 0,
                 scoring: (m && m.scores) || {},
-                meta: { title: (typeof exbBankVal === 'function' ? exbBankVal('exbb-title') : '') || 'Đề chung cả lớp' },
-                sets: [{ name: 'Đề', questions: picked.map(function(q){
+                meta: { title: title || (typeof exbBankVal === 'function' ? exbBankVal('exbb-title') : '') || 'Đề chung cả lớp',
+                        subject: (m && m.subject) || '', grade: (m && m.grade) || '' },
+                sets: [{ name: 'Đề', questions: (picked || []).map(function(q){
                     let o = { type: q.type, level: q.level, chapter: q.chapter, q: q.q, options: q.options || [],
                              statements: q.statements || [], answer: q.answer, explain: q.explain || '' };
                     if (q.img) o.img = q.img;
                     return o;
                 }) }]
             };
+        }
+
+        // MXENG_V1: đẩy đề cả lớp đã bốc ra khung soạn (khung sửa) để GV xem/sửa ngay
+        // SB_BANKPICK_FIX_20261012_V1: them tham so title tuy chon (de tu kho rieng co ten rieng, khong lay o #exbb-title)
+        function exbPushClassExamToComposer(picked, m, title){
+            let examJson = exbBuildExamJsonFromPicked(picked, m, title);
             let frag = '<div class="saobay-exam10">\n'
                 + '<script type="application/json" class="saobay-exam10-data">\n' + JSON.stringify(examJson) + '\n<\/script>\n</div>';
             let ta = document.getElementById('item-content');
@@ -1426,4 +1457,128 @@
             }
             if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bootMatrixFix);
             else bootMatrixFix();
+        })();
+
+        // ========================================================
+        // SB_BANKPICK_FIX_20261012_V1 — DANH SACH DE BOC TU BANK TRONG KHO RIENG CUA GV
+        // Goc loi (a): exbSaveExamToTeacherFolder luu de vao data/private/<classId>/<examId>.json
+        // + goi exbLoadTeacherExams() (typeof-guard) nhung ham nay KHONG ton tai o ban live
+        // -> de boc xong "bien mat": tab 2 (Quan ly) chi doc data/exam-schedule.json nen khong thay.
+        // Ban va: dinh nghia exbLoadTeacherExams doc index chuan hoa data/private/<teacherId>/index.json,
+        // render 1 hop rieng ngay tren #manage-lessons-table-container (ngoai vung renderExams ghi de),
+        // moi de co nut "Dua vao khung soan" -> ghi examJson HOP LE vao #item-content; GV sau do day
+        // bang chinh luong DE KIEM TRA chuan (hook _schedExamSubmit) nhu de Word/AI -> co ban ghi
+        // exam-schedule.json -> hien o tab 2. De ma tran KHONG dua vao bank de chung o buoc nay.
+        // ========================================================
+        var exbTeacherExamsCache = [];
+        function exbTeacherId(){
+            try {
+                var u = JSON.parse(localStorage.getItem('saobay_user') || 'null');
+                if (u && u.id) return String(u.id).replace(/[^a-zA-Z0-9]/g, '_');
+            } catch(e){}
+            return '';
+        }
+        async function exbLoadTeacherExams(){
+            var tid = exbTeacherId();
+            var anchor = document.getElementById('manage-lessons-table-container');
+            if (!anchor || !anchor.parentNode) return;
+            var box = document.getElementById('exb-teacher-exams-box');
+            if (!box){
+                box = document.createElement('div');
+                box.id = 'exb-teacher-exams-box';
+                anchor.parentNode.insertBefore(box, anchor);
+            }
+            if (!tid){ box.innerHTML = ''; exbTeacherExamsCache = []; return; }
+            try {
+                var r = await fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/data/private/' + tid + '/index.json?t=' + Date.now());
+                if (!r.ok){ exbTeacherExamsCache = []; box.innerHTML = ''; return; }
+                var j = await r.json();
+                exbTeacherExamsCache = (j && Array.isArray(j.exams)) ? j.exams : [];
+            } catch(e){ exbTeacherExamsCache = []; box.innerHTML = ''; return; }
+            if (!exbTeacherExamsCache.length){ box.innerHTML = ''; return; }
+            var h = '<div style="padding:10px;background:#eef2ff;border:1px solid #c7d2fe;border-radius:10px;margin-bottom:10px">'
+                + '<p style="font-weight:bold;margin:0 0 6px">🎲 Đề đã bốc từ ngân hàng — kho riêng của bạn (' + exbTeacherExamsCache.length + ')</p>';
+            exbTeacherExamsCache.slice().reverse().forEach(function(x){
+                var created = '';
+                try { created = x.created_at ? new Date(x.created_at).toLocaleString('vi-VN') : ''; } catch(e){}
+                h += '<div style="padding:6px 0;border-bottom:1px solid #e0e7ff">📌 <b>' + exbEsc(x.title || '(không tên)') + '</b>'
+                    + '<br><small style="color:#555">' + exbEsc(x.subject || '') + ' • Khối ' + exbEsc(x.grade == null ? '' : x.grade) + ' • ' + (x.question_count || 0) + ' câu' + (created ? ' • Tạo: ' + exbEsc(created) : '') + '</small>'
+                    + '<div style="margin-top:4px"><button type="button" onclick="exbPushSavedExamToComposer(\'' + exbEsc(x.id) + '\')" style="padding:4px 10px;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:bold;background:#4f46e5;color:#fff">📝 Đưa vào khung soạn</button></div></div>';
+            });
+            h += '<p style="font-size:11px;color:#666;margin:6px 0 0">Đưa đề vào khung soạn, rồi sang module Soạn: tick "📌 Đây là ĐỀ KIỂM TRA", chọn lớp + giờ và bấm Đẩy — đề sẽ lên lịch và hiện trong danh sách quản lý như đề Word/AI.</p></div>';
+            box.innerHTML = h;
+        }
+        try { window.exbLoadTeacherExams = exbLoadTeacherExams; } catch(e){}
+
+        // Nut "Dua vao khung soan" cua 1 de trong kho rieng: tai file de that -> dung lai
+        // exbPushClassExamToComposer (goc loi (c): ham nay truoc day khong co nut nao goi toi).
+        async function exbPushSavedExamToComposer(examId){
+            var tid = exbTeacherId();
+            var entry = null;
+            for (var i = 0; i < exbTeacherExamsCache.length; i++){
+                if (String(exbTeacherExamsCache[i].id) === String(examId)){ entry = exbTeacherExamsCache[i]; break; }
+            }
+            if (!entry){
+                if (typeof showToast === 'function') showToast('Không thấy đề trong kho riêng — hãy mở lại tab Quản lý để nạp danh sách.', 'error');
+                return;
+            }
+            var paths = [];
+            if (entry.path) paths.push(entry.path);
+            if (tid) paths.push('data/private/' + tid + '/' + entry.id + '.json');
+            if (entry.class_id && String(entry.class_id) !== String(tid)) paths.push('data/private/' + entry.class_id + '/' + entry.id + '.json');
+            var examData = null;
+            for (var p = 0; p < paths.length; p++){
+                try {
+                    var r = await fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/' + paths[p] + '?t=' + Date.now());
+                    if (r.ok){ examData = await r.json(); break; }
+                } catch(e){}
+            }
+            if (!examData || !Array.isArray(examData.questions) || !examData.questions.length){
+                if (typeof showToast === 'function') showToast('Không tải được file đề từ kho riêng.', 'error');
+                return;
+            }
+            var m = { time_limit: examData.time_limit || 0, scores: examData.scoring || {},
+                      subject: examData.subject || entry.subject || '', grade: examData.grade || entry.grade || '' };
+            exbPushClassExamToComposer(examData.questions, m, examData.title || entry.title || '');
+            try { if (typeof window.switchTeacherModule === 'function') window.switchTeacherModule('compose'); } catch(e){}
+        }
+        try { window.exbPushSavedExamToComposer = exbPushSavedExamToComposer; } catch(e){}
+
+        // Tu nap danh sach kho rieng moi khi mo tab Quan ly (cung pattern boc ham nhu hook len lich o teacher-hub.html)
+        (function(){
+            var _t = 0, _tm = setInterval(function(){
+                _t++;
+                try {
+                    if (typeof window.switchTeacherModule === 'function' && !window.switchTeacherModule._sbBankPickWrapped){
+                        var _o = window.switchTeacherModule;
+                        var _w = function(modId){
+                            var r = _o.apply(this, arguments);
+                            if (modId === 'manage'){ setTimeout(function(){ try { exbLoadTeacherExams(); } catch(e){} }, 300); }
+                            return r;
+                        };
+                        _w._sbBankPickWrapped = true;
+                        window.switchTeacherModule = _w;
+                        clearInterval(_tm);
+                    }
+                } catch(e){}
+                if (_t > 50) clearInterval(_tm);
+            }, 200);
+        })();
+
+        // Goc loi (c) — nhanh 'lop': gan nut that cho exbPushToComposer (boc bo moi dua thang vao
+        // khung soan, khong luu kho rieng) — truoc day ham nay khong co nut nao goi toi.
+        (function(){
+            function wireQuickPushBtn(){
+                var lop = document.getElementById('exb-act-lop');
+                if (!lop || document.getElementById('exb-quick-push-btn')) return;
+                var b = document.createElement('button');
+                b.type = 'button';
+                b.id = 'exb-quick-push-btn';
+                b.className = 'flex-1 bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl';
+                b.innerHTML = '<i class="fa-solid fa-file-import mr-1"></i>Bốc bộ khác &amp; đưa vào khung soạn';
+                b.addEventListener('click', function(){ exbPushToComposer(); });
+                lop.appendChild(b);
+            }
+            if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', wireQuickPushBtn);
+            else wireQuickPushBtn();
         })();
