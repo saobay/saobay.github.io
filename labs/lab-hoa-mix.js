@@ -2273,34 +2273,52 @@ function layout(){
     if (b) b.addEventListener('click', function(){ window.__chemDemo[pr[1]](); });
   });
 
-  // SHELF_DRAG: bấm giữ kéo ngang để trượt tủ chọn hóa chất/dụng cụ; chạm nhẹ vẫn chọn bình như cũ
+  // SHELF_DRAG v2: keo ngang truot tu (pointer + mouse, nghe o window), cham nhe van chon binh
   (function(){
     var sh = document.getElementById('chem-shelf');
     if (!sh) return;
     sh.style.cursor = 'grab';
     sh.style.userSelect = 'none'; sh.style.webkitUserSelect = 'none';
-    var down = false, moved = false, sx = 0, sl = 0;
-    sh.addEventListener('pointerdown', function(e){
-      if (e.pointerType !== 'mouse') return;
-      down = true; moved = false; sx = e.clientX; sl = sh.scrollLeft;
-    });
-    sh.addEventListener('pointermove', function(e){
-      if (!down) return;
-      var dx = e.clientX - sx;
+    var host = sh.parentElement || sh;
+    var down = false, moved = false, sx = 0, sl = 0, suppressClick = false;
+    function startDrag(x){
+      down = true; moved = false; sx = x; sl = sh.scrollLeft;
+    }
+    function moveDrag(x){
+      if (!down) return false;
+      var dx = x - sx;
       if (Math.abs(dx) > 6){ moved = true; sh.style.cursor = 'grabbing'; }
-      if (moved){ sh.scrollLeft = sl - dx; e.preventDefault(); }
-    });
-    function up(){
+      if (moved){ sh.scrollLeft = sl - dx; return true; }
+      return false;
+    }
+    function endDrag(){
       if (!down) return;
       down = false; sh.style.cursor = 'grab';
-      setTimeout(function(){ moved = false; }, 0);
+      if (moved) suppressClick = true;
+      moved = false;
     }
-    sh.addEventListener('pointerup', up);
-    sh.addEventListener('pointerleave', up);
-    sh.addEventListener('click', function(e){
-      if (moved){ e.stopPropagation(); e.preventDefault(); }
+    host.addEventListener('pointerdown', function(e){
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+      startDrag(e.clientX);
+    });
+    window.addEventListener('pointermove', function(e){
+      if (down && moveDrag(e.clientX)) e.preventDefault();
+    }, {passive: false});
+    window.addEventListener('pointerup', endDrag);
+    window.addEventListener('pointercancel', endDrag);
+    host.addEventListener('mousedown', function(e){
+      if (e.button !== 0) return;
+      if (!down) startDrag(e.clientX);
+      e.preventDefault();
+    });
+    window.addEventListener('mousemove', function(e){
+      if (down) moveDrag(e.clientX);
+    });
+    window.addEventListener('mouseup', endDrag);
+    host.addEventListener('click', function(e){
+      if (suppressClick){ suppressClick = false; e.stopPropagation(); e.preventDefault(); }
     }, true);
-    sh.addEventListener('dragstart', function(e){ e.preventDefault(); });
+    host.addEventListener('dragstart', function(e){ e.preventDefault(); });
     sh.addEventListener('wheel', function(e){
       if (Math.abs(e.deltaY) > Math.abs(e.deltaX)){ sh.scrollLeft += e.deltaY; e.preventDefault(); }
     }, {passive: false});
