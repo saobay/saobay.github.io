@@ -981,6 +981,17 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
                     </div>
                 </div>
 
+                <!-- SB_AUDITFLOW_20261013_V1: gán tổ trưởng kiểm duyệt (chỉ admin) -->
+                <div id="content-reviewer-box" class="hidden bg-emerald-50 border border-emerald-300 rounded-xl p-3">
+                    <p class="text-xs font-black text-emerald-900 mb-1">🛡️ Phân quyền kiểm duyệt nội dung Bank 1 (admin)</p>
+                    <div class="flex gap-1 mb-1">
+                        <input id="content-reviewer-id" placeholder="Mã GV (VD: 0909998882)" class="flex-1 px-2 py-1 border border-emerald-300 rounded text-xs">
+                        <input id="content-reviewer-name" placeholder="Tên GV" class="flex-1 px-2 py-1 border border-emerald-300 rounded text-xs">
+                        <button onclick="sbCReviewerAdd()" class="px-2 py-1 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded">+ Cấp quyền</button>
+                    </div>
+                    <div id="content-reviewer-list" class="text-xs"></div>
+                </div>
+
                 <div id="audit-lessons-container" class="flex-1 overflow-y-auto space-y-2">
                     <!-- Danh sách thẩm định -->
                 </div>
@@ -1674,6 +1685,8 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
     <script src="teacher-ui-simplify.js?v=20261012_2250"></script>
     <script src="hub-inline-edit.js?v=20261010_1"></script>
     <script src="hub-examsched.js?v=20261012_0805"></script>
+    <script src="hub-audit.js?v=20261013_0600"></script>
+    <!-- SB_AUDITFLOW_20261013_V1: module kiem duyet Bank 1 -->
     <script>
         // ============================================================
         // LÊN LỊCH KIỂM TRA CHỐNG LỘ ĐỀ — UI hook (2026-10-10)
