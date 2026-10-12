@@ -1,4 +1,4 @@
-// SAOBAY_HUB_EXAM_VERSION:20261011_1950
+// SAOBAY_HUB_EXAM_VERSION:20261012_0840
         // ========================================================
         // TRÌNH SOẠN ĐỀ KIỂM TRA (Phase 4, 2026-10-08)
 
@@ -83,14 +83,36 @@
         function exbNum(id, def){ let v = parseFloat(exbVal(id)); return (v >= 0 || v < 0) && !isNaN(v) ? v : def; }
 
         function exbAllocate(groups, count, ratios){
+            // SB_ALLOC_V2 20261012: phan bo dung tong bang lam tron DU LON NHAT (truoc day Math.round tung muc lam tong lech +-1..2 cau/dang)
+            let levels = ['NB','TH','VD','VDC'];
             let totalR = 0;
-            ['NB','TH','VD','VDC'].forEach(function(lv){ totalR += (+ratios[lv] || 0); });
+            levels.forEach(function(lv){ totalR += (+ratios[lv] || 0); });
             if (!totalR) totalR = 1;
+            let exact = {}, take = {}, assigned = 0;
+            levels.forEach(function(lv){
+                exact[lv] = count * ((+ratios[lv] || 0) / totalR);
+                take[lv] = Math.floor(exact[lv]);
+                assigned += take[lv];
+            });
+            let ord = levels.slice().sort(function(a, b){ return (exact[b] - take[b]) - (exact[a] - take[a]); });
+            let oi = 0;
+            while (assigned < count){ take[ord[oi % 4]]++; assigned++; oi++; }
+            // Cap theo so cau san co cua tung muc, phan thieu phan bo lai cho muc con cho trong
+            levels.forEach(function(lv){ take[lv] = Math.min(take[lv], (groups[lv] || []).length); });
+            let got = levels.reduce(function(sm, lv){ return sm + take[lv]; }, 0);
+            while (got < count){
+                let progressed = false;
+                let spare = levels.filter(function(lv){ return take[lv] < (groups[lv] || []).length; })
+                                  .sort(function(a, b){ return (exact[b] - take[b]) - (exact[a] - take[a]); });
+                for (let si = 0; si < spare.length; si++){
+                    if (take[spare[si]] < (groups[spare[si]] || []).length){ take[spare[si]]++; got++; progressed = true; break; }
+                }
+                if (!progressed) break;
+            }
             let picked = [], used = {};
-            ['NB','TH','VD','VDC'].forEach(function(lv){
-                let want = Math.round(count * ((+ratios[lv] || 0) / totalR));
+            levels.forEach(function(lv){
                 let g = groups[lv] || [];
-                for (let i = 0; i < want && i < g.length; i++){ picked.push(g[i]); used[g[i].id] = 1; }
+                for (let i = 0; i < take[lv]; i++){ picked.push(g[i]); used[g[i].id] = 1; }
             });
             return { picked: picked, used: used };
         }
@@ -504,7 +526,7 @@
                         }
                         exbRenderExamPreview(pickedAuto, examJsonAuto);
                         try { if (typeof setEditorMode === 'function') setEditorMode('visual'); } catch(e){}
-                        if (typeof showToast === 'function') showToast('Đã bốc ' + pickedAuto.length + ' câu theo ma trận ra khung nhìn.', 'success');
+                        if (typeof showToast === 'function') showToast('Đã bốc ' + pickedAuto.length + ' câu theo ma trận ra khung nhìn.' + ((pickedAuto._report && pickedAuto._report.warnings.length) ? ' ⚠️ Có ' + pickedAuto._report.warnings.length + ' cảnh báo thiếu câu — xem khung đề.' : ''), 'success');
                     }
                 } catch(eAuto){ console.warn('Auto pick:', eAuto); }
             } catch(e){
@@ -551,25 +573,134 @@
             };
         }
 
-        // Boc cau theo ma tran (FIX 2026-10-10, BUG 1):
-        // - matrix.types[tp] = SO CAU TUYET DOI can lay cua dang do (vd 8 TN + 2 D/S + 4 TLN + 1 TL = 15 cau)
-        // - matrix.chapters[ch] = trong so phan bo theo chuong; 9999 = chia deu (khi chua bam "Tai ma tran")
-        // - matrix.levels = ti le NB/TH/VD/VDC trong tung dang
+        // Boc cau theo ma tran (SB_MATRIX_PICK_V3, 2026-10-12):
+        // - So cau tung dang (matrix.types): dung tuyet doi khi bank du cau trong pham vi bai; thieu thi bao ro
+        // - Ti le muc do (matrix.levels) tinh tren TONG SO CAU CUA DE (chot cua user): muc do lay linh hoat o BAT KY dang nao con cho
+        //   (VD TLN khong co NB thi lay NB o TN/DS) — phan bo bang lam tron du lon nhat tren tong de
+        // - Quota chuong (matrix.chapters = "So cau lay"; >=9999 = khong gioi han): khong lay vuot quota 1 chuong
+        // - Thieu that (bank khong co) moi canh bao, ghi trong picked._report
         function exbMatrixPick(pool, matrix){
             let picked = [];
+            let typeNames = { mcq: 'Trắc nghiệm', truefalse: 'Đúng/Sai', short: 'Trả lời ngắn', essay: 'Tự luận', listening: 'Nghe', speaking: 'Nói', matching: 'Nối từ', ordering: 'Sắp xếp' };
+            let report = { typeWant: {}, typeGot: {}, levelWant: { NB: 0, TH: 0, VD: 0, VDC: 0 }, levelGot: { NB: 0, TH: 0, VD: 0, VDC: 0 }, warnings: [] };
             let _lFrom = (matrix && matrix.lessonFrom) || 0, _lTo = (matrix && matrix.lessonTo) || 9999;
             let _lessonOk = function(q){ return exbLessonInRange(q, _lFrom, _lTo); };
+            let ratios = (matrix && matrix.levels) || { NB: 25, TH: 25, VD: 25, VDC: 25 };
+            let chQuota = null;
+            if (matrix && matrix.chapters){
+                chQuota = {};
+                Object.keys(matrix.chapters).forEach(function(c){
+                    let v = parseInt(matrix.chapters[c], 10);
+                    chQuota[c] = (isNaN(v) || v >= 9999) ? Infinity : Math.max(0, v);
+                });
+            }
+            let chLeft = function(q){
+                if (!chQuota) return true;
+                let c = parseInt(q.chapter, 10) || 0;
+                if (!(c in chQuota)) return true;
+                return chQuota[c] > 0;
+            };
+            let chUse = function(q){
+                if (!chQuota) return;
+                let c = parseInt(q.chapter, 10) || 0;
+                if ((c in chQuota) && chQuota[c] !== Infinity) chQuota[c]--;
+            };
+            let usedIds = {};
             let types = ['mcq','truefalse','short','essay','listening','speaking','matching','ordering'];
+            // Chuan bi o (dang x muc) + so slot moi dang
+            let cells = {}, slots = {}, totalAch = 0;
             types.forEach(function(tp){
                 let want = Math.max(0, parseInt((matrix.types || {})[tp], 10) || 0);
                 if (!want) return;
-                let candidates = pool.filter(function(q){ return q.type === tp && _lessonOk(q); });
-                if (typeof exbShuffle === 'function') exbShuffle(candidates);
-                let take = Math.min(want, candidates.length);
-                for (let i = 0; i < take; i++) picked.push(candidates[i]);
+                report.typeWant[tp] = want;
+                let cand = pool.filter(function(q){ return q.type === tp && _lessonOk(q) && !usedIds[q.id]; });
+                if (typeof exbShuffle === 'function') exbShuffle(cand);
+                let byLevel = { NB: [], TH: [], VD: [], VDC: [] };
+                cand.forEach(function(q){
+                    let lv = String(q.level || 'NB').toUpperCase();
+                    (byLevel[lv] || byLevel.NB).push(q);
+                });
+                cells[tp] = byLevel;
+                slots[tp] = Math.min(want, cand.length);
+                totalAch += slots[tp];
+            });
+            // Muc tieu muc do tren TONG de: lam tron du lon nhat -> tong dung = totalAch
+            let totalR = 0;
+            ['NB','TH','VD','VDC'].forEach(function(lv){ totalR += (+ratios[lv] || 0); });
+            if (!totalR) totalR = 1;
+            let exact = {}, lvTarget = {}, assigned = 0;
+            ['NB','TH','VD','VDC'].forEach(function(lv){
+                exact[lv] = totalAch * ((+ratios[lv] || 0) / totalR);
+                lvTarget[lv] = Math.floor(exact[lv]);
+                assigned += lvTarget[lv];
+            });
+            let ordLv = ['NB','TH','VD','VDC'].slice().sort(function(a, b){ return (exact[b] - lvTarget[b]) - (exact[a] - lvTarget[a]); });
+            let oi = 0;
+            while (assigned < totalAch){ lvTarget[ordLv[oi % 4]]++; assigned++; oi++; }
+            report.levelWant = lvTarget;
+            let takeFrom = function(list, n){
+                let took = [];
+                let sorted = list.slice().sort(function(a, b){ return (chLeft(b) ? 1 : 0) - (chLeft(a) ? 1 : 0); });
+                for (let k = 0; k < sorted.length && took.length < n; k++){
+                    let q = sorted[k];
+                    if (usedIds[q.id] || !chLeft(q)) continue;
+                    took.push(q); usedIds[q.id] = 1; chUse(q);
+                }
+                return took;
+            };
+            let pushQ = function(q, tp){
+                picked.push(q);
+                let lv = String(q.level || 'NB').toUpperCase();
+                if (report.levelGot[lv] != null) report.levelGot[lv]++;
+                report.typeGot[tp] = (report.typeGot[tp] || 0) + 1;
+                slots[tp]--;
+            };
+            // Giai doan 1: dat muc tieu tung muc do, lay linh hoat o moi dang con slot
+            ['NB','TH','VD','VDC'].forEach(function(lv){
+                let need = lvTarget[lv];
+                if (!need) return;
+                types.forEach(function(tp){
+                    if (need <= 0) return;
+                    if (!cells[tp] || slots[tp] <= 0) return;
+                    let n = Math.min(need, slots[tp], cells[tp][lv].length);
+                    if (n <= 0) return;
+                    let took = takeFrom(cells[tp][lv], n);
+                    took.forEach(function(q){ pushQ(q, tp); });
+                    need -= took.length;
+                });
+            });
+            // Giai doan 2: dang nao con slot thi dien not bang cau con lai cua chinh dang do
+            // (uu tien muc dang thieu nhat so voi muc tieu toan de)
+            types.forEach(function(tp){
+                if (!cells[tp]) return;
+                while (slots[tp] > 0){
+                    let rest = [];
+                    ['NB','TH','VD','VDC'].forEach(function(lv){
+                        cells[tp][lv].forEach(function(q){ if (!usedIds[q.id]) rest.push(q); });
+                    });
+                    if (!rest.length) break;
+                    rest.sort(function(a, b){
+                        let da = lvTarget[String(a.level || 'NB').toUpperCase()] - report.levelGot[String(a.level || 'NB').toUpperCase()];
+                        let db = lvTarget[String(b.level || 'NB').toUpperCase()] - report.levelGot[String(b.level || 'NB').toUpperCase()];
+                        return db - da;
+                    });
+                    let took = takeFrom(rest, 1);
+                    if (!took.length) break;
+                    pushQ(took[0], tp);
+                }
+            });
+            // Canh bao chi khi THIET that
+            types.forEach(function(tp){
+                if (report.typeWant[tp] && (report.typeGot[tp] || 0) < report.typeWant[tp])
+                    report.warnings.push('Dạng ' + (typeNames[tp] || tp) + ': cần ' + report.typeWant[tp] + ' câu nhưng bank chỉ có ' + (report.typeGot[tp] || 0) + ' câu trong phạm vi bài đã chọn.');
+            });
+            ['NB','TH','VD','VDC'].forEach(function(lv){
+                if (report.levelGot[lv] < lvTarget[lv])
+                    report.warnings.push('Mức ' + lv + ': mục tiêu ' + lvTarget[lv] + ' câu trên toàn đề, bốc được ' + report.levelGot[lv] + ' — bank không còn câu mức này ở dạng nào trong phạm vi.');
             });
             let tOrd = { mcq: 0, truefalse: 1, short: 2, essay: 3, listening: 4, speaking: 5, matching: 6, ordering: 7 };
             picked.sort(function(a, b){ return (tOrd[a.type] == null ? 9 : tOrd[a.type]) - (tOrd[b.type] == null ? 9 : tOrd[b.type]); });
+            picked._report = report;
             return picked;
         }
 
@@ -582,9 +713,20 @@
             let esc = function(v){ return String(v == null ? '' : v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); };
             let badge = { mcq:'bg-blue-100 text-blue-800', truefalse:'bg-amber-100 text-amber-800', short:'bg-emerald-100 text-emerald-800', essay:'bg-violet-100 text-violet-800', listening:'bg-cyan-100 text-cyan-800', speaking:'bg-pink-100 text-pink-800', matching:'bg-orange-100 text-orange-800', ordering:'bg-teal-100 text-teal-800' };
             let tn = { mcq:'TN', truefalse:'Đ/S', short:'TLN', essay:'Tự luận', listening:'Nghe', speaking:'Nói', matching:'Nối', ordering:'Sắp xếp' };
+            let _rep = (picked && picked._report) ? picked._report : null;
+            let _warnHtml = '';
+            if (_rep && _rep.warnings && _rep.warnings.length){
+                _warnHtml = '<div class="bg-amber-50 border border-amber-300 rounded-xl px-4 py-3">'
+                    + '<p class="font-black text-amber-800 text-[13px]">⚠️ Ma trận chưa đạt trọn vẹn — bank không đủ câu như đã setup:</p>'
+                    + '<ul class="list-disc pl-5 mt-1 text-[12px] text-amber-800 space-y-0.5">'
+                    + _rep.warnings.map(function(w){ return '<li>' + esc(w) + '</li>'; }).join('')
+                    + '</ul>'
+                    + '<p class="text-[12px] text-amber-800 mt-1">Mức độ thực tế của đề: NB ' + (_rep.levelGot.NB || 0) + ' · TH ' + (_rep.levelGot.TH || 0) + ' · VD ' + (_rep.levelGot.VD || 0) + ' · VDC ' + (_rep.levelGot.VDC || 0) + ' câu.</p></div>';
+            }
             let h = '<div class="saobay-exam10">'
                 + '<script type="application/json" class="saobay-exam10-data">\n' + JSON.stringify(examJson) + '\n<\/script>'
                 + '<div class="exam10-visible max-w-3xl mx-auto space-y-3 p-2">'
+                + _warnHtml
                 + '<div class="bg-indigo-50 border border-indigo-200 rounded-xl px-4 py-3"><p class="font-black text-indigo-900 text-sm"><i class="fa-solid fa-file-lines mr-2"></i>Đề kiểm tra — ' + picked.length + ' câu (bốc từ ngân hàng đề theo ma trận)</p>'
                 + '<p class="text-[11px] text-indigo-700 mt-1">Dữ liệu JSON đã lưu trong khung soạn (xem ở chế độ Mã HTML). Sửa trực tiếp từng câu bên dưới rồi bấm Đẩy bài.</p></div>';
             picked.forEach(function(q, i){
@@ -1188,14 +1330,7 @@
             if (btn) { btn.disabled = false; btn.innerHTML = '🔄 Cập nhật danh mục'; }
         }
 
-// 2026-10-11: Tự động tải teacher-exam-manage.js
-(function(){
-    if (document.querySelector('script[src*="teacher-exam-manage"]')) return;
-    var sc = document.createElement('script');
-    sc.src = 'teacher-exam-manage.js?t=' + Date.now();
-    sc.async = true;
-    document.head.appendChild(sc);
-})();
+// SB_UNIFY_20261012: khong tai teacher-exam-manage.js nua — de ma tran da gop vao danh sach de thong nhat o tab 2 (user chot: bo muc rieng 'De Kiem Tra Cua Toi (tu ma tran)')
 
 // 2026-10-11: Tự động tải teacher-ui-simplify.js (ẩn sidebar)
 (function(){
