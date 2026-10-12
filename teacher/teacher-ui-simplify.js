@@ -1,4 +1,4 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261012_1215
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261012_1345
 // SB_STUDYMIN_20261012_V1: giao nhiệm vụ lý thuyết kèm số phút học tối thiểu GV đặt (mặc định 5) -> task.studyMinutes
 // Tab 2: thay the renderLessonManagementList goc bang DS DE THI GV tai len, gom:
 //  (a) file de .html trong data/ (Word/AI day cong khai)
@@ -1167,24 +1167,16 @@ function bk2Render(host){
   if (!host) host = document.getElementById('sb-bank2-inline');
   if (!host) return;
   host.innerHTML = '<div style="margin-top:18px;padding:14px;background:#eef2ff;border:1px solid #c7d2fe;border-radius:10px">'
-    + '<p style="font-weight:bold;margin:0">🗂️ Bank Đề (Bank 2) — kho đề kiểm tra của GV <button id="bk2-reload" style="margin-left:8px;padding:4px 10px;background:#4f46e5;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px">🔄 Tải lại</button></p>'
+    + '<p style="font-weight:bold;margin:0">🤝 Đề kiểm tra đồng nghiệp chia sẻ <button id="bk2-reload" style="margin-left:8px;padding:4px 10px;background:#4f46e5;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px">🔄 Tải lại</button></p>'
     + '<p style="color:#64748b;margin:6px 0 0;font-size:13px">⏳ Đang tải kho đề...</p></div>';
   var rb = host.querySelector('#bk2-reload');
   bk2Load().then(function(d){
     var me = sbExamViewer();
-    var mine = d.items.filter(function(it){
-      if (String(it.ownerId) !== String(me.id)) return false;
-      // De da co muc trong danh sach lich (o tren) thi khong liet ke lai o day tranh trung — chi hien de mo coi chua len lich
-      return !it.schedEntry || (!me.isAdmin && String(it.schedEntry.teacherId || '') !== String(me.id));
-    });
     var others = d.items.filter(function(it){ return String(it.ownerId) !== String(me.id) && bk2ShareInfo(it).shared; });
     var h = '<div style="margin-top:18px;padding:14px;background:#eef2ff;border:1px solid #c7d2fe;border-radius:10px">'
-      + '<p style="font-weight:bold;margin:0">🗂️ Bank Đề (Bank 2) — kho đề kiểm tra của GV <button id="bk2-reload" style="margin-left:8px;padding:4px 10px;background:#4f46e5;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px">🔄 Tải lại</button></p>'
+      + '<p style="font-weight:bold;margin:0">🤝 Đề kiểm tra đồng nghiệp chia sẻ <button id="bk2-reload" style="margin-left:8px;padding:4px 10px;background:#4f46e5;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px">🔄 Tải lại</button></p>'
       + '<p style="color:#475569;font-size:12px;margin:6px 0 0">Mặc định đề ở chế độ riêng tư và <b>tự chia sẻ cho GV khác sau khi lớp được giao kiểm tra xong + 10 ngày</b> (trừ khi bạn khóa). GV khác chỉ Xem + Đẩy cho lớp của họ, không sửa/xóa được đề của bạn.</p>';
-    h += '<p style="font-weight:bold;color:#334155;margin:12px 0 4px">📁 Đề Bank 2 chưa lên lịch (' + mine.length + ')</p>';
-    h += '<p style="color:#64748b;font-size:12px;margin:0 0 4px">Đề đã giao / đã lên lịch nằm ở <b>danh sách phía trên</b> (đổi chế độ chia sẻ ngay trong từng thẻ đề). Ở đây chỉ còn đề trong kho Bank 2 mà chưa tạo lịch giao nào.</p>';
-    h += mine.length ? '<ul style="list-style:none;padding:0;margin:0;background:#fff;border-radius:8px">' + mine.map(function(it){ return bk2Row(it, true, d); }).join('') + '</ul>'
-      : '<p style="color:#888;font-size:13px">Không còn đề nào chưa lên lịch. Đề bạn đẩy lên bằng Word/AI (mode đề kiểm tra) sẽ vào kho này trước khi bạn giao cho lớp.</p>';
+    h += '<p style="color:#64748b;font-size:12px;margin:8px 0 0">Mọi đề của bạn — dù tạo từ Word, AI hay ma trận, đã giao hay chưa — đều nằm ở <b>danh sách phía trên</b>, mỗi đề chỉ hiện một lần; đổi chế độ chia sẻ ngay trong từng thẻ đề.</p>';
     h += '<p style="font-weight:bold;color:#334155;margin:14px 0 4px">🌐 Đề GV khác đã chia sẻ (' + others.length + ')</p>';
     h += others.length ? '<ul style="list-style:none;padding:0;margin:0;background:#fff;border-radius:8px">' + others.map(function(it){ return bk2Row(it, false, d); }).join('') + '</ul>'
       : '<p style="color:#888;font-size:13px">Chưa có đề chia sẻ nào.</p>';
@@ -1367,7 +1359,7 @@ console.log('SAOBAY wrap 0630 loaded');
     m.querySelector('#sb-push-close').style.display = 'block';
     m.style.display = 'flex';
   };
-  /* ===== SB_SEMSTATS_20261012_V1: Thong ke cuoi ki / cuoi nam trong module stats =====
+  /* ===== SB_SEMSTATS_20261012_V1 + SB_SEMSTATS_FIX_20261012_V2 + SB_BANK2DEDUP_20261012_V1: Thong ke cuoi ki / cuoi nam trong module stats =====
      GV chon lop (phan cong truong + lop rieng) -> xem thong ke HK1 (tu dau nam hoc den moc
      HK2 hoac den hien tai), HK2 (tu moc den hien tai), ca nam. Moc HK2 do GV chot bang
      nut "Bat dau HK2" (luu data/stats/hk2-start.json theo id GV + localStorage). */
@@ -1393,30 +1385,38 @@ console.log('SAOBAY wrap 0630 loaded');
         try { localStorage.setItem('sb_hk2_start_' + myId(), iso); } catch(e){}
       });
   }
-  function semLoadClasses(){
-    var jobs = [ fetchAll(), apiRaw('data/private/classes.json').then(function(t){ return JSON.parse(t); }).catch(function(){ return {}; }) ];
-    if (semIsPriv()) jobs.push(fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/used/used.is?t=' + Date.now(), { cache: 'no-store' }).then(function(r){ return r.json(); }).catch(function(){ return {}; }));
-    return Promise.all(jobs).then(function(rs){
-      var data = rs[0] || {}, pvj = rs[1] || {};
+  function semLoadClasses(){ // SB_SEMSTATS_FIX_20261012_V2: chiu loi tung nguon + moi GV thay lop phan cong va lop rieng cua minh
+    var pAll = Promise.resolve().then(function(){ return fetchAll(); }).catch(function(){ return {}; });
+    var pPv = apiRaw('data/private/classes.json').then(function(t){ return JSON.parse(t); }).catch(function(){ return {}; });
+    var pUsed = fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/used/used.is?t=' + Date.now(), { cache: 'no-store' }).then(function(r){ return r.ok ? r.json() : {}; }).catch(function(){ return {}; });
+    return Promise.all([pAll, pPv, pUsed]).then(function(rs){
+      var data = rs[0] || {}, pvj = rs[1] || {}, used = rs[2] || {};
       var pvClasses = Array.isArray(pvj) ? pvj : (pvj.classes || []);
       semState.pvStudents = {};
       pvClasses.forEach(function(c){ semState.pvStudents[String(c.id)] = (c.students || []).map(function(st){ return norm(st && st.name); }); });
-      var list = (data.myClasses || []).slice();
-      if (semIsPriv()){
-        var used = rs[2] || {}, seen = {};
-        list.forEach(function(c){ seen[c.key] = 1; });
-        (used.assignments || []).forEach(function(a){
-          if (!a.class) return;
-          var k = 'school:' + a.class;
-          if (!seen[k]){ seen[k] = 1; list.push({ kind: 'school', key: k, id: '', name: String(a.class), grade: parseGrade(a.class), subjects: [] }); }
-        });
-        pvClasses.forEach(function(c){
-          var k = 'pv:' + c.id;
-          if (!seen[k]){ seen[k] = 1; list.push({ kind: 'pv', key: k, id: c.id, name: c.name, grade: (c.grade ? parseInt(c.grade, 10) : parseGrade(c.name)), subjects: [], nStudents: (c.students || []).length }); }
-        });
-      }
+      var seen = {}, list = [];
+      function add(c){ if (c && c.key && !seen[c.key]){ seen[c.key] = 1; list.push(c); } }
+      (data.myClasses || []).forEach(add);
+      var me = '', uname = '';
+      try { me = myId(); } catch(e){}
+      try { uname = norm(myName()); } catch(e){}
+      if (me) pvClasses.forEach(function(c){
+        if (String(c.teacher_id || c.teacherId || '') !== String(me)) return;
+        add({ kind: 'pv', key: 'pv:' + c.id, id: c.id, name: c.name, grade: (c.grade ? parseInt(c.grade, 10) : parseGrade(c.name)), subjects: [], nStudents: (c.students || []).length });
+      });
+      var priv = false; try { priv = semIsPriv(); } catch(e){}
+      (used.assignments || []).forEach(function(a){
+        if (!a.class) return;
+        var t = String(a.teachers || '');
+        var hit = (uname && norm(t.replace(/\(.*?\)/g, '')).indexOf(uname) >= 0) || (me && t.indexOf(me) >= 0);
+        if (!hit && !priv) return;
+        add({ kind: 'school', key: 'school:' + a.class, id: '', name: String(a.class), grade: parseGrade(a.class), subjects: [] });
+      });
+      if (priv) pvClasses.forEach(function(c){
+        add({ kind: 'pv', key: 'pv:' + c.id, id: c.id, name: c.name, grade: (c.grade ? parseInt(c.grade, 10) : parseGrade(c.name)), subjects: [], nStudents: (c.students || []).length });
+      });
       semState.classes = list;
-      if (!semState.clsKey && list.length) semState.clsKey = list[0].key;
+      if (!semState.clsKey || !seen[semState.clsKey]) semState.clsKey = list.length ? list[0].key : '';
     });
   }
   function semLoadScores(statusEl){
@@ -1479,9 +1479,13 @@ console.log('SAOBAY wrap 0630 loaded');
     var body = document.getElementById('sb-sem-body');
     var info = document.getElementById('sb-sem-hk2info');
     if (!body) return;
-    if (sel && !sel.options.length){
-      sel.innerHTML = semState.classes.map(function(c){ return '<option value="' + esc(c.key) + '">' + esc(c.name) + (c.kind === 'pv' ? ' (lớp riêng)' : '') + '</option>'; }).join('');
-      sel.value = semState.clsKey;
+    if (sel){
+      var sig = semState.classes.map(function(c){ return c.key; }).join('|');
+      if (sel.getAttribute('data-sig') !== sig){
+        sel.innerHTML = semState.classes.map(function(c){ return '<option value="' + esc(c.key) + '">' + esc(c.name) + (c.kind === 'pv' ? ' (lớp riêng)' : '') + '</option>'; }).join('');
+        sel.setAttribute('data-sig', sig);
+        sel.value = semState.clsKey;
+      }
     }
     document.querySelectorAll('[data-sem-period]').forEach(function(b){ b.classList.toggle('sb-sem-on', b.getAttribute('data-sem-period') === semState.period); });
     if (info) info.innerHTML = semState.hk2At
@@ -1519,7 +1523,7 @@ console.log('SAOBAY wrap 0630 loaded');
     if (sel) sel.addEventListener('change', function(){ semState.clsKey = sel.value; semRender(); });
     view.querySelectorAll('[data-sem-period]').forEach(function(b){ b.addEventListener('click', function(){ semState.period = b.getAttribute('data-sem-period'); semRender(); }); });
     var refresh = document.getElementById('sb-sem-refresh');
-    if (refresh) refresh.addEventListener('click', function(){ semState.subs = null; semRender(); semLoadScores(document.getElementById('sb-sem-status')).then(function(){ var st = document.getElementById('sb-sem-status'); if (st) st.textContent = ''; semRender(); }); });
+    if (refresh) refresh.addEventListener('click', function(){ semState.subs = null; semLoadClasses().then(function(){ semRender(); }); semLoadScores(document.getElementById('sb-sem-status')).then(function(){ var st = document.getElementById('sb-sem-status'); if (st) st.textContent = ''; semRender(); }); });
     var hk2btn = document.getElementById('sb-sem-hk2btn');
     if (hk2btn) hk2btn.addEventListener('click', function(){
       var inp = document.getElementById('sb-sem-hk2input');
@@ -1537,7 +1541,9 @@ console.log('SAOBAY wrap 0630 loaded');
     });
     var statusEl = document.getElementById('sb-sem-status');
     semRender();
-    semLoadMarks().then(function(){ return semLoadClasses(); }).then(function(){
+    semLoadMarks().catch(function(){}).then(function(){ return semLoadClasses(); }).then(function(){
+      if (!semState.classes.length) return semLoadClasses();
+    }).then(function(){
       semRender();
       return semLoadScores(statusEl);
     }).then(function(){
