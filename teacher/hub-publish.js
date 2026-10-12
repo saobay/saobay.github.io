@@ -507,6 +507,25 @@ PHẦN 4 - ĐÁP ÁN VÀ HƯỚNG DẪN CHẤM:
             let asciiTitle = removeVietnameseTones(rawTitle);
             let formattedFileName = `${asciiTitle}_${fileSubType}_none.html`;
             let targetGitPath = `${targetFolder}/${formattedFileName}`;
+            // SB_AUDITFLOW_20261013_V1: kiem duyet Bank 1 — GV khong co quyen duyet thi bai vao hang cho
+            let _sbAuditPending = false, _sbAuditTargetFolder = targetFolder, _sbAuditMeta = null;
+            try {
+                let _sbIsStudentFolder = (targetFolder.indexOf('data/THCS') === 0 || targetFolder.indexOf('data/THPT') === 0);
+                let _sbCanRv = (typeof window.sbContentCanReview === 'function') ? (await window.sbContentCanReview()) : true;
+                if (_sbIsStudentFolder && !_sbCanRv) {
+                    let _parts = String(targetFolder).split('/');
+                    let _subj = _parts[3] || 'Chung';
+                    let _grade = (_parts[2] || '').replace(/^Khối lớp\s*/i, '') || '';
+                    let _chap = _parts[4] || '';
+                    formattedFileName = `${asciiTitle}_${fileSubType}_none.html`;
+                    targetGitPath = `data/cho-duyet/${_subj}/${formattedFileName}`;
+                    _sbAuditPending = true;
+                    _sbAuditMeta = { subject: _subj, grade: _grade, chapter: _chap, type: fileSubTypeDisplay };
+                } else if (_sbIsStudentFolder && _sbCanRv) {
+                    let _uid = String((typeof currentUser !== 'undefined' && currentUser && currentUser.id) || '').replace(/[^a-zA-Z0-9]/g, '');
+                    if (_uid) { formattedFileName = `${asciiTitle}_${fileSubType}_id${_uid}.html`; targetGitPath = `${targetFolder}/${formattedFileName}`; }
+                }
+            } catch(_eAudit){ console.log('audit gate note:', _eAudit); }
 
             // Chuẩn hóa thành file HTML hoàn chỉnh nếu người dùng chỉ dán đoạn trích
             let finalHtml = contentVal;
@@ -673,7 +692,7 @@ PHẦN 4 - ĐÁP ÁN VÀ HƯỚNG DẪN CHẤM:
                         type: 'PUSH_TO_GITHUB',
                         filePath: targetGitPath,
                         content: finalHtml,
-                        commitMessage: `Upload ${fileSubTypeDisplay}: ${safeTitle} vào [${targetFolder}]`,
+                        commitMessage: `Upload ${fileSubTypeDisplay}: ${safeTitle} vào [${targetGitPath}]`,  // SB_AUDITFLOW_20261013_V1
                         title: safeTitle,
                         folderName: currentSelectedFolderName,
                         folderId: currentSelectedFolderId,
@@ -702,11 +721,17 @@ PHẦN 4 - ĐÁP ÁN VÀ HƯỚNG DẪN CHẤM:
 
                         notifyChannel.postMessage({ action: 'REFRESH_LESSON_LIST', title: safeTitle, path: targetGitPath, content: finalHtml });
 
-                        alert(`🎉 THÀNH CÔNG!\nBài "${safeTitle}" đã được đẩy trực tiếp lên GitHub qua Google Proxy!\n📁 Vị trí: ${targetGitPath}\n⭐ Điểm thưởng nhận được: +${pointsEarned}`);
-                        // Phase 2: tu boc cau hoi vao ngan hang (khong chan luong chinh)
-                        autoSaveToBank(finalHtml, formattedFileName, targetGitPath, targetFolder, readBankMetaFromForm()).catch(function(){});
+                                                // SB_AUDITFLOW_20261013_V1: bai cho duyet -> ghi ban ghi hang doi, KHONG boc cau hoi vao bank chung
+                        if (_sbAuditPending) {
+                            try { if (typeof window.sbAuditRecordPending === 'function') { await window.sbAuditRecordPending({ title: safeTitle, path: targetGitPath, fileName: formattedFileName, subject: _sbAuditMeta.subject, grade: _sbAuditMeta.grade, chapter: _sbAuditMeta.chapter, type: _sbAuditMeta.type, targetFolder: _sbAuditTargetFolder, pushedBy: String((typeof currentUser!=='undefined'&&currentUser&&currentUser.id)||''), pushedByName: ((typeof currentUser!=='undefined'&&currentUser&&currentUser.name)||''), pushedAt: new Date().toISOString() }); } } catch(_eRec){ console.log('audit record note:', _eRec); }
+                            alert(`⏳ ĐÃ GỬI CHỜ KIỂM DUYỆT!\nBài "${safeTitle}" đã vào hàng chờ.\nQuản trị viên / Tổ trưởng sẽ thẩm định trước khi bài xuất hiện cho học sinh.\n📁 Vị trí chờ: ${targetGitPath}\n⭐ Điểm thưởng nhận được: +${pointsEarned}`);
+                        } else {
+                            alert(`🎉 THÀNH CÔNG!\nBài "${safeTitle}" đã được đẩy trực tiếp lên GitHub qua Google Proxy!\n📁 Vị trí: ${targetGitPath}\n⭐ Điểm thưởng nhận được: +${pointsEarned}`);
+                        }
+                        // Phase 2: tu boc cau hoi vao ngan hang (khong chan luong chinh) — KHONG boc khi bai con cho duyet
+                        if (!_sbAuditPending && typeof autoSaveToBank === 'function') { try { autoSaveToBank(finalHtml, formattedFileName, targetGitPath, targetFolder, readBankMetaFromForm()).catch(function(){}); } catch(_eB){} }
                         // Quyen so huu de thi: ai day thi la chu (khong chan luong chinh)
-                        registerExamOwner(targetGitPath, safeTitle).catch(function(){});
+                        if (typeof registerExamOwner === 'function') { try { registerExamOwner(targetGitPath, safeTitle).catch(function(){}); } catch(_eO){} }
                         resetFormToCreate();
                         try { await window.sbTimeout(loadFolderTreeFromGit(), 30000, 'tai lai danh muc'); } catch(eTree){ console.log('reload tree note:', eTree); }
                     } else {
@@ -752,7 +777,7 @@ PHẦN 4 - ĐÁP ÁN VÀ HƯỚNG DẪN CHẤM:
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        message: `Upload ${fileSubTypeDisplay}: ${safeTitle} vào [${targetFolder}]`,
+                        message: `Upload ${fileSubTypeDisplay}: ${safeTitle} vào [${targetGitPath}]`,  // SB_AUDITFLOW_20261013_V1
                         content: base64Content,
                         branch: GITHUB_CONFIG.branch,
                         ...(sha ? { sha } : {})
@@ -774,11 +799,17 @@ PHẦN 4 - ĐÁP ÁN VÀ HƯỚNG DẪN CHẤM:
 
                     notifyChannel.postMessage({ action: 'REFRESH_LESSON_LIST', title: safeTitle, path: targetGitPath, content: finalHtml });
 
-                    alert(`🎉 THÀNH CÔNG!\nBài "${safeTitle}" đã được đẩy trực tiếp lên GitHub!\n📁 Vị trí: ${targetGitPath}\n⭐ Điểm thưởng nhận được: +${pointsEarned}`);
-                    // Phase 2: tu boc cau hoi vao ngan hang (khong chan luong chinh)
-                    autoSaveToBank(finalHtml, formattedFileName, targetGitPath, targetFolder, readBankMetaFromForm()).catch(function(){});
-                    // Quyen so huu de thi: ai day thi la chu (khong chan luong chinh)
-                    registerExamOwner(targetGitPath, safeTitle).catch(function(){});
+                                       // SB_AUDITFLOW_20261013_V1: bai cho duyet -> ghi ban ghi hang doi, KHONG boc cau hoi vao bank chung
+                   if (_sbAuditPending) {
+                       try { if (typeof window.sbAuditRecordPending === 'function') { await window.sbAuditRecordPending({ title: safeTitle, path: targetGitPath, fileName: formattedFileName, subject: _sbAuditMeta.subject, grade: _sbAuditMeta.grade, chapter: _sbAuditMeta.chapter, type: _sbAuditMeta.type, targetFolder: _sbAuditTargetFolder, pushedBy: String((typeof currentUser!=='undefined'&&currentUser&&currentUser.id)||''), pushedByName: ((typeof currentUser!=='undefined'&&currentUser&&currentUser.name)||''), pushedAt: new Date().toISOString() }); } } catch(_eRec){ console.log('audit record note:', _eRec); }
+                       alert(`⏳ ĐÃ GỬI CHỜ KIỂM DUYỆT!\nBài "${safeTitle}" đã vào hàng chờ.\nQuản trị viên / Tổ trưởng sẽ thẩm định trước khi bài xuất hiện cho học sinh.\n📁 Vị trí chờ: ${targetGitPath}\n⭐ Điểm thưởng nhận được: +${pointsEarned}`);
+                   } else {
+                       alert(`🎉 THÀNH CÔNG!\nBài "${safeTitle}" đã được đẩy trực tiếp lên GitHub!\n📁 Vị trí: ${targetGitPath}\n⭐ Điểm thưởng nhận được: +${pointsEarned}`);
+                   }
+                   // Phase 2: tu boc cau hoi vao ngan hang (khong chan luong chinh) — KHONG boc khi bai con cho duyet
+                   if (!_sbAuditPending && typeof autoSaveToBank === 'function') { try { autoSaveToBank(finalHtml, formattedFileName, targetGitPath, targetFolder, readBankMetaFromForm()).catch(function(){}); } catch(_eB){} }
+                   // Quyen so huu de thi: ai day thi la chu (khong chan luong chinh)
+                   if (typeof registerExamOwner === 'function') { try { registerExamOwner(targetGitPath, safeTitle).catch(function(){}); } catch(_eO){} }
                         resetFormToCreate();
                     try { await window.sbTimeout(loadFolderTreeFromGit(), 30000, 'tai lai danh muc'); } catch(eTree){ console.log('reload tree note:', eTree); }
                 } else {
