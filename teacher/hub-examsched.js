@@ -1,5 +1,5 @@
 // hub-examsched.js — Lên lịch kiểm tra chống lộ đề (SAOBAY)
-// SAOBAY_EXAMSCHED_VERSION:20261012_0725
+// SAOBAY_EXAMSCHED_VERSION:20261012_0745
 // GV lên lịch kiểm tra trong teacher-hub: đề được TRỘN + GIẤU trong data/exams-pending/
 // cho tới giờ thi; index.html đọc data/exam-schedule.json để hiện banner cho HS.
 // Định nghĩa: window.ExamSched = { saveScheduledExam, loadSchedule, getExamsForClass, mergeExamToBank, markExamDone,
@@ -243,7 +243,9 @@
                 if (_loginId && _g && _s) {
                     var _subjFolder = (typeof window !== 'undefined' && window.SB_BANK2 && window.SB_BANK2.subjectName) ? String(window.SB_BANK2.subjectName) : (_s + ' ' + _g);
                     var _bankPath = 'data/bank-de/Khối lớp ' + _g + '/' + _subjFolder + '/' + _loginId + '/' + id + '.json';
-                    await gasPush(_bankPath, JSON.stringify(pending, null, 1),
+                    // BANK2 SHARE v1 (2026-10-12): mac dinh che do 'auto' — tu chia se sau khi lop kiem tra xong + 10 ngay
+                    var _bankContent = Object.assign({}, pending, { share: { mode: 'auto', ownerId: String(teacherId || ''), ownerName: String(teacherName || ''), createdAt: new Date().toISOString() } });
+                    await gasPush(_bankPath, JSON.stringify(_bankContent, null, 1),
                         'Luu bank de: ' + title, 'Bank de ' + title);
                 }
             } catch(e) {}
