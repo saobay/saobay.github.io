@@ -53,7 +53,7 @@
                         <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
                             <i class="fa-solid fa-user"></i>
                         </span>
-                        <input type="text" id="login-username" required placeholder="Nhập Mã GV, Mã HS hoặc SĐT..." class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs md:text-sm font-semibold focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"/>
+                        <input type="text" id="login-username" autocomplete="username" required placeholder="Nhập Mã GV, Mã HS hoặc SĐT..." class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs md:text-sm font-semibold focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"/>
                     </div>
                 </div>
 
@@ -63,7 +63,7 @@
                         <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
                             <i class="fa-solid fa-lock"></i>
                         </span>
-                        <input type="password" id="login-password" required placeholder="Nhập mật khẩu của bạn..." class="w-full pl-10 pr-10 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs md:text-sm font-semibold focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"/>
+                        <input type="password" id="login-password" autocomplete="current-password" required placeholder="Nhập mật khẩu của bạn..." class="w-full pl-10 pr-10 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs md:text-sm font-semibold focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"/>
                         <button type="button" onclick="togglePasswordVisibility('login-password', this)" class="absolute inset-y-0 right-0 flex items-center pr-3.5 text-slate-400 hover:text-slate-600">
                             <i class="fa-solid fa-eye"></i>
                         </button>
@@ -2230,5 +2230,55 @@ window.addEventListener('storage', function(e){
 </script>
 
 <script src="../js/admin-toolbar.js"></script>
+<script>window.__SB_NOFILL_SKIP = { "login-username": 1 };</script>
+<script>
+/* SB_NOFILL_20261012_V1: chan trinh duyet/quan ly mat khau TU DIEN thong tin dang nhap vao
+   cac o khong phai dang nhap (o tra loi ngan, ten bai, ten HS... bi nhan nham la o mat khau).
+   - O text/textarea thuong: autocomplete="off" + data-lpignore/1p-ignore (ke ca o tao dong ve sau).
+   - O password: gan dung nghia (current-password / new-password / off cho o token) de trinh duyet
+     chi dien dung cho, khong lan sang o khac. Ngoai le qua window.__SB_NOFILL_SKIP (trang dang nhap). */
+(function(){
+  if (window.__sbNoFill) return; window.__sbNoFill = 1;
+  var SKIP = window.__SB_NOFILL_SKIP || {};
+  function fixOne(el){
+    if (!el || !el.tagName) return;
+    var tag = el.tagName;
+    if (tag !== 'INPUT' && tag !== 'TEXTAREA') return;
+    var id = el.id || '';
+    if (SKIP[id]) return;
+    var t = (el.getAttribute('type') || (tag === 'TEXTAREA' ? 'textarea' : 'text')).toLowerCase();
+    if (t === 'password'){
+      if (!el.getAttribute('autocomplete')){
+        if (/token/i.test(id)) el.setAttribute('autocomplete', 'off');
+        else if (/new|confirm/i.test(id)) el.setAttribute('autocomplete', 'new-password');
+        else el.setAttribute('autocomplete', 'current-password');
+      }
+      return;
+    }
+    if (tag === 'TEXTAREA' || ['text', 'search', 'tel', 'email', 'url', 'number', ''].indexOf(t) >= 0){
+      el.setAttribute('autocomplete', 'off');
+      el.setAttribute('data-lpignore', 'true');
+      el.setAttribute('data-1p-ignore', 'true');
+    }
+  }
+  function fixAll(root){ try { (root || document).querySelectorAll('input, textarea').forEach(fixOne); } catch(e){} }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function(){ fixAll(document); });
+  else fixAll(document);
+  try {
+    new MutationObserver(function(muts){
+      for (var i = 0; i < muts.length; i++){
+        var nodes = muts[i].addedNodes;
+        for (var j = 0; j < nodes.length; j++){
+          var n = nodes[j];
+          if (!n || n.nodeType !== 1) continue;
+          if (n.tagName === 'INPUT' || n.tagName === 'TEXTAREA') fixOne(n);
+          else if (n.querySelectorAll) fixAll(n);
+        }
+      }
+    }).observe(document.documentElement, { childList: true, subtree: true });
+  } catch(e){}
+})();
+</script>
+
 </body>
 </html>
