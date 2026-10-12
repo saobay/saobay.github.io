@@ -6,50 +6,72 @@
     <title>Bài 5: Soạn thảo văn bản</title>
     <meta name="lesson-title" content="Bài 5: Soạn thảo văn bản">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
-        body { font-family: system-ui, -apple-system, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; }
-        .content-body { max-width: 800px; margin: 0 auto; }
-        h2 { color: #0369a1; margin-top: 24px; }
-        .highlight { background: #e0f2fe; padding: 12px; border-radius: 8px; border-left: 4px solid #0284c7; margin: 12px 0; }
-        table { width: 100%; border-collapse: collapse; margin: 12px 0; }
-        th, td { border: 1px solid #cbd5e1; padding: 8px; text-align: left; }
-        th { background: #f1f5f9; }
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
     </style>
 </head>
-<body class="bg-slate-50">
-<div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-<div class="border-b pb-4 mb-6">
-<span class="text-xs font-bold text-blue-600 uppercase">Lý thuyết</span>
-<h1 class="text-2xl font-black mt-1">Bài 5: Soạn thảo văn bản</h1>
-<p class="text-xs text-slate-500 mt-1">Tin học 6 • Chủ đề 4: Ứng dụng tin học</p>
-</div>
-<div class="content-body">
-
-<h2>1. Phần mềm soạn thảo văn bản</h2>
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Lý thuyết</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài 5: Soạn thảo văn bản</h1>
+            <p class="text-xs text-slate-500 mt-1">Tin học 6 • Bài 5: Soạn thảo văn bản</p>
+        </div>
+        <div class="content-body space-y-4">
+<div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 5: Soạn thảo văn bản</h1>
+<p class="text-center text-slate-500 italic mb-8">Tin học 6 • Bài 5: Soạn thảo văn bản</p>
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Phần mềm soạn thảo văn bản</h2>
 <p>Phần mềm soạn thảo văn bản giúp tạo, chỉnh sửa và trình bày các văn bản đẹp mắt. Một số phần mềm phổ biến: Microsoft Word, Google Docs, LibreOffice Writer.</p>
 <p>Các bước soạn thảo cơ bản: mở phần mềm, gõ nội dung bằng bàn phím, định dạng văn bản, lưu tệp và in ấn nếu cần.</p>
 
-<h2>2. Định dạng văn bản</h2>
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Định dạng văn bản</h2>
 <p>Định dạng giúp văn bản rõ ràng, đẹp mắt và dễ đọc. Có hai loại định dạng chính:</p>
-<table>
-<tr><th>Loại định dạng</th><th>Ví dụ</th></tr>
-<tr><td>Định dạng kí tự</td><td>Phông chữ, cỡ chữ, màu chữ, in đậm, in nghiêng, gạch chân</td></tr>
-<tr><td>Định dạng đoạn văn</td><td>Căn lề (trái, giữa, phải, đều), khoảng cách dòng, thụt đầu dòng</td></tr>
-</table>
-<div class="highlight">
-<strong>Ghi nhớ:</strong> Trước khi định dạng, cần chọn (bôi đen) phần văn bản muốn định dạng.
+<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 my-2">
+<tr><th class="border border-slate-300 px-4 py-1 bg-sky-100 font-semibold">Loại định dạng</th><th class="border border-slate-300 px-4 py-1 bg-sky-100 font-semibold">Ví dụ</th></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Định dạng kí tự</td><td class="border border-slate-300 px-4 py-1">Phông chữ, cỡ chữ, màu chữ, in đậm, in nghiêng, gạch chân</td></tr>
+<tr><td class="border border-slate-300 px-4 py-1">Định dạng đoạn văn</td><td class="border border-slate-300 px-4 py-1">Căn lề (trái, giữa, phải, đều), khoảng cách dòng, thụt đầu dòng</td></tr>
+</table></div>
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<span class="font-bold text-amber-800">📌 Ghi nhớ:</span> Trước khi định dạng, cần chọn (bôi đen) phần văn bản muốn định dạng.
 </div>
 
-<h2>3. Chèn hình ảnh vào văn bản</h2>
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Chèn hình ảnh vào văn bản</h2>
 <p>Hình ảnh minh họa giúp văn bản sinh động, dễ hiểu hơn. Cách chèn: đặt con trỏ tại vị trí muốn chèn, chọn lệnh chèn hình ảnh, tìm và chọn tệp ảnh. Sau khi chèn, có thể thay đổi kích thước và vị trí của ảnh.</p>
 
-<h2>4. Chèn bảng vào văn bản</h2>
+<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">4. Chèn bảng vào văn bản</h2>
 <p>Bảng giúp trình bày dữ liệu có hàng, cột một cách gọn gàng (ví dụ: thời khóa biểu, bảng điểm). Cách chèn: chọn lệnh chèn bảng, chỉ định số hàng và số cột, sau đó nhập dữ liệu vào từng ô.</p>
-<div class="highlight">
-<strong>Ghi nhớ:</strong> Văn bản đẹp cần bố cục hợp lí: tiêu đề rõ ràng, định dạng thống nhất, hình ảnh và bảng minh họa phù hợp với nội dung.
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+<span class="font-bold text-amber-800">📌 Ghi nhớ:</span> Văn bản đẹp cần bố cục hợp lí: tiêu đề rõ ràng, định dạng thống nhất, hình ảnh và bảng minh họa phù hợp với nội dung.
 </div>
-
-</div>
-</div>
+</div>        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
 </body>
 </html>
