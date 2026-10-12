@@ -109,10 +109,10 @@
                 }
                 if (!progressed) break;
             }
-            let picked = [], used = {};
+            let picked = [], used = new Set();
             levels.forEach(function(lv){
                 let g = groups[lv] || [];
-                for (let i = 0; i < take[lv]; i++){ picked.push(g[i]); used[g[i].id] = 1; }
+                for (let i = 0; i < take[lv]; i++){ picked.push(g[i]); used.add(g[i]); } // V4: bank khong co id -> theo tham chieu
             });
             return { picked: picked, used: used };
         }
@@ -344,68 +344,59 @@
                     var j = await r.json();
                     return Array.isArray(j) ? j : [];
                 }
-                try {
-                    // 2026-10-11: lay danh sach bai tu folders.json (0 API call, tranh 403)
-                    var idx2 = await exbLoadFolderIndex();
-                    if (idx2 && idx2.grades && idx2.grades[String(grade)]){
-                        var sm = idx2.grades[String(grade)];
-                        var sk = Object.keys(sm).find(function(k){ return k.toLowerCase() === subjNorm; });
-                        if (sk && sm[sk].chapter_files) {
-                            var cf = sm[sk].chapter_files;
-                            Object.keys(cf).forEach(function(chName){
-                                var files = cf[chName] || [];
-                                files.forEach(function(fItem){
-                                    var fn = (fItem && fItem.name) ? fItem.name : String(fItem || '');
-                                    if (!/\.html?$/i.test(fn)) return;
-                                    var lm = fn.match(/_Bai_(\d+)_/i) || fn.match(/Bai(\d+)/i);
-                                    if (lm){
-                                        var ln = parseInt(lm[1], 10);
-                                        if (!seenL[ln]){
-                                            seenL[ln] = 1;
-                                            lessons.push({ num: ln, ch: chName, count: 0 });
-                                        }
-                                    }
-                                });
-                            });
-                        }
-                    }
-                    lessons.sort(function(a,b){ return a.num - b.num; });
-                } catch(eF){ console.warn('Load lessons:', eF); }
-                // Vẫn load bank để bốc câu (giữ nguyên logic bốc)
+                // SB_MATRIX_FIX_20261012_V4: danh sach bai xay TU BANK THAT theo khoa (Chuong, Bai)
                 var r = await bankApiRead(bankKey(subj, grade));
                 var pool = [];
                 if (r && !r.notFound && !r.error && r.data){
                     pool = exbApplyApprovedFilter(r.data.questions || []);
                 }
                 exbBankPool = pool;
-                var map = {};
-                // Đếm câu theo bài từ bank (nếu có)
+                var byKey = {};
                 pool.forEach(function(q){
-                    var l = parseInt(q.lesson, 10) || 0;
-                    if (l <= 0) return;
-                    if (!map[l]) map[l] = 0;
-                    map[l]++;
+                    var k = exbBaiKey(q);
+                    if (!byKey[k]) byKey[k] = { key: k, count: 0 };
+                    byKey[k].count++;
                 });
-                lessons.forEach(function(ls){ ls.count = map[ls.num] || 0; });
+                lessons = Object.keys(byKey).map(function(k){ return byKey[k]; }).sort(function(a, b){ return a.key - b.key; });
                 exbLessonCache = lessons;
                 if (!lessons.length){
-                    exbFillSelect('exbb-lesson-from', [], '-- Chua chia bai --');
-                    exbFillSelect('exbb-lesson-to', [], '-- Chua chia bai --');
+                    exbFillSelect('exbb-lesson-from', [], '-- Bank chua co cau --');
+                    exbFillSelect('exbb-lesson-to', [], '-- Bank chua co cau --');
                     return;
                 }
                 var opts = lessons.map(function(l){
-                    var chLbl = l.ch ? ' (' + l.ch + ')' : '';
-                    return { value: l.num, label: 'Bài ' + l.num + chLbl + (l.count ? ' - ' + l.count + ' câu' : '') };
+                    return { value: l.key, label: exbBaiLabel(l.key, l.count) };
                 });
                 exbFillSelect('exbb-lesson-from', opts, '-- Tu bai --');
                 exbFillSelect('exbb-lesson-to', opts, '-- Den bai --');
                 var fEl = document.getElementById('exbb-lesson-from'), tEl = document.getElementById('exbb-lesson-to');
-                if (fEl) fEl.value = lessons[0].num;
-                if (tEl) tEl.value = lessons[lessons.length - 1].num;
+                if (fEl) fEl.value = lessons[0].key;
+                if (tEl) tEl.value = lessons[lessons.length - 1].key;
             } catch(e){
                 exbFillSelect('exbb-lesson-from', [], '-- Loi tai --');
                 exbFillSelect('exbb-lesson-to', [], '-- Loi tai --');
             }
+        }
+
+        // SB_MATRIX_FIX_20261012_V4: khoa pham vi = Chuong*1000 + SoBaiToanCuc.
+        // Goc loi: bank that luu q.lesson = so thu tu bai TRONG chuong (reset moi chuong,
+        // vd Bai_5 -> lesson 1), con dropdown cu lay so bai toan cuc tu folders.json roi
+        // dem/loc cheo hai he -> chon Chuong 1 ma loc trung bai 1..6 cua MOI chuong (ro toi Chuong 9),
+        // nhan dem "Bai 1 - 800 cau" (cong don moi chuong). Khoa moi trich tu TEN FILE nguon
+        // (q.source ..._Bai_5_...) nen nhat quan ca hub lan bank.
+        function exbBaiKey(q){
+            var ch = parseInt(q && q.chapter, 10) || 0;
+            var src = String((q && q.source) || '');
+            var fn = src.substring(src.lastIndexOf('/') + 1);
+            if (/cuoi_chuong/i.test(fn)) return ch * 1000 + 999;
+            var m = fn.match(/_Bai_(\d+)_/i) || fn.match(/Bai_(\d+)/i);
+            if (m) return ch * 1000 + parseInt(m[1], 10);
+            return ch * 1000 + (parseInt(q && q.lesson, 10) || 0);
+        }
+        function exbBaiLabel(key, count){
+            var ch = Math.floor((+key || 0) / 1000), b = (+key || 0) % 1000;
+            var t = (b === 999) ? ('Chuong ' + ch + ' - Bai tap cuoi chuong') : ('Chuong ' + ch + ' - Bai ' + b);
+            return (count != null) ? (t + ' - ' + count + ' cau') : t;
         }
 
         function exbOnMatrixLessonChange(){
@@ -415,9 +406,10 @@
         }
 
         function exbLessonRange(){
+            // SB_MATRIX_FIX_20261012_V4: gia tri dropdown la KHOA (Chuong*1000+Bai)
             var f = parseInt(exbBankVal('exbb-lesson-from'), 10);
             var t = parseInt(exbBankVal('exbb-lesson-to'), 10);
-            if (!f) f = 1;
+            if (!f) f = 1001;
             if (!t) t = f;
             if (f > t){ var tmp = f; f = t; t = tmp; }
             return { from: f, to: t };
@@ -427,17 +419,18 @@
         function exbChaptersForLessons(pool, fromL, toL){
             var chs = {};
             (pool || []).forEach(function(q){
-                var l = parseInt(q.lesson, 10) || 0;
-                if (l >= fromL && l <= toL) chs[parseInt(q.chapter, 10) || 0] = 1;
+                var k = exbBaiKey(q);
+                if (k >= fromL && k <= toL) chs[parseInt(q.chapter, 10) || 0] = 1;
             });
             return Object.keys(chs).map(Number).sort(function(a,b){ return a - b; });
         }
 
         // Cau hoi co thuoc khoang bai khong (legacy lesson=0 -> giu lai, loc theo chuong)
         function exbLessonInRange(q, fromL, toL){
-            var l = parseInt(q.lesson, 10) || 0;
-            if (l >= fromL && l <= toL) return true;
-            return l === 0;
+            // SB_MATRIX_FIX_20261012_V4: so theo KHOA (Chuong, Bai). Ban cu: lesson===0 thi
+            // LUON dung -> cau khong ro bai ro ri vao moi pham vi; va lech he toa do nhu tren.
+            var k = exbBaiKey(q);
+            return k >= fromL && k <= toL;
         }
 
         // Tai ma tran chuong tu bank
@@ -457,7 +450,7 @@
                 // 2026-10-11: loc cau theo pham vi bai
                 let poolInRange = exbBankPool.filter(function(q){ return exbLessonInRange(q, lr.from, lr.to); });
                 let chList = exbChaptersForLessons(exbBankPool, lr.from, lr.to);
-                if (!chList.length) throw new Error('Không có câu nào từ Bài ' + lr.from + ' đến Bài ' + lr.to + ' trong bank ' + subject + ' khối ' + grade + '.');
+                if (!chList.length) throw new Error('Không có câu nào từ ' + exbBaiLabel(lr.from) + ' đến ' + exbBaiLabel(lr.to) + ' trong bank ' + subject + ' khối ' + grade + '. (Bank môn này có thể chưa có chương bạn chọn — xem danh sách Bài ở 2 ô chọn: chỉ bài nào có trong bank mới hiện.)');
                 // 2026-10-11: thong ke theo muc do kho
                 let lvCount = { NB: 0, TH: 0, VD: 0, VDC: 0 };
                 let typeCount = {};
@@ -471,7 +464,7 @@
                 let lvNames = { NB: 'Nhận biết', TH: 'Thông hiểu', VD: 'Vận dụng', VDC: 'Vận dụng cao' };
                 let lvColors = { NB: 'bg-emerald-100 text-emerald-700', TH: 'bg-sky-100 text-sky-700', VD: 'bg-amber-100 text-amber-700', VDC: 'bg-rose-100 text-rose-700' };
                 let statHtml = '<div class="mb-2 p-2.5 bg-indigo-50 border border-indigo-200 rounded-lg text-xs">'
-                    + '<p class="font-bold text-indigo-800 mb-1.5"><i class="fa-solid fa-chart-simple mr-1"></i>Phạm vi: Bài ' + lr.from + ' – Bài ' + lr.to + ' → <span class="text-indigo-600">' + poolInRange.length + ' câu</span></p>'
+                    + '<p class="font-bold text-indigo-800 mb-1.5"><i class="fa-solid fa-chart-simple mr-1"></i>Phạm vi: ' + exbBaiLabel(lr.from) + ' – ' + exbBaiLabel(lr.to) + ' → <span class="text-indigo-600">' + poolInRange.length + ' câu</span></p>'
                     + '<div class="flex flex-wrap gap-1.5">';
                 Object.keys(lvNames).forEach(function(lv){
                     statHtml += '<span class="px-2 py-0.5 rounded-full font-bold ' + (lvColors[lv] || 'bg-slate-100 text-slate-600') + '">' + lvNames[lv] + ': ' + (lvCount[lv] || 0) + '</span>';
@@ -546,9 +539,12 @@
             let lr = exbLessonRange();
             // neu chua tai ma tran: lay theo khoang bai -> doi ra chuong, chia deu
             if (!Object.keys(chapters).length){
+                // V4: quota mac dinh = dung so cau cua chuong TRONG pham vi bai da chon
+                // (ban cu de 9999 -> phia HS boc ca chuong, vuot pham vi GV chon)
                 let chList = exbChaptersForLessons(exbBankPool, lr.from, lr.to);
-                if (chList.length) chList.forEach(function(c){ chapters[c] = 9999; });
-                else for (let c = lr.from; c <= lr.to; c++) chapters[c] = 9999;
+                chList.forEach(function(c){
+                    chapters[c] = exbBankPool.filter(function(q){ return (parseInt(q.chapter, 10) || 0) === c && exbLessonInRange(q, lr.from, lr.to); }).length;
+                });
             }
             return {
                 subject: (exbBankVal('exbb-subject') || 'TOAN').toUpperCase(),
@@ -567,8 +563,8 @@
                           short: exbBankNum('exbb-s-short', 0.5), essay: exbBankNum('exbb-s-essay', 0),
                           listening: exbBankNum('exbb-s-listening', 0), speaking: exbBankNum('exbb-s-speaking', 0),
                           matching: exbBankNum('exbb-s-matching', 0), ordering: exbBankNum('exbb-s-ordering', 0) },
-                levels: { NB: exbBankNum('exbb-lv-nb', 25), TH: exbBankNum('exbb-lv-th', 25),
-                          VD: exbBankNum('exbb-lv-vd', 25), VDC: exbBankNum('exbb-lv-vdc', 25) },
+                levels: { NB: exbBankNum('exbb-lv-nb', 40), TH: exbBankNum('exbb-lv-th', 30),
+                          VD: exbBankNum('exbb-lv-vd', 20), VDC: exbBankNum('exbb-lv-vdc', 10) },
                 time_limit: Math.max(0, exbBankNum('exbb-timelimit', 0))
             };
         }
@@ -580,12 +576,30 @@
         // - Quota chuong (matrix.chapters = "So cau lay"; >=9999 = khong gioi han): khong lay vuot quota 1 chuong
         // - Thieu that (bank khong co) moi canh bao, ghi trong picked._report
         function exbMatrixPick(pool, matrix){
+            // SB_MATRIX_PICK_V4 (2026-10-12, sua theo anh GV gui):
+            // 1) DINH DANH THEO THAM CHIEU: cau bank KHONG co truong id -> ban cu dung usedIds[q.id]
+            //    (moi cau deu la undefined) nen boc duoc 1 cau la bi chan het, bao thieu khap noi
+            //    du bank co hang nghin cau. Nay dung Set theo object.
+            // 2) Pham vi theo KHOA (Chuong, Bai) exbBaiKey — het ro ri chuong ngoai pham vi.
+            // 3) Ti le muc do tinh tren TONG SO DIEM cua de (chot user 2026-10-12): muc tieu diem
+            //    tung muc = ti le x tong diem thuc boc; lay linh hoat o moi dang con slot.
+            // 4) So cau tung dang dung tuyet doi khi bank du; quota chuong khong vuot.
             let picked = [];
             let typeNames = { mcq: 'Trắc nghiệm', truefalse: 'Đúng/Sai', short: 'Trả lời ngắn', essay: 'Tự luận', listening: 'Nghe', speaking: 'Nói', matching: 'Nối từ', ordering: 'Sắp xếp' };
-            let report = { typeWant: {}, typeGot: {}, levelWant: { NB: 0, TH: 0, VD: 0, VDC: 0 }, levelGot: { NB: 0, TH: 0, VD: 0, VDC: 0 }, warnings: [] };
-            let _lFrom = (matrix && matrix.lessonFrom) || 0, _lTo = (matrix && matrix.lessonTo) || 9999;
+            let report = { typeWant: {}, typeGot: {}, levelWant: { NB: 0, TH: 0, VD: 0, VDC: 0 }, levelGot: { NB: 0, TH: 0, VD: 0, VDC: 0 }, levelPointsWant: { NB: 0, TH: 0, VD: 0, VDC: 0 }, levelPointsGot: { NB: 0, TH: 0, VD: 0, VDC: 0 }, warnings: [] };
+            let _lFrom = (matrix && matrix.lessonFrom) || 0, _lTo = (matrix && matrix.lessonTo) || 9999999;
+            if (_lTo < 1000){ _lFrom = 0; _lTo = 9999999; } // cau hinh cu luu so bai nho -> khong loc
             let _lessonOk = function(q){ return exbLessonInRange(q, _lFrom, _lTo); };
-            let ratios = (matrix && matrix.levels) || { NB: 25, TH: 25, VD: 25, VDC: 25 };
+            let ratios = (matrix && matrix.levels) || { NB: 40, TH: 30, VD: 20, VDC: 10 };
+            let totalR = 0;
+            ['NB','TH','VD','VDC'].forEach(function(lv){ totalR += (+ratios[lv] || 0); });
+            if (!totalR){ ratios = { NB: 40, TH: 30, VD: 20, VDC: 10 }; totalR = 100; }
+            let scores = (matrix && matrix.scores) || {};
+            let scoreOf = function(tp){
+                let v = parseFloat(scores[tp]);
+                if (!(v >= 0)) v = { mcq: 0.25, truefalse: 1, short: 0.5, essay: 1, listening: 0.25, speaking: 0.5, matching: 0.5, ordering: 0.5 }[tp] || 0;
+                return v;
+            };
             let chQuota = null;
             if (matrix && matrix.chapters){
                 chQuota = {};
@@ -605,15 +619,14 @@
                 let c = parseInt(q.chapter, 10) || 0;
                 if ((c in chQuota) && chQuota[c] !== Infinity) chQuota[c]--;
             };
-            let usedIds = {};
+            let usedSet = new Set();
             let types = ['mcq','truefalse','short','essay','listening','speaking','matching','ordering'];
-            // Chuan bi o (dang x muc) + so slot moi dang
-            let cells = {}, slots = {}, totalAch = 0;
+            let cells = {}, slots = {}, totalAch = 0, totalPoints = 0;
             types.forEach(function(tp){
                 let want = Math.max(0, parseInt((matrix.types || {})[tp], 10) || 0);
                 if (!want) return;
                 report.typeWant[tp] = want;
-                let cand = pool.filter(function(q){ return q.type === tp && _lessonOk(q) && !usedIds[q.id]; });
+                let cand = pool.filter(function(q){ return q.type === tp && _lessonOk(q) && !usedSet.has(q); });
                 if (typeof exbShuffle === 'function') exbShuffle(cand);
                 let byLevel = { NB: [], TH: [], VD: [], VDC: [] };
                 cand.forEach(function(q){
@@ -623,28 +636,29 @@
                 cells[tp] = byLevel;
                 slots[tp] = Math.min(want, cand.length);
                 totalAch += slots[tp];
+                totalPoints += slots[tp] * scoreOf(tp);
             });
-            // Muc tieu muc do tren TONG de: lam tron du lon nhat -> tong dung = totalAch
-            let totalR = 0;
-            ['NB','TH','VD','VDC'].forEach(function(lv){ totalR += (+ratios[lv] || 0); });
-            if (!totalR) totalR = 1;
-            let exact = {}, lvTarget = {}, assigned = 0;
+            // Muc tieu DIEM tung muc do tren tong diem thuc boc duoc
+            let lvPt = {};
             ['NB','TH','VD','VDC'].forEach(function(lv){
-                exact[lv] = totalAch * ((+ratios[lv] || 0) / totalR);
-                lvTarget[lv] = Math.floor(exact[lv]);
-                assigned += lvTarget[lv];
+                lvPt[lv] = totalPoints * ((+ratios[lv] || 0) / totalR);
+                report.levelPointsWant[lv] = Math.round(lvPt[lv] * 100) / 100;
             });
-            let ordLv = ['NB','TH','VD','VDC'].slice().sort(function(a, b){ return (exact[b] - lvTarget[b]) - (exact[a] - lvTarget[a]); });
-            let oi = 0;
-            while (assigned < totalAch){ lvTarget[ordLv[oi % 4]]++; assigned++; oi++; }
-            report.levelWant = lvTarget;
+            // levelWant (so cau uoc luong, chi de hien thi tuong thich ban cu)
+            (function(){
+                let ex = {}, as = 0;
+                ['NB','TH','VD','VDC'].forEach(function(lv){ ex[lv] = totalAch * ((+ratios[lv] || 0) / totalR); report.levelWant[lv] = Math.floor(ex[lv]); as += report.levelWant[lv]; });
+                let ord = ['NB','TH','VD','VDC'].slice().sort(function(a, b){ return (ex[b] - report.levelWant[b]) - (ex[a] - report.levelWant[a]); });
+                let oi = 0;
+                while (as < totalAch){ report.levelWant[ord[oi % 4]]++; as++; oi++; }
+            })();
             let takeFrom = function(list, n){
                 let took = [];
                 let sorted = list.slice().sort(function(a, b){ return (chLeft(b) ? 1 : 0) - (chLeft(a) ? 1 : 0); });
                 for (let k = 0; k < sorted.length && took.length < n; k++){
                     let q = sorted[k];
-                    if (usedIds[q.id] || !chLeft(q)) continue;
-                    took.push(q); usedIds[q.id] = 1; chUse(q);
+                    if (usedSet.has(q) || !chLeft(q)) continue;
+                    took.push(q); usedSet.add(q); chUse(q);
                 }
                 return took;
             };
@@ -652,36 +666,37 @@
                 picked.push(q);
                 let lv = String(q.level || 'NB').toUpperCase();
                 if (report.levelGot[lv] != null) report.levelGot[lv]++;
+                if (report.levelPointsGot[lv] != null) report.levelPointsGot[lv] = Math.round((report.levelPointsGot[lv] + scoreOf(tp)) * 100) / 100;
                 report.typeGot[tp] = (report.typeGot[tp] || 0) + 1;
                 slots[tp]--;
             };
-            // Giai doan 1: dat muc tieu tung muc do, lay linh hoat o moi dang con slot
+            // Giai doan 1: dat muc tieu DIEM tung muc, lay linh hoat o moi dang con slot
             ['NB','TH','VD','VDC'].forEach(function(lv){
-                let need = lvTarget[lv];
-                if (!need) return;
+                let needPts = lvPt[lv] - (report.levelPointsGot[lv] || 0);
+                if (needPts <= 0.001) return;
                 types.forEach(function(tp){
-                    if (need <= 0) return;
                     if (!cells[tp] || slots[tp] <= 0) return;
-                    let n = Math.min(need, slots[tp], cells[tp][lv].length);
-                    if (n <= 0) return;
-                    let took = takeFrom(cells[tp][lv], n);
-                    took.forEach(function(q){ pushQ(q, tp); });
-                    need -= took.length;
+                    while (needPts > 0.001 && slots[tp] > 0){
+                        let took = takeFrom(cells[tp][lv], 1);
+                        if (!took.length) break;
+                        pushQ(took[0], tp);
+                        needPts -= scoreOf(tp);
+                    }
                 });
             });
             // Giai doan 2: dang nao con slot thi dien not bang cau con lai cua chinh dang do
-            // (uu tien muc dang thieu nhat so voi muc tieu toan de)
+            // (uu tien muc dang thieu DIEM nhat so voi muc tieu)
             types.forEach(function(tp){
                 if (!cells[tp]) return;
                 while (slots[tp] > 0){
                     let rest = [];
                     ['NB','TH','VD','VDC'].forEach(function(lv){
-                        cells[tp][lv].forEach(function(q){ if (!usedIds[q.id]) rest.push(q); });
+                        cells[tp][lv].forEach(function(q){ if (!usedSet.has(q)) rest.push(q); });
                     });
                     if (!rest.length) break;
                     rest.sort(function(a, b){
-                        let da = lvTarget[String(a.level || 'NB').toUpperCase()] - report.levelGot[String(a.level || 'NB').toUpperCase()];
-                        let db = lvTarget[String(b.level || 'NB').toUpperCase()] - report.levelGot[String(b.level || 'NB').toUpperCase()];
+                        let da = lvPt[String(a.level || 'NB').toUpperCase()] - (report.levelPointsGot[String(a.level || 'NB').toUpperCase()] || 0);
+                        let db = lvPt[String(b.level || 'NB').toUpperCase()] - (report.levelPointsGot[String(b.level || 'NB').toUpperCase()] || 0);
                         return db - da;
                     });
                     let took = takeFrom(rest, 1);
@@ -689,14 +704,13 @@
                     pushQ(took[0], tp);
                 }
             });
-            // Canh bao chi khi THIET that
             types.forEach(function(tp){
                 if (report.typeWant[tp] && (report.typeGot[tp] || 0) < report.typeWant[tp])
-                    report.warnings.push('Dạng ' + (typeNames[tp] || tp) + ': cần ' + report.typeWant[tp] + ' câu nhưng bank chỉ có ' + (report.typeGot[tp] || 0) + ' câu trong phạm vi bài đã chọn.');
+                    report.warnings.push('Dạng ' + (typeNames[tp] || tp) + ': cần ' + report.typeWant[tp] + ' câu nhưng bank chỉ có ' + (report.typeGot[tp] || 0) + ' câu trong phạm vi đã chọn.');
             });
             ['NB','TH','VD','VDC'].forEach(function(lv){
-                if (report.levelGot[lv] < lvTarget[lv])
-                    report.warnings.push('Mức ' + lv + ': mục tiêu ' + lvTarget[lv] + ' câu trên toàn đề, bốc được ' + report.levelGot[lv] + ' — bank không còn câu mức này ở dạng nào trong phạm vi.');
+                if (lvPt[lv] - (report.levelPointsGot[lv] || 0) > 0.26)
+                    report.warnings.push('Mức ' + lv + ': mục tiêu ~' + (Math.round(lvPt[lv] * 100) / 100) + ' điểm trên toàn đề, bốc được ' + (report.levelPointsGot[lv] || 0) + ' điểm — lệch tỉ lệ do số câu từng dạng đã chốt hết chỗ cho mức này (đề vẫn đủ số câu; muốn khớp tỉ lệ hơn, chỉnh số câu các dạng).');
             });
             let tOrd = { mcq: 0, truefalse: 1, short: 2, essay: 3, listening: 4, speaking: 5, matching: 6, ordering: 7 };
             picked.sort(function(a, b){ return (tOrd[a.type] == null ? 9 : tOrd[a.type]) - (tOrd[b.type] == null ? 9 : tOrd[b.type]); });
@@ -825,6 +839,31 @@
             } catch(e){ pv.innerHTML = '<p class="text-xs text-rose-600">Lỗi: ' + String(e.message || e).replace(/</g,'&lt;') + '</p>'; }
         }
 
+        // SB_MATRIX_FIX_20261012_V4: cay thu muc ben trai da bi go khoi hub (mo hinh Bank 1/Bank 2)
+        // -> tu suy thu muc luu tu Khoi/Mon/Chuong dau tien trong pham vi (folders.json).
+        // Neu GV da chon san thu muc chuong o Bank 1 (currentSelectedFolderId) thi uu tien no.
+        async function exbResolveMatrixFolder(m){
+            try {
+                if (typeof currentSelectedFolderId !== 'undefined' && currentSelectedFolderId && /Ch..ng/i.test(String(currentSelectedFolderId))) return currentSelectedFolderId;
+            } catch(e){}
+            try {
+                var idx = await exbLoadFolderIndex();
+                if (idx && idx.grades && idx.grades[String(m.grade)]){
+                    var sm = idx.grades[String(m.grade)];
+                    var key = Object.keys(sm).find(function(k){ return k.toUpperCase() === String(m.subject || '').toUpperCase(); });
+                    if (key && sm[key].path){
+                        var cf = sm[key].chapter_files || {};
+                        var chNames = Object.keys(cf);
+                        var wantCh = Object.keys(m.chapters || {}).map(Number).sort(function(a, b){ return a - b; })[0];
+                        var chName = chNames.find(function(nm){ var mm = nm.match(/(\d+)/); return mm && wantCh && parseInt(mm[1], 10) === wantCh; }) || chNames[0];
+                        if (chName) return sm[key].path + '/' + chName;
+                        return sm[key].path;
+                    }
+                }
+            } catch(e){ console.warn('exbResolveMatrixFolder:', e); }
+            return '';
+        }
+
         // Moi HS 1 de: luu file cau noi chua ma tran
         async function exbBankSave(){
             try {
@@ -837,9 +876,8 @@
                 let inner = '<div class="saobay-bank-view"></div>\n'
                     + '<script type="application/json" class="saobay-bank-config">\n' + JSON.stringify(cfg) + '\n<\/script>';
                 let page = bankWrapPage(safeTitle, 'Bài tập', inner);
-                let folder = (typeof currentSelectedFolderId !== 'undefined' && currentSelectedFolderId) ? currentSelectedFolderId : '';
-                if (!folder) { alert('Vui lòng chọn thư mục trong cùng ở cây thư mục bên trái trước khi lưu đề!'); return; }
-                if ((typeof folderHasChildren === 'function') && folderHasChildren(folder)) { alert('Vui lòng chọn thư mục trong cùng (không có thư mục con)!'); return; }
+                let folder = await exbResolveMatrixFolder(m);
+                if (!folder) { alert('Không xác định được thư mục lưu cho Khối ' + m.grade + ' / môn đã chọn. Kiểm tra lại ô Khối + Môn trong ma trận rồi bấm Lưu lại.'); return; }
                 let asciiBase = (typeof removeVietnameseTones === 'function' ? removeVietnameseTones(title) : title)
                     .replace(/[\\/:*?"<>|]/g, '_').replace(/\s+/g, '_').slice(0, 40);
                 let path = folder + '/' + m.subject + '_' + m.grade + '_' + asciiBase + '_Bai_tap_none.html';
@@ -1056,9 +1094,8 @@
                     + '<script type="application/json" class="saobay-exam10-data">\n' + JSON.stringify(examJson) + '\n<\/script>\n</div>\n'
                     + '<p class="text-xs text-slate-500 mt-2">Đề chung cả lớp: cùng bộ câu hỏi, thứ tự câu trộn trong từng dạng.</p>';
                 let page = bankWrapPage(safeTitle, 'Bài kiểm tra', inner);
-                let folder = (typeof currentSelectedFolderId !== 'undefined' && currentSelectedFolderId) ? currentSelectedFolderId : '';
-                if (!folder) { alert('Vui lòng chọn thư mục trong cùng ở cây thư mục bên trái trước khi lưu đề!'); return; }
-                if ((typeof folderHasChildren === 'function') && folderHasChildren(folder)) { alert('Vui lòng chọn thư mục trong cùng (không có thư mục con)!'); return; }
+                let folder = await exbResolveMatrixFolder(m);
+                if (!folder) { alert('Không xác định được thư mục lưu cho Khối ' + m.grade + ' / môn đã chọn. Kiểm tra lại ô Khối + Môn trong ma trận rồi bấm Lưu lại.'); return; }
                 let asciiBase = (typeof removeVietnameseTones === 'function' ? removeVietnameseTones(title) : title)
                     .replace(/[\\/:*?"<>|]/g, '_').replace(/\s+/g, '_').slice(0, 40);
                 let path = folder + '/' + m.subject + '_' + m.grade + '_' + asciiBase + '_Kiem_tra_none.html';
@@ -1111,18 +1148,18 @@
                 let want = { mcq: Math.max(0, parseInt(exbVal('exb-n-mcq'), 10) || 0),
                              truefalse: Math.max(0, parseInt(exbVal('exb-n-truefalse'), 10) || 0),
                              short: Math.max(0, parseInt(exbVal('exb-n-short'), 10) || 0) };
-                let picked = [], usedAll = {};
+                let picked = [], usedAll = new Set(); // V4: theo tham chieu
                 ['mcq','truefalse','short'].forEach(function(tp){
                     if (!want[tp]) return;
                     let groups = { NB: [], TH: [], VD: [], VDC: [] };
-                    pool.forEach(function(q){ if (q.type === tp && !usedAll[q.id]) (groups[q.level] || groups.NB).push(q); });
+                    pool.forEach(function(q){ if (q.type === tp && !usedAll.has(q)) (groups[q.level] || groups.NB).push(q); });
                     Object.keys(groups).forEach(function(k){ exbShuffle(groups[k]); });
                     let al = exbAllocate(groups, want[tp], ratios);
-                    al.picked.forEach(function(q){ usedAll[q.id] = 1; });
+                    al.picked.forEach(function(q){ usedAll.add(q); });
                     // bù thiếu từ cùng dạng (mức độ khác)
                     if (al.picked.length < want[tp]){
-                        let rest = exbShuffle(pool.filter(function(q){ return q.type === tp && !usedAll[q.id]; }));
-                        while (al.picked.length < want[tp] && rest.length){ let q = rest.pop(); al.picked.push(q); usedAll[q.id] = 1; }
+                        let rest = exbShuffle(pool.filter(function(q){ return q.type === tp && !usedAll.has(q); }));
+                        while (al.picked.length < want[tp] && rest.length){ let q = rest.pop(); al.picked.push(q); usedAll.add(q); }
                     }
                     picked = picked.concat(al.picked);
                 });
@@ -1190,9 +1227,8 @@
                     + '<p class="text-xs text-slate-500 mt-2"><i class="fa-solid fa-lock mr-1"></i>Đề kiểm tra nghiêm túc: trong giờ làm bài không hiện đáp án; hết giờ/nộp bài mới chấm điểm.</p>';
                 let safeTitle = (m.subject + ' ' + m.grade + ' - ' + m.title).replace(/[<>&"]/g, '');
                 let page = bankWrapPage(safeTitle, 'Bài kiểm tra', inner);
-                let folder = (typeof currentSelectedFolderId !== 'undefined' && currentSelectedFolderId) ? currentSelectedFolderId : '';
-                if (!folder) { alert('Vui lòng chọn thư mục trong cùng ở cây thư mục bên trái trước khi lưu đề!'); return; }
-                if ((typeof folderHasChildren === 'function') && folderHasChildren(folder)) { alert('Vui lòng chọn thư mục trong cùng (không có thư mục con)!'); return; }
+                let folder = await exbResolveMatrixFolder(m);
+                if (!folder) { alert('Không xác định được thư mục lưu cho Khối ' + m.grade + ' / môn đã chọn. Kiểm tra lại ô Khối + Môn trong ma trận rồi bấm Lưu lại.'); return; }
                 let asciiBase = (typeof removeVietnameseTones === 'function' ? removeVietnameseTones(m.title) : m.title)
                     .replace(/[\\/:*?"<>|]/g, '_').replace(/\s+/g, '_').slice(0, 40);
                 let path = folder + '/' + m.subject + '_' + m.grade + '_KIEM_TRA_' + asciiBase + '_Kiem_tra_none.html';
@@ -1341,3 +1377,53 @@
     document.head.appendChild(sc);
 })();
 
+        // ========================================================
+        // SB_MATRIX_FIX_20261012_V4 — BOOT goi A + C:
+        // A) Dong bo trang thai che do con ve 'lop' (ban cu: checkbox=lop, nut/mo ta=mot, bien=lop lech nhau)
+        //    + doi nhan nut boc thu o nhanh 'mot' + them nut "Luu de cau noi" (exbBankSave truoc day
+        //    khong co nut nao goi toi -> 'Moi HS 1 de' khong luu dung dang duoc).
+        // C) An han panel ma tran cu mx-* (2 ma tran chong nhau; nut 'Lay de tu Thu vien de' cua no
+        //    la stub alert 'Dang phat trien'). Boc switchPushMode vi hub-tabs.js dang duoc phien khac sua.
+        // ========================================================
+        (function(){
+            function hideMxPanel(){
+                var p = document.getElementById('exam-matrix-panel');
+                if (p){ p.style.display = 'none'; p.classList.add('hidden'); }
+            }
+            try {
+                if (typeof window.switchPushMode === 'function' && !window.switchPushMode.__sbMxHideV4){
+                    var origSpm = window.switchPushMode;
+                    var wrappedSpm = function(mode){
+                        var r = origSpm.apply(this, arguments);
+                        hideMxPanel();
+                        if (mode === 'bank') setTimeout(hideMxPanel, 0);
+                        return r;
+                    };
+                    wrappedSpm.__sbMxHideV4 = 1;
+                    window.switchPushMode = wrappedSpm;
+                }
+            } catch(e){ console.warn('SB_MATRIX_FIX wrap switchPushMode:', e); }
+            function bootMatrixFix(){
+                hideMxPanel();
+                try { exbSwitchSub('lop'); } catch(e){}
+                var mot = document.getElementById('exb-act-mot');
+                if (mot){
+                    var firstBtn = mot.querySelector('button');
+                    if (firstBtn && !firstBtn.dataset.sbRenamed){
+                        firstBtn.dataset.sbRenamed = '1';
+                        firstBtn.innerHTML = '<i class="fa-solid fa-dice mr-1"></i>Tải ma trận & bốc thử 1 đề mẫu';
+                    }
+                    if (!document.getElementById('exb-bank-save-btn')){
+                        var b = document.createElement('button');
+                        b.type = 'button';
+                        b.id = 'exb-bank-save-btn';
+                        b.className = 'flex-1 bg-indigo-700 hover:bg-indigo-800 text-white text-xs font-bold px-4 py-2.5 rounded-xl';
+                        b.innerHTML = '<i class="fa-solid fa-cloud-arrow-up mr-1"></i>Lưu đề — mỗi HS tự bốc theo ma trận này';
+                        b.addEventListener('click', function(){ exbBankSave(); });
+                        mot.appendChild(b);
+                    }
+                }
+            }
+            if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bootMatrixFix);
+            else bootMatrixFix();
+        })();
