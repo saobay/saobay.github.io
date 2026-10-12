@@ -397,6 +397,10 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
                     </div>
                     <div class="text-xs"><label class="block text-[10px] font-bold text-slate-600 mb-1">Bài / chương trong phạm vi đề (gõ nhanh, cách nhau bằng dấu phẩy)</label><input type="text" id="ai-lessons" placeholder="VD: Bài 1: Mệnh đề, Bài 2: Tập hợp" class="w-full px-2 py-1.5 border border-slate-300 rounded-lg"></div>
                     <div class="text-xs"><label class="block text-[10px] font-bold text-slate-600 mb-1">Nội dung kiến thức cần bao phủ (mỗi dòng một ý — nhập tay hoặc dán từ mục tiêu bài học)</label><textarea id="ai-scope" rows="3" placeholder="VD: Nhận biết mệnh đề, mệnh đề chứa biến...&#10;Vận dụng tập hợp vào bài toán thực tế..." class="w-full px-2 py-1.5 border border-slate-300 rounded-lg"></textarea></div>
+                    <label class="flex items-center gap-2 text-xs font-bold text-violet-900 bg-white border border-violet-200 rounded-lg px-3 py-2 cursor-pointer">
+                        <input type="checkbox" id="ai-math" class="w-4 h-4 accent-violet-700">
+                        🧮 Đề có công thức Toán học (Toán/Lý/Hóa) — prompt sẽ bắt NotebookLM trả mọi công thức bằng TeX $...$ để web hiện đẹp và mang sang Word được
+                    </label>
                     <div class="overflow-x-auto">
                         <table class="w-full text-xs bg-white rounded-lg border border-violet-200">
                             <thead><tr class="bg-violet-100 text-violet-900"><th class="p-1.5 text-left">Dạng câu hỏi</th><th class="p-1.5">Điểm/câu</th><th class="p-1.5">NB</th><th class="p-1.5">TH</th><th class="p-1.5">VD</th><th class="p-1.5">VDC</th><th class="p-1.5">Tổng câu</th><th class="p-1.5">Tổng điểm</th></tr></thead>
@@ -415,6 +419,8 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
                         <div class="flex items-center gap-3">
                             <button type="button" onclick="mergeExamSets()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-lg shadow-sm"><i class="fa-solid fa-layer-group mr-1"></i> Gộp đề vào khung soạn</button>
                             <span id="merge-sets-status" class="text-[11px] font-bold"></span>
+                            <button type="button" id="ai-word-btn" onclick="aiExportWord()" disabled class="px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white text-xs font-bold rounded-lg shadow-sm opacity-50"><i class="fa-solid fa-file-word mr-1"></i> ⬇ Tải Word (đề + ma trận + đặc tả)</button>
+                            <span id="ai-word-status" class="text-[11px] font-bold text-blue-800"></span>
                         </div>
                     </div>
                 </div>
@@ -1640,7 +1646,7 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
             <!-- CHỨC NĂNG 7: THỐNG KÊ NHÓM GV (admin) -->
             <!-- ======================================================== -->
             
-    <script src="hub-tabs.js?v=20261012_1400"></script>
+    <script src="hub-tabs.js?v=20261012_1415"></script>
     <script src="hub-editor.js?v=20261011_2"></script>
     <script src="hub-preview.js?v=20261011_1"></script>
     <script src="hub-publish.js?v=20261011_1"></script>
