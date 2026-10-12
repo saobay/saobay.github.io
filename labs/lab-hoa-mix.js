@@ -2070,6 +2070,7 @@ function layout(){
   function exSetup(items){
     resetBench();
     pour = null; pourQ = []; carryAnim = null; heatDemo = null;
+    chemist.shockT = -1; boomFx = null; flashFx = null; fxParts = []; shakeT = 0;
     try { lamp.tx = null; } catch(e){}
     var made = [];
     items.forEach(function(it){
