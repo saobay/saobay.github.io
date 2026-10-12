@@ -103,12 +103,14 @@
                 html += '<div class="bg-white border border-violet-200 rounded-xl p-3">'
                     + '<div class="flex items-center justify-between mb-2">'
                     + '<div><p class="font-bold text-sm text-slate-800">' + escHtml(c.name) + tag
+                    + (c.grade ? ' <span class="text-[10px] bg-indigo-100 border border-indigo-300 text-indigo-800 rounded px-1.5 py-0.5 ml-1 font-bold">Khối ' + escHtml(c.grade) + '</span>' : ' <span class="text-[10px] bg-amber-100 border border-amber-300 text-amber-800 rounded px-1.5 py-0.5 ml-1 font-bold">⚠ Chưa chọn khối lớp</span>')
                     + ' <button onclick="pvRenameClass(\'' + c.id + '\')" class="text-[11px] text-slate-400 hover:text-amber-600 font-bold" title="Đổi tên lớp"><i class="fa-solid fa-pen"></i></button></p>'
                     + '<p class="text-[11px] text-slate-500">' + ((typeof pvIsAdmin === 'function' && pvIsAdmin()) ? 'GV: <b class="text-slate-700">' + escHtml(c.teacher_name || c.teacher_id || '') + '</b> · ' : '') + 'Mã vào lớp: <b class="text-violet-700 font-mono">' + escHtml(c.join_code) + '</b> <button onclick="pvCopyCode(\'' + c.join_code + '\',this)" class="text-[10px] text-violet-600 hover:text-violet-800 font-bold border border-violet-300 hover:bg-violet-50 px-1.5 py-0.5 rounded" title="Copy mã lớp"><i class="fa-solid fa-copy mr-0.5"></i>Copy</button> · ' + nS + ' học sinh</p></div>'
                     + '<div class="flex gap-1.5 flex-wrap justify-end">'
                     + '<button onclick="pvSelectFolder(\'' + c.id + '\')" class="text-[11px] font-bold text-white bg-violet-600 hover:bg-violet-700 px-2.5 py-1.5 rounded-lg" title="Chọn thư mục này để đẩy bài"><i class="fa-solid fa-folder-open mr-1"></i>Đẩy bài vào lớp</button>'
                     + '<button onclick="pvLoadClassStats(\'' + c.id + '\')" class="text-[11px] font-bold text-emerald-700 border border-emerald-300 hover:bg-emerald-50 px-2.5 py-1.5 rounded-lg" title="Xem thống kê điểm HS trong lớp"><i class="fa-solid fa-chart-line mr-1"></i>Thống kê</button>'
                     + ((typeof pvIsAdmin === 'function' && pvIsAdmin()) ? '<button onclick="pvExtendClass(\'' + c.id + '\')" class="text-[11px] font-bold text-amber-700 border border-amber-300 hover:bg-amber-50 px-2.5 py-1.5 rounded-lg" title="Gia hạn tài khoản cho cả lớp"><i class="fa-solid fa-hourglass-half mr-1"></i>Gia hạn cả lớp</button>' : '')
+                    + '<button onclick="pvSetGrade(\'' + c.id + '\')" class="text-[11px] font-bold text-indigo-700 border border-indigo-300 hover:bg-indigo-50 px-2.5 py-1.5 rounded-lg" title="Đặt khối lớp cho lớp này để giao nhiệm vụ đúng nhóm khối"><i class="fa-solid fa-layer-group mr-1"></i>' + (c.grade ? 'Đổi khối lớp' : 'Thêm vào nhóm lớp') + '</button>'
                     + '<button onclick="pvDeleteClass(\'' + c.id + '\')" class="text-[11px] font-bold text-rose-600 hover:bg-rose-50 px-2.5 py-1.5 rounded-lg border border-rose-200"><i class="fa-solid fa-trash"></i></button>'
                     + '</div></div>'
                     + '<div id="pv-stats-' + c.id + '" class="mb-2"></div>'
@@ -158,6 +160,58 @@
                 if (typeof showToast === 'function') showToast('Đã tạo lớp "' + name + '"!', 'success');
                 else alert('Đã tạo lớp!');
             } catch(e){ alert('Lỗi tạo lớp: ' + e.message); }
+        }
+        /* PV_GRADE_V1 (2026-10-12): đặt/đổi KHỐI LỚP cho lớp đã tạo (lớp tạo trước chưa có khối) */
+        function pvEnsureGradeModal(){
+            if (document.getElementById('pv-grade-modal')) return;
+            var h = ''
+            + '<div id="pv-grade-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">'
+            + '<div class="absolute inset-0 bg-black/50" onclick="pvCloseGradeModal()"></div>'
+            + '<div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden">'
+            + '<div class="bg-indigo-600 text-white px-5 py-3 flex items-center justify-between">'
+            + '<h3 class="font-bold text-sm"><i class="fa-solid fa-layer-group mr-1"></i>Thêm lớp vào nhóm khối</h3>'
+            + '<button onclick="pvCloseGradeModal()" class="text-white/80 hover:text-white text-xl leading-none px-2">&times;</button></div>'
+            + '<div class="p-5 space-y-3">'
+            + '<p id="pv-grade-hint" class="text-xs text-slate-500"></p>'
+            + '<label class="text-[11px] font-bold text-slate-600">Khối lớp của lớp này</label>'
+            + '<select id="pv-grade-select" class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400">'
+            + '<option value="">— Chọn khối —</option><option value="6">Khối 6</option><option value="7">Khối 7</option><option value="8">Khối 8</option><option value="9">Khối 9</option><option value="10">Khối 10</option><option value="11">Khối 11</option><option value="12">Khối 12</option></select>'
+            + '<div class="flex gap-2 pt-1">'
+            + '<button onclick="pvSaveGrade()" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold px-4 py-2 rounded-xl">Lưu khối lớp</button>'
+            + '<button onclick="pvCloseGradeModal()" class="text-sm font-bold text-slate-500 border border-slate-300 px-4 py-2 rounded-xl">Hủy</button>'
+            + '</div></div></div></div>';
+            var d = document.createElement('div'); d.innerHTML = h;
+            document.body.appendChild(d.firstChild);
+        }
+        var _pvGradeTarget = null;
+        function pvSetGrade(classId){
+            pvEnsureGradeModal();
+            var c = null;
+            (pvClasses || []).forEach(function(x){ if (x.id === classId) c = x; });
+            if (!c){ alert('Không tìm thấy lớp.'); return; }
+            _pvGradeTarget = classId;
+            var hint = document.getElementById('pv-grade-hint');
+            if (hint) hint.textContent = 'Lớp "' + c.name + '"' + (c.grade ? ' đang ở Khối ' + c.grade + '.' : ' chưa được xếp vào nhóm khối nào.') + ' Chọn đúng khối để giao nhiệm vụ và chọn bài đúng khối cho lớp.';
+            var sel = document.getElementById('pv-grade-select');
+            if (sel) sel.value = c.grade ? String(c.grade) : '';
+            var m = document.getElementById('pv-grade-modal'); if (m) m.classList.remove('hidden');
+        }
+        function pvCloseGradeModal(){ var m = document.getElementById('pv-grade-modal'); if (m) m.classList.add('hidden'); _pvGradeTarget = null; }
+        async function pvSaveGrade(){
+            var sel = document.getElementById('pv-grade-select');
+            var g = sel ? sel.value : '';
+            if (!g){ alert('Chọn khối lớp trước khi lưu.'); return; }
+            var c = null;
+            (pvClasses || []).forEach(function(x){ if (x.id === _pvGradeTarget) c = x; });
+            if (!c){ alert('Không tìm thấy lớp.'); return; }
+            c.grade = g;
+            try {
+                await pvSaveClasses();
+                pvCloseGradeModal();
+                renderPrivateClasses();
+                if (typeof showToast === 'function') showToast('Đã xếp lớp "' + c.name + '" vào Khối ' + g + '!', 'success');
+                else alert('Đã lưu: lớp "' + c.name + '" thuộc Khối ' + g + '.');
+            } catch(e){ alert('Lỗi lưu khối lớp: ' + e.message); }
         }
         async function pvEnsureFolder(classId){
             let path = 'data/private/' + classId + '/.gitkeep';
