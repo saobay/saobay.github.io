@@ -566,7 +566,7 @@
                 let mSt = line.match(/^([a-d])[\.\)]\s*(.+)$/);
                 if (mSt && cur.type !== 'mcq' && cur.type !== 'essay'){
                     // 2026-10-11: cau trong phan TU LUAN co cac y a/b/c/d la cau hoi con, KHONG phai menh de D/S
-                    if (cur.inTN === false){ cur.q += (cur.q ? ' ' : '') + line; return; }
+                    if (cur.inTN === false && cur.type !== 'truefalse'){ cur.q += (cur.q ? ' ' : '') + line; return; } // SB_PDF_V1_20261012: cau [ĐS] luon tach menh de
                     cur.type = cur.type || 'truefalse'; cur.statements.push(mSt[2].trim()); return; }
                 if (cur._inExplain){ cur.explain += (cur.explain ? ' ' : '') + line; }
                 else cur.q += (cur.q ? ' ' : '') + line;
@@ -966,3 +966,100 @@ function onPaperPaste(e){
         }
     }, 30);
 }
+
+/* ===== SB_PDF_V1_20261012: Đọc đề từ file PDF (pdf.js) — dùng chung bộ tách câu parseWordExam với Word =====
+   PDF -> boc chu theo dong (toa do) -> lines[] -> parseWordExam(lines) -> wordState -> sendWordToEditor().
+   Chi doc duoc PDF co chu (xuat tu Word/Google Docs/LaTeX); PDF scan/anh se bao ro la khong doc duoc. */
+function ensurePdfJs(){
+    return new Promise(function(resolve, reject){
+        if (window.pdfjsLib){ resolve(); return; }
+        var s = document.createElement('script');
+        s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js';
+        s.onload = function(){
+            try { window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js'; } catch(e){}
+            resolve();
+        };
+        s.onerror = function(){ reject(new Error('Không tải được thư viện đọc PDF (pdf.js) — kiểm tra kết nối mạng rồi thử lại.')); };
+        document.head.appendChild(s);
+    });
+}
+function pdfItemsToLines(items){
+    var rows = [];
+    (items || []).forEach(function(it){
+        if (!it || typeof it.str !== 'string') return;
+        var y = it.transform[5], x = it.transform[4];
+        var row = null;
+        for (var i = 0; i < rows.length; i++){ if (Math.abs(rows[i].y - y) <= 2.5){ row = rows[i]; break; } }
+        if (!row){ row = { y: y, parts: [] }; rows.push(row); }
+        row.parts.push({ x: x, w: it.width || 0, h: it.height || 10, str: it.str });
+    });
+    rows.sort(function(a, b){ return b.y - a.y; });
+    return rows.map(function(row){
+        row.parts.sort(function(a, b){ return a.x - b.x; });
+        var out = '', prevEnd = null, prevH = 10;
+        row.parts.forEach(function(p){
+            if (prevEnd !== null && p.x - prevEnd > Math.max(2, prevH * 0.35) && !/\s$/.test(out) && !/^\s/.test(p.str)) out += ' ';
+            out += p.str;
+            prevEnd = p.x + p.w; if (p.h) prevH = p.h;
+        });
+        return out.replace(/\s+/g, ' ').trim();
+    }).filter(function(s){ return !!s; });
+}
+async function handlePdfExamFile(input){
+    var f = input.files && input.files[0];
+    var pv = document.getElementById('word-preview');
+    if (!f || !pv) return;
+    pv.innerHTML = '<p class="text-xs text-slate-400 italic"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Đang đọc file PDF...</p>';
+    try {
+        await ensurePdfJs();
+        var buf = await f.arrayBuffer();
+        var pdf = await window.pdfjsLib.getDocument({ data: buf }).promise;
+        var lines = [];
+        for (var p = 1; p <= pdf.numPages; p++){
+            var page = await pdf.getPage(p);
+            var tc = await page.getTextContent();
+            lines = lines.concat(pdfItemsToLines(tc.items));
+        }
+        var allText = lines.join('\n');
+        if (allText.replace(/\s/g, '').length < 50){
+            pv.innerHTML = '<p class="text-xs text-rose-600">File PDF này gần như <b>không có chữ</b> — có thể là bản scan/ảnh chụp nên web chưa đọc được. Hãy dùng file PDF xuất từ Word/Google Docs, hoặc tải file .docx.</p>';
+            input.value = '';
+            return;
+        }
+        wordState.extractedImages = [];
+        wordState.answerTables = [];
+        wordState.rawText = allText;
+        // Bo cac dong tieu de PHAN II/III/IV... (giu PHAN I de parser bat co phan TN):
+        // cac dong nay neu de lai se bi dinh vao noi dung cau truoc trong parseWordExam.
+        var parseLines = lines.filter(function(l){ return !/^PHẦN\s+(II|III|IV|V)\b/i.test(l); });
+        var qs = parseWordExam(parseLines);
+        wordState.questions = qs;
+        wordState.fileName = f.name;
+        if (!qs.length){
+            pv.innerHTML = '<p class="text-xs text-rose-600">Không nhận diện được câu hỏi nào trong PDF. Hãy soạn đúng <b>quy cách</b> (bấm "Hướng dẫn + File mẫu" — quy cách áp dụng chung cho cả PDF).</p>';
+            input.value = '';
+            return;
+        }
+        var badge = { mcq: 'bg-blue-100 text-blue-800', truefalse: 'bg-amber-100 text-amber-800', short: 'bg-emerald-100 text-emerald-800' };
+        var typeName = { mcq: 'TN', truefalse: 'Đ/S', short: 'TLN', essay: 'TL' };
+        var h = '<div class="bg-white border border-rose-200 rounded-xl p-3">'
+            + '<p class="text-xs font-black text-slate-800 mb-2"><i class="fa-solid fa-check-circle text-emerald-600 mr-1"></i>Đã đọc ' + qs.length + ' câu từ PDF "' + String(f.name).replace(/</g, '&lt;') + '" (' + pdf.numPages + ' trang)</p>'
+            + '<p class="text-[10px] text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-2 py-1.5 mb-2">PDF chỉ lấy được phần chữ — hình vẽ và công thức phức tạp có thể bị vỡ, đáp án in dạng bảng ngang có thể không khớp. Kiểm tra kỹ từng câu trong khung soạn trước khi đẩy; thiếu hình thì gán ảnh như thường.</p>'
+            + '<div class="space-y-1.5 max-h-56 overflow-y-auto pr-1">'
+            + qs.map(function(q, i){
+                return '<div class="border border-slate-200 rounded-lg px-2.5 py-1.5 text-[12px]">'
+                    + '<span class="font-bold text-slate-400 mr-1">' + (i + 1) + '.</span>'
+                    + '<span class="font-semibold">' + String(q.q).replace(/</g, '&lt;').slice(0, 120) + '</span> '
+                    + '<span class="text-[10px] font-bold px-1.5 py-0.5 rounded-full ' + (badge[q.type] || 'bg-slate-100') + '">' + (typeName[q.type] || q.type) + '</span>'
+                    + '<span class="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-violet-100 text-violet-800">' + q.level + '</span>'
+                    + '</div>';
+            }).join('') + '</div></div>'
+            + '<button onclick="sendWordToEditor()" class="mt-2 w-full bg-indigo-700 hover:bg-indigo-800 text-white text-xs font-bold px-4 py-2.5 rounded-xl"><i class="fa-solid fa-arrow-down mr-1"></i>Đưa ' + qs.length + ' câu vào khung soạn để đẩy</button>';
+        pv.innerHTML = h;
+    } catch(e){
+        pv.innerHTML = '<p class="text-xs text-rose-600">Lỗi đọc file PDF: ' + String((e && e.message) || e).replace(/</g, '&lt;') + '</p>';
+    }
+    input.value = '';
+}
+window.handlePdfExamFile = handlePdfExamFile;
+/* ===== HẾT SB_PDF_V1_20261012 ===== */
