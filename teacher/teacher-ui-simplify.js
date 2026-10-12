@@ -1,4 +1,5 @@
-// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261012_0930
+// SAOBAY_TEACHER_UI_SIMPLIFY_VERSION:20261012_1215
+// SB_STUDYMIN_20261012_V1: giao nhiệm vụ lý thuyết kèm số phút học tối thiểu GV đặt (mặc định 5) -> task.studyMinutes
 // Tab 2: thay the renderLessonManagementList goc bang DS DE THI GV tai len, gom:
 //  (a) file de .html trong data/ (Word/AI day cong khai)
 //  (b) de luu rieng/len lich trong data/exam-schedule.json (exams-pending) - de Word/matran deu vao day
@@ -785,8 +786,9 @@ function _sbInitPickers(){
       '<p class="text-[11px] text-slate-500 mb-3">Chỉ hiện các lớp BẠN được phân công dạy (lớp trường) và lớp học thêm BẠN tạo — chọn đúng lớp, đúng khối, rồi chọn Môn → Chương → Bài để giao. Học sinh chỉ thấy nhiệm vụ của lớp mình. Đề kiểm tra vẫn giao bằng luồng soạn đề + lên lịch (danh sách đề của lớp ở cuối panel).</p>' +
       '<div class="grid grid-cols-1 md:grid-cols-2 gap-2 mb-2">' +
         '<div><label class="text-[11px] font-bold text-slate-600">Lớp nhận nhiệm vụ</label><select id="sb7-class" class="w-full text-sm border border-slate-300 rounded-lg px-2 py-2"></select></div>' +
-        '<div id="sb7-typewrap"><label class="text-[11px] font-bold text-slate-600">Loại nhiệm vụ</label><select id="sb7-type" class="w-full text-sm border border-slate-300 rounded-lg px-2 py-2"><option value="exercise">✏️ Bài tập cần làm (nộp bài = hoàn thành)</option><option value="theory">📚 Lý thuyết cần học (học đủ 5 phút + kéo xuống cuối + báo cáo)</option></select></div>' +
+        '<div id="sb7-typewrap"><label class="text-[11px] font-bold text-slate-600">Loại nhiệm vụ</label><select id="sb7-type" class="w-full text-sm border border-slate-300 rounded-lg px-2 py-2"><option value="exercise">✏️ Bài tập cần làm (nộp bài = hoàn thành)</option><option value="theory">📚 Lý thuyết cần học (học đủ số phút GV đặt bên dưới + kéo xuống cuối + báo cáo)</option></select></div>' +
       '</div>' +
+      '<div id="sb7-minrow" class="mb-2" style="display:none"><label class="text-[11px] font-bold text-slate-600">⏱ Thời gian học lý thuyết tối thiểu (phút) — HS học đủ mới bấm được nút báo cáo học xong</label><input type="number" id="sb7-mins" min="1" max="180" step="1" value="5" class="w-24 text-sm border border-slate-300 rounded-lg px-2 py-2 ml-2"></div>' +
       '<div id="sb7-pickrow" class="grid grid-cols-1 md:grid-cols-3 gap-2 mb-2">' +
         '<div><label class="text-[11px] font-bold text-slate-600">Môn</label><select id="sb7-subject" class="w-full text-sm border border-slate-300 rounded-lg px-2 py-2"></select></div>' +
         '<div><label class="text-[11px] font-bold text-slate-600">Chương / Mục</label><select id="sb7-chapter" class="w-full text-sm border border-slate-300 rounded-lg px-2 py-2"></select></div>' +
@@ -802,7 +804,8 @@ function _sbInitPickers(){
     view.insertBefore(panel, view.firstChild);
     S.built = true;
     el('sb7-class').addEventListener('change', function(){ S.selClassKey = this.value; S.selSubject = ''; S.selChapter = ''; fillSubjects(); fillTasks(); });
-    el('sb7-type').addEventListener('change', function(){ S.selType = this.value; fillItems(); });
+    el('sb7-type').addEventListener('change', function(){ S.selType = this.value; var mr = el('sb7-minrow'); if (mr) mr.style.display = (this.value === 'theory') ? '' : 'none'; fillItems(); });
+    try { var lm = parseInt(localStorage.getItem('sb_theory_mins') || '5', 10); var mi0 = el('sb7-mins'); if (mi0 && lm >= 1 && lm <= 180) mi0.value = lm; } catch(e){}
     el('sb7-subject').addEventListener('change', function(){ S.selSubject = this.value; S.selChapter = ''; fillChapters(); });
     el('sb7-chapter').addEventListener('change', function(){ S.selChapter = this.value; fillItems(); });
     el('sb7-reload').addEventListener('click', function(){ loadAll(true); });
@@ -869,9 +872,16 @@ function _sbInitPickers(){
     var msg = el('sb7-msg');
     apiRaw('data/class-tasks.json').then(function(t){ return JSON.parse(t); }).catch(function(){ return { tasks: [] }; }).then(function(j){
       if (!Array.isArray(j.tasks)) j.tasks = [];
-      j.tasks.push({ id: 'task_' + Date.now().toString(36), classId: cls.id || '', className: cls.name,
+      var newTask = { id: 'task_' + Date.now().toString(36), classId: cls.id || '', className: cls.name,
         grade: cls.grade || lesson.grade || null, type: S.selType, title: lesson.title, path: lesson.path,
-        teacherId: myId(), teacherName: myName(), createdAt: new Date().toISOString() });
+        teacherId: myId(), teacherName: myName(), createdAt: new Date().toISOString() };
+      if (S.selType === 'theory'){
+        var mi = el('sb7-mins'); var sm = mi ? (parseInt(mi.value, 10) || 5) : 5;
+        if (sm < 1) sm = 1; if (sm > 180) sm = 180;
+        newTask.studyMinutes = sm;
+        try { localStorage.setItem('sb_theory_mins', String(sm)); } catch(e){}
+      }
+      j.tasks.push(newTask);
       return gasPush('data/class-tasks.json', JSON.stringify(j, null, 1), 'Giao nhiem vu ' + lesson.title + ' cho lop ' + cls.name);
     }).then(function(){
       if (msg) msg.textContent = '✅ Đã giao "' + lesson.title + '" cho lớp ' + cls.name;
