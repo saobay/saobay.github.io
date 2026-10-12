@@ -1,4 +1,5 @@
 // Quan ly bao cao loi sai tu HS (2026-10-09) + SB_REPORTLINK_20261012_V1: the bao cao co nut "Mo cho loi" (link ?sbopen + #qN) va noi dung cau
+// SB_REPORTFIX2_20261012: module hien trong du co bao cao pending - goc loi o loc theo mon: used.html luu saobay_user.subjects dang CHUOI noi dau phay ('' khi chua phan cong) con code cu coi la mang -> GV khong phan cong bi an het, GV co phan cong thi .some() tren String lam chet render; them bgh vao nhom xem toan truong nhu admin.
 (function(){
     let reports = [];
 
@@ -14,9 +15,17 @@
         try {
             let u = JSON.parse(localStorage.getItem('saobay_user') || 'null');
             if (!u) return [];
-            if (u.role === 'admin') return ['ALL'];
-            // Lay mon tu phan cong
-            return (u.subjects || []);
+            // SB_REPORTFIX2_20261012: BGH xem toan truong nhu admin (truoc day chi admin moi duoc ALL,
+            // tai khoan bgh bi rot vao nhanh loc mon nen thay danh sach trong)
+            if (u.role === 'admin' || u.role === 'bgh') return ['ALL'];
+            // Lay mon tu phan cong. LUU Y: used.html luu subjects dang CHUOI noi bang dau phay
+            // (vd "TOAN, NGU VAN", khong phan cong thi la chuoi rong ''), KHONG phai mang.
+            // Ban cu tra thang u.subjects: chuoi rong -> loc .some() tren [] lam mat het bao cao;
+            // chuoi co mon -> .some() khong ton tai tren String lam renderReports chet giua chung.
+            let raw = u.subjects;
+            if (Array.isArray(raw)) return raw.map(function(s){ return String(s).trim(); }).filter(Boolean);
+            if (typeof raw === 'string') return raw.split(',').map(function(s){ return s.trim(); }).filter(Boolean);
+            return [];
         } catch(e){ return []; }
     }
 
@@ -28,9 +37,13 @@
         let list = reports.filter(function(rp){
             if (rp.status !== 'pending') return false;
             if (isAdmin) return true;
-            // Loc theo mon: duong dan chua ten mon
-            let path = (rp.page_path || '').toLowerCase();
-            return subs.some(function(s){ return path.includes(s.toLowerCase()); });
+            // SB_REPORTFIX2_20261012: GV chua co du lieu phan cong mon (subs rong) thi khong loc duoc
+            // -> hien tat ca bao cao cho xu ly (ban cu loc .some() tren [] = an het, bao "khong co bao cao" sai).
+            if (!subs.length) return true;
+            // Loc theo mon: khop tren ca duong dan lan tieu de trang (record cu co page_path='index.html'
+            // nhung page_title chua ma mon, vd 'TOAN 10 Bai 1 Menh de Bai tap')
+            let hay = ((rp.page_path || '') + ' ' + (rp.page_title || '')).toLowerCase();
+            return subs.some(function(s){ return hay.includes(String(s).toLowerCase()); });
         });
         if (!list.length){
             box.innerHTML = '<p class="text-xs text-slate-400 italic p-4">Chưa có báo cáo nào chờ xử lý.</p>';
