@@ -667,17 +667,21 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
                 <div id="direct-panel" class="eba-wrap">
                     <div class="eba-inner space-y-2 bg-indigo-50/60 p-3 rounded-xl border border-indigo-200">
                     <div class="bg-white/70 rounded-lg border border-indigo-100 px-3 py-2.5">
-                        <p class="text-[11px] font-black text-indigo-900 mb-1.5"><i class="fa-solid fa-file-word text-blue-600 mr-1.5"></i>Đẩy đề lên từ file word .Docx</p>
+                        <p class="text-[11px] font-black text-indigo-900 mb-1.5"><i class="fa-solid fa-file-word text-blue-600 mr-1.5"></i>Đẩy đề lên từ file Word (.docx) hoặc PDF</p>
                         <div class="flex flex-wrap items-center gap-2">
                             <button type="button" onclick="document.getElementById('word-exam-input').click();return false;" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-4 py-2 rounded-xl">
                                 <i class="fa-solid fa-upload mr-1.5"></i>📤 Đẩy file Word lên
                             </button>
+                            <button type="button" onclick="document.getElementById('pdf-exam-input').click();return false;" class="bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold px-4 py-2 rounded-xl">
+                                <i class="fa-solid fa-file-pdf mr-1.5"></i>📄 Đẩy file PDF lên
+                            </button>
                             <button type="button" onclick="toggleWordGuidePanel();return false;" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-xl">
                                 <i class="fa-solid fa-book-open mr-1.5"></i>📖 Hướng dẫn + File mẫu
                             </button>
-                            <span class="text-[10px] text-slate-500">Bấm nút mở ngay hộp thoại chọn file .docx — không cần nhập prompt.</span>
+                            <span class="text-[10px] text-slate-500">Bấm nút mở ngay hộp thoại chọn file — không cần nhập prompt. PDF phải là bản có chữ (xuất từ Word/Google Docs), bản scan ảnh chưa đọc được.</span>
                         </div>
                         <input type="file" id="word-exam-input" accept=".docx" onchange="document.getElementById('direct-word-preview-wrap').classList.remove('hidden');handleWordExamFile(this)" class="hidden"/>
+                        <input type="file" id="pdf-exam-input" accept=".pdf" onchange="document.getElementById('direct-word-preview-wrap').classList.remove('hidden');handlePdfExamFile(this)" class="hidden"/>
                         <div id="word-guide-panel" class="hidden mt-2 bg-white rounded-xl border border-emerald-200 p-3 max-h-[480px] overflow-y-auto">
                             <div class="flex items-center justify-between mb-2">
                                 <p class="text-xs font-black text-emerald-800"><i class="fa-solid fa-book-open mr-1"></i>2 DẠNG WORD ĐƯỢC HỖ TRỢ</p>
@@ -1654,7 +1658,7 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
     <script src="hub-exam.js?v=20261012_1712"></script>
     <script src="hub-assign.js?v=20261008_2"></script>
     <script src="hub-users.js?v=20261008_2"></script>
-    <script src="hub-word.js?v=20261011_3"></script>
+    <script src="hub-word.js?v=20261012_2030"></script>
     <script src="hub-private.js?v=20261012_1455"></script>
     <script src="hub-reports.js?v=20261012_1900"></script>
 <script src="hub-groups.js?v=20261010_1"></script>
