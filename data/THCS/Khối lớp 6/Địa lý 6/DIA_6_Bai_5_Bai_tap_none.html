@@ -3,86 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bài 5: Kí hiệu bản đồ - Cách biểu hiện địa hình - Bài tập</title>
+    <title>Bài tập Bài 5: Kí hiệu bản đồ - Cách biểu hiện địa hình</title>
+    <meta name="lesson-title" content="Bài tập Bài 5: Kí hiệu bản đồ - Cách biểu hiện địa hình">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
-        body { font-family: system-ui, sans-serif; padding: 16px; line-height: 1.6; }
-        .question { background: white; padding: 16px; margin: 12px 0; border-radius: 8px; border: 1px solid #e2e8f0; }
-        .options label { display: block; padding: 8px; margin: 4px 0; background: #f8fafc; border-radius: 4px; cursor: pointer; }
-        .options label:hover { background: #e0f2fe; }
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; line-height: 1.6; color: #1e293b; width: 100%; margin: 0 auto; }
+        .bai-giang-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; border: 1px solid #e2e8f0; }
+        .table-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+        .table-scroll table { min-width: 460px; }
+        .content-body mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+        .svg-fig { width: 100%; max-width: 430px; margin: 14px auto; }
+        .svg-fig svg { width: 100%; height: auto; display: block; }
+        @media (max-width: 640px) {
+            .content-body { font-size: 0.95rem; }
+        }
     </style>
 </head>
-<body class="bg-slate-50">
-<div class="max-w-3xl mx-auto">
-<h1 class="text-2xl font-bold mb-4">Bài 5: Kí hiệu bản đồ - Cách biểu hiện địa hình - Bài tập</h1>
-
-<div class="question">
-<p class="font-semibold mb-2">Câu 1: Màu xanh trên bản đồ địa hình thể hiện:</p>
-<div class="options">
-<label><input type="radio" name="q1" value="A"> A. Núi cao</label>
-<label><input type="radio" name="q1" value="B"> B. Biển, đại dương</label>
-<label><input type="radio" name="q1" value="C"> C. Đồng bằng</label>
-<label><input type="radio" name="q1" value="D"> D. Sa mạc</label>
-</div>
-<button onclick="checkAnswer('q1', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
-<div id="fb-q1" class="mt-2"></div>
-</div>
-<div class="question">
-<p class="font-semibold mb-2">Câu 2: Đường đồng mức là:</p>
-<div class="options">
-<label><input type="radio" name="q2" value="A"> A. Đường nối điểm cùng độ cao</label>
-<label><input type="radio" name="q2" value="B"> B. Đường biên giới</label>
-<label><input type="radio" name="q2" value="C"> C. Đường giao thông</label>
-<label><input type="radio" name="q2" value="D"> D. Đường sông</label>
-</div>
-<button onclick="checkAnswer('q2', 'A')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
-<div id="fb-q2" class="mt-2"></div>
-</div>
-<div class="question">
-<p class="font-semibold mb-2">Câu 3: Đường đồng mức sít nhau cho biết:</p>
-<div class="options">
-<label><input type="radio" name="q3" value="A"> A. Địa hình dốc</label>
-<label><input type="radio" name="q3" value="B"> B. Địa hình thoải</label>
-<label><input type="radio" name="q3" value="C"> C. Địa hình bằng phẳng</label>
-<label><input type="radio" name="q3" value="D"> D. Không kết luận được</label>
-</div>
-<button onclick="checkAnswer('q3', 'A')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
-<div id="fb-q3" class="mt-2"></div>
-</div>
-<div class="question">
-<p class="font-semibold mb-2">Câu 4: Màu nâu đậm trên bản đồ thể hiện:</p>
-<div class="options">
-<label><input type="radio" name="q4" value="A"> A. Vùng biển sâu</label>
-<label><input type="radio" name="q4" value="B"> B. Vùng núi cao</label>
-<label><input type="radio" name="q4" value="C"> C. Đồng bằng</label>
-<label><input type="radio" name="q4" value="D"> D. Cao nguyên thấp</label>
-</div>
-<button onclick="checkAnswer('q4', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
-<div id="fb-q4" class="mt-2"></div>
-</div>
-<div class="question">
-<p class="font-semibold mb-2">Câu 5: Có mấy loại kí hiệu bản đồ chính?</p>
-<div class="options">
-<label><input type="radio" name="q5" value="A"> A. 2</label>
-<label><input type="radio" name="q5" value="B"> B. 3</label>
-<label><input type="radio" name="q5" value="C"> C. 4</label>
-<label><input type="radio" name="q5" value="D"> D. 5</label>
-</div>
-<button onclick="checkAnswer('q5', 'B')" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Kiểm tra</button>
-<div id="fb-q5" class="mt-2"></div>
-</div>
-</div>
-<script>
-function checkAnswer(qid, correct) {
-    const selected = document.querySelector(`input[name="${qid}"]:checked`);
-    const feedback = document.getElementById(`fb-${qid}`);
-    if (!selected) { feedback.innerHTML = '<span class="text-orange-600">Hãy chọn đáp án!</span>'; return; }
-    if (selected.value === correct) {
-        feedback.innerHTML = '<span class="text-green-600 font-bold">✓ Đúng!</span>';
-    } else {
-        feedback.innerHTML = '<span class="text-red-600">✗ Chưa đúng. Đáp án đúng: ' + correct + '</span>';
+<body class="bg-slate-50 min-h-screen">
+    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-4 mb-8">
+        <div class="border-b pb-4 mb-6">
+            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Bài tập</span>
+            <h1 class="text-2xl font-black text-slate-900 mt-1">Bài tập Bài 5: Kí hiệu bản đồ - Cách biểu hiện địa hình</h1>
+            <p class="text-xs text-slate-500 mt-1">Địa lý 6 • Bài 5: Kí hiệu bản đồ - Cách biểu hiện địa hình</p>
+        </div>
+        <div class="content-body space-y-4">
+<div class="saobay-exam10">
+<script type="application/json" class="saobay-exam10-data">
+{
+ "sets": [
+  {
+   "name": "Đề 1",
+   "questions": [
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Màu xanh trên bản đồ địa hình thể hiện:",
+     "options": [
+      "A. Núi cao",
+      "B. Biển, đại dương",
+      "C. Đồng bằng",
+      "D. Sa mạc"
+     ],
+     "answer": "B",
+     "explain": "Theo thang màu bản đồ địa hình, màu xanh (xanh lá, xanh dương) thể hiện vùng thấp, biển và đại dương.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Đường đồng mức là:",
+     "options": [
+      "A. Đường nối điểm cùng độ cao",
+      "B. Đường biên giới",
+      "C. Đường giao thông",
+      "D. Đường sông"
+     ],
+     "answer": "A",
+     "explain": "Đường đồng mức là đường nối các điểm có cùng độ cao trên bản đồ.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "TH",
+     "q": "Đường đồng mức sít nhau cho biết:",
+     "options": [
+      "A. Địa hình dốc",
+      "B. Địa hình thoải",
+      "C. Địa hình bằng phẳng",
+      "D. Không kết luận được"
+     ],
+     "answer": "A",
+     "explain": "Đường đồng mức càng sít nhau chứng tỏ độ cao thay đổi nhanh trên khoảng cách ngắn, tức địa hình càng dốc.",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Màu nâu đậm trên bản đồ thể hiện:",
+     "options": [
+      "A. Vùng biển sâu",
+      "B. Vùng núi cao",
+      "C. Đồng bằng",
+      "D. Cao nguyên thấp"
+     ],
+     "answer": "B",
+     "explain": "Trong thang màu địa hình, màu nâu càng đậm thể hiện địa hình càng cao (vùng núi cao).",
+     "points": 0.25
+    },
+    {
+     "type": "mcq",
+     "level": "NB",
+     "q": "Có mấy loại kí hiệu bản đồ chính?",
+     "options": [
+      "A. 2",
+      "B. 3",
+      "C. 4",
+      "D. 5"
+     ],
+     "answer": "B",
+     "explain": "Có 3 loại kí hiệu bản đồ chính: kí hiệu điểm, kí hiệu đường và kí hiệu diện tích.",
+     "points": 0.25
     }
+   ]
+  }
+ ]
 }
 </script>
+</div>
+        </div>
+    </div>
+<!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
+<footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
+<p style="font-size:12px;color:#94a3b8;margin:0">© 2026 Trường THPT Sào Báy — Nền tảng học tập SAOBAY</p>
+<p style="font-size:12px;color:#94a3b8;margin:4px 0 0">Nghiêm cấm sao chép, phát tán nội dung dưới mọi hình thức khi chưa được sự cho phép bằng văn bản.</p>
+</footer>
+<script data-saobay-guard="1">(function(){try{var h=(location.hostname||"").toLowerCase();var ok=(h===""||h==="saobay.github.io"||h==="localhost"||h==="127.0.0.1"||h.slice(-17)===".saobay.github.io");if(!ok&&document.body){document.body.innerHTML="";var d=document.createElement("div");d.setAttribute("style","max-width:560px;margin:60px auto;padding:32px;text-align:center;border:1px solid #e2e8f0;border-radius:16px;background:#fff;font-family:system-ui,sans-serif");var t1=document.createElement("h2");t1.setAttribute("style","color:#0f172a");t1.textContent="(c) SAOBAY - Truong THPT Sao Bay";var t2=document.createElement("p");t2.setAttribute("style","color:#475569");t2.textContent="Noi dung nay chi duoc hien thi tai dia chi chinh thuc saobay.github.io. Vui long truy cap dung dia chi de hoc tap.";d.appendChild(t1);d.appendChild(t2);document.body.appendChild(d);}}catch(e){}})();<\/script>
 </body>
 </html>
