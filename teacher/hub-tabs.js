@@ -589,15 +589,31 @@
             return true;
         }
         function aiPasteFromNotebook(){
+            // SB_CLIP_20261013: xin phep doc clipboard TRUOC khi doc — neu trinh duyet dang CHAN
+            // (Denied) thi readText that bai mai mai; bao ro cach mo lai thay vi am tham roi vao dan tay.
             var done = function(txt){
                 if (txt && String(txt).trim()){ aiProcessNotebookText(String(txt)); return; }
+                aiFloatToast('\u26a0\ufe0f Clipboard đang trống — hãy copy toàn bộ kết quả NotebookLM trước rồi bấm Dán lại.', true);
                 aiShowManualPaste();
             };
+            var tryRead = function(){
+                navigator.clipboard.readText().then(done).catch(function(err){
+                    aiFloatToast('\u26a0\ufe0f Không đọc được clipboard (' + (err && err.name ? err.name : 'lỗi') + ') — hãy dán thủ công (Ctrl+V) vào ô bên dưới.', true);
+                    aiShowManualPaste();
+                });
+            };
             if (navigator.clipboard && navigator.clipboard.readText){
-                navigator.clipboard.readText().then(done).catch(function(){ aiShowManualPaste(); });
+                if (navigator.permissions && navigator.permissions.query){
+                    try {
+                        navigator.permissions.query({ name: 'clipboard-read' }).then(function(st){
+                            if (st && st.state === 'denied') aiShowManualPaste('denied');
+                            else tryRead();
+                        }).catch(function(){ tryRead(); });
+                    } catch(e){ tryRead(); }
+                } else tryRead();
             } else aiShowManualPaste();
         }
-        function aiShowManualPaste(){
+        function aiShowManualPaste(reason){
             var ta = document.getElementById('merge-sets-input');
             var stEl = document.getElementById('merge-sets-status');
             if (ta){
@@ -610,7 +626,15 @@
                     ta.addEventListener('paste', function(){ setTimeout(function(){ aiProcessNotebookText(ta.value); }, 60); });
                 }
             }
-            if (stEl){ stEl.textContent = 'Trình duyệt chưa cho đọc clipboard trực tiếp — hãy dán (Ctrl+V) vào ô vừa hiện.'; stEl.className = 'text-[11px] font-bold text-amber-600'; }
+            if (stEl){
+                if (reason === 'denied'){
+                    stEl.innerHTML = 'Trình duyệt đang <b>chặn đọc clipboard</b> của web này (có thể trước đây bạn đã bấm Chặn nên giờ bấm Dán không còn tác dụng). Để dán 1 chạm trở lại: bấm biểu tượng <b>🔒/⚙️ cạnh thanh địa chỉ → Quyền/Cài đặt trang web → Bảng tạm (Clipboard) → Cho phép</b>, rồi tải lại trang và bấm nút Dán lại. Hoặc dán thủ công (Ctrl+V) vào ô bên dưới.';
+                    stEl.className = 'text-[11px] font-bold text-rose-600';
+                } else {
+                    stEl.textContent = 'Trình duyệt chưa cho đọc clipboard trực tiếp — hãy dán (Ctrl+V) vào ô vừa hiện.';
+                    stEl.className = 'text-[11px] font-bold text-amber-600';
+                }
+            }
         }
         function aiSetupV2(){
             var panel = document.getElementById('ai-compose-panel');
