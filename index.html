@@ -9,28 +9,27 @@
 <body>
 <p>⏳ Đang tải SAOBAY...</p>
 <script>
-// Đăng ký Service Worker, SW sẽ proxy sang Worker (R2)
+var WORKER = 'https://www.saobayhighschool.workers.dev';
+var path = window.location.pathname;
+if (path === '/') path = '/index.html';
+// Đăng ký Service Worker
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/sw.js', {scope: '/'}).then(function() {
-    // SW đã đăng ký, reload để SW intercept
     if (!navigator.serviceWorker.controller) {
       window.location.reload();
     } else {
-      // Đã có SW controller, chuyển sang Worker trực tiếp
-      window.location.href = 'https://www.saobayhighschool.workers.dev/' + window.location.pathname + window.location.search;
+      window.location.href = WORKER + path + window.location.search;
     }
   }).catch(function() {
-    // Không đăng ký được SW, chuyển thẳng sang Worker
-    window.location.href = 'https://www.saobayhighschool.workers.dev/' + window.location.pathname + window.location.search;
+    window.location.href = WORKER + path + window.location.search;
   });
-  // Timeout fallback: nếu sau 5s vẫn chưa chuyển, chuyển thẳng
   setTimeout(function() {
     if (!navigator.serviceWorker.controller) {
-      window.location.href = 'https://www.saobayhighschool.workers.dev/' + window.location.pathname + window.location.search;
+      window.location.href = WORKER + path + window.location.search;
     }
   }, 5000);
 } else {
-  window.location.href = 'https://www.saobayhighschool.workers.dev/' + window.location.pathname + window.location.search;
+  window.location.href = WORKER + path + window.location.search;
 }
 </script>
 </body>
