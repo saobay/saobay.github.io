@@ -214,6 +214,10 @@ self.addEventListener('fetch', (e) => {
               for (var _id in _ids) {
                 if (!(data.passwords[_id])) data.passwords[_id] = _defHash;
               }
+              // V8.8e: sua hash admin bi cat ngan (KV luu 40 ky tu, can du 64 ky tu)
+              if (data.passwords['admin'] && String(data.passwords['admin']).length === 40) {
+                data.passwords['admin'] = 'f2759e2bd5991015ae56ac965ac805c8a29d5e0ee73844ca5571b8bf7b37b256';
+              }
             } catch (_) { /* bo qua */ }
             txt = JSON.stringify(data);
             return new Response(txt, {
