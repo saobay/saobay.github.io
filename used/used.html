@@ -951,6 +951,21 @@
             const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
             return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
         }
+            // Presence heartbeat - cap nhat GV/HS online (2026-10-13)
+            async function updatePresence(userId, role) {
+              try {
+                let _pr = await fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/data/presence.json?t=' + Date.now());
+                let _pd = _pr.ok ? await _pr.json() : {teachers:{}, students:{}};
+                let _now = Math.floor(Date.now()/1000);
+                let _key = (role==='admin'||role==='bgh'||role==='teacher') ? 'teachers' : 'students';
+                if (!_pd[_key]) _pd[_key] = {};
+                _pd[_key][String(userId)] = _now;
+                _pd.updated_at = new Date().toISOString();
+                for (let _kk of ['teachers','students']) { if (_pd[_kk]) { for (let _uu in _pd[_kk]) { if (_now - _pd[_kk][_uu] > 1800) delete _pd[_kk][_uu]; } } }
+                await fetch(API_URL, { method: 'POST', headers: {'Content-Type': 'text/plain;charset=utf-8'},
+                  body: JSON.stringify({type:'PUSH_TO_GITHUB', filePath:'data/presence.json', content: JSON.stringify(_pd), commitMessage:'Presence heartbeat'}) });
+              } catch(_e) {}
+            }
             // 1. Kiểm tra tài khoản Admin
             let adminPass = (masterDatabase.passwords && masterDatabase.passwords['admin']) || '';
             if (usernameInput.toLowerCase() === 'admin') {
@@ -964,7 +979,7 @@
                     };
                     localStorage.setItem('saobay_user', JSON.stringify(adminUser));
                     currentUser = adminUser;
-                    showToast('Đăng nhập Quản trị viên thành công!', 'success');
+                    showToast('Đăng nhập Quản trị viên thành công!', 'success'); try { updatePresence('admin', 'admin'); } catch(_e) {}
                     setTimeout(() => showAdminDashboardView(), 500);
                     return;
                 } else {
@@ -1045,7 +1060,7 @@
             }
 
             // 6. Đăng nhập thành công với mật khẩu riêng đã đổi
-            matchedUser.mustChangePassword = false;
+            matchedUser.mustChangePassword = false; try { updatePresence(matchedUser.id, matchedUser.role); } catch(_e) {}
             try {
                 let exp = (expDb || {})[matchedUser.id];
                 if (exp && exp.expires_at) matchedUser.expires_at = exp.expires_at;
