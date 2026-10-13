@@ -437,12 +437,11 @@ function drawWheel(){
     let label = list[i].length > 14 ? list[i].slice(0,13)+'…' : list[i];
     ctx.fillText(label, 375, 0);
     ctx.restore();
-    // to sang o nguoi thang: dung o kim dang chi sau khi dung
+    // to sang o nguoi thang: 1 vong vang duy nhat, nam gon TRONG o (SB_WHEELPICK_20261013b)
+    // truoc day ve 2 lop de nhau, lop vang tran ra ngoai vien trang cua vong
     if (lastWinner && list[i] === lastWinner){
-      ctx.beginPath(); ctx.moveTo(400,400); ctx.arc(400,400,386,a0,a1); ctx.closePath();
-      ctx.strokeStyle = '#f59e0b'; ctx.lineWidth = 12; ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(400,400); ctx.arc(400,400,386,a0,a1); ctx.closePath();
-      ctx.strokeStyle = 'rgba(255,255,255,.85)'; ctx.lineWidth = 3; ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(400,400); ctx.arc(400,400,372,a0,a1); ctx.closePath();
+      ctx.strokeStyle = '#f59e0b'; ctx.lineWidth = 10; ctx.stroke();
     }
   }
   // viền ngoài
