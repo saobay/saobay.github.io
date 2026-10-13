@@ -60,18 +60,27 @@
 @media (min-width:768px){ html{font-size:17px} }</style>
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col" onload="initMainPage()">
-<!-- SB_MAINTENANCE_20261013_V1: che do bao tri bat/tat qua data/maintenance.json -->
+<!-- SB_MAINTENANCE_20261013_V2: bao tri co bypass cho admin (sessionStorage/?sbmain=0/tk admin) -->
 <script>
 (function(){try{
 var q=location.search||"";
-if(/(?:\?|&)sbmain=0(?:&|$)/.test(q))return;
+function setBp(){try{sessionStorage.setItem('sbmain_bypass','1');}catch(e){}}
+if(/(?:\?|&)sbmain=0(?:&|$)/.test(q)){setBp();return;}
+try{if(sessionStorage.getItem('sbmain_bypass')==='1')return;}catch(e){}
+try{
+var u=null;
+try{var v1=localStorage.getItem('saobay_user'),v2=sessionStorage.getItem('saobay_user');var v=v1||v2;if(v){v=JSON.parse(v);if(v&&(v.role==='admin'||v.username==='admin'))u=v;}}catch(e){}
+if(u)return;
+}catch(e){}
 fetch("data/maintenance.json?t="+Date.now(),{cache:"no-store"}).then(function(r){return r.ok?r.json():null;}).then(function(j){
 if(j&&j.on){
 var d=document.createElement("div");d.id="sb-maintenance-overlay";
 d.setAttribute("style","position:fixed;inset:0;z-index:999999;background:#f1f5f9;display:flex;align-items:center;justify-content:center;padding:24px;font-family:system-ui,-apple-system,sans-serif;");
 var msg=String(j.message||"Th\u1ea7y c\u00f4 v\u00e0 c\u00e1c em quay l\u1ea1i sau \u00edt ph\u00fat nh\u00e9!").replace(/</g,"&lt;");
-d.innerHTML='<div style="max-width:520px;background:#fff;border:1px solid #e2e8f0;border-radius:20px;padding:40px 32px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.08);"><div style="font-size:44px;margin-bottom:12px;">\uD83D\uDEE0\uFE0F</div><h2 style="font-size:20px;font-weight:800;color:#0f172a;margin:0 0 10px;">Web \u0111ang c\u1eadp nh\u1eadt</h2><p style="color:#475569;font-size:15px;line-height:1.7;margin:0;">'+msg+'</p><p style="color:#94a3b8;font-size:12px;margin-top:16px;">SAOBAY \u2014 Tr\u01b0\u1eddng THPT S\u00e0o B\u00e1y</p></div>';
+d.innerHTML='<div style="max-width:520px;background:#fff;border:1px solid #e2e8f0;border-radius:20px;padding:40px 32px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.08);"><div style="font-size:44px;margin-bottom:12px;">\uD83D\uDEE0\uFE0F</div><h2 style="font-size:20px;font-weight:800;color:#0f172a;margin:0 0 10px;">Web \u0111ang c\u1eadp nh\u1eadt</h2><p style="color:#475569;font-size:15px;line-height:1.7;margin:0;">'+msg+'</p><p style="color:#94a3b8;font-size:12px;margin-top:16px;">SAOBAY \u2014 Tr\u01b0\u1eddng THPT S\u00e0o B\u00e1y</p><button id="sb-maintenance-admin" style="margin-top:18px;background:none;border:none;color:#94a3b8;font-size:12px;text-decoration:underline;cursor:pointer;">Qu\u1ea3n tr\u1ecb vi\u00ean? B\u1ea5m \u0111\u1ec3 v\u00e0o ki\u1ec3m tra</button></div>';
 document.body.appendChild(d);document.body.style.overflow="hidden";
+var ab=document.getElementById('sb-maintenance-admin');
+if(ab)ab.addEventListener('click',function(){setBp();try{d.remove();document.body.style.overflow="";}catch(e){}});
 }}).catch(function(){});
 }catch(e){}})();
 </script>
