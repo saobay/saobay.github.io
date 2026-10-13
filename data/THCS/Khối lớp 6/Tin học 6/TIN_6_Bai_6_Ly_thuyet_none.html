@@ -39,31 +39,142 @@
             <p class="text-xs text-slate-500 mt-1">Tin học 6 • Bài 6: Thuật toán</p>
         </div>
         <div class="content-body space-y-4">
-<div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
-<h1 class="text-2xl md:text-3xl font-bold text-center text-sky-800 mb-2">Bài 6: Thuật toán</h1>
-<p class="text-center text-slate-500 italic mb-8">Tin học 6 • Bài 6: Thuật toán</p>
-<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">1. Thuật toán là gì?</h2>
-<p>Thuật toán là dãy các bước (các thao tác) được sắp xếp theo một trình tự xác định để giải quyết một vấn đề hoặc thực hiện một nhiệm vụ.</p>
-<p>Ví dụ: công thức nấu một món ăn, các bước gấp máy bay giấy, hướng dẫn lắp ráp đồ chơi đều là những thuật toán trong đời sống hằng ngày.</p>
+            <div class="theory-content max-w-3xl mx-auto px-4 py-6 text-slate-800 leading-relaxed">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-indigo-800 mb-2">Bài 6: Thuật toán</h1>
+<p class="text-center text-slate-500 italic mb-8">Tin học 6 — Bài 6: Thuật toán (Kết nối tri thức với cuộc sống)</p>
+
+<p>Mẹ dặn em pha một ấm trà: đun sôi nước, tráng ấm, cho trà vào, rót nước sôi, đợi 5 phút rồi rót ra chén. Em làm đúng từng bước theo thứ tự thì được ấm trà ngon. Trong Tin học, một dãy các bước <strong>rõ ràng, theo thứ tự</strong> để giải quyết một vấn đề cũng có tên gọi riêng — đó là <strong>thuật toán</strong>. Mọi chương trình máy tính, từ game em chơi đến ứng dụng học tập, đều được xây dựng từ các thuật toán.</p>
+
+<!-- 1. Thuật toán là gì -->
+<h2 class="text-xl font-bold text-indigo-700 mt-8 mb-3 border-l-4 border-indigo-500 pl-3">1. Thuật toán là gì?</h2>
+
+<p><strong>Thuật toán</strong> là dãy các bước (các thao tác) được sắp xếp theo một trình tự xác định để giải quyết một vấn đề hay thực hiện một nhiệm vụ.</p>
+
+<ul class="list-disc ml-6 space-y-1 my-3">
+<li><strong>Ví dụ 1 — Công thức nấu ăn:</strong> món trứng chiên cần các bước: đập trứng vào bát → đánh đều → đun nóng chảo với dầu → đổ trứng vào → chiên vàng hai mặt → bày ra đĩa. Đảo lộn thứ tự (đổ trứng vào chảo lạnh) là hỏng món ăn!</li>
+<li><strong>Ví dụ 2 — Buổi sáng đi học:</strong> thức dậy → đánh răng, rửa mặt → ăn sáng → mặc đồng phục → xách cặp → đến trường. Đó cũng là một thuật toán mà em thực hiện mỗi ngày.</li>
+<li><strong>Ví dụ 3 — Tính điểm trung bình:</strong> nhập điểm Toán, Văn, Anh → cộng 3 điểm lại → chia cho 3 → thông báo kết quả. Máy tính làm bài toán này bằng đúng thuật toán đó.</li>
+</ul>
+
+<p>Một thuật toán tốt phải có ba tính chất: các bước <strong>rõ ràng</strong> (ai làm cũng hiểu giống nhau), <strong>theo đúng thứ tự</strong> và <strong>kết thúc sau một số bước hữu hạn</strong> (không lặp mãi không xong).</p>
+
+<figure class="svg-fig">
+<svg viewBox="0 0 430 200" role="img" aria-label="Ví dụ thuật toán pha trà">
+<text x="215" y="22" text-anchor="middle" font-size="16" fill="#312e81" font-weight="bold">THUẬT TOÁN PHA TRÀ</text>
+<rect x="140" y="38" width="150" height="30" rx="15" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/><text x="215" y="58" text-anchor="middle" font-size="14" font-weight="bold" fill="#92400e">Bắt đầu</text>
+<line x1="215" y1="68" x2="215" y2="82" stroke="#64748b" stroke-width="2"/><polygon points="215,88 209,78 221,78" fill="#64748b"/>
+<rect x="120" y="88" width="190" height="30" rx="6" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/><text x="215" y="108" text-anchor="middle" font-size="14" fill="#1e3a8a">1. Đun sôi nước</text>
+<line x1="215" y1="118" x2="215" y2="132" stroke="#64748b" stroke-width="2"/><polygon points="215,138 209,128 221,128" fill="#64748b"/>
+<rect x="120" y="138" width="190" height="30" rx="6" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/><text x="215" y="158" text-anchor="middle" font-size="14" fill="#1e3a8a">2. Cho trà, rót nước sôi</text>
+<line x1="215" y1="168" x2="215" y2="182" stroke="#64748b" stroke-width="2"/><polygon points="215,188 209,178 221,178" fill="#64748b"/>
+<rect x="140" y="188" width="150" height="30" rx="15" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/><text x="215" y="208" text-anchor="middle" font-size="14" font-weight="bold" fill="#92400e">Kết thúc: có trà ngon 🍵</text>
+</svg>
+<figcaption class="text-center text-xs text-slate-500 mt-1">Hình 1. Thuật toán là dãy các bước theo đúng thứ tự</figcaption>
+</figure>
+
 <div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
-<span class="font-bold text-amber-800">📌 Ghi nhớ:</span> Thuật toán phải có các bước rõ ràng, sắp xếp đúng thứ tự và khi thực hiện sẽ cho ra kết quả mong muốn.
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1"><strong>Thuật toán</strong> là dãy các bước rõ ràng, theo trình tự xác định để giải quyết một vấn đề. Thuật toán phải <strong>kết thúc sau số bước hữu hạn</strong>.</p>
 </div>
 
-<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">2. Mô tả thuật toán</h2>
-<p>Có hai cách mô tả thuật toán thường dùng:</p>
-<div class="table-scroll"><table class="mx-auto border-collapse border border-slate-300 my-2">
-<tr><th class="border border-slate-300 px-4 py-1 bg-sky-100 font-semibold">Cách mô tả</th><th class="border border-slate-300 px-4 py-1 bg-sky-100 font-semibold">Đặc điểm</th><th class="border border-slate-300 px-4 py-1 bg-sky-100 font-semibold">Ví dụ</th></tr>
-<tr><td class="border border-slate-300 px-4 py-1">Bằng ngôn ngữ tự nhiên</td><td class="border border-slate-300 px-4 py-1">Liệt kê các bước bằng lời văn hằng ngày, dễ hiểu</td><td class="border border-slate-300 px-4 py-1">Bước 1: Lấy gạo. Bước 2: Vo gạo. Bước 3: Nấu cơm.</td></tr>
-<tr><td class="border border-slate-300 px-4 py-1">Bằng sơ đồ khối</td><td class="border border-slate-300 px-4 py-1">Dùng các hình vẽ (hình chữ nhật, hình thoi...) nối bằng mũi tên, trực quan</td><td class="border border-slate-300 px-4 py-1">Sơ đồ các bước tính trung bình cộng hai số</td></tr>
+<!-- 2. Biểu diễn thuật toán -->
+<h2 class="text-xl font-bold text-indigo-700 mt-8 mb-3 border-l-4 border-indigo-500 pl-3">2. Cách biểu diễn thuật toán</h2>
+
+<p>Có hai cách phổ biến để "viết ra" một thuật toán:</p>
+
+<h3 class="text-lg font-semibold text-indigo-600 mt-4 mb-2">a) Liệt kê các bước</h3>
+
+<p>Viết các bước thành danh sách theo thứ tự bằng ngôn ngữ tự nhiên. Ví dụ — thuật toán tính chu vi hình chữ nhật:</p>
+
+<div class="bg-indigo-50 border border-indigo-200 rounded-lg p-4 my-4">
+<p class="font-semibold text-indigo-800 mb-2">Thuật toán tính chu vi hình chữ nhật:</p>
+<ol class="list-decimal ml-6 space-y-1">
+<li>Nhập chiều dài $a$ và chiều rộng $b$.</li>
+<li>Tính $P = (a + b) \times 2$.</li>
+<li>Thông báo kết quả $P$.</li>
+</ol>
+</div>
+
+<h3 class="text-lg font-semibold text-indigo-600 mt-4 mb-2">b) Sơ đồ khối (lưu đồ)</h3>
+
+<p><strong>Sơ đồ khối</strong> dùng các hình vẽ quy ước nối với nhau bằng mũi tên chỉ hướng đi. Mỗi loại hình có ý nghĩa riêng:</p>
+
+<div class="table-scroll"><table class="w-full border-collapse border border-slate-300 my-2 text-sm">
+<tr class="bg-indigo-100 font-semibold"><td class="border border-slate-300 px-3 py-2">Hình vẽ</td><td class="border border-slate-300 px-3 py-2">Tên gọi</td><td class="border border-slate-300 px-3 py-2">Ý nghĩa</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2">Hình ô-van ⬭</td><td class="border border-slate-300 px-3 py-2 font-semibold">Bắt đầu / Kết thúc</td><td class="border border-slate-300 px-3 py-2">Điểm bắt đầu và điểm dừng của thuật toán</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2">Hình bình hành ▱</td><td class="border border-slate-300 px-3 py-2 font-semibold">Nhập / Xuất</td><td class="border border-slate-300 px-3 py-2">Nhập dữ liệu vào, đưa kết quả ra</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2 font-semibold">Hình chữ nhật ▭</td><td class="border border-slate-300 px-3 py-2 font-semibold">Xử lý</td><td class="border border-slate-300 px-3 py-2">Thực hiện tính toán, gán giá trị</td></tr>
+<tr><td class="border border-slate-300 px-3 py-2">Hình thoi ◇</td><td class="border border-slate-300 px-3 py-2 font-semibold">Rẽ nhánh</td><td class="border border-slate-300 px-3 py-2">Kiểm tra điều kiện: đúng đi một hướng, sai đi hướng khác</td></tr>
 </table></div>
 
-<h2 class="text-xl font-bold text-sky-700 mt-8 mb-3 border-l-4 border-sky-500 pl-3">3. Ví dụ thuật toán: tính trung bình cộng của hai số a và b</h2>
-<p>Mô tả bằng ngôn ngữ tự nhiên:</p>
-<p>Bước 1: Nhập hai số a và b.<br>Bước 2: Tính tổng S = a + b.<br>Bước 3: Tính trung bình cộng T = S / 2.<br>Bước 4: Đưa ra kết quả T.</p>
+<figure class="svg-fig">
+<svg viewBox="0 0 430 330" role="img" aria-label="Sơ đồ khối kiểm tra điểm đạt">
+<text x="215" y="22" text-anchor="middle" font-size="16" fill="#312e81" font-weight="bold">SƠ ĐỒ KHỐI: XẾP LOẠI ĐIỂM</text>
+<ellipse cx="215" cy="52" rx="70" ry="20" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/><text x="215" y="58" text-anchor="middle" font-size="14" font-weight="bold" fill="#92400e">Bắt đầu</text>
+<line x1="215" y1="72" x2="215" y2="90" stroke="#64748b" stroke-width="2"/><polygon points="215,96 209,86 221,86" fill="#64748b"/>
+<polygon points="215,96 275,116 215,136 155,116" fill="#fce7f3" stroke="#ec4899" stroke-width="2"/><text x="215" y="121" text-anchor="middle" font-size="13" fill="#9d174d" font-weight="bold">Nhập điểm</text>
+<line x1="215" y1="136" x2="215" y2="154" stroke="#64748b" stroke-width="2"/><polygon points="215,160 209,150 221,150" fill="#64748b"/>
+<polygon points="215,160 285,190 215,220 145,190" fill="#e0e7ff" stroke="#4f46e5" stroke-width="2"/><text x="215" y="195" text-anchor="middle" font-size="13" fill="#312e81" font-weight="bold">Điểm ≥ 5?</text>
+<line x1="285" y1="190" x2="330" y2="190" stroke="#64748b" stroke-width="2"/><polygon points="336,190 326,184 326,196" fill="#64748b"/>
+<text x="308" y="182" text-anchor="middle" font-size="12" fill="#166534" font-weight="bold">Đúng</text>
+<rect x="336" y="172" width="84" height="36" rx="6" fill="#dcfce7" stroke="#22c55e" stroke-width="2"/><text x="378" y="195" text-anchor="middle" font-size="13" fill="#166534" font-weight="bold">Đạt ✓</text>
+<line x1="215" y1="220" x2="215" y2="246" stroke="#64748b" stroke-width="2"/><polygon points="215,252 209,242 221,242" fill="#64748b"/>
+<text x="196" y="240" text-anchor="middle" font-size="12" fill="#991b1b" font-weight="bold">Sai</text>
+<rect x="173" y="252" width="84" height="36" rx="6" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/><text x="215" y="275" text-anchor="middle" font-size="13" fill="#991b1b" font-weight="bold">Chưa đạt</text>
+<ellipse cx="215" cy="312" rx="70" ry="20" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/><text x="215" y="318" text-anchor="middle" font-size="14" font-weight="bold" fill="#92400e">Kết thúc</text>
+<line x1="378" y1="208" x2="378" y2="292" stroke="#64748b" stroke-width="2"/><line x1="378" y1="292" x2="285" y2="292" stroke="#64748b" stroke-width="2"/><polygon points="279,292 289,286 289,298" fill="#64748b"/>
+<line x1="215" y1="288" x2="215" y2="292" stroke="#64748b" stroke-width="2"/>
+</svg>
+<figcaption class="text-center text-xs text-slate-500 mt-1">Hình 2. Sơ đồ khối thuật toán xếp loại điểm (có rẽ nhánh)</figcaption>
+</figure>
+
 <div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
-<span class="font-bold text-amber-800">📌 Ghi nhớ:</span> Máy tính thực hiện công việc theo thuật toán do con người mô tả. Thuật toán càng rõ ràng, chính xác thì máy tính làm việc càng hiệu quả.
+<p class="font-bold text-amber-800">📌 Ghi nhớ</p>
+<p class="mt-1">Thuật toán biểu diễn bằng <strong>liệt kê các bước</strong> hoặc <strong>sơ đồ khối</strong>. Trong sơ đồ khối: ô-van = bắt đầu/kết thúc, bình hành = nhập/xuất, chữ nhật = xử lý, <strong>hình thoi = rẽ nhánh theo điều kiện</strong>.</p>
 </div>
-</div>        </div>
+
+<!-- 3. Ví dụ tổng hợp -->
+<h2 class="text-xl font-bold text-indigo-700 mt-8 mb-3 border-l-4 border-indigo-500 pl-3">3. Ví dụ: thuật toán đổi tiền</h2>
+
+<p>Em có tờ 100 000 đồng, muốn đổi thành các tờ 20 000 đồng. Thuật toán:</p>
+
+<div class="bg-indigo-50 border border-indigo-200 rounded-lg p-4 my-4">
+<ol class="list-decimal ml-6 space-y-1">
+<li>Nhập số tiền cần đổi: $T = 100\,000$.</li>
+<li>Tính số tờ 20 000 đồng: $N = T \div 20\,000 = 5$.</li>
+<li>Thông báo: "Được 5 tờ 20 000 đồng".</li>
+</ol>
+<p class="mt-2 text-sm text-indigo-700">Nếu số tiền <strong>không chia hết</strong> cho 20 000 (ví dụ 50 000 đồng), ta thêm bước rẽ nhánh: kiểm tra $T$ có chia hết cho 20 000 không — nếu không thì thông báo "Không đổi được". Đó chính là vai trò của <strong>hình thoi</strong> trong sơ đồ khối!</p>
+</div>
+
+<p>Em hãy để ý: thuật toán đổi tiền trên chỉ đúng khi ta <strong>giả thiết</strong> số tiền chia hết cho 20 000. Trong thực tế, người lập trình luôn phải nghĩ đến các <strong>trường hợp đặc biệt</strong> (số tiền lẻ, số tiền âm, nhập chữ thay vì số…) và thêm các nhánh rẽ để xử lý. Một thuật toán được gọi là <strong>đầy đủ</strong> khi nó cho kết quả đúng với <strong>mọi</strong> dữ liệu đầu vào hợp lệ, chứ không chỉ vài ví dụ đẹp. Đây cũng là lý do các lập trình viên phải kiểm thử chương trình rất kĩ trước khi phát hành: họ cho máy chạy thử với hàng loạt dữ liệu khác nhau, kể cả những dữ liệu "quái" nhất mà người dùng có thể nhập vào.</p>
+
+<!-- Tóm tắt -->
+<h2 class="text-xl font-bold text-indigo-700 mt-8 mb-3 border-l-4 border-indigo-500 pl-3">Tóm tắt toàn bài</h2>
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 my-4">
+<ul class="list-disc ml-6 space-y-2">
+<li><strong>Thuật toán</strong> là dãy các bước rõ ràng, theo trình tự để giải quyết một vấn đề; phải kết thúc sau số bước hữu hạn.</li>
+<li>Hai cách biểu diễn: <strong>liệt kê các bước</strong> và <strong>sơ đồ khối (lưu đồ)</strong>.</li>
+<li>Ký hiệu sơ đồ khối: <strong>ô-van</strong> (bắt đầu/kết thúc), <strong>bình hành</strong> (nhập/xuất), <strong>chữ nhật</strong> (xử lý), <strong>hình thoi</strong> (rẽ nhánh theo điều kiện).</li>
+<li>Mọi chương trình máy tính đều được xây dựng từ các thuật toán.</li>
+</ul>
+</div>
+
+<!-- Câu hỏi ôn tập -->
+<h2 class="text-xl font-bold text-indigo-700 mt-8 mb-3 border-l-4 border-indigo-500 pl-3">Câu hỏi ôn tập</h2>
+<div class="bg-indigo-50 border border-indigo-200 rounded-lg p-4 my-4">
+<ol class="list-decimal ml-6 space-y-2">
+<li>Thuật toán là gì? Nêu 2 ví dụ về thuật toán trong đời sống hằng ngày của em.</li>
+<li>Một thuật toán tốt cần có những tính chất gì?</li>
+<li>Nêu ý nghĩa của 4 hình vẽ trong sơ đồ khối: ô-van, bình hành, chữ nhật, hình thoi.</li>
+<li>Viết thuật toán (dạng liệt kê) tính diện tích hình chữ nhật khi biết chiều dài và chiều rộng.</li>
+<li>Vẽ sơ đồ khối cho thuật toán: nhập điểm trung bình, nếu ≥ 8 thì thông báo "Học sinh giỏi", ngược lại thông báo "Cần cố gắng thêm".</li>
+</ol>
+</div>
+
+<p class="text-center text-slate-500 italic mt-8">Học xong lý thuyết, hãy làm bài tập bên dưới để kiểm tra nhé! 💪</p>
+            </div>
+        </div>
     </div>
 <!-- SAOBAY-PROTECT: (c) 2026 Truong THPT Sao Bay | Nghiem cam sao chep duoi moi hinh thuc -->
 <footer class="saobay-copyright-footer" style="margin-top:2rem;padding:1rem 0.5rem 2.5rem;text-align:center;border-top:1px solid #e2e8f0;">
