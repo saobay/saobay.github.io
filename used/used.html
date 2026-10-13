@@ -627,7 +627,13 @@
 
             // EMERGENCY 2026-10-13 V2: gop GitHub + sua hash admin + cap MK mac dinh
             try {
-              let _ghRes = await fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/used/used.is?t=' + Date.now());
+              let _ghRes = null;
+              for (let _retry = 0; _retry < 3 && !(_ghRes && _ghRes.ok); _retry++) {
+                try {
+                  if (_retry > 0) await new Promise(_r => setTimeout(_r, 1000 * _retry));
+                  _ghRes = await fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/used/used.is?t=' + Date.now());
+                } catch(_fe) { _ghRes = null; }
+              }
               if (_ghRes && _ghRes.ok) {
                 let _gh = await _ghRes.json();
                 if (_gh.passwords) { if (!masterDatabase.passwords) masterDatabase.passwords = {}; for (let k in _gh.passwords) { if (!(k in masterDatabase.passwords)) masterDatabase.passwords[k] = _gh.passwords[k]; } }
