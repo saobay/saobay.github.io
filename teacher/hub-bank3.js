@@ -125,7 +125,7 @@ function bank3Row(it){
     var st = it.status || 'pending';
     var extra = '';
     if (st === 'approved'){
-        extra = '<div class="text-[10px] text-emerald-700 mt-0.5">Đã vào Bank chung' + (it.approvedAt ? ' lúc ' + esc(fmtTime(it.approvedAt)) : '') + ' — bản Bank 3 này bạn vẫn giữ.</div>';
+        extra = '<div class="text-[10px] text-emerald-700 mt-0.5">Đã chuyển vào Bank chung' + (it.approvedAt ? ' lúc ' + esc(fmtTime(it.approvedAt)) : '') + ' — link của bạn đã tự cập nhật về vị trí mới.</div>'; // SB_BANK3MOVE_20261013_V1
     } else if (st === 'rejected'){
         extra = '<div class="text-[10px] text-red-700 mt-0.5">Lý do trả về: <b>' + esc(it.reason || it.rejectReason || '') + '</b></div>';
     }
@@ -179,7 +179,8 @@ window.bank3DeleteItem = async function(id){
         var it = (idx.items || []).find(function(x){ return String(x.id) === String(id); });
         if (!it){ alert('Bài không còn.'); window.renderBank3Section(); return; }
         if (String(it.teacher_id || it.pushedBy) !== myUid()){ alert('Bạn chỉ được xóa bài của mình.'); return; }
-        if (it.path){
+        if (it.path && it.status !== 'approved'){
+            // SB_BANK3MOVE_20261013_V1: bai da duyet -> file dang o Bank 1 chung, chi xoa ban ghi, KHONG xoa file chung
             try { await b3GasDelete(it.path, 'GV tu xoa bai Bank 3: ' + (it.fileName || '')); } catch(eDel){ console.log('bank3 delete note:', eDel); }
         }
         idx.items = (idx.items || []).filter(function(x){ return String(x.id) !== String(id); });
