@@ -80,6 +80,7 @@
     </details>
     <div id="loaded-info" class="hidden mt-3 bg-emerald-50 border border-emerald-300 rounded-xl p-3 text-sm">
       <p class="font-bold text-emerald-800"><i class="fa-solid fa-circle-check mr-1"></i>Đã nạp <span id="loaded-count">0</span> học sinh</p>
+      <p class="text-[11px] text-emerald-700 mt-1"><i class="fa-solid fa-hand-pointer mr-1"></i>Gọi trực tiếp không cần quay? <b>Bấm vào tên</b> để đánh dấu đã gọi (đưa vào lịch sử), bấm lại để bỏ.</p>
       <div id="loaded-preview" class="flex flex-wrap gap-1.5 mt-2 max-h-32 overflow-y-auto"></div>
     </div>
   </div>
@@ -343,9 +344,7 @@ function loadSelectedClass(){ // AUTO_LOAD_V1: dung chung cho nut Lay DS va su k
   displayList = null; lastWinner = null;
   document.getElementById('loaded-info').classList.remove('hidden');
   document.getElementById('loaded-count').textContent = names.length + ' (lớp ' + label + ')';
-  document.getElementById('loaded-preview').innerHTML = names.map(function(n){
-    return '<span class="name-chip text-xs bg-violet-100 text-violet-800 font-semibold px-2.5 py-1 rounded-full">'+escapeHtml(n)+'</span>';
-  }).join('');
+  renderNameChips();
   drawWheel();
   updateRemain();
   renderHistory();
@@ -371,15 +370,36 @@ document.getElementById('btn-load').addEventListener('click', function(){
   displayList = null; lastWinner = null;
   document.getElementById('loaded-info').classList.remove('hidden');
   document.getElementById('loaded-count').textContent = names.length;
-  document.getElementById('loaded-preview').innerHTML = names.map(function(n){
-    return '<span class="name-chip text-xs bg-violet-100 text-violet-800 font-semibold px-2.5 py-1 rounded-full">'+escapeHtml(n)+'</span>';
-  }).join('');
+  renderNameChips();
   drawWheel();
   updateRemain();
   renderHistory();
   goTab('tab-wheel');
 });
 function escapeHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// ===== DANH DAU DA GOI BANG TAY (SB_WHEELPICK_20261013) =====
+// GV goi truc tiep theo ten hien tren vong (khong bam quay) -> bam vao ten de dua vao lich su.
+// Bam lai lan nua de bo danh dau.
+function renderNameChips(){
+  let box = document.getElementById('loaded-preview');
+  if (!box) return;
+  box.innerHTML = allStudents.map(function(n, idx){
+    let isPicked = picked.indexOf(n) >= 0;
+    return '<span onclick="togglePickedIdx(' + idx + ')" title="Bam de danh dau da goi / bo danh dau"'
+      + ' class="name-chip text-xs font-semibold px-2.5 py-1 rounded-full cursor-pointer select-none active:scale-95 '
+      + (isPicked ? 'bg-amber-200 text-amber-900 line-through opacity-70' : 'bg-violet-100 text-violet-800 hover:bg-violet-200') + '">'
+      + (isPicked ? '&#10003; ' : '') + escapeHtml(n) + '</span>';
+  }).join('');
+}
+window.togglePickedIdx = function(idx){
+  let n = allStudents[idx];
+  if (!n || spinning) return;
+  let i = picked.indexOf(n);
+  if (i >= 0) picked.splice(i, 1); else picked.push(n);
+  displayList = null; // ve lai vong theo danh sach con lai
+  drawWheel(); updateRemain(); renderHistory(); renderNameChips();
+};
 
 // ===== WHEEL DRAW =====
 const canvas = document.getElementById('wheel');
@@ -486,7 +506,7 @@ function finishSpin(name){
   picked.push(name);
   lastWinner = name; // GIU NGUYEN vong nhu luc dung (displayList khong doi) - kim chi dung nguoi thang
   updateRemain();
-  renderHistory();
+  renderHistory(); renderNameChips();
   drawWheel();
   // hiện người thắng
   document.getElementById('winner-name').textContent = name;
@@ -549,7 +569,7 @@ document.getElementById('btn-reset').addEventListener('click', function(){
   picked = [];
   displayList = null; lastWinner = null;
   document.getElementById('winner-box').classList.add('hidden');
-  drawWheel(); updateRemain(); renderHistory();
+  drawWheel(); updateRemain(); renderHistory(); renderNameChips();
 });
 
 // ===== HISTORY =====
