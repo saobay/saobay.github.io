@@ -518,7 +518,11 @@ PHẦN 4 - ĐÁP ÁN VÀ HƯỚNG DẪN CHẤM:
                     let _grade = (_parts[2] || '').replace(/^Khối lớp\s*/i, '') || '';
                     let _chap = _parts[4] || '';
                     formattedFileName = `${asciiTitle}_${fileSubType}_none.html`;
-                    targetGitPath = `data/cho-duyet/${_subj}/${formattedFileName}`;
+                    // SB_BANK3_20261013_V1: bai vao Bank 3 rieng cua GV (thay vi cho-duyet vo hinh)
+                    let _b3uid = (typeof window.sbBank3SanitizeUid === 'function')
+                        ? window.sbBank3SanitizeUid((typeof currentUser !== 'undefined' && currentUser && currentUser.id) || '')
+                        : String((typeof currentUser !== 'undefined' && currentUser && currentUser.id) || '').replace(/[^a-zA-Z0-9]/g, '') || 'gv';
+                    targetGitPath = `data/bank3/${_b3uid}/${_subj}/${formattedFileName}`;
                     _sbAuditPending = true;
                     _sbAuditMeta = { subject: _subj, grade: _grade, chapter: _chap, type: fileSubTypeDisplay };
                 } else if (_sbIsStudentFolder && _sbCanRv) {
@@ -723,8 +727,8 @@ PHẦN 4 - ĐÁP ÁN VÀ HƯỚNG DẪN CHẤM:
 
                                                 // SB_AUDITFLOW_20261013_V1: bai cho duyet -> ghi ban ghi hang doi, KHONG boc cau hoi vao bank chung
                         if (_sbAuditPending) {
-                            try { if (typeof window.sbAuditRecordPending === 'function') { await window.sbAuditRecordPending({ title: safeTitle, path: targetGitPath, fileName: formattedFileName, subject: _sbAuditMeta.subject, grade: _sbAuditMeta.grade, chapter: _sbAuditMeta.chapter, type: _sbAuditMeta.type, targetFolder: _sbAuditTargetFolder, pushedBy: String((typeof currentUser!=='undefined'&&currentUser&&currentUser.id)||''), pushedByName: ((typeof currentUser!=='undefined'&&currentUser&&currentUser.name)||''), pushedAt: new Date().toISOString() }); } } catch(_eRec){ console.log('audit record note:', _eRec); }
-                            alert(`⏳ ĐÃ GỬI CHỜ KIỂM DUYỆT!\nBài "${safeTitle}" đã vào hàng chờ.\nQuản trị viên / Tổ trưởng sẽ thẩm định trước khi bài xuất hiện cho học sinh.\n📁 Vị trí chờ: ${targetGitPath}\n⭐ Điểm thưởng nhận được: +${pointsEarned}`);
+                            try { var _b3fn = (typeof window.sbBank3RecordPending === 'function') ? window.sbBank3RecordPending : window.sbAuditRecordPending; if (typeof _b3fn === 'function') { await _b3fn({ title: safeTitle, path: targetGitPath, fileName: formattedFileName, subject: _sbAuditMeta.subject, grade: _sbAuditMeta.grade, chapter: _sbAuditMeta.chapter, type: _sbAuditMeta.type, targetFolder: _sbAuditTargetFolder, teacher_id: String((typeof currentUser!=='undefined'&&currentUser&&currentUser.id)||''), teacher_name: ((typeof currentUser!=='undefined'&&currentUser&&currentUser.name)||''), submitted_at: new Date().toISOString() }); } } catch(_eRec){ console.log('bank3 record note:', _eRec); }
+                            alert(`📦 ĐÃ LƯU VÀO BANK 3!\nBài "${safeTitle}" đã vào kho riêng của bạn.\nBạn có thể giao cho HS ngay bằng nút 🔗 Copy link trong mục "Bank 3 của tôi" (module Quản lý).\nBài sẽ vào Bank chung sau khi được duyệt.\n📁 Vị trí: ${targetGitPath}\n⭐ Điểm thưởng nhận được: +${pointsEarned}`);
                         } else {
                             alert(`🎉 THÀNH CÔNG!\nBài "${safeTitle}" đã được đẩy trực tiếp lên GitHub qua Google Proxy!\n📁 Vị trí: ${targetGitPath}\n⭐ Điểm thưởng nhận được: +${pointsEarned}`);
                         }
@@ -801,8 +805,8 @@ PHẦN 4 - ĐÁP ÁN VÀ HƯỚNG DẪN CHẤM:
 
                                        // SB_AUDITFLOW_20261013_V1: bai cho duyet -> ghi ban ghi hang doi, KHONG boc cau hoi vao bank chung
                    if (_sbAuditPending) {
-                       try { if (typeof window.sbAuditRecordPending === 'function') { await window.sbAuditRecordPending({ title: safeTitle, path: targetGitPath, fileName: formattedFileName, subject: _sbAuditMeta.subject, grade: _sbAuditMeta.grade, chapter: _sbAuditMeta.chapter, type: _sbAuditMeta.type, targetFolder: _sbAuditTargetFolder, pushedBy: String((typeof currentUser!=='undefined'&&currentUser&&currentUser.id)||''), pushedByName: ((typeof currentUser!=='undefined'&&currentUser&&currentUser.name)||''), pushedAt: new Date().toISOString() }); } } catch(_eRec){ console.log('audit record note:', _eRec); }
-                       alert(`⏳ ĐÃ GỬI CHỜ KIỂM DUYỆT!\nBài "${safeTitle}" đã vào hàng chờ.\nQuản trị viên / Tổ trưởng sẽ thẩm định trước khi bài xuất hiện cho học sinh.\n📁 Vị trí chờ: ${targetGitPath}\n⭐ Điểm thưởng nhận được: +${pointsEarned}`);
+                       try { var _b3fn = (typeof window.sbBank3RecordPending === 'function') ? window.sbBank3RecordPending : window.sbAuditRecordPending; if (typeof _b3fn === 'function') { await _b3fn({ title: safeTitle, path: targetGitPath, fileName: formattedFileName, subject: _sbAuditMeta.subject, grade: _sbAuditMeta.grade, chapter: _sbAuditMeta.chapter, type: _sbAuditMeta.type, targetFolder: _sbAuditTargetFolder, teacher_id: String((typeof currentUser!=='undefined'&&currentUser&&currentUser.id)||''), teacher_name: ((typeof currentUser!=='undefined'&&currentUser&&currentUser.name)||''), submitted_at: new Date().toISOString() }); } } catch(_eRec){ console.log('bank3 record note:', _eRec); }
+                       alert(`📦 ĐÃ LƯU VÀO BANK 3!\nBài "${safeTitle}" đã vào kho riêng của bạn.\nBạn có thể giao cho HS ngay bằng nút 🔗 Copy link trong mục "Bank 3 của tôi" (module Quản lý).\nBài sẽ vào Bank chung sau khi được duyệt.\n📁 Vị trí: ${targetGitPath}\n⭐ Điểm thưởng nhận được: +${pointsEarned}`);
                    } else {
                        alert(`🎉 THÀNH CÔNG!\nBài "${safeTitle}" đã được đẩy trực tiếp lên GitHub!\n📁 Vị trí: ${targetGitPath}\n⭐ Điểm thưởng nhận được: +${pointsEarned}`);
                    }
