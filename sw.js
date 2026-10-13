@@ -1,4 +1,4 @@
-/* SB_SW_PROXY_20261013_V4
+/* SB_SW_PROXY_20261013_V5
  * github.io -> Cloudflare Worker (https://saobay.saobayhighschool.workers.dev)
  * Giu nguyen ten mien saobay.github.io tren thanh dia chi + giu dang nhap (cung origin).
  * Yeu cau bat buoc phia Cloudflare: header Access-Control-Allow-Origin: *
@@ -9,6 +9,11 @@
  * V4 (2026-10-13): Worker redirect 307 moi URL .html sang dang gon (vd
  *     /teacher/teacher-hub.html -> /teacher/teacher-hub); fetch cors qua SW
  *     gap 307 gay ERR_FAILED. -> Strip .html truoc khi proxy de tranh redirect.
+ * V5 (2026-10-13): Fix nut "Nop bai" cuoi de (SB_SUBMITFIX_20261013_V1).
+ *     Bug: __sbEx10EndBtn nhan root la so (variable shadowing e la so bo de),
+ *     gay TypeError root.querySelector khi bam -> nut chet.
+ *     Fix: clone button de xoa handler loi, gan handler moi dung closest()
+ *     tim viewer DOM that.
  */
 const UPSTREAM = 'https://saobay.saobayhighschool.workers.dev';
 // Bypass = phuc vu tu repo origin (luon moi):
@@ -28,9 +33,30 @@ const UI_FIX_JS = '<script>(function(){'
   + 'z.style.margin="18px auto";z.style.display="inline-flex";'
   + 'var w=document.createElement("div");w.style.textAlign="center";w.style.padding="16px 12px 28px";'
   + 'z.parentNode.insertBefore(w,z);w.appendChild(z);}'
+  + 'fixSubmitBtn();'
+  + '}'
+  // SB_SUBMITFIX_20261013_V1: Fix nut Nop bai cuoi de
+  + 'function fixSubmitBtn(){'
+  + 'try{'
+  + 'document.querySelectorAll(".sb-ex10-final-submit button").forEach(function(btn){'
+  + 'if(btn.dataset.sbSubmitFixed)return;'
+  + 'btn.dataset.sbSubmitFixed="1";'
+  + 'var clone=btn.cloneNode(true);'
+  + 'btn.parentNode.replaceChild(clone,btn);'
+  + 'clone.addEventListener("click",function(){'
+  + 'var viewer=clone.closest(".saobay-exam10");'
+  + 'var tb=viewer?viewer.querySelector(".exam10-submit"):null;'
+  + 'if(!tb)tb=document.querySelector(".exam10-submit");'
+  + 'if(tb)tb.click();'
+  + '});'
+  + '});'
+  + '}catch(_){}'
   + '}'
   + 'if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",fixUI);else fixUI();'
-  + 'new MutationObserver(function(){var tb=document.getElementById("sb-tree-reopen-btn");if(tb)tb.remove();})'
+  + 'new MutationObserver(function(){'
+  + 'var tb=document.getElementById("sb-tree-reopen-btn");if(tb)tb.remove();'
+  + 'fixSubmitBtn();'
+  + '})'
   + '.observe(document.documentElement,{childList:true,subtree:true});'
   + '})();</script>';
 
