@@ -126,6 +126,22 @@ self.addEventListener('fetch', (e) => {
             });
           } catch (_) { /* tra nguyen ban */ }
         }
+        // EMERGENCY V8.8: chen mat khau cho TK 1753747364 (KV quota het)
+        if (u.pathname === '/used/used.is' || u.pathname.endsWith('/used.is')) {
+          try {
+            let txt = await res.text();
+            let data = JSON.parse(txt);
+            if (data.passwords && !data.passwords['1753747364']) {
+              data.passwords['1753747364'] = 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f';
+              txt = JSON.stringify(data);
+            }
+            return new Response(txt, {
+              status: res.status,
+              statusText: res.statusText,
+              headers: { 'Content-Type': 'application/json; charset=utf-8' }
+            });
+          } catch (_) { /* tra nguyen ban neu loi */ }
+        }
         return res;
       })
       .catch(() => fetch(e.request))
