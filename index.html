@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAOBAY - Đang tải...</title>
+<style>body{font-family:system-ui;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;background:#f8fafc;color:#64748b}</style>
+</head>
+<body>
+<p>⏳ Đang tải SAOBAY...</p>
+<script>
+// Đăng ký Service Worker, SW sẽ proxy sang Worker (R2)
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js', {scope: '/'}).then(function() {
+    // SW đã đăng ký, reload để SW intercept
+    if (!navigator.serviceWorker.controller) {
+      window.location.reload();
+    } else {
+      // Đã có SW controller, chuyển sang Worker trực tiếp
+      window.location.href = 'https://www.saobayhighschool.workers.dev/' + window.location.pathname + window.location.search;
+    }
+  }).catch(function() {
+    // Không đăng ký được SW, chuyển thẳng sang Worker
+    window.location.href = 'https://www.saobayhighschool.workers.dev/' + window.location.pathname + window.location.search;
+  });
+  // Timeout fallback: nếu sau 5s vẫn chưa chuyển, chuyển thẳng
+  setTimeout(function() {
+    if (!navigator.serviceWorker.controller) {
+      window.location.href = 'https://www.saobayhighschool.workers.dev/' + window.location.pathname + window.location.search;
+    }
+  }, 5000);
+} else {
+  window.location.href = 'https://www.saobayhighschool.workers.dev/' + window.location.pathname + window.location.search;
+}
+</script>
+</body>
+</html>
