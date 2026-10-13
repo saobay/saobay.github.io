@@ -612,7 +612,7 @@
         // Tải dữ liệu masterDatabase từ file used.is
         async function loadMasterDatabase() {
             try {
-                let res = await fetch('https://saobay-data.saobayhighschool.workers.dev/used/used.is?t=' + new Date().getTime());
+                let res = await fetch('https://www.saobayhighschool.workers.dev/used/used.is?t=' + new Date().getTime());
                 if (res.ok) {
                     let textData = await res.text();
                     try {
@@ -639,10 +639,6 @@
                 if (_gh.passwords) { if (!masterDatabase.passwords) masterDatabase.passwords = {}; for (let k in _gh.passwords) { if (!(k in masterDatabase.passwords)) masterDatabase.passwords[k] = _gh.passwords[k]; } }
               }
               if (!masterDatabase.passwords) masterDatabase.passwords = {};
-              let _dh = 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f';
-              if (masterDatabase.passwords['admin'] && String(masterDatabase.passwords['admin']).length === 40) {
-                masterDatabase.passwords['admin'] = 'f2759e2bd5991015ae56ac965ac805c8a29d5e0ee73844ca5571b8bf7b37b256';
-              }
               let _aIds = {};
               if (masterDatabase.students) { for (let _cc in masterDatabase.students) { (masterDatabase.students[_cc]||[]).forEach(function(s){ if (s && s.id) _aIds[String(s.id)] = 1; }); } }
               for (let _ii in _aIds) { if (!masterDatabase.passwords[_ii]) masterDatabase.passwords[_ii] = _dh; }
