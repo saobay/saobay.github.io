@@ -420,19 +420,9 @@
                 let typeName = { mcq: 'TN', truefalse: 'Đ/S', short: 'TLN', essay: 'TL' };
                 let nAnsTable = (wordState.answerTables || []).length;
                 let nMappedAns = qs.filter(function(q){ return q.answer && (typeof q.answer === 'string' ? q.answer : q.answer.length); }).length;
-                let h = '<div class="bg-white border border-indigo-200 rounded-xl p-3">'
-                    + '<p class="text-xs font-black text-slate-800 mb-2"><i class="fa-solid fa-check-circle text-emerald-600 mr-1"></i>Đã đọc ' + qs.length + ' câu từ "' + String(f.name).replace(/</g,'&lt;') + '"'
-                    + (nAnsTable ? ' <span class="text-[10px] font-normal text-emerald-700">(' + nAnsTable + ' bảng đáp án → ' + nMappedAns + ' câu có đáp án)</span>' : '') + '</p>'
-                    + '<div class="space-y-1.5 max-h-56 overflow-y-auto pr-1">'
-                    + qs.map(function(q, i){
-                        return '<div class="border border-slate-200 rounded-lg px-2.5 py-1.5 text-[12px]">'
-                            + '<span class="font-bold text-slate-400 mr-1">' + (i+1) + '.</span>'
-                            + '<span class="font-semibold">' + String(q.q).replace(/</g,'&lt;').slice(0, 120) + '</span> '
-                            + '<span class="text-[10px] font-bold px-1.5 py-0.5 rounded-full ' + (badge[q.type] || 'bg-slate-100') + '">' + (typeName[q.type] || q.type) + '</span>'
-                            + '<span class="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-violet-100 text-violet-800">' + q.level + '</span>'
-                            + '</div>';
-                    }).join('') + '</div>'
-                    + '</div>';
+                // SB_HIDEWORDSTATS_20261013_V1: an panel thong ke "Da doc N cau" + danh sach cau
+                // (cau hoi da tu vao khung soan the qua wedImportToComposer). Chi giu phan gan anh + nut chuyen.
+                let h = '';
                 // UI gan anh vao cau hoi (neu co anh trich xuat) — 2026-10-10: thu gon mac dinh, mo ra khi can de do roi
                 if (wordState.extractedImages && wordState.extractedImages.length){
                     h += '<details class="mt-2 bg-white border border-amber-200 rounded-xl" open>'
@@ -992,18 +982,8 @@ async function handlePdfExamFile(input){
         }
         var badge = { mcq: 'bg-blue-100 text-blue-800', truefalse: 'bg-amber-100 text-amber-800', short: 'bg-emerald-100 text-emerald-800' };
         var typeName = { mcq: 'TN', truefalse: 'Đ/S', short: 'TLN', essay: 'TL' };
-        var h = '<div class="bg-white border border-rose-200 rounded-xl p-3">'
-            + '<p class="text-xs font-black text-slate-800 mb-2"><i class="fa-solid fa-check-circle text-emerald-600 mr-1"></i>Đã đọc ' + qs.length + ' câu từ PDF "' + String(f.name).replace(/</g, '&lt;') + '" (' + pdf.numPages + ' trang)</p>'
-            + '<p class="text-[10px] text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-2 py-1.5 mb-2">PDF chỉ lấy được phần chữ — hình vẽ và công thức phức tạp có thể bị vỡ, đáp án in dạng bảng ngang có thể không khớp. Kiểm tra kỹ từng câu trong khung soạn trước khi đẩy; thiếu hình thì gán ảnh như thường.</p>'
-            + '<div class="space-y-1.5 max-h-56 overflow-y-auto pr-1">'
-            + qs.map(function(q, i){
-                return '<div class="border border-slate-200 rounded-lg px-2.5 py-1.5 text-[12px]">'
-                    + '<span class="font-bold text-slate-400 mr-1">' + (i + 1) + '.</span>'
-                    + '<span class="font-semibold">' + String(q.q).replace(/</g, '&lt;').slice(0, 120) + '</span> '
-                    + '<span class="text-[10px] font-bold px-1.5 py-0.5 rounded-full ' + (badge[q.type] || 'bg-slate-100') + '">' + (typeName[q.type] || q.type) + '</span>'
-                    + '<span class="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-violet-100 text-violet-800">' + q.level + '</span>'
-                    + '</div>';
-            }).join('') + '</div></div>'
+        // SB_HIDEWORDSTATS_20261013_V1: an thong ke + danh sach cau; giu canh bao PDF + nut chuyen
+        var h = '<p class="text-[10px] text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-2 py-1.5 mb-2">PDF chỉ lấy được phần chữ — hình vẽ và công thức phức tạp có thể bị vỡ, đáp án in dạng bảng ngang có thể không khớp. Kiểm tra kỹ từng câu trong khung soạn trước khi đẩy; thiếu hình thì gán ảnh như thường.</p>'
             + '<button onclick="sendWordToEditor()" class="mt-2 w-full bg-indigo-700 hover:bg-indigo-800 text-white text-xs font-bold px-4 py-2.5 rounded-xl"><i class="fa-solid fa-arrow-down mr-1"></i>Đưa ' + qs.length + ' câu vào khung soạn để đẩy</button>';
         pv.innerHTML = h;
         try { wedImportToComposer(); } catch(eEd){ console.warn('word editor:', eEd); }
