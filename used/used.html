@@ -1149,13 +1149,13 @@
                 if (putRes.ok) return true;
             }
 
-            return true;
+            return false; // SB_PWCOUNT_20261013_V1: bao that bai that, khong true gia
         }
 
         // ========================================================
         // GIAO DIỆN & TÁC VỤ ADMIN
         // ========================================================
-        function updateAdminStats() {
+        async function updateAdminStats(freshDb) {
             document.getElementById('stat-teachers-count').innerText = cachedTeachers.length;
             document.getElementById('stat-students-count').innerText = cachedStudents.length;
             let tabT = document.getElementById('tab-teachers-label');
@@ -1163,19 +1163,37 @@
             let tabS = document.getElementById('tab-students-label');
             if (tabS) tabS.innerText = 'Học Sinh (' + cachedStudents.length + ')';
 
+            // SB_PWCOUNT_20261013_V1: dem MK tu DU LIEU THAT moi nhat (used.is tren GitHub),
+            // khong dem tu in-memory / localStorage cu (de tranh so lieu sai lech).
+            let pwData = null;
+            if (freshDb && freshDb.passwords) {
+                pwData = freshDb.passwords;
+            } else if (typeof fetchUsedIsFresh === 'function') {
+                try {
+                    let f = await fetchUsedIsFresh();
+                    if (f && f.db && f.db.passwords) {
+                        pwData = f.db.passwords;
+                        masterDatabase.passwords = pwData;
+                        try { localStorage.setItem('saobay_passwords_cache', JSON.stringify(pwData)); } catch(e){}
+                    }
+                } catch(e) { console.warn('Thong ke MK: khong tai duoc du lieu moi, dung du lieu hien tai.', e); }
+            }
+            if (!pwData) pwData = (typeof masterDatabase !== 'undefined' && masterDatabase.passwords) || {};
+
             let allAccounts = [...cachedTeachers, ...cachedStudents];
             let customCount = 0;
             let defaultCount = 0;
 
             allAccounts.forEach(acc => {
-                let st = getAccountPasswordStatus(acc.id);
-                if (st.isCustom) customCount++;
+                let savedPass = pwData[acc.id];
+                if (savedPass && savedPass !== '12345678') customCount++;
                 else defaultCount++;
             });
 
             document.getElementById('stat-custom-pass-count').innerText = customCount;
             document.getElementById('stat-default-pass-count').innerText = defaultCount;
         }
+
 
         function populateClassFilterDropdown() {
             let select = document.getElementById('admin-class-filter');
@@ -1466,22 +1484,35 @@
             }
 
             try {
-                if (masterDatabase.passwords) {
-                    delete masterDatabase.passwords[accId];
-                }
-                // Xoa ca trong cache localStorage de so lieu dong nhat sau khi tai lai
-                try {
-                    let cachedPass = localStorage.getItem('saobay_passwords_cache');
-                    if (cachedPass) {
-                        let parsed = JSON.parse(cachedPass);
-                        if (parsed[accId]) { delete parsed[accId]; localStorage.setItem('saobay_passwords_cache', JSON.stringify(parsed)); }
+                // SB_PWCOUNT_20261013_V1: doc DU LIEU THAT moi nhat truoc khi xoa (write lock),
+                // tranh ghi de mat thay doi cua nguoi khac; kiem tra ket qua day.
+                await withUsedIsWriteLock(async function() {
+                    try {
+                        if (typeof fetchUsedIsFresh === 'function') {
+                            let f = await fetchUsedIsFresh();
+                            if (f && f.db) masterDatabase = f.db;
+                        }
+                    } catch(eFresh) { console.warn('Reset MK: khong tai duoc du lieu moi, dung du lieu hien tai.', eFresh); }
+                    if (masterDatabase.passwords) {
+                        delete masterDatabase.passwords[accId];
+                        delete masterDatabase.passwords[String(accId)];
                     }
-                } catch(eCache){}
-
-                await saveMasterDatabaseToGit(`Admin reset mật khẩu cho ${accName} (${accId}) về mặc định`);
+                    // Xoa ca trong cache localStorage de so lieu dong nhat sau khi tai lai
+                    try {
+                        let cachedPass = localStorage.getItem('saobay_passwords_cache');
+                        if (cachedPass) {
+                            let parsed = JSON.parse(cachedPass);
+                            if (parsed[accId]) { delete parsed[accId]; }
+                            if (parsed[String(accId)]) { delete parsed[String(accId)]; }
+                            localStorage.setItem('saobay_passwords_cache', JSON.stringify(parsed));
+                        }
+                    } catch(eCache){}
+                    let ok = await saveMasterDatabaseToGit(`Admin reset mật khẩu cho ${accName} (${accId}) về mặc định`);
+                    if (!ok) throw new Error('Không đẩy được dữ liệu lên máy chủ. Vui lòng kiểm tra mạng và thử lại.');
+                });
 
                 showToast(`Đã đặt lại mật khẩu cho "${accName}" về 12345678!`, 'success');
-                updateAdminStats();
+                await updateAdminStats(masterDatabase);
                 renderAdminTable();
             } catch(err) {
                 showToast('Lỗi khi đặt lại mật khẩu: ' + err.message, 'error');
