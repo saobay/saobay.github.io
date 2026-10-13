@@ -52,7 +52,7 @@
   function setStatus(t) { if (statusEl) statusEl.textContent = t; }
 
   // 1. Kiem tra bao tri tu origin (luon moi, khong qua SW vi SW chua active)
-  fetch('data/maintenance.json', { cache: 'no-store' })
+  fetch('data/maintenance.json?t=' + Date.now(), { cache: 'no-store' })
     .then(function (r) { return r.ok ? r.json() : { on: false }; })
     .then(function (m) {
       if (m && m.on === true && !isAdminBypass()) { showMaintenance(m); return; }
@@ -92,14 +92,15 @@
     if (!('serviceWorker' in navigator)) { goDirect(); return; }
     var done = false;
     function go() { if (!done) { done = true; location.reload(); } }
-    // Sau 6s ma SW chua kiem soat duoc trang -> di thang sang Worker
+    // Sau 30s ma SW chua kiem soat duoc trang -> di thang sang Worker
+    // (tang tu 6s -> 30s de tranh redirect oan khi SW dang cap nhat - 2026-10-13)
     setTimeout(function () {
       if (!done && !navigator.serviceWorker.controller) {
         done = true;
         setStatus('Đang chuyển sang máy chủ dự phòng...');
         location.replace(WORKER_URL + location.search + location.hash);
       }
-    }, 6000);
+    }, 30000);
 
     if (navigator.serviceWorker.controller) { go(); return; }
     navigator.serviceWorker.addEventListener('controllerchange', go);
