@@ -727,8 +727,10 @@
             let savedPass = masterDatabase.passwords ? masterDatabase.passwords[accountId] : undefined;
             if (savedPass && savedPass !== '12345678') {
                 // FIX 2026-10-10: giai ma base64 chuan UTF-8 (TextDecoder) - ban cu decodeURIComponent(escape(atob())) vo voi MK co dau Tieng Viet
+                // FIX 2026-10-13: khong giai ma neu la SHA-256 hex (64 ky tu) - giu nguyen de so sanh
                 let decoded = savedPass;
-                try { let _d = b64DecodeUtf8(savedPass); if (_d !== null) decoded = _d; } catch(e) {}
+                let _isSha256 = /^[0-9a-f]{64}$/i.test(savedPass);
+                if (!_isSha256) { try { let _d = b64DecodeUtf8(savedPass); if (_d !== null) decoded = _d; } catch(e) {} }
                 return {
                     isCustom: true,
                     statusText: 'Đã đổi MK riêng',
