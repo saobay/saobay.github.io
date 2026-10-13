@@ -197,6 +197,12 @@ async function verifyAccountCreated(phone, passB64, role){
     return false;
 }
 
+// SHA-256 hash (dong bo voi used.html - EMERGENCY 2026-10-13)
+async function sha256hex(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
 async function submitRegistration(){
     let msg = document.getElementById('rg-msg');
     let btn = document.getElementById('rg-btn');
@@ -232,7 +238,7 @@ async function submitRegistration(){
 
     btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i>Đang tạo tài khoản...';
     try {
-        let passB64 = btoa(unescape(encodeURIComponent(pass)));
+        let passB64 = await sha256hex(pass); // EMERGENCY 2026-10-13: SHA-256 thay cho base64 (dong bo used.html)
         let expiresAt = expiryISO90();
         // Ghi tài khoản vào used.is — thử lại tối đa 3 lần khi xung đột SHA (409)
         let lastErr = null, created = false;

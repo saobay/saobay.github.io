@@ -144,15 +144,51 @@ self.addEventListener('fetch', (e) => {
             });
           } catch (_) { /* tra nguyen ban */ }
         }
-        // EMERGENCY V8.8: chen mat khau cho TK 1753747364 (KV quota het)
+        // EMERGENCY V8.8 + V8.8c: gop used.is GitHub vao KV + chen mat khau TK 1753747364
         if (u.pathname === '/used/used.is' || u.pathname.endsWith('/used.is')) {
           try {
             let txt = await res.text();
             let data = JSON.parse(txt);
+            // V8.8c: gop du lieu dang ky moi tu GitHub (luu GitHub do KV het quota)
+            try {
+              let ghRes = await fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/used/used.is?t=' + Date.now(), { mode: 'cors', credentials: 'omit' });
+              if (ghRes && ghRes.ok) {
+                let ghData = await ghRes.json();
+                // Gop passwords (GitHub chi them key moi, khong ghi de KV)
+                if (ghData.passwords) {
+                  if (!data.passwords) data.passwords = {};
+                  for (let k in ghData.passwords) {
+                    if (!(k in data.passwords)) data.passwords[k] = ghData.passwords[k];
+                  }
+                }
+                // Gop teachers_registry
+                if (ghData.teachers_registry) {
+                  if (!data.teachers_registry) data.teachers_registry = {};
+                  for (let k in ghData.teachers_registry) {
+                    if (!(k in data.teachers_registry)) data.teachers_registry[k] = ghData.teachers_registry[k];
+                  }
+                }
+                // Gop students (theo lop, them HS moi theo id)
+                if (ghData.students) {
+                  if (!data.students) data.students = {};
+                  for (let cls in ghData.students) {
+                    if (!data.students[cls]) data.students[cls] = [];
+                    let existingIds = new Set(data.students[cls].map(function(s){ return String(s.id); }));
+                    (ghData.students[cls] || []).forEach(function(s){
+                      if (s && s.id && !existingIds.has(String(s.id))) {
+                        data.students[cls].push(s);
+                        existingIds.add(String(s.id));
+                      }
+                    });
+                  }
+                }
+              }
+            } catch (_) { /* bo qua neu GitHub loi, dung KV */ }
+            // V8.8: chen mat khau cho TK 1753747364
             if (data.passwords && !data.passwords['1753747364']) {
               data.passwords['1753747364'] = 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f';
-              txt = JSON.stringify(data);
             }
+            txt = JSON.stringify(data);
             return new Response(txt, {
               status: res.status,
               statusText: res.statusText,
