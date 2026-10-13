@@ -184,10 +184,37 @@ self.addEventListener('fetch', (e) => {
                 }
               }
             } catch (_) { /* bo qua neu GitHub loi, dung KV */ }
-            // V8.8: chen mat khau cho TK 1753747364
-            if (data.passwords && !data.passwords['1753747364']) {
-              data.passwords['1753747364'] = 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f';
-            }
+            // V8.8d: tu dong cap MK mac dinh (SHA-256 cua '12345678') cho MOI tai khoan chua co MK
+            if (!data.passwords) data.passwords = {};
+            var _defHash = 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f';
+            var _ids = {};
+            try {
+              // Gom ID tu students (moi lop)
+              if (data.students) {
+                for (var _cls in data.students) {
+                  (data.students[_cls] || []).forEach(function(s){ if (s && s.id) _ids[String(s.id)] = 1; });
+                }
+              }
+              // Gom ID tu teachers_registry
+              if (data.teachers_registry) {
+                for (var _tid in data.teachers_registry) { _ids[String(_tid)] = 1; }
+              }
+              // Gom ID tu assignments (giao vien)
+              if (data.assignments && data.assignments.forEach) {
+                data.assignments.forEach(function(a){
+                  if (a && a.teachers) {
+                    String(a.teachers).split(',').forEach(function(t){
+                      var m = String(t).trim().match(/\((\d+)\)\s*$/);
+                      if (m) _ids[m[1]] = 1;
+                    });
+                  }
+                });
+              }
+              // Cap MK mac dinh cho ID chua co
+              for (var _id in _ids) {
+                if (!(data.passwords[_id])) data.passwords[_id] = _defHash;
+              }
+            } catch (_) { /* bo qua */ }
             txt = JSON.stringify(data);
             return new Response(txt, {
               status: res.status,
