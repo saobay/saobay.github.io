@@ -1157,12 +1157,16 @@
         // TUYET DOI KHONG tach dap an khoi cau hoi, KHONG xao phuong an trong cau TN.
         // Chi xao tron THU TU CAU HOI giua cac de.
         // ========================================================
+        // SB_MIXEXAM_20261013_V2: X = so de tron MOI de goc (nhap 2 -> 4 goc + 8 tron = 12 de).
+        // Danh so: de goc thu i -> "De i*100" (100,200,300,400); de tron cua goc i -> "De i*100+j" (101,102...).
         function aiMixSets(n){
             var W = window.SB_AI_WORD;
             if (!W || !W.sets || !W.sets.length) return null;
             n = parseInt(n, 10);
-            if (isNaN(n) || n < 1) n = 4;
+            if (isNaN(n) || n < 1) n = 2;
             if (n > 20) n = 20;
+            var nOrig = W.sets.length;
+            var total = nOrig * n; // tong so de tron = so goc * so de tron moi goc
             // 1. Gop TAT CA cau hoi theo loai — giu NGUYEN object (dap an di kem, khong lech)
             var pools = { mcq: [], truefalse: [], short: [], essay: [] };
             W.sets.forEach(function(st){
@@ -1180,12 +1184,17 @@
                     var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
                 }
             });
-            // 3. Chia deu vao n de tron theo vong tron
+            // 3. Chia deu vao total de tron theo vong tron; nhom theo goc de danh so
             var mixed = [];
-            for (var k = 0; k < n; k++) mixed.push({ name: 'De tron ' + (k + 1), questions: [] });
-            Object.keys(pools).forEach(function(t){
+            for (var k = 0; k < total; k++){
+                var oi = Math.floor(k / n); // chi so de goc (0-based)
+                var jj = (k % n) + 1;       // thu tu de tron trong nhom (1-based)
+                mixed.push({ name: 'De ' + ((oi + 1) * 100 + jj), questions: [] });
+            }
+            Object.keys(pools).forEach(function(t, ti){
+                // lech vong quay theo loai de khong de nao bi thieu han 1 loai khi so de tron lon
                 pools[t].forEach(function(q, qi){
-                    mixed[qi % n].questions.push(q);
+                    mixed[(qi + ti) % total].questions.push(q);
                 });
             });
             // 4. Dao thu tu cau hoi trong moi de tron (tron lan cac loai)
@@ -1198,6 +1207,7 @@
             });
             return mixed;
         }
+        // SB_MIXEXAM_20261013_V2: xuat ca de goc + de tron, sap theo ma de
         function aiMixAndExportWord(){
             var W = window.SB_AI_WORD;
             if (!W || !W.sets || !W.sets.length){
@@ -1205,18 +1215,27 @@
                 return;
             }
             var nEl = document.getElementById('ai-mix-count');
-            var n = nEl ? parseInt(nEl.value, 10) : 4;
+            var n = nEl ? parseInt(nEl.value, 10) : 2;
             if (isNaN(n) || n < 1 || n > 20){
-                alert('So de tron phai la so nguyen tu 1 den 20.');
+                alert('So de tron moi de goc phai la so nguyen tu 1 den 20.');
                 if (nEl) nEl.focus();
                 return;
             }
             var mixed = aiMixSets(n);
             if (!mixed || !mixed.length){ alert('Khong tron duoc de.'); return; }
+            // Gop de goc (danh so 100, 200, ...) + de tron, sap xep theo ma: 100,101,102,200,201,...
+            var out = [];
+            W.sets.forEach(function(st, i){
+                out.push({ name: 'De ' + ((i + 1) * 100), questions: st.questions || [] });
+            });
+            mixed.forEach(function(m){ out.push(m); });
+            function codeOf(o){ var m = String(o.name || '').match(/(\d+)/); return m ? parseInt(m[1], 10) : 0; }
+            out.sort(function(a, b){ return codeOf(a) - codeOf(b); });
+            var totalN = out.length;
             var st = document.getElementById('ai-mix-status');
-            if (st) st.textContent = 'Da tron ' + n + ' de — dang tao file Word...';
-            aiExportWord(mixed, '-tron-' + n + 'de');
-            if (st) st.textContent = 'Da tao Word tu ' + n + ' de tron.';
+            if (st) st.textContent = 'Da tron: ' + W.sets.length + ' de goc + ' + mixed.length + ' de tron = ' + totalN + ' de — dang tao Word...';
+            aiExportWord(out, '-tron-' + totalN + 'de');
+            if (st) st.textContent = 'Da tao Word ' + totalN + ' de (goc: 100, 200...; tron: 101, 102...).';
         }
         (function aiWrapMerge(){
             var tries = 0;
