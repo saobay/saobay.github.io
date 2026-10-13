@@ -890,10 +890,10 @@ try{window.addEventListener('load',sbRecordPV);setTimeout(sbRecordPV,8000);}catc
                     <!-- SB_MIXEXAM_20261013_V1: tron de + xuat Word (chi hien o che do AI) -->
                     <div id="ai-mix-row" class="hidden flex-wrap items-center gap-2 px-1 pt-2" style="display:none">
                         <button type="button" id="ai-word-btn" onclick="aiExportWord()" disabled class="px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white text-xs font-bold rounded-lg shadow-sm opacity-50"><i class="fa-solid fa-file-word mr-1"></i> &#x1F4C4; T&#x1EA1;o Word t&#x1EEB; 4 &#x111;&#x1EC1; g&#x1ED1;c</button>
-                        <span class="text-xs font-bold text-slate-600">Tr&#x1ED9;n th&#xE0;nh</span>
-                        <input type="number" id="ai-mix-count" value="4" min="1" max="20" step="1" oninput="var b=document.getElementById('ai-mix-btn-label'); if(b) b.textContent='Tr&#x1ED9;n 4 &#x111;&#x1EC1; g&#x1ED1;c th&#xE0;nh '+this.value+' &#x111;&#x1EC1; v&#x1EA1;o Word';" class="w-16 px-2 py-1.5 border border-slate-300 rounded-lg text-xs text-center font-bold">
-                        <span class="text-xs font-bold text-slate-600">&#x111;&#x1EC1;</span>
-                        <button type="button" id="ai-mix-btn" onclick="aiMixAndExportWord()" disabled class="px-4 py-2 bg-violet-700 hover:bg-violet-800 text-white text-xs font-bold rounded-lg shadow-sm opacity-50"><i class="fa-solid fa-shuffle mr-1"></i> &#x1F500; <span id="ai-mix-btn-label">Tr&#x1ED9;n 4 &#x111;&#x1EC1; g&#x1ED1;c th&#xE0;nh 4 &#x111;&#x1EC1; v&#x1EA1;o Word</span></button>
+                        <!-- SB_MIXEXAM_20261013_V2: X = so de tron MOI de goc --><span class="text-xs font-bold text-slate-600">M&#x1ED7;i &#x111;&#x1EC1; g&#x1ED1;c tr&#x1ED9;n th&#xE0;nh</span>
+                        <input type="number" id="ai-mix-count" value="2" min="1" max="20" step="1" oninput="var b=document.getElementById('ai-mix-btn-label'); if(b) b.textContent='🔀 Trộn mỗi gốc thành '+this.value+' đề ('+(4+4*this.value)+' đề vào Word)';" class="w-16 px-2 py-1.5 border border-slate-300 rounded-lg text-xs text-center font-bold">
+                        <span class="text-xs font-bold text-slate-600">đề trộn</span>
+                        <button type="button" id="ai-mix-btn" onclick="aiMixAndExportWord()" disabled class="px-4 py-2 bg-violet-700 hover:bg-violet-800 text-white text-xs font-bold rounded-lg shadow-sm opacity-50"><i class="fa-solid fa-shuffle mr-1"></i> &#x1F500; <span id="ai-mix-btn-label">🔀 Trộn mỗi gốc thành 2 đề (12 đề vào Word)</span></button>
                         <span id="ai-mix-status" class="text-[11px] font-bold text-violet-800"></span>
                     </div>
                     <!-- FOOTER FORM -->
