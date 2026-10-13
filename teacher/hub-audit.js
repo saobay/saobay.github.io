@@ -1,6 +1,6 @@
 // teacher/hub-audit.js
 // SB_AUDITFLOW_20261013_V1: Luong KIEM DUYET noi dung Bank 1 (ly thuyet + bai tap).
-//   - GV khong co quyen duyet day bai -> file vao data/cho-duyet/<Mon>/ + ban ghi data/cho-duyet/index.json
+//   - GV khong co quyen duyet day bai -> file vao data/bank3/<uid>/<Mon>/ + ban ghi data/bank3/index.json (SB_BANK3_20261013_V1)
 //   - Nguoi co quyen duyet (admin / bgh / to truong trong data/content-reviewers.json) day -> vao thang, hau to _id<uid>
 //   - Tab "3. Tham Dinh & Duyet" chi hien voi nguoi co quyen duyet (ghi de len hideAuditTab cu)
 //   - Hang doi duyet: xem truoc (iframe) -> Duyet (chuyen file vao thu muc that, hau to _id<nguoi duyet>)
@@ -13,7 +13,7 @@ window.__sbAuditFlowV1 = true;
 
 var OWNER = 'saobay', REPO = 'saobay.github.io', BRANCH = 'main';
 var REVIEWERS_PATH = 'data/content-reviewers.json';
-var AUDIT_INDEX_PATH = 'data/cho-duyet/index.json';
+var AUDIT_INDEX_PATH = 'data/bank3/index.json'; // SB_BANK3_20261013_V1: hang doi Bank 3
 var GAS_URL = (typeof API_URL !== 'undefined') ? API_URL
     : 'https://script.google.com/macros/s/AKfycbxXntnyiuk4NaQgSfjMu3eZSum-nHIOh4oPM8XMcthn55ExTAnq1AUXk3GLzVFE2Kq7/exec';
 
@@ -91,9 +91,9 @@ async function auditLoadIndex(){
     } catch(e){ return { items: [], approvedTotal: 0 }; }
 }
 async function auditSaveIndex(idx){
-    await auditGasPush(AUDIT_INDEX_PATH, JSON.stringify(idx, null, 1), 'Cap nhat hang doi kiem duyet Bank 1', 'cho-duyet index');
+    await auditGasPush(AUDIT_INDEX_PATH, JSON.stringify(idx, null, 1), 'Cap nhat hang doi Bank 3', 'bank3 index');
 }
-// Goi tu hub-publish.js sau khi day file cho-duyet thanh cong
+// SB_BANK3_20261013_V1: giu de tuong thich — hub-bank3.js alias sang sbBank3RecordPending
 window.sbAuditRecordPending = async function(rec){
     var idx = await auditLoadIndex();
     idx.items = idx.items || [];
@@ -167,12 +167,12 @@ function auditCard(it, isPending){
         ? '<button onclick="auditPreviewToggle(\'' + id + '\')" class="text-[11px] px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 font-bold">👁 Xem trước</button> '
           + '<button onclick="auditApprove(\'' + id + '\')" class="text-[11px] px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold">✅ Duyệt</button> '
           + '<button onclick="auditRejectShow(\'' + id + '\')" class="text-[11px] px-2.5 py-1 rounded-lg bg-red-500 hover:bg-red-600 text-white font-bold">❌ Trả về</button>'
-        : '<span class="text-[11px] text-slate-500">Lý do trả về: <b>' + esc(it.rejectReason || '') + '</b> — GV tự xóa bài của mình trong mục Quản lý.</span>';
+        : '<span class="text-[11px] text-slate-500">Lý do trả về: <b>' + esc(it.reason || it.rejectReason || '') + '</b> — GV tự xóa bài của mình trong mục Quản lý.</span>';
     return '<div class="border border-slate-200 rounded-xl p-3 bg-white" id="audit-card-' + id + '">'
         + '<div class="flex items-start justify-between gap-2 flex-wrap">'
         +   '<div class="min-w-0"><div class="text-sm font-extrabold text-slate-800">' + esc(it.title) + '</div>'
         +   '<div class="text-[11px] text-slate-500 mt-0.5">' + esc(it.subject || '') + (it.grade ? ' · Khối ' + esc(it.grade) : '') + (it.chapter ? ' · ' + esc(it.chapter) : '')
-        +   ' · ' + esc(it.type || '') + ' · 👤 ' + esc(it.pushedByName || it.pushedBy || '') + ' · 🕐 ' + esc(fmtTime(it.pushedAt)) + '</div></div>'
+        +   ' · ' + esc(it.type || '') + ' · 👤 ' + esc(it.teacher_name || it.teacher_id || it.pushedByName || it.pushedBy || '') + ' · 🕐 ' + esc(fmtTime(it.submitted_at || it.pushedAt)) + '</div></div>'
         +   '<div class="flex items-center gap-1.5 flex-wrap">' + badge + btns + '</div>'
         + '</div>'
         + '<div id="audit-prev-' + id + '" class="hidden mt-2"><iframe src="' + esc(previewUrl) + '" class="w-full h-[420px] border border-slate-200 rounded-lg bg-white"></iframe></div>'
@@ -189,8 +189,8 @@ window.auditPreviewToggle = function(id){
 };
 
 window.auditApprove = async function(id){
+    // SB_BANK3_20261013_V1: duyet = COPY vao Bank 1, GIU NGUYEN ban Bank 3 cua GV + danh dau approved
     if (!confirm('Duyệt bài này? Bài sẽ xuất hiện cho học sinh ngay.')) return;
-    var btn = null;
     try {
         var idx = await auditLoadIndex();
         var it = (idx.items || []).find(function(x){ return String(x.id) === String(id); });
@@ -199,18 +199,20 @@ window.auditApprove = async function(id){
         var approvedName = String(it.fileName || '').replace(/_none/i, '_id' + uid);
         if (approvedName === it.fileName) approvedName = String(it.fileName || '').replace(/\.html$/i, '_id' + uid + '.html');
         var realPath = (it.targetFolder || '') + '/' + approvedName;
-        // 1. Doc noi dung file cho
+        // 1. Doc noi dung file tu Bank 3
         var r = await fetch(rawUrl(it.path), { cache: 'no-store' });
-        if (!r.ok) throw new Error('Không đọc được file chờ (HTTP ' + r.status + ')');
+        if (!r.ok) throw new Error('Không đọc được file Bank 3 (HTTP ' + r.status + ')');
         var content = await r.text();
-        // 2. Day vao thu muc that voi hau to _id<nguoi duyet>
-        await auditGasPush(realPath, content, 'Duyet bai Bank 1: ' + (it.title || it.fileName), it.title || approvedName);
-        // 3. Xoa file cho + ban ghi
-        try { await auditGasDelete(it.path, 'Xoa file cho sau khi duyet: ' + (it.fileName || '')); } catch(eDel){ console.log('audit delete note:', eDel); }
-        idx.items = (idx.items || []).filter(function(x){ return String(x.id) !== String(id); });
+        // 2. COPY vao thu muc Bank 1 that voi hau to _id<nguoi duyet> (KHONG xoa ban Bank 3)
+        await auditGasPush(realPath, content, 'Duyet bai Bank 3 -> Bank 1: ' + (it.title || it.fileName), it.title || approvedName);
+        // 3. Danh dau approved, giu file Bank 3 + ban ghi de GV theo doi
+        it.status = 'approved';
+        it.approvedBy = myUser() ? (myUser().name || myUid()) : '';
+        it.approvedAt = new Date().toISOString();
+        it.approvedPath = realPath;
         idx.approvedTotal = (idx.approvedTotal || 0) + 1;
         await auditSaveIndex(idx);
-        alert('✅ Đã duyệt! Bài "' + (it.title || '') + '" đã vào kho chung.');
+        alert('✅ Đã duyệt! Bài "' + (it.title || '') + '" đã vào kho chung. Bản Bank 3 của GV được giữ nguyên.');
         window.renderAuditList();
     } catch(e){ alert('Lỗi khi duyệt: ' + (e.message || e)); }
 };
@@ -240,6 +242,12 @@ window.auditRejectDo = async function(id){
 // ---------- GV tu xem / xoa bai cho duyet cua minh (trong module Quan ly) ----------
 async function renderMyAuditStatus(){
     try {
+        // SB_BANK3_20261013_V1: Bank 3 section (hub-bank3.js) thay the box cu -> tranh trung lap
+        if (typeof window.renderBank3Section === 'function'){
+            var _old = document.getElementById('my-audit-status-box');
+            if (_old) _old.innerHTML = '';
+            return;
+        }
         var view = document.getElementById('module-manage-view');
         if (!view) return;
         var box = document.getElementById('my-audit-status-box');
@@ -261,7 +269,7 @@ async function renderMyAuditStatus(){
                 : '<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-red-200 text-red-900">❌ Bị trả về: ' + esc(it.rejectReason || '') + '</span>';
             html += '<div class="flex items-center justify-between gap-2 py-1.5 border-t border-amber-200 first:border-t-0">'
                 + '<div class="min-w-0"><div class="text-xs font-bold text-slate-800 truncate">' + esc(it.title) + '</div>'
-                + '<div class="text-[10px] text-slate-500">' + esc(it.subject || '') + ' · ' + esc(fmtTime(it.pushedAt)) + '</div></div>'
+                + '<div class="text-[10px] text-slate-500">' + esc(it.subject || '') + ' · ' + esc(fmtTime(it.submitted_at || it.pushedAt)) + '</div></div>'
                 + '<div class="flex items-center gap-1.5 shrink-0">' + badge
                 + '<button onclick="myAuditDelete(\'' + esc(it.id) + '\')" class="text-[10px] px-2 py-1 rounded-lg bg-white border border-slate-300 hover:bg-red-50 text-red-600 font-bold">🗑 Xóa</button>'
                 + '</div></div>';
@@ -275,7 +283,7 @@ window.myAuditDelete = async function(id){
     try {
         var idx = await auditLoadIndex();
         var it = (idx.items || []).find(function(x){ return String(x.id) === String(id); });
-        if (it && String(it.pushedBy) !== myUid()){ alert('Bạn chỉ được xóa bài của mình.'); return; }
+        if (it && String(it.teacher_id || it.pushedBy) !== myUid()){ alert('Bạn chỉ được xóa bài của mình.'); return; }
         if (it && it.path){
             try { await auditGasDelete(it.path, 'GV tu xoa bai cho duyet: ' + (it.fileName || '')); } catch(eDel){ console.log('audit self-delete note:', eDel); }
         }
