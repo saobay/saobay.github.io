@@ -189,8 +189,8 @@ window.auditPreviewToggle = function(id){
 };
 
 window.auditApprove = async function(id){
-    // SB_BANK3_20261013_V1: duyet = COPY vao Bank 1, GIU NGUYEN ban Bank 3 cua GV + danh dau approved
-    if (!confirm('Duyệt bài này? Bài sẽ xuất hiện cho học sinh ngay.')) return;
+    // SB_BANK3MOVE_20261013_V1: duyet = DI CHUYEN Bank 3 -> Bank 1 (xoa ban Bank 3 de khoi day), cap nhat link cho GV
+    if (!confirm('Duyệt bài này? Bài sẽ CHUYỂN vào kho chung, bản Bank 3 sẽ được xóa để đỡ đầy.')) return;
     try {
         var idx = await auditLoadIndex();
         var it = (idx.items || []).find(function(x){ return String(x.id) === String(id); });
@@ -199,20 +199,26 @@ window.auditApprove = async function(id){
         var approvedName = String(it.fileName || '').replace(/_none/i, '_id' + uid);
         if (approvedName === it.fileName) approvedName = String(it.fileName || '').replace(/\.html$/i, '_id' + uid + '.html');
         var realPath = (it.targetFolder || '') + '/' + approvedName;
+        var oldPath = it.path;
         // 1. Doc noi dung file tu Bank 3
-        var r = await fetch(rawUrl(it.path), { cache: 'no-store' });
+        var r = await fetch(rawUrl(oldPath), { cache: 'no-store' });
         if (!r.ok) throw new Error('Không đọc được file Bank 3 (HTTP ' + r.status + ')');
         var content = await r.text();
-        // 2. COPY vao thu muc Bank 1 that voi hau to _id<nguoi duyet> (KHONG xoa ban Bank 3)
+        // 2. CHEP vao thu muc Bank 1 that voi hau to _id<nguoi duyet>
         await auditGasPush(realPath, content, 'Duyet bai Bank 3 -> Bank 1: ' + (it.title || it.fileName), it.title || approvedName);
-        // 3. Danh dau approved, giu file Bank 3 + ban ghi de GV theo doi
+        // 3. XOA file goc o Bank 3 (di chuyen, khong giu ban goc de khoi day kho)
+        try { await auditGasDelete(oldPath, 'Duyet: di chuyen tu Bank 3 -> Bank 1: ' + (it.fileName || '')); }
+        catch(eDel){ console.log('bank3 move: khong xoa duoc file goc Bank 3:', eDel); }
+        // 4. Cap nhat ban ghi: link moi tro ve Bank 1 — GV nhin nhu khong doi nhung data da di chuyen
         it.status = 'approved';
         it.approvedBy = myUser() ? (myUser().name || myUid()) : '';
         it.approvedAt = new Date().toISOString();
         it.approvedPath = realPath;
+        it.bank3Path = oldPath;
+        it.path = realPath;
         idx.approvedTotal = (idx.approvedTotal || 0) + 1;
         await auditSaveIndex(idx);
-        alert('✅ Đã duyệt! Bài "' + (it.title || '') + '" đã vào kho chung. Bản Bank 3 của GV được giữ nguyên.');
+        alert('✅ Đã duyệt! Bài "' + (it.title || '') + '" đã CHUYỂN vào kho chung. Link bài của GV đã tự cập nhật về vị trí mới.');
         window.renderAuditList();
     } catch(e){ alert('Lỗi khi duyệt: ' + (e.message || e)); }
 };
