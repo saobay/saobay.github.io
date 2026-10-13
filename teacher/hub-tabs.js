@@ -36,6 +36,8 @@
             // SB_AI_PANEL_FIX_20261012: phai go ca class 'hidden' — setVis chi xoa style inline, class hidden cua Tailwind van an panel mai
             var aiP = document.getElementById('ai-compose-panel');
             if (aiP){ aiP.classList.toggle('hidden', !isAi); aiP.style.display = isAi ? '' : 'none'; if (isAi){ try { aiRecalc(); } catch(e){} try { aiSetupV2(); } catch(e){} try { aiSetupV3(); } catch(e){} try { aiSetupV33(); } catch(e){} } }
+            var mixR = document.getElementById('ai-mix-row');
+            if (mixR){ mixR.classList.toggle('hidden', !isAi); mixR.style.display = isAi ? '' : 'none'; }
             // 2026-10-11: giữ cây thư mục luôn hiện ở mọi chế độ (user yêu cầu)
             // Box Copy Prompt: đúng chế độ
             setVis('theory-copy-prompt-box', isTheory);
@@ -888,8 +890,10 @@
                 };
                 var btn = document.getElementById('ai-word-btn');
                 if (btn){ btn.disabled = false; btn.classList.remove('opacity-50'); }
+                var mbtn = document.getElementById('ai-mix-btn');
+                if (mbtn){ mbtn.disabled = false; mbtn.classList.remove('opacity-50'); }
                 var st = document.getElementById('ai-word-status');
-                if (st) st.textContent = 'Đã tách xong: phần đề đã vào khung soạn — bấm Tải Word để lấy bản in (đề + ma trận + đặc tả).';
+                if (st) st.textContent = 'Đã tách xong: phần đề đã vào khung soạn — bấm "Tạo Word từ 4 đề gốc" hoặc trộn đề rồi tạo Word bên dưới.';
                 try { aiRenderExamPreview(0); } catch(e){} // SB_AI_V33: ve xem truoc ma de vao khung soan (truoc day khung trong vi JSON khong tu hien)
             } catch(e){ /* tach loi thi chi khong co Word, phan web van chay */ }
         }
@@ -940,9 +944,11 @@
             });
             return rows;
         }
-        function aiExportWord(){
+        function aiExportWord(setsOverride, fileSuffix){
             var W = window.SB_AI_WORD;
             if (!W){ alert('Hãy dán kết quả NotebookLM và bấm "Gộp đề vào khung soạn" trước — hệ thống tách xong mới tải Word được.'); return; }
+            // SB_MIXEXAM_20261013_V1: cho phep xuat Word tu sets tron (mac dinh dung 4 de goc)
+            var sets = (setsOverride && setsOverride.length) ? setsOverride : W.sets;
             // SB_AI_V31_20261012: ban in NHƯ ĐỀ THẬT, sinh .docx that — chia PHẦN I/II/III/IV + ghi chú từng phần do WEB tự thêm,
             // phương án TN ngắn xếp 1 dòng (trung bình 2x2, dài mới mỗi dòng 1 phương án), điểm tính THEO TỪNG BỘ.
             var PARTS = [
@@ -1019,7 +1025,7 @@
                 if (Array.isArray(a)) return a.map(function(v, vi){ return 'abcd'[vi] + ') ' + ((v === 'T' || v === true) ? 'Đúng' : 'Sai'); }).join('; ');
                 return String(a == null ? '' : a);
             }
-            var setsParts = W.sets.map(function(st){ return groupByPart(st.questions); });
+            var setsParts = sets.map(function(st){ return groupByPart(st.questions); });
             function firstPts(key){
                 for (var si2 = 0; si2 < setsParts.length; si2++){
                     var l2 = setsParts[si2][key];
@@ -1033,7 +1039,7 @@
             var mtX = mdTableXml(W.matrixMd), spX = mdTableXml(W.specMd);
             if (mtX) body += P(R('MA TRẬN ĐỀ', true, false, 28), { before: 120, after: 120 }) + mtX;
             if (spX) body += P(R('BẢN ĐẶC TẢ ĐỀ', true, false, 28), { before: 300, after: 120 }) + spX;
-            W.sets.forEach(function(st, si){
+            sets.forEach(function(st, si){
                 if (si > 0 || mtX || spX) body += P('<w:r><w:br w:type="page"/></w:r>', { after: 0 });
                 var setPts = (st.questions || []).reduce(function(a, q){ return a + (parseFloat(q.points) || 0); }, 0);
                 body += TBL([[
@@ -1041,7 +1047,7 @@
                     [P(R((W.title || 'ĐỀ KIỂM TRA').toUpperCase(), true), { align: 'center', after: 40 }),
                      P(R('Môn: ' + (W.subject || '') + (W.grade ? ' — Lớp ' + W.grade : '')), { align: 'center', after: 40 }),
                      P(R('Thời gian làm bài: ' + W.time + ' phút, không kể thời gian phát đề', false, true), { align: 'center', after: 40 }),
-                     P(R('Tổng điểm: ' + (Math.round(setPts * 100) / 100), false) + (W.sets.length > 1 ? R('  •  ' + (st.name || ('Đề ' + (si + 1))), true) : ''), { align: 'center', after: 40 })]
+                     P(R('Tổng điểm: ' + (Math.round(setPts * 100) / 100), false) + (sets.length > 1 ? R('  •  ' + (st.name || ('Đề ' + (si + 1))), true) : ''), { align: 'center', after: 40 })]
                 ]], [4032, 5568], false);
                 body += P(R('Họ và tên thí sinh: ...................................................... Số báo danh: ................... Lớp: ...........'), { before: 160 });
                 var g = setsParts[si];
@@ -1068,10 +1074,10 @@
             if (hasType('truefalse')) body += P(R('Phần II — Trắc nghiệm đúng sai: mỗi câu ' + fp(firstPts('truefalse')) + ' điểm, chia theo số ý trả lời đúng trong câu: đúng 1 ý được 0,1 điểm; đúng 2 ý được 0,25 điểm; đúng 3 ý được 0,5 điểm; đúng cả 4 ý được 1 điểm (với câu 1 điểm; câu có thang điểm khác thì nhân theo tỉ lệ tương ứng).'), { after: 60 });
             if (hasType('short')) body += P(R('Phần III — Trả lời ngắn: mỗi câu trả lời đúng được ' + fp(firstPts('short')) + ' điểm.'), { after: 60 });
             if (hasType('essay')) body += P(R('Phần IV — Tự luận: chấm theo barem chi tiết của từng câu trong mục Đáp án từng bộ đề dưới đây; chỉ cho điểm ý đúng khi thí sinh trình bày đúng và đầy đủ ý đó.'), { after: 60 });
-            body += P(R('Lưu ý: Tổng điểm toàn bài là 10 điểm; điểm của bài thi được làm tròn đến hai chữ số thập phân. Đáp án và barem dưới đây dùng cho cả 4 bộ đề (mỗi bộ một bảng riêng).', false, true), { after: 120 });
+            body += P(R('Lưu ý: Tổng điểm toàn bài là 10 điểm; điểm của bài thi được làm tròn đến hai chữ số thập phân. Đáp án và barem dưới đây dùng cho cả ' + sets.length + ' bộ đề (mỗi bộ một bảng riêng).', false, true), { after: 120 });
             body += P(R('ĐÁP ÁN TỪNG BỘ ĐỀ', true, false, 28), { before: 160, after: 80 });
-            W.sets.forEach(function(st, si){
-                if (W.sets.length > 1) body += P(R(st.name || ('Đề ' + (si + 1)), true), { before: 200, after: 80 });
+            sets.forEach(function(st, si){
+                if (sets.length > 1) body += P(R(st.name || ('Đề ' + (si + 1)), true), { before: 200, after: 80 });
                 var g = setsParts[si];
                 PARTS.forEach(function(Pt){
                     var list = g[Pt.key];
@@ -1138,10 +1144,79 @@
             ]);
             var a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
-            a.download = ('de-' + (W.subject || 'kiem-tra') + '-' + (W.title || 'saobay')).replace(/[\\/:*?"<>|]/g, '_').replace(/\s+/g, '-').toLowerCase() + '.docx';
+            a.download = ('de-' + (W.subject || 'kiem-tra') + '-' + (W.title || 'saobay') + (fileSuffix || '')).replace(/[\\/:*?"<>|]/g, '_').replace(/\s+/g, '-').toLowerCase() + '.docx';
             document.body.appendChild(a); a.click();
             setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 500);
             if (typeof showToast === 'function') showToast('Đã tải file Word .docx (đề + ma trận + đặc tả)', 'success');
+        }
+
+        // ========================================================
+        // SB_MIXEXAM_20261013_V1: TRON DE — tron cau hoi giua cac bo de goc
+        // NGUYEN TAC BAT BIEN: di chuyen NGUYEN object cau hoi (noi dung + phuong an
+        // + dap an + giai thich + barem + diem) nhu mot don vi nguyen tu.
+        // TUYET DOI KHONG tach dap an khoi cau hoi, KHONG xao phuong an trong cau TN.
+        // Chi xao tron THU TU CAU HOI giua cac de.
+        // ========================================================
+        function aiMixSets(n){
+            var W = window.SB_AI_WORD;
+            if (!W || !W.sets || !W.sets.length) return null;
+            n = parseInt(n, 10);
+            if (isNaN(n) || n < 1) n = 4;
+            if (n > 20) n = 20;
+            // 1. Gop TAT CA cau hoi theo loai — giu NGUYEN object (dap an di kem, khong lech)
+            var pools = { mcq: [], truefalse: [], short: [], essay: [] };
+            W.sets.forEach(function(st){
+                (st.questions || []).forEach(function(q){
+                    var t = (q && q.type) || 'mcq';
+                    if (!pools[t]) pools[t] = [];
+                    pools[t].push(q);
+                });
+            });
+            // 2. Fisher-Yates xao tron trong tung loai
+            Object.keys(pools).forEach(function(t){
+                var a = pools[t];
+                for (var i = a.length - 1; i > 0; i--){
+                    var j = Math.floor(Math.random() * (i + 1));
+                    var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+                }
+            });
+            // 3. Chia deu vao n de tron theo vong tron
+            var mixed = [];
+            for (var k = 0; k < n; k++) mixed.push({ name: 'De tron ' + (k + 1), questions: [] });
+            Object.keys(pools).forEach(function(t){
+                pools[t].forEach(function(q, qi){
+                    mixed[qi % n].questions.push(q);
+                });
+            });
+            // 4. Dao thu tu cau hoi trong moi de tron (tron lan cac loai)
+            mixed.forEach(function(st){
+                var qs = st.questions;
+                for (var i = qs.length - 1; i > 0; i--){
+                    var j = Math.floor(Math.random() * (i + 1));
+                    var tmp = qs[i]; qs[i] = qs[j]; qs[j] = tmp;
+                }
+            });
+            return mixed;
+        }
+        function aiMixAndExportWord(){
+            var W = window.SB_AI_WORD;
+            if (!W || !W.sets || !W.sets.length){
+                alert('Chua co de goc — hay dan ket qua NotebookLM va bam "Gop de vao khung soan" truoc.');
+                return;
+            }
+            var nEl = document.getElementById('ai-mix-count');
+            var n = nEl ? parseInt(nEl.value, 10) : 4;
+            if (isNaN(n) || n < 1 || n > 20){
+                alert('So de tron phai la so nguyen tu 1 den 20.');
+                if (nEl) nEl.focus();
+                return;
+            }
+            var mixed = aiMixSets(n);
+            if (!mixed || !mixed.length){ alert('Khong tron duoc de.'); return; }
+            var st = document.getElementById('ai-mix-status');
+            if (st) st.textContent = 'Da tron ' + n + ' de — dang tao file Word...';
+            aiExportWord(mixed, '-tron-' + n + 'de');
+            if (st) st.textContent = 'Da tao Word tu ' + n + ' de tron.';
         }
         (function aiWrapMerge(){
             var tries = 0;
