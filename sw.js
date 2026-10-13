@@ -11,6 +11,8 @@
  *     gap 307 gay ERR_FAILED. -> Strip .html truoc khi proxy de tranh redirect.
  * V5 (2026-10-13): Fix nut "Nop bai" cuoi de (SB_SUBMITFIX_20261013_V1).
  * V6 (2026-10-13): Khoi phuc ham che do AI bi mat (SB_AI_MODE_FIX_20261013_V1).
+ * V7 (2026-10-13): Chuyen /used/ sang Cloudflare KV (Worker saobay-data).
+ *     Mat khau hash SHA-256, khong con plaintext tren GitHub.
  *     aiBuildPrompt, aiCopyPrompt, aiRecalc, mergeExamSets.
  *     Bug: __sbEx10EndBtn nhan root la so (variable shadowing e la so bo de),
  *     gay TypeError root.querySelector khi bam -> nut chet.
@@ -18,9 +20,10 @@
  *     tim viewer DOM that.
  */
 const UPSTREAM = 'https://saobay.saobayhighschool.workers.dev';
+const DATA_UPSTREAM = 'https://saobay-data.saobayhighschool.workers.dev';
 // Bypass = phuc vu tu repo origin (luon moi):
 const ORIGIN_EXACT = ['/sw.js'];
-const ORIGIN_PREFIXES = ['/data/', '/used/'];
+const ORIGIN_PREFIXES = ['/data/']; // V7: /used/ chuyen sang Cloudflare KV
 
 // UI fix tiem vao HTML (user 2026-10-13)
 const UI_FIX_CSS = '<style id="sb-ui-fix-20261013">'
@@ -87,7 +90,13 @@ self.addEventListener('fetch', (e) => {
   } else if (path.length > 5 && path.toLowerCase().endsWith('.html')) {
     path = path.slice(0, -5);
   }
-  const target = UPSTREAM + path + u.search;
+  // V7: /used/ phuc vu tu Cloudflare KV (Worker saobay-data)
+  let target;
+  if (u.pathname === '/used' || u.pathname.startsWith('/used/')) {
+    target = DATA_UPSTREAM + u.pathname + u.search;
+  } else {
+    target = UPSTREAM + path + u.search;
+  }
   e.respondWith(
     fetch(target, { mode: 'cors', redirect: 'follow', credentials: 'omit' })
       .then(async (res) => {
