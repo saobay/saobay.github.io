@@ -229,7 +229,7 @@
                 </div>
                 <div>
                     <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Giáo Viên</span>
-                    <span id="stat-teachers-count" class="text-xl font-black text-slate-800">37</span>
+                    <span id="stat-teachers-count" class="text-xl font-black text-slate-800">37</span><span class="block text-[10px] text-emerald-600 font-semibold"><span class="inline-block w-1.5 h-1.5 bg-emerald-500 rounded-full mr-1"></span><span id="stat-teachers-online">0</span> online</span>
                 </div>
             </div>
 
@@ -239,7 +239,7 @@
                 </div>
                 <div>
                     <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Học Sinh</span>
-                    <span id="stat-students-count" class="text-xl font-black text-slate-800">1006</span>
+                    <span id="stat-students-count" class="text-xl font-black text-slate-800">1006</span><span class="block text-[10px] text-emerald-600 font-semibold"><span class="inline-block w-1.5 h-1.5 bg-emerald-500 rounded-full mr-1"></span><span id="stat-students-online">0</span> online</span>
                 </div>
             </div>
 
@@ -1293,6 +1293,19 @@
 
             document.getElementById('stat-custom-pass-count').innerText = customCount;
             document.getElementById('stat-default-pass-count').innerText = defaultCount;
+            // Online presence (2026-10-13): dem GV/HS co heartbeat trong 15 phut
+            try {
+              let _pr2 = await fetch('https://raw.githubusercontent.com/saobay/saobay.github.io/main/data/presence.json?t=' + Date.now());
+              if (_pr2.ok) {
+                let _pd2 = await _pr2.json();
+                let _now2 = Math.floor(Date.now()/1000);
+                let _tOn = 0, _sOn = 0;
+                if (_pd2.teachers) for (let _k in _pd2.teachers) { if (_now2 - _pd2.teachers[_k] < 900) _tOn++; }
+                if (_pd2.students) for (let _k in _pd2.students) { if (_now2 - _pd2.students[_k] < 900) _sOn++; }
+                let _et = document.getElementById('stat-teachers-online'); if (_et) _et.innerText = _tOn;
+                let _es = document.getElementById('stat-students-online'); if (_es) _es.innerText = _sOn;
+              }
+            } catch(_e2) {}
         }
 
 
