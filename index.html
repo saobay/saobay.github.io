@@ -3,46 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SAOBAY - Đang tải...</title>
+<title>SAOBAY - Đang chuyển...</title>
+<meta http-equiv="refresh" content="0;url=https://www.saobayhighschool.workers.dev/">
 <style>body{font-family:system-ui;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;background:#f8fafc;color:#64748b}</style>
 </head>
 <body>
-<p>⏳ Đang tải SAOBAY...</p>
+<p>⏳ Đang chuyển sang SAOBAY...</p>
 <script>
-// SB_BOOTSTRAP_FIX_20261014: Giữ user ở github.io, để Service Worker proxy sang Worker
-// Chỉ redirect sang Worker khi SW không khả dụng (fallback cuối cùng)
-var WORKER = 'https://www.saobayhighschool.workers.dev';
-var path = window.location.pathname;
-if (path === '/') path = '/index.html';
-var redirected = false;
-function goWorker() {
-  if (!redirected) {
-    redirected = true;
-    window.location.href = WORKER + path + window.location.search;
+// SB_GHREDIRECT_20261015: github.io tu dong sang workers.dev (HS da nho ten web cu)
+(function(){
+  var target = 'https://www.saobayhighschool.workers.dev/' + location.pathname.replace(/^\//,'') + location.search + location.hash;
+  // Trang chu thi ve root, cac duong dan khac giu nguyen
+  if (location.pathname === '/' || location.pathname === '/index.html') {
+    target = 'https://www.saobayhighschool.workers.dev/' + location.search + location.hash;
   }
-}
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js', {scope: '/'}).then(function(reg) {
-    // Đợi SW kiểm soát trang - KHÔNG redirect, để SW proxy
-    if (navigator.serviceWorker.controller) {
-      // SW đã kiểm soát - tải lại để SW proxy request
-      window.location.reload();
-    } else {
-      // Chờ SW activate
-      navigator.serviceWorker.ready.then(function() {
-        window.location.reload();
-      });
-      // Fallback: sau 8s vẫn chưa có controller thì sang Worker trực tiếp
-      setTimeout(function() {
-        if (!navigator.serviceWorker.controller) goWorker();
-      }, 8000);
-    }
-  }).catch(function() {
-    goWorker();
-  });
-} else {
-  goWorker();
-}
+  location.replace(target);
+})();
 </script>
 </body>
 </html>
