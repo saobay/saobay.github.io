@@ -1,28 +1,23 @@
-// SW_REDIRECT_20261016: saobay.github.io chỉ redirect sang workers.dev (không proxy nữa)
-// User yêu cầu 2026-10-16: gõ saobay.github.io nhảy thẳng sang workers.dev
-const WORKER_URL = 'https://www.saobayhighschool.workers.dev';
-
-self.addEventListener('install', function(e) {
+// SW_KILLSWITCH_20261104: go bo chuyen huong SW_REDIRECT_20261016.
+// SW cu chan moi request tren saobay.github.io va 302 sang workers.dev (giu nguyen path),
+// lam hong moi trang dat tren github.io (vd link du phong phong hop phong-hop-fb.html bi nhay sang Worker dang cham tran 1027).
+// SW nay: khong chan fetch nua, tu huy dang ky + xoa cache + tai lai cac tab dang mo.
+self.addEventListener('install', function (e) {
   self.skipWaiting();
 });
 
-self.addEventListener('activate', function(e) {
+self.addEventListener('activate', function (e) {
   e.waitUntil(
-    caches.keys().then(function(keys) {
-      return Promise.all(keys.map(function(k) {
-        return caches.delete(k);
-      }));
-    }).then(function() { return self.clients.claim(); })
+    caches.keys().then(function (keys) {
+      return Promise.all(keys.map(function (k) { return caches.delete(k); }));
+    }).then(function () {
+      return self.registration.unregister();
+    }).then(function () {
+      return self.clients.matchAll({ type: 'window' });
+    }).then(function (clients) {
+      clients.forEach(function (c) { c.navigate(c.url); });
+    })
   );
 });
 
-self.addEventListener('fetch', function(e) {
-  const url = new URL(e.request.url);
-  // Chỉ xử lý GET cùng origin, bỏ qua sw.js
-  if (e.request.method !== 'GET' || url.origin !== location.origin) return;
-  if (url.pathname === '/sw.js') return;
-  
-  // Redirect thẳng sang workers.dev, giữ nguyên path
-  const target = WORKER_URL + url.pathname + url.search + url.hash;
-  e.respondWith(Response.redirect(target, 302));
-});
+// Khong dang ky fetch handler: moi yeu cau di thang toi GitHub Pages.
