@@ -13,7 +13,7 @@ Thầy lệnh trong phòng họp Firebase (tin -P5j_VXsr5m77qYlY9Bl): "Còn 1 m�
 
 Chỉ làm trong thư mục `chuyende/`. Không deploy, không giữ token, không sửa file nào ngoài `chuyende/`.
 
-**HẠN CHÓT: phiên phải xong trước 11/11/2026** — trang Jules báo Jules chỉ còn tới 11/11/2026 để hoàn thiện các phiên đang chạy (ngừng hẳn 31/12/2026). Làm gọn, đủ 12 file tối đa, không kéo dài.
+**HẠN CHÓT: phiên phải xong trước 11/11/2026** — trang Jules báo Jules chỉ còn tới 11/11/2026 để hoàn thiện các phiên đang chạy (ngừng hẳn 31/12/2026). Làm gọn, viết càng nhiều càng tốt trong thời gian còn lại; chưa xong thì liệt kê phần còn lại để giao phiên tiếp theo.
 
 ## Việc làm — 2 bước, đúng thứ tự
 
@@ -24,7 +24,7 @@ Chỉ làm trong thư mục `chuyende/`. Không deploy, không giữ token, khô
 - Ghi danh sách thiếu chốt được (tên chương/bài + lớp) vào phần mô tả của PR.
 
 ### Bước 2: Viết chuyên đề mới — CHỈ môn Toán, CHỈ mức cơ bản, CHỈ lớp 10–12
-- Viết file mới cho MỖI chủ đề thiếu đã chốt ở bước 1 (tối đa 12 file trong phiên này; nếu thiếu nhiều hơn 12 thì viết 12 file đầu theo thứ tự lớp 10 → 12, liệt kê phần còn lại vào mô tả PR để giao phiên sau).
+- Viết file mới cho MỖI chủ đề thiếu đã chốt ở bước 1 — TỐI THIỂU 50 file, càng nhiều càng tốt (thầy sửa 13:47 06/11: bỏ giới hạn tối đa 12); viết theo thứ tự lớp 10 → 12, thiếu bao nhiêu viết hết bấy nhiêu; nếu một phiên không viết hết thì liệt kê phần còn lại vào mô tả PR để giao phiên tiếp theo làm nốt cho đủ 50.
 - Mỗi file đặt tại `chuyende/TOAN_{lớp}/<slug>.txt` (slug tiếng Việt không dấu, gạch nối, ví dụ `tinh-chia-het.txt`).
 - Làm theo ĐÚNG cấu trúc `mau-coban.txt`: dòng đầu `# Chuyên đề <tên>`; đoạn mở đầu nêu mạch kiến thức + cách học; `## Lý thuyết trọng tâm` — mỗi ý có ví dụ bằng số cụ thể ngay sau ý đó; các `## Dạng N: ...` — mỗi dạng có `### Phương pháp`, `### Ví dụ mẫu` (mỗi ví dụ có "Tư duy giải bài" trước lời giải), rồi `### Bài tập` (trắc nghiệm + tự luận, kèm đáp án/lời giải ngắn cuối file).
 - Nội dung bám SGK Kết nối tri thức, đúng chương trình lớp đó; công thức toán viết trong `$...$` (không dùng `\(...\)`, không dùng ký tự Unicode thay công thức như x², √, π); số âm viết dấu trừ chuẩn, lời văn tiếng Việt đúng chính tả.
